@@ -1,0 +1,40 @@
+#!/opt/local/bin/ruby
+
+$LOAD_PATH.unshift(File.dirname(__FILE__))
+
+require 'dir/structure.rb'
+require 'import/types.rb'
+require 'import/funcs.rb'
+require 'expose/expose.rb'
+require 'expand/template.rb'
+
+case ARGV[0]
+when "init"
+  dir = Seance::Directory.new(ARGV[1])
+  dir.init_seance
+
+when "add-header"
+  Seance::Import.import_header(ARGV[1], ".")
+
+when "expose-type"
+  ARGV[1..-1].each do |w|
+    Seance::Expose.expose_type(w, ".")
+  end
+
+when "expose-func"
+  ARGV[1..-1].each do |w|
+    Seance::Expose.expose_func(w, ".")
+  end
+ 
+when "add-func"
+  ARGV[1..-1].each do |w|
+    Seance::Import.import_func(w, ".")
+  end
+
+when "create-source"
+  Seance::Expand.reify_templates(".")
+
+else
+  puts "Invalid command"
+  
+end

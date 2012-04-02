@@ -1,0 +1,2585 @@
+--- 
+FileRequester_constructor: 
+  :type: int
+  :args: 
+  - - "int "
+    - this
+  - - " int "
+    - a2
+  - - " int "
+    - a3
+  - - " int "
+    - a4
+  - - " const char *"
+    - a5
+  - - " const char *"
+    - a6
+  - - " const char *"
+    - a7
+  :convention: __thiscall
+CombatManager::findHexWithCorpse: 
+  :type: signed int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - startHex
+  - - " int *"
+    - resultHex
+  - - " Spell "
+    - spell
+  :convention: __thiscall
+Bitmap::copyFrom: 
+  :type: void
+  :args: 
+  - - Bitmap *
+    - to
+  - - " Bitmap *"
+    - from
+  - - " __int16 "
+    - x
+  - - " __int16 "
+    - y
+  :convention: __thiscall
+ResourceManager::handleInput: 
+  :type: int
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " InputEvent *"
+    - a1
+  :convention: __thiscall
+ArmyInfo::hasUndead: 
+  :type: signed int
+  :args: 
+  - - ArmyInfo *
+    - this
+  :convention: __thiscall
+ArmyInfo::hasNonUndead: 
+  :type: signed int
+  :args: 
+  - - ArmyInfo *
+    - this
+  :convention: __thiscall
+Button_constructor: 
+  :type: Button *
+  :convention: __thiscall
+  :args: 
+  - - Button *
+    - this
+sub_402950: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - SoundManager *
+    - this
+  - - " int "
+    - a2
+  - - " signed int "
+    - a3
+  - - " int "
+    - a4
+  - - " int "
+    - a5
+CreatureStack::fireShot: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+ResourceManager::getBitmapByFilename: 
+  :type: Bitmap *
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+CreatureStack::walkTo: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - ecx0
+  - - " int "
+    - hex
+CombatManager::summonElemental: 
+  :type: signed int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " CREATURES "
+    - creatureId
+  - - " int "
+    - strength
+  :convention: __thiscall
+GameInfo::initializeCastles: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - GameInfo *
+    - this
+FileRequester::terminate: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - "int "
+    - this
+AdvManager_constructor: 
+  :type: AdvManager *
+  :convention: __thiscall
+  :args: 
+  - - AdvManager *
+    - this
+Font::charWidth: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - Font *
+    - this
+  - - " char "
+    - chr
+CombatManager::drawLuckAnimation: 
+  :type: HeroWindowManager *
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  - - " int "
+    - stackIdx
+CombatManager::castEarthquake: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CreatureStack::walkToTarget: 
+  :type: signed int
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+GUIWindow::repaint: 
+  :type: void
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " int "
+    - updateScreen
+  :convention: __thiscall
+CombatManager::setCombatArmyInfoLevel: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - level
+Bitmap::blitToScreenSizedBmp: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Bitmap *
+    - this
+  - - " Bitmap *"
+    - buf
+  - - " int "
+    - xTarg
+  - - " int "
+    - yTarg
+  - - " int "
+    - xFrom
+  - - " int "
+    - yFrom
+  - - " unsigned int "
+    - width
+  - - " int "
+    - height
+sub_4012C0: 
+  :type: signed int
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - hex
+  - - " int "
+    - flag
+  :convention: __thiscall
+CombatManager::castMiscEffectSpellOnHex: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - hexIdx
+  :convention: __thiscall
+BackgroundGUI::paint: 
+  :type: void
+  :args: 
+  - - BackgroundGUI *
+    - this
+  :convention: __thiscall
+CreatureStack::doHydraAttack: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - a2
+  :convention: __thiscall
+CreatureStack::removePositiveEffects: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+Font::getFlattenedStringWidth: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - Font *
+    - this
+  - - " const char *"
+    - str
+ResourceManager::getPal: 
+  :type: Palette *
+  :args: 
+  - - ResourceManager *
+    - thisa
+  - - " const char *"
+    - file
+  :convention: __thiscall
+CombatManager::getAliveStackBitmask: 
+  :type: int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  :convention: __thiscall
+Bankbox::cleanUp: 
+  :type: int
+  :args: 
+  - - Bankbox *
+    - this
+  :convention: __thiscall
+AbstractGUIComponent::setParent: 
+  :type: int
+  :args: 
+  - - AbstractGUIComponent *
+    - this
+  - - " __int16 "
+    - idx
+  - - " GUIWindow *"
+    - parent
+  :convention: __thiscall
+SoundManager::closeRedbook: 
+  :type: void
+  :args: 
+  - - SoundManager *
+    - this
+  :convention: __thiscall
+ResourceManager::readFromCurrentFile: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " void *"
+    - buf
+  - - " unsigned int "
+    - nbytes
+  :convention: __thiscall
+ArmyDisplay::cleanUp: 
+  :type: void
+  :args: 
+  - - ArmyDisplay *
+    - this
+  :convention: __thiscall
+GameInfo::fixSeveralInvariants: 
+  :type: void
+  :args: 
+  - - GameInfo *
+    - this
+  :convention: __thiscall
+CreatureStack::canMoveToNeighbor: 
+  :type: bool
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - hexIdx
+  - - " signed int "
+    - neighborIdx
+  :convention: __thiscall
+CombatHexTile::drawNonTopmostCorpses: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatHexTile *
+    - this
+ResourceManager::getTilesetByFilename: 
+  :type: Tileset *
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+HeroWindowManager::cleanUp: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - HeroWindowManager *
+    - this
+ArmyInfo_constructor: 
+  :type: ArmyInfo *
+  :convention: __thiscall
+  :args: 
+  - - ArmyInfo *
+    - this
+CreatureStack::getRightBound: 
+  :type: int
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+CombatManager::showGenericCastMessage: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - a2
+  - - " Spell "
+    - spell
+  - - " CreatureStack *"
+    - stack
+  :convention: __thiscall
+GUIIcon::readSelf: 
+  :type: void
+  :args: 
+  - - GUIIcon *
+    - this
+  :convention: __thiscall
+CreatureStack::getFreeNeighborBitmask: 
+  :type: int
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - hex
+  - - " int "
+    - focusLevel
+  - - " int "
+    - a5
+  :convention: __thiscall
+Castle::retrieveBallistaStats: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Castle *
+    - this
+  - - " int *"
+    - numArchers
+  - - " int *"
+    - attack
+Bitmap::outputToScreen: 
+  :type: void
+  :args: 
+  - - Bitmap *
+    - bmp
+  - - " int "
+    - x
+  - - " int "
+    - y
+  - - " unsigned int "
+    - width
+  - - " int "
+    - height
+  - - " int "
+    - screenX
+  - - " signed int "
+    - screenY
+  :convention: __fastcall
+AbstractGUIComponent_constructor: 
+  :type: AbstractGUIComponent *
+  :convention: __thiscall
+  :args: 
+  - - AbstractGUIComponent *
+    - this
+  - - " __int16 "
+    - a2
+  - - " __int16 "
+    - a3
+  - - " __int16 "
+    - a4
+  - - " __int16 "
+    - a5
+  - - " __int16 "
+    - fieldID
+  - - " __int16 "
+    - a7
+Font::drawLine: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - Font *
+    - ecx0
+  - - " char *"
+    - a2
+  - - " int "
+    - a3
+  - - " int "
+    - a4
+  - - " int "
+    - a5
+  - - " int "
+    - a7
+  - - " int "
+    - a8
+  - - " unsigned int "
+    - regionWidth
+  - - " int "
+    - regionHeight
+BackgroundGUI_noArgConstructor: 
+  :type: BackgroundGUI *
+  :convention: __thiscall
+  :args: 
+  - - BackgroundGUI *
+    - this
+CombatManager::clearHitByHydraAttack: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+ArmyInfo::hasCreatureOfType: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " int "
+    - creatureType
+GUIWindow::removeComponentByID: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " int "
+    - id
+sub_4016D0: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - "int "
+    - this
+CombatManager::initializeArmyAndHeroData: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CreatureStack::handleCreatureEvent: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " CREATURE_EVENT_CODE "
+    - code
+Bitmap::getContentsFromScreen: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Bitmap *
+    - to
+  - - " __int16 "
+    - xOff
+  - - " __int16 "
+    - yOff
+GUIWindow::emptyBuffer: 
+  :type: GUIWindow *
+  :args: 
+  - - GUIWindow *
+    - this
+  :convention: __thiscall
+ArmyInfo::getNumStacks: 
+  :type: int
+  :args: 
+  - - ArmyInfo *
+    - this
+  :convention: __thiscall
+CreatureStack::performMeleeAttack: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - ecx0
+  - - " int "
+    - isRetaliationOrSecondAttack
+  :convention: __thiscall
+CombatManager::initializeHexNeighbors: 
+  :type: char
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+CombatManager::animateDrawbridgeClosing: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CombatManager::addCasualtyInfoToWindow: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - ecx0
+  - - " GUIWindow *"
+    - window
+  :convention: __thiscall
+CombatManager::initialize: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - a2
+CreatureStack::getLeftBound: 
+  :type: int
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+CombatManager::resetStuffHapenedToCreature: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+sub_402DB0: 
+  :type: SoundManager *
+  :args: 
+  - - "int "
+    - a1
+  :convention: __stdcall
+CombatManager::getHeuristicForSummon: 
+  :type: int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - hex
+  - - " Spell "
+    - spell
+  :convention: __thiscall
+CreatureStack::cure: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - spellpower
+  :convention: __thiscall
+GameInfo::randomArtifact: 
+  :type: int
+  :args: 
+  - - GameInfo *
+    - this
+  - - " char "
+    - allowedLevels
+  - - " int "
+    - allowNegatives
+  :convention: __thiscall
+BackgroundGUI_constructor: 
+  :type: BackgroundGUI *
+  :args: 
+  - - BackgroundGUI *
+    - this
+  - - " __int16 "
+    - x
+  - - " __int16 "
+    - y
+  - - " __int16 "
+    - width
+  - - " __int16 "
+    - height
+  - - " __int16 "
+    - fieldID
+  - - " __int16 "
+    - a7
+  - - " __int16 "
+    - color
+  - - " const char *"
+    - filename
+  :convention: __thiscall
+BackgroundGUI::handleEvent: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - BackgroundGUI *
+    - this
+  - - " InputEvent *"
+    - evt
+GameInfo::getNumberOfThievesGuilds: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - GameInfo *
+    - this
+  - - " int "
+    - playerIdx
+CreatureStack::othCreatureIsAdjacent: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - side
+  - - " int "
+    - idx
+AdvManager__handleInput: 
+  :type: signed int
+  :args: 
+  - - AdvManager *
+    - this
+  - - " InputEvent *"
+    - evt
+  :convention: __thiscall
+CreatureStack::removeEffect: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " STACK_MODIFYING_EFFECT "
+    - effect
+  :convention: __thiscall
+CreatureStack::initializeBookkeeping: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+CreatureStack::takeDamage: 
+  :type: int
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " signed int "
+    - baseDam
+  - - " Spell "
+    - spell
+  :convention: __thiscall
+CreatureStack::getStandingTopY: 
+  :type: int
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+CombatManager::informLostBattle: 
+  :type: CombatManager *
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CombatManager::handleInput: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " InputEvent *"
+    - evt
+CreatureStack::canPlaceCreature: 
+  :type: bool
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - hex
+  - - " int "
+    - mayShiftTwoHexers
+  - - " int *"
+    - rearHex
+  :convention: __thiscall
+AdvManager::visitLocation: 
+  :type: void
+  :args: 
+  - - AdvManager *
+    - ecx0
+  - - " MapTile *"
+    - loc
+  - - " __int64 "
+    - a4
+  :convention: __thiscall
+GameInfo::randomlyFillGarrisonSlot: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - GameInfo *
+    - this
+  - - " int "
+    - castleIdx
+CombatManager::checkCombatOver: 
+  :type: signed int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " InputEvent *"
+    - evt
+  :convention: __thiscall
+ResourceManager::findLoadedFile: 
+  :type: AbstractResource *
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " int "
+    - fileID
+Castle::adjacentToWater: 
+  :type: bool
+  :args: 
+  - - Castle *
+    - this
+  :convention: __thiscall
+BuildingDisplay_constructor: 
+  :type: BuildingDisplay *
+  :args: 
+  - - BuildingDisplay *
+    - this
+  - - " int "
+    - faction
+  - - " int "
+    - buildingCode
+  - - " char *"
+    - filename
+  :convention: __thiscall
+GUIWindow::removeComponent: 
+  :type: void
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " AbstractGUIComponent *"
+    - comp
+  :convention: __thiscall
+CreatureStack::dealDamage: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " CreatureStack *"
+    - targ
+  - - " int *"
+    - damageDone
+  - - " int *"
+    - creaturesKilled
+  - - " int "
+    - isRanged
+  - - " int "
+    - a6
+DropList_constructor: 
+  :type: int
+  :args: 
+  - - "int "
+    - this
+  :convention: __thiscall
+sub_402D50: 
+  :type: SoundManager *
+  :convention: __stdcall
+  :args: 
+  - - "int "
+    - a1
+AdvManager__cleanUp: 
+  :type: void *
+  :args: 
+  - - void *
+    - this
+  :convention: __thiscall
+CombatManager::showCastMessage: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - spell
+  - - " int "
+    - hex
+CombatManager_constructor: 
+  :type: CombatManager *
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+initializeWaveOutput: 
+  :type: HDIGDRIVER
+  :convention: __fastcall
+  :args: 
+  - - "DWORD "
+    - samplesPerSec
+  - - " __int16 "
+    - bitsPerSample
+  - - " WORD "
+    - nChannels
+  - - " __int16 "
+    - a4
+GameInfo::saveGame: 
+  :type: signed int
+  :args: 
+  - - GameInfo *
+    - this
+  - - " const char *"
+    - a2
+  - - " int "
+    - a3
+  - - " char "
+    - a4
+  :convention: __thiscall
+AbstractGUIComponent_destructor: 
+  :type: void
+  :args: 
+  - - void *
+    - this
+  :convention: __thiscall
+Bankbox::refreshCaptions: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Bankbox *
+    - this
+  - - " int "
+    - updateScreen
+AdvManager::involvesSettingPointBars: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - AdvManager *
+    - this
+  - - " int "
+    - a2
+  - - " int "
+    - a3
+  - - " int "
+    - a4
+CombatHexTile_constructor: 
+  :type: CombatHexTile *
+  :convention: __thiscall
+  :args: 
+  - - CombatHexTile *
+    - this
+ResourceManager::getSequenceByFilename: 
+  :type: Sequence *
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " const char *"
+    - filename
+  :convention: __thiscall
+ResourceManager::initialize: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " int "
+    - idx
+Castle_constructor: 
+  :type: Castle *
+  :convention: __thiscall
+  :args: 
+  - - Castle *
+    - this
+GUIWindow::grabBitmapFromScreen: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - GUIWindow *
+    - this
+Bitmap::cleanUp: 
+  :type: Bitmap *
+  :args: 
+  - - Bitmap *
+    - this
+  - - " char "
+    - a2
+  :convention: __thiscall
+BackgroundGUI::cleanUp: 
+  :type: BackgroundGUI *
+  :args: 
+  - - BackgroundGUI *
+    - this
+  - - " char "
+    - a2
+  :convention: __thiscall
+ResourceManager::getFileSize: 
+  :type: int
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " int "
+    - fileID
+  :convention: __thiscall
+BuildingDisplay_cleanUp: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - BuildingDisplay *
+    - this
+GameInfo::exploreAllWater: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - GameInfo *
+    - this
+  - - " char "
+    - playerIdx
+CombatHexTile::drawTopmostCorpse: 
+  :type: void
+  :args: 
+  - - CombatHexTile *
+    - this
+  :convention: __thiscall
+CombatManager::initializeCreatureStacks: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CreatureStack::rollSpellSucceeds: 
+  :type: bool
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " Spell "
+    - spell
+CreatureForm::doSomethingElse: 
+  :type: void
+  :convention: __fastcall
+  :args: 
+  - - CreatureForm *
+    - form
+  - - " CREATURES "
+    - creature
+Bitmap_noArgsConstructor: 
+  :type: Bitmap *
+  :convention: __thiscall
+  :args: 
+  - - Bitmap *
+    - this
+GUIWindow::cleanUp: 
+  :type: GUIWindow *
+  :convention: __thiscall
+  :args: 
+  - - GUIWindow *
+    - this
+CombatManager::castResurrectionSpell: 
+  :type: CreatureStack *
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " Spell "
+    - spell
+  - - " int "
+    - hex
+  - - " int "
+    - spellpower
+ArmyInfo::addCreatures: 
+  :type: signed int
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " int "
+    - creatureType
+  - - " __int16 "
+    - quantity
+  - - " signed int "
+    - stackIdx
+  :convention: __thiscall
+ArmyInfo::computeMoraleBonusForAlignments: 
+  :type: signed int
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " int "
+    - a2
+  :convention: __thiscall
+GameInfo::computePlayerIncome: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - GameInfo *
+    - this
+  - - " int "
+    - playerIdx
+Font::drawString: 
+  :type: void
+  :args: 
+  - - Font *
+    - this
+  - - " const char *"
+    - str
+  - - " int "
+    - x
+  - - " int "
+    - y
+  - - " signed int "
+    - regionWidth
+  - - " int "
+    - regionHeight
+  - - " int "
+    - a7
+  - - " int "
+    - alignType
+  :convention: __thiscall
+ArmyInfo::hasRoomForCreatureType: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " int "
+    - creatureType
+Button::cleanUp: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Button *
+    - this
+  - - " char "
+    - a2
+Castle::hasGarrison: 
+  :type: signed int
+  :args: 
+  - - Castle *
+    - this
+  :convention: __thiscall
+ResourceManager::pushCurrentFileAndOffsetOntoStack: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+sub_4022B0: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - SoundManager *
+    - this
+CombatManager::castCombatSpell: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - a2
+CombatHexTile::drawCombatObj: 
+  :type: void
+  :args: 
+  - - CombatHexTile *
+    - this
+  :convention: __thiscall
+GUIWindow::repaintAndUpdateScreen: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - GUIWindow *
+    - this
+Font_destructor: 
+  :type: void
+  :args: 
+  - - Font *
+    - this
+  :convention: __thiscall
+CombatManager::displayCombatMessage: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " char *"
+    - message
+  - - " int "
+    - a3
+  - - " int "
+    - a4
+  - - " int "
+    - a5
+  :convention: __thiscall
+ResourceManager_constructor: 
+  :type: ResourceManager *
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+GUIWindow::placeInIdx: 
+  :type: signed int
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " int "
+    - idx
+  - - " int "
+    - redraw
+  :convention: __thiscall
+CombatManager::processAction: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " InputEvent *"
+    - a2
+GUIIcon_constructor: 
+  :type: GUIIcon *
+  :convention: __thiscall
+  :args: 
+  - - GUIIcon *
+    - this
+  - - " __int16 "
+    - x
+  - - " __int16 "
+    - y
+  - - " __int16 "
+    - width
+  - - " __int16 "
+    - height
+  - - " const char *"
+    - filename
+  - - " __int16 "
+    - imgIdx
+  - - " char "
+    - mirror
+  - - " __int16 "
+    - fieldID
+  - - " __int16 "
+    - a10
+  - - " __int16 "
+    - a11
+GameInfo::ownedNecromancyShrines: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - GameInfo *
+    - this
+  - - " int "
+    - a2
+CombatManager::handleGoodMorale: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  - - " int "
+    - stackIdx
+  :convention: __thiscall
+Bitmap::blitToScreenBufAt: 
+  :type: void
+  :args: 
+  - - Bitmap *
+    - from
+  - - " __int16 "
+    - x
+  - - " __int16 "
+    - y
+  :convention: __thiscall
+CombatManager::doCombatRound: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - a2
+CreatureStack::isElementalOrMirrorImage: 
+  :type: bool
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+SoundManager::setCDMusicVolume: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - SoundManager *
+    - this
+  - - " int "
+    - a2
+  - - " int "
+    - a3
+GUIIcon::paint: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - GUIIcon *
+    - this
+CombatManager::handleMoatClosing: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - a1
+  :convention: __fastcall
+ResourceManager::prependFileLinkedListNode: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " AbstractResource *"
+    - res
+  :convention: __thiscall
+CombatManager::drawBattlefield: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - redrawAll
+  - - " int "
+    - a3
+  - - " int "
+    - a4
+  - - " int "
+    - a5
+  - - " signed int "
+    - a6
+  - - " int "
+    - a7
+  - - " int "
+    - waitUntilItIsTime
+CreatureStack::doEffectAnimation: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - animationIdx
+  - - " signed int "
+    - a3
+  - - " int "
+    - a4
+CreatureStack::draw: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - centX
+  - - " int "
+    - standingBotY
+  - - " int "
+    - a4
+  :convention: __thiscall
+ResourceManager::freeAllResources: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  :convention: __thiscall
+ResourceManager::getIconByFileID: 
+  :type: Icon *
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " int "
+    - fileID
+  :convention: __thiscall
+FileRequester::initialize: 
+  :type: int
+  :args: 
+  - - void *
+    - this
+  - - " int "
+    - a2
+  :convention: __thiscall
+CreatureStack::getCenterX: 
+  :type: int
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+BackgroundGUI__readSelf: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - BackgroundGUI *
+    - this
+Button::handleEvent: 
+  :type: signed __int16
+  :args: 
+  - - Button *
+    - this
+  - - " InputEvent *"
+    - e
+  :convention: __thiscall
+CombatManager::handleCatapult: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - ecx0
+  - - " int "
+    - side
+GameInfo::getRandomHeroFromHeroPool: 
+  :type: int
+  :args: 
+  - - GameInfo *
+    - this
+  - - " int "
+    - playerIdx
+  - - " signed int "
+    - faction
+  - - " int "
+    - getPowerfulHero
+  :convention: __thiscall
+CreatureStack::neighboringHexOccupied: 
+  :type: signed int
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - knownHex
+  - - " signed int "
+    - neighborIdx
+  - - " int "
+    - focusLevel
+  - - " int "
+    - a5
+  - - " int *"
+    - neighbor
+  :convention: __thiscall
+CombatManager::castElementalStorm: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CreatureStack::getCenterY: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+CreatureStack::rollAndHandleLuck: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+CreatureStack::cleanUp: 
+  :type: CreatureStack *
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+CombatManager::animateDrawbridgeOpening: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+CombatManager::animateCreatureColorChange: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " CreatureStack *"
+    - a2
+  - - " int "
+    - flagAdditions
+Bitmap::blitTo: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Bitmap *
+    - this
+  - - " Bitmap *"
+    - target
+  - - " int "
+    - targX
+  - - " int "
+    - targY
+  - - " int "
+    - offX
+  - - " int "
+    - offY
+  - - " int "
+    - width
+  - - " int "
+    - height
+Font::cleanUp: 
+  :type: int
+  :args: 
+  - - "int "
+    - this
+  - - " char "
+    - a2
+  :convention: __thiscall
+CombatManager::handleBadMorale: 
+  :type: signed int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  - - " int "
+    - stackIdx
+  :convention: __thiscall
+AdvManager::heroSelectionGUIStuff: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - AdvManager *
+    - this
+  - - " int "
+    - a2
+  - - " int "
+    - a3
+Castle::visit: 
+  :type: void
+  :args: 
+  - - Castle *
+    - this
+  - - " int "
+    - a2
+  :convention: __thiscall
+ResourceManager::getSampleByFilename: 
+  :type: Sample *
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " const char *"
+    - filename
+GameInfo::endTurn: 
+  :type: signed int
+  :args: 
+  - - void *
+    - this
+  :convention: __thiscall
+ResourceManager::readShort: 
+  :type: __int16
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+CombatManager::shouldHalveRangedAttack: 
+  :type: signed int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  - - " signed int "
+    - occupiedHex
+  - - " signed int "
+    - targHex
+  :convention: __thiscall
+ResourceManager::getFontByFilename: 
+  :type: Font *
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " const char *"
+    - filename
+CreatureStack_constructor: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+ArmyInfo::swapStack: 
+  :type: void
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " int "
+    - idx
+  - - " ArmyInfo *"
+    - oth
+  - - " int "
+    - othIdx
+  :convention: __thiscall
+CombatManager::couldBeResetCombatMessage: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+ArmyInfo::randomlyKillCreatures: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " float "
+    - chance
+GUIWindow::move: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " int "
+    - deltaX
+  - - " int "
+    - deltaY
+CreatureStack::loadRelatedFiles: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+CombatManager::toplevelCombatAIFunction: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+GUIWindow::repaintComponentsInRange: 
+  :type: void
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " int "
+    - updateScreen
+  - - " signed int "
+    - lowID
+  - - " signed int "
+    - highID
+  :convention: __thiscall
+CreatureStack::die: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - a2
+CombatManager::spellWillAffectSomeone: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " Spell "
+    - spellID
+CombatManager::handleGarrisonAndCatapult: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+Castle::castleBuilt: 
+  :type: int
+  :args: 
+  - - Castle *
+    - this
+  :convention: __thiscall
+ArmyDisplay::constructor: 
+  :type: ArmyDisplay *
+  :convention: __thiscall
+  :args: 
+  - - ArmyDisplay *
+    - this
+  - - " int "
+    - x
+  - - " int "
+    - y
+  - - " int "
+    - a4
+  - - " int "
+    - portraitFileID
+  - - " int "
+    - portraitIconIdx
+  - - " ArmyInfo *"
+    - army
+  - - " __int16 "
+    - fieldIDStart
+  - - " int "
+    - redraw
+  - - " int "
+    - a10
+CombatManager::createSummonedStack: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  - - " CREATURES "
+    - creatureID
+  - - " int "
+    - num
+  - - " int "
+    - hex
+  - - " int "
+    - attrs
+  - - " int "
+    - a7
+  :convention: __thiscall
+CombatManager::cleanUp: 
+  :type: CombatManager *
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+CreatureStack::doAttackAndDamageTakenAnimations: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - animIdx
+  - - " int "
+    - a3
+  - - " int "
+    - a4
+  - - " int "
+    - a5
+  :convention: __thiscall
+CreatureStack::getNextEffectAnimationBottomY: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+GUIWindow::processMessage: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " Event *"
+    - evt
+CombatManager::spellWillAffectUnitIn: 
+  :type: bool
+  :args: 
+  - - CombatManager *
+    - this
+  - - " Spell "
+    - spell
+  - - " int "
+    - hexIdx
+  :convention: __thiscall
+SoundManager::initialize: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - SoundManager *
+    - this
+  - - " int "
+    - a2
+CombatManager::findClosestCreature: 
+  :type: int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " CreatureStack *"
+    - creat
+  - - " int "
+    - forChainLightning
+  :convention: __thiscall
+Bitmap_constructorFromFile: 
+  :type: Bitmap *
+  :args: 
+  - - Bitmap *
+    - this
+  - - " int "
+    - fileID
+  :convention: __thiscall
+CreatureStack::receiveEffect: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " STACK_MODIFYING_EFFECT "
+    - effectType
+  - - " signed int "
+    - strength
+Bankbox_constructor: 
+  :type: Bankbox *
+  :args: 
+  - - Bankbox *
+    - this
+  - - " __int16 "
+    - x
+  - - " __int16 "
+    - y
+  - - " Player *"
+    - player
+  :convention: __thiscall
+CreatureStack::decrementEffectDurations: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  :convention: __thiscall
+Font::numLinesNeededToDisplay: 
+  :type: int
+  :args: 
+  - - Font *
+    - this
+  - - " const char *"
+    - msg
+  - - " int "
+    - maxWidth
+  :convention: __thiscall
+HeroWindowManager::addWindow: 
+  :type: void
+  :args: 
+  - - HeroWindowManager *
+    - this
+  - - " GUIWindow *"
+    - window
+  - - " int "
+    - idx
+  - - " int "
+    - redraw
+  :convention: __thiscall
+CombatManager::getHeuristicForRessurect: 
+  :type: signed __int64
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int *"
+    - val
+  - - " int "
+    - hexIdx
+  - - " Spell "
+    - spell
+  :convention: __thiscall
+GUIIcon::handleEvent: 
+  :type: signed int
+  :args: 
+  - - GUIIcon *
+    - this
+  - - " InputEvent *"
+    - evt
+  :convention: __thiscall
+ResourceManager::popFileAndOffsetOffStack: 
+  :type: __int32
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+ResourceManager::removeFileFromList: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " AbstractResource *"
+    - fil
+SoundManager::initializeRedbook: 
+  :type: void
+  :args: 
+  - - SoundManager *
+    - this
+  :convention: __thiscall
+CreatureStack::canMoveToNeighborBitmask: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - targHex
+AdvManager::drawAdventureMap: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - AdvManager *
+    - this
+  - - " __int64 "
+    - a2
+  - - " int "
+    - a3
+  - - " int "
+    - a4
+  - - " char "
+    - a5
+  - - " int "
+    - a6
+CombatManager::anySpaceInFrontOfHero: 
+  :type: bool
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+Bitmap_constructor: 
+  :type: Bitmap *
+  :convention: __thiscall
+  :args: 
+  - - Bitmap *
+    - this
+  - - " __int16 "
+    - a2
+  - - " __int16 "
+    - width
+  - - " __int16 "
+    - height
+CombatManager::getCorpseStackIdx: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  - - " Spell "
+    - spell
+  - - " int "
+    - hexIdx
+CreatureStack::getSpellSuccessChance: 
+  :type: double
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " Spell "
+    - spell
+CombatManager::castMedusaPetrify: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " CreatureStack *"
+    - stack
+  :convention: __thiscall
+CreatureStack::getHexNeighbor: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - knownHex
+  - - " signed int "
+    - hexIdx
+Button::readSelf: 
+  :type: __int16
+  :args: 
+  - - Button *
+    - this
+  :convention: __thiscall
+CreatureStack::doResistSpell: 
+  :type: void
+  :convention: __stdcall
+  :args: 
+  - - CreatureStack *
+    - a1
+  - - " int "
+    - a2
+AbstractResource_destructor: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - void *
+    - this
+ResourceManager_destructor: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  :convention: __thiscall
+AbstractGUIComponent::handleEvent: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - AbstractGUIComponent *
+    - this
+  - - " Event *"
+    - evt
+Bitmap::drawToScreenBuffer: 
+  :type: void
+  :args: 
+  - - Bitmap *
+    - from
+  - - " __int16 "
+    - x
+  - - " __int16 "
+    - y
+  :convention: __thiscall
+Castle::buildBuilding: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - Castle *
+    - this
+  - - " signed int "
+    - buildingCode
+CombatManager::drawBolt: 
+  :type: HeroWindowManager *
+  :args: 
+  - - void *
+    - this
+  - - " int "
+    - clearAfterwards
+  - - " signed int "
+    - startX
+  - - " signed int "
+    - startY
+  - - " signed int "
+    - endX
+  - - " signed int "
+    - endY
+  - - " int "
+    - forkControl1
+  - - " int "
+    - forkControl2
+  - - " int "
+    - startWidth
+  - - " int "
+    - endWidth
+  - - " int "
+    - colorController
+  - - " int "
+    - minRandomDiverge
+  - - " int "
+    - maxRandomDiverge
+  - - " int "
+    - divergeFreq
+  - - " int "
+    - a15
+  - - " int "
+    - a13
+  - - " signed int "
+    - a17
+  - - " int "
+    - a18
+  :convention: __thiscall
+ResourceManager::pointToFile: 
+  :type: __int32
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " int "
+    - id
+  :convention: __thiscall
+computeAILVolume: 
+  :type: int
+  :args: 
+  - - "int "
+    - weight
+  - - " int "
+    - ifForMusicThen101
+  :convention: __stdcall
+Castle::grantHeroSpellsFromMageGuild: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Castle *
+    - this
+  - - " Hero *"
+    - captain
+GUIIcon::cleanUp: 
+  :type: GUIIcon *
+  :convention: __thiscall
+  :args: 
+  - - GUIIcon *
+    - this
+  - - " char "
+    - a2
+Bitmap::copyFromAllowOOB: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - Bitmap *
+    - this
+  - - " Bitmap *"
+    - fromBMP
+  - - " __int16 "
+    - x
+  - - " __int16 "
+    - y
+CombatManager::castMirrorImage: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - hex
+CombatManager::findCreature: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - startHex
+  - - " int "
+    - side
+  - - " int *"
+    - resultHex
+CombatManager::animateMagicOrGarrisonArrow: 
+  :type: void
+  :args: 
+  - - "int "
+    - xFrom
+  - - " int "
+    - yFrom
+  - - " int "
+    - xTarg
+  - - " int "
+    - yTarg
+  - - " float *"
+    - anglesOfImgIdxs
+  - - " Icon *"
+    - icon
+  :convention: __stdcall
+CombatManager::pickBestSpell: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - i
+  - - " int "
+    - a3
+CombatManager::handleCreatureChanges: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " signed int "
+    - side
+  :convention: __thiscall
+FileRequester::handleInput: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - "int "
+    - this
+  - - " int "
+    - a2
+CombatManager::freeCreatureStackObjects: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+sub_401700: 
+  :type: signed int
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " signed int "
+    - hexIdx
+  :convention: __thiscall
+sub_402B80: 
+  :type: void
+  :args: 
+  - - "int "
+    - ecx0
+  :convention: __thiscall
+HeroWindowManager::deleteSomeBMP: 
+  :type: int
+  :args: 
+  - - HeroWindowManager *
+    - this
+  :convention: __thiscall
+ResourceManager::readNexDOSFilename: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " void *"
+    - buf
+  :convention: __thiscall
+CombatManager::castElementalAOE: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - hexIdx
+  - - " Spell "
+    - spell
+AbstractResource_constructor: 
+  :type: AbstractResource *
+  :args: 
+  - - AbstractResource *
+    - this
+  - - " RESOURCE_TYPE "
+    - type
+  - - " int "
+    - fileID
+  - - " __int16 "
+    - referenceCount
+  - - " AbstractResource *"
+    - next
+  :convention: __thiscall
+Font_constructor: 
+  :type: Font *
+  :convention: __thiscall
+  :args: 
+  - - Font *
+    - ecx0
+  - - " int "
+    - fileID
+sub_4023E0: 
+  :type: bool
+  :args: 
+  - - SoundManager *
+    - this
+  :convention: __thiscall
+CombatManager::resetCombatGrid: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+CombatManager::getExperiencePointsForDefeatingHero: 
+  :type: int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+  :convention: __thiscall
+ResourceManager::reduceReferenceCountToResource: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " AbstractResource *"
+    - res
+  :convention: __thiscall
+CombatManager::winBattle: 
+  :type: int
+  :args: 
+  - - CombatManager *
+    - this
+  - - " signed int "
+    - side
+  :convention: __thiscall
+GUIWindow_constructorFromFile: 
+  :type: GUIWindow *
+  :args: 
+  - - GUIWindow *
+    - ecx0
+  - - " int "
+    - xOff
+  - - " int "
+    - yOff
+  - - " const char *"
+    - filename
+  :convention: __thiscall
+CombatManager::castMassSpell: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " Spell "
+    - spell
+  - - " signed int "
+    - spellpower
+BuildingDisplay::paint: 
+  :type: void
+  :args: 
+  - - BuildingDisplay *
+    - this
+  - - " int "
+    - advanceAnimations
+  :convention: __thiscall
+GUIWindow::insertElement: 
+  :type: void
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " AbstractGUIComponent *"
+    - guiObj
+  - - " int "
+    - index
+  :convention: __thiscall
+CombatManager::findBestDistanceHPTradeoffStack: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " CreatureStack *"
+    - stack
+  - - " int "
+    - side
+  - - " int "
+    - stackBmask
+ArmyDisplay::paint: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - ArmyDisplay *
+    - this
+  - - " int "
+    - updateScreen
+CombatManager::sphereOfNegationInEffect: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+Button::paint: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - Button *
+    - this
+CombatManager::loadManyCombatImages: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CombatManager::getHexIdxForMouseCoords: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " signed int "
+    - x
+  - - " signed int "
+    - y
+CombatManager::initializeBattlefield: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+ArmyInfo::computeMorale: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " Hero *"
+    - hero
+  - - " Castle *"
+    - castle
+  - - " char *"
+    - enemyCreaturesList
+AdvManager::initialize: 
+  :type: int
+  :args: 
+  - - AdvManager *
+    - this
+  - - " int "
+    - idx
+  :convention: __thiscall
+GameInfo::open_spellbook: 
+  :type: int
+  :args: 
+  - - GameInfo *
+    - this
+  - - " Hero *"
+    - hero
+  - - " SPELL_CATEGORY "
+    - type
+  - - " int "
+    - callback
+  - - " char "
+    - a5
+  :convention: __thiscall
+ResourceManager::addAGG: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+CombatManager::doHolySpellGraphics: 
+  :type: CombatManager *
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " char "
+    - a2
+  - - " char "
+    - a3
+  - - " char "
+    - a4
+CombatManager::getHeuristicForSpell: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " Spell "
+    - spell
+  - - " int *"
+    - value
+  - - " int *"
+    - target
+CombatManager::defeatedOpponent: 
+  :type: signed int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - side
+CombatManager::effectCombatSpell: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " Spell "
+    - proto_spell
+  - - " int "
+    - hexIdx
+  - - " int "
+    - isCreatureAbility
+  - - " int "
+    - a5
+  :convention: __thiscall
+CombatManager::doDeathSpellGraphics: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - strength
+  :convention: __thiscall
+CreatureStack::init: 
+  :type: void
+  :args: 
+  - - CreatureStack *
+    - this
+  - - " int "
+    - creatureIdx
+  - - " int "
+    - quantity
+  - - " int "
+    - owner
+  - - " int "
+    - stackIdx
+  - - " int "
+    - startHex
+  - - " int "
+    - armyIdx
+  :convention: __thiscall
+ResourceManager::getIconByFilename: 
+  :type: Icon *
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+ResourceManager::readInt: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+ResourceManager::dumpImageToScreen: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+  - - " Bitmap *"
+    - screenBuf
+  - - " int "
+    - isICN
+  :convention: __thiscall
+CombatManager::getHeuristicForDamageSpell: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int *"
+    - val
+  - - " Spell "
+    - spell
+  - - " int "
+    - hexIdx
+GUIWindow_constructor: 
+  :type: GUIWindow *
+  :convention: __thiscall
+  :args: 
+  - - GUIWindow *
+    - this
+  - - " int "
+    - x
+  - - " int "
+    - y
+  - - " int "
+    - width
+  - - " int "
+    - height
+  - - " int "
+    - flags
+CreatureForm::doSomething: 
+  :type: void
+  :args: 
+  - - CreatureForm *
+    - form
+  - - " int "
+    - a2
+  - - " int "
+    - a3
+  :convention: __fastcall
+Bitmap::colorSubstituteRectangle: 
+  :type: void
+  :convention: __fastcall
+  :args: 
+  - - Bitmap *
+    - bmp
+  - - " int "
+    - x
+  - - " int "
+    - y
+  - - " int "
+    - width
+  - - " int "
+    - height
+  - - " int "
+    - substitutionIdx
+CombatManager::handleTurrets: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - towerIdx
+ArmyDisplay::drawStrip: 
+  :type: int
+  :args: 
+  - - ArmyDisplay *
+    - this
+  :convention: __thiscall
+CombatManager::releaseStaticObjectIcons: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CombatManager::prepareTerrainImageryAndGetBackgroundFilename: 
+  :type: char *
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+CombatManager::drawBackground: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  :convention: __thiscall
+AbstractManager_constructor: 
+  :type: AbstractManager *
+  :convention: __thiscall
+  :args: 
+  - - AbstractManager *
+    - this
+CombatManager::getHeuristicForEffect: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - CombatManager *
+    - this
+  - - " CreatureStack *"
+    - stack
+  - - " STACK_MODIFYING_EFFECT "
+    - eff
+CombatManager::castChainLightning: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int "
+    - targetHex
+  - - " int "
+    - power
+  :convention: __thiscall
+ArmyInfo::deleteStack: 
+  :type: void
+  :convention: __thiscall
+  :args: 
+  - - ArmyInfo *
+    - this
+  - - " int "
+    - idx
+CombatManager::getHeuristicForDispelOrCureCast: 
+  :type: void
+  :args: 
+  - - CombatManager *
+    - this
+  - - " int *"
+    - val
+  - - " int "
+    - side
+  - - " int "
+    - hex
+  - - " int "
+    - isCure
+  :convention: __thiscall
+GUIIcon_noArgConstructor: 
+  :type: GUIIcon *
+  :args: 
+  - - GUIIcon *
+    - this
+  :convention: __thiscall
+ResourceManager::setResource: 
+  :type: unsigned int
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+  - - " int "
+    - useEvilersion
+  :convention: __thiscall
+GameInfo::showStackInfo: 
+  :type: int
+  :convention: __thiscall
+  :args: 
+  - - GameInfo *
+    - this
+  - - " int "
+    - xOff
+  - - " int "
+    - a3
+  - - " CREATURES "
+    - creat
+  - - " signed int "
+    - a5
+  - - " int "
+    - a6
+  - - " int "
+    - a7
+  - - " unsigned int "
+    - a8
+  - - " int "
+    - a9
+  - - " Hero *"
+    - a10
+  - - " int "
+    - a11
+  - - " ArmyInfo *"
+    - a12
+  - - " int "
+    - a13

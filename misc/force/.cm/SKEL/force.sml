@@ -1,0 +1,2 @@
+Skeleton 5
+d6aä¢ForceEdgeArg"è0Caä¢ForceEdge"jçğ±ÿgp1e"ForceEdgeFn"aä¢ForceGraph"jgp1ÿgp1e"GraphFn"aã¢FORCE_ARGS"ÿad"Default_Args"jÿçğ±ÿae"Force"i1aä¢A"ÿ=jh6eÿ#Cf1ä¢IntInf"aä¢NodeMap"jgp2ÿd"Node"gp1e"TreeDict"egp1ÿ‚egp1ÿ:f7d"Int"d"List"Cd"ListPair"d"Vector"ÿ:ÿ‚)ÿ‚NNgp1c"GAME"N

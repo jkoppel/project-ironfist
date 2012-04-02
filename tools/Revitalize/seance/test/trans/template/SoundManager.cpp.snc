@@ -1,0 +1,7 @@
+
+#seance defclass SoundManager
+#seance methdecl SoundManager::initialize
+#seance methdecl SoundManager::initializeRedbook
+#seance endclass
+
+#seance methdefn SoundManager::initialize

@@ -1,0 +1,26 @@
+group is
+      $/basis.cm
+
+      sequence/sources.cm
+
+      sequence/Matrix.sig
+      sequence/SeqMatrix.sml
+
+      seq.sml
+
+      ordered.sig
+      utils.sml
+
+      game.sig
+      players.sml
+      referee.sml
+      minimax.sml
+
+      gomoku.sml
+
+      jamboree.sml
+
+      main.sml
+
+
+

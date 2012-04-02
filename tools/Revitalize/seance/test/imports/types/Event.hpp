@@ -1,0 +1,3 @@
+
+  InputEvent inputEvt;
+  GUIMessage guiMsg;

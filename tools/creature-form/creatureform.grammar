@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ufwb version="1.2">
+    <grammar name="BIN grammar" start="id:3" author="James Koppel" uti="com.apple.macbinary-archive">
+        <description>Grammar for BIN files</description>
+        <structure name="CreatureForm" id="3" length="821" encoding="ISO_8859-1:1987" endian="little" signed="no">
+            <number name="&lt;new number&gt;" id="4" type="integer" length="1"/>
+            <number name="X offset for blind" id="5" type="integer" length="2"/>
+            <number name="Y offset for blind" id="6" type="integer" length="2"/>
+            <binary name="unspecified" id="7" length="157"/>
+            <number name="walk time" id="79" type="integer" length="4"/>
+            <binary name="unspecified2" id="80" length="77"/>
+            <number name="liftoff length" id="8" type="integer" length="1"/>
+            <number name="&lt;new number-3&gt;" id="9" type="integer" length="1"/>
+            <number name="fly length" id="10" type="integer" length="1"/>
+            <number name="&lt;new number-2&gt;" id="11" type="integer" length="1"/>
+            <number name="land length" id="12" type="integer" length="1"/>
+            <number name="&lt;new number-6&gt;" id="13" type="integer" length="1"/>
+            <number name="walking length" id="14" type="integer" length="1"/>
+            <number name="standing length" id="15" type="integer" length="1"/>
+            <number name="&lt;new number-10&gt;" id="16" type="integer" length="1"/>
+            <number name="&lt;new number-11&gt;" id="17" type="integer" length="1"/>
+            <number name="&lt;new number-13&gt;" id="18" type="integer" length="1"/>
+            <number name="&lt;new number-14&gt;" id="19" type="integer" length="1"/>
+            <number name="&lt;new number-16&gt;" id="20" type="integer" length="1"/>
+            <number name="dying length" id="21" type="integer" length="1"/>
+            <number name="to wince length" id="22" type="integer" length="1"/>
+            <number name="from wince length" id="23" type="integer" length="1"/>
+            <number name="&lt;new number-17&gt;" id="24" type="integer" length="1"/>
+            <number name="&lt;new number-22&gt;" id="25" type="integer" length="1"/>
+            <number name="&lt;new number-15&gt;" id="26" type="integer" length="1"/>
+            <number name="&lt;new number-23&gt;" id="27" type="integer" length="1"/>
+            <number name="&lt;new number-20&gt;" id="28" type="integer" length="1"/>
+            <number name="&lt;new number-24&gt;" id="29" type="integer" length="1"/>
+            <number name="&lt;new number-27&gt;" id="30" type="integer" length="1"/>
+            <number name="&lt;new number-32&gt;" id="31" type="integer" length="1"/>
+            <number name="&lt;new number-33&gt;" id="32" type="integer" length="1"/>
+            <number name="&lt;new number-31&gt;" id="33" type="integer" length="1"/>
+            <number name="&lt;new number-34&gt;" id="34" type="integer" length="1"/>
+            <number name="&lt;new number-30&gt;" id="35" type="integer" length="1"/>
+            <number name="shoot up len" id="36" type="integer" length="1"/>
+            <number name="shoot up ret len" id="37" type="integer" length="1"/>
+            <number name="shoot forwards len" id="38" type="integer" length="1"/>
+            <number name="shoot forwards ret len" id="39" type="integer" length="1"/>
+            <number name="shoot down len" id="40" type="integer" length="1"/>
+            <number name="shoot down ret len" id="41" type="integer" length="1"/>
+            <binary name="liftoff" id="42" length="16"/>
+            <binary name="&lt;new binary-16&gt;" id="43" length="16"/>
+            <binary name="fly" id="44" length="16"/>
+            <binary name="&lt;new binary-23&gt;" id="45" length="16"/>
+            <binary name="land" id="46" length="16"/>
+            <binary name="&lt;new binary-27&gt;" id="47" length="16"/>
+            <binary name="walking" id="48" length="16"/>
+            <binary name="standing" id="49" length="16"/>
+            <binary name="&lt;new binary-24&gt;" id="50" length="16"/>
+            <binary name="&lt;new binary-32&gt;" id="51" length="16"/>
+            <binary name="&lt;new binary-33&gt;" id="52" length="16"/>
+            <binary name="&lt;new binary-9&gt;" id="53" length="16"/>
+            <binary name="&lt;new binary-31&gt;" id="54" length="16"/>
+            <binary name="&lt;new binary-30&gt;" id="55" length="16"/>
+            <binary name="&lt;new binary-22&gt;" id="56" length="16"/>
+            <binary name="&lt;new binary-21&gt;" id="57" length="16"/>
+            <binary name="&lt;new binary-29&gt;" id="58" length="16"/>
+            <binary name="&lt;new binary-20&gt;" id="59" length="16"/>
+            <binary name="&lt;new binary-19&gt;" id="60" length="16"/>
+            <binary name="&lt;new binary-34&gt;" id="61" length="16"/>
+            <binary name="&lt;new binary-14&gt;" id="62" length="16"/>
+            <binary name="&lt;new binary-18&gt;" id="63" length="16"/>
+            <binary name="&lt;new binary-17&gt;" id="64" length="16"/>
+            <binary name="&lt;new binary-15&gt;" id="65" length="16"/>
+            <binary name="&lt;new binary-12&gt;" id="66" length="16"/>
+            <binary name="&lt;new binary-13&gt;" id="67" length="16"/>
+            <binary name="&lt;new binary-11&gt;" id="68" length="16"/>
+            <binary name="&lt;new binary-5&gt;" id="69" length="16"/>
+            <binary name="&lt;new binary-10&gt;" id="70" length="16"/>
+            <binary name="&lt;new binary-8&gt;" id="71" length="16"/>
+            <binary name="&lt;new binary-3&gt;" id="72" length="16"/>
+            <binary name="&lt;new binary-7&gt;" id="73" length="16"/>
+            <binary name="&lt;new binary-6&gt;" id="74" length="16"/>
+            <binary name="&lt;new binary-2&gt;" id="75" length="16"/>
+        </structure>
+    </grammar>
+</ufwb>

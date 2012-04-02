@@ -1,0 +1,10 @@
+ResourceManager__constructor EQU @ResourceManager__constructor@0
+IMPORT_RESOURCEMANAGER__CONSTRUCTOR = 1
+ResourceManager__destructor EQU @ResourceManager__destructor@0
+IMPORT_RESOURCEMANAGER__DESTRUCTOR = 1
+ResourceManager__setResource EQU @ResourceManager__setResource@8
+IMPORT_RESOURCEMANAGER__SETRESOURCE = 1
+ResourceManager__addAGG EQU @ResourceManager__addAGG@4
+IMPORT_RESOURCEMANAGER__ADDAGG = 1
+SoundManager__initialize EQU @SoundManager__initialize@4
+IMPORT_SOUNDMANAGER__INITIALIZE = 1

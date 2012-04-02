@@ -1,0 +1,3 @@
+##Abbreviations
+
+ - SC: Syntactic Category

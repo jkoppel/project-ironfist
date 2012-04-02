@@ -1,0 +1,19 @@
+
+  char field_0;
+  __int16 xOffsetForBlind;
+  __int16 yOffsetForBlind;
+  char liftAnimInfo[16];
+  char anim1Info[16];
+  char flyAnimInfo[16];
+  char anim3Info[16];
+  char landAnimInfo[16];
+  char anim5Info[16];
+  char field_65[16];
+  char field_75[41];
+  int fidgetTimeRelated;
+  int field_A2;
+  int field_A6;
+  char field_AA[65];
+  int stackNumDispXShift[2];
+  char animationLengths[34];
+  char animationFrameToImgIdx[34][16];

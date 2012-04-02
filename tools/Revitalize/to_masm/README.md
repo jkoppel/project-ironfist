@@ -1,0 +1,1 @@
+An IDAPython script that outputs an IDA annotated x86 disassembly into something that preserves most of the address-independence and structure, but can be reassembled using MASM with a minimal amount of hand-modification.

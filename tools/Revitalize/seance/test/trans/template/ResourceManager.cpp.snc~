@@ -1,0 +1,40 @@
+#seance defclass ResourceManager
+#seance methdecl ResourceManager::addAGG
+#seance methdecl ResourceManager::dumpImageToScreen
+#seance methdecl ResourceManager::findLoadedFile
+#seance methdecl ResourceManager::freeAllResources
+#seance methdecl ResourceManager::getBitmapByFilename
+#seance methdecl ResourceManager::getFileSize
+#seance methdecl ResourceManager::getFontByFilename
+#seance methdecl ResourceManager::getIconByFileID
+#seance methdecl ResourceManager::getIconByFilename
+#seance methdecl ResourceManager::getPal
+#seance methdecl ResourceManager::getSampleByFilename
+#seance methdecl ResourceManager::getPal
+#seance methdecl ResourceManager::getSampleByFilename
+#seance methdecl ResourceManager::getSequenceByFilename
+#seance methdecl ResourceManager::getTilesetByFilename
+#seance methdecl ResourceManager::handleInput
+#seance methdecl ResourceManager::initialize
+#seance methdecl ResourceManager::pointToFile
+#seance methdecl ResourceManager::popFileAndOffsetOffStack
+#seance methdecl ResourceManager::prependFileLinkedListNode
+#seance methdecl ResourceManager::pushCurrentFileAndOffsetOntoStack
+#seance methdecl ResourceManager::readFromCurrentFile
+#seance methdecl ResourceManager::readInt
+#seance methdecl ResourceManager::readNexDOSFilename
+#seance methdecl ResourceManager::readShort
+#seance methdecl ResourceManager::reduceReferenceCountToResource
+#seance methdecl ResourceManager::removeFileFromList
+#seance methdecl ResourceManager::setResource
+#seance methdecl ResourceManager_constructor
+#seance methdecl ResourceManager_destructor
+#seance endclass
+
+#seance methdefn ResourceManager_constructor
+
+#seance methdefn ResourceManager_destructor
+
+#seance methdefn ResourceManager::setResource
+
+#seance methdefn ResourceManager::addAGG

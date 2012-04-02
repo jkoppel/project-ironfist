@@ -1,0 +1,243 @@
+--- 
+ResourceManager::getFileSize: 
+  :type: int
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " int "
+    - fileID
+  :convention: :thiscall
+ResourceManager::readFromCurrentFile: 
+  :type: void
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " void *"
+    - buf
+  - - " unsigned int "
+    - nbytes
+ResourceManager::getIconByFileID: 
+  :type: Icon *
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " int "
+    - fileID
+  :convention: :thiscall
+ResourceManager::readNexDOSFilename: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " void *"
+    - buf
+  :convention: :thiscall
+ResourceManager::pushCurrentFileAndOffsetOntoStack: 
+  :type: int
+  :args: 
+  - - ResourceManager *
+    - this
+  :convention: :thiscall
+ResourceManager::addAGG: 
+  :type: signed int
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+ResourceManager::getSampleByFilename: 
+  :type: Sample *
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " const char *"
+    - filename
+ResourceManager::popFileAndOffsetOffStack: 
+  :type: __int32
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+ResourceManager::getSequenceByFilename: 
+  :type: Sequence *
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " const char *"
+    - filename
+  :convention: :thiscall
+ResourceManager::getFontByFilename: 
+  :type: Font *
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " const char *"
+    - filename
+ResourceManager::destructor: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  :convention: :thiscall
+ResourceManager::handleInput: 
+  :type: int
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " InputEvent *"
+    - a1
+  :convention: :thiscall
+SoundManager::initializeRedbook: 
+  :type: void
+  :convention: :thiscall
+  :args: 
+  - - SoundManager *
+    - this
+ResourceManager::findLoadedFile: 
+  :type: AbstractResource *
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " int "
+    - fileID
+ResourceManager::getIconByFilename: 
+  :type: Icon *
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+ResourceManager::prependFileLinkedListNode: 
+  :type: void
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " AbstractResource *"
+    - res
+ResourceManager::getPal: 
+  :type: Palette *
+  :args: 
+  - - ResourceManager *
+    - thisa
+  - - " const char *"
+    - file
+  :convention: :thiscall
+ResourceManager::freeAllResources: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  :convention: :thiscall
+ResourceManager::dumpImageToScreen: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+  - - " Bitmap *"
+    - screenBuf
+  - - " int "
+    - isICN
+  :convention: :thiscall
+ResourceManager::getBitmapByFilename: 
+  :type: Bitmap *
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+ResourceManager::constructor: 
+  :type: ResourceManager *
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+ResourceManager::reduceReferenceCountToResource: 
+  :type: void
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " AbstractResource *"
+    - res
+  :convention: :thiscall
+SoundManager::initialize: 
+  :type: int
+  :args: 
+  - - SoundManager *
+    - this
+  - - " int "
+    - a2
+  :convention: :thiscall
+ResourceManager::initialize: 
+  :type: signed int
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - ecx0
+  - - " int "
+    - idx
+ResourceManager::getTilesetByFilename: 
+  :type: Tileset *
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+ResourceManager::readShort: 
+  :type: __int16
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+ResourceManager::removeFileFromList: 
+  :type: void
+  :convention: :thiscall
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " AbstractResource *"
+    - fil
+ResourceManager::setResource: 
+  :type: unsigned int
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " const char *"
+    - filename
+  - - " int "
+    - useEvilersion
+  :convention: :thiscall
+ResourceManager::readInt: 
+  :type: int
+  :args: 
+  - - ResourceManager *
+    - this
+  :convention: :thiscall
+ResourceManager::pointToFile: 
+  :type: __int32
+  :args: 
+  - - ResourceManager *
+    - this
+  - - " int "
+    - id
+  :convention: :thiscall
+SoundManager::setCDMusicVolume: 
+  :type: void
+  :args: 
+  - - SoundManager *
+    - this
+  - - " int "
+    - a2
+  - - " int "
+    - a3
+  :convention: :thiscall
