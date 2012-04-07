@@ -36,7 +36,7 @@ module Seance
       end
 
       def decorated_name(meth)
-        "@"+CppGen.to_c_name(meth)+"@"+(4*@fundb.get_stack_arg_names(meth).length).to_s
+        "@"+CppGen.to_c_name(meth)+"@"+(4*@fundb.get_arg_names(meth).length).to_s
       end
 
       HEADER = <<EOF
