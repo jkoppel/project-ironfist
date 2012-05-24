@@ -62,7 +62,7 @@ CreatureStack *__thiscall CombatManager::castResurrectionSpell(CombatManager *th
         {
           thisa->combatGrid[v9].unitOwner = *(&thisa->combatGrid[0].corpseOwners[99 * v9] + spriteIdx - v9);
           thisa->combatGrid[v9].stackIdx = *(&thisa->combatGrid[0].corpseStackIndices[99 * v9] + spriteIdx - v9);
-          thisa->combatGrid[v9].notPrimarySquareOfTwoHexer = *(&thisa->combatGrid[0].field_33[99 * v9] + spriteIdx - v9);
+          thisa->combatGrid[v9].isOccupierNonPrimaryHex = *(&thisa->combatGrid[0].field_33[99 * v9] + spriteIdx - v9);
           if ( thisa->combatGrid[v9].numCorpses == spriteIdx + 1 )
           {
             *(&thisa->combatGrid[0].corpseOwners[99 * v9] + spriteIdx - v9) = -1;

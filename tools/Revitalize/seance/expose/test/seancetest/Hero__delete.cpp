@@ -17,7 +17,7 @@ void __thiscall Hero::delete(Hero *this, int a2)
   v11 = thisa->probablyOwnerIdx;
   v5 = (char *)&gameObject->players[thisa->probablyOwnerIdx];
   if ( a2 )
-    sub_450820((int)advManager, 0);
+    sub_450820(advManager, 0);
   if ( a2 )
     sub_455030(advManager, 0, 0, 0);
   if ( thisa->flags1 & 0x80 )

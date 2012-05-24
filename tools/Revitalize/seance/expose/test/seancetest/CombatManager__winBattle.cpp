@@ -107,7 +107,7 @@ int __thiscall CombatManager::winBattle(CombatManager *this, signed int side)
   }
   if ( side == -1 )
   {
-    SoundManager::couldBePlayCDTrack(soundManager, 30);
+    SoundManager::playCDTrack(soundManager, 30);
     CombatManager::informLostBattle(thisa);
   }
   else
@@ -160,8 +160,8 @@ int __thiscall CombatManager::winBattle(CombatManager *this, signed int side)
         && *(&byte_524758 + thisa->playerID[side])
         || thisa->playerID[side] != -1 && *(&byte_524758 + thisa->playerID[side]) )
       {
-        SoundManager::couldBePlayCDTrack(soundManager, 29);
-        v4 = (GUIWindow *)operator new(0x44u);
+        SoundManager::playCDTrack(soundManager, 29);
+        v4 = (GUIWindow *)operator new(68);
         if ( v4 )
           thisa->combatEndWindow = GUIWindow_constructorFromFile(v4, 143, 10, "wincmbt.bin");
         else
@@ -185,7 +185,7 @@ int __thiscall CombatManager::winBattle(CombatManager *this, signed int side)
             sprintf(&v5, off_4F6874, thisa->heroes[side]->name, thisa->experienceForDefeating[1 - side]);
           else
             sprintf(&v5, off_4F6890, thisa->heroes[1]->name, thisa->experienceForDefeating[0], v15);
-          strcat(globBuf, &v5);
+          strcat((int)globBuf, (int)&v5);
           sub_495CC0(thisa->heroes[side]);
         }
         else
@@ -226,7 +226,7 @@ int __thiscall CombatManager::winBattle(CombatManager *this, signed int side)
           sub_495CC0(thisa->heroes[side]);
         if ( thisa->heroes[1 - side] )
           sub_495F20(thisa->heroes[1 - side]);
-        SoundManager::couldBePlayCDTrack(soundManager, 30);
+        SoundManager::playCDTrack(soundManager, 30);
         CombatManager::informLostBattle(thisa);
       }
     }

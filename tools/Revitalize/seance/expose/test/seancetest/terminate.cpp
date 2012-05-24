@@ -16,7 +16,7 @@ void __thiscall terminate(char *this)
     sub_4CEB90(mouseManager, 0);
     if ( v1 )
     {
-      strcpy(&Text, v1);
+      strcpy((int)&Text);
       sub_49D030(0);
       debugLog(&Text);
       MessageBoxA(windowHandle, &Text, "Unexpected Program Termination", 0x10u);
@@ -61,7 +61,7 @@ void __thiscall terminate(char *this)
     unknown_libname_12();
     sub_4C8D10();
     if ( poolOfMemoryBlockInfos )
-      free(poolOfMemoryBlockInfos);
+      free((BOOL)poolOfMemoryBlockInfos);
     poolOfMemoryBlockInfos = 0;
     exit(0);
   }

@@ -1,17 +1,17 @@
 // Memory management system
 // ;Also maintains a pool of MemoryBlockInfo's which track all files loaded by this function
-void *__fastcall KBAlloc(size_t a1, char *a2, int caller_lineno)
+LPVOID __fastcall KBAlloc(size_t a1, char *a2, int caller_lineno)
 {
-  size_t v3; // ebx@1
-  void *result; // eax@2
+  DWORD v3; // ebx@1
+  LPVOID result; // eax@2
   signed int v5; // eax@4
-  void *v6; // ebp@6
+  LPVOID v6; // ebp@6
   signed int v7; // ecx@8
   int v8; // edx@9
   char *v9; // eax@9
   const char *v10; // edi@10
   unsigned int v11; // ecx@10
-  FILE *v12; // ebx@14
+  int v12; // ebx@14
   char v13[4]; // [sp+10h] [bp-2BCh]@1
   char OutputString[4]; // [sp+D8h] [bp-1F4h]@10
 
@@ -61,7 +61,7 @@ void *__fastcall KBAlloc(size_t a1, char *a2, int caller_lineno)
       sprintf(v13, "KBAlloc    Size %d   Ptr %d   File %s  Line %d", v3, v6, *(_DWORD *)v13, caller_lineno);
       if ( debugLogLevel >= 2 )
       {
-        v12 = fopen("KB.LOG", "at+");
+        v12 = fopen("KB.LOG", (int)"at+");
         if ( v12 )
         {
           strcpy(OutputString, v13);

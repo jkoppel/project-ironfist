@@ -2,12 +2,12 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
 {
   int result; // eax@38
   int v3; // ST24_4@61
-  size_t v4; // eax@61
+  int v4; // eax@61
   char v5; // al@66
   int v6; // ST24_4@67
-  size_t v7; // eax@67
+  int v7; // eax@67
   int v8; // ST24_4@72
-  size_t v9; // eax@72
+  int v9; // eax@72
   GUIIcon *v10; // [sp+10h] [bp-1ACh]@97
   TextWidget *v11; // [sp+14h] [bp-1A8h]@72
   TextWidget *v12; // [sp+18h] [bp-1A4h]@67
@@ -19,9 +19,9 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
   int v18; // [sp+30h] [bp-18Ch]@27
   int v19; // [sp+34h] [bp-188h]@20
   int v20; // [sp+38h] [bp-184h]@20
-  void *content; // [sp+44h] [bp-178h]@61
-  void *contenta; // [sp+44h] [bp-178h]@67
-  void *contentb; // [sp+44h] [bp-178h]@72
+  int content; // [sp+44h] [bp-178h]@61
+  int contenta; // [sp+44h] [bp-178h]@67
+  int contentb; // [sp+44h] [bp-178h]@72
   char v24; // [sp+48h] [bp-174h]@66
   GUIMessage evt; // [sp+110h] [bp-ACh]@14
   __int16 v26; // [sp+12Ch] [bp-90h]@1
@@ -125,7 +125,7 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
       v18 = 68 * j + 258 - (9 * v17 - 9);
       for ( i = v20; v19 >= i; ++i )
       {
-        this = (GUIIcon *)operator new(0x2Du);
+        this = (GUIIcon *)operator new(45);
         if ( this )
           guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                              this,
@@ -180,7 +180,7 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
       }
       if ( v33 != -1 )
       {
-        v15 = (GUIIcon *)operator new(0x2Du);
+        v15 = (GUIIcon *)operator new(45);
         if ( v15 )
           guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                              v15,
@@ -199,7 +199,7 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
         if ( !guiObj )
           fatalOutOfMemoryError();
         GUIWindow::insertElement(window, guiObj, -1);
-        v14 = (GUIIcon *)operator new(0x2Du);
+        v14 = (GUIIcon *)operator new(45);
         if ( v14 )
           guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                              v14,
@@ -226,10 +226,10 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
           hero = &gameObject->heroes[gameObject->players[j].heroesOwned[v33]];
           sprintf(globBuf, "Att.\nDef.\nPower\nKnowl.");
           v3 = word_4EF178 + 190;
-          v4 = strlen(globBuf);
+          v4 = strlen((int)globBuf);
           content = KBAlloc(v4 + 1, "F:\\h2xsrc\\Source\\TOWNMGR.CPP", v3);
-          strcpy((char *)content, globBuf);
-          v13 = (TextWidget *)operator new(0x2Bu);
+          strcpy(content);
+          v13 = (TextWidget *)operator new(43);
           if ( v13 )
             v32 = TextWidget_constructor(v13, 68 * i + 239, 339, 40, 48, (char *)content, "smalfont.fnt", 1, -1, 512, 0);
           else
@@ -240,13 +240,13 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
           {
             v5 = Hero::getPrimarySkill(hero, skill);
             sprintf(&v24, "%d\n", v5);
-            strcat(globBuf, &v24);
+            strcat((int)globBuf, (int)&v24);
           }
           v6 = word_4EF178 + 216;
-          v7 = strlen(globBuf);
+          v7 = strlen((int)globBuf);
           contenta = KBAlloc(v7 + 1, "F:\\h2xsrc\\Source\\TOWNMGR.CPP", v6);
-          strcpy((char *)contenta, globBuf);
-          v12 = (TextWidget *)operator new(0x2Bu);
+          strcpy(contenta);
+          v12 = (TextWidget *)operator new(43);
           if ( v12 )
             v32 = TextWidget_constructor(
                     v12,
@@ -266,12 +266,12 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
         }
         if ( strength >= 3 )
         {
-          strcpy(globBuf, personality_types[gameObject->players[j].personality]);
+          strcpy((int)globBuf);
           v8 = word_4EF178 + 240;
-          v9 = strlen(globBuf);
+          v9 = strlen((int)globBuf);
           contentb = KBAlloc(v9 + 1, "F:\\h2xsrc\\Source\\TOWNMGR.CPP", v8);
-          strcpy((char *)contentb, globBuf);
-          v11 = (TextWidget *)operator new(0x2Bu);
+          strcpy(contentb);
+          v11 = (TextWidget *)operator new(43);
           v32 = v11 ? TextWidget_constructor(
                         v11,
                         68 * i + 227,
@@ -319,7 +319,7 @@ int __stdcall populateThievesGuildWindow(GUIWindow *window, int strength)
             }
             if ( a7 != -1 )
             {
-              v10 = (GUIIcon *)operator new(0x2Du);
+              v10 = (GUIIcon *)operator new(45);
               if ( v10 )
                 guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                                    v10,

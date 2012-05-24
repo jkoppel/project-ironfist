@@ -1,13 +1,13 @@
 signed int __cdecl findCDDrive()
 {
-  int v0; // eax@1
+  UINT v0; // eax@1
   signed int result; // eax@3
   DWORD v2; // esi@6
   signed int v3; // ebx@6
-  int v4; // eax@12
+  UINT v4; // eax@12
   signed int v5; // ebx@15
   int v6; // eax@18
-  int v7; // edi@18
+  unsigned int v7; // edi@18
   int v8; // eax@26
   char v9; // [sp+13h] [bp-2EDh]@11
   signed int v10; // [sp+14h] [bp-2ECh]@14
@@ -84,7 +84,7 @@ LABEL_20:
         if ( v9 <= v5 )
           goto LABEL_20;
       }
-      if ( _lseek(v6, 0, 2) != -1 && _lseek(v7, -100, 1) != -1 )
+      if ( _lseek(v6, 0, 2u) != -1 && _lseek(v7, -100, 1u) != -1 )
         _read(v7, buf, 0x64u);
       _close(v7);
       strcpy((char *)&SubKey, "SOFTWARE\\New World Computing\\Heroes of Might and Magic 2\\1.0");

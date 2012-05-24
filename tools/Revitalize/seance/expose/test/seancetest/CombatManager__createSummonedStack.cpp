@@ -1,6 +1,7 @@
 void __thiscall CombatManager::createSummonedStack(CombatManager *this, int side, CREATURES creatureID, int num, int hex, int attrs, int a7)
 {
   CreatureStack *creature; // ST38_4@17
+  int v8; // edx@20
   CombatManager *thisa; // [sp+Ch] [bp-14h]@1
   int newStackIDx; // [sp+10h] [bp-10h]@1
   spellpower_offset i; // [sp+14h] [bp-Ch]@1
@@ -48,7 +49,7 @@ void __thiscall CombatManager::createSummonedStack(CombatManager *this, int side
         combatScreenRedrawRectTop,
         combatScreenRedrawRectRight - combatScreenRedrawRectLeft + 1,
         combatScreenRedrawRectBot - combatScreenRedrawRectTop + 1);
-      sub_4C3FF0(thisa, 0, 1);
+      sub_4C3FF0(thisa, v8, 0, 1);
       CombatManager::drawBattlefield(thisa, 0, 0, 0, 0, 75, 1, 1);
       sub_4C7E00(
         HeroWindowManager::instance,

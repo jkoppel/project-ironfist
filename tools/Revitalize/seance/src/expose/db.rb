@@ -69,57 +69,21 @@ module Seance
         @sigs.keys
       end
 
-      def get_stack_arg_names(methnam)
-        meta = @sigs[methnam]
-
-        args = nil
-
-        case meta[CONVENTION]
-        when CppGen::THISCALL
-          args = meta[ARGS][1..-1]
-        when CppGen::FASTCALL
-          args = meta[ARGS][2..-1]
-        when CppGen::STDCALL
-          args = meta[ARGS]
-        end
-        
-        args.map{|(_,n)| n}
-      end
-
-      def get_register_args(methnam)
-        meta = @sigs[methnam]
-        args = meta[ARGS]
-
-        case meta[CONVENTION]
-        when CppGen::THISCALL
-          [["ecx", args[0][1]]]
-        when CppGen::FASTCALL
-          [["ecx", args[0][1]],
-           ["edx", args[1][1]]]
-        when CppGen::STDCALL
-          []
-        end
-      end
-
-      def get_arg_names(methnam)
-        @sigs[methnam][ARGS].map {|(_, n)| n}
-      end
-
-      def get_func_decl(nam, opts = {})
+      def get_func(nam)
         meta = @sigs[nam]
-        CppGen.get_func_decl(nam, meta[TYPE], meta[ARGS], meta[CONVENTION], opts)
+        CppGen::FuncSig.new(meta[TYPE], nam, meta[CONVENTION], meta[ARGS])
       end
 
       def get_func_def(nam, opts={})
         defaults = {:name_override => nam, :implicit_this => false}
         opts = defaults.merge(opts)
-        "#{get_func_decl(nam, opts)}\n#{get_func_body(nam)}"
+        "#{get_func(nam).gen_decl(opts)}\n#{get_func_body(nam)}"
       end
 
       def add_func(type, name, convention, args, body)
         check_arg_structure args
         dump_raw(body, self.class.name_to_filename(name))
-        @sigs[name] = {TYPE => type, CONVENTION => KEYWORD_CC[convention], ARGS => args}
+        @sigs[name] = {TYPE => type, CONVENTION => CppGen::keyword_to_cc(convention), ARGS => args}
         @meta.dump(@sigs, SIG_FILE)
       end
     end

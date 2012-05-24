@@ -10,8 +10,8 @@ void __thiscall CreatureStack::loadRelatedFiles(CreatureStack *this)
     formFileID = ResourceManager::setResource(resourceManager, creature_form_table[this->creatureIdx], 1);
     ResourceManager::pointToFile(resourceManager, formFileID);
     ResourceManager::readFromCurrentFile(resourceManager, &thisa->form, 821u);
-    CreatureForm::doSomethingElse(&thisa->form, thisa->creatureIdx);
-    thisa->field_B2 = thisa->form.field_A2;
+    CreatureForm::adjustSpeeds(&thisa->form, thisa->creatureIdx);
+    thisa->field_B2 = thisa->form.stepTime;
     sprintf(globBuf, "%smove.82M", thisa->creature.short_name);
     thisa->combatSounds[0] = ResourceManager::getSampleByFilename(resourceManager, globBuf);
     sprintf(globBuf, "%sattk.82M", thisa->creature.short_name);

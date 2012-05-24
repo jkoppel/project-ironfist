@@ -1,27 +1,27 @@
 Bitmap *__thiscall ResourceManager::getBitmapByFilename(ResourceManager *this, const char *filename)
 {
   Bitmap *result; // eax@2
-  Bitmap *thisb; // [sp+10h] [bp-Ch]@3
-  AbstractResource *fileNode; // [sp+14h] [bp-8h]@1
-  Bitmap *fileNodea; // [sp+14h] [bp-8h]@4
-  int fileID; // [sp+18h] [bp-4h]@1
+  Bitmap *newBitmapMem; // [sp+10h] [bp-Ch]@3
+  Bitmap *loadedBmp; // [sp+14h] [bp-8h]@1
+  Bitmap *newBitmap; // [sp+14h] [bp-8h]@4
+  unsigned int hash; // [sp+18h] [bp-4h]@1
 
-  fileID = ResourceManager::setResource(this, filename, 1);
-  fileNode = ResourceManager::findLoadedFile(this, fileID);
-  if ( fileNode )
+  hash = ResourceManager::setResource(this, filename, 1);
+  loadedBmp = (Bitmap *)ResourceManager::findLoadedFile(this, hash);
+  if ( loadedBmp )
   {
-    ++fileNode->referenceCount;
-    result = (Bitmap *)fileNode;
+    ++loadedBmp->referenceCount;
+    result = loadedBmp;
   }
   else
   {
-    thisb = (Bitmap *)operator new(0x1Au);
-    if ( thisb )
-      fileNodea = Bitmap_constructorFromFile(thisb, fileID);
+    newBitmapMem = (Bitmap *)operator new(sizeof(Bitmap));
+    if ( newBitmapMem )
+      newBitmap = Bitmap_constructorFromFile(newBitmapMem, hash);
     else
-      fileNodea = 0;
-    ResourceManager::prependFileLinkedListNode(this, (AbstractResource *)fileNodea);
-    result = fileNodea;
+      newBitmap = NULL;
+    ResourceManager::prependFileLinkedListNode(this, (AbstractResource *)newBitmap);
+    result = newBitmap;
   }
   return result;
 }

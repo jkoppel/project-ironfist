@@ -31,7 +31,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
   signed int done; // [sp+6Ch] [bp-8h]@1
 
   thisa = ecx0;
-  strcpy(ecx0->filename, filename);
+  strcpy((int)ecx0->filename);
   fileID = ResourceManager::setResource(resourceManager, filename, 1);
   ResourceManager::pointToFile(resourceManager, fileID);
   thisa->bitmap = 0;
@@ -71,7 +71,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
               guiObj = (AbstractGUIComponent *)v24;
               break;
             case 516:
-              v11 = (int)operator new(0x4Eu);
+              v11 = (int)operator new(78);
               if ( v11 )
                 v25 = TextEntry_constructor(v11);
               else
@@ -80,7 +80,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
               guiObj = (AbstractGUIComponent *)v25;
               break;
             case 518:
-              v10 = (int)operator new(0x4Eu);
+              v10 = (int)operator new(78);
               if ( v10 )
                 v26 = TextEntry_constructor(v10);
               else
@@ -89,7 +89,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
               guiObj = (AbstractGUIComponent *)v26;
               break;
             case 515:
-              v9 = (int)operator new(0xB4u);
+              v9 = (int)operator new(180);
               if ( v9 )
                 v29 = DropList_constructor(v9);
               else
@@ -98,7 +98,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
               guiObj = (AbstractGUIComponent *)v29;
               break;
             case 517:
-              v8 = (ListBox *)operator new(0x92u);
+              v8 = (ListBox *)operator new(146);
               if ( v8 )
                 v32 = ListBox_constructor(v8);
               else
@@ -141,7 +141,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
       {
         if ( code == 64 )
         {
-          v16 = (int)operator new(0x20u);
+          v16 = (int)operator new(32);
           if ( v16 )
             v31 = sub_4DBC10(v16);
           else
@@ -168,7 +168,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
     {
       if ( code == 8 )
       {
-        v15 = (TextWidget *)operator new(0x2Bu);
+        v15 = (TextWidget *)operator new(43);
         if ( v15 )
           v21 = TextWidget_noArgConstructor(v15);
         else
@@ -182,7 +182,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
         {
           if ( code == 1 )
           {
-            v19 = (BackgroundGUI *)operator new(0x2Au);
+            v19 = (BackgroundGUI *)operator new(42);
             if ( v19 )
               bg = BackgroundGUI_noArgConstructor(v19);
             else
@@ -194,7 +194,7 @@ GUIWindow *__thiscall GUIWindow_constructorFromFile(GUIWindow *ecx0, int xOff, i
           {
             if ( code == 2 )
             {
-              v18 = (Button *)operator new(0x30u);
+              v18 = (Button *)operator new(48);
               if ( v18 )
                 v28 = Button_constructor(v18);
               else

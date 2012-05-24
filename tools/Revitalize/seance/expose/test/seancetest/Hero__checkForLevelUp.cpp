@@ -26,7 +26,7 @@ void __thiscall Hero::checkForLevelUp(Hero *this)
     {
       sprintf(globBuf, off_4F65E0, thisa->name);
       sprintf(&v7, off_4F65E4);
-      strcat(globBuf, &v7);
+      strcat((int)globBuf, (int)&v7);
       skillsLearned[0] = 0;
       skillsLearned[1] = 0;
       skillsLearned[2] = 0;
@@ -62,7 +62,7 @@ void __thiscall Hero::checkForLevelUp(Hero *this)
         {
           thisa->primarySkills[j] += LOBYTE(skillsLearned[j]);
           sprintf(&v7, "\n%s +%d", primarySkillNames[j], skillsLearned[j]);
-          strcat(globBuf, &v7);
+          strcat((int)globBuf, (int)&v7);
         }
       }
       for ( j = 0; j < 2; ++j )
@@ -134,7 +134,7 @@ void __thiscall Hero::checkForLevelUp(Hero *this)
               "\n\nYou have learned %s %s.",
               secondarySkillLevels[thisa->secondarySkillLevel[secSkillOptions[0]] + 1],
               secondary_skill_names[secSkillOptions[0]]);
-            strcat(globBuf, &v7);
+            strcat((int)globBuf, (int)&v7);
             display_message_window(
               globBuf,
               1,
@@ -157,7 +157,7 @@ void __thiscall Hero::checkForLevelUp(Hero *this)
               secondary_skill_names[secSkillOptions[0]],
               secondarySkillLevels[thisa->secondarySkillLevel[secSkillOptions[1]] + 1],
               secondary_skill_names[secSkillOptions[1]]);
-            strcat(globBuf, &v7);
+            strcat((int)globBuf, (int)&v7);
             display_message_window(
               globBuf,
               7,

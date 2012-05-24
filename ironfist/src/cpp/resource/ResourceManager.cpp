@@ -1,9 +1,8 @@
 
-
 #ifndef RESMGR
 #define RESMGR
 
-#include <string.h>
+#include<string.h>
 #include<stdlib.h>
 #include<stdio.h>
 #include<fcntl.h>
@@ -15,36 +14,15 @@
 
 #define MAX_FILENAME_LENGTH 13
 
-ResourceManager * ResourceManager_constructor(ResourceManager *__this)
-{
-  int i; // [sp+10h] [bp-4h]@1
-
-  AbstractManager_constructor((AbstractManager *)__this);
-  __this->vtable = &ResourceManager_vtable;
-  __this->ready = 0;
-  __this->loadedFileLinkedList = NULL;
-  __this->isFreeingAllResources = 0;
-  strcpy(__this->resourceToLoad, "");
-  __this->fileID = 0;
-  for ( i = 0; i < NUM_AGG_FILES; ++i )
-  {
-    __this->fileDescriptors[i] = -1;
-    __this->aggContentInfo[i] = NULL;
-    __this->numberOfFilesInAGG[i] = 0;
-  }
-  __this->numOpenAGGFiles = 0;
-  __this->curHandleIdx = 0;
-  return __this;
-}
 
 unsigned int ResourceManager::setResource( const char * filename, int  useEvilersion)
 {
-  char evilMatches; // eax@5
-  unsigned int result; // eax@8
-  int i; // [sp+10h] [bp-8h]@3
+  int evilMatches;
+  unsigned int result;
+  int i;
 
   strcpy(this->resourceToLoad, filename);
-  if (useEvilBorders && useEvilersion)
+  if ( useEvilBorders && useEvilersion )
   {
     for ( i = 0; i < NUM_GOOD_EVIL_ICONS; ++i )
     {
@@ -60,10 +38,10 @@ unsigned int ResourceManager::setResource( const char * filename, int  useEviler
 
 MANAGER_RETURN_CODE ResourceManager::addAGG( const char * filename)
 {
-  MANAGER_RETURN_CODE result; // eax@2
-  int headerSize; // ST1C_4@5
-  __int16 numFiles; // [sp+14h] [bp-8h]@5
-  int fd; // [sp+18h] [bp-4h]@3
+  MANAGER_RETURN_CODE result;
+  int headerSize;
+  __int16 numFiles;
+  int fd;
 
   if ( this->numOpenAGGFiles < NUM_AGG_FILES )
   {
@@ -113,7 +91,7 @@ void ResourceManager::dumpImageToScreen( const char * filename, Bitmap * screenB
   {
     bmpHash = this->setResource(filename, 1);
     this->pointToFile(bmpHash);
-	this->readShort();
+    this->readShort();
     this->readShort();
     this->readShort();
     this->readFromCurrentFile(screenBuf->contents, screenBuf->width * screenBuf->height);
@@ -122,20 +100,19 @@ void ResourceManager::dumpImageToScreen( const char * filename, Bitmap * screenB
 
 AbstractResource * ResourceManager::findLoadedFile( unsigned int  fileHash)
 {
-  AbstractResource *cur; // [sp+10h] [bp-4h]@1
+  AbstractResource *cur;
 
-  for ( cur = this->loadedFileLinkedList; cur && cur->fileID != fileHash; cur = cur->next )
-    ;
+  for ( cur = this->loadedFileLinkedList; cur != NULL && cur->fileID != fileHash; cur = cur->next );
   return cur;
 }
 
 void ResourceManager::freeAllResources()
 {
-  AbstractResource *fil; // [sp+18h] [bp-8h]@1
-  AbstractResource *next; // [sp+1Ch] [bp-4h]@3
+  AbstractResource *fil;
+  AbstractResource *next;
 
   this->isFreeingAllResources = 1;
-  for ( fil = this->loadedFileLinkedList; fil; fil = next )
+  for ( fil = this->loadedFileLinkedList; fil != NULL; fil = next )
   {
     next = fil->next;
     this->removeFileFromList(fil);
@@ -147,13 +124,13 @@ void ResourceManager::freeAllResources()
 
 Bitmap * ResourceManager::getBitmapByFilename( const char * filename)
 {
-  Bitmap *result; // eax@2
-  Bitmap* newBitmapMem; // [sp+10h] [bp-Ch]@3
-  Bitmap *loadedBmp; // [sp+14h] [bp-8h]@1
-  Bitmap *newBitmap; // [sp+14h] [bp-8h]@4
-  unsigned int hash; // [sp+18h] [bp-4h]@1
+  Bitmap *result;
+  Bitmap *newBitmapMem;
+  Bitmap *loadedBmp;
+  Bitmap *newBitmap;
+  unsigned int hash;
 
-  hash = this->setResource(filename, 1);
+  hash = this->setResource( filename, 1);
   loadedBmp = (Bitmap *)this->findLoadedFile(hash);
   if ( loadedBmp )
   {
@@ -162,9 +139,9 @@ Bitmap * ResourceManager::getBitmapByFilename( const char * filename)
   }
   else
   {
-    newBitmapMem = (Bitmap*)operator new(sizeof(Bitmap));
+    newBitmapMem = new Bitmap;
     if ( newBitmapMem )
-      newBitmap = Bitmap_constructorFromFile((Bitmap *)newBitmapMem, hash);
+      newBitmap = Bitmap_constructorFromFile(newBitmapMem, hash);
     else
       newBitmap = NULL;
     this->prependFileLinkedListNode((AbstractResource *)newBitmap);
@@ -175,10 +152,10 @@ Bitmap * ResourceManager::getBitmapByFilename( const char * filename)
 
 int ResourceManager::getFileSize( int  fileHash)
 {
-  char found; // [sp+10h] [bp-10h]@1
-  int j; // [sp+14h] [bp-Ch]@0
-  int i; // [sp+18h] [bp-8h]@1
-  int containingAGG; // [sp+1Ch] [bp-4h]@0
+  char found;
+  int j;
+  int i;
+  int containingAGG;
 
   found = 0;
   for ( i = 0; ; ++i )
@@ -217,11 +194,11 @@ int ResourceManager::getFileSize( int  fileHash)
 
 Font * ResourceManager::getFontByFilename( const char * filename)
 {
-  Font *result; // eax@2
-  Font* newFontMem; // [sp+10h] [bp-Ch]@3
-  Font *loadedFont; // [sp+14h] [bp-8h]@1
-  Font *newFont; // [sp+14h] [bp-8h]@4
-  unsigned int hash; // [sp+18h] [bp-4h]@1
+  Font *result;
+  Font *newFontMem;
+  Font *loadedFont;
+  Font *newFont;
+  unsigned int hash;
 
   hash = this->setResource(filename, 1);
   loadedFont = (Font *)this->findLoadedFile(hash);
@@ -232,9 +209,9 @@ Font * ResourceManager::getFontByFilename( const char * filename)
   }
   else
   {
-    newFontMem = (Font*)operator new(sizeof(Font));
+    newFontMem = new Font;
     if ( newFontMem )
-      newFont = Font_constructor((Font *)newFontMem, hash);
+      newFont = Font_constructor(newFontMem, hash);
     else
       newFont = 0;
     this->prependFileLinkedListNode((AbstractResource *)newFont);
@@ -245,148 +222,123 @@ Font * ResourceManager::getFontByFilename( const char * filename)
 
 Icon * ResourceManager::getIconByFileID( int  fileID)
 {
-  Icon *result; // eax@2
-  Icon* newIconMem; // [sp+10h] [bp-8h]@3
-  Icon *loadedIcon; // [sp+14h] [bp-4h]@1
-  Icon *newIcon; // [sp+14h] [bp-4h]@4
+  Icon *icon;
 
-  loadedIcon = (Icon *)this->findLoadedFile(fileID);
-  if ( loadedIcon )
+  icon = (Icon *)this->findLoadedFile(fileID);
+  if ( icon )
   {
-    ++loadedIcon->referenceCount;
-    result = loadedIcon;
+    ++icon->referenceCount;
   }
   else
   {
-    newIconMem = (Icon*)operator new(sizeof(Icon));
-    if ( newIconMem )
-      newIcon = Icon_constructor((Icon *)newIconMem, fileID);
+    icon = new Icon;
+    if ( icon )
+      icon = Icon_constructor(icon, fileID);
     else
-      newIcon = 0;
-    this->prependFileLinkedListNode((AbstractResource *)newIcon);
-    result = newIcon;
+      icon = NULL;
+    this->prependFileLinkedListNode((AbstractResource *)icon);
   }
-  return result;
+  return icon;
 }
 
 Icon * ResourceManager::getIconByFilename( const char * filename)
 {
-  unsigned int hash; // eax@1
+  unsigned int hash;
 
   hash = this->setResource(filename, 1);
   return this->getIconByFileID(hash);
 }
 
-Palette * ResourceManager::getPal( const char * file)
+Palette * ResourceManager::getPal( const char * filename)
 {
-  Palette *result; // eax@2
-  Palette *newPalMem; // [sp+10h] [bp-Ch]@3
-  unsigned int fileID; // [sp+14h] [bp-8h]@1
-  Palette *loadedPal; // [sp+18h] [bp-4h]@1
-  Palette *newPal; // [sp+18h] [bp-4h]@4
-
-  fileID = this->setResource(file, 1);
-  loadedPal = (Palette *)this->findLoadedFile(fileID);
-  if ( loadedPal )
-  {
-    ++loadedPal->referenceCount;
-    result = loadedPal;
-  }
-  else
-  {
-    newPalMem = (Palette*)operator new(sizeof(Palette));
-    if ( newPalMem )
-      newPal = Palette_constructorFromFile((Palette *)newPalMem, fileID);
-    else
-      newPal = NULL;
-    this->prependFileLinkedListNode((AbstractResource *)newPal);
-    result = newPal;
-  }
-  return result;
-}
-
-Sample * ResourceManager::getSampleByFilename(char * filename)
-{
-  unsigned int hash; // ST28_4@1
-  Sample *result; // eax@2
-  Sample *newSampleMemory; // [sp+10h] [bp-Ch]@3
-  Sample *loadedSample; // [sp+14h] [bp-8h]@1
-  Sample *newSample; // [sp+14h] [bp-8h]@4
-
-  hash = this->setResource(filename, 1);
-  loadedSample = (Sample *)this->findLoadedFile(hash);
-  if ( loadedSample )
-  {
-    ++loadedSample->referenceCount;
-    result = loadedSample;
-  }
-  else
-  {
-    newSampleMemory = (Sample*)operator new(sizeof(Sample));
-    if ( newSampleMemory )
-      newSample = Sample_constructor((Sample *)newSampleMemory, filename, 0, 127, 1);
-    else
-      newSample = NULL;
-    this->prependFileLinkedListNode((AbstractResource *)newSample);
-    result = newSample;
-  }
-  return result;
-}
-
-Sequence * ResourceManager::getSequenceByFilename(char * filename)
-{
-  unsigned int hash; // ST20_4@1
-  Sequence *result; // eax@2
-  Sequence* newSeqMemory; // [sp+10h] [bp-Ch]@3
-  Sequence *seq; // [sp+14h] [bp-8h]@1
-  Sequence *newSeq; // [sp+14h] [bp-8h]@4
-
-  hash = this->setResource(filename, 1);
-  seq = (Sequence *)this->findLoadedFile(hash);
-  if ( seq )
-  {
-    ++seq->referenceCount;
-    result = seq;
-  }
-  else
-  {
-    newSeqMemory = (Sequence*)operator new(sizeof(Sequence));
-    if ( newSeqMemory )
-      newSeq = Sequence_constructor((Sequence *)newSeqMemory, filename);
-    else
-      newSeq = NULL;
-    this->prependFileLinkedListNode((AbstractResource *)newSeq);
-    result = newSeq;
-  }
-  return result;
-}
-
-Tileset * ResourceManager::getTilesetByFilename( char * filename)
-{
-  Tileset *result; // eax@2
-  Tileset* newtilesMemory; // [sp+10h] [bp-Ch]@3
-  unsigned int fileID; // [sp+14h] [bp-8h]@1
-  Tileset *loadedTiles; // [sp+18h] [bp-4h]@1
-  Tileset *newTiles; // [sp+18h] [bp-4h]@4
+  Palette *pal;
+  unsigned int fileID;
 
   fileID = this->setResource(filename, 1);
-  loadedTiles = (Tileset *)this->findLoadedFile(fileID);
-  if ( loadedTiles )
+  pal = (Palette *)this->findLoadedFile(fileID);
+  if ( pal )
   {
-    ++loadedTiles->referenceCount;
-    result = loadedTiles;
+    ++pal->referenceCount;
   }
   else
   {
-    newtilesMemory = (Tileset*)operator new(sizeof(Tileset));
-    if ( newtilesMemory )
-      newTiles = Tileset_constructor((Tileset *)newtilesMemory, fileID);
+    pal = new Palette;
+    if ( pal )
+      pal = Palette_constructorFromFile(pal, fileID);
     else
-      newTiles = NULL;
-    this->prependFileLinkedListNode((AbstractResource *)newTiles);
-    result = newTiles;
+      pal = NULL;
+    this->prependFileLinkedListNode((AbstractResource *)pal);
   }
-  return result;
+  return pal;
+}
+
+Sample * ResourceManager::getSampleByFilename( const char * filename)
+{
+  unsigned int hash;
+  Sample *sample;
+
+  hash = this->setResource(filename, 1);
+  sample = (Sample *)this->findLoadedFile(hash);
+  if ( sample )
+  {
+    ++sample->referenceCount;
+  }
+  else
+  {
+    sample = new Sample;
+    if ( sample )
+      sample = Sample_constructor(sample, filename, 0, 127, 1);
+    else
+      sample = NULL;
+    this->prependFileLinkedListNode((AbstractResource *)sample);
+  }
+  return sample;
+}
+
+Sequence * ResourceManager::getSequenceByFilename( const char * filename)
+{
+  unsigned int hash;
+  Sequence *sequence;
+
+  hash = this->setResource(filename, 1);
+  sequence = (Sequence *)this->findLoadedFile(hash);
+  if ( sequence )
+  {
+    ++sequence->referenceCount;
+  }
+  else
+  {
+    sequence = new Sequence;
+    if ( sequence )
+      sequence = Sequence_constructor(sequence, filename);
+    else
+      sequence = NULL;
+    this->prependFileLinkedListNode((AbstractResource *)sequence);
+  }
+  return sequence;
+}
+
+Tileset * ResourceManager::getTilesetByFilename( const char * filename)
+{
+  Tileset *tiles;
+  unsigned int fileID;
+
+  fileID = this->setResource(filename, 1);
+  tiles = (Tileset *)this->findLoadedFile(fileID);
+  if ( tiles )
+  {
+    ++tiles->referenceCount;
+  }
+  else
+  {
+    tiles = new Tileset;
+    if ( tiles )
+      tiles = Tileset_constructor(tiles, fileID);
+    else
+      tiles = NULL;
+    this->prependFileLinkedListNode((AbstractResource *)tiles);
+  }
+  return tiles;
 }
 
 MANAGER_RETURN_CODE ResourceManager::handleInput( InputEvent * a1)
@@ -396,7 +348,7 @@ MANAGER_RETURN_CODE ResourceManager::handleInput( InputEvent * a1)
 
 MANAGER_RETURN_CODE ResourceManager::initialize( int  idx)
 {
-  MANAGER_RETURN_CODE result; // eax@2
+  MANAGER_RETURN_CODE result;
 
   if ( this->addAGG(".\\DATA\\ironfist.agg") )
   {
@@ -404,31 +356,35 @@ MANAGER_RETURN_CODE ResourceManager::initialize( int  idx)
   }
   else
   {
-    if ( this->addAGG(heroes2xagg_path) )
-    {
-      result = MANAGER_FAILED;
-    }
-    else if(this->addAGG(heroes2agg_path)) {
-		result = MANAGER_FAILED;
+	 if ( this->addAGG(heroes2xagg_path) )
+	  {
+	    result = MANAGER_FAILED;
+	  }
+	  else
+	  {
+	    if ( this->addAGG(heroes2agg_path) )
+	    {
+	      result = MANAGER_FAILED;
+	    }
+		else
+		{
+		  this->type = MANAGER_TYPE_RESOURCE_MAMANGER;
+		  this->idx = idx;
+		  this->ready = 1;
+		  strcpy(this->name, "resourceManager");
+		  this->loadedFileLinkedList = NULL;
+		  result = MANAGER_SUCCESS;
+		}
 	}
-	else
-    {
-      this->type = MANAGER_TYPE_RESOURCE_MAMANGER;
-      this->idx = idx;
-      this->ready = 1;
-      strcpy(this->name, "resourceManager");
-      this->loadedFileLinkedList = NULL;
-      result = MANAGER_SUCCESS;
-    }
   }
   return result;
 }
 
 signed int ResourceManager::pointToFile( int  id)
 {
-  char found; // [sp+10h] [bp-10h]@1
-  int j; // [sp+14h] [bp-Ch]@0
-  int i; // [sp+18h] [bp-8h]@1
+  char found;
+  int j;
+  int i;
 
   found = 0;
   for ( i = 0; ; ++i )
@@ -494,9 +450,9 @@ void ResourceManager::pushCurrentFileAndOffsetOntoStack()
 
 void ResourceManager::readFromCurrentFile( void * buf, DWORD  ntoread)
 {
-  int err1; // ST28_4@2
-  int *err2; // eax@2
-  signed int nread; // [sp+18h] [bp-4h]@1
+  int err1;
+  int *err2;
+  signed int nread;
 
   assertTrue(this->fileDescriptors[this->curHandleIdx] != -1, "F:\\h2xsrc\\Base\\RESMGR.CPP", 816);
   yieldToGlobalUpdater();
@@ -519,13 +475,13 @@ void ResourceManager::readFromCurrentFile( void * buf, DWORD  ntoread)
 
 int ResourceManager::readInt()
 {
-  int err; // ST1C_4@2
-  int buf; // [sp+18h] [bp-8h]@1
-  int success; // [sp+1Ch] [bp-4h]@1
+  int err;
+  int buf;
+  int success;
 
   assertTrue(this->fileDescriptors[this->curHandleIdx] != -1, "F:\\h2xsrc\\Base\\RESMGR.CPP", 760);
   buf = 0;
-  success = __read(this->fileDescriptors[this->curHandleIdx], &buf, 4u);
+  success = __read(this->fileDescriptors[this->curHandleIdx], &buf, sizeof(int));
   if ( !success )
     err = *_errno();
   return buf;
@@ -538,11 +494,15 @@ void ResourceManager::readNexDOSFilename( char * buf)
 
 __int16 ResourceManager::readShort()
 {
-  __int16 buf; // [sp+18h] [bp-8h]@1
+  int err;
+  __int16 buf;
+  int success;
 
   assertTrue(this->fileDescriptors[this->curHandleIdx] != -1, "F:\\h2xsrc\\Base\\RESMGR.CPP", 732);
   buf = 0;
-  __read(this->fileDescriptors[this->curHandleIdx], &buf, 2u);
+  success = __read(this->fileDescriptors[this->curHandleIdx], &buf, sizeof(short));
+  if ( !success )
+    err = *_errno();
   return buf;
 }
 
@@ -565,7 +525,7 @@ void ResourceManager::reduceReferenceCountToResource( AbstractResource * res)
 
 void ResourceManager::removeFileFromList( AbstractResource * fil)
 {
-  AbstractResource *cur; // [sp+10h] [bp-4h]@3
+  AbstractResource *cur;
 
   if ( this->loadedFileLinkedList == fil )
   {
@@ -573,7 +533,7 @@ void ResourceManager::removeFileFromList( AbstractResource * fil)
   }
   else
   {
-    for ( cur = this->loadedFileLinkedList; cur && cur->next != fil; cur = cur->next )
+    for ( cur = this->loadedFileLinkedList; cur != NULL && cur->next != fil; cur = cur->next )
       ;
     if ( cur )
       cur->next = fil->next;

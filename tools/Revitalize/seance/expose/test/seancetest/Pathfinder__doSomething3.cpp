@@ -1,9 +1,9 @@
-int __thiscall Pathfinder::doSomething3(Pathfinder *this, __int64 a2, int a3, int a4, int a5, int a6)
+signed int __thiscall Pathfinder::doSomething3(Pathfinder *this, __int64 a2, int a3, int a4, int a5, int a6)
 {
   Pathfinder *v6; // ebp@1
-  int v7; // eax@1
+  MapTile *v7; // eax@1
   int v8; // ecx@2
-  int result; // eax@2
+  signed int result; // eax@2
   char v10; // al@19
   char v11; // al@24
   char v12; // al@43
@@ -11,9 +11,9 @@ int __thiscall Pathfinder::doSomething3(Pathfinder *this, __int64 a2, int a3, in
   *(_DWORD *)a4 = 0;
   v6 = this;
   *(_DWORD *)(a4 + 4) = 0;
-  v7 = usedToCheckForBoatByCastle(advManager, a2, SHIDWORD(a2));
+  v7 = AdvManager::getTile(advManager, a2, SHIDWORD(a2));
   dword_526B8C = 0;
-  dword_526B9C = v7;
+  dword_526B9C = (int)v7;
   do
   {
     v8 = a2 + byte_4F1DC0[4 * dword_526B8C];
@@ -24,7 +24,7 @@ int __thiscall Pathfinder::doSomething3(Pathfinder *this, __int64 a2, int a3, in
       || (result = v8, mapWidth <= v8)
       || (result = ::a3, ::a3 < 0)
       || (result = mapHeight, ::a3 >= mapHeight)
-      || (result = usedToCheckForBoatByCastle(advManager, dword_526B88, ::a3),
+      || (result = (signed int)AdvManager::getTile(advManager, dword_526B88, ::a3),
           dword_526B80 = result,
           *(_BYTE *)(result + 8) & 8)
       || dword_524810[curPlayerIdx]
@@ -74,10 +74,10 @@ LABEL_49:
           {
             if ( byte_4F1DC1[4 * dword_526B8C] )
             {
-              result = usedToCheckForBoatByCastle(advManager, a2 + v10, SHIDWORD(a2));
+              result = (signed int)AdvManager::getTile(advManager, a2 + v10, SHIDWORD(a2));
               if ( tileToTerrainType[*(_WORD *)result] )
                 goto LABEL_49;
-              result = usedToCheckForBoatByCastle(advManager, a2, HIDWORD(a2) + byte_4F1DC1[4 * dword_526B8C]);
+              result = (signed int)AdvManager::getTile(advManager, a2, HIDWORD(a2) + byte_4F1DC1[4 * dword_526B8C]);
               if ( tileToTerrainType[*(_WORD *)result] )
                 goto LABEL_49;
             }
@@ -106,7 +106,7 @@ LABEL_49:
       result = dword_526B80;
       if ( *(_BYTE *)(dword_526B80 + 7) != -1 )
       {
-        result = usedToCheckForBoatByCastle(advManager, dword_526B88, ::a3 + 1);
+        result = (signed int)AdvManager::getTile(advManager, dword_526B88, ::a3 + 1);
         if ( *(_BYTE *)(result + 3) != -1 )
         {
           if ( (*(_BYTE *)(result + 2) & 0xFC) != -68 && !(*(_BYTE *)(result + 8) & 0x80) )
@@ -137,7 +137,7 @@ LABEL_49:
         result = dword_526B9C;
         if ( *(_BYTE *)(dword_526B9C + 7) != -1 )
         {
-          result = usedToCheckForBoatByCastle(advManager, a2, HIDWORD(a2) + 1);
+          result = (signed int)AdvManager::getTile(advManager, a2, HIDWORD(a2) + 1);
           if ( *(_BYTE *)(result + 3) != -1 )
           {
             if ( (*(_BYTE *)(result + 2) & 0xFC) != -68 && !(*(_BYTE *)(result + 8) & 0x80) )

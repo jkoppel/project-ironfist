@@ -1,4 +1,4 @@
-#!/opt/local/bin/ruby
+#!/usr/local/bin/ruby
 
 $LOAD_PATH.unshift(File.dirname(__FILE__))
 
@@ -28,7 +28,12 @@ when "expose-func"
  
 when "add-func"
   ARGV[1..-1].each do |w|
-    Seance::Import.import_func(w, ".")
+    begin
+      puts "Processing #{w}"
+      Seance::Import.import_func(w, ".")
+    rescue Seance::Import::ImportException => e
+      puts e.message
+    end
   end
 
 when "create-source"

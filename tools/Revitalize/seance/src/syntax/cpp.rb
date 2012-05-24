@@ -1,15 +1,19 @@
 module CppGen
 
+      ARG_SIZE = 4 #I fear how easy it is to spread the 32-bit assumption throughout
+
       FASTCALL_THIS = "__this"
 
       STDCALL = :stdcall
       FASTCALL = :fastcall
       THISCALL = :thiscall
+      CDECL = :cdecl
 
       CC_KEYWORD = {
         STDCALL => "__stdcall",
         FASTCALL => "__fastcall",
         THISCALL => "__thiscall",
+        CDECL => "__cdecl"
       }
 
       KEYWORD_CC = CC_KEYWORD.invert
@@ -18,7 +22,7 @@ module CppGen
         nam.gsub(':','_')
       end
 
-      def self.format_args(args, implicit_this, cc, force_cc)
+      def self.convert_args(args, implicit_this, cc, force_cc)
         if cc == force_cc
         elsif force_cc == FASTCALL
           if cc == THISCALL
@@ -28,7 +32,7 @@ module CppGen
           else
             raise "Unsupported: Conversion from #{cc} to #{force_cc}"
           end
-        elsif force_cc == STDCALL || force_cc == THISCALL || implicit_this 
+        elsif [STDCALL,THISCALL,CDECL].index(force_cc) || implicit_this 
           if cc == THISCALL
             args = args[1..-1]
           else
@@ -36,9 +40,12 @@ module CppGen
           end
         end
 
-        args.map{ |(t, n)| t+" "+n}.join(",")
+        args
       end
 
+      def self.format_args(args, implicit_this, cc, force_cc)
+        convert_args(args,implicit_this, cc, force_cc).map{ |(t, n)| t+" "+n}.join(",")
+      end
 
 
       ###Gives a declaration for the method (minus the convention)
@@ -66,4 +73,87 @@ module CppGen
         cc = opts[:force_cc] == nil ? "" : " "+CC_KEYWORD[opts[:force_cc]]
         "#{type}#{cc} #{opts[:name_override]}(#{args_str})"
       end
+
+      def self.get_size_for_nargs(nargs)
+        ARG_SIZE * nargs
+      end
+
+      def self.get_esp_diff(conv, n_stackargs)
+        case conv
+        when CDECL
+          get_size_for_nargs(n_stackargs)  
+        else
+          0
+        end
+      end
+
+      def self.keyword_to_cc(k)
+        KEYWORD_CC[k]
+      end
+
+      class FuncSig
+        attr_reader :type, :name, :conv, :args
+
+        def initialize(ret_type, name, cc, args)
+          @type = ret_type
+          @name = name
+          @conv = cc
+          @args = args
+        end
+
+        def arg_names
+          args.map {|(_, n)| n}
+        end
+
+        def arg_size(force_cc=nil)
+          CppGen.get_size_for_nargs(CppGen.convert_args(@args, false, @conv, force_cc).size)
+        end
+        
+        def stack_arg_names
+          case @conv
+          when THISCALL
+            args = @args[1..-1]
+          when FASTCALL
+            args = @args[2..-1]
+          when STDCALL
+            args = @args
+          when CDECL
+            args = @args
+          end
+          
+          args ||= []
+          args.map{|(_,n)| n}
+        end
+        
+        def register_args
+          case @conv
+          when THISCALL
+            [["ecx", @args[0][1]]]
+          when FASTCALL
+          ["ecx","edx"].zip(@args.map{|(_,nam)| nam})
+          when STDCALL
+            []
+          when CDECL
+            []
+          end
+        end
+
+        def gen_decl(opts = {})
+          CppGen.get_func_decl(@name, @type, @args, @conv, opts)
+        end
+
+        def esp_diff
+          CppGen.get_esp_diff(@conv, stack_arg_names.size)
+        end
+
+        def to_function_sig
+          if @conv == THISCALL
+            FuncSig.new(@type, CppGen.to_c_name(@name), THISCALL, [[@args[0][0], FASTCALL_THIS]]+@args[1..-1])
+          else
+            self
+          end
+        end
+      end
+    
 end
+  

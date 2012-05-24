@@ -5,8 +5,8 @@ int __thiscall FileRequester_constructor(int this, int a2, int a3, int a4, const
   thisa = this;
   AbstractManager_constructor((AbstractManager *)this);
   *(_DWORD *)thisa = &FileRequester_vtable;
-  strcpy((char *)(thisa + 70), a5);
-  strcpy((char *)(thisa + 370), a6);
+  strcpy(thisa + 70);
+  strcpy(thisa + 370);
   *(_DWORD *)(thisa + 1050) = -1;
   *(_DWORD *)(thisa + 1042) = 0;
   *(_DWORD *)(thisa + 1046) = 0;
@@ -16,7 +16,7 @@ int __thiscall FileRequester_constructor(int this, int a2, int a3, int a4, const
   *(_DWORD *)(thisa + 58) = a2;
   *(_DWORD *)(thisa + 62) = a3;
   *(_DWORD *)(thisa + 66) = a4;
-  strcpy((char *)(thisa + 686), a7);
+  strcpy(thisa + 686);
   if ( a4 != 1 && a4 != 4 )
   {
     dword_522BF0 = 1126367232;

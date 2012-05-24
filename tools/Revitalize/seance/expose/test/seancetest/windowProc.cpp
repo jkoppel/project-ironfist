@@ -97,7 +97,7 @@ LABEL_83:
     if ( Msg <= WM_COMMAND )
     {
       if ( Msg == WM_COMMAND )
-        return sub_485800(hWnd, wParam, lParam);
+        return sub_485800(hWnd, WM_COMMAND, wParam, lParam);
       if ( Msg >= 0x100 && Msg <= 0x101 && !sub_4D0650(hWnd, Msg, wParam, lParam) )
         return 0;
       return DefWindowProcA(hWnd, Msg, wParam, lParam);

@@ -5,8 +5,8 @@ Sample *__thiscall Sample_constructor(Sample *this, const char *filename, int a3
   signed int v7; // ebp@1
   signed int v8; // eax@1
   int fileIDa; // ST0C_4@10
-  size_t v10; // eax@10
-  unsigned int size; // esi@10
+  int v10; // eax@10
+  DWORD size; // esi@10
   void *v12; // eax@10
   int fileIDb; // ecx@10
   char v15[32]; // [sp+10h] [bp-20h]@1
@@ -20,7 +20,7 @@ Sample *__thiscall Sample_constructor(Sample *this, const char *filename, int a3
   thisa->field_28 = a4;
   thisa->loopCount = a5;
   strcpy(v15, filename);
-  _strrev(v15);
+  _strrev((unsigned int)v15);
   v8 = 0;
   do
   {

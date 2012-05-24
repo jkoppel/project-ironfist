@@ -12,7 +12,7 @@ void *__cdecl constructManyGlobalObjects()
   TownManager *v9; // [sp+2Ch] [bp-2Ch]@37
   CombatManager *ecx0; // [sp+30h] [bp-28h]@34
   AdvManager *v11; // [sp+34h] [bp-24h]@31
-  void *v12; // [sp+38h] [bp-20h]@22
+  LPVOID v12; // [sp+38h] [bp-20h]@22
   AbstractManager *v13; // [sp+3Ch] [bp-1Ch]@19
   SoundManager *v14; // [sp+40h] [bp-18h]@16
   ResourceManager *this; // [sp+44h] [bp-14h]@13
@@ -21,17 +21,17 @@ void *__cdecl constructManyGlobalObjects()
   int v18; // [sp+50h] [bp-8h]@4
   ManagerManager *v19; // [sp+54h] [bp-4h]@1
 
-  v19 = (ManagerManager *)operator new(0x10u);
+  v19 = (ManagerManager *)operator new(16);
   if ( v19 )
     managerManager = ManagerManager_constructor(v19);
   else
     managerManager = 0;
-  v18 = (int)operator new(0x86Au);
+  v18 = (int)operator new(2154);
   if ( v18 )
     inputManager = InputManager_constructor(v18);
   else
     inputManager = 0;
-  v17 = (MouseManager *)operator new(0x8Au);
+  v17 = (MouseManager *)operator new(138);
   if ( v17 )
   {
     MouseManager::constructor(v17);
@@ -41,27 +41,27 @@ void *__cdecl constructManyGlobalObjects()
   {
     mouseManager = 0;
   }
-  v2 = (HeroWindowManager *)operator new(0x62u);
+  v2 = (HeroWindowManager *)operator new(98);
   if ( v2 )
     HeroWindowManager::instance = HeroWindowManager_constructor(v2);
   else
     HeroWindowManager::instance = 0;
-  this = (ResourceManager *)operator new(0xA2u);
+  this = (ResourceManager *)operator new(162);
   if ( this )
     resourceManager = ResourceManager_constructor(this);
   else
     resourceManager = 0;
-  v14 = (SoundManager *)operator new(0x6B2u);
+  v14 = (SoundManager *)operator new(1714);
   if ( v14 )
     soundManager = SoundManager_constructor(v14);
   else
     soundManager = 0;
-  v13 = (AbstractManager *)operator new(0x63u);
+  v13 = (AbstractManager *)operator new(99);
   if ( v13 )
     highScoreManager = HighScoreManager_constructor(v13);
   else
     highScoreManager = 0;
-  v12 = operator new(0x660Fu);
+  v12 = operator new(26127);
   if ( v12 )
   {
     MapTiles_constructor((MapTiles *)((char *)v12 + 2878));
@@ -87,12 +87,12 @@ void *__cdecl constructManyGlobalObjects()
   {
     gameObject = 0;
   }
-  v11 = (AdvManager *)operator new(894u);
+  v11 = (AdvManager *)operator new(894);
   if ( v11 )
     advManager = AdvManager_constructor(v11);
   else
     advManager = 0;
-  ecx0 = (CombatManager *)operator new(0xF877u);
+  ecx0 = (CombatManager *)operator new(63607);
   if ( ecx0 )
     combatManager = CombatManager_constructor(ecx0);
   else
@@ -107,17 +107,17 @@ void *__cdecl constructManyGlobalObjects()
     pathfinder = Pathfinder_constructor(v8);
   else
     pathfinder = 0;
-  v7 = operator new(1u);
+  v7 = operator new(1);
   if ( v7 )
     unknownGlobalObject4 = (int)sub_4AA940(v7);
   else
     unknownGlobalObject4 = 0;
-  v6 = (ArmyInfo *)operator new(0xFu);
+  v6 = (ArmyInfo *)operator new(15);
   if ( v6 )
     dword_5247BC = ArmyInfo_constructor(v6);
   else
     dword_5247BC = 0;
-  result = (Palette *)operator new(0x14u);
+  result = (Palette *)operator new(20);
   if ( result )
   {
     result = Palette_constructor(result);

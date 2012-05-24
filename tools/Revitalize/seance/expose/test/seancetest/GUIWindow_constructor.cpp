@@ -3,7 +3,7 @@ GUIWindow *__thiscall GUIWindow_constructor(GUIWindow *this, int x, int y, int w
   GUIWindow *thisa; // ST14_4@1
 
   thisa = this;
-  strcpy(this->filename, "Dynamic Construct");
+  strcpy((int)this->filename);
   thisa->prevWindow = 0;
   thisa->nextWindow = thisa->prevWindow;
   thisa->idx = -1;

@@ -30,8 +30,7 @@ Castle *__thiscall TownManager::buildCosmeticBuildings(TownManager *this)
     && Castle::adjacentToWater(this->castle) )
     thisa->castle->buildingsBuiltFlags |= 0x10000u;
   if ( thisa->castle->buildingsBuiltFlags & 8
-    && *(_BYTE *)(usedToCheckForBoatByCastle(advManager, LOBYTE(thisa->castle->field_6), HIBYTE(thisa->castle->field_6))
-                + 9) )
+    && AdvManager::getTile(advManager, LOBYTE(thisa->castle->field_6), HIBYTE(thisa->castle->field_6))->objType )
   {
     result = thisa->castle;
     result->buildingsBuiltFlags |= 0x4000u;

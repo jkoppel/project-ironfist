@@ -20,7 +20,7 @@ int __stdcall aiHandleObject(__int64 a1, int a2, int a3)
   int v20; // [sp+84h] [bp-A4h]@168
   int v21; // [sp+88h] [bp-A0h]@176
   int v22; // [sp+8Ch] [bp-9Ch]@176
-  int v23; // [sp+90h] [bp-98h]@172
+  MapTile *v23; // [sp+90h] [bp-98h]@172
   int v24; // [sp+94h] [bp-94h]@175
   int row; // [sp+98h] [bp-90h]@168
   int j; // [sp+9Ch] [bp-8Ch]@170
@@ -42,7 +42,7 @@ int __stdcall aiHandleObject(__int64 a1, int a2, int a3)
     dword_532CD0 = 1;
     *(_DWORD *)a3 = 100;
     v31 = 0;
-    v32 = usedToCheckForBoatByCastle(advManager, a1, SHIDWORD(a1));
+    v32 = (int)AdvManager::getTile(advManager, a1, SHIDWORD(a1));
     if ( curPlayer->field_40 <= 15
       || LOBYTE(curPlayer->field_41) != (_DWORD)a1
       || HIBYTE(curPlayer->field_41) != HIDWORD(a1) )
@@ -473,10 +473,10 @@ LABEL_131:
               {
                 for ( j = 0; j < mapWidth; ++j )
                 {
-                  v23 = usedToCheckForBoatByCastle(advManager, j, row);
-                  if ( *(_BYTE *)(v32 + 9) == *(_BYTE *)(v23 + 9) )
+                  v23 = AdvManager::getTile(advManager, j, row);
+                  if ( *(_BYTE *)(v32 + 9) == v23->objType )
                   {
-                    if ( *(_BYTE *)(v32 + 3) == *(_BYTE *)(v23 + 3) )
+                    if ( *(_BYTE *)(v32 + 3) == HIBYTE(v23->field_2) )
                     {
                       v8 = abs(a1 - j);
                       if ( abs(HIDWORD(a1) - row) + v8 > 3 )

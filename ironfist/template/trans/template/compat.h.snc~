@@ -1,0 +1,29 @@
+#ifndef COMPAT_H
+#define COMPAT_H
+
+#include<stdio.h>
+#include<fcntl.h>
+
+#seance custom-export _read __read
+#seance custom-export _open __open
+#seance custom-export _write __write
+
+#seance custom-export _op_new ??2@YAPAXI@Z
+#seance custom-export _op_del ??3@YAXPAX@Z
+
+extern "C" void* __cdecl op_new(unsigned int x) {
+       return operator new(x);
+}
+
+extern "C" void __cdecl op_del(void* x) {
+       operator delete(x);
+}
+
+
+#seance funimport _start
+int main() {
+       _start();
+       return 0;
+}
+
+#endif

@@ -1,4 +1,4 @@
-int __thiscall Bankbox::cleanUp(Bankbox *this)
+BOOL __thiscall Bankbox::cleanUp(Bankbox *this)
 {
   Bankbox *thisa; // ST10_4@1
 

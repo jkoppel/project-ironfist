@@ -1,0 +1,4 @@
+{
+  randomSeed = this;
+  srand(this);
+}

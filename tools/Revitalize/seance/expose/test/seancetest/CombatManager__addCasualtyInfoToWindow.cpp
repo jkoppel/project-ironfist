@@ -16,10 +16,10 @@ void __thiscall CombatManager::addCasualtyInfoToWindow(CombatManager *ecx0, GUIW
   Icon *res; // [sp+24h] [bp-18Ch]@35
   int lossesToDisplay; // [sp+28h] [bp-188h]@37
   int v17; // [sp+2Ch] [bp-184h]@37
-  void *content; // [sp+30h] [bp-180h]@13
-  void *contenta; // [sp+30h] [bp-180h]@23
-  void *contentb; // [sp+30h] [bp-180h]@29
-  void *contentc; // [sp+30h] [bp-180h]@44
+  int content; // [sp+30h] [bp-180h]@13
+  int contenta; // [sp+30h] [bp-180h]@23
+  int contentb; // [sp+30h] [bp-180h]@29
+  int contentc; // [sp+30h] [bp-180h]@44
   int distinctCreaturesLost[2]; // [sp+50h] [bp-160h]@6
   int j; // [sp+58h] [bp-158h]@6
   int i; // [sp+5Ch] [bp-154h]@1
@@ -56,7 +56,7 @@ void __thiscall CombatManager::addCasualtyInfoToWindow(CombatManager *ecx0, GUIW
   }
   content = KBAlloc(30u, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E5E0 + 35);
   sprintf((char *)content, "Battlefield Casualties");
-  v14 = (TextWidget *)operator new(0x2Bu);
+  v14 = (TextWidget *)operator new(43);
   if ( v14 )
     thisa->battlefieldCasualtiesTextWidget = TextWidget_constructor(
                                                v14,
@@ -83,7 +83,7 @@ void __thiscall CombatManager::addCasualtyInfoToWindow(CombatManager *ecx0, GUIW
       v25 = 279;
     contenta = KBAlloc(0x1Eu, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E5E0 + 56);
     sprintf((char *)contenta, &aAttacker[("Defender" - "Attacker") & ((i == 0) - 1)]);
-    v13 = (TextWidget *)operator new(0x2Bu);
+    v13 = (TextWidget *)operator new(43);
     if ( v13 )
       thisa->sideCasualtiesTitleTextWidget[i] = (int)TextWidget_constructor(
                                                        v13,
@@ -106,7 +106,7 @@ void __thiscall CombatManager::addCasualtyInfoToWindow(CombatManager *ecx0, GUIW
     {
       contentb = KBAlloc(0xAu, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E5E0 + 75);
       sprintf((char *)contentb, "None");
-      v12 = (TextWidget *)operator new(0x2Bu);
+      v12 = (TextWidget *)operator new(43);
       if ( v12 )
         *(_DWORD *)&thisa->_14[28 * i + 100] = TextWidget_constructor(
                                                  v12,
@@ -135,7 +135,7 @@ void __thiscall CombatManager::addCasualtyInfoToWindow(CombatManager *ecx0, GUIW
     v17 = (320 - 40 * v2) / 2 + 3;
     for ( j = 0; j < lossesToDisplay; ++j )
     {
-      this = (GUIIcon *)operator new(0x2Du);
+      this = (GUIIcon *)operator new(45);
       if ( this )
       {
         v3 = j + 5 * i + 2000;
@@ -165,7 +165,7 @@ void __thiscall CombatManager::addCasualtyInfoToWindow(CombatManager *ecx0, GUIW
         fatalOutOfMemoryError();
       contentc = KBAlloc(9u, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E5E0 + 119);
       sprintf((char *)contentc, "%d", numLostCreature[i][j]);
-      v10 = (TextWidget *)operator new(0x2Bu);
+      v10 = (TextWidget *)operator new(43);
       if ( v10 )
         *(_DWORD *)&thisa->_14[4 * (j + 7 * i) + 100] = TextWidget_constructor(
                                                           v10,

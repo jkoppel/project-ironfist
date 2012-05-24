@@ -2,6 +2,7 @@ void __thiscall CombatManager::drawBackground(CombatManager *this)
 {
   Icon *v1; // ST3C_4@3
   Icon *v2; // ST3C_4@4
+  int v3; // edx@18
   CombatManager *thisa; // [sp+Ch] [bp-10h]@1
   Icon *res; // [sp+18h] [bp-4h]@6
   Icon *resa; // [sp+18h] [bp-4h]@11
@@ -43,7 +44,7 @@ void __thiscall CombatManager::drawBackground(CombatManager *this)
       ResourceManager::reduceReferenceCountToResource(resourceManager, (AbstractResource *)resa);
     }
     Bitmap::blitTo(thisa->probablyBitmapForCombatScreen, thisa->couldBeBitmapForFieldItself, 0, 0, 67, 63, 507, 380);
-    sub_4C3FF0(thisa, 1, 0);
+    sub_4C3FF0(thisa, v3, 1, 0);
     Bitmap::blitTo(
       thisa->probablyBitmapForCombatScreen,
       HeroWindowManager::instance->screenBuffer,

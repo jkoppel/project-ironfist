@@ -112,6 +112,6 @@ int __thiscall SoundManager::initialize(SoundManager *this, int a2)
   thisa->type = 16;
   thisa->idx = -1;
   thisa->ready = 1;
-  strcpy(thisa->name, "soundManager");
+  strcpy((int)thisa->name);
   return 0;
 }

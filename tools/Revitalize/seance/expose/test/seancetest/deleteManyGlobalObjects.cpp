@@ -1,73 +1,73 @@
-int __cdecl deleteManyGlobalObjects()
+void *__cdecl deleteManyGlobalObjects()
 {
-  int result; // eax@2
+  void *result; // eax@2
   void *v1; // [sp+5Ch] [bp-28h]@18
   void *this; // [sp+70h] [bp-14h]@9
 
   if ( palette )
   {
-    result = (int)palette;
+    result = palette;
     if ( palette )
-      result = ((int (__thiscall *)(_DWORD))palette->vtable->cleanUp)(palette);
+      result = (void *)((int (__thiscall *)(_DWORD))palette->vtable->cleanUp)(palette);
   }
   palette = 0;
   if ( dword_5247BC )
-    result = operator delete(dword_5247BC);
+    result = (void *)operator delete(dword_5247BC);
   dword_5247BC = 0;
   if ( unknownGlobalObject4 )
-    result = operator delete((void *)unknownGlobalObject4);
+    result = (void *)operator delete((void *)unknownGlobalObject4);
   unknownGlobalObject4 = 0;
   if ( pathfinder )
   {
-    result = (int)pathfinder;
+    result = pathfinder;
     this = pathfinder;
     if ( pathfinder )
     {
       Pathfinder::cleanUp(pathfinder);
-      result = operator delete(this);
+      result = (void *)operator delete(this);
     }
   }
   pathfinder = 0;
   if ( townManager )
-    result = operator delete(townManager);
+    result = (void *)operator delete(townManager);
   townManager = 0;
   if ( combatManager )
-    result = operator delete(combatManager);
+    result = (void *)operator delete(combatManager);
   combatManager = 0;
   if ( advManager )
-    result = operator delete(advManager);
+    result = (void *)operator delete(advManager);
   advManager = 0;
   if ( gameObject )
   {
-    result = (int)gameObject;
+    result = gameObject;
     v1 = gameObject;
     if ( gameObject )
     {
-      sub_46F6F0((void **)&gameObject->map.tiles);
-      result = operator delete(v1);
+      callMapTilesDestructor(&gameObject->map.tiles);
+      result = (void *)operator delete(v1);
     }
   }
   gameObject = 0;
   if ( highScoreManager )
-    result = operator delete(highScoreManager);
+    result = (void *)operator delete(highScoreManager);
   highScoreManager = 0;
   if ( soundManager )
-    result = operator delete(soundManager);
+    result = (void *)operator delete(soundManager);
   soundManager = 0;
   if ( HeroWindowManager::instance )
-    result = operator delete(HeroWindowManager::instance);
+    result = (void *)operator delete(HeroWindowManager::instance);
   HeroWindowManager::instance = 0;
   if ( mouseManager )
-    result = operator delete(mouseManager);
+    result = (void *)operator delete(mouseManager);
   mouseManager = 0;
   if ( inputManager )
-    result = operator delete(inputManager);
+    result = (void *)operator delete(inputManager);
   inputManager = 0;
   if ( managerManager )
-    result = operator delete(managerManager);
+    result = (void *)operator delete(managerManager);
   managerManager = 0;
   if ( resourceManager )
-    result = operator delete(resourceManager);
+    result = (void *)operator delete(resourceManager);
   resourceManager = 0;
   return result;
 }

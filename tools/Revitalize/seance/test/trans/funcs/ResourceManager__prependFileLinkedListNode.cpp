@@ -7,6 +7,6 @@
   else
   {
     this->loadedFileLinkedList = res;
-    this->loadedFileLinkedList->next = 0;
+    this->loadedFileLinkedList->next = NULL;
   }
 }

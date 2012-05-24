@@ -1,15 +1,13 @@
-__int32 __thiscall ResourceManager::pointToFile(ResourceManager *this, int id)
+signed int __thiscall ResourceManager::pointToFile(ResourceManager *this, int id)
 {
-  ResourceManager *thisa; // [sp+Ch] [bp-14h]@1
-  char v4; // [sp+10h] [bp-10h]@1
+  char found; // [sp+10h] [bp-10h]@1
   int j; // [sp+14h] [bp-Ch]@0
   int i; // [sp+18h] [bp-8h]@1
 
-  thisa = this;
-  v4 = 0;
+  found = 0;
   for ( i = 0; ; ++i )
   {
-    if ( i < SEEK_END )
+    if ( i < NUM_AGG_FILES )
     {
       if ( this->aggContentInfo[i] )
       {
@@ -17,18 +15,18 @@ __int32 __thiscall ResourceManager::pointToFile(ResourceManager *this, int id)
         {
           if ( this->aggContentInfo[i][j].id == id )
           {
-            v4 = 1;
+            found = 1;
             this->curHandleIdx = i;
             break;
           }
         }
       }
-      if ( !v4 )
+      if ( !found )
         continue;
     }
     break;
   }
-  if ( !v4 )
+  if ( !found )
   {
     sprintf(
       globBuf,
@@ -38,8 +36,5 @@ __int32 __thiscall ResourceManager::pointToFile(ResourceManager *this, int id)
       this->resourceToLoad);
     terminate(globBuf);
   }
-  return _lseek(
-           thisa->fileDescriptors[thisa->curHandleIdx],
-           thisa->aggContentInfo[thisa->curHandleIdx][j].off,
-           SEEK_SET);
+  return _lseek(this->fileDescriptors[this->curHandleIdx], this->aggContentInfo[this->curHandleIdx][j].off, SEEK_SET);
 }

@@ -356,7 +356,7 @@ void __fastcall checkGameEnd(int a1, int a2)
         {
           v27 = 1;
           if ( gameObject->winConditionArgument )
-            sprintf(&v15, unk_4F55F4[gameObject->winConditionArgument]);
+            sprintf(&v15, dword_4F55F4[gameObject->winConditionArgument]);
           else
             sprintf(&v15, "Ultimate Artifact");
           if ( v30 )

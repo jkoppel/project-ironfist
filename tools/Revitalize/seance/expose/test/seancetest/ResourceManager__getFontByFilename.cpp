@@ -1,29 +1,27 @@
-Font *__thiscall ResourceManager::getFontByFilename(ResourceManager *ecx0, const char *filename)
+Font *__thiscall ResourceManager::getFontByFilename(ResourceManager *this, const char *filename)
 {
   Font *result; // eax@2
-  ResourceManager *this; // [sp+Ch] [bp-10h]@1
-  Font *ecx0a; // [sp+10h] [bp-Ch]@3
-  AbstractResource *a2; // [sp+14h] [bp-8h]@1
-  AbstractResource *fileNodea; // [sp+14h] [bp-8h]@4
-  int fileID; // [sp+18h] [bp-4h]@1
+  Font *newFontMem; // [sp+10h] [bp-Ch]@3
+  Font *loadedFont; // [sp+14h] [bp-8h]@1
+  Font *newFont; // [sp+14h] [bp-8h]@4
+  unsigned int hash; // [sp+18h] [bp-4h]@1
 
-  this = ecx0;
-  fileID = ResourceManager::setResource(ecx0, filename, 1);
-  a2 = ResourceManager::findLoadedFile(this, fileID);
-  if ( a2 )
+  hash = ResourceManager::setResource(this, filename, 1);
+  loadedFont = (Font *)ResourceManager::findLoadedFile(this, hash);
+  if ( loadedFont )
   {
-    ++a2->referenceCount;
-    result = (Font *)a2;
+    ++loadedFont->referenceCount;
+    result = loadedFont;
   }
   else
   {
-    ecx0a = (Font *)operator new(0x20u);
-    if ( ecx0a )
-      fileNodea = (AbstractResource *)Font_constructor(ecx0a, fileID);
+    newFontMem = (Font *)operator new(sizeof(Font));
+    if ( newFontMem )
+      newFont = Font_constructor(newFontMem, hash);
     else
-      fileNodea = 0;
-    ResourceManager::prependFileLinkedListNode(this, fileNodea);
-    result = (Font *)fileNodea;
+      newFont = 0;
+    ResourceManager::prependFileLinkedListNode(this, (AbstractResource *)newFont);
+    result = newFont;
   }
   return result;
 }

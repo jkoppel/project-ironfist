@@ -1,5 +1,7 @@
-HeroWindowManager *__thiscall CombatManager::drawLuckAnimation(CombatManager *this, int side, int stackIdx)
+HeroWindowManager *__userpurge CombatManager::drawLuckAnimation<eax>(CombatManager *this<ecx>, double a2<st1>, int side, int stackIdx)
 {
+  int v4; // ST64_4@1
+  int v5; // ebx@1
   CombatManager *thisa; // [sp+Ch] [bp-18h]@1
   CreatureStack *stack; // [sp+10h] [bp-14h]@1
   int centX; // [sp+14h] [bp-10h]@1
@@ -10,9 +12,9 @@ HeroWindowManager *__thiscall CombatManager::drawLuckAnimation(CombatManager *th
   thisa = this;
   stack = &this->creatures[side][stackIdx];
   centX = CreatureStack::getCenterX(&this->creatures[side][stackIdx]);
-  destY = thisa->combatGrid[stack->occupiedHex].occupyingCreatureBottomY
-        - (getNthHeader(stack->creatureIcon, stack->form.animationFrameToImgIdx[7][0])->height
-         + 5);
+  v4 = thisa->combatGrid[stack->occupiedHex].occupyingCreatureBottomY;
+  v5 = getNthHeader(stack->creatureIcon, stack->form.animationFrameToImgIdx[7][0])->height + 5;
+  destY = v4 - v5;
   if ( destY < 75 )
     destY = 75;
   startY = 0;
@@ -44,6 +46,8 @@ HeroWindowManager *__thiscall CombatManager::drawLuckAnimation(CombatManager *th
     startX = 639;
   return CombatManager::drawBolt(
            thisa,
+           v5,
+           a2,
            0,
            startX,
            startY,

@@ -54,12 +54,12 @@ void __thiscall CreatureStack::die(CreatureStack *this, int a2)
     {
       hexTile->corpseOwners[hexTile->numCorpses] = combatManager->combatGrid[thisa->occupiedHex].unitOwner;
       hexTile->corpseStackIndices[hexTile->numCorpses] = combatManager->combatGrid[thisa->occupiedHex].stackIdx;
-      hexTile->field_33[hexTile->numCorpses++] = combatManager->combatGrid[thisa->occupiedHex].notPrimarySquareOfTwoHexer;
+      hexTile->field_33[hexTile->numCorpses++] = combatManager->combatGrid[thisa->occupiedHex].isOccupierNonPrimaryHex;
       if ( secondHexTile )
       {
         secondHexTile->corpseOwners[secondHexTile->numCorpses] = combatManager->combatGrid[v6].unitOwner;
         secondHexTile->corpseStackIndices[secondHexTile->numCorpses] = combatManager->combatGrid[v6].stackIdx;
-        secondHexTile->field_33[secondHexTile->numCorpses++] = combatManager->combatGrid[v6].notPrimarySquareOfTwoHexer;
+        secondHexTile->field_33[secondHexTile->numCorpses++] = combatManager->combatGrid[v6].isOccupierNonPrimaryHex;
       }
     }
     if ( !CreatureStack::isElementalOrMirrorImage(thisa) )

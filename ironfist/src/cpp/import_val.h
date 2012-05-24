@@ -1,5 +1,5 @@
-#ifndef IMPORT_VAL
-#define IMPORT_VAL
+#ifndef IMPORT_VAL_H
+#define IMPORT_VAL_H
 
 #include "resources.h"
 

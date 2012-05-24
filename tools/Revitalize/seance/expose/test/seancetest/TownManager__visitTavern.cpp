@@ -1,4 +1,4 @@
-int __thiscall TownManager::visitTavern(TownManager *this)
+BOOL __thiscall TownManager::visitTavern(TownManager *this)
 {
   TownManager *thisa; // [sp+Ch] [bp-30h]@1
   GUIWindow *window; // [sp+18h] [bp-24h]@1
@@ -10,7 +10,7 @@ int __thiscall TownManager::visitTavern(TownManager *this)
 
   thisa = this;
   v8 = 0;
-  window = (GUIWindow *)operator new(0x44u);
+  window = (GUIWindow *)operator new(68);
   if ( window )
     thisa->curScreen = GUIWindow_constructorFromFile(window, 162, 10, "tavwin.bin");
   else

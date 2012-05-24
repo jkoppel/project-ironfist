@@ -1,0 +1,23 @@
+
+  ManagerVtable *vtable;
+  AbstractManager *next;
+  AbstractManager *prev;
+  int type;
+  int idx;
+  char name[30];
+  int ready;
+  InputEvent inputInstances[64];
+  int currentInputEvt;
+  int currentInfoField;
+  int readingInputMutex;
+  int field_742;
+  int field_746;
+  int field_74A;
+  __int16 keycodeRelated[128];
+  int field_84E;
+  int field_852;
+  int normalizingKeycodeRelated;
+  int field_85A;
+  int forSettingBitmask;
+  int field_862;
+  int field_866;

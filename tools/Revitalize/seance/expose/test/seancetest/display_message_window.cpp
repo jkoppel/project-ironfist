@@ -30,7 +30,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
   GUIWindow *v37; // [sp+88h] [bp-A4h]@13
   int spriteIdx; // [sp+8Ch] [bp-A0h]@218
   int v39; // [sp+90h] [bp-9Ch]@41
-  void *content; // [sp+94h] [bp-98h]@212
+  int content; // [sp+94h] [bp-98h]@212
   signed int v41; // [sp+98h] [bp-94h]@7
   InputEvent event; // [sp+9Ch] [bp-90h]@53
   int v43; // [sp+B8h] [bp-74h]@13
@@ -169,7 +169,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
       y = 28;
   }
   sprintf(&filename, "evntwin%d.bin", windowType);
-  v29 = (GUIWindow *)operator new(0x44u);
+  v29 = (GUIWindow *)operator new(68);
   if ( v29 )
     eventWindow = GUIWindow_constructorFromFile(v29, x, y, &filename);
   else
@@ -212,34 +212,34 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     component = 0;
     if ( imgTypes[i] == -1 )
       break;
-    buf[i] = (int)KBAlloc(80u, "F:\\h2xsrc\\Source\\KB.CPP", word_50DFC8 + 187);
+    buf[i] = KBAlloc(80u, "F:\\h2xsrc\\Source\\KB.CPP", word_50DFC8 + 187);
     if ( imgTypes[i] > 6 )
     {
       switch ( imgTypes[i] )
       {
         case 8:
           sprintf((char *)buf[i], "%s", spell_names[imgArgs[i]]);
-          strcpy(&filename, "spells.icn");
+          strcpy((int)&filename);
           LOWORD(borderSpriteIdx) = spell_table[imgArgs[i]].spriteIdx;
           break;
         case 9:
           sprintf((char *)buf[i], "%s", unk_50E028);
-          strcpy(&filename, "brcrest.icn");
+          strcpy((int)&filename);
           borderSpriteIdx = imgArgs[i];
           break;
         case 25:
           sprintf((char *)buf[i], "%s", unk_50E03C);
-          strcpy(&filename, "primskil.icn");
+          strcpy((int)&filename);
           LOWORD(borderSpriteIdx) = 4;
           break;
         case 18:
           sprintf((char *)buf[i], "%s", &unk_50E054);
-          strcpy(&filename, "strip.icn");
+          strcpy((int)&filename);
           LOWORD(borderSpriteIdx) = 12;
           break;
         case 17:
           sprintf((char *)buf[i], "%s", secondary_skill_names[imgArgs[i] / 3]);
-          strcpy(&filename, "secskill.icn");
+          strcpy((int)&filename);
           borderSpriteIdx = imgArgs[i] / 3 + 1;
           break;
         case 15:
@@ -250,14 +250,14 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
         default:
           if ( imgTypes[i] != 14 && imgTypes[i] != 12 && imgTypes[i] != 13 && imgTypes[i] != 10 && imgTypes[i] != 11 )
           {
-            strcpy((char *)buf[i], byte_50E0A8);
-            strcpy(&filename, "resource.icn");
+            strcpy(buf[i]);
+            strcpy((int)&filename);
             borderSpriteIdx = imgTypes[i];
           }
           else
           {
-            strcpy((char *)buf[i], byte_50E094);
-            strcpy(&filename, "expmrl.icn");
+            strcpy(buf[i]);
+            strcpy((int)&filename);
             borderSpriteIdx = imgTypes[i] - 10;
             if ( imgTypes[i] == 14 && imgArgs[i] != -1 )
               sprintf((char *)buf[i], "%d", imgArgs[i]);
@@ -278,14 +278,14 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
         }
         else
         {
-          strcpy((char *)buf[i], byte_50DFF8);
+          strcpy(buf[i]);
         }
       }
       else
       {
         sprintf((char *)buf[i], "%d", imgArgs[i]);
       }
-      strcpy(&filename, "resource.icn");
+      strcpy((int)&filename);
       borderSpriteIdx = imgTypes[i];
     }
     switch ( imgTypes[i] )
@@ -355,7 +355,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
         break;
     }
     height = v53;
-    if ( strlen((const char *)buf[i]) )
+    if ( strlen(buf[i]) )
       v53 += 12;
     if ( i )
     {
@@ -378,7 +378,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
       else
         v51 -= 4;
     }
-    this = (GUIIcon *)operator new(0x2Du);
+    this = (GUIIcon *)operator new(45);
     if ( this )
       guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                          this,
@@ -399,7 +399,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     GUIWindow::insertElement(eventWindow, guiObj, -1);
     if ( imgTypes[i] == 7 )
     {
-      v27 = (GUIIcon *)operator new(0x2Du);
+      v27 = (GUIIcon *)operator new(45);
       if ( v27 )
         guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                            v27,
@@ -421,7 +421,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     }
     if ( imgTypes[i] == 25 )
     {
-      v26 = (GUIIcon *)operator new(0x2Du);
+      v26 = (GUIIcon *)operator new(45);
       if ( v26 )
         guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                            v26,
@@ -440,11 +440,11 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
       if ( !guiObj )
         fatalOutOfMemoryError();
       GUIWindow::insertElement(eventWindow, guiObj, -1);
-      strcpy((char *)buf[i], primarySkillNames[imgArgs[i]]);
+      strcpy(buf[i]);
     }
     if ( imgTypes[i] == 18 )
     {
-      v25 = (GUIIcon *)operator new(0x2Du);
+      v25 = (GUIIcon *)operator new(45);
       if ( v25 )
         guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                            v25,
@@ -464,7 +464,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
         fatalOutOfMemoryError();
       GUIWindow::insertElement(eventWindow, guiObj, -1);
       sprintf(globBuf, "monh%04d.icn", imgArgs[i]);
-      v24 = (GUIIcon *)operator new(0x2Du);
+      v24 = (GUIIcon *)operator new(45);
       if ( v24 )
         guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                            v24,
@@ -486,7 +486,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     }
     if ( imgTypes[i] == 9 )
     {
-      v23 = (GUIIcon *)operator new(0x2Du);
+      v23 = (GUIIcon *)operator new(45);
       if ( v23 )
         guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                            v23,
@@ -508,7 +508,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     }
     if ( imgTypes[i] == 17 )
     {
-      v22 = (GUIIcon *)operator new(0x2Du);
+      v22 = (GUIIcon *)operator new(45);
       if ( v22 )
         guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                            v22,
@@ -531,7 +531,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     if ( imgTypes[i] == 15 )
     {
       sprintf(&filename, "port%04d.icn", imgArgs[i]);
-      v21 = (GUIIcon *)operator new(0x2Du);
+      v21 = (GUIIcon *)operator new(45);
       if ( v21 )
         guiObj = (AbstractGUIComponent *)GUIIcon_constructor(
                                            v21,
@@ -554,7 +554,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     if ( imgTypes[i] == 17 )
     {
       a3 = v47 + v53 - 72;
-      v20 = (TextWidget *)operator new(0x2Bu);
+      v20 = (TextWidget *)operator new(43);
       if ( v20 )
       {
         v10 = v36++;
@@ -578,7 +578,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
       if ( !component )
         fatalOutOfMemoryError();
       GUIWindow::insertElement(eventWindow, (AbstractGUIComponent *)component, -1);
-      buf[i] = (int)KBAlloc(0x50u, "F:\\h2xsrc\\Source\\KB.CPP", word_50DFC8 + 431);
+      buf[i] = KBAlloc(0x50u, "F:\\h2xsrc\\Source\\KB.CPP", word_50DFC8 + 431);
       a3a = v47 + v53 - 24;
       sprintf((char *)buf[i], "%s", secondarySkillLevels[imgArgs[i] % 3 + 1]);
     }
@@ -589,7 +589,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
       else
         a3a = v47 + v53 - 10;
     }
-    v19 = (TextWidget *)operator new(0x2Bu);
+    v19 = (TextWidget *)operator new(43);
     if ( v19 )
     {
       v11 = v36++;
@@ -616,8 +616,8 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
     if ( imgTypes[i] == 25 && v41 )
     {
       plusOneBuf = (char *)KBAlloc(5u, "F:\\h2xsrc\\Source\\KB.CPP", word_50DFC8 + 457);
-      strcpy(plusOneBuf, "+1 ");
-      v18 = (TextWidget *)operator new(0x2Bu);
+      strcpy((int)plusOneBuf);
+      v18 = (TextWidget *)operator new(43);
       if ( v18 )
       {
         v12 = v36++;
@@ -642,7 +642,7 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
         fatalOutOfMemoryError();
       GUIWindow::insertElement(eventWindow, (AbstractGUIComponent *)component, -1);
     }
-    v17 = (BackgroundGUI *)operator new(0x2Au);
+    v17 = (BackgroundGUI *)operator new(42);
     if ( v17 )
       v34 = (AbstractGUIComponent *)BackgroundGUI_constructor(v17, v51 - width / 2, v47, width, v53, i + 7700, 1, 0, 0);
     else
@@ -657,8 +657,8 @@ GUIWindow *__fastcall display_message_window(char *msg, int a2, int x, int y, in
   if ( writeOr == 1 )
   {
     content = KBAlloc(3u, "F:\\h2xsrc\\Source\\KB.CPP", word_50DFC8 + 493);
-    strcpy((char *)content, "or");
-    v16 = (TextWidget *)operator new(0x2Bu);
+    strcpy(content);
+    v16 = (TextWidget *)operator new(43);
     if ( v16 )
       component = TextWidget_constructor(
                     v16,

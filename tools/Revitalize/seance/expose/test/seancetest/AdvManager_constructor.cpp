@@ -21,7 +21,7 @@ AdvManager *__thiscall AdvManager_constructor(AdvManager *this)
   thisa->field_206 = 0;
   thisa->field_36 = -1;
   thisa->field_272 = 0;
-  thisa->field_376 = 0;
+  thisa->identifyCast = 0;
   thisa->field_276 = 1;
   thisa->field_BA = 0;
   for ( i = 0; i < 64; ++i )
@@ -34,9 +34,9 @@ AdvManager *__thiscall AdvManager_constructor(AdvManager *this)
     thisa->flagIcons2[k] = 0;
   }
   for ( l = 0; l < 28; ++l )
-    thisa->field_2E2[l] = 0;
+    thisa->loopSamples[l] = 0;
   for ( m = 0; m < 9; ++m )
-    thisa->field_352[m] = 0;
+    thisa->walkSamples[m] = 0;
   thisa->radarIcon = 0;
   thisa->clopIcon = 0;
   thisa->boatShadowIcon = 0;
@@ -45,7 +45,7 @@ AdvManager *__thiscall AdvManager_constructor(AdvManager *this)
   thisa->clofTileset = 0;
   thisa->stonTileset = 0;
   thisa->adventureScreen = 0;
-  thisa->field_9E = 0;
+  thisa->sizeOfSomethingMapRelated = 0;
   thisa->field_2A6 = 0;
   thisa->field_2AA = 0;
   dword_524C14 = 1;
@@ -55,7 +55,7 @@ AdvManager *__thiscall AdvManager_constructor(AdvManager *this)
   thisa->field_20E = 4;
   thisa->field_212 = 11;
   thisa->field_216 = 13;
-  thisa->field_AE = (int *)sub_419850(gameObject);
+  thisa->map = GameInfo::getMap(gameObject);
   dword_524214 = 0;
   dword_524218 = 0;
   thisa->field_286 = 0;

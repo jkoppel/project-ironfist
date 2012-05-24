@@ -1,35 +1,35 @@
 void __cdecl playH2Intro()
 {
-  int v0; // eax@43
-  int v1; // eax@121
+  int v0; // eax@41
+  int v1; // eax@119
   int v2; // [sp+0h] [bp-520h]@0
   int v3; // [sp+4h] [bp-51Ch]@0
   int v4; // [sp+8h] [bp-518h]@0
-  signed int v5; // [sp+10h] [bp-510h]@140
-  int v6; // [sp+14h] [bp-50Ch]@70
-  char v7; // [sp+18h] [bp-508h]@106
-  InputEvent a2; // [sp+34h] [bp-4ECh]@51
-  int v9; // [sp+50h] [bp-4D0h]@117
-  int v10; // [sp+54h] [bp-4CCh]@117
-  int v11; // [sp+58h] [bp-4C8h]@117
-  bool v12; // [sp+5Ch] [bp-4C4h]@109
-  char v13; // [sp+60h] [bp-4C0h]@108
-  int v14; // [sp+64h] [bp-4BCh]@108
-  int v15; // [sp+68h] [bp-4B8h]@92
-  int v16; // [sp+6Ch] [bp-4B4h]@90
-  int v17; // [sp+70h] [bp-4B0h]@106
-  int v18; // [sp+74h] [bp-4ACh]@123
-  int v19; // [sp+8Ch] [bp-494h]@52
+  signed int v5; // [sp+10h] [bp-510h]@138
+  int v6; // [sp+14h] [bp-50Ch]@68
+  char v7; // [sp+18h] [bp-508h]@104
+  InputEvent a2; // [sp+34h] [bp-4ECh]@49
+  int v9; // [sp+50h] [bp-4D0h]@115
+  int v10; // [sp+54h] [bp-4CCh]@115
+  int v11; // [sp+58h] [bp-4C8h]@115
+  bool v12; // [sp+5Ch] [bp-4C4h]@107
+  char v13; // [sp+60h] [bp-4C0h]@106
+  int v14; // [sp+64h] [bp-4BCh]@106
+  int v15; // [sp+68h] [bp-4B8h]@90
+  int v16; // [sp+6Ch] [bp-4B4h]@88
+  int v17; // [sp+70h] [bp-4B0h]@104
+  int v18; // [sp+74h] [bp-4ACh]@121
+  int v19; // [sp+8Ch] [bp-494h]@50
   int y; // [sp+90h] [bp-490h]@2
   int x; // [sp+94h] [bp-48Ch]@2
-  int v22; // [sp+98h] [bp-488h]@26
+  int v22; // [sp+98h] [bp-488h]@24
   int v23; // [sp+9Ch] [bp-484h]@1
-  int v24; // [sp+A0h] [bp-480h]@49
+  int v24; // [sp+A0h] [bp-480h]@47
   char v25; // [sp+A8h] [bp-478h]@5
   int v26; // [sp+3ACh] [bp-174h]@1
-  int v27; // [sp+3B4h] [bp-16Ch]@49
-  int v28; // [sp+3B8h] [bp-168h]@49
-  int v29; // [sp+3BCh] [bp-164h]@23
+  int v27; // [sp+3B4h] [bp-16Ch]@47
+  int v28; // [sp+3B8h] [bp-168h]@47
+  int v29; // [sp+3BCh] [bp-164h]@21
   char v30; // [sp+3C0h] [bp-160h]@15
 
   v23 = 1;
@@ -64,16 +64,9 @@ void __cdecl playH2Intro()
     dword_50FEDC = 0;
   }
   if ( byte_4F74B8 && byte_524EC0 > 38 )
-  {
-    strcpy(&v30, "i:\\projects\\heroes\\art\\fin3d\\");
-  }
+    strcpy((int)&v30);
   else
-  {
-    if ( byte_524EC0 == 67 )
-      strcpy(&v30, ".\\DATA\\");
-    else
-      strcpy(&v30, "\\HEROES2\\ANIM\\");
-  }
+    strcpy((int)&v30);
   if ( *(_DWORD *)&slowVideo )
     sprintf(globBuf, "%s%s.SMK", &v30, &aH2intro[45 * byte_524EC0 + 18]);
   else
@@ -104,7 +97,7 @@ void __cdecl playH2Intro()
     }
     SmackToBuffer(dword_510BEC, 0, 0, 640, 480, HeroWindowManager::instance->screenBuffer->contents, 0);
   }
-  if ( strlen(&aH2intro[45 * byte_524EC0 + 9]) > 1 )
+  if ( (unsigned int)strlen((int)&aH2intro[45 * byte_524EC0 + 9]) > 1 )
   {
     if ( *(_DWORD *)&slowVideo )
       sprintf(globBuf, "%s%s.SMK", &v30, &aH2intro[45 * byte_524EC0 + 27]);
@@ -301,17 +294,17 @@ void __cdecl playH2Intro()
         break;
       case 1:
         if ( v18 != 62 )
-          goto LABEL_124;
+          goto LABEL_122;
         break;
       case 32:
-LABEL_124:
+LABEL_122:
         if ( byte_524EC0 != 35 && byte_524EC0 != 67 )
-          goto LABEL_126;
+          goto LABEL_124;
         break;
       case 8:
-LABEL_126:
+LABEL_124:
         if ( byte_524EC0 != 37 && (byte_524EC0 != 67 || dword_5304C8 != -1) )
-          goto LABEL_155;
+          goto LABEL_153;
         break;
       case 2:
       case 3:
@@ -362,7 +355,7 @@ LABEL_126:
       }
     }
   }
-LABEL_155:
+LABEL_153:
   if ( byte_524EC0 == 35 )
   {
     MouseManager::disableCursor(mouseManager);

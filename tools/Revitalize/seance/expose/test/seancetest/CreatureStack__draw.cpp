@@ -1,6 +1,5 @@
 void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standingBotY, int a4)
 {
-  CreatureStack *thisa; // [sp+10h] [bp-60h]@1
   unsigned int quant; // [sp+14h] [bp-5Ch]@86
   char str; // [sp+18h] [bp-58h]@88
   int v7; // [sp+24h] [bp-4Ch]@78
@@ -21,11 +20,10 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
   int v22; // [sp+60h] [bp-10h]@10
   int v23; // [sp+64h] [bp-Ch]@10
   int v24; // [sp+68h] [bp-8h]@3
-  int v25; // [sp+6Ch] [bp-4h]@10
+  int walkLen; // [sp+6Ch] [bp-4h]@10
   int x; // [sp+78h] [bp+8h]@8
   int y; // [sp+7Ch] [bp+Ch]@8
 
-  thisa = this;
   if ( !combatManager->field_F357 && !combatGraphicsOff )
   {
     v24 = 0;
@@ -35,9 +33,9 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
     x = this->xDrawOffset + centX;
     if ( this->animationType == ANIMATION_TYPE_WALKING && !(this->creature.creature_flags & FLYER) )
     {
-      v25 = this->form.animationLengths[this->animationType];
-      v22 = 42 * this->animationFrame / v25;
-      v23 = 22 * this->animationFrame / v25;
+      walkLen = this->form.animationLengths[this->animationType];
+      v22 = 42 * this->animationFrame / walkLen;
+      v23 = 22 * this->animationFrame / walkLen;
       if ( !this->field_8A || this->field_8A == 5 )
       {
         y -= v22;
@@ -98,44 +96,44 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
         this->facingRight < 1u,
         a11,
         paletteSubstitution,
-        this->field_125);
-    if ( v21 && combatManager->field_F2BF && LODWORD(thisa->field_4E) )
+        (int)this->field_125);
+    if ( v21 && combatManager->field_F2BF && LODWORD(this->field_4E) )
     {
-      if ( thisa->creature.creature_flags & TWO_HEXER )
+      if ( this->creature.creature_flags & TWO_HEXER )
       {
-        if ( thisa->facingRight == 1 )
+        if ( this->facingRight == 1 )
         {
           xa = x + 53;
-          hexInFront = thisa->occupiedHex + 2;
+          hexInFront = this->occupiedHex + 2;
         }
         else
         {
           xa = x - 73;
-          hexInFront = thisa->occupiedHex - 2;
+          hexInFront = this->occupiedHex - 2;
         }
       }
       else
       {
-        if ( thisa->facingRight == 1 )
+        if ( this->facingRight == 1 )
         {
           xa = x + 9;
-          hexInFront = thisa->occupiedHex + 1;
+          hexInFront = this->occupiedHex + 1;
         }
         else
         {
           xa = x - 29;
-          hexInFront = thisa->occupiedHex - 1;
+          hexInFront = this->occupiedHex - 1;
         }
       }
       hexInFrontClear = combatManager->combatGrid[hexInFront].unitOwner != -1;
-      v12 = thisa->form.stackNumDispXShift[1 - thisa->facingRight];
+      v12 = this->form.stackNumDispXShift[1 - this->facingRight];
       if ( hexInFrontClear && v12 > 0 )
         v12 = 0;
-      if ( thisa->facingRight == 1 )
+      if ( this->facingRight == 1 )
         xa += v12;
       else
         xa -= v12;
-      if ( thisa->facingRight == 1 )
+      if ( this->facingRight == 1 )
         offsetY = y - 11;
       else
         offsetY = y - 23;
@@ -143,7 +141,7 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
       numNegEffects = 0;
       for ( i = 0; i < 15; ++i )
       {
-        if ( thisa->effectStrengths[i] )
+        if ( this->effectStrengths[i] )
         {
           switch ( i )
           {
@@ -163,7 +161,7 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
           }
         }
       }
-      if ( dword_4F38A0 && v21 && thisa->numActiveEffects > 0 )
+      if ( dword_4F38A0 && v21 && this->numActiveEffects > 0 )
       {
         if ( dword_4F38A0 == 1 )
         {
@@ -172,7 +170,7 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
                            xa,
                            offsetY,
                            11,
-                           &thisa->stackSizeDispBounds,
+                           &this->stackSizeDispBounds,
                            0,
                            237,
                            0,
@@ -195,7 +193,7 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
                            xa,
                            offsetY,
                            v7 + 10,
-                           &thisa->stackSizeDispBounds,
+                           &this->stackSizeDispBounds,
                            0,
                            0,
                            0,
@@ -209,7 +207,7 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
                          xa,
                          offsetY,
                          10,
-                         &thisa->stackSizeDispBounds,
+                         &this->stackSizeDispBounds,
                          0,
                          0,
                          0,
@@ -217,51 +215,51 @@ void __thiscall CreatureStack::draw(CreatureStack *this, int centX, int standing
       }
       if ( inRedrawZone )
       {
-        if ( thisa->previousQuantity == -1 )
-          quant = thisa->quantity;
+        if ( this->previousQuantity == -1 )
+          quant = this->quantity;
         else
-          quant = thisa->previousQuantity;
+          quant = this->previousQuantity;
         sprintf(&str, "%d", quant);
         Font::drawString(smallFont, &str, xa, offsetY + 2, 20, 12, 1, 1);
       }
     }
-    if ( thisa->probablyIsNeedDrawSpellEffect && !a4 )
+    if ( this->probablyIsNeedDrawSpellEffect && !a4 )
     {
       offsetX = x;
-      v17 = CreatureStack::getNextEffectAnimationBottomY(thisa);
-      if ( thisa->animationType == 14 || thisa->animationType == 15 )
+      v17 = CreatureStack::getNextEffectAnimationBottomY(this);
+      if ( this->animationType == 14 || this->animationType == 15 )
       {
-        if ( thisa->facingRight == 1 )
+        if ( this->facingRight == 1 )
           offsetX -= 4;
         else
           offsetX += 4;
       }
-      if ( thisa->creature.creature_flags & TWO_HEXER )
+      if ( this->creature.creature_flags & TWO_HEXER )
       {
-        if ( thisa->facingRight == 1 )
+        if ( this->facingRight == 1 )
           offsetX += 22;
         else
           offsetX -= 22;
       }
       if ( nextCreatureEffectAnimationIdx == ANIM_SHIELD_IDX )
       {
-        if ( thisa->facingRight == 1 )
-          offsetX = CreatureStack::getRightBound(thisa);
+        if ( this->facingRight == 1 )
+          offsetX = CreatureStack::getRightBound(this);
         else
-          offsetX = CreatureStack::getLeftBound(thisa);
+          offsetX = CreatureStack::getLeftBound(this);
       }
       if ( nextCreatureEffectAnimationIdx == ANIM_BLIND_IDX )
       {
-        offsetX = x + thisa->form.xOffsetForBlind * ((unsigned int)(thisa->facingRight - 1) < 1 ? 1 : -1);
-        v17 = y + thisa->form.yOffsetForBlind;
+        offsetX = x + this->form.xOffsetForBlind * ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
+        v17 = y + this->form.yOffsetForBlind;
       }
       Icon::drawToScreenAndSetRectBounds(
         nextCreatureEffectAnimation,
         offsetX,
-        v17 + thisa->field_FA,
+        v17 + this->field_FA,
         spellEffectAnimImgIdx,
-        &thisa->effectAnimationBounds,
-        1 - thisa->facingRight,
+        &this->effectAnimationBounds,
+        1 - this->facingRight,
         0,
         0,
         0);

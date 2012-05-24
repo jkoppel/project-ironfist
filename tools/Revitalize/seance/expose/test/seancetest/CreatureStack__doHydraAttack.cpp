@@ -96,7 +96,7 @@ void __thiscall CreatureStack::doHydraAttack(CreatureStack *this, int a2)
       &aPerish_1[("perishes" - "perish") & ((v13 > 1) - 1)]);
   }
   globBuf[0] -= 32;
-  strcpy(&message, globBuf);
+  strcpy((int)&message);
   CreatureStack::doAttackAndDamageTakenAnimations(thisa, -1, 0, -1, -1);
   CombatManager::displayCombatMessage(combatManager, &message, 1, 1, 0);
   combatManager->stuffHappenedToCreature[thisa->owningSide][thisa->stackIdx] = 1;

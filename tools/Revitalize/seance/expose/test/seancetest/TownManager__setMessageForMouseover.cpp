@@ -13,14 +13,14 @@ void __thiscall TownManager::setMessageForMouseover(TownManager *this, GUIMessag
       if ( fieldID > 129 )
       {
         if ( fieldID == 30720 )
-          strcpy(this->infoMessage, off_4F6640);
+          strcpy((int)this->infoMessage);
       }
       else
       {
         if ( fieldID >= 128 )
         {
 LABEL_3:
-          strcpy(this->infoMessage, off_4F6644);
+          strcpy((int)this->infoMessage);
         }
         else
         {
@@ -40,7 +40,7 @@ LABEL_3:
               }
               else
               {
-                strcpy(this->infoMessage, off_4F664C);
+                strcpy((int)this->infoMessage);
                 thisa->field_14A = -1;
               }
             }
@@ -58,7 +58,7 @@ LABEL_3:
     {
       if ( fieldID == 122 )
       {
-        strcpy(this->infoMessage, off_4F6654);
+        strcpy((int)this->infoMessage);
         thisa->field_14A = 4;
       }
       else
@@ -85,7 +85,7 @@ LABEL_3:
               this->field_DA = fieldID - 117;
               if ( this->field_D6->army->creatureTypes[this->field_DA] == -1 )
               {
-                strcpy(this->infoMessage, off_4F664C);
+                strcpy((int)this->infoMessage);
               }
               else
               {
@@ -123,53 +123,50 @@ LABEL_3:
         case 0:
           goto LABEL_3;
         case 1:
-          strcpy(this->infoMessage, off_4F6658);
+          strcpy((int)this->infoMessage);
           break;
         case 2:
-          strcpy(this->infoMessage, off_4F665C);
+          strcpy((int)this->infoMessage);
           break;
         case 3:
-          if ( this->castle->factionID == 5 )
-            strcpy(this->infoMessage, shrineName);
-          else
-            strcpy(this->infoMessage, off_4F6660);
+          strcpy((int)this->infoMessage);
           break;
         case 4:
         case 15:
-          strcpy(this->infoMessage, off_4F6664);
+          strcpy((int)this->infoMessage);
           break;
         case 5:
-          strcpy(this->infoMessage, off_4F6668);
+          strcpy((int)this->infoMessage);
           break;
         case 6:
-          strcpy(this->infoMessage, off_4F666C);
+          strcpy((int)this->infoMessage);
           break;
         case 7:
-          strcpy(this->infoMessage, off_4F6670);
+          strcpy((int)this->infoMessage);
           break;
         case 8:
-          strcpy(this->infoMessage, off_4F6678);
+          strcpy((int)this->infoMessage);
           break;
         case 9:
-          strcpy(this->infoMessage, off_4F667C);
+          strcpy((int)this->infoMessage);
           break;
         case 10:
-          strcpy(this->infoMessage, off_4F6680);
+          strcpy((int)this->infoMessage);
           break;
         case 13:
-          strcpy(this->infoMessage, off_4F6684);
+          strcpy((int)this->infoMessage);
           break;
         case 11:
-          strcpy(this->infoMessage, off_4F6688);
+          strcpy((int)this->infoMessage);
           break;
         case 16:
-          strcpy(this->infoMessage, off_4F668C);
+          strcpy((int)this->infoMessage);
           break;
         case 14:
-          strcpy(this->infoMessage, special_building_names[this->castle->factionID]);
+          strcpy((int)this->infoMessage);
           break;
         case 12:
-          strcpy(this->infoMessage, growth_building_names[this->castle->factionID]);
+          strcpy((int)this->infoMessage);
           break;
         default:
           break;

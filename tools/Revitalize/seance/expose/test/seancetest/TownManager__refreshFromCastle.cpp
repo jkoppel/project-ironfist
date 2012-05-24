@@ -32,7 +32,7 @@ void __thiscall TownManager::refreshFromCastle(TownManager *this)
   evt.fieldID = 137;
   evt.payload = globBuf;
   GUIWindow::processMessage(thisa->townScreen, (Event *)&evt);
-  strcpy(globBuf, "Town Screen");
+  strcpy((int)globBuf);
   evt.fieldID = 902;
   evt.payload = globBuf;
   GUIWindow::processMessage(thisa->townScreen, (Event *)&evt);
@@ -101,7 +101,7 @@ void __thiscall TownManager::refreshFromCastle(TownManager *this)
   {
     if ( thisa->factionID != -1 )
       TownManager::reset(thisa);
-    thisb = (Bankbox *)operator new(0xCu);
+    thisb = (Bankbox *)operator new(12);
     if ( thisb )
       thisa->bankbox = Bankbox_constructor(thisb, 546, 256, curPlayer);
     else
@@ -117,7 +117,7 @@ void __thiscall TownManager::refreshFromCastle(TownManager *this)
       if ( buildingCode != -1 )
       {
         sprintf(globBuf, "%s%s", townShortNames[thisa->castle->factionID], buildingShortNames[buildingCode]);
-        v17 = (BuildingDisplay *)operator new(0x18u);
+        v17 = (BuildingDisplay *)operator new(24);
         if ( v17 )
           thisa->buildingDisplays[thisa->curBuilding] = BuildingDisplay_constructor(
                                                           v17,
@@ -155,7 +155,7 @@ void __thiscall TownManager::refreshFromCastle(TownManager *this)
     v23 *= 4;
     v23 += gameObject->heroes[thisa->castle->visitingHeroIdx].factionID;
   }
-  ecx0 = (ArmyDisplay *)operator new(0x84u);
+  ecx0 = (ArmyDisplay *)operator new(132);
   if ( ecx0 )
   {
     v2 = &thisa->castle->garrison;
@@ -184,7 +184,7 @@ void __thiscall TownManager::refreshFromCastle(TownManager *this)
     if ( BYTE1(thisa->castle->buildingsBuiltFlags) & 0x80 )
     {
       sprintf(globBuf, "port%04d.icn", thisa->castle->factionID + 90);
-      v12 = (ArmyDisplay *)operator new(0x84u);
+      v12 = (ArmyDisplay *)operator new(132);
       if ( v12 )
       {
         v7 = curPlayer->color;
@@ -200,7 +200,7 @@ void __thiscall TownManager::refreshFromCastle(TownManager *this)
     }
     else
     {
-      v11 = (ArmyDisplay *)operator new(0x84u);
+      v11 = (ArmyDisplay *)operator new(132);
       if ( v11 )
       {
         v9 = ResourceManager::setResource(resourceManager, "strip.icn", 1);
@@ -217,7 +217,7 @@ void __thiscall TownManager::refreshFromCastle(TownManager *this)
   else
   {
     sprintf(globBuf, "port%04d.icn", gameObject->heroes[thisa->castle->visitingHeroIdx].heroID);
-    v13 = (ArmyDisplay *)operator new(132u);
+    v13 = (ArmyDisplay *)operator new(132);
     if ( v13 )
     {
       visitorArmy = &gameObject->heroes[thisa->castle->visitingHeroIdx].army;

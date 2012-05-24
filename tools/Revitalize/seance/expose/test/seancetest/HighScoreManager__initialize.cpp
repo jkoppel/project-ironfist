@@ -8,7 +8,7 @@ int __thiscall HighScoreManager::initialize(int this, int a2)
   sub_4C7C60(HeroWindowManager::instance, 1, 8, 0);
   sprintf(globBuf, "hsbkg.icn");
   ResourceManager::dumpImageToScreen(resourceManager, globBuf, HeroWindowManager::instance->screenBuffer, 1);
-  thisa = (GUIWindow *)operator new(0x44u);
+  thisa = (GUIWindow *)operator new(68);
   if ( thisa )
     *(_DWORD *)(v3 + 95) = GUIWindow_constructorFromFile(thisa, 0, 0, "hiscore.bin");
   else
@@ -20,7 +20,7 @@ int __thiscall HighScoreManager::initialize(int this, int a2)
   *(_DWORD *)(v3 + 12) = 16384;
   *(_DWORD *)(v3 + 16) = a2;
   *(_DWORD *)(v3 + 50) = 1;
-  strcpy((char *)(v3 + 20), "highScoreManager");
+  strcpy(v3 + 20);
   changeMenu(dfltMenu);
   sub_4C7C60(HeroWindowManager::instance, 0, 8, 0);
   animationFrameSwitchTime = getTickCount() + 120;

@@ -1,4 +1,4 @@
-CombatManager *__thiscall CombatManager::doHolySpellGraphics(CombatManager *this, char a2, char a3, char a4)
+CombatManager *__fastcall CombatManager::doHolySpellGraphics(CombatManager *this, int edx0, char a2, char a3, char a4)
 {
   CombatManager *thisa; // ST1C_4@1
   CombatManager *result; // eax@1

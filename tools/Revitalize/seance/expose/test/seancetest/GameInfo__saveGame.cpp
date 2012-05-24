@@ -16,7 +16,7 @@ signed int __thiscall GameInfo::saveGame(GameInfo *this, const char *a2, int a3,
   int v18; // [sp+440h] [bp-4h]@27
 
   thisa = this;
-  a1 = KBAlloc(0xC350u, "F:\\h2xsrc\\Source\\GAME.CPP", word_4EF26C + 10);
+  a1 = (void *)KBAlloc(0xC350u, "F:\\h2xsrc\\Source\\GAME.CPP", word_4EF26C + 10);
   memset(a1, 0, 0xC350u);
   if ( !inExpansion )
     a4 = 1;
@@ -52,11 +52,12 @@ signed int __thiscall GameInfo::saveGame(GameInfo *this, const char *a2, int a3,
   {
     sprintf(&v12, a2);
   }
-  if ( _strnicmp(&v12, "RMT", 3u) )
+  if ( _strnicmp((unsigned __int8 *)&v12, (unsigned __int8 *)"RMT", 3) )
   {
     sprintf(&v9, "%s%s", ".\\GAMES\\", &v12);
-    if ( _strnicmp(&v12, "AUTOSAVE", 8u) && _strnicmp(&v12, "PLYREXIT", 8u) )
-      strcpy(&gameObject->_1[325], a2);
+    if ( _strnicmp((unsigned __int8 *)&v12, (unsigned __int8 *)"AUTOSAVE", 8)
+      && _strnicmp((unsigned __int8 *)&v12, (unsigned __int8 *)"PLYREXIT", 8) )
+      strcpy((int)&gameObject->_1[325]);
   }
   else
   {
@@ -67,101 +68,101 @@ signed int __thiscall GameInfo::saveGame(GameInfo *this, const char *a2, int a3,
     sub_436DF0(&v9);
   v18 = -1;
   if ( !a4 )
-    _write(fd, &v18, 4u);
-  _write(fd, &thisa->map.width, 4u);
-  _write(fd, &thisa->map.height, 4u);
-  _write(fd, &thisa->_1[676], 0x1A4u);
-  _write(fd, &thisa->_3[375], 0x41u);
-  _write(fd, &dword_52478C, 1u);
-  _write(fd, thisa, 2u);
-  _write(fd, &dword_524A74, 1u);
-  _write(fd, &dword_52343C, 1u);
-  _write(fd, &dword_523448, 1u);
-  _write(fd, &dword_523F10, 1u);
-  _write(fd, dword_5235E0, 0x7Eu);
+    _write(fd, &v18, 4);
+  _write(fd, &thisa->map.width, 4);
+  _write(fd, &thisa->map.height, 4);
+  _write(fd, &thisa->_1[676], 420);
+  _write(fd, &thisa->_3[375], 65);
+  _write(fd, &dword_52478C, 1);
+  _write(fd, thisa, 2);
+  _write(fd, &dword_524A74, 1);
+  _write(fd, &dword_52343C, 1);
+  _write(fd, &dword_523448, 1);
+  _write(fd, &dword_523F10, 1);
+  _write(fd, dword_5235E0, 126);
   memset(&v8, 0, 0x28u);
-  _write(fd, &v8, 0x24u);
+  _write(fd, &v8, 36);
   if ( byte_5304A0 )
   {
     v6 = 2;
-    _write(fd, &v6, 4u);
-    _write(fd, &unk_530450, 0x4Fu);
+    _write(fd, &v6, 4);
+    _write(fd, &unk_530450, 79);
   }
   else
   {
-    _write(fd, &loadOrNewGameSelected, 4u);
+    _write(fd, &loadOrNewGameSelected, 4);
     if ( loadOrNewGameSelected )
-      _write(fd, &thisa->field_2, 0x147u);
+      _write(fd, &thisa->field_2, 327);
   }
   if ( !a4 )
-    _write(fd, &inExpansion, 1u);
+    _write(fd, &inExpansion, 1);
   sub_4C2F30();
-  _write(fd, &dword_524A78, 4u);
+  _write(fd, &dword_524A78, 4);
   sub_419DB0(&thisa->_1[325], &v8);
-  _write(fd, &v8, 0xEu);
-  _write(fd, &thisa->numPlayers, 1u);
+  _write(fd, &v8, 14);
+  _write(fd, &thisa->numPlayers, 1);
   v14 = curPlayerIdx;
-  _write(fd, &v14, 1u);
-  _write(fd, &thisa->couldBeNumDefeatedPlayers, 1u);
-  _write(fd, thisa->couldBePlayerAlive, 6u);
+  _write(fd, &v14, 1);
+  _write(fd, &thisa->couldBeNumDefeatedPlayers, 1);
+  _write(fd, thisa->couldBePlayerAlive, 6);
   for ( i = 0; i < 6; ++i )
   {
     v13[i] = LOBYTE(dword_524810[i]);
     if ( thisa->couldBePlayerAlive[i] )
       v13[i] = 0;
   }
-  _write(fd, v13, 6u);
-  _write(fd, &thisa->day, 2u);
-  _write(fd, &thisa->week, 2u);
-  _write(fd, &thisa->month, 2u);
+  _write(fd, v13, 6);
+  _write(fd, &thisa->day, 2);
+  _write(fd, &thisa->week, 2);
+  _write(fd, &thisa->month, 2);
   for ( i = 0; i < 6; ++i )
     sub_418870(&thisa->players[i], fd);
-  _write(fd, &thisa->field_B52, 1u);
+  _write(fd, &thisa->field_B52, 1);
   for ( i = 0; i < 54; ++i )
     Hero::write(&thisa->heroes[i], fd, (unsigned int)a4 < 1);
-  _write(fd, thisa->relatedToHeroForHireStatus, 0x36u);
-  _write(fd, thisa->castles, 0x1C20u);
-  _write(fd, thisa->_7, 0x48u);
-  _write(fd, &thisa->_7[72], 9u);
-  _write(fd, thisa->_8, 0x3F0u);
-  _write(fd, &thisa->_8[1008], 0x90u);
+  _write(fd, thisa->relatedToHeroForHireStatus, 54);
+  _write(fd, thisa->castles, 7200);
+  _write(fd, thisa->_7, 72);
+  _write(fd, &thisa->_7[72], 9);
+  _write(fd, thisa->_8, 1008);
+  _write(fd, &thisa->_8[1008], 144);
   if ( a4 )
-    _write(fd, thisa->probablyArtifactGeneratedRandomly, 0x52u);
+    _write(fd, thisa->probablyArtifactGeneratedRandomly, 82);
   else
-    _write(fd, thisa->probablyArtifactGeneratedRandomly, 0x67u);
-  _write(fd, &thisa->probablyArtifactGeneratedRandomly[103], 0x180u);
-  _write(fd, &thisa->field_6236[231], 0x30u);
-  _write(fd, thisa->obeliskVisitedMasks, 0x30u);
-  _write(fd, &thisa->_10[24], 1u);
-  _write(fd, &thisa->_10[25], 1u);
-  _write(fd, &thisa->_10[26], 1u);
-  _write(fd, &thisa->_10[45], 0x12Du);
-  _write(fd, thisa->_10, 0x18u);
-  _write(fd, &thisa->_10[346], 4u);
+    _write(fd, thisa->probablyArtifactGeneratedRandomly, 103);
+  _write(fd, &thisa->probablyArtifactGeneratedRandomly[103], 384);
+  _write(fd, &thisa->field_6236[231], 48);
+  _write(fd, thisa->obeliskVisitedMasks, 48);
+  _write(fd, &thisa->_10[24], 1);
+  _write(fd, &thisa->_10[25], 1);
+  _write(fd, &thisa->_10[26], 1);
+  _write(fd, &thisa->_10[45], 301);
+  _write(fd, thisa->_10, 24);
+  _write(fd, &thisa->_10[346], 4);
   _write(fd, &thisa->_10[348], 2 * *(_WORD *)&thisa->_10[346]);
-  _write(fd, &thisa->_10[408], 4u);
+  _write(fd, &thisa->_10[408], 4);
   _write(fd, &thisa->_10[410], 2 * *(_WORD *)&thisa->_10[408]);
-  _write(fd, &thisa->_10[510], 4u);
+  _write(fd, &thisa->_10[510], 4);
   _write(fd, &thisa->_10[512], 2 * *(_WORD *)&thisa->_10[510]);
   v17 = 1234;
   v16 = 9999;
-  _write(fd, &v17, 4u);
-  _write(fd, &dword_5240A4, 4u);
-  _write(fd, &v17, 4u);
+  _write(fd, &v17, 4);
+  _write(fd, &dword_5240A4, 4);
+  _write(fd, &v17, 4);
   for ( i = 1; i < *(_DWORD *)&dword_5240A4; ++i )
   {
-    _write(fd, &v17, 4u);
-    _write(fd, (char *)dword_5249EC + 2 * i, 2u);
+    _write(fd, &v17, 4);
+    _write(fd, (char *)dword_5249EC + 2 * i, 2);
     if ( *((_DWORD *)dword_524784 + i) )
-      _write(fd, *((const void **)dword_524784 + i), *((_WORD *)dword_5249EC + i));
+      _write(fd, *((LPCVOID *)dword_524784 + i), *((_WORD *)dword_5249EC + i));
     else
       _write(fd, a1, *((_WORD *)dword_5249EC + i));
   }
-  _write(fd, &v17, 4u);
+  _write(fd, &v17, 4);
   _write(fd, tileExplored, mapHeight * mapWidth);
-  _write(fd, &v17, 4u);
-  sub_46FDC0((int)&thisa->map, fd);
-  _write(fd, &v17, 4u);
+  _write(fd, &v17, 4);
+  MapTiles::save(&thisa->map, fd);
+  _write(fd, &v17, 4);
   _close(fd);
   KBFree(a1, (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF26C + 237);
   return 1;

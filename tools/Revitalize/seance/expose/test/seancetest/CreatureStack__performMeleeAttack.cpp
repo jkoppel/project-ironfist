@@ -184,7 +184,7 @@ void __thiscall CreatureStack::performMeleeAttack(CreatureStack *ecx0, int isRet
         }
       }
     }
-    strcpy(&message, globBuf);
+    strcpy((int)&message);
     switch ( this->creatureIdx )
     {
       case CREATURE_CYCLOPS:

@@ -20,12 +20,12 @@ void __fastcall blur(Bitmap *fromBmp, Bitmap *toBmp, int height, char a4, char a
   int v23; // ST68_4@11
   int v24; // ST6C_4@11
   unsigned int v25; // edi@11
-  void *v26; // eax@13
+  LPVOID v26; // eax@13
   void *v27; // edi@13
   int v28; // ebx@13
-  void *v29; // ebp@13
+  const void *v29; // ebp@13
   int v30; // eax@13
-  void *v31; // esi@13
+  const void *v31; // esi@13
   signed int v32; // ecx@13
   int v33; // ebx@27
   Bitmap *newBMP; // [sp+10h] [bp-C5Ch]@2
@@ -44,7 +44,7 @@ void __fastcall blur(Bitmap *fromBmp, Bitmap *toBmp, int height, char a4, char a
   yieldToGlobalUpdater();
   MouseManager::disableCursor(mouseManager);
   HeroWindowManager::resetSomeBMP(HeroWindowManager::instance, 0, 0, 640, height);
-  v6 = (Bitmap *)operator new(0x1Au);
+  v6 = (Bitmap *)operator new(26);
   if ( v6 )
     newBMP = Bitmap_constructor(v6, 0, 640, height);
   else
@@ -195,5 +195,5 @@ void __fastcall blur(Bitmap *fromBmp, Bitmap *toBmp, int height, char a4, char a
     ((void (__stdcall *)(signed int))newBMP->vtable->cleanUp)(1);
   MouseManager::enableCursor(mouseManager);
   KBFree((void *)v33, (int)"F:\\h2xsrc\\Base\\Blur.cpp", 173);
-  KBFree(v29, (int)"F:\\h2xsrc\\Base\\Blur.cpp", 174);
+  KBFree((void *)v29, (int)"F:\\h2xsrc\\Base\\Blur.cpp", 174);
 }

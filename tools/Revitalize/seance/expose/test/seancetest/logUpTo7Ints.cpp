@@ -3,7 +3,7 @@
 // ;What logging is done depends on debugLogLevel
 void __fastcall logUpTo7Ints(int a1, int a2, int a3, int a4, int a5, int a6, int a7, int a8)
 {
-  FILE *v8; // ebx@15
+  int v8; // ebx@15
   char v9; // [sp+10h] [bp-2BCh]@2
   char OutputString[500]; // [sp+D8h] [bp-1F4h]@16
 
@@ -48,7 +48,7 @@ void __fastcall logUpTo7Ints(int a1, int a2, int a3, int a4, int a5, int a6, int
   }
   if ( debugLogLevel >= 2 )
   {
-    v8 = fopen("KB.LOG", "at+");
+    v8 = fopen("KB.LOG", (int)"at+");
     if ( v8 )
     {
       strcpy(OutputString, &v9);

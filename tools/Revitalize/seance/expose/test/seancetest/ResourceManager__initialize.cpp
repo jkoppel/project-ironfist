@@ -1,27 +1,25 @@
-signed int __thiscall ResourceManager::initialize(ResourceManager *ecx0, int idx)
+MANAGER_RETURN_CODE __thiscall ResourceManager::initialize(ResourceManager *this, int idx)
 {
-  signed int result; // eax@2
-  ResourceManager *this; // [sp+Ch] [bp-4h]@1
+  MANAGER_RETURN_CODE result; // eax@2
 
-  this = ecx0;
-  if ( ResourceManager::addAGG(ecx0, heroes2xagg_path) )
+  if ( ResourceManager::addAGG(this, heroes2xagg_path) )
   {
-    result = 3;
+    result = MANAGER_FAILED;
   }
   else
   {
     if ( ResourceManager::addAGG(this, heroes2agg_path) )
     {
-      result = 3;
+      result = MANAGER_FAILED;
     }
     else
     {
-      this->type = 128;
+      this->type = MANAGER_TYPE_RESOURCE_MAMANGER;
       this->idx = idx;
       this->ready = 1;
       strcpy(this->name, "resourceManager");
-      this->loadedFileLinkedList = 0;
-      result = 0;
+      this->loadedFileLinkedList = NULL;
+      result = MANAGER_SUCCESS;
     }
   }
   return result;

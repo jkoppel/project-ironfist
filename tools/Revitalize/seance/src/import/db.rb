@@ -100,6 +100,11 @@ module Seance
         @sigs.has_key? nam
       end
 
+      def get_func(nam)
+        meta = @sigs[nam]
+        CppGen::FuncSig.new(meta[TYPE], nam, CppGen::KEYWORD_CC[meta[CONVENTION]], meta[ARGS])
+      end
+
       def get_func_body(nam)
         load_raw(self.class.name_to_filename(nam))
       end
@@ -111,42 +116,8 @@ module Seance
         @meta.dump(@sigs, SIG_FILE)
       end
 
-      def get_func_type(name)
-        @sigs[name][TYPE]
-      end
-
-      def get_func_convention(name)
-        @sigs[name][CONVENTION]
-      end
-
-      def get_func_args(name)
-        @sigs[name][ARGS]
-      end
-
       def get_fn_list
         @sigs.keys
-      end
-
-      def get_stack_arg_names(methnam)
-        meta = @sigs[methnam]
-
-        args = nil
-
-        case meta[CONVENTION]
-        when THISCALL
-          args = meta[ARGS][1..-1]
-        when FASTCALL
-          args = meta[ARGS][2..-1]
-        when STDCALL
-          args = meta[ARGS]
-        end
-        
-        args.map{|(_,n)| n}
-      end
-
-      def get_func_decl(nam, opts = {})
-        meta = @sigs[nam]
-        CppGen.get_func_decl(nam, meta[TYPE], meta[ARGS], CppGen::KEYWORD_CC[meta[CONVENTION]], opts)
       end
 
       def get_func_body(name)

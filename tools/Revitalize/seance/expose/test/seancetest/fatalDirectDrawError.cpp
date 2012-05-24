@@ -37,29 +37,29 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
                         {
                           if ( errorCodea == DDERR_WRONGMODE )
                           {
-                            strcpy(errorStr, "DDERR_WRONGMODE          ");
+                            strcpy((int)errorStr);
                           }
                           else
                           {
                             switch ( errorCodea + 2005532105 )
                             {
                               case 8:
-                                strcpy(errorStr, "DDERR_NOBLTHW\t         ");
+                                strcpy((int)errorStr);
                                 break;
                               case 9:
-                                strcpy(errorStr, "DDERR_NODDROPSHW\t      ");
+                                strcpy((int)errorStr);
                                 break;
                               case 0:
-                                strcpy(errorStr, "DDERR_CLIPPERISUSINGHWND ");
+                                strcpy((int)errorStr);
                                 break;
                               case 5:
-                                strcpy(errorStr, "DDERR_NOPALETTEATTACHED  ");
+                                strcpy((int)errorStr);
                                 break;
                               case 6:
-                                strcpy(errorStr, "DDERR_NOPALETTEHW\t      ");
+                                strcpy((int)errorStr);
                                 break;
                               case 1:
-                                strcpy(errorStr, "DDERR_NOCLIPPERATTACHED  ");
+                                strcpy((int)errorStr);
                                 break;
                               default:
                                 goto LABEL_31;
@@ -73,19 +73,19 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
                             return;
                           goto LABEL_31;
                         }
-                        strcpy(errorStr, "DDERR_IMPLICITLYCREATED  ");
+                        strcpy((int)errorStr);
                       }
                       else
                       {
                         if ( errorCodea == DDERR_SURFACELOST )
                         {
-                          strcpy(errorStr, "DDERR_SURFACELOST        ");
+                          strcpy((int)errorStr);
                         }
                         else
                         {
                           if ( errorCodea != DDERR_SURFACEBUSY )
                             goto LABEL_31;
-                          strcpy(errorStr, "DDERR_SURFACEBUSY        ");
+                          strcpy((int)errorStr);
                         }
                       }
                     }
@@ -93,13 +93,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
                     {
                       if ( errorCodea == DDERR_NOZBUFFERHW )
                       {
-                        strcpy(errorStr, "DDERR_NOZBUFFERHW        ");
+                        strcpy((int)errorStr);
                       }
                       else
                       {
                         if ( errorCodea != -2005532352 )
                           goto LABEL_31;
-                        strcpy(errorStr, "DDERR_NOT8BITCOLOR       ");
+                        strcpy((int)errorStr);
                       }
                     }
                   }
@@ -107,13 +107,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
                   {
                     if ( errorCodea == DDERR_NOSTRETCHHW )
                     {
-                      strcpy(errorStr, "DDERR_NOSTRETCHHW\t      ");
+                      strcpy((int)errorStr);
                     }
                     else
                     {
                       if ( errorCodea != -2005532382 )
                         goto LABEL_31;
-                      strcpy(errorStr, "DDERR_NOROTATIONHW       ");
+                      strcpy((int)errorStr);
                     }
                   }
                 }
@@ -121,13 +121,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
                 {
                   if ( errorCodea == DDERR_NORASTEROPHW )
                   {
-                    strcpy(errorStr, "DDERR_NORASTEROPHW\t      ");
+                    strcpy((int)errorStr);
                   }
                   else
                   {
                     if ( errorCodea != -2005532422 )
                       goto LABEL_31;
-                    strcpy(errorStr, "DDERR_NOMIRRORHW         ");
+                    strcpy((int)errorStr);
                   }
                 }
               }
@@ -135,13 +135,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
               {
                 if ( errorCodea == DDERR_NOEXCLUSIVEMODE )
                 {
-                  strcpy(errorStr, "DDERR_NOEXCLUSIVEMODE\t   ");
+                  strcpy((int)errorStr);
                 }
                 else
                 {
                   if ( errorCodea != -2005532467 )
                     goto LABEL_31;
-                  strcpy(errorStr, "DDERR_NOCLIPLIST         ");
+                  strcpy((int)errorStr);
                 }
               }
             }
@@ -149,13 +149,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
             {
               if ( errorCodea == DDERR_NOALPHAHW )
               {
-                strcpy(errorStr, "DDERR_NOALPHAHW          ");
+                strcpy((int)errorStr);
               }
               else
               {
                 if ( errorCodea != DDERR_LOCKEDSURFACES )
                   goto LABEL_31;
-                strcpy(errorStr, "DDERR_LOCKEDSURFACES     ");
+                strcpy((int)errorStr);
               }
             }
           }
@@ -163,13 +163,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
           {
             if ( errorCodea == DDERR_INVALIDRECT )
             {
-              strcpy(errorStr, "DDERR_INVALIDRECT\t      ");
+              strcpy((int)errorStr);
             }
             else
             {
               if ( errorCodea != DDERR_INVALIDOBJECT )
                 goto LABEL_31;
-              strcpy(errorStr, "DDERR_INVALIDOBJECT      ");
+              strcpy((int)errorStr);
             }
           }
         }
@@ -177,13 +177,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
         {
           if ( errorCodea == DDERR_INVALIDCLIPLIST )
           {
-            strcpy(errorStr, "DDERR_INVALIDCLIPLIST\t   ");
+            strcpy((int)errorStr);
           }
           else
           {
             if ( errorCodea != DDERR_INCOMPATIBLEPRIMARY )
               goto LABEL_31;
-            strcpy(errorStr, "DDERR_INCOMPATIBLEPRIMARY");
+            strcpy((int)errorStr);
           }
         }
       }
@@ -191,13 +191,13 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
       {
         if ( errorCodea == DDERR_INVALIDPARAMS )
         {
-          strcpy(errorStr, "DDERR_INVALIDPARAMS\t   ");
+          strcpy((int)errorStr);
         }
         else
         {
           if ( errorCodea != DDERR_OUTOFMEMORY )
             goto LABEL_31;
-          strcpy(errorStr, "DDERR_OUTOFMEMORY\t      ");
+          strcpy((int)errorStr);
         }
       }
     }
@@ -205,17 +205,17 @@ void __fastcall fatalDirectDrawError(MACRO_DDERR errorCode, char *file, int line
     {
       if ( errorCodea == DDERR_GENERIC )
       {
-        strcpy(errorStr, "DDERR_GENERIC            ");
+        strcpy((int)errorStr);
       }
       else
       {
         if ( errorCodea != -2147467263 )
         {
 LABEL_31:
-          strcpy(errorStr, "Error type unknown");
+          strcpy((int)errorStr);
           goto LABEL_78;
         }
-        strcpy(errorStr, "DDERR_UNSUPPORTED\t      ");
+        strcpy((int)errorStr);
       }
     }
 LABEL_78:

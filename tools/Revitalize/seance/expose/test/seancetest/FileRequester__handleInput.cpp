@@ -1,54 +1,56 @@
 signed int __thiscall FileRequester::handleInput(int this, int a2)
 {
-  signed int result; // eax@180
-  signed int v3; // [sp+1Ch] [bp-410h]@50
-  signed int v4; // [sp+20h] [bp-40Ch]@28
-  int v5; // [sp+24h] [bp-408h]@27
-  int v6; // [sp+28h] [bp-404h]@2
-  int v7; // [sp+2Ch] [bp-400h]@1
-  int v8; // [sp+30h] [bp-3FCh]@1
-  char v9; // [sp+3Ch] [bp-3F0h]@99
-  int v10; // [sp+168h] [bp-2C4h]@131
-  int evt; // [sp+16Ch] [bp-2C0h]@108
-  int v12; // [sp+170h] [bp-2BCh]@108
-  int v13; // [sp+174h] [bp-2B8h]@108
-  char *v14; // [sp+184h] [bp-2A8h]@108
-  int v15; // [sp+188h] [bp-2A4h]@50
-  char v16; // [sp+18Ch] [bp-2A0h]@4
-  size_t v17; // [sp+2B8h] [bp-174h]@108
-  int i; // [sp+2BCh] [bp-170h]@7
-  int v19; // [sp+2C0h] [bp-16Ch]@133
-  int v20; // [sp+2C4h] [bp-168h]@133
-  int v21; // [sp+2C8h] [bp-164h]@1
-  char chr[4]; // [sp+2CCh] [bp-160h]@108
+  int v2; // eax@6
+  int v3; // eax@98
+  int v4; // eax@165
+  int v5; // eax@166
+  signed int result; // eax@174
+  signed int v7; // [sp+1Ch] [bp-410h]@47
+  signed int v8; // [sp+20h] [bp-40Ch]@25
+  int v9; // [sp+24h] [bp-408h]@24
+  int v10; // [sp+28h] [bp-404h]@2
+  int v11; // [sp+2Ch] [bp-400h]@1
+  int v12; // [sp+30h] [bp-3FCh]@1
+  char v13; // [sp+3Ch] [bp-3F0h]@95
+  int v14; // [sp+168h] [bp-2C4h]@125
+  int evt; // [sp+16Ch] [bp-2C0h]@102
+  int v16; // [sp+170h] [bp-2BCh]@102
+  int v17; // [sp+174h] [bp-2B8h]@102
+  char *v18; // [sp+184h] [bp-2A8h]@124
+  int v19; // [sp+188h] [bp-2A4h]@47
+  char a2a; // [sp+18Ch] [bp-2A0h]@3
+  int v21; // [sp+2B8h] [bp-174h]@102
+  int i; // [sp+2BCh] [bp-170h]@4
+  int v23; // [sp+2C0h] [bp-16Ch]@127
+  int v24; // [sp+2C4h] [bp-168h]@127
+  int v25; // [sp+2C8h] [bp-164h]@1
+  char chr[4]; // [sp+2CCh] [bp-160h]@102
 
-  v8 = this;
-  v21 = 0;
-  v7 = *(_DWORD *)a2;
-  if ( v7 == 1 )
+  v12 = this;
+  v25 = 0;
+  v11 = *(_DWORD *)a2;
+  if ( v11 == 1 )
   {
-    v6 = *(_DWORD *)(a2 + 4);
-    if ( v6 == 64 )
+    v10 = *(_DWORD *)(a2 + 4);
+    if ( v10 == 64 )
     {
-      if ( *(_DWORD *)(this + 1050) == -1 )
-        strcpy(&v16, byte_4EDF2C);
-      else
-        strcpy(&v16, (const char *)(*(_DWORD *)(this + 670) + 351 * *(_DWORD *)(this + 1050)));
+      strcpy((int)&a2a);
       dword_4EDE90 = (dword_4EDE90 + 1) % 5;
-      sub_40BF30(v8);
-      if ( strlen(&v16) )
+      sub_40BF30(v12);
+      if ( strlen((int)&a2a) )
       {
-        for ( i = 0; *(_DWORD *)(v8 + 1042) > i; ++i )
+        for ( i = 0; *(_DWORD *)(v12 + 1042) > i; ++i )
         {
-          if ( !_strcmpi((const char *)(351 * i + *(_DWORD *)(v8 + 670)), &v16) )
-            *(_DWORD *)(v8 + 1050) = i;
+          LOBYTE(v2) = _strcmpi((char *)(351 * i + *(_DWORD *)(v12 + 670)), &a2a);
+          if ( !v2 )
+            *(_DWORD *)(v12 + 1050) = i;
         }
       }
-      sub_40DA80(v8, 1);
+      sub_40DA80(v12, 1);
     }
     else
     {
-      if ( v6 == 72 )
+      if ( v10 == 72 )
       {
         if ( *(_DWORD *)(this + 1050) > 0 )
         {
@@ -60,7 +62,7 @@ signed int __thiscall FileRequester::handleInput(int this, int a2)
       }
       else
       {
-        if ( v6 == 80 && *(_DWORD *)(this + 1042) - 1 > *(_DWORD *)(this + 1050) )
+        if ( v10 == 80 && *(_DWORD *)(this + 1042) - 1 > *(_DWORD *)(this + 1050) )
         {
           ++*(_DWORD *)(this + 1050);
           if ( dword_522BF4 + *(_DWORD *)(this + 1046) <= *(_DWORD *)(this + 1050) )
@@ -72,22 +74,22 @@ signed int __thiscall FileRequester::handleInput(int this, int a2)
   }
   else
   {
-    if ( v7 != 512 )
-      goto LABEL_167;
-    v5 = *(_DWORD *)(a2 + 4);
-    if ( v5 != 12 )
+    if ( v11 != 512 )
+      goto LABEL_161;
+    v9 = *(_DWORD *)(a2 + 4);
+    if ( v9 != 12 )
     {
-      if ( v5 == 13 )
+      if ( v9 == 13 )
       {
-        v4 = *(_DWORD *)(a2 + 8);
-        if ( v4 > 30721 )
+        v8 = *(_DWORD *)(a2 + 8);
+        if ( v8 > 30721 )
         {
-          if ( v4 == 30722 )
+          if ( v8 == 30722 )
           {
             if ( *(_DWORD *)(this + 1050) != -1 || *(_BYTE *)(this + 691) )
             {
               *(_DWORD *)(a2 + 24) = *(_DWORD *)(a2 + 8);
-              v21 = 1;
+              v25 = 1;
             }
             else
             {
@@ -107,14 +109,14 @@ signed int __thiscall FileRequester::handleInput(int this, int a2)
         }
         else
         {
-          if ( v4 == 30721 )
+          if ( v8 == 30721 )
           {
             *(_DWORD *)(a2 + 24) = *(_DWORD *)(a2 + 8);
-            v21 = 1;
+            v25 = 1;
           }
           else
           {
-            if ( v4 == 1 )
+            if ( v8 == 1 )
             {
               if ( *(_DWORD *)(this + 1046) > 0 )
               {
@@ -124,7 +126,7 @@ signed int __thiscall FileRequester::handleInput(int this, int a2)
             }
             else
             {
-              if ( v4 == 2 && dword_522BF4 + *(_DWORD *)(this + 1046) < *(_DWORD *)(this + 1042) )
+              if ( v8 == 2 && dword_522BF4 + *(_DWORD *)(this + 1046) < *(_DWORD *)(this + 1042) )
               {
                 ++*(_DWORD *)(this + 1046);
                 if ( dword_522BF4 + *(_DWORD *)(this + 1046) - 1 >= *(_DWORD *)(this + 1042) )
@@ -134,84 +136,84 @@ signed int __thiscall FileRequester::handleInput(int this, int a2)
             }
           }
         }
-        goto LABEL_167;
+        goto LABEL_161;
       }
-      if ( v5 != 14 )
-        goto LABEL_167;
+      if ( v9 != 14 )
+        goto LABEL_161;
     }
     if ( *(_BYTE *)(a2 + 13) & 2 )
     {
-      v15 = -1;
-      v3 = *(_DWORD *)(a2 + 8);
-      if ( v3 > 80 )
+      v19 = -1;
+      v7 = *(_DWORD *)(a2 + 8);
+      if ( v7 > 80 )
       {
-        if ( v3 <= 30721 )
+        if ( v7 <= 30721 )
         {
-          if ( v3 == 30721 )
+          if ( v7 == 30721 )
           {
-            v15 = 7;
+            v19 = 7;
           }
           else
           {
-            switch ( v3 )
+            switch ( v7 )
             {
               case 100:
-                v15 = 0;
+                v19 = 0;
                 break;
               case 101:
-                v15 = 1;
+                v19 = 1;
                 break;
               case 102:
-                v15 = 2;
+                v19 = 2;
                 break;
               case 103:
-                v15 = 3;
+                v19 = 3;
                 break;
               case 104:
-                v15 = 4;
+                v19 = 4;
                 break;
               case 82:
-                v15 = 8;
+                v19 = 8;
                 break;
               case 81:
-                v15 = 9;
+                v19 = 9;
                 break;
               case 86:
-                v15 = 10;
+                v19 = 10;
                 break;
               case 87:
-                v15 = 11;
+                v19 = 11;
                 break;
               case 85:
-                v15 = 13;
+                v19 = 13;
                 break;
               case 83:
-                v15 = 14;
+                v19 = 14;
                 break;
               case 84:
-                v15 = 14;
+                v19 = 14;
                 break;
               default:
-                goto LABEL_67;
+                goto LABEL_64;
             }
           }
-          goto LABEL_89;
+          goto LABEL_86;
         }
-        if ( v3 != 30722 )
-          goto LABEL_67;
-        v15 = 6;
+        if ( v7 != 30722 )
+          goto LABEL_64;
+        v19 = 6;
       }
       else
       {
-        if ( v3 == 80 )
+        if ( v7 == 80 )
         {
-          v15 = 12;
+          v19 = 12;
         }
         else
         {
-          if ( v3 != 15 )
+          if ( v7 != 15 )
           {
-LABEL_67:
+LABEL_64:
             if ( *(_DWORD *)(a2 + 8) < 200 || *(_DWORD *)(a2 + 8) >= 220 )
             {
               if ( *(_DWORD *)(a2 + 8) < 220 || *(_DWORD *)(a2 + 8) >= 240 )
@@ -219,31 +221,31 @@ LABEL_67:
                 if ( *(_DWORD *)(a2 + 8) < 240 || *(_DWORD *)(a2 + 8) >= 260 )
                 {
                   if ( *(_DWORD *)(a2 + 8) >= 260 && *(_DWORD *)(a2 + 8) < 280 )
-                    v15 = 11;
+                    v19 = 11;
                 }
                 else
                 {
-                  v15 = 10;
+                  v19 = 10;
                 }
               }
               else
               {
-                v15 = 9;
+                v19 = 9;
               }
             }
             else
             {
-              v15 = 8;
+              v19 = 8;
             }
-            goto LABEL_89;
+            goto LABEL_86;
           }
-          v15 = 5;
+          v19 = 5;
         }
       }
-LABEL_89:
-      if ( v15 >= 0 )
-        display_message_window((&off_4F6FE8)[4 * v15], 4, -1, -1, -1, 0, -1, 0, -1, 0);
-      goto LABEL_167;
+LABEL_86:
+      if ( v19 >= 0 )
+        display_message_window((&off_4F6FE8)[4 * v19], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      goto LABEL_161;
     }
     switch ( *(_DWORD *)(a2 + 8) )
     {
@@ -256,20 +258,18 @@ LABEL_89:
         if ( sub_40BEC0((void *)this, i) )
         {
           dword_4EDE90 = i;
-          if ( *(_DWORD *)(v8 + 1050) == -1 )
-            strcpy(&v9, byte_4EDFCC);
-          else
-            strcpy(&v9, (const char *)(*(_DWORD *)(v8 + 670) + 351 * *(_DWORD *)(v8 + 1050)));
-          sub_40BF30(v8);
-          if ( strlen(&v9) )
+          strcpy((int)&v13);
+          sub_40BF30(v12);
+          if ( strlen((int)&v13) )
           {
-            for ( i = 0; *(_DWORD *)(v8 + 1042) > i; ++i )
+            for ( i = 0; *(_DWORD *)(v12 + 1042) > i; ++i )
             {
-              if ( !_strcmpi((const char *)(351 * i + *(_DWORD *)(v8 + 670)), &v9) )
-                *(_DWORD *)(v8 + 1050) = i;
+              LOBYTE(v3) = _strcmpi((char *)(351 * i + *(_DWORD *)(v12 + 670)), &v13);
+              if ( !v3 )
+                *(_DWORD *)(v12 + 1050) = i;
             }
           }
-          sub_40DA80(v8, 1);
+          sub_40DA80(v12, 1);
         }
         else
         {
@@ -282,13 +282,13 @@ LABEL_89:
         break;
       case 0xF:
         evt = 512;
-        v12 = 7;
-        v13 = 15;
+        v16 = 7;
+        v17 = 15;
         GUIWindow::processMessage(*(GUIWindow **)(this + 54), (Event *)&evt);
         memset(chr, 0, 9u);
-        strcpy(chr, v14);
-        v17 = strlen(chr);
-        for ( i = 0; i < (signed int)v17; ++i )
+        strcpy((int)chr);
+        v21 = strlen((int)chr);
+        for ( i = 0; i < v21; ++i )
         {
           if ( (chr[i] < 65 || chr[i] > 90)
             && (chr[i] < 97 || chr[i] > 122)
@@ -298,37 +298,37 @@ LABEL_89:
             && !findCharInString("$%'-_@~`!(){}^#&+,;=[].", *(_DWORD *)&chr[i]) )
             chr[i] = 0;
         }
-        for ( i = strlen(chr) - 1; i >= 0; --i )
+        for ( i = strlen((int)chr) - 1; i >= 0; --i )
         {
           if ( chr[i] == 32 )
             chr[i] = 0;
           else
             i = -1;
         }
-        if ( strlen(chr) && chr[0] > 32 )
+        if ( strlen((int)chr) && chr[0] > 32 )
         {
-          *(_DWORD *)(v8 + 1050) = -1;
-          strcpy((char *)(v8 + 691), chr);
-          sub_40C570(v8, 1);
+          *(_DWORD *)(v12 + 1050) = -1;
+          strcpy(v12 + 691);
+          sub_40C570(v12, 1);
         }
-        v12 = 3;
-        v13 = 15;
-        v14 = (char *)(v8 + 691);
-        GUIWindow::processMessage(*(GUIWindow **)(v8 + 54), (Event *)&evt);
-        sub_40DA80(v8, 1);
+        v16 = 3;
+        v17 = 15;
+        v18 = (char *)(v12 + 691);
+        GUIWindow::processMessage(*(GUIWindow **)(v12 + 54), (Event *)&evt);
+        sub_40DA80(v12, 1);
         break;
       case 3:
-        v10 = *(_DWORD *)(this + 1042) - (dword_522BF4 - 1);
-        if ( v10 < 1 )
-          v10 = 1;
-        v20 = *(_DWORD *)(a2 + 16);
-        v19 = (unsigned __int64)(signed __int64)((double)*(signed int *)(a2 + 20)
+        v14 = *(_DWORD *)(this + 1042) - (dword_522BF4 - 1);
+        if ( v14 < 1 )
+          v14 = 1;
+        v24 = *(_DWORD *)(a2 + 16);
+        v23 = (unsigned __int64)(signed __int64)((double)*(signed int *)(a2 + 20)
                                                - ((double)*(signed int *)(this + 62)
                                                 + *(float *)&dword_522BEC))
             - 9;
         *(_DWORD *)(this + 1046) = 100
-                                 * v19
-                                 / (signed int)(signed __int64)(*(float *)&dword_522BF0 * 100.0 / (double)v10);
+                                 * v23
+                                 / (signed int)(signed __int64)(*(float *)&dword_522BF0 * 100.0 / (double)v14);
         if ( dword_522BF4 + *(_DWORD *)(this + 1046) - 1 >= *(_DWORD *)(this + 1042) )
           *(_DWORD *)(this + 1046) = *(_DWORD *)(this + 1042) - dword_522BF4;
         if ( *(_DWORD *)(this + 1046) < 0 )
@@ -348,7 +348,7 @@ LABEL_89:
               if ( *(_DWORD *)(a2 + 8) < 260 || *(_DWORD *)(a2 + 8) > 279 )
               {
                 if ( *(_DWORD *)(a2 + 8) < 20 || *(_DWORD *)(a2 + 8) > 39 )
-                  goto LABEL_167;
+                  goto LABEL_161;
                 i = *(_DWORD *)(a2 + 8) - 20;
               }
               else
@@ -374,7 +374,7 @@ LABEL_89:
         {
           *(_DWORD *)(a2 + 24) = 30722;
           *(_DWORD *)(a2 + 8) = 30722;
-          v21 = 1;
+          v25 = 1;
         }
         else
         {
@@ -382,45 +382,55 @@ LABEL_89:
           {
             *(_DWORD *)(this + 1050) = i + *(_DWORD *)(this + 1046);
             sub_40C570(this, 1);
-            sub_40DA80(v8, 1);
+            sub_40DA80(v12, 1);
           }
         }
         break;
     }
   }
-  if ( v21 != 1 )
-    goto LABEL_184;
-LABEL_167:
-  if ( *(_DWORD *)(v8 + 66) == 2
-    && *(_DWORD *)(v8 + 1050) >= 0
-    && *(_DWORD *)(a2 + 24) != 30721
-    && _strcmpi((const char *)(*(_DWORD *)(v8 + 674) + 5 * *(_DWORD *)(v8 + 1050)), ".GMC")
-    && _strcmpi((const char *)(*(_DWORD *)(v8 + 674) + 5 * *(_DWORD *)(v8 + 1050)), ".GXC") )
+  if ( v25 != 1 )
+    goto LABEL_178;
+LABEL_161:
+  if ( *(_DWORD *)(v12 + 66) == 2 )
   {
-    i = *(_BYTE *)(5 * *(_DWORD *)(v8 + 1050) + *(_DWORD *)(v8 + 674) + 3) - 48;
-    if ( i < dword_5235D4 && debugLogLevel < 2 )
+    if ( *(_DWORD *)(v12 + 1050) >= 0 )
     {
-      sprintf(
-        globBuf,
-        "The game you have chosen only has slots for %d human(s).  You need one with room for at least %d humans.",
-        i,
-        dword_5235D4);
-      display_message_window(globBuf, 1, -1, -1, -1, 0, -1, 0, -1, 0);
-      v21 = 0;
-    }
-    if ( i > dword_5235D4 )
-    {
-      sprintf(
-        globBuf,
-        "The game you have chosen was being played with %d humans. Is it OK if the computer takes the place of the last %d human(s)?",
-        i,
-        i - dword_5235D4);
-      display_message_window(globBuf, 2, -1, -1, -1, 0, -1, 0, -1, 0);
-      if ( HeroWindowManager::instance->buttonPressedCode != 30725 )
-        v21 = 0;
+      if ( *(_DWORD *)(a2 + 24) != 30721 )
+      {
+        LOBYTE(v4) = _strcmpi((char *)(*(_DWORD *)(v12 + 674) + 5 * *(_DWORD *)(v12 + 1050)), ".GMC");
+        if ( v4 )
+        {
+          LOBYTE(v5) = _strcmpi((char *)(*(_DWORD *)(v12 + 674) + 5 * *(_DWORD *)(v12 + 1050)), ".GXC");
+          if ( v5 )
+          {
+            i = *(_BYTE *)(5 * *(_DWORD *)(v12 + 1050) + *(_DWORD *)(v12 + 674) + 3) - 48;
+            if ( i < dword_5235D4 && debugLogLevel < 2 )
+            {
+              sprintf(
+                globBuf,
+                "The game you have chosen only has slots for %d human(s).  You need one with room for at least %d humans.",
+                i,
+                dword_5235D4);
+              display_message_window(globBuf, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              v25 = 0;
+            }
+            if ( i > dword_5235D4 )
+            {
+              sprintf(
+                globBuf,
+                "The game you have chosen was being played with %d humans. Is it OK if the computer takes the place of the last %d human(s)?",
+                i,
+                i - dword_5235D4);
+              display_message_window(globBuf, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+              if ( HeroWindowManager::instance->buttonPressedCode != 30725 )
+                v25 = 0;
+            }
+          }
+        }
+      }
     }
   }
-  if ( v21 )
+  if ( v25 )
   {
     *(_DWORD *)a2 = 16384;
     *(_DWORD *)(a2 + 4) = 4;
@@ -428,7 +438,7 @@ LABEL_167:
   }
   else
   {
-LABEL_184:
+LABEL_178:
     result = 1;
   }
   return result;

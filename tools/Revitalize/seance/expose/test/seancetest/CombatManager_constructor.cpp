@@ -41,7 +41,7 @@ CombatManager *__thiscall CombatManager_constructor(CombatManager *this)
   this->isCastleBattle = 0;
   this->shadedHex = -1;
   this->checkedInsub4c3d60 = 0;
-  strcpy(this->combatMessageRow1, byte_513078);
-  strcpy(this->combatMessageRow2, byte_51307C);
+  strcpy((int)this->combatMessageRow1);
+  strcpy((int)this->combatMessageRow2);
   return this;
 }

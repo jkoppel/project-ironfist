@@ -23,9 +23,15 @@ void __thiscall SoundManager::initializeRedbook(SoundManager *this)
             thisa->field_69E = 1;
             thisa->someTick = getTickCount() + 5000;
             numRedbookTrackSlots = AIL_redbook_tracks(redbook) + 2;
-            ptr = KBAlloc(4 * numRedbookTrackSlots + 1, "F:\\h2xsrc\\Base\\Soundmgr.cpp", word_4ED168 + 26);
-            dword_4ED0B4 = KBAlloc(4 * numRedbookTrackSlots + 1, "F:\\h2xsrc\\Base\\Soundmgr.cpp", word_4ED168 + 27);
-            dword_4ED0B8 = KBAlloc(4 * numRedbookTrackSlots + 1, "F:\\h2xsrc\\Base\\Soundmgr.cpp", word_4ED168 + 28);
+            ptr = (void *)KBAlloc(4 * numRedbookTrackSlots + 1, "F:\\h2xsrc\\Base\\Soundmgr.cpp", word_4ED168 + 26);
+            dword_4ED0B4 = (void *)KBAlloc(
+                                     4 * numRedbookTrackSlots + 1,
+                                     "F:\\h2xsrc\\Base\\Soundmgr.cpp",
+                                     word_4ED168 + 27);
+            dword_4ED0B8 = (void *)KBAlloc(
+                                     4 * numRedbookTrackSlots + 1,
+                                     "F:\\h2xsrc\\Base\\Soundmgr.cpp",
+                                     word_4ED168 + 28);
             for ( tracknum = 0; (signed int)tracknum < numRedbookTrackSlots; ++tracknum )
             {
               AIL_redbook_track_info(

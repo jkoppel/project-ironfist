@@ -1,29 +1,22 @@
-Sample *__thiscall ResourceManager::getSampleByFilename(ResourceManager *ecx0, const char *filename)
+Sample *__thiscall ResourceManager::getSampleByFilename(ResourceManager *this, const char *filename)
 {
-  int id; // ST28_4@1
-  Sample *result; // eax@2
-  ResourceManager *thisa; // [sp+Ch] [bp-10h]@1
-  Sample *this; // [sp+10h] [bp-Ch]@3
-  AbstractResource *a2; // [sp+14h] [bp-8h]@1
-  AbstractResource *fileNodea; // [sp+14h] [bp-8h]@4
+  unsigned int hash; // ST28_4@1
+  Sample *sample; // eax@2 MAPDST
 
-  thisa = ecx0;
-  id = ResourceManager::setResource(ecx0, filename, 1);
-  a2 = ResourceManager::findLoadedFile(thisa, id);
-  if ( a2 )
+  hash = ResourceManager::setResource(this, filename, 1);
+  sample = (Sample *)ResourceManager::findLoadedFile(this, hash);
+  if ( sample )
   {
-    ++a2->referenceCount;
-    result = (Sample *)a2;
+    ++sample->referenceCount;
   }
   else
   {
-    this = (Sample *)operator new(0x30u);
-    if ( this )
-      fileNodea = (AbstractResource *)Sample_constructor(this, filename, 0, 127, 1);
+    sample = (Sample *)operator new(sizeof(Sample));
+    if ( sample )
+      sample = Sample_constructor(sample, filename, 0, 127, 1);
     else
-      fileNodea = 0;
-    ResourceManager::prependFileLinkedListNode(thisa, fileNodea);
-    result = (Sample *)fileNodea;
+      sample = NULL;
+    ResourceManager::prependFileLinkedListNode(this, (AbstractResource *)sample);
   }
-  return result;
+  return sample;
 }

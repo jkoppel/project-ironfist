@@ -30,7 +30,7 @@ int __thiscall TownManager::enterMageGuild(TownManager *this, GUIWindow *mageGui
   evt.inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
   if ( this->castle->visitingHeroIdx == -1 )
   {
-    strcpy(globBuf, "The above spells are available here.");
+    strcpy((int)globBuf);
     *(_QWORD *)&evt.inputEvt.xCoordOrKeycode = GUI_MESSAGE_SET_CONTENTS;
     evt.inputEvt.payload = globBuf;
     GUIWindow::processMessage(mageGuildWindow, &evt);

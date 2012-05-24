@@ -1,0 +1,19 @@
+
+  ManagerVtable *vtable;
+  AbstractManager *next;
+  AbstractManager *prev;
+  int type;
+  int idx;
+  char name[30];
+  _DWORD ready;
+  GUIWindow *firstWindow;
+  GUIWindow *lastWindow;
+  GUIWindow *topmostWindow;
+  GUIWindow *nextTopmostWindow;
+  Bitmap *screenBuffer;
+  Bitmap *someBMP;
+  _DWORD field_4E;
+  _DWORD numScreenshots;
+  _DWORD field_56;
+  _DWORD buttonPressedCode;
+  _DWORD field_5E;

@@ -2,7 +2,7 @@ Bitmap *__thiscall Bitmap_constructorFromFile(Bitmap *this, int fileID)
 {
   Bitmap *thisa; // edi@1
   __int16 height; // ax@1
-  unsigned int size; // esi@1
+  DWORD size; // esi@1
 
   thisa = this;
   AbstractResource_constructor((AbstractResource *)this, 0, fileID, 1, 0);

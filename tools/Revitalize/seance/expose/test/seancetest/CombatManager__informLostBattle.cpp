@@ -43,7 +43,7 @@ CombatManager *__thiscall CombatManager::informLostBattle(CombatManager *this)
       dword_524C70 = 2;
     }
   }
-  thisa = (GUIWindow *)operator new(0x44u);
+  thisa = (GUIWindow *)operator new(68);
   if ( thisa )
     v2->combatEndWindow = GUIWindow_constructorFromFile(thisa, 143, 10, "wincmbt.bin");
   else

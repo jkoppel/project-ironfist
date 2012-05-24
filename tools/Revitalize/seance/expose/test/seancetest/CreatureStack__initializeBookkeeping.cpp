@@ -9,7 +9,7 @@ void __thiscall CreatureStack::initializeBookkeeping(CreatureStack *this)
   this->lifespan = -1;
   this->numActiveEffects = 0;
   memset(this->effectStrengths, 0, 0xFu);
-  thisa->timeToFidget = getTickCount();
+  thisa->baseFidgetTime = getTickCount();
   thisa->field_11D = 1;
   thisa->creatureIcon = 0;
   thisa->probablyIsNeedDrawSpellEffect = 0;

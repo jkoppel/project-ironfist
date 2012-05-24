@@ -1,24 +1,22 @@
 void __thiscall ResourceManager_destructor(ResourceManager *this)
 {
-  ResourceManager *thisa; // [sp+Ch] [bp-8h]@1
-  signed int i; // [sp+10h] [bp-4h]@2
+  int i; // [sp+10h] [bp-4h]@2
 
-  thisa = this;
   if ( this->ready == 1 )
   {
     ResourceManager::freeAllResources(this);
-    thisa->loadedFileLinkedList = 0;
-    for ( i = 0; i < 2; ++i )
+    this->loadedFileLinkedList = 0;
+    for ( i = 0; i < NUM_AGG_FILES; ++i )
     {
-      if ( thisa->aggContentInfo[i] )
-        KBFree(thisa->aggContentInfo[i], (int)"F:\\h2xsrc\\Base\\RESMGR.CPP", 474);
-      if ( thisa->fileDescriptors[i] != -1 )
+      if ( this->aggContentInfo[i] )
+        KBFree(this->aggContentInfo[i], (int)"F:\\h2xsrc\\Base\\RESMGR.CPP", 474);
+      if ( this->fileDescriptors[i] != -1 )
       {
-        _close(thisa->fileDescriptors[i]);
-        thisa->fileDescriptors[i] = -1;
+        _close(this->fileDescriptors[i]);
+        this->fileDescriptors[i] = -1;
       }
     }
-    thisa->numOpenAGGFiles = 0;
-    thisa->ready = 0;
+    this->numOpenAGGFiles = 0;
+    this->ready = 0;
   }
 }

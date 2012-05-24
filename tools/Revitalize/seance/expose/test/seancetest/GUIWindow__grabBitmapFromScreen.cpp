@@ -4,7 +4,7 @@ int __thiscall GUIWindow::grabBitmapFromScreen(GUIWindow *this)
   Bitmap *bmp; // [sp+10h] [bp-4h]@1
 
   thisa = this;
-  bmp = (Bitmap *)operator new(0x1Au);
+  bmp = (Bitmap *)operator new(26);
   if ( bmp )
     thisa->bitmap = Bitmap_constructor(bmp, 33, thisa->width, thisa->height);
   else

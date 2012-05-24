@@ -26,7 +26,7 @@ void __fastcall dwellingRightClicked(Castle *castle, int dwellingIdx)
     specialResource = i;
     specialResourceAmt = costs[i];
   }
-  v8 = (GUIWindow *)operator new(0x44u);
+  v8 = (GUIWindow *)operator new(68);
   if ( v8 )
     window = GUIWindow_constructorFromFile(
                v8,

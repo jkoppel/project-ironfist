@@ -51,7 +51,7 @@ void __thiscall GameInfo::fixSeveralInvariants(GameInfo *this)
   {
     for ( row = 0; row < mapHeight; ++row )
     {
-      v2 = (MapTile *)usedToCheckForBoatByCastle(advManager, col, row);
+      v2 = AdvManager::getTile(advManager, col, row);
       if ( v2->objType == 170 )
       {
         if ( (signed int)(unsigned __int8)((unsigned __int8)(v2->flags >> 8) >> -5) >= 54 )

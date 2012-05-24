@@ -1,8 +1,8 @@
 void __stdcall CombatManager::animateMagicOrGarrisonArrow(int xFrom, int yFrom, int xTarg, int yTarg, float *anglesOfImgIdxs, Icon *icon)
 {
-  float v6; // ST40_4@8
+  float v6; // ST40_4@10
+  float v7; // ST3C_4@10
   Bitmap *this; // [sp+30h] [bp-64h]@18
-  float angleDeg; // [sp+34h] [bp-60h]@8
   int deltaY; // [sp+3Ch] [bp-58h]@3
   int v10; // [sp+40h] [bp-54h]@21
   int deltaX; // [sp+44h] [bp-50h]@1
@@ -36,10 +36,18 @@ void __stdcall CombatManager::animateMagicOrGarrisonArrow(int xFrom, int yFrom, 
   deltaY = yTarg - yFrom;
   if ( deltaX )
   {
-    v6 = (double)-deltaY / (double)deltaX;
-    angleDeg = atan(v6) * 180.0 / 3.14159;
-    for ( i = 1; i < 9 && (anglesOfImgIdxs[i - 1] + anglesOfImgIdxs[i]) / 2.0 >= angleDeg; ++i )
-      ;
+    atan();
+    for ( i = 1; ; ++i )
+    {
+      if ( i < 9 )
+      {
+        v6 = (double)-deltaY / (double)deltaX;
+        v7 = v6 * 180.0 / 3.14159;
+        if ( (anglesOfImgIdxs[i - 1] + anglesOfImgIdxs[i]) / 2.0 >= v7 )
+          continue;
+      }
+      break;
+    }
     if ( i >= 9 )
       spriteIdx = 8;
     else
@@ -65,7 +73,7 @@ void __stdcall CombatManager::animateMagicOrGarrisonArrow(int xFrom, int yFrom, 
   }
   x = xFrom;
   y = yFrom;
-  this = (Bitmap *)operator new(0x1Au);
+  this = (Bitmap *)operator new(26);
   if ( this )
     oldRect = Bitmap_constructor(this, 33, 50, 50);
   else

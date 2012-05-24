@@ -1,0 +1,8 @@
+#ifndef INPUT_H
+#define INPUT_H
+
+#seance defstruct INPUT_EVENT_CODE
+
+#seance defstruct InputEvent
+
+#endif

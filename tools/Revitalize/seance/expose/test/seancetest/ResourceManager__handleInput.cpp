@@ -1,4 +1,4 @@
-int __thiscall ResourceManager::handleInput(ResourceManager *this, InputEvent *a1)
+MANAGER_RETURN_CODE __thiscall ResourceManager::handleInput(ResourceManager *this, InputEvent *a1)
 {
-  return 0;
+  return MANAGER_SUCCESS;
 }

@@ -6,7 +6,7 @@ int __thiscall RecruitManager::initialize(void *this, int a2)
   int v6; // [sp+14h] [bp-8h]@6
 
   v4 = (int)this;
-  thisa = (GUIWindow *)operator new(0x44u);
+  thisa = (GUIWindow *)operator new(68);
   if ( thisa )
     *(_DWORD *)(v4 + 82) = GUIWindow_constructorFromFile(
                              thisa,
@@ -57,6 +57,6 @@ int __thiscall RecruitManager::initialize(void *this, int a2)
   *(_DWORD *)(v4 + 12) = 16384;
   *(_DWORD *)(v4 + 16) = a2;
   *(_DWORD *)(v4 + 50) = 1;
-  strcpy((char *)(v4 + 20), "recruitManager");
+  strcpy(v4 + 20);
   return 0;
 }

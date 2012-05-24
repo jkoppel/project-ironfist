@@ -1,5 +1,6 @@
 void __thiscall CombatManager::castMassSpell(CombatManager *this, Spell spell, signed int spellpower)
 {
+  int v3; // edx@1
   CombatManager *thisb; // [sp+14h] [bp-4Ch]@1
   int othSide; // [sp+18h] [bp-48h]@2
   int thisSide; // [sp+18h] [bp-48h]@8
@@ -72,17 +73,20 @@ void __thiscall CombatManager::castMassSpell(CombatManager *this, Spell spell, s
       damage = spellpower * ((unsigned int)(spell - SPELL_HOLY_WORD) < 1 ? 10 : 20);
       for ( side1 = 0; side1 < 2; ++side1 )
       {
-        for ( l = 0; thisb->numCreatures[side1] > l; ++l )
+        for ( l = 0; ; ++l )
         {
+          v3 = l;
+          if ( thisb->numCreatures[side1] <= l )
+            break;
           if ( HIBYTE(thisb->creatures[side1][l].creature.creature_flags) & ATTR_UNDEAD
             && CreatureStack::rollSpellSucceeds(&thisb->creatures[side1][l], spell) )
             stackAffected[side1][l] = 1;
         }
       }
       if ( spell == SPELL_HOLY_WORD )
-        CombatManager::doHolySpellGraphics(thisb, 0, -2, -2);
+        CombatManager::doHolySpellGraphics(thisb, v3, 0, -2, -2);
       else
-        CombatManager::doHolySpellGraphics(thisb, 0, -4, -4);
+        CombatManager::doHolySpellGraphics(thisb, v3, 0, -4, -4);
       for ( side2 = 0; side2 < 2; ++side2 )
       {
         for ( m = 0; thisb->numCreatures[side2] > m; ++m )
@@ -99,14 +103,17 @@ void __thiscall CombatManager::castMassSpell(CombatManager *this, Spell spell, s
       isDamageSpell = 1;
       for ( othSidee = 0; othSidee < 2; ++othSidee )
       {
-        for ( n = 0; thisb->numCreatures[othSidee] > n; ++n )
+        for ( n = 0; ; ++n )
         {
+          v3 = n;
+          if ( thisb->numCreatures[othSidee] <= n )
+            break;
           if ( !(HIBYTE(thisb->creatures[othSidee][n].creature.creature_flags) & ATTR_UNDEAD)
             && CreatureStack::rollSpellSucceeds(&thisb->creatures[othSidee][n], spell) )
             stackAffected[othSidee][n] = 1;
         }
       }
-      CombatManager::doDeathSpellGraphics(thisb, 2 - ((unsigned int)(spell - SPELL_DEATH_RIPPLE) < 1));
+      CombatManager::doDeathSpellGraphics(thisb, v3, 2 - ((unsigned int)(spell - SPELL_DEATH_RIPPLE) < 1));
       damagea = spellpower * ((unsigned int)(spell - SPELL_DEATH_RIPPLE) < 1 ? 5 : 10);
       for ( othSidef = 0; othSidef < 2; ++othSidef )
       {

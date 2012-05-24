@@ -1,6 +1,6 @@
-int __thiscall Hero::read(Hero *this, int fd, char expansion)
+signed int __thiscall Hero::read(Hero *this, int fd, char expansion)
 {
-  int result; // eax@2
+  signed int result; // eax@2
 
   if ( expansion )
     result = _read(fd, this, 250u);

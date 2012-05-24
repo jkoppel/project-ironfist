@@ -6,9 +6,9 @@ int __thiscall TownManager::initialize(TownManager *this, int idx)
   thisa = this;
   GameInfo::fixSeveralInvariants(gameObject);
   if ( *(_DWORD *)&useOpera || !*(_DWORD *)&useCDMusic )
-    SoundManager::couldBePlayCDTrack(soundManager, factionTrackNumbers[thisa->castle->factionID]);
+    SoundManager::playCDTrack(soundManager, factionTrackNumbers[thisa->castle->factionID]);
   yieldToGlobalUpdater();
-  window = (GUIWindow *)operator new(0x44u);
+  window = (GUIWindow *)operator new(68);
   if ( window )
     thisa->townScreen = GUIWindow_constructorFromFile(window, 0, 0, "townwind.bin");
   else
@@ -37,7 +37,7 @@ int __thiscall TownManager::initialize(TownManager *this, int idx)
   thisa->type = 2048;
   thisa->idx = idx;
   thisa->ready = 1;
-  strcpy(thisa->name, "townManager");
+  strcpy((int)thisa->name);
   sub_4C7C60(HeroWindowManager::instance, 0, 8, 0);
   return 0;
 }

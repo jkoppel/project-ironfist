@@ -17,8 +17,8 @@ signed int __cdecl parseCommandLine()
   dword_523EE0 = -1;
   dword_52340C = -1;
   dword_523410 = -1;
-  strcpy(byte_5235B8, byte_50D014);
-  strcpy(byte_524828, byte_50D018);
+  strcpy((int)byte_5235B8);
+  strcpy((int)byte_524828);
   dword_4F1CCC = 0;
   debugLogLevel = 0;
   dword_52409C = 1;
@@ -28,9 +28,9 @@ signed int __cdecl parseCommandLine()
   dword_524794 = 0;
   dword_52473C = 1;
   v11 = 0;
-  strcpy(byte_524740, "Chaos.mp2");
-  strcpy(byte_523EF0, "Chaos");
-  v12 = strlen(command_line);
+  strcpy((int)byte_524740);
+  strcpy((int)byte_523EF0);
+  v12 = strlen((int)command_line);
   for ( i = 0; v12 > i; ++i )
   {
     if ( command_line[i] == ' '
@@ -140,7 +140,7 @@ signed int __cdecl parseCommandLine()
   {
     sprintf(globBuf, byte_50D030);
     for ( l = 0; l < 14; ++l )
-      strcat(globBuf, (&off_4F6F58)[4 * l]);
+      strcat((int)globBuf, (int)(&off_4F6F58)[4 * l]);
     terminate(globBuf);
   }
   sprintf(byte_524470, "%s%s", ".\\DATA\\", "heroes2.agg");
@@ -154,7 +154,7 @@ signed int __cdecl parseCommandLine()
     dword_52473C = 0;
   if ( dword_52340C != -1 )
   {
-    if ( dword_523EE0 == -1 || dword_523410 == -1 || !dword_52340C && strlen(byte_5235B8) < 1 )
+    if ( dword_523EE0 == -1 || dword_523410 == -1 || !dword_52340C && (unsigned int)strlen((int)byte_5235B8) < 1 )
       terminate("Incomplete TCP/IP command line information");
     dword_52409C = 0;
   }

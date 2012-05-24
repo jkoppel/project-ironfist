@@ -1,11 +1,11 @@
 void __thiscall CombatManager::displayCombatMessage(CombatManager *this, char *message, int a3, int a4, int a5)
 {
   CombatManager *thisa; // [sp+Ch] [bp-1BCh]@1
-  char buf[400]; // [sp+10h] [bp-1B8h]@17
-  char *newline; // [sp+1A0h] [bp-28h]@16
-  InputEvent a2; // [sp+1A4h] [bp-24h]@26
-  int v9; // [sp+1C0h] [bp-8h]@26
-  int v10; // [sp+1C4h] [bp-4h]@26
+  char buf[400]; // [sp+10h] [bp-1B8h]@14
+  char *newline; // [sp+1A0h] [bp-28h]@13
+  InputEvent a2; // [sp+1A4h] [bp-24h]@23
+  int v9; // [sp+1C0h] [bp-8h]@23
+  int v10; // [sp+1C4h] [bp-4h]@23
 
   thisa = this;
   if ( combatGraphicsOff )
@@ -19,8 +19,8 @@ void __thiscall CombatManager::displayCombatMessage(CombatManager *this, char *m
     {
       if ( a5 )
       {
-        strcpy(this->combatMessageRow1, byte_51E3A0);
-        strcpy(thisa->combatMessageRow2, message);
+        strcpy((int)this->combatMessageRow1);
+        strcpy((int)thisa->combatMessageRow2);
         thisa->otherCombatMessageRelatedTime = 0;
         thisa->combatMessageRelatedTime = thisa->otherCombatMessageRelatedTime;
         thisa->couldBeShouldResetCombatMessage = 0;
@@ -29,10 +29,7 @@ void __thiscall CombatManager::displayCombatMessage(CombatManager *this, char *m
       {
         if ( a4 )
         {
-          if ( this->combatMessageRelatedTime )
-            strcpy(this->combatMessageRow1, this->combatMessageRow2);
-          else
-            strcpy(this->combatMessageRow1, byte_51E3A8);
+          strcpy((int)this->combatMessageRow1);
           thisa->otherCombatMessageRelatedTime = thisa->combatMessageRelatedTime;
           thisa->combatMessageRelatedTime = getTickCount() + 2500;
         }
@@ -40,7 +37,7 @@ void __thiscall CombatManager::displayCombatMessage(CombatManager *this, char *m
         {
           if ( getTickCount() < this->combatMessageRelatedTime )
             return;
-          strcpy(thisa->combatMessageRow1, byte_51E3A4);
+          strcpy((int)thisa->combatMessageRow1);
           thisa->otherCombatMessageRelatedTime = 0;
           thisa->combatMessageRelatedTime = thisa->otherCombatMessageRelatedTime;
         }
@@ -48,26 +45,26 @@ void __thiscall CombatManager::displayCombatMessage(CombatManager *this, char *m
         if ( newline )
         {
           *newline = 0;
-          strcpy(buf, message);
+          strcpy((int)buf);
           if ( message >= newline || *(newline - 1) != '.' )
-            strcat(buf, L" ");
+            strcat((int)buf, (int)L" ");
           else
-            strcat(buf, "  ");
-          strcat(buf, newline + 1);
+            strcat((int)buf, (int)"  ");
+          strcat((int)buf, (int)(newline + 1));
           if ( Font::numLinesNeededToDisplay(bigFont, buf, 474) > 1 )
           {
-            strcpy(thisa->combatMessageRow1, message);
-            strcpy(thisa->combatMessageRow2, newline + 1);
+            strcpy((int)thisa->combatMessageRow1);
+            strcpy((int)thisa->combatMessageRow2);
           }
           else
           {
-            strcpy(thisa->combatMessageRow2, buf);
+            strcpy((int)thisa->combatMessageRow2);
           }
           *newline = '\n';
         }
         else
         {
-          strcpy(thisa->combatMessageRow2, message);
+          strcpy((int)thisa->combatMessageRow2);
         }
       }
       a2.eventCode = INPUT_GUI_MESSAGE_CODE;

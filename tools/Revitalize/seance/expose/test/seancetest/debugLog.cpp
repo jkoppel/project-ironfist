@@ -1,13 +1,13 @@
 void __thiscall debugLog(void *msg)
 {
   const char *msga; // edi@1
-  FILE *v2; // ebx@2
+  int v2; // ebx@2
   char OutputString[500]; // [sp+Ch] [bp-1F4h]@3
 
   msga = (const char *)msg;
   if ( debugLogLevel >= 2 )
   {
-    v2 = fopen("KB.LOG", "at+");
+    v2 = fopen("KB.LOG", (int)"at+");
     if ( v2 )
     {
       strcpy(OutputString, msga);

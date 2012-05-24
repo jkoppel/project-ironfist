@@ -7,7 +7,7 @@ int __thiscall HeroWindowManager::initialize(HeroWindowManager *this, int a2)
   doNothing();
   memset(palette->contents, 0, 0x300u);
   someSortOfPaletteSwap(palette->contents, 1);
-  v3 = (Bitmap *)operator new(0x1Au);
+  v3 = (Bitmap *)operator new(26);
   if ( v3 )
     thisa->screenBuffer = Bitmap_noArgsConstructor(v3);
   else

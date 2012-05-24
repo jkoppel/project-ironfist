@@ -19,7 +19,7 @@ signed int __thiscall CreatureStack::receiveEffect(CreatureStack *this, STACK_MO
       case 0:
         CreatureStack::removeEffect(this, EFFECT_SLOW);
         thisa->creature.speed += 2;
-        thisa->form.field_A2 = (signed __int64)((double)thisa->form.field_A2 * 0.65);
+        thisa->form.stepTime = (signed __int64)((double)thisa->form.stepTime * 0.65);
         goto LABEL_24;
       case 1:
         CreatureStack::removeEffect(this, 0);
@@ -27,7 +27,7 @@ signed int __thiscall CreatureStack::receiveEffect(CreatureStack *this, STACK_MO
         thisa->creature.speed = ((signed int)v4 - HIDWORD(v4)) >> 1;
         if ( thisa->creature.creature_flags & 2 )
           *(_DWORD *)&thisa->creature.creature_flags -= 2;
-        thisa->form.field_A2 = (signed __int64)((double)thisa->form.field_A2 * 1.5);
+        thisa->form.stepTime = (signed __int64)((double)thisa->form.stepTime * 1.5);
         goto LABEL_24;
       case 3:
         CreatureStack::removeEffect(this, EFFECT_CURSE);

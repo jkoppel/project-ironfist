@@ -30,7 +30,7 @@ HSAMPLE __thiscall SoundManager::playSample(SoundManager *this, Sample *a2)
       *((_DWORD *)v5 + 2) = *(_DWORD *)v5;
       i = *((_DWORD *)v5 + 2);
     }
-    sub_403760((int)v4, (int)v4->hsamples[i]);
+    SoundManager::endSample(v4, v4->hsamples[i]);
   }
   S = v4->hsamples[i];
   v4->_1[i + 64] = LOBYTE(a2->field_28);

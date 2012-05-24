@@ -5,7 +5,7 @@ void __stdcall playTrackForLocationVisit(int locType, int a2, _QWORD *res)
   int v5; // [sp+5Ch] [bp-4h]@1
 
   v5 = 22;
-  strcpy(&file, byte_5184CC);
+  strcpy((int)&file);
   trackNum = -1;
   switch ( locType )
   {
@@ -152,28 +152,28 @@ LABEL_36:
     switch ( trackNum )
     {
       case 19:
-        strcpy(&file, "treasure.82m");
+        strcpy((int)&file);
         break;
       case 22:
-        strcpy(&file, "expernce.82m");
+        strcpy((int)&file);
         break;
       case 100:
-        strcpy(&file, "goodmrle.82m");
+        strcpy((int)&file);
         break;
       case 101:
-        strcpy(&file, "goodluck.82m");
+        strcpy((int)&file);
         break;
       case 102:
-        strcpy(&file, "pickup01.82m");
+        strcpy((int)&file);
         break;
       case 103:
-        strcpy(&file, "h2mine.82m");
+        strcpy((int)&file);
         break;
       default:
-        SoundManager::couldBePlayCDTrack(soundManager, trackNum);
+        SoundManager::playCDTrack(soundManager, trackNum);
         break;
     }
-    if ( strlen(&file) > 1 )
+    if ( (unsigned int)strlen((int)&file) > 1 )
       *res = playSample(&file);
   }
 }

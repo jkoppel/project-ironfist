@@ -34,7 +34,7 @@ void __thiscall HeroWindowManager::resetSomeBMP(HeroWindowManager *this, int x, 
       v10 = (AbstractResource *)this->someBMP;
       if ( v10 )
         v10->vtable->cleanUp(v10, 1);
-      v11 = (Bitmap *)operator new(0x1Au);
+      v11 = (Bitmap *)operator new(26);
       if ( v11 )
         thisa->someBMP = Bitmap_constructor(v11, 0, actualWidth, actualHeight);
       else

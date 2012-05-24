@@ -1,14 +1,15 @@
 signed int __thiscall CombatManager::handleInput(CombatManager *this, InputEvent *evt)
 {
-  int v3; // [sp+14h] [bp-30h]@12
+  int v2; // edx@7
+  int v4; // [sp+14h] [bp-30h]@12
   CombatManager *thisa; // [sp+18h] [bp-2Ch]@1
   InputEvent a2; // [sp+1Ch] [bp-28h]@32
-  char *v6; // [sp+38h] [bp-Ch]@10
+  char *v7; // [sp+38h] [bp-Ch]@10
   CreatureStack *stack; // [sp+3Ch] [bp-8h]@23
-  int v8; // [sp+40h] [bp-4h]@1
+  int v9; // [sp+40h] [bp-4h]@1
 
   thisa = this;
-  v8 = 1;
+  v9 = 1;
   if ( !combatGraphicsOff )
   {
     if ( getTickCount() > animationFrameSwitchTime )
@@ -20,7 +21,7 @@ signed int __thiscall CombatManager::handleInput(CombatManager *this, InputEvent
     if ( getTickCount() > nextCombatAnimationTime && !dword_4F31B0 )
     {
       dword_4F31B0 = 1;
-      sub_4419B0(thisa);
+      CombatManager::doFlavorAnimations(thisa);
       dword_4F31B0 = 0;
     }
   }
@@ -53,16 +54,16 @@ LABEL_23:
     }
     goto LABEL_36;
   }
-  v6 = (char *)sub_46E3F0(1);
-  if ( !v6 || v6[5] != 2 )
+  v7 = (char *)sub_46E3F0(1, v2);
+  if ( !v7 || v7[5] != 2 )
     goto LABEL_17;
-  v3 = v6[6];
-  if ( v3 == 11 )
+  v4 = v7[6];
+  if ( v4 == 11 )
   {
-    sub_435F20(v6 + 9, (void *)*v6);
+    sub_435F20(v7 + 9, (void *)*v7);
     goto LABEL_17;
   }
-  if ( v3 != 23 )
+  if ( v4 != 23 )
   {
 LABEL_17:
     if ( !dword_524C60 )
@@ -76,21 +77,21 @@ LABEL_17:
     }
     goto LABEL_23;
   }
-  couldBeCreatureActionType = *(_DWORD *)(v6 + 9);
-  spellForAIToCast = *(_DWORD *)(v6 + 13);
-  notTargetForAISpell = *(_DWORD *)(v6 + 17);
-  dword_524C68 = *(_DWORD *)(v6 + 21);
+  couldBeCreatureActionType = *(_DWORD *)(v7 + 9);
+  spellForAIToCast = *(_DWORD *)(v7 + 13);
+  notTargetForAISpell = *(_DWORD *)(v7 + 17);
+  dword_524C68 = *(_DWORD *)(v7 + 21);
 LABEL_36:
   if ( !couldBeCreatureActionType )
   {
     if ( thisa->playerID[thisa->currentActionSide] != -1
       && *(&byte_524758 + thisa->playerID[thisa->currentActionSide])
       && !thisa->notHandlingInputEvent )
-      v8 = sub_43C500(thisa, evt);
+      v9 = sub_43C500(thisa, evt);
     else
       CombatManager::toplevelCombatAIFunction(thisa);
   }
   if ( couldBeCreatureActionType )
-    v8 = CombatManager::processAction(thisa, evt);
-  return v8;
+    v9 = CombatManager::processAction(thisa, evt);
+  return v9;
 }

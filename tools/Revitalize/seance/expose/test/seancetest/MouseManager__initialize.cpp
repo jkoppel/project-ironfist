@@ -5,7 +5,7 @@ int __thiscall MouseManager::initialize(MouseManager *this, int a2)
 
   this->field_7E = 0;
   thisa = this;
-  v3 = (Bitmap *)operator new(0x1Au);
+  v3 = (Bitmap *)operator new(26);
   if ( v3 )
     thisa->bitmap = Bitmap_constructor(v3, 33, 66, 64);
   else

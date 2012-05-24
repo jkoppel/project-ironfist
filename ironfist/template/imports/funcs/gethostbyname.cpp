@@ -1,0 +1,3 @@
+{
+  return gethostbyname(a1);
+}

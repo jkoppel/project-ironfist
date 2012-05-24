@@ -2,8 +2,8 @@ __int16 __thiscall TextWidget::readSelf(TextWidget *this)
 {
   TextWidget *v1; // esi@1
   __int16 v2; // ax@1
-  unsigned int v3; // edi@1
-  void *v4; // eax@1
+  DWORD v3; // edi@1
+  char *v4; // eax@1
   __int16 result; // ax@1
   char buf; // [sp+8h] [bp-10h]@1
 
@@ -14,8 +14,8 @@ __int16 __thiscall TextWidget::readSelf(TextWidget *this)
   v1->height = ResourceManager::readShort(resourceManager);
   v2 = ResourceManager::readShort(resourceManager);
   v3 = v2;
-  v4 = KBAlloc(v2, "F:\\h2xsrc\\Base\\TEXTWDGT.CPP", 57);
-  v1->content = (char *)v4;
+  v4 = (char *)KBAlloc(v2, "F:\\h2xsrc\\Base\\TEXTWDGT.CPP", 57);
+  v1->content = v4;
   ResourceManager::readFromCurrentFile(resourceManager, v4, v3);
   ResourceManager::readNexDOSFilename(resourceManager, &buf);
   ResourceManager::pushCurrentFileAndOffsetOntoStack(resourceManager);

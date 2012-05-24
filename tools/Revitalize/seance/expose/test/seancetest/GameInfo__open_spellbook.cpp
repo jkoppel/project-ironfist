@@ -20,7 +20,7 @@ int __thiscall GameInfo::open_spellbook(GameInfo *this, Hero *hero, SPELL_CATEGO
     *(_DWORD *)&thisa->_10[640] = Hero::numSpellsKnown(hero, 0);
     *(_DWORD *)&thisa->_10[636] = 0;
     *(_DWORD *)&thisa->_10[644] = Hero::numSpellsKnown(hero, SPELL_CATEGORY_ADVENTURE);
-    window = (GUIWindow *)operator new(0x44u);
+    window = (GUIWindow *)operator new(68);
     if ( window )
       *(_DWORD *)&thisa->_10[620] = GUIWindow_constructorFromFile(window, 86, 87, "spellwin.bin");
     else

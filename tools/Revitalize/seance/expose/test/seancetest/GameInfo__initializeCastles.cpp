@@ -15,7 +15,7 @@ void __thiscall GameInfo::initializeCastles(GameInfo *this)
   int spell; // [sp+44h] [bp-70h]@87
   int randNum; // [sp+48h] [bp-6Ch]@63
   bool hasAdventureSpellAtLevel; // [sp+4Ch] [bp-68h]@81
-  int v18; // [sp+50h] [bp-64h]@6
+  int a3; // [sp+50h] [bp-64h]@6
   char spellPresent[68]; // [sp+54h] [bp-60h]@50
   int tries; // [sp+98h] [bp-1Ch]@86 MAPDST
   int v21; // [sp+9Ch] [bp-18h]@5
@@ -32,11 +32,11 @@ void __thiscall GameInfo::initializeCastles(GameInfo *this)
       v25 = *(_WORD *)&this->castles[castleIdx]._2[2];
       v21 = *((_DWORD *)dword_524784 + v25);
       if ( *(_BYTE *)v21 == -1 )
-        v18 = -1;
+        a3 = -1;
       else
-        v18 = byte_4F38A8[*(_BYTE *)v21];
-      sub_420F30(this, castleIdx, v18, 0);
-      castle->_2[1] = v18;
+        a3 = byte_4F38A8[*(_BYTE *)v21];
+      sub_420F30(this, castleIdx, a3, 0);
+      castle->_2[1] = a3;
       if ( *(_BYTE *)(v21 + 7) )
       {
         for ( i = 0; i < 5; ++i )
@@ -113,7 +113,7 @@ void __thiscall GameInfo::initializeCastles(GameInfo *this)
       if ( *(_BYTE *)(v21 + 23) )
         castle->buildingsBuiltFlags |= 0x8000u;
       castle->mayNotBeUpgradedToCastle = *(_BYTE *)(v21 + 40);
-      strcpy(castle->name, (const char *)(v21 + 25));
+      strcpy((int)castle->name);
       memset(spellPresent, 0, 0x41u);
       for ( j = 0; j < 5; ++j )
       {

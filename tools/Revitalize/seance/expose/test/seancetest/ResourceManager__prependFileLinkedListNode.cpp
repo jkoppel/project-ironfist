@@ -8,6 +8,6 @@ void __thiscall ResourceManager::prependFileLinkedListNode(ResourceManager *this
   else
   {
     this->loadedFileLinkedList = res;
-    this->loadedFileLinkedList->next = 0;
+    this->loadedFileLinkedList->next = NULL;
   }
 }

@@ -13,6 +13,6 @@ void __thiscall TownManager::switchedCastle(TownManager *this)
   {
     if ( !*(_DWORD *)&useCDMusic )
       Sleep(0x64u);
-    SoundManager::couldBePlayCDTrack(soundManager, factionTrackNumbers[thisa->castle->factionID]);
+    SoundManager::playCDTrack(soundManager, factionTrackNumbers[thisa->castle->factionID]);
   }
 }

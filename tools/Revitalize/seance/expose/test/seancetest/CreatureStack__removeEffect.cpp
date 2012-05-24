@@ -9,7 +9,7 @@ void __thiscall CreatureStack::removeEffect(CreatureStack *this, STACK_MODIFYING
       case EFFECT_HASTE:
       case EFFECT_SLOW:
         this->creature.speed = LOBYTE(this->speed);
-        this->form.field_A2 = this->field_B2;
+        this->form.stepTime = this->field_B2;
         *(_DWORD *)&this->creature.creature_flags |= *(_DWORD *)&creature_table[this->creatureIdx].creature_flags & FLYER;
         break;
       case EFFECT_BLOOD_LUST:

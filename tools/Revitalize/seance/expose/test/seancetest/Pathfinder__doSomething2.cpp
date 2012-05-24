@@ -23,10 +23,10 @@ char __thiscall Pathfinder::doSomething2(Pathfinder *this, int a2, int a3, int a
   char v32; // ST1C_1@66
   int v33; // ST18_4@66
   char v34; // ST14_1@66
-  int v35; // eax@66
+  MapTile *v35; // eax@66
   int v36; // eax@66
   int v37; // ST2C_4@69
-  int v38; // eax@69
+  MapTile *v38; // eax@69
   int v39; // eax@69
   int v40; // eax@80
   int v41; // ecx@90
@@ -54,7 +54,7 @@ char __thiscall Pathfinder::doSomething2(Pathfinder *this, int a2, int a3, int a
     v13 = a10 + HIDWORD(a10) * mapWidth;
     if ( !((unsigned __int8)byte_532C5C & tileExplored[v13]) )
       return v13;
-    v13 = usedToCheckForBoatByCastle(advManager, a10, SHIDWORD(a10));
+    v13 = (int)AdvManager::getTile(advManager, a10, SHIDWORD(a10));
     dword_526C70 = v13;
     if ( *(_BYTE *)(v13 + 8) & 8 )
       return v13;
@@ -134,11 +134,7 @@ LABEL_22:
       }
       if ( byte_526C5C & 2 )
       {
-        v20 = *(_BYTE *)(usedToCheckForBoatByCastle(
-                           advManager,
-                           (unsigned __int8)byte_526C58,
-                           (unsigned __int8)byte_526C59)
-                       + 9) & 0x7F;
+        v20 = AdvManager::getTile(advManager, (unsigned __int8)byte_526C58, (unsigned __int8)byte_526C59)->objType & 0x7F;
         dword_526C90 = v20;
         if ( v20 == 24 || v20 == 42 || v20 == 43 )
         {
@@ -151,11 +147,10 @@ LABEL_22:
           dword_526C2C = 1;
           if ( dword_526C90 == 42 )
           {
-            if ( gameObject->relatedToHeroForHireStatus[(unsigned __int16)(*(_WORD *)(usedToCheckForBoatByCastle(
-                                                                                        advManager,
-                                                                                        (unsigned __int8)byte_526C58,
-                                                                                        (unsigned __int8)byte_526C59)
-                                                                                    + 4) >> 3)] == curPlayerIdx )
+            if ( gameObject->relatedToHeroForHireStatus[AdvManager::getTile(
+                                                          advManager,
+                                                          (unsigned __int8)byte_526C58,
+                                                          (unsigned __int8)byte_526C59)->flags >> 3] == curPlayerIdx )
               goto LABEL_72;
           }
         }
@@ -169,18 +164,14 @@ LABEL_22:
             goto LABEL_72;
           if ( byte_526C5C & 4 )
             goto LABEL_72;
-          v21 = usedToCheckForBoatByCastle(advManager, (unsigned __int8)byte_526C58, (unsigned __int8)byte_526C59);
+          v21 = (int)AdvManager::getTile(advManager, (unsigned __int8)byte_526C58, (unsigned __int8)byte_526C59);
           if ( sub_458D40(v21) )
             goto LABEL_72;
         }
       }
       if ( a6 )
       {
-        dword_526C90 = *(_BYTE *)(usedToCheckForBoatByCastle(
-                                    advManager,
-                                    (unsigned __int8)byte_526C58,
-                                    (unsigned __int8)byte_526C59)
-                                + 9);
+        dword_526C90 = AdvManager::getTile(advManager, (unsigned __int8)byte_526C58, (unsigned __int8)byte_526C59)->objType;
         if ( dword_526C90 != 28 )
           goto LABEL_55;
       }
@@ -199,15 +190,14 @@ LABEL_55:
           HIDWORD(v23) = (unsigned __int8)byte_526C59;
           LODWORD(v23) = (unsigned __int8)byte_526C58;
           Pathfinder::doSomething3(thisa, v23, (int)byte_526C30, (int)byte_526C78, 1, a6);
-          dword_526CB0 = (unsigned __int8)tileToTerrainType[*(_WORD *)usedToCheckForBoatByCastle(
-                                                                        advManager,
-                                                                        (unsigned __int8)byte_526C58,
-                                                                        (unsigned __int8)byte_526C59)];
-          v24 = (unsigned __int8)(*(_BYTE *)(usedToCheckForBoatByCastle(
-                                               advManager,
-                                               (unsigned __int8)byte_526C58,
-                                               (unsigned __int8)byte_526C59)
-                                           + 2) & 2) >> 1;
+          dword_526CB0 = (unsigned __int8)tileToTerrainType[AdvManager::getTile(
+                                                              advManager,
+                                                              (unsigned __int8)byte_526C58,
+                                                              (unsigned __int8)byte_526C59)->tileType];
+          v24 = (unsigned __int8)(AdvManager::getTile(
+                                    advManager,
+                                    (unsigned __int8)byte_526C58,
+                                    (unsigned __int8)byte_526C59)->field_2 & 2) >> 1;
           dword_526C9C = 0;
           dword_526C4C = v24;
           dword_526C3C = dword_524760 - (unsigned __int16)word_526C5A;
@@ -243,14 +233,14 @@ LABEL_55:
                 v32 = dword_526C94[0];
                 v33 = dword_526C2C;
                 v34 = byte_526C78[dword_526C9C];
-                v35 = usedToCheckForBoatByCastle(advManager, dword_526C38, dword_526C6C);
+                v35 = AdvManager::getTile(advManager, dword_526C38, dword_526C6C);
                 v36 = sub_464D00(
                         dword_526CB0,
                         dword_526C9C,
                         dword_526C3C,
                         a9,
                         dword_526C4C,
-                        (unsigned __int8)(*(_BYTE *)(v35 + 2) & 2) >> 1);
+                        (unsigned __int8)(v35->field_2 & 2) >> 1);
                 Pathfinder::doSomething4(
                   thisa,
                   dword_526C38,
@@ -272,13 +262,13 @@ LABEL_55:
                     if ( !(byte_526C5C & 4) )
                     {
                       v37 = dword_526C44;
-                      v38 = usedToCheckForBoatByCastle(advManager, dword_526C38, dword_526C6C);
+                      v38 = AdvManager::getTile(advManager, dword_526C38, dword_526C6C);
                       dword_526C98 = sub_464D00(
                                        byte_526C30[dword_526C9C],
                                        dword_526C9C,
                                        dword_524760 - (unsigned __int16)word_526C5A,
                                        a9,
-                                       (unsigned __int8)(*(_BYTE *)(v38 + 2) & 2) >> 1,
+                                       (unsigned __int8)(v38->field_2 & 2) >> 1,
                                        v37);
                       v39 = dword_526C98 + (unsigned __int16)word_526C5A;
                       if ( dword_526CA8 > v39 )
@@ -309,9 +299,9 @@ LABEL_72:
       {
         for ( dword_526C64 = 0; mapWidth > dword_526C64; ++dword_526C64 )
         {
-          if ( (*(_BYTE *)(usedToCheckForBoatByCastle(advManager, dword_526C8C, dword_526C64) + 9) & 0x7F) == 24 )
+          if ( (AdvManager::getTile(advManager, dword_526C8C, dword_526C64)->objType & 0x7F) == 24 )
           {
-            dword_526C70 = usedToCheckForBoatByCastle(advManager, dword_526C8C, dword_526C64);
+            dword_526C70 = (int)AdvManager::getTile(advManager, dword_526C8C, dword_526C64);
             dword_526C9C = 0;
             do
             {
@@ -320,7 +310,7 @@ LABEL_72:
               dword_526C88 = dword_526C64 + v40;
               if ( dword_526C50 >= 0 && dword_526C50 < mapWidth && dword_526C88 >= 0 && mapHeight > dword_526C88 )
               {
-                dword_526C84 = usedToCheckForBoatByCastle(advManager, dword_526C50, dword_526C88);
+                dword_526C84 = (int)AdvManager::getTile(advManager, dword_526C50, dword_526C88);
                 dword_526C68 = 1;
                 if ( (1 << dword_526C9C) & 0x38
                   && *(_BYTE *)(dword_526C84 + 3) != -1

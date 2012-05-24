@@ -1,19 +1,20 @@
 void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell proto_spell, int hexIdx, int isCreatureAbility, int a5)
 {
   int v5; // ebx@0
-  int v6; // eax@12
-  Icon *v7; // ST84_4@135
-  int v8; // ST38_4@135
-  int v9; // eax@135
-  int v10; // ST10_4@144
-  int v11; // eax@144
-  char *v12; // eax@186
-  int v13; // ST80_4@186
-  int v14; // [sp+14h] [bp-ACh]@111
+  double v6; // st6@0
+  int v7; // eax@12
+  Icon *v8; // ST84_4@135
+  int v9; // ST38_4@135
+  int v10; // eax@135
+  int v11; // ST10_4@144
+  int v12; // eax@144
+  char *v13; // eax@186
+  int v14; // ST80_4@186
+  int v15; // [sp+14h] [bp-ACh]@111
   CombatManager *thisa; // [sp+1Ch] [bp-A4h]@1
-  char *v16; // [sp+20h] [bp-A0h]@142
-  char *v17; // [sp+24h] [bp-9Ch]@133
-  char *v18; // [sp+28h] [bp-98h]@128
+  char *v17; // [sp+20h] [bp-A0h]@142
+  char *v18; // [sp+24h] [bp-9Ch]@133
+  char *v19; // [sp+28h] [bp-98h]@128
   float a7[9]; // [sp+44h] [bp-7Ch]@135
   int knownHex; // [sp+68h] [bp-58h]@97
   CreatureStack *thisb; // [sp+6Ch] [bp-54h]@88
@@ -61,8 +62,8 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
     CombatManager::resetStuffHapenedToCreature(thisa);
     if ( checkHexGridIdxBounds(thisa->field_F2BB) && thisa->combatGrid[thisa->field_F2BB].unitOwner >= 0 )
     {
-      v6 = 80 * thisa->combatGrid[thisa->field_F2BB].unitOwner + 4 * thisa->combatGrid[thisa->field_F2BB].stackIdx;
-      ++*(signed int *)((char *)thisa->stuffHappenedToCreature[0] + v6);
+      v7 = 80 * thisa->combatGrid[thisa->field_F2BB].unitOwner + 4 * thisa->combatGrid[thisa->field_F2BB].stackIdx;
+      ++*(signed int *)((char *)thisa->stuffHappenedToCreature[0] + v7);
     }
     thisa->field_F2B7 = 0;
     thisa->field_F2BB = -1;
@@ -190,7 +191,7 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
     spell = SPELL_PARALYZE;
   if ( proto_spell == SPELL_ARCHMAGI_DISPEL )
     spell = SPELL_DISPEL_MAGIC;
-  if ( strlen(spell_table[spell].short_name) )
+  if ( strlen((int)&spell_table[spell]) )
     sprintf(buf, "%s.82M", &spell_table[spell]);
   if ( isCreatureAbility || !stack || CreatureStack::rollSpellSucceeds(stack, proto_spell) )
   {
@@ -203,9 +204,9 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
         sub_4A3DB0(thisa, stack->owningSide, stack->stackIdx, 1);
         thisa->combatGrid[stack->occupiedHex].unitOwner = -1;
         thisa->combatGrid[thisb->occupiedHex].stackIdx = -1;
-        if ( thisa->combatGrid[thisb->occupiedHex].notPrimarySquareOfTwoHexer )
+        if ( thisa->combatGrid[thisb->occupiedHex].isOccupierNonPrimaryHex )
         {
-          if ( thisa->combatGrid[thisb->occupiedHex].notPrimarySquareOfTwoHexer == 1 )
+          if ( thisa->combatGrid[thisb->occupiedHex].isOccupierNonPrimaryHex == 1 )
           {
             thisa->combatGrid[thisb->occupiedHex - 1].unitOwner = -1;
             thisa->combatGrid[thisb->occupiedHex - 1].stackIdx = -1;
@@ -243,27 +244,27 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
               ++hexIdxa;
           }
           thisb->occupiedHex = hexIdxa;
-          v14 = thisb->facingRight;
-          if ( v14 )
+          v15 = thisb->facingRight;
+          if ( v15 )
           {
-            if ( v14 == 1 )
+            if ( v15 == 1 )
             {
               thisa->combatGrid[thisb->occupiedHex].unitOwner = owner;
               thisa->combatGrid[thisb->occupiedHex].stackIdx = stackidx;
-              thisa->combatGrid[thisb->occupiedHex].notPrimarySquareOfTwoHexer = 0;
+              thisa->combatGrid[thisb->occupiedHex].isOccupierNonPrimaryHex = 0;
               thisa->combatGrid[thisb->occupiedHex + 1].unitOwner = owner;
               thisa->combatGrid[thisb->occupiedHex + 1].stackIdx = stackidx;
-              thisa->combatGrid[thisb->occupiedHex + 1].notPrimarySquareOfTwoHexer = 1;
+              thisa->combatGrid[thisb->occupiedHex + 1].isOccupierNonPrimaryHex = 1;
             }
           }
           else
           {
             thisa->combatGrid[thisb->occupiedHex].unitOwner = owner;
             thisa->combatGrid[thisb->occupiedHex].stackIdx = stackidx;
-            thisa->combatGrid[thisb->occupiedHex].notPrimarySquareOfTwoHexer = 1;
+            thisa->combatGrid[thisb->occupiedHex].isOccupierNonPrimaryHex = 1;
             thisa->combatGrid[thisb->occupiedHex - 1].unitOwner = owner;
             thisa->combatGrid[thisb->occupiedHex - 1].stackIdx = stackidx;
-            thisa->combatGrid[thisb->occupiedHex - 1].notPrimarySquareOfTwoHexer = 0;
+            thisa->combatGrid[thisb->occupiedHex - 1].isOccupierNonPrimaryHex = 0;
           }
           sub_4A3DB0(thisa, thisb->owningSide, thisb->stackIdx, 2);
         }
@@ -272,7 +273,7 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
           thisb->occupiedHex = a5;
           thisa->combatGrid[thisb->occupiedHex].unitOwner = owner;
           thisa->combatGrid[thisb->occupiedHex].stackIdx = stackidx;
-          thisa->combatGrid[thisb->occupiedHex].notPrimarySquareOfTwoHexer = -1;
+          thisa->combatGrid[thisb->occupiedHex].isOccupierNonPrimaryHex = -1;
           sub_4A3DB0(thisa, thisb->owningSide, thisb->stackIdx, 2);
         }
         break;
@@ -299,10 +300,10 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
           thisa->heroes[thisa->currentActionSide],
           thisa->heroes[1 - thisa->currentActionSide]);
         if ( stack->quantity <= 1 )
-          v18 = creatureSingularNames[stack->creatureIdx];
+          v19 = creatureSingularNames[stack->creatureIdx];
         else
-          v18 = creaturePluralNames[stack->creatureIdx];
-        sprintf(globBuf, "The cold ray does %d\n damage to the %s.", damage, v18);
+          v19 = creaturePluralNames[stack->creatureIdx];
+        sprintf(globBuf, "The cold ray does %d\n damage to the %s.", damage, v19);
         CombatManager::displayCombatMessage(thisa, globBuf, 1, 1, 0);
         CombatManager::doStraightRayGraphics(thisa, v5, hexIdx, proto_spell);
         CreatureStack::doEffectAnimation(stack, (unsigned __int8)spell_table[32].creatureEffectAnimationIdx, 0, 0);
@@ -321,12 +322,12 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
           thisa->heroes[thisa->currentActionSide],
           thisa->heroes[1 - thisa->currentActionSide]);
         if ( stack->quantity <= 1 )
-          v17 = creatureSingularNames[stack->creatureIdx];
+          v18 = creatureSingularNames[stack->creatureIdx];
         else
-          v17 = creaturePluralNames[stack->creatureIdx];
-        sprintf(globBuf, "The magic arrow does %d\n damage to the %s.", damage, v17);
+          v18 = creaturePluralNames[stack->creatureIdx];
+        sprintf(globBuf, "The magic arrow does %d\n damage to the %s.", damage, v18);
         CombatManager::displayCombatMessage(thisa, globBuf, 1, 1, 0);
-        v7 = ResourceManager::getIconByFilename(resourceManager, "keep.icn");
+        v8 = ResourceManager::getIconByFilename(resourceManager, "keep.icn");
         LODWORD(a7[0]) = 0x42B40000u;
         LODWORD(a7[1]) = 0x42890000u;
         LODWORD(a7[2]) = 0x42340000u;
@@ -336,10 +337,10 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
         LODWORD(a7[6]) = 0xC2340000u;
         LODWORD(a7[7]) = 0xC2890000u;
         LODWORD(a7[8]) = 0xC2B40000u;
-        v8 = CreatureStack::getCenterY(stack);
-        v9 = CreatureStack::getCenterX(stack);
-        CombatManager::animateMagicOrGarrisonArrow(couldBeWandX, couldBeWandY, v9, v8, a7, v7);
-        ResourceManager::reduceReferenceCountToResource(resourceManager, (AbstractResource *)v7);
+        v9 = CreatureStack::getCenterY(stack);
+        v10 = CreatureStack::getCenterX(stack);
+        CombatManager::animateMagicOrGarrisonArrow(couldBeWandX, couldBeWandY, v10, v9, a7, v8);
+        ResourceManager::reduceReferenceCountToResource(resourceManager, (AbstractResource *)v8);
         CreatureStack::takeDamage(stack, damage, SPELL_NONE);
         CreatureStack::doAttackAndDamageTakenAnimations(stack, -1, 1, -1, -1);
         break;
@@ -355,20 +356,22 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
           thisa->heroes[thisa->currentActionSide],
           thisa->heroes[1 - thisa->currentActionSide]);
         if ( stack->quantity <= 1 )
-          v16 = creatureSingularNames[stack->creatureIdx];
+          v17 = creatureSingularNames[stack->creatureIdx];
         else
-          v16 = creaturePluralNames[stack->creatureIdx];
-        sprintf(globBuf, "The lightning bolt does %d\n damage to the %s.", damage, v16);
+          v17 = creaturePluralNames[stack->creatureIdx];
+        sprintf(globBuf, "The lightning bolt does %d\n damage to the %s.", damage, v17);
         CombatManager::displayCombatMessage(thisa, globBuf, 1, 1, 0);
-        v10 = CreatureStack::getCenterY(stack);
-        v11 = CreatureStack::getCenterX(stack);
+        v11 = CreatureStack::getCenterY(stack);
+        v12 = CreatureStack::getCenterX(stack);
         CombatManager::drawBolt(
           thisa,
+          (unsigned __int8)v5,
+          v6,
           1,
           couldBeWandX,
           couldBeWandY,
+          v12,
           v11,
-          v10,
           150,
           100,
           9,
@@ -544,14 +547,14 @@ void __thiscall CombatManager::effectCombatSpell(CombatManager *this, Spell prot
   {
     for ( j = 0; thisa->numCreatures[i] > j; ++j )
     {
-      v12 = (char *)thisa + 24234 * i + 1154 * j;
-      v13 = (int)(v12 + 13647);
-      *(_DWORD *)(v12 + 13865) = 0;
-      *(_DWORD *)(v13 + 222) = *(_DWORD *)(v13 + 218);
-      *(_DWORD *)(v13 + 214) = *(_DWORD *)(v13 + 222);
-      *(_DWORD *)(v13 + 6) = 1;
-      *(_BYTE *)v13 = 0;
-      *(_DWORD *)(v13 + 154) = -1;
+      v13 = (char *)thisa + 24234 * i + 1154 * j;
+      v14 = (int)(v13 + 13647);
+      *(_DWORD *)(v13 + 13865) = 0;
+      *(_DWORD *)(v14 + 222) = *(_DWORD *)(v14 + 218);
+      *(_DWORD *)(v14 + 214) = *(_DWORD *)(v14 + 222);
+      *(_DWORD *)(v14 + 6) = 1;
+      *(_BYTE *)v14 = 0;
+      *(_DWORD *)(v14 + 154) = -1;
     }
   }
   if ( !isCreatureAbility )

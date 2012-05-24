@@ -1,5 +1,5 @@
-void __thiscall setRandomSeed(unsigned int this)
+LPVOID __thiscall setRandomSeed(unsigned int this)
 {
   randomSeed = this;
-  srand(this);
+  return srand(this);
 }

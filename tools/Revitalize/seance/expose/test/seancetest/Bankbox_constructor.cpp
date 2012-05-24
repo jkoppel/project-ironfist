@@ -7,7 +7,7 @@ Bankbox *__thiscall Bankbox_constructor(Bankbox *this, __int16 x, __int16 y, Pla
   this->player = player;
   this->x = x;
   this->y = y;
-  window = (GUIWindow *)operator new(0x44u);
+  window = (GUIWindow *)operator new(68);
   if ( window )
     thisa->window = GUIWindow_constructorFromFile(window, thisa->x, thisa->y, "bankbox.bin");
   else

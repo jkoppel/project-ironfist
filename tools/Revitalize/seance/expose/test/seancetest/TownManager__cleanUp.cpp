@@ -11,7 +11,7 @@ void __thiscall TownManager__cleanUp(TownManager *this)
   }
   thisa->townScreen = 0;
   if ( *(_DWORD *)&useOpera || !*(_DWORD *)&useCDMusic )
-    SoundManager::couldBePlayCDTrack(soundManager, -1);
+    SoundManager::playCDTrack(soundManager, -1);
   sub_4C7C60(HeroWindowManager::instance, 1, 8, 0);
   MouseManager::setSpriteIdx(mouseManager, -1);
   thisa->ready = 0;

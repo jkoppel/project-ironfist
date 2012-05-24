@@ -1,6 +1,6 @@
 ResourceManager *__thiscall ResourceManager_constructor(ResourceManager *this)
 {
-  MACRO_SEEK i; // [sp+10h] [bp-4h]@1
+  int i; // [sp+10h] [bp-4h]@1
 
   AbstractManager_constructor((AbstractManager *)this);
   this->vtable = &ResourceManager_vtable;
@@ -9,7 +9,7 @@ ResourceManager *__thiscall ResourceManager_constructor(ResourceManager *this)
   this->isFreeingAllResources = 0;
   strcpy(this->resourceToLoad, unk_51F1F8);
   this->fileID = 0;
-  for ( i = 0; i < SEEK_END; ++i )
+  for ( i = 0; i < NUM_AGG_FILES; ++i )
   {
     this->fileDescriptors[i] = -1;
     this->aggContentInfo[i] = NULL;

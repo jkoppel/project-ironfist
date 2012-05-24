@@ -20,7 +20,7 @@ int __thiscall CombatManager::resetCombatGrid(CombatManager *this)
       this->combatGrid[j + 13 * i].otherY2 = this->combatGrid[j + 13 * i].topY + 52;
       this->combatGrid[j + 13 * i].unitOwner = -1;
       this->combatGrid[j + 13 * i].stackIdx = -1;
-      this->combatGrid[j + 13 * i].notPrimarySquareOfTwoHexer = -1;
+      this->combatGrid[j + 13 * i].isOccupierNonPrimaryHex = -1;
       this->combatGrid[j + 13 * i].combatObjIdx = -1;
       this->combatGrid[j + 13 * i].probablyIsBlocked = 0;
       this->combatGrid[j + 13 * i].numCorpses = 0;

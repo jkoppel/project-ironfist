@@ -3,7 +3,7 @@ void __fastcall writePCX(const char *filename, _BYTE *bmpContents, int width, in
   _BYTE *bmpContentsa; // esi@1
   _BYTE *row; // ebp@2
   int v7; // eax@4
-  unsigned int v8; // ebx@4
+  int v8; // ebx@4
   char v9; // cl@5
   int i; // edi@5
   int v11; // edi@9
@@ -29,7 +29,7 @@ void __fastcall writePCX(const char *filename, _BYTE *bmpContents, int width, in
   fd = _open(filename, 33537, 128);
   if ( fd != -1 )
   {
-    _write(fd, pcxHeader, 0x80u);
+    _write(fd, pcxHeader, 128);
     row = KBAlloc(2 * width, "F:\\h2xsrc\\Base\\Misc.cpp", 1480);
     if ( height > 0 )
     {
@@ -70,7 +70,7 @@ void __fastcall writePCX(const char *filename, _BYTE *bmpContents, int width, in
     }
     KBFree(row, (int)"F:\\h2xsrc\\Base\\Misc.cpp", 1520);
     v15 = 12;
-    _write(fd, &v15, 1u);
+    _write(fd, &v15, 1);
     denormalizedPalletteContents = KBAlloc(0x300u, "F:\\h2xsrc\\Base\\Misc.cpp", 1526);
     v13 = 0;
     do
@@ -79,7 +79,7 @@ void __fastcall writePCX(const char *filename, _BYTE *bmpContents, int width, in
       denormalizedPalletteContents[v13 - 1] = 4 * v14;
     }
     while ( v13 < 768 );
-    _write(fd, denormalizedPalletteContents, 0x300u);
+    _write(fd, denormalizedPalletteContents, 768);
     KBFree(denormalizedPalletteContents, (int)"F:\\h2xsrc\\Base\\Misc.cpp", 1531);
     _close(fd);
   }

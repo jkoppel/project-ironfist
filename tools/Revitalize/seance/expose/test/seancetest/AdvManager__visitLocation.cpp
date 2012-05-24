@@ -55,7 +55,7 @@ void __thiscall AdvManager::visitLocation(AdvManager *ecx0, MapTile *loc, __int6
   void *v55; // [sp+240h] [bp-110h]@414
   signed int level; // [sp+244h] [bp-10Ch]@304
   int xp; // [sp+248h] [bp-108h]@304
-  int v58; // [sp+24Ch] [bp-104h]@273
+  signed int a13; // [sp+24Ch] [bp-104h]@273
   int v59; // [sp+250h] [bp-100h]@122
   int v60; // [sp+254h] [bp-FCh]@117
   int maxSP; // [sp+258h] [bp-F8h]@112
@@ -1414,7 +1414,7 @@ LABEL_179:
       else
         amt = (unsigned __int8)((unsigned __int8)(loc->flags >> 8) >> -5);
       grantResource(hero, type, amt);
-      strcpy(&v86, resourceNames[type]);
+      strcpy((int)&v86);
       v86 += 32;
       sprintf(globBuf, adventureMapLocationMessages[72], &v86);
       if ( type == 6 )
@@ -1680,10 +1680,10 @@ LABEL_179:
         -1);
       if ( HeroWindowManager::instance->buttonPressedCode == 30725 )
       {
-        v58 = 1;
+        a13 = 1;
         if ( loadOrNewGameSelected && gameObject->field_2 == 1 && gameObject->field_4 == 6 )
-          v58 = 2;
-        if ( !sub_48E820(thisa, (int)hero, 35, 3 * v58, (int)loc, a4, 0, a4, 36, v58, 1, 37, v58, 1) )
+          a13 = 2;
+        if ( !sub_48E820(thisa, (int)hero, 35, 3 * a13, (int)loc, a4, 0, a4, 36, a13, 1, 37, a13, 1) )
         {
           checkGameEnd(0, 1);
           if ( !dword_4EF268 )
@@ -1727,7 +1727,7 @@ LABEL_508:
         sub_448110(thisa, 0);
       }
       sub_447A00(thisa, 0, 0);
-      SoundManager::couldBePlayCDTrack(soundManager, (unsigned __int8)byte_4F4B90[thisa->field_A6]);
+      SoundManager::playCDTrack(soundManager, (unsigned __int8)terrainTrackNumbers[thisa->currentTerrain]);
       waitForSampleToFinish(-1, *(sample_resource *)a3a);
       checkGameEnd(0, 0);
       return;
@@ -1906,7 +1906,7 @@ LABEL_508:
     case LOCATION_ORACLE:
       playTrackForLocationVisit(locType, (unsigned __int8)((unsigned __int8)(loc->flags >> 8) >> -5), (_QWORD *)a3a);
       showMessageWindowForEvent(74, 1, byte_516540, -1, 0, -1, 0, -1);
-      this = (GUIWindow *)operator new(0x44u);
+      this = (GUIWindow *)operator new(68);
       if ( this )
         a2a = (int)GUIWindow_constructorFromFile(this, 0, 0, "thiefwin.bin");
       else
@@ -1915,7 +1915,7 @@ LABEL_508:
         fatalOutOfMemoryError();
       setOptionsScreenTitles((GUIWindow *)a2a, 14);
       populateThievesGuildWindow((GUIWindow *)a2a, 99);
-      strcpy(globBuf, "Shrine - Player Rankings");
+      strcpy((int)globBuf);
       evt.eventCode = INPUT_GUI_MESSAGE_CODE;
       evt.messageType = GUI_MESSAGE_SET_CONTENTS;
       evt.fieldID = 0;
@@ -1952,8 +1952,8 @@ LABEL_331:
                                                                                                 + 2 )
         {
           strcat(
-            globBuf,
-            "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");
+            (int)globBuf,
+            (int)"Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");
           showMessageWindowForEvent(-1, 1, globBuf, -1, 0, -1, 0, -1);
         }
         else
@@ -1974,7 +1974,7 @@ LABEL_331:
       }
       else
       {
-        strcat(globBuf, "Unfortunately, you have no Magic Book to record the spell with.");
+        strcat((int)globBuf, (int)"Unfortunately, you have no Magic Book to record the spell with.");
         showMessageWindowForEvent(-1, 1, globBuf, -1, 0, -1, 0, -1);
       }
       goto LABEL_508;
@@ -2064,9 +2064,7 @@ LABEL_355:
       if ( byte_5304A0 && sub_472960((int)&unk_530450, a4, SHIDWORD(a4)) )
       {
         playTrackForLocationVisit(locType, (unsigned __int8)((unsigned __int8)(loc->flags >> 8) >> -5), (_QWORD *)a3a);
-        strcpy(
-          globBuf,
-          "The fabled golden bow of the elves lies here in the dust.  You take it and journey back to the elven towns.  They shower you with their graciousness and the king promises that his people will aid you whenever you seek help.");
+        strcpy((int)globBuf);
         showMessageWindowForEvent(-1, 1, globBuf, 7, a5, -1, 0, -1);
         grantArtifact(hero, (ARTIFACT)a5, 1, (unsigned __int8)(loc->flags >> 8) >> -5);
         v85 = 1;
@@ -2352,7 +2350,7 @@ LABEL_388:
       if ( (unsigned __int8)(loc->flags >> 8) >> -5 )
       {
         v91 = *((_DWORD *)dword_524784 + (unsigned __int8)((unsigned __int8)(loc->flags >> 8) >> -5));
-        if ( strlen((const char *)(v91 + 9)) <= 1 )
+        if ( (unsigned int)strlen(v91 + 9) <= 1 )
           showMessageWindowForEvent(-1, 1, (&off_4F70C8)[4 * (unsigned __int8)((char)a4 % -4)], -1, 0, -1, 0, -1);
         else
           showMessageWindowForEvent(-1, 1, (const char *)(v91 + 9), -1, 0, -1, 0, -1);
@@ -2364,7 +2362,7 @@ LABEL_388:
       if ( (unsigned __int8)(loc->flags >> 8) >> -5 )
       {
         v91 = *((_DWORD *)dword_524784 + (unsigned __int8)((unsigned __int8)(loc->flags >> 8) >> -5));
-        if ( strlen((const char *)(v91 + 9)) <= 1 )
+        if ( (unsigned int)strlen(v91 + 9) <= 1 )
           showMessageWindowForEvent(-1, 1, (&off_4F70C8)[4 * (unsigned __int8)((char)a4 % -4)], -1, 0, -1, 0, -1);
         else
           showMessageWindowForEvent(-1, 1, (const char *)(v91 + 9), -1, 0, -1, 0, -1);
@@ -2586,10 +2584,10 @@ LABEL_442:
         }
         else
         {
-          v54 = usedToCheckForBoatByCastle(
-                  thisa,
-                  a4 - byte_4F1DC0[4 * hero->_4[11]],
-                  HIDWORD(a4) - byte_4F1DC1[4 * hero->_4[11]]);
+          v54 = (int)AdvManager::getTile(
+                       thisa,
+                       a4 - byte_4F1DC0[4 * hero->_4[11]],
+                       HIDWORD(a4) - byte_4F1DC1[4 * hero->_4[11]]);
           if ( sub_48E000((int)thisa, (int)hero, v54, adventureMapLocationMessages[22], a4) )
           {
             v44 = loc->flags & 7;
@@ -2631,10 +2629,10 @@ LABEL_442:
         }
         else
         {
-          v53 = usedToCheckForBoatByCastle(
-                  thisa,
-                  a4 - byte_4F1DC0[4 * hero->_4[11]],
-                  HIDWORD(a4) - byte_4F1DC1[4 * hero->_4[11]]);
+          v53 = (int)AdvManager::getTile(
+                       thisa,
+                       a4 - byte_4F1DC0[4 * hero->_4[11]],
+                       HIDWORD(a4) - byte_4F1DC1[4 * hero->_4[11]]);
           if ( sub_48DD90(
                  (int)thisa,
                  (int)hero,
@@ -2677,8 +2675,8 @@ LABEL_442:
               if ( hero->secondarySkillLevel[7] < 3 )
               {
                 strcat(
-                  msg,
-                  "  Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");
+                  (int)msg,
+                  (int)"  Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");
                 showMessageWindowForEvent(-1, 1, msg, -1, 0, -1, 0, -1);
               }
               else
@@ -2698,7 +2696,7 @@ LABEL_442:
             }
             else
             {
-              strcat(msg, "  Unfortunately, you have no Magic Book to record the spell with.");
+              strcat((int)msg, (int)"  Unfortunately, you have no Magic Book to record the spell with.");
               showMessageWindowForEvent(-1, 1, msg, -1, 0, -1, 0, -1);
             }
             loc->flags &= 7u;

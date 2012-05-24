@@ -22,12 +22,12 @@ int __thiscall CombatManager::initialize(CombatManager *this, int a2)
   thisa->couldBeShouldResetCombatMessage = 0;
   thisa->checkedInsub4c3d60 = 0;
   SoundManager::otherPlayTrack(soundManager, -1, 0, -1, v6);
-  thisb = (Bitmap *)operator new(0x1Au);
+  thisb = (Bitmap *)operator new(26);
   if ( thisb )
     thisa->couldBeBitmapForFieldItself = Bitmap_constructor(thisb, 0, 507, 380);
   else
     thisa->couldBeBitmapForFieldItself = 0;
-  v9 = (Bitmap *)operator new(0x1Au);
+  v9 = (Bitmap *)operator new(26);
   if ( v9 )
     thisa->probablyBitmapForCombatScreen = Bitmap_constructor(v9, 0, 640, 443);
   else
@@ -54,7 +54,7 @@ int __thiscall CombatManager::initialize(CombatManager *this, int a2)
   MouseManager::loadMSE(mouseManager, "cmbtmous.mse", 6, -999);
   mouseShownAtCombatStart = MouseManager::mouseEnabled(mouseManager);
   MouseManager::enableCursor(mouseManager);
-  window = (GUIWindow *)operator new(0x44u);
+  window = (GUIWindow *)operator new(68);
   if ( window )
     thisa->window = GUIWindow_constructorFromFile(window, 0, 0, "cmbtwin.bin");
   else
@@ -77,7 +77,7 @@ int __thiscall CombatManager::initialize(CombatManager *this, int a2)
   waitForSampleToFinish(-1, res);
   debugLog("Op3");
   v4 = nextRandomInt(2, 4);
-  SoundManager::couldBePlayCDTrack(soundManager, v4);
+  SoundManager::playCDTrack(soundManager, v4);
   nextCombatAnimationTime = getTickCount();
   sub_441850(thisa);
   debugLog("Op4");
@@ -86,7 +86,7 @@ int __thiscall CombatManager::initialize(CombatManager *this, int a2)
   thisa->type = 512;
   thisa->idx = a2;
   thisa->ready = 1;
-  strcpy(thisa->name, "combatManager");
+  strcpy((int)thisa->name);
   debugLog("Op5");
   return 0;
 }

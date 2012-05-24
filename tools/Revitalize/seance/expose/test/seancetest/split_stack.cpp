@@ -15,7 +15,7 @@ void *__fastcall split_stack(int a1, int a2)
   v4 = a1;
   v11 = 1;
   v10 = 68;
-  this = (GUIWindow *)operator new(0x44u);
+  this = (GUIWindow *)operator new(68);
   if ( this )
     *(_DWORD *)&townManager->_3[0] = GUIWindow_constructorFromFile(this, 177, 20, "splitwin.bin");
   else

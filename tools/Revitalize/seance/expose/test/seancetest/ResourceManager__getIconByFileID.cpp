@@ -1,27 +1,20 @@
-Icon *__thiscall ResourceManager::getIconByFileID(ResourceManager *ecx0, int fileID)
+Icon *__thiscall ResourceManager::getIconByFileID(ResourceManager *this, int fileID)
 {
-  Icon *result; // eax@2
-  ResourceManager *this; // [sp+Ch] [bp-Ch]@1
-  Icon *v4; // [sp+10h] [bp-8h]@3
-  Icon *fileNode; // [sp+14h] [bp-4h]@1
-  AbstractResource *fileNodea; // [sp+14h] [bp-4h]@4
+  Icon *icon; // eax@2 MAPDST
 
-  this = ecx0;
-  fileNode = (Icon *)ResourceManager::findLoadedFile(ecx0, fileID);
-  if ( fileNode )
+  icon = (Icon *)ResourceManager::findLoadedFile(this, fileID);
+  if ( icon )
   {
-    ++fileNode->referenceCount;
-    result = fileNode;
+    ++icon->referenceCount;
   }
   else
   {
-    v4 = (Icon *)operator new(0x16u);
-    if ( v4 )
-      fileNodea = (AbstractResource *)Icon_constructor(v4, fileID);
+    icon = (Icon *)operator new(sizeof(Icon));
+    if ( icon )
+      icon = Icon_constructor(icon, fileID);
     else
-      fileNodea = 0;
-    ResourceManager::prependFileLinkedListNode(this, fileNodea);
-    result = (Icon *)fileNodea;
+      icon = NULL;
+    ResourceManager::prependFileLinkedListNode(this, (AbstractResource *)icon);
   }
-  return result;
+  return icon;
 }

@@ -1,8 +1,8 @@
-AbstractResource *__thiscall ResourceManager::findLoadedFile(ResourceManager *this, int fileID)
+AbstractResource *__thiscall ResourceManager::findLoadedFile(ResourceManager *this, unsigned int fileHash)
 {
-  AbstractResource *i; // [sp+10h] [bp-4h]@1
+  AbstractResource *cur; // [sp+10h] [bp-4h]@1
 
-  for ( i = this->loadedFileLinkedList; i && i->fileID != fileID; i = i->next )
+  for ( cur = this->loadedFileLinkedList; cur && cur->fileID != fileHash; cur = cur->next )
     ;
-  return i;
+  return cur;
 }

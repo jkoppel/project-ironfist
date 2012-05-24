@@ -3,7 +3,7 @@ Sequence *__thiscall Sequence_constructor(Sequence *this, const char *filename)
   Sequence *thisa; // esi@1
   int v3; // eax@1
   int v4; // eax@1
-  size_t size; // edi@1
+  int size; // edi@1
 
   thisa = this;
   v3 = ResourceManager::setResource(resourceManager, filename, 1);

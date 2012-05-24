@@ -117,7 +117,7 @@ LABEL_204:
             else
             {
               TownManager::paintTown(thisa, 1, 1);
-              thisb = (RecruitManager *)operator new(0x7Eu);
+              thisb = (RecruitManager *)operator new(126);
               if ( thisb )
                 a2 = (AbstractManager *)RecruitManager_constructor2(
                                           thisb,
@@ -166,7 +166,7 @@ LABEL_127:
           case BUILDING_CASTLE:
             if ( isRightClick )
               goto LABEL_127;
-            window = (GUIWindow *)operator new(0x44u);
+            window = (GUIWindow *)operator new(68);
             if ( window )
               thisa->curScreen = GUIWindow_constructorFromFile(window, 0, 0, "caslwind.bin");
             else
@@ -194,7 +194,7 @@ LABEL_127:
                 operator delete(v25);
               }
               sprintf(globBuf, "port%04d.icn", *(_BYTE *)(*(_DWORD *)&thisa->_3[16] + 24));
-              ecx0 = (ArmyDisplay *)operator new(0x84u);
+              ecx0 = (ArmyDisplay *)operator new(132);
               if ( ecx0 )
               {
                 v2 = (ArmyInfo *)(*(_DWORD *)&thisa->_3[16] + 101);
@@ -231,7 +231,7 @@ LABEL_127:
                 }
                 thisa->visitingArmyDisplay = 0;
                 sprintf(globBuf, "port%04d.icn", thisa->castle->factionID + 90);
-                v22 = (ArmyDisplay *)operator new(0x84u);
+                v22 = (ArmyDisplay *)operator new(132);
                 if ( v22 )
                 {
                   v4 = curPlayer->color;
@@ -256,7 +256,7 @@ LABEL_127:
             if ( thisa->castle->visitingHeroIdx == -1
               || Hero::hasArtifact(&gameObject->heroes[thisa->castle->visitingHeroIdx], ARTIFACT_MAGIC_BOOK) )
             {
-              v21 = (GUIWindow *)operator new(0x44u);
+              v21 = (GUIWindow *)operator new(68);
               if ( v21 )
                 thisa->curScreen = GUIWindow_constructorFromFile(v21, 0, 0, "magewind.bin");
               else
@@ -330,7 +330,7 @@ LABEL_127:
           case BUILDING_WELL:
             if ( isRightClick )
               goto LABEL_127;
-            v20 = (GUIWindow *)operator new(0x44u);
+            v20 = (GUIWindow *)operator new(68);
             if ( v20 )
               thisa->curScreen = GUIWindow_constructorFromFile(v20, 0, 0, "wellwind.bin");
             else
@@ -345,7 +345,7 @@ LABEL_127:
           case BUILDING_THIEVES_GUILD:
             if ( isRightClick )
               goto LABEL_127;
-            v19 = (GUIWindow *)operator new(0x44u);
+            v19 = (GUIWindow *)operator new(68);
             if ( v19 )
               thisa->curScreen = GUIWindow_constructorFromFile(v19, 0, 0, "thiefwin.bin");
             else
@@ -391,17 +391,13 @@ LABEL_127:
               goto LABEL_127;
             HeroWindowManager::sendMessage(HeroWindowManager::instance, INPUT_GUI_MESSAGE_CODE, 5, 30720, 16392);
             if ( sub_42C880(gameObject) >= 48
-              || *(_BYTE *)(usedToCheckForBoatByCastle(
-                              advManager,
-                              LOBYTE(thisa->castle->field_6),
-                              HIBYTE(thisa->castle->field_6))
-                          + 9) )
+              || AdvManager::getTile(advManager, LOBYTE(thisa->castle->field_6), HIBYTE(thisa->castle->field_6))->objType )
             {
               display_message_window("Cannot build another boat.", 1, 208, 40, -1, 0, -1, 0, -1, 0);
             }
             else
             {
-              v18 = (GUIWindow *)operator new(0x44u);
+              v18 = (GUIWindow *)operator new(68);
               if ( v18 )
                 thisa->curScreen = GUIWindow_constructorFromFile(v18, 177, 20, "shipwind.bin");
               else

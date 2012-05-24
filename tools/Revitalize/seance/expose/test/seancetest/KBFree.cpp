@@ -1,20 +1,20 @@
 void __fastcall KBFree(void *a1, int a2, int caller_lineno)
 {
   signed int v3; // eax@2
-  FILE *v4; // ebx@8
+  int v4; // ebx@8
   int v5; // eax@11
   signed int v6; // ecx@13
   int v7; // ebx@14
   char *v8; // edx@14
-  FILE *v9; // ebp@17
-  FILE *v10; // ebx@24
-  void *v11; // [sp+10h] [bp-2C4h]@1
+  int v9; // ebp@17
+  int v10; // ebx@24
+  int v11; // [sp+10h] [bp-2C4h]@1
   int v12; // [sp+14h] [bp-2C0h]@1
   char OutputString[500]; // [sp+18h] [bp-2BCh]@9
   char v14; // [sp+20Ch] [bp-C8h]@16
 
   v12 = a2;
-  v11 = a1;
+  v11 = (int)a1;
   if ( !poolOfMemoryBlockInfos )
   {
     logUpTo7Ints((int)"IME", numLoadedFiles, -999, -999, -999, -999, -999, -999);
@@ -28,7 +28,7 @@ void __fastcall KBFree(void *a1, int a2, int caller_lineno)
     while ( v3 < 148000 );
   }
   if ( debugLogLevel == 4 )
-    logUpTo7Ints((int)"Free ", (int)v11, -999, -999, -999, -999, -999, -999);
+    logUpTo7Ints((int)"Free ", v11, -999, -999, -999, -999, -999, -999);
   if ( v11 )
   {
     v5 = numLoadedFiles-- - 1;
@@ -39,7 +39,7 @@ void __fastcall KBFree(void *a1, int a2, int caller_lineno)
     {
       v7 = 74 * v6;
       v8 = (char *)poolOfMemoryBlockInfos + 74 * v6;
-      if ( *(void **)(v8 + 1) == v11 )
+      if ( *(_DWORD *)(v8 + 1) == v11 )
       {
         if ( debugLogLevel == 4 )
         {
@@ -52,7 +52,7 @@ void __fastcall KBFree(void *a1, int a2, int caller_lineno)
             *(_DWORD *)(v8 + 70));
           if ( debugLogLevel >= 2 )
           {
-            v9 = fopen("KB.LOG", "at+");
+            v9 = fopen("KB.LOG", (int)"at+");
             if ( v9 )
             {
               strcpy(OutputString, &v14);
@@ -80,7 +80,7 @@ void __fastcall KBFree(void *a1, int a2, int caller_lineno)
       sprintf(globBuf, "Bad Delete,  File '%13s'  Line % 4d, ptr %12d", v12, caller_lineno, v11);
       if ( debugLogLevel >= 2 )
       {
-        v10 = fopen("KB.LOG", "at+");
+        v10 = fopen("KB.LOG", (int)"at+");
         if ( v10 )
         {
           strcpy(OutputString, globBuf);
@@ -97,7 +97,7 @@ void __fastcall KBFree(void *a1, int a2, int caller_lineno)
   {
     if ( debugLogLevel >= 2 )
     {
-      v4 = fopen("KB.LOG", "at+");
+      v4 = fopen("KB.LOG", (int)"at+");
       if ( v4 )
       {
         strcpy(OutputString, "NULL POINTER");

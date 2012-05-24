@@ -23,7 +23,7 @@ BuildingDisplay *__thiscall BuildingDisplay_constructor(BuildingDisplay *this, i
   thisa->icon = ResourceManager::getIconByFilename(resourceManager, &v7);
   if ( buildingCode != -1 )
   {
-    thisb = (BackgroundGUI *)operator new(0x2Au);
+    thisb = (BackgroundGUI *)operator new(42);
     if ( thisb )
       thisa->guiElement = BackgroundGUI_constructor(thisb, x, y, width, height, buildingCode, 1, 0, 0);
     else

@@ -1,4 +1,4 @@
-int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATURES creat, signed int a5, int a6, int a7, unsigned int a8, int a9, Hero *a10, int a11, ArmyInfo *a12, int a13)
+BOOL __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATURES creat, signed int a5, int a6, int a7, unsigned int a8, int a9, Hero *a10, int a11, ArmyInfo *a12, int a13)
 {
   int creatureFormBin; // eax@25
   char v14; // al@44
@@ -77,7 +77,7 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
     v35 = a11 + 186;
   else
     v35 = (int)&creature_table[creat];
-  thisb = (GUIWindow *)operator new(0x44u);
+  thisb = (GUIWindow *)operator new(68);
   if ( thisb )
     *(_DWORD *)&thisa->_10[612] = GUIWindow_constructorFromFile(thisb, 19, 75, "armywin.bin");
   else
@@ -91,13 +91,13 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
   creatureFormBin = ResourceManager::setResource(resourceManager, creature_form_table[creat], 1);
   ResourceManager::pointToFile(resourceManager, creatureFormBin);
   ResourceManager::readFromCurrentFile(resourceManager, &byte_522C40, 821u);
-  CreatureForm::doSomethingElse(&byte_522C40, creat);
-  CreatureForm::doSomething(&byte_522C40, 0, 1);
+  CreatureForm::adjustSpeeds(&byte_522C40, creat);
+  CreatureForm::constructWalkingAnimationFromComponents(&byte_522C40, 0, 1);
   *(_DWORD *)&xGlob = 167;
   if ( dword_4F74A8 )
     sprintf(&filename, "monh%04d.icn", creat);
   else
-    strcpy(&filename, creatureIconNames[creat]);
+    strcpy((int)&filename);
   res = ResourceManager::getIconByFilename(resourceManager, &filename);
   idx = byte_522DB5[0];
   *(_DWORD *)&xGlob += dword_522F78 * (getNthHeader(res, byte_522DB5[0])->width / 2);
@@ -109,7 +109,7 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
     *(_DWORD *)&xGlob = 126;
     *(_DWORD *)&dword_522F94 = 93;
   }
-  v21 = (GUIIcon *)operator new(0x2Du);
+  v21 = (GUIIcon *)operator new(45);
   if ( v21 )
   {
     if ( dword_4F74A8 )
@@ -137,7 +137,7 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
     fatalOutOfMemoryError();
   GUIWindow::insertElement(*(GUIWindow **)&thisa->_10[612], guiObj, -1);
   ResourceManager::reduceReferenceCountToResource(resourceManager, (AbstractResource *)res);
-  strcpy(&v43, creatureSingularNames[creat]);
+  strcpy((int)&v43);
   v43 -= 32;
   v31 = 3;
   v32 = 3;
@@ -153,7 +153,7 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
   sprintf(buf, byte_4EF4EC);
   v48 = 0;
   sprintf(globBuf, "%s%d", off_4F64E0[0], creatureInfo->attack);
-  strcat(buf, globBuf);
+  strcat((int)buf, (int)globBuf);
   if ( a10 )
   {
     v14 = Hero::getPrimarySkill(a10, 0);
@@ -164,11 +164,11 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
   if ( v48 )
   {
     sprintf(globBuf, " (%d)", v48 + creatureInfo->attack);
-    strcat(buf, globBuf);
+    strcat((int)buf, (int)globBuf);
   }
   v48 = 0;
   sprintf(globBuf, "\n%s%d", off_4F64E4[0], creatureInfo->defense);
-  strcat(buf, globBuf);
+  strcat((int)buf, (int)globBuf);
   if ( a10 )
   {
     v15 = Hero::getPrimarySkill(a10, PRIMARY_SKILL_DEFENSE);
@@ -179,7 +179,7 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
   if ( v48 )
   {
     sprintf(globBuf, " (%d)", v48 + creatureInfo->defense);
-    strcat(buf, globBuf);
+    strcat((int)buf, (int)globBuf);
   }
   if ( creatureInfo->creature_flags & 4 )
   {
@@ -190,30 +190,30 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
         sprintf(globBuf, "\n%s%d", off_4F64E8[0], v29);
       else
         sprintf(globBuf, "\n%s%d", off_4F6500, v29);
-      strcat(buf, globBuf);
+      strcat((int)buf, (int)globBuf);
     }
   }
   sprintf(globBuf, "\n%s%d", off_4F64EC[0], creatureInfo->min_damage);
-  strcat(buf, globBuf);
+  strcat((int)buf, (int)globBuf);
   if ( creatureInfo->min_damage != creatureInfo->max_damage )
   {
     sprintf(globBuf, "-%d", creatureInfo->max_damage);
-    strcat(buf, globBuf);
+    strcat((int)buf, (int)globBuf);
   }
   sprintf(globBuf, "\n%s%d", off_4F64F0[0], creatureInfo->hp);
-  strcat(buf, globBuf);
+  strcat((int)buf, (int)globBuf);
   if ( combatManager->ready == 1 )
   {
     sprintf(globBuf, "\n%s%d", "Hit Points Left: ", creatureInfo->hp - *(_DWORD *)(a11 + 162));
-    strcat(buf, globBuf);
+    strcat((int)buf, (int)globBuf);
   }
-  sprintf(globBuf, "\n%s%s", off_4F64F4[0], *(&off_4F64B8 + *(_BYTE *)(v35 + 11)));
-  strcat(buf, globBuf);
+  sprintf(globBuf, "\n%s%s", off_4F64F4[0], speedNames[*(_BYTE *)(v35 + 11)]);
+  strcat((int)buf, (int)globBuf);
   sprintf(globBuf, "\n%s%s", off_4F64F8[0], off_4F629C[v41]);
-  strcat(buf, globBuf);
+  strcat((int)buf, (int)globBuf);
   v42 = computeLuck(a10, (CreatureStack *)a11, (Castle *)a6);
   sprintf(globBuf, "\n%s%s", off_4F64FC[0], off_4F627C[v42]);
-  strcat(buf, globBuf);
+  strcat((int)buf, (int)globBuf);
   v32 = 4;
   v33 = buf;
   GUIWindow::processMessage(*(GUIWindow **)&thisa->_10[612], (Event *)&evt);
@@ -273,7 +273,7 @@ int __thiscall GameInfo::showStackInfo(GameInfo *this, int xOff, int a3, CREATUR
       ++imgIdx;
       while ( imgIdx < 15 && !*(_BYTE *)(imgIdx + a11 + 266) )
         ++imgIdx;
-      v20 = (GUIIcon *)operator new(0x2Du);
+      v20 = (GUIIcon *)operator new(45);
       if ( v20 )
         v26 = (AbstractGUIComponent *)GUIIcon_constructor(
                                         v20,
