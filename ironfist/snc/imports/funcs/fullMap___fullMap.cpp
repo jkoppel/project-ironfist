@@ -1,0 +1,3 @@
+{
+  fullMap::Close((fullMap *)this);
+}

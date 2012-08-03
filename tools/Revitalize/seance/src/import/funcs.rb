@@ -1,3 +1,4 @@
+require 'yaml'
 
 module Seance
 
@@ -52,7 +53,7 @@ module Seance
       md = re.match(sig)
 
       if md.nil?
-        raise "Function signature did not correspond to expected format"
+        raise ImportException, "Function signature did not correspond to expected format"
       end
       
       type = md[1].strip
@@ -86,17 +87,21 @@ module Seance
     end
 
     def self.import_func(filnam, root)
-      f = File.open(filnam, "r")
+      h = YAML.load_file(filnam)
 
-      sig = f.readline
-      sig = f.readline while sig =~ /\/\//
-      body = f.readlines.join
-      f.close
+      raw_name = h['raw_name']
+      
+      lines = h['body'].split(/\n/)
+      
+      sig = lines[0]
+      
+      body = lines[1..-1].join("\n")
 
       comps = parse_sig(sig)
 
       db = FuncDB.new(root)
-      db.add_func(comps[:type], comps[:name], comps[:convention], comps[:args], body)
+      db.add_func(comps[:type], comps[:name], raw_name,
+                  comps[:convention], comps[:args], body)
     end
 
   end

@@ -1,0 +1,3 @@
+{
+  return closesocket(a1);
+}

@@ -1,0 +1,81 @@
+#ifndef RESOURCE
+#define RESOURCE
+#include "../input.h"
+#include <winsock.h>
+
+#seance defstruct RESOURCE_TYPE
+
+struct AbstractResource;
+
+#seance defstruct ResourceVtable
+
+#seance defstruct AbstractResource
+
+#seance defstruct Bitmap
+
+#seance defstruct ICNHeader
+
+#seance defclass Icon
+#seance methdecl Icon::drawToScreen
+#seance endclass
+
+#seance defstruct Sample
+
+#seance defstruct Sequence
+
+#seance defstruct Tileset
+
+#seance defstruct RGB
+
+#seance defstruct PaletteContents
+
+#seance defstruct Palette
+
+#seance defstruct Font
+
+struct AbstractManager;
+
+#seance defstruct ManagerVtable
+
+#seance defstruct AbstractManager
+
+#seance defstruct MANAGER_TYPE
+
+#seance defstruct MANAGER_RETURN_CODE
+
+#seance defstruct FileInAggInfo
+
+#seance defstruct RESOURCEMGR_CONSTANTS
+
+#seance defclass ResourceManager
+#seance methdecl ResourceManager::addAGG
+#seance methdecl ResourceManager::dumpImageToScreen
+#seance methdecl ResourceManager::findLoadedFile
+#seance methdecl ResourceManager::freeAllResources
+#seance methdecl ResourceManager::getBitmapByFilename
+#seance methdecl ResourceManager::getFileSize
+#seance methdecl ResourceManager::getFontByFilename
+#seance methdecl ResourceManager::getIconByFileID
+#seance methdecl ResourceManager::getIconByFilename
+#seance methdecl ResourceManager::getPal
+#seance methdecl ResourceManager::getSampleByFilename
+#seance methdecl ResourceManager::getPal
+#seance methdecl ResourceManager::getSampleByFilename
+#seance methdecl ResourceManager::getSequenceByFilename
+#seance methdecl ResourceManager::getTilesetByFilename
+#seance methdecl ResourceManager::handleInput
+#seance methdecl ResourceManager::initialize
+#seance methdecl ResourceManager::pointToFile
+#seance methdecl ResourceManager::popFileAndOffsetOffStack
+#seance methdecl ResourceManager::prependFileLinkedListNode
+#seance methdecl ResourceManager::pushCurrentFileAndOffsetOntoStack
+#seance methdecl ResourceManager::readFromCurrentFile
+#seance methdecl ResourceManager::readInt
+#seance methdecl ResourceManager::readNexDOSFilename
+#seance methdecl ResourceManager::readShort
+#seance methdecl ResourceManager::reduceReferenceCountToResource
+#seance methdecl ResourceManager::removeFileFromList
+#seance methdecl ResourceManager::setResource
+#seance endclass
+
+#endif

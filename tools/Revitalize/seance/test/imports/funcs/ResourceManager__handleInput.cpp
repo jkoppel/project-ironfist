@@ -1,3 +1,0 @@
-{
-  return MANAGER_SUCCESS;
-}

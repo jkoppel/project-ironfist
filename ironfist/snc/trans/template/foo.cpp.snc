@@ -1,0 +1,16 @@
+#seance defstruct armyGroup
+#seance defstruct town
+#seance defstruct hero
+
+#seance defstruct ARTIFACT
+#seance defstruct PRIMARY_SKILL
+
+#seance funimport hero::Stats
+#seance funimport hero::HasArtifact
+#seance funimport hero::AddSpell
+
+#seance defclass town
+#seance methdecl town::GiveSpells
+#seance endclass
+
+#seance methdefn town::GiveSpells

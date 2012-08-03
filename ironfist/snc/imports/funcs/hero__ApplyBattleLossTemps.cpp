@@ -1,0 +1,3 @@
+{
+  return hero::ApplyBattleWinTemps(this);
+}

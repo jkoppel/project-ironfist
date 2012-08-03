@@ -1,3 +1,0 @@
-
-  Sample *file;
-  HSAMPLE sample;

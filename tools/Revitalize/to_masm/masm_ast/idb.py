@@ -1,5 +1,6 @@
 import enum
 import general
+import names
 import struct
 import segment
 import util

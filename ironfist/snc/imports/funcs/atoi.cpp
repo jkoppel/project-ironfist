@@ -1,0 +1,3 @@
+{
+  return atol(a1);
+}

@@ -1,0 +1,4 @@
+{
+  if ( menu == adventureMenu )
+    checkVolumeMenuItems();
+}

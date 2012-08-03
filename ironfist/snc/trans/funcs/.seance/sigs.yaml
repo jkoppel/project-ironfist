@@ -1,0 +1,10 @@
+--- 
+town::GiveSpells: 
+  :type: void
+  :raw_name: ?GiveSpells@town@@QAEXPAVhero@@@Z
+  :args: 
+  - - town *
+    - this
+  - - " hero *"
+    - captain
+  :convention: __thiscall

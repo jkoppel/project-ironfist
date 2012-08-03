@@ -12,9 +12,11 @@ class function_node(general.masm_ast_node):
     
     def __init__(self, func):
         self.src = func
-        self.name = idaapi.get_func_name(func.startEA)
-        self.elts = []
         ea = func.startEA
+        self.ea = ea
+        self.name = idaapi.get_func_name(ea)
+
+        self.elts = []
 
         if idaapi.is_func_tail(func):
             self.name += "_tail_"+str(ea)
@@ -45,9 +47,14 @@ class function_node(general.masm_ast_node):
         frame_str = ""
         if self.frame != None:
             frame_str = self.frame.to_masm()
+
+        langtype = "C"
+        if names.is_mangled(self.name, self.ea):
+            langtype = "SYSCALL"
             
-        defn = "%s proc %s C\n\n\n%s\n%s\n%s endp\n" % (self.name,
+        defn = "%s proc %s %s\n\n\n%s\n%s\n%s endp\n" % (self.name,
                                                         dist,
+                                                        langtype,
                                                         frame_str,
                                                         "\n".join(map(lambda e: e.to_masm(), self.elts)),
                                                         self.name)

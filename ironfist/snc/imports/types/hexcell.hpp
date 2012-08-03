@@ -1,0 +1,20 @@
+
+  __int16 centerX;
+  __int16 occupyingCreatureBottomY;
+  __int16 leftX;
+  __int16 topY;
+  __int16 rightX;
+  __int16 otherY1;
+  __int16 otherY2;
+  char isBlocked;
+  char combatObjIdx;
+  char unitOwner;
+  signed __int8 stackIdx;
+  char isOccupierNonPrimaryHex;
+  int numCorpses;
+  char corpseOwners[14];
+  char corpseStackIndices[14];
+  char field_33[14];
+  char field_41;
+  H2RECT drawingBounds;
+  char field_52[16];

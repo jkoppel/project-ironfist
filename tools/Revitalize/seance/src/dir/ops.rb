@@ -1,7 +1,7 @@
 module DirOps
   
   def self.ensure_dir(path)
-      Dir.mkdir(path) unless File.exists?(path)
+    Dir.mkdir(path) unless File.exists?(path)
   end
 
   class << self

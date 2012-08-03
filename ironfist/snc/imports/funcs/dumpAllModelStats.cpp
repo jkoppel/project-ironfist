@@ -1,0 +1,11 @@
+{
+  dumpModelStats(&bogusModel);
+  dumpModelStats(&models);
+  dumpModelStats(&unk_535C24);
+  dumpModelStats(&unk_536048);
+  dumpModelStats(&unk_53646C);
+  dumpModelStats(&unk_536890);
+  dumpModelStats(&unk_536CB4);
+  dumpModelStats(&unk_5370D8);
+  dumpModelStats(&unk_5374FC);
+}

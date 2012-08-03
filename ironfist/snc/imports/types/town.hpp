@@ -1,0 +1,22 @@
+
+  char idx;
+  char ownerIdx;
+  char alignment;
+  char factionID;
+  char field_4;
+  char field_5;
+  __int16 field_6;
+  armyGroup garrison;
+  char visitingHeroIdx;
+  unsigned int buildingsBuiltFlags;
+  char mageGuildLevel;
+  char field_1D;
+  __int16 numCreaturesInDwelling[12];
+  char field_36;
+  char mayNotBeUpgradedToCastle;
+  char _2[4];
+  char mageGuildSpells[5][4];
+  char numSpellsOfLevel[5];
+  __int16 field_55;
+  char name[12];
+  char field_63;

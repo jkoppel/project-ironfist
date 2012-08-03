@@ -38,9 +38,17 @@ module Seance
       def asm_name(meth)
         meth+"_asm"
       end
-      
+
+      def needs_thunk(fun)
+        not fun.raw_name.start_with?(CppGen.prefix_for_cc(fun.conv))
+      end
+
+      def export_flag_symbol_raw(nam)
+        "IMPORT_"+CppGen.to_c_name(nam).upcase
+      end
+
       def export_flag_symbol(meth)
-        "IMPORT_"+CppGen.to_c_name(meth).upcase
+        export_flag_symbol_raw(meth.raw_name)
       end
 
       def methsig(meth)
@@ -127,23 +135,31 @@ EOF
         out.puts('extern "C" {')
 
         imported_meths.each do |m|
-          out.puts("\t%s %s();" % [m.type, CppGen.to_c_name(m.name)])
+          if needs_thunk(m)
+            out.puts("\t%s %s();" % [m.type, CppGen.to_c_name(m.name)])
+          else
+            out.puts("\t%s;" % m.gen_decl)
+          end
         end
 
         out.puts("");
 
         imported_fns.each do |fn|
-          out.puts("\t%s %s();" % [fn.type, asm_name(CppGen.to_c_name(fn.name))])
+          if needs_thunk(fn)
+            out.puts("\t%s %s();" % [fn.type, asm_name(CppGen.to_c_name(fn.name))])
+          else
+            out.puts("\t%s;" % fn.gen_decl)
+          end
         end
 
         out.puts("}\n")
 
         imported_meths.each do |m|
-          put_imported_fun_defn(out, m, true)
+          put_imported_fun_defn(out, m, true) if needs_thunk(m)
         end
 
         imported_fns.each do |m|
-          put_imported_fun_defn(out, m, false)
+          put_imported_fun_defn(out, m, false) if needs_thunk(m)
         end
 
         out.close
@@ -154,7 +170,7 @@ EOF
         ##Assuming all are methods
         out = File.open(DirOps.file_in(@src_folder, EXPORT_THUNK_FILE), "w")
 
-        exported.each do |meth|
+        exported.select{|m| needs_thunk(m) }.each do |meth|
 
           out.puts('extern "C" %s {' % meth.gen_decl(:force_cc => CppGen::FASTCALL))
           
@@ -177,16 +193,18 @@ EOF
         out = File.open(DirOps.file_in(@src_folder, ASM_INC_FILE), "w")
 
         exported.each do |meth|
-          out.puts("%s EQU %s" % [CppGen.to_c_name(meth.name), decorated_name(meth.name)])
-          out.puts("%s = 1" % export_flag_symbol(meth.name))
+          if needs_thunk(meth)
+            out.puts("%s EQU %s" % [CppGen.to_c_name(meth.name), decorated_name(meth.name)])
+          end
+          out.puts("%s = 1" % export_flag_symbol(meth))
         end
 
         custom_exports.each do |(c_nam, asm_nam)|
           out.puts("%s EQU %s" % [asm_nam, c_nam])
-          out.puts("%s = 1" % export_flag_symbol(asm_nam))
+          out.puts("%s = 1" % export_flag_symbol_raw(asm_nam))
         end
 
-        imported_fns.each do |fn|
+        imported_fns.select {|fn| needs_thunk(fn) }.each do |fn|
           out.puts("%s EQU %s" % [CppGen.to_c_name(fn.name), asm_name(CppGen.to_c_name(fn.name))])
         end
 
@@ -295,7 +313,7 @@ EOF
             raise TemplateException, "Invalid directive #{cmd}"
           end
         else
-          return line
+          line
         end
       end
 

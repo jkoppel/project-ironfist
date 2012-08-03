@@ -1,0 +1,3 @@
+{
+  return htons(a1);
+}

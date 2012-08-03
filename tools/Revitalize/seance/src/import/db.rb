@@ -4,6 +4,7 @@ require "dir/metainf.rb"
 require 'dir/dirmanager.rb'
 require 'dir/structure.rb'
 require 'syntax/cpp.rb'
+require 'mgmt/funcdb.rb'
 
 module Seance
   module Import
@@ -55,75 +56,12 @@ module Seance
         @meta.dump(@scs, SC_FILE)
         @meta.dump(@types, LIST_FILE)
       end
-
     end
 
-    class FuncDB
-      
-      include DirManager
-
-      attr_reader :root
-
-      SIG_FILE = "sigs.yaml"
-      TYPE = :type
-      CONVENTION = :convention
-      ARGS = :args
-
-      #Should eventually be converted to use SafeMe
-      def check_arg_structure(args)
-        valid = true
-        valid &&= args.class == Array
-        
-        args.each do |a|
-          valid &&= a.class == Array 
-          valid &&= a.size == 2
-          a.each do |s|
-            valid &&= s.class == String
-          end
-        end
-
-        raise "Imported function arguments in invalid form" unless valid
-      end
-
-      def self.name_to_filename(nam)
-        (nam.gsub(':','_'))+".cpp"
-      end
-
-      def initialize(root)
-        @root = Directory.func_import_dir(root)
-        @meta = MetaInf.new(@root)
-        @meta.ensure_file(SIG_FILE, {})
-        @sigs = @meta.load(SIG_FILE)
-      end
-
-      def has_func?(nam)
-        @sigs.has_key? nam
-      end
-
-      def get_func(nam)
-        meta = @sigs[nam]
-        CppGen::FuncSig.new(meta[TYPE], nam, CppGen::KEYWORD_CC[meta[CONVENTION]], meta[ARGS])
-      end
-
-      def get_func_body(nam)
-        load_raw(self.class.name_to_filename(nam))
-      end
-
-      def add_func(type, name, convention, args, body)
-        check_arg_structure args
-        dump_raw(body, self.class.name_to_filename(name))
-        @sigs[name] = {TYPE => type, CONVENTION => convention, ARGS => args}
-        @meta.dump(@sigs, SIG_FILE)
-      end
-
-      def get_fn_list
-        @sigs.keys
-      end
-
-      def get_func_body(name)
-        load_raw(self.class.name_to_filename(name))
+    class FuncDB < Manage::BaseFuncDB
+      def get_root(seance_root)
+        Directory.func_import_dir(seance_root)
       end
     end
-
   end
 end

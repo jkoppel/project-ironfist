@@ -12,7 +12,10 @@ module Seance
 
       if imp.has_func? nam
         dec = imp.get_func(nam)
-        exp.add_func(dec.type, nam, dec.conv, dec.args, imp.get_func_body(nam))
+        exp.add_func(dec.type, nam, dec.raw_name,
+                     CppGen.keyword_to_cc(dec.conv),
+                     dec.args,
+                     imp.get_func_body(nam))
       else
         raise "Function #{nam} not found"
       end

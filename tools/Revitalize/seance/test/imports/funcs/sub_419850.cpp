@@ -1,0 +1,3 @@
+{
+  return (char *)&this->map;
+}

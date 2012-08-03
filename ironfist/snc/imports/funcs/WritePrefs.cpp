@@ -1,0 +1,4 @@
+{
+  UpdateSystemOptionsMenu();
+  WritePrefsToRegistry();
+}

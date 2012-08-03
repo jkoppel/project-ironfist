@@ -1,0 +1,84 @@
+#ifndef RESMGR
+#define RESMGR
+
+#include<string.h>
+#include<stdlib.h>
+#include<stdio.h>
+#include<fcntl.h>
+#include<winsock.h>
+#include "resources.h"
+#include "../import_thunk.cpp"
+#include "../input.h"
+#include "../import_val.h"
+
+#define MAX_FILENAME_LENGTH 13
+
+#seance funimport assertTrue
+#seance funimport computeFileID
+#seance funimport terminate
+#seance funimport KBAlloc
+#seance funimport debugLog
+#seance funimport yieldToGlobalUpdater
+#seance funimport getFileOffset
+#seance funimport AbstractManager_constructor
+#seance funimport Font_constructor
+#seance funimport Icon_constructor
+#seance funimport Sample_constructor
+#seance funimport Sequence_constructor
+#seance funimport Tileset_constructor
+#seance funimport Bitmap_constructor
+#seance funimport Palette_constructorFromFile
+
+#seance methdefn ResourceManager::setResource
+
+#seance methdefn ResourceManager::addAGG
+
+#seance methdefn ResourceManager::dumpImageToScreen
+
+#seance methdefn ResourceManager::findLoadedFile
+
+#seance methdefn ResourceManager::freeAllResources
+
+#seance methdefn ResourceManager::getBitmapByFilename
+
+#seance methdefn ResourceManager::getFileSize
+
+#seance methdefn ResourceManager::getFontByFilename
+
+#seance methdefn ResourceManager::getIconByFileID
+
+#seance methdefn ResourceManager::getIconByFilename
+
+#seance methdefn ResourceManager::getPal
+
+#seance methdefn ResourceManager::getSampleByFilename
+
+#seance methdefn ResourceManager::getSequenceByFilename
+
+#seance methdefn ResourceManager::getTilesetByFilename
+
+#seance methdefn ResourceManager::handleInput
+
+#seance methdefn ResourceManager::initialize
+
+#seance methdefn ResourceManager::pointToFile
+
+#seance methdefn ResourceManager::popFileAndOffsetOffStack
+
+#seance methdefn ResourceManager::prependFileLinkedListNode
+
+#seance methdefn ResourceManager::pushCurrentFileAndOffsetOntoStack
+
+#seance methdefn ResourceManager::readFromCurrentFile
+
+#seance methdefn ResourceManager::readInt
+
+#seance methdefn ResourceManager::readNexDOSFilename
+
+#seance methdefn ResourceManager::readShort
+
+#seance methdefn ResourceManager::reduceReferenceCountToResource
+
+#seance methdefn ResourceManager::removeFileFromList
+
+#endif

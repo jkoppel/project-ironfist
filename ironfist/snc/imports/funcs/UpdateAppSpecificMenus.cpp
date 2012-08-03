@@ -1,0 +1,4 @@
+{
+  if ( menu == hmnuAdv )
+    UpdateSystemOptionsMenu();
+}

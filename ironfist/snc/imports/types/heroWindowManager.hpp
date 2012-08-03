@@ -1,0 +1,19 @@
+
+  ManagerVtable *vtable;
+  baseManager *next;
+  baseManager *prev;
+  int type;
+  int idx;
+  char name[30];
+  _DWORD ready;
+  heroWindow *firstWindow;
+  heroWindow *lastWindow;
+  heroWindow *topmostWindow;
+  heroWindow *nextTopmostWindow;
+  bitmap *screenBuffer;
+  bitmap *someBMP;
+  _DWORD field_4E;
+  _DWORD numScreenshots;
+  _DWORD field_56;
+  _DWORD buttonPressedCode;
+  _DWORD field_5E;

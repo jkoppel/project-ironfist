@@ -1,0 +1,3 @@
+{
+  return fgetc(a1);
+}
