@@ -1,0 +1,30 @@
+#ifndef GUI_H
+#define GUI_H
+
+#pragma pack
+
+#include "baseManager.h"
+#include "resource.h"
+
+struct widgetVtable;
+struct heroWindow;
+
+#seance defclass widget
+#seance endclass
+
+#seance defstruct button
+
+#seance defstruct listBox
+
+#seance defstruct textWidget
+
+#seance defstruct textEntryWidget
+
+#seance defclass heroWindow
+  heroWindow(int,int,char*);
+#seance endclass
+
+#seance defclass heroWindowManager
+#seance endclass
+
+#endif

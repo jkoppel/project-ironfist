@@ -17,9 +17,22 @@ module Seance
       TEMPLATE_EXTENSION = ".snc"
       TEMPLATE_REGEX = /#{TEMPLATE_EXTENSION}$/
 
-      ASM_INC_FILE = "revitalize_exports.inc"
+      ASM_INC_FILE      = "revitalize_exports.inc"
       EXPORT_THUNK_FILE = "export_thunk.cpp"
       IMPORT_THUNK_FILE = "import_thunk.cpp"
+
+      HIGH_LEVEL_MODE    = :high_level 
+      LOW_LEVEL_MODE     = :low_level
+      INDETERMINATE_MODE = :indeterminate
+
+      DEFSTRUCT     = "defstruct"
+      DEFCLASS      = "defclass"
+      ENDCLASS      = "endclass"
+      METHDECL      = "methdecl"
+      METHDEFN      = "methdefn"
+      FUNIMPORT     = "funimport"
+      CUSTOM_EXPORT = "custom-export"
+      RAW_DIRECTIVE = "raw-directive"
       
       def dump_to_source_folder(name, contents)
         File.open(DirOps.file_in(@src_folder, name), "w") do |f|
@@ -52,7 +65,7 @@ module Seance
       end
 
       def methsig(meth)
-        @fundb.get_func(meth)
+        @rawfundb.get_func(meth)
       end
 
       def funsig(fn)
@@ -72,26 +85,39 @@ EOF
         HEADER
       end
       
-      def initialize(root)
+      def initialize(root, subproj)
         @root = root
-        @templ_folder = Directory.templ_dir(root)
-        @src_folder = Directory.src_dir(root)
+        @templ_folder = Directory.templ_subdir(root, subproj)
+        @src_folder = Directory.src_subdir(root, subproj)
         @fundb = Expose::FuncDB.new(@root)
         @rawfundb = Import::FuncDB.new(@root)
         @typedb = Import::TypeDB.new(@root)
         @commands = {
-          "defstruct" => method(:defstruct),
-          "defclass" => method(:defclass),
-          "endclass" => method(:endclass),
-          "methdecl" => method(:methdecl),
-          "methdefn" => method(:methdefn),
-          "funimport" => method(:funimport),
-          "custom-export" => method(:custom_export),
+          DEFSTRUCT => method(:defstruct),
+          DEFCLASS => method(:defclass),
+          ENDCLASS => method(:endclass),
+          METHDECL => method(:methdecl),
+          METHDEFN => method(:methdefn),
+          FUNIMPORT => method(:funimport),
+          CUSTOM_EXPORT => method(:custom_export),
+          RAW_DIRECTIVE => method(:raw_directive),
         }
+        @modes = {
+          DEFSTRUCT => HIGH_LEVEL_MODE,
+          DEFCLASS => HIGH_LEVEL_MODE,
+          ENDCLASS => HIGH_LEVEL_MODE,
+          METHDECL => HIGH_LEVEL_MODE,
+          METHDEFN => HIGH_LEVEL_MODE,
+          FUNIMPORT => HIGH_LEVEL_MODE,
+          CUSTOM_EXPORT => LOW_LEVEL_MODE,
+          RAW_DIRECTIVE => LOW_LEVEL_MODE,
+        }
+
         @class_methdecls = Hash.new {|h,k| h[k] = [] }
         @class_methdefs = Hash.new {|h,k| h[k] = [] }
         @fns_to_import = {}
         @custom_exports = []
+        @raw_directives = []
         @indentation = 0
       end
 
@@ -138,7 +164,7 @@ EOF
           if needs_thunk(m)
             out.puts("\t%s %s();" % [m.type, CppGen.to_c_name(m.name)])
           else
-            out.puts("\t%s;" % m.gen_decl)
+            out.puts("\t%s;" % m.gen_decl(:implicit_this => true))
           end
         end
 
@@ -189,8 +215,10 @@ EOF
         out.close
       end
       
-      def gen_asm_inc(exported, custom_exports, imported_fns)
+      def gen_asm_inc(exported, custom_exports, raw_directives, imported_fns)
         out = File.open(DirOps.file_in(@src_folder, ASM_INC_FILE), "w")
+
+        raw_directives.each { |l| out.puts l }
 
         exported.each do |meth|
           if needs_thunk(meth)
@@ -211,20 +239,26 @@ EOF
         out.close
       end
 
-      def check_exposed(imported_meth_names, imported_fn_names)
+      def check_imported(imported_fn_names)
         safe = true
-        
-        imported_meth_names.each do |m|
-          if not @fundb.has_func? m
-            safe = false
-            Seance::Logger::error("Method #{m} not exposed")
-          end
-        end
-        
+
         imported_fn_names.each do |m|
           if not @rawfundb.has_func? m
             safe = false
             Seance::Logger::error("Function '#{m}' not imported")
+          end
+        end
+        
+        safe
+      end
+
+      def check_exported(exported_names)
+        safe = true
+        
+        exported_names.each do |m|
+          if not @fundb.has_func? m
+            safe = false
+            Seance::Logger::error("Method #{m} not exposed")
           end
         end
         
@@ -243,7 +277,7 @@ EOF
 
         imported_funs = @fns_to_import.keys
 
-        if not check_exposed(imported, imported_funs)
+        if not (check_exported(exported) and check_imported(imported+imported_funs))
           return
         end
 
@@ -253,7 +287,7 @@ EOF
 
         gen_export_thunks(exported_sig)
         gen_import_file(imported_sig, imported_fun_sig)
-        gen_asm_inc(exported_sig, @custom_exports, imported_fun_sig)
+        gen_asm_inc(exported_sig, @custom_exports, @raw_directives, imported_fun_sig)
       end
       
       def defstruct(line)
@@ -301,13 +335,26 @@ EOF
         @custom_exports << [c_nam, asm_nam]
         nil
       end
+
+      def raw_directive(line)
+        @raw_directives << line
+      end
       
+      def set_mode(mode)
+        if @mode == mode || @mode == INDETERMINATE_MODE
+          @mode = mode
+        else
+          Seance::Logger::error("Attempting to use #{mode} and #{@mode} commands in the same file")
+        end
+      end
+
       def transform_line(line)
         md = /^#seance\s+([-_\w]+)(.*)/.match(line)
         if md
           cmd = md[1]
           args = md[2]
           if @commands[cmd]
+            set_mode(@modes[cmd])
             @commands[cmd].call(args)
           else
             raise TemplateException, "Invalid directive #{cmd}"
@@ -315,6 +362,13 @@ EOF
         else
           line
         end
+      end
+
+      def begin_template
+        @mode = INDETERMINATE_MODE
+      end
+
+      def end_template
       end
 
       def each_template(templ_dir=@templ_folder, src_dir=@src_folder)
@@ -331,7 +385,10 @@ EOF
           elsif template? fname
             orig = DirOps.file_in(templ_dir, fname)
             exported = DirOps.file_in(src_dir, strip_extension(fname))
+            
+            begin_template
             yield orig, exported
+            end_template
           end
         end
 
@@ -357,8 +414,8 @@ EOF
     end
 
 
-    def self.reify_templates(root)
-      reifier = TemplateReifier.new(root)
+    def self.reify_templates(root, subproj)
+      reifier = TemplateReifier.new(root, subproj)
 
       reifier.reify_templates
     end

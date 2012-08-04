@@ -29,9 +29,10 @@
   hero heroes[54];
   char relatedToHeroForHireStatus[54];
   char _8[1152];
-  char probablyArtifactGeneratedRandomly[256];
-  char field_6236[279];
+  char artifactGeneratedRandomly[109];
+  char field_61A3[378];
+  char field_631D[48];
   char obeliskVisitedMasks[48];
   char _10[652];
-  int callback;
+  int (__thiscall *callback)(tag_message *);
   __int16 field_660D;

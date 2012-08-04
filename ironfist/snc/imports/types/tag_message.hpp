@@ -1,7 +1,7 @@
 
   INPUT_EVENT_CODE eventCode;
   int xCoordOrKeycode;
-  int yCoord;
+  int yCoordOrFieldID;
   int inputTypeBitmask;
   int altXCoord;
   int altYCoord;

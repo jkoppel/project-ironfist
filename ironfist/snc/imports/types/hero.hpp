@@ -16,8 +16,7 @@
   __int16 field_2B;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;
-  __int16 field_31;
-  __int16 field_33;
+  int probablyMovement;
   __int16 field_35;
   __int16 field_37;
   int experience;
@@ -27,7 +26,7 @@
   char wisdomLastOffered;
   armyGroup army;
   char secondarySkillLevel[14];
-  char ordinalSkillWasLearned[14];
+  char skillIndex[14];
   int numSecSkillsKnown;
   char spellsLearned[65];
   char artifacts[14];

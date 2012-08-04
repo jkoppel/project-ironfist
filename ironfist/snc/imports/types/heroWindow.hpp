@@ -9,6 +9,6 @@
   int yOffset;
   int width;
   int height;
-  widget *lastComponent;
-  widget *firstComponent;
+  widget *lastWidget;
+  widget *firstWidget;
   bitmap *bitmap;

@@ -1,0 +1,11 @@
+#ifndef BASE_MANAGER_H
+#define BASE_MANAGER_H
+
+
+struct baseManager;
+
+#seance defstruct managerVtable
+
+#seance defstruct baseManager
+
+#endif

@@ -1,6 +1,6 @@
 
   mapCell *tiles;
-  int field_4;
+  mapCellExtra *cellExtras;
   int width;
   int height;
-  int field_10;
+  int numCellExtras;

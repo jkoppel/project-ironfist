@@ -11,9 +11,9 @@
   heroWindow *topmostWindow;
   heroWindow *nextTopmostWindow;
   bitmap *screenBuffer;
-  bitmap *someBMP;
-  _DWORD field_4E;
+  bitmap *fizzleSource;
+  bitmap *field_4E;
   _DWORD numScreenshots;
   _DWORD field_56;
   _DWORD buttonPressedCode;
-  _DWORD field_5E;
+  _DWORD hoveredFieldID;

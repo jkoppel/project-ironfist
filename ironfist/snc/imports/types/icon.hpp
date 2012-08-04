@@ -5,4 +5,4 @@
   int fileID;
   resource *next;
   __int16 numSprites;
-  ICNHeader *headersAndImageData;
+  IconEntry *headersAndImageData;

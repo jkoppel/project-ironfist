@@ -36,8 +36,11 @@ when "add-func"
     end
   end
 
+when "create-subproject"
+  Seance::Directory::make_subproject(".", ARGV[1])
+
 when "create-source"
-  Seance::Expand.reify_templates(".")
+  Seance::Expand.reify_templates(".", ARGV[1])
 
 else
   puts "Invalid command"

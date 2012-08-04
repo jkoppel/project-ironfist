@@ -1,0 +1,11 @@
+ _WinMainCRTStartup EQU _start_asm
+__read EQU _read
+IMPORT___READ = 1
+__open EQU _open
+IMPORT___OPEN = 1
+__write EQU _write
+IMPORT___WRITE = 1
+??2@YAPAXI@Z EQU _op_new
+IMPORT_??2@YAPAXI@Z = 1
+??3@YAXPAX@Z EQU _op_del
+IMPORT_??3@YAXPAX@Z = 1
