@@ -1,6 +1,6 @@
 
   int vtable;
-  #63 *parentWindow;
+  heroWindow *parentWindow;
   int nextInLinkedList;
   int prevInLinkedList;
   __int16 fieldID;

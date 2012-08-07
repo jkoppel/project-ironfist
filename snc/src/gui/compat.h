@@ -15,7 +15,6 @@ extern "C" void __cdecl op_del(void* x) {
        operator delete(x);
 }
 
- _WinMainCRTStartup EQU _start_asm
 
 extern "C" {
    void _start_asm;

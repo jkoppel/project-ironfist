@@ -1,11 +1,11 @@
 
-  ManagerVtable *vtable;
+  managerVtable *vtable;
   baseManager *next;
   baseManager *prev;
   int type;
   int idx;
   char name[30];
-  _DWORD ready;
+  int ready;
   heroWindow *firstWindow;
   heroWindow *lastWindow;
   heroWindow *topmostWindow;
@@ -13,7 +13,7 @@
   bitmap *screenBuffer;
   bitmap *fizzleSource;
   bitmap *field_4E;
-  _DWORD numScreenshots;
-  _DWORD field_56;
-  _DWORD buttonPressedCode;
-  _DWORD hoveredFieldID;
+  int numScreenshots;
+  int field_56;
+  int buttonPressedCode;
+  int hoveredFieldID;

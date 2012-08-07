@@ -14,6 +14,7 @@ class idb_node (general.masm_ast_node):
 
     def to_masm(self):
         return util.postprocess("\n\n".join([self.directives,
+                                               names.get_public_decls(),
                                                self.enums.to_masm(),
                                                self.structs.to_masm(),
                                                self.segments.to_masm()]))

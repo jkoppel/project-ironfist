@@ -1,11 +1,12 @@
 #ifndef BASE_MANAGER_H
 #define BASE_MANAGER_H
 
+#pragma pack(push,1)
 
-struct baseManager;
-
-#seance defstruct managerVtable
+struct managerVtable;
 
 #seance defstruct baseManager
+
+#pragma pack(pop)
 
 #endif

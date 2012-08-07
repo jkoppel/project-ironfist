@@ -1,10 +1,19 @@
 --- 
 town::GiveSpells: 
   :type: void
+  :convention: __thiscall
   :raw_name: ?GiveSpells@town@@QAEXPAVhero@@@Z
   :args: 
   - - town *
     - this
   - - " hero *"
     - captain
+resourceManager::GetPalette: 
   :convention: __thiscall
+  :type: palette *
+  :raw_name: ?GetPalette@resourceManager@@QAEPAVpalette@@PAD@Z
+  :args: 
+  - - resourceManager *
+    - this
+  - - " const char *"
+    - filename

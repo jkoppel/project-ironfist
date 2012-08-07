@@ -1,4 +1,4 @@
 
-  int (__thiscall *initialize)(baseManager *, int);
-  void (__thiscall *cleanUp)(baseManager *);
-  int (__thiscall *handleInput)(baseManager *, tag_message *);
+  int (__thiscall *Open)(baseManager *, int);
+  void (__thiscall *Close)(baseManager *);
+  int (__fastcall *Main)(baseManager *, tag_message *);

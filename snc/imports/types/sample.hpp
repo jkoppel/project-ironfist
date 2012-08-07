@@ -1,5 +1,5 @@
 
-  ResourceVtable *vtable;
+  resourceVtable *vtable;
   __int16 resourceType;
   __int16 referenceCount;
   int fileID;

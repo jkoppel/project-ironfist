@@ -2,13 +2,14 @@
 #ifndef GUI_H
 #define GUI_H
 
-#pragma pack
+#pragma pack(push,1)
+
 
 #include "baseManager.h"
 #include "resource.h"
 
 struct widgetVtable;
-struct heroWindow;
+class heroWindow;
 
 class widget
 {
@@ -21,11 +22,16 @@ public:
   __int16 fieldID;
   __int16 componentIndex;
   __int16 field_14;
-  __int16 field_16;
+  __int16 flags;
   __int16 offsetX;
   __int16 offsetY;
   __int16 width;
   __int16 height;
+};
+
+enum BUTTON_FLAGS
+{
+  BUTTON_IS_ARMED = 0x1,
 };
 
 struct button
@@ -56,7 +62,7 @@ struct listBox
   int nextInLinkedList;
   int prevInLinkedList;
   __int16 fieldID;
-  __int16 field_12;
+  __int16 componentIdx;
   __int16 field_14;
   __int16 field_16;
   __int16 offsetX;
@@ -106,7 +112,7 @@ struct textWidget
 struct textEntryWidget
 {
   int vtable;
-  #63 *parentWindow;
+  heroWindow *parentWindow;
   int nextInLinkedList;
   int prevInLinkedList;
   __int16 fieldID;
@@ -164,13 +170,13 @@ class heroWindowManager
 {
 public:
 
-  ManagerVtable *vtable;
+  managerVtable *vtable;
   baseManager *next;
   baseManager *prev;
   int type;
   int idx;
   char name[30];
-  _DWORD ready;
+  int ready;
   heroWindow *firstWindow;
   heroWindow *lastWindow;
   heroWindow *topmostWindow;
@@ -178,10 +184,12 @@ public:
   bitmap *screenBuffer;
   bitmap *fizzleSource;
   bitmap *field_4E;
-  _DWORD numScreenshots;
-  _DWORD field_56;
-  _DWORD buttonPressedCode;
-  _DWORD hoveredFieldID;
+  int numScreenshots;
+  int field_56;
+  int buttonPressedCode;
+  int hoveredFieldID;
 };
+
+#pragma pack(pop)
 
 #endif

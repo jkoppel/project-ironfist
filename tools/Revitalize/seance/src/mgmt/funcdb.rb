@@ -5,6 +5,8 @@ require 'dir/dirmanager.rb'
 require 'dir/structure.rb'
 require 'syntax/cpp.rb'
 
+require 'logging/msg.rb'
+
 require 'rubygems'
 require 'typesafe'
 
@@ -76,6 +78,11 @@ module Seance
 
       def get_func(nam)
         meta = @sigs[nam]
+
+        if meta.nil?
+          Seance::Logger.error("Function #{nam} not found")
+        end
+
         CppGen::FuncSig.new(meta[TYPE], nam, meta[RAW_NAME],
                             CppGen.cc_to_keyword(meta[CONVENTION]),
                             meta[ARGS])

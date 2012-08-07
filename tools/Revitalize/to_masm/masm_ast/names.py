@@ -38,6 +38,13 @@ INHIBITOR = 0xFFFF
 
 # names_list = []
 
+def get_public_decls():
+    names = []
+    for i in range(idaapi.get_nlist_size()):
+        names.append("PUBLIC " + idaapi.get_nlist_name(i));
+
+    return "\n".join(names)
+
 def get_demangled_name(ea):
     return idaapi.get_demangled_name(idaapi.BADADDR, ea, INHIBITOR, 0, 0)
 

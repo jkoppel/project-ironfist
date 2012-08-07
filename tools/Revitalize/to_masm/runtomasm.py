@@ -6,7 +6,7 @@ import masm_ast.idb
 # 2) Will warn if stack variables conflict with a global variable, but not with a keyword. Solution: Rename, or use OPTION NOKEYWORD
 # 3) MASM cannot parse the literals for max and min double and long double. Solution: Mark with a type, and convert to bytes
 
-directives = '''OPTION NOKEYWORD:<THIS STR IN NAME TYPE MOD WIDTH LENGTH MASK AAM>
+directives = '''OPTION NOKEYWORD:<THIS STR IN NAME TYPE MOD WIDTH LENGTH MASK AAM LABEL>
                 OPTION CASEMAP:none
                 include revitalize_exports.inc '''
 

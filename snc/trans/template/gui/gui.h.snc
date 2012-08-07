@@ -1,16 +1,19 @@
 #ifndef GUI_H
 #define GUI_H
 
-#pragma pack
+#pragma pack(push,1)
+
 
 #include "baseManager.h"
 #include "resource.h"
 
 struct widgetVtable;
-struct heroWindow;
+class heroWindow;
 
 #seance defclass widget
 #seance endclass
+
+#seance defstruct BUTTON_FLAGS
 
 #seance defstruct button
 
@@ -26,5 +29,7 @@ struct heroWindow;
 
 #seance defclass heroWindowManager
 #seance endclass
+
+#pragma pack(pop)
 
 #endif

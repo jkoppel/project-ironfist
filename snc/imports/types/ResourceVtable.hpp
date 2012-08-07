@@ -1,2 +1,2 @@
 
-  int (__thiscall *cleanUp)(resource *this, char);
+  int (__thiscall *scalarDeletingDestructor)(resource *this, char);

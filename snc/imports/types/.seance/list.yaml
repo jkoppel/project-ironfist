@@ -14,6 +14,7 @@ hash:
   in_addrC13EC994467D6E67044F092615EC7EA9: true
   SBuildingInfo: true
   border: true
+  resourceVtable: true
   HERO_TYPE: true
   heroWindow: true
   TERRAIN_IDX: true
@@ -48,38 +49,35 @@ hash:
   CREATURE_FLAGS: true
   CREATURE_EVENT_CODE: true
   IMAGE_DATA_DIRECTORY: true
-  WIN_CONDITION_TYPES: true
-  SAMPLE2: true
   BuildingDisplay: true
   in_addrC13EC994467D6E67044F092615EC7EA901C175C1F0716DCA00314EDD79DBC0A0: true
+  SAMPLE2: true
+  WIN_CONDITION_TYPES: true
   RESOURCEMGR_CONSTANTS: true
   MIDIWrap: true
   COMBAT_GUI: true
   PRIMARY_SKILL: true
   HERO_CONSTANTS: true
   GENERAL_GUI_FIELD_IDS: true
-  mapCellExtra: true
-  PaletteContents: true
   COMBAT_CONSTANTS: true
   MSG_WINDOW_OPTIONS: true
   type_info: true
   tileset: true
+  mapCellExtra: true
   widget: true
   primary_skill_all_chances: true
   MOAT_STATUS: true
-  sample_resource: true
   primary_skills: true
   MemoryBlockInfo: true
   game: true
   strip: true
   Dimension32: true
   CursorHotspot: true
-  ICNHeader: true
   building_cost: true
+  managerVtable: true
   Event: true
   hero: true
   button: true
-  ResourceVtable: true
   ARTIFACT: true
   mapCell: true
   SPECIAL_PALETTE_INDICES: true
@@ -88,7 +86,7 @@ hash:
   FACTION: true
   widgetVtable: true
   secondary_skill_chances: true
-  SPELL_CONSTANTS: true
+  RESOURCES: true
   SPELL_ATTRIBUTES: true
   MANAGER_TYPE: true
   sample: true
@@ -96,6 +94,7 @@ hash:
   CombatCover: true
   townManager: true
   MOUSE_CURSOR_CATEGORY: true
+  SPELL_CONSTANTS: true
   combatManager: true
   MACRO_DRIVERVERSION: true
   SPELL_CATEGORY: true
@@ -103,9 +102,9 @@ hash:
   FileInAGGInfo: true
   MACRO_SEEK: true
   SECONDARY_SKILL: true
+  INPUT_EVENT_CODE: true
   RESOURCE_CONSTANTS: true
   IconEntry: true
-  INPUT_EVENT_CODE: true
   CREATURES: true
   resource: true
   MACRO_NULL: true
@@ -113,14 +112,13 @@ hash:
   ARTIFACT_CONSTANTS: true
   MENU_BUTTON: true
   HERO_FLAGS_2: true
-  ManagerVtable: true
   SMonFrameInfo: true
+  MOUSE_CONSTANTS: true
   fullMap: true
   MACRO_O: true
-  MOUSE_CONSTANTS: true
-  primary_skill_chances: true
-  HERO_FLAGS: true
   heroWindowManager: true
+  HERO_FLAGS: true
+  primary_skill_chances: true
   soundManager: true
   GUI_MESSAGE_CODE: true
   armyGroup: true
@@ -128,6 +126,6 @@ hash:
   PathfindingInfo: true
   in_addrC13EC994467D6E67044F092615EC7EA94DE764E669F663DACA3CBFDE73714CB5: true
   COMBAT_ICON_INDICES: true
-  palette: true
-  RESOURCE: true
   MACRO_ERROR_CLIENT: true
+  RESOURCE: true
+  palette: true

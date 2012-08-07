@@ -160,12 +160,8 @@ EOF
 
         out.puts('extern "C" {')
 
-        imported_meths.each do |m|
-          if needs_thunk(m)
-            out.puts("\t%s %s();" % [m.type, CppGen.to_c_name(m.name)])
-          else
-            out.puts("\t%s;" % m.gen_decl(:implicit_this => true))
-          end
+        imported_meths.select{|m| needs_thunk(m)}.each do |m|
+          out.puts("\t%s %s();" % [m.type, CppGen.to_c_name(m.name)])
         end
 
         out.puts("");
@@ -338,6 +334,7 @@ EOF
 
       def raw_directive(line)
         @raw_directives << line
+        nil
       end
       
       def set_mode(mode)
@@ -354,8 +351,10 @@ EOF
           cmd = md[1]
           args = md[2]
           if @commands[cmd]
-            set_mode(@modes[cmd])
-            @commands[cmd].call(args)
+            Seance::Logger.with_error_handling(proc{""}) do
+              set_mode(@modes[cmd])
+              @commands[cmd].call(args)
+            end
           else
             raise TemplateException, "Invalid directive #{cmd}"
           end

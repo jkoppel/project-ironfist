@@ -2,19 +2,13 @@
 #ifndef BASE_MANAGER_H
 #define BASE_MANAGER_H
 
+#pragma pack(push,1)
 
-struct baseManager;
-
- managerVtable
-{
-  int (__thiscall *initialize)(baseManager *, int);
-  void (__thiscall *cleanUp)(baseManager *);
-  int (__thiscall *handleInput)(baseManager *, tag_message *);
-};
+struct managerVtable;
 
 struct baseManager
 {
-  ManagerVtable *vtable;
+  managerVtable *vtable;
   baseManager *next;
   baseManager *prev;
   int type;
@@ -22,5 +16,7 @@ struct baseManager
   char name[30];
   int ready;
 };
+
+#pragma pack(pop)
 
 #endif

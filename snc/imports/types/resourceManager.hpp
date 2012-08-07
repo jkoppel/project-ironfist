@@ -1,5 +1,5 @@
 
-  ManagerVtable *vtable;
+  managerVtable *vtable;
   baseManager *next;
   baseManager *prev;
   MANAGER_TYPE type;
