@@ -57,7 +57,7 @@ module Seance
       end
 
       def export_flag_symbol_raw(nam)
-        "IMPORT_"+CppGen.to_c_name(nam).upcase
+        "IMPORT_"+CppGen.to_c_name(nam)
       end
 
       def export_flag_symbol(meth)

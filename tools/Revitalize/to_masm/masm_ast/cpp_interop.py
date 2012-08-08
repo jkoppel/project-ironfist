@@ -1,5 +1,5 @@
 def import_token(name):
-    return "IMPORT_"+name.upper()
+    return "IMPORT_"+name
 
 ###Wraps definition with MASM directives such that defining a flag in an include file
 ###can toggle whether C++ or MASM version is used

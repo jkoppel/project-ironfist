@@ -142,5 +142,5 @@ void inspect_widget(widget* w) {
 			return;
 		}
 	}
-	printf("Unidentified widget detected\n\n");
+	printf("Unsupported widget detected (list box, drop down, or dimmer)\n\n");
 }

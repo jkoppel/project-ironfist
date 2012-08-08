@@ -1,0 +1,54 @@
+#include "gui.h"
+#include "resource.h"
+
+class baseManager;
+
+#seance defstruct MainWindow
+
+#seance defstruct managerVtable
+
+#seance defstruct MANAGER_TYPE
+
+#seance defclass executive
+#seance methdecl executive::InitSystem
+#seance endclass
+
+#seance defstruct FileInAGGInfo
+
+#seance defclass resourceManager
+#seance methdecl resourceManager::GetPalette
+#seance methdecl resourceManager::GetFont
+#seance endclass
+
+#seance defstruct MOUSE_CURSOR_CATEGORY
+
+#seance defclass mouseManager
+#seance methdecl mouseManager::SetPointer
+#seance endclass
+
+#seance defclass soundManager
+#seance endclass
+
+extern executive* gpExec;
+extern palette* gPalette;
+extern font* smallFont;
+extern font* bigFont;
+extern resourceMAnager* gpResourceManager;
+extern mouseManager* gpMouseManager;
+extern soundManager* gpSoundManager;
+
+extern heroWindowManager* gpWindowManager;
+
+void finish_init() {
+  gpExec->InitSystem();
+  gPalette = gpResourceManager->GetPalette("kb.pal");
+  smallFont = gpResourceManager->GetFont("smalfont.fnt");
+  bigFont = gpResourceManager->GetFont("bigfont.fnt");
+  gpMouseManager->setPointer("advmice.mse", 0, -999);
+
+  ((int (__fastcall *)(soundManager *))gpSoundManager->vtable->Open)(gpSoundManager);
+}
+
+void run_viewer() {
+  finish_init();
+}
