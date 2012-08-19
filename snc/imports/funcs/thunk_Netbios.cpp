@@ -1,3 +1,0 @@
-{
-  return Netbios(a1);
-}

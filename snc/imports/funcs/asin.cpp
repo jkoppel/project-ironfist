@@ -1,3 +1,0 @@
-{
-  JUMPOUT(*(int *)WinMain);
-}

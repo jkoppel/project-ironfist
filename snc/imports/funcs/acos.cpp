@@ -1,3 +1,0 @@
-{
-  JUMPOUT(WinMain);
-}

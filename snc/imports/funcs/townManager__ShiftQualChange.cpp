@@ -1,3 +1,0 @@
-{
-  inputManager::ForceMouseMove();
-}

@@ -1,3 +1,0 @@
-{
-  return abs(a1);
-}

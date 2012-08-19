@@ -1,3 +1,0 @@
-
-  char width;
-  char height;

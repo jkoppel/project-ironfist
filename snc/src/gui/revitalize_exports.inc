@@ -1,7 +1,0 @@
- IMPORT__EXIT = 1
- _WinMainCRTStartup EQU _start_asm
- IMPORT_?OLDMAIN@@YIHXZ = 1
-??2@YAPAXI@Z EQU _op_new
-IMPORT_??2@YAPAXI@Z = 1
-??3@YAXPAX@Z EQU _op_del
-IMPORT_??3@YAXPAX@Z = 1

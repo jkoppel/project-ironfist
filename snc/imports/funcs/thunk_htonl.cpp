@@ -1,3 +1,0 @@
-{
-  return htonl(a1);
-}

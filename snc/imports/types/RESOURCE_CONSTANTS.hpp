@@ -1,2 +1,0 @@
-
-  NUM_RESOURCES = 0x7,

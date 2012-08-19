@@ -1,3 +1,0 @@
-{
-  giSeedingValid = 0;
-}

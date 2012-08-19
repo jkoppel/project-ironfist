@@ -1,2 +1,0 @@
-
-  FIELD_TOP_BANNER = 2,

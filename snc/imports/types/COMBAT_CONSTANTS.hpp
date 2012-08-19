@@ -1,2 +1,0 @@
-
-  HEX_GRID_SIZE = 0x75,

@@ -1,3 +1,0 @@
-{
-  gpSoundManager->aiMusicOff = 1;
-}

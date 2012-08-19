@@ -1,3 +1,0 @@
-
-  int height;
-  int width;

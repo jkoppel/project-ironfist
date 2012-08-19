@@ -1,3 +1,0 @@
-{
-  return *(_DWORD *)this;
-}
