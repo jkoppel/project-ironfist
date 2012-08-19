@@ -1,6 +1,11 @@
 #include "lifted/resource/resourceManager.h"
+#include "tied/combat/combat.h"
+#include "tied/game/game.h"
 #include "tied/manager.h"
+#include "tied/adventure/adv.h"
+#include "tied/gui/gui.h"
 #include "tied/resource/resources.h"
+
 
 #pragma pack(push,1)
 
@@ -22,12 +27,6 @@ public:
 	mouseManager();
 };
 
-class heroWindowManager {
-public:
-	char _[98];
-	heroWindowManager();
-};
-
 class soundManager {
 public:
 	char _[1714];
@@ -40,45 +39,10 @@ public:
 	highScoreManager();
 };
 
-class fullMap {
-public:
-	char _[20];
-	fullMap();
-};
-
-class town {
-public:
-	char _[0x64];
-	town();
-};
-
-class hero {
-public:
-	char _[0xFA];
-	hero();
-};
-
-class game {
-public:
-	char _[0xB3E];
-	fullMap f;
-	char numObelisks;
-	town castles[72];
-	char _7[81];
-	hero h[54];
-	char _8[2447];
-};
-
 class advManager {
 public:
 	char _[894];
 	advManager();
-};
-
-class combatManager {
-public:
-	char _[63607];
-	combatManager();
 };
 
 class townManager {
@@ -99,12 +63,6 @@ public:
 	philAI();
 };
 
-class armyGroup {
-public:
-	char _[15];
-	armyGroup();
-};
-
 extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern mouseManager* gpMouseManager;
@@ -112,9 +70,7 @@ extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
 extern soundManager* gpSoundManager;
 extern highScoreManager* gpHighScoreManager;
-extern game* gpGame;
 extern advManager* gpAdvManager;
-extern combatManager* gpCombatManager;
 extern townManager* gpTownManager;
 extern searchArray* gpSearchArray;
 extern philAI* gpPhilAI;
@@ -132,7 +88,7 @@ void __fastcall InitMainClasses()
 	gpResourceManager = new resourceManager;
 	gpSoundManager = new soundManager;
 	gpHighScoreManager = new highScoreManager;
-	gpGame = new game; //de-inline constructor
+	gpGame = new game;
 	gpAdvManager = new advManager;
 	gpCombatManager = new combatManager;
 	gpTownManager = new townManager;
@@ -140,4 +96,22 @@ void __fastcall InitMainClasses()
 	gpPhilAI = new philAI;
 	gpMonGroup = new armyGroup;
 	gpBufferPalette = new palette;
+}
+
+void __fastcall DeleteMainClasses() {
+	delete gpExec;
+	delete gpInputManager;
+	delete gpMouseManager;
+	delete gpWindowManager;
+	delete gpResourceManager;
+	delete gpSoundManager;
+	delete gpHighScoreManager;
+	delete gpGame;
+	delete gpAdvManager;
+	delete gpCombatManager;
+	delete gpTownManager;
+	delete gpSearchArray;
+	delete gpPhilAI;
+	delete gpMonGroup;
+	delete gpBufferPalette;
 }

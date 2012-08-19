@@ -184,7 +184,6 @@ void resourceManager::Dispose(resource* res) {
 			if (res->referenceCount <= 0) {
 				RemoveResource(res);
 				if(res != NULL) {
-					//res->vtable->scalarDeletingDestructor(res, 1);
 					delete res;
 				}
 			}
@@ -376,8 +375,7 @@ void resourceManager::ReadBlock(signed char* buf, unsigned long n) {
 
 	int nread = _read(this->fileDescriptors[this->curHandleIdx], buf, n);
 
-	if (nread != n)
-	{
+	if(nread != n) {
 		int* err = _errno();
 		sprintf(
 			gText,

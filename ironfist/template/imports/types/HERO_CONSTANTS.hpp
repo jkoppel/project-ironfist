@@ -1,2 +1,0 @@
-
-  MAX_ARTIFACTS = 14,

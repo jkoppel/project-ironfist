@@ -5,14 +5,23 @@ IMPORT__exit = 1
 ;; Avoiding name conflicts
 IMPORT__stricmp = 1
 
+___xi_a EQU ___xi_a_asm
+___xc_a EQU ___xc_a_asm
+___xc_z EQU ___xc_z_asm
+
 ;; Requiring assembly to use new runtime's file operations
 IMPORT__open = 1
 IMPORT__close = 1
 IMPORT__tell = 1
 IMPORT___read = 1
+IMPORT___write = 1
 
 ;; Preventing the startup routines' names from clashing
 _WinMainCRTStartup EQU _start_asm
+_WinMain@16 EQU  _WinMain_asm@16
+
+;; Hooking app exit
+IMPORT_?AppExit@@YIXXZ = 1
 
 ;; Requiring assembly to put C++ objects on new heap
 ??2@YAPAXI@Z EQU _op_new
@@ -22,9 +31,11 @@ IMPORT_??3@YAXPAX@Z = 1
 
 ;;init
 IMPORT_?InitMainClasses@@YIXXZ = 1
+IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 ;;;resourceManager
 
+IMPORT_??_7resourceManager@@6B@ = 1
 IMPORT_??0resourceManager@@QAE@XZ = 1
 IMPORT_?GetBackdrop@resourceManager@@QAEXPADPAVbitmap@@H@Z = 1
 IMPORT_?GetPalette@resourceManager@@QAEPAVpalette@@PAD@Z = 1
@@ -53,3 +64,29 @@ IMPORT_?ReadLong@resourceManager@@QAEJXZ = 1
 IMPORT_?MakeId@resourceManager@@QAEKPADH@Z = 1
 IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
+
+;;creatures
+
+IMPORT_?cArmyFrameFileNames@@3PAPADA = 1
+IMPORT_?cMonFilename@@3PAPADA = 1
+IMPORT_?gArmyNames@@3PAPADA = 1
+IMPORT_?gArmyNamesPlural@@3PAPADA = 1
+IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
+
+;;game
+IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
+
+;;hero
+IMPORT_??0hero@@QAE@XZ = 1
+IMPORT_?AddSpell@hero@@QAEXHH@Z = 1
+IMPORT_?HasSpell@hero@@QAEHH@Z = 1
+IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
+IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
+
+;;artifacts
+IMPORT_?gArtifactNames@@3PAPADA = 1
+IMPORT_?gArtifactDesc@@3PAPADA = 1
+IMPORT_?gArtifactEvents@@3PAPADA = 1
+
+;;combat
+IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1

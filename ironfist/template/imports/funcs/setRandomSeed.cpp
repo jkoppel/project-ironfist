@@ -1,4 +1,0 @@
-{
-  randomSeed = this;
-  srand(this);
-}

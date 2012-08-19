@@ -1,1 +1,7 @@
-The Revitalize program aims to make it easier to reengineer binaries by automating the process of transforming an annotated disassembly and decompilation into a source tree. For a full description, see http://www.jameskoppel.com/revitalize.html
+The Revitalize toolset form the core of our ability to modify Heroes II. These can be ignored by non-experts. All are designed to work with the IDA interactive disassembler.
+
+Referee is a reverse-engineering tool that helps track down uses of structure fields, making it easier to completely separate structures and classes from the original assembly.
+
+to_masm outputs an executable in a dressed-up form, suitable for binary interop. 
+
+seance is a more advanced tool that manages the interface between assembly and C++. Our binary interop has now been simplified enough to make seance unnecessary. 

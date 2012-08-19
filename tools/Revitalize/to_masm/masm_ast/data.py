@@ -2,6 +2,7 @@ import idaapi
 import idc
 import general
 import value
+import names
 import util
 
 #There's probably a better way for this, but I did not find it
@@ -119,7 +120,7 @@ class data_node(general.masm_ast_node):
             #if idaapi.isStruct(idaapi.getFlags(ea)):
             #    self.elts.append(struct_instance_node(ea))
             #else:
-            self.elts.append(general.verbatim_node(ea))
+            self.elts.append(names.name_wrap_data(ea,general.verbatim_node(ea)))
             ea = idaapi.next_not_tail(ea)
 
     def to_masm(self):

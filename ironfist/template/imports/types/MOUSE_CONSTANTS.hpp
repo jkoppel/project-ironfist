@@ -1,2 +1,0 @@
-
-  NUMBER_OF_CURSORS = 0x60,

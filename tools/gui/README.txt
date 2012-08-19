@@ -1,0 +1,3 @@
+A bare-bones viewer for the Heroes II GUI specification files. Run h2guiview.exe from the same directory you run Heroes II. You will be greeted with two windows: a blank Heroes II game window, and a console window. Enter the name of a .bin file into the console window and press Enter. You will then see a minimally-interactive, uninitialized version of the corresponding GUI in the Heroes II window, while the console will dump information about all the widgets in that GUI file.
+
+Like Project Iornfist itself, h2guiview interacts with a disassembly of the original game. To compile the program anew, follow similar instructions to those for compiling the game on the Project Ironfist wiki.

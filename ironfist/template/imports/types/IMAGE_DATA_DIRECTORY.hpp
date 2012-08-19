@@ -1,3 +1,0 @@
-
-  DWORD VirtualAddress;
-  DWORD Length;

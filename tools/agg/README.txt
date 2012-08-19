@@ -1,0 +1,1 @@
+GrayFace's tools for handling Heroes II AGG (aggregate) files. Double-click and run the programs in the bin directory for instructions.

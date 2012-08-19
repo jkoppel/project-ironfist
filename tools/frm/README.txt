@@ -1,0 +1,1 @@
+H2FRMPack and H2FRMUnpack allow you to read, modify, and create the FRM.BIN files that control the animations of creatures. Double-click and run them for usage instructions. The examples directory contains examples of files that can be input to H2FRMPack. A full description of the various fields can be found on the Project Ironfist wiki.

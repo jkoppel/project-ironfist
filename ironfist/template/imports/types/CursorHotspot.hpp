@@ -1,3 +1,0 @@
-
-  char x;
-  char y;

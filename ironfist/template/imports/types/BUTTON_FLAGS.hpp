@@ -1,2 +1,0 @@
-
-  BUTTON_IS_ARMED = 0x1,
