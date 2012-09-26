@@ -73,18 +73,22 @@ public:
   unsigned int sampleType;
   unsigned int field_28;
   int loopCount;
-
+  
+#ifndef EDITOR
   sample(char *,long,long,long);
   ~sample();
+#endif
 };
 
 class MIDIWrap : public resource
 {
 public:
   void *contents;
-
+  
+#ifndef EDITOR
   MIDIWrap(char*);
   ~MIDIWrap();
+#endif
 };
 
 class tileset : public resource
@@ -102,14 +106,17 @@ public:
 class palette : public resource
 {
 public:
-  char *contents;
+  signed char *contents;
 
   palette();
   palette(unsigned long);
   ~palette();
 };
 
+extern palette* gPalette;
 extern palette* gpBufferPalette;
+
+extern void __fastcall SetPalette(signed char *,int);
 
 class font : public resource
 {

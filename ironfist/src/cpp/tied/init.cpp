@@ -1,4 +1,5 @@
 #include "lifted/resource/resourceManager.h"
+#include "tied/base.h"
 #include "tied/combat/combat.h"
 #include "tied/game/game.h"
 #include "tied/manager.h"
@@ -25,6 +26,7 @@ class mouseManager {
 public:
 	char _[138];
 	mouseManager();
+	void ShowColorPointer();
 };
 
 class soundManager {
@@ -37,12 +39,6 @@ class highScoreManager {
 public:
 	char _[99];
 	highScoreManager();
-};
-
-class advManager {
-public:
-	char _[894];
-	advManager();
 };
 
 class townManager {
@@ -114,4 +110,28 @@ void __fastcall DeleteMainClasses() {
 	delete gpPhilAI;
 	delete gpMonGroup;
 	delete gpBufferPalette;
+}
+
+extern int iCDRomErr;
+extern int gbNoCDRom;
+
+void __fastcall SetupCDRom() {
+
+	if(iCDRomErr == 1 || iCDRomErr == 2) {
+		//Setting to no-CD mode, but not showing message forbidding play
+		SetPalette(gPalette->contents, 1);
+		gpMouseManager->ShowColorPointer();
+		gbNoCDRom = 1;
+		NormalDialog("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
+						"but otherwise, have fun!",
+			1, -1,-1,-1,0,-1,0,-1,0);
+	} else if(iCDRomErr == 3) {
+		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
+						"  Please run the installation program.");
+		exit(0);
+	} else if(iCDRomErr == 4) {
+		EarlyShutdown("Startup Error", "Unable to find the Heroes II data files.  "
+										"Please run the installation program.");
+		exit(0);
+	}
 }

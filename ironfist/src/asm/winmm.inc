@@ -1,0 +1,437 @@
+; --------------------------------------------------------------------------------------------------
+;                            winmm.inc Copyright The MASM32 SDK 1998-2010
+; --------------------------------------------------------------------------------------------------
+
+IFNDEF WINMM_INC
+WINMM_INC equ <1>
+
+CloseDriver PROTO STDCALL :DWORD,:DWORD,:DWORD
+DefDriverProc PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+DriverCallback PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+DrvGetModuleHandle PROTO STDCALL :DWORD
+GetDriverModuleHandle PROTO STDCALL :DWORD
+MigrateAllDrivers PROTO STDCALL
+MigrateSoundEvents PROTO STDCALL
+NotifyCallbackData PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+OpenDriver PROTO STDCALL :DWORD,:DWORD,:DWORD
+
+PlaySoundA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  PlaySound equ <PlaySoundA>
+ENDIF
+
+PlaySoundW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  PlaySound equ <PlaySoundW>
+ENDIF
+
+SendDriverMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+WOW32DriverCallback PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+WOW32ResolveMultiMediaHandle PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+WOWAppExit PROTO STDCALL :DWORD
+WinmmLogoff PROTO STDCALL
+WinmmLogon PROTO STDCALL :DWORD
+aux32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+
+auxGetDevCapsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  auxGetDevCaps equ <auxGetDevCapsA>
+ENDIF
+
+auxGetDevCapsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  auxGetDevCaps equ <auxGetDevCapsW>
+ENDIF
+
+auxGetNumDevs PROTO STDCALL
+auxGetVolume PROTO STDCALL :DWORD,:DWORD
+auxOutMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+auxSetVolume PROTO STDCALL :DWORD,:DWORD
+gfxAddGfx PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+gfxBatchChange PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+gfxCreateGfxFactoriesList PROTO STDCALL :DWORD,:DWORD
+gfxCreateZoneFactoriesList PROTO STDCALL :DWORD
+gfxDestroyDeviceInterfaceList PROTO STDCALL :DWORD
+gfxEnumerateGfxs PROTO STDCALL :DWORD,:DWORD,:DWORD
+gfxLogoff PROTO STDCALL
+gfxLogon PROTO STDCALL :DWORD
+gfxModifyGfx PROTO STDCALL :DWORD,:DWORD
+gfxOpenGfx PROTO STDCALL :DWORD,:DWORD
+gfxRemoveGfx PROTO STDCALL :DWORD
+joy32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+joyConfigChanged PROTO STDCALL :DWORD
+
+joyGetDevCapsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  joyGetDevCaps equ <joyGetDevCapsA>
+ENDIF
+
+joyGetDevCapsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  joyGetDevCaps equ <joyGetDevCapsW>
+ENDIF
+
+joyGetNumDevs PROTO STDCALL
+joyGetPos PROTO STDCALL :DWORD,:DWORD
+joyGetPosEx PROTO STDCALL :DWORD,:DWORD
+joyGetThreshold PROTO STDCALL :DWORD,:DWORD
+joyReleaseCapture PROTO STDCALL :DWORD
+joySetCapture PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+joySetThreshold PROTO STDCALL :DWORD,:DWORD
+mci32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+mciDriverNotify PROTO STDCALL :DWORD,:DWORD,:DWORD
+mciDriverYield PROTO STDCALL :DWORD
+mciExecute PROTO STDCALL :DWORD
+mciFreeCommandResource PROTO STDCALL :DWORD
+mciGetCreatorTask PROTO STDCALL :DWORD
+
+mciGetDeviceIDA PROTO STDCALL :DWORD
+IFNDEF __UNICODE__
+  mciGetDeviceID equ <mciGetDeviceIDA>
+ENDIF
+
+mciGetDeviceIDFromElementIDA PROTO STDCALL :DWORD,:DWORD
+IFNDEF __UNICODE__
+  mciGetDeviceIDFromElementID equ <mciGetDeviceIDFromElementIDA>
+ENDIF
+
+mciGetDeviceIDFromElementIDW PROTO STDCALL :DWORD,:DWORD
+IFDEF __UNICODE__
+  mciGetDeviceIDFromElementID equ <mciGetDeviceIDFromElementIDW>
+ENDIF
+
+mciGetDeviceIDW PROTO STDCALL :DWORD
+IFDEF __UNICODE__
+  mciGetDeviceID equ <mciGetDeviceIDW>
+ENDIF
+
+mciGetDriverData PROTO STDCALL :DWORD
+
+mciGetErrorStringA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mciGetErrorString equ <mciGetErrorStringA>
+ENDIF
+
+mciGetErrorStringW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mciGetErrorString equ <mciGetErrorStringW>
+ENDIF
+
+mciGetYieldProc PROTO STDCALL :DWORD,:DWORD
+mciLoadCommandResource PROTO STDCALL :DWORD,:DWORD,:DWORD
+
+mciSendCommandA PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mciSendCommand equ <mciSendCommandA>
+ENDIF
+
+mciSendCommandW PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mciSendCommand equ <mciSendCommandW>
+ENDIF
+
+mciSendStringA PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mciSendString equ <mciSendStringA>
+ENDIF
+
+mciSendStringW PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mciSendString equ <mciSendStringW>
+ENDIF
+
+mciSetDriverData PROTO STDCALL :DWORD,:DWORD
+mciSetYieldProc PROTO STDCALL :DWORD,:DWORD,:DWORD
+mid32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+midiConnect PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiDisconnect PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiInAddBuffer PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiInClose PROTO STDCALL :DWORD
+
+midiInGetDevCapsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  midiInGetDevCaps equ <midiInGetDevCapsA>
+ENDIF
+
+midiInGetDevCapsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  midiInGetDevCaps equ <midiInGetDevCapsW>
+ENDIF
+
+midiInGetErrorTextA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  midiInGetErrorText equ <midiInGetErrorTextA>
+ENDIF
+
+midiInGetErrorTextW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  midiInGetErrorText equ <midiInGetErrorTextW>
+ENDIF
+
+midiInGetID PROTO STDCALL :DWORD,:DWORD
+midiInGetNumDevs PROTO STDCALL
+midiInMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+midiInOpen PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+midiInPrepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiInReset PROTO STDCALL :DWORD
+midiInStart PROTO STDCALL :DWORD
+midiInStop PROTO STDCALL :DWORD
+midiInUnprepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiOutCacheDrumPatches PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+midiOutCachePatches PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+midiOutClose PROTO STDCALL :DWORD
+
+midiOutGetDevCapsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  midiOutGetDevCaps equ <midiOutGetDevCapsA>
+ENDIF
+
+midiOutGetDevCapsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  midiOutGetDevCaps equ <midiOutGetDevCapsW>
+ENDIF
+
+midiOutGetErrorTextA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  midiOutGetErrorText equ <midiOutGetErrorTextA>
+ENDIF
+
+midiOutGetErrorTextW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  midiOutGetErrorText equ <midiOutGetErrorTextW>
+ENDIF
+
+midiOutGetID PROTO STDCALL :DWORD,:DWORD
+midiOutGetNumDevs PROTO STDCALL
+midiOutGetVolume PROTO STDCALL :DWORD,:DWORD
+midiOutLongMsg PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiOutMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+midiOutOpen PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+midiOutPrepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiOutReset PROTO STDCALL :DWORD
+midiOutSetVolume PROTO STDCALL :DWORD,:DWORD
+midiOutShortMsg PROTO STDCALL :DWORD,:DWORD
+midiOutUnprepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiStreamClose PROTO STDCALL :DWORD
+midiStreamOpen PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+midiStreamOut PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiStreamPause PROTO STDCALL :DWORD
+midiStreamPosition PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiStreamProperty PROTO STDCALL :DWORD,:DWORD,:DWORD
+midiStreamRestart PROTO STDCALL :DWORD
+midiStreamStop PROTO STDCALL :DWORD
+mixerClose PROTO STDCALL :DWORD
+
+mixerGetControlDetailsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mixerGetControlDetails equ <mixerGetControlDetailsA>
+ENDIF
+
+mixerGetControlDetailsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mixerGetControlDetails equ <mixerGetControlDetailsW>
+ENDIF
+
+mixerGetDevCapsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mixerGetDevCaps equ <mixerGetDevCapsA>
+ENDIF
+
+mixerGetDevCapsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mixerGetDevCaps equ <mixerGetDevCapsW>
+ENDIF
+
+mixerGetID PROTO STDCALL :DWORD,:DWORD,:DWORD
+
+mixerGetLineControlsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mixerGetLineControls equ <mixerGetLineControlsA>
+ENDIF
+
+mixerGetLineControlsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mixerGetLineControls equ <mixerGetLineControlsW>
+ENDIF
+
+mixerGetLineInfoA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mixerGetLineInfo equ <mixerGetLineInfoA>
+ENDIF
+
+mixerGetLineInfoW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mixerGetLineInfo equ <mixerGetLineInfoW>
+ENDIF
+
+mixerGetNumDevs PROTO STDCALL
+mixerMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+mixerOpen PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+mixerSetControlDetails PROTO STDCALL :DWORD,:DWORD,:DWORD
+mmDrvInstall PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+mmGetCurrentTask PROTO STDCALL
+mmTaskBlock PROTO STDCALL :DWORD
+mmTaskCreate PROTO STDCALL :DWORD,:DWORD,:DWORD
+mmTaskSignal PROTO STDCALL :DWORD
+mmTaskYield PROTO STDCALL
+mmioAdvance PROTO STDCALL :DWORD,:DWORD,:DWORD
+mmioAscend PROTO STDCALL :DWORD,:DWORD,:DWORD
+mmioClose PROTO STDCALL :DWORD,:DWORD
+mmioCreateChunk PROTO STDCALL :DWORD,:DWORD,:DWORD
+mmioDescend PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+mmioFlush PROTO STDCALL :DWORD,:DWORD
+mmioGetInfo PROTO STDCALL :DWORD,:DWORD,:DWORD
+
+mmioInstallIOProcA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mmioInstallIOProc equ <mmioInstallIOProcA>
+ENDIF
+
+mmioInstallIOProcW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mmioInstallIOProc equ <mmioInstallIOProcW>
+ENDIF
+
+mmioOpenA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mmioOpen equ <mmioOpenA>
+ENDIF
+
+mmioOpenW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mmioOpen equ <mmioOpenW>
+ENDIF
+
+mmioRead PROTO STDCALL :DWORD,:DWORD,:DWORD
+
+mmioRenameA PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  mmioRename equ <mmioRenameA>
+ENDIF
+
+mmioRenameW PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  mmioRename equ <mmioRenameW>
+ENDIF
+
+mmioSeek PROTO STDCALL :DWORD,:DWORD,:DWORD
+mmioSendMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+mmioSetBuffer PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+mmioSetInfo PROTO STDCALL :DWORD,:DWORD,:DWORD
+
+mmioStringToFOURCCA PROTO STDCALL :DWORD,:DWORD
+IFNDEF __UNICODE__
+  mmioStringToFOURCC equ <mmioStringToFOURCCA>
+ENDIF
+
+mmioStringToFOURCCW PROTO STDCALL :DWORD,:DWORD
+IFDEF __UNICODE__
+  mmioStringToFOURCC equ <mmioStringToFOURCCW>
+ENDIF
+
+mmioWrite PROTO STDCALL :DWORD,:DWORD,:DWORD
+mmsystemGetVersion PROTO STDCALL
+mod32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+mxd32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+
+sndPlaySoundA PROTO STDCALL :DWORD,:DWORD
+IFNDEF __UNICODE__
+  sndPlaySound equ <sndPlaySoundA>
+ENDIF
+
+sndPlaySoundW PROTO STDCALL :DWORD,:DWORD
+IFDEF __UNICODE__
+  sndPlaySound equ <sndPlaySoundW>
+ENDIF
+
+tid32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+timeBeginPeriod PROTO STDCALL :DWORD
+timeEndPeriod PROTO STDCALL :DWORD
+timeGetDevCaps PROTO STDCALL :DWORD,:DWORD
+timeGetSystemTime PROTO STDCALL :DWORD,:DWORD
+timeGetTime PROTO STDCALL
+timeKillEvent PROTO STDCALL :DWORD
+timeSetEvent PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+waveInAddBuffer PROTO STDCALL :DWORD,:DWORD,:DWORD
+waveInClose PROTO STDCALL :DWORD
+
+waveInGetDevCapsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  waveInGetDevCaps equ <waveInGetDevCapsA>
+ENDIF
+
+waveInGetDevCapsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  waveInGetDevCaps equ <waveInGetDevCapsW>
+ENDIF
+
+waveInGetErrorTextA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  waveInGetErrorText equ <waveInGetErrorTextA>
+ENDIF
+
+waveInGetErrorTextW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  waveInGetErrorText equ <waveInGetErrorTextW>
+ENDIF
+
+waveInGetID PROTO STDCALL :DWORD,:DWORD
+waveInGetNumDevs PROTO STDCALL
+waveInGetPosition PROTO STDCALL :DWORD,:DWORD,:DWORD
+waveInMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+waveInOpen PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+waveInPrepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+waveInReset PROTO STDCALL :DWORD
+waveInStart PROTO STDCALL :DWORD
+waveInStop PROTO STDCALL :DWORD
+waveInUnprepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+waveOutBreakLoop PROTO STDCALL :DWORD
+waveOutClose PROTO STDCALL :DWORD
+
+waveOutGetDevCapsA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  waveOutGetDevCaps equ <waveOutGetDevCapsA>
+ENDIF
+
+waveOutGetDevCapsW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  waveOutGetDevCaps equ <waveOutGetDevCapsW>
+ENDIF
+
+waveOutGetErrorTextA PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFNDEF __UNICODE__
+  waveOutGetErrorText equ <waveOutGetErrorTextA>
+ENDIF
+
+waveOutGetErrorTextW PROTO STDCALL :DWORD,:DWORD,:DWORD
+IFDEF __UNICODE__
+  waveOutGetErrorText equ <waveOutGetErrorTextW>
+ENDIF
+
+waveOutGetID PROTO STDCALL :DWORD,:DWORD
+waveOutGetNumDevs PROTO STDCALL
+waveOutGetPitch PROTO STDCALL :DWORD,:DWORD
+waveOutGetPlaybackRate PROTO STDCALL :DWORD,:DWORD
+waveOutGetPosition PROTO STDCALL :DWORD,:DWORD,:DWORD
+waveOutGetVolume PROTO STDCALL :DWORD,:DWORD
+waveOutMessage PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD
+waveOutOpen PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+waveOutPause PROTO STDCALL :DWORD
+waveOutPrepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+waveOutReset PROTO STDCALL :DWORD
+waveOutRestart PROTO STDCALL :DWORD
+waveOutSetPitch PROTO STDCALL :DWORD,:DWORD
+waveOutSetPlaybackRate PROTO STDCALL :DWORD,:DWORD
+waveOutSetVolume PROTO STDCALL :DWORD,:DWORD
+waveOutUnprepareHeader PROTO STDCALL :DWORD,:DWORD,:DWORD
+waveOutWrite PROTO STDCALL :DWORD,:DWORD,:DWORD
+wid32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+winmmDbgOut PROTO C :VARARG
+winmmSetDebugLevel PROTO STDCALL :DWORD
+wod32Message PROTO STDCALL :DWORD,:DWORD,:DWORD,:DWORD,:DWORD
+
+ELSE
+  echo ----------------------------------------
+  echo WARNING duplicate include file winmm.inc
+  echo ----------------------------------------
+ENDIF

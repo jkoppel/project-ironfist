@@ -100,6 +100,8 @@ enum CREATURE_FLAGS : __int16
   CREATURE_PETRIFIED = 0x4000,
 };
 
+#define STRIKE_AND_RETURN "strike-and-return"
+
 struct tag_monsterInfo
 {
   __int16 cost;
@@ -121,7 +123,7 @@ struct tag_monsterInfo
 
   tag_monsterInfo() {}
   tag_monsterInfo(int c, int f, int f2, int g, int h, int f3, int s, int a, int d, int m, int m2, int s2,
-					char* s3, int c2, int _2) : 
+					const char* s3, int c2, int _2) : 
 						cost((short)c), fight_value(f), fight_value_aux(f2), growth(g), hp(h),
 						faction(f3), speed(s), attack(a), defense(d), min_damage(m), max_damage(m2), shots(s2),
 						creature_flags(c2), _(_2) {
@@ -132,6 +134,8 @@ struct tag_monsterInfo
 tag_monsterInfo gMonsterDatabase[];
 
 int gMonRandBound[][2];
+
+int CreatureHasAttribute(int id, const char* name);
 
 void LoadCreatures();
 void UnloadCreatures();

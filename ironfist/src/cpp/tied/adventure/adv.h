@@ -7,12 +7,22 @@
 
 #define MAX_TOTAL_HEROES 48
 
+enum PRIMARY_SKILL
+{
+  PRIMARY_SKILL_ATTACK = 0,
+  PRIMARY_SKILL_DEFENSE = 1,
+  PRIMARY_SKILL_SPELLPOWER = 2,
+  PRIMARY_SKILL_KNOWLEDGE = 3,
+};
+
 class armyGroup
 {
 public:
   char creatureTypes[5];
   __int16 quantities[5];
   armyGroup();
+
+  int Add(int,int,int);
 };
 
 struct hero
@@ -40,16 +50,23 @@ public:
   __int16 field_2B;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;
-  int probablyMovement;
-  __int16 field_35;
-  __int16 field_37;
+  int mobility;
+  int remainingMobility;
   int experience;
   __int16 oldLevel;
   char primarySkills[4];
   char field_43;
   char tempMoraleBonuses;
   char tempLuckBonuses;
-  char _2[30];
+  char field_46;
+  int gazeboesVisited;
+  int fortsVisited;
+  int witchDoctorHutsVisited;
+  int mercenaryCampsVisited;
+  int standingStonesVisited;
+  int treesOfKnowledgeVisited;
+  int xanadusVisited;
+  char randomSeed;
   char wisdomLastOffered;
   armyGroup army;
   char secondarySkillLevel[14];
@@ -63,19 +80,13 @@ public:
    *
    * We instead replace the statically-allocated spellsLearned array with a pointer to a dynamically-allocated one,
    * so that we only need to decompile the direct accesses.
-   *
-   * This is currently disabled, as it has become clear that adding new spells will be extremely awkward without
-   * first "Ironfisting" (ironplating? tempering?) the map files
    */
-  char spellsLearned[65];
-  //char* spellsLearned;
-  //char _[61];
+  //char spellsLearned[65];
+  char* spellsLearned;
+  char _[61];
 
   char artifacts[14];
-  char flags1;
-  char flags2;
-  char flags3;
-  char flags4;
+  int flags;
   char isCaptain;
   int field_E8;
   char scrollSpell[14];
@@ -86,11 +97,34 @@ public:
   int HasSpell(int);
   int GetNumSpells(int);
   int GetNthSpell(int,int);
+  void UseSpell(int);
 	  
   int HasArtifact(int);
 
   signed char Stats(int);
+
+  void Clear();
 };
+
+class advManager : public baseManager {
+public:
+	char _[0x37E-sizeof(baseManager)];
+
+	advManager();
+	void PurgeMapChangeQueue();
+	void CheckSetEvilInterface(int,int);
+	
+	void DemobilizeCurrHero();
+
+	void CastSpell(int);
+	void CastSpell_orig(int);
+
+	void RedrawAdvScreen(int,int);
+};
+
+extern advManager* gpAdvManager;
+
+extern int giMapChangeCtr;
 
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;

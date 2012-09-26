@@ -7,6 +7,8 @@ import names
 import struct
 import cpp_interop
 
+def mark_clone(name):
+    return name+"_clone"
 
 class function_node(general.masm_ast_node):
     
@@ -40,26 +42,32 @@ class function_node(general.masm_ast_node):
 
             ea = idaapi.next_head(ea, func.endEA)
         
-
-    def to_masm(self):
-        print "Outputting function %s" % self.name
+    def proc_defn(self, name):
         dist = "far" if self.src.is_far() else "near"
         frame_str = ""
         if self.frame != None:
             frame_str = self.frame.to_masm()
 
         langtype = "C"
-        if names.is_mangled(self.name, self.ea):
+        if names.is_mangled(name, self.ea):
             langtype = "SYSCALL"
             
-        defn = "%s proc %s %s\n\n\n%s\n%s\n%s endp\n" % (self.name,
+        defn = "%s proc %s %s\n\n\n%s\n%s\n%s endp\n" % (name,
                                                         dist,
                                                         langtype,
                                                         frame_str,
                                                         "\n".join(map(lambda e: e.to_masm(), self.elts)),
-                                                        self.name)
-            
-        return cpp_interop.import_toggle_wrap(defn, self.name)
+                                                        name)
+
+        return defn
+
+    def to_masm(self):
+        print "Outputting function %s" % self.name
+        ## We generate two copies of each function -- the original, which may be overriden,
+        ## and a copy, in case the overrider wishes to call the original (c.f. "around method"'s)
+        return (cpp_interop.import_toggle_wrap(self.proc_defn(self.name), self.name)+
+                "\n\n"+
+                cpp_interop.import_guard(self.proc_defn(mark_clone(self.name)), self.name))
 
 #Also handles data in between functions
 class functions_node(general.masm_ast_node):

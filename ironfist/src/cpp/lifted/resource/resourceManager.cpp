@@ -152,6 +152,8 @@ font* resourceManager::GetFont(char* filename) {
 	return fnt;
 }
 
+#ifndef EDITOR
+
 sample* resourceManager::GetSample(char* filename) {
 	unsigned int hash = MakeId(filename, 1);
 	sample *samp = (sample*)Query(hash);
@@ -175,6 +177,8 @@ MIDIWrap* resourceManager::GetMIDIWrap(char* filename) {
 	}
 	return mid;
 }
+
+#endif
 
 
 void resourceManager::Dispose(resource* res) {

@@ -1,7 +1,11 @@
 #include "tied/combat/creatures.h"
+#include "windows.h"
+
+extern void* hInstApp;
 
 void IronfistInit() {
 	LoadCreatures();
+	//LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }
 
 extern void __fastcall CleanUpWinGraphics();

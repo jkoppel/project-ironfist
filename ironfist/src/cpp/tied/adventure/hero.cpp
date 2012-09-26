@@ -2,11 +2,15 @@
 
 #include "tied/artifacts.h"
 #include "tied/base.h"
-#include "tied/spells.h"
+#include "lifted/spell/spells.h"
 
 #include "tied/adventure/adv.h"
 
 hero::hero() {
+	this->Clear();
+}
+
+void hero::Clear() {
 	this->idx = 0;
 	this->ownerIdx = 0;
 	this->x = 0;
@@ -16,17 +20,17 @@ hero::hero() {
 	this->name[0] = '\0';
 	heroWin = 0;
 	giHeroScreenSrcIndex = -1;
-	//this->spellsLearned = (char*)calloc(NUM_SPELLS, sizeof(char));
+	//if(this->spellsLearned != NULL)
+	//	free(this->spellsLearned);
+
+	this->spellsLearned = (char*)calloc(NUM_SPELLS, sizeof(char));
 }
 
 hero::~hero() {
-	//free(this->spellsLearned);
+	free(this->spellsLearned);
 }
 
 /*
- *
- * Adding new spells not working, since the list of 
- * spells heroes know is stored in map and savegame files
  *
  * Spells also still missing:
  * 
@@ -50,8 +54,7 @@ int hero::HasSpell(int spell) {
 			}
 			return HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN) && spell == SPELL_TOWN_PORTAL;
 		}
-	}
-	else {
+	} else {
 		return 0;
 	}
 }
@@ -77,13 +80,13 @@ int hero::GetNumSpells(int type) {
   int numAdventure = 0;
   for(int i = 0; i < NUM_SPELLS; i++) {
     if(HasSpell(i)) {
-      if (gsSpellInfo[i].attributes & ATTR_COMBAT_SPELL)
+      if(gsSpellInfo[i].attributes & ATTR_COMBAT_SPELL)
         numCombat++;
       else
         numAdventure++;
     }
   }
-
+	
   switch(type) {
   case SPELL_CATEGORY_COMBAT:
 	  return numCombat;

@@ -19,7 +19,10 @@ extern void __fastcall ProcessAssert(int,char *,int);
 
 #define ASSERT(x) (ProcessAssert((x), __FILE__, __LINE__))
 
+extern void __fastcall NormalDialog(char *,int,int,int,int,int,int,int,int,int);
+
 extern void __fastcall ShutDown(char *);
+extern void __fastcall EarlyShutdown(char*, char*);
 
 extern char gText[];
 extern void __fastcall LogStr(char *);

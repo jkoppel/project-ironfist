@@ -105,6 +105,14 @@ public:
   icon *creatureIcon;
   icon *missileIcon;
   sample *combatSounds[7];
+  
+  int FlyTo(int hex);
+  int ValidFlight(int hex, int);
+  int WalkTo(int hex);
+  void MoveTo(int hex);
+
+  void MoveAttack(int targHex, int);
+  void MoveAttack_orig(int targHex, int);
 };
 
 class combatManager : public baseManager
@@ -226,9 +234,7 @@ public:
 
   combatManager();
   void InitNonVisualVars();
-  void SetupAdjacencyArray();
-  void GenerateMap();
-  void LoadArmies();
+  void InitNonVisualVars_orig();
 
   void HandlePandoraBox(int side);
   void AddArmy(int side, int creat, int qty, int hex, int attrs, int fizzle);

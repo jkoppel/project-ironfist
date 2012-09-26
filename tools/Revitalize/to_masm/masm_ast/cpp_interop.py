@@ -10,6 +10,11 @@ def import_toggle_wrap(defn, name):
     return ("IFDEF %s\n%s PROTO SYSCALL\nELSE\n%s\nENDIF" %
             (import_token(name), name, defn))
 
+def import_guard(defn, name):
+    return ("IFDEF %s\n%s\nENDIF" % (import_token(name), defn))
+
+def import_antiguard(defn, name):
+    return ("IFNDEF %s\n%s\nENDIF" % (import_token(name), defn))
 
 def data_import_toggle_wrap(dec, name,type):
     return ("IFDEF %s\nextern %s : %s\nELSE\n%s\nENDIF" %
