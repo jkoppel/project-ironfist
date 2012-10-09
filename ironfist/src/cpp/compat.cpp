@@ -36,8 +36,7 @@ extern "C" {
 }
 
 
-//int WINAPI WinMain(HINSTANCE hInstace, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-int main() {
+int WINAPI WinMain(HINSTANCE hInstace, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	IronfistInit();
 	_start_asm();
 	return 0;

@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A9FE2D03-4A23-4595-88C1-BBB1B9217B1A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ironfist</RootNamespace>
+    <ProjectName>ironfist_vs</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\bin</OutDir>
+    <TargetName>ironfist</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Documents and Settings\James Koppel\My Documents\Dropbox\ironfist\hg\GameCreation\ironfist\src\cpp\lib;C:\Documents and Settings\James Koppel\My Documents\Dropbox\ironfist\hg\GameCreation\ironfist\src\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Documents and Settings\James Koppel\My Documents\Dropbox\ironfist\hg\GameCreation\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\cpp\adventure\hero.cpp" />
+    <ClCompile Include="..\src\cpp\artifacts.cpp" />
+    <ClCompile Include="..\src\cpp\combat\combat.cpp" />
+    <ClCompile Include="..\src\cpp\combat\creatures.cpp" />
+    <ClCompile Include="..\src\cpp\combat\creatures_xml.cxx" />
+    <ClCompile Include="..\src\cpp\compat.cpp" />
+    <ClCompile Include="..\src\cpp\driver.cpp" />
+    <ClCompile Include="..\src\cpp\game\game.cpp" />
+    <ClCompile Include="..\src\cpp\game\map_xml.cxx" />
+    <ClCompile Include="..\src\cpp\game\save.cpp" />
+    <ClCompile Include="..\src\cpp\init.cpp" />
+    <ClCompile Include="..\src\cpp\resource\resourceManager.cpp" />
+    <ClCompile Include="..\src\cpp\spell\spells.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\cpp\adventure\adv.h" />
+    <ClInclude Include="..\src\cpp\adventure\army.h" />
+    <ClInclude Include="..\src\cpp\artifacts.h" />
+    <ClInclude Include="..\src\cpp\base.h" />
+    <ClInclude Include="..\src\cpp\combat\combat.h" />
+    <ClInclude Include="..\src\cpp\combat\creatures.h" />
+    <ClInclude Include="..\src\cpp\combat\creatures_xml.hxx" />
+    <ClInclude Include="..\src\cpp\driver.h" />
+    <ClInclude Include="..\src\cpp\game\game.h" />
+    <ClInclude Include="..\src\cpp\game\map_xml.hxx" />
+    <ClInclude Include="..\src\cpp\game\spells.h" />
+    <ClInclude Include="..\src\cpp\graphics.h" />
+    <ClInclude Include="..\src\cpp\gui\gui.h" />
+    <ClInclude Include="..\src\cpp\import_val.h" />
+    <ClInclude Include="..\src\cpp\input.h" />
+    <ClInclude Include="..\src\cpp\manager.h" />
+    <ClInclude Include="..\src\cpp\msg.h" />
+    <ClInclude Include="..\src\cpp\mss32.h" />
+    <ClInclude Include="..\src\cpp\prefs.h" />
+    <ClInclude Include="..\src\cpp\resource\resourceManager.h" />
+    <ClInclude Include="..\src\cpp\resource\resources.h" />
+    <ClInclude Include="..\src\cpp\skills.h" />
+    <ClInclude Include="..\src\cpp\spells.h" />
+    <ClInclude Include="..\src\cpp\spell\spells.h" />
+    <ClInclude Include="..\src\cpp\stdafx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\src\asm\heroes2.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(VCInstallDir)\bin\ml.exe" /c /Cx /coff "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).obj</Outputs>
+    </CustomBuild>
+    <None Include="..\src\asm\heroes2_imports.inc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\resources\windows\ironfist.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

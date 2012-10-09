@@ -1,4 +1,4 @@
-#include "tied/combat/creatures.h"
+#include "combat/creatures.h"
 #include "windows.h"
 
 extern void* hInstApp;
