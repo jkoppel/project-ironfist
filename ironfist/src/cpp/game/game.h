@@ -1,7 +1,15 @@
-#ifndef TIED_GAME_H
-#define TIED_GAME_H
+#ifndef GAME_H
+#define GAME_H
 
 #include "adventure/adv.h"
+#include "town/town.h"
+
+#define MAX_HEROES 54
+#define MAX_TOWNS 72
+
+extern signed char gcColorToPlayerPos[];
+
+extern int gbHumanPlayer[];
 
 #pragma pack(push,1)
 
@@ -88,7 +96,7 @@ public:
 	char field_43;
 	char numCastles;
 	__int16 field_45;
-	char castlesOwned[72];
+	char castlesOwned[MAX_TOWNS];
 	int resources[7];
 	char _4[60];
 	int field_E7[7];
@@ -123,33 +131,6 @@ struct boat
 	char underlyingObjExtra;
 	char field_6;
 	char owner;
-};
-
-class town {
-public:
-	char idx;
-	char ownerIdx;
-	char alignment;
-	char factionID;
-	char field_4;
-	char field_5;
-	__int16 field_6;
-	armyGroup garrison;
-	char visitingHeroIdx;
-	unsigned int buildingsBuiltFlags;
-	char mageGuildLevel;
-	char field_1D;
-	__int16 numCreaturesInDwelling[12];
-	char field_36;
-	char mayNotBeUpgradedToCastle;
-	char _2[4];
-	char mageGuildSpells[5][4];
-	char numSpellsOfLevel[5];
-	__int16 field_55;
-	char name[12];
-	char field_63;
-
-	town();
 };
 
 class game {
@@ -191,10 +172,10 @@ public:
 	playerData players[6];
 	fullMap map;
 	char numObelisks;
-	town castles[72];
+	town castles[MAX_TOWNS];
 	char field_2773[72];
 	char field_27BB[9];
-	hero heroes[54];
+	hero heroes[MAX_HEROES];
 	char relatedToHeroForHireStatus[54];
 	mine mines[144];
 	char field_60A6[144];
@@ -220,13 +201,24 @@ public:
 	char field_660D;
 	char field_660E;
 
+	int SetupGame();
+	int SetupGame_orig();
+	void SetupTowns();
+
+	void RandomizeHeroPool();
+	void SetRandomHeroArmies(int,int);
+
 	int GetRandomNumTroops(int);
+	void GiveTroopsToNeutralTown(int);
 	void LoadGame(char*, int, int);
+	void LoadGame_orig(char*, int, int);
 	int SaveGame(char*, int, signed char);
 	void SetupOrigData();
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
+
+	void ClaimTown(int,int,int);
 };
 
 extern game* gpGame;

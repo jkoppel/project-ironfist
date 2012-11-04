@@ -6,7 +6,11 @@
 
 #include "adventure/adv.h"
 
+#include<io.h>
+#include<stddef.h>
+
 hero::hero() {
+	this->spellsLearned = NULL;
 	this->Clear();
 }
 
@@ -20,14 +24,30 @@ void hero::Clear() {
 	this->name[0] = '\0';
 	heroWin = 0;
 	giHeroScreenSrcIndex = -1;
-	//if(this->spellsLearned != NULL)
-	//	free(this->spellsLearned);
+	this->ResetSpellsLearned();
+}
 
-	//this->spellsLearned = (char*)calloc(NUM_SPELLS, sizeof(char));
+void hero::ResetSpellsLearned() {	
+	if(this->spellsLearned != NULL)
+		free(this->spellsLearned);
+
+	this->spellsLearned = (char*)calloc(NUM_SPELLS, sizeof(char));
 }
 
 hero::~hero() {
-	//free(this->spellsLearned);
+	free(this->spellsLearned);
+}
+
+void hero::Read(int fd, signed char expansion) {
+	this->Clear();
+	_read(fd, this, offsetof(hero, spellsLearned));
+	_read(fd, this->spellsLearned, ORIG_SPELLS);
+	if(expansion) {
+		_read(fd, &this->FIELD_AFTER_SPELLS_LEARNED, sizeof(hero)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
+	} else {
+		_read(fd, &this->FIELD_AFTER_SPELLS_LEARNED,
+			offsetof(hero, LAST_SW_HERO_FIELD)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
+	}
 }
 
 /*
@@ -38,6 +58,10 @@ hero::~hero() {
  * 2) Free spells given in some campaign maps
  * 3) Spell AI
  */
+
+void hero::AddSpell(int spell) {
+	this->AddSpell(spell, 0);
+}
 
 void hero::AddSpell(int spell, int knowledge) {
 	this->spellsLearned[spell] = 1;

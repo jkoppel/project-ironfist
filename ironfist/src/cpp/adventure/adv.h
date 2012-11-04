@@ -1,6 +1,7 @@
 #ifndef TIED_ADV_H
 #define TIED_ADV_H
 
+#include "spell/spells.h"
 #include "gui/gui.h"
 
 #pragma pack(push, 1)
@@ -80,19 +81,25 @@ public:
    *
    * We instead replace the statically-allocated spellsLearned array with a pointer to a dynamically-allocated one,
    * so that we only need to decompile the direct accesses.
+   *
+   * There ARE memory leaks associated with doing this. We've done much of what we can to avoid this,
+   * but there's no easy way out, and the leak is upper-bounded by 3 kb every time you load a map
    */
-  char spellsLearned[65];
-  //char* spellsLearned;
-  //char _[61];
+  //char spellsLearned[65];
+  char* spellsLearned;
+  char _[ORIG_SPELLS - sizeof(char*)];
 
+#define FIELD_AFTER_SPELLS_LEARNED artifacts
   char artifacts[14];
   int flags;
   char isCaptain;
   int field_E8;
+#define LAST_SW_HERO_FIELD scrollSpell
   char scrollSpell[14];
 
   hero();
   ~hero(); //newly added
+  void AddSpell(int);
   void AddSpell(int,int);
   int HasSpell(int);
   int GetNumSpells(int);
@@ -102,6 +109,10 @@ public:
   int HasArtifact(int);
 
   signed char Stats(int);
+  int CalcMobility();
+
+  void Read(int, signed char);
+  void ResetSpellsLearned();
 
   void Clear();
 };

@@ -1,8 +1,6 @@
-#define EXCLUDE_IRONFIST_SAVE
-#ifndef EXCLUDE_IRONFIST_SAVE
-
 #include "adventure/adv.h"
 #include "base.h"
+#include "map.h"
 #include "game/game.h"
 
 #include "game/map_xml.hxx"
@@ -13,6 +11,7 @@
 #include<string>
 #include<io.h>
 #include<fcntl.h>
+#include<sys/stat.h>
 
 using namespace std;
 
@@ -22,22 +21,14 @@ extern int giWeekType;
 extern int giWeekTypeExtra;
 extern char cPlayerNames[6][21];
 
-extern int gbHumanPlayer[];
 extern int giCurPlayer;
 extern int iLastMsgNumHumanPlayers;
 extern int bShowIt;
 
 extern int giCurTurn;
 
-extern int iMaxMapExtra;
-
-extern int MAP_HEIGHT;
-extern int MAP_WIDTH;
-
 extern playerData* gpCurPlayer;
 extern unsigned char giCurPlayerBit;
-
-extern unsigned char* mapExtra;
 
 extern signed char gbThisNetHumanPlayer[];
 extern int giCurWatchPlayer;
@@ -46,10 +37,6 @@ extern unsigned char giCurWatchPlayerBit;
 extern int gbRemoteOn;
 extern int giThisGamePos;
 
-extern void** ppMapExtra;
-extern short* pwSizeOfMapExtra;
-
-extern void __fastcall ClearMapExtra();
 extern void __fastcall FileError(char*);
 
 extern void __fastcall GenerateStandardFileName(char*,char*);
@@ -105,7 +92,6 @@ void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 			hro->spellsLearned[*it] = 1;
 	}
 	hro->GetNumSpells(1);
-	printf("\n");
 
 	hro->experience = hx.experience();
 	hro->factionID = hx.factionID();
@@ -240,18 +226,38 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 	return hx;
 }
 
-void game::LoadGame(char* filnam, int newGame, int) {
+void game::LoadGame(char* filnam, int newGame, int a3) {
 	if(newGame) {
 		this->SetupOrigData();
+
+		for(int i = 0; i < MAX_HEROES; i++) {
+			//SetupOrigData clears out spellsLearned. Of course, we've changed
+			//spellsLearned from an array to a pointer, so that actually NULLs it out
+			this->heroes[i].ResetSpellsLearned();
+		}
 	} else {
 		try {
-			//check if original game
-
+			int fd;
+			
 			char v8[100];
 			int v14 = 0;
 			gbGameOver = 0;
 			this->field_660E = 1;
 			sprintf(v8, "%s%s", ".\\GAMES\\", filnam);
+
+			/*
+			 * Check if original save format
+			 */
+			fd = _open(v8, O_BINARY);
+			char first_byte;
+			_read(fd, &first_byte, sizeof(first_byte));
+			_close(fd);
+
+			if(first_byte != '<') {
+				this->LoadGame_orig(filnam, newGame, a3);
+				return;
+			}
+
 			auto_ptr<ironfist_map::map_t> mp = ironfist_map::map(string(v8));
 
 			int i = 0;
@@ -270,7 +276,6 @@ void game::LoadGame(char* filnam, int newGame, int) {
 			char expansion;
 			char curPlayer;
 			char hasPlayer[6];
-			int fd;
 
 			int width,height;
 
@@ -387,7 +392,11 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 	char path[100];
 	char v9[100];
 	if(autosave) {
-		sprintf(path, "%s.GX1", saveFile, numPlayers);
+		if(!xIsExpansionMap || baseGame) {
+			sprintf(path, "%s.GM1", saveFile);
+		} else {
+			sprintf(path, "%s.GX1", saveFile);
+		}
 	} else {
 		sprintf(path, saveFile);
 	}
@@ -395,7 +404,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 	if(strnicmp(path, "AUTOSAVE", 8) && strnicmp(path, "PLYREXIT", 8))
 		strcpy(gpGame->lastSaveFile, saveFile);
 
-	int fd = open("tmp", 33537, 128);
+	int fd = open("tmp", O_WRONLY | O_TRUNC | O_CREAT | O_BINARY, S_IWRITE);
 	if ( fd == -1 )
 		FileError(v9);
 
@@ -494,5 +503,3 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	return 1;
 }
-
-#endif

@@ -36,6 +36,8 @@ IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 ;;allowing play without CD
 IMPORT_?SetupCDRom@@YIXXZ = 1
+IMPORT_?SetupGame@game@@QAEHXZ = 1
+?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ
 
 ;;;resourceManager
 
@@ -99,16 +101,19 @@ IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1
 IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
 ?MoveAttack@army@@QAEXHH@Z_clone EQU ?MoveAttack_orig@army@@QAEXHH@Z
 
-
-;New map format partially implemented; turning off
-
 ;;saving
-;IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
-;IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
+IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
+?LoadGame@game@@QAEXPADHH@Z_clone EQU ?LoadGame_orig@game@@QAEXPADHH@Z
+IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
+IMPORT_?Read@hero@@QAEXHC@Z = 1
+IMPORT_?RandomizeHeroPool@game@@QAEXXZ = 1
 
 ;;spells
-;IMPORT_?gsSpellInfo@@3PAUSSpellInfo@@A = 1
-;IMPORT_?gSpellDesc@@3PAPADA = 1
-;IMPORT_?gSpellNames@@3PAPADA = 1
-;IMPORT_?CastSpell@advManager@@QAEXH@Z = 1
-;?CastSpell@advManager@@QAEXH@Z_clone EQU ?CastSpell_orig@advManager@@QAEXH@Z
+IMPORT_?gsSpellInfo@@3PAUSSpellInfo@@A = 1
+IMPORT_?gSpellDesc@@3PAPADA = 1
+IMPORT_?gSpellNames@@3PAPADA = 1
+IMPORT_?CastSpell@advManager@@QAEXH@Z = 1
+?CastSpell@advManager@@QAEXH@Z_clone EQU ?CastSpell_orig@advManager@@QAEXH@Z
+
+;;towns
+IMPORT_?SetupTowns@game@@QAEXXZ = 1

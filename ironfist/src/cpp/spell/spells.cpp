@@ -1,6 +1,3 @@
-#define EXCLUDE_IRONFIST_SAVE
-#ifndef EXCLUDE_IRONFIST_SAVE
-
 #include "spell/spells.h"
 
 #include "adventure/adv.h"
@@ -214,7 +211,7 @@ SSpellInfo gsSpellInfo[] = {
 	{"", 4, 55, 0, 700, 15, 0, 0, 0, ATTR_ADVENTURE_SPELL},
 
 	//awareness
-	{"", 3, 55, 0, 700, 20, 0, 0, 0, ATTR_ADVENTURE_SPELL},
+	{"", 1, 55, 0, 700, 20, 10, 0, 0, ATTR_ADVENTURE_SPELL},
 };
 
 
@@ -234,5 +231,3 @@ void advManager::CastSpell(int spell) {
 		break;
 	}
 }
-
-#endif

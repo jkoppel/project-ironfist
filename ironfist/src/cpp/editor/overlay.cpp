@@ -1,4 +1,4 @@
-#define NUM_OVERLAYS 963
+#define NUM_OVERLAYS 964
 #define NUM_TILESETS 64
 
 #pragma pack(push, 1)
@@ -23195,6 +23195,32 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     4294967296i64,
     '\0',
     24,
+    '\b',
+    9999,
+    ""
+  },
+
+  //artifact
+  {
+    963,
+    963,
+    10,
+    11,
+    3,
+    0,
+    '\x06',
+    12884901888i64,
+    4094,
+    4095,
+    0i64,
+    8589934592i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    41,
     '\b',
     9999,
     ""
