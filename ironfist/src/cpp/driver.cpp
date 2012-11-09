@@ -1,4 +1,5 @@
 #include "combat/creatures.h"
+#include "scripting/scripting.h"
 #include "windows.h"
 
 extern void* hInstApp;
@@ -15,4 +16,5 @@ void __fastcall AppExit() {
 	CleanUpWinGraphics();
 	CleanUpMenus();
 	UnloadCreatures();
+	ScriptingShutdown();
 }

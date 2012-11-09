@@ -2,6 +2,7 @@
 #include "base.h"
 #include "combat/combat.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 #include "manager.h"
 #include "adventure/adv.h"
 #include "gui/gui.h"
@@ -122,9 +123,8 @@ void __fastcall SetupCDRom() {
 		SetPalette(gPalette->contents, 1);
 		gpMouseManager->ShowColorPointer();
 		gbNoCDRom = 1;
-		NormalDialog("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
-						"but otherwise, have fun!",
-			1, -1,-1,-1,0,-1,0,-1,0);
+		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
+						"but otherwise, have fun!");
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
 						"  Please run the installation program.");

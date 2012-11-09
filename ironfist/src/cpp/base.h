@@ -3,8 +3,8 @@
  * all over the codebase, for better or for worse
  */
 
-#ifndef TIED_BASE_H
-#define TIED_BASE_H
+#ifndef BASE_H
+#define BASE_H
 
 #define ELEMENTS_IN(x) ((sizeof(x))/(sizeof((x)[0])))
 
@@ -18,8 +18,6 @@ extern void * __fastcall BaseAlloc(unsigned int,char *,int);
 extern void __fastcall ProcessAssert(int,char *,int);
 
 #define ASSERT(x) (ProcessAssert((x), __FILE__, __LINE__))
-
-extern void __fastcall NormalDialog(char *,int,int,int,int,int,int,int,int,int);
 
 extern void __fastcall ShutDown(char *);
 extern void __fastcall EarlyShutdown(char*, char*);

@@ -1,5 +1,5 @@
-#ifndef TIED_GUI_H
-#define TIED_GUI_H
+#ifndef GUI_H
+#define GUI_H
 
 #include "manager.h"
 #include "resource/resources.h"

@@ -108,6 +108,10 @@ IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
 IMPORT_?Read@hero@@QAEXHC@Z = 1
 IMPORT_?RandomizeHeroPool@game@@QAEXXZ = 1
 
+;;maps
+IMPORT_?NewMap@game@@QAEXPAD@Z = 1
+?NewMap@game@@QAEXPAD@Z_clone EQU ?NewMap_orig@game@@QAEXPAD@Z
+
 ;;spells
 IMPORT_?gsSpellInfo@@3PAUSSpellInfo@@A = 1
 IMPORT_?gSpellDesc@@3PAPADA = 1
@@ -117,3 +121,7 @@ IMPORT_?CastSpell@advManager@@QAEXH@Z = 1
 
 ;;towns
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
+
+;;scripting hooks
+IMPORT_?PerDay@game@@QAEXXZ = 1
+?PerDay@game@@QAEXXZ_clone EQU ?PerDay_orig@game@@QAEXXZ

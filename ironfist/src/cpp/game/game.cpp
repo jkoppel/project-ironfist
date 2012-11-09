@@ -3,6 +3,9 @@
 #include "spell/spells.h"
 #include "combat/creatures.h"
 
+#include "scripting/hook.h"
+#include "scripting/scripting.h"
+
 
 int game::GetRandomNumTroops(int creat) {
 	return Random(gMonRandBound[creat][0], gMonRandBound[creat][1]);
@@ -42,4 +45,14 @@ void game::RandomizeHeroPool() {
 			break;
 		}
 	}
+}
+
+void game::NewMap(char* mapname) {
+	this->NewMap_orig(mapname);
+	ScriptingInit(mapname);
+}
+
+void game::PerDay() {
+	this->PerDay_orig();
+	ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
 }

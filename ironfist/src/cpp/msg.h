@@ -1,5 +1,5 @@
-#ifndef TIED_MSG_H
-#define TIED_MSG_H
+#ifndef MSG_H
+#define MSG_H
 
 #pragma pack(push,1)
 

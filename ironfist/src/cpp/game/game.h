@@ -212,6 +212,8 @@ public:
 	void GiveTroopsToNeutralTown(int);
 	void LoadGame(char*, int, int);
 	void LoadGame_orig(char*, int, int);
+	void NewMap(char*);
+	void NewMap_orig(char*);
 	int SaveGame(char*, int, signed char);
 	void SetupOrigData();
 	void SetMapSize(int, int);
@@ -219,6 +221,9 @@ public:
 	void SetVisibility(int,int,int,int);
 
 	void ClaimTown(int,int,int);
+
+	void PerDay();
+	void PerDay_orig();
 };
 
 extern game* gpGame;

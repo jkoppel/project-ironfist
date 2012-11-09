@@ -64,7 +64,7 @@ void game::SetupTowns() {
       for(int i = BUILDING_UPGRADE_1; i <= BUILDING_UPGRADE_5B; i++ ) {
         if((1 << i) & castle->buildingsBuiltFlags) {
           if(i == BUILDING_UPGRADE_5B)
-            castle->buildingsBuiltFlags &= ~((1 << BUILDING_DWELLING_6) || (BUILDING_UPGRADE_5B));
+            castle->buildingsBuiltFlags &= ~((1 << BUILDING_DWELLING_6) | (BUILDING_UPGRADE_5B));
           else
             castle->buildingsBuiltFlags &= ~(1 << (i - (BUILDING_UPGRADE_1 - BUILDING_DWELLING_2)));
         }
