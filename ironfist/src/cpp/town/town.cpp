@@ -4,7 +4,9 @@
 #include "adventure/adv.h"
 #include "combat/creatures.h"
 #include "game/game.h"
+#include "scripting/hook.h"
 #include "spell/spells.h"
+#include "town/town.h"
 
 void game::SetupTowns() {
 
@@ -144,7 +146,7 @@ void town::SelectSpells() {
 	l = gsSpellInfo[damage_spell].level - 1;
 	this->mageGuildSpells[l][numSpellsOfLevel[l]++] = damage_spell;
 
-	for (int i = 0; i < 5; i++) {
+	for(int i = 0; i < 5; i++) {
 		int hasAdventureSpellAtLevel = 0;
 		for (int j = 0; j < 4; j++)
 		{
@@ -189,4 +191,14 @@ void town::SelectSpells() {
 			}
 		}
 	}
+}
+
+int townManager::Open(int idx) {
+	int res = this->Open_orig(idx);
+	ScriptSignal(SCRIPT_EVT_TOWN_LOADED, this->castle->name);
+	return res;
+}
+
+void town::SetNumSpellsOfLevel(int l, int n) {
+	this->numSpellsOfLevel[l] = n;
 }

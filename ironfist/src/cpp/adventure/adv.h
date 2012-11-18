@@ -26,7 +26,7 @@ public:
   int Add(int,int,int);
 };
 
-struct hero
+class hero
 {
 public:
   __int16 spellpoints;
@@ -131,6 +131,9 @@ public:
 	void CastSpell_orig(int);
 
 	void RedrawAdvScreen(int,int);
+
+	virtual int Open(int);
+	int Open_orig(int);
 };
 
 extern advManager* gpAdvManager;
@@ -139,6 +142,10 @@ extern int giMapChangeCtr;
 
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;
+
+hero* GetCurrentHero();
+
+int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
 
 #pragma pack(pop)
 

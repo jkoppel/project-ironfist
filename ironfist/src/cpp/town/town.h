@@ -80,7 +80,22 @@ public:
   town();
 
   void SelectSpells();
+  void SetNumSpellsOfLevel(int,int);
 };
+
+class townManager : public baseManager {
+public:
+	town* castle;
+	char _[378-sizeof(baseManager)-sizeof(town*)];
+	townManager();
+
+	void BuildObj(signed int);
+
+	virtual int Open(int);
+	int Open_orig(int);
+};
+
+extern townManager* gpTownManager;
 
 #pragma pack(pop)
 

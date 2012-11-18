@@ -5,6 +5,8 @@ void ScriptSignal(int, const char*);
 
 enum SCRIPT_EVENTS {
 	SCRIPT_EVT_NEW_DAY,
+	SCRIPT_EVT_MAP_START,
+	SCRIPT_EVT_TOWN_LOADED,
 };
 
 #endif

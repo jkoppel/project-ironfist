@@ -128,6 +128,7 @@
     <ClCompile Include="..\src\cpp\scripting\scripting.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
+    <ClCompile Include="adv.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\adventure\adv.h" />

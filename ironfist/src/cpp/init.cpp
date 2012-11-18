@@ -7,6 +7,7 @@
 #include "adventure/adv.h"
 #include "gui/gui.h"
 #include "resource/resources.h"
+#include "town/town.h"
 
 
 #pragma pack(push,1)
@@ -42,12 +43,6 @@ public:
 	highScoreManager();
 };
 
-class townManager {
-public:
-	char _[378];
-	townManager();
-};
-
 class searchArray {
 public:
 	char _[9496];
@@ -68,7 +63,6 @@ extern resourceManager* gpResourceMAnager;
 extern soundManager* gpSoundManager;
 extern highScoreManager* gpHighScoreManager;
 extern advManager* gpAdvManager;
-extern townManager* gpTownManager;
 extern searchArray* gpSearchArray;
 extern philAI* gpPhilAI;
 extern armyGroup* gpMonGroup;

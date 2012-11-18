@@ -5,6 +5,7 @@
 #include "spell/spells.h"
 
 #include "adventure/adv.h"
+#include "game/game.h"
 
 #include<io.h>
 #include<stddef.h>
@@ -121,4 +122,8 @@ int hero::GetNumSpells(int type) {
   default:
 	  return 0;
   }
+}
+
+hero* GetCurrentHero() {
+  return &gpGame->heroes[gpCurPlayer->curHeroIdx];
 }

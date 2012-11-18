@@ -219,7 +219,7 @@ void advManager::CastSpell(int spell) {
 	if(gpCurPlayer->curHeroIdx == -1)
 		return;
 
-	hero* hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
+	hero* hro = GetCurrentHero();
 	switch(spell) {
 	case SPELL_AWARENESS:
 		gpGame->SetVisibility(hro->x, hro->y, giCurPlayer, 15);

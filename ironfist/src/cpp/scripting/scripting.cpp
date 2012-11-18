@@ -12,8 +12,10 @@ extern "C" {
 #include "lua/src/lauxlib.h"
 }
 
+#include "adventure/adv.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "town/town.h"
 
 #include "scripting/hook.h"
 #include "scripting/scripting.h"
@@ -62,7 +64,89 @@ int l_getday(lua_State *L) {
 	return 1;
 }
 
-void lua_setint(lua_State *L, const char* nam, int i) {
+int l_getweek(lua_State *L) {
+	lua_pushinteger(L, gpGame->week);
+	return 1;
+}
+
+int l_getmonth(lua_State *L) {
+	lua_pushinteger(L, gpGame->month);
+	return 1;
+}
+
+int l_getcurrenthero(lua_State *L) {
+	lua_pushlightuserdata(L, GetCurrentHero());
+	return 1;
+}
+
+int l_grantspell(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int sp = (int)luaL_checknumber(L, 2);
+	hro->AddSpell(sp);
+	return 0;
+}
+
+int l_getplayer(lua_State *L) {
+	int n = (int)luaL_checknumber(L, 1);
+	lua_pushlightuserdata(L, &gpGame->players[n]);
+	return 1;
+}
+
+int l_getnumheroes(lua_State *L) {
+	playerData* p = (playerData*)lua_touserdata(L, 1);
+	lua_pushinteger(L, p->numHeroes);
+	return 1;
+}
+
+int l_gethero(lua_State *L) {
+	playerData* p = (playerData*)lua_touserdata(L, 1);
+	int n = (int)luaL_checknumber(L, 2);
+	lua_pushlightuserdata(L, &gpGame->heroes[p->heroesOwned[n]]);
+	return 1;
+}
+
+int l_grantartifact(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int art = (int)luaL_checknumber(L, 2);
+	GiveArtifact(hro, art, 1, -1);
+	return 0;
+}
+
+int l_hasartifact(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int art = (int)luaL_checknumber(L, 2);
+	lua_pushboolean(L, hro->HasArtifact(art));
+	return 1;
+}
+
+int l_grantarmy(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int cr = (int)luaL_checknumber(L, 2);
+	int n = (int)luaL_checknumber(L, 3);
+	hro->army.Add(cr, n, -1);
+	return 0;
+}
+
+int l_getcurrenttown(lua_State *L) {
+	lua_pushlightuserdata(L, gpTownManager->castle);
+	return 1;
+}
+
+int l_setnumguildspells(lua_State *L) {
+	town* twn = (town*)lua_touserdata(L, 1);
+	int l = (int)luaL_checknumber(L, 2);
+	int n = (int)luaL_checknumber(L, 3);
+	twn->SetNumSpellsOfLevel(l, n);
+	return 0;
+}
+
+int l_buildincurrenttown(lua_State *L) {
+	int obj = (int)luaL_checknumber(L, 1);
+	gpTownManager->BuildObj(obj);
+	return 0;
+}
+
+void lua_setconst(lua_State *L, const char* nam, int i) {
 	lua_pushinteger(L, i);
 	lua_setglobal(L, nam);
 }
@@ -71,8 +155,23 @@ void set_lua_globals(lua_State *L) {
 	lua_register(L, "MessageBox", l_msgbox);
 	lua_register(L, "Trigger", l_trigger);
 	lua_register(L, "GetDay", l_getday);
+	lua_register(L, "GetWeek", l_getweek);
+	lua_register(L, "GetMonth", l_getmonth);
+	lua_register(L, "GetCurrentHero", l_getcurrenthero);
+	lua_register(L, "GrantSpell", l_grantspell);
+	lua_register(L, "GetPlayer", l_getplayer);
+	lua_register(L, "GetNumHeroes", l_getnumheroes);
+	lua_register(L, "GetHero", l_gethero);
+	lua_register(L, "GrantArtifact", l_grantartifact);
+	lua_register(L, "GrantArmy", l_grantarmy);
+	lua_register(L, "HasArtifact", l_hasartifact);
+	lua_register(L, "GetCurrentTown", l_getcurrenttown);
+	lua_register(L, "BuildInCurrentTown", l_buildincurrenttown);
+	lua_register(L, "SetNumGuildSpells", l_setnumguildspells);
 
-	lua_setint(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
+	lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
+	lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);
+	lua_setconst(L, "TOWN_LOADED", SCRIPT_EVT_TOWN_LOADED);
 }
 
 void ScriptingInit(char* map_filnam) {
