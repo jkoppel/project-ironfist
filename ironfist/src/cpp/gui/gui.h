@@ -49,6 +49,8 @@ public:
   widget *lastWidget;
   widget *firstWidget;
   bitmap *bitmap;
+
+  int BroadcastMessage(tag_message&);
 };
 
 class heroWindowManager : public baseManager
@@ -68,6 +70,22 @@ public:
 
   heroWindowManager();
 };
+
+
+enum ICON_GUI_FLAGS
+{
+  ICON_GUI_VISIBLE = 0x4,
+};
+
+/* These functions provide a simpler API to parts of the old GUI "BroadcastMessage" API */
+
+void GUIAddFlag(heroWindow*, int, int);
+void GUIRemoveFlag(heroWindow*, int, int);
+void GUISetImgIdx(heroWindow*, int, int);
+void GUISetIcon(heroWindow*, int, char*);
+void GUISetText(heroWindow*, int, char*);
+
+void GUIBroadcastMessage(heroWindow*, int,int,void*);
 
 #pragma pack(pop)
 

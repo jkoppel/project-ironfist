@@ -1,8 +1,9 @@
 #ifndef TIED_ADV_H
 #define TIED_ADV_H
 
-#include "spell/spells.h"
 #include "gui/gui.h"
+
+#define ORIG_SPELLS 65
 
 #pragma pack(push, 1)
 

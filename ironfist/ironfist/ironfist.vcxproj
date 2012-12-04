@@ -129,6 +129,7 @@
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
     <ClCompile Include="adv.cpp" />
+    <ClCompile Include="msg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\adventure\adv.h" />
@@ -146,7 +147,6 @@
     <ClInclude Include="..\src\cpp\gui\dialog.h" />
     <ClInclude Include="..\src\cpp\gui\gui.h" />
     <ClInclude Include="..\src\cpp\import_val.h" />
-    <ClInclude Include="..\src\cpp\input.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lapi.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lauxlib.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lcode.h" />

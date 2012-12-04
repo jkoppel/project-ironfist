@@ -128,7 +128,11 @@ public:
 
   font(unsigned long);
   ~font();
+
+  int LineLength(char*, int);
 };
+
+extern font* smallFont;
 
 
 #define NUM_GOOD_EVIL_ICONS 37

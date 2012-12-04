@@ -1,101 +1,108 @@
 #include "base.h"
+#include "msg.h"
 #include "map.h"
 
 #include "adventure/adv.h"
 #include "combat/creatures.h"
 #include "game/game.h"
+#include "gui/gui.h"
+#include "resource/resources.h"
 #include "scripting/hook.h"
 #include "spell/spells.h"
 #include "town/town.h"
 
+int BuildingBuilt(town* twn, int building) {
+	return (twn->buildingsBuiltFlags & (1 << building)) ? 1 : 0;
+}
+
 void game::SetupTowns() {
 
-  for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
-    if(this->castles[castleIdx].exists) {
-      town* castle = &this->castles[castleIdx];
-	  int extraIdx = this->castles[castleIdx].extraIdx;
-      townMapExtra* twnExtra = (townMapExtra *)ppMapExtra[extraIdx];
+	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
+		if(this->castles[castleIdx].exists) {
+			town* castle = &this->castles[castleIdx];
+			int extraIdx = this->castles[castleIdx].extraIdx;
+			townMapExtra* twnExtra = (townMapExtra *)ppMapExtra[extraIdx];
 
-	  int playerPos;
+			int playerPos;
 
-      if(twnExtra->color == -1)
-        playerPos = -1;
-      else
-        playerPos = gcColorToPlayerPos[twnExtra->color];
+			if(twnExtra->color == -1)
+				playerPos = -1;
+			else
+				playerPos = gcColorToPlayerPos[twnExtra->color];
 
-      this->ClaimTown(castleIdx, playerPos, 0);
-      castle->playerPos = playerPos;
+			this->ClaimTown(castleIdx, playerPos, 0);
+			castle->playerPos = playerPos;
 
-      if(twnExtra->customGarrison) {
-        for(int i = 0; i < 5; i++) {
-          castle->garrison.quantities[i] = twnExtra->garrison.quantities[i];
-          if(castle->garrison.quantities[i] <= 0)
-            castle->garrison.creatureTypes[i] = -1;
-          else
-            castle->garrison.creatureTypes[i] = twnExtra->garrison.creatureTypes[i];
-        }
+			if(twnExtra->customGarrison) {
+				for(int i = 0; i < 5; i++) {
+					castle->garrison.quantities[i] = twnExtra->garrison.quantities[i];
+					if(castle->garrison.quantities[i] <= 0)
+						castle->garrison.creatureTypes[i] = -1;
+					else
+						castle->garrison.creatureTypes[i] = twnExtra->garrison.creatureTypes[i];
+				}
 
-      } else {
+			} else {
 
-        for(int i = 0; i < 5; i++) {
-          castle->garrison.quantities[i] = 0;
-          castle->garrison.creatureTypes[i] = -1;
-        }
-		this->GiveTroopsToNeutralTown(castleIdx);
-		this->GiveTroopsToNeutralTown(castleIdx);
-		this->GiveTroopsToNeutralTown(castleIdx);
-		this->GiveTroopsToNeutralTown(castleIdx);
-      }
+				for(int i = 0; i < 5; i++) {
+					castle->garrison.quantities[i] = 0;
+					castle->garrison.creatureTypes[i] = -1;
+				}
+				this->GiveTroopsToNeutralTown(castleIdx);
+				this->GiveTroopsToNeutralTown(castleIdx);
+				this->GiveTroopsToNeutralTown(castleIdx);
+				this->GiveTroopsToNeutralTown(castleIdx);
+			}
 
-      if(twnExtra->customBuildings ) {
-		castle->buildingsBuiltFlags &= (1 << BUILDING_TENT) | (1 << BUILDING_CASTLE);
-		castle->buildingsBuiltFlags |= twnExtra->buildingsBuilt & gTownEligibleBuildMask[castle->factionID];
-        castle->mageGuildLevel = twnExtra->mageGuildLevel;
-      } else {
-        castle->buildingsBuiltFlags |= 1 << BUILDING_DWELLING_1;
-        castle->mageGuildLevel = 0;
+			if(twnExtra->customBuildings ) {
+				castle->buildingsBuiltFlags &= (1 << BUILDING_TENT) | (1 << BUILDING_CASTLE);
+				castle->buildingsBuiltFlags |= twnExtra->buildingsBuilt & gTownEligibleBuildMask[castle->factionID];
+				castle->mageGuildLevel = twnExtra->mageGuildLevel;
+			} else {
+				castle->buildingsBuiltFlags |= 1 << BUILDING_DWELLING_1;
+				castle->mageGuildLevel = 0;
 
-		//If you think this is complicated, then you should see the original code
-		if((gbHumanPlayer[castle->ownerIdx] && Random(0, 9) < 3) ||
-			(!gbHumanPlayer[castle->ownerIdx] && Random(0, 99) < 51)) {
-			
-				castle->buildingsBuiltFlags |= 1 << BUILDING_DWELLING_2;
+				//If you think this is complicated, then you should see the original code
+				if((gbHumanPlayer[castle->ownerIdx] && Random(0, 9) < 3) ||
+					(!gbHumanPlayer[castle->ownerIdx] && Random(0, 99) < 51)) {
+
+						castle->buildingsBuiltFlags |= 1 << BUILDING_DWELLING_2;
+				}
+			}
+
+			for(int i = BUILDING_UPGRADE_1; i <= BUILDING_UPGRADE_5B; i++ ) {
+				if((1 << i) & castle->buildingsBuiltFlags) {
+					if(i == BUILDING_UPGRADE_5B)
+						castle->buildingsBuiltFlags &= ~((1 << BUILDING_DWELLING_6) | (BUILDING_UPGRADE_5B));
+					else
+						castle->buildingsBuiltFlags &= ~(1 << (i - (BUILDING_UPGRADE_1 - BUILDING_DWELLING_2)));
+				}
+			}
+
+			for(int i = 0; i <= NUM_DWELLINGS; i++) {
+				if((1 << (i+BUILDING_DWELLING_1) & castle->buildingsBuiltFlags))
+					castle->numCreaturesInDwelling[i] = gMonsterDatabase[gDwellingType[castle->factionID][i]].growth;
+			}
+
+			if(castle->buildingsBuiltFlags & (1 << BUILDING_MAGE_GUILD)) {
+				for(int i = 0; i < castle->mageGuildLevel; i++ ) {
+					castle->numSpellsOfLevel[i] = gSpellLimits[i];
+					if(castle->factionID == FACTION_WIZARD && (castle->buildingsBuiltFlags & (1 << BUILDING_SPECIAL)))
+						castle->numSpellsOfLevel[i]++;
+				}
+			}
+			if(twnExtra->hasCaptain)
+				castle->buildingsBuiltFlags |= 1 << BUILDING_CAPTAIN;
+
+			castle->mayNotBeUpgradedToCastle = twnExtra->mayNotBeUpgraded;
+			strcpy(castle->name, twnExtra->name);
+
+			castle->SelectSpells();
+
+			FREE(ppMapExtra[extraIdx]);
+			ppMapExtra[extraIdx] = NULL;
 		}
-      }
-
-      for(int i = BUILDING_UPGRADE_1; i <= BUILDING_UPGRADE_5B; i++ ) {
-        if((1 << i) & castle->buildingsBuiltFlags) {
-          if(i == BUILDING_UPGRADE_5B)
-            castle->buildingsBuiltFlags &= ~((1 << BUILDING_DWELLING_6) | (BUILDING_UPGRADE_5B));
-          else
-            castle->buildingsBuiltFlags &= ~(1 << (i - (BUILDING_UPGRADE_1 - BUILDING_DWELLING_2)));
-        }
-      }
-
-      for(int i = 0; i <= NUM_DWELLINGS; i++) {
-        if((1 << (i+BUILDING_DWELLING_1) & castle->buildingsBuiltFlags))
-			castle->numCreaturesInDwelling[i] = gMonsterDatabase[gDwellingType[castle->factionID][i]].growth;
-      }
-
-      if(castle->buildingsBuiltFlags & (1 << BUILDING_MAGE_GUILD)) {
-        for(int i = 0; i < castle->mageGuildLevel; i++ ) {
-          castle->numSpellsOfLevel[i] = gSpellLimits[i];
-		  if(castle->factionID == FACTION_WIZARD && (castle->buildingsBuiltFlags & (1 << BUILDING_SPECIAL)))
-            castle->numSpellsOfLevel[i]++;
-        }
-      }
-      if(twnExtra->hasCaptain)
-        castle->buildingsBuiltFlags |= 1 << BUILDING_CAPTAIN;
-
-      castle->mayNotBeUpgradedToCastle = twnExtra->mayNotBeUpgraded;
-      strcpy(castle->name, twnExtra->name);
-
-	  castle->SelectSpells();
-	  
-	  FREE(ppMapExtra[extraIdx]);
-	  ppMapExtra[extraIdx] = NULL;
 	}
-  }
 }
 
 void town::SelectSpells() {
@@ -201,4 +208,52 @@ int townManager::Open(int idx) {
 
 void town::SetNumSpellsOfLevel(int l, int n) {
 	this->numSpellsOfLevel[l] = n;
+}
+
+
+void townManager::SetupMage(heroWindow *mageGuildWindow) {
+	const int SPELL_SCROLLS = 10;
+	const int SPELL_ICONS = 40;
+	const int SPELL_SCROLL_LABELS = 70;
+	const int BUILDING_ICON = 100;
+	const int BOTTOM_BAR = 110;
+	tag_message evt;
+	evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+	if( this->castle->visitingHeroIdx == -1) {
+		GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells are available here."); 
+	}
+
+	for (int i = 0; i < 5; i++) {
+		for(int j = 0; j < 4; j++) {
+			int hasLibrary = this->castle->factionID == FACTION_WIZARD && BuildingBuilt(this->castle, BUILDING_SPECIAL);
+
+			if(j < this->castle->numSpellsOfLevel[i]) {
+				GUIAddFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
+				GUISetImgIdx(mageGuildWindow, SPELL_SCROLLS+4*i+j, 0);
+				GUISetImgIdx(mageGuildWindow,
+							 SPELL_ICONS+4*i+j,
+							  gsSpellInfo[this->castle->mageGuildSpells[i][j]].spriteIdx);
+				if(smallFont->LineLength(gSpellNames[this->castle->mageGuildSpells[i][j]], 74) == 1 ) {
+					int c = GetManaCost(this->castle->mageGuildSpells[i][j]);
+					sprintf(gText, "%s\n[%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
+				} else {
+					int c = GetManaCost(this->castle->mageGuildSpells[i][j]);
+					sprintf(gText, "%s  [%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
+				}
+				GUISetText(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, gText);
+			} else if(j < gSpellLimits[i] + hasLibrary) {
+				GUIAddFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
+				GUISetImgIdx(mageGuildWindow, SPELL_SCROLLS+4*i+j, 1);
+				GUIRemoveFlag(mageGuildWindow, SPELL_ICONS+4*i+j, ICON_GUI_VISIBLE);
+				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, ICON_GUI_VISIBLE);
+			} else {
+				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
+				GUIRemoveFlag(mageGuildWindow, SPELL_ICONS+4*i+j, ICON_GUI_VISIBLE);
+				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, ICON_GUI_VISIBLE);
+			}
+		}
+	}
+	GUISetImgIdx(mageGuildWindow, BUILDING_ICON, this->castle->mageGuildLevel-1);
+	sprintf(gText, "magegld%c.icn", cHeroTypeInitial[this->castle->factionID]);
+	GUISetIcon(mageGuildWindow, BUILDING_ICON, gText);
 }

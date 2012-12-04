@@ -22,6 +22,7 @@ extern "C" {
 
 using namespace std;
 
+bool scripting_on = false;
 lua_State* map_lua = NULL;
 map<pair<int, string>, const char* > *triggers;
 
@@ -37,6 +38,9 @@ const char* GetHook(int id, const char* obj) {
 }
 
 void ScriptSignal(int id, const char* obj) {
+	if(!scripting_on)
+		return;
+
 	const char* hook = GetHook(id, obj);
 	
 	if(hook != NULL) {
@@ -186,6 +190,7 @@ void ScriptingInit(char* map_filnam) {
 	if(stat(script_file, &st) == 0) { //script exists
 		map_lua = luaL_newstate();
 		triggers = new map<pair<int, string>, const char* >;
+		scripting_on = true;
 
 		luaL_openlibs(map_lua);
 
@@ -202,5 +207,6 @@ void ScriptingShutdown() {
 		lua_close(map_lua);
 		map_lua = NULL;
 		delete triggers;
+		scripting_on = false;
 	}
 }

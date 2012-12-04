@@ -110,7 +110,23 @@ void __fastcall DeleteMainClasses() {
 extern int iCDRomErr;
 extern int gbNoCDRom;
 
+extern void __fastcall SetFullScreenStatus(int);
+extern void __fastcall ResizeWindow(int,int,int,int);
+
 void __fastcall SetupCDRom() {
+	
+	/*
+	 * This is a work-around for the Windows Vista problem
+	 * where the game starts in a tiny window with no borders.
+	 *
+	 * I don't know why, but I do know that changing to full-screen
+	 * and back causes the borders to appear, allowing the screen to be put in
+	 * a normal size. We do this for the user, causing longer load times
+	 * and some annoyance, but stopping it from appearing unusable.
+	 */
+	SetFullScreenStatus(1);
+	SetFullScreenStatus(0);
+	ResizeWindow(0,0,640,480);
 
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
@@ -128,4 +144,5 @@ void __fastcall SetupCDRom() {
 										"Please run the installation program.");
 		exit(0);
 	}
+
 }

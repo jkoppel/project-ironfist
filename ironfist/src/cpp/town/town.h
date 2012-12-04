@@ -10,6 +10,8 @@ extern signed char gDwellingType[][12];
 
 extern signed char gSpellLimits[];
 
+extern char cHeroTypeInitial[];
+
 #define NUM_DWELLINGS 12
 
 enum BUILDING_CODE : __int8
@@ -93,7 +95,10 @@ public:
 
 	virtual int Open(int);
 	int Open_orig(int);
+	void SetupMage(heroWindow*);
 };
+
+int BuildingBuilt(town*, int);
 
 extern townManager* gpTownManager;
 

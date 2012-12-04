@@ -1,9 +1,10 @@
 #ifndef SPELLS_H
 #define SPELLS_H
 
+#include "adventure/adv.h"
+
 #pragma pack(push, 1)
 
-#define ORIG_SPELLS 65
 #define NUM_SPELLS 66
 
 struct SSpellInfo
@@ -116,8 +117,8 @@ enum SPELL_CATEGORY
 
 char* gSpellNames[];
 
-extern int GetManaCost(int);
-
+extern int __fastcall GetManaCost(int, hero*);
+int GetManaCost(int);
 
 #pragma pack(pop)
 

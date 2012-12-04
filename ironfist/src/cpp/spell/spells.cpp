@@ -214,6 +214,9 @@ SSpellInfo gsSpellInfo[] = {
 	{"", 1, 55, 0, 700, 20, 10, 0, 0, ATTR_ADVENTURE_SPELL},
 };
 
+int GetManaCost(int s) {
+	return GetManaCost(s, NULL);
+}
 
 void advManager::CastSpell(int spell) {
 	if(gpCurPlayer->curHeroIdx == -1)

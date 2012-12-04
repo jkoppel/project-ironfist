@@ -121,6 +121,7 @@ IMPORT_?CastSpell@advManager@@QAEXH@Z = 1
 
 ;;towns
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
+IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1
