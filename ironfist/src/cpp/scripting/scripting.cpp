@@ -123,6 +123,36 @@ int l_hasartifact(lua_State *L) {
 	return 1;
 }
 
+int l_takeartifact(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int art = (int)luaL_checknumber(L, 2);
+	hro->TakeArtifact(art);
+	return 0;
+}
+
+int l_setprimaryskill(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int skill = (int)luaL_checknumber(L, 2);
+	int amt   = (int)luaL_checknumber(L, 3);
+	hro->SetPrimarySkill(skill, amt);
+	return 0;
+}
+
+int l_setspellpoints(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int points = (int)luaL_checknumber(L, 2);
+	hro->spellpoints = points;
+	return 0;
+}
+
+int l_setsecondaryskill(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int skill = (int)luaL_checknumber(L, 2);
+	int level = (int)luaL_checknumber(L, 3);
+	hro->SetSS(skill, level);
+	return 0;
+}
+
 int l_grantarmy(lua_State *L) {
 	hero* hro = (hero*)lua_touserdata(L, 1);
 	int cr = (int)luaL_checknumber(L, 2);
@@ -136,6 +166,25 @@ int l_getcurrenttown(lua_State *L) {
 	return 1;
 }
 
+
+int l_hasvisitinghero(lua_State *L) {
+	town* twn = (town*)lua_touserdata(L, 1);
+	lua_pushboolean(L, twn->visitingHeroIdx >= 0);
+	return 1;
+}
+
+int l_getvisitinghero(lua_State *L) {
+	town* twn = (town*)lua_touserdata(L, 1);
+	lua_pushlightuserdata(L, &gpGame->heroes[twn->visitingHeroIdx]);
+	return 1;
+}
+
+int l_buildincurrenttown(lua_State *L) {
+	int obj = (int)luaL_checknumber(L, 1);
+	gpTownManager->BuildObj(obj);
+	return 0;
+}
+
 int l_setnumguildspells(lua_State *L) {
 	town* twn = (town*)lua_touserdata(L, 1);
 	int l = (int)luaL_checknumber(L, 2);
@@ -144,9 +193,12 @@ int l_setnumguildspells(lua_State *L) {
 	return 0;
 }
 
-int l_buildincurrenttown(lua_State *L) {
-	int obj = (int)luaL_checknumber(L, 1);
-	gpTownManager->BuildObj(obj);
+int l_setguildspell(lua_State *L) {
+	town* twn = (town*)lua_touserdata(L, 1);
+	int l = (int)luaL_checknumber(L, 2);
+	int n = (int)luaL_checknumber(L, 3);
+	int s = (int)luaL_checknumber(L, 4);
+	twn->mageGuildSpells[l][n] = s;
 	return 0;
 }
 
@@ -169,9 +221,16 @@ void set_lua_globals(lua_State *L) {
 	lua_register(L, "GrantArtifact", l_grantartifact);
 	lua_register(L, "GrantArmy", l_grantarmy);
 	lua_register(L, "HasArtifact", l_hasartifact);
+	lua_register(L, "TakeArtifact", l_takeartifact);
+	lua_register(L, "SetPrimarySkill", l_setprimaryskill);
+	lua_register(L, "SetSpellpoints", l_setspellpoints);
+	lua_register(L, "SetSecondarySkill", l_setsecondaryskill);
 	lua_register(L, "GetCurrentTown", l_getcurrenttown);
+	lua_register(L, "HasVisitingHero", l_hasvisitinghero);
+	lua_register(L, "GetVisitingHero", l_getvisitinghero);
 	lua_register(L, "BuildInCurrentTown", l_buildincurrenttown);
 	lua_register(L, "SetNumGuildSpells", l_setnumguildspells);
+	lua_register(L, "SetGuildSpell", l_setguildspell);
 
 	lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
 	lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);

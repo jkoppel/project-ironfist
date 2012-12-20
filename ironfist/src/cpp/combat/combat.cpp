@@ -45,7 +45,7 @@ void combatManager::HandlePandoraBox(int side) {
 		//We temporarily hardcode the tier-1 creatures
 		int creatChoices[] = {
 			CREATURE_PEASANT, CREATURE_SPRITE,CREATURE_HALFLING, CREATURE_GOBLIN,
-			CREATURE_SKELETON, CREATURE_CENTAUR, CREATURE_ROGUE, CREATURE_KOBOLD
+			CREATURE_SKELETON, CREATURE_CENTAUR, CREATURE_ROGUE, CREATURE_BLOODSUCKER
 		};
 		int creat = creatChoices[SRandom(0, ELEMENTS_IN(creatChoices)-1)];
 

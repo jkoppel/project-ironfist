@@ -108,12 +108,16 @@ public:
   void UseSpell(int);
 	  
   int HasArtifact(int);
+  void TakeArtifact(int);
 
   signed char Stats(int);
+  void SetSS(int,int);
   int CalcMobility();
 
   void Read(int, signed char);
   void ResetSpellsLearned();
+
+  void SetPrimarySkill(int,int);
 
   void Clear();
 };

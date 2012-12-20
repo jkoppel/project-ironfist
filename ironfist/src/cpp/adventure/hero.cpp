@@ -124,6 +124,19 @@ int hero::GetNumSpells(int type) {
   }
 }
 
+void hero::SetPrimarySkill(int skill, int amt) {
+  this->primarySkills[skill] = amt;
+}
+
+void hero::TakeArtifact(int art) {
+	for(int i = 0; i < 14; i++) {
+		if(this->artifacts[i] == art) {
+			this->artifacts[i] = -1;
+			break;
+		}
+	}
+}
+
 hero* GetCurrentHero() {
   return &gpGame->heroes[gpCurPlayer->curHeroIdx];
 }

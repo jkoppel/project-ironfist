@@ -335,7 +335,7 @@ char* gArtifactEvents[] =
 	"A former Captain of the Guard admires your quest and gives you the enchanted Sword Breaker that he relied on during his tour of duty.",
 	"A Troll stops you and says: \"Pay me 5,000 gold, or the Sword of Anduran will slay you where you stand.\"  You refuse.  The troll grabs the sword hanging from its belt, screams in pain, and runs away.  Picking up the fabled sword, you give thanks that half-witted Trolls tend to grab the wrong end of sharp objects.",
 	"A dirty shovel has been thrust into a dirt mound nearby. Upon investigation, you discover it to be the enchanted shovel of the Gravediggers, long thought lost by mortals.",
-	"Pandora's Box acquired"
+	"You pass by a chest lying under a tree. Suddenly, a goblin jumps out of the chest and shrieks. Before it can raise its club, you grab it and throw it back in the chest, and tie it sealed with rope."
 };
 
 unsigned char gArtifactLevel[] =
