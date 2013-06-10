@@ -222,6 +222,9 @@ public:
 
 	void ClaimTown(int,int,int);
 
+	void NextPlayer();
+	void NextPlayer_orig();
+
 	void PerDay();
 	void PerDay_orig();
 };

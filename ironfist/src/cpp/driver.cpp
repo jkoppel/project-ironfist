@@ -16,5 +16,7 @@ void __fastcall AppExit() {
 	CleanUpWinGraphics();
 	CleanUpMenus();
 	UnloadCreatures();
+#ifndef EDITOR
 	ScriptingShutdown();
+#endif
 }

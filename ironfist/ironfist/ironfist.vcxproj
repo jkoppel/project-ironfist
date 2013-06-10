@@ -53,14 +53,19 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Documents and Settings\James Koppel\My Documents\Dropbox\ironfist\hg\GameCreation\ironfist\src\cpp\lib;C:\Documents and Settings\James Koppel\My Documents\Dropbox\ironfist\hg\GameCreation\ironfist\src\cpp;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\jkoppel\Dropbox\ironfist\hg\GameCreation\ironfist\src\cpp;C:\Users\jkoppel\Dropbox\ironfist\hg\GameCreation\ironfist\src\cpp\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Documents and Settings\James Koppel\My Documents\Dropbox\ironfist\hg\GameCreation\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\jkoppel\Dropbox\ironfist\hg\GameCreation\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
+    <Manifest>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+    </Manifest>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -125,7 +130,9 @@
     <ClCompile Include="..\src\cpp\lib\lua\src\lvm.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lzio.c" />
     <ClCompile Include="..\src\cpp\resource\resourceManager.cpp" />
+    <ClCompile Include="..\src\cpp\scripting\lua_utils.cpp" />
     <ClCompile Include="..\src\cpp\scripting\scripting.cpp" />
+    <ClCompile Include="..\src\cpp\scripting\consts.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
     <ClCompile Include="adv.cpp" />
@@ -142,7 +149,6 @@
     <ClInclude Include="..\src\cpp\driver.h" />
     <ClInclude Include="..\src\cpp\game\game.h" />
     <ClInclude Include="..\src\cpp\game\map_xml.hxx" />
-    <ClInclude Include="..\src\cpp\game\spells.h" />
     <ClInclude Include="..\src\cpp\graphics.h" />
     <ClInclude Include="..\src\cpp\gui\dialog.h" />
     <ClInclude Include="..\src\cpp\gui\gui.h" />
@@ -180,6 +186,7 @@
     <ClInclude Include="..\src\cpp\resource\resourceManager.h" />
     <ClInclude Include="..\src\cpp\resource\resources.h" />
     <ClInclude Include="..\src\cpp\scripting\hook.h" />
+    <ClInclude Include="..\src\cpp\scripting\register.h" />
     <ClInclude Include="..\src\cpp\scripting\scripting.h" />
     <ClInclude Include="..\src\cpp\skills.h" />
     <ClInclude Include="..\src\cpp\spell\spells.h" />

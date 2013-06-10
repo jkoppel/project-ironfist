@@ -16,6 +16,7 @@ IMPORT__close = 1
 IMPORT__tell = 1
 IMPORT___read = 1
 IMPORT___write = 1
+IMPORT___lseek = 1
 
 ;; Preventing the startup routines' names from clashing
 _WinMainCRTStartup EQU _start_asm
@@ -81,6 +82,8 @@ IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
 
 ;;game
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
+IMPORT_?NextPlayer@game@@QAEXXZ = 1
+?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
@@ -98,7 +101,7 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 ;;combat
 IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1
 ?InitNonVisualVars@combatManager@@QAEXXZ_clone EQU ?InitNonVisualVars_orig@combatManager@@QAEXXZ
-IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
+IMPORT_?MoveAttack@army@@QAEXHH@Z = 1 
 ?MoveAttack@army@@QAEXHH@Z_clone EQU ?MoveAttack_orig@army@@QAEXHH@Z
 
 ;;saving
@@ -122,6 +125,9 @@ IMPORT_?CastSpell@advManager@@QAEXH@Z = 1
 ;;towns
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
+IMPORT_?RecruitHero@townManager@@QAEHHH@Z = 1
+?RecruitHero@townManager@@QAEHHH@Z_clone EQU ?RecruitHero_orig@townManager@@QAEHHH@Z
+IMPORT_?GetBuildingName@@YIPADHH@Z = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1

@@ -18,6 +18,7 @@ extern "C" {
 #include "town/town.h"
 
 #include "scripting/hook.h"
+#include "scripting/register.h"
 #include "scripting/scripting.h"
 
 using namespace std;
@@ -202,10 +203,6 @@ int l_setguildspell(lua_State *L) {
 	return 0;
 }
 
-void lua_setconst(lua_State *L, const char* nam, int i) {
-	lua_pushinteger(L, i);
-	lua_setglobal(L, nam);
-}
 
 void set_lua_globals(lua_State *L) {
 	lua_register(L, "MessageBox", l_msgbox);
@@ -214,11 +211,11 @@ void set_lua_globals(lua_State *L) {
 	lua_register(L, "GetWeek", l_getweek);
 	lua_register(L, "GetMonth", l_getmonth);
 	lua_register(L, "GetCurrentHero", l_getcurrenthero);
-	lua_register(L, "GrantSpell", l_grantspell);
 	lua_register(L, "GetPlayer", l_getplayer);
 	lua_register(L, "GetNumHeroes", l_getnumheroes);
 	lua_register(L, "GetHero", l_gethero);
 	lua_register(L, "GrantArtifact", l_grantartifact);
+	lua_register(L, "GrantSpell", l_grantspell);
 	lua_register(L, "GrantArmy", l_grantarmy);
 	lua_register(L, "HasArtifact", l_hasartifact);
 	lua_register(L, "TakeArtifact", l_takeartifact);
@@ -235,6 +232,8 @@ void set_lua_globals(lua_State *L) {
 	lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
 	lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);
 	lua_setconst(L, "TOWN_LOADED", SCRIPT_EVT_TOWN_LOADED);
+
+	set_scripting_consts(L);
 }
 
 void ScriptingInit(char* map_filnam) {

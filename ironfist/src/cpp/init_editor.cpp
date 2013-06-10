@@ -38,7 +38,6 @@ public:
 	editManager();
 };
 
-
 extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern mouseManager* gpMouseManager;
@@ -46,7 +45,6 @@ extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
 extern soundManager* gpSoundManager;
 extern editManager* gpEditManager;
-
 
 #pragma pack(pop)
 

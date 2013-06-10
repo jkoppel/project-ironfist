@@ -96,9 +96,20 @@ public:
 	virtual int Open(int);
 	int Open_orig(int);
 	void SetupMage(heroWindow*);
+
+	int RecruitHero(int,int);
+	int RecruitHero_orig(int,int);
 };
 
+
+extern char *xNecromancerShrine;
+extern char *gWellExtraNames[];
+extern char *gSpecialBuildingNames[];
+extern char *gNeutralBuildingNames[];
+extern char *gDwellingNames[][12];
+
 int BuildingBuilt(town*, int);
+char *__fastcall GetBuildingName(int faction, int building);
 
 extern townManager* gpTownManager;
 

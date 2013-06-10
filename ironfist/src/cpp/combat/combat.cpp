@@ -89,7 +89,7 @@ void army::MoveAttack(int targHex, int a) {
 	MoveAttack_orig(targHex, a);
 
 	if(!(this->creature.creature_flags & DEAD) &&
-		CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) //kill when get real attribut system
+		CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) //kill when get real attribute system
 		
 		MoveTo(startHex);
 }

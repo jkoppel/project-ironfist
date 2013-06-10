@@ -257,3 +257,37 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 	sprintf(gText, "magegld%c.icn", cHeroTypeInitial[this->castle->factionID]);
 	GUISetIcon(mageGuildWindow, BUILDING_ICON, gText);
 }
+
+int townManager::RecruitHero(int id, int x) {
+	 /*
+	  * The original RecruitHero will give heroes their movement points back.
+	  * We want heroes to not regain their movement points if rehired the same turn.
+	  *
+	  * Thus, we restore the previous value of remainingMobility after the hero is rehired.
+	  *
+	  * Can lead to weirdness if some situations, like if a hero is defeated and rehired by an opponent
+	  * within a single turn.
+	  * 
+	  */
+	 hero* h = &gpGame->heroes[gpCurPlayer->heroesForPurchase[id]];
+	 int oldMobility = h->remainingMobility;
+	 int toRet = RecruitHero_orig(id, x);
+	 h->remainingMobility = oldMobility;
+	 return toRet;
+}
+
+char *__fastcall GetBuildingName(int faction, int building) {
+  if(faction == FACTION_NECROMANCER && building == BUILDING_TAVERN) {
+    return xNecromancerShrine;
+  } else {
+    if(building == BUILDING_SPECIAL_GROWTH) {
+      return gWellExtraNames[faction];
+    } else if(building == BUILDING_SPECIAL) {
+      return gSpecialBuildingNames[faction];
+    } else if(building >= BUILDING_DWELLING_1) {
+      return gDwellingNames[faction][building-BUILDING_DWELLING_1];
+    } else {
+      return gNeutralBuildingNames[building];
+    }
+  }
+}

@@ -15,6 +15,7 @@ IMPORT__close = 1
 IMPORT__tell = 1
 IMPORT___read = 1
 IMPORT___write = 1
+IMPORT___lseek = 1
 
 ;; Preventing the startup routines' names from clashing
 _WinMainCRTStartup EQU _start_asm
@@ -82,3 +83,11 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 ;;overlays
 IMPORT_?gOverlayDatabase@@3PAUoverlay@@A = 1
 IMPORT_?FillInOverlayTiles@@YAXXZ = 1
+
+;;gui
+IMPORT_?EditTown@eventsManager@@QAEHHH@Z = 1
+?EditTown@eventsManager@@QAEHHH@Z_clone EQU ?EditTown_orig@eventsManager@@QAEHHH@Z
+IMPORT_?AppWndProc@@YGJPAXIIJ@Z = 1
+?AppWndProc@@YGJPAXIIJ@Z_clone EQU ?AppWndProc_orig@@YGJPAXIIJ@Z
+IMPORT_@PollSound@0 =1
+@PollSound@0_clone EQU @PollSound_orig@0

@@ -13,6 +13,7 @@ int game::GetRandomNumTroops(int creat) {
 
 extern int gbNoCDRom;
 
+
 int game::SetupGame() {
 	int oldNoCDRom = gbNoCDRom;
 	int res = this->SetupGame_orig();
@@ -50,6 +51,19 @@ void game::RandomizeHeroPool() {
 void game::NewMap(char* mapname) {
 	this->NewMap_orig(mapname);
 	ScriptingInit(mapname);
+}
+
+void game::NextPlayer() {
+	/*
+	 * Because heroes no longer regain movement on hire.
+	 * we need to make sure all heroes in hero pool regain movement between turns.
+	 */
+	for(int i = 0; i < MAX_HEROES; i++) {
+		hero *h = &this->heroes[i];
+		h->mobility = h->CalcMobility();
+		h->remainingMobility = h->mobility;
+	}
+	NextPlayer_orig();
 }
 
 void game::PerDay() {

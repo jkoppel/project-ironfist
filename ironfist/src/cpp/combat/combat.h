@@ -111,8 +111,8 @@ public:
   int WalkTo(int hex);
   void MoveTo(int hex);
 
-  void MoveAttack(int targHex, int);
-  void MoveAttack_orig(int targHex, int);
+  void MoveAttack(int, int);
+  void MoveAttack_orig(int, int);
 };
 
 class combatManager : public baseManager
