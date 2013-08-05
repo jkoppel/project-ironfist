@@ -14,6 +14,18 @@ extern char cHeroTypeInitial[];
 
 #define NUM_DWELLINGS 12
 
+enum FACTION
+{
+	FACTION_KNIGHT = 0x0,
+	FACTION_BARBARIAN = 0x1,
+	FACTION_SORCERESS = 0x2,
+	FACTION_WARLOCK = 0x3,
+	FACTION_WIZARD = 0x4,
+	FACTION_NECROMANCER = 0x5,
+	FACTION_MULTIPLE = 0x6,
+	FACTION_RANDOM = 0x7,
+};
+
 enum BUILDING_CODE : __int8
 {
   BUILDING_MAGE_GUILD = 0x0,
@@ -107,6 +119,7 @@ extern char *gWellExtraNames[];
 extern char *gSpecialBuildingNames[];
 extern char *gNeutralBuildingNames[];
 extern char *gDwellingNames[][12];
+extern unsigned long gTownEligibleBuildMask[];
 
 int BuildingBuilt(town*, int);
 char *__fastcall GetBuildingName(int faction, int building);

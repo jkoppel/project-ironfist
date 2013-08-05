@@ -19,7 +19,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
     <CLRSupport>false</CLRSupport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -82,7 +82,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ironfist\msg.cpp" />
     <ClCompile Include="..\src\cpp\artifacts.cpp" />
     <ClCompile Include="..\src\cpp\combat\creatures.cpp" />
     <ClCompile Include="..\src\cpp\combat\creatures_xml.cxx" />
@@ -91,6 +90,7 @@
     <ClCompile Include="..\src\cpp\editor\events.cpp" />
     <ClCompile Include="..\src\cpp\editor\overlay.cpp" />
     <ClCompile Include="..\src\cpp\gui\dialog.cpp" />
+    <ClCompile Include="..\src\cpp\gui\msg.cpp" />
     <ClCompile Include="..\src\cpp\init_editor.cpp" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lapi.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lauxlib.c" />
@@ -138,12 +138,17 @@
   <ItemGroup>
     <ClInclude Include="..\src\cpp\adventure\adv.h" />
     <ClInclude Include="..\src\cpp\adventure\army.h" />
+    <ClInclude Include="..\src\cpp\adventure\map.h" />
     <ClInclude Include="..\src\cpp\artifacts.h" />
+    <ClInclude Include="..\src\cpp\base.h" />
     <ClInclude Include="..\src\cpp\combat\creatures.h" />
     <ClInclude Include="..\src\cpp\combat\creatures_xml.hxx" />
     <ClInclude Include="..\src\cpp\driver.h" />
+    <ClInclude Include="..\src\cpp\editor\editor.h" />
     <ClInclude Include="..\src\cpp\editor\events.h" />
     <ClInclude Include="..\src\cpp\editor\resource.h" />
+    <ClInclude Include="..\src\cpp\gui\dialog.h" />
+    <ClInclude Include="..\src\cpp\gui\gui.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lapi.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lauxlib.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lcode.h" />
@@ -173,6 +178,7 @@
     <ClInclude Include="..\src\cpp\msg.h" />
     <ClInclude Include="..\src\cpp\resource\resourceManager.h" />
     <ClInclude Include="..\src\cpp\resource\resources.h" />
+    <ClInclude Include="..\src\cpp\town\town.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

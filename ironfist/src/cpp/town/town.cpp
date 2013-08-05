@@ -1,8 +1,8 @@
 #include "base.h"
 #include "msg.h"
-#include "map.h"
 
 #include "adventure/adv.h"
+#include "adventure/map.h"
 #include "combat/creatures.h"
 #include "game/game.h"
 #include "gui/gui.h"
@@ -94,7 +94,7 @@ void game::SetupTowns() {
 			if(twnExtra->hasCaptain)
 				castle->buildingsBuiltFlags |= 1 << BUILDING_CAPTAIN;
 
-			castle->mayNotBeUpgradedToCastle = twnExtra->mayNotBeUpgraded;
+			castle->mayNotBeUpgradedToCastle = twnExtra->disallowCastle;
 			strcpy(castle->name, twnExtra->name);
 
 			castle->SelectSpells();

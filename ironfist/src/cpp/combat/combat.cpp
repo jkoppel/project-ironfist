@@ -84,12 +84,12 @@ void army::MoveTo(int hexIdx) {
 	}
 }
 
-void army::MoveAttack(int targHex, int a) {
+void army::MoveAttack(int targHex, int x) {
 	int startHex = this->occupiedHex;
-	MoveAttack_orig(targHex, a);
+	this->MoveAttack_orig(targHex, x);
 
-	if(!(this->creature.creature_flags & DEAD) &&
-		CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) //kill when get real attribute system
-		
+	if( !(this->creature.creature_flags & DEAD) &&
+		CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
 		MoveTo(startHex);
+	}
 }

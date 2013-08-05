@@ -101,7 +101,7 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 ;;combat
 IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1
 ?InitNonVisualVars@combatManager@@QAEXXZ_clone EQU ?InitNonVisualVars_orig@combatManager@@QAEXXZ
-IMPORT_?MoveAttack@army@@QAEXHH@Z = 1 
+IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
 ?MoveAttack@army@@QAEXHH@Z_clone EQU ?MoveAttack_orig@army@@QAEXHH@Z
 
 ;;saving

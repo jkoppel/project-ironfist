@@ -2,6 +2,7 @@
 #define GAME_H
 
 #include "adventure/adv.h"
+#include "adventure/map.h"
 #include "town/town.h"
 
 #define MAX_HEROES 54
@@ -12,67 +13,6 @@ extern signed char gcColorToPlayerPos[];
 extern int gbHumanPlayer[];
 
 #pragma pack(push,1)
-
-enum FACTION
-{
-	FACTION_KNIGHT = 0x0,
-	FACTION_BARBARIAN = 0x1,
-	FACTION_SORCERESS = 0x2,
-	FACTION_WARLOCK = 0x3,
-	FACTION_WIZARD = 0x4,
-	FACTION_NECROMANCER = 0x5,
-	FACTION_MULTIPLE = 0x6,
-	FACTION_RANDOM = 0x7,
-};
-
-struct mapCell;
-struct mapCellExtra;
-
-class fullMap {
-public:
-	mapCell *tiles;
-	mapCellExtra *cellExtras;
-	int width;
-	int height;
-	int numCellExtras;
-	fullMap();
-	~fullMap();
-
-	void Read(int,int);
-	void Write(int);
-};
-
-struct SMapHeader {
-	int field_0;
-	__int16 field_4;
-	char width;
-	char height;
-	char hasPlayer[6];
-	char playerMayBeHuman[6];
-	char playerMayBeComp[6];
-	char numPlayers;
-	char minHumans;
-	char maxHumans;
-	char winConditionType;
-	char field_1E;
-	char allowDefeatAllVictory;
-	__int16 winConditionArgument;
-	int field_22;
-	char playerFactions[6];
-	__int16 field_2C;
-	int field_2E;
-	int field_32;
-	char field_36;
-	char field_37;
-	char field_38;
-	char field_39;
-	char name[60];
-	char description[298];
-	char field_1A0;
-	char field_1A1;
-	char numRumors;
-	char numEvents;
-};
 
 
 #define BUILDING_RIGHT_TURRET_BUILT     0x1

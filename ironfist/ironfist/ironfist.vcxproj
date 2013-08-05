@@ -85,6 +85,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\cpp\adventure\adv.cpp" />
     <ClCompile Include="..\src\cpp\adventure\hero.cpp" />
     <ClCompile Include="..\src\cpp\artifacts.cpp" />
     <ClCompile Include="..\src\cpp\combat\combat.cpp" />
@@ -96,6 +97,7 @@
     <ClCompile Include="..\src\cpp\game\map_xml.cxx" />
     <ClCompile Include="..\src\cpp\game\save.cpp" />
     <ClCompile Include="..\src\cpp\gui\dialog.cpp" />
+    <ClCompile Include="..\src\cpp\gui\msg.cpp" />
     <ClCompile Include="..\src\cpp\init.cpp" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lapi.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lauxlib.c" />
@@ -135,12 +137,10 @@
     <ClCompile Include="..\src\cpp\scripting\consts.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
-    <ClCompile Include="adv.cpp" />
-    <ClCompile Include="msg.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\adventure\adv.h" />
-    <ClInclude Include="..\src\cpp\adventure\army.h" />
+    <ClInclude Include="..\src\cpp\adventure\map.h" />
     <ClInclude Include="..\src\cpp\artifacts.h" />
     <ClInclude Include="..\src\cpp\base.h" />
     <ClInclude Include="..\src\cpp\combat\combat.h" />
@@ -179,7 +179,6 @@
     <ClInclude Include="..\src\cpp\lib\lua\src\lvm.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lzio.h" />
     <ClInclude Include="..\src\cpp\manager.h" />
-    <ClInclude Include="..\src\cpp\map.h" />
     <ClInclude Include="..\src\cpp\msg.h" />
     <ClInclude Include="..\src\cpp\mss32.h" />
     <ClInclude Include="..\src\cpp\prefs.h" />

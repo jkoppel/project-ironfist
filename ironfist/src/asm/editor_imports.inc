@@ -85,9 +85,4 @@ IMPORT_?gOverlayDatabase@@3PAUoverlay@@A = 1
 IMPORT_?FillInOverlayTiles@@YAXXZ = 1
 
 ;;gui
-IMPORT_?EditTown@eventsManager@@QAEHHH@Z = 1
-?EditTown@eventsManager@@QAEHHH@Z_clone EQU ?EditTown_orig@eventsManager@@QAEHHH@Z
-IMPORT_?AppWndProc@@YGJPAXIIJ@Z = 1
-?AppWndProc@@YGJPAXIIJ@Z_clone EQU ?AppWndProc_orig@@YGJPAXIIJ@Z
-IMPORT_@PollSound@0 =1
-@PollSound@0_clone EQU @PollSound_orig@0
+IMPORT_?EditTown@eventsManager@@QAEXHH@Z = 1

@@ -33,6 +33,7 @@ tag_monsterInfo gMonsterDatabase[MAX_CREATURES];
 
 const char* CREATURE_DATA = ".\\DATA\\creatures.xml";
 
+int giNumCreatures;
 char *cMonFilename[MAX_CREATURES];
 char *cArmyFrameFileNames[MAX_CREATURES];
 char *gArmyNames[MAX_CREATURES];
@@ -80,12 +81,22 @@ int CreatureHasAttribute(int id, const char* name) {
 	return 0;
 }
 
+char* GetCreatureName(int id) {
+	return gArmyNames[id];
+}
+
+int GetNumCreatures() {
+	return giNumCreatures;
+}
+
 void LoadCreatures() {
 
 	ResetCreatureAttributes();
 
 	try {
 		auto_ptr<creatures_t> creats = creatures(string(CREATURE_DATA));
+
+		giNumCreatures = 0;
 
 		for(creatures_t::creature_const_iterator i(creats->creature().begin());
 			i != creats->creature().end();
@@ -101,6 +112,8 @@ void LoadCreatures() {
 				gArmyNamesPlural[id] = strdup(c.name_plural().c_str());
 				gMonRandBound[id][0] = c.random_spawn().begin()->minimum();
 				gMonRandBound[id][1] = c.random_spawn().begin()->maximum();
+
+				giNumCreatures++;
 
 				int creature_flags = 0;
 				for(creature_t::creature_attribute_const_iterator j = c.creature_attribute().begin();

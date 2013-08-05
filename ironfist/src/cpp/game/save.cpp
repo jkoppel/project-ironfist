@@ -1,6 +1,6 @@
 #include "adventure/adv.h"
 #include "base.h"
-#include "map.h"
+#include "adventure/map.h"
 #include "game/game.h"
 
 #include "game/map_xml.hxx"

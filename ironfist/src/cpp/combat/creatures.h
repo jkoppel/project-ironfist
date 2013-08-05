@@ -1,5 +1,5 @@
-#ifndef TIED_CREATURES_H
-#define TIED_CREATURES_H
+#ifndef CREATURES_H
+#define CREATURES_H
 
 #include<string.h>
 #include<stdio.h>
@@ -141,9 +141,12 @@ tag_monsterInfo gMonsterDatabase[];
 int gMonRandBound[][2];
 
 int CreatureHasAttribute(int id, const char* name);
+char* GetCreatureName(int id);
+int GetNumCreatures();
 
 void LoadCreatures();
 void UnloadCreatures();
+
 
 #pragma pack(pop)
 

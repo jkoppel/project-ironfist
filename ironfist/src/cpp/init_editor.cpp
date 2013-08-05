@@ -1,6 +1,8 @@
 #include "resource/resourceManager.h"
 #include "base.h"
 #include "manager.h"
+
+#include "editor/editor.h"
 #include "gui/gui.h"
 #include "resource/resources.h"
 
@@ -32,19 +34,12 @@ public:
 	soundManager();
 };
 
-class editManager {
-public:
-	char _[3746];
-	editManager();
-};
-
 extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern mouseManager* gpMouseManager;
 extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
 extern soundManager* gpSoundManager;
-extern editManager* gpEditManager;
 
 #pragma pack(pop)
 
