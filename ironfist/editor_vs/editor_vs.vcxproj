@@ -133,6 +133,8 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling editor.asm</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).obj</Outputs>
     </CustomBuild>
+    <None Include="..\..\..\..\ironfist.ico" />
+    <None Include="..\..\..\..\ironfist.png" />
     <None Include="..\src\asm\editor_imports.inc" />
   </ItemGroup>
   <ItemGroup>
