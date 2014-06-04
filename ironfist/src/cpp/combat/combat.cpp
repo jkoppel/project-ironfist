@@ -93,3 +93,4 @@ void army::MoveAttack(int targHex, int x) {
 		MoveTo(startHex);
 	}
 }
+

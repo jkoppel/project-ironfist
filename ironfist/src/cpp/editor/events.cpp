@@ -206,7 +206,7 @@ void InitializeTownEdit(HWND hwnd) {
 
 BOOL CALLBACK EditTownProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	int update = 0;
-	int extraIdx = (gpExaminedCell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+	int extraIdx = gpExaminedCell->extraInfo;
 
 	int monIdx = 0;
 	int isCustom = 0;
@@ -367,6 +367,12 @@ HANDLE_MON_QTY:
 						case CBN_SELCHANGE:
 							int sel = SendMessage(GetDlgItem(hwnd, LOWORD(wParam)), CB_GETCURSEL, 0, 0);
 							gEditTownExtra.mageGuildLevel = sel;
+							
+							if(sel > 0) {
+								gEditTownExtra.buildingsBuilt |= 1 << BUILDING_MAGE_GUILD;
+							} else {
+								gEditTownExtra.buildingsBuilt &= ~(1 << BUILDING_MAGE_GUILD);
+							}
 						break;
 					}
 				break;
@@ -386,7 +392,7 @@ extern int __stdcall AppAbout(void *,unsigned int,unsigned int,long);
 
 void eventsManager::EditTown(int x, int y) {
 	gpExaminedCell = &gpMap.tiles[y*gpMap.width + x];
-	int extraIdx = (gpExaminedCell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+	int extraIdx = gpExaminedCell->extraInfo;
 	memcpy(&gEditTownExtra, gpEditManager->mapExtra[extraIdx], sizeof(townMapExtra));
 	DialogBoxParamA((HINSTANCE)hInstApp, "EDIT_TOWN",  (HWND)hwndApp, (DLGPROC)EditTownProc, 0);;
 }

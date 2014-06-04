@@ -142,6 +142,7 @@ int gMonRandBound[][2];
 
 int CreatureHasAttribute(int id, const char* name);
 char* GetCreatureName(int id);
+char* GetCreaturePluralName(int id);
 int GetNumCreatures();
 
 void LoadCreatures();

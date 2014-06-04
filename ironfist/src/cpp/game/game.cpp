@@ -58,12 +58,12 @@ void game::NextPlayer() {
 	 * Because heroes no longer regain movement on hire.
 	 * we need to make sure all heroes in hero pool regain movement between turns.
 	 */
+	NextPlayer_orig();
 	for(int i = 0; i < MAX_HEROES; i++) {
 		hero *h = &this->heroes[i];
 		h->mobility = h->CalcMobility();
 		h->remainingMobility = h->mobility;
 	}
-	NextPlayer_orig();
 }
 
 void game::PerDay() {

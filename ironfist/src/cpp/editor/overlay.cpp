@@ -1,3 +1,10 @@
+#include<stdio.h>
+
+#include "base.h"
+
+#include "adventure/map.h"
+#include "editor/editor.h"
+
 #define NUM_OVERLAYS 964
 #define NUM_TILESETS 64
 
@@ -6,7 +13,7 @@ struct overlay
 {
   int idx;
   int idx2;
-  int ordinal;
+  int ordinal;&
   char tileset;
   char category;
   __int16 field_E;
@@ -31,6 +38,62 @@ struct overlay
 
 extern signed int __fastcall OverlayMaskBitSet(__int64 *mask, int x, int y);
 overlay gOverlayDatabase[];
+
+extern signed int __fastcall PlaceOverlay_orig(overlay *ovr, int left, int right, int userDemanded);
+
+int NumTownsOfColor(int color) {
+	int n = 0;
+
+	for(int i = 0; i < MAP_HEIGHT; i++) {
+		for(int j = 0; j < MAP_WIDTH; j++) {
+			mapCell *cell = &gpMap.tiles[i * gpMap.width + j];
+			if(!(cell->objType & TILE_HAS_EVENT)) {
+				continue;
+			}
+
+			unsigned char typ = cell->objType & (~TILE_HAS_EVENT);
+			if(typ == LOCATION_TOWN || typ == LOCATION_RANDOM_CASTLE || typ == LOCATION_RANDOM_TOWN) {
+				townMapExtra *mapExtra = (townMapExtra*)gpEditManager->mapExtra[cell->extraInfo];
+				if(mapExtra->color == color) {
+					n++;
+				}
+			}
+		}
+	}
+
+	return n;
+}
+
+int CountHeroes(int color) {
+	int n = 0;
+
+	for(int i = 0; i < MAP_HEIGHT; i++) {
+		for(int j = 0; j < MAP_WIDTH; j++) {
+			mapCell *cell = &gpMap.tiles[i * gpMap.width + j];
+			unsigned char typ = cell->objType & (~TILE_HAS_EVENT);
+			if((typ == LOCATION_HERO || typ == LOCATION_RANDOM_HERO) && cell->objectIndex / 7 == color) {
+				n++;
+			}
+		}
+	}
+
+	if(!gpMapHeader.noStartingHeroInCastle && NumTownsOfColor(color) > 0) {
+		n++;
+	}
+
+	return n;
+}
+
+signed int __fastcall PlaceOverlay(overlay *ovr, int left, int right, int userDemanded) {
+	if(    (ovr->locationType == LOCATION_HERO  || ovr->locationType == LOCATION_RANDOM_HERO)
+		&& CountHeroes(ovr->fullGridIconIndices[47] /7) >= 8) {
+			sprintf(gText, "Max heroes on map (%d) for color has been reached", 8);
+			ShowErrorMessage(gText);
+			return 0;
+	} else {
+		return PlaceOverlay_orig(ovr, left, right, userDemanded);
+	}
+}
 
 void __cdecl FillInOverlayTiles()
 {

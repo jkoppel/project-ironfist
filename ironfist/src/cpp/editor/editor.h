@@ -51,6 +51,9 @@ public:
 };
 
 extern editManager* gpEditManager;
+extern SMapHeader gpMapHeader;
+
+extern void __fastcall ShowErrorMessage(const char *str);
 
 #pragma pack(pop)
 

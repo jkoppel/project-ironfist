@@ -40,9 +40,6 @@ char *gArmyNames[MAX_CREATURES];
 char *gArmyNamesPlural[MAX_CREATURES];
 int gMonRandBound[MAX_CREATURES][2];
 
-//unsure what to do for this; leaving marker
-#define error_msg() ;
-
 struct attributeNameTableEntry{char* name; int flag;};
 
 attributeNameTableEntry creatureAttributeNameTable[] = {
@@ -68,7 +65,7 @@ void GrantCreatureAttribute(int id, const char* name) {
 		}
 	}
 
-	error_msg();
+	EarlyShutdown((char*)name, "Attempted to grant attribute that does not exist. Check creatures.xml .");
 }
 
 int CreatureHasAttribute(int id, const char* name) {
@@ -83,6 +80,10 @@ int CreatureHasAttribute(int id, const char* name) {
 
 char* GetCreatureName(int id) {
 	return gArmyNames[id];
+}
+
+char* GetCreaturePluralName(int id) {
+	return gArmyNamesPlural[id];
 }
 
 int GetNumCreatures() {
@@ -119,14 +120,18 @@ void LoadCreatures() {
 				for(creature_t::creature_attribute_const_iterator j = c.creature_attribute().begin();
 					j != c.creature_attribute().end();
 					j++) {
+						bool attr_found = false; 
 						for(int k = 0; k < ELEMENTS_IN(creatureAttributeNameTable); k++) {
 							if(strcmp(creatureAttributeNameTable[k].name,
 								 j->name().c_str())
 								== 0){
 									creature_flags |= creatureAttributeNameTable[k].flag;
+									attr_found = true;
 									break;
 							}
+						}
 
+						if(!attr_found) {
 							//Ironfist-only attribute; using general attribute engine
 							GrantCreatureAttribute(id, j->name().c_str());
 						}
@@ -151,7 +156,7 @@ void LoadCreatures() {
 				
 		}
 	} catch(const xml_schema::exception& e) {
-		error_msg();
+		EarlyShutdown("Startup Error", "Error loading creatures.xml. Try reinstalling Ironfist.");
 	}
 }
 

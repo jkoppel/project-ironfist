@@ -109,6 +109,7 @@ void __fastcall DeleteMainClasses() {
 
 extern int iCDRomErr;
 extern int gbNoCDRom;
+extern int gbNoSound;
 
 extern void __fastcall SetFullScreenStatus(int);
 extern void __fastcall ResizeWindow(int,int,int,int);
@@ -116,16 +117,21 @@ extern void __fastcall ResizeWindow(int,int,int,int);
 void __fastcall SetupCDRom() {
 	
 	/*
-	 * This is a work-around for the Windows Vista problem
-	 * where the game starts in a tiny window with no borders.
+	 * Previously, this contained a workaround for the problem
+	 * described in 
+	 * http://stackoverflow.com/questions/13541084/in-newer-windows-window-is-tiny-with-no-borders
+     * The workaround was to set the game to fullscreen and back.
 	 *
-	 * I don't know why, but I do know that changing to full-screen
-	 * and back causes the borders to appear, allowing the screen to be put in
-	 * a normal size. We do this for the user, causing longer load times
-	 * and some annoyance, but stopping it from appearing unusable.
+	 * This problem seems to have magically gone away, or
+	 * at least was never present on Windows 7 and 8. One
+	 * user also complained of frequent Ironfist crashes,
+	 * which went away when this was removed. Dr. Memory
+	 * reported that those lines did cause a memory error
+	 * down the stack.
 	 */
-	SetFullScreenStatus(1);
-	SetFullScreenStatus(0);
+
+	//This was part of the workaround; leaving in,
+	//because not yet tested that it can be removed
 	ResizeWindow(0,0,640,480);
 
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
@@ -133,8 +139,11 @@ void __fastcall SetupCDRom() {
 		SetPalette(gPalette->contents, 1);
 		gpMouseManager->ShowColorPointer();
 		gbNoCDRom = 1;
+		int oldNoSound = gbNoSound;
+		gbNoSound = 1;
 		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
 						"but otherwise, have fun!");
+		gbNoSound = oldNoSound;
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
 						"  Please run the installation program.");
