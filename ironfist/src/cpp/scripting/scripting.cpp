@@ -23,6 +23,8 @@ extern "C" {
 
 using namespace std;
 
+char *script_contents = NULL;
+
 bool scripting_on = false;
 lua_State* map_lua = NULL;
 map<pair<int, string>, const char* > *triggers;
@@ -236,6 +238,47 @@ void set_lua_globals(lua_State *L) {
 	set_scripting_consts(L);
 }
 
+void RunScript() {
+	if (script_contents != NULL) {
+		map_lua = luaL_newstate();
+		triggers = new map<pair<int, string>, const char* >;
+		scripting_on = true;
+
+		luaL_openlibs(map_lua);
+
+		set_lua_globals(map_lua);
+
+		luaL_dostring(map_lua, script_contents);
+	}
+}
+
+void LoadScript(char* script_filname) {
+	if (script_contents != NULL) {
+		free(script_contents);
+	}
+
+	script_contents = NULL;
+
+	FILE *fil = fopen(script_filname, "r");
+	if (fil != NULL) {
+		fseek(fil, 0, SEEK_END);
+		int length = ftell(fil);
+		fseek(fil, 0, SEEK_SET);
+		script_contents = (char*)calloc(length + 1, sizeof(char));
+		fread(script_contents, sizeof(char), length, fil);
+		fclose(fil);
+	}
+}
+
+void SetScript(const char *script) {
+	if (script_contents != NULL) {
+		free(script_contents);
+	}
+
+	script_contents = strdup(script);
+}
+
+
 void ScriptingInit(char* map_filnam) {
 	ScriptingShutdown();
 
@@ -246,18 +289,16 @@ void ScriptingInit(char* map_filnam) {
 	struct stat st;
 
 	if(stat(script_file, &st) == 0) { //script exists
-		map_lua = luaL_newstate();
-		triggers = new map<pair<int, string>, const char* >;
-		scripting_on = true;
-
-		luaL_openlibs(map_lua);
-
-		set_lua_globals(map_lua);
-
-		luaL_dofile(map_lua, script_file);
+		LoadScript(script_file);
+		RunScript();
 	}
 
 	free(script_file);
+}
+
+void ScriptingInitFromString(const char *script) {
+	SetScript(script);
+	RunScript();
 }
 
 void ScriptingShutdown() {
@@ -267,4 +308,13 @@ void ScriptingShutdown() {
 		delete triggers;
 		scripting_on = false;
 	}
+	
+	if (script_contents != NULL) {
+		free(script_contents);
+		script_contents = NULL;
+	}
+}
+
+char *GetScriptContents() {
+	return script_contents;
 }

@@ -4,6 +4,7 @@
 #include "game/game.h"
 
 #include "game/map_xml.hxx"
+#include "scripting/scripting.h"
 #include "spell/spells.h"
 
 #include<iostream>
@@ -377,6 +378,9 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			this->SetupAdjacentMons();
 			gpAdvManager->CheckSetEvilInterface(0, -1);
 
+			if (mp->script().present()) {
+				ScriptingInitFromString(mp->script().get().c_str());
+			}
 		} catch(xml_schema::exception& e) {
 			cerr << e << endl;
 			exit(0);
@@ -490,15 +494,20 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	ofstream os(v9);
 
-	xml_schema::namespace_infomap infomap;
-	infomap[""].name = "ironfist_map";
-	infomap[""].schema = "map_xml.xsd";
-
 	ironfist_map::map_t m(datbin);
 
 	for(int i = 0; i < ELEMENTS_IN(this->heroes); i++) {
 		m.hero().push_back(WriteHeroXML(&this->heroes[i]));
 	}
+
+	if (GetScriptContents() != NULL) {
+		m.script(GetScriptContents());
+	}
+
+	xml_schema::namespace_infomap infomap;
+	infomap[""].name = "ironfist_map";
+	infomap[""].schema = "map_xml.xsd";
+
 	ironfist_map::map(os, m, infomap);
 
 	return 1;

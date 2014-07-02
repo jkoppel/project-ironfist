@@ -1053,6 +1053,36 @@ namespace ironfist_map
     this->hero_ = s;
   }
 
+  const map_t::script_optional& map_t::
+  script () const
+  {
+    return this->script_;
+  }
+
+  map_t::script_optional& map_t::
+  script ()
+  {
+    return this->script_;
+  }
+
+  void map_t::
+  script (const script_type& x)
+  {
+    this->script_.set (x);
+  }
+
+  void map_t::
+  script (const script_optional& x)
+  {
+    this->script_ = x;
+  }
+
+  void map_t::
+  script (::std::auto_ptr< script_type > x)
+  {
+    this->script_.set (x);
+  }
+
   const map_t::raw_type& map_t::
   raw () const
   {
@@ -2589,6 +2619,7 @@ namespace ironfist_map
   map_t (const raw_type& raw)
   : ::xml_schema::type (),
     hero_ (::xml_schema::flags (), this),
+    script_ (::xml_schema::flags (), this),
     raw_ (raw, ::xml_schema::flags (), this)
   {
   }
@@ -2599,6 +2630,7 @@ namespace ironfist_map
          ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
     hero_ (x.hero_, f, this),
+    script_ (x.script_, f, this),
     raw_ (x.raw_, f, this)
   {
   }
@@ -2609,6 +2641,7 @@ namespace ironfist_map
          ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
     hero_ (f, this),
+    script_ (f, this),
     raw_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -2637,6 +2670,20 @@ namespace ironfist_map
 
         this->hero_.push_back (r);
         continue;
+      }
+
+      // script
+      //
+      if (n.name () == "script" && n.namespace_ () == "ironfist_map")
+      {
+        ::std::auto_ptr< script_type > r (
+          script_traits::create (i, f, this));
+
+        if (!this->script_)
+        {
+          this->script_.set (r);
+          continue;
+        }
       }
 
       // raw
@@ -3967,6 +4014,286 @@ namespace ironfist_map
       "army",
       "ironfist_map");
   }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::std::string& u,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::xml_schema::string > r (
+      ::ironfist_map::script (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::std::string& u,
+          ::xml_schema::error_handler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::xml_schema::string > r (
+      ::ironfist_map::script (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::std::string& u,
+          ::xercesc::DOMErrorHandler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::xml_schema::string > r (
+      ::ironfist_map::script (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_map::script (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          ::xml_schema::error_handler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_map::script (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          ::xercesc::DOMErrorHandler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_map::script (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          const ::std::string& sid,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_map::script (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          const ::std::string& sid,
+          ::xml_schema::error_handler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_map::script (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          const ::std::string& sid,
+          ::xercesc::DOMErrorHandler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_map::script (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xercesc::InputSource& i,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::xml_schema::string > r (
+      ::ironfist_map::script (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xercesc::InputSource& i,
+          ::xml_schema::error_handler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::xml_schema::string > r (
+      ::ironfist_map::script (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xercesc::InputSource& i,
+          ::xercesc::DOMErrorHandler& h,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::xml_schema::string > r (
+      ::ironfist_map::script (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::xercesc::DOMDocument& d,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties& p)
+  {
+    if (f & ::xml_schema::flags::keep_dom)
+    {
+      ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+        static_cast< ::xercesc::DOMDocument* > (d.cloneNode (true)));
+
+      ::std::auto_ptr< ::xml_schema::string > r (
+        ::ironfist_map::script (
+          c, f | ::xml_schema::flags::own_dom, p));
+
+      return r;
+    }
+
+    const ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "script" &&
+        n.namespace_ () == "ironfist_map")
+    {
+      ::std::auto_ptr< ::xml_schema::string > r (
+        ::xsd::cxx::tree::traits< ::xml_schema::string, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "script",
+      "ironfist_map");
+  }
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+          ::xml_schema::flags f,
+          const ::xml_schema::properties&)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+      ((f & ::xml_schema::flags::keep_dom) &&
+       !(f & ::xml_schema::flags::own_dom))
+      ? static_cast< ::xercesc::DOMDocument* > (d->cloneNode (true))
+      : 0);
+
+    ::xercesc::DOMDocument& doc (c.get () ? *c : *d);
+    const ::xercesc::DOMElement& e (*doc.getDocumentElement ());
+
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (f & ::xml_schema::flags::keep_dom)
+      doc.setUserData (::xml_schema::dom::tree_node_key,
+                       (c.get () ? &c : &d),
+                       0);
+
+    if (n.name () == "script" &&
+        n.namespace_ () == "ironfist_map")
+    {
+      ::std::auto_ptr< ::xml_schema::string > r (
+        ::xsd::cxx::tree::traits< ::xml_schema::string, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "script",
+      "ironfist_map");
+  }
 }
 
 #include <ostream>
@@ -4611,6 +4938,19 @@ namespace ironfist_map
       s << *b;
     }
 
+    // script
+    //
+    if (i.script ())
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "script",
+          "ironfist_map",
+          e));
+
+      s << *i.script ();
+    }
+
     // raw
     //
     {
@@ -5213,6 +5553,154 @@ namespace ironfist_map
         m, f));
 
     ::ironfist_map::army (*d, s, f);
+    return d;
+  }
+
+  void
+  script (::std::ostream& o,
+          const ::xml_schema::string& s,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::script (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  script (::std::ostream& o,
+          const ::xml_schema::string& s,
+          ::xml_schema::error_handler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::script (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  script (::std::ostream& o,
+          const ::xml_schema::string& s,
+          ::xercesc::DOMErrorHandler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::script (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  script (::xercesc::XMLFormatTarget& t,
+          const ::xml_schema::string& s,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::script (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  script (::xercesc::XMLFormatTarget& t,
+          const ::xml_schema::string& s,
+          ::xml_schema::error_handler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::script (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  script (::xercesc::XMLFormatTarget& t,
+          const ::xml_schema::string& s,
+          ::xercesc::DOMErrorHandler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::script (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  script (::xercesc::DOMDocument& d,
+          const ::xml_schema::string& s,
+          ::xml_schema::flags)
+  {
+    ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "script" &&
+        n.namespace_ () == "ironfist_map")
+    {
+      e << s;
+    }
+    else
+    {
+      throw ::xsd::cxx::tree::unexpected_element < char > (
+        n.name (),
+        n.namespace_ (),
+        "script",
+        "ironfist_map");
+    }
+  }
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+  script (const ::xml_schema::string& s,
+          const ::xml_schema::namespace_infomap& m,
+          ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::serialize< char > (
+        "script",
+        "ironfist_map",
+        m, f));
+
+    ::ironfist_map::script (*d, s, f);
     return d;
   }
 

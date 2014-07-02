@@ -31,8 +31,8 @@
 // in the accompanying FLOSSE file.
 //
 
-#ifndef C__DOCUMENTS_AND_SETTINGS_JAMES_KOPPEL_MY_DOCUMENTS_DROPBOX_IRONFIST_HG_GAME_CREATION_IRONFIST_XML_MAP_XML_HXX
-#define C__DOCUMENTS_AND_SETTINGS_JAMES_KOPPEL_MY_DOCUMENTS_DROPBOX_IRONFIST_HG_GAME_CREATION_IRONFIST_XML_MAP_XML_HXX
+#ifndef MAP_XML_HXX
+#define MAP_XML_HXX
 
 // Begin prologue.
 //
@@ -1304,6 +1304,27 @@ namespace ironfist_map
     void
     hero (const hero_sequence& s);
 
+    // script
+    // 
+    typedef ::xml_schema::string script_type;
+    typedef ::xsd::cxx::tree::optional< script_type > script_optional;
+    typedef ::xsd::cxx::tree::traits< script_type, char > script_traits;
+
+    const script_optional&
+    script () const;
+
+    script_optional&
+    script ();
+
+    void
+    script (const script_type& x);
+
+    void
+    script (const script_optional& x);
+
+    void
+    script (::std::auto_ptr< script_type > p);
+
     // raw
     // 
     typedef ::xml_schema::base64_binary raw_type;
@@ -1349,6 +1370,7 @@ namespace ironfist_map
 
     protected:
     hero_sequence hero_;
+    script_optional script_;
     ::xsd::cxx::tree::one< raw_type > raw_;
   };
 
@@ -1886,6 +1908,99 @@ namespace ironfist_map
   army (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse a URI or a local file.
+  //
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::std::string& uri,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::std::string& uri,
+          ::xml_schema::error_handler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::std::string& uri,
+          ::xercesc::DOMErrorHandler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse std::istream.
+  //
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          ::xml_schema::error_handler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          ::xercesc::DOMErrorHandler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          const ::std::string& id,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          const ::std::string& id,
+          ::xml_schema::error_handler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::std::istream& is,
+          const ::std::string& id,
+          ::xercesc::DOMErrorHandler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse xercesc::InputSource.
+  //
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xercesc::InputSource& is,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xercesc::InputSource& is,
+          ::xml_schema::error_handler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xercesc::InputSource& is,
+          ::xercesc::DOMErrorHandler& eh,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse xercesc::DOMDocument.
+  //
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (const ::xercesc::DOMDocument& d,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::xml_schema::string >
+  script (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+          ::xml_schema::flags f = 0,
+          const ::xml_schema::properties& p = ::xml_schema::properties ());
 }
 
 #include <iosfwd>
@@ -2182,6 +2297,74 @@ namespace ironfist_map
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         ::xml_schema::flags f = 0);
 
+  // Serialize to std::ostream.
+  //
+
+  void
+  script (::std::ostream& os,
+          const ::xml_schema::string& x, 
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+  void
+  script (::std::ostream& os,
+          const ::xml_schema::string& x, 
+          ::xml_schema::error_handler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+  void
+  script (::std::ostream& os,
+          const ::xml_schema::string& x, 
+          ::xercesc::DOMErrorHandler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+  // Serialize to xercesc::XMLFormatTarget.
+  //
+
+  void
+  script (::xercesc::XMLFormatTarget& ft,
+          const ::xml_schema::string& x, 
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+  void
+  script (::xercesc::XMLFormatTarget& ft,
+          const ::xml_schema::string& x, 
+          ::xml_schema::error_handler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+  void
+  script (::xercesc::XMLFormatTarget& ft,
+          const ::xml_schema::string& x, 
+          ::xercesc::DOMErrorHandler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+  // Serialize to an existing xercesc::DOMDocument.
+  //
+
+  void
+  script (::xercesc::DOMDocument& d,
+          const ::xml_schema::string& x,
+          ::xml_schema::flags f = 0);
+
+  // Serialize to a new xercesc::DOMDocument.
+  //
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+  script (const ::xml_schema::string& x, 
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          ::xml_schema::flags f = 0);
+
   void
   operator<< (::xercesc::DOMElement&, const secondarySkill&);
 
@@ -2196,4 +2379,4 @@ namespace ironfist_map
 //
 // End epilogue.
 
-#endif // C__DOCUMENTS_AND_SETTINGS_JAMES_KOPPEL_MY_DOCUMENTS_DROPBOX_IRONFIST_HG_GAME_CREATION_IRONFIST_XML_MAP_XML_HXX
+#endif // MAP_XML_HXX
