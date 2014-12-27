@@ -4,42 +4,7 @@
 
 #include "adventure/map.h"
 #include "editor/editor.h"
-
-#define NUM_OVERLAYS 964
-#define NUM_TILESETS 64
-
-#pragma pack(push, 1)
-struct overlay
-{
-  int idx;
-  int idx2;
-  int ordinal;&
-  char tileset;
-  char category;
-  __int16 field_E;
-  char field_10;
-  __int64 intersectsTileMask;
-  int terrainObjCategoryMask;
-  int allowedTerrainPlacementMask;
-  __int64 coveredNonObstructedMask;
-  __int64 shadowsMask;
-  __int64 field_31;
-  __int64 field_39;
-  char field_41;
-  char field_42;
-  __int64 interactionPointMask;
-  char field_4B;
-  char locationType;
-  char field_4D;
-  int field_4E;
-  char fullGridIconIndices[48];
-};
-#pragma pack(pop)
-
-extern signed int __fastcall OverlayMaskBitSet(__int64 *mask, int x, int y);
-overlay gOverlayDatabase[];
-
-extern signed int __fastcall PlaceOverlay_orig(overlay *ovr, int left, int right, int userDemanded);
+#include "editor/overlay.h"
 
 int NumTownsOfColor(int color) {
 	int n = 0;
@@ -143,6 +108,458 @@ void __cdecl FillInOverlayTiles()
     }
     ovr->field_4D = v9;
   }
+}
+
+int __fastcall PlaceOverlay(overlay *ovr, int left, int right, int userDemanded) {
+  if (userDemanded) {
+    ++dword_48EDC0;
+  }
+
+  if (!ValidOverlayPlacement(ovr, left, right, 1)) {
+    LogStr("Invalid Placement");
+    ShowErrorMessage("Invalid Placement");
+	return 0;
+  }
+  
+  sub_420CD0(ovr, left, right);
+
+  if (ovr->category == OVERLAY_CATEGORY_TOWN && CountTowns() >= MAX_TOWNS) {
+    sprintf(gText, "Max towns on map (%d) has been reached.", MAX_TOWNS);
+    ShowErrorMessage(gText);
+	return 0;
+  }
+
+  if (ovr->locationType == LOCATION_EVENT && CountPlacedEvents() >= MAX_PLACED_EVENTS) {
+    sprintf(gText, "Max map events (%d) has been reached.", MAX_PLACED_EVENTS);
+    ShowErrorMessage(gText);
+  }
+
+  if (ovr->locationType & 0x7F == 44) {
+	  for (int x = 0; x < MAP_WIDTH; x++) {
+		  for (int y = 0; y < MAP_WIDTH; y++) {
+			  if ((*(&gpMap.tiles[x].objType + 20 * y * gpMap.width) & 0x7F) == 44) {
+				  sprintf(gText, "The ultimate artifact has already been placed.");
+				  ShowErrorMessage(gText);
+				  return 0;
+			  }
+		  }
+	  }
+	  v28 = right + 5;
+
+  }
+}
+
+int __fastcall PlaceOverlay(overlay *ovr, int left, int right, int userDemanded)
+{
+
+
+        if ( (ovr->locationType & 0x7F) != 44 )
+          goto LABEL_212;
+        if ( left + 7 >= 9 && MAP_WIDTH - 10 >= left + 7 && v28 >= 9 && MAP_HEIGHT - 10 >= v28 )
+        {
+LABEL_212:
+          if ( ovr->locationType != LOCATION_ABANDONED_MINE
+            && ovr->locationType != LOCATION_MINE
+            && ovr->locationType != LOCATION_SAWMILL
+            && ovr->locationType != LOCATION_ALCHEMIST_LAB
+            && ovr->locationType != 50
+            && ovr->locationType != LOCATION_DRAGON_CITY
+            && ovr->locationType != LOCATION_LIGHTHOUSE
+            || CountMines() < 144 )
+          {
+            if ( ovr->category == OVERLAY_CATEGORY_TOWN )
+            {
+              if ( ovr->idx < 835 || ovr->idx > 918 )
+                v27 = (((unsigned __int64)(ovr->idx - 939) >> 32) ^ (((unsigned __int8)((unsigned __int64)(ovr->idx - 939) >> 32) ^ (unsigned __int8)(LOBYTE(ovr->idx) + 85))
+                                                                   - (unsigned __int8)((unsigned __int64)(ovr->idx - 939) >> 32)) & 1)
+                    - ((unsigned __int64)(ovr->idx - 939) >> 32)
+                    + 941;
+              else
+                v27 = (ovr->idx - 835) % 12 + 919;
+              v5 = (unsigned __int8)gTileTerrainTypes[*(__int16 *)((char *)&gpMap.tiles[(right + 5) * gpMap.width].groundIndex
+                                                                 + 5 * (4 * left + 20))]
+                 + 930;
+              PlaceOverlay(&gOverlayDatabase[v27], left, right, 0);
+              PlaceOverlay(&gOverlayDatabase[v5], left, right, 0);
+            }
+            for ( ya = 0; ya < 6; ++ya )
+            {
+              for ( xa = 0; xa < 8; ++xa )
+              {
+                if ( left + xa >= 0 )
+                {
+                  if ( left + xa < MAP_WIDTH )
+                  {
+                    if ( right + ya >= 0 )
+                    {
+                      if ( right + ya < MAP_HEIGHT )
+                      {
+                        v32 = xa + 8 * ya;
+                        v29 = &gpMap.tiles[(right + ya) * gpMap.width] + left + xa;
+                        if ( ovr->fullGridIconIndices[v32] != 255 )
+                        {
+                          if ( OverlayMaskBitSet(&ovr->coveredNonObstructedMask, xa, ya) )
+                          {
+                            if ( v29->overlayIndex == 255 )
+                            {
+                              v29->ovrLink = dword_48EDC0;
+                              v29->overlayIndex = ovr->fullGridIconIndices[v32];
+                              v29->field__1_hasOverlay_1_q_6_overlayTileset = v29->field__1_hasOverlay_1_q_6_overlayTileset & 3 | 4 * ovr->tileset;
+                              if ( ya >= 4
+                                || !OverlayMaskBitSet(&ovr->intersectsTileMask, xa, ya + 1)
+                                || ovr->locationType == 18 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya + 1)
+                                || OverlayMaskBitSet(&ovr->shadowsMask, xa, ya + 1) )
+                                v29->field__1_hasOverlay_1_q_6_overlayTileset &= 0xFDu;
+                              else
+                                v29->field__1_hasOverlay_1_q_6_overlayTileset |= 2u;
+                              if ( OverlayMaskBitSet(&ovr->field_31, xa, ya) )
+                                v29->field__1_hasOverlay_1_q_6_overlayTileset |= 1u;
+                              else
+                                v29->field__1_hasOverlay_1_q_6_overlayTileset &= 0xFEu;
+                            }
+                            else
+                            {
+                              v39 = fullMap::GetNewCellExtraOverlay(&gpMap, left + xa, right + ya);
+                              *(_DWORD *)(v39 + 11) = dword_48EDC0;
+                              *(_BYTE *)(v39 + 6) = ovr->fullGridIconIndices[v32];
+                              *(_BYTE *)(v39 + 5) = *(_BYTE *)(v39 + 5) & 3 | 4 * ovr->tileset;
+                              if ( ya >= 4
+                                || !OverlayMaskBitSet(&ovr->intersectsTileMask, xa, ya + 1)
+                                || ovr->locationType == 18 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya + 1)
+                                || OverlayMaskBitSet(&ovr->shadowsMask, xa, ya + 1) )
+                                *(_BYTE *)(v39 + 5) &= 0xFDu;
+                              else
+                                *(_BYTE *)(v39 + 5) |= 2u;
+                              if ( OverlayMaskBitSet(&ovr->field_31, xa, ya) )
+                                *(_BYTE *)(v39 + 5) |= 1u;
+                              else
+                                *(_BYTE *)(v39 + 5) &= 0xFEu;
+                            }
+                          }
+                          else
+                          {
+                            if ( v29->objectIndex != 255
+                              && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya)
+                              && ovr->locationType != LOCATION_MINE )
+                              fullMap::MoveInfoToCellExtra(&gpMap, left + xa, right + ya);
+                            if ( v29->objectIndex == 255 )
+                            {
+                              if ( byte_469268[v29->groundIndex] & 0x80 )
+                                v29->groundIndex = sub_4098F8(
+                                                     (unsigned __int8)gTileTerrainTypes[v29->groundIndex],
+                                                     (unsigned __int8)byte_469268[v29->groundIndex] - 128,
+                                                     0,
+                                                     0,
+                                                     0,
+                                                     0,
+                                                     1.0);
+                              v29->objLink = dword_48EDC0;
+                              v29->objectIndex = ovr->fullGridIconIndices[v32];
+                              v29->bitfield_1_hasObject_1_isRoad_6_objTileset = v29->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 4 * ovr->tileset;
+                              if ( OverlayMaskBitSet(&ovr->shadowsMask, xa, ya) )
+                                v29->objType = 0;
+                              else
+                                v29->objType = ovr->locationType;
+                              if ( OverlayMaskBitSet(&ovr->shadowsMask, xa, ya) )
+                              {
+                                v6 = v29->field_4_1_1_isShadow_1_13_extraInfo;
+                                LOBYTE(v6) = v6 | 2;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v6;
+                              }
+                              else
+                              {
+                                v29->field_4_1_1_isShadow_1_13_extraInfo &= 0xFFFDu;
+                              }
+                              if ( ya >= 5
+                                || ovr->field_4B
+                                || OverlayMaskBitSet(&ovr->shadowsMask, xa, ya)
+                                || !OverlayMaskBitSet(&ovr->intersectsTileMask, xa, ya + 1)
+                                || OverlayMaskBitSet(&ovr->shadowsMask, xa, ya + 1) )
+                              {
+                                v29->field_4_1_1_isShadow_1_13_extraInfo &= 0xFFFBu;
+                              }
+                              else
+                              {
+                                v7 = v29->field_4_1_1_isShadow_1_13_extraInfo;
+                                LOBYTE(v7) = v7 | 4;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v7;
+                              }
+                              if ( ovr->field_4B )
+                              {
+                                v8 = v29->field_4_1_1_isShadow_1_13_extraInfo;
+                                LOBYTE(v8) = v8 | 1;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v8;
+                              }
+                              else
+                              {
+                                v29->field_4_1_1_isShadow_1_13_extraInfo &= 0xFFFEu;
+                              }
+                              if ( OverlayMaskBitSet(&ovr->field_31, xa, ya) )
+                                v29->bitfield_1_hasObject_1_isRoad_6_objTileset |= 1u;
+                              else
+                                v29->bitfield_1_hasObject_1_isRoad_6_objTileset &= 0xFEu;
+                            }
+                            else
+                            {
+                              v40 = (mapCellExtra *)fullMap::GetNewCellExtraObject((int)&gpMap, left + xa, right + ya);
+                              v40->field_7 = dword_48EDC0;
+                              v40->field_3 = ovr->fullGridIconIndices[v32];
+                              v40->field_2_1_7 = v40->field_2_1_7 & 1 | 2 * ovr->tileset;
+                              if ( OverlayMaskBitSet(&ovr->shadowsMask, xa, ya) )
+                                v40->field_4_1_1_1_5 |= 2u;
+                              else
+                                v40->field_4_1_1_1_5 &= 0xFDu;
+                              if ( ya >= 5
+                                || ovr->field_4B
+                                || OverlayMaskBitSet(&ovr->shadowsMask, xa, ya)
+                                || !OverlayMaskBitSet(&ovr->intersectsTileMask, xa, ya + 1)
+                                || OverlayMaskBitSet(&ovr->shadowsMask, xa, ya + 1) )
+                                v40->field_4_1_1_1_5 &= 0xFBu;
+                              else
+                                v40->field_4_1_1_1_5 |= 4u;
+                              if ( ovr->field_4B )
+                                v40->field_4_1_1_1_5 |= 1u;
+                              else
+                                v40->field_4_1_1_1_5 &= 0xFEu;
+                              if ( OverlayMaskBitSet(&ovr->field_31, xa, ya) )
+                                v40->field_2_1_7 |= 1u;
+                              else
+                                v40->field_2_1_7 &= 0xFEu;
+                            }
+                          }
+                          if ( OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) && ovr->locationType == 23 )
+                            v29->objType = 23;
+                          if ( OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                            v29->objType |= 0x80u;
+                          if ( (v29->objType == 163 || v29->objType == 176 || v29->objType == 177)
+                            && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                          {
+                            Dst = BaseAlloc(0x46u, (int)"F:\\h2xsrc\\Editor\\OVERLAY.CPP", 965);
+                            memset(Dst, 0, 0x46u);
+                            v29->field_4_1_1_isShadow_1_13_extraInfo = v29->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * gpEditManager->nMapExtra;
+                            gpEditManager->mapExtra[gpEditManager->nMapExtra] = Dst;
+                            gpMapHeader.field_38 = ((unsigned __int8)gpMapHeader.field_38 + 1) % 72;
+                            strcpy((char *)Dst + 25, gpTownNames[(unsigned __int8)gpMapHeader.field_38]);
+                            if ( ovr->field_41 == 6 )
+                              *(_BYTE *)Dst = -1;
+                            else
+                              *(_BYTE *)Dst = ovr->field_41;
+                            if ( ovr->idx < 939 || ovr->idx > 954 )
+                            {
+                              *((_BYTE *)Dst + 38) = (ovr->idx - 835) % 12 / 2;
+                              *((_BYTE *)Dst + 39) = 1
+                                                   - ((((unsigned __int64)(ovr->idx - 835) >> 32) ^ abs(LOBYTE(ovr->idx) - 67) & 1)
+                                                    - ((unsigned __int64)(ovr->idx - 835) >> 32));
+                            }
+                            else
+                            {
+                              *((_BYTE *)Dst + 38) = 6;
+                              *((_BYTE *)Dst + 39) = 1
+                                                   - ((((unsigned __int64)(ovr->idx - 939) >> 32) ^ ((((unsigned __int64)(ovr->idx - 939) >> 32) ^ (unsigned __int8)(LOBYTE(ovr->idx) + 85)) - ((unsigned __int64)(ovr->idx - 939) >> 32)) & 1)
+                                                    - ((unsigned __int64)(ovr->idx - 939) >> 32));
+                            }
+                            gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = 70;
+                          }
+                          if ( (v29->objType == 130 || v29->objType == 221)
+                            && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                          {
+                            v9 = BaseAlloc(0xAu, (int)"F:\\h2xsrc\\Editor\\OVERLAY.CPP", 1000);
+                            memset(v9, 0, 0xAu);
+                            *(_BYTE *)v9 = 1;
+                            v29->field_4_1_1_isShadow_1_13_extraInfo = v29->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * gpEditManager->nMapExtra;
+                            gpEditManager->mapExtra[gpEditManager->nMapExtra] = v9;
+                            gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = 10;
+                          }
+                          if ( v29->objType == 147 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                          {
+                            v25 = BaseAlloc(0x32u, (int)"F:\\h2xsrc\\Editor\\OVERLAY.CPP", 1017);
+                            memset(v25, 0, 0x32u);
+                            *(_BYTE *)v25 = 1;
+                            *(_WORD *)((char *)v25 + 29) = -1;
+                            *((_BYTE *)v25 + 32) = 1;
+                            for ( i = 0; i < 6; ++i )
+                              *((_BYTE *)v25 + i + 43) = 1;
+                            v29->field_4_1_1_isShadow_1_13_extraInfo = v29->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * gpEditManager->nMapExtra;
+                            gpEditManager->mapExtra[gpEditManager->nMapExtra] = v25;
+                            gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = 50;
+                          }
+                          if ( v29->objType == 207 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                          {
+                            v10 = BaseAlloc(0x89u, (int)"F:\\h2xsrc\\Editor\\OVERLAY.CPP", 1037);
+                            memset(v10, 0, 0x89u);
+                            *(_WORD *)((char *)v10 + 29) = -1;
+                            v29->field_4_1_1_isShadow_1_13_extraInfo = v29->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * gpEditManager->nMapExtra;
+                            gpEditManager->mapExtra[gpEditManager->nMapExtra] = v10;
+                            gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = 137;
+                          }
+                          if ( (v29->objType == 183 || v29->objType == 251)
+                            && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                          {
+                            heroMapExtra = (heroMapExtra *)BaseAlloc(
+                                                             sizeof(heroMapExtra),
+                                                             (int)"F:\\h2xsrc\\Editor\\OVERLAY.CPP",
+                                                             1058);
+                            memset(heroMapExtra, 0, sizeof(heroMapExtra));
+                            for ( j = 0; j < 5; ++j )
+                              heroMapExtra->army.creatureTypes[j] = -1;
+                            for ( k = 0; k < 3; ++k )
+                              heroMapExtra->artifacts[k] = -1;
+                            for ( l = 0; l < 8; ++l )
+                              heroMapExtra->secondarySkills[l] = -1;
+                            if ( v29->objType == 251 )
+                              faction = 0;
+                            else
+                              faction = v29->objectIndex % 7;
+                            if ( !faction )
+                            {
+                              heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_LEADERSHIP;
+                              heroMapExtra->firstSecondarySkillLevel = 1;
+                              heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_BALLISTICS;
+                              heroMapExtra->secondSecondarySkillLevel = 1;
+                            }
+                            if ( faction == FACTION_SORCERESS )
+                            {
+                              heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NAVIGATION;
+                              heroMapExtra->firstSecondarySkillLevel = 2;
+                              heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
+                              heroMapExtra->secondSecondarySkillLevel = 1;
+                            }
+                            if ( faction == FACTION_BARBARIAN )
+                            {
+                              heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_PATHFINDING;
+                              heroMapExtra->firstSecondarySkillLevel = 2;
+                            }
+                            if ( faction == FACTION_WARLOCK )
+                            {
+                              heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_SCOUTING;
+                              heroMapExtra->firstSecondarySkillLevel = 2;
+                              heroMapExtra->secondarySkills[1] = 7;
+                              heroMapExtra->secondSecondarySkillLevel = 1;
+                            }
+                            if ( faction == FACTION_WIZARD )
+                            {
+                              heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_WISDOM;
+                              heroMapExtra->firstSecondarySkillLevel = 2;
+                            }
+                            if ( faction == FACTION_NECROMANCER )
+                            {
+                              heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NECROMANCY;
+                              heroMapExtra->firstSecondarySkillLevel = 1;
+                              heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
+                              heroMapExtra->secondSecondarySkillLevel = 1;
+                            }
+                            v29->field_4_1_1_isShadow_1_13_extraInfo = v29->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * gpEditManager->nMapExtra;
+                            gpEditManager->mapExtra[gpEditManager->nMapExtra] = heroMapExtra;
+                            gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = sizeof(heroMapExtra);
+                          }
+                          if ( v29->objType == 169 && (v29->objectIndex & 0xFE) == 172 )
+                            v29->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+                          if ( v29->objType == 250 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                          {
+                            switch ( ovr->idx )
+                            {
+                              case 0x316:
+                                v29->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+                                break;
+                              case 0x317:
+                                v11 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v11) = v11 | 8;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v11;
+                                break;
+                              case 0x31D:
+                                v12 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v12) = v12 | 0x10;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v12;
+                                break;
+                              case 0x31E:
+                                v13 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v13) = v13 | 0x18;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v13;
+                                break;
+                              case 0x32F:
+                                v14 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v14) = v14 | 0x20;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v14;
+                                break;
+                              case 0x331:
+                                v15 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v15) = v15 | 0x28;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v15;
+                                break;
+                              case 0x332:
+                                v16 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v16) = v16 | 0x30;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v16;
+                                break;
+                              default:
+                                break;
+                            }
+                          }
+                          if ( v29->objType == 249 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                          {
+                            switch ( ovr->idx )
+                            {
+                              case 792:
+                                v29->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+                                break;
+                              case 793:
+                                v17 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v17) = v17 | 8;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v17;
+                                break;
+                              case 794:
+                                v18 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v18) = v18 | 0x10;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v18;
+                                break;
+                              case 795:
+                                v19 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v19) = v19 | 0x18;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v19;
+                                break;
+                              case 796:
+                                v20 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                                LOBYTE(v20) = v20 | 0x20;
+                                v29->field_4_1_1_isShadow_1_13_extraInfo = v20;
+                                break;
+                              default:
+                                break;
+                            }
+                          }
+                          if ( v29->objType == 247 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                            v29->field_4_1_1_isShadow_1_13_extraInfo = v29->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(ovr->idx) - 799);
+                          if ( v29->objType == 248 && OverlayMaskBitSet(&ovr->interactionPointMask, xa, ya) )
+                            v29->field_4_1_1_isShadow_1_13_extraInfo = v29->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(ovr->idx) - 807);
+                          if ( OverlayMaskBitSet(&ovr->field_39, xa, ya) )
+                            sub_4224B9(&gOverlayDatabase[ovr->field_41 + 128], left + xa, right + ya, 0);
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+            if ( ovr->category == OVERLAY_CATEGORY_TOWN )
+            {
+              PlaceOverlay(&gOverlayDatabase[2 * ovr->field_41 + 134], left - 3, right - 1, 0);
+              PlaceOverlay(&gOverlayDatabase[2 * ovr->field_41 + 135], left - 1, right - 1, 0);
+            }
+            result = 1;
+          }
+          else
+          {
+            sprintf((char *)&gText, "Max mines, sawmills and alchemists on map (%d) has been reached.", 144);
+            ShowErrorMessage((const char *)&gText);
+            result = 0;
+          }
+        }
+        else
+        {
+          sprintf((char *)&gText, "The ultimate artifact must be placed at least 9 squares in from map edge.");
+          ShowErrorMessage((const char *)&gText);
+          result = 0;
+        }
+  return result;
 }
 
 overlay gOverlayDatabase[NUM_OVERLAYS] =
