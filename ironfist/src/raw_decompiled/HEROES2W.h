@@ -689,15 +689,14 @@ struct combatManager
   int heroSpellpowers[2];
   armyGroup *armies[2];
   int shadedHex;
-  char field_339D[2];
-  char field_339F[2];
-  char field_33A1;
-  char field_33A2;
+  char shouldDoHeroFidget1[2];
+  char shouldDoHeroFidget2[2];
+  char field_33A1[2];
   char field_33A3[2];
-  int heroIconIdxRelated[2];
-  int countRelatedToSpellAnimation[2];
+  int heroAnimationType[2];
+  int heroAnimationFrameCount[2];
   int heroType[2];
-  int field_33BD[2];
+  int lastHeroAnimationCompleteTime[2];
   icon *heroIcon[2];
   icon *heroFlagIcon[2];
   int heroFlagIconIdx[2];
@@ -751,8 +750,7 @@ struct combatManager
   int field_F373;
   int field_F377[2];
   signed int limitCreature[2][20];
-  int field_F41F;
-  int field_F423;
+  int field_F41F[2];
   int field_F427[2];
   int field_F42F;
   char _14[160];
@@ -2985,6 +2983,20 @@ struct heroMapExtra
   char field_49;
   char field_4A;
   char field_4B;
+};
+#pragma pack(pop)
+
+/*  171 */
+#pragma pack(push, 1)
+struct SCmbtHero
+{
+  __int16 castXOff;
+  __int16 castLowXOff;
+  __int16 castYOff;
+  __int16 castLowYOff;
+  char numFidgets;
+  char animationLength[12];
+  char frameIndex[12][9];
 };
 #pragma pack(pop)
 
