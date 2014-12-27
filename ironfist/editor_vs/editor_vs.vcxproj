@@ -148,6 +148,7 @@
     <ClInclude Include="..\src\cpp\driver.h" />
     <ClInclude Include="..\src\cpp\editor\editor.h" />
     <ClInclude Include="..\src\cpp\editor\events.h" />
+    <ClInclude Include="..\src\cpp\editor\overlay.h" />
     <ClInclude Include="..\src\cpp\editor\resource.h" />
     <ClInclude Include="..\src\cpp\gui\dialog.h" />
     <ClInclude Include="..\src\cpp\gui\gui.h" />
