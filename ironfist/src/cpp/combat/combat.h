@@ -246,6 +246,9 @@ public:
 
   int FindResurrectArmyIndex(int side, int spell, int hex);
   void Resurrect(int spell, int hex, int spellpower);
+
+  virtual int Open(int);
+  int Open_orig(int);
 };
 
 extern combatManager* gpCombatManager;

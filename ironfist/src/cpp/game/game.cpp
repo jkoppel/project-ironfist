@@ -6,6 +6,9 @@
 #include "scripting/hook.h"
 #include "scripting/scripting.h"
 
+char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
+                             "Multiple", "Random", NULL, NULL, NULL, NULL,
+                             "Cyborg"};
 
 int game::GetRandomNumTroops(int creat) {
 	return Random(gMonRandBound[creat][0], gMonRandBound[creat][1]);
@@ -16,6 +19,7 @@ extern int gbNoCDRom;
 
 int game::SetupGame() {
 	int oldNoCDRom = gbNoCDRom;
+	gbNoCDRom = 0;
 	int res = this->SetupGame_orig();
 	gbNoCDRom = oldNoCDRom;
 	return res;

@@ -103,6 +103,12 @@ IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1
 ?InitNonVisualVars@combatManager@@QAEXXZ_clone EQU ?InitNonVisualVars_orig@combatManager@@QAEXXZ
 IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
 ?MoveAttack@army@@QAEXHH@Z_clone EQU ?MoveAttack_orig@army@@QAEXHH@Z
+IMPORT_?sElevationOverlay@@3PAUSElevationOverlay@@A = 1
+
+;;heroes
+IMPORT_?cHeroTypeInitial@@3PADA = 1
+IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
+IMPORT_?gAlignmentNames@@3PAPADA = 1
 
 ;;saving
 IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
@@ -137,3 +143,7 @@ IMPORT_?Open@advManager@@UAEHH@Z = 1
 ?Open@advManager@@UAEHH@Z_clone EQU ?Open_orig@advManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@townManager@@UAEHH@Z = 1
 ?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
+
+
+IMPORT_?Open@combatManager@@UAEHH@Z = 1
+?Open@combatManager@@UAEHH@Z_clone EQU ?Open_orig@combatManager@@QAEHH@Z

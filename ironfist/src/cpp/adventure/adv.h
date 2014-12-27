@@ -1,5 +1,5 @@
-#ifndef TIED_ADV_H
-#define TIED_ADV_H
+#ifndef ADV_H
+#define ADV_H
 
 #include "gui/gui.h"
 
@@ -139,6 +139,8 @@ public:
 
   void Clear();
 };
+
+char cHeroTypeInial[];
 
 class advManager : public baseManager {
 public:

@@ -10,6 +10,10 @@
 #include<io.h>
 #include<stddef.h>
 
+char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
+	                        '\0','\0','\0','\0','\0','\0',
+                            'c'};
+
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();

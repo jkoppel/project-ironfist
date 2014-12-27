@@ -3,6 +3,9 @@
 
 #include "adventure/adv.h"
 
+#define MAX_TOWNS 72
+#define MAX_PLACED_EVENTS 50
+
 #pragma pack(push, 1)
 
 struct mapCell
@@ -71,7 +74,7 @@ struct SMapHeader {
 	int field_32;
 	char field_36;
 	char field_37;
-	char field_38;
+	char numCastles;
 	char field_39;
 	char name[60];
 	char description[298];

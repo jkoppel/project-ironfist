@@ -14,6 +14,7 @@ extern int gbHumanPlayer[];
 
 #pragma pack(push,1)
 
+extern char* gAlignmentNames[];
 
 #define BUILDING_RIGHT_TURRET_BUILT     0x1
 #define BUILDING_LEFT_TURRET_BUILT      0x2

@@ -67,6 +67,18 @@ struct SMonFrameInfo
   char animationFrameToImgIdx[34][16];
 };
 
+struct SCmbtHero {
+  __int16 castXOff;
+  __int16 castLowXOff;
+  __int16 castYOff;
+  __int16 castLowYOff;
+  char numFidgets;
+  char animationLength[12];
+  char frameIndex[12][9];
+};
+
+SCmbtHero scmbtHero[];
+
 #pragma pack(pop)
 
 #endif
