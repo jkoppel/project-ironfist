@@ -112,6 +112,31 @@ int l_gethero(lua_State *L) {
 	return 1;
 }
 
+int l_getheroforhire(lua_State *L) {
+	playerData* p = (playerData*)lua_touserdata(L, 1);
+	int n = (int)luaL_checknumber(L, 2);
+	lua_pushlightuserdata(L, &gpGame->heroes[p->heroesForPurchase[n]]);
+	return 1;
+}
+
+int l_getheroinpool(lua_State *L) {
+	int n = (int)luaL_checknumber(L, 1);
+	lua_pushlightuserdata(L, &gpGame->heroes[n]);
+	return 1;
+}
+
+int l_getheroname(lua_State *L) {
+	hero *hro = (hero*)lua_touserdata(L, 1);
+	lua_pushstring(L, hro->name);
+	return 1;
+}
+
+int l_getheroowner(lua_State *L) {
+	hero *hro = (hero*)lua_touserdata(L, 1);
+	lua_pushinteger(L, hro->ownerIdx);
+	return 1;
+}
+
 int l_grantartifact(lua_State *L) {
 	hero* hro = (hero*)lua_touserdata(L, 1);
 	int art = (int)luaL_checknumber(L, 2);
@@ -216,6 +241,10 @@ void set_lua_globals(lua_State *L) {
 	lua_register(L, "GetPlayer", l_getplayer);
 	lua_register(L, "GetNumHeroes", l_getnumheroes);
 	lua_register(L, "GetHero", l_gethero);
+	lua_register(L, "GetHeroForHire", l_getheroforhire);
+	lua_register(L, "GetHeroInPool", l_getheroinpool);
+	lua_register(L, "GetHeroName", l_getheroname);
+	lua_register(L, "GetHeroOwner", l_getheroowner);
 	lua_register(L, "GrantArtifact", l_grantartifact);
 	lua_register(L, "GrantSpell", l_grantspell);
 	lua_register(L, "GrantArmy", l_grantarmy);
