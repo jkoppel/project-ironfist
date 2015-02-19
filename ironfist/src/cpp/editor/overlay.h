@@ -20,7 +20,7 @@ struct overlay
   int allowedTerrainPlacementMask;
   __int64 coveredNonObstructedMask;
   __int64 shadowsMask;
-  __int64 field_31;
+  __int64 animatedLateOverlay;
   __int64 field_39;
   char field_41;
   char field_42;

@@ -5,11 +5,12 @@
 
 #define MAX_TOWNS 72
 #define MAX_PLACED_EVENTS 50
+#define MAX_MINES 144
 
 #pragma pack(push, 1)
 
-struct mapCell
-{
+class mapCell {
+public:
   unsigned int groundIndex : 16;
   unsigned int hasObject : 1;
   unsigned int isRoad : 1;
@@ -20,7 +21,7 @@ struct mapCell
   unsigned int field4_3 : 1;
   unsigned int extraInfo : 13;
   unsigned int hasOverlay : 1;
-  unsigned int field_6_2 : 1;
+  unsigned int hasLateOverlay : 1;
   unsigned int overlayTileset : 6;
   unsigned int overlayIndex : 8;
   unsigned int displayFlags : 8;
@@ -32,7 +33,24 @@ struct mapCell
 #endif
 };
 
-struct mapCellExtra;
+struct mapCellExtra {
+  __int16 nextIdx;
+  unsigned int hasObject : 1;
+  unsigned int objTileset : 7;
+  unsigned int objectIndex : 8;
+  unsigned int field_4_1 : 1;
+  unsigned int field_4_2 : 1;
+  unsigned int field_4_3 : 1;
+  unsigned int field_4_4 : 5;
+  unsigned int animatedLateOverlay : 1;
+  unsigned int hasLateOverlay : 1;
+  unsigned int tileset : 6;
+  unsigned int overlayIndex : 8;
+#ifdef EDITOR
+  unsigned int objLink : 32;
+  unsigned int ovrLink : 32;
+#endif
+};
 
 class fullMap {
 public:
@@ -46,6 +64,8 @@ public:
 
 	void Read(int,int);
 	void Write(int);
+
+	mapCellExtra* GetNewCellExtraOverlay(int x, int y);
 };
 
 
@@ -74,7 +94,7 @@ struct SMapHeader {
 	int field_32;
 	char field_36;
 	char field_37;
-	char numCastles;
+	char nextTownName;
 	char field_39;
 	char name[60];
 	char description[298];
@@ -97,8 +117,8 @@ extern signed char xIsExpansionMap;
 
 extern void __fastcall ClearMapExtra();
 
-struct townMapExtra
-{
+
+struct TownExtra {
   char color;
   char customBuildings;
   int buildingsBuilt;
@@ -118,8 +138,41 @@ struct townMapExtra
   char field_45;
 };
 
-enum ADVENTURE_MAP_LOCATION
-{
+struct SignExtra {
+  char field_0;
+  int field_1;
+  int field_5;
+  char message;
+};
+
+struct EventExtra {
+  char field_0;
+  int resourceReward[7];
+  __int16 artifactReward;
+  char field_1F;
+  char cancelAfterFirstVisit;
+  char field_21;
+  char field_22;
+  char field_23;
+  char field_24;
+  char unclaimed;
+  __int16 x;
+  __int16 y;
+  char field_2A;
+  char colorCanSee[6];
+  char message;
+};
+
+struct SphinxExtra {
+  char unclaimed;
+  int resourceReward[7];
+  __int16 artifactReward;
+  unsigned __int8 numAnswers;
+  char answers[8][13];
+  char riddle;
+};
+
+enum ADVENTURE_MAP_LOCATION {
   LOCATION_ALCHEMIST_LAB = 1,
   LOCATION_SIGN = 2,
   LOCATION_BUOY = 3,
@@ -162,6 +215,7 @@ enum ADVENTURE_MAP_LOCATION
   LOCATION_ARTIFACT = 41,
   LOCATION_HERO = 42,
   LOCATION_BOAT = 43,
+  LOCATION_ULTIMATE_ARTIFACT = 44,
   LOCATION_RANDOM_ARTIFACT = 45,
   LOCATION_RANDOM_RESOURCE = 46,
   LOCATION_RANDOM_MONSTER = 47,

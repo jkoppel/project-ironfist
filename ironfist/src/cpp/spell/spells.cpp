@@ -1,10 +1,14 @@
+#include "base.h"
+
 #include "spell/spells.h"
 
 #include "adventure/adv.h"
+#include "adventure/terrain.h"
 #include "game/game.h"
+#include "gui/dialog.h"
+#include "sound/sound.h"
 
-char *gSpellNames[] =
-{
+char *gSpellNames[] = {
   "Fireball",
   "Fireblast",
   "Lightning Bolt",
@@ -235,3 +239,37 @@ void advManager::CastSpell(int spell) {
 	}
 }
 
+extern int __fastcall DimensionDoorHandler(tag_message&);
+
+void advManager::DimensionDoor() {
+  heroWindow *window = new heroWindow(0, 0, "dimdoor.bin");
+  if (window == NULL) {
+    MemError();
+  }
+
+  gpWindowManager->DoDialog(window, DimensionDoorHandler, 0);
+  delete window;
+
+  hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
+  if (gpWindowManager->buttonPressedCode != 1) {
+	  this->UpdateRadar(1, 0);
+	  return;
+  }
+
+  int x = this->viewX + this->xOff;
+  int y = this->viewY + this->yOff;
+  mapCell *targetCell = this->GetCell(x, y);
+  
+  bool waterJump = (hro->flags & HERO_AT_SEA) && giGroundToTerrain[targetCell->groundIndex] == TERRAIN_IDX_WATER;
+  bool landJump = !(hro->flags & HERO_AT_SEA) && giGroundToTerrain[targetCell->groundIndex] != TERRAIN_IDX_WATER;
+  if (waterJump || landJump) {
+	gpSoundManager->SwitchAmbientMusic(1);
+    this->TeleportTo(hro, x, y, 0, 0);
+    gpSoundManager->SwitchAmbientMusic(giTerrainToMusicTrack[this->currentTerrain]);
+	
+	gpGame->heroes[gpCurPlayer->curHeroIdx].UseSpell(SPELL_DIMENSION_DOOR);
+  } else {
+   H2MessageBox("Dimension Door failed!!!");
+   this->UpdateRadar(1, 0);
+  }
+}

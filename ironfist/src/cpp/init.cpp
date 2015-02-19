@@ -8,6 +8,7 @@
 #include "gui/gui.h"
 #include "resource/resources.h"
 #include "town/town.h"
+#include "sound/sound.h"
 
 
 #pragma pack(push,1)
@@ -31,12 +32,6 @@ public:
 	void ShowColorPointer();
 };
 
-class soundManager {
-public:
-	char _[1714];
-	soundManager();
-};
-
 class highScoreManager {
 public:
 	char _[99];
@@ -58,9 +53,7 @@ public:
 extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern mouseManager* gpMouseManager;
-extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
-extern soundManager* gpSoundManager;
 extern highScoreManager* gpHighScoreManager;
 extern advManager* gpAdvManager;
 extern searchArray* gpSearchArray;

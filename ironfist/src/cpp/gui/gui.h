@@ -50,6 +50,7 @@ public:
   widget *firstWidget;
   bitmap *bitmap;
 
+  heroWindow(int, int, char*);
   int BroadcastMessage(tag_message&);
 };
 
@@ -69,8 +70,11 @@ public:
   int hoveredFieldID;
 
   heroWindowManager();
+
+  int DoDialog(heroWindow *,int (__fastcall*)(tag_message &),int);
 };
 
+extern heroWindowManager* gpWindowManager;
 
 enum ICON_GUI_FLAGS
 {

@@ -140,22 +140,44 @@ public:
   void Clear();
 };
 
-char cHeroTypeInial[];
+enum HERO_FLAGS {
+	HERO_AT_SEA = 0x80
+};
+
+char cHeroTypeInitial[];
+
+class mapCell;
 
 class advManager : public baseManager {
 public:
-	char _[0x37E-sizeof(baseManager)];
+	char _[0xA6-sizeof(baseManager)];
+	int currentTerrain;
+	char _1[0x12C];
+	int viewX;
+	int viewY;
+	int field_1DE;
+	int field_1E2;
+	int xOff;
+	int yOff;
+	char _2[0x194];
 
 	advManager();
+
+	mapCell *GetCell(int x, int y);
+
 	void PurgeMapChangeQueue();
 	void CheckSetEvilInterface(int,int);
 	
 	void DemobilizeCurrHero();
 
+	void DimensionDoor();
+	void TeleportTo(hero*, int, int, int, int);
+
 	void CastSpell(int);
 	void CastSpell_orig(int);
 
 	void RedrawAdvScreen(int,int);
+	void UpdateRadar(int, int);
 
 	virtual int Open(int);
 	int Open_orig(int);

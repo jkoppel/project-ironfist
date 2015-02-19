@@ -93,6 +93,7 @@
     <ClCompile Include="..\src\cpp\adventure\adv.cpp" />
     <ClCompile Include="..\src\cpp\adventure\hero.cpp" />
     <ClCompile Include="..\src\cpp\artifacts.cpp" />
+    <ClCompile Include="..\src\cpp\combat\animation.cpp" />
     <ClCompile Include="..\src\cpp\combat\combat.cpp" />
     <ClCompile Include="..\src\cpp\combat\combat_spells.cpp" />
     <ClCompile Include="..\src\cpp\combat\creatures.cpp" />
@@ -143,12 +144,12 @@
     <ClCompile Include="..\src\cpp\scripting\consts.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
-    <ClCompile Include="animation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\resources\windows\resource.h" />
     <ClInclude Include="..\src\cpp\adventure\adv.h" />
     <ClInclude Include="..\src\cpp\adventure\map.h" />
+    <ClInclude Include="..\src\cpp\adventure\terrain.h" />
     <ClInclude Include="..\src\cpp\artifacts.h" />
     <ClInclude Include="..\src\cpp\base.h" />
     <ClInclude Include="..\src\cpp\combat\animation.h" />
@@ -198,6 +199,7 @@
     <ClInclude Include="..\src\cpp\scripting\register.h" />
     <ClInclude Include="..\src\cpp\scripting\scripting.h" />
     <ClInclude Include="..\src\cpp\skills.h" />
+    <ClInclude Include="..\src\cpp\sound\sound.h" />
     <ClInclude Include="..\src\cpp\spell\spells.h" />
     <ClInclude Include="..\src\cpp\stdafx.h" />
     <ClInclude Include="..\src\cpp\town\town.h" />

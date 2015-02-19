@@ -14,6 +14,7 @@ extern void * __fastcall BaseAlloc(unsigned int,char *,int);
 #define FREE(x) (BaseFree((x), __FILE__, __LINE__))
 #define ALLOC(x) (BaseAlloc((x), __FILE__, __LINE__))
 
+extern void __fastcall MemError();
 
 extern void __fastcall ProcessAssert(int,char *,int);
 
