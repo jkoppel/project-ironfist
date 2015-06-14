@@ -84,7 +84,6 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 IMPORT_?gOverlayDatabase@@3PAUoverlay@@A = 1
 IMPORT_?FillInOverlayTiles@@YAXXZ = 1
 IMPORT_?PlaceOverlay@@YIHPAUoverlay@@HHH@Z = 1
-?PlaceOverlay@@YIHPAUoverlay@@HHH@Z_clone EQU ?PlaceOverlay_orig@@YIHPAUoverlay@@HHH@Z
 
 ;;gui
 IMPORT_?EditTown@eventsManager@@QAEXHH@Z = 1
