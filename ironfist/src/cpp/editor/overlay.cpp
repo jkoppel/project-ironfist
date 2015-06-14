@@ -102,7 +102,7 @@ void __cdecl FillInOverlayTiles()
 }
 
 extern int giCurOverlayIdx;
-extern char unknownTerrainTileAttribute[];
+extern unsigned char unknownTerrainTileAttribute[];
 
 extern void __fastcall UnknownPlaceOverlayHelper(overlay*, int left, int top);
 extern int __fastcall SetMineResourceIcon(overlay*, int x, int y, int);

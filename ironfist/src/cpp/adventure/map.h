@@ -9,7 +9,7 @@
 
 #pragma pack(push, 1)
 
-extern char gTileTerrainTypes[];
+extern unsigned char gTileTerrainTypes[];
 
 class mapCell {
 public:
