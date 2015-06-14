@@ -192,6 +192,9 @@
     <ClCompile Include="..\src\cpp\gui\msg.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\editor\editor.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\asm\editor_imports.inc">

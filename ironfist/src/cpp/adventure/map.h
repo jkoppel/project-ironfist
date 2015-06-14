@@ -9,33 +9,35 @@
 
 #pragma pack(push, 1)
 
+extern char gTileTerrainTypes[];
+
 class mapCell {
 public:
   unsigned int groundIndex : 16;
   unsigned int hasObject : 1;
   unsigned int isRoad : 1;
   unsigned int objTileset : 6;
-  unsigned int objectIndex : 8;
+  signed int objectIndex : 8;
   unsigned int field_4_1 : 1;
   unsigned int isShadow : 1;
-  unsigned int field4_3 : 1;
+  unsigned int field_4_3 : 1;
   unsigned int extraInfo : 13;
   unsigned int hasOverlay : 1;
   unsigned int hasLateOverlay : 1;
   unsigned int overlayTileset : 6;
-  unsigned int overlayIndex : 8;
+  signed int overlayIndex : 8;
   unsigned int displayFlags : 8;
   unsigned int objType : 8;
   unsigned int extraIdx : 16;
 #ifdef EDITOR
-  unsigned int objLink : 32;
-  unsigned int ovrLink : 32;
+  unsigned int objLink;
+  unsigned int ovrLink;
 #endif
 };
 
 struct mapCellExtra {
   __int16 nextIdx;
-  unsigned int hasObject : 1;
+  unsigned int animatedObject : 1;
   unsigned int objTileset : 7;
   unsigned int objectIndex : 8;
   unsigned int field_4_1 : 1;
@@ -45,10 +47,14 @@ struct mapCellExtra {
   unsigned int animatedLateOverlay : 1;
   unsigned int hasLateOverlay : 1;
   unsigned int tileset : 6;
-  unsigned int overlayIndex : 8;
+
+  // For some reason, if this is made a bitfield of length 8, it will actually
+  // be padded out to 4 bytes oven though #pragma(pack,1) is on. Caused an
+  // extremely nasty and time-consuming bug.
+  unsigned __int8 overlayIndex;
 #ifdef EDITOR
-  unsigned int objLink : 32;
-  unsigned int ovrLink : 32;
+  unsigned int objLink;
+  unsigned int ovrLink;
 #endif
 };
 
@@ -66,6 +72,8 @@ public:
 	void Write(int);
 
 	mapCellExtra* GetNewCellExtraOverlay(int x, int y);
+	mapCellExtra* GetNewCellExtraObject(int x, int y);
+	void MoveInfoToCellExtra(int x, int y);
 };
 
 
@@ -170,6 +178,43 @@ struct SphinxExtra {
   unsigned __int8 numAnswers;
   char answers[8][13];
   char riddle;
+};
+
+struct HeroExtra {
+  char owner;
+  char field_1;
+  armyGroup army;
+  char field_11;
+  char field_12;
+  char artifacts[3];
+  char field_16;
+  char field_17;
+  char field_18;
+  char field_19;
+  char field_1A;
+  char field_1B;
+  char secondarySkills[8];
+  char firstSecondarySkillLevel;
+  char secondSecondarySkillLevel;
+  char field_26;
+  char field_27;
+  char field_28[20];
+  char field_3C;
+  char field_3D;
+  char field_3E;
+  char field_3F;
+  char field_40;
+  char field_41;
+  char field_42;
+  char field_43;
+  char field_44;
+  char field_45;
+  char field_46;
+  char field_47;
+  char field_48;
+  char field_49;
+  char field_4A;
+  char field_4B;
 };
 
 enum ADVENTURE_MAP_LOCATION {

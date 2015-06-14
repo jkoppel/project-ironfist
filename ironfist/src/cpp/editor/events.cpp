@@ -11,7 +11,7 @@
 #include "town/town.h"
 
 extern void* hwndApp;
-extern townMapExtra gEditTownExtra;
+extern TownExtra gEditTownExtra;
 
 extern long __stdcall AppWndProc_orig(void*, unsigned int, unsigned int, long);
 
@@ -73,7 +73,7 @@ void InitBuildingMap() {
   buildingIdToIdx[BUILDING_UPGRADE_5] = IDC_UPGRADE5;
 }
 
-void FillInTownEdit(HWND hwnd, townMapExtra* twnExtra) {
+void FillInTownEdit(HWND hwnd, TownExtra* twnExtra) {
 	if(twnExtra->customGarrison) {
 		SendDlgItemMessage(hwnd, IDC_TROOP_CUSTOM, BM_SETCHECK, BST_CHECKED, 0); 
 	} else {
@@ -223,7 +223,7 @@ BOOL CALLBACK EditTownProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam
             switch(LOWORD(wParam))
             {
                 case IDOK:
-					memcpy(gpEditManager->mapExtra[extraIdx], &gEditTownExtra, sizeof(townMapExtra));
+					memcpy(gpEditManager->mapExtra[extraIdx], &gEditTownExtra, sizeof(TownExtra));
                     EndDialog(hwnd, IDOK);
                 break;
                 case IDCANCEL:
@@ -393,6 +393,6 @@ extern int __stdcall AppAbout(void *,unsigned int,unsigned int,long);
 void eventsManager::EditTown(int x, int y) {
 	gpExaminedCell = &gpMap.tiles[y*gpMap.width + x];
 	int extraIdx = gpExaminedCell->extraInfo;
-	memcpy(&gEditTownExtra, gpEditManager->mapExtra[extraIdx], sizeof(townMapExtra));
+	memcpy(&gEditTownExtra, gpEditManager->mapExtra[extraIdx], sizeof(TownExtra));
 	DialogBoxParamA((HINSTANCE)hInstApp, "EDIT_TOWN",  (HWND)hwndApp, (DLGPROC)EditTownProc, 0);;
 }

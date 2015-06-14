@@ -23,15 +23,6 @@ void combatManager::InitNonVisualVars() {
 	}
 }
 
-
-int combatManager::Open(int x) {
-	this->heroes[0]->factionID = 12;
-	int y = this->Open_orig(x);
-
-	return y;
-}
-
-
 /*
 * What happens when a hero wins a battle using Pandora's Box, but loses their
 * main army? They walk around with stacks of 0 creatures, of course! 
