@@ -48,9 +48,7 @@ struct mapCellExtra {
   unsigned int hasLateOverlay : 1;
   unsigned int tileset : 6;
 
-  // For some reason, if this is made a bitfield of length 8, it will actually
-  // be padded out to 4 bytes oven though #pragma(pack,1) is on. Caused an
-  // extremely nasty and time-consuming bug.
+  // Cannot declare as "unsigned int : 8"; ran afoul of this:  http://stackoverflow.com/a/3919325/546591
   unsigned __int8 overlayIndex;
 #ifdef EDITOR
   unsigned int objLink;
