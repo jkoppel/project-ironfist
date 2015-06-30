@@ -55,9 +55,7 @@ void game::RandomizeHeroPool() {
 void game::NewMap(char* mapname) {
     this->ResetIronfistGameState();
 	this->NewMap_orig(mapname);
-	ScriptingInit(mapname);
-
-    this->PropagateVision(); // Initial visibility
+    ScriptingInit(mapname);
 }
 
 void game::NextPlayer() {

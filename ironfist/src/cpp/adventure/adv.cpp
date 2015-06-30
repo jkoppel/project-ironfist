@@ -20,11 +20,9 @@ int advManager::Open(int idx) {
 
 void game::ShareVision(int sourcePlayer, int destPlayer) {
     this->sharePlayerVision[sourcePlayer][destPlayer] = 1;
+    this->PropagateVision();
 }
 
-
-// One quick of shared vision is that, while generally not transitive, the ability to see player's initial castles is somewhat transitive,
-// because this function is used to do the initial propagation
 void game::PropagateVision() {
     for (int p1 = 0; p1 < NUM_PLAYERS; p1++) {
         for (int p2 = 0; p2 < NUM_PLAYERS; p2++) {
