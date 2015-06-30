@@ -94,6 +94,7 @@
   <ItemGroup>
     <ClCompile Include="..\src\cpp\adventure\adv.cpp" />
     <ClCompile Include="..\src\cpp\adventure\hero.cpp" />
+    <ClCompile Include="..\src\cpp\adventure\map.cpp" />
     <ClCompile Include="..\src\cpp\artifacts.cpp" />
     <ClCompile Include="..\src\cpp\combat\animation.cpp" />
     <ClCompile Include="..\src\cpp\combat\combat.cpp" />

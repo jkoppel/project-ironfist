@@ -53,8 +53,11 @@ void game::RandomizeHeroPool() {
 }
 
 void game::NewMap(char* mapname) {
+    this->ResetIronfistGameState();
 	this->NewMap_orig(mapname);
 	ScriptingInit(mapname);
+
+    this->PropagateVision(); // Initial visibility
 }
 
 void game::NextPlayer() {
@@ -73,4 +76,12 @@ void game::NextPlayer() {
 void game::PerDay() {
 	this->PerDay_orig();
 	ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
+}
+
+void game::ResetIronfistGameState() {
+    for (int i = 0; i < NUM_PLAYERS; i++) {
+        for (int j = 0; j < NUM_PLAYERS; j++) {
+            this->sharePlayerVision[i][j] = 0;
+        }
+    }
 }

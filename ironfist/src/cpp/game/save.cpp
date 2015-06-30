@@ -363,7 +363,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ppMapExtra[i] = ALLOC(pwSizeOfMapExtra[i]);
 				_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
 			}
-			_read(fd, mapExtra, MAP_HEIGHT * MAP_WIDTH);
+			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
 			this->map.Read(fd, 0);
 			_close(fd);
 			*(int*)&gpAdvManager->_[0x2A6] = 0;
@@ -377,6 +377,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			bShowIt = gbThisNetHumanPlayer[giCurPlayer];
 			this->SetupAdjacentMons();
 			gpAdvManager->CheckSetEvilInterface(0, -1);
+
+            gpGame->ResetIronfistGameState();
 
 			if (mp->script().present()) {
 				ScriptingInitFromString(mp->script().get().c_str());
@@ -476,7 +478,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 		else
 			_write(fd, extraMemory, pwSizeOfMapExtra[i]);
 	}
-	_write(fd, mapExtra, MAP_HEIGHT * MAP_WIDTH);
+	_write(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
 	this->map.Write(fd);
 	_close(fd);
 	FREE(extraMemory);

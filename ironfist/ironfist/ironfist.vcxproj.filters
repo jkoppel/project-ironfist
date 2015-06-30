@@ -240,6 +240,9 @@
     <ClCompile Include="..\src\cpp\combat\animation.cpp">
       <Filter>Source Files\combat</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\adventure\map.cpp">
+      <Filter>Source Files\adventure</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\stdafx.h">

@@ -114,8 +114,12 @@ struct SMapHeader {
 extern int MAP_HEIGHT;
 extern int MAP_WIDTH;
 
+extern unsigned char* mapRevealed;
+
+int MapCellVisible(int x, int y, int player);
+void RevealMapCell(int x, int y, int player);
+
 extern int iMaxMapExtra;
-extern unsigned char* mapExtra;
 extern void** ppMapExtra;
 extern short* pwSizeOfMapExtra;
 

@@ -110,6 +110,13 @@ IMPORT_?cHeroTypeInitial@@3PADA = 1
 IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
 IMPORT_?gAlignmentNames@@3PAPADA = 1
 
+;; adventure map
+
+IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
+?SetVisibility@game@@QAEXHHHH@Z_clone EQU ?SetVisibility_orig@game@@QAEXHHHH@Z
+IMPORT_?MakeAllWaterVisible@game@@QAEXH@Z = 1
+?MakeAllWaterVisible@game@@QAEXH@Z_clone EQU ?MakeAllWaterVisible_orig@game@@QAEXH@Z
+
 ;;saving
 IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
 ?LoadGame@game@@QAEXPADHH@Z_clone EQU ?LoadGame_orig@game@@QAEXPADHH@Z

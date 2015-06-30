@@ -5,6 +5,7 @@
 #include "adventure/map.h"
 #include "town/town.h"
 
+#define NUM_PLAYERS 6
 #define MAX_HEROES 54
 #define MAX_TOWNS 72
 
@@ -106,11 +107,11 @@ public:
 	char mapFilename[40];
 	char numPlayers;
 	char couldBeNumDefeatedPlayers;
-	char playerDead[6];
+	char playerDead[NUM_PLAYERS];
 	__int16 day;
 	__int16 week;
 	__int16 month;
-	playerData players[6];
+	playerData players[NUM_PLAYERS];
 	fullMap map;
 	char numObelisks;
 	town castles[MAX_TOWNS];
@@ -142,6 +143,10 @@ public:
 	char field_660D;
 	char field_660E;
 
+    // New state
+    bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+
+
 	int SetupGame();
 	int SetupGame_orig();
 	void SetupTowns();
@@ -160,6 +165,7 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
+    void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
 
@@ -168,6 +174,15 @@ public:
 
 	void PerDay();
 	void PerDay_orig();
+
+    void ResetIronfistGameState();
+    void ShareVision(int sourcePlayer, int destPlayer);
+
+    void MakeAllWaterVisible(int player);
+    void MakeAllWaterVisible_orig(int player);
+
+private:
+    void PropagateVision();
 };
 
 extern game* gpGame;

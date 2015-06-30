@@ -230,6 +230,13 @@ int l_setguildspell(lua_State *L) {
 	return 0;
 }
 
+int l_sharevision(lua_State *L) {
+    int sourcePlayer = (int)luaL_checknumber(L, 1);
+    int destPlayer = (int)luaL_checknumber(L, 2);
+    gpGame->ShareVision(sourcePlayer, destPlayer);
+    return 0;
+}
+
 
 void set_lua_globals(lua_State *L) {
 	lua_register(L, "MessageBox", l_msgbox);
@@ -259,6 +266,7 @@ void set_lua_globals(lua_State *L) {
 	lua_register(L, "BuildInCurrentTown", l_buildincurrenttown);
 	lua_register(L, "SetNumGuildSpells", l_setnumguildspells);
 	lua_register(L, "SetGuildSpell", l_setguildspell);
+    lua_register(L, "ShareVision", l_sharevision);
 
 	lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
 	lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);

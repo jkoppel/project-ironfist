@@ -1,4 +1,5 @@
 #include "adventure/adv.h"
+#include "adventure/map.h"
 #include "game/game.h"
 #include "scripting/hook.h"
 
@@ -15,4 +16,49 @@ int advManager::Open(int idx) {
 		ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
 	}
 	return res;
+}
+
+void game::ShareVision(int sourcePlayer, int destPlayer) {
+    this->sharePlayerVision[sourcePlayer][destPlayer] = 1;
+}
+
+
+// One quick of shared vision is that, while generally not transitive, the ability to see player's initial castles is somewhat transitive,
+// because this function is used to do the initial propagation
+void game::PropagateVision() {
+    for (int p1 = 0; p1 < NUM_PLAYERS; p1++) {
+        for (int p2 = 0; p2 < NUM_PLAYERS; p2++) {
+            if (this->sharePlayerVision[p1][p2]) {
+                for (int i = 0; i < MAP_HEIGHT; i++) {
+                    for (int j = 0; j < MAP_WIDTH; j++) {
+                        if (MapCellVisible(j, i, p1)) {
+                            RevealMapCell(j, i, p2);
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void game::SetVisibility(int x, int y, int player, int radius) {
+    this->SetVisibility_orig(x, y, player, radius);
+
+    for (int i = 0; i < NUM_PLAYERS; i++) {
+        if (this->sharePlayerVision[player][i]) {
+            // Would take more work to be transitive without infinite recursion
+            this->SetVisibility_orig(x, y, i, radius);
+        }
+    }
+}
+
+void game::MakeAllWaterVisible(int player) {
+    this->MakeAllWaterVisible_orig(player);
+
+    for (int i = 0; i < NUM_PLAYERS; i++) {
+        if (this->sharePlayerVision[player][i]) {
+            // Would take more work to be transitive without infinite recursion
+            this->MakeAllWaterVisible_orig(i);
+        }
+    }
 }
