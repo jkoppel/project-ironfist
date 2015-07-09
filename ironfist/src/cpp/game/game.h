@@ -40,7 +40,9 @@ public:
 	__int16 field_45;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-	char _4[60];
+    char _4_1;
+    char barrierTentsVisited;
+    char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;

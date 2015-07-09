@@ -2,6 +2,7 @@
 #define ADV_H
 
 #include "gui/gui.h"
+#include "resource/resources.h"
 
 #define ORIG_SPELLS 65
 
@@ -178,9 +179,13 @@ public:
 
 	void RedrawAdvScreen(int,int);
 	void UpdateRadar(int, int);
+    void EventSound(int locType, int locType2, SAMPLE2 *samp);
 
 	virtual int Open(int);
 	int Open_orig(int);
+
+    void PasswordEvent(mapCell *tile, hero *hero);
+    int BarrierEvent(mapCell *tile, hero *hero);
 };
 
 extern advManager* gpAdvManager;
