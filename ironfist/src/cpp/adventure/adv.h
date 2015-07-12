@@ -160,7 +160,9 @@ public:
 	int field_1E2;
 	int xOff;
 	int yOff;
-	char _2[0x194];
+	char _2[0xB8];
+    int heroMobilized;
+    char _3[0xD4];
 
 	advManager();
 

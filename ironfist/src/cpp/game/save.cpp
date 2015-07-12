@@ -366,7 +366,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
 			this->map.Read(fd, 0);
 			_close(fd);
-			*(int*)&gpAdvManager->_[0x2A6] = 0;
+            gpAdvManager->heroMobilized = 0;
 			gpCurPlayer = &gpGame->players[giCurPlayer];
 			giCurPlayerBit = 1 << giCurPlayer;
 			for(giCurWatchPlayer = giCurPlayer;
