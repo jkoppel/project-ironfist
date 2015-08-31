@@ -85,6 +85,9 @@ IMPORT_?gOverlayDatabase@@3PAUoverlay@@A = 1
 IMPORT_?FillInOverlayTiles@@YAXXZ = 1
 IMPORT_?PlaceOverlay@@YIHPAUoverlay@@HHH@Z = 1
 
+;;mapExtra
+IMPORT_?DeleteExtraObjectData@@YIXI@Z = 1
+
 ;;gui
 IMPORT_?EditTown@eventsManager@@QAEXHH@Z = 1
 IMPORT_?ShowErrorMessage@@YIXPBD@Z = 1

@@ -4,6 +4,8 @@
 #include "gui/gui.h"
 #include "resource/resources.h"
 
+#include "base.h"
+
 #define ORIG_SPELLS 65
 
 #pragma pack(push, 1)
@@ -41,7 +43,16 @@ class armyGroup
 public:
   char creatureTypes[5];
   __int16 quantities[5];
-  armyGroup();
+
+  armyGroup() {
+      for (int i = 0; i < ELEMENTS_IN(this->creatureTypes); i++) {
+          this->creatureTypes[i] = -1;
+      }
+
+      for (int i = 0; i < ELEMENTS_IN(this->quantities); i++) {
+          this->quantities[i] = 0;
+      }
+  };
 
   int Add(int,int,int);
 };

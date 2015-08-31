@@ -129,6 +129,10 @@ extern void __fastcall ClearMapExtra();
 
 
 struct TownExtra {
+    TownExtra() {
+        memset(this, 0, sizeof(TownExtra));
+    }
+
   char color;
   char customBuildings;
   int buildingsBuilt;
@@ -148,14 +152,33 @@ struct TownExtra {
   char field_45;
 };
 
-struct SignExtra {
+class SignExtra {
+public:
+
+  SignExtra() {
+      memset(this, 0, sizeof(SignExtra));
+      this->field_0 = 1;
+  }
+
   char field_0;
   int field_1;
   int field_5;
   char message;
 };
 
-struct EventExtra {
+class EventExtra {
+public:
+
+  EventExtra() {
+      memset(this, 0, sizeof(EventExtra));
+      this->field_0 = 1;
+      this->artifactReward = -1;
+      this->cancelAfterFirstVisit = 1;
+      for (int c = 0; c < ELEMENTS_IN(this->colorCanSee); c++) {
+          this->colorCanSee[c] = 1;
+      }
+  }
+
   char field_0;
   int resourceReward[7];
   __int16 artifactReward;
@@ -174,6 +197,12 @@ struct EventExtra {
 };
 
 struct SphinxExtra {
+
+  SphinxExtra() {
+      memset(this, 0, sizeof(SphinxExtra));
+      this->artifactReward = -1;
+  }
+
   char unclaimed;
   int resourceReward[7];
   __int16 artifactReward;
@@ -182,7 +211,12 @@ struct SphinxExtra {
   char riddle;
 };
 
-struct HeroExtra {
+class HeroExtra {
+public:
+    HeroExtra() {
+        memset(this, 0, sizeof(HeroExtra));
+    }
+
   char owner;
   char field_1;
   armyGroup army;

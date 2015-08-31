@@ -91,6 +91,7 @@
     <ClCompile Include="..\src\cpp\driver.cpp" />
     <ClCompile Include="..\src\cpp\editor\editor.cpp" />
     <ClCompile Include="..\src\cpp\editor\events.cpp" />
+    <ClCompile Include="..\src\cpp\editor\map_state.cpp" />
     <ClCompile Include="..\src\cpp\editor\overlay.cpp" />
     <ClCompile Include="..\src\cpp\gui\dialog.cpp" />
     <ClCompile Include="..\src\cpp\gui\msg.cpp" />

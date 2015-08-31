@@ -107,6 +107,94 @@ extern unsigned char unknownTerrainTileAttribute[];
 extern void __fastcall UnknownPlaceOverlayHelper(overlay*, int left, int top);
 extern int __fastcall SetMineResourceIcon(overlay*, int x, int y, int);
 
+template <typename T> void AddMapExtra(mapCell *tile, T mapExtra) {
+    tile->extraInfo = gpEditManager->nMapExtra;
+    gpEditManager->mapExtra[gpEditManager->nMapExtra] = mapExtra;
+    gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = sizeof(T);
+}
+
+HeroExtra *MakeHeroMapExtra(int faction) {
+    HeroExtra *heroMapExtra = new HeroExtra;
+
+    for (int k = 0; k < ELEMENTS_IN(heroMapExtra->army.creatureTypes); k++) {
+        heroMapExtra->army.creatureTypes[k] = -1;
+    }
+
+    for (int k = 0; k < ELEMENTS_IN(heroMapExtra->artifacts); k++) {
+        heroMapExtra->artifacts[k] = -1;
+    }
+
+    for (int k = 0; k < ELEMENTS_IN(heroMapExtra->secondarySkills); k++) {
+        heroMapExtra->secondarySkills[k] = -1;
+    }
+
+    if (faction == FACTION_KNIGHT) {
+        heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_LEADERSHIP;
+        heroMapExtra->firstSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_BALLISTICS;
+        heroMapExtra->secondSecondarySkillLevel = 1;
+    }
+
+    if (faction == FACTION_SORCERESS) {
+        heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NAVIGATION;
+        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
+        heroMapExtra->secondSecondarySkillLevel = 1;
+    }
+
+    if (faction == FACTION_BARBARIAN) {
+        heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_PATHFINDING;
+        heroMapExtra->firstSecondarySkillLevel = 2;
+    }
+
+    if (faction == FACTION_WARLOCK) {
+        heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_SCOUTING;
+        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
+        heroMapExtra->secondSecondarySkillLevel = 1;
+    }
+
+    if (faction == FACTION_WIZARD) {
+        heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_WISDOM;
+        heroMapExtra->firstSecondarySkillLevel = 2;
+    }
+
+    if (faction == FACTION_NECROMANCER) {
+        heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NECROMANCY;
+        heroMapExtra->firstSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
+        heroMapExtra->secondSecondarySkillLevel = 1;
+    }
+
+    return heroMapExtra;
+}
+
+TownExtra* MakeTownExtra(int color, int idx) {
+    TownExtra* townMapExtra = new TownExtra;
+
+    gpMapHeader.nextTownName = (gpMapHeader.nextTownName + 1) % MAX_CASTLES;
+    strcpy(townMapExtra->name, gpTownNames[gpMapHeader.nextTownName]);
+    if (color == 6) {
+        townMapExtra->color = -1;
+    } else {
+        townMapExtra->color = color;
+    }
+
+    if (idx < 939 || idx > 954) {
+        townMapExtra->faction = (idx - 835) % 12 / 2;
+        townMapExtra->isCastle = 1
+            - ((((unsigned __int64)(idx - 835) >> 32) ^ abs(LOBYTE(idx) - 67) & 1)
+            - ((unsigned __int64)(idx - 835) >> 32));
+    } else {
+        townMapExtra->faction = FACTION_MULTIPLE;
+        townMapExtra->isCastle = 1
+            - ((((unsigned __int64)(idx - 939) >> 32) ^ ((((unsigned __int64)(idx - 939) >> 32) ^ (unsigned __int8)(LOBYTE(idx) + 85)) - ((unsigned __int64)(idx - 939) >> 32)) & 1)
+            - ((unsigned __int64)(idx - 939) >> 32));
+    }
+
+    return townMapExtra;
+}
+
 int __fastcall PlaceOverlay(overlay *ovr, int left, int top, int userDemanded) {
   if (userDemanded) {
       ++giCurOverlayIdx;
@@ -346,133 +434,38 @@ int __fastcall PlaceOverlay(overlay *ovr, int left, int top, int userDemanded) {
                   || tile->objType == (TILE_HAS_EVENT|LOCATION_RANDOM_TOWN)
                   || tile->objType == (TILE_HAS_EVENT|LOCATION_RANDOM_CASTLE))
               && OverlayMaskBitSet(&ovr->interactionPointMask, j, i) ) {
-                  
-                  TownExtra* townMapExtra = (TownExtra *)ALLOC(sizeof(TownExtra));
-                  memset(townMapExtra, 0, sizeof(TownExtra));
-                  tile->extraInfo = gpEditManager->nMapExtra;
-                  gpEditManager->mapExtra[gpEditManager->nMapExtra] = townMapExtra;
-                  gpMapHeader.nextTownName = (gpMapHeader.nextTownName + 1) % 72;
-                  strcpy(townMapExtra->name, gpTownNames[gpMapHeader.nextTownName]);
-                  if (ovr->townColorOrMineColor == 6) {
-                      townMapExtra->color = -1;
-                  } else {
-                      townMapExtra->color = ovr->townColorOrMineColor;
-                  }
-                      
-                  if ( ovr->idx < 939 || ovr->idx > 954 ) {
-                      townMapExtra->faction = (ovr->idx - 835) % 12 / 2;
-                      townMapExtra->isCastle = 1
-                                                     - ((((unsigned __int64)(ovr->idx - 835) >> 32) ^ abs(LOBYTE(ovr->idx) - 67) & 1)
-                                                      - ((unsigned __int64)(ovr->idx - 835) >> 32));
-                  } else {
-                      townMapExtra->faction = 6;
-                      townMapExtra->isCastle = 1
-                                                     - ((((unsigned __int64)(ovr->idx - 939) >> 32) ^ ((((unsigned __int64)(ovr->idx - 939) >> 32) ^ (unsigned __int8)(LOBYTE(ovr->idx) + 85)) - ((unsigned __int64)(ovr->idx - 939) >> 32)) & 1)
-                                                      - ((unsigned __int64)(ovr->idx - 939) >> 32));
-                  }
-                  gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = 70;
+
+                  int color = ovr->townColorOrMineColor;
+                  int idx = ovr->idx;
+
+                  AddMapExtra(tile, MakeTownExtra(color, idx));
           }
 
           if ((tile->objType == (TILE_HAS_EVENT|LOCATION_SIGN) || tile->objType == (TILE_HAS_EVENT|LOCATION_BOTTLE))
                   && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
                       
-              SignExtra* signExtra = (SignExtra *)ALLOC(sizeof(SignExtra));
-              memset(signExtra, 0, sizeof(SignExtra));
-              signExtra->field_0 = 1;
-              tile->extraInfo = gpEditManager->nMapExtra;
-              gpEditManager->mapExtra[gpEditManager->nMapExtra] = signExtra;
-              gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = sizeof(SignExtra);
+              AddMapExtra(tile, new SignExtra);
           }
 
           if (tile->objType == (TILE_HAS_EVENT|LOCATION_EVENT) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
-              EventExtra* eventMapExtra = (EventExtra *)ALLOC(sizeof(EventExtra));
-              memset(eventMapExtra, 0, sizeof(EventExtra));
-              eventMapExtra->field_0 = 1;
-              eventMapExtra->artifactReward = -1;
-              eventMapExtra->cancelAfterFirstVisit = 1;
-              for (int c = 0; c < 6; c++) {
-                  eventMapExtra->colorCanSee[c] = 1;
-              }
-              tile->extraInfo = gpEditManager->nMapExtra;
-              gpEditManager->mapExtra[gpEditManager->nMapExtra] = eventMapExtra;
-              gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = sizeof(EventExtra);
+              AddMapExtra(tile, new EventExtra);
           }
           
           if (tile->objType == (TILE_HAS_EVENT|LOCATION_SPHINX) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
-              SphinxExtra *sphinxMapExtra = (SphinxExtra *)ALLOC(sizeof(SphinxExtra));
-              memset(sphinxMapExtra, 0, sizeof(SphinxExtra));
-              sphinxMapExtra->artifactReward = -1;
-              tile->extraInfo = gpEditManager->nMapExtra;
-              gpEditManager->mapExtra[gpEditManager->nMapExtra] = sphinxMapExtra;
-              gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = sizeof(SphinxExtra);
+              AddMapExtra(tile, new SphinxExtra);
           }
           
           if ((tile->objType == (TILE_HAS_EVENT|LOCATION_RANDOM_HERO) || tile->objType == (TILE_HAS_EVENT|LOCATION_JAIL))
                             && OverlayMaskBitSet(&ovr->interactionPointMask, j, i) ) {
-                                
-            HeroExtra *heroMapExtra = (HeroExtra *)ALLOC(sizeof(HeroExtra));
-            memset(heroMapExtra, 0, sizeof(HeroExtra));
-
-            for (int k = 0; k < ELEMENTS_IN(heroMapExtra->army.creatureTypes); k++) {
-                heroMapExtra->army.creatureTypes[k] = -1;
-            }
-
-            for (int k = 0; k < ELEMENTS_IN(heroMapExtra->artifacts); k++) {
-                heroMapExtra->artifacts[k] = -1;
-            }
-
-            for (int k = 0; k < ELEMENTS_IN(heroMapExtra->secondarySkills); k++) {
-                heroMapExtra->secondarySkills[k] = -1;
-            }
-
             int faction;
-            if ( tile->objType == LOCATION_JAIL ) {
+            if (tile->objType == LOCATION_JAIL) {
                 faction = 0;
-            }  else {
+            }
+            else {
                 faction = tile->objectIndex % 7;
             }
 
-            if (faction == FACTION_KNIGHT) {
-                heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_LEADERSHIP;
-                heroMapExtra->firstSecondarySkillLevel = 1;
-                heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_BALLISTICS;
-                heroMapExtra->secondSecondarySkillLevel = 1;
-            }
-
-            if (faction == FACTION_SORCERESS) {
-                heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NAVIGATION;
-                heroMapExtra->firstSecondarySkillLevel = 2;
-                heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-                heroMapExtra->secondSecondarySkillLevel = 1;
-            }
-
-            if (faction == FACTION_BARBARIAN) {
-                heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_PATHFINDING;
-                heroMapExtra->firstSecondarySkillLevel = 2;
-            }
-
-            if (faction == FACTION_WARLOCK) {
-                heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_SCOUTING;
-                heroMapExtra->firstSecondarySkillLevel = 2;
-                heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-                heroMapExtra->secondSecondarySkillLevel = 1;
-            }
-
-            if (faction == FACTION_WIZARD) {
-                heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_WISDOM;
-                heroMapExtra->firstSecondarySkillLevel = 2;
-            }
-
-            if (faction == FACTION_NECROMANCER) {
-                heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NECROMANCY;
-                heroMapExtra->firstSecondarySkillLevel = 1;
-                heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-                heroMapExtra->secondSecondarySkillLevel = 1;
-            }
-
-            tile->extraInfo = gpEditManager->nMapExtra;
-            gpEditManager->mapExtra[gpEditManager->nMapExtra] = heroMapExtra;
-            gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = sizeof(HeroExtra);
+            AddMapExtra(tile, MakeHeroMapExtra(faction));
           }
           
           if (tile->objType == (TILE_HAS_EVENT|LOCATION_ARTIFACT) && (tile->objectIndex & 0xFE) == 2*ARTIFACT_SPELL_SCROLL) {

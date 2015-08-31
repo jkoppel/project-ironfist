@@ -12,6 +12,8 @@ extern signed char gSpellLimits[];
 
 extern char cHeroTypeInitial[];
 
+#define MAX_CASTLES 72
+
 #define NUM_DWELLINGS 12
 
 enum FACTION

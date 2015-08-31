@@ -80,6 +80,10 @@ IMPORT_?gArmyNames@@3PAPADA = 1
 IMPORT_?gArmyNamesPlural@@3PAPADA = 1
 IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
 
+;;armies
+
+IMPORT_??0armyGroup@@QAE@XZ = 1
+
 ;;game
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
