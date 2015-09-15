@@ -218,6 +218,8 @@ SSpellInfo gsSpellInfo[] = {
 	{"", 1, 55, 0, 700, 20, 10, 0, 0, ATTR_ADVENTURE_SPELL},
 };
 
+#define DD_MOVEMENT_COST 225
+
 int GetManaCost(int s) {
 	return GetManaCost(s, NULL);
 }
@@ -228,6 +230,11 @@ void advManager::CastSpell(int spell) {
 
 	hero* hro = GetCurrentHero();
 	switch(spell) {
+    case SPELL_DIMENSION_DOOR:
+        // CastSpell_orig would always subtract movement points even if it fails
+        this->UpdateHeroLocator(-1, 1, 1);
+        this->DimensionDoor();
+        break;
 	case SPELL_AWARENESS:
 		gpGame->SetVisibility(hro->x, hro->y, giCurPlayer, 15);
 		hro->UseSpell(spell);
@@ -247,10 +254,16 @@ void advManager::DimensionDoor() {
     MemError();
   }
 
+  hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
+
+  if (hro->remainingMobility <= 0) {
+      H2MessageBox("Your hero is too tired to cast this spell today.  Try again tomorrow.");
+      return;
+  }
+
   gpWindowManager->DoDialog(window, DimensionDoorHandler, 0);
   delete window;
 
-  hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   if (gpWindowManager->buttonPressedCode != 1) {
 	  this->UpdateRadar(1, 0);
 	  return;
@@ -267,7 +280,8 @@ void advManager::DimensionDoor() {
     this->TeleportTo(hro, x, y, 0, 0);
     gpSoundManager->SwitchAmbientMusic(giTerrainToMusicTrack[this->currentTerrain]);
 	
-	gpGame->heroes[gpCurPlayer->curHeroIdx].UseSpell(SPELL_DIMENSION_DOOR);
+    gpGame->heroes[gpCurPlayer->curHeroIdx].UseSpell(SPELL_DIMENSION_DOOR);
+    hro->remainingMobility = max(hro->remainingMobility - DD_MOVEMENT_COST, 0);
   } else {
    H2MessageBox("Dimension Door failed!!!");
    this->UpdateRadar(1, 0);

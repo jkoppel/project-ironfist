@@ -192,6 +192,7 @@ public:
 
 	void RedrawAdvScreen(int,int);
 	void UpdateRadar(int, int);
+    void UpdateHeroLocator(int, int, int);
     void EventSound(int locType, int locType2, SAMPLE2 *samp);
 
 	virtual int Open(int);
