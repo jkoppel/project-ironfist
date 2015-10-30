@@ -9,6 +9,8 @@ IMPORT__strnicmp = 1
 ___xi_a EQU ___xi_a_asm
 ___xc_a EQU ___xc_a_asm
 ___xc_z EQU ___xc_z_asm
+___xt_a EQU ___xt_a_asm
+___xp_a EQU ___xp_a_asm
 
 ;; Requiring assembly to use new runtime's file operations
 IMPORT__open = 1
