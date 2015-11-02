@@ -424,9 +424,6 @@
     <None Include="..\src\asm\heroes2_imports.inc">
       <Filter>Assembly Interop</Filter>
     </None>
-    <None Include="..\..\..\..\just_ironfist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resources\windows\ironfist.rc">
@@ -437,5 +434,10 @@
     <CustomBuild Include="..\src\asm\heroes2.asm">
       <Filter>Assembly Interop</Filter>
     </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resources\windows\just_ironfist.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

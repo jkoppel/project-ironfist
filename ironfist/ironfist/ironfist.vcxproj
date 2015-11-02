@@ -216,11 +216,13 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(VCInstallDir)\bin\ml.exe" /c /Cx /coff "%(FullPath)"</Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).obj</Outputs>
     </CustomBuild>
-    <None Include="..\..\..\..\just_ironfist.ico" />
     <None Include="..\src\asm\heroes2_imports.inc" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resources\windows\ironfist.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\resources\windows\just_ironfist.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
