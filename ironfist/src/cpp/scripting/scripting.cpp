@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/stat.h>
+#include<exception>
 
 #include<map>
 #include<string>
@@ -285,7 +286,22 @@ void RunScript() {
 
 		set_lua_globals(map_lua);
 
-		luaL_dostring(map_lua, script_contents);
+		//luaL_dostring(map_lua, script_contents);
+
+		try {
+			int res = luaL_loadstring(map_lua, script_contents);
+
+			if (!res){
+				lua_pcall(map_lua, 0, -1, 0);
+			}
+			else {
+				throw 1;
+			}
+		}
+		catch (int e)
+		{
+			H2MessageBox("Error in your script ");
+		}
 	}
 }
 
