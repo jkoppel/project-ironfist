@@ -2,5 +2,7 @@
 
 
 void H2MessageBox(char* msg) {
-	NormalDialog(msg, DIALOG_OKAY, -1,-1,-1,0,-1,0,-1,0);
+	if (msg) {
+		NormalDialog(msg, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
+	}
 }

@@ -49,7 +49,13 @@ void ScriptSignal(int id, const char* obj) {
 	
 	if(hook != NULL) {
 		lua_getglobal(map_lua, hook);
-		lua_call(map_lua,  0, 0);
+
+		if (lua_pcall(map_lua, 0, -1, 0)) {
+			H2MessageBox("Error in script, at function: ");
+			H2MessageBox((char*)hook);
+			const char* msg = luaL_checkstring(map_lua, -1);
+			H2MessageBox((char*)msg);
+		}
 	}
 }
 
@@ -286,23 +292,8 @@ void RunScript() {
 
 		set_lua_globals(map_lua);
 
-		//luaL_dostring(map_lua, script_contents);
-
-		try {
-			int res = luaL_loadstring(map_lua, script_contents);
-
-			if (!res){
-				lua_pcall(map_lua, 0, -1, 0);
-			}
-			else {
-				throw 1;
-			}
+		luaL_dostring(map_lua, script_contents);
 		}
-		catch (int e)
-		{
-			H2MessageBox("Error in your script ");
-		}
-	}
 }
 
 void LoadScript(char* script_filname) {
