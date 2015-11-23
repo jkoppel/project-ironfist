@@ -51,8 +51,7 @@ void ScriptSignal(int id, const char* obj) {
 		lua_getglobal(map_lua, hook);
 
 		if (lua_pcall(map_lua, 0, -1, 0)) {
-			H2MessageBox("Error in script, at function: ");
-			H2MessageBox((char*)hook);
+			H2MessageBox("Error in the script.");
 			const char* msg = luaL_checkstring(map_lua, -1);
 			H2MessageBox((char*)msg);
 		}
