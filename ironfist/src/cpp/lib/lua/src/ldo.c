@@ -587,7 +587,7 @@ int luaD_pcall (lua_State *L, Pfunc func, void *u,
   L->errfunc = ef;
   status = luaD_rawrunprotected(L, func, u);
   if (status != LUA_OK) {  /* an error occurred? */
-	StkId oldtop = restorestack(L, old_top);
+    StkId oldtop = restorestack(L, old_top);
     luaF_close(L, oldtop);  /* close possible pending closures */
     seterrorobj(L, status, oldtop);
     L->ci = old_ci;

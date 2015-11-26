@@ -1,7 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<sys/stat.h>
-#include<exception>
 
 #include<map>
 #include<string>
@@ -51,10 +50,13 @@ void ScriptSignal(int id, const char* obj) {
 		lua_getglobal(map_lua, hook);
 
 		if (lua_pcall(map_lua, 0, -1, 0)) {
-			H2MessageBox("Error in the script.");
 			const char* msg = luaL_checkstring(map_lua, -1);
-			H2MessageBox((char*)msg);
+			int LenOfWideCharStr = MultiByteToWideChar(CP_ACP, 0, msg, -1, NULL, 0);
+			PWSTR WideCharStr = (PWSTR)HeapAlloc(GetProcessHeap(), 0, LenOfWideCharStr * sizeof(wchar_t));
+			MultiByteToWideChar(CP_ACP, 0, msg, -1, WideCharStr, LenOfWideCharStr);
+			MessageBox(NULL, (LPCWSTR)WideCharStr, (LPCWSTR)L"Error in the script.", MB_OK);
 		}
+
 	}
 }
 
@@ -292,7 +294,7 @@ void RunScript() {
 		set_lua_globals(map_lua);
 
 		luaL_dostring(map_lua, script_contents);
-		}
+	}
 }
 
 void LoadScript(char* script_filname) {
