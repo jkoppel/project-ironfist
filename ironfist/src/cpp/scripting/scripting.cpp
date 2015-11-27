@@ -51,12 +51,13 @@ void ScriptSignal(int id, const char* obj) {
 
 		if (lua_pcall(map_lua, 0, -1, 0)) {
 			const char* msg = luaL_checkstring(map_lua, -1);
-			int LenOfWideCharStr = MultiByteToWideChar(CP_ACP, 0, msg, -1, NULL, 0);
-			PWSTR WideCharStr = (PWSTR)HeapAlloc(GetProcessHeap(), 0, LenOfWideCharStr * sizeof(wchar_t));
-			MultiByteToWideChar(CP_ACP, 0, msg, -1, WideCharStr, LenOfWideCharStr);
-			MessageBox(NULL, (LPCWSTR)WideCharStr, (LPCWSTR)L"Error in the script.", MB_OK);
+			int widecharstrlen = MultiByteToWideChar(CP_ACP, 0, msg, -1, NULL, 0);
+			//PWSTR widecharstr = (PWSTR)HeapAlloc(GetProcessHeap(), 0, widecharstrlen * sizeof(wchar_t));
+			PWSTR widecharstr = (PWSTR)ALLOC(widecharstrlen * sizeof(wchar_t));
+			MultiByteToWideChar(CP_ACP, 0, msg, -1, widecharstr, widecharstrlen);
+			MessageBox(NULL, (LPCWSTR)widecharstr, (LPCWSTR)L"Script Error", MB_OK);
+			FREE(widecharstr);
 		}
-
 	}
 }
 
