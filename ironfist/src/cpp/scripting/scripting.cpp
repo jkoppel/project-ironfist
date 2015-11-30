@@ -50,12 +50,7 @@ void ScriptSignal(int id, const char* obj) {
 		lua_getglobal(map_lua, hook);
 
 		if (lua_pcall(map_lua, 0, -1, 0)) {
-			const char* msg = luaL_checkstring(map_lua, -1);
-			int widecharstrlen = MultiByteToWideChar(CP_ACP, 0, msg, -1, NULL, 0);
-			PWSTR widecharstr = (PWSTR)ALLOC(widecharstrlen * sizeof(wchar_t));
-			MultiByteToWideChar(CP_ACP, 0, msg, -1, widecharstr, widecharstrlen);
-			MessageBox(NULL, (LPCWSTR)widecharstr, (LPCWSTR)L"Script Error", MB_OK);
-			FREE(widecharstr);
+			DisplayError();
 		}
 	}
 }
@@ -293,7 +288,9 @@ void RunScript() {
 
 		set_lua_globals(map_lua);
 
-		luaL_dostring(map_lua, script_contents);
+		if (luaL_dostring(map_lua, script_contents)) {
+			DisplayError();
+		}
 	}
 }
 
@@ -362,4 +359,13 @@ void ScriptingShutdown() {
 
 char *GetScriptContents() {
 	return script_contents;
+}
+
+void DisplayError() {
+	const char* msg = luaL_checkstring(map_lua, -1);
+	int wideCharStrLen = MultiByteToWideChar(CP_ACP, 0, msg, -1, NULL, 0);
+	PWSTR wideCharStr = (PWSTR)ALLOC(wideCharStrLen * sizeof(wchar_t));
+	MultiByteToWideChar(CP_ACP, 0, msg, -1, wideCharStr, wideCharStrLen);
+	MessageBox(NULL, (LPCWSTR)wideCharStr, (LPCWSTR)L"Script Error", MB_OK);
+	FREE(wideCharStr);
 }
