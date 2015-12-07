@@ -363,9 +363,5 @@ char *GetScriptContents() {
 
 void DisplayError() {
 	const char* msg = luaL_checkstring(map_lua, -1);
-	int wideCharStrLen = MultiByteToWideChar(CP_ACP, 0, msg, -1, NULL, 0);
-	PWSTR wideCharStr = (PWSTR)ALLOC(wideCharStrLen * sizeof(wchar_t));
-	MultiByteToWideChar(CP_ACP, 0, msg, -1, wideCharStr, wideCharStrLen);
-	MessageBox(NULL, (LPCWSTR)wideCharStr, (LPCWSTR)L"Script Error", MB_OK);
-	FREE(wideCharStr);
+	DisplayError(msg, "Script Error");
 }
