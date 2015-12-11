@@ -299,7 +299,7 @@ HANDLE_MON_QTY:
 				case IDC_NAME:
 					switch(HIWORD(wParam)) {
 						case EN_CHANGE:
-							GetWindowText(GetDlgItem(hwnd, IDC_NAME), (LPWSTR)&gEditTownExtra.name, ELEMENTS_IN(gEditTownExtra.name));
+							GetWindowTextA(GetDlgItem(hwnd, IDC_NAME), (LPSTR)&gEditTownExtra.name, ELEMENTS_IN(gEditTownExtra.name));
 							break;
 					}
 				break;
