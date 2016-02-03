@@ -1,0 +1,276 @@
+Changelog date 2015.09.19
+
+*****
+
+Changes to the sprites for a more pleasant display.
+
+MONS32.ICN
+
+0000.bmp - Peasant
+- fork
+- shadow
+
+0002.bmp - Ranger
+- full shadow
+
+0004.bmp - Veteran Pickman
+- top of the helmet
+
+0005.bmp - Swordman
+- sword
+
+0006.bmp - Master Swordman
+- top of the helmet
+- sword
+- shadow
+
+0007.bmp - Cavalry
+- left shadow
+- spear
+
+0008.bmp - Champion
+- top of the helmet
+- left shadow
+- spear
+
+0009.bmp - Paladin
+- sword
+
+0010.bmp - Crusader
+- sword
+
+0015.bmp - Ogre
+- left shadow
+
+0016.bmp - Ogre Lord
+- left shadow
+
+0020.bmp - Sprite
+- full shadow
+
+0029.bmp - Centaur
+- full shadow
+
+0038.bmp - Halfling
+- full shadow
+
+0044.bmp - Archmage
+- full shadow
+
+0045.bmp - Giant
+- left shadow
+- shoulder
+
+0046.bmp - Titan
+- left shadow
+- shoulder
+
+0047.bmp - Skeleton
+- sword
+- feet
+
+0048.bmp - Zombie
+- flies
+- shadow
+
+0049.bmp - Zombie Mutant
+- flies
+- shadow
+
+0050.bmp - Mummy
+- left shadow
+- foot strip
+- hand strip
+
+0051.bmp - Royal Mummy
+- left shadow
+- foot strip
+- hand strip
+
+0053.bmp - Vampire Lord
+- left shadow *
+
+0054.bmp - Lich
+- left shadow
+
+0057.bmp - Rogue
+- left shadow
+- knives
+
+0058.bmp - Nomad
+- left shadow
+- sword
+
+0059.bmp - Ghost
+- left shadow
+
+0063.bmp - Air Elemental
+- air hole :)
+
+* MONS32(2).ICN: a version without shadow for the Vampire/Vampire Lord is also available, remove the "(2)" at the end of the file name to use it.
+
+
+*****
+*****
+
+
+Knight castle screen, changes to avoid display "flaws" with the flags.
+
+TWNKCSTL.ICN
+0000.bmp
+0001.bmp
+0002.bmp
+0003.bmp
+0004.bmp
+0005.bmp
+
+TWNKRTUR.ICN
+0000.bmp
+0001.bmp
+0002.bmp
+0003.bmp
+0004.bmp
+0005.bmp
+
+TWNKLTUR.ICN
+0003.bmp
+
+TWNKSPEC.ICN
+0000.bmp
+
+
+*****
+*****
+
+
+Changes to the sprites for a more pleasant display.
+
+SPELLINL.ICN
+
+0004.bmp - Curse spell
+- yellow border
+
+0011.bmp - Medusa petrification ability
+- background color for transparency.
+
+
+*****
+*****
+
+
+Necromancer castle screen, changes to avoid display "flaws" when switching between castles with Mausoleum and upgraded Mausoleum.
+
+TWNNDW_4.ICN
+
+setup.ini
+- changed X=214 to X=215
+
+TWNNUP_4.ICN
+
+0000.bmp
+- changes to the half top of the sprite.
+
+
+*****
+*****
+
+Knight town background.
+
+TOWNBKG0.ICN
+
+0000.bmp
+- tent rope
+
+
+*****
+*****
+
+Barbarian town background.
+
+TOWNBKG1.ICN
+
+0000.bmp
+- tent pickets
+
+
+*****
+*****
+
+
+Barbarian castle screen, changes to avoid display "flaws", for towns near the sea and towns with shipyard.
+
+TWNBBOAT.ICN
+
+0000.bmp
+0001.bmp
+0002.bmp
+0003.bmp
+0004.bmp
+0005.bmp
+0006.bmp
+0007.bmp
+0008.bmp
+0009.bmp
+
+setup.ini
+- changed X=526 to X=520
+
+TWNBDOCK.ICN
+
+0000.bmp
+0001.bmp
+0002.bmp
+0003.bmp
+0004.bmp
+0005.bmp
+
+setup.ini
+- changed X=526 to X=520
+
+
+*****
+*****
+
+
+Barbarian castle screen, change of position for the fire at the top of the right column.
+
+TWNBCSTL.ICN
+
+0000.bmp
+0001.bmp
+0002.bmp
+0003.bmp
+0004.bmp
+0005.bmp
+0006.bmp
+
+
+*****
+*****
+
+
+Barbarian castle screen, changes to avoid display "flaws".
+
+TWNBEXT0.ICN
+
+0003.bmp (only 1 pixel removed at the bottom of the sprite)
+
+
+*****
+*****
+
+
+Warlock castle screen, changes to the mage guild.
+
+TWNWMAGE.ICN
+
+0000.bmp
+0001.bmp
+0002.bmp
+0003.bmp
+0004.bmp
+
+
+*****
+*****
+
