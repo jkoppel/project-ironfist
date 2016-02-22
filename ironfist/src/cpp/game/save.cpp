@@ -234,10 +234,19 @@ void SaveMapVariables(ironfist_map::map_t& m) {
 	const char* mapVariableValue;
 	GetNextMapVariable(key, mapVariableId, mapVariableValue);
 	while (mapVariableId != "noMapVariables") {
-		ironfist_map::mapVariable_t A;
-		A.id(mapVariableId);
-		A.value(mapVariableValue);
-		m.mapVariable().push_back(A);
+		if (mapVariableValue == NULL) {
+			char errorMessage[50];
+			strcpy(errorMessage, "MapVariable '");
+			strcat(errorMessage, mapVariableId);
+			strcat(errorMessage, "' could not be saved.");
+			DisplayError((const char*) errorMessage, "mapVariable Error");
+		}
+		else {
+			ironfist_map::mapVariable_t A;
+			A.id(mapVariableId);
+			A.value(mapVariableValue);
+			m.mapVariable().push_back(A);
+		}
 		GetNextMapVariable(key, mapVariableId, mapVariableValue);
 	}
 }
