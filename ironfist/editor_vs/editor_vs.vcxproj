@@ -58,6 +58,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions); EDITOR</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\ironfist\src\cpp;..\..\ironfist\src\cpp\lib</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -198,6 +199,9 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\src\cpp\editor\edittown.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\..\..\..\..\..\..\GOG Games\Heroes of Might and Magic 2 GOLD\README.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

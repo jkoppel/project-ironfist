@@ -20,6 +20,49 @@ IMPORT___read = 1
 IMPORT___write = 1
 IMPORT___lseek = 1
 
+;; Statically linking runtime
+
+__CIexp EQU __CIexp_asm
+__CIatan2 EQU __CIatan2_asm
+__indefinite EQU __indefinite_asm
+__infinity EQU __infinity_asm
+__OP_EXPjmptab EQU __OP_asm
+__CIacos EQU __CIacos_asm
+___argc EQU ___argc_asm
+___argv EQU ___argv_asm
+__acmdln EQU __acmbdln_asm
+__pgmptr EQU __pgmptr_asm
+__CIatan EQU __CIatan_asm
+__pctype EQU __pctype_asm
+___badioinfo EQU ___badioinfo_asm
+___pioinfo EQU ___pioinfo_asm
+__nhandle EQU __nhandle_asm
+__CIlog EQU __CIlog_asm
+__CIlog10 EQU __CIlog10_asm
+___mbcodepage EQU ___mbcodepage_asm
+___mbulinfo EQU ___mbulinfo_asm
+__mbctype EQU __mbctype_asm
+__commode EQU __commode_asm
+__CIpow EQU __CIpow_asm
+__sys_nerr EQU __sys_asm
+_tolower EQU _tolower_asm
+_toupper EQU _toupper_asm
+___mb_cur_max EQU ___mb_cur_max_asm
+__d_inf EQU __d_inf_asm
+__d_ind EQU __d_ind_asm
+__d_max EQU __d_max_asm
+__d_mzero EQU __d_asm
+__nstream EQU __nstream_asm
+___piob EQU ___piob_asm
+__cflush EQU __cflush_asm
+__iob EQU __iob_asm
+___from_strstr_to_strchr EQU ___from_strstr_to_strchr_asm
+__NLG_Dispatch EQU __NLG_Dispatch_asm
+__NLG_Return2 EQU __NLG_Return2_asm
+__NLG_Destination EQU __NLG_Destination_asm
+__NLG_Notify1 EQU __NLG_Notify1_asm
+
+
 ;; Preventing the startup routines' names from clashing
 _WinMainCRTStartup EQU _start_asm
 _WinMain@16 EQU  _WinMain_asm@16

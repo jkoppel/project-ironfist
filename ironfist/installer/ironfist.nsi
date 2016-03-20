@@ -11,10 +11,6 @@ section
 	setOutPath $SYSDIR
 
     SetOverwrite off
-	File msvcr120.dll
-	File msvcr120d.dll
-	File msvcp120.dll
-	File msvcp120d.dll
 	File WING32.DLL
 	
 	SetOverwrite on

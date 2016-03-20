@@ -11,6 +11,34 @@ ___xc_z EQU ___xc_z_asm
 ___xt_a EQU ___xt_a_asm
 ___xp_a EQU ___xp_a_asm
 
+;; Statically linking runtime
+___argc EQU ___argc_asm
+___argv EQU ___argv_asm
+__acmdln EQU __acmdln_asm
+__pgmptr EQU __pgmptr_asm
+__pctype EQU __pctype_asm
+___badioinfo EQU ___badioinfo_asm
+__nhandle EQU __nhandle_asm
+___mbcodepage EQU ___mbcodepage_asm
+___mbulinfo EQU ___mbulinfo_asm
+__mbctype EQU __mbctype_asm
+__commode EQU __commode_asm
+___pioinfo EQU ___pioinfo_asm
+___mb_cur_max EQU ___mb_cur_max_asm
+_strnicmp EQU _strnicmp_asm
+_tolower EQU _tolower_asm
+_toupper EQU _toupper_asm
+__nstream EQU __nstream_asm
+___piob EQU ___piob_asm
+__cflush EQU __cflush_asm
+__iob EQU __iob_asm
+___from_strstr_to_strchr EQU ___from_strstr_to_strchr_asm
+__NLG_Dispatch EQU __NLG_Dispatch_asm
+__NLG_Return2 EQU __NLG_Return2_asm
+__NLG_Destination EQU __NLG_Destination_asm
+__NLG_Notify1 EQU __NLG_Notify1_asm
+
+
 ;; Requiring assembly to use new runtime's file operations
 IMPORT__open = 1
 IMPORT__close = 1
