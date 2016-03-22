@@ -39,7 +39,7 @@ void __thiscall soundManager::StopAllSamples(soundManager *this, int a2);
 void __thiscall soundManager::StopSample(soundManager *this, HSAMPLE a2); // idb
 void __thiscall soundManager::ModifySample(soundManager *this, HSAMPLE S, __int16 a3, int weight);
 signed __int32 __thiscall soundManager::DigitalReport(soundManager *this, HSAMPLE samp, __int16 always4); // idb
-void __thiscall soundManager::AdjustSoundVolumes(soundManager *this); // idb
+void __thiscall soundManager::AdjustSoundVolumes(soundManager *ecx0);
 void __thiscall soundManager::AdjustMusicVolumes(int this);
 void __thiscall soundManager::ForcePollSound(int this);
 char __thiscall soundManager::SetMusicQuality(int this, int a2);
@@ -256,7 +256,7 @@ void __fastcall CreateJoinFile(int a1, int a2, int a3);
 signed int __stdcall game::HeroIDToHeroPos(int a1, int a2);
 signed int __stdcall getCastleOwnedIdx(playerData *player, int castleIdx); // idb
 void __thiscall game::SetupNewRumour(game *this);
-void *__fastcall GetMapEvent(int a1, int a2);
+void *__fastcall GetMapEvent(int x, int y); // idb
 game *__thiscall game::CheckForTimeEvent(game *this);
 int __cdecl CheckValidAvailableHeroes();
 int __thiscall CalcFileCRC(const char *this);
@@ -380,7 +380,7 @@ void __thiscall advManager::CheckSetEvilInterface(void *this, int a2, int a3);
 signed int __thiscall advManager::Main(advManager *this, tag_message *evt);
 int __stdcall loc_444C90(tag_message *evt); // weak
 void __stdcall advManager::Reseed(int a1, int a2);
-signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3);
+signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int a3); // idb
 signed int __thiscall advManager::ProcessDeSelect(advManager *this, GUIMessage *evt, int a3, int a4);
 signed int __thiscall advManager::ProcessSearch(advManager *this, __int64 a2);
 signed int __thiscall advManager::ProcessHover(void *this, signed int a2, signed int a3);
@@ -390,8 +390,8 @@ void __thiscall advManager::CompleteDraw(advManager *this, int a4);
 _DWORD __stdcall advManager::GetCloudLookup(_DWORD, _DWORD); // weak
 void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int a4, char a5, int a6);
 mapCell *__thiscall advManager::GetCell(advManager *this, int col, int row);
-void __thiscall advManager::UpdateRadar(int this, int a2, int a3);
-BOOL __thiscall advManager::QuickInfo(void *ecx0, int a2, int a3);
+void __thiscall advManager::UpdateRadar(advManager *this, int a2, int a3);
+BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3);
 void __thiscall advManager::UpdateHeroLocator(advManager *this, int a2, int a3, int a4);
 void __thiscall advManager::UpdateHeroLocators(advManager *this, int a2, int a3);
 void __thiscall advManager::UpdateTownLocators(void *this, int a2, int a3);
@@ -402,7 +402,7 @@ signed int __thiscall advManager::UpdBottomViewNewTurn(advManager *this);
 signed int __thiscall advManager::UpdBottomViewResMsg(advManager *this);
 signed int __thiscall advManager::UpdBottomViewKingdom(advManager *this);
 signed int __thiscall advManager::UpdBottomViewHero(advManager *this);
-void __thiscall advManager::HeroQuickView(void *this, int a2, int a3, int a4, int a5);
+void __thiscall advManager::HeroQuickView(advManager *this, int a2, int a3, int a4, int a5);
 char *__stdcall advManager::GetArmySizeName(signed int amt, int queryType); // idb
 void __thiscall advManager::TownQuickView(void *this, int a2, int a3, int a4, int a5);
 void __thiscall advManager::RedrawAdvScreen(advManager *this, int a2, int a3);
@@ -426,7 +426,7 @@ void __thiscall advManager::CheckLoadSample(advManager *this, int n);
 signed int __thiscall advManager::GetSoundId(advManager *this, int x, int y);
 void __thiscall advManager::InsertSound(advManager *this, int a2, int, int a3, int a4);
 signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x, int y, int a5, int a6);
-void __thiscall advManager::DimensionDoor(void *this);
+void __thiscall advManager::DimensionDoor(advManager *this);
 signed int __thiscall TownPortalHandler(void *this);
 void __thiscall advManager::TownGate(advManager *this, int spell); // idb
 void __thiscall advManager::SummonBoat(advManager *this);
@@ -462,7 +462,7 @@ void __thiscall UpdateSystemOptions(void *this);
 signed int __thiscall SystemOptionsHandler(void *this);
 int __fastcall GetMobilityFrame(int a1);
 int __fastcall GetManaFrame(signed int a1);
-signed int __thiscall advManager::DoVisions(void *this, int a2);
+signed int __thiscall advManager::DoVisions(void *this, hero *hro); // idb
 signed int __stdcall advManager::IsCrystalBallInEffect(int a1, int a2, signed int a3);
 char __thiscall StopOnTrigger(int this);
 signed int __thiscall ConvertSmackerPalette(void *this);
@@ -487,8 +487,8 @@ void __stdcall game::NGKPSetupDisplayString(const char *a1, unsigned __int16 a2)
 void __stdcall game::DrawNGKPDisplayString(int a1);
 BOOL __thiscall game::ShowScenInfo(void *this);
 char *__thiscall game::GetLossConditionText(game *this, char *a2);
-void __thiscall game::GetVictoryConditionText(game *this, char *buf); // idb
-bool __thiscall game::GetSideDesc(game *this, char *a2, int a3, int a4);
+void __thiscall game::GetVictoryConditionText(game *thisa, char *buf); // idb
+bool __thiscall game::GetSideDesc(game *this, char *a2, int sideStart, int sideEnd); // idb
 __int16 __cdecl wsnet_init();
 void __cdecl wsnet_term();
 void __fastcall wsSendMessage(int a1, char a2, unsigned __int16 a3, const void *a4);
@@ -770,18 +770,18 @@ int __fastcall SetNoDialogMenus(int a1);
 void __fastcall SetMenus(HMENU a1, unsigned int a2);
 int __cdecl KBTickCount();
 // void __cdecl InitVideo();
-void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int, int);
-void __thiscall advManager::EraseObj(advManager *this, mapCell *a2, int a3, int a4);
+void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, int locY);
+void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, int a4); // idb
 void __thiscall advManager::HeroSwap(void *this, int a2, int a3);
-_DWORD __stdcall advManager::BarrierEvent(_DWORD, _DWORD); // weak
+signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, hero *hero);
 char __fastcall StrEqNoCase(int *a1, int *a2);
-char __stdcall advManager::PasswordEvent(mapCell *tile, hero *hero); // idb
-void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *this); // idb
-void __stdcall advManager::RecruitSiteEvent(int a1, int a2);
+void __thiscall advManager::PasswordEvent(advManager *this, mapCell *tile, hero *hero);
+void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, hero *this);
+void __thiscall advManager::RecruitSiteEvent(advManager *this, int a1, int a2);
 BOOL __stdcall advManager::ExpansionRecruitEvent(int a1, int a2, int a3);
 void __thiscall advManager::JailEvent(void *this, int a2, int a3, int a4, int a5);
 void __thiscall advManager::TownEvent(int this, int a2, __int64 a3);
-void __stdcall playTrackForLocationVisit(int locType, int a2, _QWORD *res);
+void __thiscall advManager::EventSound(advManager *this, int, int, SAMPLE2 *);
 void __stdcall advManager::EventWindow(signed int eventID, int a2, const char *msg, int a4, int a5, int resource2Type, int resource2Amt, int a8);
 signed int __fastcall GiveArtifact(hero *hero, ARTIFACT a2, int a3, char scrollSpell); // idb
 int __thiscall advManager::GiveRandomArtifact(void *ecx0, hero *hro);
@@ -851,7 +851,7 @@ signed int __thiscall hero::GetNthSS(hero *this, int a2);
 town *__thiscall hero::GetOccupiedTown(hero *this);
 char __thiscall hero::Stats(hero *this, PRIMARY_SKILL skill); // idb
 char __thiscall hero::GetSSLevel(hero *this, SECONDARY_SKILL skill); // idb
-heroWindow *__thiscall hero::DoSSLevelDialog(hero *this, int skill, unsigned int a3);
+void __thiscall hero::DoSSLevelDialog(hero *this, int skill, unsigned int rightClick);
 void __thiscall hero::CheckAnduranPieces(hero *this, int a2);
 void __fastcall advManager::ViewWorld(advManager *this, int edx0, int a2, int a3, int a4);
 void __cdecl advManager::VWCleanup();
@@ -1106,7 +1106,7 @@ int __thiscall advManager::ProcessIncomingSingleMapChange(void *this, int a2);
 void __thiscall advManager::ProcessIncomingGroupMapChange(void *this, const void *a2);
 int __thiscall advManager::PurgeMapChangeQueue(advManager *this);
 int __thiscall advManager::UnwindMapChangeQueue(void *this, int a2, int a3);
-int __fastcall SendMapChange(char a1, char a2, unsigned __int8 a3, unsigned __int8 a4, int a5, char a6, char a7);
+void __fastcall SendMapChange(char a1, char a2, unsigned __int8 a3, unsigned __int8 a4, int a5, char a6, char a7);
 void __stdcall combatManager::NoShowCombatLog(char *msg); // idb
 void __thiscall combatManager::ClearCombatMessages(combatManager *this, int a2);
 void __thiscall combatManager::CheckUpdateCombatMessages(combatManager *this);
@@ -1286,7 +1286,7 @@ int __thiscall font::_scalar_deleting_destructor_(int this, char a2);
 void __thiscall font::_font(font *this);
 int __thiscall font::DrawStringExecute(font *this, char *a2, int a3, int a4, int a5, int a6, int a7, unsigned int regionWidth, int regionHeight); // idb
 int __thiscall font::GetCharacterWidth(font *this, char chr);
-void __thiscall font::DrawBoundedString(font *this, const char *str, int x, int y, signed int regionWidth, int regionHeight, int a7, int alignType);
+void __thiscall font::DrawBoundedString(font *this, char *str, int x, int y, signed int regionWidth, int regionHeight, int a7, int alignType);
 int __thiscall font::LineLength(font *this, const char *msg, int maxWidth); // idb
 int __thiscall font::LineWidth(font *this, const char *str);
 iconWidget *__thiscall iconWidget::iconWidget(iconWidget *this);
@@ -1496,7 +1496,7 @@ void __cdecl _rttosnpop();
 // BOOL __cdecl operator delete(void *a1);
 // int __cdecl atol(int *a1);
 // int __cdecl atoi(int *a1);
-// int __cdecl strlen(int a1);
+// unsigned int __cdecl strlen(char *a1);
 // int __cdecl abs(int); idb
 // void __cdecl _cinit();
 // void __cdecl exit(UINT uExitCode);
@@ -2298,6 +2298,9 @@ int (__thiscall *tileset::_vftable_[3])(void *, int) =
 }; // weak
 resourceVtable sample::_vftable_ = { &sample::_scalar_deleting_destructor_ };
 resourceVtable MIDIWrap::_vftable_ = { &MIDIWrap::_scalar_deleting_destructor_ };
+double maxdouble1 =  1.797693134862316e308;
+double mindouble1 =  2.225073858507201e-308;
+double maxdouble2 =  1.797693134862316e308;
 _UNKNOWN SCS; // weak
 int CDPlaying = 0; // weak
 void *ptr = NULL; // idb
@@ -3820,7 +3823,7 @@ char gColorTableDarkBrown[256] =
 };
 int MAP_WIDTH = 72; // weak
 int MAP_HEIGHT = 72; // weak
-char *mapExtra = NULL;
+char *mapRevealed = NULL;
 int gbClosingApp = 0; // weak
 int gbForegroundApp = 0; // weak
 int giMainVideoModeColorDepth = 8; // weak
@@ -8830,17 +8833,15 @@ _UNKNOWN word_4F2C2A; // idb
 __int16 giScoreCampaignMon[] = { 9999 }; // weak
 __int16 word_4F2D32[] = { 0 }; // weak
 char townTheme[] = { '\b', '\t', '\x05', '\x06', '\n', '\a' }; // idb
-primary_skill_all_chances gHeroSkillBonus[6] =
+signed __int8 gHeroSkillBonus[6][2][4] =
 {
-  { { { '#', '-', '\n', '\n' }, { '\x19', '\x19', '\x19', '\x19' } } },
-  { { { '7', '#', '\x05', '\x05' }, { '\x19', '\x19', '\x19', '\x19' } } },
-  { { { '\n', '\n', '\x1E', '2' }, { '\x14', '\x14', '\x1E', '\x1E' } } },
-  { { { '\n', '\n', '2', '\x1E' }, { '\x14', '\x14', '\x1E', '\x1E' } } },
-  { { { '\n', '\n', '(', '(' }, { '\x14', '\x14', '\x1E', '\x1E' } } },
-  { { { '\x0F', '\x0F', '#', '#' }, { '\x19', '\x19', '\x19', '\x19' } } }
+  { { '#', '-', '\n', '\n' }, "\x19\x19\x19\x19" },
+  { "7#\x05\x05", "\x19\x19\x19\x19" },
+  { "\n\n\x1E2", "\x14\x14\x1E\x1E" },
+  { "\n\n2\x1E", "\x14\x14\x1E\x1E" },
+  { "\n\n((", "\x14\x14\x1E\x1E" },
+  { "\x0F\x0F##", "\x19\x19\x19\x19" }
 };
-char byte_4F2E41[] = { '-' }; // weak
-char byte_4F2E42[] = { '\n' }; // weak
 int gbLoadingMonoIcon = 0; // weak
 int giMonoIconSkip = 4294967295; // weak
 int giScrollX = 0; // weak
@@ -9297,28 +9298,28 @@ secondary_skill_chances iGetSSByAlignment[14] =
   { { '\0', '\0', '\0', '\x01', '\0', '\a' } },
   { { '\x03', '\x02', '\x02', '\x02', '\x02', '\x02' } }
 };
-struct SCmbtHero sCmbtHero[12] =
+struct SCmbtHero sCmbtHero[6] =
 {
   {
     18,
     8,
     65475,
     65487,
-    2,
-    { 1, 9, 9, 2, 1, 3, 2, 2, 1, 3, 2, 0 },
+    '\x02',
+    "\x01\t\t\x02\x01\x03\x02\x02\x01\x03\x02",
     {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 5, 4, 5, 4, 3, 2 },
-      { 6, 7, 8, 9, 8, 9, 8, 7, 6 },
-      { 10, 11, 255, 255, 255, 255, 255, 255, 255 },
-      { 10, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 12, 13, 255, 255, 255, 255, 255, 255 },
-      { 12, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 14, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 15, 16, 17, 255, 255, 255, 255, 255, 255 },
-      { 18, 19, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+      "\x01\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\x03\x04\x05\x04\x05\x04\x03\x02",
+      "\x06\a\b\t\b\t\b\a\x06",
+      "\n\v\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\n\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\f\r\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\f\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\x0E\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x0F\x10\x11\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x12\x13\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF"
     }
   },
   {
@@ -9326,21 +9327,21 @@ struct SCmbtHero sCmbtHero[12] =
     9,
     65469,
     65480,
-    2,
-    { 1, 9, 8, 3, 2, 3, 2, 2, 1, 3, 1, 0 },
+    '\x02',
+    "\x01\t\b\x03\x02\x03\x02\x02\x01\x03\x01",
     {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 5, 4, 5, 4, 3, 2 },
-      { 6, 7, 8, 9, 9, 8, 7, 6, 255 },
-      { 6, 10, 11, 255, 255, 255, 255, 255, 255 },
-      { 10, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 12, 13, 255, 255, 255, 255, 255, 255 },
-      { 12, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 14, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 15, 16, 17, 255, 255, 255, 255, 255, 255 },
-      { 18, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+      "\x01\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\x03\x04\x05\x04\x05\x04\x03\x02",
+      "\x06\a\b\t\t\b\a\x06\xFF",
+      "\x06\n\v\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\n\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\f\r\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\f\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\x0E\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x0F\x10\x11\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x12\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF"
     }
   },
   {
@@ -9348,21 +9349,21 @@ struct SCmbtHero sCmbtHero[12] =
     12,
     65474,
     65486,
-    2,
-    { 1, 9, 5, 3, 2, 3, 2, 2, 1, 3, 1, 0 },
+    '\x02',
+    "\x01\t\x05\x03\x02\x03\x02\x02\x01\x03\x01",
     {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 5, 4, 5, 4, 3, 2 },
-      { 6, 7, 8, 7, 6, 255, 255, 255, 255 },
-      { 6, 7, 9, 255, 255, 255, 255, 255, 255 },
-      { 7, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 10, 11, 255, 255, 255, 255, 255, 255 },
-      { 10, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 12, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 13, 14, 15, 255, 255, 255, 255, 255, 255 },
-      { 16, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+      "\x01\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\x03\x04\x05\x04\x05\x04\x03\x02",
+      "\x06\a\b\a\x06\xFF\xFF\xFF\xFF",
+      "\x06\a\t\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\a\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\n\v\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\n\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\f\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\r\x0E\x0F\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x10\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF"
     }
   },
   {
@@ -9370,21 +9371,21 @@ struct SCmbtHero sCmbtHero[12] =
     7,
     65471,
     65486,
-    2,
-    { 1, 9, 9, 4, 2, 3, 1, 2, 1, 2, 1, 0 },
+    '\x02',
+    "\x01\t\t\x04\x02\x03\x01\x02\x01\x02\x01",
     {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 5, 4, 5, 4, 3, 2 },
-      { 6, 7, 8, 9, 10, 9, 8, 7, 6 },
-      { 6, 7, 11, 12, 255, 255, 255, 255, 255 },
-      { 11, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 7, 13, 255, 255, 255, 255, 255, 255 },
-      { 6, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 14, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 15, 16, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+      "\x01\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\x03\x04\x05\x04\x05\x04\x03\x02",
+      "\x06\a\b\t\n\t\b\a\x06",
+      "\x06\a\v\f\xFF\xFF\xFF\xFF\xFF",
+      "\v\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\a\r\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\x0E\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x0F\x10\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF"
     }
   },
   {
@@ -9392,21 +9393,21 @@ struct SCmbtHero sCmbtHero[12] =
     22,
     65471,
     65489,
-    2,
-    { 1, 9, 7, 5, 4, 2, 1, 2, 1, 2, 1, 0 },
+    '\x02',
+    "\x01\t\a\x05\x04\x02\x01\x02\x01\x02\x01",
     {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 5, 4, 5, 4, 3, 2 },
-      { 6, 7, 8, 9, 8, 7, 6, 255, 255 },
-      { 6, 10, 11, 12, 13, 255, 255, 255, 255 },
-      { 12, 11, 10, 6, 255, 255, 255, 255, 255 },
-      { 6, 14, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 15, 255, 255, 255, 255, 255, 255, 255 },
-      { 6, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 16, 17, 255, 255, 255, 255, 255, 255, 255 },
-      { 18, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+      "\x01\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\x03\x04\x05\x04\x05\x04\x03\x02",
+      "\x06\a\b\t\b\a\x06\xFF\xFF",
+      "\x06\n\v\f\r\xFF\xFF\xFF\xFF",
+      "\f\v\n\x06\xFF\xFF\xFF\xFF\xFF",
+      "\x06\x0E\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\x0F\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x06\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x10\x11\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x12\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF"
     }
   },
   {
@@ -9414,153 +9415,21 @@ struct SCmbtHero sCmbtHero[12] =
     10,
     65475,
     65486,
-    2,
-    { 1, 9, 6, 5, 3, 5, 1, 5, 1, 1, 2, 0 },
+    '\x02',
+    "\x01\t\x06\x05\x03\x05\x01\x05\x01\x01\x02",
     {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 5, 4, 5, 4, 3, 2 },
-      { 6, 7, 6, 7, 6, 7, 255, 255, 255 },
-      { 7, 8, 9, 10, 11, 255, 255, 255, 255 },
-      { 10, 9, 7, 255, 255, 255, 255, 255, 255 },
-      { 7, 12, 13, 14, 15, 255, 255, 255, 255 },
-      { 7, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 7, 12, 13, 14, 16, 255, 255, 255, 255 },
-      { 7, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 17, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 18, 19, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-    }
-  },
-  {
-    17,
-    12,
-    65491,
-    65505,
-    2,
-    { 1, 0, 0, 3, 2, 2, 1, 2, 1, 3, 1, 0 },
-    {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 255, 255, 255, 255, 255, 255 },
-      { 3, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 7, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 8, 9, 8, 255, 255, 255, 255, 255, 255 },
-      { 10, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-    }
-  },
-  {
-    17,
-    12,
-    65491,
-    65505,
-    2,
-    { 1, 0, 0, 3, 2, 3, 2, 3, 2, 1, 2, 0 },
-    {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 255, 255, 255, 255, 255, 255 },
-      { 3, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 5, 6, 255, 255, 255, 255, 255, 255 },
-      { 5, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 5, 7, 255, 255, 255, 255, 255, 255 },
-      { 5, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 8, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 9, 10, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-    }
-  },
-  {
-    17,
-    12,
-    65491,
-    65505,
-    2,
-    { 1, 0, 0, 3, 2, 2, 1, 2, 1, 2, 1, 0 },
-    {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 255, 255, 255, 255, 255, 255 },
-      { 3, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 7, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 8, 9, 255, 255, 255, 255, 255, 255, 255 },
-      { 10, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-    }
-  },
-  {
-    17,
-    12,
-    65491,
-    65505,
-    1,
-    { 1, 0, 0, 3, 2, 2, 1, 2, 1, 3, 0, 0 },
-    {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 255, 255, 255, 255, 255, 255 },
-      { 3, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 7, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 8, 9, 10, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-    }
-  },
-  {
-    17,
-    12,
-    65491,
-    65505,
-    2,
-    { 1, 0, 0, 3, 2, 2, 1, 2, 1, 1, 2, 0 },
-    {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 255, 255, 255, 255, 255, 255 },
-      { 3, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 7, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 8, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 9, 10, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-    }
-  },
-  {
-    17,
-    12,
-    65491,
-    65505,
-    2,
-    { 1, 0, 0, 3, 2, 2, 1, 2, 1, 1, 2, 0 },
-    {
-      { 1, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 2, 3, 4, 255, 255, 255, 255, 255, 255 },
-      { 3, 2, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 6, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 7, 255, 255, 255, 255, 255, 255, 255 },
-      { 5, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 8, 255, 255, 255, 255, 255, 255, 255, 255 },
-      { 9, 10, 255, 255, 255, 255, 255, 255, 255 },
-      { 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+      "\x01\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x02\x03\x04\x05\x04\x05\x04\x03\x02",
+      "\x06\a\x06\a\x06\a\xFF\xFF\xFF",
+      "\a\b\t\n\v\xFF\xFF\xFF\xFF",
+      "\n\t\a\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\a\f\r\x0E\x0F\xFF\xFF\xFF\xFF",
+      "\a\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\a\f\r\x0E\x10\xFF\xFF\xFF\xFF",
+      "\a\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x11\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\x12\x13\xFF\xFF\xFF\xFF\xFF\xFF\xFF",
+      "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF"
     }
   }
 };
@@ -9572,31 +9441,77 @@ Point16 doorPos = { 393, 192 };
 int dword_4F5268[] = { 0 }; // weak
 SElevationOverlay sElevationOverlay[25] =
 {
-  { 0, "\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 2, "\x1E\x1F !/<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 2, "89:;<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 2, "*789:;<0\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 2, "EFGHI<0\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 2, "\x1D\x1E\x1F !\"#QEFGHIJW" },
-  { 2, "\x1D\x11\x12\x13\x14\x15Q_`abc\xFF\xFF\xFF" },
-  { 4, "\x1E\x1F !/<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 4, "89:;<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 4, "*789:;/\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 4, "EFGHI<0\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 4, "\x12\x1E+TUI<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 4, "\x15\"0FSab\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 64, "\x1E\x1F !/<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 64, "89:;<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 64, "*789:;<0\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 64, "EFGHI<0\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 64, "\x1D\x1E\x1F !\"#QEFGHIJW" },
-  { 64, "\x1D\x11\x12\x13\x14\x15Q_`abc\xFF\xFF\xFF" },
-  { 128, "\x1E\x1F !/<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 128, "89:;<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 128, "*789:;<0\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 128, "EFGHI<0\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 128, "+\x1E\x12TUI<\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" },
-  { 128, "\x15\"0FSab\xFF\xFF\xFF\xFF\xFF\xFF\xFF\xFF" }
+  {
+    0,
+    {
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255,
+      255
+    }
+  },
+  { 2, { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  {
+    2,
+    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  { 2, { 42, 55, 56, 57, 58, 59, 60, 48, 255, 255, 255, 255, 255, 255, 255 } },
+  { 2, { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  { 2, { 29, 30, 31, 32, 33, 34, 35, 81, 69, 70, 71, 72, 73, 74, 87 } },
+  { 2, { 29, 17, 18, 19, 20, 21, 81, 95, 96, 97, 98, 99, 255, 255, 255 } },
+  { 4, { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  {
+    4,
+    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  { 4, { 42, 55, 56, 57, 58, 59, 47, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  { 4, { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  { 4, { 18, 30, 43, 84, 85, 73, 60, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  { 4, { 21, 34, 48, 70, 83, 97, 98, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  {
+    64,
+    { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  {
+    64,
+    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  { 64, { 42, 55, 56, 57, 58, 59, 60, 48, 255, 255, 255, 255, 255, 255, 255 } },
+  { 64, { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 } },
+  { 64, { 29, 30, 31, 32, 33, 34, 35, 81, 69, 70, 71, 72, 73, 74, 87 } },
+  { 64, { 29, 17, 18, 19, 20, 21, 81, 95, 96, 97, 98, 99, 255, 255, 255 } },
+  {
+    128,
+    { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  {
+    128,
+    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  { 128, { 42, 55, 56, 57, 58, 59, 60, 48, 255, 255, 255, 255, 255, 255, 255 } },
+  {
+    128,
+    { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  {
+    128,
+    { 43, 30, 18, 84, 85, 73, 60, 255, 255, 255, 255, 255, 255, 255, 255 }
+  },
+  {
+    128,
+    { 21, 34, 48, 70, 83, 97, 98, 255, 255, 255, 255, 255, 255, 255, 255 }
+  }
 };
 char captainStats[] = { '\x01' }; // weak
 int gbDrawingPuzzle = 0; // weak
@@ -11128,7 +11043,7 @@ char *swarmStrings[9] =
 char *zoundsStrings[6] = { "Zounds", "Zounds...", "zounds of", "Legion", "A Legion of", "a legion of" }; // weak
 char *legionStrings[3] = { "Legion", "A Legion of", "a legion of" }; // weak
 char *cRandomTavernText[] = { "The truth is out there." };
-char *off_4F70C8 = "See Rock City"; // idb
+char *defaultSignMessages[4] = { "See Rock City", "This space for rent", "Next sign 50 miles", "Burma shave" };
 char *cCampaignAwards = "Dwarven alliance"; // idb
 char *cCampaignName[10] =
 {
@@ -11369,7 +11284,7 @@ int iSandAnim = 0; // weak
 int giLastHourGlassUpdateTime = 0; // weak
 int TrigX = 0; // idb
 int iCurBottomView = 0; // weak
-int dword_50EAA4 = 4294967295; // weak
+int giBottomViewPlayer = 4294967295; // weak
 __int64 iCurHourGlassPhase = 4294967296i64; // weak
 int gbForceUpdate = 0; // weak
 __int16 word_50EC80 = 296; // weak
@@ -12575,7 +12490,7 @@ BYTE directConnectBaudRate;
 BYTE uniqueSystemID;
 BYTE useOpera;
 BYTE quickCombatLevel;
-BYTE combatSpeed;
+int giCombatSpeed;
 BYTE autoCombatUseSpells;
 BYTE slowVideo;
 char byte_52497A[]; // idb
@@ -13562,13 +13477,11 @@ signed int __thiscall army::FlyTo(army *this, signed int hexIdx)
           if ( this->animationFrame >= v8
             && (this->animationFrame + 1 < v7 || this->creatureIdx != 52 && this->creatureIdx != 53) )
             glTimers = (signed __int64)((double)KBTickCount()
-                                      + (double)this->frameInfo.stepTime
-                                      * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]
-                                      / (double)v12);
+                                      + (double)this->frameInfo.stepTime * gfCombatSpeedMod[giCombatSpeed] / (double)v12);
           else
             glTimers = (signed __int64)((double)KBTickCount()
                                       + (double)this->frameInfo.stepTime
-                                      * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]
+                                      * gfCombatSpeedMod[giCombatSpeed]
                                       * 1.3
                                       / (double)v12);
           heroWindowManager::UpdateScreenRegion(gpWindowManager, offsetX, offsetY, v10 - offsetX + 1, v6 - offsetY + 1);
@@ -18468,7 +18381,7 @@ signed int __thiscall fileRequester::Main(int this, int a2)
   char *a2a; // [sp+184h] [bp-2A8h]@108
   int v19; // [sp+188h] [bp-2A4h]@50
   char a1; // [sp+18Ch] [bp-2A0h]@4
-  int v21; // [sp+2B8h] [bp-174h]@108
+  unsigned int v21; // [sp+2B8h] [bp-174h]@108
   int i; // [sp+2BCh] [bp-170h]@7
   int v23; // [sp+2C0h] [bp-16Ch]@133
   int v24; // [sp+2C4h] [bp-168h]@133
@@ -18489,7 +18402,7 @@ signed int __thiscall fileRequester::Main(int this, int a2)
         strcpy(&a1, (char *)(*(_DWORD *)(this + 670) + 351 * *(_DWORD *)(this + 1050)));
       giMapSizeFilter = (giMapSizeFilter + 1) % 5;
       fileRequester::SetupFiles(v12);
-      if ( strlen((int)&a1) )
+      if ( strlen(&a1) )
       {
         for ( i = 0; *(_DWORD *)(v12 + 1042) > i; ++i )
         {
@@ -18687,7 +18600,7 @@ LABEL_89:
           else
             strcpy(&v13, (char *)(*(_DWORD *)(v12 + 670) + 351 * *(_DWORD *)(v12 + 1050)));
           fileRequester::SetupFiles(v12);
-          if ( strlen((int)&v13) )
+          if ( strlen(&v13) )
           {
             for ( i = 0; *(_DWORD *)(v12 + 1042) > i; ++i )
             {
@@ -18714,8 +18627,8 @@ LABEL_89:
         heroWindow::BroadcastMessage(*(heroWindow **)(this + 54), (tag_message *)&evt);
         memset(chr, 0, 9u);
         strcpy(chr, a2a);
-        v21 = strlen((int)chr);
-        for ( i = 0; i < v21; ++i )
+        v21 = strlen(chr);
+        for ( i = 0; i < (signed int)v21; ++i )
         {
           if ( (chr[i] < 65 || chr[i] > 90)
             && (chr[i] < 97 || chr[i] > 122)
@@ -18725,14 +18638,14 @@ LABEL_89:
             && !FindToken("$%'-_@~`!(){}^#&+,;=[].", *(_DWORD *)&chr[i]) )
             chr[i] = 0;
         }
-        for ( i = strlen((int)chr) - 1; i >= 0; --i )
+        for ( i = strlen(chr) - 1; i >= 0; --i )
         {
           if ( chr[i] == 32 )
             chr[i] = 0;
           else
             i = -1;
         }
-        if ( strlen((int)chr) && chr[0] > 32 )
+        if ( strlen(chr) && chr[0] > 32 )
         {
           *(_DWORD *)(v12 + 1050) = -1;
           strcpy((char *)(v12 + 691), chr);
@@ -22671,8 +22584,8 @@ signed int __fastcall TavernHandler(Event *this)
       this->inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
       this->inputEvt.xCoordOrKeycode = 4;
       this->inputEvt.yCoordOrFieldID = 2;
-      ++*(_DWORD *)&gpGame->_D[104];
-      this->inputEvt.payload = (void *)(*(_DWORD *)&gpGame->_D[104] % 20 + 2);
+      ++*(_DWORD *)&gpGame->mapEventIndices[52];
+      this->inputEvt.payload = (void *)(*(_DWORD *)&gpGame->mapEventIndices[52] % 20 + 2);
       heroWindow::BroadcastMessage(gpTownManager->curScreen, &this->inputEvt);
       heroWindow::MoveWindow(gpTownManager->curScreen, 0, 0);
       glTimers = KBTickCount() + 75;
@@ -22940,12 +22853,12 @@ int __stdcall townManager::SetupThievesGuild(heroWindow *window, int strength)
 {
   int result; // eax@38
   int v3; // ST24_4@61
-  int v4; // eax@61
+  unsigned int v4; // eax@61
   char v5; // al@66
   int v6; // ST24_4@67
-  int v7; // eax@67
+  unsigned int v7; // eax@67
   int v8; // ST24_4@72
-  int v9; // eax@72
+  unsigned int v9; // eax@72
   iconWidget *v10; // [sp+10h] [bp-1ACh]@97
   textWidget *v11; // [sp+14h] [bp-1A8h]@72
   textWidget *v12; // [sp+18h] [bp-1A4h]@67
@@ -23153,7 +23066,7 @@ int __stdcall townManager::SetupThievesGuild(heroWindow *window, int strength)
           hro = &gpGame->heroes[gpGame->players[j].heroesOwned[v33]];
           sprintf(gText, "Att.\nDef.\nPower\nKnowl.");
           v3 = word_4EF178 + 190;
-          v4 = strlen((int)gText);
+          v4 = strlen(gText);
           content = (char *)BaseAlloc(v4 + 1, "F:\\h2xsrc\\Source\\TOWNMGR.CPP", v3);
           strcpy(content, gText);
           v13 = (textWidget *)operator new(43);
@@ -23170,7 +23083,7 @@ int __stdcall townManager::SetupThievesGuild(heroWindow *window, int strength)
             strcat(gText, &a2);
           }
           v6 = word_4EF178 + 216;
-          v7 = strlen((int)gText);
+          v7 = strlen(gText);
           contenta = (char *)BaseAlloc(v7 + 1, "F:\\h2xsrc\\Source\\TOWNMGR.CPP", v6);
           strcpy(contenta, gText);
           v12 = (textWidget *)operator new(43);
@@ -23184,7 +23097,7 @@ int __stdcall townManager::SetupThievesGuild(heroWindow *window, int strength)
         {
           strcpy(gText, personality_types[gpGame->players[j].personality]);
           v8 = word_4EF178 + 240;
-          v9 = strlen((int)gText);
+          v9 = strlen(gText);
           contentb = (char *)BaseAlloc(v9 + 1, "F:\\h2xsrc\\Source\\TOWNMGR.CPP", v8);
           strcpy(contentb, gText);
           v11 = (textWidget *)operator new(43);
@@ -23413,7 +23326,7 @@ signed int __thiscall playerData::Write(playerData *this, int fd)
   _write(fd, this->_3, 1);
   _write(fd, &this->personality, 4);
   _write(fd, &this->_2, 1);
-  _write(fd, this->_4, 1);
+  _write(fd, &this->_4_1, 1);
   _write(fd, &this->field_40, 1);
   _write(fd, &this->field_41, 1);
   _write(fd, (char *)&this->field_41 + 1, 1);
@@ -23424,9 +23337,9 @@ signed int __thiscall playerData::Write(playerData *this, int fd)
   _write(fd, this->castlesOwned, 72);
   _write(fd, this->resources, 28);
   _write(fd, this->field_E7, 28);
-  _write(fd, &this->_4[1], 1);
-  _write(fd, &this->_4[1], 1);
-  return _write(fd, &this->_4[2], 6);
+  _write(fd, &this->barrierTentsVisited, 1);
+  _write(fd, &this->barrierTentsVisited, 1);
+  return _write(fd, this->_4_2, 6);
 }
 
 //----- (00418AB0) --------------------------------------------------------
@@ -23445,7 +23358,7 @@ signed int __thiscall playerData::Read(playerData *this, int fd)
   _read(fd, this->_3, 1u);
   _read(fd, &this->personality, 4u);
   _read(fd, &this->_2, 1u);
-  _read(fd, this->_4, 1u);
+  _read(fd, &this->_4_1, 1u);
   _read(fd, &this->field_40, 1u);
   _read(fd, &this->field_41, 1u);
   _read(fd, (char *)&this->field_41 + 1, 1u);
@@ -23456,9 +23369,9 @@ signed int __thiscall playerData::Read(playerData *this, int fd)
   _read(fd, this->castlesOwned, 0x48u);
   _read(fd, this->resources, 0x1Cu);
   _read(fd, this->field_E7, 0x1Cu);
-  _read(fd, &this->_4[1], 1u);
-  _read(fd, &this->_4[1], 1u);
-  return _read(fd, &this->_4[2], 6u);
+  _read(fd, &this->barrierTentsVisited, 1u);
+  _read(fd, &this->barrierTentsVisited, 1u);
+  return _read(fd, this->_4_2, 6u);
 }
 
 //----- (00418CE0) --------------------------------------------------------
@@ -23702,7 +23615,7 @@ int __thiscall game::SetupPuzzlePieces(game *this, int playerNo, int isAi)
   else
   {
     memset(&puzzlePiecesRemoved, 0, 6u);
-    SRand(3 * this->players[playerNo]._4[0] + this->players[playerNo].color);
+    SRand(3 * this->players[playerNo]._4_1 + this->players[playerNo].color);
     for ( j = 0; j < numToReveala; ++j )
     {
       for ( l = 0; (signed int)l < 48 && BitTest((char *)&puzzlePiecesRemoved, l); l += SRandom(1, 5) )
@@ -23887,15 +23800,15 @@ void __fastcall GenerateStandardFileName(char *a1, char *a2)
   signed int i; // [sp+18h] [bp-10h]@3
   char v6; // [sp+1Ch] [bp-Ch]@5
   signed int v7; // [sp+20h] [bp-8h]@3
-  int v8; // [sp+24h] [bp-4h]@3
+  unsigned int v8; // [sp+24h] [bp-4h]@3
 
   v4 = (char *)FindLastToken(a1, 46);
   if ( v4 )
   {
     *v4 = 0;
     v7 = 0;
-    v8 = strlen((int)a1);
-    for ( i = 0; v8 > i; ++i )
+    v8 = strlen(a1);
+    for ( i = 0; (signed int)v8 > i; ++i )
     {
       v6 = a1[i];
       if ( v6 >= 97 && v6 <= 122 )
@@ -24054,8 +23967,8 @@ signed int __thiscall game::SaveGame(game *ecx0, const char *saveFile, int autos
   _write(fd, ecx0->rumorIndices, 2 * ecx0->numRumors);
   _write(fd, &ecx0->numEvents, 4);
   _write(fd, ecx0->eventIndices, 2 * ecx0->numEvents);
-  _write(fd, &ecx0->field_657B, 4);
-  _write(fd, ecx0->_D, 2 * ecx0->field_657B);
+  _write(fd, &ecx0->numMapEvents, 4);
+  _write(fd, ecx0->mapEventIndices, 2 * ecx0->numMapEvents);
   v17 = 1234;
   v16 = 9999;
   _write(fd, &v17, 4);
@@ -24071,7 +23984,7 @@ signed int __thiscall game::SaveGame(game *ecx0, const char *saveFile, int autos
       _write(fd, extraMemory, pwSizeOfMapExtra[i]);
   }
   _write(fd, &v17, 4);
-  _write(fd, mapExtra, MAP_HEIGHT * MAP_WIDTH);
+  _write(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
   _write(fd, &v17, 4);
   fullMap::Write(&ecx0->map, fd);
   _write(fd, &v17, 4);
@@ -24377,8 +24290,8 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
     _read(fd, ecx0->rumorIndices, 2 * ecx0->numRumors);
     _read(fd, &ecx0->numEvents, 4u);
     _read(fd, ecx0->eventIndices, 2 * ecx0->numEvents);
-    _read(fd, &ecx0->field_657B, 4u);
-    _read(fd, ecx0->_D, 2 * ecx0->field_657B);
+    _read(fd, &ecx0->numMapEvents, 4u);
+    _read(fd, ecx0->mapEventIndices, 2 * ecx0->numMapEvents);
     _read(fd, &v13, 4u);
     _read(fd, &iMaxMapExtra, 4u);
     _read(fd, &v13, 4u);
@@ -24394,7 +24307,7 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
       _read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
     }
     _read(fd, &v13, 4u);
-    _read(fd, mapExtra, MAP_HEIGHT * MAP_WIDTH);
+    _read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
     _read(fd, &v13, 4u);
     fullMap::Read(&ecx0->map, fd, 0);
     _read(fd, &v13, 4u);
@@ -24634,17 +24547,17 @@ void __thiscall game::NewMap(game *this, char *name)
   char v19; // [sp+34h] [bp-48h]@0
   signed int v20; // [sp+38h] [bp-44h]@76
   signed int v21; // [sp+38h] [bp-44h]@90
-  signed int k; // [sp+3Ch] [bp-40h]@78
-  signed int l; // [sp+3Ch] [bp-40h]@95
+  signed int j; // [sp+3Ch] [bp-40h]@78
+  signed int k; // [sp+3Ch] [bp-40h]@95
   signed int v24; // [sp+44h] [bp-38h]@53
   int v25; // [sp+4Ch] [bp-30h]@7
   signed int faction; // [sp+50h] [bp-2Ch]@87
-  int v27; // [sp+54h] [bp-28h]@42
-  signed int j; // [sp+54h] [bp-28h]@57
-  signed int m; // [sp+54h] [bp-28h]@108
-  int v30; // [sp+54h] [bp-28h]@116
-  signed int n; // [sp+54h] [bp-28h]@148
-  signed int ii; // [sp+54h] [bp-28h]@188
+  int numPlayers; // [sp+54h] [bp-28h]@42
+  signed int numPlayersa; // [sp+54h] [bp-28h]@57
+  signed int numPlayersb; // [sp+54h] [bp-28h]@108
+  int numPlayersc; // [sp+54h] [bp-28h]@116
+  signed int numPlayersd; // [sp+54h] [bp-28h]@148
+  signed int numPlayerse; // [sp+54h] [bp-28h]@188
   signed int playerIdx; // [sp+58h] [bp-24h]@7
   signed int playerIdxa; // [sp+58h] [bp-24h]@15
   signed int playerIdxb; // [sp+58h] [bp-24h]@20
@@ -24687,10 +24600,10 @@ void __thiscall game::NewMap(game *this, char *name)
   {
     if ( gpGame->mapHeader.numPlayers > playerIdx )
     {
-      if ( this->field_45F[playerIdx] == 10 )
+      if ( this->somePlayerCodeOr10IfMayBeHuman[playerIdx] == 10 )
         gbSetupGamePosToRealGamePos[playerIdx] = v25++;
       else
-        gbSetupGamePosToRealGamePos[playerIdx] = this->field_45F[playerIdx];
+        gbSetupGamePosToRealGamePos[playerIdx] = this->somePlayerCodeOr10IfMayBeHuman[playerIdx];
     }
     else
     {
@@ -24730,25 +24643,26 @@ void __thiscall game::NewMap(game *this, char *name)
   game::SetupTowns(this);
   game::InitializePasswords();
   for ( playerIdxf = 0; playerIdxf < 6; ++playerIdxf )
-    this->players[playerIdxf]._4[1] = 0;
+    this->players[playerIdxf].barrierTentsVisited = 0;
   game::RandomizeEvents(this);
   game::ProcessOnMapHeroes(this);
   this->couldBeNumDefeatedPlayers = 0;
   for ( playerIdxg = this->numPlayers; playerIdxg < 6; ++playerIdxg )
     this->playerDead[playerIdxg] = 1;
-  if ( this->mapHeader.winConditionType == 4 || this->mapHeader.winConditionType == 2 )
+  if ( this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
+    || this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_HERO )
   {
     this->mapHeader.field_1E = 1;
     this->mapHeader.allowDefeatAllVictory = 0;
   }
-  if ( this->mapHeader.winConditionType == 4 )
+  if ( this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR )
   {
-    v27 = 0;
+    numPlayers = 0;
     for ( playerIdxh = 0; playerIdxh < 6; ++playerIdxh )
     {
       if ( this->mapHeader.hasPlayer[playerIdxh] )
-        ++v27;
-      if ( this->mapHeader.winConditionArgument + 1 == v27 )
+        ++numPlayers;
+      if ( this->mapHeader.winConditionArgument + 1 == numPlayers )
       {
         HIWORD(this->mapHeader.field_2E) = playerIdxh;
         playerIdxh = 99;
@@ -24767,12 +24681,12 @@ void __thiscall game::NewMap(game *this, char *name)
     {
       for ( i = 0; i < 2; ++i )
       {
-        for ( j = 0; this->players[playerIdxi].numCastles > j; ++j )
+        for ( numPlayersa = 0; this->players[playerIdxi].numCastles > numPlayersa; ++numPlayersa )
         {
           if ( v24 == -1
-            && this->castles[this->players[playerIdxi].castlesOwned[j]].visitingHeroIdx == -1
-            && (this->castles[this->players[playerIdxi].castlesOwned[j]].buildingsBuiltFlags & 0x40 || i == 1) )
-            v24 = j;
+            && this->castles[this->players[playerIdxi].castlesOwned[numPlayersa]].visitingHeroIdx == -1
+            && (this->castles[this->players[playerIdxi].castlesOwned[numPlayersa]].buildingsBuiltFlags & 0x40 || i == 1) )
+            v24 = numPlayersa;
         }
       }
     }
@@ -24804,27 +24718,27 @@ void __thiscall game::NewMap(game *this, char *name)
     if ( playerIdxj || !gbInCampaign || !this->field_7F && !this->field_84 )
       goto LABEL_195;
     v20 = this->field_7F ? 2 : 5;
-    for ( k = 0; k < 54 && (this->heroes[k].factionID != v20 || this->relatedToHeroForHireStatus[k] != -1); ++k )
+    for ( j = 0; j < 54 && (this->heroes[j].factionID != v20 || this->relatedToHeroForHireStatus[j] != -1); ++j )
       ;
-    if ( k < 54 )
+    if ( j < 54 )
     {
       if ( this->field_7F )
       {
-        this->heroes[k].experience += 5000;
-        hero::CheckLevel(&this->heroes[k]);
-        strcpy(this->heroes[k].name, "Sister Eliza");
-        this->heroes[k].heroID = 56;
+        this->heroes[j].experience += 5000;
+        hero::CheckLevel(&this->heroes[j]);
+        strcpy(this->heroes[j].name, "Sister Eliza");
+        this->heroes[j].heroID = 56;
       }
       else
       {
-        this->heroes[k].experience += 5000;
-        hero::CheckLevel(&this->heroes[k]);
-        strcpy(this->heroes[k].name, "Brother Brax");
-        this->heroes[k].heroID = 59;
+        this->heroes[j].experience += 5000;
+        hero::CheckLevel(&this->heroes[j]);
+        strcpy(this->heroes[j].name, "Brother Brax");
+        this->heroes[j].heroID = 59;
       }
-      this->players[0].heroesForPurchase[0] = k;
+      this->players[0].heroesForPurchase[0] = j;
       this->relatedToHeroForHireStatus[this->players[0].heroesForPurchase[0]] = 64;
-      faction = this->heroes[k].factionID;
+      faction = this->heroes[j].factionID;
     }
     else
     {
@@ -24846,9 +24760,9 @@ LABEL_195:
       }
       if ( v21 == -1 )
         goto LABEL_196;
-      for ( l = 0; l < 54 && (this->heroes[l].factionID != v21 || this->relatedToHeroForHireStatus[l] != -1); ++l )
+      for ( k = 0; k < 54 && (this->heroes[k].factionID != v21 || this->relatedToHeroForHireStatus[k] != -1); ++k )
         ;
-      if ( l >= 54 )
+      if ( k >= 54 )
       {
 LABEL_196:
         faction = Random(0, 5);
@@ -24859,13 +24773,13 @@ LABEL_196:
       }
       else
       {
-        this->heroes[l].experience = 5000;
-        hero::CheckLevel(&this->heroes[l]);
-        strcpy(this->heroes[l].name, a2);
-        this->heroes[l].heroID = v19;
-        this->players[0].heroesForPurchase[0] = l;
+        this->heroes[k].experience = 5000;
+        hero::CheckLevel(&this->heroes[k]);
+        strcpy(this->heroes[k].name, a2);
+        this->heroes[k].heroID = v19;
+        this->players[0].heroesForPurchase[0] = k;
         this->relatedToHeroForHireStatus[this->players[0].heroesForPurchase[0]] = 64;
-        faction = this->heroes[l].factionID;
+        faction = this->heroes[k].factionID;
       }
     }
     v2 = Random(1, 5);
@@ -24874,17 +24788,17 @@ LABEL_196:
   }
   for ( playerIdxk = 0; this->numPlayers > playerIdxk; ++playerIdxk )
   {
-    for ( m = 0; this->players[playerIdxk].numHeroes > m; ++m )
+    for ( numPlayersb = 0; this->players[playerIdxk].numHeroes > numPlayersb; ++numPlayersb )
     {
-      v3 = this->heroes[this->players[playerIdxk].heroesOwned[m]].x;
-      v4 = this->heroes[this->players[playerIdxk].heroesOwned[m]].y;
-      this->heroes[this->players[playerIdxk].heroesOwned[m]].occupiedObjType = *(&this->map.tiles[v3].objType
-                                                                               + 12 * v4 * this->map.width);
-      this->heroes[this->players[playerIdxk].heroesOwned[m]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v3].field_4_1_1_isShadow_1_13_extraInfo + 6 * v4 * this->map.width) >> 8) >> -5);
+      v3 = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].x;
+      v4 = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].y;
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjType = *(&this->map.tiles[v3].objType
+                                                                                         + 12 * v4 * this->map.width);
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v3].field_4_1_1_isShadow_1_13_extraInfo + 6 * v4 * this->map.width) >> 8) >> -5);
       *(&this->map.tiles[v3].objType + 12 * v4 * this->map.width) = -86;
       v5 = &this->map.tiles[v4 * this->map.width] + v3;
       v5->field_4_1_1_isShadow_1_13_extraInfo = v5->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                            * this->players[playerIdxk].heroesOwned[m];
+                                                                                            * this->players[playerIdxk].heroesOwned[numPlayersb];
     }
     if ( this->players[playerIdxk].numHeroes <= 0 )
     {
@@ -24897,7 +24811,7 @@ LABEL_196:
     }
   }
   playerIdxl = -1;
-  v30 = -1;
+  numPlayersc = -1;
   v50 = 0;
   v6 = Random(1, 30);
   v7 = Random(1, 20) + v6;
@@ -24906,23 +24820,23 @@ LABEL_196:
   {
     if ( playerIdxl >= 9 )
     {
-      if ( v30 >= 9 )
+      if ( numPlayersc >= 9 )
       {
         if ( MAP_WIDTH - 10 >= playerIdxl )
         {
-          if ( MAP_HEIGHT - 10 >= v30 )
+          if ( MAP_HEIGHT - 10 >= numPlayersc )
           {
-            if ( *(&this->map.tiles[playerIdxl].objectIndex + 12 * v30 * this->map.width) == 255 )
+            if ( *(&this->map.tiles[playerIdxl].objectIndex + 12 * numPlayersc * this->map.width) == 255 )
             {
-              if ( *(&this->map.tiles[playerIdxl].overlayIndex + 12 * v30 * this->map.width) == 255 )
+              if ( *(&this->map.tiles[playerIdxl].overlayIndex + 12 * numPlayersc * this->map.width) == 255 )
               {
-                if ( giGroundToTerrain[*(&this->map.tiles[v30 * this->map.width].groundIndex + 6 * playerIdxl)] )
+                if ( giGroundToTerrain[*(&this->map.tiles[numPlayersc * this->map.width].groundIndex + 6 * playerIdxl)] )
                 {
                   if ( iLastMsgNumHumanPlayers != 1 )
                     break;
                   if ( v50 >= 200 )
                     break;
-                  v8 = abs(v30 - this->heroes[this->players[0].heroesOwned[0]].y);
+                  v8 = abs(numPlayersc - this->heroes[this->players[0].heroesOwned[0]].y);
                   if ( abs(playerIdxl - this->heroes[this->players[0].heroesOwned[0]].x) + v8 > v54 )
                     break;
                 }
@@ -24935,7 +24849,7 @@ LABEL_196:
     if ( v50 >= 400 || giUABaseX <= 0 )
     {
       playerIdxl = Random(9, MAP_WIDTH - 10);
-      v30 = Random(9, MAP_HEIGHT - 10);
+      numPlayersc = Random(9, MAP_HEIGHT - 10);
     }
     else
     {
@@ -24948,7 +24862,7 @@ LABEL_196:
         v15 = Random(-giUARadius, giUARadius);
       else
         v15 = 0;
-      v30 = v15 + giUABaseY;
+      numPlayersc = v15 + giUABaseY;
     }
     v9 = Random(1, 30);
     v10 = Random(1, 20) + v9;
@@ -24956,7 +24870,7 @@ LABEL_196:
     ++v50;
   }
   this->field_6395 = playerIdxl;
-  this->field_6396 = v30;
+  this->field_6396 = numPlayersc;
   this->field_6397 = Random(0, 7);
   if ( gbInCampaign && (!this->field_2 && this->field_4 == 7 || this->field_2 == 1 && this->field_4 == 8) )
     this->field_6397 = 6;
@@ -24968,13 +24882,14 @@ LABEL_196:
       memcpy(this->players[playerIdxm].resources, (char *)&unk_4F1E00 + 28 * this->difficulty, 0x1Cu);
       if ( this->playerHandicap[playerIdxm] )
       {
-        for ( n = 0; n < 7; ++n )
+        for ( numPlayersd = 0; numPlayersd < 7; ++numPlayersd )
         {
           if ( this->playerHandicap[playerIdxm] == 1 )
             v14 = 0.85;
           else
             v14 = 0.7;
-          this->players[playerIdxm].resources[n] = (signed __int64)((double)this->players[playerIdxm].resources[n] * v14);
+          this->players[playerIdxm].resources[numPlayersd] = (signed __int64)((double)this->players[playerIdxm].resources[numPlayersd]
+                                                                            * v14);
         }
       }
     }
@@ -25044,11 +24959,11 @@ LABEL_196:
     {
       v17 = this->field_459[gcColorToSetupPos[this->players[playerIdxn].color]];
     }
-    this->players[playerIdxn]._4[0] = v17 == 1 || v17 == 3 || v17 == 5;
+    this->players[playerIdxn]._4_1 = v17 == 1 || v17 == 3 || v17 == 5;
     if ( gbInCampaign && !playerIdxn )
-      this->players[0]._4[0] = this->field_2 == 1;
-    for ( ii = 0; gpGame->players[playerIdxn].numCastles > ii; ++ii )
-      town::GiveSpells(&gpGame->castles[gpGame->players[playerIdxn].castlesOwned[ii]], 0);
+      this->players[0]._4_1 = this->field_2 == 1;
+    for ( numPlayerse = 0; gpGame->players[playerIdxn].numCastles > numPlayerse; ++numPlayerse )
+      town::GiveSpells(&gpGame->castles[gpGame->players[playerIdxn].castlesOwned[numPlayerse]], 0);
     gpGame->players[playerIdxn]._2 = gpGame->players[playerIdxn].numHeroes;
   }
   philAI::GetGameAIVars(gpPhilAI);
@@ -25133,7 +25048,7 @@ int __thiscall game::RandomizeEvents(game *this)
   int y; // [sp+1B8h] [bp-2Ch]@1
   int l; // [sp+1BCh] [bp-28h]@38
   int j; // [sp+1C0h] [bp-24h]@164
-  mapCellExtra *v64; // [sp+1C4h] [bp-20h]@207
+  mapCellExtra *extra; // [sp+1C4h] [bp-20h]@207
   int x; // [sp+1C8h] [bp-1Ch]@3
   int artId; // [sp+1CCh] [bp-18h]@140
   int v67; // [sp+1D0h] [bp-14h]@1
@@ -25150,8 +25065,8 @@ int __thiscall game::RandomizeEvents(game *this)
   v71 = 1;
   v67 = 1;
   nXanadu = 1;
-  this->field_657B = 0;
-  memset(this->_D, 0, 0x64u);
+  this->numMapEvents = 0;
+  memset(this->mapEventIndices, 0, 0x64u);
   for ( y = 0; y < MAP_HEIGHT; ++y )
   {
     for ( x = 0; MAP_WIDTH > x; ++x )
@@ -25177,10 +25092,10 @@ int __thiscall game::RandomizeEvents(game *this)
           break;
         case TILE_HAS_EVENT|LOCATION_SPHINX:
           v51 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
-          *(_BYTE *)v51 = (unsigned int)strlen((int)((char *)v51 + 136)) > 1 && (signed int)*((_BYTE *)v51 + 31) >= 1;
+          *(_BYTE *)v51 = strlen((char *)v51 + 136) > 1 && (signed int)*((_BYTE *)v51 + 31) >= 1;
           break;
         case TILE_HAS_EVENT|LOCATION_EVENT:
-          *(_WORD *)&this->_D[2 * this->field_657B] = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          this->mapEventIndices[this->numMapEvents] = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
           v50 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
           *((_WORD *)v50 + 19) = x;
           *((_WORD *)v50 + 20) = y;
@@ -25189,7 +25104,7 @@ int __thiscall game::RandomizeEvents(game *this)
           cell->objType = 0;
           cell->objectIndex = -1;
           cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
-          ++this->field_657B;
+          ++this->numMapEvents;
           break;
         case TILE_HAS_EVENT|LOCATION_GAZEBO:
           cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v53++ | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
@@ -25728,10 +25643,10 @@ LABEL_178:
       if ( cell->objectIndex != 255 && (cell->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1 )
       {
         v68 = 1;
-        for ( k = cell->extraIdx; k; k = v64->nextIdx )
+        for ( k = cell->extraIdx; k; k = extra->nextIdx )
         {
-          v64 = (mapCellExtra *)((char *)this->map.cellExtras + 8 * k - k);
-          if ( v64->objectIndex != 255 && !(((unsigned __int8)v64->field_4 >> 1) & 1) )
+          extra = (mapCellExtra *)((char *)this->map.cellExtras + 8 * k - k);
+          if ( extra->objectIndex != 255 && !(((unsigned __int8)extra->field_4_1_1_1_isShadow_5 >> 1) & 1) )
             v68 = 0;
         }
         if ( v68 )
@@ -25772,20 +25687,20 @@ LABEL_178:
           v42[v45++] = cell->objectIndex;
         }
         if ( cell->extraIdx )
-          v64 = &this->map.cellExtras[cell->extraIdx];
+          extra = &this->map.cellExtras[cell->extraIdx];
         else
-          v64 = 0;
-        while ( v45 < 5 && v64 )
+          extra = 0;
+        while ( v45 < 5 && extra )
         {
-          if ( v64->objectIndex != 255 && !(((unsigned __int8)v64->field_4 >> 1) & 1) )
+          if ( extra->objectIndex != 255 && !(((unsigned __int8)extra->field_4_1_1_1_isShadow_5 >> 1) & 1) )
           {
-            v41[v45] = (v64->_1_q_7_objTileset >> 1) & 0x7F;
-            v42[v45++] = v64->objectIndex;
+            v41[v45] = (extra->_1_q_7_objTileset >> 1) & 0x7F;
+            v42[v45++] = extra->objectIndex;
           }
-          if ( v64->nextIdx )
-            v64 = &this->map.cellExtras[v64->nextIdx];
+          if ( extra->nextIdx )
+            extra = &this->map.cellExtras[extra->nextIdx];
           else
-            v64 = 0;
+            extra = 0;
         }
         v40 = &this->map.tiles[(y + 1) * this->map.width] + x;
         if ( !((v40->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
@@ -25794,20 +25709,20 @@ LABEL_178:
           v43[v44++] = v40->objectIndex;
         }
         if ( v40->extraIdx )
-          v64 = &this->map.cellExtras[v40->extraIdx];
+          extra = &this->map.cellExtras[v40->extraIdx];
         else
-          v64 = 0;
-        while ( v44 < 5 && v64 )
+          extra = 0;
+        while ( v44 < 5 && extra )
         {
-          if ( v64->objectIndex != 255 && !(((unsigned __int8)v64->field_4 >> 1) & 1) )
+          if ( extra->objectIndex != 255 && !(((unsigned __int8)extra->field_4_1_1_1_isShadow_5 >> 1) & 1) )
           {
-            v46[v44] = (v64->_1_q_7_objTileset >> 1) & 0x7F;
-            v43[v44++] = v64->objectIndex;
+            v46[v44] = (extra->_1_q_7_objTileset >> 1) & 0x7F;
+            v43[v44++] = extra->objectIndex;
           }
-          if ( v64->nextIdx )
-            v64 = &this->map.cellExtras[v64->nextIdx];
+          if ( extra->nextIdx )
+            extra = &this->map.cellExtras[extra->nextIdx];
           else
-            v64 = 0;
+            extra = 0;
         }
         for ( l = 0; v45 > l; ++l )
         {
@@ -26105,26 +26020,26 @@ int __thiscall game::ViewSpells(game *this, hero *hris, int a3, int (__fastcall 
 
   thisa = this;
   viewSpellsHero = hris;
-  *(_DWORD *)&this->_D[136] = -1;
+  *(_DWORD *)&this->mapEventIndices[68] = -1;
   if ( hero::GetNumSpells(hris, a3) )
   {
     thisa->callback = (int (__thiscall *)(tag_message *))callback;
     thisa->field_660D = a5;
-    *(_DWORD *)&thisa->_D[112] = hris;
+    *(_DWORD *)&thisa->mapEventIndices[56] = hris;
     if ( a3 == 2 )
-      *(_DWORD *)&thisa->_D[116] = 1;
+      *(_DWORD *)&thisa->mapEventIndices[58] = 1;
     else
-      *(_DWORD *)&thisa->_D[116] = a3;
-    *(_DWORD *)&thisa->_D[120] = 0;
-    *(_DWORD *)&thisa->_D[128] = hero::GetNumSpells(hris, 0);
-    *(_DWORD *)&thisa->_D[124] = 0;
-    *(_DWORD *)&thisa->_D[132] = hero::GetNumSpells(hris, 1);
+      *(_DWORD *)&thisa->mapEventIndices[58] = a3;
+    *(_DWORD *)&thisa->mapEventIndices[60] = 0;
+    *(_DWORD *)&thisa->mapEventIndices[64] = hero::GetNumSpells(hris, 0);
+    *(_DWORD *)&thisa->mapEventIndices[62] = 0;
+    *(_DWORD *)&thisa->mapEventIndices[66] = hero::GetNumSpells(hris, 1);
     window = (heroWindow *)operator new(68);
     if ( window )
-      *(_DWORD *)&thisa->_D[108] = heroWindow::heroWindow(window, 86, 87, "spellwin.bin");
+      *(_DWORD *)&thisa->mapEventIndices[54] = heroWindow::heroWindow(window, 86, 87, "spellwin.bin");
     else
-      *(_DWORD *)&thisa->_D[108] = 0;
-    if ( !*(_DWORD *)&thisa->_D[108] )
+      *(_DWORD *)&thisa->mapEventIndices[54] = 0;
+    if ( !*(_DWORD *)&thisa->mapEventIndices[54] )
       MemError();
     if ( a3 != 2 )
     {
@@ -26135,21 +26050,21 @@ int __thiscall game::ViewSpells(game *this, hero *hris, int a3, int (__fastcall 
       else
         evt.yCoordOrFieldID = 4;
       evt.payload = (void *)6;
-      heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[108], &evt);
+      heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[54], &evt);
     }
     game::UpdateSpellWidgets((int)thisa);
     heroWindowManager::DoDialog(
       gpWindowManager,
-      *(heroWindow **)&thisa->_D[108],
+      *(heroWindow **)&thisa->mapEventIndices[54],
       (int (__fastcall *)(tag_message *))ViewSpellsHandler,
       0);
-    operator delete(*(void **)&thisa->_D[108]);
+    operator delete(*(void **)&thisa->mapEventIndices[54]);
   }
   else
   {
     NormalDialog("No spells to cast.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
   }
-  return *(_DWORD *)&thisa->_D[136];
+  return *(_DWORD *)&thisa->mapEventIndices[68];
 }
 
 //----- (004219A0) --------------------------------------------------------
@@ -26332,35 +26247,35 @@ int __thiscall ViewSpellsHandler(tag_message *msg)
                   NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
                   break;
                 case 2:
-                  if ( *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] )
+                  if ( *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60] )
                   {
-                    *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] -= 12;
-                    if ( *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] < 0 )
-                      *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] = 0;
+                    *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60] -= 12;
+                    if ( *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60] < 0 )
+                      *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60] = 0;
                     game::UpdateSpellWidgets((int)gpGame);
-                    heroWindow::MoveWindow(*(heroWindow **)&gpGame->_D[108], 0, 0);
+                    heroWindow::MoveWindow(*(heroWindow **)&gpGame->mapEventIndices[54], 0, 0);
                   }
                   else
                   {
                     game::UpdateSpellWidgets((int)gpGame);
-                    heroWindow::MoveWindow(*(heroWindow **)&gpGame->_D[108], 0, 0);
+                    heroWindow::MoveWindow(*(heroWindow **)&gpGame->mapEventIndices[54], 0, 0);
                   }
                   break;
                 case 3:
-                  if ( *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] + 12 < *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 128] )
-                    *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] += 12;
+                  if ( *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60] + 12 < *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 64] )
+                    *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60] += 12;
                   game::UpdateSpellWidgets((int)gpGame);
-                  heroWindow::MoveWindow(*(heroWindow **)&gpGame->_D[108], 0, 0);
+                  heroWindow::MoveWindow(*(heroWindow **)&gpGame->mapEventIndices[54], 0, 0);
                   break;
                 case 4:
-                  *(_DWORD *)&gpGame->_D[116] = 1;
+                  *(_DWORD *)&gpGame->mapEventIndices[58] = 1;
                   game::UpdateSpellWidgets((int)gpGame);
-                  heroWindow::MoveWindow(*(heroWindow **)&gpGame->_D[108], 0, 0);
+                  heroWindow::MoveWindow(*(heroWindow **)&gpGame->mapEventIndices[54], 0, 0);
                   break;
                 case 5:
-                  *(_DWORD *)&gpGame->_D[116] = 0;
+                  *(_DWORD *)&gpGame->mapEventIndices[58] = 0;
                   game::UpdateSpellWidgets((int)gpGame);
-                  heroWindow::MoveWindow(*(heroWindow **)&gpGame->_D[108], 0, 0);
+                  heroWindow::MoveWindow(*(heroWindow **)&gpGame->mapEventIndices[54], 0, 0);
                   break;
                 default:
                   break;
@@ -26397,9 +26312,12 @@ LABEL_50:
       case 0x6E:
       case 0x6F:
         v2 = hero::GetNthSpell(
-               *(hero **)&gpGame->_D[112],
-               *(_DWORD *)&gpGame->_D[116],
-               msg->yCoordOrFieldID - 100 + *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] + 1);
+               *(hero **)&gpGame->mapEventIndices[56],
+               *(_DWORD *)&gpGame->mapEventIndices[58],
+               msg->yCoordOrFieldID
+             - 100
+             + *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60]
+             + 1);
         NormalDialog(gSpellDesc[v2], 4, -1, -1, 8, v2, -1, 0, -1, 0);
         break;
       case 2:
@@ -26430,9 +26348,12 @@ LABEL_50:
   if ( v5 < 100 || v5 > 111 )
     goto LABEL_50;
   spell = hero::GetNthSpell(
-            *(hero **)&gpGame->_D[112],
-            *(_DWORD *)&gpGame->_D[116],
-            msg->yCoordOrFieldID - 100 + *(_DWORD *)&gpGame->_D[4 * *(_DWORD *)&gpGame->_D[116] + 120] + 1);
+            *(hero **)&gpGame->mapEventIndices[56],
+            *(_DWORD *)&gpGame->mapEventIndices[58],
+            msg->yCoordOrFieldID
+          - 100
+          + *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60]
+          + 1);
   if ( gpGame->field_660D )
   {
     NormalDialog(gSpellDesc[spell], 1, -1, -1, 8, spell, -1, 0, -1, 0);
@@ -26440,7 +26361,7 @@ LABEL_50:
   }
   else if ( GetManaCost(spell, viewSpellsHero) <= viewSpellsHero->spellpoints )
   {
-    *(_DWORD *)&gpGame->_D[136] = spell;
+    *(_DWORD *)&gpGame->mapEventIndices[68] = spell;
     msg->xCoordOrKeycode = 10;
     result = 2;
   }
@@ -26600,10 +26521,10 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
     v35 = (int)&gMonsterDatabase[creat];
   thisb = (heroWindow *)operator new(68);
   if ( thisb )
-    *(_DWORD *)&thisa->_D[100] = heroWindow::heroWindow(thisb, 19, 75, "armywin.bin");
+    *(_DWORD *)&thisa->mapEventIndices[50] = heroWindow::heroWindow(thisb, 19, 75, "armywin.bin");
   else
-    *(_DWORD *)&thisa->_D[100] = 0;
-  if ( !*(_DWORD *)&thisa->_D[100] )
+    *(_DWORD *)&thisa->mapEventIndices[50] = 0;
+  if ( !*(_DWORD *)&thisa->mapEventIndices[50] )
     MemError();
   if ( a8 == 1 )
     viewArmyFacingWIPXMod = -1;
@@ -26657,14 +26578,14 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
   }
   if ( !guiObj )
     MemError();
-  heroWindow::AddWidget(*(heroWindow **)&thisa->_D[100], guiObj, -1);
+  heroWindow::AddWidget(*(heroWindow **)&thisa->mapEventIndices[50], guiObj, -1);
   resourceManager::Dispose(gpResourceManager, (resource *)res);
   strcpy(&a1, gArmyNames[creat]);
   a1 -= 32;
   v31 = 3;
   v32 = 3;
   v33 = &a1;
-  heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+  heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
   buf = (char *)BaseAlloc(0x226u, "F:\\h2xsrc\\Source\\GAME.CPP", word_4EF4B0 + 147);
   if ( a12a )
     v41 = armyGroup::GetMorale(a12, hro, (town *)a6, 0);
@@ -26738,27 +26659,27 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
   strcat(buf, gText);
   v32 = 4;
   v33 = buf;
-  heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+  heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
   if ( !gbAllowUpgrade )
   {
     v31 = 6;
     v33 = (char *)6;
     v32 = 500;
-    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
   }
   if ( a7 )
   {
     v31 = 6;
     v33 = (char *)6;
     v32 = 30723;
-    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
   }
   if ( a9 )
   {
     v31 = 6;
     v33 = (char *)6;
     v32 = 30720;
-    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
   }
   if ( a5 >= 1 )
   {
@@ -26766,16 +26687,16 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
     v31 = 3;
     v32 = 2;
     v33 = &v28;
-    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
   }
   else
   {
     v31 = 6;
     v33 = (char *)6;
     v32 = 1;
-    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
     v32 = 2;
-    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->_D[100], (tag_message *)&evt);
+    heroWindow::BroadcastMessage(*(heroWindow **)&thisa->mapEventIndices[50], (tag_message *)&evt);
   }
   if ( a11 )
   {
@@ -26813,22 +26734,22 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
         v26 = 0;
       if ( !v26 )
         MemError();
-      heroWindow::AddWidget(*(heroWindow **)&thisa->_D[100], v26, -1);
+      heroWindow::AddWidget(*(heroWindow **)&thisa->mapEventIndices[50], v26, -1);
     }
   }
   glTimers = KBTickCount() + 90;
-  *(_DWORD *)&thisa->_D[104] = 0;
+  *(_DWORD *)&thisa->mapEventIndices[52] = 0;
   if ( a9 )
   {
-    heroWindowManager::AddWindow(gpWindowManager, *(heroWindow **)&thisa->_D[100], -1, 1);
+    heroWindowManager::AddWindow(gpWindowManager, *(heroWindow **)&thisa->mapEventIndices[50], -1, 1);
     QuickViewWait();
-    heroWindowManager::RemoveWindow(gpWindowManager, *(heroWindow **)&thisa->_D[100]);
+    heroWindowManager::RemoveWindow(gpWindowManager, *(heroWindow **)&thisa->mapEventIndices[50]);
   }
   else
   {
     heroWindowManager::DoDialog(
       gpWindowManager,
-      *(heroWindow **)&thisa->_D[100],
+      *(heroWindow **)&thisa->mapEventIndices[50],
       (int (__fastcall *)(tag_message *))ViewArmyHandler,
       0);
     if ( gbDismissArmy && a12 )
@@ -26840,7 +26761,7 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
       a12->creatureTypes[a13] = iViewArmyUpgradeToType;
   }
   BaseFree(buf, (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF4B0 + 356);
-  return operator delete(*(void **)&thisa->_D[100]);
+  return operator delete(*(void **)&thisa->mapEventIndices[50]);
 }
 // 4EF4B0: using guessed type __int16 word_4EF4B0;
 // 4F3D10: using guessed type char *gTownObjNames[32];
@@ -26914,11 +26835,11 @@ LABEL_30:
         *((_DWORD *)evt + 2) = 5;
         iViewArmyFrame = (iViewArmyFrame + 1) % byte_522D39;
         *((_DWORD *)evt + 6) = byte_522DB5[iViewArmyFrame];
-        heroWindow::BroadcastMessage(*(heroWindow **)&gpGame->_D[100], (tag_message *)evt);
+        heroWindow::BroadcastMessage(*(heroWindow **)&gpGame->mapEventIndices[50], (tag_message *)evt);
         *((_DWORD *)evt + 1) = 52;
         *((_DWORD *)evt + 6) = *(_DWORD *)&viewArmyBaseX + viewArmyFacingWIPXMod * byte_522CA5[iViewArmyFrame];
-        heroWindow::BroadcastMessage(*(heroWindow **)&gpGame->_D[100], (tag_message *)evt);
-        heroWindow::DrawWindow(*(heroWindow **)&gpGame->_D[100], 1, 0, 32767);
+        heroWindow::BroadcastMessage(*(heroWindow **)&gpGame->mapEventIndices[50], (tag_message *)evt);
+        heroWindow::DrawWindow(*(heroWindow **)&gpGame->mapEventIndices[50], 1, 0, 32767);
         glTimers = (signed __int64)((double)KBTickCount() + (double)dword_522CE2 * 1.35 / (double)byte_522D39);
       }
     }
@@ -28866,7 +28787,7 @@ int __thiscall game::SetVisibility(game *this, int x, int y, int playerIdx, sign
       {
         v6 = radius + radius - abs(y - point[0]);
         if ( v11 <= v6 - abs(x - point[1]) && *(_QWORD *)point >= 0i64 && MAP_WIDTH > point[1] && point[0] < MAP_HEIGHT )
-          *(&mapExtra[point[1]] + point[0] * MAP_WIDTH) |= playerBit;
+          *(&mapRevealed[point[1]] + point[0] * MAP_WIDTH) |= playerBit;
       }
     }
   }
@@ -28880,7 +28801,7 @@ int __thiscall game::SetVisibility(game *this, int x, int y, int playerIdx, sign
       for ( j = 0; MAP_WIDTH > j; ++j )
       {
         if ( (signed int)(signed __int64)sqrt((double)((y - i) * (y - i) + (x - j) * (x - j))) < radius )
-          *(&mapExtra[j] + i * MAP_WIDTH) |= playerBit;
+          *(&mapRevealed[j] + i * MAP_WIDTH) |= playerBit;
       }
     }
   }
@@ -28901,7 +28822,7 @@ void __thiscall game::MakeAllWaterVisible(game *this, char playerIdx)
     for ( row = 0; row < MAP_HEIGHT; ++row )
     {
       if ( !giGroundToTerrain[*(&this->map.tiles[row * this->map.width].groundIndex + 6 * col)] )
-        *(&mapExtra[col] + MAP_WIDTH * row) |= 1 << playerIdx;
+        *(&mapRevealed[col] + MAP_WIDTH * row) |= 1 << playerIdx;
     }
   }
 }
@@ -29012,9 +28933,9 @@ void __thiscall game::SetupAdjacentMons(game *this)
     for ( j = 0; j < MAP_HEIGHT; ++j )
     {
       if ( advManager::FindAdjacentMonster(gpAdvManager, i, j, (int)&a3, (int)&a4, -1, -1) )
-        *(&mapExtra[i] + MAP_WIDTH * j) |= 0x80u;
+        *(&mapRevealed[i] + MAP_WIDTH * j) |= 0x80u;
       else
-        *(&mapExtra[i] + MAP_WIDTH * j) &= v3;
+        *(&mapRevealed[i] + MAP_WIDTH * j) &= v3;
     }
   }
 }
@@ -29294,7 +29215,7 @@ void __thiscall game::SetupTowns(game *this)
   int playerPos; // [sp+50h] [bp-64h]@6
   char spellPresent[68]; // [sp+54h] [bp-60h]@50
   int tries; // [sp+98h] [bp-1Ch]@86 MAPDST
-  townMapExtra *twn; // [sp+9Ch] [bp-18h]@5
+  TownExtra *twn; // [sp+9Ch] [bp-18h]@5
   int i; // [sp+A4h] [bp-10h]@9
   int castleIdx; // [sp+A8h] [bp-Ch]@1
   town *castle; // [sp+ACh] [bp-8h]@5
@@ -29306,7 +29227,7 @@ void __thiscall game::SetupTowns(game *this)
     {
       castle = &this->castles[castleIdx];
       v19 = this->castles[castleIdx].extraIdx;
-      twn = (townMapExtra *)ppMapExtra[v19];
+      twn = (TownExtra *)ppMapExtra[v19];
       if ( twn->color == -1 )
         playerPos = -1;
       else
@@ -30367,10 +30288,10 @@ void *__thiscall game::SetMapSize(game *this, int w, int h)
     MAP_HEIGHT = h;
     searchArray::Init(gpSearchArray);
   }
-  if ( mapExtra )
-    BaseFree(mapExtra, (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EFA44 + 12);
-  mapExtra = (char *)BaseAlloc(MAP_HEIGHT * MAP_WIDTH, "F:\\h2xsrc\\Source\\GAME.CPP", word_4EFA44 + 13);
-  return memset(mapExtra, 0, MAP_HEIGHT * MAP_WIDTH);
+  if ( mapRevealed )
+    BaseFree(mapRevealed, (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EFA44 + 12);
+  mapRevealed = (char *)BaseAlloc(MAP_HEIGHT * MAP_WIDTH, "F:\\h2xsrc\\Source\\GAME.CPP", word_4EFA44 + 13);
+  return memset(mapRevealed, 0, MAP_HEIGHT * MAP_WIDTH);
 }
 // 4EFA40: using guessed type char bMapInitialized;
 // 4EFA44: using guessed type __int16 word_4EFA44;
@@ -30720,7 +30641,7 @@ void __thiscall game::SetupNewRumour(game *this)
       else
         idx = Random(0, this->numRumors - 1);
       v9 = ppMapExtra[this->rumorIndices[idx]];
-      if ( (unsigned int)strlen((int)((char *)v9 + 8)) > 2 && *((_BYTE *)v9 + 8) != 64 )
+      if ( strlen((char *)v9 + 8) > 2 && *((_BYTE *)v9 + 8) != 64 )
       {
         strcpy(this->currentRumor, (char *)v9 + 8);
         *((_BYTE *)v9 + 8) = 64;
@@ -30860,18 +30781,18 @@ void __thiscall game::SetupNewRumour(game *this)
 // 532C54: using guessed type int giCurTurn;
 
 //----- (0042E250) --------------------------------------------------------
-void *__fastcall GetMapEvent(int a1, int a2)
+void *__fastcall GetMapEvent(int x, int y)
 {
   int v2; // edx@3
   signed int i; // [sp+14h] [bp-8h]@1
   void *v6; // [sp+18h] [bp-4h]@3
 
-  for ( i = 0; gpGame->field_657B > i; ++i )
+  for ( i = 0; gpGame->numMapEvents > i; ++i )
   {
-    v2 = *(_WORD *)&gpGame->_D[2 * i];
+    v2 = gpGame->mapEventIndices[i];
     v6 = ppMapExtra[v2];
-    if ( *((_WORD *)v6 + 19) == a1
-      && *((_WORD *)v6 + 20) == a2
+    if ( *((_WORD *)v6 + 19) == x
+      && *((_WORD *)v6 + 20) == y
       && *((_BYTE *)v6 + 37)
       && *((_BYTE *)v6 + gpGame->players[(char)giCurPlayer].color + 43) )
       return ppMapExtra[v2];
@@ -31084,7 +31005,7 @@ void __cdecl CompressTest3()
 int __thiscall game::CountShrines(game *this, int a2)
 {
   int result; // eax@2
-  mapCell *v3; // [sp+10h] [bp-18h]@7
+  mapCell *cell; // [sp+10h] [bp-18h]@7
   int row; // [sp+14h] [bp-14h]@3
   int col; // [sp+18h] [bp-10h]@5
   int v6; // [sp+20h] [bp-8h]@3
@@ -31097,16 +31018,16 @@ int __thiscall game::CountShrines(game *this, int a2)
     {
       for ( col = 0; col < MAP_WIDTH; ++col )
       {
-        v3 = &this->map.tiles[row * this->map.width] + col;
+        cell = &this->map.tiles[row * this->map.width] + col;
         v7 = 0;
-        if ( v3->objType == 163 )
+        if ( cell->objType == 163 )
         {
-          v7 = &gpGame->castles[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          v7 = &gpGame->castles[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         }
-        else if ( v3->objType == 170
-  && gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163 )
+        else if ( cell->objType == 170
+  && gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163 )
         {
-          v7 = &gpGame->castles[gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
+          v7 = &gpGame->castles[gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
         }
         if ( v7 && v7->ownerIdx == a2 && v7->buildingsBuiltFlags & 4 )
         {
@@ -31745,7 +31666,7 @@ LABEL_48:
                   {
                     for ( k = 0; k < 6; ++k )
                     {
-                      if ( strlen((int)&gpGame->field_637D[4 * k]) == 3
+                      if ( strlen(&gpGame->field_637D[4 * k]) == 3
                         && !strcmp((int)&gpGame->field_637D[4 * k], (int)((char *)&gsNetPlayerInfo + 34 * j))
                         && !gpGame->playerDead[k]
                         && !v17[k] )
@@ -31921,7 +31842,7 @@ LABEL_147:
                 }
                 for ( i = 0; gpGame->numPlayers > i; ++i )
                 {
-                  if ( !strlen((int)cPlayerNames[i]) )
+                  if ( !strlen(cPlayerNames[i]) )
                   {
                     sprintf(cPlayerNames[i], "%s player", (&gColors)[4 * gpGame->players[i].color]);
                     cPlayerNames[i][0] -= 32;
@@ -32098,11 +32019,11 @@ signed int __cdecl InterpretCommandLine()
   signed int v5; // [sp+1Ch] [bp-18h]@61
   int j; // [sp+20h] [bp-14h]@61
   int v7; // [sp+24h] [bp-10h]@54
-  int i; // [sp+28h] [bp-Ch]@1
+  signed int i; // [sp+28h] [bp-Ch]@1
   signed int l; // [sp+28h] [bp-Ch]@81
   signed int m; // [sp+28h] [bp-Ch]@85
   signed int v11; // [sp+2Ch] [bp-8h]@1
-  int v12; // [sp+30h] [bp-4h]@1
+  unsigned int v12; // [sp+30h] [bp-4h]@1
 
   gbTCPFirstTime = 1;
   giTCPType = -1;
@@ -32121,14 +32042,14 @@ signed int __cdecl InterpretCommandLine()
   v11 = 0;
   strcpy(gMapName, "Chaos.mp2");
   strcpy(gFullMapName, "Chaos");
-  v12 = strlen((int)gcCommandLine);
-  for ( i = 0; v12 > i; ++i )
+  v12 = strlen(gcCommandLine);
+  for ( i = 0; (signed int)v12 > i; ++i )
   {
     if ( gcCommandLine[i] == ' '
-      && i + 1 < v12
+      && i + 1 < (signed int)v12
       && (gcCommandLine[i + 1] == '?' || gcCommandLine[i + 1] == 'h' || gcCommandLine[i + 1] == 'H') )
       v11 = 1;
-    if ( gcCommandLine[i] == '/' && i + 1 < v12 )
+    if ( gcCommandLine[i] == '/' && i + 1 < (signed int)v12 )
     {
       v2 = toupper(gcCommandLine[i + 1]) - 68;
       switch ( v2 )
@@ -32138,7 +32059,7 @@ signed int __cdecl InterpretCommandLine()
           break;
         case 19:
           gbUseWaveout = 1;
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
             gbUseWaveout = gcCommandLine[i + 2] - 48;
           break;
         case 18:
@@ -32146,57 +32067,57 @@ signed int __cdecl InterpretCommandLine()
           WritePrefs();
           break;
         case 10:
-          if ( i + 3 < v12 && toupper(gcCommandLine[i + 2]) == 'W' && toupper(gcCommandLine[i + 3]) == 'C' )
+          if ( i + 3 < (signed int)v12 && toupper(gcCommandLine[i + 2]) == 'W' && toupper(gcCommandLine[i + 3]) == 'C' )
             gbCheatMenus = 1;
           break;
         case 9:
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
             gbDontTryMIDI = 1 - (gcCommandLine[i + 2] - 48);
           break;
         case 14:
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
             gbDontTryRedbook = 1 - (gcCommandLine[i + 2] - 48);
           break;
         case 0:
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
             gbDontTryDigital = 1 - (gcCommandLine[i + 2] - 48);
           break;
         case 15:
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
             gbNoSound = 1 - (gcCommandLine[i + 2] - 48);
           break;
         case 5:
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
             giShowIntro = gcCommandLine[i + 2] - 48;
           break;
         case 12:
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
             giDebugLevel = gcCommandLine[i + 2] - 48;
           break;
         case 20:
           byte_4F74B8 = 1;
           break;
         case 16:
-          if ( i + 2 < v12 )
+          if ( i + 2 < (signed int)v12 )
           {
             v1 = toupper(gcCommandLine[i + 2]) - 65;
             switch ( v1 )
             {
               case 19:
-                giTCPType = i + 3 < v12 && toupper(gcCommandLine[i + 3]) == 76;
+                giTCPType = i + 3 < (signed int)v12 && toupper(gcCommandLine[i + 3]) == 76;
                 break;
               case 18:
-                giTCPHostStatus = i + 3 < v12 && toupper(gcCommandLine[i + 3]) == 72;
+                giTCPHostStatus = i + 3 < (signed int)v12 && toupper(gcCommandLine[i + 3]) == 72;
                 break;
               case 15:
                 v7 = 0;
-                if ( i + 3 < v12 )
+                if ( i + 3 < (signed int)v12 )
                   v7 = gcCommandLine[i + 3] - 48;
                 if ( v7 >= 2 && v7 <= 6 )
                   giTCPNumPlayers = v7;
                 break;
               case 0:
-                if ( i + 3 < v12 )
+                if ( i + 3 < (signed int)v12 )
                 {
                   v5 = 0;
                   for ( j = i + 3;
@@ -32207,7 +32128,7 @@ signed int __cdecl InterpretCommandLine()
                 }
                 break;
               case 13:
-                if ( i + 3 < v12 )
+                if ( i + 3 < (signed int)v12 )
                 {
                   v3 = 0;
                   for ( k = i + 3;
@@ -32245,7 +32166,7 @@ signed int __cdecl InterpretCommandLine()
     gbBlackoutPlayer = 0;
   if ( giTCPHostStatus != -1 )
   {
-    if ( giTCPType == -1 || giTCPNumPlayers == -1 || !giTCPHostStatus && (unsigned int)strlen((int)gcTCPAddress) < 1 )
+    if ( giTCPType == -1 || giTCPNumPlayers == -1 || !giTCPHostStatus && strlen(gcTCPAddress) < 1 )
       ShutDown("Incomplete TCP/IP command line information");
     giShowIntro = 0;
   }
@@ -33255,7 +33176,7 @@ void __fastcall CheckEndGame(int a1, int a2)
     if ( gpGame->mapHeader.winConditionType && !gpGame->mapHeader.allowDefeatAllVictory
       || gbInCampaign && gpGame->field_2 == 1 && gpGame->field_4 == 6 )
       v34 = 0;
-    if ( gpGame->mapHeader.winConditionType == 4
+    if ( gpGame->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
       && gpGame->mapHeader.winConditionArgument != 99
       && (!gbInCampaign || gpGame->field_2 != 1 || gpGame->field_4 != 6) )
     {
@@ -33696,7 +33617,7 @@ void __cdecl InitVars()
   gGameCommand = -1;
   gPalette = 0;
   gbCombatSurrender = 0;
-  *(_DWORD *)&gpGame->_D[104] = 0;
+  *(_DWORD *)&gpGame->mapEventIndices[52] = 0;
   strcpy(gpGame->mapFilename, "brokena.mp2");
   gpGame->mapFilename[20] = 0;
   gbInNewGameSetup = 0;
@@ -33743,12 +33664,12 @@ heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
 {
   town *v2; // eax@1
   town *v3; // eax@3
-  int v4; // eax@69
+  unsigned int v4; // eax@69
   int v6; // [sp+10h] [bp-DCh]@15
   signed int v7; // [sp+14h] [bp-D8h]@1
   char v8; // [sp+18h] [bp-D4h]@2
   int i; // [sp+E0h] [bp-Ch]@15
-  int v10; // [sp+E4h] [bp-8h]@6
+  unsigned int v10; // [sp+E4h] [bp-8h]@6
   int v11; // [sp+E8h] [bp-4h]@11
 
   v7 = 0;
@@ -33766,7 +33687,7 @@ heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
     sprintf(&v8, cMoraleInfo);
   }
   sprintf(gText, off_4F68A4, &v8);
-  v10 = strlen((int)gText);
+  v10 = strlen(gText);
   if ( armyGroup::HasAllUndead((armyGroup *)(a1 + 101)) )
   {
     strcat(gText, off_4F68EC);
@@ -33847,7 +33768,7 @@ heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
       strcat(gText, off_4F6910);
     if ( hero::HasArtifact((hero *)a1, 90) )
       strcat(gText, off_4F6914);
-    v4 = strlen((int)gText);
+    v4 = strlen(gText);
     if ( v4 == v10 )
       strcat(gText, off_4F68E4);
   }
@@ -33859,9 +33780,9 @@ heroWindow *__stdcall game::ShowLuckInfo(int a1, int a2)
 {
   town *v2; // eax@1
   town *v3; // eax@3
-  int v4; // eax@39
+  unsigned int v4; // eax@39
   char v6; // [sp+10h] [bp-D0h]@2
-  int v7; // [sp+DCh] [bp-4h]@6
+  unsigned int v7; // [sp+DCh] [bp-4h]@6
 
   v2 = hero::GetOccupiedTown((hero *)a1);
   if ( game::GetLuck((hero *)a1, 0, v2) <= 0 )
@@ -33877,7 +33798,7 @@ heroWindow *__stdcall game::ShowLuckInfo(int a1, int a2)
     sprintf(&v6, cLuckInfo);
   }
   sprintf(gText, off_4F642C, &v6);
-  v7 = strlen((int)gText);
+  v7 = strlen(gText);
   if ( hero::GetOccupiedTown((hero *)a1)
     && hero::GetOccupiedTown((hero *)a1)->factionID == 2
     && BYTE1(hero::GetOccupiedTown((hero *)a1)->buildingsBuiltFlags) & 0x20 )
@@ -33910,7 +33831,7 @@ heroWindow *__stdcall game::ShowLuckInfo(int a1, int a2)
     strcat(gText, off_4F646C);
   if ( hero::HasArtifact((hero *)a1, 90) )
     strcat(gText, off_4F6470);
-  v4 = strlen((int)gText);
+  v4 = strlen(gText);
   if ( v4 == v7 )
     strcat(gText, off_4F6448);
   return NormalDialog(gText, a2, -1, -1, -1, 0, -1, 0, -1, 0);
@@ -34134,7 +34055,7 @@ void __fastcall PopNetBox(const char *a1, void *a2)
   int v4; // edx@14
   signed int v5; // eax@25
   signed int v6; // eax@58
-  int v7; // eax@58
+  unsigned int v7; // eax@58
   void *v8; // [sp+1Ch] [bp-148h]@1
   tag_message a2a; // [sp+24h] [bp-140h]@30
   int this; // [sp+40h] [bp-124h]@7
@@ -34350,7 +34271,7 @@ LABEL_54:
       *(&a1a + v18) = 0;
       v6 = NetPosToGamePos((void *)giThisNetPos);
       AddNetBoxLine(&a1a, gpGame->players[v6].color);
-      v7 = strlen((int)&a1a);
+      v7 = strlen(&a1a);
       v23 = TransmitRemoteData(&a1a, 127, v7 + 1, 11, 1, 1, -1);
       if ( !v23 )
         ShutDown(0);
@@ -34529,9 +34450,9 @@ void __thiscall ShutDown(char *this)
       CloseHandle(gEventHandle);
       gEventHandle = 0;
     }
-    if ( mapExtra )
-      BaseFree(mapExtra, (int)"F:\\h2xsrc\\Source\\KB.CPP", word_50D8F8 + 71);
-    mapExtra = 0;
+    if ( mapRevealed )
+      BaseFree(mapRevealed, (int)"F:\\h2xsrc\\Source\\KB.CPP", word_50D8F8 + 71);
+    mapRevealed = 0;
     CloseAIMapVars();
     DeleteMainClasses();
     AppExit();
@@ -34963,7 +34884,7 @@ LABEL_35:
       game::SetVisibility(gpGame, 30, 30, giCurPlayer, 180);
       if ( this )
         advManager::Reseed(0, 0);
-      advManager::UpdateRadar((int)gpAdvManager, 1, 0);
+      advManager::UpdateRadar(gpAdvManager, 1, 0);
       advManager::CompleteDraw(gpAdvManager, 0);
       advManager::UpdateScreen(gpAdvManager, 0, 0);
       goto LABEL_100;
@@ -35831,7 +35752,6 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
   __int16 v11; // ST50_2@195
   __int16 v12; // ST4C_2@202
   heroWindow *result; // eax@227
-  int a2a; // [sp+14h] [bp-118h]@1
   char *msga; // [sp+18h] [bp-114h]@1
   textWidget *v16; // [sp+34h] [bp-F8h]@212
   border *v17; // [sp+38h] [bp-F4h]@207
@@ -35883,7 +35803,6 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
   signed int protoCategory; // [sp+120h] [bp-Ch]@218
   widget *guiObj; // [sp+124h] [bp-8h]@69
 
-  a2a = a2;
   msga = msg;
   if ( !gbRemoteOn )
     a10 = 0;
@@ -35920,7 +35839,7 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
   numLines = font::LineLength(bigFont, msga, 244);
   msgHeight = 16 * numLines;
   v55 = 0;
-  if ( a2a != 4 )
+  if ( a2 != 4 )
     msgHeight += 39;
   for ( i = 0; i < 2; ++i )
   {
@@ -36006,27 +35925,27 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
   event.eventCode = INPUT_GUI_MESSAGE_CODE;
   event.xCoordOrKeycode = 6;
   event.payload = (void *)6;
-  if ( a2a != 7 && a2a != 8 )
+  if ( a2 != 7 && a2 != 8 )
   {
     event.yCoordOrFieldID = 30727;
     heroWindow::BroadcastMessage(pNormalDialogWindow, &event);
   }
-  if ( a2a != 7 )
+  if ( a2 != 7 )
   {
     event.yCoordOrFieldID = 30728;
     heroWindow::BroadcastMessage(pNormalDialogWindow, &event);
   }
-  if ( a2a != 6 && a2a != 3 )
+  if ( a2 != 6 && a2 != 3 )
   {
     event.yCoordOrFieldID = 30721;
     heroWindow::BroadcastMessage(pNormalDialogWindow, &event);
   }
-  if ( a2a != 5 && a2a != 1 && a2a != 3 )
+  if ( a2 != 5 && a2 != 1 && a2 != 3 )
   {
     event.yCoordOrFieldID = 30722;
     heroWindow::BroadcastMessage(pNormalDialogWindow, &event);
   }
-  if ( a2a != 2 )
+  if ( a2 != 2 )
   {
     event.yCoordOrFieldID = 30725;
     heroWindow::BroadcastMessage(pNormalDialogWindow, &event);
@@ -36182,7 +36101,7 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
         break;
     }
     height = v53;
-    if ( strlen(buf[i]) )
+    if ( strlen((char *)buf[i]) )
       v53 += 12;
     if ( i )
     {
@@ -36197,7 +36116,7 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
       v51 = 104;
     }
     v47 = v39 - v53 - 48;
-    if ( a2a != 4 )
+    if ( a2 != 4 )
       v47 -= 39;
     if ( imgTypes[0] == 17 && imgTypes[1] == 17 )
     {
@@ -36490,9 +36409,9 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
   while ( gpMouseManager->cursorDisabled )
     mouseManager::ShowColorPointer(gpMouseManager);
   mouseManager::SetPointer(gpMouseManager, "advmice.mse", 0, -999);
-  if ( a2a != 6 && a2a != 5 )
+  if ( a2 != 6 && a2 != 5 )
   {
-    if ( a2a == 4 )
+    if ( a2 == 4 )
     {
       heroWindowManager::AddWindow(gpWindowManager, pNormalDialogWindow, -1, 1);
       QuickViewWait();
@@ -36561,7 +36480,7 @@ signed int __thiscall combatManager::Main(combatManager *this, tag_message *evt)
     if ( KBTickCount() > glTimers )
     {
       PollSound();
-      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 75.0);
+      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
     }
     if ( KBTickCount() > nextCombatAnimationTime && !gbProcessingCombatAction )
     {
@@ -39295,7 +39214,7 @@ signed __int64 __thiscall combatManager::CycleCombatScreen(combatManager *this)
           {
             if ( !this->heroAnimationType[i] && this->lastHeroAnimationCompleteTime[i] + 4500 < KBTickCount() )
             {
-              if ( (signed int)sCmbtHero[this->heroType[i]].numFidgets <= 1 )
+              if ( sCmbtHero[this->heroType[i]].numFidgets <= 1 )
                 nextHeroAnimation[i] = 9;
               else
                 nextHeroAnimation[i] = Random(0, sCmbtHero[this->heroType[i]].numFidgets - 1) + 9;
@@ -39307,7 +39226,7 @@ signed __int64 __thiscall combatManager::CycleCombatScreen(combatManager *this)
             this->shouldDoHeroFidget2[i] = 0;
             this->shouldDoHeroFidget1[i] = this->shouldDoHeroFidget2[i];
             this->field_33A3[i] = 1;
-            if ( (signed int)sCmbtHero[this->heroType[i]].animationLength[2] > 0 )
+            if ( sCmbtHero[this->heroType[i]].animationLength[2] > 0 )
             {
               nextHeroAnimation[i] = 2;
               this->field_F41F[i] = 1;
@@ -39324,7 +39243,7 @@ signed __int64 __thiscall combatManager::CycleCombatScreen(combatManager *this)
           this->shouldDoHeroFidget2[i] = 0;
           this->shouldDoHeroFidget1[i] = this->shouldDoHeroFidget2[i];
           this->field_33A1[i] = 1;
-          if ( (signed int)sCmbtHero[this->heroType[i]].animationLength[1] > 0 )
+          if ( sCmbtHero[this->heroType[i]].animationLength[1] > 0 )
           {
             nextHeroAnimation[i] = 1;
             this->field_F41F[i] = 1;
@@ -39419,7 +39338,7 @@ signed __int64 __thiscall combatManager::CycleCombatScreen(combatManager *this)
     }
     combatManager::DrawFrame(this, 1, 1, 0, 0, 75, 1, 1);
   }
-  result = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 150.0);
+  result = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 150.0);
   nextCombatAnimationTime = result;
   return result;
 }
@@ -39773,7 +39692,7 @@ int __thiscall advManager::Open(advManager *this, int idx)
     this->clopIcon = resourceManager::GetIcon(gpResourceManager, "clop32.icn");
   for ( j = 0; j < 64; ++j )
   {
-    if ( (unsigned int)strlen((int)gTilesetFiles[j]) > 1 && !this->field_CE[j] && j != 21 )
+    if ( strlen(gTilesetFiles[j]) > 1 && !this->field_CE[j] && j != 21 )
     {
       if ( j != 38 )
         this->field_CE[j] = (int)resourceManager::GetIcon(gpResourceManager, gTilesetFiles[j]);
@@ -40162,14 +40081,14 @@ LABEL_34:
       }
       break;
     case 5:
-      v1 = advManager::GetCell(this, this->viewX + this->field_1E6, this->viewY + this->field_1EA);
+      v1 = advManager::GetCell(this, this->viewX + this->xOff, this->viewY + this->yOff);
       advManager::SetHeroContext(
         this,
         (unsigned __int8)((unsigned __int8)(v1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         0);
       break;
     case 6:
-      v2 = advManager::GetCell(this, this->viewX + this->field_1E6, this->viewY + this->field_1EA);
+      v2 = advManager::GetCell(this, this->viewX + this->xOff, this->viewY + this->yOff);
       advManager::SetTownContext(
         this,
         (unsigned __int8)((unsigned __int8)(v2->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
@@ -40178,8 +40097,8 @@ LABEL_34:
       break;
   }
   this->field_36 = -1;
-  this->field_1EA = -1;
-  this->field_1E6 = this->field_1EA;
+  this->yOff = -1;
+  this->xOff = this->yOff;
   if ( v10 )
     advManager::ForceNewHover(this);
   return loc;
@@ -40210,7 +40129,7 @@ void __thiscall advManager::CheckSetEvilInterface(void *this, int a2, int a3)
     {
       v5 = 1;
     }
-    else if ( !*(_DWORD *)&evilInterfaceUsage && gpGame->players[a3]._4[0] != gbUseEvilInterface )
+    else if ( !*(_DWORD *)&evilInterfaceUsage && gpGame->players[a3]._4_1 != gbUseEvilInterface )
     {
       v5 = 1;
     }
@@ -40410,7 +40329,7 @@ LABEL_83:
               game::SetVisibility(gpGame, 30, 30, 4, 180);
               game::SetVisibility(gpGame, 30, 30, 5, 180);
               advManager::Reseed(0, 0);
-              advManager::UpdateRadar((int)this, 1, 0);
+              advManager::UpdateRadar(this, 1, 0);
               advManager::CompleteDraw(this, 0);
               advManager::UpdateScreen(this, 0, 0);
             }
@@ -40654,7 +40573,7 @@ LABEL_194:
           NormalDialog(gEventText[v13 + 122], 4, -1, -1, -1, 0, -1, 0, -1, 0);
         else
 LABEL_195:
-          v19 = advManager::ProcessSelect((int)this, (int)evt, (int)&loc);
+          v19 = advManager::ProcessSelect((int)this, evt, (int)&loc);
       }
     }
   }
@@ -40695,9 +40614,9 @@ void __stdcall advManager::Reseed(int a1, int a2)
 // 5247C0: using guessed type int giSeedingValid;
 
 //----- (00445700) --------------------------------------------------------
-signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
+signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int a3)
 {
-  int thisa; // [sp+28h] [bp-9Ch]@1
+  advManager *thisa; // [sp+28h] [bp-9Ch]@1
   char v5; // [sp+2Ch] [bp-98h]@120
   tag_message a2a; // [sp+48h] [bp-7Ch]@115
   bool v7; // [sp+64h] [bp-60h]@67
@@ -40707,33 +40626,33 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
   int v11; // [sp+8Ch] [bp-38h]@115
   int v12; // [sp+90h] [bp-34h]@122
   int v13; // [sp+94h] [bp-30h]@126
-  mapCell *v14; // [sp+A8h] [bp-1Ch]@31
+  mapCell *cell; // [sp+A8h] [bp-1Ch]@31
   int v15; // [sp+ACh] [bp-18h]@1
-  int heroIdx; // [sp+B0h] [bp-14h]@3
-  int v17; // [sp+B4h] [bp-10h]@1
+  int objOrHeroIdx; // [sp+B0h] [bp-14h]@3
+  int quickViewY; // [sp+B4h] [bp-10h]@1
   int v18; // [sp+B8h] [bp-Ch]@38
-  int v19; // [sp+BCh] [bp-8h]@1
+  int quickViewX; // [sp+BCh] [bp-8h]@1
   int v20; // [sp+C0h] [bp-4h]@2
 
-  thisa = this;
+  thisa = (advManager *)this;
   v15 = 1;
-  v19 = *(_DWORD *)(a2 + 16);
-  v17 = *(_DWORD *)(a2 + 20);
-  switch ( *(_DWORD *)(a2 + 8) )
+  quickViewX = evt->altXCoord;
+  quickViewY = evt->altYCoord;
+  switch ( evt->yCoordOrFieldID )
   {
     case 0x69:
     case 0x70:
     case 0x77:
     case 0x7E:
-      v20 = (*(_DWORD *)(a2 + 8) - 105) / 7;
+      v20 = (evt->yCoordOrFieldID - 105) / 7;
       if ( gpCurPlayer->numHeroes > v20 )
       {
-        heroIdx = *(&gpCurPlayer->heroesOwned[v20] + gpCurPlayer->field_3);
-        if ( *(_BYTE *)(a2 + 13) & 2 )
+        objOrHeroIdx = *(&gpCurPlayer->heroesOwned[v20] + gpCurPlayer->field_3);
+        if ( BYTE1(evt->inputTypeBitmask) & 2 )
         {
-          advManager::HeroQuickView((void *)this, heroIdx, v20, -1, -1);
+          advManager::HeroQuickView((advManager *)this, objOrHeroIdx, v20, -1, -1);
         }
-        else if ( gpCurPlayer->curHeroIdx == heroIdx )
+        else if ( gpCurPlayer->curHeroIdx == objOrHeroIdx )
         {
           *(_DWORD *)(this + 54) = 2;
           advManager::DoAdvCommand((advManager *)this);
@@ -40741,7 +40660,7 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
         else
         {
           advManager::HideRoute((advManager *)this, 1, 0, 1);
-          advManager::SetHeroContext((advManager *)thisa, heroIdx, 0);
+          advManager::SetHeroContext(thisa, objOrHeroIdx, 0);
         }
       }
       break;
@@ -40749,22 +40668,22 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
     case 0x11:
     case 0x12:
     case 0x13:
-      heroIdx = *(&gpCurPlayer->_3[*(_DWORD *)(a2 + 8) + 36] + HIBYTE(gpCurPlayer->field_45));
-      if ( *(_BYTE *)(a2 + 13) & 2 )
+      objOrHeroIdx = *(&gpCurPlayer->_3[evt->yCoordOrFieldID + 36] + HIBYTE(gpCurPlayer->field_45));
+      if ( BYTE1(evt->inputTypeBitmask) & 2 )
       {
-        advManager::TownQuickView((void *)this, heroIdx, *(_DWORD *)(a2 + 8) - 16, -1, -1);
+        advManager::TownQuickView((void *)this, objOrHeroIdx, evt->yCoordOrFieldID - 16, -1, -1);
       }
       else
       {
         advManager::HideRoute((advManager *)this, 1, 0, 1);
-        if ( LOBYTE(gpCurPlayer->field_45) == heroIdx )
+        if ( LOBYTE(gpCurPlayer->field_45) == objOrHeroIdx )
         {
-          *(_DWORD *)(thisa + 54) = 3;
-          *(_DWORD *)a3 = advManager::DoAdvCommand((advManager *)thisa);
+          thisa->field_36 = 3;
+          *(_DWORD *)a3 = advManager::DoAdvCommand(thisa);
         }
         else
         {
-          advManager::SetTownContext((advManager *)thisa, heroIdx);
+          advManager::SetTownContext(thisa, objOrHeroIdx);
         }
       }
       break;
@@ -40772,14 +40691,14 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
       advManager::DoHeroKnob((void *)this);
       break;
     case 0x16:
-      v17 -= 194;
+      quickViewY -= 194;
       if ( gpCurPlayer->numHeroes <= 4 )
       {
         v20 = 0;
       }
       else
       {
-        v20 = v17 / 92 / (gpCurPlayer->numHeroes - 3);
+        v20 = quickViewY / 92 / (gpCurPlayer->numHeroes - 3);
         if ( gpCurPlayer->numHeroes - 4 < v20 )
           v20 = gpCurPlayer->numHeroes - 4;
       }
@@ -40790,14 +40709,14 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
       advManager::DoTownKnob((void *)this);
       break;
     case 0x19:
-      v17 -= 194;
+      quickViewY -= 194;
       if ( gpCurPlayer->numCastles <= 4 )
       {
         v20 = 0;
       }
       else
       {
-        v20 = v17 / 92 / (gpCurPlayer->numCastles - 3);
+        v20 = quickViewY / 92 / (gpCurPlayer->numCastles - 3);
         if ( gpCurPlayer->numCastles - 4 < v20 )
           v20 = gpCurPlayer->numCastles - 4;
       }
@@ -40805,69 +40724,64 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
       advManager::UpdateTownLocators((void *)this, 1, 1);
       break;
     case 0xA:
-      if ( !(unsigned __int8)(*(&mapExtra[*(_DWORD *)(this + 470)]
+      if ( !(unsigned __int8)(*(&mapRevealed[*(_DWORD *)(this + 470)]
                               + *(_DWORD *)(this + 486)
                               + MAP_WIDTH * (*(_DWORD *)(this + 474) + *(_DWORD *)(this + 490))) & giCurPlayerBit) )
         v15 = 0;
-      v14 = advManager::GetCell(
-              (advManager *)this,
-              *(_DWORD *)(this + 470) + *(_DWORD *)(this + 486),
-              *(_DWORD *)(this + 474) + *(_DWORD *)(this + 490));
-      if ( *(_BYTE *)(a2 + 13) & 2 )
+      cell = advManager::GetCell(
+               (advManager *)this,
+               *(_DWORD *)(this + 470) + *(_DWORD *)(this + 486),
+               *(_DWORD *)(this + 474) + *(_DWORD *)(this + 490));
+      if ( BYTE1(evt->inputTypeBitmask) & 2 )
       {
         if ( v15 )
         {
-          if ( *(_DWORD *)(thisa + 486) == 7
-            && *(_DWORD *)(thisa + 490) == 7
-            && gpCurPlayer->curHeroIdx != -1
-            && *(_DWORD *)(thisa + 678) )
+          if ( thisa->xOff == 7 && thisa->yOff == 7 && gpCurPlayer->curHeroIdx != -1 && thisa->heroMobilized )
           {
-            heroIdx = 42;
+            objOrHeroIdx = LOCATION_HERO;
             v18 = gpCurPlayer->curHeroIdx;
           }
           else
           {
-            heroIdx = v14->objType & 0x7F;
-            v18 = (unsigned __int8)((unsigned __int8)(v14->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+            objOrHeroIdx = cell->objType & 0x7F;
+            v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
           }
-          if ( heroIdx == 35 )
+          if ( objOrHeroIdx == LOCATION_TOWN )
           {
-            v19 = 32 * *(_DWORD *)(thisa + 486) - 89;
-            if ( v19 < 30 )
-              v19 = 30;
-            if ( v19 + 224 > 448 )
-              v19 = 224;
-            v17 = 32 * *(_DWORD *)(thisa + 490) - 70;
-            if ( v17 < 16 )
-              v17 = 16;
-            if ( v17 + 186 > 464 )
-              v17 = 278;
-            advManager::TownQuickView((void *)thisa, v18, -1, v19, v17);
+            quickViewX = 32 * thisa->xOff - 89;
+            if ( quickViewX < 30 )
+              quickViewX = 30;
+            if ( quickViewX + 224 > 448 )
+              quickViewX = 224;
+            quickViewY = 32 * thisa->yOff - 70;
+            if ( quickViewY < 16 )
+              quickViewY = 16;
+            if ( quickViewY + 186 > 464 )
+              quickViewY = 278;
+            advManager::TownQuickView(thisa, v18, -1, quickViewX, quickViewY);
           }
-          else if ( heroIdx == 42 )
+          else if ( objOrHeroIdx == LOCATION_HERO )
           {
-            v19 = 32 * *(_DWORD *)(thisa + 486) - 73;
-            if ( v19 < 30 )
-              v19 = 30;
-            if ( v19 + 192 > 448 )
-              v19 = 256;
-            v17 = 32 * *(_DWORD *)(thisa + 490) - 72;
-            if ( v17 < 16 )
-              v17 = 16;
-            if ( v17 + 190 > 464 )
-              v17 = 274;
-            advManager::HeroQuickView((void *)thisa, v18, -1, v19, v17);
+            quickViewX = 32 * thisa->xOff - 73;
+            if ( quickViewX < 30 )
+              quickViewX = 30;
+            if ( quickViewX + 192 > 448 )
+              quickViewX = 256;
+            quickViewY = 32 * thisa->yOff - 72;
+            if ( quickViewY < 16 )
+              quickViewY = 16;
+            if ( quickViewY + 190 > 464 )
+              quickViewY = 274;
+            advManager::HeroQuickView(thisa, v18, -1, quickViewX, quickViewY);
           }
-          else if ( (unsigned __int8)*(&mapExtra[*(_DWORD *)(thisa + 470)]
-                      + *(_DWORD *)(thisa + 486)
-                      + MAP_WIDTH * (*(_DWORD *)(thisa + 474) + *(_DWORD *)(thisa + 490))) & (unsigned __int8)giCurPlayerBit )
+          else if ( (unsigned __int8)*(&mapRevealed[thisa->viewX] + thisa->xOff + MAP_WIDTH * (thisa->viewY + thisa->yOff)) & (unsigned __int8)giCurPlayerBit )
           {
-            advManager::QuickInfo((void *)thisa, *(_DWORD *)(thisa + 486), *(_DWORD *)(thisa + 490));
+            advManager::QuickInfo(thisa, thisa->xOff, thisa->yOff);
           }
         }
         else
         {
-          advManager::QuickInfo((void *)thisa, *(_DWORD *)(thisa + 486), *(_DWORD *)(thisa + 490));
+          advManager::QuickInfo(thisa, thisa->xOff, thisa->yOff);
         }
       }
       else if ( v15 )
@@ -40881,62 +40795,59 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
         }
         if ( v8 )
         {
-          if ( *(_DWORD *)(thisa + 486) == 7
-            && *(_DWORD *)(thisa + 490) == 7
-            && gpCurPlayer->curHeroIdx != -1
-            && *(_DWORD *)(thisa + 678) )
+          if ( thisa->xOff == 7 && thisa->yOff == 7 && gpCurPlayer->curHeroIdx != -1 && thisa->heroMobilized )
           {
-            *(_DWORD *)(thisa + 54) = 2;
-            advManager::DoAdvCommand((advManager *)thisa);
+            thisa->field_36 = 2;
+            advManager::DoAdvCommand(thisa);
           }
           else if ( (!v7
-   || *(_BYTE *)(a2 + 12) & 0xC
+   || evt->inputTypeBitmask & 0xC
    || *(_DWORD *)&showRoute
-   && (*(_DWORD *)&v8->field_21 != *(_DWORD *)(thisa + 494) || *(_DWORD *)&v8->field_25 != *(_DWORD *)(thisa + 498)))
-  && *(&gpSearchArray->field_2414[MAP_WIDTH * *(_DWORD *)(thisa + 498)].field_4 + 9 * *(_DWORD *)(thisa + 494)) & 1 )
+   && (*(_DWORD *)&v8->field_21 != thisa->field_1EE || *(_DWORD *)&v8->field_25 != thisa->field_1F2))
+  && *(&gpSearchArray->field_2414[MAP_WIDTH * thisa->field_1F2].field_4 + 9 * thisa->field_1EE) & 1 )
           {
-            *(_DWORD *)&v8->field_21 = *(_DWORD *)(thisa + 494);
-            *(_DWORD *)&v8->field_25 = *(_DWORD *)(thisa + 498);
-            advManager::ShowRoute((void *)thisa, 1, 1, 1);
+            *(_DWORD *)&v8->field_21 = thisa->field_1EE;
+            *(_DWORD *)&v8->field_25 = thisa->field_1F2;
+            advManager::ShowRoute(thisa, 1, 1, 1);
           }
           else
           {
-            *(_DWORD *)a3 = advManager::DoAdvCommand((advManager *)thisa);
+            *(_DWORD *)a3 = advManager::DoAdvCommand(thisa);
           }
         }
         else
         {
-          heroIdx = v14->objType & 0x7F;
-          v18 = (unsigned __int8)((unsigned __int8)(v14->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-          if ( heroIdx == 42 )
+          objOrHeroIdx = cell->objType & 0x7F;
+          v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          if ( objOrHeroIdx == 42 )
           {
             if ( gpCurPlayer->curHeroIdx == v18 )
             {
-              *(_DWORD *)(thisa + 54) = 2;
-              advManager::DoAdvCommand((advManager *)thisa);
+              thisa->field_36 = 2;
+              advManager::DoAdvCommand(thisa);
             }
             else if ( gpGame->heroes[v18].ownerIdx == giCurPlayer )
             {
-              advManager::SetHeroContext((advManager *)thisa, v18, 0);
+              advManager::SetHeroContext(thisa, v18, 0);
             }
           }
-          if ( heroIdx == 35 )
+          if ( objOrHeroIdx == 35 )
           {
             if ( LOBYTE(gpCurPlayer->field_45) == v18 )
             {
-              *(_DWORD *)(thisa + 54) = 3;
-              *(_DWORD *)a3 = advManager::DoAdvCommand((advManager *)thisa);
+              thisa->field_36 = 3;
+              *(_DWORD *)a3 = advManager::DoAdvCommand(thisa);
             }
             else if ( gpGame->castles[v18].ownerIdx == giCurPlayer )
             {
-              advManager::SetTownContext((advManager *)thisa, v18);
+              advManager::SetTownContext(thisa, v18);
             }
           }
         }
       }
       break;
     case 9:
-      if ( *(_BYTE *)(a2 + 13) & 2 )
+      if ( BYTE1(evt->inputTypeBitmask) & 2 )
       {
         NormalDialog(
           "{World Map}\n\nA miniature view of the known world.  Left click to move viewing area.",
@@ -40968,21 +40879,21 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
             v10 = 1.0;
             break;
         }
-        v19 = (signed __int64)((double)(v19 - 480) / v10);
-        v17 = (signed __int64)((double)(v17 - 16) / v10);
-        *(_DWORD *)(thisa + 470) = v19 - 7;
-        *(_DWORD *)(thisa + 474) = v17 - 7;
-        if ( *(_DWORD *)(thisa + 470) < -7 )
-          *(_DWORD *)(thisa + 470) = -7;
-        if ( *(_DWORD *)(thisa + 474) < -7 )
-          *(_DWORD *)(thisa + 474) = -7;
-        if ( MAP_WIDTH - 8 < *(_DWORD *)(thisa + 470) )
-          *(_DWORD *)(thisa + 470) = MAP_WIDTH - 8;
-        if ( MAP_HEIGHT - 8 < *(_DWORD *)(thisa + 474) )
-          *(_DWORD *)(thisa + 474) = MAP_HEIGHT - 8;
+        quickViewX = (signed __int64)((double)(quickViewX - 480) / v10);
+        quickViewY = (signed __int64)((double)(quickViewY - 16) / v10);
+        thisa->viewX = quickViewX - 7;
+        thisa->viewY = quickViewY - 7;
+        if ( thisa->viewX < -7 )
+          thisa->viewX = -7;
+        if ( thisa->viewY < -7 )
+          thisa->viewY = -7;
+        if ( MAP_WIDTH - 8 < thisa->viewX )
+          thisa->viewX = MAP_WIDTH - 8;
+        if ( MAP_HEIGHT - 8 < thisa->viewY )
+          thisa->viewY = MAP_HEIGHT - 8;
         advManager::UpdateRadar(thisa, 1, 0);
-        advManager::CompleteDraw((advManager *)thisa, 0);
-        advManager::UpdateScreen((advManager *)thisa, 0, 0);
+        advManager::CompleteDraw(thisa, 0);
+        advManager::UpdateScreen(thisa, 0, 0);
         v9 = 0;
         while ( v9 != 16 )
         {
@@ -41007,21 +40918,21 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
             if ( v13 >= 160 )
               v13 = 159;
             (*(void (__thiscall **)(mouseManager *))(LODWORD(gpMouseManager->vtable) + 8))(gpMouseManager);
-            v19 = (signed __int64)((double)(v12 - 480) / v10);
-            v17 = (signed __int64)((double)(v13 - 16) / v10);
-            *(_DWORD *)(thisa + 470) = v19 - 7;
-            *(_DWORD *)(thisa + 474) = v17 - 7;
-            if ( *(_DWORD *)(thisa + 470) < -7 )
-              *(_DWORD *)(thisa + 470) = -7;
-            if ( *(_DWORD *)(thisa + 474) < -7 )
-              *(_DWORD *)(thisa + 474) = -7;
-            if ( MAP_WIDTH - 8 < *(_DWORD *)(thisa + 470) )
-              *(_DWORD *)(thisa + 470) = MAP_WIDTH - 8;
-            if ( MAP_HEIGHT - 8 < *(_DWORD *)(thisa + 474) )
-              *(_DWORD *)(thisa + 474) = MAP_HEIGHT - 8;
+            quickViewX = (signed __int64)((double)(v12 - 480) / v10);
+            quickViewY = (signed __int64)((double)(v13 - 16) / v10);
+            thisa->viewX = quickViewX - 7;
+            thisa->viewY = quickViewY - 7;
+            if ( thisa->viewX < -7 )
+              thisa->viewX = -7;
+            if ( thisa->viewY < -7 )
+              thisa->viewY = -7;
+            if ( MAP_WIDTH - 8 < thisa->viewX )
+              thisa->viewX = MAP_WIDTH - 8;
+            if ( MAP_HEIGHT - 8 < thisa->viewY )
+              thisa->viewY = MAP_HEIGHT - 8;
             advManager::UpdateRadar(thisa, 1, 0);
-            advManager::CompleteDraw((advManager *)thisa, 0);
-            advManager::UpdateScreen((advManager *)thisa, 0, 0);
+            advManager::CompleteDraw(thisa, 0);
+            advManager::UpdateScreen(thisa, 0, 0);
             v11 = 0;
           }
         }
@@ -41133,7 +41044,7 @@ signed int __thiscall advManager::ProcessSelect(int this, int a2, int a3)
     case 0x7D:
       break;
   }
-  if ( *(_BYTE *)(a2 + 13) & 2 && *(_DWORD *)(a2 + 8) >= 2000 && *(_DWORD *)(a2 + 8) <= 2200 )
+  if ( BYTE1(evt->inputTypeBitmask) & 2 && evt->yCoordOrFieldID >= 2000 && evt->yCoordOrFieldID <= 2200 )
     NormalDialog(
       "{Status Window}\n\nThis window provides information on the status of your hero or kingdom, and shows the date.  Left click here to cycle through these windows.",
       4,
@@ -41479,7 +41390,7 @@ signed int __thiscall advManager::ProcessHover(void *this, signed int a2, signed
   if ( *(_QWORD *)(thisa + 494) < 0i64
     || *(_DWORD *)(thisa + 494) > MAP_WIDTH - 1
     || *(_DWORD *)(thisa + 498) > MAP_HEIGHT - 1
-    || !(unsigned __int8)(*(&mapExtra[*(_DWORD *)(thisa + 494)] + MAP_WIDTH * *(_DWORD *)(thisa + 498)) & giCurPlayerBit) )
+    || !(unsigned __int8)(*(&mapRevealed[*(_DWORD *)(thisa + 494)] + MAP_WIDTH * *(_DWORD *)(thisa + 498)) & giCurPlayerBit) )
   {
     mouseManager::SetPointer(gpMouseManager, 0);
     return 1;
@@ -41572,7 +41483,7 @@ signed int __thiscall advManager::ProcessHover(void *this, signed int a2, signed
         {
           mouseManager::SetPointer(gpMouseManager, spriteIdxArg + 7);
         }
-        else if ( *(&mapExtra[*(_DWORD *)(thisa + 494)] + MAP_WIDTH * *(_DWORD *)(thisa + 498)) & 0x80 )
+        else if ( *(&mapRevealed[*(_DWORD *)(thisa + 494)] + MAP_WIDTH * *(_DWORD *)(thisa + 498)) & 0x80 )
         {
           mouseManager::SetPointer(gpMouseManager, spriteIdxArg + 5);
         }
@@ -41608,7 +41519,7 @@ signed int __thiscall advManager::ProcessHover(void *this, signed int a2, signed
         return 1;
       default:
 LABEL_69:
-        if ( !(*(&mapExtra[*(_DWORD *)(thisa + 494)] + MAP_WIDTH * *(_DWORD *)(thisa + 498)) & 0x80)
+        if ( !(*(&mapRevealed[*(_DWORD *)(thisa + 494)] + MAP_WIDTH * *(_DWORD *)(thisa + 498)) & 0x80)
           || *(_DWORD *)(thisa + 634) == 6
           || *(_BYTE *)(v8 + 9) & 0x80 && StopOnTrigger(v8) )
         {
@@ -41858,40 +41769,40 @@ int __stdcall advManager::GetCloudLookup(int a1, int a2)
   }
   if ( v3 )
   {
-    if ( !(v3 & 1) && !(unsigned __int8)(*(&mapExtra[a1] + MAP_WIDTH * (a2 - 1)) & giCurWatchPlayerBit) )
+    if ( !(v3 & 1) && !(unsigned __int8)(*(&mapRevealed[a1] + MAP_WIDTH * (a2 - 1)) & giCurWatchPlayerBit) )
       v3 |= 1u;
-    if ( !(v3 & 2) && !(unsigned __int8)(*(&mapExtra[a2 * MAP_WIDTH + 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(v3 & 2) && !(unsigned __int8)(*(&mapRevealed[a2 * MAP_WIDTH + 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 2u;
-    if ( !(v3 & 4) && !(unsigned __int8)(*(&mapExtra[a1] + MAP_WIDTH * (a2 + 1)) & giCurWatchPlayerBit) )
+    if ( !(v3 & 4) && !(unsigned __int8)(*(&mapRevealed[a1] + MAP_WIDTH * (a2 + 1)) & giCurWatchPlayerBit) )
       v3 |= 4u;
-    if ( !(v3 & 8) && !(unsigned __int8)(*(&mapExtra[a2 * MAP_WIDTH - 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(v3 & 8) && !(unsigned __int8)(*(&mapRevealed[a2 * MAP_WIDTH - 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 8u;
-    if ( !(v3 & 0x10) && !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 - 1) + 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(v3 & 0x10) && !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 - 1) + 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x10u;
-    if ( !(v3 & 0x20) && !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 + 1) + 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(v3 & 0x20) && !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 + 1) + 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x20u;
-    if ( !(v3 & 0x40) && !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 + 1) - 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(v3 & 0x40) && !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 + 1) - 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x40u;
-    if ( !(v3 & 0x80) && !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 - 1) - 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(v3 & 0x80) && !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 - 1) - 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x80u;
   }
   else
   {
-    if ( !(unsigned __int8)(*(&mapExtra[a1] + MAP_WIDTH * (a2 - 1)) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[a1] + MAP_WIDTH * (a2 - 1)) & giCurWatchPlayerBit) )
       v3 = 1;
-    if ( !(unsigned __int8)(*(&mapExtra[a2 * MAP_WIDTH + 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[a2 * MAP_WIDTH + 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 2u;
-    if ( !(unsigned __int8)(*(&mapExtra[a1] + MAP_WIDTH * (a2 + 1)) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[a1] + MAP_WIDTH * (a2 + 1)) & giCurWatchPlayerBit) )
       v3 |= 4u;
-    if ( !(unsigned __int8)(*(&mapExtra[a2 * MAP_WIDTH - 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[a2 * MAP_WIDTH - 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 8u;
-    if ( !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 - 1) + 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 - 1) + 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x10u;
-    if ( !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 + 1) + 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 + 1) + 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x20u;
-    if ( !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 + 1) - 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 + 1) - 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x40u;
-    if ( !(unsigned __int8)(*(&mapExtra[MAP_WIDTH * (a2 - 1) - 1] + a1) & giCurWatchPlayerBit) )
+    if ( !(unsigned __int8)(*(&mapRevealed[MAP_WIDTH * (a2 - 1) - 1] + a1) & giCurWatchPlayerBit) )
       v3 |= 0x80u;
   }
   return (unsigned __int8)giCloudType[v3];
@@ -41964,7 +41875,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
     TileToBitmap(this->stonTileset, idx, gpWindowManager->screenBuffer, dword_524D10, ::y);
     return;
   }
-  if ( !gbAllBlack && (unsigned __int8)(*(&mapExtra[x] + MAP_WIDTH * y) & giCurWatchPlayerBit) || gbDrawingPuzzle )
+  if ( !gbAllBlack && (unsigned __int8)(*(&mapRevealed[x] + MAP_WIDTH * y) & giCurWatchPlayerBit) || gbDrawingPuzzle )
   {
     dword_524CF8 = 0;
   }
@@ -42052,7 +41963,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         currentlyDrawingMapCellExtra = 0;
       while ( currentlyDrawingMapCellExtra )
       {
-        if ( currentlyDrawingMapCellExtra->field_4 & 1
+        if ( currentlyDrawingMapCellExtra->field_4_1_1_1_isShadow_5 & 1
           && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
         {
           IconToBitmap(
@@ -42141,8 +42052,8 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         currentlyDrawingMapCellExtra = 0;
       while ( currentlyDrawingMapCellExtra )
       {
-        if ( ((unsigned __int8)currentlyDrawingMapCellExtra->field_4 >> 1) & 1
-          && !(currentlyDrawingMapCellExtra->field_4 & 1)
+        if ( ((unsigned __int8)currentlyDrawingMapCellExtra->field_4_1_1_1_isShadow_5 >> 1) & 1
+          && !(currentlyDrawingMapCellExtra->field_4_1_1_1_isShadow_5 & 1)
           && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
         {
           IconToBitmap(
@@ -42245,9 +42156,9 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         currentlyDrawingMapCellExtra = 0;
       while ( currentlyDrawingMapCellExtra )
       {
-        if ( !(currentlyDrawingMapCellExtra->field_4 & 1)
-          && !(((unsigned __int8)currentlyDrawingMapCellExtra->field_4 >> 1) & 1)
-          && !(((unsigned __int8)currentlyDrawingMapCellExtra->field_4 >> 2) & 1)
+        if ( !(currentlyDrawingMapCellExtra->field_4_1_1_1_isShadow_5 & 1)
+          && !(((unsigned __int8)currentlyDrawingMapCellExtra->field_4_1_1_1_isShadow_5 >> 1) & 1)
+          && !(((unsigned __int8)currentlyDrawingMapCellExtra->field_4_1_1_1_isShadow_5 >> 2) & 1)
           && ((currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F) != 12
           && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
         {
@@ -42679,7 +42590,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           currentlyDrawingMapCellExtra = 0;
         while ( currentlyDrawingMapCellExtra )
         {
-          if ( ((unsigned __int8)currentlyDrawingMapCellExtra->field_4 >> 2) & 1
+          if ( ((unsigned __int8)currentlyDrawingMapCellExtra->field_4_1_1_1_isShadow_5 >> 2) & 1
             && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
           {
             IconToBitmap(
@@ -42909,9 +42820,9 @@ mapCell *__thiscall advManager::GetCell(advManager *this, int col, int row)
 // 4F0A04: using guessed type int MAP_HEIGHT;
 
 //----- (0044AA80) --------------------------------------------------------
-void __thiscall advManager::UpdateRadar(int this, int a2, int a3)
+void __thiscall advManager::UpdateRadar(advManager *this, int a2, int a3)
 {
-  int v3; // [sp+4Ch] [bp-74h]@1
+  advManager *v3; // [sp+4Ch] [bp-74h]@1
   signed int v4; // [sp+50h] [bp-70h]@84
   signed int v5; // [sp+54h] [bp-6Ch]@76
   signed int v6; // [sp+58h] [bp-68h]@66
@@ -42944,10 +42855,10 @@ void __thiscall advManager::UpdateRadar(int this, int a2, int a3)
   v27 = 36;
   if ( a3 )
   {
-    v24 = *(_DWORD *)(this + 470) - 2;
-    v19 = *(_DWORD *)(this + 474) - 2;
-    v25 = *(_DWORD *)(this + 470) + 16;
-    v20 = *(_DWORD *)(this + 474) + 16;
+    v24 = this->viewX - 2;
+    v19 = this->viewY - 2;
+    v25 = this->viewX + 16;
+    v20 = this->viewY + 16;
     if ( v24 < 0 )
       v24 = 0;
     if ( v19 < 0 )
@@ -43018,10 +42929,10 @@ void __thiscall advManager::UpdateRadar(int this, int a2, int a3)
       }
       for ( j = v24; j <= v25; ++j )
       {
-        if ( !gbAllBlack && (unsigned __int8)(*(&mapExtra[j] + MAP_WIDTH * i) & giCurPlayerBit) )
+        if ( !gbAllBlack && (unsigned __int8)(*(&mapRevealed[j] + MAP_WIDTH * i) & giCurPlayerBit) )
         {
-          v13 = **(_DWORD **)(v3 + 174) + 12 * i * *(_DWORD *)(*(_DWORD *)(v3 + 174) + 8) + 12 * j;
-          if ( *(_BYTE *)(v13 + 8) & 0x40 && *(_DWORD *)(v3 + 470) + 7 == j && *(_DWORD *)(v3 + 474) + 7 == i )
+          v13 = (int)(&v3->map->tiles[i * v3->map->width] + j);
+          if ( *(_BYTE *)(v13 + 8) & 0x40 && v3->viewX + 7 == j && v3->viewY + 7 == i )
           {
             v27 = byte_4F0A48[gpGame->players[giCurPlayer].color];
           }
@@ -43053,14 +42964,8 @@ void __thiscall advManager::UpdateRadar(int this, int a2, int a3)
               || v8 == 14
               && j > 0
               && MAP_WIDTH - 1 > j
-              && *(_BYTE *)(**(_DWORD **)(v3 + 174)
-                          + 12 * i * *(_DWORD *)(*(_DWORD *)(v3 + 174) + 8)
-                          + 4 * (3 * j - 3)
-                          + 9) == 163
-              || *(_BYTE *)(**(_DWORD **)(v3 + 174)
-                          + 12 * i * *(_DWORD *)(*(_DWORD *)(v3 + 174) + 8)
-                          + 4 * (3 * j + 3)
-                          + 9) == 163 )
+              && *(&v3->map->tiles[i * v3->map->width].objType + 4 * (3 * j - 3)) == 163
+              || *(&v3->map->tiles[i * v3->map->width].objType + 4 * (3 * j + 3)) == 163 )
               v8 = 35;
             if ( v8 != 62 || *(_BYTE *)(v13 + 9) != 103 )
             {
@@ -43274,7 +43179,7 @@ LABEL_88:
     {
       if ( gbInViewWorld )
         icon::ClipFillToBuffer(
-          *(icon **)(v3 + 462),
+          v3->radarIcon,
           (signed __int64)((double)iVWMapOriginX * v15 + 480.0),
           (signed __int64)((double)iVWMapOriginY * v15 + 16.0),
           a4,
@@ -43286,9 +43191,9 @@ LABEL_88:
           144);
       else
         icon::ClipFillToBuffer(
-          *(icon **)(v3 + 462),
-          (signed __int64)((double)*(signed int *)(v3 + 470) * v15 + 480.0),
-          (signed __int64)((double)*(signed int *)(v3 + 474) * v15 + 16.0),
+          v3->radarIcon,
+          (signed __int64)((double)v3->viewX * v15 + 480.0),
+          (signed __int64)((double)v3->viewY * v15 + 16.0),
           a4,
           -75,
           0,
@@ -43320,14 +43225,14 @@ LABEL_88:
 // 532C5C: using guessed type char giCurPlayerBit;
 
 //----- (0044BAD0) --------------------------------------------------------
-BOOL __thiscall advManager::QuickInfo(void *ecx0, int a2, int a3)
+BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
 {
   char *v3; // ST28_4@74
   char *v4; // eax@74
   char *v5; // ST28_4@80
   char *v6; // eax@80
   __int16 v7; // ax@83
-  void *v9; // [sp+18h] [bp-1F4h]@1
+  advManager *v9; // [sp+18h] [bp-1F4h]@1
   heroWindow *this; // [sp+24h] [bp-1E8h]@12
   bool v11; // [sp+2Ch] [bp-1E0h]@68
   signed int v12; // [sp+3Ch] [bp-1D0h]@89
@@ -43335,7 +43240,7 @@ BOOL __thiscall advManager::QuickInfo(void *ecx0, int a2, int a3)
   Event evt; // [sp+40h] [bp-1CCh]@154
   char a2a; // [sp+5Ch] [bp-1B0h]@74
   char a1; // [sp+124h] [bp-E8h]@151
-  hero *v17; // [sp+1ECh] [bp-20h]@1
+  hero *curHero; // [sp+1ECh] [bp-20h]@1
   int yOff; // [sp+1F0h] [bp-1Ch]@8
   int xOff; // [sp+1F4h] [bp-18h]@4
   heroWindow *window; // [sp+1F8h] [bp-14h]@13
@@ -43346,11 +43251,11 @@ BOOL __thiscall advManager::QuickInfo(void *ecx0, int a2, int a3)
 
   v9 = ecx0;
   v22 = 0;
-  v17 = 0;
+  curHero = 0;
   if ( gpCurPlayer->curHeroIdx == -1 )
-    v17 = 0;
+    curHero = 0;
   else
-    v17 = &gpGame->heroes[gpCurPlayer->curHeroIdx];
+    curHero = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   xOff = 32 * a2 - 57;
   if ( xOff < 30 )
     xOff = 30;
@@ -43369,15 +43274,10 @@ BOOL __thiscall advManager::QuickInfo(void *ecx0, int a2, int a3)
   if ( !window )
     MemError();
   v23 = 0;
-  if ( a2 + *(_DWORD *)((char *)v9 + 470) >= 0
-    && a2 + *(_DWORD *)((char *)v9 + 470) < MAP_WIDTH
-    && a3 + *(_DWORD *)((char *)v9 + 474) >= 0
-    && a3 + *(_DWORD *)((char *)v9 + 474) < MAP_HEIGHT )
+  if ( a2 + v9->viewX >= 0 && a2 + v9->viewX < MAP_WIDTH && a3 + v9->viewY >= 0 && a3 + v9->viewY < MAP_HEIGHT )
   {
-    v22 = advManager::GetCell((advManager *)v9, a2 + *(_DWORD *)((char *)v9 + 470), a3 + *(_DWORD *)((char *)v9 + 474));
-    if ( (unsigned __int8)*(&mapExtra[a2]
-                          + *(_DWORD *)((char *)v9 + 470)
-                          + MAP_WIDTH * (a3 + *(_DWORD *)((char *)v9 + 474))) & (unsigned __int8)giCurPlayerBit )
+    v22 = advManager::GetCell(v9, a2 + v9->viewX, a3 + v9->viewY);
+    if ( (unsigned __int8)*(&mapRevealed[a2] + v9->viewX + MAP_WIDTH * (a3 + v9->viewY)) & (unsigned __int8)giCurPlayerBit )
     {
       switch ( v22->objType & 0x7F )
       {
@@ -43396,73 +43296,73 @@ BOOL __thiscall advManager::QuickInfo(void *ecx0, int a2, int a3)
                                                                       - 1)]);
           break;
         case LOCATION_GAZEBO:
-          if ( !v17 || !(v22->objType & 0x80) )
+          if ( !curHero || !(v22->objType & 0x80) )
             goto LABEL_145;
           sprintf(
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_1[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & v17->gazeboesVisited) != 0)
+            &aAlreadyVisit_1[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->gazeboesVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_FORT:
-          if ( !v17 || !(v22->objType & 0x80) )
+          if ( !curHero || !(v22->objType & 0x80) )
             goto LABEL_145;
           sprintf(
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_2[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & v17->fortsVisited) != 0)
+            &aAlreadyVisit_2[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->fortsVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_WITCH_DOCTORS_HUT:
-          if ( !v17 || !(v22->objType & 0x80) )
+          if ( !curHero || !(v22->objType & 0x80) )
             goto LABEL_145;
           sprintf(
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_3[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & v17->witchDoctorHutsVisited) != 0)
+            &aAlreadyVisit_3[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->witchDoctorHutsVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_MERCENARY_CAMP:
-          if ( !v17 || !(v22->objType & 0x80) )
+          if ( !curHero || !(v22->objType & 0x80) )
             goto LABEL_145;
           sprintf(
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_4[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & v17->mercenaryCampsVisited) != 0)
+            &aAlreadyVisit_4[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->mercenaryCampsVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_STANDING_STONES:
-          if ( !v17 || !(v22->objType & 0x80) )
+          if ( !curHero || !(v22->objType & 0x80) )
             goto LABEL_145;
           sprintf(
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_5[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & v17->standingStonesVisited) != 0)
+            &aAlreadyVisit_5[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->standingStonesVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_TREE_OF_KNOWLEDGE:
-          if ( !v17 || !(v22->objType & 0x80) )
+          if ( !curHero || !(v22->objType & 0x80) )
             goto LABEL_145;
           sprintf(
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_6[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & v17->treesOfKnowledgeVisited) != 0)
+            &aAlreadyVisit_6[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->treesOfKnowledgeVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_XANADU:
-          if ( !v17 || !(v22->objType & 0x80) )
+          if ( !curHero || !(v22->objType & 0x80) )
             goto LABEL_145;
           sprintf(
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_7[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & v17->xanadusVisited) != 0)
+            &aAlreadyVisit_7[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->xanadusVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_BUOY:
@@ -43535,10 +43435,7 @@ LABEL_74:
           sprintf(gText, "%s", *(char **)((char *)gResourceNames + 2 * (v22->objectIndex & 0xFE)));
           break;
         case LOCATION_ARMY_CAMP:
-          if ( advManager::IsCrystalBallInEffect(
-                 a2 + *(_DWORD *)((char *)v9 + 470),
-                 a3 + *(_DWORD *)((char *)v9 + 474),
-                 8) )
+          if ( advManager::IsCrystalBallInEffect(a2 + v9->viewX, a3 + v9->viewY, 8) )
           {
             sprintf(
               gText,
@@ -43648,10 +43545,12 @@ LABEL_74:
             sprintf(gText, "Unknown");
           else
             sprintf(gText, (&off_4F7220)[4 * v12]);
-          if ( v17 && v23 )
+          if ( curHero && v23 )
           {
             strcat(gText, "\n\n");
-            strcat(gText, &aAlreadyVisit_8[("(not visited)" - "(already visited)") & (((v17->flags & v23) != 0) - 1)]);
+            strcat(
+              gText,
+              &aAlreadyVisit_8[("(not visited)" - "(already visited)") & (((curHero->flags & v23) != 0) - 1)]);
           }
           break;
         case LOCATION_EXPANSION_DWELLING:
@@ -43711,12 +43610,12 @@ LABEL_74:
           break;
         default:
 LABEL_145:
-          if ( v23 && v17 )
+          if ( v23 && curHero )
             sprintf(
               gText,
               "%s\n\n%s",
               (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-              &aAlreadyVisited[("(not visited)" - "(already visited)") & (((v17->flags & v23) != 0) - 1)]);
+              &aAlreadyVisited[("(not visited)" - "(already visited)") & (((curHero->flags & v23) != 0) - 1)]);
           else
             sprintf(gText, "%s", (&adventureMapLocations)[4 * (v22->objType & 0x7F)]);
           break;
@@ -43743,8 +43642,8 @@ LABEL_145:
       (unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
       v22->displayFlags & 8,
       &a1,
-      a2 + *(_DWORD *)((char *)v9 + 470),
-      a3 + *(_DWORD *)((char *)v9 + 474));
+      a2 + v9->viewX,
+      a3 + v9->viewY);
   *(_QWORD *)&evt.inputEvt.eventCode = 12884902400i64;
   evt.inputEvt.yCoordOrFieldID = 1;
   evt.inputEvt.payload = gText;
@@ -44026,14 +43925,14 @@ signed int __thiscall advManager::ClearBottomView(advManager *this)
       result = i;
       this->someComponents[1][i] = 0;
     }
-    dword_50EAA4 = -1;
+    giBottomViewPlayer = -1;
     iCurBottomView = 0;
     iLastAnimFrame = -1;
   }
   return result;
 }
 // 50EAA0: using guessed type int iCurBottomView;
-// 50EAA4: using guessed type int dword_50EAA4;
+// 50EAA4: using guessed type int giBottomViewPlayer;
 // 524CB0: using guessed type int iLastAnimFrame;
 
 //----- (0044D750) --------------------------------------------------------
@@ -44119,10 +44018,10 @@ int __thiscall advManager::UpdBottomViewEnemyTurn(void *this)
       }
     }
   }
-  if ( gbForceUpdate || dword_50EAA4 != giCurPlayer )
+  if ( gbForceUpdate || giBottomViewPlayer != giCurPlayer )
   {
     v12 = 1;
-    dword_50EAA4 = giCurPlayer;
+    giBottomViewPlayer = giCurPlayer;
     if ( giCurPlayer != giCurPlayer )
       LODWORD(iCurHourGlassPhase) = 0;
     if ( *(_DWORD *)((char *)v2 + 66) )
@@ -44198,7 +44097,7 @@ int __thiscall advManager::UpdBottomViewEnemyTurn(void *this)
 // 50EA90: using guessed type int iSandAnim;
 // 50EA94: using guessed type int giLastHourGlassUpdateTime;
 // 50EAA0: using guessed type int iCurBottomView;
-// 50EAA4: using guessed type int dword_50EAA4;
+// 50EAA4: using guessed type int giBottomViewPlayer;
 // 50EAA8: using guessed type __int64 iCurHourGlassPhase;
 // 50EAB0: using guessed type int gbForceUpdate;
 // 50F3D0: using guessed type int iLastSandAnimTime;
@@ -44321,7 +44220,7 @@ signed int __thiscall advManager::UpdBottomViewResMsg(advManager *this)
 {
   signed int result; // eax@3
   int v2; // ST24_4@11
-  int v3; // eax@11
+  unsigned int v3; // eax@11
   textWidget *v5; // [sp+10h] [bp-28h]@25
   iconWidget *v6; // [sp+14h] [bp-24h]@20
   textWidget *thisa; // [sp+18h] [bp-20h]@11
@@ -44359,7 +44258,7 @@ signed int __thiscall advManager::UpdBottomViewResMsg(advManager *this)
     if ( *(_DWORD *)&giBottomViewResource < 0 )
       v11 = 32 - 6 * font::LineLength(smallFont, gcBottomViewText, 143);
     v2 = word_50F4C4 + 38;
-    v3 = strlen((int)gcBottomViewText);
+    v3 = strlen(gcBottomViewText);
     content = (char *)BaseAlloc(v3 + 1, "F:\\h2xsrc\\Source\\ADVMGR.CPP", v2);
     sprintf(content, gcBottomViewText);
     thisa = (textWidget *)operator new(43);
@@ -44751,7 +44650,7 @@ signed int __thiscall advManager::UpdBottomViewHero(advManager *this)
             v2 = v15 + 2101;
             v3 = *(char **)&str[4 * v15];
             v4 = v21->army.quantities[i] <= 1999 ? 0 : 4;
-            v5 = strlen(*(_DWORD *)&str[4 * v15]);
+            v5 = strlen(*(char **)&str[4 * v15]);
             this->someComponents[1][v15 + 1] = (widget *)textWidget::textWidget(
                                                            thisa,
                                                            v25 + 480,
@@ -44790,7 +44689,7 @@ signed int __thiscall advManager::UpdBottomViewHero(advManager *this)
 // 50F5A0: using guessed type __int16 word_50F5A0;
 
 //----- (0044EC40) --------------------------------------------------------
-void __thiscall advManager::HeroQuickView(void *this, int a2, int a3, int a4, int a5)
+void __thiscall advManager::HeroQuickView(advManager *this, int a2, int a3, int a4, int a5)
 {
   char v5; // al@28
   char v6; // al@29
@@ -44859,7 +44758,7 @@ void __thiscall advManager::HeroQuickView(void *this, int a2, int a3, int a4, in
   res = resourceManager::GetIcon(gpResourceManager, "mons32.icn");
   hro = &gpGame->heroes[a2];
   if ( gpGame->heroes[a2].ownerIdx == giCurPlayer
-    || *(_DWORD *)((char *)this + 886) == 1
+    || this->identifyCast == 1
     || advManager::IsCrystalBallInEffect(hro->x, hro->y, 8) )
   {
     if ( a4 == -1 )
@@ -44908,9 +44807,7 @@ void __thiscall advManager::HeroQuickView(void *this, int a2, int a3, int a4, in
     if ( hro->army.creatureTypes[i] != -1 )
       ++numStacks;
   }
-  if ( hro->ownerIdx == giCurPlayer
-    || *(_DWORD *)((char *)this + 886) == 1
-    || advManager::IsCrystalBallInEffect(hro->x, hro->y, 8) )
+  if ( hro->ownerIdx == giCurPlayer || this->identifyCast == 1 || advManager::IsCrystalBallInEffect(hro->x, hro->y, 8) )
   {
     for ( i = 0; (signed int)i < 4; ++i )
     {
@@ -45136,22 +45033,22 @@ LABEL_57:
     }
   }
 LABEL_88:
-  v51 = *(_DWORD *)((char *)this + 470);
-  v50 = *(_DWORD *)((char *)this + 474);
-  *(_DWORD *)((char *)this + 470) = hro->x - 7;
-  *(_DWORD *)((char *)this + 474) = hro->y - 7;
-  advManager::UpdateRadar((int)this, 1, 0);
+  v51 = this->viewX;
+  v50 = this->viewY;
+  this->viewX = hro->x - 7;
+  this->viewY = hro->y - 7;
+  advManager::UpdateRadar(this, 1, 0);
   heroWindowManager::AddWindow(gpWindowManager, window, -1, 1);
   QuickViewWait();
   heroWindowManager::RemoveWindow(gpWindowManager, window);
   operator delete(window);
-  *(_DWORD *)((char *)this + 470) = v51;
-  *(_DWORD *)((char *)this + 474) = v50;
-  advManager::UpdateRadar((int)this, 1, 0);
-  advManager::CompleteDraw((advManager *)this, 0);
-  advManager::UpdateScreen((advManager *)this, 0, 0);
+  this->viewX = v51;
+  this->viewY = v50;
+  advManager::UpdateRadar(this, 1, 0);
+  advManager::CompleteDraw(this, 0);
+  advManager::UpdateScreen(this, 0, 0);
   if ( evt.eventCode == 8 && hro->ownerIdx == giCurPlayer )
-    advManager::SetHeroContext((advManager *)this, hro->idx, 0);
+    advManager::SetHeroContext(this, hro->idx, 0);
   resourceManager::Dispose(gpResourceManager, (resource *)res);
 }
 // 50F600: using guessed type __int16 word_50F600;
@@ -45253,7 +45150,7 @@ void __thiscall advManager::TownQuickView(void *this, int a2, int a3, int a4, in
   int v15; // ebx@78
   IconEntry *v16; // eax@78
   char *v17; // eax@85
-  int v18; // [sp+10h] [bp-E8h]@1
+  void *v18; // [sp+10h] [bp-E8h]@1
   textWidget *v19; // [sp+1Ch] [bp-DCh]@87
   iconWidget *v20; // [sp+20h] [bp-D8h]@77
   textWidget *v21; // [sp+24h] [bp-D4h]@66
@@ -45293,7 +45190,7 @@ void __thiscall advManager::TownQuickView(void *this, int a2, int a3, int a4, in
   __int16 v55; // [sp+F0h] [bp-8h]@1
   __int16 v56; // [sp+F4h] [bp-4h]@1
 
-  v18 = (int)this;
+  v18 = this;
   v41 = 192;
   v46 = 22;
   v45 = 32;
@@ -45571,17 +45468,17 @@ LABEL_48:
   heroWindow::AddWidget(window, guiObj, -1);
 LABEL_93:
   heroWindowManager::AddWindow(gpWindowManager, window, -1, 1);
-  v49 = *(_DWORD *)(v18 + 470);
-  v48 = *(_DWORD *)(v18 + 474);
-  *(_DWORD *)(v18 + 470) = v53->x - 7;
-  *(_DWORD *)(v18 + 474) = v53->y - 7;
-  advManager::UpdateRadar(v18, 1, 0);
+  v49 = *(_DWORD *)((char *)v18 + 470);
+  v48 = *(_DWORD *)((char *)v18 + 474);
+  *(_DWORD *)((char *)v18 + 470) = v53->x - 7;
+  *(_DWORD *)((char *)v18 + 474) = v53->y - 7;
+  advManager::UpdateRadar((advManager *)v18, 1, 0);
   QuickViewWait();
   heroWindowManager::RemoveWindow(gpWindowManager, window);
   operator delete(window);
-  *(_DWORD *)(v18 + 470) = v49;
-  *(_DWORD *)(v18 + 474) = v48;
-  advManager::UpdateRadar(v18, 1, 0);
+  *(_DWORD *)((char *)v18 + 470) = v49;
+  *(_DWORD *)((char *)v18 + 474) = v48;
+  advManager::UpdateRadar((advManager *)v18, 1, 0);
   advManager::CompleteDraw((advManager *)v18, 0);
   advManager::UpdateScreen((advManager *)v18, 0, 0);
   if ( evt.eventCode == 8 && v53->ownerIdx == giCurPlayer )
@@ -45611,7 +45508,7 @@ void __thiscall advManager::RedrawAdvScreen(advManager *this, int a2, int a3)
     heroWindow::DrawWindow(this->adventureScreen, 0);
     if ( a2 )
       heroWindowManager::UpdateScreenRegion(gpWindowManager, 0, 0, 0x280u, 480);
-    advManager::UpdateRadar((int)this, a2, 0);
+    advManager::UpdateRadar(this, a2, 0);
     advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
     if ( a2 )
       advManager::UpdateScreen(this, 0, 0);
@@ -45710,7 +45607,7 @@ advManager *__thiscall advManager::SetTownContext(advManager *this, int a2)
   advManager::UpdateTownLocators(this, 1, 1);
   advManager::HideRoute(this, 0, 0, 1);
   advManager::UpdBottomView(this, 1, 1, 1);
-  advManager::UpdateRadar((int)this, 1, 0);
+  advManager::UpdateRadar(this, 1, 0);
   advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
   advManager::UpdateScreen(this, 0, 0);
   advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 1);
@@ -45724,7 +45621,7 @@ advManager *__thiscall advManager::SetTownContext(advManager *this, int a2)
   }
   inputManager::ForceMouseMove();
   result = this;
-  this->field_1E6 = 0;
+  this->xOff = 0;
   return result;
 }
 // 5240A8: using guessed type int gpSoundManager;
@@ -45736,7 +45633,7 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
   int heroOwnedIdx; // [sp+14h] [bp-Ch]@5
   int heroOwnedIdxa; // [sp+14h] [bp-Ch]@18
   signed int i; // [sp+18h] [bp-8h]@5
-  hero *v8; // [sp+1Ch] [bp-4h]@2
+  hero *hro; // [sp+1Ch] [bp-4h]@2
 
   if ( heroIdx != -1 )
   {
@@ -45745,22 +45642,22 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
     advManager::DeactivateCurrHero(this);
     this->heroMobilized = 1;
     gpCurPlayer->curHeroIdx = heroIdx;
-    v8 = &gpGame->heroes[gpCurPlayer->curHeroIdx];
+    hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
     this->viewX = gpGame->heroes[gpCurPlayer->curHeroIdx].x - 7;
-    this->viewY = v8->y - 7;
+    this->viewY = hro->y - 7;
     this->field_29A = 7;
     this->field_292 = this->field_29A;
     this->field_29E = -1;
     this->field_296 = this->field_29E;
-    if ( v8->flags & HERO_AT_SEA )
+    if ( hro->flags & HERO_AT_SEA )
       this->field_27A = 6;
     else
-      this->field_27A = v8->factionID;
-    this->field_27E = HIBYTE(v8->field_2B);
+      this->field_27A = hro->factionID;
+    this->field_27E = HIBYTE(hro->field_2B);
     this->field_282 = advManager::GetCursorBaseFrame(this->field_27E);
-    v4 = advManager::GetCell(this, v8->x, v8->y);
+    v4 = advManager::GetCell(this, hro->x, hro->y);
     v4->displayFlags |= 0x40u;
-    game::RestoreCell(v8->x, v8->y, v8->occupiedObjType, v8->occupiedObjVal, 0, 4);
+    game::RestoreCell(hro->x, hro->y, hro->occupiedObjType, hro->occupiedObjVal, 0, 4);
     heroOwnedIdx = 0;
     for ( i = 0; gpCurPlayer->numHeroes > i; ++i )
     {
@@ -45781,12 +45678,12 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
     if ( !a3 && (this->ready == 1 || gbThisNetHumanPlayer[giCurPlayer]) )
     {
       advManager::Reseed(0, 0);
-      advManager::SeedTo((int)this, *(_QWORD *)&v8->field_21);
+      advManager::SeedTo((int)this, *(_QWORD *)&hro->field_21);
       advManager::ShowRoute(this, 0, 0, 1);
     }
     advManager::UpdBottomView(this, 1, 1, 1);
     this->field_272 = 1;
-    advManager::UpdateRadar((int)this, 1, 0);
+    advManager::UpdateRadar(this, 1, 0);
     advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
     advManager::UpdateScreen(this, 0, 0);
     advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 1);
@@ -45801,7 +45698,7 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
     if ( !gbHeroMoving )
     {
       inputManager::ForceMouseMove();
-      this->field_1E6 = 0;
+      this->xOff = 0;
     }
   }
 }
@@ -46009,9 +45906,9 @@ LABEL_10:
         else
           advManager::TownGate(this, spell);
 LABEL_32:
-        if ( spell != 56 && spell != 57 )
+        if ( spell != SPELL_DIMENSION_DOOR && spell != SPELL_TOWN_GATE )
         {
-          if ( spell != 58 )
+          if ( spell != SPELL_TOWN_PORTAL )
             hero::UseSpell(&gpGame->heroes[gpCurPlayer->curHeroIdx], spell);
         }
       }
@@ -46031,7 +45928,7 @@ LABEL_32:
       }
       return;
     case SPELL_VISIONS:
-      if ( advManager::DoVisions(this, (int)hro) )
+      if ( advManager::DoVisions(this, hro) )
         goto LABEL_32;
       return;
     default:
@@ -46170,10 +46067,10 @@ signed int __thiscall DimensionDoorHandler(void *this)
       v10 = 14;
     if ( v8 > 14 )
       v8 = 14;
-    if ( gpAdvManager->field_1E6 != v10 || gpAdvManager->field_1EA != v8 )
+    if ( gpAdvManager->xOff != v10 || gpAdvManager->yOff != v8 )
     {
-      gpAdvManager->field_1E6 = v10;
-      gpAdvManager->field_1EA = v8;
+      gpAdvManager->xOff = v10;
+      gpAdvManager->yOff = v8;
       v6 = advManager::GetCell(gpAdvManager, v10 + gpAdvManager->viewX, v8 + gpAdvManager->viewY);
       if ( v6->objType & 0x80 || v6->displayFlags & 8 )
       {
@@ -46993,7 +46890,7 @@ signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x,
       (unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
   }
   advManager::Reseed(0, 0);
-  advManager::UpdateRadar((int)this, 1, 0);
+  advManager::UpdateRadar(this, 1, 0);
   advManager::CompleteDraw(this, 0);
   return advManager::ForceNewHover(this);
 }
@@ -47002,51 +46899,49 @@ signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x,
 // 5306F0: using guessed type char giCurWatchPlayerBit;
 
 //----- (00453E30) --------------------------------------------------------
-void __thiscall advManager::DimensionDoor(void *this)
+void __thiscall advManager::DimensionDoor(advManager *this)
 {
-  int v1; // [sp+Ch] [bp-24h]@1
-  heroWindow *thisa; // [sp+18h] [bp-18h]@1
+  heroWindow *dimDoorWind; // [sp+18h] [bp-18h]@1
   int y; // [sp+1Ch] [bp-14h]@7
-  mapCell *v4; // [sp+20h] [bp-10h]@7
+  mapCell *targetCell; // [sp+20h] [bp-10h]@7
   int x; // [sp+24h] [bp-Ch]@7
-  char *hro; // [sp+28h] [bp-8h]@6
+  hero *hro; // [sp+28h] [bp-8h]@6
   heroWindow *window; // [sp+2Ch] [bp-4h]@2
 
-  v1 = (int)this;
-  thisa = (heroWindow *)operator new(68);
-  if ( thisa )
-    window = heroWindow::heroWindow(thisa, 0, 0, "dimdoor.bin");
+  dimDoorWind = (heroWindow *)operator new(68);
+  if ( dimDoorWind )
+    window = heroWindow::heroWindow(dimDoorWind, 0, 0, "dimdoor.bin");
   else
     window = 0;
   if ( !window )
     MemError();
   heroWindowManager::DoDialog(gpWindowManager, window, (int (__fastcall *)(tag_message *))DimensionDoorHandler, 0);
   operator delete(window);
-  hro = (char *)&gpGame->heroes[gpCurPlayer->curHeroIdx];
+  hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   if ( gpWindowManager->buttonPressedCode == 1 )
   {
-    x = *(_DWORD *)(v1 + 470) + *(_DWORD *)(v1 + 486);
-    y = *(_DWORD *)(v1 + 474) + *(_DWORD *)(v1 + 490);
-    v4 = advManager::GetCell((advManager *)v1, x, y);
-    if ( (!(hro[227] & 0x80) || !giGroundToTerrain[v4->groundIndex])
-      && (hro[227] & 0x80 || giGroundToTerrain[v4->groundIndex]) )
+    x = this->viewX + this->xOff;
+    y = this->viewY + this->yOff;
+    targetCell = advManager::GetCell(this, x, y);
+    if ( (!(hro->flags & HERO_AT_SEA) || !giGroundToTerrain[targetCell->groundIndex])
+      && (hro->flags & HERO_AT_SEA || giGroundToTerrain[targetCell->groundIndex]) )
     {
       soundManager::SwitchAmbientMusic((soundManager *)gpSoundManager, 1);
-      advManager::TeleportTo((advManager *)v1, (hero *)hro, x, y, 0, 0);
+      advManager::TeleportTo(this, hro, x, y, 0, 0);
       soundManager::SwitchAmbientMusic(
         (soundManager *)gpSoundManager,
-        (unsigned __int8)giTerrainToMusicTrack[*(_DWORD *)(v1 + 166)]);
+        (unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
     }
     else
     {
       NormalDialog("Dimension Door failed!!!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
-      advManager::UpdateRadar(v1, 1, 0);
+      advManager::UpdateRadar(this, 1, 0);
     }
-    hero::UseSpell(&gpGame->heroes[gpCurPlayer->curHeroIdx], 56);
+    hero::UseSpell(&gpGame->heroes[gpCurPlayer->curHeroIdx], SPELL_DIMENSION_DOOR);
   }
   else
   {
-    advManager::UpdateRadar(v1, 1, 0);
+    advManager::UpdateRadar(this, 1, 0);
   }
 }
 // 5240A8: using guessed type int gpSoundManager;
@@ -47670,7 +47565,7 @@ void __thiscall advManager::ScreenScroll(advManager *this, int a2, int a3)
     advManager::DemobilizeCurrHero(this);
     this->viewX = v4;
     this->viewY = v5;
-    advManager::UpdateRadar((int)this, 1, 0);
+    advManager::UpdateRadar(this, 1, 0);
     advManager::CompleteDraw(this, 0);
     advManager::UpdateScreen(this, 0, 0);
   }
@@ -47763,8 +47658,8 @@ int __thiscall advManager::SetInitialMapOrigin(advManager *this)
   playerData *v6; // [sp+18h] [bp-Ch]@8
 
   heroWindowManager::BroadcastMessage(gpWindowManager, INPUT_GUI_MESSAGE_CODE, 5, 2, 16392);
-  this->field_1EA = 0;
-  this->field_1E6 = this->field_1EA;
+  this->yOff = 0;
+  this->xOff = this->yOff;
   this->field_272 = 0;
   gbHeroMoving = 0;
   if ( gbThisNetHumanPlayer[giCurPlayer] && LOBYTE(gpCurPlayer->field_45) != -1 )
@@ -47844,7 +47739,7 @@ heroWindow *__thiscall advManager::LoadRemote(void *this)
   game::DoNewTurn(gpGame);
   advManager::UpdateHeroLocators((advManager *)thisa, 1, 1);
   advManager::UpdateTownLocators(thisa, 1, 1);
-  advManager::UpdateRadar((int)thisa, 1, 0);
+  advManager::UpdateRadar((advManager *)thisa, 1, 0);
   advManager::UpdBottomView((advManager *)thisa, 1, 1, 1);
   advManager::ForceNewHover(gpAdvManager);
   SendMapChange(11, 0, 0, 0, -999, 0, 0);
@@ -48317,7 +48212,7 @@ signed int __fastcall MapExtraPosAndAdjacentsSet(int x, int y, unsigned __int8 a
   int j; // [sp+14h] [bp-8h]@9
   int i; // [sp+18h] [bp-4h]@3
 
-  if ( (unsigned __int8)*(&mapExtra[x] + y * MAP_WIDTH) & a3 )
+  if ( (unsigned __int8)*(&mapRevealed[x] + y * MAP_WIDTH) & a3 )
   {
     result = 1;
   }
@@ -48329,7 +48224,7 @@ signed int __fastcall MapExtraPosAndAdjacentsSet(int x, int y, unsigned __int8 a
       {
         for ( j = y - 1; y + 1 >= j; ++j )
         {
-          if ( j >= 0 && j < MAP_HEIGHT && (unsigned __int8)(*(&mapExtra[i] + j * MAP_WIDTH) & a3) )
+          if ( j >= 0 && j < MAP_HEIGHT && (unsigned __int8)(*(&mapRevealed[i] + j * MAP_WIDTH) & a3) )
             return 1;
         }
       }
@@ -48534,7 +48429,7 @@ void __thiscall advManager::ViewPuzzle(advManager *this)
   operator delete(a2);
   advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
   advManager::UpdateScreen(this, 0, 0);
-  advManager::UpdateRadar((int)this, 1, 0);
+  advManager::UpdateRadar(this, 1, 0);
   soundManager::SwitchAmbientMusic(
     (soundManager *)gpSoundManager,
     (unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
@@ -49348,10 +49243,10 @@ int __fastcall GetManaFrame(signed int a1)
 }
 
 //----- (004587A0) --------------------------------------------------------
-signed int __thiscall advManager::DoVisions(void *this, int a2)
+signed int __thiscall advManager::DoVisions(void *this, hero *hro)
 {
   int v2; // ebx@6
-  void *v4; // [sp+14h] [bp-100h]@1
+  advManager *v4; // [sp+14h] [bp-100h]@1
   int v5; // [sp+18h] [bp-FCh]@24
   int v6; // [sp+1Ch] [bp-F8h]@30
   int v7; // [sp+20h] [bp-F4h]@12
@@ -49367,19 +49262,19 @@ signed int __thiscall advManager::DoVisions(void *this, int a2)
   int v17; // [sp+10Ch] [bp-8h]@6
   int v18; // [sp+110h] [bp-4h]@1
 
-  v4 = this;
+  v4 = (advManager *)this;
   v9 = 100;
   v18 = -1;
   v15 = -1;
-  for ( col = *(_DWORD *)(a2 + 25) - 3; *(_DWORD *)(a2 + 25) + 3 >= col; ++col )
+  for ( col = hro->x - 3; hro->x + 3 >= col; ++col )
   {
-    for ( row = *(_DWORD *)(a2 + 29) - 3; *(_DWORD *)(a2 + 29) + 3 >= row; ++row )
+    for ( row = hro->y - 3; hro->y + 3 >= row; ++row )
     {
-      v10 = advManager::GetCell((advManager *)v4, col, row);
+      v10 = advManager::GetCell(v4, col, row);
       if ( v10->objType == 152 )
       {
-        v2 = abs(*(_DWORD *)(a2 + 29) - row);
-        v17 = abs(*(_DWORD *)(a2 + 25) - col) + v2;
+        v2 = abs(hro->y - row);
+        v17 = abs(hro->x - col) + v2;
         if ( v17 < v9 )
         {
           v9 = v17;
@@ -49404,16 +49299,16 @@ signed int __thiscall advManager::DoVisions(void *this, int a2)
       0);
     return 0;
   }
-  v10 = advManager::GetCell((advManager *)v4, v15, v18);
+  v10 = advManager::GetCell(v4, v15, v18);
   creatureType = v10->objectIndex;
   v7 = ((unsigned __int8)(v10->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0;
   v16 = (unsigned __int8)((unsigned __int8)(v10->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
   sprintf(gText, "{%d %s}\n\n", v16, gArmyNamesPlural[creatureType]);
-  v13 = (double)philAI::FightValueOfStack((armyGroup *)(a2 + 101), (hero *)a2, 0, 0, 0, 0)
+  v13 = (double)philAI::FightValueOfStack(&hro->army, hro, 0, 0, 0, 0)
       / (double)(v16 * gMonsterDatabase[creatureType].fight_value);
-  if ( !armyGroup::CanJoin((armyGroup *)(a2 + 101), creatureType)
+  if ( !armyGroup::CanJoin(&hro->army, creatureType)
     || v13 <= 2.0
-    || hero::HasArtifact((hero *)a2, 70)
+    || hero::HasArtifact(hro, ARTIFACT_HIDEOUS_MASK)
     || creatureType == 59
     || creatureType == 62
     || creatureType == 63
@@ -49422,13 +49317,13 @@ signed int __thiscall advManager::DoVisions(void *this, int a2)
     goto LABEL_37;
   if ( !v7 )
   {
-    if ( *(_BYTE *)(a2 + 120) )
+    if ( hro->secondarySkillLevel[4] )
     {
-      if ( *(_BYTE *)(a2 + 120) == 3 )
+      if ( hro->secondarySkillLevel[4] == 3 )
       {
         v5 = v16;
       }
-      else if ( *(_BYTE *)(a2 + 120) == 2 )
+      else if ( hro->secondarySkillLevel[4] == 2 )
       {
         v5 = v16 / 2;
       }
@@ -49439,7 +49334,7 @@ signed int __thiscall advManager::DoVisions(void *this, int a2)
       if ( !v5 )
         v5 = 1;
       v6 = v16 * gMonsterDatabase[creatureType].cost;
-      if ( gpGame->players[*(_BYTE *)(a2 + 3)].resources[6] >= v6 )
+      if ( gpGame->players[hro->ownerIdx].resources[6] >= v6 )
       {
         if ( v16 == v5 )
           sprintf(&a2a, "All the creatures will join us...\n\nfor a fee of %d gold.", v6);
@@ -49701,7 +49596,7 @@ void __cdecl SmackManagerMain()
     }
     SmackToBuffer(smk1, 0, 0, 640, 480, gpWindowManager->screenBuffer->contents, 0);
   }
-  if ( (unsigned int)strlen((int)&SmackOptions[45 * bSmackNum + 9]) > 1 )
+  if ( strlen(&SmackOptions[45 * bSmackNum + 9]) > 1 )
   {
     if ( *(_DWORD *)&slowVideo )
       sprintf(gText, "%s%s.SMK", &a1, &SmackOptions[45 * bSmackNum + 27]);
@@ -50287,7 +50182,8 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
   {
     for ( i = 0; this->mapHeader.numPlayers > i; ++i )
     {
-      if ( this->field_45F[i] == 10 || this->field_45F[i] >= iLastMsgNumHumanPlayers )
+      if ( this->somePlayerCodeOr10IfMayBeHuman[i] == 10
+        || this->somePlayerCodeOr10IfMayBeHuman[i] >= iLastMsgNumHumanPlayers )
         this->field_459[i] = this->mapHeader.playerFactions[*((_BYTE *)&this->field_44D + i)];
     }
   }
@@ -50309,14 +50205,14 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
       {
         this->playerHandicap[k] = 0;
         this->field_459[k] = this->mapHeader.playerFactions[*((_BYTE *)&this->field_44D + k)];
-        this->field_45F[k] = -1;
+        this->somePlayerCodeOr10IfMayBeHuman[k] = -1;
         this->mapFilename[k + 13] = -1;
       }
       else
       {
         this->mapFilename[k + 13] = -1;
-        this->field_45F[k] = this->mapFilename[k + 13];
-        this->field_459[k] = this->field_45F[k];
+        this->somePlayerCodeOr10IfMayBeHuman[k] = this->mapFilename[k + 13];
+        this->field_459[k] = this->somePlayerCodeOr10IfMayBeHuman[k];
         this->playerHandicap[k] = this->field_459[k];
       }
     }
@@ -50328,7 +50224,7 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
         if ( !this->mapHeader.playerMayBeHuman[*((_BYTE *)&this->field_44D + l)]
           && this->mapHeader.playerMayBeComp[*((_BYTE *)&this->field_44D + l)] )
         {
-          this->field_45F[l] = 10;
+          this->somePlayerCodeOr10IfMayBeHuman[l] = 10;
           this->mapFilename[l + 13] = 0;
           ++v4;
         }
@@ -50336,7 +50232,7 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
       else
       {
         this->mapFilename[l + 13] = 0;
-        this->field_45F[l] = v12++;
+        this->somePlayerCodeOr10IfMayBeHuman[l] = v12++;
       }
     }
     v13 = v12 < iLastMsgNumHumanPlayers && this->mapHeader.numPlayers - iLastMsgNumHumanPlayers > v4;
@@ -50347,12 +50243,12 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
     }
     for ( n = 0; this->mapHeader.numPlayers > n; ++n )
     {
-      if ( this->field_45F[n] == -1 )
+      if ( this->somePlayerCodeOr10IfMayBeHuman[n] == -1 )
       {
         if ( v12 < iLastMsgNumHumanPlayers && this->mapHeader.playerMayBeHuman[*((_BYTE *)&this->field_44D + n)] )
-          this->field_45F[n] = v12++;
+          this->somePlayerCodeOr10IfMayBeHuman[n] = v12++;
         else
-          this->field_45F[n] = 10;
+          this->somePlayerCodeOr10IfMayBeHuman[n] = 10;
       }
     }
     this->difficulty = 1;
@@ -50962,7 +50858,7 @@ void __thiscall game::UpdateNewGameWindow(int this)
     {
       sprintf(gText, byte_5113C4);
     }
-    else if ( strlen((int)cPlayerNames[*(_BYTE *)(i + thisa + 1119)]) )
+    else if ( strlen(cPlayerNames[*(_BYTE *)(i + thisa + 1119)]) )
     {
       sprintf(gText, cPlayerNames[*(_BYTE *)(i + thisa + 1119)]);
     }
@@ -51045,7 +50941,7 @@ void __thiscall game::UpdateNewGameWindow(int this)
 signed int __fastcall NewGameHandler(void *this, game *a2)
 {
   signed int result; // eax@8
-  int v3; // eax@30
+  unsigned int v3; // eax@30
   int v4; // [sp+10h] [bp-3B4h]@74
   int v5; // [sp+14h] [bp-3B0h]@73
   int v6; // [sp+1Ch] [bp-3A8h]@1
@@ -51151,7 +51047,7 @@ signed int __fastcall NewGameHandler(void *this, game *a2)
           strcpy(cNGKPCore, byte_51140C);
           strcpy(cNGKPDisplay, byte_511410);
           NGKPcursorIndex = 0;
-          v3 = strlen((int)dword_524F30);
+          v3 = strlen(dword_524F30);
           v27 = TransmitRemoteData(dword_524F30, 127, v3 + 1, 11, 1, 1, -1);
           if ( !v27 )
             ShutDown(0);
@@ -51234,7 +51130,7 @@ LABEL_88:
 LABEL_91:
         v28 = 1;
         v23 = 1;
-        if ( gpGame->field_45F[i] != 10 )
+        if ( gpGame->somePlayerCodeOr10IfMayBeHuman[i] != 10 )
           gpGame->playerHandicap[i] = (gpGame->playerHandicap[i] + 1) % 3;
         goto LABEL_142;
       case 6:
@@ -51271,19 +51167,20 @@ LABEL_91:
 LABEL_98:
         v28 = 1;
         v23 = 1;
-        if ( gpGame->mapFilename[i + 13] || iLastMsgNumHumanPlayers > 1 && gpGame->field_45F[i] != 10 )
+        if ( gpGame->mapFilename[i + 13]
+          || iLastMsgNumHumanPlayers > 1 && gpGame->somePlayerCodeOr10IfMayBeHuman[i] != 10 )
         {
           if ( iLastMsgNumHumanPlayers == 1 )
           {
-            if ( gpGame->field_45F[i] == 10 )
+            if ( gpGame->somePlayerCodeOr10IfMayBeHuman[i] == 10 )
             {
               for ( j = 0; gpGame->mapHeader.numPlayers > j; ++j )
               {
-                if ( gpGame->field_45F[j] != 10 )
+                if ( gpGame->somePlayerCodeOr10IfMayBeHuman[j] != 10 )
                 {
-                  v24 = gpGame->field_45F[j];
-                  gpGame->field_45F[j] = gpGame->field_45F[i];
-                  gpGame->field_45F[i] = v24;
+                  v24 = gpGame->somePlayerCodeOr10IfMayBeHuman[j];
+                  gpGame->somePlayerCodeOr10IfMayBeHuman[j] = gpGame->somePlayerCodeOr10IfMayBeHuman[i];
+                  gpGame->somePlayerCodeOr10IfMayBeHuman[i] = v24;
                   j = 999;
                 }
               }
@@ -51293,14 +51190,17 @@ LABEL_98:
           {
             gpGame->mapFilename[19] = i;
           }
-          else if ( gpGame->mapFilename[19] != i && (gpGame->field_45F[i] != 10 || gpGame->field_45F[gpGame->mapFilename[19]] != 10) )
+          else if ( gpGame->mapFilename[19] != i
+  && (gpGame->somePlayerCodeOr10IfMayBeHuman[i] != 10
+   || gpGame->somePlayerCodeOr10IfMayBeHuman[gpGame->mapFilename[19]] != 10) )
           {
             if ( gpGame->mapFilename[i + 13] && gpGame->mapFilename[gpGame->mapFilename[19] + 13]
-              || gpGame->field_45F[i] != 10 && gpGame->field_45F[gpGame->mapFilename[19]] != 10 )
+              || gpGame->somePlayerCodeOr10IfMayBeHuman[i] != 10
+              && gpGame->somePlayerCodeOr10IfMayBeHuman[gpGame->mapFilename[19]] != 10 )
             {
-              j = gpGame->field_45F[i];
-              gpGame->field_45F[i] = gpGame->field_45F[gpGame->mapFilename[19]];
-              gpGame->field_45F[gpGame->mapFilename[19]] = j;
+              j = gpGame->somePlayerCodeOr10IfMayBeHuman[i];
+              gpGame->somePlayerCodeOr10IfMayBeHuman[i] = gpGame->somePlayerCodeOr10IfMayBeHuman[gpGame->mapFilename[19]];
+              gpGame->somePlayerCodeOr10IfMayBeHuman[gpGame->mapFilename[19]] = j;
             }
             else
             {
@@ -51449,7 +51349,7 @@ signed int __stdcall game::ProcessNGKeyPress(int a1)
           strcpy(cNGKPCore, byte_511444);
         goto LABEL_46;
       case 0x53:
-        if ( strlen((int)cNGKPCore) > (unsigned int)NGKPcursorIndex )
+        if ( strlen(cNGKPCore) > NGKPcursorIndex )
         {
           strcpy(gText, &cNGKPCore[NGKPcursorIndex + 1]);
           strcpy(&cNGKPCore[NGKPcursorIndex], gText);
@@ -51460,7 +51360,7 @@ signed int __stdcall game::ProcessNGKeyPress(int a1)
           --NGKPcursorIndex;
         goto LABEL_46;
       case 0x4D:
-        if ( strlen((int)cNGKPCore) > (unsigned int)NGKPcursorIndex )
+        if ( strlen(cNGKPCore) > NGKPcursorIndex )
           ++NGKPcursorIndex;
         goto LABEL_46;
       default:
@@ -51479,7 +51379,7 @@ signed int __stdcall game::ProcessNGKeyPress(int a1)
               strcpy(&cNGKPCore[NGKPcursorIndex-- - 1], gText);
             }
           }
-          else if ( (unsigned int)(strlen((int)cNGKPCore) + 1) < 0x64 && *(_DWORD *)(a1 + 4) )
+          else if ( strlen(cNGKPCore) + 1 < 0x64 && *(_DWORD *)(a1 + 4) )
           {
             strcpy(&a2, cNGKPCore);
             v3 = 0;
@@ -51576,7 +51476,7 @@ void __stdcall game::NGKPSetupDisplayString(const char *a1, unsigned __int16 a2)
       cNGKPDisplay[a2] = 31;
     else
       cNGKPDisplay[a2] = 95;
-    if ( strlen((int)a1) <= (unsigned int)a2 )
+    if ( strlen((char *)a1) <= a2 )
       cNGKPDisplay[a2 + 1] = 0;
     else
       strcpy(&cNGKPDisplay[a2 + 1], (char *)&a1[a2]);
@@ -51878,7 +51778,7 @@ BOOL __thiscall game::ShowScenInfo(void *this)
     {
       sprintf(gText, byte_511520);
     }
-    else if ( strlen((int)cPlayerNames[*((_BYTE *)v3 + i + 1119)]) )
+    else if ( strlen(cPlayerNames[*((_BYTE *)v3 + i + 1119)]) )
     {
       sprintf(gText, cPlayerNames[*((_BYTE *)v3 + i + 1119)]);
     }
@@ -51990,51 +51890,51 @@ char *__thiscall game::GetLossConditionText(game *this, char *a2)
 }
 
 //----- (0045E9A0) --------------------------------------------------------
-void __thiscall game::GetVictoryConditionText(game *ecx0, char *buf)
+void __thiscall game::GetVictoryConditionText(game *thisa, char *buf)
 {
   signed int townId; // ST24_4@3
-  char v4[100]; // [sp+1Ch] [bp-D4h]@10
-  char a2[100]; // [sp+80h] [bp-70h]@10
+  char side2Desc[100]; // [sp+1Ch] [bp-D4h]@10
+  char side1Desc[100]; // [sp+80h] [bp-70h]@10
   town *twn; // [sp+E4h] [bp-Ch]@3
   bool v7; // [sp+E8h] [bp-8h]@10
 
-  if ( ecx0->mapHeader.winConditionType )
+  if ( thisa->mapHeader.winConditionType )
   {
-    switch ( ecx0->mapHeader.winConditionType )
+    switch ( thisa->mapHeader.winConditionType )
     {
       case WIN_CONDITION_CAPTURE_CASTLE:
-        townId = game::GetTownId(ecx0, ecx0->mapHeader.winConditionArgument, ecx0->mapHeader.field_2C);
-        twn = &ecx0->castles[townId];
+        townId = game::GetTownId(thisa, thisa->mapHeader.winConditionArgument, thisa->mapHeader.field_2C);
+        twn = &thisa->castles[townId];
         sprintf(
           buf,
           "Capture the %s '%s'",
-          &aCastle_0[("town" - "castle") & (((ecx0->castles[townId].buildingsBuiltFlags & 0x40) != 0) - 1)],
-          ecx0->castles[townId].name);
+          &aCastle_0[("town" - "castle") & (((thisa->castles[townId].buildingsBuiltFlags & 0x40) != 0) - 1)],
+          thisa->castles[townId].name);
         break;
       case WIN_CONDITION_DEFEAT_HERO:
-        sprintf(buf, "Defeat the hero '%s'", ecx0->heroes[ecx0->mapHeader.winConditionArgument].name);
+        sprintf(buf, "Defeat the hero '%s'", thisa->heroes[thisa->mapHeader.winConditionArgument].name);
         break;
       case WIN_CONDITION_FIND_ARTIFACT:
-        if ( ecx0->mapHeader.winConditionArgument )
-          sprintf(buf, "Find the %s", dword_4F55F4[ecx0->mapHeader.winConditionArgument]);
+        if ( thisa->mapHeader.winConditionArgument )
+          sprintf(buf, "Find the %s", dword_4F55F4[thisa->mapHeader.winConditionArgument]);
         else
           sprintf(buf, "Find the ultimate artifact");
         break;
       case WIN_CONDITION_ACCUMULATE_GOLD:
-        sprintf(buf, "Accumulate %d gold", 1000 * ecx0->mapHeader.winConditionArgument);
+        sprintf(buf, "Accumulate %d gold", 1000 * thisa->mapHeader.winConditionArgument);
         break;
       case WIN_CONDITION_DEFEAT_COLOR:
-        v7 = game::GetSideDesc(ecx0, a2, 0, ecx0->mapHeader.winConditionArgument - 1);
-        game::GetSideDesc(ecx0, v4, ecx0->mapHeader.winConditionArgument, ecx0->mapHeader.numPlayers - 1);
+        v7 = game::GetSideDesc(thisa, side1Desc, 0, thisa->mapHeader.winConditionArgument - 1);
+        game::GetSideDesc(thisa, side2Desc, thisa->mapHeader.winConditionArgument, thisa->mapHeader.numPlayers - 1);
         if ( v7 )
-          sprintf(buf, "%s must defeat %s", a2, v4);
+          sprintf(buf, "%s must defeat %s", side1Desc, side2Desc);
         else
-          sprintf(buf, "%s must defeat %s", v4, a2);
+          sprintf(buf, "%s must defeat %s", side2Desc, side1Desc);
         break;
       default:
         break;
     }
-    if ( ecx0->mapHeader.winConditionType != WIN_CONDITION_DEFEAT_COLOR && ecx0->mapHeader.allowDefeatAllVictory )
+    if ( thisa->mapHeader.winConditionType != WIN_CONDITION_DEFEAT_COLOR && thisa->mapHeader.allowDefeatAllVictory )
       strcat(buf, ", or you may win by defeating all enemy heroes and capturing all enemy towns and castles.");
     else
       strcat(buf, L".");
@@ -52046,84 +51946,84 @@ void __thiscall game::GetVictoryConditionText(game *ecx0, char *buf)
 }
 
 //----- (0045ECA0) --------------------------------------------------------
-bool __thiscall game::GetSideDesc(game *this, char *a2, int a3, int a4)
+bool __thiscall game::GetSideDesc(game *this, char *a1, int sideStart, int sideEnd)
 {
   char a2a; // [sp+14h] [bp-7Ch]@18
   int numOnSide; // [sp+78h] [bp-18h]@10
   int i; // [sp+7Ch] [bp-14h]@1
-  bool v9; // [sp+80h] [bp-10h]@8
+  bool containsMe; // [sp+80h] [bp-10h]@8
   int v10; // [sp+84h] [bp-Ch]@10
-  int v11; // [sp+88h] [bp-8h]@1
+  int myPlayerNum; // [sp+88h] [bp-8h]@1
   int v12; // [sp+8Ch] [bp-4h]@15
 
-  v11 = -1;
+  myPlayerNum = -1;
   for ( i = 0; this->mapHeader.numPlayers > i; ++i )
   {
-    if ( this->field_45F[i] == giThisGamePos )
-      v11 = i;
+    if ( this->somePlayerCodeOr10IfMayBeHuman[i] == giThisGamePos )
+      myPlayerNum = i;
   }
-  v9 = v11 >= a3 && v11 <= a4;
-  numOnSide = a4 - a3 + 1;
-  v10 = a4 - a3 + 1 - ((unsigned int)v9 >= 1);
-  if ( v9 )
+  containsMe = myPlayerNum >= sideStart && myPlayerNum <= sideEnd;
+  numOnSide = sideEnd - sideStart + 1;
+  v10 = sideEnd - sideStart + 1 - ((unsigned int)containsMe >= 1);
+  if ( containsMe )
   {
     if ( v10 )
     {
       if ( v10 <= 1 )
-        sprintf(a2, "You and your ally ");
+        sprintf(a1, "You and your ally ");
       else
-        sprintf(a2, "You and your allies ");
+        sprintf(a1, "You and your allies ");
       v12 = 0;
-      for ( i = a3; i <= a4; ++i )
+      for ( i = sideStart; i <= sideEnd; ++i )
       {
-        if ( v11 != i )
+        if ( myPlayerNum != i )
         {
           ++v12;
           sprintf(&a2a, (&gColors)[4 * *((_BYTE *)&this->field_44D + i)]);
           a2a -= 32;
-          strcat(a2, &a2a);
+          strcat(a1, &a2a);
           if ( v10 - 1 <= v12 )
           {
             if ( v10 > v12 )
-              strcat(a2, " and ");
+              strcat(a1, " and ");
           }
           else
           {
-            strcat(a2, ", ");
+            strcat(a1, ", ");
           }
         }
       }
     }
     else
     {
-      sprintf(a2, "You");
+      sprintf(a1, "You");
     }
   }
   else
   {
     if ( numOnSide <= 1 )
-      strcpy(a2, "the enemy - ");
+      strcpy(a1, "the enemy - ");
     else
-      strcpy(a2, "the enemy alliance of ");
+      strcpy(a1, "the enemy alliance of ");
     v12 = 0;
-    for ( i = a3; i <= a4; ++i )
+    for ( i = sideStart; i <= sideEnd; ++i )
     {
       ++v12;
       sprintf(&a2a, (&gColors)[4 * *((_BYTE *)&this->field_44D + i)]);
       a2a -= 32;
-      strcat(a2, &a2a);
+      strcat(a1, &a2a);
       if ( v10 - 1 <= v12 )
       {
         if ( v10 > v12 )
-          strcat(a2, " and ");
+          strcat(a1, " and ");
       }
       else
       {
-        strcat(a2, ", ");
+        strcat(a1, ", ");
       }
     }
   }
-  return v9;
+  return containsMe;
 }
 // 524730: using guessed type int giThisGamePos;
 
@@ -52273,7 +52173,7 @@ __int16 __cdecl wsnet_init()
   {
     while ( 1 )
     {
-      if ( giTCPHostStatus != -1 && strlen((int)gcTCPAddress) )
+      if ( giTCPHostStatus != -1 && strlen(gcTCPAddress) )
       {
         strcpy(cWSTextBuffer, gcTCPAddress);
         strcpy(gcTCPAddress, byte_511B78);
@@ -52647,7 +52547,7 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
 {
   float v4; // STF8_4@4
   int v5; // ST24_4@31
-  int v6; // eax@31
+  unsigned int v6; // eax@31
   __int16 v7; // ax@71
   __int16 v8; // ax@83
   __int16 v9; // ax@141
@@ -52794,7 +52694,7 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
       {
         v54 = (int)((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2899);
         v5 = word_511E74 + 79;
-        v6 = strlen((int)((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2986));
+        v6 = strlen((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2986);
         content = (char *)BaseAlloc(v6 + 1, "F:\\h2xsrc\\Source\\Overview.cpp", v5);
         strcpy(content, (char *)(v54 + 87));
         v40 = (textWidget *)operator new(43);
@@ -53437,7 +53337,7 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
 void __thiscall game::SetupNewOverviewType(void *this, int a2, int a3)
 {
   int v3; // ST24_4@20
-  int v4; // eax@20
+  unsigned int v4; // eax@20
   void *v5; // [sp+Ch] [bp-50h]@1
   char v6; // [sp+10h] [bp-4Ch]@2
   textWidget *thisa; // [sp+14h] [bp-48h]@20
@@ -53510,7 +53410,7 @@ void __thiscall game::SetupNewOverviewType(void *this, int a2, int a3)
   for ( i = 0; i < 3; ++i )
   {
     v3 = word_5120D0 + 42;
-    v4 = strlen((int)(&cOverviewText)[4 * (i + 3 * giOverviewType)]);
+    v4 = strlen((&cOverviewText)[4 * (i + 3 * giOverviewType)]);
     content = (char *)BaseAlloc(v4 + 1, "F:\\h2xsrc\\Source\\Overview.cpp", v3);
     strcpy(content, (&cOverviewText)[4 * (i + 3 * giOverviewType)]);
     thisa = (textWidget *)operator new(43);
@@ -54429,7 +54329,7 @@ char __cdecl GUIModemCommandExec()
   if ( KBTickCount() >= iLastActionTime + 250 )
   {
     iLastActionTime = KBTickCount();
-    if ( iModemCommandPos >= strlen((int)cModemCommand) )
+    if ( iModemCommandPos >= (signed int)strlen(cModemCommand) )
     {
       write_buffer(L"\r", 1);
       result = 1;
@@ -54453,15 +54353,15 @@ char __cdecl GUIModemCommandExec()
 //----- (004642D0) --------------------------------------------------------
 signed int __thiscall ModemCommand(const char *this)
 {
-  const char *v2; // [sp+Ch] [bp-D4h]@1
-  int v3; // [sp+D8h] [bp-8h]@1
-  int i; // [sp+DCh] [bp-4h]@1
+  const char *a1; // [sp+Ch] [bp-D4h]@1
+  unsigned int v3; // [sp+D8h] [bp-8h]@1
+  signed int i; // [sp+DCh] [bp-4h]@1
 
-  v2 = this;
-  v3 = strlen((int)this);
-  for ( i = 0; v3 > i; ++i )
+  a1 = this;
+  v3 = strlen((char *)this);
+  for ( i = 0; (signed int)v3 > i; ++i )
   {
-    write_buffer(&v2[i], 1);
+    write_buffer(&a1[i], 1);
     DelayMilli(100);
   }
   return write_buffer(L"\r", 1);
@@ -54493,7 +54393,7 @@ char __fastcall GUIModemResponse(const char *a1, const char *a2)
 char __cdecl GUIModemResponseExec()
 {
   char result; // al@2
-  int v1; // eax@11
+  signed int v1; // eax@11
 
   GUIMRc = read_byte();
   if ( GUIMRc == -1 )
@@ -54511,7 +54411,7 @@ char __cdecl GUIModemResponseExec()
     *((_BYTE *)&GUIMRresponse + GUIMRrespptr) = 0;
     if ( GUIMRrespptr > 17 )
       byte_526329 = 0;
-    v1 = strlen((int)GUIMRresp);
+    v1 = strlen(GUIMRresp);
     if ( !strncmp((int)&GUIMRresponse, (int)GUIMRresp, v1) )
     {
       result = 1;
@@ -54574,9 +54474,9 @@ int __cdecl _atoflt(_CRT_FLOAT *Result, char *Str)
 //----- (004645A0) --------------------------------------------------------
 char __cdecl Connect()
 {
-  int v0; // eax@9
+  signed int v0; // eax@9
   int v1; // eax@12
-  char v3; // [sp+10h] [bp-18h]@9
+  char a1; // [sp+10h] [bp-18h]@9
   unsigned int v4; // [sp+24h] [bp-4h]@1
 
   v4 = KBTickCount() % 0xF4240u;
@@ -54606,9 +54506,9 @@ char __cdecl Connect()
     if ( stime / 1000 != oldsec / 1000 )
     {
       oldsec = stime;
-      sprintf(&v3, "ID%s_%i", idstr, localstage);
-      v0 = strlen((int)&v3);
-      WriteModemPacket((int)&v3, v0);
+      sprintf(&a1, "ID%s_%i", idstr, localstage);
+      v0 = strlen(&a1);
+      WriteModemPacket((int)&a1, v0);
     }
     PollSound();
   }
@@ -54629,8 +54529,8 @@ char __cdecl Connect()
 signed int __cdecl WaitForDirectConnect()
 {
   unsigned int v0; // ST20_4@2
-  int v2; // eax@12
-  char v3; // [sp+14h] [bp-14h]@12
+  signed int v2; // eax@12
+  char a1; // [sp+14h] [bp-14h]@12
 
   if ( WFDCStage )
   {
@@ -54658,9 +54558,9 @@ signed int __cdecl WaitForDirectConnect()
       if ( stime / 1000 != oldsec / 1000 )
       {
         oldsec = stime;
-        sprintf(&v3, "ID%s_%i", idstr, localstage);
-        v2 = strlen((int)&v3);
-        WriteModemPacket((int)&v3, v2);
+        sprintf(&a1, "ID%s_%i", idstr, localstage);
+        v2 = strlen(&a1);
+        WriteModemPacket((int)&a1, v2);
       }
       if ( localstage >= 2 )
         ++WFDCStage;
@@ -55039,7 +54939,7 @@ signed int __thiscall searchArray::TestPossibleDirections(searchArray *this, __i
           *(_BYTE *)(result + 8) & 8)
       || gbHumanPlayer[giCurPlayer]
       && (result = dword_526B88 + ::a3 * MAP_WIDTH,
-          !((unsigned __int8)mapExtra[result] & (unsigned __int8)giCurPlayerBit)) )
+          !((unsigned __int8)mapRevealed[result] & (unsigned __int8)giCurPlayerBit)) )
     {
 LABEL_49:
       dword_526C18 = -1;
@@ -57023,7 +56923,7 @@ char __thiscall searchArray::SeedPosition(searchArray *this, int a2, int a3, int
   else
   {
     v13 = a10 + HIDWORD(a10) * MAP_WIDTH;
-    if ( !((unsigned __int8)giCurPlayerBit & (unsigned __int8)mapExtra[v13]) )
+    if ( !((unsigned __int8)giCurPlayerBit & (unsigned __int8)mapRevealed[v13]) )
       return v13;
     v13 = (int)advManager::GetCell(gpAdvManager, a10, SHIDWORD(a10));
     dword_526C70 = v13;
@@ -57148,7 +57048,7 @@ LABEL_22:
       }
       else
       {
-        if ( !(*(&mapExtra[(unsigned __int8)byte_526C59 * MAP_WIDTH] + (unsigned __int8)byte_526C58) & 0x80)
+        if ( !(*(&mapRevealed[(unsigned __int8)byte_526C59 * MAP_WIDTH] + (unsigned __int8)byte_526C58) & 0x80)
           || a2 == (unsigned __int8)byte_526C58 && a3 == (unsigned __int8)byte_526C59 )
           goto LABEL_55;
         if ( a7 && !(byte_526C5C & 4) )
@@ -57188,7 +57088,7 @@ LABEL_55:
               dword_526CA4 = (int)&thisa->field_2414[v25];
               if ( !a7
                 || byte_526C5C & 4
-                || !(mapExtra[v25] & 0x80)
+                || !(mapRevealed[v25] & 0x80)
                 || (v26 = *(_BYTE *)(dword_526CA4 + 4), !(v26 & 1))
                 || !(v26 & 4)
                 || *(_WORD *)(dword_526CA4 + 2) >= (unsigned __int16)word_526C5A + 300
@@ -58821,7 +58721,7 @@ void __thiscall RemoteMain(void *this)
       1u,
       0);
   }
-  else if ( strlen((int)gcTCPName) )
+  else if ( strlen(gcTCPName) )
   {
     strcpy((char *)&gsThisNetPlayerInfo + 4, gcTCPName);
   }
@@ -60011,9 +59911,9 @@ void __thiscall fullMap::ClearCellExtra(fullMap *this, int i)
   *(&this->cellExtras->_1_q_7_objTileset + 8 * i - i) &= 1u;
   *(&this->cellExtras->objectIndex + 8 * i - i) = -1;
   *(&this->cellExtras->_1_q_7_objTileset + 8 * i - i) &= 0xFEu;
-  *(&this->cellExtras->field_4 + 8 * i - i) &= 0xFEu;
-  *(&this->cellExtras->field_4 + 8 * i - i) &= 0xFDu;
-  *(&this->cellExtras->field_4 + 8 * i - i) &= 0xFBu;
+  *(&this->cellExtras->field_4_1_1_1_isShadow_5 + 8 * i - i) &= 0xFEu;
+  *(&this->cellExtras->field_4_1_1_1_isShadow_5 + 8 * i - i) &= 0xFDu;
+  *(&this->cellExtras->field_4_1_1_1_isShadow_5 + 8 * i - i) &= 0xFBu;
   *(&this->cellExtras->_1_q_1_hasLateOverlay_6_q + 8 * i - i) &= 3u;
   *(&this->cellExtras->field_6 + 8 * i - i) = -1;
   *(&this->cellExtras->_1_q_1_hasLateOverlay_6_q + 8 * i - i) &= 0xFEu;
@@ -60238,9 +60138,9 @@ void __thiscall fullMap::ChangeTilesetIndex(fullMap *this, mapCell *cell, int x,
       if ( v11->objectIndex == 255 || ((v11->_1_q_7_objTileset >> 1) & 0x7F) == a5 )
       {
         v11->_1_q_7_objTileset &= 0xFEu;
-        v11->field_4 &= 0xFEu;
-        v11->field_4 &= 0xFDu;
-        v11->field_4 &= 0xFBu;
+        v11->field_4_1_1_1_isShadow_5 &= 0xFEu;
+        v11->field_4_1_1_1_isShadow_5 &= 0xFDu;
+        v11->field_4_1_1_1_isShadow_5 &= 0xFBu;
         v11->_1_q_7_objTileset = 2 * v10 | v11->_1_q_7_objTileset & 1;
         v11->objectIndex = a6;
         break;
@@ -61934,19 +61834,19 @@ UCHAR __cdecl sub_4738A0()
 {
   UCHAR result; // al@1
   const void *v1; // ST04_4@2
-  int v2; // eax@2
+  unsigned int v2; // eax@2
 
   result = byte_52FA59;
   if ( (unsigned __int8)byte_52FA59 != 255 )
   {
     strcpy(Dest, off_512ED0);
     v1 = &dword_52FA68[16 * (unsigned __int8)byte_512EBC];
-    v2 = strlen((int)off_512ED0);
+    v2 = strlen(off_512ED0);
     memcpy(&Dest[v2], v1, 0x10u);
     memset(&pncb, 0, 0x40u);
     pncb.ncb_command = -94;
     byte_52FA2B = byte_512EC0;
-    word_52FA30 = strlen((int)off_512ED0) + 16;
+    word_52FA30 = strlen(off_512ED0) + 16;
     dword_52FA2C = (int)Dest;
     byte_52FA58 = byte_512EB4;
     result = thunk_Netbios(&pncb);
@@ -62042,8 +61942,8 @@ int __fastcall sub_473B30(int a1)
 //----- (00473BF0) --------------------------------------------------------
 void __stdcall sub_473BF0(void *a1)
 {
-  int v1; // eax@7
-  int v2; // eax@8
+  unsigned int v1; // eax@7
+  unsigned int v2; // eax@8
   int i; // [sp+Ch] [bp-4h]@1
 
   for ( i = 0; i < 7 && (char *)&byte_52F868 + 64 * i != a1; ++i )
@@ -62057,10 +61957,10 @@ void __stdcall sub_473BF0(void *a1)
     }
     else
     {
-      v1 = strlen((int)off_512ED0);
+      v1 = strlen(off_512ED0);
       if ( !memcmp((int)((char *)&unk_527850 + 4096 * i), (int)off_512ED0, v1) )
       {
-        v2 = strlen((int)off_512ED0);
+        v2 = strlen(off_512ED0);
         memcpy(&dword_52FA68[16 * i], (char *)&unk_527850 + 4096 * i + v2, 0x10u);
         sub_473D40(i, &dword_52FA68[16 * i]);
       }
@@ -63822,7 +63722,7 @@ LABEL_79:
       {
         if ( j < 10 || gateIsTargetl == -1 && !missed )
         {
-          animTimer = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 75.0);
+          animTimer = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
           combatManager::DrawFrame(this, 0, 0, 1, 0, 0, 1, 0);
           if ( gateIsTargetl != -1 && j >= 2 && !missed )
             IconToBitmap(
@@ -64288,7 +64188,7 @@ void __thiscall combatManager::MakeCreaturesVanish(combatManager *this)
     y,
     width,
     height,
-    (signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 150.0),
+    (signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 150.0),
     0,
     0);
 }
@@ -64580,7 +64480,7 @@ void __stdcall combatManager::ShootMissile(int xFrom, int yFrom, int xTarg, int 
         giMaxExtentX - giMinExtentX + 1,
         giMaxExtentY - giMinExtentY + 1);
     }
-    glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 25.0);
+    glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 25.0);
     oldX = x;
     oldY = y;
     x += stepX;
@@ -64635,47 +64535,47 @@ void __thiscall UpdateCombatSystemOptions(void *this)
   int evt; // [sp+10h] [bp-1Ch]@1
   int v3; // [sp+14h] [bp-18h]@1
   int v4; // [sp+18h] [bp-14h]@1
-  char *v5; // [sp+28h] [bp-4h]@1
+  int v5; // [sp+28h] [bp-4h]@1
 
   v1 = this;
   evt = 512;
   v3 = 4;
   v4 = 10;
-  v5 = *(char **)&combatSpeed;
+  v5 = giCombatSpeed;
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 11;
-  v5 = (char *)(*(_DWORD *)&combatArmyInfoLevel + 3);
+  v5 = *(_DWORD *)&combatArmyInfoLevel + 3;
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 12;
-  v5 = (char *)(*(_DWORD *)&autoCombatUseSpells + 6);
+  v5 = *(_DWORD *)&autoCombatUseSpells + 6;
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 13;
-  v5 = (char *)(*(_DWORD *)&showCombatGrid + 8);
+  v5 = *(_DWORD *)&showCombatGrid + 8;
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 14;
-  v5 = (char *)(combatShadeLevel + 10);
+  v5 = combatShadeLevel + 10;
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 15;
-  v5 = (char *)(*(_DWORD *)&showCombatMouseHex + 12);
+  v5 = *(_DWORD *)&showCombatMouseHex + 12;
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v3 = 3;
   v4 = 20;
-  v5 = combatSpeedText[*(_DWORD *)&combatSpeed];
+  v5 = (int)combatSpeedText[giCombatSpeed];
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 21;
-  v5 = combatMiniInfoText[*(_DWORD *)&combatArmyInfoLevel];
+  v5 = (int)combatMiniInfoText[*(_DWORD *)&combatArmyInfoLevel];
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 22;
-  v5 = onOffText[*(_DWORD *)&autoCombatUseSpells];
+  v5 = (int)onOffText[*(_DWORD *)&autoCombatUseSpells];
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 23;
-  v5 = onOffText[*(_DWORD *)&showCombatGrid];
+  v5 = (int)onOffText[*(_DWORD *)&showCombatGrid];
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 24;
-  v5 = onOffText[combatShadeLevel];
+  v5 = (int)onOffText[combatShadeLevel];
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   v4 = 25;
-  v5 = onOffText[*(_DWORD *)&showCombatMouseHex];
+  v5 = (int)onOffText[*(_DWORD *)&showCombatMouseHex];
   heroWindow::BroadcastMessage(CSPanel, (tag_message *)&evt);
   if ( !v1 )
     heroWindow::DrawWindow(CSPanel, 1, 0, 32767);
@@ -64751,7 +64651,7 @@ signed int __thiscall CombatSystemOptionsHandler(void *this)
         switch ( *((_DWORD *)this + 2) )
         {
           case 0xA:
-            *(_DWORD *)&combatSpeed = (*(_DWORD *)&combatSpeed + 1) % 3;
+            giCombatSpeed = (giCombatSpeed + 1) % 3;
             v6 = 1;
             bCPrefsChanged = 1;
             break;
@@ -65516,7 +65416,7 @@ void __thiscall army::Walk(army *ecx0, signed int dir, int last, int notFirst)
       DelayTil(&glTimers);
       glTimers = (signed __int64)((double)KBTickCount()
                                 + (double)ecx0->frameInfo.stepTime
-                                * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]
+                                * gfCombatSpeedMod[giCombatSpeed]
                                 / (double)ecx0->frameInfo.animationLengths[6]);
       heroWindowManager::UpdateScreenRegion(gpWindowManager, offsetX, offsetY, v12 - offsetX + 1, v6 - offsetY + 1);
     }
@@ -65748,7 +65648,7 @@ void __thiscall army::SpecialAttack(army *this)
       combatManager::DrawFrame(gpCombatManager, 1, 1, 0, 0, 75, 1, 1);
     v4 = KBTickCount();
     xDiff = (double)this->frameInfo.shootingTime
-          * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]
+          * gfCombatSpeedMod[giCombatSpeed]
           / (double)this->frameInfo.animationLengths[this->animationType];
     glTimers = (signed __int64)((double)v4 + xDiff);
   }
@@ -65865,7 +65765,7 @@ void __thiscall army::SpecialAttack(army *this)
           giMaxExtentX - giMinExtentX + 1,
           giMaxExtentY - giMinExtentY + 1);
       }
-      glTimers = (signed __int64)((double)KBTickCount() + (double)v25 * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+      glTimers = (signed __int64)((double)KBTickCount() + (double)v25 * gfCombatSpeedMod[giCombatSpeed]);
       v62 = v47;
       v56 = v41;
       v47 += v46;
@@ -65888,7 +65788,7 @@ void __thiscall army::SpecialAttack(army *this)
       giMinExtentY,
       giMaxExtentX - giMinExtentX + 1,
       giMaxExtentY - giMinExtentY + 1);
-    v5 = gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 115.0;
+    v5 = gfCombatSpeedMod[giCombatSpeed] * 115.0;
     DelayMilli((signed __int64)v5);
     combatManager::DoBolt(
       gpCombatManager,
@@ -66451,7 +66351,7 @@ LABEL_97:
       && !enemyIncapacitated
       && !isRetaliationOrSecondAttack )
     {
-      DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 150.0));
+      DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 150.0));
       primaryTarget->targetNeighborIdx = OppositeDirection(this->targetNeighborIdx);
       if ( primaryTarget->creature.creature_flags & TWO_HEXER )
       {
@@ -66485,7 +66385,7 @@ LABEL_97:
       && !this->effectStrengths[2]
       && this->quantity > 0 )
     {
-      DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 100.0));
+      DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
       v16 = this->targetNeighborIdx;
       this->targetNeighborIdx = v18;
       army::DoAttack(this, 1);
@@ -67217,7 +67117,7 @@ void __thiscall army::PowEffect(army *this, int animIdx, int a3, int a4, int a5)
         }
       }
     }
-    glTimers = (signed __int64)((double)KBTickCount() + (double)120 * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+    glTimers = (signed __int64)((double)KBTickCount() + (double)120 * gfCombatSpeedMod[giCombatSpeed]);
     if ( doCreatureEffect && giNumPowFrames[gCurLoadedSpellEffect] > ll )
       gCurSpellEffectFrame = ll;
     combatManager::DrawFrame(gpCombatManager, 0, 1, 0, 0, 75, 1, 1);
@@ -67318,7 +67218,7 @@ void __thiscall army::PowEffect(army *this, int animIdx, int a3, int a4, int a5)
     }
     if ( v41 )
     {
-      glTimers = (signed __int64)((double)KBTickCount() + (double)120 * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+      glTimers = (signed __int64)((double)KBTickCount() + (double)120 * gfCombatSpeedMod[giCombatSpeed]);
       combatManager::DrawFrame(gpCombatManager, 1, 1, 0, 0, 75, 1, 1);
     }
   }
@@ -67518,7 +67418,7 @@ void __thiscall army::SpellEffect(army *this, int animationIdx, signed int a3, i
           gCurSpellEffectFrame = giNumPowFrames[animationIdx];
         else
           gCurSpellEffectFrame = k;
-        animTimer = (signed __int64)((double)KBTickCount() + (double)v8 * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+        animTimer = (signed __int64)((double)KBTickCount() + (double)v8 * gfCombatSpeedMod[giCombatSpeed]);
         combatManager::DrawFrame(gpCombatManager, 1, 0, 0, 0, 75, 1, 1);
         DelayTil(&animTimer);
         ++k;
@@ -67526,7 +67426,7 @@ void __thiscall army::SpellEffect(army *this, int animationIdx, signed int a3, i
     }
     while ( giNumPowFrames[animationIdx] > k )
     {
-      animTimer = (signed __int64)((double)KBTickCount() + (double)a3 * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+      animTimer = (signed __int64)((double)KBTickCount() + (double)a3 * gfCombatSpeedMod[giCombatSpeed]);
       gCurSpellEffectFrame = k;
       combatManager::DrawFrame(gpCombatManager, 1, 0, 0, 0, 75, 1, 1);
       DelayTil(&animTimer);
@@ -67543,7 +67443,7 @@ void __thiscall army::SpellEffect(army *this, int animationIdx, signed int a3, i
       for ( ka = 0; this->frameInfo.animationLengths[15] > ka; ++ka )
       {
         this->animationFrame = ka;
-        animTimer = (signed __int64)((double)KBTickCount() + (double)v9 * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+        animTimer = (signed __int64)((double)KBTickCount() + (double)v9 * gfCombatSpeedMod[giCombatSpeed]);
         combatManager::DrawFrame(gpCombatManager, 1, 0, 0, 0, 75, 1, 1);
         DelayTil(&animTimer);
       }
@@ -68055,7 +67955,8 @@ double __thiscall army::SpellCastWorkChance(army *this, Spell spell)
   if ( hero::HasArtifact(gpCombatManager->heroes[this->owningSide], 55)
     && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE) )
     return 0.0;
-  if ( hero::HasArtifact(gpCombatManager->heroes[thisa->owningSide], 56) && spell == SPELL_HYPNOTIZE )
+  if ( hero::HasArtifact(gpCombatManager->heroes[thisa->owningSide], ARTIFACT_PENDANT_OF_FREE_WILL)
+    && spell == SPELL_HYPNOTIZE )
     return 0.0;
   if ( hero::HasArtifact(gpCombatManager->heroes[thisa->owningSide], 57)
     && (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE) )
@@ -69089,7 +68990,7 @@ int __cdecl KBTickCount()
 }
 
 //----- (00485EA0) --------------------------------------------------------
-void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int a4_4)
+void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, int locY)
 {
   __int16 v4; // ax@78
   __int16 v5; // ax@78
@@ -69167,7 +69068,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
   int v78; // [sp+298h] [bp-B8h]@436
   hero *v79; // [sp+29Ch] [bp-B4h]@415
   int v80; // [sp+2A0h] [bp-B0h]@419
-  void *v81; // [sp+2A4h] [bp-ACh]@7
+  sphinxMapExtra *sphinxMapExtra; // [sp+2A4h] [bp-ACh]@7
   int v82; // [sp+2A8h] [bp-A8h]@127
   CREATURES creat; // [sp+2ACh] [bp-A4h]@370
   GUIMessage evt; // [sp+2B0h] [bp-A0h]@329
@@ -69178,7 +69079,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
   int v89; // [sp+328h] [bp-28h]@34
   int v90; // [sp+32Ch] [bp-24h]@1
   int a2; // [sp+330h] [bp-20h]@10
-  void *v92; // [sp+334h] [bp-1Ch]@424
+  SignExtra *signExtra; // [sp+334h] [bp-1Ch]@424
   int v93; // [sp+338h] [bp-18h]@34
   hero *hero; // [sp+33Ch] [bp-14h]@1
   SAMPLE2 res1; // [sp+340h] [bp-10h]@1
@@ -69195,7 +69096,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
   switch ( locType )
   {
     case LOCATION_TRADING_POST:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -69204,7 +69106,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
     case LOCATION_MAGIC_GARDEN:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69238,12 +69141,13 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
       }
       goto LABEL_511;
     case LOCATION_SPHINX:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
-      v81 = ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
-      if ( *(_BYTE *)v81 )
+      sphinxMapExtra = (sphinxMapExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      if ( sphinxMapExtra->unclaimed )
       {
         sprintf(
           gText,
@@ -69251,12 +69155,12 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
         NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
         if ( gpWindowManager->buttonPressedCode == 0x7805 )
         {
-          sprintf(gText, "The Sphinx asks you the following riddle:\n\n'%s'\n\nYour answer?", (char *)v81 + 136);
+          sprintf(gText, "The Sphinx asks you the following riddle:\n\n'%s'\n\nYour answer?", sphinxMapExtra->riddle);
           GetDataEntry(gText, (int)&a1, 12, 0, 0, 1);
           v68 = 0;
-          for ( a2 = 0; *((_BYTE *)v81 + 31) > a2; ++a2 )
+          for ( a2 = 0; sphinxMapExtra->numAnswers > a2; ++a2 )
           {
-            if ( RiddleStringsEqual(&a1, (const char *)v81 + 13 * a2 + 32) )
+            if ( RiddleStringsEqual(&a1, sphinxMapExtra->answers[a2]) )
               v68 = 1;
           }
           if ( v68 )
@@ -69267,10 +69171,10 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
             a8 = 0;
             for ( a2 = 0; a2 < 7; ++a2 )
             {
-              gpGame->players[giCurPlayer].resources[a2] += *(_DWORD *)((char *)v81 + 4 * a2 + 1);
+              gpGame->players[giCurPlayer].resources[a2] += sphinxMapExtra->resourceReward[a2];
               if ( gpGame->players[giCurPlayer].resources[a2] < 0 )
                 gpGame->players[giCurPlayer].resources[a2] = 0;
-              if ( *(_DWORD *)((char *)v81 + 4 * a2 + 1) )
+              if ( sphinxMapExtra->resourceReward[a2] )
               {
                 if ( img1Type != -1 )
                 {
@@ -69278,19 +69182,19 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
                   a8 = a6;
                 }
                 img1Type = a2;
-                a6 = *(_DWORD *)((char *)v81 + 4 * a2 + 1);
+                a6 = sphinxMapExtra->resourceReward[a2];
               }
             }
-            if ( *(_WORD *)((char *)v81 + 29) != -1 && hero::NumArtifacts(hero) < 14 )
+            if ( sphinxMapExtra->artifactReward != -1 && hero::NumArtifacts(hero) < 14 )
             {
-              GiveArtifact(hero, (ARTIFACT)*(_WORD *)((char *)v81 + 29), 1, -1);
+              GiveArtifact(hero, (ARTIFACT)sphinxMapExtra->artifactReward, 1, -1);
               if ( img1Type != -1 )
               {
                 a7 = img1Type;
                 a8 = a6;
               }
               img1Type = 7;
-              a6 = *(_WORD *)((char *)v81 + 29);
+              a6 = sphinxMapExtra->artifactReward;
             }
             NormalDialog(
               "Looking somewhat disappointed, the Sphinx sighs.  You've answered my riddle so here's your reward.  Now begone.",
@@ -69303,7 +69207,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
               a8,
               -1,
               0);
-            *(_BYTE *)v81 = 0;
+            sphinxMapExtra->unclaimed = 0;
           }
           else
           {
@@ -69338,7 +69242,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
       }
       goto LABEL_511;
     case LOCATION_OBSERVATION_TOWER:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -69353,7 +69258,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
         0,
         -1,
         0);
-      game::SetVisibility(gpGame, a4, a4_4, giCurPlayer, 20);
+      game::SetVisibility(gpGame, locX, locY, giCurPlayer, 20);
       advManager::CompleteDraw(this, 0);
       advManager::UpdateScreen(this, 0, 0);
       goto LABEL_511;
@@ -69399,7 +69304,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69480,7 +69386,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69665,7 +69572,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
     case LOCATION_MAGELLANS_MAPS:
       if ( gpCurPlayer->resources[6] >= 1000 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69714,7 +69622,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
       }
       else if ( hero->numSecSkillsKnown < 8 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69745,7 +69654,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
     case LOCATION_ARTESIAN_SPRING:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69814,7 +69724,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69894,11 +69805,11 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
               gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
               gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
               loc,
-              a4,
-              a4_4,
+              locX,
+              locY,
               0,
-              a4,
-              a4_4,
+              locX,
+              locY,
               -1,
               0,
               0,
@@ -69910,7 +69821,8 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int a4, int 
         gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
         hero::CheckLevel(hero);
 LABEL_126:
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69942,7 +69854,8 @@ LABEL_126:
     case LOCATION_ALCHEMIST_LAB:
       if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
         goto LABEL_511;
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -69951,7 +69864,8 @@ LABEL_126:
     case LOCATION_SAWMILL:
       if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -69966,7 +69880,8 @@ LABEL_136:
     case LOCATION_LIGHTHOUSE:
       if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70030,7 +69945,8 @@ LABEL_143:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70046,7 +69962,8 @@ LABEL_143:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70070,7 +69987,8 @@ LABEL_143:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70094,7 +70012,8 @@ LABEL_143:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70118,7 +70037,8 @@ LABEL_143:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70152,7 +70072,8 @@ LABEL_143:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70188,7 +70109,8 @@ LABEL_143:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70210,7 +70132,8 @@ LABEL_143:
     case LOCATION_LEAN_TO:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70270,7 +70193,8 @@ LABEL_180:
         }
         else
         {
-          playTrackForLocationVisit(
+          advManager::EventSound(
+            this,
             locType,
             (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
             &res2);
@@ -70287,7 +70211,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70317,7 +70242,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70398,7 +70324,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70437,7 +70364,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70473,7 +70401,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70509,7 +70438,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70545,7 +70475,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70571,7 +70502,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70584,7 +70516,8 @@ LABEL_180:
     case LOCATION_WATERWHEEL:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70634,7 +70567,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70656,7 +70590,8 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_ANCIENT_LAMP:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -70674,7 +70609,8 @@ LABEL_180:
     case LOCATION_TREE_CITY:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70706,7 +70642,8 @@ LABEL_180:
     case LOCATION_RUINS:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70762,13 +70699,14 @@ LABEL_180:
           -1);
         if ( gpWindowManager->buttonPressedCode != 30725 )
           goto LABEL_511;
-        if ( advManager::CombatMonsterEvent(this, hero, 17, 12, loc, a4, a4_4, 0, a4, a4_4, 18, 8, 2, -1, 0, 0) )
+        if ( advManager::CombatMonsterEvent(this, hero, 17, 12, loc, locX, locY, 0, locX, locY, 18, 8, 2, -1, 0, 0) )
           goto LABEL_511;
         hero::CheckLevel(hero);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
                                                                                                 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                                                                                                  - 256);
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70786,7 +70724,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70831,13 +70770,14 @@ LABEL_180:
           -1);
         if ( gpWindowManager->buttonPressedCode != 30725 )
           goto LABEL_511;
-        if ( advManager::CombatMonsterEvent(this, hero, 53, 10, loc, a4, a4_4, 0, a4, a4_4, 48, 40, 2, 55, 5, 1) )
+        if ( advManager::CombatMonsterEvent(this, hero, 53, 10, loc, locX, locY, 0, locX, locY, 48, 40, 2, 55, 5, 1) )
           goto LABEL_511;
         hero::CheckLevel(hero);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
                                                                                                 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                                                                                                  - 256);
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70855,7 +70795,8 @@ LABEL_180:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70889,7 +70830,8 @@ LABEL_180:
       }
       if ( !(((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1) )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -70926,11 +70868,11 @@ LABEL_180:
                 35,
                 3 * a13,
                 loc,
-                a4,
-                a4_4,
+                locX,
+                locY,
                 0,
-                a4,
-                a4_4,
+                locX,
+                locY,
                 36,
                 a13,
                 1,
@@ -70943,7 +70885,8 @@ LABEL_180:
           {
             hero::CheckLevel(hero);
             loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 256);
-            playTrackForLocationVisit(
+            advManager::EventSound(
+              this,
               locType,
               (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
@@ -70966,13 +70909,13 @@ LABEL_284:
         }
       }
 LABEL_511:
-      advManager::UpdateRadar((int)this, 1, 0);
+      advManager::UpdateRadar(this, 1, 0);
       advManager::UpdateHeroLocators(this, 1, 1);
       advManager::UpdateTownLocators(this, 1, 1);
       advManager::UpdBottomView(this, 1, 1, 1);
       if ( shouldDelete )
       {
-        advManager::EraseObj(this, loc, a4, a4_4);
+        advManager::EraseObj(this, loc, locX, locY);
         advManager::FizzleCenter(this, v90);
       }
       else
@@ -70989,7 +70932,8 @@ LABEL_511:
     case LOCATION_WAGON_CAMP:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -71005,7 +70949,8 @@ LABEL_511:
     case LOCATION_DESRT_TENT:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -71030,7 +70975,8 @@ LABEL_511:
     case LOCATION_EXCAVATION:
     case LOCATION_CAVE:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -71043,9 +70989,9 @@ LABEL_511:
         loc,
         hero,
         (heroWindow *)&shouldDelete,
-        __PAIR__(a4_4, a4),
+        __PAIR__(locY, locX),
         0,
-        __PAIR__(a4_4, a4));
+        __PAIR__(locY, locX));
       goto LABEL_511;
     case LOCATION_OBELISK:
       if ( gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
@@ -71055,7 +71001,8 @@ LABEL_511:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -71081,7 +71028,8 @@ LABEL_511:
       }
       else
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -71183,7 +71131,8 @@ LABEL_511:
       hero::CheckLevel(hero);
       goto LABEL_511;
     case LOCATION_ORACLE:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -71239,7 +71188,8 @@ LABEL_333:
         }
         else
         {
-          playTrackForLocationVisit(
+          advManager::EventSound(
+            this,
             locType,
             (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
             &res2);
@@ -71266,17 +71216,19 @@ LABEL_333:
       }
       goto LABEL_511;
     case LOCATION_TOWN:
-      advManager::TownEvent((int)this, (int)loc, __PAIR__(a4_4, a4));
+      advManager::TownEvent((int)this, (int)loc, __PAIR__(locY, locX));
       goto LABEL_511;
     case LOCATION_WHIRLPOOL:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::DoWhirlpool(this, hero);
       goto LABEL_343;
     case LOCATION_STONE_LITHS:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -71290,8 +71242,8 @@ LABEL_343:
           {
             if ( *(&gpGame->map.tiles[x].objectIndex + 12 * y * gpGame->map.width) == loc->objectIndex )
             {
-              v30 = abs(x - a4);
-              if ( abs(y - a4_4) + v30 > ((unsigned int)(locType - 36) < 1 ? 1 : 3) )
+              v30 = abs(x - locX);
+              if ( abs(y - locY) + v30 > ((unsigned int)(locType - 36) < 1 ? 1 : 3) )
                 ++v70;
             }
           }
@@ -71314,10 +71266,10 @@ LABEL_357:
           }
           if ( *(&gpGame->map.tiles[x].objType + 12 * y * gpGame->map.width) == (unsigned __int8)((unsigned __int8)locType | 0x80)
             && *(&gpGame->map.tiles[x].objectIndex + 12 * y * gpGame->map.width) == loc->objectIndex
-            && (x != a4 || y != a4_4) )
+            && (x != locX || y != locY) )
           {
-            v31 = abs(x - a4);
-            if ( abs(y - a4_4) + v31 > ((unsigned int)(locType - 36) < 1 ? 1 : 3) )
+            v31 = abs(x - locX);
+            if ( abs(y - locY) + v31 > ((unsigned int)(locType - 36) < 1 ? 1 : 3) )
             {
               --v70;
               if ( v70 <= 0 )
@@ -71340,9 +71292,10 @@ LABEL_357:
         NormalDialog("You cannot pick up this artifact, you already have a full load!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
         goto LABEL_511;
       }
-      if ( xIsPlayingExpansionCampaign && ExpCampaign::IsSpecialGoldenBow((int)&xCampaign, a4, a4_4) )
+      if ( xIsPlayingExpansionCampaign && ExpCampaign::IsSpecialGoldenBow((int)&xCampaign, locX, locY) )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -71357,7 +71310,7 @@ LABEL_357:
       }
       if ( a5 == ARTIFACT_SPELL_SCROLL )
       {
-        playTrackForLocationVisit(locType, 1, &res2);
+        advManager::EventSound(this, locType, 1, &res2);
         xTheSpell = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
         advManager::EventWindow(-1, 1, *(&gArtifactEvents + 86), 7, ARTIFACT_SPELL_SCROLL, -1, 0, -1);
         GiveArtifact(
@@ -71371,7 +71324,8 @@ LABEL_357:
       }
       if ( ((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
       {
-        playTrackForLocationVisit(
+        advManager::EventSound(
+          this,
           locType,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
@@ -71415,7 +71369,7 @@ LABEL_357:
             goto LABEL_511;
           }
         }
-        if ( advManager::CombatMonsterEvent(this, hero, creat, v73, loc, a4, a4_4, 0, a4, a4_4, -1, 0, 0, -1, 0, 0) )
+        if ( advManager::CombatMonsterEvent(this, hero, creat, v73, loc, locX, locY, 0, locX, locY, -1, 0, 0, -1, 0, 0) )
           goto LABEL_511;
         hero::CheckLevel(hero);
         sprintf(gText, "Victorious, you take your prize, the %s", gArtifactNames[a5]);
@@ -71450,14 +71404,16 @@ LABEL_392:
             break;
           case 1:
 LABEL_391:
-            playTrackForLocationVisit(
+            advManager::EventSound(
+              this,
               locType,
               (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             advManager::EventWindow(-1, 1, (&gArtifactEvents)[4 * a5], 7, a5, -1, 0, -1);
             goto LABEL_392;
           case 3:
-            playTrackForLocationVisit(
+            advManager::EventSound(
+              this,
               locType,
               (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
@@ -71501,7 +71457,8 @@ LABEL_391:
             }
             break;
           case 6:
-            playTrackForLocationVisit(
+            advManager::EventSound(
+              this,
               locType,
               (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
@@ -71551,7 +71508,8 @@ LABEL_391:
             }
             break;
           case 7:
-            playTrackForLocationVisit(
+            advManager::EventSound(
+              this,
               locType,
               (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
@@ -71623,14 +71581,14 @@ LABEL_391:
         }
         v80 = advManager::DoCombat(
                 this,
-                __PAIR__(a4_4, a4),
+                __PAIR__(locY, locX),
                 (int)hero,
                 &hero->army,
                 (int)v56,
                 (int)v79,
                 &v79->army,
-                a4,
-                a4_4,
+                locX,
+                locY,
                 -1,
                 1);
         if ( !v80 && v56 )
@@ -71640,11 +71598,11 @@ LABEL_391:
     case LOCATION_BOTTLE:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        v92 = ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
-        if ( (unsigned int)strlen((int)((char *)v92 + 9)) <= 1 )
-          advManager::EventWindow(-1, 1, (&off_4F70C8)[4 * (unsigned __int8)((char)a4 % -4)], -1, 0, -1, 0, -1);
+        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+        if ( strlen(signExtra->name) <= 1 )
+          advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
-          advManager::EventWindow(-1, 1, (const char *)v92 + 9, -1, 0, -1, 0, -1);
+          advManager::EventWindow(-1, 1, signExtra->name, -1, 0, -1, 0, -1);
       }
       v90 = 1;
       shouldDelete = 1;
@@ -71652,15 +71610,16 @@ LABEL_391:
     case LOCATION_SIGN:
       if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        v92 = ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
-        if ( (unsigned int)strlen((int)((char *)v92 + 9)) <= 1 )
-          advManager::EventWindow(-1, 1, (&off_4F70C8)[4 * (unsigned __int8)((char)a4 % -4)], -1, 0, -1, 0, -1);
+        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+        if ( strlen(signExtra->name) <= 1 )
+          advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
-          advManager::EventWindow(-1, 1, (const char *)v92 + 9, -1, 0, -1, 0, -1);
+          advManager::EventWindow(-1, 1, signExtra->name, -1, 0, -1, 0, -1);
       }
       goto LABEL_511;
     case LOCATION_DAEMON_CAVE:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -71697,7 +71656,7 @@ LABEL_391:
           advManager::EventWindow(-1, 2, gText, -1, 0, -1, 0, -1);
           if ( gpWindowManager->buttonPressedCode == 30725 )
           {
-            if ( !advManager::CombatMonsterEvent(this, hero, v78, 8, loc, a4, a4_4, 0, a4, a4_4, -1, 0, 0, -1, 0, 0) )
+            if ( !advManager::CombatMonsterEvent(this, hero, v78, 8, loc, locX, locY, 0, locX, locY, -1, 0, 0, -1, 0, 0) )
             {
               hero::CheckLevel(hero);
               NormalDialog(
@@ -71817,7 +71776,8 @@ LABEL_445:
       }
       goto LABEL_511;
     case LOCATION_SHIPWRECK:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -71854,7 +71814,7 @@ LABEL_445:
        hero,
        loc,
        "Upon defeating the Ghosts you sift through the debris and find something!",
-       __PAIR__(a4_4, a4)) )
+       __PAIR__(locY, locX)) )
         {
           v44 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v44) = v44 | 8;
@@ -71863,7 +71823,8 @@ LABEL_445:
       }
       goto LABEL_511;
     case LOCATION_GRAVEYARD:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -71883,9 +71844,9 @@ LABEL_445:
         {
           a3 = (int)advManager::GetCell(
                       this,
-                      a4 - normalDirTable[4 * HIBYTE(hero->field_2B)],
-                      a4_4 - byte_4F1DC1[4 * HIBYTE(hero->field_2B)]);
-          if ( advManager::ZombieEvent(this, hero, (mapCell *)a3, gEventText[22], a4, a4_4) )
+                      locX - normalDirTable[4 * HIBYTE(hero->field_2B)],
+                      locY - byte_4F1DC1[4 * HIBYTE(hero->field_2B)]);
+          if ( advManager::ZombieEvent(this, hero, (mapCell *)a3, gEventText[22], locX, locY) )
           {
             v45 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v45) = v45 | 8;
@@ -71895,7 +71856,8 @@ LABEL_445:
       }
       goto LABEL_511;
     case LOCATION_DERELICT_SHIP:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -71931,14 +71893,14 @@ LABEL_445:
         {
           v54 = (int)advManager::GetCell(
                        this,
-                       a4 - normalDirTable[4 * HIBYTE(hero->field_2B)],
-                       a4_4 - byte_4F1DC1[4 * HIBYTE(hero->field_2B)]);
+                       locX - normalDirTable[4 * HIBYTE(hero->field_2B)],
+                       locY - byte_4F1DC1[4 * HIBYTE(hero->field_2B)]);
           if ( advManager::SkeletonEvent(
                  (int)this,
                  (int)hero,
                  v54,
                  "Upon defeating the Skeletons you sift through the debris and find something!",
-                 __PAIR__(a4_4, a4)) )
+                 __PAIR__(locY, locX)) )
           {
             v46 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v46) = v46 | 8;
@@ -71948,7 +71910,8 @@ LABEL_445:
       }
       goto LABEL_511;
     case LOCATION_PYRAMID:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -71965,7 +71928,7 @@ LABEL_445:
       {
         if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
         {
-          if ( !advManager::CombatMonsterEvent(this, hero, 51, 30, loc, a4, a4_4, 0, a4, a4_4, 53, 20, 2, -1, 0, 0) )
+          if ( !advManager::CombatMonsterEvent(this, hero, 51, 30, loc, locX, locY, 0, locX, locY, 53, 20, 2, -1, 0, 0) )
           {
             hero::CheckLevel(hero);
             sprintf(
@@ -72030,7 +71993,8 @@ LABEL_445:
       }
       goto LABEL_511;
     case LOCATION_ABANDONED_MINE:
-      playTrackForLocationVisit(
+      advManager::EventSound(
+        this,
         locType,
         (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
@@ -72050,11 +72014,11 @@ LABEL_445:
               gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
               gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
               loc,
-              a4,
-              a4_4,
+              locX,
+              locY,
               0,
-              a4,
-              a4_4,
+              locX,
+              locY,
               -1,
               0,
               0,
@@ -72072,11 +72036,11 @@ LABEL_445:
           -1,
           0,
           -1);
-        game::ConvertObject(gpGame, a4 - 2, a4_4 - 1, a4 + 1, a4_4 - 1, 56, 0, 4, 26, 104, 64, 23);
-        game::ConvertObject(gpGame, a4 - 2, a4_4, a4 + 1, a4_4, 56, 5, 9, 26, 109, 64, 23);
-        game::ConvertObject(gpGame, a4 - 2, a4_4 - 1, a4 + 1, a4_4 - 1, 51, 0, 3, 32, 75, 64, 23);
-        game::ConvertObject(gpGame, a4 - 2, a4_4, a4 + 1, a4_4, 51, 4, 7, 32, 80, 64, 23);
-        game::ConvertObject(gpGame, a4, a4_4, a4, a4_4, 29, 5, 5, 29, 4, 64, 23);
+        game::ConvertObject(gpGame, locX - 2, locY - 1, locX + 1, locY - 1, 56, 0, 4, 26, 104, 64, 23);
+        game::ConvertObject(gpGame, locX - 2, locY, locX + 1, locY, 56, 5, 9, 26, 109, 64, 23);
+        game::ConvertObject(gpGame, locX - 2, locY - 1, locX + 1, locY - 1, 51, 0, 3, 32, 75, 64, 23);
+        game::ConvertObject(gpGame, locX - 2, locY, locX + 1, locY, 51, 4, 7, 32, 80, 64, 23);
+        game::ConvertObject(gpGame, locX, locY, locX, locY, 29, 5, 5, 29, 4, 64, 23);
         gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
         gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
         gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
@@ -72087,19 +72051,19 @@ LABEL_445:
       }
       goto LABEL_511;
     case LOCATION_BARRIER:
-      shouldDelete = advManager::BarrierEvent(loc, hero);
+      shouldDelete = advManager::BarrierEvent(this, loc, hero);
       goto LABEL_511;
     case LOCATION_TRAVELLER_TENT:
-      advManager::PasswordEvent(loc, hero);
+      advManager::PasswordEvent(this, loc, hero);
       goto LABEL_511;
     case LOCATION_ALCHEMIST_TOWER:
       advManager::GenericSiteEvent(this, loc, hero);
       goto LABEL_511;
     case LOCATION_EXPANSION_DWELLING:
-      advManager::RecruitSiteEvent((int)loc, (int)hero);
+      advManager::RecruitSiteEvent(this, (int)loc, (int)hero);
       goto LABEL_511;
     case LOCATION_JAIL:
-      advManager::JailEvent(this, (int)loc, (int)hero, a4, a4_4);
+      advManager::JailEvent(this, (int)loc, (int)hero, locX, locY);
       goto LABEL_511;
     case LOCATION_ROAD:
     case LOCATION_EVENT:
@@ -72143,7 +72107,6 @@ LABEL_445:
       goto LABEL_511;
   }
 }
-// 48C4C0: using guessed type _DWORD __stdcall advManager__BarrierEvent(_DWORD, _DWORD);
 // 4EF268: using guessed type int gbGameOver;
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
@@ -72155,7 +72118,7 @@ LABEL_445:
 // 5304CC: using guessed type int xTheSpell;
 
 //----- (0048BA30) --------------------------------------------------------
-void __thiscall advManager::EraseObj(advManager *this, mapCell *a2, int a3, int a4)
+void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, int a4)
 {
   __int64 v5; // [sp+18h] [bp-48h]@43
   signed int i; // [sp+28h] [bp-38h]@1
@@ -72165,68 +72128,71 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *a2, int a3, int 
   char v10; // [sp+2Ch] [bp-34h]@1
   mapCell *v11; // [sp+30h] [bp-30h]@75
   mapCell *v12; // [sp+30h] [bp-30h]@91
-  int v13; // [sp+34h] [bp-2Ch]@1
-  int v14[4]; // [sp+38h] [bp-28h]@3
-  mapCellExtra *v15; // [sp+48h] [bp-18h]@81
-  int v16[4]; // [sp+4Ch] [bp-14h]@3
-  int v17; // [sp+5Ch] [bp-4h]@1
+  mapCell *v13[5]; // [sp+34h] [bp-2Ch]@1
+  mapCellExtra *v14; // [sp+48h] [bp-18h]@81
+  int v15[4]; // [sp+4Ch] [bp-14h]@3
+  int v16; // [sp+5Ch] [bp-4h]@1
 
-  v17 = 0;
-  v13 = -1;
+  v16 = 0;
+  v13[0] = (mapCell *)-1;
   v10 = 0;
   for ( i = 0; i < 4; ++i )
   {
-    v14[i] = 0;
-    v16[i] = 0;
+    v13[i + 1] = 0;
+    v15[i] = 0;
   }
-  v17 = 1;
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 11 )
-    v13 = a2->objectIndex - 1;
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 63 )
-    v13 = a2->objectIndex - 1;
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 62 && a2->objectIndex == 9 )
+  v16 = 1;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 11 )
+    v13[0] = (mapCell *)(cell->objectIndex - 1);
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 63 )
+    v13[0] = (mapCell *)(cell->objectIndex - 1);
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 62 && cell->objectIndex == 9 )
   {
-    v13 = 9;
+    v13[0] = (mapCell *)9;
     v10 = 1;
   }
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 59 && a2->objectIndex == 131 )
-    v13 = 124;
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 55 && a2->objectIndex == 61 )
-    v13 = 54;
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 50 && a2->objectIndex == 45 )
-    v13 = 38;
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 50 && a2->objectIndex == 19 )
-    v13 = 12;
-  if ( (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 46 )
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 59
+    && cell->objectIndex == 131 )
+    v13[0] = (mapCell *)124;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 55
+    && cell->objectIndex == 61 )
+    v13[0] = (mapCell *)54;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 50
+    && cell->objectIndex == 45 )
+    v13[0] = (mapCell *)38;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 50
+    && cell->objectIndex == 19 )
+    v13[0] = (mapCell *)12;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 46 )
   {
-    switch ( a2->objectIndex )
+    switch ( cell->objectIndex )
     {
       case 1:
-        v13 = 0;
+        v13[0] = 0;
         break;
       case 3:
-        v13 = 2;
+        v13[0] = (mapCell *)2;
         break;
       case 5:
-        v13 = 4;
+        v13[0] = (mapCell *)4;
         break;
       case 7:
-        v13 = 6;
+        v13[0] = (mapCell *)6;
         break;
       case 9:
-        v13 = 8;
+        v13[0] = (mapCell *)8;
         break;
-      case 0xB:
-        v13 = 10;
+      case 11:
+        v13[0] = (mapCell *)10;
         break;
-      case 0xD:
-        v13 = 12;
+      case 13:
+        v13[0] = (mapCell *)12;
         break;
-      case 0xF:
-        v13 = 14;
+      case 15:
+        v13[0] = (mapCell *)14;
         break;
-      case 0x13:
-        v13 = 18;
+      case 19:
+        v13[0] = (mapCell *)18;
         break;
       default:
         break;
@@ -72236,18 +72202,18 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *a2, int a3, int 
   {
     if ( v10 )
     {
-      --v13;
+      --v13[0];
     }
     else if ( j > 0 )
     {
       break;
     }
-    if ( v13 != -1 )
+    if ( v13[0] != (mapCell *)-1 )
     {
       if ( v10 )
       {
-        HIDWORD(v5) = v13 <= 6 ? a3 + v13 - 6 : a3 + v13 - 9;
-        LODWORD(v5) = v13 <= 6 ? a4 - 1 : a4;
+        HIDWORD(v5) = (signed int)v13[0] <= 6 ? &v13[0][-1].field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset + a3 : &v13[0][-1].objectIndex + a3;
+        LODWORD(v5) = (signed int)v13[0] <= 6 ? a4 - 1 : a4;
       }
       else
       {
@@ -72256,56 +72222,56 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *a2, int a3, int 
       }
       if ( v5 >= 0 )
       {
-        v14[j] = (int)(&gpGame->map.tiles[v5 * gpGame->map.width] + HIDWORD(v5));
+        v13[j + 1] = &gpGame->map.tiles[v5 * gpGame->map.width] + HIDWORD(v5);
         if ( j <= 1 )
         {
-          if ( *(_BYTE *)(v14[j] + 3) != 255 )
+          if ( v13[j + 1]->objectIndex != 255 )
           {
-            if ( *(_BYTE *)(v14[j] + 3) == v13
-              && ((*(_BYTE *)(v14[j] + 2) >> 2) & 0x3F) == (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
+            if ( (mapCell *)v13[j + 1]->objectIndex == v13[0]
+              && (((unsigned __int8)v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
             {
-              *(_BYTE *)(v14[j] + 3) = 0;
-              *(_BYTE *)(v14[j] + 2) = *(_BYTE *)(v14[j] + 2) & 3 | 0xBC;
-              *(_BYTE *)(v14[j] + 2) &= 0xFEu;
+              v13[j + 1]->objectIndex = 0;
+              v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset = v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 0xBC;
+              v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset &= 0xFEu;
             }
-            if ( *(_WORD *)(v14[j] + 10) && this->map->cellExtras[*(_WORD *)(v14[j] + 10)].objectIndex != 255 )
-              v16[j] = (int)&this->map->cellExtras[*(_WORD *)(v14[j] + 10)];
+            if ( v13[j + 1]->extraIdx && this->map->cellExtras[v13[j + 1]->extraIdx].objectIndex != 255 )
+              v15[j] = (int)&this->map->cellExtras[v13[j + 1]->extraIdx];
             else
-              v16[j] = 0;
-            while ( v16[j] )
+              v15[j] = 0;
+            while ( v15[j] )
             {
-              if ( *(_BYTE *)(v16[j] + 3) == v13
-                && ((*(_BYTE *)(v16[j] + 2) >> 1) & 0x7F) == (((unsigned __int8)a2->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
+              if ( (mapCell *)*(_BYTE *)(v15[j] + 3) == v13[0]
+                && ((*(_BYTE *)(v15[j] + 2) >> 1) & 0x7F) == (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
               {
-                *(_BYTE *)(v16[j] + 3) = 0;
-                *(_BYTE *)(v16[j] + 2) = *(_BYTE *)(v16[j] + 2) & 1 | 0x5E;
-                *(_BYTE *)(v16[j] + 2) &= 0xFEu;
+                *(_BYTE *)(v15[j] + 3) = 0;
+                *(_BYTE *)(v15[j] + 2) = *(_BYTE *)(v15[j] + 2) & 1 | 0x5E;
+                *(_BYTE *)(v15[j] + 2) &= 0xFEu;
               }
-              if ( *(_WORD *)v16[j] && this->map->cellExtras[*(_WORD *)v16[j]].objectIndex != 255 )
-                v16[j] = (int)&this->map->cellExtras[*(_WORD *)v16[j]];
+              if ( *(_WORD *)v15[j] && this->map->cellExtras[*(_WORD *)v15[j]].objectIndex != 255 )
+                v15[j] = (int)&this->map->cellExtras[*(_WORD *)v15[j]];
               else
-                v16[j] = 0;
+                v15[j] = 0;
             }
           }
         }
         else
         {
-          *(_BYTE *)(v14[j] + 6) &= 3u;
-          *(_BYTE *)(v14[j] + 7) = -1;
+          v13[j + 1]->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset &= 3u;
+          v13[j + 1]->overlayIndex = -1;
         }
       }
     }
   }
-  a2->objType = 0;
-  a2->objectIndex = 0;
-  a2->bitfield_1_hasObject_1_isRoad_6_objTileset = a2->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 0xBC;
-  a2->bitfield_1_hasObject_1_isRoad_6_objTileset &= 0xFEu;
+  cell->objType = 0;
+  cell->objectIndex = 0;
+  cell->bitfield_1_hasObject_1_isRoad_6_objTileset = cell->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 0xBC;
+  cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 0xFEu;
   for ( k = 0; k < 5; ++k )
   {
     if ( k )
-      v11 = (mapCell *)*(&v13 + k);
+      v11 = v13[k];
     else
-      v11 = a2;
+      v11 = cell;
     if ( v11 )
     {
       if ( (((unsigned __int8)v11->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47 )
@@ -72314,17 +72280,17 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *a2, int a3, int 
         {
           if ( *(&this->map->cellExtras->objectIndex + 8 * v11->extraIdx - v11->extraIdx) != 255 )
           {
-            v15 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v11->extraIdx - v11->extraIdx);
-            if ( ((v15->_1_q_7_objTileset >> 1) & 0x7F) != 47 && v15->objectIndex != 255 )
+            v14 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v11->extraIdx - v11->extraIdx);
+            if ( ((v14->_1_q_7_objTileset >> 1) & 0x7F) != 47 && v14->objectIndex != 255 )
             {
-              v11->objectIndex = v15->objectIndex;
-              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 4 * (v15->_1_q_7_objTileset >> 1);
-              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 0xFE | v15->_1_q_7_objTileset & 1;
-              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFE | v15->field_4 & 1;
-              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFD | 2 * (((unsigned __int8)v15->field_4 >> 1) & 1);
-              v15->objectIndex = 0;
-              v15->_1_q_7_objTileset = v15->_1_q_7_objTileset & 1 | 0x5E;
-              v15->_1_q_7_objTileset &= 0xFEu;
+              v11->objectIndex = v14->objectIndex;
+              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 4 * (v14->_1_q_7_objTileset >> 1);
+              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 0xFE | v14->_1_q_7_objTileset & 1;
+              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFE | v14->field_4_1_1_1_isShadow_5 & 1;
+              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFD | 2 * (((unsigned __int8)v14->field_4_1_1_1_isShadow_5 >> 1) & 1);
+              v14->objectIndex = 0;
+              v14->_1_q_7_objTileset = v14->_1_q_7_objTileset & 1 | 0x5E;
+              v14->_1_q_7_objTileset &= 0xFEu;
             }
           }
         }
@@ -72334,28 +72300,28 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *a2, int a3, int 
   for ( l = 0; l < 5; ++l )
   {
     if ( l )
-      v12 = (mapCell *)*(&v13 + l);
+      v12 = v13[l];
     else
-      v12 = a2;
+      v12 = cell;
     if ( v12
       && ((((unsigned __int8)v12->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47
        || v12->objectIndex == 255
        || (v12->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
     {
       if ( v12->extraIdx && *(&this->map->cellExtras->objectIndex + 8 * v12->extraIdx - v12->extraIdx) != 255 )
-        v15 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v12->extraIdx - v12->extraIdx);
+        v14 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v12->extraIdx - v12->extraIdx);
       else
-        v15 = 0;
-      while ( v15 )
+        v14 = 0;
+      while ( v14 )
       {
-        if ( ((v15->_1_q_7_objTileset >> 1) & 0x7F) != 47
-          && v15->objectIndex != 255
-          && !(((unsigned __int8)v15->field_4 >> 1) & 1) )
+        if ( ((v14->_1_q_7_objTileset >> 1) & 0x7F) != 47
+          && v14->objectIndex != 255
+          && !(((unsigned __int8)v14->field_4_1_1_1_isShadow_5 >> 1) & 1) )
           goto LABEL_88;
-        if ( v15->nextIdx && *(&this->map->cellExtras->objectIndex + 8 * v15->nextIdx - v15->nextIdx) != 255 )
-          v15 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v15->nextIdx - v15->nextIdx);
+        if ( v14->nextIdx && *(&this->map->cellExtras->objectIndex + 8 * v14->nextIdx - v14->nextIdx) != 255 )
+          v14 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v14->nextIdx - v14->nextIdx);
         else
-          v15 = 0;
+          v14 = 0;
       }
       v12->displayFlags |= 0x80u;
     }
@@ -72366,7 +72332,6 @@ LABEL_88:
   advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 1);
   game::SetupAdjacentMons(gpGame);
 }
-// 48BA30: using guessed type int var_28[4];
 // 48BA30: using guessed type int var_14[4];
 
 //----- (0048C430) --------------------------------------------------------
@@ -72390,25 +72355,25 @@ void __thiscall advManager::HeroSwap(void *this, int a2, int a3)
 }
 
 //----- (0048C4C0) --------------------------------------------------------
-signed int __stdcall advManager::BarrierEvent(int a1, int _3C)
+signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, hero *hero)
 {
   signed int result; // eax@3
-  char v3; // [sp+10h] [bp-20h]@1
-  int a2; // [sp+20h] [bp-10h]@1
-  int res[2]; // [sp+24h] [bp-Ch]@1
-  int v6; // [sp+2Ch] [bp-4h]@1
+  char v5; // [sp+10h] [bp-20h]@1
+  int barrierColor; // [sp+20h] [bp-10h]@1
+  SAMPLE2 res; // [sp+24h] [bp-Ch]@1
+  int v8; // [sp+2Ch] [bp-4h]@1
 
-  *(_QWORD *)res = NULL_SAMPLE2;
-  a2 = ((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7;
-  v6 = (signed int)(unsigned __int8)((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) >> 3;
+  res = NULL_SAMPLE2;
+  barrierColor = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
+  v8 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 3;
   sprintf(
     gText,
     "A magical %s barrier stands tall before you, blocking your way.  Runes on the arch read, \"Speak the key and you may pass.\"",
-    xBarrierColor[a2]);
-  GetDataEntry(gText, (int)&v3, 14, 0, 0, 1);
-  if ( StrEqNoCase((int *)&v3, (int *)xPasswordStrings[v6]) && gpCurPlayer->_4[1] & (1 << a2) )
+    xBarrierColor[barrierColor]);
+  GetDataEntry(gText, (int)&v5, 14, 0, 0, 1);
+  if ( StrEqNoCase((int *)&v5, (int *)xPasswordStrings[v8]) && gpCurPlayer->barrierTentsVisited & (1 << barrierColor) )
   {
-    playTrackForLocationVisit(*(_BYTE *)(a1 + 9) & 0x7F, a2, (_QWORD *)res);
+    advManager::EventSound(this, cell->objType & 0x7F, barrierColor, &res);
     NormalDialog(
       "As you speak the magic word, the glowing barrier dissolves into nothingness.",
       1,
@@ -72429,7 +72394,6 @@ signed int __stdcall advManager::BarrierEvent(int a1, int _3C)
   }
   return result;
 }
-// 48C4C0: using guessed type _DWORD __stdcall advManager__BarrierEvent(_DWORD, _DWORD);
 // 4F7200: using guessed type char *xBarrierColor[15];
 // 51A918: using guessed type char *xPasswordStrings[211];
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
@@ -72462,34 +72426,31 @@ char __fastcall StrEqNoCase(int *a1, int *a2)
 }
 
 //----- (0048C690) --------------------------------------------------------
-char __stdcall advManager::PasswordEvent(mapCell *tile, hero *hero)
+void __thiscall advManager::PasswordEvent(advManager *this, mapCell *tile, hero *hero)
 {
-  int v2; // ST30_4@1
-  char result; // al@1
-  int res[2]; // [sp+14h] [bp-Ch]@1
+  int v3; // ST30_4@1
+  SAMPLE2 res; // [sp+14h] [bp-Ch]@1
   int v5; // [sp+1Ch] [bp-4h]@1
 
-  *(_QWORD *)res = NULL_SAMPLE2;
-  v2 = ((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
+  res = NULL_SAMPLE2;
+  v3 = ((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
   v5 = (unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
   v5 >>= 3;
-  playTrackForLocationVisit(tile->objType & 0x7F, v2, (_QWORD *)res);
+  advManager::EventSound(this, tile->objType & 0x7F, v3, &res);
   sprintf(
     gText,
     "You enter the tent and see an old woman gazing into a magic gem.  She looks up and says, \"In my travels, I have learned much in the way of arcane magic.  A great oracle taught me his skill.  I have the answer you seek.  The %s keyword is '%s'.\"",
-    xBarrierColor[v2],
+    xBarrierColor[v3],
     xPasswordStrings[v5]);
   NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
-  result = (1 << v2) | gpCurPlayer->_4[1];
-  gpCurPlayer->_4[1] = result;
-  return result;
+  gpCurPlayer->barrierTentsVisited |= 1 << v3;
 }
 // 4F7200: using guessed type char *xBarrierColor[15];
 // 51A918: using guessed type char *xPasswordStrings[211];
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
 
 //----- (0048C770) --------------------------------------------------------
-void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *this)
+void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, hero *this)
 {
   advManager *v3; // [sp+14h] [bp-4Ch]@1
   int xp; // [sp+18h] [bp-48h]@44
@@ -72507,7 +72468,7 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
   int a3[2]; // [sp+54h] [bp-Ch]@1
   int v17; // [sp+5Ch] [bp-4h]@25
 
-  v3 = (advManager *)ecx0;
+  v3 = ecx0;
   v15 = 0;
   *(_QWORD *)a3 = NULL_SAMPLE2;
   a2 = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F;
@@ -72521,7 +72482,7 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
       }
       if ( v15 )
       {
-        playTrackForLocationVisit(cell->objType & 0x7F, a2, (_QWORD *)a3);
+        advManager::EventSound(v3, cell->objType & 0x7F, a2, (SAMPLE2 *)a3);
         if ( v15 == 1 )
           sprintf(
             gText,
@@ -72584,7 +72545,7 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
       }
       else
       {
-        playTrackForLocationVisit(cell->objType & 0x7F, a2, (_QWORD *)a3);
+        advManager::EventSound(ecx0, cell->objType & 0x7F, a2, (SAMPLE2 *)a3);
         this->flags |= 0x400000u;
         v17 = DoArenaDialog();
         ++this->primarySkills[v17];
@@ -72607,7 +72568,7 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
       }
       else
       {
-        playTrackForLocationVisit(cell->objType & 0x7F, a2, (_QWORD *)a3);
+        advManager::EventSound(ecx0, cell->objType & 0x7F, a2, (SAMPLE2 *)a3);
         this->flags |= 0x100000u;
         ++this->tempLuckBonuses;
         advManager::EventWindow(
@@ -72622,7 +72583,7 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
       }
       break;
     case 2:
-      playTrackForLocationVisit(cell->objType & 0x7F, a2, (_QWORD *)a3);
+      advManager::EventSound(ecx0, cell->objType & 0x7F, a2, (SAMPLE2 *)a3);
       NormalDialog(
         "You enter a rickety hut and talk to the magician who lives there.  He tells you of places near and far which may aid you in your journeys.",
         1,
@@ -72685,7 +72646,7 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
         }
         if ( xp )
         {
-          playTrackForLocationVisit(cell->objType & 0x7F, a2, (_QWORD *)a3);
+          advManager::EventSound(ecx0, cell->objType & 0x7F, a2, (SAMPLE2 *)a3);
           sprintf(
             gText,
             "An eerie wailing song emanates from the sirens perched upon the rocks.  Many of your crew fall under its spell, and dive into the water where they drown.  You are now wiser for the visit, and gain %d experience.",
@@ -72725,7 +72686,7 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
         v7 |= 2u;
       }
       if ( v7 )
-        playTrackForLocationVisit(cell->objType & 0x7F, a2, (_QWORD *)a3);
+        advManager::EventSound(v3, cell->objType & 0x7F, a2, (SAMPLE2 *)a3);
       sprintf(gText, (&xStableText)[4 * v7]);
       if ( v7 & 2 )
         advManager::EventWindow(-1, 1, gText, 18, 8, -1, 0, -1);
@@ -72741,51 +72702,51 @@ void __thiscall advManager::GenericSiteEvent(void *ecx0, mapCell *cell, hero *th
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
 
 //----- (0048CE90) --------------------------------------------------------
-void __stdcall advManager::RecruitSiteEvent(int a1, int a2)
+void __thiscall advManager::RecruitSiteEvent(advManager *this, int a1, int a2)
 {
-  __int16 v2; // [sp+18h] [bp-18h]@1
-  int v3; // [sp+1Ch] [bp-14h]@1
-  int v4; // [sp+20h] [bp-10h]@11
-  int v5; // [sp+24h] [bp-Ch]@2
+  __int16 v3; // [sp+18h] [bp-18h]@1
+  int v4; // [sp+1Ch] [bp-14h]@1
+  int v5; // [sp+20h] [bp-10h]@11
+  int v6; // [sp+24h] [bp-Ch]@2
   int res[2]; // [sp+28h] [bp-8h]@1
 
   *(_QWORD *)res = NULL_SAMPLE2;
-  v3 = ((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7;
-  v2 = (signed __int16)(unsigned __int8)((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) >> 3;
-  switch ( v3 )
+  v4 = ((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7;
+  v3 = (signed __int16)(unsigned __int8)((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) >> 3;
+  switch ( v4 )
   {
     case 0:
-      v5 = 59;
+      v6 = 59;
       break;
     case 1:
-      v5 = 62;
+      v6 = 62;
       break;
     case 2:
-      v5 = 63;
+      v6 = 63;
       break;
     case 3:
-      v5 = 64;
+      v6 = 64;
       break;
     case 4:
-      v5 = 65;
+      v6 = 65;
       break;
     default:
       break;
   }
-  if ( v2 )
+  if ( v3 )
   {
-    playTrackForLocationVisit(*(_BYTE *)(a1 + 9) & 0x7F, v2, (_QWORD *)res);
-    advManager::EventWindow(-1, 2, (&xRecruitBuy)[4 * v3], -1, 0, -1, 0, -1);
+    advManager::EventSound(this, *(_BYTE *)(a1 + 9) & 0x7F, v3, (SAMPLE2 *)res);
+    advManager::EventWindow(-1, 2, (&xRecruitBuy)[4 * v4], -1, 0, -1, 0, -1);
     if ( gpWindowManager->buttonPressedCode == 30725 )
     {
-      advManager::ExpansionRecruitEvent(a2, v5, (int)&v2);
-      v4 = v3 | 8 * v2;
-      *(_WORD *)(a1 + 4) = 8 * (v3 | (unsigned __int16)(8 * v2)) | *(_WORD *)(a1 + 4) & 7;
+      advManager::ExpansionRecruitEvent(a2, v6, (int)&v3);
+      v5 = v4 | 8 * v3;
+      *(_WORD *)(a1 + 4) = 8 * (v4 | (unsigned __int16)(8 * v3)) | *(_WORD *)(a1 + 4) & 7;
     }
   }
   else
   {
-    advManager::EventWindow(-1, 1, (&xRecruitEmpty)[4 * v3], -1, 0, -1, 0, -1);
+    advManager::EventWindow(-1, 1, (&xRecruitEmpty)[4 * v4], -1, 0, -1, 0, -1);
   }
 }
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
@@ -72822,7 +72783,7 @@ void __thiscall advManager::JailEvent(void *this, int a2, int a3, int a4, int a5
   {
     if ( gpCurPlayer->numHeroes < 8 )
     {
-      playTrackForLocationVisit(*(_BYTE *)(a2 + 9) & 0x7F, 0, (_QWORD *)res);
+      advManager::EventSound((advManager *)this, *(_BYTE *)(a2 + 9) & 0x7F, 0, (SAMPLE2 *)res);
       NormalDialog(
         "In a dazzling display of daring, you break into the local jail and free the hero imprisoned there, who, in return, pledges loyalty to your cause.",
         1,
@@ -72926,7 +72887,7 @@ void __thiscall advManager::TownEvent(int this, int a2, __int64 a3)
     game::ClaimTown(gpGame, castle->idx, giCurPlayer, 0);
     if ( gbGameOver )
       return;
-    advManager::UpdateRadar(thisa, 1, 0);
+    advManager::UpdateRadar((advManager *)thisa, 1, 0);
     advManager::UpdateHeroLocators((advManager *)thisa, 1, 1);
     advManager::UpdateTownLocators((void *)thisa, 1, 1);
     castle->visitingHeroIdx = gpCurPlayer->curHeroIdx;
@@ -72938,14 +72899,14 @@ void __thiscall advManager::TownEvent(int this, int a2, __int64 a3)
 // 4EF268: using guessed type int gbGameOver;
 
 //----- (0048D4D0) --------------------------------------------------------
-void __stdcall playTrackForLocationVisit(int locType, int a2, _QWORD *res)
+void __thiscall advManager::EventSound(advManager *this, int locType, int a2, SAMPLE2 *res)
 {
   int trackNum; // [sp+30h] [bp-30h]@1
-  char file; // [sp+3Ch] [bp-24h]@1
-  int v5; // [sp+5Ch] [bp-4h]@1
+  char a1; // [sp+3Ch] [bp-24h]@1
+  int v6; // [sp+5Ch] [bp-4h]@1
 
-  v5 = 22;
-  strcpy(&file, byte_5184CC);
+  v6 = 22;
+  strcpy(&a1, byte_5184CC);
   trackNum = -1;
   switch ( locType )
   {
@@ -73092,29 +73053,29 @@ LABEL_36:
     switch ( trackNum )
     {
       case 19:
-        strcpy(&file, "treasure.82m");
+        strcpy(&a1, "treasure.82m");
         break;
       case 22:
-        strcpy(&file, "expernce.82m");
+        strcpy(&a1, "expernce.82m");
         break;
       case 100:
-        strcpy(&file, "goodmrle.82m");
+        strcpy(&a1, "goodmrle.82m");
         break;
       case 101:
-        strcpy(&file, "goodluck.82m");
+        strcpy(&a1, "goodluck.82m");
         break;
       case 102:
-        strcpy(&file, "pickup01.82m");
+        strcpy(&a1, "pickup01.82m");
         break;
       case 103:
-        strcpy(&file, "h2mine.82m");
+        strcpy(&a1, "h2mine.82m");
         break;
       default:
         soundManager::SwitchAmbientMusic((soundManager *)gpSoundManager, trackNum);
         break;
     }
-    if ( (unsigned int)strlen((int)&file) > 1 )
-      *res = LoadPlaySample(&file);
+    if ( strlen(&a1) > 1 )
+      *res = (SAMPLE2)LoadPlaySample(&a1);
   }
 }
 // 5240A8: using guessed type int gpSoundManager;
@@ -74061,7 +74022,7 @@ void __thiscall advManager::HeroLoses(int this, int a2)
     advManager::UpdateScreen((advManager *)ecx0, 0, 0);
     hero::Deallocate((hero *)a2, 1);
     advManager::FizzleCenter((void *)ecx0, 0);
-    advManager::UpdateRadar(ecx0, 1, 0);
+    advManager::UpdateRadar((advManager *)ecx0, 1, 0);
     advManager::UpdateHeroLocators((advManager *)ecx0, 1, 1);
   }
 }
@@ -75206,7 +75167,7 @@ LABEL_308:
 //----- (00492310) --------------------------------------------------------
 bool __stdcall advManager::BarrierAIEvent(int a1, int a2)
 {
-  return (gpCurPlayer->_4[1] & (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7))) != 0;
+  return (gpCurPlayer->barrierTentsVisited & (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7))) != 0;
 }
 
 //----- (00492380) --------------------------------------------------------
@@ -75214,8 +75175,8 @@ char __stdcall advManager::PasswordAIEvent(int a1, int a2)
 {
   char result; // al@1
 
-  result = (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7)) | gpCurPlayer->_4[1];
-  gpCurPlayer->_4[1] = result;
+  result = (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7)) | gpCurPlayer->barrierTentsVisited;
+  gpCurPlayer->barrierTentsVisited = result;
   return result;
 }
 
@@ -76396,7 +76357,7 @@ bool __fastcall RiddleStringsEqual(const char *a1, const char *a2)
     }
   }
   strncpy(a2a, v4, 4u);
-  a2a[strlen((int)&a1a)] = 0;
+  a2a[strlen(&a1a)] = 0;
   LOBYTE(v2) = stricmp(&a1a, a2a);
   return v2 == 0;
 }
@@ -76796,7 +76757,7 @@ void __thiscall hero::Deallocate(hero *this, int a2)
 {
   mapCell *v2; // eax@33
   int v4; // [sp+14h] [bp-18h]@37
-  char *v5; // [sp+1Ch] [bp-10h]@3
+  playerData *player; // [sp+1Ch] [bp-10h]@3
   signed int v6; // [sp+20h] [bp-Ch]@23
   HERO_CONSTANTS idx; // [sp+24h] [bp-8h]@8
   int idxa; // [sp+24h] [bp-8h]@20
@@ -76807,7 +76768,7 @@ void __thiscall hero::Deallocate(hero *this, int a2)
   if ( a2 )
     SendMapChange(6, this->idx, this->x, this->y, -999, 0, 0);
   v11 = this->ownerIdx;
-  v5 = (char *)&gpGame->players[this->ownerIdx];
+  player = &gpGame->players[this->ownerIdx];
   if ( a2 )
     advManager::MobilizeCurrHero(gpAdvManager, 0);
   if ( a2 )
@@ -76835,17 +76796,17 @@ void __thiscall hero::Deallocate(hero *this, int a2)
       armyGroup::Dismiss(&this->army, idxa);
   }
   v6 = -1;
-  for ( idxb = 0; v5[1] > idxb; ++idxb )
+  for ( idxb = 0; player->numHeroes > idxb; ++idxb )
   {
-    if ( v5[idxb + 4] == this->idx )
+    if ( player->heroesOwned[idxb] == this->idx )
       v6 = idxb;
   }
-  for ( idxc = v6; v5[1] - 1 > idxc; ++idxc )
-    v5[idxc + 4] = v5[idxc + 5];
-  v5[v5[1] + 3] = -1;
-  if ( v5[2] == this->idx )
+  for ( idxc = v6; player->numHeroes - 1 > idxc; ++idxc )
+    player->heroesOwned[idxc] = player->heroesOwned[idxc + 1];
+  *(&player->field_3 + player->numHeroes) = -1;
+  if ( player->curHeroIdx == this->idx )
   {
-    v5[2] = -1;
+    player->curHeroIdx = -1;
     if ( this->ownerIdx == giCurPlayer )
     {
       gpAdvManager->field_272 = 0;
@@ -76855,8 +76816,8 @@ void __thiscall hero::Deallocate(hero *this, int a2)
     if ( giCurPlayer == v11 )
       gpAdvManager->heroMobilized = 0;
   }
-  --v5[1];
-  v5[3] = 0;
+  --player->numHeroes;
+  player->field_3 = 0;
   gpGame->relatedToHeroForHireStatus[this->idx] = -1;
   if ( gbRetreatWin )
   {
@@ -77055,14 +77016,13 @@ void __thiscall hero::CheckLevel(hero *this)
       lvl10Plus = i > 9;
       SRand(30 * i + this->randomSeed);
       randNum = SRandom(1, 100);
-      if ( gHeroSkillBonus[this->factionID].chancesForBeforeOrAfterLvl10[lvl10Plus].attackChance <= randNum )
+      if ( gHeroSkillBonus[this->factionID][lvl10Plus][0] <= randNum )
       {
-        randNuma = randNum - gHeroSkillBonus[this->factionID].chancesForBeforeOrAfterLvl10[lvl10Plus].attackChance;
-        if ( *(&byte_4F2E41[8 * this->factionID] + 4 * lvl10Plus) <= randNuma )
+        randNuma = randNum - gHeroSkillBonus[this->factionID][lvl10Plus][0];
+        if ( gHeroSkillBonus[this->factionID][lvl10Plus][1] <= randNuma )
         {
-          if ( *(&byte_4F2E42[8 * this->factionID] + 4 * lvl10Plus) <= randNuma
-                                                                     - *(&byte_4F2E41[8 * this->factionID]
-                                                                       + 4 * lvl10Plus) )
+          if ( gHeroSkillBonus[this->factionID][lvl10Plus][2] <= randNuma
+                                                               - gHeroSkillBonus[this->factionID][lvl10Plus][1] )
             ++skillsLearned[3];
           else
             ++skillsLearned[2];
@@ -78319,43 +78279,41 @@ char __thiscall hero::GetSSLevel(hero *ecx0, SECONDARY_SKILL skill)
 }
 
 //----- (00498CF0) --------------------------------------------------------
-heroWindow *__thiscall hero::DoSSLevelDialog(hero *this, int skill, unsigned int a3)
+void __thiscall hero::DoSSLevelDialog(hero *this, int skill, unsigned int rightClick)
 {
   int v3; // ST34_4@2
-  char v4; // al@2
-  hero *thisa; // [sp+Ch] [bp-Ch]@1
-  int v7; // [sp+10h] [bp-8h]@1
+  int v4; // ST1C_4@2
+  int level; // [sp+10h] [bp-8h]@1
 
-  thisa = this;
-  v7 = hero::GetSSLevel(this, (SECONDARY_SKILL)skill) - this->secondarySkillLevel[skill];
-  if ( v7 <= 0 )
+  level = hero::GetSSLevel(this, (SECONDARY_SKILL)skill) - this->secondarySkillLevel[skill];
+  if ( level <= 0 )
   {
-    sprintf(gText, (&gDwellingNames[3 * skill + 71])[4 * thisa->secondarySkillLevel[skill]]);
+    sprintf(gText, (&gDwellingNames[3 * skill + 71])[4 * this->secondarySkillLevel[skill]]);
   }
   else
   {
-    v3 = secondarySkillLevels[thisa->secondarySkillLevel[skill]];
-    v4 = hero::GetSSLevel(thisa, (SECONDARY_SKILL)skill);
+    v3 = secondarySkillLevels[this->secondarySkillLevel[skill]];
+    v4 = 10 * hero::GetSSLevel(this, (SECONDARY_SKILL)skill);
     sprintf(
       gText,
       "{%s Necromancy (+%d)}\n\n%s Necromancy (+%d) allows %d percent of the creatures killed in combat to be brought back from the dead as Skeletons.",
       v3,
-      v7,
+      level,
       v3,
-      v7,
-      10 * v4);
+      level,
+      v4);
   }
-  return NormalDialog(
-           gText,
-           a3 < 1 ? 1 : 4,
-           -1,
-           -1,
-           17,
-           3 * skill + thisa->secondarySkillLevel[skill] - 1,
-           -1,
-           0,
-           -1,
-           0);
+  NormalDialog(
+    gText,
+    rightClick < 1 ? 1 : 4,
+    -1,
+    -1,
+    17,
+    3 * skill + this->secondarySkillLevel[skill] - 1,
+    -1,
+    0,
+    -1,
+    0);
 }
 // 4F6CA0: using guessed type char *gDwellingNames[72];
 
@@ -78445,7 +78403,7 @@ void __fastcall advManager::ViewWorld(advManager *this, int edx0, int a2, int a3
     (int (__fastcall *)(tag_message *))ViewWorldDialogHandler,
     0);
   operator delete((void *)thisb);
-  advManager::UpdateRadar((int)this, 1, 0);
+  advManager::UpdateRadar(this, 1, 0);
   advManager::VWCleanup();
   gbInViewWorld = 0;
   gpWindowManager->cycleColors = 0;
@@ -78472,9 +78430,9 @@ void __cdecl advManager::VWCleanup()
 //----- (00499220) --------------------------------------------------------
 void __thiscall advManager::VWInit(void *this, int a2, int a3)
 {
-  int v3; // [sp+Ch] [bp-4h]@1
+  void *v3; // [sp+Ch] [bp-4h]@1
 
-  v3 = (int)this;
+  v3 = this;
   if ( giViewWorldScale == 4 )
   {
     giViewWorldScaleLookup = 0;
@@ -78517,7 +78475,7 @@ void __thiscall advManager::VWInit(void *this, int a2, int a3)
   pVWMisc = resourceManager::GetIcon(gpResourceManager, gText);
   sprintf(gText, "letter%d.icn", giViewWorldScale);
   pVWLetters = resourceManager::GetIcon(gpResourceManager, gText);
-  advManager::UpdateRadar(v3, 1, 0);
+  advManager::UpdateRadar((advManager *)v3, 1, 0);
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
@@ -78578,7 +78536,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
     for ( col = iVWMapOriginX; iVWViewableCells + iVWMapOriginX > col; ++col )
     {
       v18 = advManager::GetCell((advManager *)thisa, col, row);
-      if ( (unsigned __int8)(*(&mapExtra[col] + row * MAP_WIDTH) & giCurPlayerBit)
+      if ( (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
         || iVWDrawAllTerrains
         || iVWWhatToDraw == 51
         && ((v18->objType & 0x7F) == 35
@@ -78643,7 +78601,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
         else
           spriteIdx = ((_BYTE)col + 2 * (_BYTE)row) & 3;
         spriteIdx += 21 * (unsigned __int8)giGroundToTerrain[v18->groundIndex];
-        if ( (unsigned __int8)(*(&mapExtra[col] + row * MAP_WIDTH) & giCurPlayerBit) || iVWDrawAllTerrains )
+        if ( (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit) || iVWDrawAllTerrains )
         {
           if ( mirror == 1 )
             v6 = giViewWorldScale - 1;
@@ -78801,7 +78759,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
       a4 = iVWYPixelOffset + (giViewWorldScale >> 1) + giViewWorldScale * (row - iVWMapOriginY);
       if ( v18->objType == 169
         && (iVWDrawAllObjs
-         || (unsigned __int8)(*(&mapExtra[col] + row * MAP_WIDTH) & giCurPlayerBit)
+         || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
          || iVWWhatToDraw == 50) )
         IconToBitmap(
           pVWMisc,
@@ -78819,7 +78777,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
          || v18->objType == 170
          && gpGame->heroes[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163)
         && (iVWDrawAllObjs
-         || (unsigned __int8)(*(&mapExtra[col] + row * MAP_WIDTH) & giCurPlayerBit)
+         || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
          || iVWWhatToDraw == 51) )
       {
         if ( v18->objType == 163 )
@@ -78875,7 +78833,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
       if ( v18->objType == 170 || v26 )
       {
         if ( iVWDrawAllObjs
-          || (unsigned __int8)(*(&mapExtra[col] + row * MAP_WIDTH) & giCurPlayerBit)
+          || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
           || iVWWhatToDraw == 52 )
         {
           v17 = v26 ? gpGame->relatedToHeroForHireStatus[gpCurPlayer->curHeroIdx] : gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
@@ -78903,7 +78861,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
       }
       if ( v18->objType == 155
         && (iVWDrawAllObjs
-         || (unsigned __int8)(*(&mapExtra[col] + row * MAP_WIDTH) & giCurPlayerBit)
+         || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
          || iVWWhatToDraw == 49) )
       {
         spriteIdx = v18->objectIndex >> 1;
@@ -78934,7 +78892,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
       }
       if ( (v18->objType == 151 || v18->objType == 157 || v18->objType == 129)
         && (iVWDrawAllObjs
-         || (unsigned __int8)(*(&mapExtra[col] + row * MAP_WIDTH) & giCurPlayerBit)
+         || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
          || iVWWhatToDraw == 48) )
       {
         v17 = gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
@@ -79052,7 +79010,7 @@ signed int __thiscall ViewWorldDialogHandler(void *this)
         iVWMapOriginY = MAP_WIDTH - iVWViewableCells;
       if ( iVWMapOriginY + iVWViewableCells >= MAP_HEIGHT )
         iVWMapOriginY = MAP_HEIGHT - iVWViewableCells;
-      advManager::UpdateRadar((int)gpAdvManager, 1, 0);
+      advManager::UpdateRadar(gpAdvManager, 1, 0);
       advManager::VWCompleteDraw(gpAdvManager);
       v9 = 0;
       while ( v9 != 16 )
@@ -79090,7 +79048,7 @@ signed int __thiscall ViewWorldDialogHandler(void *this)
             iVWMapOriginX = MAP_WIDTH - iVWViewableCells;
           if ( iVWMapOriginY + iVWViewableCells >= MAP_HEIGHT )
             iVWMapOriginY = MAP_HEIGHT - iVWViewableCells;
-          advManager::UpdateRadar((int)gpAdvManager, 1, 0);
+          advManager::UpdateRadar(gpAdvManager, 1, 0);
           advManager::VWCompleteDraw(gpAdvManager);
           v11 = 0;
         }
@@ -81068,7 +81026,7 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
     spell = SPELL_PARALYZE;
   if ( proto_spell == SPELL_ARCHMAGI_DISPEL )
     spell = SPELL_DISPEL_MAGIC;
-  if ( strlen((int)&gsSpellInfo[spell]) )
+  if ( strlen(gsSpellInfo[spell].soundName) )
     sprintf(buf, "%s.82M", &gsSpellInfo[spell]);
   if ( isCreatureAbility || !stack || army::SpellCastWorks(stack, proto_spell) )
   {
@@ -81165,7 +81123,7 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
         combatManager::RippleCreature(thisa, stack->owningSide, stack->stackIdx, 0);
         break;
       case SPELL_COLD_RAY:
-        DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 175.0));
+        DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 175.0));
         damage = 20 * spellpower;
         if ( stack->creatureIdx == CREATURE_FIRE_ELEMENTAL )
           damage *= 2;
@@ -81191,7 +81149,7 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
         combatManager::ChainLightning(thisa, hexIdx, spellpower);
         break;
       case SPELL_MAGIC_ARROW:
-        DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 100.0));
+        DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
         damage = 10 * spellpower;
         combatManager::ModifyDamageForArtifacts(
           &damage,
@@ -81516,7 +81474,7 @@ void __thiscall combatManager::Fireball(combatManager *this, int hexIdx, Spell s
       }
       for ( neighborIdx = 0; v4 > neighborIdx; ++neighborIdx )
       {
-        glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 75.0);
+        glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
         IconToBitmap(res, gpWindowManager->screenBuffer, x, y, neighborIdx, 1, 0, 0, 0x280u, 443, 0);
         if ( spell == SPELL_COLD_RING )
           FlipIconToBitmap(res, gpWindowManager->screenBuffer, x, y, neighborIdx, 1, 0, 0, 640, 443, 0);
@@ -81633,7 +81591,7 @@ void __userpurge combatManager::MeteorShower(combatManager *this<ecx>, int ebx0<
       {
         for ( imageIdx = 0; imageIdx < 10; ++imageIdx )
         {
-          glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 112.5);
+          glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 112.5);
           combatManager::DrawFrame(thisa, 0, 0, 0, 0, 75, 1, 1);
           icon::CombatClipDrawToBuffer(
             res,
@@ -81714,7 +81672,7 @@ void __thiscall combatManager::ElementalStorm(combatManager *this)
     {
       for ( j = 0; j < 10; ++j )
       {
-        glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 75.0);
+        glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
         combatManager::DrawFrame(thisa, 0, 0, 0, 0, 75, 1, 1);
         for ( y = 0; y < 10; ++y )
         {
@@ -82296,7 +82254,7 @@ heroWindowManager *__userpurge combatManager::DoBolt<eax>(combatManager *ecx0<ec
         v56 = 442;
       DelayTil(&thisa);
       v25 = KBTickCount();
-      a3 = (double)a19 * gfCombatSpeedMod[*(_DWORD *)&combatSpeed];
+      a3 = (double)a19 * gfCombatSpeedMod[giCombatSpeed];
       thisa = (signed __int64)((double)v25 + a3);
       BlitBitmapToScreen(
         gpWindowManager->screenBuffer,
@@ -82524,7 +82482,7 @@ void __thiscall combatManager::ChainLightning(combatManager *this, int targetHex
       i < 1);
     startX = endX;
     startY = endY;
-    DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 100.0));
+    DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
     v16 = combatManager::GetNextChainLightningTarget(this, stack, 1);
     if ( v16 == -1 )
       break;
@@ -82532,7 +82490,7 @@ void __thiscall combatManager::ChainLightning(combatManager *this, int targetHex
     combatManager::DrawFrame(this, 1, 0, 0, 0, 0, 1, 1);
     DelayTil(&tick);
     v6 = KBTickCount();
-    v4 = gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 100.0;
+    v4 = gfCombatSpeedMod[giCombatSpeed] * 100.0;
     tick = (signed __int64)((double)v6 + v4);
   }
   combatManager::ShowMassSpell(
@@ -82599,7 +82557,7 @@ void __thiscall combatManager::VaporizeCreature(combatManager *this, int a2, int
       combatManager::DrawFrame(gpCombatManager, 1, 0, 1, 0, 30, 1, 1);
     }
   }
-  DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 500.0));
+  DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 500.0));
   v8->field_125 = 0;
   LODWORD(v8->field_4E) = 1;
   BaseFree(gyModify, (int)"F:\\h2xsrc\\Source\\SPELLS.CPP", word_51A404 + 56);
@@ -82615,7 +82573,7 @@ void __thiscall combatManager::RippleCreature(combatManager *this, int side, int
 {
   float v4; // ST40_4@39
   float v6; // [sp+28h] [bp-40h]@2
-  signed int delay; // [sp+30h] [bp-38h]@2
+  signed int a6; // [sp+30h] [bp-38h]@2
   signed int i; // [sp+38h] [bp-30h]@15
   float v9; // [sp+3Ch] [bp-2Ch]@2
   signed int y; // [sp+40h] [bp-28h]@8
@@ -82633,14 +82591,14 @@ void __thiscall combatManager::RippleCreature(combatManager *this, int side, int
   if ( a4 )
   {
     v17 = 1;
-    delay = 30;
+    a6 = 30;
     v9 = 0.2;
     v6 = 0.1;
   }
   else
   {
     v17 = 2;
-    delay = 20;
+    a6 = 20;
     v9 = 0.30000001;
     v6 = 0.050000001;
   }
@@ -82709,10 +82667,10 @@ void __thiscall combatManager::RippleCreature(combatManager *this, int side, int
           0x7Fu,
           giMaxExtentY - 1 - (signed int)(v12 * (i - 9)) / 20 - (giMinExtentY - 1) + 1);
       gbLimitToExtent = 1;
-      combatManager::DrawFrame(gpCombatManager, 1, 0, 1, 0, delay, 1, 1);
+      combatManager::DrawFrame(gpCombatManager, 1, 0, 1, 0, a6, 1, 1);
     }
   }
-  DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 500.0));
+  DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 500.0));
   v15->field_125 = NULL;
   LODWORD(v15->field_4E) = 1;
   BaseFree(gyModify, (int)"F:\\h2xsrc\\Source\\SPELLS.CPP", twoFiveEightSeven + 142);
@@ -83166,7 +83124,7 @@ LABEL_2:
               v3 = 80 * thisa->combatGrid[hex].unitOwner + 4 * thisa->combatGrid[hex].stackIdx;
               ++*(signed int *)((char *)thisa->limitCreature[0] + v3);
               combatManager::DrawFrame(gpCombatManager, 0, 1, 0, 1, 75, 1, 1);
-              v4 = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 50.0);
+              v4 = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 50.0);
               tick = v4;
               for ( l = 0; l < 16; ++l )
               {
@@ -83182,7 +83140,7 @@ LABEL_2:
                   giMaxExtentY - giMinExtentY + 1);
                 gbLimitToExtent = 0;
                 DelayTil(&tick);
-                v4 = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 50.0);
+                v4 = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 50.0);
                 tick = v4;
               }
               imageStack->xDrawOffset = 0;
@@ -83384,7 +83342,7 @@ void __userpurge combatManager::DoBlast(combatManager *this<ecx>, char a2<bl>, i
     if ( giMaxExtentY > 442 )
       giMaxExtentY = 442;
     DelayTil(&t);
-    t = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 10.0);
+    t = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 10.0);
     heroWindowManager::UpdateScreenRegion(
       gpWindowManager,
       giMinExtentX,
@@ -83518,7 +83476,7 @@ void __thiscall combatManager::Resurrect(combatManager *this, int spell, int hex
     res = resourceManager::GetIcon(gpResourceManager, "yinyang.icn");
     for ( spriteIdxa = 0; spriteIdxa < 22; ++spriteIdxa )
     {
-      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 75.0);
+      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
       IconToBitmap(res, gpWindowManager->screenBuffer, a3, a4, spriteIdxa, 1, 0, 0, 0x280u, 443, 0);
       combatManager::UpdateCombatArea(this);
       creat->facingRight = 1 - creat->owningSide;
@@ -83690,7 +83648,7 @@ void __thiscall combatManager::Earthquake(combatManager *this)
   {
     for ( j = 0; j < 15; ++j )
     {
-      v20 = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 15.0);
+      v20 = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 15.0);
       PollSound();
       v24 = 640 - abs(v25[2 * j]);
       v18 = 443 - abs(v25[2 * j + 1]) - 1;
@@ -83769,7 +83727,7 @@ void __thiscall combatManager::Earthquake(combatManager *this)
     res = resourceManager::GetIcon(gpResourceManager, "lichclod.icn");
     for ( l = 0; l < 13; ++l )
     {
-      animTimer = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 75.0);
+      animTimer = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
       combatManager::DrawFrame(thisa, 0, 0, 1, 0, 0, 1, 0);
       for ( m = 0; m < v12; ++m )
       {
@@ -85090,7 +85048,7 @@ int __thiscall CDTest_GenerateTable(void *this, const char *a2)
   void *v14; // [sp+Ch] [bp-7Ch]@1
   int v15; // [sp+10h] [bp-78h]@5
   unsigned __int32 startmsec; // [sp+14h] [bp-74h]@9
-  char v17; // [sp+18h] [bp-70h]@7
+  char a1; // [sp+18h] [bp-70h]@7
   unsigned __int32 tracknum; // [sp+7Ch] [bp-Ch]@7
   unsigned __int32 v19; // [sp+80h] [bp-8h]@3
   unsigned __int32 endmsec; // [sp+84h] [bp-4h]@9
@@ -85104,46 +85062,46 @@ int __thiscall CDTest_GenerateTable(void *this, const char *a2)
       v15 = open((const char *)v14, 17153);
       if ( v15 )
       {
-        sprintf(&v17, "// FILE : %s\n", v14);
-        v3 = strlen((int)&v17);
-        _write(v15, &v17, v3);
-        sprintf(&v17, "// DO NOT EDIT.\n");
-        v4 = strlen((int)&v17);
-        _write(v15, &v17, v4);
-        sprintf(&v17, "// THIS FILE WAS AUTOMATICALLY GENERATED BY CDTest_GenerateTable.\n");
-        v5 = strlen((int)&v17);
-        _write(v15, &v17, v5);
-        sprintf(&v17, "\n\n\n");
-        v6 = strlen((int)&v17);
-        _write(v15, &v17, v6);
-        sprintf(&v17, "#define CDTEST_NUMTRACKS %d\n\n\n", v19);
-        v7 = strlen((int)&v17);
-        _write(v15, &v17, v7);
-        sprintf(&v17, "sCDTest_Track_Data cdTestTrackData[CDTEST_NUMTRACKS] =\n");
-        v8 = strlen((int)&v17);
-        _write(v15, &v17, v8);
-        sprintf(&v17, "{\n");
-        v9 = strlen((int)&v17);
-        _write(v15, &v17, v9);
+        sprintf(&a1, "// FILE : %s\n", v14);
+        v3 = strlen(&a1);
+        _write(v15, &a1, v3);
+        sprintf(&a1, "// DO NOT EDIT.\n");
+        v4 = strlen(&a1);
+        _write(v15, &a1, v4);
+        sprintf(&a1, "// THIS FILE WAS AUTOMATICALLY GENERATED BY CDTest_GenerateTable.\n");
+        v5 = strlen(&a1);
+        _write(v15, &a1, v5);
+        sprintf(&a1, "\n\n\n");
+        v6 = strlen(&a1);
+        _write(v15, &a1, v6);
+        sprintf(&a1, "#define CDTEST_NUMTRACKS %d\n\n\n", v19);
+        v7 = strlen(&a1);
+        _write(v15, &a1, v7);
+        sprintf(&a1, "sCDTest_Track_Data cdTestTrackData[CDTEST_NUMTRACKS] =\n");
+        v8 = strlen(&a1);
+        _write(v15, &a1, v8);
+        sprintf(&a1, "{\n");
+        v9 = strlen(&a1);
+        _write(v15, &a1, v9);
         for ( tracknum = 1; (signed int)tracknum <= (signed int)v19; ++tracknum )
         {
           AIL_redbook_track_info(dword_51D4A8, tracknum, &startmsec, &endmsec);
-          sprintf(&v17, "  {%d, %d}", startmsec, endmsec);
-          v10 = strlen((int)&v17);
-          _write(v15, &v17, v10);
+          sprintf(&a1, "  {%d, %d}", startmsec, endmsec);
+          v10 = strlen(&a1);
+          _write(v15, &a1, v10);
           if ( tracknum != v19 )
           {
-            sprintf(&v17, L",");
-            v11 = strlen((int)&v17);
-            _write(v15, &v17, v11);
+            sprintf(&a1, L",");
+            v11 = strlen(&a1);
+            _write(v15, &a1, v11);
           }
-          sprintf(&v17, L"\n");
-          v12 = strlen((int)&v17);
-          _write(v15, &v17, v12);
+          sprintf(&a1, L"\n");
+          v12 = strlen(&a1);
+          _write(v15, &a1, v12);
         }
-        sprintf(&v17, "};\n");
-        v13 = strlen((int)&v17);
-        _write(v15, &v17, v13);
+        sprintf(&a1, "};\n");
+        v13 = strlen(&a1);
+        _write(v15, &a1, v13);
         _close(v15);
         result = _unlink(a2);
       }
@@ -85565,7 +85523,7 @@ signed int __thiscall philAI::GoodAdjacent(void *this, int a1)
                gpCurAIHero->x + normalDirTable[4 * i],
                gpCurAIHero->y + byte_4F1DC1[4 * i])->objType & 0x80 )
         {
-          if ( !(*(&mapExtra[col] + row * MAP_WIDTH) & 0x80)
+          if ( !(*(&mapRevealed[col] + row * MAP_WIDTH) & 0x80)
             && (advManager::GetCell(gpAdvManager, col, row)->objType & 0x7F) != 36
             && (advManager::GetCell(gpAdvManager, col, row)->objType & 0x7F) != 39
             && (advManager::GetCell(gpAdvManager, col, row)->objType != 163
@@ -86299,7 +86257,7 @@ LABEL_79:
             --v16;
           }
           bShowIt = v11;
-          advManager::UpdateRadar((int)gpAdvManager, 1, 0);
+          advManager::UpdateRadar(gpAdvManager, 1, 0);
 LABEL_113:
           if ( !cell )
             goto LABEL_27;
@@ -86463,7 +86421,7 @@ LABEL_17:
     v37 = (signed __int64)((double)v37 + v32);
   }
   gpCurPlayer->field_10F = (double)(gpCurPlayer->resources[6] + gpCurPlayer->field_E7[6]) / (double)(v37 + 1000)
-                         + *(float *)&gpCurPlayer->_4[24];
+                         + *(float *)&gpCurPlayer->_4_2[22];
   v23 = 0;
   for ( k = 4; k < 37; ++k )
     v23 += gArtifactBaseRV[k];
@@ -87211,11 +87169,11 @@ void __stdcall philAI::ProbableOutcomeOfBattle(int a1, int a2, __int64 a3, int a
   *a10 = (signed __int64)(v16 * *(float *)a8);
   *a11 = (signed __int64)((1.0 - *(float *)a8) * v15 + (double)*(signed int *)a9 * *(float *)a8);
   *a12 = (signed __int64)((1.0 - *(float *)a8) * (double)*a10 + v16 * *(float *)a8);
-  v13 = 1.33 - *(float *)&gpCurPlayer->_4[24];
+  v13 = 1.33 - *(float *)&gpCurPlayer->_4_2[22];
   *a13 = (signed __int64)((double)-*a11 * v13 * v13);
   if ( a7 >= 0 )
   {
-    v18 = *(float *)&gpCurPlayer->_4[24] + 0.66;
+    v18 = *(float *)&gpCurPlayer->_4_2[22] + 0.66;
     if ( gbHumanPlayer[a7] )
       *a13 = (signed __int64)((double)*a12 * v18 * v18 * *(float *)&gfAttackHumanBonus + (double)*a13);
     else
@@ -87262,7 +87220,7 @@ void __stdcall philAI::ProbableOutcomeOfBattle(int a1, int a2, __int64 a3, int a
       (int)"POBA",
       (signed __int64)v17,
       (signed __int64)v21,
-      (signed __int64)(*(float *)&gpCurPlayer->_4[24] * 100.0),
+      (signed __int64)(*(float *)&gpCurPlayer->_4_2[22] * 100.0),
       0,
       v22,
       v25,
@@ -87410,8 +87368,8 @@ int __stdcall philAI::ValueOfBuyingBuilding(int a1, signed int a2, int a3, int a
       v37 = 0.0;
       goto LABEL_105;
     case 4:
-      v37 = (*(float *)&gpCurPlayer->_4[20] + 0.66) * v37;
-      v37 = (*(float *)&gpCurPlayer->_4[24] * 2.0 + 0.33) * v37;
+      v37 = (*(float *)&gpCurPlayer->_4_2[18] + 0.66) * v37;
+      v37 = (*(float *)&gpCurPlayer->_4_2[22] * 2.0 + 0.33) * v37;
       v37 = ((double)v33 * 0.33 + 0.66) * v37;
       if ( (*(_BYTE *)(a1 + 3) || !(*(_BYTE *)(a1 + 26) & 0x10)) && gpGame->day < 6 )
         v37 = 0.0;
@@ -87454,8 +87412,8 @@ LABEL_63:
         if ( !v27 )
           goto LABEL_105;
       }
-      v37 = (*(float *)&gpCurPlayer->_4[20] + 0.66) * v37;
-      v37 = (*(float *)&gpCurPlayer->_4[24] * 2.0 + 0.33) * v37;
+      v37 = (*(float *)&gpCurPlayer->_4_2[18] + 0.66) * v37;
+      v37 = (*(float *)&gpCurPlayer->_4_2[22] * 2.0 + 0.33) * v37;
       v37 = (1.0 - (double)playerData::BuildingsOwned((int)gpCurPlayer, v31, a2, 0) * 0.05) * v37;
       if ( a2 - 19 < v22 )
         v37 = (1.66 - (double)v33 * 0.33) * v37;
@@ -87633,7 +87591,7 @@ int __stdcall philAI::ValueOfBuyingCreature(int a1, int a2, int a3, int a4, int 
       }
       v22 = (signed __int64)((1.18 - (double)v12 * 0.06) * (double)v22);
     }
-    v22 = (signed __int64)((*(float *)&gpGame->players[*(_BYTE *)(a1 + 1)]._4[24] + 0.66) * (double)v22);
+    v22 = (signed __int64)((*(float *)&gpGame->players[*(_BYTE *)(a1 + 1)]._4_2[22] + 0.66) * (double)v22);
   }
   if ( gMonsterDatabase[a2].creature_flags & 4 )
   {
@@ -87840,7 +87798,7 @@ signed __int64 __stdcall philAI::ValueOfBuyingHero(int a1, int a2, int a3, int a
         v5 += gArtifactBaseRV[*(_BYTE *)(i + a2 + 213)];
     }
   }
-  v6 = (signed __int64)((*(float *)&gpCurPlayer->_4[28] + 1.0 - *(float *)&gpCurPlayer->_4[24])
+  v6 = (signed __int64)((*(float *)&gpCurPlayer->_4_2[26] + 1.0 - *(float *)&gpCurPlayer->_4_2[22])
                       * (double)(*(_DWORD *)(a2 + 57) / 2 + v5));
   v9 = *(_BYTE *)(a2 + 23) == 2 || *(_BYTE *)(a2 + 23) == 3 || *(_BYTE *)(a2 + 23) == 4 || *(_BYTE *)(a2 + 23) == 5;
   if ( *(_BYTE *)(a1 + 3) == *(_BYTE *)(a2 + 23) )
@@ -87937,7 +87895,7 @@ char *__stdcall philAI::GetGameAttentionValue(int a1)
   char *v1; // ST20_4@1
   char *result; // eax@1
 
-  v1 = &gpGame->players[a1]._4[8];
+  v1 = &gpGame->players[a1]._4_2[6];
   *(float *)v1 = (double)Random(0, 100) / 500.0 + 0.23;
   *((float *)v1 + 2) = (double)Random(0, 100) / 500.0 + 0.23;
   *((float *)v1 + 2) = (1.0 + 3.0) / 4.0 * *((float *)v1 + 2);
@@ -87957,8 +87915,8 @@ char *__stdcall philAI::GetTurnAttentionValue(int a1)
   char *v2; // [sp+10h] [bp-8h]@1
   float v3; // [sp+14h] [bp-4h]@2
 
-  v2 = &gpGame->players[a1]._4[8];
-  *(_DWORD *)&gpGame->players[a1]._4[8] = 1053609165;
+  v2 = &gpGame->players[a1]._4_2[6];
+  *(_DWORD *)&gpGame->players[a1]._4_2[6] = 1053609165;
   *((_DWORD *)v2 + 2) = 1050253722;
   *((_DWORD *)v2 + 1) = 1050253722;
   *((_DWORD *)v2 + 3) = *(_DWORD *)v2;
@@ -88470,7 +88428,7 @@ int __stdcall philAI::TurnCostResource(int a1)
   int v6; // [sp+50h] [bp-20h]@1
   int v7[7]; // [sp+54h] [bp-1Ch]@3
 
-  v2 = &gpGame->players[a1]._4[8];
+  v2 = &gpGame->players[a1]._4_2[6];
   v6 = 0;
   for ( i = 0; i < 7; ++i )
   {
@@ -88500,7 +88458,7 @@ double __stdcall philAI::TurnValueOfObelisk(int a1)
   signed int v3; // [sp+24h] [bp-Ch]@1
   char *v4; // [sp+2Ch] [bp-4h]@1
 
-  v4 = &gpGame->players[a1]._4[8];
+  v4 = &gpGame->players[a1]._4_2[6];
   v3 = gArtifactBaseRV[gpGame->field_6397];
   if ( gpGame->mapHeader.winConditionType == 3 )
     v3 *= 2;
@@ -91034,7 +90992,7 @@ LABEL_131:
             break;
         }
       }
-      else if ( !(unsigned __int8)(*(&mapExtra[(_DWORD)a1] + HIDWORD(a1) * MAP_WIDTH) & giCurPlayerBit) )
+      else if ( !(unsigned __int8)(*(&mapRevealed[(_DWORD)a1] + HIDWORD(a1) * MAP_WIDTH) & giCurPlayerBit) )
       {
         v33 = 5;
       }
@@ -91049,7 +91007,7 @@ LABEL_131:
       v33 = (signed __int64)((double)v33 * *(float *)&fBerserkFactor);
     if ( !a2 )
     {
-      if ( v33 > 0 && *(&mapExtra[(_DWORD)a1] + HIDWORD(a1) * MAP_WIDTH) & 0x80 && (*(_BYTE *)(v34 + 9) & 0x7F) != 24 )
+      if ( v33 > 0 && *(&mapRevealed[(_DWORD)a1] + HIDWORD(a1) * MAP_WIDTH) & 0x80 && (*(_BYTE *)(v34 + 9) & 0x7F) != 24 )
         v33 = 0;
       if ( v33 >= 0 || (*(_BYTE *)(v34 + 9) & 0x7F) == 42 )
       {
@@ -91168,7 +91126,7 @@ signed int __stdcall philAI::EvaluateBarrier(int a1)
 {
   signed int result; // eax@2
 
-  if ( gpCurPlayer->_4[1] & (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7)) )
+  if ( gpCurPlayer->barrierTentsVisited & (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7)) )
     result = 5000;
   else
     result = 0;
@@ -91180,7 +91138,7 @@ signed int __stdcall philAI::EvaluatePassword(int a1)
 {
   signed int result; // eax@2
 
-  if ( gpCurPlayer->_4[1] & (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7)) )
+  if ( gpCurPlayer->barrierTentsVisited & (1 << (((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5) & 7)) )
     result = 0;
   else
     result = 2500;
@@ -91282,7 +91240,7 @@ bool __fastcall OnMySide(int a1)
       && (giCurPlayer == a1
        || gbInCampaign && !gpGame->field_2 && gpGame->field_4 == 9 && a1
        || gbInCampaign && gpGame->field_2 == 1 && gpGame->field_4 == 10 && a1
-       || gpGame->mapHeader.winConditionType == 4
+       || gpGame->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
        && (gpGame->mapHeader.winConditionArgument == 99 && a1
         || gpGame->mapHeader.winConditionArgument != 99
         && (gpGame->players[giCurPlayer].color < (signed int)HIWORD(gpGame->mapHeader.field_2E)
@@ -91723,7 +91681,7 @@ int __stdcall philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int a5)
     gbReduceByBerserk = 0;
     if ( v18 > 0
       && 70 - 5 * gpGame->difficulty > giCurTurn
-      && !(unsigned __int8)(*(&mapExtra[a2] + a3 * MAP_WIDTH) & giCurPlayerBit) )
+      && !(unsigned __int8)(*(&mapRevealed[a2] + a3 * MAP_WIDTH) & giCurPlayerBit) )
       v18 = 0;
   }
   else
@@ -91791,7 +91749,7 @@ int __stdcall philAI::EvaluateTownEvent(int a1, int a2, int a3, int a4, int a5)
   {
     if ( gpGame->difficulty >= 3
       || 40 - 8 * gpGame->difficulty <= giCurTurn
-      || (unsigned __int8)(*(&mapExtra[a2] + a3 * MAP_WIDTH) & giCurPlayerBit) )
+      || (unsigned __int8)(*(&mapRevealed[a2] + a3 * MAP_WIDTH) & giCurPlayerBit) )
     {
       v8 = philAI::ValueOfTown(this);
       if ( gpGame->castles[a1].visitingHeroIdx == -1 )
@@ -95288,12 +95246,12 @@ bool __stdcall advManager::GetMoveShowIt(int a1, int a2)
 // 5306F0: using guessed type char giCurWatchPlayerBit;
 
 //----- (004C08F0) --------------------------------------------------------
-mapCell *__thiscall advManager::MoveHero(advManager *this, int arg0, signed int a2, int *trigX, int *trigY, int a6, int a7, signed int a8, int a9)
+mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6, int *trigX, int *trigY, int arg10, int arg14, signed int a8, int a9)
 {
   int v9; // eax@3
   mapCell *fromCell; // ST90_4@5
   signed int terrain; // ST74_4@5
-  char *v12; // ST5C_4@16
+  boat *boat; // ST5C_4@16
   mapCell *v13; // eax@16
   __int64 v14; // ST98_8@21
   int v15; // ebx@46
@@ -95322,25 +95280,25 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int arg0, signed int 
   signed int k; // [sp+74h] [bp-1Ch]@109
   signed int l; // [sp+74h] [bp-1Ch]@120
   hero *hro; // [sp+80h] [bp-10h]@3
-  void *v43; // [sp+84h] [bp-Ch]@1
+  void *mapEvent; // [sp+84h] [bp-Ch]@1
   mapCell *toCell; // [sp+88h] [bp-8h]@5
   int v45; // [sp+8Ch] [bp-4h]@64
 
-  v43 = 0;
+  mapEvent = 0;
   if ( gbThisNetHumanPlayer[giCurPlayer] )
     SetNoDialogMenus(0);
   gbHitEvent = 0;
   *(_DWORD *)a8 = 0;
-  *(_DWORD *)a6 = 0;
+  *(_DWORD *)arg10 = 0;
   gbHeroMoving = 1;
   v35 = 0;
   v9 = (int)(&gpGame->gameDifficulty + 125 * gpCurPlayer->curHeroIdx);
   hro = (hero *)(v9 + 10180);
   v32 = *(_DWORD *)(v9 + 10205);
   v30 = *(_DWORD *)(v9 + 10209);
-  deltaX = normalDirTable[4 * arg0];
-  deltaY = byte_4F1DC1[4 * arg0];
-  bShowIt = advManager::GetMoveShowIt(v9 + 10180, arg0);
+  deltaX = normalDirTable[4 * a7];
+  deltaY = byte_4F1DC1[4 * a7];
+  bShowIt = advManager::GetMoveShowIt(v9 + 10180, a7);
   if ( bShowIt )
     gbMoveShown = 1;
   fromCell = advManager::GetCell(this, hro->x, hro->y);
@@ -95348,7 +95306,7 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int arg0, signed int 
   toCell = advManager::GetCell(this, deltaX + hro->x, deltaY + hro->y);
   cost = CalcTerrainCost(
            terrain,
-           arg0 & 1,
+           a7 & 1,
            hro->remainingMobility,
            hro->secondarySkillLevel[0],
            ((unsigned __int8)fromCell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 1) & 1,
@@ -95362,38 +95320,38 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int arg0, signed int 
           1);
   if ( !a9 && hro->remainingMobility < cost )
   {
-    *(_DWORD *)a6 = 1;
+    *(_DWORD *)arg10 = 1;
     hro->remainingMobility = 0;
     advManager::StopCursor(this, 1);
     goto LABEL_95;
   }
-  SendMapChange(1, hro->idx, hro->x, hro->y, giCurPlayer, a2, arg0);
+  SendMapChange(1, hro->idx, hro->x, hro->y, giCurPlayer, a6, a7);
   advManager::MobilizeCurrHero(this, 0);
   *trigX = deltaX + hro->x;
   *trigY = deltaY + hro->y;
-  if ( this->field_27E != arg0 )
-    advManager::TurnTo((int)this, arg0);
-  HIBYTE(hro->field_2B) = arg0;
+  if ( this->field_27E != a7 )
+    advManager::TurnTo((int)this, a7);
+  HIBYTE(hro->field_2B) = a7;
   if ( hro->flags & 0x80 && toCell->objType == 28 )
   {
     for ( i = 0; i < 48 && gpGame->boats[i].field_6 != hro->idx; ++i )
       ;
-    v12 = (char *)&gpGame->boats[i];
+    boat = &gpGame->boats[i];
     v13 = advManager::GetCell(this, hro->x, hro->y);
-    v12[4] = v13->objType;
-    v12[5] = v13->field_4_1_1_isShadow_1_13_extraInfo >> 3;
-    v12[3] = LOBYTE(this->field_27E);
-    v12[6] |= 0x80u;
+    boat->underlyingObjType = v13->objType;
+    boat->underlyingObjExtra = v13->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+    boat->field_3 = LOBYTE(this->field_27E);
+    boat->field_6 |= 0x80u;
     v13->objType = -85;
     v13->field_4_1_1_isShadow_1_13_extraInfo = v13->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * i;
-    v12[1] = LOBYTE(hro->x);
-    v12[2] = LOBYTE(hro->y);
+    boat->x = LOBYTE(hro->x);
+    boat->y = LOBYTE(hro->y);
     advManager::StopCursor(this, 1);
     advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
     advManager::UpdateScreen(this, 0, 0);
     this->field_272 = 0;
   }
-  if ( !(toCell->objType & 0x80) || !advManager::ValidMoveWithEvent((int)gpAdvManager, (int)hro, arg0) )
+  if ( !(toCell->objType & 0x80) || !advManager::ValidMoveWithEvent((int)gpAdvManager, (int)hro, a7) )
     goto LABEL_41;
   v20 = toCell->objType & 0x7F;
   if ( v20 != 35 )
@@ -95443,7 +95401,7 @@ LABEL_33:
     || !town::HasGarrison(&gpGame->castles[(unsigned __int8)((unsigned __int8)(toCell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]) )
   {
 LABEL_41:
-    if ( advManager::ValidMove(this, arg0, 0) )
+    if ( advManager::ValidMove(this, a7, 0) )
     {
       if ( hro->occupiedObjType == 163 )
         gpGame->castles[hro->occupiedObjVal].visitingHeroIdx = -1;
@@ -95462,7 +95420,7 @@ LABEL_41:
       this->field_2AE = 1;
       v28 = dword_51E188[*((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer])];
       v34 = giStepDelay[*((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer])];
-      advManager::StartCursor((int)this, arg0);
+      advManager::StartCursor((int)this, a7);
       if ( *((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer]) == 4 )
       {
         if ( EveryOther )
@@ -95549,13 +95507,13 @@ LABEL_41:
       if ( hro->remainingMobility < v36 )
       {
         hro->remainingMobility = 0;
-        a2 = 1;
+        a6 = 1;
       }
-      v43 = GetMapEvent(*trigX, *trigY);
-      if ( v43 && !a7 )
-        a2 = 1;
-      advManager::StopCursor(this, a2);
-      if ( a7 && a2 && advManager::ComboDraw(this, 0) )
+      mapEvent = GetMapEvent(*trigX, *trigY);
+      if ( mapEvent && !arg14 )
+        a6 = 1;
+      advManager::StopCursor(this, a6);
+      if ( arg14 && a6 && advManager::ComboDraw(this, 0) )
         advManager::UpdateScreen(this, 0, 0);
       advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 0);
       v18 = advManager::GetCell(this, this->viewX + 7, this->viewY + 7)->groundIndex;
@@ -95577,26 +95535,26 @@ LABEL_41:
         v35 = v37;
         switch ( v37->objType & 0x7F )
         {
-          case 0x38:
-          case 0x39:
-          case 0x62:
-          case 0x63:
-          case 0x64:
-          case 0x65:
-          case 0x66:
-          case 0x67:
-          case 0x68:
-          case 0x69:
-          case 0x6A:
-          case 0x6B:
-          case 0x6C:
-          case 0x6D:
-          case 0x6E:
-          case 0x6F:
-          case 0x70:
-          case 0x71:
-          case 0x72:
-          case 0x73:
+          case LOCATION_NOTHING_SPECIAL:
+          case LOCATION_NOTHING_SPECIAL|LOCATION_ALCHEMIST_LAB:
+          case LOCATION_STREAM:
+          case LOCATION_TREES:
+          case LOCATION_MOUNTAINS:
+          case LOCATION_VOLCANO:
+          case LOCATION_FLOWERS:
+          case LOCATION_ROCK:
+          case LOCATION_LAKE:
+          case LOCATION_MANDRAKE:
+          case LOCATION_DEAD_TREE:
+          case LOCATION_STUMP:
+          case LOCATION_CRATER:
+          case LOCATION_CACTUS:
+          case LOCATION_MOUND:
+          case LOCATION_DUNE:
+          case LOCATION_LAVA_POOL:
+          case LOCATION_SHRUB:
+          case LOCATION_HOLE:
+          case LOCATION_OUTCROPPING:
             v35 = 0;
             break;
           default:
@@ -95614,11 +95572,11 @@ LABEL_41:
     hro->remainingMobility = 0;
   v35 = toCell;
 LABEL_95:
-  advManager::UpdateRadar((int)this, 1, 1);
+  advManager::UpdateRadar(this, 1, 1);
   gbHeroMoving = 0;
   if ( !a9 && (hro->x != v32 || hro->y != v30) )
   {
-    if ( *(&mapExtra[hro->x] + MAP_WIDTH * hro->y) & 0x80
+    if ( *(&mapRevealed[hro->x] + MAP_WIDTH * hro->y) & 0x80
       && !(hro->flags & 0x80)
       && (!v35 || (v35->objType & 0x7F) != 43) )
     {
@@ -95629,22 +95587,22 @@ LABEL_95:
   }
   if ( gbThisNetHumanPlayer[giCurPlayer] )
     SetNoDialogMenus(1);
-  if ( v43 )
+  if ( mapEvent )
   {
-    if ( a7 )
+    if ( arg14 )
     {
-      if ( *((_BYTE *)v43 + 31) )
+      if ( *((_BYTE *)mapEvent + 31) )
       {
         for ( k = 0; k < 7; ++k )
         {
-          gpGame->players[giCurPlayer].resources[k] += *(_DWORD *)((char *)v43 + 4 * k + 1);
+          gpGame->players[giCurPlayer].resources[k] += *(_DWORD *)((char *)mapEvent + 4 * k + 1);
           if ( gpGame->players[giCurPlayer].resources[k] < 0 )
             gpGame->players[giCurPlayer].resources[k] = 0;
         }
-        if ( *(_WORD *)((char *)v43 + 29) != -1 && hero::NumArtifacts(hro) < 14 )
-          GiveArtifact(hro, (ARTIFACT)*(_WORD *)((char *)v43 + 29), 1, -1);
-        if ( *((_BYTE *)v43 + 32) )
-          *((_BYTE *)v43 + 37) = 0;
+        if ( *(_WORD *)((char *)mapEvent + 29) != -1 && hero::NumArtifacts(hro) < 14 )
+          GiveArtifact(hro, (ARTIFACT)*(_WORD *)((char *)mapEvent + 29), 1, -1);
+        if ( *((_BYTE *)mapEvent + 32) )
+          *((_BYTE *)mapEvent + 37) = 0;
       }
     }
     else
@@ -95655,10 +95613,10 @@ LABEL_95:
       img2Arg = 0;
       for ( l = 0; l < 7; ++l )
       {
-        v22 = *(_DWORD *)((char *)v43 + 4 * l + 1);
+        v22 = *(_DWORD *)((char *)mapEvent + 4 * l + 1);
         if ( gpGame->players[giCurPlayer].resources[l] < -v22 )
           v22 = -gpGame->players[giCurPlayer].resources[l];
-        gpGame->players[giCurPlayer].resources[l] += *(_DWORD *)((char *)v43 + 4 * l + 1);
+        gpGame->players[giCurPlayer].resources[l] += *(_DWORD *)((char *)mapEvent + 4 * l + 1);
         if ( gpGame->players[giCurPlayer].resources[l] < 0 )
           gpGame->players[giCurPlayer].resources[l] = 0;
         if ( v22 )
@@ -95672,24 +95630,24 @@ LABEL_95:
           img1Arg = v22;
         }
       }
-      if ( *(_WORD *)((char *)v43 + 29) != -1 && hero::NumArtifacts(hro) < 14 )
+      if ( *(_WORD *)((char *)mapEvent + 29) != -1 && hero::NumArtifacts(hro) < 14 )
       {
-        GiveArtifact(hro, (ARTIFACT)*(_WORD *)((char *)v43 + 29), 1, -1);
+        GiveArtifact(hro, (ARTIFACT)*(_WORD *)((char *)mapEvent + 29), 1, -1);
         if ( img1Type != -1 )
         {
           img2Type = img1Type;
           img2Arg = img1Arg;
         }
         img1Type = 7;
-        img1Arg = *(_WORD *)((char *)v43 + 29);
+        img1Arg = *(_WORD *)((char *)mapEvent + 29);
       }
-      if ( *((_BYTE *)v43 + 32) )
-        *((_BYTE *)v43 + 37) = 0;
+      if ( *((_BYTE *)mapEvent + 32) )
+        *((_BYTE *)mapEvent + 37) = 0;
       if ( img1Type >= 0 && img1Type <= 6 && img1Arg < 0 )
         img1Arg -= 100000;
       if ( img2Type >= 0 && img2Type <= 6 && img2Arg < 0 )
         img2Arg -= 100000;
-      NormalDialog((char *)v43 + 49, 1, -1, -1, img1Type, img1Arg, img2Type, img2Arg, -1, 0);
+      NormalDialog((char *)mapEvent + 49, 1, -1, -1, img1Type, img1Arg, img2Type, img2Arg, -1, 0);
       gbHitEvent = 1;
     }
   }
@@ -96294,37 +96252,35 @@ int __thiscall advManager::UnwindMapChangeQueue(void *this, int a2, int a3)
 // 523667: using guessed type int dword_523667;
 
 //----- (004C3190) --------------------------------------------------------
-int __fastcall SendMapChange(char a1, char a2, unsigned __int8 a3, unsigned __int8 a4, int a5, char a6, char a7)
+void __fastcall SendMapChange(char a1, char a2, unsigned __int8 a3, unsigned __int8 a4, int a5, char a6, char a7)
 {
   int v7; // edx@5
   void *v8; // ecx@5
-  int result; // eax@5
-  char v10; // [sp+Ch] [bp-14h]@1
-  char v12[13]; // [sp+14h] [bp-Ch]@5
+  char v9; // [sp+Ch] [bp-14h]@1
+  char v11[13]; // [sp+14h] [bp-Ch]@5
 
-  v10 = a2;
+  v9 = a2;
   if ( gbThisNetGotAdventureControl && gbRemoteOn )
   {
     if ( a5 == -999 )
       a5 = giCurPlayer;
     LogInt((int)"Send Map Change", a1, a2, a3, a4, -999, -999, -999);
-    memset(v12, 0, 0xBu);
-    v12[0] = a1;
-    v12[1] = v10;
-    v12[2] = a3;
-    v12[3] = a4;
-    v12[6] = a5;
-    v12[5] = a6;
-    v12[4] = a7;
-    *(_DWORD *)&v12[7] = (*(_DWORD *)&giMapChangeCtr)++;
+    memset(v11, 0, 0xBu);
+    v11[0] = a1;
+    v11[1] = v9;
+    v11[2] = a3;
+    v11[3] = a4;
+    v11[6] = a5;
+    v11[5] = a6;
+    v11[4] = a7;
+    *(_DWORD *)&v11[7] = (*(_DWORD *)&giMapChangeCtr)++;
     memmove(v8, v7, &sMapChangeLastFew[11], sMapChangeLastFew, 0x21u);
-    *(_DWORD *)sMapChangeLastFew = *(_DWORD *)v12;
-    *(_DWORD *)&sMapChangeLastFew[4] = *(_DWORD *)&v12[4];
-    *(_WORD *)&sMapChangeLastFew[8] = *(_WORD *)&v12[8];
-    sMapChangeLastFew[10] = v12[10];
-    result = TransmitRemoteData(sMapChangeLastFew, 127, 0x2Cu, 41, 0, 1, -1);
+    *(_DWORD *)sMapChangeLastFew = *(_DWORD *)v11;
+    *(_DWORD *)&sMapChangeLastFew[4] = *(_DWORD *)&v11[4];
+    *(_WORD *)&sMapChangeLastFew[8] = *(_WORD *)&v11[8];
+    sMapChangeLastFew[10] = v11[10];
+    TransmitRemoteData(sMapChangeLastFew, 127, 0x2Cu, 41, 0, 1, -1);
   }
-  return result;
 }
 // 4F7494: using guessed type int gbRemoteOn;
 // 523ED4: using guessed type int gbThisNetGotAdventureControl;
@@ -96345,7 +96301,7 @@ void __thiscall combatManager::ClearCombatMessages(combatManager *this, int a2)
 
   thisa = this;
   this->couldBeShouldResetCombatMessage = 0;
-  if ( (unsigned int)strlen((int)this->combatMessageRow2) > 1 || (unsigned int)strlen((int)thisa->combatMessageRow1) > 1 )
+  if ( strlen(this->combatMessageRow2) > 1 || strlen(thisa->combatMessageRow1) > 1 )
   {
     if ( a2 || KBTickCount() > thisa->combatMessageRelatedTime )
     {
@@ -97470,7 +97426,7 @@ LABEL_151:
     gbComputeExtent = 0;
     if ( waitUntilItIsTime )
       DelayTil(&glTimers);
-    glTimers = (signed __int64)((double)KBTickCount() + (double)delay * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+    glTimers = (signed __int64)((double)KBTickCount() + (double)delay * gfCombatSpeedMod[giCombatSpeed]);
     gbFullCombatScreenDrawn = 0;
     if ( redrawAll == 1 )
     {
@@ -97491,7 +97447,7 @@ LABEL_151:
     if ( waitUntilItIsTime )
       DelayTil(&glTimers);
     gbFullCombatScreenDrawn = 1;
-    glTimers = (signed __int64)((double)KBTickCount() + (double)delay * gfCombatSpeedMod[*(_DWORD *)&combatSpeed]);
+    glTimers = (signed __int64)((double)KBTickCount() + (double)delay * gfCombatSpeedMod[giCombatSpeed]);
     combatManager::UpdateCombatArea(thisa);
   }
 LABEL_168:
@@ -99467,7 +99423,7 @@ int __cdecl SetGameDefaults()
   *(_DWORD *)&evilInterfaceUsage = 0;
   *(_DWORD *)&useOpera = 1;
   *(_DWORD *)&quickCombatLevel = 0;
-  *(_DWORD *)&combatSpeed = 0;
+  giCombatSpeed = 0;
   *(_DWORD *)&autoCombatUseSpells = 0;
   *(_DWORD *)&blackoutComputer = 0;
   *(_DWORD *)&currentMapOffset = 0;
@@ -99560,7 +99516,7 @@ void __cdecl ReadPrefsFromRegistry()
       RegQueryValueExA(hKey, "Combat Army Info Level", 0, &Type, &combatArmyInfoLevel, &cbData);
       RegQueryValueExA(hKey, "Evil Interface Usage", 0, &Type, &evilInterfaceUsage, &cbData);
       RegQueryValueExA(hKey, "Quick Combat Level", 0, &Type, &quickCombatLevel, &cbData);
-      RegQueryValueExA(hKey, "Combat Speed", 0, &Type, &combatSpeed, &cbData);
+      RegQueryValueExA(hKey, "Combat Speed", 0, &Type, (LPBYTE)&giCombatSpeed, &cbData);
       RegQueryValueExA(hKey, "Auto Combat Use Spells", 0, &Type, &autoCombatUseSpells, &cbData);
       RegQueryValueExA(hKey, "First Map Offset", 0, &Type, &firstMapOffset, &cbData);
       RegQueryValueExA(hKey, "Current Map Offset", 0, &Type, &currentMapOffset, &cbData);
@@ -99656,7 +99612,7 @@ void __cdecl WritePrefsToRegistry()
     RegSetValueExA(hKey, "Combat Army Info Level", 0, REG_DWORD, &combatArmyInfoLevel, 4u);
     RegSetValueExA(hKey, "Evil Interface Usage", 0, REG_DWORD, &evilInterfaceUsage, 4u);
     RegSetValueExA(hKey, "Quick Combat Level", 0, REG_DWORD, &quickCombatLevel, 4u);
-    RegSetValueExA(hKey, "Combat Speed", 0, REG_DWORD, &combatSpeed, 4u);
+    RegSetValueExA(hKey, "Combat Speed", 0, REG_DWORD, (const BYTE *)&giCombatSpeed, 4u);
     RegSetValueExA(hKey, "Auto Combat Use Spells", 0, REG_DWORD, &autoCombatUseSpells, 4u);
     RegSetValueExA(hKey, "First Map Offset", 0, REG_DWORD, &firstMapOffset, 4u);
     RegSetValueExA(hKey, "Current Map Offset", 0, REG_DWORD, &currentMapOffset, 4u);
@@ -100012,7 +99968,7 @@ void __thiscall AiPrint(void *this)
   if ( giDebugLevel >= 2 )
   {
     FillBitmapArea(gpWindowManager->screenBuffer, 0, 460, 0x280u, 20, 0);
-    font::DrawBoundedString(smallFont, (const char *)v1, 0, 464, 640, 16, 1, 0);
+    font::DrawBoundedString(smallFont, (char *)v1, 0, 464, 640, 16, 1, 0);
     BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 460, 0x280u, 20, 0, 460);
   }
 }
@@ -103371,7 +103327,7 @@ int __thiscall font::GetCharacterWidth(font *this, char chr)
 }
 
 //----- (004CFAD0) --------------------------------------------------------
-void __thiscall font::DrawBoundedString(font *this, const char *str, int x, int y, signed int regionWidth, int regionHeight, int a7, int alignType)
+void __thiscall font::DrawBoundedString(font *this, char *str, int x, int y, signed int regionWidth, int regionHeight, int a7, int alignType)
 {
   unsigned int len; // kr04_4@1
   font *thisa; // [sp+10h] [bp-48h]@1
@@ -103380,7 +103336,7 @@ void __thiscall font::DrawBoundedString(font *this, const char *str, int x, int 
   int v12; // [sp+24h] [bp-34h]@1
   signed int msgWidth; // [sp+28h] [bp-30h]@1
   int v14; // [sp+2Ch] [bp-2Ch]@14
-  const char v15; // [sp+40h] [bp-18h]@27
+  char v15; // [sp+40h] [bp-18h]@27
   int v16; // [sp+44h] [bp-14h]@1
   int i; // [sp+48h] [bp-10h]@1
   int msgOffset; // [sp+4Ch] [bp-Ch]@1
@@ -103451,7 +103407,7 @@ void __thiscall font::DrawBoundedString(font *this, const char *str, int x, int 
     {
       msgOffset = 0;
     }
-    font::DrawStringExecute(thisa, (char *)&str[v12], msgOffset + x, v16 + y, a7, x, y, regionWidth, regionHeight);
+    font::DrawStringExecute(thisa, &str[v12], msgOffset + x, v16 + y, a7, x, y, regionWidth, regionHeight);
     str[i] = v15;
     v16 += thisa->lineHeight;
     v12 = i++ + 1;
@@ -108884,7 +108840,7 @@ void __fastcall DoRipple(bitmap *bmp1, bitmap *bmp2, int height, int rippleStren
     PollSound();
     nextFrameTime = KBTickCount();
     xOffset = 0;
-    nextFrameTime = (signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 9.0 + (double)nextFrameTime);
+    nextFrameTime = (signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 9.0 + (double)nextFrameTime);
     do
     {
       x = leftX + xOffset - 25;
@@ -109115,7 +109071,7 @@ void __fastcall DoBlur(bitmap *fromBmp, bitmap *toBmp, int height, char a4, char
   while ( v32 );
   v33 = a7[0][1];
   heroWindowManager::FizzleForward(gpWindowManager, 0, 0, 640, height, 150, (const void *)a7[0][1], (int)v29);
-  DelayMilli((signed __int64)(gfCombatSpeedMod[*(_DWORD *)&combatSpeed] * 350.0));
+  DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 350.0));
   heroWindowManager::SaveFizzleSource(gpWindowManager, 0, 0, 640, height);
   memcpy(toBmpa->contents, newBMP->contents, npixels);
   heroWindowManager::FizzleForward(gpWindowManager, 0, 0, 640, height, 150, v29, v33);
@@ -109801,7 +109757,7 @@ void __thiscall textEntryWidget::Draw(int this)
       v3 = *(_WORD *)(v1 + 40);
     font::DrawBoundedString(
       *(font **)(v1 + 36),
-      *(const char **)(v1 + 32),
+      *(char **)(v1 + 32),
       *(_DWORD *)(*(_DWORD *)(v1 + 4) + 40) + *(_WORD *)(v1 + 65),
       *(_DWORD *)(*(_DWORD *)(v1 + 4) + 44) + *(_WORD *)(v1 + 67),
       *(_WORD *)(v1 + 61),
@@ -110186,7 +110142,7 @@ void __thiscall listBoxWidget::DrawLBStuff(listBox *this, int a2)
             v9 = thisa->field_2C;
           font::DrawBoundedString(
             (font *)thisa->fontID,
-            *(const char **)(*(_DWORD *)&thisa->field_3C + 4 * v23),
+            *(char **)(*(_DWORD *)&thisa->field_3C + 4 * v23),
             v4 + 5,
             v5 + 2,
             thisa->field_44[16] - 10,
@@ -110206,7 +110162,7 @@ void __thiscall listBoxWidget::DrawLBStuff(listBox *this, int a2)
           v10 = thisa->field_2C;
         font::DrawBoundedString(
           (font *)thisa->fontID,
-          *(const char **)(*(_DWORD *)&thisa->field_3C + 4 * v24),
+          *(char **)(*(_DWORD *)&thisa->field_3C + 4 * v24),
           v4 + 5,
           v5 + 2,
           thisa->field_44[16] - 10,
@@ -110227,7 +110183,7 @@ void __thiscall listBoxWidget::DrawLBStuff(listBox *this, int a2)
           v7 = thisa->field_2C;
         font::DrawBoundedString(
           (font *)thisa->fontID,
-          *(const char **)(*(_DWORD *)&thisa->field_3C + 4 * thisa->field_40),
+          *(char **)(*(_DWORD *)&thisa->field_3C + 4 * thisa->field_40),
           v4 + 5,
           v5 + 4,
           thisa->field_44[16] - 10,
@@ -110681,7 +110637,7 @@ void __thiscall dropListWidget::Draw(int this)
         v3 = *(_WORD *)(v1 + 52);
       font::DrawBoundedString(
         *(font **)(v1 + 32),
-        *(const char **)(*(_DWORD *)(v1 + 64) + 4 * v2),
+        *(char **)(*(_DWORD *)(v1 + 64) + 4 * v2),
         *(_DWORD *)(*(_DWORD *)(v1 + 4) + 40) + *(_WORD *)(v1 + 40),
         *(_DWORD *)(*(_DWORD *)(v1 + 4) + 44) + *(_WORD *)(v1 + 42),
         *(_WORD *)(v1 + 44),
@@ -110737,7 +110693,7 @@ void __thiscall dropListWidget::DrawDropStuff(int this)
   v6 = 1;
   font::DrawBoundedString(
     *(font **)(v2 + 32),
-    *(const char **)(*(_DWORD *)(v2 + 64) + 4 * v4),
+    *(char **)(*(_DWORD *)(v2 + 64) + 4 * v4),
     *(_WORD *)(v2 + 130) + *(_DWORD *)(*(_DWORD *)(v2 + 4) + 40) + 5,
     v3 + 4,
     *(_WORD *)(v2 + 134) - 10,
@@ -110762,7 +110718,7 @@ void __thiscall dropListWidget::DrawDropStuff(int this)
       ++v6;
       font::DrawBoundedString(
         *(font **)(v2 + 32),
-        *(const char **)(*(_DWORD *)(v2 + 64) + 4 * v8),
+        *(char **)(*(_DWORD *)(v2 + 64) + 4 * v8),
         *(_WORD *)(v2 + 130) + *(_DWORD *)(*(_DWORD *)(v2 + 4) + 40) + 5,
         v7 + 2,
         *(_WORD *)(v2 + 134) - 10,
@@ -110788,7 +110744,7 @@ void __thiscall dropListWidget::DrawDropStuff(int this)
       v11 = *(_WORD *)(v2 + 52);
     font::DrawBoundedString(
       *(font **)(v2 + 32),
-      *(const char **)(*(_DWORD *)(v2 + 64) + 4 * v10),
+      *(char **)(*(_DWORD *)(v2 + 64) + 4 * v10),
       *(_WORD *)(v2 + 130) + *(_DWORD *)(*(_DWORD *)(v2 + 4) + 40) + 5,
       v7 + 2,
       *(_WORD *)(v2 + 134) - 10,
@@ -113187,13 +113143,13 @@ LABEL_7:
       goto LABEL_18;
     }
     *(_DWORD *)(a1 - 142) = 3;
-    if ( fabs(result) > 1.797693134862316e308 )
-      result = result * 1.797693134862316e308;
+    if ( fabs(result) > maxdouble1 )
+      result = result * maxdouble2;
   }
   else
   {
     *(_DWORD *)(a1 - 142) = 4;
-    if ( fabs(result) < 2.225073858507201e-308 )
+    if ( fabs(result) < mindouble1 )
       result = result * 0.0;
   }
 LABEL_18:
