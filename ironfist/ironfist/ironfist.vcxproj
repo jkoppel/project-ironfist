@@ -110,6 +110,7 @@
     <ClCompile Include="..\src\cpp\game\game.cpp" />
     <ClCompile Include="..\src\cpp\game\map_xml.cxx" />
     <ClCompile Include="..\src\cpp\game\save.cpp" />
+    <ClCompile Include="..\src\cpp\game\sound.cpp" />
     <ClCompile Include="..\src\cpp\gui\dialog.cpp" />
     <ClCompile Include="..\src\cpp\gui\msg.cpp" />
     <ClCompile Include="..\src\cpp\init.cpp" />

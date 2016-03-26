@@ -246,6 +246,9 @@
     <ClCompile Include="..\src\cpp\adventure\map_events.cpp">
       <Filter>Source Files\adventure</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\game\sound.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\stdafx.h">
