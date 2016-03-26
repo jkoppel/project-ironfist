@@ -1,6 +1,8 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ironfist_vs", "ironfist.vcxproj", "{A9FE2D03-4A23-4595-88C1-BBB1B9217B1A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "editor_vs", "..\editor_vs\editor_vs.vcxproj", "{F0415D0D-50FD-433E-9A32-075398C90660}"
