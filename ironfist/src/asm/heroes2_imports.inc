@@ -134,6 +134,10 @@ IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
 
+;;game loop - windows messaging (for lowering cpu usage)
+IMPORT_?Process1WindowsMessage@@YIXXZ = 1
+?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
+
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
 IMPORT_?AddSpell@hero@@QAEXHH@Z = 1
