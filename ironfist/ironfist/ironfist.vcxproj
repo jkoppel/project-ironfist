@@ -201,6 +201,7 @@
     <ClInclude Include="..\src\cpp\msg.h" />
     <ClInclude Include="..\src\cpp\mss32.h" />
     <ClInclude Include="..\src\cpp\prefs.h" />
+    <ClInclude Include="..\src\cpp\registry_prefs.h" />
     <ClInclude Include="..\src\cpp\resource\resourceManager.h" />
     <ClInclude Include="..\src\cpp\resource\resources.h" />
     <ClInclude Include="..\src\cpp\scripting\hook.h" />

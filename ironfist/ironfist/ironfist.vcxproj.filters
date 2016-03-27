@@ -422,6 +422,9 @@
     <ClInclude Include="..\src\cpp\adventure\terrain.h">
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\cpp\registry_prefs.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\asm\heroes2_imports.inc">
