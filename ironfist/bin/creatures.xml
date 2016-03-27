@@ -1,382 +1,356 @@
-<?xml version="1.0"?>
-<creatures xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="creatures_xml.xsd">
+<creatures>
     <creature id="0" name-singular="peasant" name-plural="peasants" icn="peasant.icn" frm="peas_frm.bin" cost="20" fight-value="33" fight-value-aux="17" growth="12" hp="1" faction="0" speed="2" attack="1" defense="1" shots="0" short-name="psnt">
-        <damage minimum="1" maximum="1"/>
-        <random-spawn minimum="40" maximum="80"/>
+        <range name="damage" min="1" max="1"/>
+        <range name="random-spawn" min="40" max="80"/>
     </creature>
     <creature id="1" name-singular="archer" name-plural="archers" icn="archer.icn" frm="archrfrm.bin" cost="150" fight-value="312" fight-value-aux="21" growth="8" hp="10" faction="0" speed="2" attack="5" defense="3" shots="12" short-name="arch">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="20" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="20" max="30"/>
     </creature>
     <creature id="2" name-singular="ranger" name-plural="rangers" icn="archer2.icn" frm="archrfrm.bin" cost="200" fight-value="463" fight-value-aux="23" growth="8" hp="10" faction="0" speed="4" attack="5" defense="3" shots="24" short-name="arch">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="20" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="20" max="30"/>
     </creature>
     <creature id="3" name-singular="pikeman" name-plural="pikemen" icn="pikeman.icn" frm="pikmnfrm.bin" cost="200" fight-value="639" fight-value-aux="32" growth="5" hp="15" faction="0" speed="4" attack="5" defense="9" shots="0" short-name="pike">
-        <damage minimum="3" maximum="4"/>
-        <random-spawn minimum="20" maximum="30"/>
+        <range name="damage" min="3" max="4"/>
+        <range name="random-spawn" min="20" max="30"/>
     </creature>
     <creature id="4" name-singular="veteran pikeman" name-plural="veteran pikemen" icn="pikeman2.icn" frm="pikmnfrm.bin" cost="250" fight-value="824" fight-value-aux="33" growth="5" hp="20" faction="0" speed="5" attack="5" defense="9" shots="0" short-name="pike">
-        <damage minimum="3" maximum="4"/>
-        <random-spawn minimum="20" maximum="30"/>
+        <range name="damage" min="3" max="4"/>
+        <range name="random-spawn" min="20" max="30"/>
     </creature>
     <creature id="5" name-singular="swordsman" name-plural="swordsmen" icn="swordsmn.icn" frm="swrdsfrm.bin" cost="250" fight-value="1130" fight-value-aux="45" growth="4" hp="25" faction="0" speed="4" attack="7" defense="9" shots="0" short-name="swdm">
-        <damage minimum="4" maximum="6"/>
-        <random-spawn minimum="12" maximum="25"/>
+        <range name="damage" min="4" max="6"/>
+        <range name="random-spawn" min="12" max="25"/>
     </creature>
     <creature id="6" name-singular="master swordsman" name-plural="master swordsmen" icn="swordsm2.icn" frm="swrdsfrm.bin" cost="300" fight-value="1350" fight-value-aux="45" growth="4" hp="30" faction="0" speed="5" attack="7" defense="9" shots="0" short-name="swdm">
-        <damage minimum="4" maximum="6"/>
-        <random-spawn minimum="12" maximum="25"/>
+        <range name="damage" min="4" max="6"/>
+        <range name="random-spawn" min="12" max="25"/>
     </creature>
     <creature id="7" name-singular="cavalry" name-plural="cavalries" icn="cavalryr.icn" frm="cvlryfrm.bin" cost="300" fight-value="1830" fight-value-aux="61" growth="3" hp="30" faction="0" speed="6" attack="10" defense="9" shots="0" short-name="cavl">
-        <damage minimum="5" maximum="10"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="10" maximum="18"/>
+        <range name="damage" min="5" max="10"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="10" max="18"/>
     </creature>
     <creature id="8" name-singular="champion" name-plural="champions" icn="cavalryb.icn" frm="cvlr2frm.bin" cost="375" fight-value="2273" fight-value-aux="61" growth="3" hp="40" faction="0" speed="7" attack="10" defense="9" shots="0" short-name="cavl">
-        <damage minimum="5" maximum="10"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="8" maximum="16"/>
+        <range name="damage" min="5" max="10"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="8" max="16"/>
     </creature>
     <creature id="9" name-singular="paladin" name-plural="paladins" icn="paladin.icn" frm="paladfrm.bin" cost="600" fight-value="4704" fight-value-aux="78" growth="2" hp="50" faction="0" speed="5" attack="11" defense="12" shots="0" short-name="pldn">
-        <damage minimum="10" maximum="20"/>
-        <random-spawn minimum="6" maximum="12"/>
+        <range name="damage" min="10" max="20"/>
+        <range name="random-spawn" min="6" max="12"/>
     </creature>
     <creature id="10" name-singular="crusader" name-plural="crusaders" icn="paladin2.icn" frm="paladfrm.bin" cost="1000" fight-value="5822" fight-value-aux="58" growth="2" hp="65" faction="0" speed="6" attack="11" defense="12" shots="0" short-name="pldn">
-        <damage minimum="10" maximum="20"/>
-        <random-spawn minimum="6" maximum="10"/>
+        <range name="damage" min="10" max="20"/>
+        <range name="random-spawn" min="6" max="10"/>
     </creature>
     <creature id="11" name-singular="goblin" name-plural="goblins" icn="goblin.icn" frm="goblnfrm.bin" cost="40" fight-value="109" fight-value-aux="27" growth="10" hp="3" faction="1" speed="4" attack="3" defense="1" shots="0" short-name="gbln">
-        <damage minimum="1" maximum="2"/>
-        <random-spawn minimum="25" maximum="40"/>
+        <range name="damage" min="1" max="2"/>
+        <range name="random-spawn" min="25" max="40"/>
     </creature>
     <creature id="12" name-singular="orc" name-plural="orcs" icn="orc.icn" frm="orc__frm.bin" cost="140" fight-value="299" fight-value-aux="21" growth="8" hp="10" faction="1" speed="2" attack="3" defense="4" shots="8" short-name="elf_">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="15" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="15" max="30"/>
     </creature>
     <creature id="13" name-singular="orc chief" name-plural="orc chiefs" icn="orc2.icn" frm="orc__frm.bin" cost="175" fight-value="512" fight-value-aux="29" growth="8" hp="15" faction="1" speed="3" attack="3" defense="4" shots="16" short-name="elf_">
-        <damage minimum="3" maximum="4"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="15" maximum="30"/>
+        <range name="damage" min="3" max="4"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="15" max="30"/>
     </creature>
     <creature id="14" name-singular="wolf" name-plural="wolves" icn="wolf.icn" frm="wolf_frm.bin" cost="200" fight-value="865" fight-value-aux="43" growth="5" hp="20" faction="1" speed="6" attack="6" defense="2" shots="0" short-name="wolf">
-        <damage minimum="3" maximum="5"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="20" maximum="35"/>
+        <range name="damage" min="3" max="5"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="20" max="35"/>
     </creature>
     <creature id="15" name-singular="ogre" name-plural="ogres" icn="ogre.icn" frm="ogre_frm.bin" cost="300" fight-value="1065" fight-value-aux="36" growth="4" hp="40" faction="1" speed="2" attack="9" defense="5" shots="0" short-name="ogre">
-        <damage minimum="4" maximum="6"/>
-        <random-spawn minimum="12" maximum="25"/>
+        <range name="damage" min="4" max="6"/>
+        <range name="random-spawn" min="12" max="25"/>
     </creature>
     <creature id="16" name-singular="ogre lord" name-plural="ogre lords" icn="ogre2.icn" frm="ogre_frm.bin" cost="500" fight-value="2070" fight-value-aux="41" growth="4" hp="60" faction="1" speed="4" attack="9" defense="5" shots="0" short-name="ogre">
-        <damage minimum="5" maximum="7"/>
-        <random-spawn minimum="10" maximum="20"/>
+        <range name="damage" min="5" max="7"/>
+        <range name="random-spawn" min="10" max="20"/>
     </creature>
     <creature id="17" name-singular="troll" name-plural="trolls" icn="troll.icn" frm="trollfrm.bin" cost="600" fight-value="1921" fight-value-aux="32" growth="3" hp="40" faction="1" speed="4" attack="10" defense="5" shots="8" short-name="trll">
-        <damage minimum="5" maximum="7"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="7" maximum="10"/>
+        <range name="damage" min="5" max="7"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="7" max="10"/>
     </creature>
     <creature id="18" name-singular="war troll" name-plural="war trolls" icn="troll2.icn" frm="trollfrm.bin" cost="700" fight-value="2337" fight-value-aux="33" growth="3" hp="40" faction="1" speed="5" attack="10" defense="5" shots="16" short-name="trll">
-        <damage minimum="7" maximum="9"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="7" maximum="10"/>
+        <range name="damage" min="7" max="9"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="7" max="10"/>
     </creature>
     <creature id="19" name-singular="cyclops" name-plural="cyclopes" icn="cyclops.icn" frm="cyclofrm.bin" cost="750" fight-value="6074" fight-value-aux="58" growth="2" hp="80" faction="1" speed="5" attack="12" defense="9" shots="0" short-name="cycl">
-        <damage minimum="12" maximum="24"/>
-        <creature-attribute name="two-hex-attack"/>
-        <random-spawn minimum="5" maximum="7"/>
+        <range name="damage" min="12" max="24"/>
+        <creature-flag name="two-hex-attack"/>
+        <range name="random-spawn" min="5" max="7"/>
     </creature>
     <creature id="20" name-singular="sprite" name-plural="sprites" icn="sprite.icn" frm="spritfrm.bin" cost="50" fight-value="129" fight-value-aux="26" growth="8" hp="2" faction="2" speed="4" attack="4" defense="2" shots="0" short-name="sprt">
-        <damage minimum="1" maximum="2"/>
-        <creature-attribute name="flies"/>
-        <random-spawn minimum="25" maximum="45"/>
+        <range name="damage" min="1" max="2"/>
+        <creature-flag name="flies"/>
+        <range name="random-spawn" min="25" max="45"/>
     </creature>
     <creature id="21" name-singular="dwarf" name-plural="dwarves" icn="dwarf.icn" frm="dwarffrm.bin" cost="200" fight-value="500" fight-value-aux="25" growth="6" hp="20" faction="2" speed="2" attack="6" defense="5" shots="0" short-name="dwrf">
-        <damage minimum="2" maximum="4"/>
-        <random-spawn minimum="12" maximum="25"/>
+        <range name="damage" min="2" max="4"/>
+        <range name="random-spawn" min="12" max="25"/>
     </creature>
     <creature id="22" name-singular="battle dwarf" name-plural="battle dwarves" icn="dwarf2.icn" frm="dwarffrm.bin" cost="250" fight-value="716" fight-value-aux="29" growth="6" hp="20" faction="2" speed="4" attack="6" defense="6" shots="0" short-name="dwrf">
-        <damage minimum="2" maximum="4"/>
-        <random-spawn minimum="10" maximum="22"/>
+        <range name="damage" min="2" max="4"/>
+        <range name="random-spawn" min="10" max="22"/>
     </creature>
     <creature id="23" name-singular="elf" name-plural="elves" icn="elf.icn" frm="elf__frm.bin" cost="250" fight-value="554" fight-value-aux="22" growth="4" hp="15" faction="2" speed="4" attack="4" defense="3" shots="24" short-name="elf_">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="15" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="15" max="30"/>
     </creature>
     <creature id="24" name-singular="grand elf" name-plural="grand elves" icn="elf2.icn" frm="elf__frm.bin" cost="300" fight-value="658" fight-value-aux="22" growth="4" hp="15" faction="2" speed="6" attack="5" defense="5" shots="24" short-name="elf_">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="12" maximum="28"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="12" max="28"/>
     </creature>
     <creature id="25" name-singular="druid" name-plural="druids" icn="druid.icn" frm="druidfrm.bin" cost="350" fight-value="1290" fight-value-aux="37" growth="3" hp="25" faction="2" speed="5" attack="7" defense="5" shots="8" short-name="drui">
-        <damage minimum="5" maximum="8"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="10" maximum="25"/>
+        <range name="damage" min="5" max="8"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="10" max="25"/>
     </creature>
     <creature id="26" name-singular="greater druid" name-plural="greater druids" icn="druid2.icn" frm="druidfrm.bin" cost="400" fight-value="1428" fight-value-aux="36" growth="3" hp="25" faction="2" speed="6" attack="7" defense="7" shots="16" short-name="drui">
-        <damage minimum="5" maximum="8"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="10" maximum="20"/>
+        <range name="damage" min="5" max="8"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="10" max="20"/>
     </creature>
     <creature id="27" name-singular="unicorn" name-plural="unicorns" icn="unicorn.icn" frm="unicofrm.bin" cost="500" fight-value="2702" fight-value-aux="54" growth="2" hp="40" faction="2" speed="5" attack="10" defense="9" shots="0" short-name="unic">
-        <damage minimum="7" maximum="14"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="8" maximum="15"/>
+        <range name="damage" min="7" max="14"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="8" max="15"/>
     </creature>
     <creature id="28" name-singular="phoenix" name-plural="phoenixes" icn="phoenix.icn" frm="phoenfrm.bin" cost="1500" fight-value="10114" fight-value-aux="56" growth="1" hp="100" faction="2" speed="7" attack="12" defense="10" shots="0" short-name="phoe">
-        <damage minimum="20" maximum="40"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="two-hex-attack"/>
-        <random-spawn minimum="7" maximum="12"/>
+        <range name="damage" min="20" max="40"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="two-hex-attack"/>
+        <range name="random-spawn" min="7" max="12"/>
     </creature>
     <creature id="29" name-singular="centaur" name-plural="centaurs" icn="centaur.icn" frm="centrfrm.bin" cost="60" fight-value="154" fight-value-aux="26" growth="8" hp="5" faction="3" speed="4" attack="3" defense="1" shots="8" short-name="cntr">
-        <damage minimum="1" maximum="2"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="20" maximum="50"/>
+        <range name="damage" min="1" max="2"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="20" max="50"/>
     </creature>
     <creature id="30" name-singular="gargoyle" name-plural="gargoyles" icn="gargoyle.icn" frm="garglfrm.bin" cost="200" fight-value="579" fight-value-aux="29" growth="6" hp="15" faction="3" speed="6" attack="4" defense="7" shots="0" short-name="garg">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="flies"/>
-        <random-spawn minimum="15" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="flies"/>
+        <range name="random-spawn" min="15" max="30"/>
     </creature>
     <creature id="31" name-singular="griffin" name-plural="griffins" icn="griffin.icn" frm="grifffrm.bin" cost="300" fight-value="1101" fight-value-aux="37" growth="4" hp="25" faction="3" speed="4" attack="6" defense="6" shots="0" short-name="grif">
-        <damage minimum="3" maximum="5"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="flies"/>
-        <random-spawn minimum="12" maximum="25"/>
+        <range name="damage" min="3" max="5"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="flies"/>
+        <range name="random-spawn" min="12" max="25"/>
     </creature>
     <creature id="32" name-singular="minotaur" name-plural="minotaurs" icn="minotaur.icn" frm="minotfrm.bin" cost="400" fight-value="1751" fight-value-aux="44" growth="3" hp="35" faction="3" speed="4" attack="9" defense="8" shots="0" short-name="mino">
-        <damage minimum="5" maximum="10"/>
-        <random-spawn minimum="10" maximum="16"/>
+        <range name="damage" min="5" max="10"/>
+        <range name="random-spawn" min="10" max="16"/>
     </creature>
     <creature id="33" name-singular="minotaur king" name-plural="minotaur kings" icn="minotau2.icn" frm="minotfrm.bin" cost="500" fight-value="2252" fight-value-aux="45" growth="3" hp="45" faction="3" speed="6" attack="9" defense="8" shots="0" short-name="mino">
-        <damage minimum="5" maximum="10"/>
-        <random-spawn minimum="9" maximum="16"/>
+        <range name="damage" min="5" max="10"/>
+        <range name="random-spawn" min="9" max="16"/>
     </creature>
     <creature id="34" name-singular="hydra" name-plural="hydras" icn="hydra.icn" frm="hydrafrm.bin" cost="800" fight-value="2878" fight-value-aux="36" growth="2" hp="75" faction="3" speed="2" attack="8" defense="9" shots="0" short-name="hydr">
-        <damage minimum="6" maximum="12"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="7" maximum="10"/>
+        <range name="damage" min="6" max="12"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="7" max="10"/>
     </creature>
     <creature id="35" name-singular="green dragon" name-plural="green dragons" icn="draggree.icn" frm="draggfrm.bin" cost="3000" fight-value="18153" fight-value-aux="55" growth="1" hp="200" faction="3" speed="4" attack="12" defense="12" shots="0" short-name="drgn">
-        <damage minimum="25" maximum="50"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="two-hex-attack"/>
-        <random-spawn minimum="4" maximum="7"/>
+        <range name="damage" min="25" max="50"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="two-hex-attack"/>
+        <range name="random-spawn" min="4" max="7"/>
     </creature>
-    <creature id="36" name-singular="red dragon" name-plural="red dragons" icn="dragred.icn" frm="dragrfrm.bin" cost="3500" fight-value="22962" fight-value-aux="68" growth="1" hp="250" faction="3" speed="5" attack="13" defense="13" shots="0" short-name="drgn">
-        <damage minimum="25" maximum="50"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="two-hex-attack"/>
-        <random-spawn minimum="3" maximum="7"/>
+    <creature id="36" name-singular="red dragon" name-plural="red dragons" icn="dragred.icn" frm="draggfrm.bin" cost="3500" fight-value="22962" fight-value-aux="68" growth="1" hp="250" faction="3" speed="5" attack="13" defense="13" shots="0" short-name="drgn">
+        <range name="damage" min="25" max="50"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="two-hex-attack"/>
+        <range name="random-spawn" min="3" max="7"/>
     </creature>
-    <creature id="37" name-singular="black dragon" name-plural="black dragons" icn="dragblak.icn" frm="dragbfrm.bin" cost="4000" fight-value="28144" fight-value-aux="74" growth="1" hp="300" faction="3" speed="6" attack="14" defense="14" shots="0" short-name="drgn">
-        <damage minimum="25" maximum="50"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="two-hex-attack"/>
-        <random-spawn minimum="3" maximum="7"/>
+    <creature id="37" name-singular="black dragon" name-plural="black dragons" icn="dragblak.icn" frm="draggfrm.bin" cost="4000" fight-value="28144" fight-value-aux="74" growth="1" hp="300" faction="3" speed="6" attack="14" defense="14" shots="0" short-name="drgn">
+        <range name="damage" min="25" max="50"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="two-hex-attack"/>
+        <range name="random-spawn" min="3" max="7"/>
     </creature>
     <creature id="38" name-singular="halfling" name-plural="halflings" icn="halfling.icn" frm="halflfrm.bin" cost="50" fight-value="134" fight-value-aux="27" growth="8" hp="3" faction="4" speed="3" attack="2" defense="1" shots="12" short-name="half">
-        <damage minimum="1" maximum="3"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="20" maximum="50"/>
+        <range name="damage" min="1" max="3"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="20" max="50"/>
     </creature>
     <creature id="39" name-singular="boar" name-plural="boars" icn="boar.icn" frm="boar_frm.bin" cost="150" fight-value="493" fight-value-aux="33" growth="6" hp="15" faction="4" speed="6" attack="5" defense="4" shots="0" short-name="boar">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="15" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="15" max="30"/>
     </creature>
     <creature id="40" name-singular="iron golem" name-plural="iron golems" icn="golem.icn" frm="golemfrm.bin" cost="300" fight-value="951" fight-value-aux="19" growth="4" hp="30" faction="4" speed="2" attack="5" defense="10" shots="0" short-name="golm">
-        <damage minimum="4" maximum="5"/>
-        <random-spawn minimum="10" maximum="25"/>
+        <range name="damage" min="4" max="5"/>
+        <range name="random-spawn" min="10" max="25"/>
     </creature>
     <creature id="41" name-singular="steel golem" name-plural="steel golems" icn="golem2.icn" frm="golemfrm.bin" cost="350" fight-value="1324" fight-value-aux="24" growth="4" hp="35" faction="4" speed="3" attack="7" defense="10" shots="0" short-name="golm">
-        <damage minimum="4" maximum="5"/>
-        <random-spawn minimum="10" maximum="22"/>
+        <range name="damage" min="4" max="5"/>
+        <range name="random-spawn" min="10" max="22"/>
     </creature>
     <creature id="42" name-singular="roc" name-plural="rocs" icn="roc.icn" frm="roc__frm.bin" cost="400" fight-value="1739" fight-value-aux="43" growth="3" hp="40" faction="4" speed="4" attack="7" defense="7" shots="0" short-name="roc_">
-        <damage minimum="4" maximum="8"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="flies"/>
-        <random-spawn minimum="10" maximum="16"/>
+        <range name="damage" min="4" max="8"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="flies"/>
+        <range name="random-spawn" min="10" max="16"/>
     </creature>
     <creature id="43" name-singular="mage" name-plural="magi" icn="mage1.icn" frm="mage1frm.bin" cost="600" fight-value="1935" fight-value-aux="32" growth="2" hp="30" faction="4" speed="5" attack="11" defense="7" shots="12" short-name="mage">
-        <damage minimum="7" maximum="9"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="8" maximum="12"/>
+        <range name="damage" min="7" max="9"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="8" max="12"/>
     </creature>
     <creature id="44" name-singular="archmage" name-plural="archmagi" icn="mage2.icn" frm="mage1frm.bin" cost="700" fight-value="2469" fight-value-aux="35" growth="2" hp="35" faction="4" speed="6" attack="12" defense="8" shots="24" short-name="mage">
-        <damage minimum="7" maximum="9"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="7" maximum="11"/>
+        <range name="damage" min="7" max="9"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="7" max="11"/>
     </creature>
     <creature id="45" name-singular="giant" name-plural="giants" icn="titanblu.icn" frm="titanfrm.bin" cost="2000" fight-value="9589" fight-value-aux="42" growth="1" hp="150" faction="4" speed="4" attack="13" defense="10" shots="0" short-name="titn">
-        <damage minimum="20" maximum="30"/>
-        <random-spawn minimum="5" maximum="8"/>
+        <range name="damage" min="20" max="30"/>
+        <range name="random-spawn" min="5" max="8"/>
     </creature>
     <creature id="46" name-singular="titan" name-plural="titans" icn="titanbla.icn" frm="tita2frm.bin" cost="5000" fight-value="22933" fight-value-aux="79" growth="1" hp="300" faction="4" speed="6" attack="15" defense="15" shots="24" short-name="titn">
-        <damage minimum="20" maximum="30"/>
-        <creature-attribute name="shoots"/>
-        <random-spawn minimum="3" maximum="7"/>
+        <range name="damage" min="20" max="30"/>
+        <creature-flag name="shoots"/>
+        <range name="random-spawn" min="3" max="7"/>
     </creature>
     <creature id="47" name-singular="skeleton" name-plural="skeletons" icn="skeleton.icn" frm="skel_frm.bin" cost="75" fight-value="203" fight-value-aux="27" growth="8" hp="4" faction="5" speed="4" attack="4" defense="3" shots="0" short-name="skel">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="20" maximum="50"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="20" max="50"/>
     </creature>
     <creature id="48" name-singular="zombie" name-plural="zombies" icn="zombie.icn" frm="zomb_frm.bin" cost="150" fight-value="310" fight-value-aux="21" growth="6" hp="15" faction="5" speed="2" attack="5" defense="2" shots="0" short-name="zomb">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="15" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="15" max="30"/>
     </creature>
     <creature id="49" name-singular="mutant zombie" name-plural="mutant zombies" icn="zombie2.icn" frm="zomb_frm.bin" cost="200" fight-value="506" fight-value-aux="25" growth="6" hp="20" faction="5" speed="4" attack="5" defense="2" shots="0" short-name="zomb">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="15" maximum="30"/>
+        <range name="damage" min="2" max="3"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="15" max="30"/>
     </creature>
     <creature id="50" name-singular="mummy" name-plural="mummies" icn="mummyw.icn" frm="mummyfrm.bin" cost="250" fight-value="868" fight-value-aux="35" growth="4" hp="25" faction="5" speed="4" attack="6" defense="6" shots="0" short-name="mumy">
-        <damage minimum="3" maximum="4"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="10" maximum="25"/>
+        <range name="damage" min="3" max="4"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="10" max="25"/>
     </creature>
     <creature id="51" name-singular="royal mummy" name-plural="royal mummies" icn="mummy2.icn" frm="mummyfrm.bin" cost="300" fight-value="1056" fight-value-aux="35" growth="4" hp="30" faction="5" speed="5" attack="6" defense="6" shots="0" short-name="mumy">
-        <damage minimum="3" maximum="4"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="10" maximum="25"/>
+        <range name="damage" min="3" max="4"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="10" max="25"/>
     </creature>
     <creature id="52" name-singular="vampire" name-plural="vampires" icn="vampire.icn" frm="vampifrm.bin" cost="500" fight-value="1685" fight-value-aux="42" growth="3" hp="30" faction="5" speed="4" attack="8" defense="6" shots="0" short-name="vamp">
-        <damage minimum="5" maximum="7"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="8" maximum="12"/>
+        <range name="damage" min="5" max="7"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="8" max="12"/>
     </creature>
     <creature id="53" name-singular="vampire lord" name-plural="vampire lords" icn="vampire2.icn" frm="vampifrm.bin" cost="650" fight-value="2461" fight-value-aux="45" growth="3" hp="40" faction="5" speed="5" attack="8" defense="6" shots="0" short-name="vamp">
-        <damage minimum="5" maximum="7"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="8" maximum="12"/>
+        <range name="damage" min="5" max="7"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="8" max="12"/>
     </creature>
     <creature id="54" name-singular="lich" name-plural="liches" icn="lich.icn" frm="lich_frm.bin" cost="750" fight-value="2069" fight-value-aux="28" growth="2" hp="25" faction="5" speed="5" attack="7" defense="12" shots="12" short-name="lich">
-        <damage minimum="8" maximum="10"/>
-        <creature-attribute name="shoots"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="6" maximum="10"/>
+        <range name="damage" min="8" max="10"/>
+        <creature-flag name="shoots"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="6" max="10"/>
     </creature>
     <creature id="55" name-singular="power lich" name-plural="power liches" icn="lich2.icn" frm="lich_frm.bin" cost="900" fight-value="2625" fight-value-aux="29" growth="2" hp="35" faction="5" speed="6" attack="7" defense="13" shots="24" short-name="lich">
-        <damage minimum="8" maximum="10"/>
-        <creature-attribute name="shoots"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="6" maximum="10"/>
+        <range name="damage" min="8" max="10"/>
+        <creature-flag name="shoots"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="6" max="10"/>
     </creature>
     <creature id="56" name-singular="bone dragon" name-plural="bone dragons" icn="dragbone.icn" frm="drabnfrm.bin" cost="1500" fight-value="11744" fight-value-aux="78" growth="1" hp="150" faction="5" speed="4" attack="11" defense="9" shots="0" short-name="drgn">
-        <damage minimum="25" maximum="45"/>
-        <creature-attribute name="two-hex"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="4" maximum="8"/>
+        <range name="damage" min="25" max="45"/>
+        <creature-flag name="two-hex"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="4" max="8"/>
     </creature>
     <creature id="57" name-singular="rogue" name-plural="rogues" icn="rogue.icn" frm="roguefrm.bin" cost="50" fight-value="177" fight-value-aux="35" growth="12" hp="4" faction="6" speed="5" attack="6" defense="1" shots="0" short-name="rogu">
-        <damage minimum="1" maximum="2"/>
-        <random-spawn minimum="20" maximum="40"/>
+        <range name="damage" min="1" max="2"/>
+        <range name="random-spawn" min="20" max="40"/>
     </creature>
     <creature id="58" name-singular="nomad" name-plural="nomads" icn="nomad.icn" frm="nomadfrm.bin" cost="200" fight-value="805" fight-value-aux="40" growth="4" hp="20" faction="6" speed="6" attack="7" defense="6" shots="0" short-name="nmad">
-        <damage minimum="2" maximum="5"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="12" maximum="25"/>
+        <range name="damage" min="2" max="5"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="12" max="25"/>
     </creature>
     <creature id="59" name-singular="ghost" name-plural="ghosts" icn="ghost.icn" frm="ghostfrm.bin" cost="1000" fight-value="1545" fight-value-aux="62" growth="3" hp="20" faction="6" speed="5" attack="8" defense="7" shots="0" short-name="ghst">
-        <damage minimum="4" maximum="6"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="undead"/>
-        <random-spawn minimum="10" maximum="20"/>
+        <range name="damage" min="4" max="6"/>
+        <creature-flag name="flies"/>
+        <creature-flag name="undead"/>
+        <range name="random-spawn" min="10" max="20"/>
     </creature>
     <creature id="60" name-singular="genie" name-plural="genies" icn="genie.icn" frm="geniefrm.bin" cost="650" fight-value="5692" fight-value-aux="60" growth="2" hp="50" faction="6" speed="6" attack="10" defense="9" shots="0" short-name="geni">
-        <damage minimum="20" maximum="30"/>
-        <creature-attribute name="flies"/>
-        <random-spawn minimum="5" maximum="10"/>
+        <range name="damage" min="20" max="30"/>
+        <creature-flag name="flies"/>
+        <range name="random-spawn" min="5" max="10"/>
     </creature>
     <creature id="61" name-singular="medusa" name-plural="medusas" icn="medusa.icn" frm="medusfrm.bin" cost="500" fight-value="1979" fight-value-aux="40" growth="5" hp="35" faction="6" speed="4" attack="8" defense="9" shots="0" short-name="meds">
-        <damage minimum="6" maximum="10"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="12" maximum="20"/>
+        <range name="damage" min="6" max="10"/>
+        <creature-flag name="two-hex"/>
+        <range name="random-spawn" min="12" max="20"/>
     </creature>
     <creature id="62" name-singular="earth elemental" name-plural="earth elementals" icn="eelem.icn" frm="felemfrm.bin" cost="500" fight-value="1732" fight-value-aux="35" growth="3" hp="50" faction="6" speed="3" attack="8" defense="8" shots="0" short-name="eelm">
-        <damage minimum="4" maximum="5"/>
-        <random-spawn minimum="13" maximum="25"/>
+        <range name="damage" min="4" max="5"/>
+        <range name="random-spawn" min="13" max="25"/>
     </creature>
-    <creature id="63" name-singular="air elemental" name-plural="air elementals" icn="aelem.icn" frm="felemfrm.bin" cost="500" fight-value="1412" fight-value-aux="28" growth="3" hp="35" faction="6" speed="6" attack="7" defense="7" shots="0" short-name="aelm">
-        <damage minimum="2" maximum="8"/>
-        <random-spawn minimum="13" maximum="25"/>
+    <creature id="63" name-singular="air elemental" name-plural="air elementals" icn="felem.icn" frm="felemfrm.bin" cost="500" fight-value="1412" fight-value-aux="28" growth="3" hp="35" faction="6" speed="6" attack="7" defense="7" shots="0" short-name="aelm">
+        <range name="damage" min="2" max="8"/>
+        <range name="random-spawn" min="13" max="25"/>
     </creature>
-    <creature id="64" name-singular="fire elemental" name-plural="fire elementals" icn="felem.icn" frm="felemfrm.bin" cost="500" fight-value="1501" fight-value-aux="30" growth="3" hp="40" faction="6" speed="5" attack="8" defense="6" shots="0" short-name="felm">
-        <damage minimum="4" maximum="6"/>
-        <random-spawn minimum="13" maximum="25"/>
+    <creature id="64" name-singular="fire elemental" name-plural="fire elementals" icn="aelem.icn" frm="felemfrm.bin" cost="500" fight-value="1501" fight-value-aux="30" growth="3" hp="40" faction="6" speed="5" attack="8" defense="6" shots="0" short-name="felm">
+        <range name="damage" min="4" max="6"/>
+        <range name="random-spawn" min="13" max="25"/>
     </creature>
     <creature id="65" name-singular="water elemental" name-plural="water elementals" icn="welem.icn" frm="felemfrm.bin" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="45" faction="6" speed="4" attack="6" defense="8" shots="0" short-name="welm">
-        <damage minimum="3" maximum="7"/>
-        <random-spawn minimum="13" maximum="25"/>
+        <range name="damage" min="3" max="7"/>
+        <range name="random-spawn" min="13" max="25"/>
     </creature>
     <creature id="66" name-singular="" name-plural="" icn="" frm="" cost="0" fight-value="0" fight-value-aux="0" growth="0" hp="0" faction="0" speed="0" attack="0" defense="0" shots="0" short-name="">
-        <damage minimum="0" maximum="0"/>
-        <random-spawn minimum="3" maximum="3"/>
+        <range name="damage" min="0" max="0"/>
+        <range name="random-spawn" min="3" max="3"/>
     </creature>
     <creature id="67" name-singular="" name-plural="" icn="" frm="" cost="0" fight-value="0" fight-value-aux="0" growth="0" hp="0" faction="0" speed="0" attack="0" defense="0" shots="0" short-name="">
-        <damage minimum="0" maximum="0"/>
-        <random-spawn minimum="3" maximum="3"/>
+        <range name="damage" min="0" max="0"/>
+        <range name="random-spawn" min="3" max="3"/>
     </creature>
     <creature id="68" name-singular="" name-plural="" icn="" frm="" cost="0" fight-value="0" fight-value-aux="0" growth="0" hp="0" faction="0" speed="0" attack="0" defense="0" shots="0" short-name="">
-        <damage minimum="0" maximum="0"/>
-        <random-spawn minimum="3" maximum="3"/>
+        <range name="damage" min="0" max="0"/>
+        <range name="random-spawn" min="3" max="3"/>
     </creature>
     <creature id="69" name-singular="" name-plural="" icn="" frm="" cost="0" fight-value="0" fight-value-aux="0" growth="0" hp="0" faction="0" speed="0" attack="0" defense="0" shots="0" short-name="">
-        <damage minimum="0" maximum="0"/>
-        <random-spawn minimum="3" maximum="3"/>
+        <range name="damage" min="0" max="0"/>
+        <range name="random-spawn" min="3" max="3"/>
     </creature>
     <creature id="70" name-singular="" name-plural="" icn="" frm="" cost="0" fight-value="0" fight-value-aux="0" growth="0" hp="0" faction="0" speed="0" attack="0" defense="0" shots="0" short-name="">
-        <damage minimum="0" maximum="0"/>
-        <random-spawn minimum="3" maximum="3"/>
+        <range name="damage" min="0" max="0"/>
+        <range name="random-spawn" min="3" max="3"/>
     </creature>
-    <creature id="71" name-singular="" name-plural="" icn="" frm="" cost="0" fight-value="0" fight-value-aux="0" growth="0" hp="0" faction="0" speed="0" attack="0" defense="0" shots="0" short-name="0">
-        <damage minimum="0" maximum="0"/>
-        <random-spawn minimum="3" maximum="3"/>
+    <creature id="71" name-singular="" name-plural="" icn="" frm="" cost="0" fight-value="0" fight-value-aux="0" growth="0" hp="0" faction="0" speed="0" attack="0" defense="0" shots="0" short-name="">
+        <range name="damage" min="0" max="0"/>
+        <range name="random-spawn" min="3" max="3"/>
     </creature>
     <creature id="72" name-singular="kobold" name-plural="kobolds" icn="kobold.icn" frm="kobldfrm.bin" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="45" faction="6" speed="4" attack="6" defense="8" shots="0" short-name="kbld">
-        <damage minimum="3" maximum="7"/>
-        <random-spawn minimum="20" maximum="40"/>
-    </creature>
-    <creature id="73" name-singular="bloodsucker" name-plural="bloodsuckers" icn="bloodsuc.icn" frm="blds_frm.bin" cost="150" fight-value="500" fight-value-aux="20" growth="6" hp="7" faction="6" speed="6" attack="6" defense="1" shots="0" short-name="blsc">
-        <damage minimum="2" maximum="3"/>
-        <creature-attribute name="flies"/>
-        <random-spawn minimum="20" maximum="30"/>
-    </creature> 
-   <creature id="74" name-singular="harpy" name-plural="harpies" icn="harpy.icn" frm="hrpy_frm.bin" cost="200" fight-value="1500" fight-value-aux="20" growth="8" hp="15" faction="6" speed="4" attack="3" defense="3" shots="0" short-name="hrpy">
-        <damage minimum="2" maximum="4"/>
-        <creature-attribute name="flies"/>
-        <creature-attribute name="strike-and-return"/>
-        <random-spawn minimum="3" maximum="22"/>
-    </creature>
-    <creature id="75" name-singular="black knight" name-plural="black knights" icn="blkknght.icn" frm="paladfrm.bin" cost="1000" fight-value="1500" fight-value-aux="20" growth="2" hp="55" faction="6" speed="4" attack="10" defense="10" shots="0" short-name="blkk">
-        <damage minimum="10" maximum="20"/>
-        <random-spawn minimum="3" maximum="3"/>
-    </creature>
-    <creature id="76" name-singular="catoblebas" name-plural="catoblebi" icn="catoble.icn" frm="ctbl_FRM.bin" cost="400" fight-value="1500" fight-value-aux="20" growth="0" hp="20" faction="6" speed="4" attack="6" defense="10" shots="0" short-name="cato">
-        <damage minimum="7" maximum="7"/>
-        <creature-attribute name="two-hex"/>
-        <random-spawn minimum="3" maximum="11"/>
-    </creature>
-    <creature id="77" name-singular="treant" name-plural="treants" icn="treant.icn" frm="dend_frm.bin" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="120" faction="6" speed="2" attack="6" defense="18" shots="0" short-name="dend">
-        <damage minimum="3" maximum="7"/>
-        <random-spawn minimum="10" maximum="20"/>
+        <range name="damage" min="3" max="7"/>
+        <range name="random-spawn" min="20" max="40"/>
     </creature>
 </creatures>
