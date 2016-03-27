@@ -56,7 +56,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\ironfist\src\cpp;..\..\ironfist\src\cpp\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -66,7 +66,6 @@
       <AdditionalLibraryDirectories>..\..\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
-      <Profile>true</Profile>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>
@@ -91,7 +90,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
-      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -107,7 +105,6 @@
     <ClCompile Include="..\src\cpp\combat\creatures_xml.cxx" />
     <ClCompile Include="..\src\cpp\compat.cpp" />
     <ClCompile Include="..\src\cpp\driver.cpp" />
-    <ClCompile Include="..\src\cpp\game\event_loop.cpp" />
     <ClCompile Include="..\src\cpp\game\game.cpp" />
     <ClCompile Include="..\src\cpp\game\map_xml.cxx" />
     <ClCompile Include="..\src\cpp\game\save.cpp" />
@@ -201,7 +198,6 @@
     <ClInclude Include="..\src\cpp\msg.h" />
     <ClInclude Include="..\src\cpp\mss32.h" />
     <ClInclude Include="..\src\cpp\prefs.h" />
-    <ClInclude Include="..\src\cpp\registry_prefs.h" />
     <ClInclude Include="..\src\cpp\resource\resourceManager.h" />
     <ClInclude Include="..\src\cpp\resource\resources.h" />
     <ClInclude Include="..\src\cpp\scripting\hook.h" />
