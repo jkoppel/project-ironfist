@@ -235,7 +235,7 @@ void SaveMapVariables(ironfist_map::map_t& m) {
 	GetNextMapVariable(key, mapVariableId, mapVariableValue);
 	while (mapVariableId != "noMapVariables") {
 		if (mapVariableValue == NULL) {
-			char errorMessage[50];
+			char *errorMessage = (char *)malloc(strlen(mapVariableId) + 37);
 			strcpy(errorMessage, "MapVariable '");
 			strcat(errorMessage, mapVariableId);
 			strcat(errorMessage, "' could not be saved.");
