@@ -6,6 +6,7 @@
 #include "game/map_xml.hxx"
 #include "scripting/scripting.h"
 #include "spell/spells.h"
+#include "gui/dialog.h"
 
 #include<iostream>
 #include<fstream>
@@ -227,6 +228,31 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 	return hx;
 }
 
+void SaveMapVariables(ironfist_map::map_t& m) {
+	int key = -1;
+	const char* mapVariableId;
+	const char* mapVariableValue;
+	GetNextMapVariable(key, mapVariableId, mapVariableValue);
+	while (mapVariableId != "noMapVariables") {
+		if (mapVariableValue == NULL) {
+			char *s1 = "MapVariable '";
+			char *s2 = "' could not be saved.";
+			int len = strlen(mapVariableId) + strlen(s1) + strlen(s2);
+			char *errorMessage = (char *)ALLOC(len);
+			snprintf(errorMessage, len, "%s%s%s", s1, mapVariableId, s2);
+			DisplayError((const char*) errorMessage, "mapVariable Error");
+			FREE(errorMessage);
+		}
+		else {
+			ironfist_map::mapVariable_t A;
+			A.id(mapVariableId);
+			A.value(mapVariableValue);
+			m.mapVariable().push_back(A);
+		}
+		GetNextMapVariable(key, mapVariableId, mapVariableValue);
+	}
+}
+
 void game::LoadGame(char* filnam, int newGame, int a3) {
 	if(newGame) {
 		this->SetupOrigData();
@@ -262,13 +288,12 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			auto_ptr<ironfist_map::map_t> mp = ironfist_map::map(string(v8));
 
 			int i = 0;
-			for(ironfist_map::map_t::hero_const_iterator it = mp->hero().begin();
-				it != mp->hero().end();
-				it++,i++) {
-					ironfist_map::hero_t hx = *it;
-					ReadHeroXML(hx, &this->heroes[i]);
+			for (ironfist_map::map_t::hero_const_iterator it = mp->hero().begin();
+			it != mp->hero().end();
+				it++, i++) {
+				ironfist_map::hero_t hx = *it;
+				ReadHeroXML(hx, &this->heroes[i]);
 			}
-
 
 			int tmp_fd = _open("tmp", O_BINARY | O_CREAT | O_WRONLY);
 			_write(tmp_fd, mp->raw().data(), mp->raw().size());
@@ -382,6 +407,13 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 
 			if (mp->script().present()) {
 				ScriptingInitFromString(mp->script().get().c_str());
+			}
+
+			i = 0;
+			for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
+			it != mp->mapVariable().end();
+				it++, i++) {
+				SetMapVariables(it->id().get().c_str(), it->value().get().c_str());
 			}
 		} catch(xml_schema::exception& e) {
 			cerr << e << endl;
@@ -504,6 +536,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	if (GetScriptContents() != NULL) {
 		m.script(GetScriptContents());
+		SaveMapVariables(m);
 	}
 
 	xml_schema::namespace_infomap infomap;

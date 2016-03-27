@@ -8,13 +8,12 @@
     <xs:attribute name="quantity" type="xs:int"/>
   </xs:complexType>
 
-
   <xs:complexType name="army_t">
     <xs:sequence>
       <xs:element name="slot" type="slot_t" minOccurs="0" maxOccurs="5"/>
     </xs:sequence>
   </xs:complexType>
-  
+
   <xs:complexType name="hero_t">
     <xs:sequence>
       <xs:element name="spellpoints" type="xs:int"/>
@@ -80,19 +79,26 @@
       <xs:element name="field_E8" type="xs:int"/>
     </xs:sequence>
   </xs:complexType>
-  
+
+  <xs:complexType name="mapVariable_t">
+    <xs:attribute name="id" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
   <xs:complexType name="map_t">
     <xs:sequence>
       <xs:element ref="hero" minOccurs="0" maxOccurs="54"/>
-	  <xs:element ref="script" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="mapVariable" minOccurs="0" maxOccurs="10"/>
+      <xs:element ref="script" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="raw"/>
     </xs:sequence>
   </xs:complexType>
 
   <xs:element name="map" type="map_t"/>
   <xs:element name="hero" type="hero_t"/>
+  <xs:element name="mapVariable" type="mapVariable_t"/>
   <xs:element name="raw" type="xs:base64Binary"/>
   <xs:element name="army" type="army_t"/>
   <xs:element name="script" type="xs:string"/>
-  
+
 </xs:schema>
