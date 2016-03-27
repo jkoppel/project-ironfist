@@ -1,3 +1,5 @@
+#include <WinSock2.h>
+
 #include "resource/resourceManager.h"
 #include "base.h"
 #include "combat/combat.h"
@@ -10,6 +12,8 @@
 #include "town/town.h"
 #include "sound/sound.h"
 
+#include "Poco/Net/HTTPClientSession.h"
+#include "Poco/Net/HTTPRequest.h"
 
 #pragma pack(push,1)
 
@@ -126,6 +130,12 @@ void __fastcall SetupCDRom() {
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
 	ResizeWindow(0,0,640,480);
+
+	Poco::Net::HTTPClientSession session("www.google-analytics.com");
+	Poco::Net::HTTPRequest req(Poco::Net::HTTPRequest::HTTP_POST, "/collect", Poco::Net::HTTPMessage::HTTP_1_1);
+	std::string reqBody("v=1&tid=UA-24357556-4&cid=556&t=event&an=Ironfist&ec=GameAction&ea=Open");
+	req.setContentLength(reqBody.length());
+	session.sendRequest(req) << reqBody;
 
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
