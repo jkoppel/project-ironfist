@@ -15,8 +15,10 @@
 
 class executive {
 public:
-	char _[16];
-	executive();
+  char _[16];
+  executive();
+
+  int DoDialog(baseManager *a2);
 };
 
 class inputManager {
@@ -53,7 +55,9 @@ public:
 extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern mouseManager* gpMouseManager;
+extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
+extern soundManager* gpSoundManager;
 extern highScoreManager* gpHighScoreManager;
 extern advManager* gpAdvManager;
 extern searchArray* gpSearchArray;
