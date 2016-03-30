@@ -155,9 +155,6 @@ IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
 IMPORT_?sElevationOverlay@@3PAUSElevationOverlay@@A = 1
 IMPORT_?DoAttack@army@@QAEXH@Z = 1
 ?DoAttack@army@@QAEXH@Z_clone EQU ?DoAttack_orig@army@@QAEXH@Z
-IMPORT_?DoHydraAttack@army@@QAEXH@Z = 1
-?DoHydraAttack@army@@QAEXH@Z_clone EQU ?DoHydraAttack_orig@army@@QAEXH@Z
-IMPORT_?UpdateArmyGroup@combatManager@@QAEXH@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

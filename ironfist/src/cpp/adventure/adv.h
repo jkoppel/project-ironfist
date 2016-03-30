@@ -6,6 +6,8 @@
 
 #include "base.h"
 
+class mapCell.
+
 #define ORIG_SPELLS 65
 
 #pragma pack(push, 1)
@@ -200,6 +202,13 @@ public:
 
     void PasswordEvent(mapCell *tile, hero *hero);
     int BarrierEvent(mapCell *tile, hero *hero);
+
+    void ExpansionRecruitEvent(class hero*, int, short);
+
+    mapCell* MoveHero(int,int,int *,int *,int *,int,int *,int);
+    mapCell* MoveHero_orig(int,int,int *,int *,int *,int,int *,int);
+    void TeleportTo(hero *, int x, int y, int, int);
+    mapCell* GetCell(int x, int y);
 };
 
 extern advManager* gpAdvManager;
@@ -212,6 +221,7 @@ extern int giHeroScreenSrcIndex;
 hero* GetCurrentHero();
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
+void __fastcall GetMonsterCost(int, int * const);
 
 #pragma pack(pop)
 

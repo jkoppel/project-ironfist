@@ -117,6 +117,30 @@ public:
 	int RecruitHero_orig(int,int);
 };
 
+class recruitUnit : public baseManager {
+  public:
+    int field_36;
+    int creatureType;
+    int field_3E;
+    int field_42;
+    int field_46;
+    int field_4A;
+    int field_4E;
+    int field_52;
+    int field_56;
+    armyGroup *army;
+    int field_5E;
+    int field_62;
+    int field_66;
+    int available;
+    int field_6E;
+    int field_72;
+    int field_76;
+    int field_7A;
+   
+    int Open_orig(int);
+};
+
 
 extern char *xNecromancerShrine;
 extern char *gWellExtraNames[];
