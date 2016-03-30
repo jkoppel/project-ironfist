@@ -5,7 +5,6 @@
 #include "adventure/map.h"
 #include "town/town.h"
 
-#define NUM_PLAYERS 6
 #define MAX_HEROES 54
 #define MAX_TOWNS 72
 
@@ -15,7 +14,6 @@ extern int gbHumanPlayer[];
 
 #pragma pack(push,1)
 
-extern char* gAlignmentNames[];
 
 #define BUILDING_RIGHT_TURRET_BUILT     0x1
 #define BUILDING_LEFT_TURRET_BUILT      0x2
@@ -40,9 +38,7 @@ public:
 	__int16 field_45;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-    char _4_1;
-    char barrierTentsVisited;
-    char _4_2[58];
+	char _4[60];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -109,11 +105,11 @@ public:
 	char mapFilename[40];
 	char numPlayers;
 	char couldBeNumDefeatedPlayers;
-	char playerDead[NUM_PLAYERS];
+	char playerDead[6];
 	__int16 day;
 	__int16 week;
 	__int16 month;
-	playerData players[NUM_PLAYERS];
+	playerData players[6];
 	fullMap map;
 	char numObelisks;
 	town castles[MAX_TOWNS];
@@ -145,10 +141,6 @@ public:
 	char field_660D;
 	char field_660E;
 
-    // New state
-    bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
-
-
 	int SetupGame();
 	int SetupGame_orig();
 	void SetupTowns();
@@ -167,7 +159,6 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
-    void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
 
@@ -176,15 +167,6 @@ public:
 
 	void PerDay();
 	void PerDay_orig();
-
-    void ResetIronfistGameState();
-    void ShareVision(int sourcePlayer, int destPlayer);
-
-    void MakeAllWaterVisible(int player);
-    void MakeAllWaterVisible_orig(int player);
-
-private:
-    void PropagateVision();
 };
 
 extern game* gpGame;

@@ -16,16 +16,14 @@ extern char cHeroTypeInitial[];
 
 enum FACTION
 {
-	FACTION_KNIGHT = 0,
-	FACTION_BARBARIAN = 1,
-	FACTION_SORCERESS = 2,
-	FACTION_WARLOCK = 3,
-	FACTION_WIZARD = 4,
-	FACTION_NECROMANCER = 5,
-	FACTION_MULTIPLE = 6,
-	FACTION_RANDOM = 7,
-
-	FACTION_CYBORG = 13,
+	FACTION_KNIGHT = 0x0,
+	FACTION_BARBARIAN = 0x1,
+	FACTION_SORCERESS = 0x2,
+	FACTION_WARLOCK = 0x3,
+	FACTION_WIZARD = 0x4,
+	FACTION_NECROMANCER = 0x5,
+	FACTION_MULTIPLE = 0x6,
+	FACTION_RANDOM = 0x7,
 };
 
 enum BUILDING_CODE : __int8
@@ -94,6 +92,8 @@ public:
   char field_63;
 
   town();
+
+  void BuildBuilding(int);
 
   void SelectSpells();
   void SetNumSpellsOfLevel(int,int);

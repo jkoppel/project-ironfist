@@ -3,7 +3,8 @@
 
 #pragma pack(push,1)
 
-enum INPUT_EVENT_CODE {
+enum INPUT_EVENT_CODE
+{
   INPUT_KEYDOWN_EVENT_CODE = 0x1,
   INPUT_KEYUP_EVENT_CODE = 0x2,
   INPUT_MOUSEMOVE_EVENT_CODE = 0x4,
@@ -14,7 +15,8 @@ enum INPUT_EVENT_CODE {
   INPUT_GUI_MESSAGE_CODE = 0x200,
 };
 
-struct tag_message {
+struct tag_message
+{
   INPUT_EVENT_CODE eventCode;
   int xCoordOrKeycode;
   int yCoordOrFieldID;
@@ -24,7 +26,8 @@ struct tag_message {
   void *payload;
 };
 
-enum GUI_MESSAGE_CODE {
+enum GUI_MESSAGE_CODE
+{
   GUI_MESSAGE_REPAINT = 0x2,
   GUI_MESSAGE_SET_TEXT = 0x3,
   GUI_MESSAGE_SET_IMG_IDX = 0x4,

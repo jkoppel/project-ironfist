@@ -6,9 +6,6 @@
 #include "scripting/hook.h"
 #include "scripting/scripting.h"
 
-char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
-                             "Multiple", "Random", NULL, NULL, NULL, NULL,
-                             "Cyborg"};
 
 int game::GetRandomNumTroops(int creat) {
 	return Random(gMonRandBound[creat][0], gMonRandBound[creat][1]);
@@ -16,10 +13,11 @@ int game::GetRandomNumTroops(int creat) {
 
 extern int gbNoCDRom;
 
+//char *mapName;
+
 
 int game::SetupGame() {
 	int oldNoCDRom = gbNoCDRom;
-	gbNoCDRom = 0;
 	int res = this->SetupGame_orig();
 	gbNoCDRom = oldNoCDRom;
 	return res;
@@ -53,9 +51,12 @@ void game::RandomizeHeroPool() {
 }
 
 void game::NewMap(char* mapname) {
-    this->ResetIronfistGameState();
 	this->NewMap_orig(mapname);
-    ScriptingInit(mapname);
+	//mapName = mapname;
+	ScriptingInit(mapname);
+	
+	ScriptSignal(SCRIPT_EVT_MAP_START, "");
+	ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
 }
 
 void game::NextPlayer() {
@@ -63,23 +64,15 @@ void game::NextPlayer() {
 	 * Because heroes no longer regain movement on hire.
 	 * we need to make sure all heroes in hero pool regain movement between turns.
 	 */
-	NextPlayer_orig();
 	for(int i = 0; i < MAX_HEROES; i++) {
 		hero *h = &this->heroes[i];
 		h->mobility = h->CalcMobility();
 		h->remainingMobility = h->mobility;
 	}
+	NextPlayer_orig();
 }
 
 void game::PerDay() {
 	this->PerDay_orig();
 	ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
-}
-
-void game::ResetIronfistGameState() {
-    for (int i = 0; i < NUM_PLAYERS; i++) {
-        for (int j = 0; j < NUM_PLAYERS; j++) {
-            this->sharePlayerVision[i][j] = 0;
-        }
-    }
 }

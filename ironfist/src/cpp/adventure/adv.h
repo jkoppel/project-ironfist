@@ -1,8 +1,8 @@
-#ifndef ADV_H
-#define ADV_H
+#ifndef TIED_ADV_H
+#define TIED_ADV_H
 
 #include "gui/gui.h"
-#include "resource/resources.h"
+class mapCell;
 
 #define ORIG_SPELLS 65
 
@@ -131,6 +131,7 @@ public:
 
   signed char Stats(int);
   void SetSS(int,int);
+  signed char GetSSLevel(int);
   int CalcMobility();
 
   void Read(int, signed char);
@@ -141,53 +142,63 @@ public:
   void Clear();
 };
 
-enum HERO_FLAGS {
-	HERO_AT_SEA = 0x80
+class recruitUnit
+{
+public:
+  //managerVtable *vtable;
+  //baseManager *next;
+  //baseManager *prev;
+  //int type;
+  //int idx;
+  //char name[30];
+  //int ready;
+  int field_36;
+  int creatureType;
+  int field_3E;
+  int field_42;
+  int field_46;
+  int field_4A;
+  int field_4E;
+  int field_52;
+  int field_56;
+  armyGroup *army;
+  int field_5E;
+  int field_62;
+  int field_66;
+  int available;
+  int field_6E;
+  int field_72;
+  int field_76;
+  int field_7A;
+
+  virtual int Open(int);
+  int Open_orig(int);
 };
-
-char cHeroTypeInitial[];
-
-class mapCell;
 
 class advManager : public baseManager {
 public:
-	char _[0xA6-sizeof(baseManager)];
-	int currentTerrain;
-	char _1[0x12C];
-	int viewX;
-	int viewY;
-	int field_1DE;
-	int field_1E2;
-	int xOff;
-	int yOff;
-	char _2[0xB8];
-    int heroMobilized;
-    char _3[0xD4];
+	char _[0x37E-sizeof(baseManager)];
 
 	advManager();
-
-	mapCell *GetCell(int x, int y);
-
 	void PurgeMapChangeQueue();
 	void CheckSetEvilInterface(int,int);
 	
 	void DemobilizeCurrHero();
 
-	void DimensionDoor();
-	void TeleportTo(hero*, int, int, int, int);
-
 	void CastSpell(int);
 	void CastSpell_orig(int);
 
 	void RedrawAdvScreen(int,int);
-	void UpdateRadar(int, int);
-    void EventSound(int locType, int locType2, SAMPLE2 *samp);
 
 	virtual int Open(int);
 	int Open_orig(int);
 
-    void PasswordEvent(mapCell *tile, hero *hero);
-    int BarrierEvent(mapCell *tile, hero *hero);
+	void ExpansionRecruitEvent(class hero *,int,short *);
+
+	mapCell* MoveHero(int,int,int *,int *,int *,int,int *,int);
+	mapCell* MoveHero_orig(int,int,int *,int *,int *,int,int *,int);
+	void TeleportTo(hero *, int x, int y, int, int);
+	mapCell* GetCell(int x, int y);
 };
 
 extern advManager* gpAdvManager;
@@ -200,6 +211,7 @@ extern int giHeroScreenSrcIndex;
 hero* GetCurrentHero();
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
+void __fastcall GetMonsterCost(int, int * const);
 
 #pragma pack(pop)
 

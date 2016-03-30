@@ -4,24 +4,48 @@
 #include "game/game.h"
 #include "artifacts.h"
 #include "skills.h"
+#include "gui/dialog.h"
+
+#include "scripting/hook.h"
+#include <string>
 
 extern int giNextAction;
+extern int giSkeletonsCreated;
 extern signed char gbCombatSurrender;
 extern signed char gbRetreatWin;
+
+int getFirstEmptyHex(int owningSide, int creatureIdx)
+{
+	for(int i = 1; i < 177; i ++)
+	{
+		if(gMonsterDatabase[creatureIdx].creature_flags & TWO_HEXER)
+		{
+			int dir = owningSide == 0 ? 1 : -1;
+			if(gpCombatManager->combatGrid[i+dir].unitOwner != -1) { continue; }
+		}
+		if(gpCombatManager->combatGrid[i].unitOwner == -1)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
 
 int squaresAroundCaster[2][3] = {
 	{14,27,40},
 	{11,24,37}
 };
 
-
-void combatManager::InitNonVisualVars() {
+void combatManager::InitNonVisualVars()
+{
 	combatManager::InitNonVisualVars_orig();
 
+	ScriptSignal(SCRIPT_EVT_BATTLE_START, "");
 	for(int i = 0; i < 2; i++) {
 		HandlePandoraBox(i);
 	}
 }
+
 
 /*
 * What happens when a hero wins a battle using Pandora's Box, but loses their
@@ -93,87 +117,65 @@ void army::MoveAttack(int targHex, int x) {
 	}
 }
 
-
-// We don't actually change anything in sElevationOverlay, but the disasm was causing some problems
-
-#pragma pack(push, 1)
-struct SElevationOverlay {
-  __int16 terrains;
-  char coveredHexes[15];
-};
-#pragma pack(pop)
-
-SElevationOverlay sElevationOverlay[25] =
+void army::DoHydraAttack(int x)
 {
+	DoHydraAttack_orig(x);
+}
+void army::DoAttack(int x)
+{
+	army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+	if( CreatureHasAttribute(this->creatureIdx, HYDRA_ABILITY) )
+	{
+		int quantityBeforeAttack = primaryTarget->quantity;
+		if ( x ) { gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide; }
+		//DoHydraAttack(x);
+		this->DoAttack_orig(x);
+		if(primaryTarget->quantity == 0)
+		{
+			int hex = -1;
+			hex = getFirstEmptyHex(owningSide, primaryTarget->creatureIdx);
+			if(hex == -1) { return; }
+			gpCombatManager->AddArmy(owningSide, primaryTarget->creatureIdx, quantityBeforeAttack, hex, 0x8000, 1);
+		}
+		return;
+	}
+	this->DoAttack_orig(x);
+	char buf1[80];
+	char buf2[30];
+	itoa(creatureIdx, buf1, 10);
+	itoa(primaryTarget->creatureIdx, buf2, 10);
+	strcat(buf1, ",");
+	strcat(buf1, buf2);
+	ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, buf1);
+}
+void combatManager::UpdateArmyGroup(int side)
+{
+  signed int i; // [sp+14h] [bp-4h]@1
+  int j; // [sp+14h] [bp-4h]@4
+
+  for ( i = 0; i < 5; ++i )
   {
-    0,
-    {
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255,
-      255
-    }
-  },
-  { 2, { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  {
-    2,
-    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  { 2, { 42, 55, 56, 57, 58, 59, 60, 48, 255, 255, 255, 255, 255, 255, 255 } },
-  { 2, { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  { 2, { 29, 30, 31, 32, 33, 34, 35, 81, 69, 70, 71, 72, 73, 74, 87 } },
-  { 2, { 29, 17, 18, 19, 20, 21, 81, 95, 96, 97, 98, 99, 255, 255, 255 } },
-  { 4, { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  {
-    4,
-    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  { 4, { 42, 55, 56, 57, 58, 59, 47, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  { 4, { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  { 4, { 18, 30, 43, 84, 85, 73, 60, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  { 4, { 21, 34, 48, 70, 83, 97, 98, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  {
-    64,
-    { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  {
-    64,
-    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  { 64, { 42, 55, 56, 57, 58, 59, 60, 48, 255, 255, 255, 255, 255, 255, 255 } },
-  { 64, { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 } },
-  { 64, { 29, 30, 31, 32, 33, 34, 35, 81, 69, 70, 71, 72, 73, 74, 87 } },
-  { 64, { 29, 17, 18, 19, 20, 21, 81, 95, 96, 97, 98, 99, 255, 255, 255 } },
-  {
-    128,
-    { 30, 31, 32, 33, 47, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  {
-    128,
-    { 56, 57, 58, 59, 60, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  { 128, { 42, 55, 56, 57, 58, 59, 60, 48, 255, 255, 255, 255, 255, 255, 255 } },
-  {
-    128,
-    { 69, 70, 71, 72, 73, 60, 48, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  {
-    128,
-    { 43, 30, 18, 84, 85, 73, 60, 255, 255, 255, 255, 255, 255, 255, 255 }
-  },
-  {
-    128,
-    { 21, 34, 48, 70, 83, 97, 98, 255, 255, 255, 255, 255, 255, 255, 255 }
+    this->armies[side]->creatureTypes[i] = -1;
+    this->armies[side]->quantities[i] = 0;
   }
-};
+  for ( j = 0; this->numCreatures[side] > j; ++j )
+  {
+    if ( !(this->creatures[side][j].creature.creature_flags & DEAD)
+      && this->creatures[side][j].quantity > 0
+      && (this->playerID[side] == -1
+       || this->creatures[side][j].creatureIdx != CREATURE_EARTH_ELEMENTAL
+       && this->creatures[side][j].creatureIdx != CREATURE_AIR_ELEMENTAL
+       && this->creatures[side][j].creatureIdx != CREATURE_FIRE_ELEMENTAL
+       && this->creatures[side][j].creatureIdx != CREATURE_WATER_ELEMENTAL
+       || !(HIBYTE(this->creatures[side][j].creature.creature_flags) & 8)) )
+    {
+      if ( !(HIBYTE(this->creatures[side][j].creature.creature_flags) & 0x1) && !( creatures[side][j].creature.creature_flags & 0x8000 ))
+      {
+        this->armies[side]->creatureTypes[this->creatures[side][j].armyIdx] = LOBYTE(this->creatures[side][j].creatureIdx);
+        this->armies[side]->quantities[this->creatures[side][j].armyIdx] = this->creatures[side][j].quantity;
+      }
+    }
+  }
+  if ( giSkeletonsCreated && this->winningSide == side )
+    this->armies[side]->Add(47, giSkeletonsCreated, -1);
+}

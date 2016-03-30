@@ -21,6 +21,17 @@ public:
   virtual void Close();
   virtual int Main(tag_message&);
 };
+/*
+class executive
+{
+public:
+  baseManager *firstManager;
+  baseManager *lastManager;
+  baseManager *currentManager;
+  unsigned short field_C;
+
+  int DoDialog(baseManager *a2);
+};*/
 
 enum MANAGER_TYPE
 {

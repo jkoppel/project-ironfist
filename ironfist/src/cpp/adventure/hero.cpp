@@ -10,10 +10,6 @@
 #include<io.h>
 #include<stddef.h>
 
-char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
-	                        '\0','\0','\0','\0','\0','\0',
-                            'c'};
-
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();
@@ -69,20 +65,10 @@ void hero::AddSpell(int spell) {
 }
 
 void hero::AddSpell(int spell, int knowledge) {
-	//The game zeroes out captains at the start of battle.
-	//This is a workaround.
-	if(this->spellsLearned == NULL)
-		this->ResetSpellsLearned();
-
 	this->spellsLearned[spell] = 1;
 }
 
 int hero::HasSpell(int spell) {
-	//The game zeroes out captains at the start of battle
-	//This is workaround part 2
-	if(this->spellsLearned == NULL)
-		return 0;
-
 	if(HasArtifact(ARTIFACT_MAGIC_BOOK)) {
 		if(this->spellsLearned[spell]) {
 			return 1;

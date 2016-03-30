@@ -1,7 +1,7 @@
 #include "adventure/adv.h"
-#include "adventure/map.h"
 #include "game/game.h"
 #include "scripting/hook.h"
+#include "combat/creatures.h"
 
 int advManager::Open(int idx) {
 	int res = this->Open_orig(idx);
@@ -12,51 +12,23 @@ int advManager::Open(int idx) {
 		//The correct place to put this is wherever the start-of-map events fire
 		//This kinda works, but will also fire after exiting the town screen or
 		//combat on the first day
-		ScriptSignal(SCRIPT_EVT_MAP_START, "");
-		ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
 	}
 	return res;
 }
 
-void game::ShareVision(int sourcePlayer, int destPlayer) {
-    this->sharePlayerVision[sourcePlayer][destPlayer] = 1;
-    this->PropagateVision();
+mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9)
+{
+	char tr[10];
+	mapCell* res = MoveHero_orig(a2, a3, a4, a5, a6, a7, a8, a9);
+	sprintf_s(tr, "%i,%i", GetCurrentHero()->x, GetCurrentHero()->y);
+	ScriptSignal(SCRIPT_EVT_MOVEHERO, tr);
+	return res;
 }
 
-void game::PropagateVision() {
-    for (int p1 = 0; p1 < NUM_PLAYERS; p1++) {
-        for (int p2 = 0; p2 < NUM_PLAYERS; p2++) {
-            if (this->sharePlayerVision[p1][p2]) {
-                for (int i = 0; i < MAP_HEIGHT; i++) {
-                    for (int j = 0; j < MAP_WIDTH; j++) {
-                        if (MapCellVisible(j, i, p1)) {
-                            RevealMapCell(j, i, p2);
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void game::SetVisibility(int x, int y, int player, int radius) {
-    this->SetVisibility_orig(x, y, player, radius);
-
-    for (int i = 0; i < NUM_PLAYERS; i++) {
-        if (this->sharePlayerVision[player][i]) {
-            // Would take more work to be transitive without infinite recursion
-            this->SetVisibility_orig(x, y, i, radius);
-        }
-    }
-}
-
-void game::MakeAllWaterVisible(int player) {
-    this->MakeAllWaterVisible_orig(player);
-
-    for (int i = 0; i < NUM_PLAYERS; i++) {
-        if (this->sharePlayerVision[player][i]) {
-            // Would take more work to be transitive without infinite recursion
-            this->MakeAllWaterVisible_orig(i);
-        }
-    }
+int recruitUnit::Open(int x)
+{
+	char ctype[4];
+	itoa(creatureType, ctype, 10);
+	ScriptSignal(SCRIPT_EVT_RECRUIT, ctype );
+	return Open_orig(x);
 }

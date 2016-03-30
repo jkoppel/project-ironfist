@@ -21,7 +21,7 @@ void game::SetupTowns() {
 		if(this->castles[castleIdx].exists) {
 			town* castle = &this->castles[castleIdx];
 			int extraIdx = this->castles[castleIdx].extraIdx;
-			TownExtra* twnExtra = (TownExtra *)ppMapExtra[extraIdx];
+			townMapExtra* twnExtra = (townMapExtra *)ppMapExtra[extraIdx];
 
 			int playerPos;
 

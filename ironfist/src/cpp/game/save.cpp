@@ -4,7 +4,6 @@
 #include "game/game.h"
 
 #include "game/map_xml.hxx"
-#include "scripting/scripting.h"
 #include "spell/spells.h"
 
 #include<iostream>
@@ -37,11 +36,22 @@ extern unsigned char giCurWatchPlayerBit;
 
 extern int gbRemoteOn;
 extern int giThisGamePos;
+extern bool scripting_on;
+extern map< string, int >		*varInt;
+extern map< string, double >	*varDouble;
+extern map< string, bool >		*varBoolean;
+extern map< string, string >	*varString;
+
+extern void ScriptingInit(char *);
 
 extern void __fastcall FileError(char*);
 
 extern void __fastcall GenerateStandardFileName(char*,char*);
 
+//extern char *mapName;
+void SaveScriptData(char *);
+void LoadScriptData(char *);
+bool FileExists(char *);
 
 void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->Clear();
@@ -241,10 +251,17 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			int fd;
 			
 			char v8[100];
+			char scriptData[100];
 			int v14 = 0;
 			gbGameOver = 0;
 			this->field_660E = 1;
 			sprintf(v8, "%s%s", ".\\GAMES\\", filnam);
+
+			if(scripting_on)
+			{
+				sprintf(scriptData, "%s%s", ".\\GAMES_SCRDATA\\", filnam);
+				LoadScriptData(scriptData);
+			}
 
 			/*
 			 * Check if original save format
@@ -363,10 +380,10 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ppMapExtra[i] = ALLOC(pwSizeOfMapExtra[i]);
 				_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
 			}
-			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
+			_read(fd, mapExtra, MAP_HEIGHT * MAP_WIDTH);
 			this->map.Read(fd, 0);
 			_close(fd);
-            gpAdvManager->heroMobilized = 0;
+			*(int*)&gpAdvManager->_[0x2A6] = 0;
 			gpCurPlayer = &gpGame->players[giCurPlayer];
 			giCurPlayerBit = 1 << giCurPlayer;
 			for(giCurWatchPlayer = giCurPlayer;
@@ -378,11 +395,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			this->SetupAdjacentMons();
 			gpAdvManager->CheckSetEvilInterface(0, -1);
 
-            gpGame->ResetIronfistGameState();
 
-			if (mp->script().present()) {
-				ScriptingInitFromString(mp->script().get().c_str());
-			}
 		} catch(xml_schema::exception& e) {
 			cerr << e << endl;
 			exit(0);
@@ -397,6 +410,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 	gpAdvManager->DemobilizeCurrHero();
 	char path[100];
 	char v9[100];
+	char scriptData[100];
 	if(autosave) {
 		if(!xIsExpansionMap || baseGame) {
 			sprintf(path, "%s.GM1", saveFile);
@@ -407,6 +421,10 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 		sprintf(path, saveFile);
 	}
 	sprintf(v9, "%s%s", ".\\GAMES\\", &path);
+	//Saving scripting data (like last scripted map etc)
+	sprintf(scriptData, "%s%s", ".\\GAMES_SCRDATA\\", &path);
+	SaveScriptData(scriptData);
+
 	if(strnicmp(path, "AUTOSAVE", 8) && strnicmp(path, "PLYREXIT", 8))
 		strcpy(gpGame->lastSaveFile, saveFile);
 
@@ -478,7 +496,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 		else
 			_write(fd, extraMemory, pwSizeOfMapExtra[i]);
 	}
-	_write(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
+	_write(fd, mapExtra, MAP_HEIGHT * MAP_WIDTH);
 	this->map.Write(fd);
 	_close(fd);
 	FREE(extraMemory);
@@ -496,21 +514,164 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	ofstream os(v9);
 
+	xml_schema::namespace_infomap infomap;
+	infomap[""].name = "ironfist_map";
+	infomap[""].schema = "map_xml.xsd";
+
 	ironfist_map::map_t m(datbin);
 
 	for(int i = 0; i < ELEMENTS_IN(this->heroes); i++) {
 		m.hero().push_back(WriteHeroXML(&this->heroes[i]));
 	}
-
-	if (GetScriptContents() != NULL) {
-		m.script(GetScriptContents());
-	}
-
-	xml_schema::namespace_infomap infomap;
-	infomap[""].name = "ironfist_map";
-	infomap[""].schema = "map_xml.xsd";
-
 	ironfist_map::map(os, m, infomap);
 
 	return 1;
+}
+
+void SaveScriptData(char *path)
+{
+
+	int file = open(path, O_WRONLY | O_TRUNC | O_CREAT | O_BINARY, S_IWRITE);
+	if ( file == -1 ) { FileError(path); }
+
+	// Current version of Project Ironfist I was making the mod for had a bug (to be honest I don't know if new versions have this bug and I can't check it now) - 
+	// when you load the save of any scripted map from other scripted map, the scripts haven't been reloaded
+	// this occured because there is a call to ScriptingInit() in game::NewMap(), but there isn't any call to it in game::LoadMap()
+	
+	
+	//int size = strlen(mapName);
+	int size;
+	//_write(file, &size, sizeof(int));
+	//_write(file, mapName, size);
+
+	if( varInt != 0 )
+	{
+		size = varInt->size();
+		_write(file, &(size), sizeof(int));
+		for(map<string, int>::iterator i = varInt->begin(); i != varInt->end(); ++ i)
+		{
+			size = sizeof(i->first);
+			_write(file, &size, sizeof(int));
+			_write(file, &(i->first), sizeof(i->first));
+			_write(file, &(i->second), sizeof(int));
+		}
+	}
+
+	if( varDouble != 0 )
+	{
+		size = varDouble->size();
+		_write(file, &(size), sizeof(int));
+		for(map<string, double>::iterator i = varDouble->begin(); i != varDouble->end(); ++ i)
+		{
+			size = sizeof(i->first);
+			_write(file, &size, sizeof(int));
+			_write(file, &i->first, sizeof(i->first));
+			_write(file, &i->second, sizeof(double));
+		}
+	}
+
+	if( varBoolean != 0 )
+	{
+		size = varBoolean->size();
+		_write(file, &(size), sizeof(int));
+		for(map<string, bool>::iterator i = varBoolean->begin(); i != varBoolean->end(); ++ i)
+		{
+			size = sizeof(i->first);
+			_write(file, &size, sizeof(int));
+			_write(file, &i->first, sizeof(i->first));
+			_write(file, &i->second, sizeof(bool) );
+		}
+	}
+
+	if( varString != 0 )
+	{
+		size = varString->size();
+		_write(file, &(size), sizeof(int));
+		for(map<string, string>::iterator i = varString->begin(); i != varString->end(); ++ i)
+		{
+			size = sizeof(i->first);
+			_write(file, &size, sizeof(int));
+			_write(file, &i->first, sizeof(i->first));
+
+			size = sizeof(i->second);
+			_write(file, &size, sizeof(int));
+			_write(file, &i->second, sizeof(i->second));
+		}
+	}
+
+	_close(file);
+}
+void LoadScriptData(char *path)
+{
+	int file = open(path, O_RDONLY | O_BINARY, S_IREAD);
+	if ( file == -1 ) { FileError(path); }
+
+	int size;
+	string map;
+
+	//_read(file, &size, sizeof(int));
+	//_read(file, &map, size);
+	//ScriptingInit((char*)map.c_str());
+
+	_read(file, &size, sizeof(int));
+	for(int i = 0; i < size; i ++)
+	{
+		int keySize;
+		string key;
+		int value;
+		_read(file, &keySize, sizeof(int));
+
+		_read(file, &key, keySize);
+		_read(file, &value, sizeof(int));
+
+		(*varInt)[key] = value;
+	}
+	_read(file, &size, sizeof(int));
+	for(int i = 0; i < size; i ++)
+	{
+		int keySize;
+		string key;
+		double value;
+		_read(file, &keySize, sizeof(int));
+
+		_read(file, &key, keySize);
+		_read(file, &value, sizeof(double));
+
+		(*varDouble)[key] = value;
+	}
+	_read(file, &size, sizeof(int));
+	for(int i = 0; i < size; i ++)
+	{
+		int keySize;
+		string key;
+		bool value;
+		_read(file, &keySize, sizeof(int));
+
+		_read(file, &key, keySize);
+		_read(file, &value, sizeof(bool) );
+
+		(*varBoolean)[key] = value;
+	}
+	_read(file, &size, sizeof(int));
+	for(int i = 0; i < size; i ++)
+	{
+		int keySize;
+		string key;
+		string value;
+		_read(file, &keySize, sizeof(int));
+		_read(file, &key, keySize);
+		
+		_read(file, &keySize, sizeof(int));
+		_read(file, &value, keySize);
+
+		(*varString)[key] = value;
+	}
+
+	_close(file);
+}
+
+bool FileExists (char *name)
+{
+  struct stat buffer;   
+  return (stat (name, &buffer) == 0); 
 }

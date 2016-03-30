@@ -11,7 +11,7 @@
 #include "town/town.h"
 
 extern void* hwndApp;
-extern TownExtra gEditTownExtra;
+extern townMapExtra gEditTownExtra;
 
 extern long __stdcall AppWndProc_orig(void*, unsigned int, unsigned int, long);
 
@@ -73,7 +73,7 @@ void InitBuildingMap() {
   buildingIdToIdx[BUILDING_UPGRADE_5] = IDC_UPGRADE5;
 }
 
-void FillInTownEdit(HWND hwnd, TownExtra* twnExtra) {
+void FillInTownEdit(HWND hwnd, townMapExtra* twnExtra) {
 	if(twnExtra->customGarrison) {
 		SendDlgItemMessage(hwnd, IDC_TROOP_CUSTOM, BM_SETCHECK, BST_CHECKED, 0); 
 	} else {
@@ -206,7 +206,7 @@ void InitializeTownEdit(HWND hwnd) {
 
 BOOL CALLBACK EditTownProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
 	int update = 0;
-	int extraIdx = gpExaminedCell->extraInfo;
+	int extraIdx = (gpExaminedCell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
 
 	int monIdx = 0;
 	int isCustom = 0;
@@ -223,7 +223,7 @@ BOOL CALLBACK EditTownProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam
             switch(LOWORD(wParam))
             {
                 case IDOK:
-					memcpy(gpEditManager->mapExtra[extraIdx], &gEditTownExtra, sizeof(TownExtra));
+					memcpy(gpEditManager->mapExtra[extraIdx], &gEditTownExtra, sizeof(townMapExtra));
                     EndDialog(hwnd, IDOK);
                 break;
                 case IDCANCEL:
@@ -367,12 +367,6 @@ HANDLE_MON_QTY:
 						case CBN_SELCHANGE:
 							int sel = SendMessage(GetDlgItem(hwnd, LOWORD(wParam)), CB_GETCURSEL, 0, 0);
 							gEditTownExtra.mageGuildLevel = sel;
-							
-							if(sel > 0) {
-								gEditTownExtra.buildingsBuilt |= 1 << BUILDING_MAGE_GUILD;
-							} else {
-								gEditTownExtra.buildingsBuilt &= ~(1 << BUILDING_MAGE_GUILD);
-							}
 						break;
 					}
 				break;
@@ -392,7 +386,7 @@ extern int __stdcall AppAbout(void *,unsigned int,unsigned int,long);
 
 void eventsManager::EditTown(int x, int y) {
 	gpExaminedCell = &gpMap.tiles[y*gpMap.width + x];
-	int extraIdx = gpExaminedCell->extraInfo;
-	memcpy(&gEditTownExtra, gpEditManager->mapExtra[extraIdx], sizeof(TownExtra));
+	int extraIdx = (gpExaminedCell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+	memcpy(&gEditTownExtra, gpEditManager->mapExtra[extraIdx], sizeof(townMapExtra));
 	DialogBoxParamA((HINSTANCE)hInstApp, "EDIT_TOWN",  (HWND)hwndApp, (DLGPROC)EditTownProc, 0);;
 }

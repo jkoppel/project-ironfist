@@ -106,6 +106,7 @@ enum CREATURE_FLAGS : __int16
 };
 
 #define STRIKE_AND_RETURN "strike-and-return"
+#define HYDRA_ABILITY "hydra"
 
 struct tag_monsterInfo
 {
@@ -142,7 +143,6 @@ int gMonRandBound[][2];
 
 int CreatureHasAttribute(int id, const char* name);
 char* GetCreatureName(int id);
-char* GetCreaturePluralName(int id);
 int GetNumCreatures();
 
 void LoadCreatures();

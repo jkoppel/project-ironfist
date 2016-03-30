@@ -80,13 +80,6 @@ public:
 #endif
 };
 
-struct SAMPLE2 {
-    sample *file;
-    UINT32 sample; // actually an HSAMPLE, but HSAMPLE is not imported
-};
-
-extern SAMPLE2 NULL_SAMPLE2;
-
 class MIDIWrap : public resource
 {
 public:

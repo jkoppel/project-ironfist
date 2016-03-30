@@ -80,6 +80,7 @@ IMPORT_?gArmyNames@@3PAPADA = 1
 IMPORT_?gArmyNamesPlural@@3PAPADA = 1
 IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
 
+
 ;;game
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
@@ -92,6 +93,9 @@ IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
 
+IMPORT_?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z = 1
+?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z_clone EQU ?MoveHero_orig@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z
+
 ;;artifacts
 IMPORT_?gArtifactNames@@3PAPADA = 1
 IMPORT_?gArtifactDesc@@3PAPADA = 1
@@ -103,23 +107,13 @@ IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1
 ?InitNonVisualVars@combatManager@@QAEXXZ_clone EQU ?InitNonVisualVars_orig@combatManager@@QAEXXZ
 IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
 ?MoveAttack@army@@QAEXHH@Z_clone EQU ?MoveAttack_orig@army@@QAEXHH@Z
-IMPORT_?sElevationOverlay@@3PAUSElevationOverlay@@A = 1
 
-;;heroes
-IMPORT_?cHeroTypeInitial@@3PADA = 1
-IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
-IMPORT_?gAlignmentNames@@3PAPADA = 1
+IMPORT_?UpdateArmyGroup@combatManager@@QAEXH@Z = 1
 
-;; adventure map
-
-IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
-?SetVisibility@game@@QAEXHHHH@Z_clone EQU ?SetVisibility_orig@game@@QAEXHHHH@Z
-IMPORT_?MakeAllWaterVisible@game@@QAEXH@Z = 1
-?MakeAllWaterVisible@game@@QAEXH@Z_clone EQU ?MakeAllWaterVisible_orig@game@@QAEXH@Z
-
-;;;; border guards
-IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
-IMPORT_?PasswordEvent@advManager@@QAEXPAVmapCell@@PAVhero@@@Z = 1
+IMPORT_?DoAttack@army@@QAEXH@Z = 1
+?DoAttack@army@@QAEXH@Z_clone EQU ?DoAttack_orig@army@@QAEXH@Z
+IMPORT_?DoHydraAttack@army@@QAEXH@Z = 1
+?DoHydraAttack@army@@QAEXH@Z_clone EQU ?DoHydraAttack_orig@army@@QAEXH@Z
 
 ;;saving
 IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
@@ -138,8 +132,6 @@ IMPORT_?gSpellDesc@@3PAPADA = 1
 IMPORT_?gSpellNames@@3PAPADA = 1
 IMPORT_?CastSpell@advManager@@QAEXH@Z = 1
 ?CastSpell@advManager@@QAEXH@Z_clone EQU ?CastSpell_orig@advManager@@QAEXH@Z
-IMPORT_?Resurrect@combatManager@@QAEXHHH@Z = 1
-IMPORT_?DimensionDoor@advManager@@QAEXXZ = 1
 
 ;;towns
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
@@ -155,3 +147,6 @@ IMPORT_?Open@advManager@@UAEHH@Z = 1
 ?Open@advManager@@UAEHH@Z_clone EQU ?Open_orig@advManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@townManager@@UAEHH@Z = 1
 ?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
+
+IMPORT_?Open@recruitUnit@@UAEHH@Z = 1
+?Open@recruitUnit@@UAEHH@Z_clone EQU ?Open_orig@recruitUnit@@QAEHH@Z

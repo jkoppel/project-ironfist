@@ -51,15 +51,6 @@ public:
 };
 
 extern editManager* gpEditManager;
-extern SMapHeader gpMapHeader;
-
-void __fastcall ShowErrorMessage(const char *str);
-
-extern int CountMines();
-
-extern int __fastcall SelectTerrainTile(int, int, int, int, int, int, float);
-
-extern char* gpTownNames[];
 
 #pragma pack(pop)
 

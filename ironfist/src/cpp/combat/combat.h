@@ -1,5 +1,5 @@
-#ifndef COMBAT_MANAGER_H
-#define COMBAT_MANAGER_H
+#ifndef TIED_COMBAT_MANAGER_H
+#define TIED_COMBAT_MANAGER_H
 
 #include "gui/gui.h"
 #include "graphics.h"
@@ -8,10 +8,15 @@
 #include "game/game.h"
 #include "resource/resources.h"
 
-#include "combat/animation.h"
 #include "combat/creatures.h"
 
 #pragma pack(push, 1)
+
+int getFirstEmptyHex(int, int);
+
+struct SMonFrameInfo {
+	char _[821];
+};
 
 class hexcell {
 public:
@@ -26,11 +31,11 @@ public:
   char combatObjIdx;
   char unitOwner;
   signed __int8 stackIdx;
-  char occupiersOtherHexIsToLeft;
+  char isOccupierNonPrimaryHex;
   int numCorpses;
   char corpseOwners[14];
   char corpseStackIndices[14];
-  char corpseOtherHexIsToLeft[14];
+  char field_33[14];
   char field_41;
   H2RECT drawingBounds;
   char field_52[16];
@@ -111,8 +116,11 @@ public:
   void MoveAttack(int,int);
   void MoveAttack_orig(int,int);
 
-  int MidX();
-  int MidY();
+  void DoAttack(int);
+  void DoAttack_orig(int);
+
+  void DoHydraAttack(int);
+  void DoHydraAttack_orig(int);
 };
 
 class combatManager : public baseManager
@@ -147,7 +155,7 @@ public:
   int field_327B;
   town *castles[2];
   hero *heroes[2];
-  hero captain;
+  hero captains;
   int heroSpellpowers[2];
   armyGroup *armies[2];
   int shadedHex;
@@ -236,21 +244,15 @@ public:
   void InitNonVisualVars();
   void InitNonVisualVars_orig();
 
-  void CombatMessage(char *msg, int, int, int);
-
-  void UpdateCombatArea();
-  void DrawFrame(int redrawAll,int,int,int,int,int,int);
+  void CombatMessage(char*, int, int, int);
 
   void HandlePandoraBox(int side);
   void AddArmy(int side, int creat, int qty, int hex, int attrs, int fizzle);
-
-  int FindResurrectArmyIndex(int side, int spell, int hex);
-  void Resurrect(int spell, int hex, int spellpower);
+  void SummonElemental(int, int);
+  void UpdateArmyGroup(int);
 };
 
 extern combatManager* gpCombatManager;
-
-extern int gbNoShowCombat;
 
 #pragma pack(pop)
 
