@@ -543,15 +543,12 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "InputBox", l_inputBox);
   lua_register(L, "RecruitBox", l_recruitBox);
   lua_register(L, "SetDaysAfterTownLost", l_setDaysAfterTownLost);
-  lua_register(L, "SetVar", l_setVar);
-  lua_register(L, "GetVar", l_getVar);
   
   lua_register(L, "GiveResource", l_giveResource);
   lua_register(L, "SetResource", l_setResource);
   lua_register(L, "GetResource", l_getResource);
   lua_register(L, "GetCreatureCost", l_getCreatureCost);
   
-  lua_register(L, "BattleGetCreature", l_battleGetCreature);
   lua_register(L, "BattleSummonCreature", l_battleSummonCreature);
   lua_register(L, "BattleHasHero", l_battleHasHero);
   lua_register(L, "BattleGetHero", l_battleGetHero);
