@@ -234,7 +234,7 @@ int l_giveResource(lua_State *L) {
   playerData *player = (playerData*) lua_touserdata(L, 1);
   int res = (int) luaL_checknumber(L, 2);
   int val = (int) luaL_checknumber(L, 3);
-  player->resources[ res ] = val;
+  player->resources[ res ] += val;
   return 0;
 }
 
