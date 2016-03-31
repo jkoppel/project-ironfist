@@ -113,6 +113,9 @@ public:
 
   int MidX();
   int MidY();
+
+  void DoAttack(int);
+  void DoAttack_orig(int);
 };
 
 class combatManager : public baseManager
@@ -246,6 +249,7 @@ public:
 
   int FindResurrectArmyIndex(int side, int spell, int hex);
   void Resurrect(int spell, int hex, int spellpower);
+  void SummonElemental(int, int);
 };
 
 extern combatManager* gpCombatManager;

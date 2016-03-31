@@ -4,6 +4,10 @@
 #include "game/game.h"
 #include "artifacts.h"
 #include "skills.h"
+#include "gui/dialog.h"
+
+#include "scripting/hook.h"
+#include <string>
 
 extern int giNextAction;
 extern signed char gbCombatSurrender;
@@ -14,9 +18,10 @@ int squaresAroundCaster[2][3] = {
 	{11,24,37}
 };
 
-
 void combatManager::InitNonVisualVars() {
 	combatManager::InitNonVisualVars_orig();
+        
+        ScriptSignal(SCRIPT_EVT_BATTLE_START, "");
 
 	for(int i = 0; i < 2; i++) {
 		HandlePandoraBox(i);
@@ -91,6 +96,14 @@ void army::MoveAttack(int targHex, int x) {
 		CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
 		MoveTo(startHex);
 	}
+}
+
+void army::DoAttack(int x) {
+  army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+  this->DoAttack_orig(x);
+
+  sprintf_s(gText, 80, "%d,%d", this->creatureIdx, primaryTarget->creatureIdx);
+  ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, gText);
 }
 
 

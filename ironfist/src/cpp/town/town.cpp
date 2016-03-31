@@ -291,3 +291,10 @@ char *__fastcall GetBuildingName(int faction, int building) {
     }
   }
 }
+
+int recruitUnit::Open(int x) {
+  char ctype[4];
+  itoa(creatureType, ctype, 10);
+  ScriptSignal(SCRIPT_EVT_RECRUIT, ctype);
+  return Open_orig(x);
+}

@@ -1,5 +1,6 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "combat/creatures.h"
 #include "game/game.h"
 #include "scripting/hook.h"
 
@@ -16,6 +17,14 @@ int advManager::Open(int idx) {
 		ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
 	}
 	return res;
+}
+
+mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9)
+{
+  mapCell* res = MoveHero_orig(a2, a3, a4, a5, a6, a7, a8, a9);
+  sprintf_s(gText, 10, "%i,%i", GetCurrentHero()->x, GetCurrentHero()->y);
+  ScriptSignal(SCRIPT_EVT_MOVEHERO, gText);
+  return res;
 }
 
 void game::ShareVision(int sourcePlayer, int destPlayer) {
