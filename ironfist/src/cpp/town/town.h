@@ -99,6 +99,8 @@ public:
 
   void SelectSpells();
   void SetNumSpellsOfLevel(int,int);
+
+  void BuildBuilding(int);
 };
 
 class townManager : public baseManager {
@@ -138,6 +140,7 @@ class recruitUnit : public baseManager {
     int field_76;
     int field_7A;
    
+	virtual int Open(int);
     int Open_orig(int);
 };
 

@@ -99,11 +99,11 @@ void army::MoveAttack(int targHex, int x) {
 }
 
 void army::DoAttack(int x) {
-  army* primaryTarget = gpCombatManager.creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+  army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   this->DoAttack_orig(x);
 
   sprintf_s(gText, 80, "%d,%d", this->creatureIdx, primaryTarget->creatureIdx);
-  ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, gText;
+  ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, gText);
 }
 
 

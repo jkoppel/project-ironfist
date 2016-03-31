@@ -1,4 +1,5 @@
 #include "dialog.h"
+#include "gui.h"
 
 #include "base.h"
 #include<Windows.h>

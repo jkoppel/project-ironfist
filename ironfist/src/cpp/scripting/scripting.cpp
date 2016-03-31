@@ -345,7 +345,7 @@ int l_setsecondaryskill(lua_State *L) {
 int l_getSecondarySkill(lua_State *L) {
   hero *hro = (hero*) lua_touserdata(L, 1);
   int skill = (int) luaL_checknumber(L, 2);
-  lua_pushinteger(L, hro->GetSSLevel(skill) );
+  lua_pushinteger(L, hro->GetSSLevel(skill));
   return 1;
 }
 

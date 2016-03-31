@@ -335,7 +335,8 @@ void set_scripting_consts(lua_State* L) {
 	set_spell_consts(L);
 	set_artifact_consts(L);
 	set_town_consts(L);
-        set_faction_consts(L);
+	set_faction_consts(L);
 	set_skill_consts(L);
 	set_creature_consts(L);
+	set_resources_consts(L);
 }

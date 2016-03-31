@@ -6,7 +6,7 @@
 
 #include "base.h"
 
-class mapCell.
+class mapCell;
 
 #define ORIG_SPELLS 65
 
@@ -143,6 +143,7 @@ public:
   void TakeArtifact(int);
 
   signed char Stats(int);
+  signed char GetSSLevel(int);
   void SetSS(int,int);
   int CalcMobility();
 
@@ -203,12 +204,10 @@ public:
     void PasswordEvent(mapCell *tile, hero *hero);
     int BarrierEvent(mapCell *tile, hero *hero);
 
-    void ExpansionRecruitEvent(class hero*, int, short);
+    void ExpansionRecruitEvent(class hero*, int, short*);
 
     mapCell* MoveHero(int,int,int *,int *,int *,int,int *,int);
     mapCell* MoveHero_orig(int,int,int *,int *,int *,int,int *,int);
-    void TeleportTo(hero *, int x, int y, int, int);
-    mapCell* GetCell(int x, int y);
 };
 
 extern advManager* gpAdvManager;
