@@ -2,14 +2,18 @@
 #include "adventure/map.h"
 #include "game/game.h"
 #include "scripting/hook.h"
+#include "prefs.h"
 
 extern void __fastcall NormalDialog(char *, int, int, int, int, int, int, int, int, int);
 
 int advManager::ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, class mapCell * *a4) {
 	if(GUIMessage_evt->yCoordOrFieldID == 4)
 		{
-		if(!gpCurPlayer->HasMobileHero()
-				||
+		DWORD hero_reminder_reg_dword = read_pref<DWORD>("Show Hero Movement Reminder");
+		//default is true, but read_pref() returns -1 if the value is not set
+		bool show_hero_movement_reminder = !(hero_reminder_reg_dword == 0);
+		
+		if(!show_hero_movement_reminder || !gpCurPlayer->HasMobileHero() ||
 				(
 				NormalDialog("One or more heroes may still move, are you sure you want to end your turn?",
 							2, -1, -1, -1, 0, -1, 0, -1, 0),
