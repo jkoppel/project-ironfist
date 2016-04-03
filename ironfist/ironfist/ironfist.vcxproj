@@ -105,6 +105,7 @@
     <ClCompile Include="..\src\cpp\combat\creatures_xml.cxx" />
     <ClCompile Include="..\src\cpp\compat.cpp" />
     <ClCompile Include="..\src\cpp\driver.cpp" />
+    <ClCompile Include="..\src\cpp\game\event_loop.cpp" />
     <ClCompile Include="..\src\cpp\game\game.cpp" />
     <ClCompile Include="..\src\cpp\game\map_xml.cxx" />
     <ClCompile Include="..\src\cpp\game\save.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="..\src\cpp\msg.h" />
     <ClInclude Include="..\src\cpp\mss32.h" />
     <ClInclude Include="..\src\cpp\prefs.h" />
+    <ClInclude Include="..\src\cpp\registry_prefs.h" />
     <ClInclude Include="..\src\cpp\resource\resourceManager.h" />
     <ClInclude Include="..\src\cpp\resource\resources.h" />
     <ClInclude Include="..\src\cpp\scripting\hook.h" />

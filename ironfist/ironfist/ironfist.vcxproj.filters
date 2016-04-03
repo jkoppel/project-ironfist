@@ -246,6 +246,9 @@
     <ClCompile Include="..\src\cpp\adventure\map_events.cpp">
       <Filter>Source Files\adventure</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\game\event_loop.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\stdafx.h">
@@ -418,6 +421,9 @@
     </ClInclude>
     <ClInclude Include="..\src\cpp\adventure\terrain.h">
       <Filter>Header Files\adventure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\cpp\registry_prefs.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
