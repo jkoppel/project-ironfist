@@ -9,8 +9,7 @@
 const int MAX_SLEEP_VALUE = 1000; //sanity check
 
 void __fastcall Process1WindowsMessage_orig();
-void __fastcall Process1WindowsMessage()
-	{
+void __fastcall Process1WindowsMessage() {
 	static int SLEEP_DURATION = read_pref<DWORD>("Sleep Event Loop");
 
 	if(SLEEP_DURATION >= 0 && SLEEP_DURATION <= MAX_SLEEP_VALUE)

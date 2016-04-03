@@ -2,8 +2,7 @@
 
 LPCSTR Heroes2RegistrySubKey = "SOFTWARE\\New World Computing\\Heroes of Might and Magic 2\\1.0";
 
-template<> bool write_registry_pref(const std::string& pref_key, const DWORD& value)
-	{
+template<> bool write_registry_pref(const std::string& pref_key, const DWORD& value) {
 	DWORD cbData = 4;
 	HKEY hKey = 0;
 
@@ -17,8 +16,7 @@ template<> bool write_registry_pref(const std::string& pref_key, const DWORD& va
 	}
 
 
-template<> DWORD read_registry_pref(const std::string& pref_key)
-	{
+template<> DWORD read_registry_pref(const std::string& pref_key) {
 	DWORD Type;
 	DWORD cbData = 4;
 	DWORD Data = (DWORD)-1;
