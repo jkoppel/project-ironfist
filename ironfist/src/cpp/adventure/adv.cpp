@@ -21,13 +21,20 @@ int advManager::ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, cla
 		//default is true, but read_pref() returns -1 if the value is not set
 		bool show_hero_movement_reminder = !(hero_reminder_reg_dword == 0);
 		
-		if(!show_hero_movement_reminder || !gpCurPlayer->HasMobileHero()) {
-			NormalDialog("One or more heroes may still move, are you sure you want to end your turn?",
-						 2, -1, -1, -1, 0, -1, 0, -1, 0);
-			
-			if(gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL)
+		if(gpCurPlayer->HasMobileHero()) { //if there are any heroes with movement remaining
+			if(!show_hero_movement_reminder) { //if the movement reminder is turned off, end turn
 				gpGame->NextPlayer();
+				}
+			else { //if the movement reminder is on, ask player if he/she really wants to end turn
+				NormalDialog("One or more heroes may still move, are you sure you want to end your turn?",
+								2, -1, -1, -1, 0, -1, 0, -1, 0);
 
+				if(gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL)
+					gpGame->NextPlayer();
+				}
+			}
+		else { //there are no heroes with movement points left, end turn
+			gpGame->NextPlayer();
 			}
 		if(GUIMessage_evt->yCoordOrFieldID >= 2000
 		   && GUIMessage_evt->yCoordOrFieldID <= 2200) {
