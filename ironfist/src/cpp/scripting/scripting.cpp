@@ -31,6 +31,19 @@ char *script_contents = NULL;
 bool scripting_on = false;
 lua_State* map_lua = NULL;
 map<pair<int, string>, const char* > *triggers;
+map<int, const char* > *general_triggers;
+
+void SetGeneralHook(int id, const char* hook) {
+  (*general_triggers)[id] = hook;
+}
+
+const char* GetGeneralHook(int id) {
+  if (general_triggers->count(id) > 0) {
+    return (*general_triggers)[id];
+  } else {
+    return NULL;
+  }
+}
 
 void SetHook(int id, const char* obj, const char* hook) {
 	(*triggers)[make_pair(id, string(obj))] = hook;
@@ -43,19 +56,23 @@ const char* GetHook(int id, const char* obj) {
 		return NULL;
 }
 
+static void CallHook(const char* hook) {
+  if (hook != NULL) {
+    lua_getglobal(map_lua, hook);
+
+    if (lua_pcall(map_lua, 0, -1, 0)) {
+      DisplayError();
+    }
+  }
+
+}
+
 void ScriptSignal(int id, const char* obj) {
 	if(!scripting_on)
 		return;
 
-	const char* hook = GetHook(id, obj);
-	
-	if(hook != NULL) {
-		lua_getglobal(map_lua, hook);
-
-		if (lua_pcall(map_lua, 0, -1, 0)) {
-			DisplayError();
-		}
-	}
+    CallHook(GetHook(id, obj));
+    CallHook(GetGeneralHook(id));
 }
 
 int l_msgbox(lua_State *L) {
@@ -92,9 +109,15 @@ int l_recruitBox(lua_State *L)
 
 int l_trigger(lua_State *L) {
 	int id = (int)luaL_checknumber(L, 1);
-	const char* obj = luaL_checkstring(L, 2);
+	const char* obj = lua_tolstring(L, 2, NULL); // string or NULL
 	const char* hook = luaL_checkstring(L, 3);
-	SetHook(id, obj, hook);
+
+    if (obj == NULL) {
+      SetGeneralHook(id, hook);
+    } else {
+      SetHook(id, obj, hook);
+    }
+
 	return 0;
 }
 
@@ -493,6 +516,31 @@ int l_battleMessage(lua_State *L) {
   return 0;
 }
 
+int l_battleGetNumStacks(lua_State *L) {
+  int side = (int)luaL_checknumber(L, 1);
+  lua_pushinteger(L, gpCombatManager->numCreatures[side]);
+  return 1;
+}
+
+int l_battleGetStack(lua_State *L) {
+  int side = (int)luaL_checknumber(L, 1);
+  int idx = (int)luaL_checknumber(L, 2);
+  lua_pushlightuserdata(L, &gpCombatManager->creatures[side][idx]);
+  return 1;
+}
+
+int l_getStackType(lua_State *L) {
+  army *creat = (army*)lua_touserdata(L, 1);
+  lua_pushinteger(L, creat->creatureIdx);
+  return 1;
+}
+
+int l_getStackQuantity(lua_State *L) {
+  army *creat = (army*)lua_touserdata(L, 1);
+  lua_pushinteger(L, creat->quantity);
+  return 1;
+}
+
 int l_sharevision(lua_State *L) {
     int sourcePlayer = (int)luaL_checknumber(L, 1);
     int destPlayer = (int)luaL_checknumber(L, 2);
@@ -553,6 +601,11 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "BattleHasHero", l_battleHasHero);
   lua_register(L, "BattleGetHero", l_battleGetHero);
   lua_register(L, "BattleMessage", l_battleMessage);
+
+  lua_register(L, "BattleNumStacksForSide", l_battleGetNumStacks);
+  lua_register(L, "BattleGetStack", l_battleGetStack);
+  lua_register(L, "GetStackQuantity", l_getStackQuantity);
+  lua_register(L, "GetStackType", l_getStackType);
   
   lua_register(L, "GetTown", l_getTown);
   lua_register(L, "GetTownByName", l_getTownByName);
@@ -590,6 +643,7 @@ void RunScript() {
   if (script_contents != NULL) {
     map_lua = luaL_newstate();
     triggers = new map<pair<int, string>, const char* >;
+    general_triggers = new map<int, const char* >;
     scripting_on = true;
     
     luaL_openlibs(map_lua);
@@ -656,6 +710,7 @@ void ScriptingShutdown() {
     lua_close(map_lua);
     map_lua = NULL;
     delete triggers;
+    delete general_triggers;
     scripting_on = false;
   }
   
