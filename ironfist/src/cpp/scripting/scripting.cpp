@@ -541,6 +541,12 @@ int l_getStackQuantity(lua_State *L) {
   return 1;
 }
 
+int l_getStackHex(lua_State *L) {
+  army *creat = (army*)lua_touserdata(L, 1);
+  lua_pushinteger(L, creat->occupiedHex);
+  return 1;
+}
+
 int l_sharevision(lua_State *L) {
     int sourcePlayer = (int)luaL_checknumber(L, 1);
     int destPlayer = (int)luaL_checknumber(L, 2);
@@ -606,6 +612,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "BattleGetStack", l_battleGetStack);
   lua_register(L, "GetStackQuantity", l_getStackQuantity);
   lua_register(L, "GetStackType", l_getStackType);
+  lua_register(L, "GetStackHex", l_getStackHex);
   
   lua_register(L, "GetTown", l_getTown);
   lua_register(L, "GetTownByName", l_getTownByName);
