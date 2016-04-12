@@ -134,6 +134,10 @@ IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
 
+;;game loop - windows messaging (for lowering cpu usage)
+IMPORT_?Process1WindowsMessage@@YIXXZ = 1
+?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
+
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
 IMPORT_?AddSpell@hero@@QAEXHH@Z = 1
@@ -160,11 +164,14 @@ IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
 IMPORT_?gAlignmentNames@@3PAPADA = 1
 
 ;; adventure map
-
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
 ?SetVisibility@game@@QAEXHHHH@Z_clone EQU ?SetVisibility_orig@game@@QAEXHHHH@Z
 IMPORT_?MakeAllWaterVisible@game@@QAEXH@Z = 1
 ?MakeAllWaterVisible@game@@QAEXH@Z_clone EQU ?MakeAllWaterVisible_orig@game@@QAEXH@Z
+
+;;hero movement reminder
+IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
+?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
