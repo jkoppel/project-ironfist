@@ -1,15 +1,13 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "combat/speed.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 #include "scripting/hook.h"
 #include "prefs.h"
 
-extern void __fastcall NormalDialog(char *, int, int, int, int, int, int, int, int, int);
-
 const int BUTTON_CODE_OKAY = 30725;
 const int BUTTON_CODE_CANCEL = 30726;
-
-extern long __fastcall KBTickCount();
 
 static const int END_TURN_BUTTON = 4;
 
@@ -21,7 +19,7 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
   if (evt->yCoordOrFieldID == END_TURN_BUTTON) {
     int hero_reminder_pref = read_pref<DWORD>("Show Hero Movement Reminder");
     //default is true, but read_pref() returns -1 if the value is not set
-    bool show_hero_movement_reminder = !(hero_reminder_pref == 0);
+    bool show_hero_movement_reminder = hero_reminder_pref != 0;
 
     if (gpCurPlayer->HasMobileHero()) {
       if (!show_hero_movement_reminder) {
