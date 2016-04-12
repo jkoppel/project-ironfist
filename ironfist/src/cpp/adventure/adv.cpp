@@ -2,6 +2,62 @@
 #include "adventure/map.h"
 #include "game/game.h"
 #include "scripting/hook.h"
+#include "prefs.h"
+
+extern void __fastcall NormalDialog(char *, int, int, int, int, int, int, int, int, int);
+
+const int BUTTON_CODE_OKAY = 30725;
+const int BUTTON_CODE_CANCEL = 30726;
+
+extern long __fastcall KBTickCount();
+
+int advManager::ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, class mapCell * *a4) {
+	extern int giBottomViewOverride;
+	extern int iCurBottomView;
+	extern int giBottomViewOverrideEndTime;
+	
+	if(GUIMessage_evt->yCoordOrFieldID == 4) {
+		DWORD hero_reminder_reg_dword = read_pref<DWORD>("Show Hero Movement Reminder");
+		//default is true, but read_pref() returns -1 if the value is not set
+		bool show_hero_movement_reminder = !(hero_reminder_reg_dword == 0);
+		
+		if(gpCurPlayer->HasMobileHero()) { //if there are any heroes with movement remaining
+			if(!show_hero_movement_reminder) { //if the movement reminder is turned off, end turn
+				gpGame->NextPlayer();
+				}
+			else { //if the movement reminder is on, ask player if he/she really wants to end turn
+				NormalDialog("One or more heroes may still move, are you sure you want to end your turn?",
+								2, -1, -1, -1, 0, -1, 0, -1, 0);
+
+				if(gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL)
+					gpGame->NextPlayer();
+				}
+			}
+		else { //there are no heroes with movement points left, end turn
+			gpGame->NextPlayer();
+			}
+		if(GUIMessage_evt->yCoordOrFieldID >= 2000
+		   && GUIMessage_evt->yCoordOrFieldID <= 2200) {
+			if(giBottomViewOverride == 2) {
+				giBottomViewOverride = 1;
+				}
+			else if(giBottomViewOverride) {
+				giBottomViewOverride = 0;
+				}
+			else if(iCurBottomView == 2) {
+				giBottomViewOverride = 1;
+				}
+			else {
+				giBottomViewOverride = 2;
+				}
+			giBottomViewOverrideEndTime = KBTickCount() + 3000;
+			UpdBottomView(1, 1, 1);
+		}
+		return 1;
+	}
+	return ProcessDeSelect_orig(GUIMessage_evt, a3, a4);
+}
+
 
 int advManager::Open(int idx) {
 	int res = this->Open_orig(idx);

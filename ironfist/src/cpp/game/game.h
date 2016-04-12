@@ -47,6 +47,8 @@ public:
 	char _5[23];
 	char field_11A;
 
+	int HasMobileHero();
+
 	void Read(int);
 	void Write(int);
 };
