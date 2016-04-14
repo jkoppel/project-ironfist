@@ -1,3 +1,6 @@
+// Has to be defined before any include <windows.h>
+#include <WinSock2.h>
+
 #include "resource/resourceManager.h"
 #include "base.h"
 #include "combat/combat.h"
@@ -12,7 +15,12 @@
 
 #include "prefs.h"
 
+#include "Poco/Net/HTTPClientSession.h"
+#include "Poco/Net/HTTPRequest.h"
+
 #pragma pack(push,1)
+
+// For UUID handling
 #pragma comment(lib, "rpcrt4.lib") 
 
 class executive {
@@ -129,6 +137,34 @@ void __fastcall SetupCDRom() {
 	//because not yet tested that it can be removed
 	ResizeWindow(0,0,640,480);
 
+	// Get the Uuid saved in the registry if it exists.
+	// Create one otherwise
+	std::string sUuid;
+	bool getUuid = read_pref<std::string>("Uuid", sUuid);
+	if (!getUuid) {
+		UUID uuid;
+		UuidCreate(&uuid);
+		unsigned char * str;
+		UuidToStringA(&uuid, &str);
+		std::string s((char*)str);
+		RpcStringFreeA(&str);
+		sUuid = s;
+		bool success = write_pref("Uuid", sUuid);
+	}
+
+	// Post on the GA server using POCO library
+	Poco::Net::HTTPClientSession session("www.google-analytics.com");
+	Poco::Net::HTTPRequest req(Poco::Net::HTTPRequest::HTTP_POST, "/collect", Poco::Net::HTTPMessage::HTTP_1_1);
+	const char *s1 = "v=1&tid=UA-24357556-4&cid=";
+	const char *s2 = "&t=event&an=Ironfist&ec=GameAction&ea=Open";
+	int len = strlen(s1) + strlen(s2) + sUuid.size() + 1;
+	char *creqBody = (char *)ALLOC(len);
+	snprintf(creqBody, len, "%s%s%s", s1, sUuid.c_str(), s2);
+	H2MessageBox(creqBody);
+	std::string reqBody(creqBody);
+	req.setContentLength(reqBody.length());
+	session.sendRequest(req) << reqBody;
+
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
 		SetPalette(gPalette->contents, 1);
@@ -139,31 +175,6 @@ void __fastcall SetupCDRom() {
 		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
 						"but otherwise, have fun!");
 
-		H2MessageBox("Reading UUID from registry");
-		std::string sUuid;
-		bool getUuid = read_pref<std::string>("Uuid", sUuid);
-		if (getUuid) {
-			H2MessageBox("Found UUID in registry");
-			H2MessageBox((char *)sUuid.c_str());
-		}
-		else {
-			H2MessageBox("Creating UUID");
-
-			UUID uuid;
-			UuidCreate(&uuid);
-			unsigned char * str;
-			UuidToStringA(&uuid, &str);
-			H2MessageBox((char *)str);
-			std::string s((char*)str);
-			RpcStringFreeA(&str);
-			sUuid = s;
-
-			H2MessageBox("Writing UUDI to registry");
-			bool success = write_pref("Uuid", sUuid);
-			if (success) {
-				H2MessageBox("Success");
-			}
-		}
 		gbNoSound = oldNoSound;
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
