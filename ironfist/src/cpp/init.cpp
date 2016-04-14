@@ -10,8 +10,10 @@
 #include "town/town.h"
 #include "sound/sound.h"
 
+#include "prefs.h"
 
 #pragma pack(push,1)
+#pragma comment(lib, "rpcrt4.lib") 
 
 class executive {
 public:
@@ -136,6 +138,32 @@ void __fastcall SetupCDRom() {
 		gbNoSound = 1;
 		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
 						"but otherwise, have fun!");
+
+		H2MessageBox("Reading UUID from registry");
+		std::string sUuid;
+		bool getUuid = read_pref<std::string>("Uuid", sUuid);
+		if (getUuid) {
+			H2MessageBox("Found UUID in registry");
+			H2MessageBox((char *)sUuid.c_str());
+		}
+		else {
+			H2MessageBox("Creating UUID");
+
+			UUID uuid;
+			UuidCreate(&uuid);
+			unsigned char * str;
+			UuidToStringA(&uuid, &str);
+			H2MessageBox((char *)str);
+			std::string s((char*)str);
+			RpcStringFreeA(&str);
+			sUuid = s;
+
+			H2MessageBox("Writing UUDI to registry");
+			bool success = write_pref("Uuid", sUuid);
+			if (success) {
+				H2MessageBox("Success");
+			}
+		}
 		gbNoSound = oldNoSound;
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
