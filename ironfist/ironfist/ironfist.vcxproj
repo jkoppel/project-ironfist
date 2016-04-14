@@ -144,6 +144,7 @@
     <ClCompile Include="..\src\cpp\lib\lua\src\lundump.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lvm.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lzio.c" />
+    <ClCompile Include="..\src\cpp\music\cd_music.cpp" />
     <ClCompile Include="..\src\cpp\registry_prefs.cpp" />
     <ClCompile Include="..\src\cpp\resource\resourceManager.cpp" />
     <ClCompile Include="..\src\cpp\scripting\lua_utils.cpp" />
