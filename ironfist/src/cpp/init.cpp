@@ -160,7 +160,6 @@ void __fastcall SetupCDRom() {
 	int len = strlen(s1) + strlen(s2) + sUuid.size() + 1;
 	char *creqBody = (char *)ALLOC(len);
 	snprintf(creqBody, len, "%s%s%s", s1, sUuid.c_str(), s2);
-	H2MessageBox(creqBody);
 	std::string reqBody(creqBody);
 	req.setContentLength(reqBody.length());
 	session.sendRequest(req) << reqBody;
