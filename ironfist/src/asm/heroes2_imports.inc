@@ -138,6 +138,17 @@ IMPORT_?NextPlayer@game@@QAEXXZ = 1
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
 ?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
 
+;;sound
+;;IMPORT___imp__AIL_redbook_play@12 = 1
+IMPORT_?CDPlay@soundManager@@QAEXHHHH@Z = 1
+?CDPlay@soundManager@@QAEXHHHH@Z_clone EQU CDPlay_orig@soundManager@@QAEXHHHH@Z
+IMPORT_?CDStop@soundManager@@QAEXXZ = 1
+?CDStop@soundManager@@QAEXXZ_clone EQU ?CDStop_orig@soundManager@@QAEXXZ
+IMPORT_?CDSetVolume@soundManager@@QAEXHH@Z = 1
+?CDSetVolume@soundManager@@QAEXHH@Z_clone EQU ?CDSetVolume_orig@soundManager@@QAEXHH@Z
+IMPORT_?ConvertVolume@soundManager@@QAEHHH@Z = 1
+?ConvertVolume@soundManager@@QAEHHH@Z_clone EQU ?ConvertVolume_orig@soundManager@@QAEHHH@Z
+
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
 IMPORT_?AddSpell@hero@@QAEXHH@Z = 1

@@ -1,6 +1,3 @@
-
-
-
 /*
 * Portions of this code is from: https://github.com/vnaum/h2cdplay
 * Author: Vladislav Naumov
@@ -32,40 +29,45 @@ int *t_savepos;               // "save position" flag
 QWORD *t_position;            // saved position
 float global_volume = 1.0f;
 
-bool actually_use_opera = true;
+bool actually_use_opera = true; //this is a hack, need a better way to implement this
 
 extern void __fastcall Process1WindowsMessage();
 
 void reset_town_saved_music_positions();
 
-int __fastcall SystemOptionsHandler_orig(struct tag_message &msg);
-int __fastcall SystemOptionsHandler(struct tag_message &msg)
-	{
-	if(msg.xCoordOrKeycode == 12 && msg.yCoordOrFieldID == 13)
-		{
-		if(actually_use_opera == false && useOpera == true)
-			useOpera = false;
 
-		DWORD use_opera_before = useOpera;
-		int ret = SystemOptionsHandler_orig(msg);
-		DWORD use_opera_after = useOpera;
-
-		if(use_opera_before == false && use_opera_after == true)
-			actually_use_opera = true;
-
-		if(use_opera_before == true && use_opera_after == false)
-			{
-			actually_use_opera = false;
-			useOpera = true;
-			reset_town_saved_music_positions();
-			}
-
-		return ret;
-		}
-
-	int ret = SystemOptionsHandler_orig(msg);
-	return ret;
-	}
+//SystemOptionsHandler is called when the 'System Options' dialog is shown/interacted with
+//
+//int __fastcall SystemOptionsHandler_orig(struct tag_message &msg);
+//int __fastcall SystemOptionsHandler(struct tag_message &msg)
+//	{
+//
+//	//this is a hack to get the 'useOpera' setting to do something different
+//	//if(msg.xCoordOrKeycode == 12 && msg.yCoordOrFieldID == 13)
+//	//	{
+//	//	if(actually_use_opera == false && useOpera == true)
+//	//		useOpera = false;
+//
+//	//	DWORD use_opera_before = useOpera;
+//	//	int ret = SystemOptionsHandler_orig(msg);
+//	//	DWORD use_opera_after = useOpera;
+//
+//	//	if(use_opera_before == false && use_opera_after == true)
+//	//		actually_use_opera = true;
+//
+//	//	if(use_opera_before == true && use_opera_after == false)
+//	//		{
+//	//		actually_use_opera = false;
+//	//		useOpera = true;
+//	//		reset_town_saved_music_positions();
+//	//		}
+//
+//	//	return ret;
+//	//	}
+//
+//	int ret = SystemOptionsHandler_orig(msg);
+//	return ret;
+//	}
 
 void reset_town_saved_music_positions()
 	{
@@ -241,7 +243,7 @@ void soundManager::CDSetVolume(int unknown_control_code, int unknown)
 	{
 	//int volume = this->volRelated;
 
-	int a = soundVolume;
+	//int a = soundVolume;
 	//int b = aMusicVolume_0;
 	//int c = aMusicVolume_1;
 	float volume = ((11 - Data) / 10.0f);
