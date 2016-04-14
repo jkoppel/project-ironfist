@@ -48,7 +48,10 @@ void ScriptSignal(int id, const char* obj) {
 	
 	if(hook != NULL) {
 		lua_getglobal(map_lua, hook);
-		lua_call(map_lua,  0, 0);
+
+		if (lua_pcall(map_lua, 0, -1, 0)) {
+			DisplayError();
+		}
 	}
 }
 
@@ -285,7 +288,9 @@ void RunScript() {
 
 		set_lua_globals(map_lua);
 
-		luaL_dostring(map_lua, script_contents);
+		if (luaL_dostring(map_lua, script_contents)) {
+			DisplayError();
+		}
 	}
 }
 
@@ -354,4 +359,43 @@ void ScriptingShutdown() {
 
 char *GetScriptContents() {
 	return script_contents;
+}
+
+void GetNextMapVariable(int &key, const char *&mapVariableId, const char *&mapVariableValue) {
+	// PUSH THE MAP VARIABLES LIST TO THE TOP OF THE STACK OR nil IF THERE IS NO LIST
+	lua_getglobal(map_lua, "mapVariables");
+
+	// CHECK IF THERE IS INDEED A LIST OF MAP VARIABLES
+	if (lua_isnil(map_lua, -1)) {
+		mapVariableId = "noMapVariables";
+		return;
+	}
+
+	// GO TO THE mapVariable INDEXED BY key
+	if (key >= 0) {
+		lua_pushnumber(map_lua, key);
+	}
+	else {
+		lua_pushnil(map_lua);
+	}
+	if (lua_next(map_lua, -2)) {
+		key = lua_tointeger(map_lua, -2);
+		mapVariableId = lua_tostring(map_lua, -1);
+		lua_pop(map_lua, 2);
+		lua_getglobal(map_lua, mapVariableId);
+		mapVariableValue = lua_tostring(map_lua, -1);
+	}
+	else {
+		mapVariableId = "noMapVariables";
+	}
+}
+
+void SetMapVariables(const char *id, const char *quantity) {
+	lua_pushstring(map_lua, quantity);
+	lua_setglobal(map_lua, id);
+}
+
+void DisplayError() {
+	const char* msg = luaL_checkstring(map_lua, -1);
+	DisplayError(msg, "Script Error");
 }
