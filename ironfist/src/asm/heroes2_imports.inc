@@ -138,6 +138,10 @@ IMPORT_?NextPlayer@game@@QAEXXZ = 1
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
 ?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
 
+;;drawing - xbrz
+IMPORT_?WGAppPaint@@YIHPAX0@Z = 1
+?WGAppPaint@@YIHPAX0@Z_clone EQU ?WGAppPaint_orig@@YIHPAX0@Z
+
 ;;sound
 ;;IMPORT___imp__AIL_redbook_play@12 = 1
 IMPORT_?CDPlay@soundManager@@QAEXHHHH@Z = 1

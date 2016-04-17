@@ -258,6 +258,9 @@
     <ClCompile Include="..\src\cpp\game\graphics.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\xbrz\xbrz_indexed.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\stdafx.h">
@@ -433,6 +436,9 @@
     </ClInclude>
     <ClInclude Include="..\src\cpp\registry_prefs.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\cpp\xbrz\xbrz_indexed.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

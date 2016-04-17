@@ -1,5 +1,36 @@
+#include "base.h"
+#include "game/game.h"
+#include "xbrz/xbrz_indexed.h"
+
+#include <iostream>
+#include <map>
+
+extern int iMainWinScreenWidth;
+extern int iMainWinScreenHeight;
+extern int gbEnlargeScreenBlit; //BOOL
+extern void* hwndApp;
+extern void* lpInitWin;
+extern int bShowIt; //BOOL
+extern int gbAllBlack; //BOOL
+extern void* hpalApp;
+//extern HPALETTE hpalApp;
+extern void* hdcImage;
+extern void* gbmOldMonoBitmap;
+extern int giLimitUpdMinX;
+extern class mouseManager* gpMouseManager;
+
+extern "C" int __stdcall thunk_WinGRecommendDIBFormat(BITMAPINFO*);
+extern "C" int __stdcall thunk_WinGCreateDC(void);
+extern "C" HBITMAP __stdcall thunk_WinGCreateBitmap(HDC, BITMAPINFO*, void**);
+
+extern void __fastcall InitializePalette();
+
+extern DWORD dword_530418;
+
+extern struct _IMAGE screenImage;
 
 
+static bool draw_mask_6 = true;
 
 int __fastcall WGAppPaint_orig(void *, void *);
 int __fastcall WGAppPaint(void* thisptr, void* ptr2)
@@ -20,7 +51,7 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 	extern int giScrollY;
 	hWnd = (HWND)thisptr;
 	v8 = 0;
-	if(draw_mask_4)
+	if(draw_mask_6)
 		return WGAppPaint_orig(thisptr, ptr2);
 
 	//return 1;
@@ -77,7 +108,7 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 				std::cout << bm1.bmWidth << ", " << bm1.bmWidthBytes << "\n";
 
 				buffer_hdc = CreateCompatibleDC((HDC)hdcImage);
-				buffer_bmp = CreateCompatibleBitmap((HDC)hdcImage, 1600, -960);
+				buffer_bmp = CreateCompatibleBitmap((HDC)hdcImage, 1280, -960);
 				SelectObject(buffer_hdc, buffer_bmp);
 				//buffer = new uint32_t[1280 * 960 * 3];
 				//int res = GetDIBits((HDC)hdcImage, )
@@ -110,11 +141,13 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 			SetStretchBltMode((HDC)hdcImage, COLORONCOLOR);
 			SetStretchBltMode(buffer_hdc, COLORONCOLOR);
 			//BOOL res = BitBlt(buffer_hdc, 0, 0, 800, 480, (HDC)hdcImage, 0, 0, SRCCOPY);
-			StretchBlt(buffer_hdc, 0, 0, 1600, 960, (HDC)hdcImage, 0, 0, 800, 480, SRCCOPY);
+			StretchBlt(buffer_hdc, 0, 0, 1280, 960, (HDC)hdcImage, 0, 0, 640, 480, SRCCOPY);
 			bitmap* screen = gpWindowManager->screenBuffer;
 
 			static uint32_t* srcbuf = new uint32_t[800 * 480];
-			static uint32_t* dstbuf = new uint32_t[1600 * 960];
+			static uint32_t* dstbuf = new uint32_t[1280 * 960];
+
+			xbrz::nearestNeighborScale((uint8_t*)bm1.bmBits, 640, 480, (uint8_t*)bm2.bmBits, 1280, 960);
 
 			int pos = 0;
 			//if(!draw_mask_7)
@@ -150,7 +183,7 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 				//for(int y = AdjustedRect.top; y < AdjustedRect.bottom; y++)
 				//	for(int x = AdjustedRect.left; x < AdjustedRect.right; x++)
 				for(int y = 0; y < 480 / 4; y++)
-					for(int x = 0; x < 800 / 4; x++)
+					for(int x = 0; x < 640 / 4; x++)
 						{
 						//COLORREF c = GetPixel((HDC)hdcImage, x, y);
 						unsigned char palettized_color = ((unsigned char*)bm1.bmBits)[y * bm1.bmWidthBytes + x];
@@ -167,7 +200,7 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 				//xbrz::nearestNeighborScale(srcbuf, 800, 480, dstbuf, 1600, 960);
 				xbrz::ScalerCfg cfg;
 				cfg.equalColorTolerance_ = 0;
-				xbrz::scale(2, srcbuf, dstbuf, 800, 480, cfg);
+				xbrz::scale(2, srcbuf, dstbuf, 640, 480, cfg);
 				//xbrz::scale(2, srcbuf, dstbuf, Rect.right - Rect.left, Rect.top - Rect.bottom);
 
 				pos = 0;
@@ -175,7 +208,7 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 				//for(int y = AdjustedRect.top*2; y < AdjustedRect.bottom*2; y++)
 				//	for(int x = AdjustedRect.left*2; x < AdjustedRect.right*2; x++)
 				for(int y = 0; y < 960 / 4; y++)
-					for(int x = 0; x < 1600 / 4; x++)
+					for(int x = 0; x < 1280 / 4; x++)
 						{
 						//uint32_t c = dstbuf[pos];
 						//((unsigned char*)bm2.bmBits)[pos++] = reverse_palette[c];
@@ -201,7 +234,7 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 					//(HDC)hdcImage,
 					v5,
 					v6,
-					1600 * v7 / iMainWinScreenWidth,
+					1280 * v7 / iMainWinScreenWidth,
 					960 * (Rect.bottom - Rect.top) / iMainWinScreenHeight,
 					SRCCOPY);
 				SetStretchBltMode(v2, old_blt_mode);
