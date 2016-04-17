@@ -102,6 +102,8 @@ void army::DoAttack(int x) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   this->DoAttack_orig(x);
 
+  ScriptSetSpecialVariableData("__atackingStack", this);
+  ScriptSetSpecialVariableData("__targetStack", primaryTarget);
   sprintf_s(gText, 80, "%d,%d", this->creatureIdx, primaryTarget->creatureIdx);
   ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, gText);
 }

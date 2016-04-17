@@ -36,6 +36,8 @@ public:
   char field_52[16];
 };
 
+int __fastcall ValidHex(int);
+
 
 class army
 {

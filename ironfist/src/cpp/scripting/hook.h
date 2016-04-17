@@ -1,6 +1,7 @@
 #ifndef SCRIPTING_HOOK_H
 #define SCRIPTING_HOOK_H
 
+void ScriptSetSpecialVariableData(const char*, void*);
 void ScriptSignal(int, const char*); 
 
 enum SCRIPT_EVENTS {
