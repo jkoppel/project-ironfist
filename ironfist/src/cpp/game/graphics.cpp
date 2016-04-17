@@ -30,7 +30,55 @@ extern DWORD dword_530418;
 extern struct _IMAGE screenImage;
 
 
+static bool draw_mask_0 = true;
+static bool draw_mask_1 = true;
+static bool draw_mask_2 = true;
+static bool draw_mask_3 = true;
+static bool draw_mask_4 = true;
+static bool draw_mask_5 = true;
 static bool draw_mask_6 = true;
+
+int __fastcall KeyboardMessageHandler_orig(void *, unsigned int, unsigned int, long);
+int __fastcall KeyboardMessageHandler(void *a1, unsigned int a2, unsigned int a3, long a4)
+	{
+	const int KEYCODE_KEY_1 = 49;
+	const int KEYCODE_KEY_2 = 50;
+	const int KEYCODE_KEY_3 = 51;
+	const int KEYCODE_KEY_4 = 52;
+	const int KEYCODE_KEY_5 = 53;
+	const int KEYCODE_KEY_6 = 54;
+	const int KEYCODE_KEY_7 = 55;
+	/*
+	if(evt->eventCode == INPUT_KEYDOWN_EVENT_CODE)
+	{
+	if(evt->xCoordOrKeycode == 88 && evt->inputTypeBitmask & 3)
+	heroWindowManager::ScreenShot(gpWindowManager);
+	*/
+	//1 == 49
+	tag_message *evt; // esi@5
+					  //evt = &gpInputManager->inputInstances[gpInputManager->currentInfoField];
+
+					  //if(evt->eventCode == INPUT_KEYDOWN_EVENT_CODE)
+	if(a2 & 1)
+		{
+		if(a3 == KEYCODE_KEY_1)
+			draw_mask_0 = !draw_mask_0;
+		if(a3 == KEYCODE_KEY_2)
+			draw_mask_1 = !draw_mask_1;
+		if(a3 == KEYCODE_KEY_3)
+			draw_mask_2 = !draw_mask_2;
+		if(a3 == KEYCODE_KEY_4)
+			draw_mask_3 = !draw_mask_3;
+		if(a3 == KEYCODE_KEY_5)
+			draw_mask_4 = !draw_mask_4;
+		if(a3 == KEYCODE_KEY_6)
+			draw_mask_5 = !draw_mask_5;
+		if(a3 == KEYCODE_KEY_7)
+			draw_mask_6 = !draw_mask_6;
+		}
+	return KeyboardMessageHandler_orig(a1, a2, a3, a4);
+	}
+
 
 int __fastcall WGAppPaint_orig(void *, void *);
 int __fastcall WGAppPaint(void* thisptr, void* ptr2)
@@ -51,7 +99,7 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 	extern int giScrollY;
 	hWnd = (HWND)thisptr;
 	v8 = 0;
-	if(draw_mask_6)
+	if(draw_mask_0)
 		return WGAppPaint_orig(thisptr, ptr2);
 
 	//return 1;
@@ -141,13 +189,16 @@ int __fastcall WGAppPaint(void* thisptr, void* ptr2)
 			SetStretchBltMode((HDC)hdcImage, COLORONCOLOR);
 			SetStretchBltMode(buffer_hdc, COLORONCOLOR);
 			//BOOL res = BitBlt(buffer_hdc, 0, 0, 800, 480, (HDC)hdcImage, 0, 0, SRCCOPY);
-			StretchBlt(buffer_hdc, 0, 0, 1280, 960, (HDC)hdcImage, 0, 0, 640, 480, SRCCOPY);
+
+			if(draw_mask_1)
+				StretchBlt(buffer_hdc, 0, 0, 1280, 960, (HDC)hdcImage, 0, 0, 640, 480, SRCCOPY);
 			bitmap* screen = gpWindowManager->screenBuffer;
 
 			static uint32_t* srcbuf = new uint32_t[800 * 480];
 			static uint32_t* dstbuf = new uint32_t[1280 * 960];
 
-			xbrz::nearestNeighborScale((uint8_t*)bm1.bmBits, 640, 480, (uint8_t*)bm2.bmBits, 1280, 960);
+			if(draw_mask_2)
+				xbrz::nearestNeighborScale((uint8_t*)bm1.bmBits, 640, 480, (uint8_t*)bm2.bmBits, 1280, 960);
 
 			int pos = 0;
 			//if(!draw_mask_7)

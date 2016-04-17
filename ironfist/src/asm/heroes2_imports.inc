@@ -142,6 +142,10 @@ IMPORT_?Process1WindowsMessage@@YIXXZ = 1
 IMPORT_?WGAppPaint@@YIHPAX0@Z = 1
 ?WGAppPaint@@YIHPAX0@Z_clone EQU ?WGAppPaint_orig@@YIHPAX0@Z
 
+;;keyboard input
+IMPORT_?KeyboardMessageHandler@@YIHPAXIIJ@Z = 1
+?KeyboardMessageHandler@@YIHPAXIIJ@Z_clone EQU ?KeyboardMessageHandler_orig@@YIHPAXIIJ@Z
+
 ;;sound
 ;;IMPORT___imp__AIL_redbook_play@12 = 1
 IMPORT_?CDPlay@soundManager@@QAEXHHHH@Z = 1
