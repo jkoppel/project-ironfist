@@ -99,7 +99,7 @@ void game::PropagateVision() {
 }
 
 void game::SetVisibility(int x, int y, int player, int radius) {
-  this->SetVisibility_orig(x, y, player, radius);
+  return this->SetVisibility_orig(x, y, player, radius);
 
   for (int i = 0; i < NUM_PLAYERS; i++) {
     if (this->sharePlayerVision[player][i]) {
