@@ -114,6 +114,7 @@ public:
   int MidX();
   int MidY();
   float SpellCastWorkChance(int);
+  float SpellCastWorkChance_orig(int);
 };
 
 class combatManager : public baseManager

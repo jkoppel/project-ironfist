@@ -197,6 +197,7 @@ IMPORT_?CastSpell@advManager@@QAEXH@Z = 1
 IMPORT_?Resurrect@combatManager@@QAEXHHH@Z = 1
 IMPORT_?DimensionDoor@advManager@@QAEXXZ = 1
 IMPORT_?SpellCastWorkChance@army@@QAEMH@Z = 1
+?SpellCastWorkChance@army@@QAEMH@Z_clone EQU ?SpellCastWorkChance_orig@army@@QAEMH@Z
 
 ;;towns
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
