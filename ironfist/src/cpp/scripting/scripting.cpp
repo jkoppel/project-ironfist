@@ -103,6 +103,7 @@ int l_inputBox(lua_State *L) {
   int len = (int)luaL_checknumber(L, 2);
   char* input = H2InputBox(qst, len);
   lua_pushstring(L, input);
+  FREE(input); // pushstring copies it
   return 1;
 }
 
