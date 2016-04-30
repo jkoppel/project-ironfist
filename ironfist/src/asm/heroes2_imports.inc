@@ -171,14 +171,13 @@ IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
 IMPORT_?MakeAllWaterVisible@game@@QAEXH@Z = 1
 ?MakeAllWaterVisible@game@@QAEXH@Z_clone EQU ?MakeAllWaterVisible_orig@game@@QAEXH@Z
 
-<<<<<<< HEAD
 IMPORT_?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z = 1
 ?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z_clone EQU ?MoveHero_orig@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z
-=======
+
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
 ?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z
->>>>>>> master
+
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
