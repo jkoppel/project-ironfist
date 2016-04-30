@@ -196,7 +196,11 @@ public:
 	void RedrawAdvScreen(int,int);
 	void UpdateRadar(int, int);
     void UpdateHeroLocator(int, int, int);
+	void UpdBottomView(int, int, int);
     void EventSound(int locType, int locType2, SAMPLE2 *samp);
+
+	int ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, class mapCell **a4);
+	int ProcessDeSelect_orig(struct tag_message *, int *, class mapCell **);
 
 	virtual int Open(int);
 	int Open_orig(int);
