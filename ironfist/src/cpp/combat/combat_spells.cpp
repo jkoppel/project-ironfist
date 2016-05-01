@@ -8,9 +8,6 @@
 #include "artifacts.h"
 #include "base.h"
 
-#define ATTR_UNDEAD  4
-#define ATTR_MIRROR_IMAGE 1
-#define NUM_EFFECTS  15
 
 extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,int,int);
 
@@ -145,12 +142,21 @@ void combatManager::Resurrect(int spell, int hex, int spellpower) {
 
 float army::SpellCastWorkChance(int spell)
 {
+	if (this->effectStrengths[EFFECT_ANTI_MAGIC]
+		|| this->creature.creature_flags == DEAD
+		&& spell != SPELL_RESURRECT
+		&& spell != SPELL_RESURRECT_TRUE
+		&& spell != SPELL_ANIMATE_DEAD
+		|| this->dead
+		|| this->creatureIdx == CREATURE_GREEN_DRAGON
+		|| this->creatureIdx == CREATURE_RED_DRAGON
+		|| this->creatureIdx == CREATURE_BLACK_DRAGON)
+		return 0.0;
 	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
 		&& (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING || spell == SPELL_ELEMENTAL_STORM))
 		return 0.0;
-	else if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
+	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
 		&& spell == SPELL_METEOR_SHOWER)
 		return 1.0;
-	else
-		return this->SpellCastWorkChance_orig(spell);
+	return this->SpellCastWorkChance_orig(spell);
 }
