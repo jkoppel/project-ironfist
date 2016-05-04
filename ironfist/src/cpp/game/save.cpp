@@ -239,7 +239,7 @@ void SaveMapVariables(ironfist_map::map_t& m) {
 			char *s2 = "' could not be saved.";
 			int len = strlen(mapVariableId) + strlen(s1) + strlen(s2);
 			char *errorMessage = (char *)ALLOC(len);
-			snprintf(errorMessage, len, "%s%s%s", s1, mapVariableId, s2);
+			sprintf(errorMessage, "%s%s%s", s1, mapVariableId, s2);
 			DisplayError((const char*) errorMessage, "mapVariable Error");
 			FREE(errorMessage);
 		}
