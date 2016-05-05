@@ -7,8 +7,7 @@
 
 #define NUM_SPELLS 66
 
-struct SSpellInfo
-{
+struct SSpellInfo{
   char soundName[9];
   char level;
   char spriteIdx;
@@ -23,8 +22,7 @@ struct SSpellInfo
 
 SSpellInfo gsSpellInfo[];
 
-enum Spell : int
-{
+enum Spell : int{
   SPELL_FIREBALL = 0,
   SPELL_FIREBLAST = 1,
   SPELL_LIGHTNING_BOLT = 2,
@@ -99,8 +97,7 @@ enum Spell : int
 };
 
 
-enum SPELL_ATTRIBUTES
-{
+enum SPELL_ATTRIBUTES{
   ATTR_COMMON_SPELL = 0x1,
   ATTR_COMBAT_SPELL = 0x2,
   ATTR_ADVENTURE_SPELL = 0x4,
@@ -108,15 +105,13 @@ enum SPELL_ATTRIBUTES
 };
 
 
-enum SPELL_CATEGORY
-{
+enum SPELL_CATEGORY{
   SPELL_CATEGORY_COMBAT = 0,
   SPELL_CATEGORY_ADVENTURE = 1,
   SPELL_CATEGORY_ALL = 2,
 };
 
-enum STACK_MODIFYING_EFFECT
-{
+enum STACK_MODIFYING_EFFECT{
 	EFFECT_HASTE = 0,
 	EFFECT_SLOW = 1,
 	EFFECT_BLIND = 2,
