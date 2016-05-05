@@ -14,6 +14,8 @@ char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
 	                        '\0','\0','\0','\0','\0','\0',
                             'c'};
 
+int experienceForLevelTable[] = { 63, 0, 1000, 2000, 3200, 4500, 6000, 7700, 9000, 11000, 13200, 15500, 18500 };
+
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();
@@ -140,6 +142,23 @@ int hero::GetNumSpells(int type) {
 
 void hero::SetPrimarySkill(int skill, int amt) {
   this->primarySkills[skill] = amt;
+}
+
+int hero::GetLevel(int dummy) {
+	return 1337; //test
+	for (int i = 1; i <= 12; ++i) {
+		if (experienceForLevelTable[i] > this->experience)
+			return i - 1;
+	}
+	int tmp = (experienceForLevelTable[12] - experienceForLevelTable[11]) * 1.2;
+	int tmp2 = tmp + experienceForLevelTable[12];
+	int nextLevel = 13;
+	while (tmp2 < this->experience) {
+		tmp *= 1.2;
+		tmp2 += tmp;
+		++nextLevel;
+	}
+	return nextLevel - 1;
 }
 
 void hero::TakeArtifact(int art) {
