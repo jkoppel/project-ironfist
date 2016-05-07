@@ -140,7 +140,7 @@ void combatManager::Resurrect(int spell, int hex, int spellpower) {
 	creat->creature.creature_flags &= ~DEAD;
 }
 
-float army::SpellCastWorkChance(int spell){
+float army::SpellCastWorkChance(int spell) {
 	if (this->effectStrengths[EFFECT_ANTI_MAGIC])
 		return 0.0;
 
