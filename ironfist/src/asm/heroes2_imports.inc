@@ -144,7 +144,6 @@ IMPORT_?AddSpell@hero@@QAEXHH@Z = 1
 IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
-IMPORT_?GetLevel@hero@@QAEHH@Z = 1
 
 ;;artifacts
 IMPORT_?gArtifactNames@@3PAPADA = 1

@@ -144,21 +144,8 @@ void hero::SetPrimarySkill(int skill, int amt) {
   this->primarySkills[skill] = amt;
 }
 
-int hero::GetLevel(int dummy) {
-	return 1337; //test
-	for (int i = 1; i <= 12; ++i) {
-		if (experienceForLevelTable[i] > this->experience)
-			return i - 1;
-	}
-	int tmp = (experienceForLevelTable[12] - experienceForLevelTable[11]) * 1.2;
-	int tmp2 = tmp + experienceForLevelTable[12];
-	int nextLevel = 13;
-	while (tmp2 < this->experience) {
-		tmp *= 1.2;
-		tmp2 += tmp;
-		++nextLevel;
-	}
-	return nextLevel - 1;
+int hero::GetLevel() {
+	return this->oldLevel;
 }
 
 void hero::TakeArtifact(int art) {

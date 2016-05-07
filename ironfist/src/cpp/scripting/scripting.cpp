@@ -242,7 +242,8 @@ int l_sharevision(lua_State *L) {
 
 int l_getherolevel(lua_State *L) {
 	hero* hro = (hero*)lua_touserdata(L, 1);
-	return hro->GetLevel(0);
+	lua_pushinteger(L, hro->GetLevel());
+	return 1;
 }
 
 void set_lua_globals(lua_State *L) {
