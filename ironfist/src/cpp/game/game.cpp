@@ -1,3 +1,4 @@
+#include "analytics.h"
 #include "base.h"
 #include "game/game.h"
 #include "spell/spells.h"
@@ -53,6 +54,7 @@ void game::RandomizeHeroPool() {
 }
 
 void game::NewMap(char* mapname) {
+	send_event("mapAction", mapname);
     this->ResetIronfistGameState();
 	this->NewMap_orig(mapname);
     ScriptingInit(mapname);

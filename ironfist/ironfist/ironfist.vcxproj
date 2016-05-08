@@ -99,6 +99,7 @@
     <ClCompile Include="..\src\cpp\adventure\hero.cpp" />
     <ClCompile Include="..\src\cpp\adventure\map.cpp" />
     <ClCompile Include="..\src\cpp\adventure\map_events.cpp" />
+    <ClCompile Include="..\src\cpp\analytics.cpp" />
     <ClCompile Include="..\src\cpp\artifacts.cpp" />
     <ClCompile Include="..\src\cpp\combat\animation.cpp" />
     <ClCompile Include="..\src\cpp\combat\combat.cpp" />
@@ -159,6 +160,7 @@
     <ClInclude Include="..\src\cpp\adventure\adv.h" />
     <ClInclude Include="..\src\cpp\adventure\map.h" />
     <ClInclude Include="..\src\cpp\adventure\terrain.h" />
+    <ClInclude Include="..\src\cpp\analytics.h" />
     <ClInclude Include="..\src\cpp\artifacts.h" />
     <ClInclude Include="..\src\cpp\base.h" />
     <ClInclude Include="..\src\cpp\combat\animation.h" />

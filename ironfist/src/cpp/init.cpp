@@ -1,6 +1,4 @@
-// Has to be defined before any include <windows.h>
-#include <WinSock2.h>
-
+#include "analytics.h"
 #include "resource/resourceManager.h"
 #include "base.h"
 #include "combat/combat.h"
@@ -13,15 +11,7 @@
 #include "town/town.h"
 #include "sound/sound.h"
 
-#include "prefs.h"
-
-#include "Poco/Net/HTTPClientSession.h"
-#include "Poco/Net/HTTPRequest.h"
-
 #pragma pack(push,1)
-
-// For UUID handling
-#pragma comment(lib, "rpcrt4.lib") 
 
 class executive {
 public:
@@ -133,36 +123,12 @@ void __fastcall SetupCDRom() {
 	 * down the stack.
 	 */
 
+	// Sending an Open event to Google Analytics
+	send_event("gameAction", "open");
+
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
 	ResizeWindow(0,0,640,480);
-
-	// Get the Uuid saved in the registry if it exists.
-	// Create one otherwise
-	std::string sUuid;
-	bool getUuid = read_pref<std::string>("Uuid", sUuid);
-	if (!getUuid) {
-		UUID uuid;
-		UuidCreate(&uuid);
-		unsigned char * str;
-		UuidToStringA(&uuid, &str);
-		std::string s((char*)str);
-		RpcStringFreeA(&str);
-		sUuid = s;
-		bool success = write_pref("Uuid", sUuid);
-	}
-
-	// Post on the GA server using POCO library
-	Poco::Net::HTTPClientSession session("www.google-analytics.com");
-	Poco::Net::HTTPRequest req(Poco::Net::HTTPRequest::HTTP_POST, "/collect", Poco::Net::HTTPMessage::HTTP_1_1);
-	const char *s1 = "v=1&tid=UA-24357556-4&cid=";
-	const char *s2 = "&t=event&an=Ironfist&ec=GameAction&ea=Open&el=";
-	int len = strlen(s1) + strlen(s2) + 2 * sUuid.size() + 1;
-	char *creqBody = (char *)ALLOC(len); 
-	snprintf(creqBody, len, "%s%s%s%s", s1, sUuid.c_str(), s2, sUuid.c_str());
-	std::string reqBody(creqBody);
-	req.setContentLength(reqBody.length());
-	session.sendRequest(req) << reqBody;
 
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
