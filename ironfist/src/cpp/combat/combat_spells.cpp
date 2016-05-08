@@ -8,6 +8,7 @@
 #include "artifacts.h"
 #include "base.h"
 
+
 extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,int,int);
 
 extern heroWindowManager *gpWindowManager;
@@ -137,4 +138,19 @@ void combatManager::Resurrect(int spell, int hex, int spellpower) {
 	}
 	this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 	creat->creature.creature_flags &= ~DEAD;
+}
+
+float army::SpellCastWorkChance(int spell) {
+	if (this->effectStrengths[EFFECT_ANTI_MAGIC])
+		return 0.0;
+
+	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
+		&& spell == SPELL_ELEMENTAL_STORM)
+		return 0.0;
+
+	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
+		&& spell == SPELL_METEOR_SHOWER)
+		return 1.0;
+
+	return this->SpellCastWorkChance_orig(spell);
 }
