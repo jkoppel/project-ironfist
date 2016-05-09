@@ -14,8 +14,6 @@ char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
 	                        '\0','\0','\0','\0','\0','\0',
                             'c'};
 
-int experienceForLevelTable[] = { 63, 0, 1000, 2000, 3200, 4500, 6000, 7700, 9000, 11000, 13200, 15500, 18500 };
-
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();
