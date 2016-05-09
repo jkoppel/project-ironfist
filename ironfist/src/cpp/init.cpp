@@ -1,15 +1,15 @@
+#include "adventure/adv.h"
 #include "analytics.h"
-#include "resource/resourceManager.h"
 #include "base.h"
 #include "combat/combat.h"
 #include "game/game.h"
 #include "gui/dialog.h"
-#include "manager.h"
-#include "adventure/adv.h"
 #include "gui/gui.h"
+#include "manager.h"
+#include "resource/resourceManager.h"
 #include "resource/resources.h"
-#include "town/town.h"
 #include "sound/sound.h"
+#include "town/town.h"
 
 #pragma pack(push,1)
 
@@ -139,7 +139,6 @@ void __fastcall SetupCDRom() {
 		gbNoSound = 1;
 		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
 						"but otherwise, have fun!");
-
 		gbNoSound = oldNoSound;
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."

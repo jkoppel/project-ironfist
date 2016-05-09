@@ -1,11 +1,11 @@
 #include "analytics.h"
 #include "base.h"
-#include "game/game.h"
-#include "spell/spells.h"
 #include "combat/creatures.h"
-
+#include "game/game.h"
 #include "scripting/hook.h"
 #include "scripting/scripting.h"
+#include "spell/spells.h"
+
 
 char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
                              "Multiple", "Random", NULL, NULL, NULL, NULL,

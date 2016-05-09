@@ -1,8 +1,11 @@
-#include "analytics.h"
-#include "prefs.h"
+#include <WinSock2.h>
+
 #include "Poco/Net/HTTPClientSession.h"
 #include "Poco/Net/HTTPRequest.h"
-#include "gui/dialog.h"
+
+#include "analytics.h"
+#include "base.h"
+#include "prefs.h"
 
 // For UUID handling
 #pragma comment(lib, "rpcrt4.lib") 
