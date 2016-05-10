@@ -142,6 +142,10 @@ void hero::SetPrimarySkill(int skill, int amt) {
   this->primarySkills[skill] = amt;
 }
 
+int hero::GetLevel() {
+	return this->oldLevel;
+}
+
 void hero::TakeArtifact(int art) {
 	for(int i = 0; i < 14; i++) {
 		if(this->artifacts[i] == art) {
