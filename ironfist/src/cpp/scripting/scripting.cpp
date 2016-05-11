@@ -240,6 +240,11 @@ int l_sharevision(lua_State *L) {
     return 0;
 }
 
+int l_getherolevel(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	lua_pushinteger(L, hro->GetLevel());
+	return 1;
+}
 
 void set_lua_globals(lua_State *L) {
 	lua_register(L, "MessageBox", l_msgbox);
@@ -270,6 +275,7 @@ void set_lua_globals(lua_State *L) {
 	lua_register(L, "SetNumGuildSpells", l_setnumguildspells);
 	lua_register(L, "SetGuildSpell", l_setguildspell);
     lua_register(L, "ShareVision", l_sharevision);
+	lua_register(L, "GetHeroLevel", l_getherolevel);
 
 	lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
 	lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);
