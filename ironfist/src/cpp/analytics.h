@@ -1,1 +1,1 @@
-void send_event(char* category, char* action);
+void send_event(const char* category, const char* action);
