@@ -205,6 +205,8 @@ IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
 IMPORT_?RecruitHero@townManager@@QAEHHH@Z = 1
 ?RecruitHero@townManager@@QAEHHH@Z_clone EQU ?RecruitHero_orig@townManager@@QAEHHH@Z
 IMPORT_?GetBuildingName@@YIPADHH@Z = 1
+IMPORT_?ClaimTown@game@@QAEXHHH@Z = 1
+IMPORT_?GetTownId@game@@QAEHHH@Z = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1
