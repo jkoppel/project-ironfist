@@ -64,7 +64,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib;bass.lib</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
     </Link>
     <Manifest>
@@ -107,6 +107,7 @@
     <ClCompile Include="..\src\cpp\driver.cpp" />
     <ClCompile Include="..\src\cpp\game\event_loop.cpp" />
     <ClCompile Include="..\src\cpp\game\game.cpp" />
+    <ClCompile Include="..\src\cpp\game\graphics.cpp" />
     <ClCompile Include="..\src\cpp\game\map_xml.cxx" />
     <ClCompile Include="..\src\cpp\game\save.cpp" />
     <ClCompile Include="..\src\cpp\gui\dialog.cpp" />
@@ -144,6 +145,7 @@
     <ClCompile Include="..\src\cpp\lib\lua\src\lundump.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lvm.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lzio.c" />
+    <ClCompile Include="..\src\cpp\music\cd_music.cpp" />
     <ClCompile Include="..\src\cpp\registry_prefs.cpp" />
     <ClCompile Include="..\src\cpp\resource\resourceManager.cpp" />
     <ClCompile Include="..\src\cpp\scripting\lua_utils.cpp" />
@@ -151,6 +153,7 @@
     <ClCompile Include="..\src\cpp\scripting\consts.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
+    <ClCompile Include="..\src\cpp\xbrz\xbrz_indexed.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\resources\windows\resource.h" />
@@ -211,6 +214,7 @@
     <ClInclude Include="..\src\cpp\spell\spells.h" />
     <ClInclude Include="..\src\cpp\stdafx.h" />
     <ClInclude Include="..\src\cpp\town\town.h" />
+    <ClInclude Include="..\src\cpp\xbrz\xbrz_indexed.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\src\asm\heroes2.asm">

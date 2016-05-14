@@ -9,7 +9,7 @@
 #include "resource/resources.h"
 #include "town/town.h"
 #include "sound/sound.h"
-
+#include "prefs.h"
 
 #pragma pack(push,1)
 
@@ -125,7 +125,14 @@ void __fastcall SetupCDRom() {
 
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
-	ResizeWindow(0,0,640,480);
+	DWORD old_x = read_pref<DWORD>("Main Game X");
+	DWORD old_y = read_pref<DWORD>("Main Game Y");
+	DWORD old_width = read_pref<DWORD>("Main Game Width");
+	DWORD old_height = read_pref<DWORD>("Main Game Height");
+	ResizeWindow(old_x == (DWORD)(-1) ? 0 : old_x,
+				 old_y == (DWORD)(-1) ? 0 : old_y,
+				 old_width == (DWORD)(-1) ? 640 : old_width,
+				 old_height == (DWORD)(-1) ? 480 : old_height);
 
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play

@@ -3,7 +3,7 @@
 #include "prefs.h"
 
 //adding a call to Sleep() during event processing will reduce excessive cpu usage
-//on CyberPhreak's machine, 10ms seems to reduce cpu load to <1% while not having any effect
+//on chrisbigart's machine, 10ms seems to reduce cpu load to <1% while not having any effect
 //on the speed/responsiveness of the game
 
 static const int MAX_SLEEP_VALUE = 1000; //sanity check
