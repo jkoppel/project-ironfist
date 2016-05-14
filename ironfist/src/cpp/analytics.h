@@ -1,1 +1,3 @@
-void send_event(const char* category, const char* action);
+#include <string>
+
+void send_event(std::string category, std::string action);

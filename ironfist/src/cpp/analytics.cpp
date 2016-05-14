@@ -6,7 +6,6 @@
 
 #include "analytics.h"
 #include "base.h"
-#include "gui/dialog.h"
 #include "prefs.h"
 
 // For UUID handling
@@ -30,7 +29,7 @@ std::string createOrGetUuid() {
 	return sUuid;
 }
 
-void send_event(const char* category, const char* action) {
+void send_event(std::string category, std::string action) {
 
 	static std::string Uuid = createOrGetUuid();
 
