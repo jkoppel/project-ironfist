@@ -124,7 +124,7 @@ void __fastcall SetupCDRom() {
 	 */
 
 	// Sending an Open event to Google Analytics
-	send_event("gameAction", "open");
+	send_event(gameAction, open);
 
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed

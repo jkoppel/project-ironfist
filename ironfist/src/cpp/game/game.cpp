@@ -54,7 +54,7 @@ void game::RandomizeHeroPool() {
 }
 
 void game::NewMap(char* mapname) {
-	send_event("mapAction", mapname);
+	send_event(mapAction, mapname);
     this->ResetIronfistGameState();
 	this->NewMap_orig(mapname);
     ScriptingInit(mapname);

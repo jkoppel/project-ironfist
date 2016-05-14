@@ -11,6 +11,10 @@
 // For UUID handling
 #pragma comment(lib, "rpcrt4.lib") 
 
+extern std::string gameAction = "gameAction";
+extern std::string mapAction = "mapAction";
+extern std::string open = "open";
+
 const std::string IRONFIST_TRACKER_ID("UA-24357556-4");
 
 std::string createOrGetUuid() {
