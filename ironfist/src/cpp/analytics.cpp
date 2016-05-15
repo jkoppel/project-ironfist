@@ -11,9 +11,9 @@
 #include "prefs.h"
 
 
-extern std::string gameAction = "gameAction";
-extern std::string mapAction = "mapAction";
-extern std::string open = "open";
+extern const std::string gameAction = "gameAction";
+extern const std::string mapAction = "mapAction";
+extern const std::string open = "open";
 
 const std::string IRONFIST_TRACKER_ID("UA-24357556-4");
 
@@ -28,7 +28,7 @@ const std::string createOrGetUuid() {
 	return uuid;
 }
 
-void send_event(std::string category, std::string action) {
+void send_event(const std::string &category, const std::string &action) {
 	static const std::string uuid = createOrGetUuid();
 	Poco::Net::HTTPClientSession session("www.google-analytics.com");
 	Poco::Net::HTTPRequest req(Poco::Net::HTTPRequest::HTTP_POST, "/collect", Poco::Net::HTTPMessage::HTTP_1_1);
