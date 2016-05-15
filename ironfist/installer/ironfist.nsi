@@ -20,7 +20,6 @@ section
 	File ironfist.exe
 	File MSS32.DLL
 	File SMACKW32.DLL
-	File xerces-c_3_1.dll
 	File editor.exe
 
 	setOutPath $INSTDIR\DATA
@@ -57,7 +56,6 @@ sectionEnd
 section "uninstall"
 
 	delete "$INSTDIR\ironfist.exe"
-	delete "$INSTDIR\xerces-c_3_1.dll"
 	delete "$INSTDIR\editor.exe"
 
 	delete "$INSTDIR\DATA\ironfist.agg"

@@ -252,6 +252,9 @@
     <ClCompile Include="..\src\cpp\registry_prefs.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\analytics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\stdafx.h">
@@ -426,6 +429,9 @@
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
     <ClInclude Include="..\src\cpp\registry_prefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\cpp\analytics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

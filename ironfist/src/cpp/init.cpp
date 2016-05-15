@@ -1,15 +1,15 @@
-#include "resource/resourceManager.h"
+#include "adventure/adv.h"
+#include "analytics.h"
 #include "base.h"
 #include "combat/combat.h"
 #include "game/game.h"
 #include "gui/dialog.h"
-#include "manager.h"
-#include "adventure/adv.h"
 #include "gui/gui.h"
+#include "manager.h"
+#include "resource/resourceManager.h"
 #include "resource/resources.h"
-#include "town/town.h"
 #include "sound/sound.h"
-
+#include "town/town.h"
 
 #pragma pack(push,1)
 
@@ -122,6 +122,9 @@ void __fastcall SetupCDRom() {
 	 * reported that those lines did cause a memory error
 	 * down the stack.
 	 */
+
+	// Sending an Open event to Google Analytics
+	send_event(gameAction, open);
 
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
