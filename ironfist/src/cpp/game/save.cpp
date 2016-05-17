@@ -423,8 +423,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				}
 				else {
 					std::map<const char*, const char*> array;
-					for (ironfist_map::mapVariable_t::array_const_iterator it2 =
-						it->array().begin(); it2 != it->array().end(); it2++) {
+					for (ironfist_map::mapVariable_t::array_const_iterator it2 = it->array().begin(); 
+						it2 != it->array().end(); it2++) {
 						array[it2->key().get().c_str()] = it2->value().get().c_str();
 					}
 					SetMapVariableTable(it->id().c_str(), array);
