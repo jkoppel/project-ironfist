@@ -9,7 +9,9 @@ char *GetScriptContents();
 
 void DisplayError();
 
-void GetNextMapVariable(int &, const char *&, const char *&);
+bool GetNextMapVariableType(int &, const char *&);
+const char* GetNextMapVariableValue(const char *&);
+const char* GetNextMapVariableValue(const char *&, bool &);
 void SetMapVariables(const char*, const char*);
 
 #endif

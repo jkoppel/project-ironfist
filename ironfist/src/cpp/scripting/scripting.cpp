@@ -367,14 +367,14 @@ char *GetScriptContents() {
 	return script_contents;
 }
 
-void GetNextMapVariable(int &key, const char *&mapVariableId, const char *&mapVariableValue) {
+bool GetNextMapVariableType(int &key, const char *&mapVariableId) {
 	// PUSH THE MAP VARIABLES LIST TO THE TOP OF THE STACK OR nil IF THERE IS NO LIST
 	lua_getglobal(map_lua, "mapVariables");
 
 	// CHECK IF THERE IS INDEED A LIST OF MAP VARIABLES
 	if (lua_isnil(map_lua, -1)) {
 		mapVariableId = "noMapVariables";
-		return;
+		return 0;
 	}
 
 	// GO TO THE mapVariable INDEXED BY key
@@ -388,12 +388,21 @@ void GetNextMapVariable(int &key, const char *&mapVariableId, const char *&mapVa
 		key = lua_tointeger(map_lua, -2);
 		mapVariableId = lua_tostring(map_lua, -1);
 		lua_pop(map_lua, 2);
-		lua_getglobal(map_lua, mapVariableId);
-		mapVariableValue = lua_tostring(map_lua, -1);
+		return lua_istable(map_lua, -1);
 	}
 	else {
 		mapVariableId = "noMapVariables";
 	}
+	return 0;
+}
+const char* GetNextMapVariableValue(const char *&mapVariableId) {
+	lua_getglobal(map_lua, mapVariableId);
+	return lua_tostring(map_lua, -1);
+}
+
+const char* GetNextMapVariableValue(const char *&mapVariableId, bool &isTable) {
+	lua_getglobal(map_lua, mapVariableId);
+	return "todo";
 }
 
 void SetMapVariables(const char *id, const char *quantity) {

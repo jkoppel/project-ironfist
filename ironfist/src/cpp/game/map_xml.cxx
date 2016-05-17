@@ -1095,6 +1095,60 @@ namespace ironfist_map
     this->value_.set (x);
   }
 
+  const mapVariable_t::isTable_optional& mapVariable_t::
+  isTable () const
+  {
+    return this->isTable_;
+  }
+
+  mapVariable_t::isTable_optional& mapVariable_t::
+  isTable ()
+  {
+    return this->isTable_;
+  }
+
+  void mapVariable_t::
+  isTable (const isTable_type& x)
+  {
+    this->isTable_.set (x);
+  }
+
+  void mapVariable_t::
+  isTable (const isTable_optional& x)
+  {
+    this->isTable_ = x;
+  }
+
+  const mapVariable_t::key_optional& mapVariable_t::
+  key () const
+  {
+    return this->key_;
+  }
+
+  mapVariable_t::key_optional& mapVariable_t::
+  key ()
+  {
+    return this->key_;
+  }
+
+  void mapVariable_t::
+  key (const key_type& x)
+  {
+    this->key_.set (x);
+  }
+
+  void mapVariable_t::
+  key (const key_optional& x)
+  {
+    this->key_ = x;
+  }
+
+  void mapVariable_t::
+  key (::std::auto_ptr< key_type > x)
+  {
+    this->key_.set (x);
+  }
+
 
   // map_t
   // 
@@ -2701,7 +2755,9 @@ namespace ironfist_map
   mapVariable_t ()
   : ::xml_schema::type (),
     id_ (::xml_schema::flags (), this),
-    value_ (::xml_schema::flags (), this)
+    value_ (::xml_schema::flags (), this),
+    isTable_ (::xml_schema::flags (), this),
+    key_ (::xml_schema::flags (), this)
   {
   }
 
@@ -2711,7 +2767,9 @@ namespace ironfist_map
                  ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
     id_ (x.id_, f, this),
-    value_ (x.value_, f, this)
+    value_ (x.value_, f, this),
+    isTable_ (x.isTable_, f, this),
+    key_ (x.key_, f, this)
   {
   }
 
@@ -2721,7 +2779,9 @@ namespace ironfist_map
                  ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
     id_ (f, this),
-    value_ (f, this)
+    value_ (f, this),
+    isTable_ (f, this),
+    key_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -2755,6 +2815,21 @@ namespace ironfist_map
           value_traits::create (i, f, this));
 
         this->value_.set (r);
+        continue;
+      }
+
+      if (n.name () == "isTable" && n.namespace_ ().empty ())
+      {
+        this->isTable_.set (isTable_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "key" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< key_type > r (
+          key_traits::create (i, f, this));
+
+        this->key_.set (r);
         continue;
       }
     }
@@ -5399,6 +5474,30 @@ namespace ironfist_map
           e));
 
       a << *i.value ();
+    }
+
+    // isTable
+    //
+    if (i.isTable ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "isTable",
+          e));
+
+      a << *i.isTable ();
+    }
+
+    // key
+    //
+    if (i.key ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "key",
+          e));
+
+      a << *i.key ();
     }
   }
 

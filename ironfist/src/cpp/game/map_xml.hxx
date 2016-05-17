@@ -1330,6 +1330,45 @@ namespace ironfist_map
     void
     value (::std::auto_ptr< value_type > p);
 
+    // isTable
+    // 
+    typedef ::xml_schema::boolean isTable_type;
+    typedef ::xsd::cxx::tree::optional< isTable_type > isTable_optional;
+    typedef ::xsd::cxx::tree::traits< isTable_type, char > isTable_traits;
+
+    const isTable_optional&
+    isTable () const;
+
+    isTable_optional&
+    isTable ();
+
+    void
+    isTable (const isTable_type& x);
+
+    void
+    isTable (const isTable_optional& x);
+
+    // key
+    // 
+    typedef ::xml_schema::string key_type;
+    typedef ::xsd::cxx::tree::optional< key_type > key_optional;
+    typedef ::xsd::cxx::tree::traits< key_type, char > key_traits;
+
+    const key_optional&
+    key () const;
+
+    key_optional&
+    key ();
+
+    void
+    key (const key_type& x);
+
+    void
+    key (const key_optional& x);
+
+    void
+    key (::std::auto_ptr< key_type > p);
+
     // Constructors.
     //
     mapVariable_t ();
@@ -1359,6 +1398,8 @@ namespace ironfist_map
     protected:
     id_optional id_;
     value_optional value_;
+    isTable_optional isTable_;
+    key_optional key_;
   };
 
   class map_t: public ::xml_schema::type
