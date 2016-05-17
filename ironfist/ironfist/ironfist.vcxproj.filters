@@ -5,6 +5,10 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
     <Filter Include="Resource Files">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
@@ -27,28 +31,6 @@
     <Filter Include="Source Files\resource">
       <UniqueIdentifier>{dc38e639-f2f0-45da-ac30-d467aedf8902}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Assembly Interop">
-      <UniqueIdentifier>{da16eb6a-da1f-41dd-b995-1374ddcc3912}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\town">
-      <UniqueIdentifier>{473ac23d-c617-4e5c-9014-4143cc7bf115}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\scripting">
-      <UniqueIdentifier>{5213638a-8b2f-4639-87ff-f05270f2f3cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\lib">
-      <UniqueIdentifier>{ca37cf5a-9a5d-4bd8-837e-72b103d47c0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\lib\lua">
-      <UniqueIdentifier>{53cae65e-3cd3-45b5-9776-019195ebcfd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\lib\lua\src">
-      <UniqueIdentifier>{f2502571-6d29-4c8f-9777-59b219f6e654}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
     <Filter Include="Header Files\adventure">
       <UniqueIdentifier>{8f616c70-90cb-46cb-8ec6-05672b4e81d7}</UniqueIdentifier>
     </Filter>
@@ -67,11 +49,29 @@
     <Filter Include="Header Files\spells">
       <UniqueIdentifier>{cbef695e-2180-4e16-aac9-0cc1ed1ef743}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Assembly Interop">
+      <UniqueIdentifier>{da16eb6a-da1f-41dd-b995-1374ddcc3912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\town">
+      <UniqueIdentifier>{473ac23d-c617-4e5c-9014-4143cc7bf115}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\town">
       <UniqueIdentifier>{24883924-e3bd-4ec2-83ec-441c388629fa}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\scripting">
       <UniqueIdentifier>{f3fbec8d-922e-4ada-b2b6-58f1ca5681c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting">
+      <UniqueIdentifier>{5213638a-8b2f-4639-87ff-f05270f2f3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib">
+      <UniqueIdentifier>{ca37cf5a-9a5d-4bd8-837e-72b103d47c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\lua">
+      <UniqueIdentifier>{53cae65e-3cd3-45b5-9776-019195ebcfd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\lua\src">
+      <UniqueIdentifier>{f2502571-6d29-4c8f-9777-59b219f6e654}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\sound">
       <UniqueIdentifier>{628f1e93-a2a7-481b-b913-eeeb9d5f8499}</UniqueIdentifier>
