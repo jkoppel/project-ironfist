@@ -15,4 +15,6 @@ wchar_t* ConvertNarrowToWide(const char* msg);
 
 void DisplayError(const char* msg, const char* title);
 
+void ErrorSavingMapVariable(const char* mapVariableId);
+
 #endif

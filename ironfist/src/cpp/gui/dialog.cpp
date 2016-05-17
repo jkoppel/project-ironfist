@@ -1,6 +1,7 @@
 #include "dialog.h"
 
 #include "base.h"
+#include<stdio.h>
 #include<Windows.h>
 
 void H2MessageBox(char* msg) {
@@ -22,4 +23,14 @@ void DisplayError(const char* msg, const char* title) {
 	MessageBox(NULL, (LPCWSTR)wideCharMsg, (LPCWSTR)wideCharTitle, MB_OK);
 	FREE(wideCharMsg);
 	FREE(wideCharTitle);
+}
+
+void ErrorSavingMapVariable(const char* mapVariableId) {
+	char *s1 = "MapVariable '";
+	char *s2 = "' could not be saved.";
+	int len = strlen(mapVariableId) + strlen(s1) + strlen(s2) + 1;
+	char *errorMessage = (char *)ALLOC(len);
+	_snprintf_s(errorMessage, len * sizeof(*errorMessage), len, "%s%s%s", s1, mapVariableId, s2);
+	DisplayError((const char*)errorMessage, "mapVariable Error");
+	FREE(errorMessage);
 }

@@ -81,10 +81,16 @@
   </xs:complexType>
 
   <xs:complexType name="mapVariable_t">
-    <xs:attribute name="id" type="xs:string"/>
-    <xs:attribute name="value" type="xs:string"/>
-    <xs:attribute name="isTable" type="xs:boolean"/>
-    <xs:attribute name="key" type="xs:string"/>
+    <xs:sequence>
+      <xs:element name="id" type="xs:string"/>
+      <xs:element name="value" type="xs:string" minOccurs="0"/>
+      <xs:element name="array" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="key" type="xs:string"/>
+          <xs:attribute name="value" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
   </xs:complexType>
 
   <xs:complexType name="map_t">

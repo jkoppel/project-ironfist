@@ -367,13 +367,14 @@ char *GetScriptContents() {
 	return script_contents;
 }
 
-bool GetNextMapVariableType(int &key, const char *&mapVariableId) {
+bool GetNextMapVariable(int &key, const char *&mapVariableId, bool &isTable) {
+	H2MessageBox("Inside GetNextMapVariableType");
+
 	// PUSH THE MAP VARIABLES LIST TO THE TOP OF THE STACK OR nil IF THERE IS NO LIST
 	lua_getglobal(map_lua, "mapVariables");
 
 	// CHECK IF THERE IS INDEED A LIST OF MAP VARIABLES
 	if (lua_isnil(map_lua, -1)) {
-		mapVariableId = "noMapVariables";
 		return 0;
 	}
 
@@ -388,25 +389,45 @@ bool GetNextMapVariableType(int &key, const char *&mapVariableId) {
 		key = lua_tointeger(map_lua, -2);
 		mapVariableId = lua_tostring(map_lua, -1);
 		lua_pop(map_lua, 2);
-		return lua_istable(map_lua, -1);
-	}
-	else {
-		mapVariableId = "noMapVariables";
+		lua_getglobal(map_lua, mapVariableId);
+		isTable = lua_istable(map_lua, -1);
+		return 1;
 	}
 	return 0;
 }
-const char* GetNextMapVariableValue(const char *&mapVariableId) {
+const char* GetMapVariableValue(const char *&mapVariableId) {
 	lua_getglobal(map_lua, mapVariableId);
 	return lua_tostring(map_lua, -1);
 }
 
-const char* GetNextMapVariableValue(const char *&mapVariableId, bool &isTable) {
+std::map<const char*, const char*> GetMapVariableValueTable(const char *&mapVariableId) {
+
+	std::map<const char*, const char*> luaTable;
+
 	lua_getglobal(map_lua, mapVariableId);
-	return "todo";
+	lua_pushnil(map_lua);
+	while (lua_next(map_lua, -2) != 0) {
+		luaTable[lua_tostring(map_lua, -2)] = lua_tostring(map_lua, -1);
+		lua_pop(map_lua, 1);
+	}	
+	return luaTable;
 }
 
-void SetMapVariables(const char *id, const char *quantity) {
-	lua_pushstring(map_lua, quantity);
+void SetMapVariable(const char *id, const char *value) {
+	lua_pushstring(map_lua, value);
+	lua_setglobal(map_lua, id);
+}
+
+void SetMapVariableTable(const char *id, std::map<const char*, const char*> array) {
+	lua_newtable(map_lua);
+	int top = lua_gettop(map_lua);
+	for (std::map<const char*, const char*>::const_iterator it = array.begin(); it != array.end(); ++it) {
+		const char* key = it->first;
+		const char* value = it->second;
+		lua_pushstring(map_lua, key);
+		lua_pushstring(map_lua, value);
+		lua_settable(map_lua, top);
+	}
 	lua_setglobal(map_lua, id);
 }
 

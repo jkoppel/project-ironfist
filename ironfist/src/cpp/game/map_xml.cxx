@@ -1035,28 +1035,22 @@ namespace ironfist_map
   // mapVariable_t
   // 
 
-  const mapVariable_t::id_optional& mapVariable_t::
+  const mapVariable_t::id_type& mapVariable_t::
   id () const
   {
-    return this->id_;
+    return this->id_.get ();
   }
 
-  mapVariable_t::id_optional& mapVariable_t::
+  mapVariable_t::id_type& mapVariable_t::
   id ()
   {
-    return this->id_;
+    return this->id_.get ();
   }
 
   void mapVariable_t::
   id (const id_type& x)
   {
     this->id_.set (x);
-  }
-
-  void mapVariable_t::
-  id (const id_optional& x)
-  {
-    this->id_ = x;
   }
 
   void mapVariable_t::
@@ -1095,58 +1089,22 @@ namespace ironfist_map
     this->value_.set (x);
   }
 
-  const mapVariable_t::isTable_optional& mapVariable_t::
-  isTable () const
+  const mapVariable_t::array_sequence& mapVariable_t::
+  array () const
   {
-    return this->isTable_;
+    return this->array_;
   }
 
-  mapVariable_t::isTable_optional& mapVariable_t::
-  isTable ()
+  mapVariable_t::array_sequence& mapVariable_t::
+  array ()
   {
-    return this->isTable_;
-  }
-
-  void mapVariable_t::
-  isTable (const isTable_type& x)
-  {
-    this->isTable_.set (x);
+    return this->array_;
   }
 
   void mapVariable_t::
-  isTable (const isTable_optional& x)
+  array (const array_sequence& s)
   {
-    this->isTable_ = x;
-  }
-
-  const mapVariable_t::key_optional& mapVariable_t::
-  key () const
-  {
-    return this->key_;
-  }
-
-  mapVariable_t::key_optional& mapVariable_t::
-  key ()
-  {
-    return this->key_;
-  }
-
-  void mapVariable_t::
-  key (const key_type& x)
-  {
-    this->key_.set (x);
-  }
-
-  void mapVariable_t::
-  key (const key_optional& x)
-  {
-    this->key_ = x;
-  }
-
-  void mapVariable_t::
-  key (::std::auto_ptr< key_type > x)
-  {
-    this->key_.set (x);
+    this->array_ = s;
   }
 
 
@@ -1363,6 +1321,70 @@ namespace ironfist_map
   spell_default_value ()
   {
     return spell_type (-1);
+  }
+
+
+  // array
+  // 
+
+  const array::key_optional& array::
+  key () const
+  {
+    return this->key_;
+  }
+
+  array::key_optional& array::
+  key ()
+  {
+    return this->key_;
+  }
+
+  void array::
+  key (const key_type& x)
+  {
+    this->key_.set (x);
+  }
+
+  void array::
+  key (const key_optional& x)
+  {
+    this->key_ = x;
+  }
+
+  void array::
+  key (::std::auto_ptr< key_type > x)
+  {
+    this->key_.set (x);
+  }
+
+  const array::value_optional& array::
+  value () const
+  {
+    return this->value_;
+  }
+
+  array::value_optional& array::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void array::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void array::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+  void array::
+  value (::std::auto_ptr< value_type > x)
+  {
+    this->value_.set (x);
   }
 }
 
@@ -2752,12 +2774,11 @@ namespace ironfist_map
   //
 
   mapVariable_t::
-  mapVariable_t ()
+  mapVariable_t (const id_type& id)
   : ::xml_schema::type (),
-    id_ (::xml_schema::flags (), this),
+    id_ (id, ::xml_schema::flags (), this),
     value_ (::xml_schema::flags (), this),
-    isTable_ (::xml_schema::flags (), this),
-    key_ (::xml_schema::flags (), this)
+    array_ (::xml_schema::flags (), this)
   {
   }
 
@@ -2768,8 +2789,7 @@ namespace ironfist_map
   : ::xml_schema::type (x, f, c),
     id_ (x.id_, f, this),
     value_ (x.value_, f, this),
-    isTable_ (x.isTable_, f, this),
-    key_ (x.key_, f, this)
+    array_ (x.array_, f, this)
   {
   }
 
@@ -2780,12 +2800,11 @@ namespace ironfist_map
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
     id_ (f, this),
     value_ (f, this),
-    isTable_ (f, this),
-    key_ (f, this)
+    array_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
-      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
       this->parse (p, f);
     }
   }
@@ -2794,44 +2813,59 @@ namespace ironfist_map
   parse (::xsd::cxx::xml::dom::parser< char >& p,
          ::xml_schema::flags f)
   {
-    while (p.more_attributes ())
+    for (; p.more_elements (); p.next_element ())
     {
-      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xercesc::DOMElement& i (p.cur_element ());
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
+      // id
+      //
       if (n.name () == "id" && n.namespace_ ().empty ())
       {
         ::std::auto_ptr< id_type > r (
           id_traits::create (i, f, this));
 
-        this->id_.set (r);
-        continue;
+        if (!id_.present ())
+        {
+          this->id_.set (r);
+          continue;
+        }
       }
 
+      // value
+      //
       if (n.name () == "value" && n.namespace_ ().empty ())
       {
         ::std::auto_ptr< value_type > r (
           value_traits::create (i, f, this));
 
-        this->value_.set (r);
-        continue;
+        if (!this->value_)
+        {
+          this->value_.set (r);
+          continue;
+        }
       }
 
-      if (n.name () == "isTable" && n.namespace_ ().empty ())
+      // array
+      //
+      if (n.name () == "array" && n.namespace_ ().empty ())
       {
-        this->isTable_.set (isTable_traits::create (i, f, this));
+        ::std::auto_ptr< array_type > r (
+          array_traits::create (i, f, this));
+
+        this->array_.push_back (r);
         continue;
       }
 
-      if (n.name () == "key" && n.namespace_ ().empty ())
-      {
-        ::std::auto_ptr< key_type > r (
-          key_traits::create (i, f, this));
+      break;
+    }
 
-        this->key_.set (r);
-        continue;
-      }
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "id",
+        "");
     }
   }
 
@@ -3134,6 +3168,84 @@ namespace ironfist_map
 
   artifact::
   ~artifact ()
+  {
+  }
+
+  // array
+  //
+
+  array::
+  array ()
+  : ::xml_schema::type (),
+    key_ (::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  array::
+  array (const array& x,
+         ::xml_schema::flags f,
+         ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    key_ (x.key_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  array::
+  array (const ::xercesc::DOMElement& e,
+         ::xml_schema::flags f,
+         ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    key_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void array::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "key" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< key_type > r (
+          key_traits::create (i, f, this));
+
+        this->key_.set (r);
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< value_type > r (
+          value_traits::create (i, f, this));
+
+        this->value_.set (r);
+        continue;
+      }
+    }
+  }
+
+  array* array::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class array (*this, f, c);
+  }
+
+  array::
+  ~array ()
   {
   }
 }
@@ -5454,50 +5566,39 @@ namespace ironfist_map
 
     // id
     //
-    if (i.id ())
     {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
           "id",
           e));
 
-      a << *i.id ();
+      s << i.id ();
     }
 
     // value
     //
     if (i.value ())
     {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
           "value",
           e));
 
-      a << *i.value ();
+      s << *i.value ();
     }
 
-    // isTable
+    // array
     //
-    if (i.isTable ())
+    for (mapVariable_t::array_const_iterator
+         b (i.array ().begin ()), n (i.array ().end ());
+         b != n; ++b)
     {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "isTable",
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "array",
           e));
 
-      a << *i.isTable ();
-    }
-
-    // key
-    //
-    if (i.key ())
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "key",
-          e));
-
-      a << *i.key ();
+      s << *b;
     }
   }
 
@@ -6517,6 +6618,36 @@ namespace ironfist_map
           e));
 
       a << i.spell ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const array& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // key
+    //
+    if (i.key ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "key",
+          e));
+
+      a << *i.key ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
     }
   }
 }

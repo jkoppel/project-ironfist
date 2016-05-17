@@ -256,6 +256,7 @@ namespace ironfist_map
   class map_t;
   class secondarySkill;
   class artifact;
+  class array;
 }
 
 
@@ -1291,20 +1292,16 @@ namespace ironfist_map
     // id
     // 
     typedef ::xml_schema::string id_type;
-    typedef ::xsd::cxx::tree::optional< id_type > id_optional;
     typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
 
-    const id_optional&
+    const id_type&
     id () const;
 
-    id_optional&
+    id_type&
     id ();
 
     void
     id (const id_type& x);
-
-    void
-    id (const id_optional& x);
 
     void
     id (::std::auto_ptr< id_type > p);
@@ -1330,48 +1327,26 @@ namespace ironfist_map
     void
     value (::std::auto_ptr< value_type > p);
 
-    // isTable
+    // array
     // 
-    typedef ::xml_schema::boolean isTable_type;
-    typedef ::xsd::cxx::tree::optional< isTable_type > isTable_optional;
-    typedef ::xsd::cxx::tree::traits< isTable_type, char > isTable_traits;
+    typedef ::ironfist_map::array array_type;
+    typedef ::xsd::cxx::tree::sequence< array_type > array_sequence;
+    typedef array_sequence::iterator array_iterator;
+    typedef array_sequence::const_iterator array_const_iterator;
+    typedef ::xsd::cxx::tree::traits< array_type, char > array_traits;
 
-    const isTable_optional&
-    isTable () const;
+    const array_sequence&
+    array () const;
 
-    isTable_optional&
-    isTable ();
-
-    void
-    isTable (const isTable_type& x);
-
-    void
-    isTable (const isTable_optional& x);
-
-    // key
-    // 
-    typedef ::xml_schema::string key_type;
-    typedef ::xsd::cxx::tree::optional< key_type > key_optional;
-    typedef ::xsd::cxx::tree::traits< key_type, char > key_traits;
-
-    const key_optional&
-    key () const;
-
-    key_optional&
-    key ();
+    array_sequence&
+    array ();
 
     void
-    key (const key_type& x);
-
-    void
-    key (const key_optional& x);
-
-    void
-    key (::std::auto_ptr< key_type > p);
+    array (const array_sequence& s);
 
     // Constructors.
     //
-    mapVariable_t ();
+    mapVariable_t (const id_type&);
 
     mapVariable_t (const ::xercesc::DOMElement& e,
                    ::xml_schema::flags f = 0,
@@ -1396,10 +1371,9 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    id_optional id_;
+    ::xsd::cxx::tree::one< id_type > id_;
     value_optional value_;
-    isTable_optional isTable_;
-    key_optional key_;
+    array_sequence array_;
   };
 
   class map_t: public ::xml_schema::type
@@ -1662,6 +1636,82 @@ namespace ironfist_map
     protected:
     ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< spell_type > spell_;
+  };
+
+  class array: public ::xml_schema::type
+  {
+    public:
+    // key
+    // 
+    typedef ::xml_schema::string key_type;
+    typedef ::xsd::cxx::tree::optional< key_type > key_optional;
+    typedef ::xsd::cxx::tree::traits< key_type, char > key_traits;
+
+    const key_optional&
+    key () const;
+
+    key_optional&
+    key ();
+
+    void
+    key (const key_type& x);
+
+    void
+    key (const key_optional& x);
+
+    void
+    key (::std::auto_ptr< key_type > p);
+
+    // value
+    // 
+    typedef ::xml_schema::string value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    void
+    value (::std::auto_ptr< value_type > p);
+
+    // Constructors.
+    //
+    array ();
+
+    array (const ::xercesc::DOMElement& e,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+    array (const array& x,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+    virtual array*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~array ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    key_optional key_;
+    value_optional value_;
   };
 }
 
@@ -2670,6 +2720,9 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const artifact&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const array&);
 }
 
 #include <xsd/cxx/post.hxx>
