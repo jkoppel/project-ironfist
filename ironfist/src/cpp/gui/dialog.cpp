@@ -27,7 +27,7 @@ void DisplayError(const char* msg, const char* title) {
 
 void ErrorSavingMapVariable(const char* mapVariableId) {
 	char *s1 = "MapVariable '";
-	char *s2 = "' could not be saved.";
+	char *s2 = "' could not be saved properly.";
 	int len = strlen(mapVariableId) + strlen(s1) + strlen(s2) + 1;
 	char *errorMessage = (char *)ALLOC(len);
 	_snprintf_s(errorMessage, len * sizeof(*errorMessage), len, "%s%s%s", s1, mapVariableId, s2);
