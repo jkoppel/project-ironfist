@@ -151,7 +151,7 @@ public:
   void ResetSpellsLearned();
 
   void SetPrimarySkill(int,int);
-
+  int GetLevel();
   void Clear();
 };
 
