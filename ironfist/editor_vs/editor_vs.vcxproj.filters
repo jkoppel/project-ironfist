@@ -357,9 +357,4 @@
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\..\..\..\..\..\GOG Games\Heroes of Might and Magic 2 GOLD\README.txt">
-      <Filter>Header Files\lib</Filter>
-    </Text>
-  </ItemGroup>
 </Project>
