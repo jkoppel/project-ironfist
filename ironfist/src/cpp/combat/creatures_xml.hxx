@@ -759,6 +759,37 @@ class creature_t: public ::xml_schema::type
   void
   short_name (::std::auto_ptr< short_name_type > p);
 
+  // secondary_cost_id
+  //
+  typedef ::xml_schema::string secondary_cost_id_type;
+  typedef ::xsd::cxx::tree::traits< secondary_cost_id_type, char > secondary_cost_id_traits;
+
+  const secondary_cost_id_type&
+  secondary_cost_id () const;
+
+  secondary_cost_id_type&
+  secondary_cost_id ();
+
+  void
+  secondary_cost_id (const secondary_cost_id_type& x);
+
+  void
+  secondary_cost_id (::std::auto_ptr< secondary_cost_id_type > p);
+
+  // secondary_cost
+  //
+  typedef ::xml_schema::int_ secondary_cost_type;
+  typedef ::xsd::cxx::tree::traits< secondary_cost_type, char > secondary_cost_traits;
+
+  const secondary_cost_type&
+	  secondary_cost() const;
+
+  secondary_cost_type&
+	  secondary_cost();
+
+  void
+	  secondary_cost(const secondary_cost_type& x);
+
   // Constructors.
   //
   creature_t (const id_type&,
@@ -776,7 +807,9 @@ class creature_t: public ::xml_schema::type
               const attack_type&,
               const defense_type&,
               const shots_type&,
-              const short_name_type&);
+              const short_name_type&,
+	          const secondary_cost_id_type&,
+	          const secondary_cost_type&);
 
   creature_t (const ::xercesc::DOMElement& e,
               ::xml_schema::flags f = 0,
@@ -820,6 +853,8 @@ class creature_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< defense_type > defense_;
   ::xsd::cxx::tree::one< shots_type > shots_;
   ::xsd::cxx::tree::one< short_name_type > short_name_;
+  ::xsd::cxx::tree::one< secondary_cost_id_type > secondary_cost_id_;
+  ::xsd::cxx::tree::one< secondary_cost_type > secondary_cost_;
 };
 
 #include <iosfwd>

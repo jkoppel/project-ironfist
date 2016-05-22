@@ -136,9 +136,33 @@ void LoadCreatures() {
 							GrantCreatureAttribute(id, j->name().c_str());
 						}
 				}
-
+				int creature_secondary_cost_id;
+				if (c.secondary_cost_id() == "wood") {
+					creature_secondary_cost_id = 0;
+				}
+				else if (c.secondary_cost_id() == "mercury") {
+					creature_secondary_cost_id = 1;
+				}
+				else if (c.secondary_cost_id() == "ore") {
+					creature_secondary_cost_id = 2;
+				}
+				else if (c.secondary_cost_id() == "sulfur") {
+					creature_secondary_cost_id == 3;
+				}
+				else if (c.secondary_cost_id() == "crystal") {
+					creature_secondary_cost_id == 4;
+				}
+				else if (c.secondary_cost_id() == "gems") {
+					creature_secondary_cost_id == 5;
+				}
+				else {
+					creature_secondary_cost_id == 6;
+				}
+				
 				gMonsterDatabase[id] = tag_monsterInfo(
 					c.cost(),
+					creature_secondary_cost_id,
+					c.secondary_cost(),
 					c.fight_value(),
 					c.fight_value_aux(),
 					c.growth(),
@@ -167,4 +191,19 @@ void UnloadCreatures() {
 		if(gArmyNames[i] != NULL) free(gArmyNames[i]);
 		if(gArmyNamesPlural[i] != NULL) free(gArmyNamesPlural[i]);
 	}
+}
+
+void __fastcall GetMonsterCost(int mon, int *const costs)
+{
+	if (gMonsterDatabase[mon].secondary_cost_id < 6) {
+		int i;
+		for (i = 0; i < 6; ++i)
+			costs[i] = 0;
+		costs[6] = gMonsterDatabase[mon].cost;
+		costs[gMonsterDatabase[mon].secondary_cost_id] = gMonsterDatabase[mon].secondary_cost;
+	}
+	else {
+		GetMonsterCost_orig(mon, costs);
+	}
+	return;
 }

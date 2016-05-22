@@ -545,6 +545,41 @@ short_name (::std::auto_ptr< short_name_type > x)
   this->short_name_.set (x);
 }
 
+const creature_t::secondary_cost_id_type& creature_t::
+secondary_cost_id () const {
+	return this->secondary_cost_id_.get();
+}
+
+creature_t::secondary_cost_id_type& creature_t::
+secondary_cost_id () {
+	return this->secondary_cost_id_.get();
+}
+
+void creature_t::
+secondary_cost_id (const secondary_cost_id_type& x) {
+	this->secondary_cost_id_.set(x);
+}
+
+void creature_t::
+secondary_cost_id (::std::auto_ptr< secondary_cost_id_type > x) {
+	this->secondary_cost_id_.set(x);
+}
+
+const creature_t::secondary_cost_type& creature_t::
+secondary_cost() const {
+	return this->secondary_cost_.get();
+}
+
+creature_t::secondary_cost_type& creature_t::
+secondary_cost() {
+	return this->secondary_cost_.get();
+}
+
+void creature_t::
+secondary_cost(const secondary_cost_type& x) {
+	this->secondary_cost_.set(x);
+}
+
 
 #include <xsd/cxx/xml/dom/parsing-source.hxx>
 
@@ -869,69 +904,75 @@ creature_attribute_t::
 //
 
 creature_t::
-creature_t (const id_type& id,
-            const name_singular_type& name_singular,
-            const name_plural_type& name_plural,
-            const icn_type& icn,
-            const frm_type& frm,
-            const cost_type& cost,
-            const fight_value_type& fight_value,
-            const fight_value_aux_type& fight_value_aux,
-            const growth_type& growth,
-            const hp_type& hp,
-            const faction_type& faction,
-            const speed_type& speed,
-            const attack_type& attack,
-            const defense_type& defense,
-            const shots_type& shots,
-            const short_name_type& short_name)
-: ::xml_schema::type (),
-  damage_ (::xml_schema::flags (), this),
-  random_spawn_ (::xml_schema::flags (), this),
-  creature_attribute_ (::xml_schema::flags (), this),
-  id_ (id, ::xml_schema::flags (), this),
-  name_singular_ (name_singular, ::xml_schema::flags (), this),
-  name_plural_ (name_plural, ::xml_schema::flags (), this),
-  icn_ (icn, ::xml_schema::flags (), this),
-  frm_ (frm, ::xml_schema::flags (), this),
-  cost_ (cost, ::xml_schema::flags (), this),
-  fight_value_ (fight_value, ::xml_schema::flags (), this),
-  fight_value_aux_ (fight_value_aux, ::xml_schema::flags (), this),
-  growth_ (growth, ::xml_schema::flags (), this),
-  hp_ (hp, ::xml_schema::flags (), this),
-  faction_ (faction, ::xml_schema::flags (), this),
-  speed_ (speed, ::xml_schema::flags (), this),
-  attack_ (attack, ::xml_schema::flags (), this),
-  defense_ (defense, ::xml_schema::flags (), this),
-  shots_ (shots, ::xml_schema::flags (), this),
-  short_name_ (short_name, ::xml_schema::flags (), this)
+creature_t(const id_type& id,
+	const name_singular_type& name_singular,
+	const name_plural_type& name_plural,
+	const icn_type& icn,
+	const frm_type& frm,
+	const cost_type& cost,
+	const fight_value_type& fight_value,
+	const fight_value_aux_type& fight_value_aux,
+	const growth_type& growth,
+	const hp_type& hp,
+	const faction_type& faction,
+	const speed_type& speed,
+	const attack_type& attack,
+	const defense_type& defense,
+	const shots_type& shots,
+	const short_name_type& short_name,
+	const secondary_cost_id_type& secondary_cost_id,
+	const secondary_cost_type& secondary_cost)
+	: ::xml_schema::type(),
+	damage_(::xml_schema::flags(), this),
+	random_spawn_(::xml_schema::flags(), this),
+	creature_attribute_(::xml_schema::flags(), this),
+	id_(id, ::xml_schema::flags(), this),
+	name_singular_(name_singular, ::xml_schema::flags(), this),
+	name_plural_(name_plural, ::xml_schema::flags(), this),
+	icn_(icn, ::xml_schema::flags(), this),
+	frm_(frm, ::xml_schema::flags(), this),
+	cost_(cost, ::xml_schema::flags(), this),
+	fight_value_(fight_value, ::xml_schema::flags(), this),
+	fight_value_aux_(fight_value_aux, ::xml_schema::flags(), this),
+	growth_(growth, ::xml_schema::flags(), this),
+	hp_(hp, ::xml_schema::flags(), this),
+	faction_(faction, ::xml_schema::flags(), this),
+	speed_(speed, ::xml_schema::flags(), this),
+	attack_(attack, ::xml_schema::flags(), this),
+	defense_(defense, ::xml_schema::flags(), this),
+	shots_(shots, ::xml_schema::flags(), this),
+	short_name_(short_name, ::xml_schema::flags(), this),
+	secondary_cost_id_(secondary_cost_id, ::xml_schema::flags(), this),
+	secondary_cost_(secondary_cost, ::xml_schema::flags(), this)
 {
 }
 
 creature_t::
-creature_t (const creature_t& x,
-            ::xml_schema::flags f,
-            ::xml_schema::container* c)
-: ::xml_schema::type (x, f, c),
-  damage_ (x.damage_, f, this),
-  random_spawn_ (x.random_spawn_, f, this),
-  creature_attribute_ (x.creature_attribute_, f, this),
-  id_ (x.id_, f, this),
-  name_singular_ (x.name_singular_, f, this),
-  name_plural_ (x.name_plural_, f, this),
-  icn_ (x.icn_, f, this),
-  frm_ (x.frm_, f, this),
-  cost_ (x.cost_, f, this),
-  fight_value_ (x.fight_value_, f, this),
-  fight_value_aux_ (x.fight_value_aux_, f, this),
-  growth_ (x.growth_, f, this),
-  hp_ (x.hp_, f, this),
-  faction_ (x.faction_, f, this),
-  speed_ (x.speed_, f, this),
-  attack_ (x.attack_, f, this),
-  defense_ (x.defense_, f, this),
-  shots_ (x.shots_, f, this),
-  short_name_ (x.short_name_, f, this)
+creature_t(const creature_t& x,
+	::xml_schema::flags f,
+	::xml_schema::container* c)
+	: ::xml_schema::type(x, f, c),
+	damage_(x.damage_, f, this),
+	random_spawn_(x.random_spawn_, f, this),
+	creature_attribute_(x.creature_attribute_, f, this),
+	id_(x.id_, f, this),
+	name_singular_(x.name_singular_, f, this),
+	name_plural_(x.name_plural_, f, this),
+	icn_(x.icn_, f, this),
+	frm_(x.frm_, f, this),
+	cost_(x.cost_, f, this),
+	fight_value_(x.fight_value_, f, this),
+	fight_value_aux_(x.fight_value_aux_, f, this),
+	growth_(x.growth_, f, this),
+	hp_(x.hp_, f, this),
+	faction_(x.faction_, f, this),
+	speed_(x.speed_, f, this),
+	attack_(x.attack_, f, this),
+	defense_(x.defense_, f, this),
+	shots_(x.shots_, f, this),
+	short_name_(x.short_name_, f, this),
+	secondary_cost_id_(x.secondary_cost_id_, f, this),
+	secondary_cost_(x.secondary_cost_, f, this)
 {
 }
 
@@ -958,7 +999,9 @@ creature_t (const ::xercesc::DOMElement& e,
   attack_ (f, this),
   defense_ (f, this),
   shots_ (f, this),
-  short_name_ (f, this)
+  short_name_ (f, this),
+  secondary_cost_id_ (f, this),
+  secondary_cost_(f, this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -1129,6 +1172,19 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       this->short_name_.set (r);
       continue;
     }
+	if (n.name() == "secondary_cost_id" && n.namespace_().empty())
+	{
+		::std::auto_ptr< secondary_cost_id_type > r(
+		  secondary_cost_id_traits::create(i, f, this));
+
+		this->secondary_cost_id_.set (r);
+		continue;
+	}
+	if (n.name() == "secondary_cost" && n.namespace_().empty())
+	{
+		this->secondary_cost_.set(secondary_cost_traits::create(i, f, this));
+		continue;
+	}
   }
 
   if (!id_.present ())

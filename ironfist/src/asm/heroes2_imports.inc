@@ -124,6 +124,9 @@ IMPORT_?cMonFilename@@3PAPADA = 1
 IMPORT_?gArmyNames@@3PAPADA = 1
 IMPORT_?gArmyNamesPlural@@3PAPADA = 1
 IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
+IMPORT_?GetMonsterCost@@YIXHQAH@Z = 1
+?GetMonsterCost@@YIXHQAH@Z_clone EQU ?GetMonsterCost_orig@@YIXHQAH@Z
+
 
 ;;armies
 
