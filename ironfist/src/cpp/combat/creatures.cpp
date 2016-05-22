@@ -29,6 +29,8 @@ using namespace std;
 #define MAX_CREATURES 256
 #define RAND_DEFAULT 3
 
+extern void __fastcall GetMonsterCost_orig(int, int *const);
+
 tag_monsterInfo gMonsterDatabase[MAX_CREATURES];
 
 const char* CREATURE_DATA = ".\\DATA\\creatures.xml";
@@ -139,24 +141,18 @@ void LoadCreatures() {
 				int creature_secondary_cost_id;
 				if (c.secondary_cost_id() == "wood") {
 					creature_secondary_cost_id = 0;
-				}
-				else if (c.secondary_cost_id() == "mercury") {
+				} else if (c.secondary_cost_id() == "mercury") {
 					creature_secondary_cost_id = 1;
-				}
-				else if (c.secondary_cost_id() == "ore") {
+				} else if (c.secondary_cost_id() == "ore") {
 					creature_secondary_cost_id = 2;
-				}
-				else if (c.secondary_cost_id() == "sulfur") {
-					creature_secondary_cost_id == 3;
-				}
-				else if (c.secondary_cost_id() == "crystal") {
-					creature_secondary_cost_id == 4;
-				}
-				else if (c.secondary_cost_id() == "gems") {
-					creature_secondary_cost_id == 5;
-				}
-				else {
-					creature_secondary_cost_id == 6;
+				} else if (c.secondary_cost_id() == "sulfur") {
+					creature_secondary_cost_id = 3;
+				} else if (c.secondary_cost_id() == "crystal") {
+					creature_secondary_cost_id = 4;
+				} else if (c.secondary_cost_id() == "gems") {
+					creature_secondary_cost_id = 5;
+				} else {
+					creature_secondary_cost_id = 6;
 				}
 				
 				gMonsterDatabase[id] = tag_monsterInfo(
