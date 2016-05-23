@@ -170,6 +170,52 @@ name (::std::auto_ptr< name_type > x)
 }
 
 
+// secondary_cost_t
+// 
+
+const secondary_cost_t::resource_type& secondary_cost_t::
+resource () const
+{
+  return this->resource_.get ();
+}
+
+secondary_cost_t::resource_type& secondary_cost_t::
+resource ()
+{
+  return this->resource_.get ();
+}
+
+void secondary_cost_t::
+resource (const resource_type& x)
+{
+  this->resource_.set (x);
+}
+
+void secondary_cost_t::
+resource (::std::auto_ptr< resource_type > x)
+{
+  this->resource_.set (x);
+}
+
+const secondary_cost_t::cost_type& secondary_cost_t::
+cost () const
+{
+  return this->cost_.get ();
+}
+
+secondary_cost_t::cost_type& secondary_cost_t::
+cost ()
+{
+  return this->cost_.get ();
+}
+
+void secondary_cost_t::
+cost (const cost_type& x)
+{
+  this->cost_.set (x);
+}
+
+
 // creature_t
 // 
 
@@ -225,6 +271,24 @@ void creature_t::
 creature_attribute (const creature_attribute_sequence& s)
 {
   this->creature_attribute_ = s;
+}
+
+const creature_t::secondary_cost_sequence& creature_t::
+secondary_cost () const
+{
+  return this->secondary_cost_;
+}
+
+creature_t::secondary_cost_sequence& creature_t::
+secondary_cost ()
+{
+  return this->secondary_cost_;
+}
+
+void creature_t::
+secondary_cost (const secondary_cost_sequence& s)
+{
+  this->secondary_cost_ = s;
 }
 
 const creature_t::id_type& creature_t::
@@ -543,41 +607,6 @@ void creature_t::
 short_name (::std::auto_ptr< short_name_type > x)
 {
   this->short_name_.set (x);
-}
-
-const creature_t::secondary_cost_id_type& creature_t::
-secondary_cost_id () const {
-	return this->secondary_cost_id_.get();
-}
-
-creature_t::secondary_cost_id_type& creature_t::
-secondary_cost_id () {
-	return this->secondary_cost_id_.get();
-}
-
-void creature_t::
-secondary_cost_id (const secondary_cost_id_type& x) {
-	this->secondary_cost_id_.set(x);
-}
-
-void creature_t::
-secondary_cost_id (::std::auto_ptr< secondary_cost_id_type > x) {
-	this->secondary_cost_id_.set(x);
-}
-
-const creature_t::secondary_cost_type& creature_t::
-secondary_cost() const {
-	return this->secondary_cost_.get();
-}
-
-creature_t::secondary_cost_type& creature_t::
-secondary_cost() {
-	return this->secondary_cost_.get();
-}
-
-void creature_t::
-secondary_cost(const secondary_cost_type& x) {
-	this->secondary_cost_.set(x);
 }
 
 
@@ -900,79 +929,165 @@ creature_attribute_t::
 {
 }
 
+// secondary_cost_t
+//
+
+secondary_cost_t::
+secondary_cost_t (const resource_type& resource,
+                  const cost_type& cost)
+: ::xml_schema::type (),
+  resource_ (resource, ::xml_schema::flags (), this),
+  cost_ (cost, ::xml_schema::flags (), this)
+{
+}
+
+secondary_cost_t::
+secondary_cost_t (const secondary_cost_t& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  resource_ (x.resource_, f, this),
+  cost_ (x.cost_, f, this)
+{
+}
+
+secondary_cost_t::
+secondary_cost_t (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  resource_ (f, this),
+  cost_ (f, this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+    this->parse (p, f);
+  }
+}
+
+void secondary_cost_t::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  while (p.more_attributes ())
+  {
+    const ::xercesc::DOMAttr& i (p.next_attribute ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    if (n.name () == "resource" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< resource_type > r (
+        resource_traits::create (i, f, this));
+
+      this->resource_.set (r);
+      continue;
+    }
+
+    if (n.name () == "cost" && n.namespace_ ().empty ())
+    {
+      this->cost_.set (cost_traits::create (i, f, this));
+      continue;
+    }
+  }
+
+  if (!resource_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_attribute< char > (
+      "resource",
+      "");
+  }
+
+  if (!cost_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_attribute< char > (
+      "cost",
+      "");
+  }
+}
+
+secondary_cost_t* secondary_cost_t::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class secondary_cost_t (*this, f, c);
+}
+
+secondary_cost_t::
+~secondary_cost_t ()
+{
+}
+
 // creature_t
 //
 
 creature_t::
-creature_t(const id_type& id,
-	const name_singular_type& name_singular,
-	const name_plural_type& name_plural,
-	const icn_type& icn,
-	const frm_type& frm,
-	const cost_type& cost,
-	const fight_value_type& fight_value,
-	const fight_value_aux_type& fight_value_aux,
-	const growth_type& growth,
-	const hp_type& hp,
-	const faction_type& faction,
-	const speed_type& speed,
-	const attack_type& attack,
-	const defense_type& defense,
-	const shots_type& shots,
-	const short_name_type& short_name,
-	const secondary_cost_id_type& secondary_cost_id,
-	const secondary_cost_type& secondary_cost)
-	: ::xml_schema::type(),
-	damage_(::xml_schema::flags(), this),
-	random_spawn_(::xml_schema::flags(), this),
-	creature_attribute_(::xml_schema::flags(), this),
-	id_(id, ::xml_schema::flags(), this),
-	name_singular_(name_singular, ::xml_schema::flags(), this),
-	name_plural_(name_plural, ::xml_schema::flags(), this),
-	icn_(icn, ::xml_schema::flags(), this),
-	frm_(frm, ::xml_schema::flags(), this),
-	cost_(cost, ::xml_schema::flags(), this),
-	fight_value_(fight_value, ::xml_schema::flags(), this),
-	fight_value_aux_(fight_value_aux, ::xml_schema::flags(), this),
-	growth_(growth, ::xml_schema::flags(), this),
-	hp_(hp, ::xml_schema::flags(), this),
-	faction_(faction, ::xml_schema::flags(), this),
-	speed_(speed, ::xml_schema::flags(), this),
-	attack_(attack, ::xml_schema::flags(), this),
-	defense_(defense, ::xml_schema::flags(), this),
-	shots_(shots, ::xml_schema::flags(), this),
-	short_name_(short_name, ::xml_schema::flags(), this),
-	secondary_cost_id_(secondary_cost_id, ::xml_schema::flags(), this),
-	secondary_cost_(secondary_cost, ::xml_schema::flags(), this)
+creature_t (const id_type& id,
+            const name_singular_type& name_singular,
+            const name_plural_type& name_plural,
+            const icn_type& icn,
+            const frm_type& frm,
+            const cost_type& cost,
+            const fight_value_type& fight_value,
+            const fight_value_aux_type& fight_value_aux,
+            const growth_type& growth,
+            const hp_type& hp,
+            const faction_type& faction,
+            const speed_type& speed,
+            const attack_type& attack,
+            const defense_type& defense,
+            const shots_type& shots,
+            const short_name_type& short_name)
+: ::xml_schema::type (),
+  damage_ (::xml_schema::flags (), this),
+  random_spawn_ (::xml_schema::flags (), this),
+  creature_attribute_ (::xml_schema::flags (), this),
+  secondary_cost_ (::xml_schema::flags (), this),
+  id_ (id, ::xml_schema::flags (), this),
+  name_singular_ (name_singular, ::xml_schema::flags (), this),
+  name_plural_ (name_plural, ::xml_schema::flags (), this),
+  icn_ (icn, ::xml_schema::flags (), this),
+  frm_ (frm, ::xml_schema::flags (), this),
+  cost_ (cost, ::xml_schema::flags (), this),
+  fight_value_ (fight_value, ::xml_schema::flags (), this),
+  fight_value_aux_ (fight_value_aux, ::xml_schema::flags (), this),
+  growth_ (growth, ::xml_schema::flags (), this),
+  hp_ (hp, ::xml_schema::flags (), this),
+  faction_ (faction, ::xml_schema::flags (), this),
+  speed_ (speed, ::xml_schema::flags (), this),
+  attack_ (attack, ::xml_schema::flags (), this),
+  defense_ (defense, ::xml_schema::flags (), this),
+  shots_ (shots, ::xml_schema::flags (), this),
+  short_name_ (short_name, ::xml_schema::flags (), this)
 {
 }
 
 creature_t::
-creature_t(const creature_t& x,
-	::xml_schema::flags f,
-	::xml_schema::container* c)
-	: ::xml_schema::type(x, f, c),
-	damage_(x.damage_, f, this),
-	random_spawn_(x.random_spawn_, f, this),
-	creature_attribute_(x.creature_attribute_, f, this),
-	id_(x.id_, f, this),
-	name_singular_(x.name_singular_, f, this),
-	name_plural_(x.name_plural_, f, this),
-	icn_(x.icn_, f, this),
-	frm_(x.frm_, f, this),
-	cost_(x.cost_, f, this),
-	fight_value_(x.fight_value_, f, this),
-	fight_value_aux_(x.fight_value_aux_, f, this),
-	growth_(x.growth_, f, this),
-	hp_(x.hp_, f, this),
-	faction_(x.faction_, f, this),
-	speed_(x.speed_, f, this),
-	attack_(x.attack_, f, this),
-	defense_(x.defense_, f, this),
-	shots_(x.shots_, f, this),
-	short_name_(x.short_name_, f, this),
-	secondary_cost_id_(x.secondary_cost_id_, f, this),
-	secondary_cost_(x.secondary_cost_, f, this)
+creature_t (const creature_t& x,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  damage_ (x.damage_, f, this),
+  random_spawn_ (x.random_spawn_, f, this),
+  creature_attribute_ (x.creature_attribute_, f, this),
+  secondary_cost_ (x.secondary_cost_, f, this),
+  id_ (x.id_, f, this),
+  name_singular_ (x.name_singular_, f, this),
+  name_plural_ (x.name_plural_, f, this),
+  icn_ (x.icn_, f, this),
+  frm_ (x.frm_, f, this),
+  cost_ (x.cost_, f, this),
+  fight_value_ (x.fight_value_, f, this),
+  fight_value_aux_ (x.fight_value_aux_, f, this),
+  growth_ (x.growth_, f, this),
+  hp_ (x.hp_, f, this),
+  faction_ (x.faction_, f, this),
+  speed_ (x.speed_, f, this),
+  attack_ (x.attack_, f, this),
+  defense_ (x.defense_, f, this),
+  shots_ (x.shots_, f, this),
+  short_name_ (x.short_name_, f, this)
 {
 }
 
@@ -984,6 +1099,7 @@ creature_t (const ::xercesc::DOMElement& e,
   damage_ (f, this),
   random_spawn_ (f, this),
   creature_attribute_ (f, this),
+  secondary_cost_ (f, this),
   id_ (f, this),
   name_singular_ (f, this),
   name_plural_ (f, this),
@@ -999,9 +1115,7 @@ creature_t (const ::xercesc::DOMElement& e,
   attack_ (f, this),
   defense_ (f, this),
   shots_ (f, this),
-  short_name_ (f, this),
-  secondary_cost_id_ (f, this),
-  secondary_cost_(f, this)
+  short_name_ (f, this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -1050,6 +1164,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         creature_attribute_traits::create (i, f, this));
 
       this->creature_attribute_.push_back (r);
+      continue;
+    }
+
+    // secondary-cost
+    //
+    if (n.name () == "secondary-cost" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< secondary_cost_type > r (
+        secondary_cost_traits::create (i, f, this));
+
+      this->secondary_cost_.push_back (r);
       continue;
     }
 
@@ -1172,19 +1297,6 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       this->short_name_.set (r);
       continue;
     }
-	if (n.name() == "secondary_cost_id" && n.namespace_().empty())
-	{
-		::std::auto_ptr< secondary_cost_id_type > r(
-		  secondary_cost_id_traits::create(i, f, this));
-
-		this->secondary_cost_id_.set (r);
-		continue;
-	}
-	if (n.name() == "secondary_cost" && n.namespace_().empty())
-	{
-		this->secondary_cost_.set(secondary_cost_traits::create(i, f, this));
-		continue;
-	}
   }
 
   if (!id_.present ())
@@ -2713,6 +2825,286 @@ creature_attribute (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
     n.name (),
     n.namespace_ (),
     "creature-attribute",
+    "");
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::std::string& u,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      u, h, p, f));
+
+  h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::std::string& u,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      u, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::std::string& u,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      u, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is);
+  return ::secondary_cost (isrc, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::sax::std_input_source isrc (is);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                const ::std::string& sid,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+  return ::secondary_cost (isrc, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                const ::std::string& sid,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                const ::std::string& sid,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xercesc::InputSource& i,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      i, h, p, f));
+
+  h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xercesc::InputSource& i,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      i, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xercesc::InputSource& i,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      i, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::xercesc::DOMDocument& d,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  if (f & ::xml_schema::flags::keep_dom)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+      static_cast< ::xercesc::DOMDocument* > (d.cloneNode (true)));
+
+    ::std::auto_ptr< ::secondary_cost_t > r (
+      ::secondary_cost (
+        c, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  const ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "secondary-cost" &&
+      n.namespace_ () == "")
+  {
+    ::std::auto_ptr< ::secondary_cost_t > r (
+      ::xsd::cxx::tree::traits< ::secondary_cost_t, char >::create (
+        e, f, 0));
+    return r;
+  }
+
+  throw ::xsd::cxx::tree::unexpected_element < char > (
+    n.name (),
+    n.namespace_ (),
+    "secondary-cost",
+    "");
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties&)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+    ((f & ::xml_schema::flags::keep_dom) &&
+     !(f & ::xml_schema::flags::own_dom))
+    ? static_cast< ::xercesc::DOMDocument* > (d->cloneNode (true))
+    : 0);
+
+  ::xercesc::DOMDocument& doc (c.get () ? *c : *d);
+  const ::xercesc::DOMElement& e (*doc.getDocumentElement ());
+
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (f & ::xml_schema::flags::keep_dom)
+    doc.setUserData (::xml_schema::dom::tree_node_key,
+                     (c.get () ? &c : &d),
+                     0);
+
+  if (n.name () == "secondary-cost" &&
+      n.namespace_ () == "")
+  {
+    ::std::auto_ptr< ::secondary_cost_t > r (
+      ::xsd::cxx::tree::traits< ::secondary_cost_t, char >::create (
+        e, f, 0));
+    return r;
+  }
+
+  throw ::xsd::cxx::tree::unexpected_element < char > (
+    n.name (),
+    n.namespace_ (),
+    "secondary-cost",
     "");
 }
 

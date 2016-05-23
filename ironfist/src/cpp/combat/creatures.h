@@ -110,8 +110,8 @@ enum CREATURE_FLAGS : __int16
 struct tag_monsterInfo
 {
   __int16 cost;
-  __int16 secondary_cost_id;
-  __int16 secondary_cost;
+  //__int16 secondary_cost_id;
+  //__int16 secondary_cost;
   int fight_value;
   char fight_value_aux;
   char growth;
@@ -136,13 +136,13 @@ struct tag_monsterInfo
 						creature_flags(c2), _(_2) {
 							strcpy(this->short_name, s3);
 						}
-  tag_monsterInfo(int c, int sc_id, int sc, int f, int f2, int g, int h, int f3, int s, int a, int d, int m, int m2, int s2,
+  /*tag_monsterInfo(int c, int sc_id, int sc, int f, int f2, int g, int h, int f3, int s, int a, int d, int m, int m2, int s2,
 	                const char* s3, int c2, int _2) :
 	                    cost((short)c), secondary_cost_id((short)sc_id), secondary_cost((short)sc), fight_value(f), fight_value_aux(f2), growth(g), hp(h),
 	                    faction(f3), speed(s), attack(a), defense(d), min_damage(m), max_damage(m2), shots(s2),
 	                    creature_flags(c2), _(_2) {
 	                        strcpy(this->short_name, s3);
-  }
+  }*/
 };
 
 
@@ -150,6 +150,8 @@ struct tag_monsterInfo
 tag_monsterInfo gMonsterDatabase[];
 
 int gMonRandBound[][2];
+
+int gMonSecondaryCost[][6][2];
 
 int CreatureHasAttribute(int id, const char* name);
 char* GetCreatureName(int id);
@@ -161,7 +163,6 @@ void UnloadCreatures();
 
 
 void __fastcall GetMonsterCost(int, int *const);
-void __fastcall GetMonsterCost_orig(int, int *const);
 
 #pragma pack(pop)
 

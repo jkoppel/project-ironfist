@@ -29,8 +29,6 @@ using namespace std;
 #define MAX_CREATURES 256
 #define RAND_DEFAULT 3
 
-extern void __fastcall GetMonsterCost_orig(int, int *const);
-
 tag_monsterInfo gMonsterDatabase[MAX_CREATURES];
 
 const char* CREATURE_DATA = ".\\DATA\\creatures.xml";
@@ -41,6 +39,7 @@ char *cArmyFrameFileNames[MAX_CREATURES];
 char *gArmyNames[MAX_CREATURES];
 char *gArmyNamesPlural[MAX_CREATURES];
 int gMonRandBound[MAX_CREATURES][2];
+int gMonSecondaryCost[MAX_CREATURES][6][2];
 
 struct attributeNameTableEntry{char* name; int flag;};
 
@@ -50,6 +49,17 @@ attributeNameTableEntry creatureAttributeNameTable[] = {
 	{"shoots", SHOOTER},
 	{"two-hex-attack", TWO_HEX_ATTACKER},
 	{"undead", UNDEAD}
+};
+
+struct secondaryCostIdxTableEntry { char * resource; int idx; };
+
+secondaryCostIdxTableEntry secondaryCostIdxTable[] = {
+	{"wood", 0},
+	{"mercury", 1},
+	{"ore", 2},
+	{"sulfer", 3},
+	{"crystal", 4},
+	{"gems", 5}
 };
 
 char* ironfistAttributeNames[] = {STRIKE_AND_RETURN};
@@ -138,27 +148,25 @@ void LoadCreatures() {
 							GrantCreatureAttribute(id, j->name().c_str());
 						}
 				}
-				int creature_secondary_cost_id;
-				if (c.secondary_cost_id() == "wood") {
-					creature_secondary_cost_id = 0;
-				} else if (c.secondary_cost_id() == "mercury") {
-					creature_secondary_cost_id = 1;
-				} else if (c.secondary_cost_id() == "ore") {
-					creature_secondary_cost_id = 2;
-				} else if (c.secondary_cost_id() == "sulfur") {
-					creature_secondary_cost_id = 3;
-				} else if (c.secondary_cost_id() == "crystal") {
-					creature_secondary_cost_id = 4;
-				} else if (c.secondary_cost_id() == "gems") {
-					creature_secondary_cost_id = 5;
-				} else {
-					creature_secondary_cost_id = 6;
+
+				for (int i = 0; i < 6; i++) {
+					gMonSecondaryCost[id][i][0] = 0;
+					gMonSecondaryCost[id][i][1] = 0;
+				}
+				for (creature_t::secondary_cost_iterator i = c.secondary_cost().begin();
+				     i != c.secondary_cost().end();
+					 ++i) {
+					    for (int k = 0; k < ELEMENTS_IN(secondaryCostIdxTable); k++) {
+						   if (strcmp(secondaryCostIdxTable[k].resource, i->resource().c_str())
+							   == 0) {
+							        gMonSecondaryCost[id][k][0] = 1;
+							        gMonSecondaryCost[id][k][1] = i->cost();
+						   }
+					    }
 				}
 				
 				gMonsterDatabase[id] = tag_monsterInfo(
 					c.cost(),
-					creature_secondary_cost_id,
-					c.secondary_cost(),
 					c.fight_value(),
 					c.fight_value_aux(),
 					c.growth(),
@@ -189,17 +197,49 @@ void UnloadCreatures() {
 	}
 }
 
-void __fastcall GetMonsterCost(int mon, int *const costs)
-{
-	if (gMonsterDatabase[mon].secondary_cost_id < 6) {
-		int i;
-		for (i = 0; i < 6; ++i)
+void __fastcall GetMonsterCost(int mon, int *const costs) {
+	
+	int i;
+	bool customed_sc = false;
+	for (i = 0; i < 6; ++i)
+	{
+		if (gMonSecondaryCost[mon][i][0])
+		{
+			costs[i] = gMonSecondaryCost[mon][i][1];
+			customed_sc = true;
+		}
+		else
 			costs[i] = 0;
-		costs[6] = gMonsterDatabase[mon].cost;
-		costs[gMonsterDatabase[mon].secondary_cost_id] = gMonsterDatabase[mon].secondary_cost;
 	}
-	else {
-		GetMonsterCost_orig(mon, costs);
+	costs[6] = gMonsterDatabase[mon].cost;
+
+	if (!customed_sc) {
+		switch (mon)
+		{
+		case CREATURE_GENIE:
+			costs[5] = 1;
+			break;
+		case CREATURE_PHOENIX:
+			costs[1] = 1;
+			break;
+		case CREATURE_CYCLOPS:
+			costs[4] = 1;
+			break;
+		case CREATURE_GREEN_DRAGON:
+		case CREATURE_RED_DRAGON:
+			costs[3] = 1;
+			break;
+		case CREATURE_BLACK_DRAGON:
+			costs[3] = 2;
+			break;
+		case CREATURE_GIANT:
+			costs[5] = 1;
+			break;
+		case CREATURE_TITAN:
+			costs[5] = 2;
+			break;
+		default:
+			return;
+		}
 	}
-	return;
 }

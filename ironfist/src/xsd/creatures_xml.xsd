@@ -21,11 +21,17 @@
     <xs:attribute name="name" type="xs:string" use="required"/>
   </xs:complexType>
   
+  <xs:complexType name="secondary-cost_t">
+	<xs:attribute name="material" type="xs:string" use="required"/>
+	<xs:attribute name="cost" type="xs:int" use="required"/> 
+  </xs:complexType>
+  
   <xs:complexType name="creature_t">
     <xs:choice maxOccurs="unbounded">
       <xs:element ref="damage" minOccurs="1" maxOccurs="1"/>
       <xs:element ref="random-spawn" minOccurs="1" maxOccurs="1"/>
       <xs:element ref="creature-attribute"/>
+	  <xs:element ref="secondary-cost"/>
     </xs:choice>
     <xs:attribute name="id" type="xs:int" use="required"/>
     <xs:attribute name="name-singular" type="xs:string" use="required"/>
@@ -50,6 +56,7 @@
   <xs:element name="damage" type="damage_t"/>
   <xs:element name="random-spawn" type="random-spawn_t"/>
   <xs:element name="creature-attribute" type="creature-attribute_t"/>
+  <xs:element name="secondary-cost" type="secondary-cost_t"/>
   
 
 </xs:schema>
