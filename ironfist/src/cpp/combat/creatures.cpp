@@ -168,7 +168,7 @@ void LoadCreatures() {
 							   }
 							   else {
 								   EarlyShutdown("Startup Error", 
-									   "Error loading creature.xml.\nToo many secondary resource costs per creature!");
+									   "Error loading creatures.xml.\nToo many secondary resource costs per creature!");
 							   }
 							       
 						   }

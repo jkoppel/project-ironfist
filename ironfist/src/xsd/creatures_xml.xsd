@@ -22,7 +22,7 @@
   </xs:complexType>
   
   <xs:complexType name="secondary-cost_t">
-	<xs:attribute name="material" type="xs:string" use="required"/>
+	<xs:attribute name="resource" type="xs:string" use="required"/>
 	<xs:attribute name="cost" type="xs:int" use="required"/> 
   </xs:complexType>
   
