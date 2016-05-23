@@ -7,6 +7,7 @@
 #include "base.h"
 #include "combat/creatures.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 
 #include "combat/creatures_xml.hxx"
 
@@ -153,14 +154,23 @@ void LoadCreatures() {
 					gMonSecondaryCost[id][i][0] = 0;
 					gMonSecondaryCost[id][i][1] = 0;
 				}
+				bool secondary_cost = false;
 				for (creature_t::secondary_cost_iterator i = c.secondary_cost().begin();
 				     i != c.secondary_cost().end();
 					 ++i) {
 					    for (int k = 0; k < ELEMENTS_IN(secondaryCostIdxTable); k++) {
 						   if (strcmp(secondaryCostIdxTable[k].resource, i->resource().c_str())
 							   == 0) {
-							        gMonSecondaryCost[id][k][0] = 1;
-							        gMonSecondaryCost[id][k][1] = i->cost();
+							   if (!secondary_cost) {
+								   gMonSecondaryCost[id][k][0] = 1;
+								   gMonSecondaryCost[id][k][1] = i->cost();
+								   secondary_cost = true;
+							   }
+							   else {
+								   EarlyShutdown("Startup Error", 
+									   "Error loading creature.xml.\nToo many secondary resource costs per creature!");
+							   }
+							       
 						   }
 					    }
 				}
