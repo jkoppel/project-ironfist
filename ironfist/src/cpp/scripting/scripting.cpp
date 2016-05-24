@@ -268,7 +268,7 @@ int l_getHeroName(lua_State *L) {
 
 int l_setHeroName(lua_State *L) {
   hero *hro = (hero*)lua_touserdata(L, 1);
-  strcpy(hro->name, luaL_checkstring(L, 2));
+  strncpy(hro->name, luaL_checkstring(L, 2), ELEMENTS_IN(hro->name));
   return 0;
 }
 
