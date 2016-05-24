@@ -40,8 +40,7 @@ void SetGeneralHook(int id, const char* hook) {
 const char* GetGeneralHook(int id) {
   if (general_triggers->count(id) > 0) {
     return (*general_triggers)[id];
-  }
-  else {
+  } else {
     return NULL;
   }
 }
@@ -211,8 +210,7 @@ int l_takeTroop(lua_State *L) {
     if (hro->army.creatureTypes[i] == creature) {
       if (hro->army.quantities[i] > quantity) {
         hro->army.quantities[i] -= quantity;
-      }
-      else if (hro->army.quantities[i] <= quantity) {
+      } else if (hro->army.quantities[i] <= quantity) {
         hro->army.creatureTypes[i] = -1;
         hro->army.quantities[i] = 0;
       }
