@@ -494,9 +494,9 @@ int l_setguildspell(lua_State *L) {
 
 int l_getCreatureCost(lua_State *L) {
   int creature = (int)luaL_checknumber(L, 1);
-  int cost[7];
+  int cost[NUM_RESOURCES];
   GetMonsterCost(creature, cost);
-  for (int i = 0; i < 7; i++) {
+  for (int i = 0; i < NUM_RESOURCES; i++) {
     lua_pushinteger(L, cost[i]);
   }
   return 7;
