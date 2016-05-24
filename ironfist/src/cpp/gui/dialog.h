@@ -7,6 +7,8 @@ enum DIALOG_TYPE {
   DIALOG_YES_NO = 2
 };
 
+const int BUTTON_CODE_OKAY = 30725;
+const int BUTTON_CODE_CANCEL = 30726;
 
 extern void __fastcall NormalDialog(char * msg,int,int x,int y,int img1Type,int img1Arg,int img2Type,int img2Arg,int writeOr,int);
 void __fastcall GetDataEntry(char *,char *,int,char *,int,int);

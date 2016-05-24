@@ -9,9 +9,6 @@
 
 #include <sstream>
 
-const int BUTTON_CODE_OKAY = 30725;
-const int BUTTON_CODE_CANCEL = 30726;
-
 static const int END_TURN_BUTTON = 4;
 
 int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
