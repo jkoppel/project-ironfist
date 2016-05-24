@@ -591,7 +591,7 @@ int l_setDaysAfterTownLost(lua_State *L)
 {
   playerData *player = (playerData*)lua_touserdata(L, 1);
   int days = (int)luaL_checknumber(L, 2);
-  player->field_43 = days;
+  player->daysLeftWithoutCastle = days;
   return 0;
 }
 int l_getherolevel(lua_State *L) {
