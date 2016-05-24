@@ -10,7 +10,6 @@
 #include "base.h"
 #include "prefs.h"
 
-
 extern const std::string gameAction = "gameAction";
 extern const std::string mapAction = "mapAction";
 extern const std::string open = "open";
@@ -42,5 +41,10 @@ void send_event(const std::string &category, const std::string &action) {
 	uri.addQueryParameter("ea", action);
 	uri.addQueryParameter("el", uuid);
 	req.setContentLength(uri.getRawQuery().length());
-	session.sendRequest(req) << uri.getRawQuery();
+	try {
+		session.sendRequest(req) << uri.getRawQuery();
+	}
+	catch (...) {
+		return;
+	}
 }
