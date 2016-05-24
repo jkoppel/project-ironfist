@@ -1,8 +1,11 @@
 #ifndef SCRIPTING_HOOK_H
 #define SCRIPTING_HOOK_H
 
+#include<string>
+
 void ScriptSetSpecialVariableData(const char*, void*);
 void ScriptSignal(int, const char*); 
+void ScriptSignal(int, const std::string&);
 
 enum SCRIPT_EVENTS {
   SCRIPT_EVT_NEW_DAY,

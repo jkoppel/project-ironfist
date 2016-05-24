@@ -7,6 +7,8 @@
 #include "scripting/hook.h"
 #include "prefs.h"
 
+#include <sstream>
+
 const int BUTTON_CODE_OKAY = 30725;
 const int BUTTON_CODE_CANCEL = 30726;
 
@@ -80,8 +82,10 @@ int advManager::Open(int idx) {
 
 mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9){
   mapCell* res = MoveHero_orig(a2, a3, a4, a5, a6, a7, a8, a9);
-  sprintf_s(gText, 10, "%i,%i", GetCurrentHero()->x, GetCurrentHero()->y);
-  ScriptSignal(SCRIPT_EVT_MOVEHERO, gText);
+  hero *hro = GetCurrentHero();
+  std::ostringstream msg;
+  msg << hro->x << "," << hro->y;
+  ScriptSignal(SCRIPT_EVT_MOVEHERO, msg.str());
   return res;
 }
 

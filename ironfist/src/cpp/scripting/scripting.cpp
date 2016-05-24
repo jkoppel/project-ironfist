@@ -77,6 +77,11 @@ void ScriptSignal(int id, const char* obj) {
   CallHook(GetGeneralHook(id));
 }
 
+void ScriptSignal(int id, const string& obj) {
+  const char* x = obj.c_str();
+  ScriptSignal(id, x);
+}
+
 void ScriptSetSpecialVariableData(const char* nam, void* val) {
   if (!scripting_on) {
     return;

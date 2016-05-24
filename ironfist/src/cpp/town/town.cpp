@@ -11,6 +11,8 @@
 #include "spell/spells.h"
 #include "town/town.h"
 
+#include<sstream>
+
 int BuildingBuilt(town* twn, int building) {
 	return (twn->buildingsBuiltFlags & (1 << building)) ? 1 : 0;
 }
@@ -293,8 +295,8 @@ char *__fastcall GetBuildingName(int faction, int building) {
 }
 
 int recruitUnit::Open(int x) {
-  char ctype[4];
-  itoa(creatureType, ctype, 10);
-  ScriptSignal(SCRIPT_EVT_RECRUIT, ctype);
-  return Open_orig(x);
+  std::ostringstream msg;
+  msg << this->creatureType;
+  ScriptSignal(SCRIPT_EVT_RECRUIT, msg.str());
+  return this->Open_orig(x);
 }
