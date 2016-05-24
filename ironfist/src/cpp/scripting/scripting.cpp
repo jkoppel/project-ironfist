@@ -193,7 +193,7 @@ int l_getCreatureAmount(lua_State *L) {
 
   for (int i = 0; i < CREATURES_IN_ARMY; i++) {
     if (hro->army.creatureTypes[i] == creature) {
-      quantity = hro->army.quantities[i];
+      quantity += hro->army.quantities[i];
     }
   }
 
