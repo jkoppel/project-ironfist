@@ -1,8 +1,9 @@
-#include "dialog.h"
+#include<stdio.h>
+#include<string>
+#include<Windows.h>
 
 #include "base.h"
-#include<stdio.h>
-#include<Windows.h>
+#include "dialog.h"
 
 void H2MessageBox(char* msg) {
 	if (msg) {
@@ -26,11 +27,10 @@ void DisplayError(const char* msg, const char* title) {
 }
 
 void ErrorSavingMapVariable(const char* mapVariableId) {
-	char *s1 = "MapVariable '";
-	char *s2 = "' could not be saved properly.";
-	int len = strlen(mapVariableId) + strlen(s1) + strlen(s2) + 1;
-	char *errorMessage = (char *)ALLOC(len);
-	_snprintf_s(errorMessage, len * sizeof(*errorMessage), len, "%s%s%s", s1, mapVariableId, s2);
-	DisplayError((const char*)errorMessage, "mapVariable Error");
-	FREE(errorMessage);
+	const std::string s1("MapVariable '");
+	const std::string s2("' could not be saved properly.");
+	const std::string mapVariableIdString(mapVariableId);
+	const std::string errorMessage = s1 + mapVariableIdString + s2;
+	const std::string errorLabel("mapVariable Error");
+	DisplayError(errorMessage.c_str(), errorLabel.c_str());
 }
