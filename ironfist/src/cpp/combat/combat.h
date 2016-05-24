@@ -242,7 +242,8 @@ public:
   void InitNonVisualVars();
   void InitNonVisualVars_orig();
 
-  void CombatMessage(char *msg, int, int, int);
+  void CombatMessage(char *msg, int updateScreen, int keepPrevMessage, int);
+  void CombatMessage(char *msg) { CombatMessage(msg, 1, 1, 0); }
 
   void UpdateCombatArea();
   void DrawFrame(int redrawAll,int,int,int,int,int,int);

@@ -509,10 +509,7 @@ int l_battleSummonCreature(lua_State *L) {
   int creature = (int)luaL_checknumber(L, 3);
   int quantity = (int)luaL_checknumber(L, 4);
 
-  // My eyes!
-  if (hex < 0 || hex > 143) return 0;
-
-  gpCombatManager->AddArmy(side, creature, quantity, hex, 0x8000, 1);
+  gpCombatManager->AddArmy(side, creature, quantity, hex, 0, 1);
   return 0;
 }
 
@@ -542,7 +539,7 @@ int l_battleGetHero(lua_State *L) {
 
 int l_battleMessage(lua_State *L) {
   char* message = (char*)luaL_checkstring(L, 1);
-  gpCombatManager->CombatMessage(message, 1, 1, 0);
+  gpCombatManager->CombatMessage(message);
   return 0;
 }
 
