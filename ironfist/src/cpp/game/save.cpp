@@ -234,7 +234,8 @@ void SaveMapVariables(ironfist_map::map_t& m) {
 	bool isTable;
 	bool mapVariablesLeft = GetNextMapVariable(key, mapVariableId, isTable);
 	while (mapVariablesLeft) {
-		ironfist_map::mapVariable_t mapVar(mapVariableId);
+		ironfist_map::mapVariable_t mapVar;
+		mapVar.id(mapVariableId);
 		if (isTable) {
 			std::map<const char*, const char*> mapVariableValue = GetMapVariableValueTable(mapVariableId);
 			for (std::map<const char*, const char*>::const_iterator it = mapVariableValue.begin(); it != mapVariableValue.end(); ++it) {
@@ -419,7 +420,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				it != mp->mapVariable().end();
 				it++) {
 				if (it->value().present()) {
-					SetMapVariable(it->id().c_str(), it->value().get().c_str());
+					SetMapVariable(it->id().get().c_str(), it->value().get().c_str());
 				}
 				else {
 					std::map<const char*, const char*> array;
@@ -427,7 +428,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 						it2 != it->array().end(); it2++) {
 						array[it2->key().get().c_str()] = it2->value().get().c_str();
 					}
-					SetMapVariableTable(it->id().c_str(), array);
+					SetMapVariableTable(it->id().get().c_str(), array);
 				}
 			}
 		} catch(xml_schema::exception& e) {

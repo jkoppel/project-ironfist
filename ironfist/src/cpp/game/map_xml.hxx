@@ -1289,19 +1289,40 @@ namespace ironfist_map
   class mapVariable_t: public ::xml_schema::type
   {
     public:
+    // array
+    // 
+    typedef ::ironfist_map::array array_type;
+    typedef ::xsd::cxx::tree::sequence< array_type > array_sequence;
+    typedef array_sequence::iterator array_iterator;
+    typedef array_sequence::const_iterator array_const_iterator;
+    typedef ::xsd::cxx::tree::traits< array_type, char > array_traits;
+
+    const array_sequence&
+    array () const;
+
+    array_sequence&
+    array ();
+
+    void
+    array (const array_sequence& s);
+
     // id
     // 
     typedef ::xml_schema::string id_type;
+    typedef ::xsd::cxx::tree::optional< id_type > id_optional;
     typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
 
-    const id_type&
+    const id_optional&
     id () const;
 
-    id_type&
+    id_optional&
     id ();
 
     void
     id (const id_type& x);
+
+    void
+    id (const id_optional& x);
 
     void
     id (::std::auto_ptr< id_type > p);
@@ -1327,26 +1348,9 @@ namespace ironfist_map
     void
     value (::std::auto_ptr< value_type > p);
 
-    // array
-    // 
-    typedef ::ironfist_map::array array_type;
-    typedef ::xsd::cxx::tree::sequence< array_type > array_sequence;
-    typedef array_sequence::iterator array_iterator;
-    typedef array_sequence::const_iterator array_const_iterator;
-    typedef ::xsd::cxx::tree::traits< array_type, char > array_traits;
-
-    const array_sequence&
-    array () const;
-
-    array_sequence&
-    array ();
-
-    void
-    array (const array_sequence& s);
-
     // Constructors.
     //
-    mapVariable_t (const id_type&);
+    mapVariable_t ();
 
     mapVariable_t (const ::xercesc::DOMElement& e,
                    ::xml_schema::flags f = 0,
@@ -1371,9 +1375,9 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
     array_sequence array_;
+    id_optional id_;
+    value_optional value_;
   };
 
   class map_t: public ::xml_schema::type
