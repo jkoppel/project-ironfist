@@ -176,7 +176,7 @@ int l_hasTroop(lua_State *L) {
   hero *hro = (hero*)lua_touserdata(L, 1);
   int creature = (int)luaL_checknumber(L, 2);
   int quantity = (int)luaL_checknumber(L, 3);
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < CREATURES_IN_ARMY; i++) {
     if (hro->army.creatureTypes[i] && hro->army.creatureTypes[i] == creature && hro->army.quantities[i] >= quantity) {
       lua_pushboolean(L, true);
       return 1;
@@ -191,7 +191,7 @@ int l_getCreatureAmount(lua_State *L) {
   int creature = (int)luaL_checknumber(L, 2);
   int quantity = 0;
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < CREATURES_IN_ARMY; i++) {
     if (hro->army.creatureTypes[i] == creature) {
       quantity = hro->army.quantities[i];
     }
@@ -206,7 +206,7 @@ int l_takeTroop(lua_State *L) {
   int creature = (int)luaL_checknumber(L, 2);
   int quantity = (int)luaL_checknumber(L, 3);
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < CREATURES_IN_ARMY; i++) {
     if (hro->army.creatureTypes[i] == creature) {
       if (hro->army.quantities[i] > quantity) {
         hro->army.quantities[i] -= quantity;

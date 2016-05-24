@@ -14,6 +14,8 @@ class mapCell;
 
 #define MAX_TOTAL_HEROES 48
 
+#define CREATURES_IN_ARMY 5
+
 enum PRIMARY_SKILL
 {
   PRIMARY_SKILL_ATTACK = 0,
@@ -43,8 +45,8 @@ enum SECONDARY_SKILL
 class armyGroup
 {
 public:
-  char creatureTypes[5];
-  __int16 quantities[5];
+  char creatureTypes[CREATURES_IN_ARMY];
+  __int16 quantities[CREATURES_IN_ARMY];
 
   armyGroup() {
       for (int i = 0; i < ELEMENTS_IN(this->creatureTypes); i++) {
