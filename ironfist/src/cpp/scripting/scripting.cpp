@@ -210,7 +210,9 @@ int l_takeTroop(lua_State *L) {
     if (hro->army.creatureTypes[i] == creature) {
       if (hro->army.quantities[i] > quantity) {
         hro->army.quantities[i] -= quantity;
+        break;
       } else if (hro->army.quantities[i] <= quantity) {
+        quantity -= hro->army.quantities[i];
         hro->army.creatureTypes[i] = -1;
         hro->army.quantities[i] = 0;
       }
