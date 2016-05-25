@@ -79,6 +79,21 @@
 #include <xsd/cxx/tree/parsing/double.hxx>
 #include <xsd/cxx/tree/parsing/decimal.hxx>
 
+#include <xsd/cxx/xml/dom/serialization-header.hxx>
+#include <xsd/cxx/tree/serialization.hxx>
+#include <xsd/cxx/tree/serialization/byte.hxx>
+#include <xsd/cxx/tree/serialization/unsigned-byte.hxx>
+#include <xsd/cxx/tree/serialization/short.hxx>
+#include <xsd/cxx/tree/serialization/unsigned-short.hxx>
+#include <xsd/cxx/tree/serialization/int.hxx>
+#include <xsd/cxx/tree/serialization/unsigned-int.hxx>
+#include <xsd/cxx/tree/serialization/long.hxx>
+#include <xsd/cxx/tree/serialization/unsigned-long.hxx>
+#include <xsd/cxx/tree/serialization/boolean.hxx>
+#include <xsd/cxx/tree/serialization/float.hxx>
+#include <xsd/cxx/tree/serialization/double.hxx>
+#include <xsd/cxx/tree/serialization/decimal.hxx>
+
 namespace xml_schema
 {
   // anyType and anySimpleType.
@@ -174,6 +189,16 @@ namespace xml_schema
   typedef ::xsd::cxx::tree::entity< char, ncname > entity;
   typedef ::xsd::cxx::tree::entities< char, simple_type, entity > entities;
 
+  // Namespace information and list stream. Used in
+  // serialization functions.
+  //
+  typedef ::xsd::cxx::xml::dom::namespace_info< char > namespace_info;
+  typedef ::xsd::cxx::xml::dom::namespace_infomap< char > namespace_infomap;
+  typedef ::xsd::cxx::tree::list_stream< char > list_stream;
+  typedef ::xsd::cxx::tree::as_double< double_ > as_double;
+  typedef ::xsd::cxx::tree::as_decimal< decimal > as_decimal;
+  typedef ::xsd::cxx::tree::facet facet;
+
   // Flags and properties.
   //
   typedef ::xsd::cxx::tree::flags flags;
@@ -197,6 +222,7 @@ namespace xml_schema
   typedef ::xsd::cxx::tree::unexpected_enumerator< char > unexpected_enumerator;
   typedef ::xsd::cxx::tree::expected_text_content< char > expected_text_content;
   typedef ::xsd::cxx::tree::no_prefix_mapping< char > no_prefix_mapping;
+  typedef ::xsd::cxx::tree::serialization< char > serialization;
 
   // Error handler callback interface.
   //
@@ -1470,6 +1496,440 @@ secondary_cost (const ::xercesc::DOMDocument& d,
 secondary_cost (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
                 ::xml_schema::flags f = 0,
                 const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+#include <iosfwd>
+
+#include <xercesc/dom/DOMDocument.hpp>
+#include <xercesc/dom/DOMErrorHandler.hpp>
+#include <xercesc/framework/XMLFormatter.hpp>
+
+#include <xsd/cxx/xml/dom/auto-ptr.hxx>
+
+void
+operator<< (::xercesc::DOMElement&, const creatures_t&);
+
+void
+operator<< (::xercesc::DOMElement&, const damage_t&);
+
+void
+operator<< (::xercesc::DOMElement&, const random_spawn_t&);
+
+void
+operator<< (::xercesc::DOMElement&, const creature_attribute_t&);
+
+void
+operator<< (::xercesc::DOMElement&, const secondary_cost_t&);
+
+void
+operator<< (::xercesc::DOMElement&, const creature_t&);
+
+// Serialize to std::ostream.
+//
+
+void
+creatures (::std::ostream& os,
+           const ::creatures_t& x, 
+           const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+           const ::std::string& e = "UTF-8",
+           ::xml_schema::flags f = 0);
+
+void
+creatures (::std::ostream& os,
+           const ::creatures_t& x, 
+           ::xml_schema::error_handler& eh,
+           const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+           const ::std::string& e = "UTF-8",
+           ::xml_schema::flags f = 0);
+
+void
+creatures (::std::ostream& os,
+           const ::creatures_t& x, 
+           ::xercesc::DOMErrorHandler& eh,
+           const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+           const ::std::string& e = "UTF-8",
+           ::xml_schema::flags f = 0);
+
+// Serialize to xercesc::XMLFormatTarget.
+//
+
+void
+creatures (::xercesc::XMLFormatTarget& ft,
+           const ::creatures_t& x, 
+           const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+           const ::std::string& e = "UTF-8",
+           ::xml_schema::flags f = 0);
+
+void
+creatures (::xercesc::XMLFormatTarget& ft,
+           const ::creatures_t& x, 
+           ::xml_schema::error_handler& eh,
+           const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+           const ::std::string& e = "UTF-8",
+           ::xml_schema::flags f = 0);
+
+void
+creatures (::xercesc::XMLFormatTarget& ft,
+           const ::creatures_t& x, 
+           ::xercesc::DOMErrorHandler& eh,
+           const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+           const ::std::string& e = "UTF-8",
+           ::xml_schema::flags f = 0);
+
+// Serialize to an existing xercesc::DOMDocument.
+//
+
+void
+creatures (::xercesc::DOMDocument& d,
+           const ::creatures_t& x,
+           ::xml_schema::flags f = 0);
+
+// Serialize to a new xercesc::DOMDocument.
+//
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+creatures (const ::creatures_t& x, 
+           const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+           ::xml_schema::flags f = 0);
+
+// Serialize to std::ostream.
+//
+
+void
+creature (::std::ostream& os,
+          const ::creature_t& x, 
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+void
+creature (::std::ostream& os,
+          const ::creature_t& x, 
+          ::xml_schema::error_handler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+void
+creature (::std::ostream& os,
+          const ::creature_t& x, 
+          ::xercesc::DOMErrorHandler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+// Serialize to xercesc::XMLFormatTarget.
+//
+
+void
+creature (::xercesc::XMLFormatTarget& ft,
+          const ::creature_t& x, 
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+void
+creature (::xercesc::XMLFormatTarget& ft,
+          const ::creature_t& x, 
+          ::xml_schema::error_handler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+void
+creature (::xercesc::XMLFormatTarget& ft,
+          const ::creature_t& x, 
+          ::xercesc::DOMErrorHandler& eh,
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          const ::std::string& e = "UTF-8",
+          ::xml_schema::flags f = 0);
+
+// Serialize to an existing xercesc::DOMDocument.
+//
+
+void
+creature (::xercesc::DOMDocument& d,
+          const ::creature_t& x,
+          ::xml_schema::flags f = 0);
+
+// Serialize to a new xercesc::DOMDocument.
+//
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+creature (const ::creature_t& x, 
+          const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+          ::xml_schema::flags f = 0);
+
+// Serialize to std::ostream.
+//
+
+void
+damage (::std::ostream& os,
+        const ::damage_t& x, 
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
+
+void
+damage (::std::ostream& os,
+        const ::damage_t& x, 
+        ::xml_schema::error_handler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
+
+void
+damage (::std::ostream& os,
+        const ::damage_t& x, 
+        ::xercesc::DOMErrorHandler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
+
+// Serialize to xercesc::XMLFormatTarget.
+//
+
+void
+damage (::xercesc::XMLFormatTarget& ft,
+        const ::damage_t& x, 
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
+
+void
+damage (::xercesc::XMLFormatTarget& ft,
+        const ::damage_t& x, 
+        ::xml_schema::error_handler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
+
+void
+damage (::xercesc::XMLFormatTarget& ft,
+        const ::damage_t& x, 
+        ::xercesc::DOMErrorHandler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
+
+// Serialize to an existing xercesc::DOMDocument.
+//
+
+void
+damage (::xercesc::DOMDocument& d,
+        const ::damage_t& x,
+        ::xml_schema::flags f = 0);
+
+// Serialize to a new xercesc::DOMDocument.
+//
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+damage (const ::damage_t& x, 
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        ::xml_schema::flags f = 0);
+
+// Serialize to std::ostream.
+//
+
+void
+random_spawn (::std::ostream& os,
+              const ::random_spawn_t& x, 
+              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+              const ::std::string& e = "UTF-8",
+              ::xml_schema::flags f = 0);
+
+void
+random_spawn (::std::ostream& os,
+              const ::random_spawn_t& x, 
+              ::xml_schema::error_handler& eh,
+              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+              const ::std::string& e = "UTF-8",
+              ::xml_schema::flags f = 0);
+
+void
+random_spawn (::std::ostream& os,
+              const ::random_spawn_t& x, 
+              ::xercesc::DOMErrorHandler& eh,
+              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+              const ::std::string& e = "UTF-8",
+              ::xml_schema::flags f = 0);
+
+// Serialize to xercesc::XMLFormatTarget.
+//
+
+void
+random_spawn (::xercesc::XMLFormatTarget& ft,
+              const ::random_spawn_t& x, 
+              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+              const ::std::string& e = "UTF-8",
+              ::xml_schema::flags f = 0);
+
+void
+random_spawn (::xercesc::XMLFormatTarget& ft,
+              const ::random_spawn_t& x, 
+              ::xml_schema::error_handler& eh,
+              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+              const ::std::string& e = "UTF-8",
+              ::xml_schema::flags f = 0);
+
+void
+random_spawn (::xercesc::XMLFormatTarget& ft,
+              const ::random_spawn_t& x, 
+              ::xercesc::DOMErrorHandler& eh,
+              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+              const ::std::string& e = "UTF-8",
+              ::xml_schema::flags f = 0);
+
+// Serialize to an existing xercesc::DOMDocument.
+//
+
+void
+random_spawn (::xercesc::DOMDocument& d,
+              const ::random_spawn_t& x,
+              ::xml_schema::flags f = 0);
+
+// Serialize to a new xercesc::DOMDocument.
+//
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+random_spawn (const ::random_spawn_t& x, 
+              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+              ::xml_schema::flags f = 0);
+
+// Serialize to std::ostream.
+//
+
+void
+creature_attribute (::std::ostream& os,
+                    const ::creature_attribute_t& x, 
+                    const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                    const ::std::string& e = "UTF-8",
+                    ::xml_schema::flags f = 0);
+
+void
+creature_attribute (::std::ostream& os,
+                    const ::creature_attribute_t& x, 
+                    ::xml_schema::error_handler& eh,
+                    const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                    const ::std::string& e = "UTF-8",
+                    ::xml_schema::flags f = 0);
+
+void
+creature_attribute (::std::ostream& os,
+                    const ::creature_attribute_t& x, 
+                    ::xercesc::DOMErrorHandler& eh,
+                    const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                    const ::std::string& e = "UTF-8",
+                    ::xml_schema::flags f = 0);
+
+// Serialize to xercesc::XMLFormatTarget.
+//
+
+void
+creature_attribute (::xercesc::XMLFormatTarget& ft,
+                    const ::creature_attribute_t& x, 
+                    const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                    const ::std::string& e = "UTF-8",
+                    ::xml_schema::flags f = 0);
+
+void
+creature_attribute (::xercesc::XMLFormatTarget& ft,
+                    const ::creature_attribute_t& x, 
+                    ::xml_schema::error_handler& eh,
+                    const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                    const ::std::string& e = "UTF-8",
+                    ::xml_schema::flags f = 0);
+
+void
+creature_attribute (::xercesc::XMLFormatTarget& ft,
+                    const ::creature_attribute_t& x, 
+                    ::xercesc::DOMErrorHandler& eh,
+                    const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                    const ::std::string& e = "UTF-8",
+                    ::xml_schema::flags f = 0);
+
+// Serialize to an existing xercesc::DOMDocument.
+//
+
+void
+creature_attribute (::xercesc::DOMDocument& d,
+                    const ::creature_attribute_t& x,
+                    ::xml_schema::flags f = 0);
+
+// Serialize to a new xercesc::DOMDocument.
+//
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+creature_attribute (const ::creature_attribute_t& x, 
+                    const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                    ::xml_schema::flags f = 0);
+
+// Serialize to std::ostream.
+//
+
+void
+secondary_cost (::std::ostream& os,
+                const ::secondary_cost_t& x, 
+                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                const ::std::string& e = "UTF-8",
+                ::xml_schema::flags f = 0);
+
+void
+secondary_cost (::std::ostream& os,
+                const ::secondary_cost_t& x, 
+                ::xml_schema::error_handler& eh,
+                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                const ::std::string& e = "UTF-8",
+                ::xml_schema::flags f = 0);
+
+void
+secondary_cost (::std::ostream& os,
+                const ::secondary_cost_t& x, 
+                ::xercesc::DOMErrorHandler& eh,
+                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                const ::std::string& e = "UTF-8",
+                ::xml_schema::flags f = 0);
+
+// Serialize to xercesc::XMLFormatTarget.
+//
+
+void
+secondary_cost (::xercesc::XMLFormatTarget& ft,
+                const ::secondary_cost_t& x, 
+                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                const ::std::string& e = "UTF-8",
+                ::xml_schema::flags f = 0);
+
+void
+secondary_cost (::xercesc::XMLFormatTarget& ft,
+                const ::secondary_cost_t& x, 
+                ::xml_schema::error_handler& eh,
+                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                const ::std::string& e = "UTF-8",
+                ::xml_schema::flags f = 0);
+
+void
+secondary_cost (::xercesc::XMLFormatTarget& ft,
+                const ::secondary_cost_t& x, 
+                ::xercesc::DOMErrorHandler& eh,
+                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                const ::std::string& e = "UTF-8",
+                ::xml_schema::flags f = 0);
+
+// Serialize to an existing xercesc::DOMDocument.
+//
+
+void
+secondary_cost (::xercesc::DOMDocument& d,
+                const ::secondary_cost_t& x,
+                ::xml_schema::flags f = 0);
+
+// Serialize to a new xercesc::DOMDocument.
+//
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+secondary_cost (const ::secondary_cost_t& x, 
+                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+                ::xml_schema::flags f = 0);
 
 #include <xsd/cxx/post.hxx>
 
