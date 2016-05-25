@@ -212,26 +212,26 @@ void __fastcall GetMonsterCost(int mon, int *const costs) {
 		switch (mon)
 		{
 		case CREATURE_GENIE:
-			costs[5] = 1;
+			costs[RESOURCE_GEMS] = 1;
 			break;
 		case CREATURE_PHOENIX:
-			costs[1] = 1;
+			costs[RESOURCE_MERCURY] = 1;
 			break;
 		case CREATURE_CYCLOPS:
-			costs[4] = 1;
+			costs[RESOURCE_CRYSTAL] = 1;
 			break;
 		case CREATURE_GREEN_DRAGON:
 		case CREATURE_RED_DRAGON:
-			costs[3] = 1;
+			costs[RESOURCE_SULFUR] = 1;
 			break;
 		case CREATURE_BLACK_DRAGON:
-			costs[3] = 2;
+			costs[RESOURCE_SULFUR] = 2;
 			break;
 		case CREATURE_GIANT:
-			costs[5] = 1;
+			costs[RESOURCE_GEMS] = 1;
 			break;
 		case CREATURE_TITAN:
-			costs[5] = 2;
+			costs[RESOURCE_SULFUR] = 2;
 			break;
 		default:
 			return;
