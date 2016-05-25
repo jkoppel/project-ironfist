@@ -231,7 +231,7 @@ void __fastcall GetMonsterCost(int mon, int *const costs) {
 			costs[RESOURCE_GEMS] = 1;
 			break;
 		case CREATURE_TITAN:
-			costs[RESOURCE_SULFUR] = 2;
+			costs[RESOURCE_GEMS] = 2;
 			break;
 		default:
 			return;
