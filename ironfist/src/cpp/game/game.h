@@ -35,7 +35,7 @@ public:
 	char _3[45];
 	char field_40;
 	__int16 field_41;
-	char field_43;
+	char daysLeftWithoutCastle;
 	char numCastles;
 	__int16 field_45;
 	char castlesOwned[MAX_TOWNS];
