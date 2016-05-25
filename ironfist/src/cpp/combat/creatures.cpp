@@ -40,7 +40,9 @@ char *cArmyFrameFileNames[MAX_CREATURES];
 char *gArmyNames[MAX_CREATURES];
 char *gArmyNamesPlural[MAX_CREATURES];
 int gMonRandBound[MAX_CREATURES][2];
-int gMonSecondaryCost[MAX_CREATURES][6][2];
+int gMonSecondaryResourceCost[MAX_CREATURES][NUM_SECONDARY_RESOURCES];
+
+bool customed_secondary_cost = false;
 
 struct attributeNameTableEntry{char* name; int flag;};
 
@@ -52,16 +54,9 @@ attributeNameTableEntry creatureAttributeNameTable[] = {
 	{"undead", UNDEAD}
 };
 
-struct secondaryCostIdxTableEntry { char * resource; int idx; };
 
-secondaryCostIdxTableEntry secondaryCostIdxTable[] = {
-	{"wood", 0},
-	{"mercury", 1},
-	{"ore", 2},
-	{"sulfer", 3},
-	{"crystal", 4},
-	{"gems", 5}
-};
+string resourceName[] = { "wood", "mercury", "ore", "sulfur", "crystal", "gems", "gold" };
+
 
 char* ironfistAttributeNames[] = {STRIKE_AND_RETURN};
 int ironfistAttributeTable[ELEMENTS_IN(ironfistAttributeNames)][MAX_CREATURES];
@@ -150,25 +145,23 @@ void LoadCreatures() {
 						}
 				}
 
-				for (int i = 0; i < 6; i++) {
-					gMonSecondaryCost[id][i][0] = 0;
-					gMonSecondaryCost[id][i][1] = 0;
+				for (int i = 0; i < NUM_SECONDARY_RESOURCES ; i++) {
+					gMonSecondaryResourceCost[id][i] = 0;
 				}
-				bool secondary_cost = false;
+
 				for (creature_t::secondary_cost_iterator i = c.secondary_cost().begin();
 				     i != c.secondary_cost().end();
 					 ++i) {
-					    for (int k = 0; k < ELEMENTS_IN(secondaryCostIdxTable); k++) {
-						   if (strcmp(secondaryCostIdxTable[k].resource, i->resource().c_str())
-							   == 0) {
-							   if (!secondary_cost) {
-								   gMonSecondaryCost[id][k][0] = 1;
-								   gMonSecondaryCost[id][k][1] = i->cost();
-								   secondary_cost = true;
+					    for (int k = 0; k < NUM_SECONDARY_RESOURCES; k++) {
+						   if (resourceName[k] == i->resource()) {
+							   if (!customed_secondary_cost) {
+								   gMonSecondaryResourceCost[id][k] = i->cost();
+								   customed_secondary_cost = true;
 							   }
 							   else {
-								   EarlyShutdown("Startup Error", 
-									   "Error loading creatures.xml.\nToo many secondary resource costs per creature!");
+								   string error_message = "Error loading creatures.xml.\nToo many secondary resource costs for creature "
+									                      + c.name_singular() + "!";
+								   EarlyShutdown("Startup Error", (char *)error_message.c_str());
 							   }
 							       
 						   }
@@ -210,20 +203,12 @@ void UnloadCreatures() {
 void __fastcall GetMonsterCost(int mon, int *const costs) {
 	
 	int i;
-	bool customed_sc = false;
-	for (i = 0; i < 6; ++i)
-	{
-		if (gMonSecondaryCost[mon][i][0])
-		{
-			costs[i] = gMonSecondaryCost[mon][i][1];
-			customed_sc = true;
-		}
-		else
-			costs[i] = 0;
+	for (int i = 0; i < NUM_SECONDARY_RESOURCES; i++) {
+		costs[i] = gMonSecondaryResourceCost[mon][i];
 	}
-	costs[6] = gMonsterDatabase[mon].cost;
+	costs[RESOURCE_GOLD] = gMonsterDatabase[mon].cost;
 
-	if (!customed_sc) {
+	if (!customed_secondary_cost) {
 		switch (mon)
 		{
 		case CREATURE_GENIE:

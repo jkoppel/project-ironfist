@@ -4,6 +4,7 @@
 #include<string.h>
 #include<stdio.h>
 
+
 #pragma pack(push, 1)
 
 enum CREATURES
@@ -110,8 +111,6 @@ enum CREATURE_FLAGS : __int16
 struct tag_monsterInfo
 {
   __int16 cost;
-  //__int16 secondary_cost_id;
-  //__int16 secondary_cost;
   int fight_value;
   char fight_value_aux;
   char growth;
@@ -143,8 +142,6 @@ struct tag_monsterInfo
 tag_monsterInfo gMonsterDatabase[];
 
 int gMonRandBound[][2];
-
-int gMonSecondaryCost[][6][2];
 
 int CreatureHasAttribute(int id, const char* name);
 char* GetCreatureName(int id);
