@@ -200,9 +200,6 @@
   <ItemGroup>
     <ResourceCompile Include="..\src\cpp\editor\edittown.rc" />
   </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\..\..\..\..\..\..\GOG Games\Heroes of Might and Magic 2 GOLD\README.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
