@@ -480,6 +480,7 @@ int l_setnumguildspells(lua_State *L) {
   int l = (int)luaL_checknumber(L, 2);
   int n = (int)luaL_checknumber(L, 3);
   twn->SetNumSpellsOfLevel(l, n);
+  twn->GiveSpells(NULL);
   return 0;
 }
 
@@ -489,6 +490,7 @@ int l_setguildspell(lua_State *L) {
   int n = (int)luaL_checknumber(L, 3);
   int s = (int)luaL_checknumber(L, 4);
   twn->mageGuildSpells[l][n] = s;
+  twn->GiveSpells(NULL);
   return 0;
 }
 
