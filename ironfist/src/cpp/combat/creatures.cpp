@@ -54,8 +54,15 @@ attributeNameTableEntry creatureAttributeNameTable[] = {
 	{"undead", UNDEAD}
 };
 
-
-string resourceName[] = { "wood", "mercury", "ore", "sulfur", "crystal", "gems", "gold" };
+struct SecondaryResourceNameTableEntry { string name; int resource_id; };
+SecondaryResourceNameTableEntry SecondaryResourceNameTable[] = {
+	{"wood", RESOURCE_WOOD},
+	{"mercury", RESOURCE_MERCURY},
+	{"ore", RESOURCE_ORE},
+	{"sulfur", RESOURCE_SULFUR},
+	{"crystal", RESOURCE_CRYSTAL},
+	{"gems", RESOURCE_GEMS}
+};
 
 
 char* ironfistAttributeNames[] = {STRIKE_AND_RETURN};
@@ -153,9 +160,9 @@ void LoadCreatures() {
 				     i != c.secondary_cost().end();
 					 ++i) {
 					    for (int k = 0; k < NUM_SECONDARY_RESOURCES; k++) {
-						   if (resourceName[k] == i->resource()) {
+						   if (SecondaryResourceNameTable[k].name == i->resource()) {
 							   if (!customed_secondary_cost) {
-								   gMonSecondaryResourceCost[id][k] = i->cost();
+								   gMonSecondaryResourceCost[id][SecondaryResourceNameTable[k].resource_id] = i->cost();
 								   customed_secondary_cost = true;
 							   }
 							   else {
