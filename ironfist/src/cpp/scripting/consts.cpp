@@ -322,13 +322,13 @@ void set_creature_consts(lua_State* L) {
 }
 
 void set_resources_consts(lua_State *L) {
-  lua_setconst(L, "RESOURCE_WOOD", 0);
-  lua_setconst(L, "RESOURCE_MERCURY", 1);
-  lua_setconst(L, "RESOURCE_ORE", 2);
-  lua_setconst(L, "RESOURCE_SULFUR", 3);
-  lua_setconst(L, "RESOURCE_CRYSTALS", 4);
-  lua_setconst(L, "RESOURCE_GEMS", 5);
-  lua_setconst(L, "RESOURCE_GOLD", 6);
+  lua_setconst(L, "RESOURCE_WOOD", RESOURCE_WOOD);
+  lua_setconst(L, "RESOURCE_MERCURY", RESOURCE_MERCURY);
+  lua_setconst(L, "RESOURCE_ORE", RESOURCE_ORE);
+  lua_setconst(L, "RESOURCE_SULFUR", RESOURCE_SULFUR);
+  lua_setconst(L, "RESOURCE_CRYSTALS", RESOURCE_CRYSTAL);
+  lua_setconst(L, "RESOURCE_GEMS", RESOURCE_GEMS);
+  lua_setconst(L, "RESOURCE_GOLD", RESOURCE_GOLD);
 }
 
 void set_scripting_consts(lua_State* L) {
