@@ -35,12 +35,14 @@ section
 	setOutPath $INSTDIR\MAPS
 	
 	File SorrowEn.MX2
+	File LastStand.MX2
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
 	setOutPath $INSTDIR\SCRIPTS
 	
 	File SorrowEn.MX2.lua
+	File LastStand.MX2.lua
 
 
 	setOutPath $INSTDIR
