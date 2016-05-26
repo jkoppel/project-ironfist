@@ -47,8 +47,7 @@ function AlchemistVisit()
 end;
 
 function WitchVisit()
-	if 0 ==
-	witchVisited then
+	if 0 == witchVisited then
 		witchVisited = 1;
 		h = GetCurrentHero();
 		
@@ -58,8 +57,16 @@ function WitchVisit()
 		result = QuestionBox("Do you wish to buy the necklace (1000 Gold)?");
 		
 		if result then
-			MessageBox("\"You have chosen well\" she says with a big-toothed grin, as she hands you a necklace from which a rabbit's foot dangles.");
-			GrantArtifact(h, ARTIFACT_LUCKY_RABBITS_FOOT);
+		    gold = GetResource(GetPlayer(0), RESOURCE_GOLD);
+			gold = gold - 1000;
+			if gold < 0 then
+			    MessageBox("The witch stomps her feet. \"Come back when you can afford it.\"");
+				witchVisited = 0;
+			else
+				MessageBox("\"You have chosen well\" she says with a big-toothed grin, as she hands you a necklace from which a rabbit's foot dangles.");
+				GrantArtifact(h, ARTIFACT_LUCKY_RABBITS_FOOT);
+				SetResource(GetPlayer(0), RESOURCE_GOLD, gold);
+			end
 		else
 			MessageBox("\"Foolish child to turn down a golden offer. I won't make it again.\"");
 		end
