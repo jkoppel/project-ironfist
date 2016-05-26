@@ -19,16 +19,16 @@ shrineVisited3 = {false, false, false, false, false};
 -- shrineVisited[1] = {false, false, false, false, false};
 -- shrineVisited[2] = {false, false, false, false, false};
 
-druidCircleVisited = 0;
-alchemistLabVisited = 0;
-witchVisited = 0;
+druidCircleVisited = "0";
+alchemistLabVisited = "0";
+witchVisited = "0";
 
 mapVariables = {"druidCircleVisited", "alchemistLabVisited", "witchVisited"};
 -- mapVariables = {"shrineVisited"};
 
 function DruidCircleVisit()
-	if 0 == druidCircleVisited then
-		druidCircleVisited = 1;
+	if "0" == druidCircleVisited then
+		druidCircleVisited = "1";
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
 		MessageBox("You have stumbled upon a droid circle and the old druid there foretelling "
@@ -37,8 +37,8 @@ function DruidCircleVisit()
 end;
 
 function AlchemistVisit()
-	if 0 == alchemistLabVisited then
-		alchemistLabVisited = 1;
+	if "0" == alchemistLabVisited then
+		alchemistLabVisited = "1";
 		h = GetCurrentHero();
 		GrantArmy(h, CREATURE_RANGER, 10);
 		MessageBox("You have reached a small alchemist lab. The owner of the lab is a rich nobleman who " ..
@@ -47,8 +47,8 @@ function AlchemistVisit()
 end;
 
 function WitchVisit()
-	if 0 == witchVisited then
-		witchVisited = 1;
+	if "0" == witchVisited then
+		witchVisited = "1";
 		h = GetCurrentHero();
 		
 		MessageBox("You come across a wooden house in the middle of the swamp with a strange aura inside. " ..
@@ -61,7 +61,7 @@ function WitchVisit()
 			gold = gold - 1000;
 			if gold < 0 then
 			    MessageBox("The witch stomps her feet. \"Come back when you can afford it.\"");
-				witchVisited = 0;
+				witchVisited = "0";
 			else
 				MessageBox("\"You have chosen well\" she says with a big-toothed grin, as she hands you a necklace from which a rabbit's foot dangles.");
 				GrantArtifact(h, ARTIFACT_LUCKY_RABBITS_FOOT);
