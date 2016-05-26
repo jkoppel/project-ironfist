@@ -315,12 +315,6 @@ int l_getheroinpool(lua_State *L) {
   return 1;
 }
 
-int l_getheroname(lua_State *L) {
-  hero *hro = (hero*)lua_touserdata(L, 1);
-  lua_pushstring(L, hro->name);
-  return 1;
-}
-
 int l_getheroowner(lua_State *L) {
   hero *hro = (hero*)lua_touserdata(L, 1);
   lua_pushinteger(L, hro->ownerIdx);
@@ -614,7 +608,6 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetHero", l_gethero);
   lua_register(L, "GetHeroForHire", l_getheroforhire);
   lua_register(L, "GetHeroInPool", l_getheroinpool);
-  lua_register(L, "GetHeroName", l_getheroname);
   lua_register(L, "GetHeroOwner", l_getheroowner);
   lua_register(L, "GrantArtifact", l_grantartifact);
   lua_register(L, "GrantSpell", l_grantspell);
