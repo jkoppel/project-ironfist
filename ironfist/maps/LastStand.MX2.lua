@@ -1,4 +1,5 @@
 
+Trigger(MAP_START, "", "FixHeroName");
 Trigger(NEW_DAY, "", "DayFunc");
 Trigger(BATTLE_START, "", "OnBattleStart");
 -- Trigger(HERO_MOVE, NULL, "OnHeroMove");
@@ -195,6 +196,11 @@ end;
 function OnHeroMove()
 	MessageBox("I move!");
 	MessageBox(tostring(GetCurrentHero()));
+end;
+
+-- Quick hack for release -- having problem changing names of heroes in editor
+function FixHeroName()
+	SetHeroName(GetHero(GetPlayer(1), 0), "Lord Varuun");
 end;
 
 function DayFunc()
