@@ -1,6 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
+#include<string>
 
 enum DIALOG_TYPE {
   DIALOG_OKAY = 1,
