@@ -10,12 +10,12 @@
 #include "base.h"
 #include "prefs.h"
 
-
 extern const std::string gameAction = "gameAction";
 extern const std::string mapAction = "mapAction";
 extern const std::string open = "open";
 
 const std::string IRONFIST_TRACKER_ID("UA-24357556-4");
+bool internetDetected = true;
 
 const std::string createOrGetUuid() {
 	std::string uuid;
@@ -28,7 +28,7 @@ const std::string createOrGetUuid() {
 	return uuid;
 }
 
-void send_event(const std::string &category, const std::string &action) {
+void send_event_with_internet(const std::string &category, const std::string &action) {
 	static const std::string uuid = createOrGetUuid();
 	Poco::Net::HTTPClientSession session("www.google-analytics.com");
 	Poco::Net::HTTPRequest req(Poco::Net::HTTPRequest::HTTP_POST, "/collect", Poco::Net::HTTPMessage::HTTP_1_1);
@@ -43,4 +43,15 @@ void send_event(const std::string &category, const std::string &action) {
 	uri.addQueryParameter("el", uuid);
 	req.setContentLength(uri.getRawQuery().length());
 	session.sendRequest(req) << uri.getRawQuery();
+}
+
+void send_event(const std::string &category, const std::string &action) {
+	if (internetDetected) {
+		try {
+			send_event_with_internet(category, action);
+		}
+		catch (...) {
+			internetDetected = false;
+		}
+	}
 }
