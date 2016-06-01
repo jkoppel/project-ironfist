@@ -90,6 +90,7 @@
         <damage minimum="12" maximum="24"/>
         <creature-attribute name="two-hex-attack"/>
         <random-spawn minimum="5" maximum="7"/>
+		<secondary-cost resource="crystal" cost="1"/>
     </creature>
     <creature id="20" name-singular="sprite" name-plural="sprites" icn="sprite.icn" frm="spritfrm.bin" cost="50" fight-value="129" fight-value-aux="26" growth="8" hp="2" faction="2" speed="4" attack="4" defense="2" shots="0" short-name="sprt">
         <damage minimum="1" maximum="2"/>
@@ -135,6 +136,7 @@
         <creature-attribute name="flies"/>
         <creature-attribute name="two-hex-attack"/>
         <random-spawn minimum="7" maximum="12"/>
+		<secondary-cost resource="mercury" cost="1"/>
     </creature>
     <creature id="29" name-singular="centaur" name-plural="centaurs" icn="centaur.icn" frm="centrfrm.bin" cost="60" fight-value="154" fight-value-aux="26" growth="8" hp="5" faction="3" speed="4" attack="3" defense="1" shots="8" short-name="cntr">
         <damage minimum="1" maximum="2"/>
@@ -172,6 +174,7 @@
         <creature-attribute name="flies"/>
         <creature-attribute name="two-hex-attack"/>
         <random-spawn minimum="4" maximum="7"/>
+		<secondary-cost resource="sulfur" cost="1"/>
     </creature>
     <creature id="36" name-singular="red dragon" name-plural="red dragons" icn="dragred.icn" frm="dragrfrm.bin" cost="3500" fight-value="22962" fight-value-aux="68" growth="1" hp="250" faction="3" speed="5" attack="13" defense="13" shots="0" short-name="drgn">
         <damage minimum="25" maximum="50"/>
@@ -179,6 +182,7 @@
         <creature-attribute name="flies"/>
         <creature-attribute name="two-hex-attack"/>
         <random-spawn minimum="3" maximum="7"/>
+		<secondary-cost resource="sulfur" cost="1"/>
     </creature>
     <creature id="37" name-singular="black dragon" name-plural="black dragons" icn="dragblak.icn" frm="dragbfrm.bin" cost="4000" fight-value="28144" fight-value-aux="74" growth="1" hp="300" faction="3" speed="6" attack="14" defense="14" shots="0" short-name="drgn">
         <damage minimum="25" maximum="50"/>
@@ -186,6 +190,7 @@
         <creature-attribute name="flies"/>
         <creature-attribute name="two-hex-attack"/>
         <random-spawn minimum="3" maximum="7"/>
+		<secondary-cost resource="sulfur" cost="2"/>
     </creature>
     <creature id="38" name-singular="halfling" name-plural="halflings" icn="halfling.icn" frm="halflfrm.bin" cost="50" fight-value="134" fight-value-aux="27" growth="8" hp="3" faction="4" speed="3" attack="2" defense="1" shots="12" short-name="half">
         <damage minimum="1" maximum="3"/>
@@ -224,11 +229,13 @@
     <creature id="45" name-singular="giant" name-plural="giants" icn="titanblu.icn" frm="titanfrm.bin" cost="2000" fight-value="9589" fight-value-aux="42" growth="1" hp="150" faction="4" speed="4" attack="13" defense="10" shots="0" short-name="titn">
         <damage minimum="20" maximum="30"/>
         <random-spawn minimum="5" maximum="8"/>
+		<secondary-cost resource="gems" cost="1"/>
     </creature>
     <creature id="46" name-singular="titan" name-plural="titans" icn="titanbla.icn" frm="tita2frm.bin" cost="5000" fight-value="22933" fight-value-aux="79" growth="1" hp="300" faction="4" speed="6" attack="15" defense="15" shots="24" short-name="titn">
         <damage minimum="20" maximum="30"/>
         <creature-attribute name="shoots"/>
         <random-spawn minimum="3" maximum="7"/>
+		<secondary-cost resource="gems" cost="2"/>
     </creature>
     <creature id="47" name-singular="skeleton" name-plural="skeletons" icn="skeleton.icn" frm="skel_frm.bin" cost="75" fight-value="203" fight-value-aux="27" growth="8" hp="4" faction="5" speed="4" attack="4" defense="3" shots="0" short-name="skel">
         <damage minimum="2" maximum="3"/>
@@ -305,6 +312,7 @@
         <damage minimum="20" maximum="30"/>
         <creature-attribute name="flies"/>
         <random-spawn minimum="5" maximum="10"/>
+		<secondary-cost resource="gems" cost="1"/>
     </creature>
     <creature id="61" name-singular="medusa" name-plural="medusas" icn="medusa.icn" frm="medusfrm.bin" cost="500" fight-value="1979" fight-value-aux="40" growth="5" hp="35" faction="6" speed="4" attack="8" defense="9" shots="0" short-name="meds">
         <damage minimum="6" maximum="10"/>

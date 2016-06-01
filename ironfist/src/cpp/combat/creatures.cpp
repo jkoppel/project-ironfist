@@ -42,7 +42,6 @@ char *gArmyNamesPlural[MAX_CREATURES];
 int gMonRandBound[MAX_CREATURES][2];
 int gMonSecondaryResourceCost[MAX_CREATURES][NUM_SECONDARY_RESOURCES];
 
-bool customed_secondary_cost = false;
 
 struct attributeNameTableEntry{char* name; int flag;};
 
@@ -156,6 +155,8 @@ void LoadCreatures() {
 					gMonSecondaryResourceCost[id][i] = 0;
 				}
 
+				bool customed_secondary_cost = false;
+
 				for (creature_t::secondary_cost_iterator i = c.secondary_cost().begin();
 				     i != c.secondary_cost().end();
 					 ++i) {
@@ -215,33 +216,5 @@ void __fastcall GetMonsterCost(int mon, int *const costs) {
 	}
 	costs[RESOURCE_GOLD] = gMonsterDatabase[mon].cost;
 
-	if (!customed_secondary_cost) {
-		switch (mon)
-		{
-		case CREATURE_GENIE:
-			costs[RESOURCE_GEMS] = 1;
-			break;
-		case CREATURE_PHOENIX:
-			costs[RESOURCE_MERCURY] = 1;
-			break;
-		case CREATURE_CYCLOPS:
-			costs[RESOURCE_CRYSTAL] = 1;
-			break;
-		case CREATURE_GREEN_DRAGON:
-		case CREATURE_RED_DRAGON:
-			costs[RESOURCE_SULFUR] = 1;
-			break;
-		case CREATURE_BLACK_DRAGON:
-			costs[RESOURCE_SULFUR] = 2;
-			break;
-		case CREATURE_GIANT:
-			costs[RESOURCE_GEMS] = 1;
-			break;
-		case CREATURE_TITAN:
-			costs[RESOURCE_GEMS] = 2;
-			break;
-		default:
-			return;
-		}
-	}
+	return;
 }
