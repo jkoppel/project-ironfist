@@ -209,12 +209,9 @@ void UnloadCreatures() {
 }
 
 void __fastcall GetMonsterCost(int mon, int *const costs) {
-	
-	int i;
 	for (int i = 0; i < NUM_SECONDARY_RESOURCES; i++) {
 		costs[i] = gMonSecondaryResourceCost[mon][i];
 	}
+        
 	costs[RESOURCE_GOLD] = gMonsterDatabase[mon].cost;
-
-	return;
 }
