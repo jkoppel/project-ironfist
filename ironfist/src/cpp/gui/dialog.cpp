@@ -33,11 +33,11 @@ void DisplayError(std::string msg, std::string title) {
 	MessageBoxA(NULL, msg.c_str(), title.c_str(), MB_OK);
 }
 
-void ErrorSavingMapVariable(const char* mapVariableId) {
+void ErrorSavingMapVariable(const char* mapVariableId, std::string addErrorMessage) {
 	const std::string s1("MapVariable '");
 	const std::string s2("' could not be saved properly.");
 	const std::string mapVariableIdString(mapVariableId);
-	const std::string errorMessage = s1 + mapVariableIdString + s2;
+	const std::string errorMessage = s1 + mapVariableIdString + s2 + addErrorMessage;
 	const std::string errorLabel("mapVariable Error");
 	DisplayError(errorMessage, errorLabel);
 }

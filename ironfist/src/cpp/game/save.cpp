@@ -246,14 +246,18 @@ void SaveMapVariables(ironfist_map::map_t& m) {
 
 	std::map<const char*, mapVariable> mapVariables = GetMapVariables();
 
+	H2MessageBox("Before loop");
 	for (std::map<const char*, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
+		H2MessageBox("After loop");
 		ironfist_map::mapVariable_t mapVar;
 		mapVar.id(it->first);
 		mapVar.type(it->second.luaType);
-		if (it->second.luaType == "LUA_TTABLE") {
+		if (it->second.luaType == "table") {
+			H2MessageBox("In table");
 			SetMapVariableValue(mapVar, it->second.singleValue);
 		}
 		else {
+			H2MessageBox("In else");
 			SetMapVariableValue(mapVar, it->second.tableValue);
 		}
 		m.mapVariable().push_back(mapVar);
@@ -552,7 +556,9 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	if (GetScriptContents() != NULL) {
 		m.script(GetScriptContents());
+		H2MessageBox("Before Save");
 		SaveMapVariables(m);
+		H2MessageBox("After Save");
 	}
 
 	xml_schema::namespace_infomap infomap;

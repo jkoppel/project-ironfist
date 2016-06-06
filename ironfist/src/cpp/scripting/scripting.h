@@ -7,10 +7,8 @@ typedef std::map<const char*, std::pair<const char*, const char*>> luaTable;
 
 struct mapVariable {
 	const char* luaType;
-	union {
-		const char* singleValue;
-		luaTable tableValue;
-	};
+	const char* singleValue;
+	luaTable tableValue;
 };
 
 void ScriptingInit(char*);
