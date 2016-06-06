@@ -772,47 +772,62 @@ char *GetScriptContents() {
   return script_contents;
 }
 
-bool GetNextMapVariable(int &key, const char *&mapVariableId, bool &isTable) {
-	lua_getglobal(map_lua, "mapVariables");
-	if (lua_isnil(map_lua, -1)) {
-		return 0;
-	}
-	if (key >= 0) {
-		lua_pushnumber(map_lua, key);
-	}
-	else {
-		lua_pushnil(map_lua);
-	}
-	if (lua_next(map_lua, -2)) {
-		key = lua_tointeger(map_lua, -2);
-		mapVariableId = lua_tostring(map_lua, -1);
-		lua_pop(map_lua, 2);
-		lua_getglobal(map_lua, mapVariableId);
-		isTable = lua_istable(map_lua, -1);
-		return 1;
-	}
-	return 0;
-}
-const char* GetMapVariableValue(const char *&mapVariableId) {
+const char* GetSingleValue(const char *&mapVariableId) {
 	lua_getglobal(map_lua, mapVariableId);
-	return lua_tostring(map_lua, -1);
+	const char* value = lua_tostring(map_lua, -1);
+	lua_pop(map_lua, 1);
+	return value;
 }
 
-std::map<const char*, const char*> GetMapVariableValueTable(const char *&mapVariableId) {
-	std::map<const char*, const char*> luaTable;
+luaTable GetTable(const char *&mapVariableId) {
+	luaTable lt;
 	lua_getglobal(map_lua, mapVariableId);
 	lua_pushnil(map_lua);
 	while (lua_next(map_lua, -2) != 0) {
-		if ((lua_tostring(map_lua, -2) == NULL)	|| (lua_tostring(map_lua, -1) == NULL)) {
+		if ((lua_tostring(map_lua, -2) == NULL) || (lua_tostring(map_lua, -1) == NULL)) {
 			ErrorSavingMapVariable(mapVariableId);
-			return luaTable;
 		}
 		else {
-			luaTable[lua_tostring(map_lua, -2)] = lua_tostring(map_lua, -1);
+			lt[lua_tostring(map_lua, -2)] = std::pair<const char*, const char*>(lua_typename(map_lua, lua_type(map_lua, -1)), lua_tostring(map_lua, -1));
 		}
 		lua_pop(map_lua, 1);
 	}
-	return luaTable;
+	lua_pop(map_lua, 2);
+	return lt;
+}
+
+std::map<const char*, mapVariable> GetMapVariables() {
+	
+	std::map<const char*, mapVariable> mapVariables;
+	lua_getglobal(map_lua, "mapVariables");
+
+	if (lua_isnil(map_lua, -1)) {
+		return mapVariables;
+	}
+
+	lua_pushnil(map_lua);
+	while (lua_next(map_lua, -2) != 0) {
+		const char* mapVariableId = lua_tostring(map_lua, -1);
+		lua_getglobal(map_lua, mapVariableId);
+		const char* mapVariableType = lua_typename(map_lua, lua_type(map_lua, -1));
+		mapVariable mapVar;
+		mapVar.luaType = mapVariableType;
+		if (mapVariableType == "LUA_TTABLE") {
+			luaTable lt = GetTable(mapVariableId);
+			mapVar.tableValue = lt;
+		}
+		else if (mapVariableType == "LUA_TNUMBER" ||
+			mapVariableType == "LUA_TSRING" ||
+			mapVariableType == "LUA_TBOOLEAN") {
+			const char* mapVariableValue = GetSingleValue(mapVariableId);
+			mapVar.singleValue = mapVariableValue;
+		}
+		else {
+			ErrorSavingMapVariable(mapVariableId);
+		}
+		lua_pop(map_lua, 2);
+		mapVariables[mapVariableId] = mapVar;
+	}
 }
 
 void SetMapVariable(const char *id, const char *value) {

@@ -1113,6 +1113,36 @@ namespace ironfist_map
     this->value_.set (x);
   }
 
+  const mapVariable_t::type_optional& mapVariable_t::
+  type () const
+  {
+    return this->type_;
+  }
+
+  mapVariable_t::type_optional& mapVariable_t::
+  type ()
+  {
+    return this->type_;
+  }
+
+  void mapVariable_t::
+  type (const type_type& x)
+  {
+    this->type_.set (x);
+  }
+
+  void mapVariable_t::
+  type (const type_optional& x)
+  {
+    this->type_ = x;
+  }
+
+  void mapVariable_t::
+  type (::std::auto_ptr< type_type > x)
+  {
+    this->type_.set (x);
+  }
+
 
   // map_t
   // 
@@ -1391,6 +1421,36 @@ namespace ironfist_map
   value (::std::auto_ptr< value_type > x)
   {
     this->value_.set (x);
+  }
+
+  const array::type_optional& array::
+  type () const
+  {
+    return this->type_;
+  }
+
+  array::type_optional& array::
+  type ()
+  {
+    return this->type_;
+  }
+
+  void array::
+  type (const type_type& x)
+  {
+    this->type_.set (x);
+  }
+
+  void array::
+  type (const type_optional& x)
+  {
+    this->type_ = x;
+  }
+
+  void array::
+  type (::std::auto_ptr< type_type > x)
+  {
+    this->type_.set (x);
   }
 }
 
@@ -2784,7 +2844,8 @@ namespace ironfist_map
   : ::xml_schema::type (),
     array_ (::xml_schema::flags (), this),
     id_ (::xml_schema::flags (), this),
-    value_ (::xml_schema::flags (), this)
+    value_ (::xml_schema::flags (), this),
+    type_ (::xml_schema::flags (), this)
   {
   }
 
@@ -2795,7 +2856,8 @@ namespace ironfist_map
   : ::xml_schema::type (x, f, c),
     array_ (x.array_, f, this),
     id_ (x.id_, f, this),
-    value_ (x.value_, f, this)
+    value_ (x.value_, f, this),
+    type_ (x.type_, f, this)
   {
   }
 
@@ -2806,7 +2868,8 @@ namespace ironfist_map
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
     array_ (f, this),
     id_ (f, this),
-    value_ (f, this)
+    value_ (f, this),
+    type_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -2860,6 +2923,15 @@ namespace ironfist_map
           value_traits::create (i, f, this));
 
         this->value_.set (r);
+        continue;
+      }
+
+      if (n.name () == "type" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< type_type > r (
+          type_traits::create (i, f, this));
+
+        this->type_.set (r);
         continue;
       }
     }
@@ -3174,7 +3246,8 @@ namespace ironfist_map
   array ()
   : ::xml_schema::type (),
     key_ (::xml_schema::flags (), this),
-    value_ (::xml_schema::flags (), this)
+    value_ (::xml_schema::flags (), this),
+    type_ (::xml_schema::flags (), this)
   {
   }
 
@@ -3184,7 +3257,8 @@ namespace ironfist_map
          ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
     key_ (x.key_, f, this),
-    value_ (x.value_, f, this)
+    value_ (x.value_, f, this),
+    type_ (x.type_, f, this)
   {
   }
 
@@ -3194,7 +3268,8 @@ namespace ironfist_map
          ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
     key_ (f, this),
-    value_ (f, this)
+    value_ (f, this),
+    type_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -3228,6 +3303,15 @@ namespace ironfist_map
           value_traits::create (i, f, this));
 
         this->value_.set (r);
+        continue;
+      }
+
+      if (n.name () == "type" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< type_type > r (
+          type_traits::create (i, f, this));
+
+        this->type_.set (r);
         continue;
       }
     }
@@ -5597,6 +5681,18 @@ namespace ironfist_map
 
       a << *i.value ();
     }
+
+    // type
+    //
+    if (i.type ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "type",
+          e));
+
+      a << *i.type ();
+    }
   }
 
   void
@@ -6645,6 +6741,18 @@ namespace ironfist_map
           e));
 
       a << *i.value ();
+    }
+
+    // type
+    //
+    if (i.type ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "type",
+          e));
+
+      a << *i.type ();
     }
   }
 }

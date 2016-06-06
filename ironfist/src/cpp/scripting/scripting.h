@@ -3,6 +3,16 @@
 
 #include <map>
 
+typedef std::map<const char*, std::pair<const char*, const char*>> luaTable;
+
+struct mapVariable {
+	const char* luaType;
+	union {
+		const char* singleValue;
+		luaTable tableValue;
+	};
+};
+
 void ScriptingInit(char*);
 void ScriptingInitFromString(const char*);
 void ScriptingShutdown();
@@ -11,10 +21,8 @@ char *GetScriptContents();
 
 void DisplayError();
 
-bool GetNextMapVariable(int &, const char *&, bool &);
 
-const char* GetMapVariableValue(const char *&);
-std::map<const char*, const char*> GetMapVariableValueTable(const char *&);
+std::map<const char*, mapVariable> GetMapVariables();
 
 void SetMapVariable(const char*, const char*);
 void SetMapVariableTable(const char*, std::map<const char*, const char*>);
