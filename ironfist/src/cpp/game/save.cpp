@@ -231,6 +231,10 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, luaTable lt) {
 	for (luaTable::const_iterator it = lt.begin(); it != lt.end(); ++it) {
 		ironfist_map::array ar;
+		H2MessageBox("Dans loop");
+		H2MessageBox((char*)it->first);
+		H2MessageBox((char*)it->second.first);
+		H2MessageBox((char*)it->second.second);
 		ar.key(it->first);
 		ar.type(it->second.first);
 		ar.value(it->second.second);
@@ -244,21 +248,22 @@ void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, const char* mapVar
 
 void SaveMapVariables(ironfist_map::map_t& m) {
 
+	H2MessageBox("Avant Get");
+
 	std::map<const char*, mapVariable> mapVariables = GetMapVariables();
 
-	H2MessageBox("Before loop");
+	H2MessageBox("Apres Get");
 	for (std::map<const char*, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
-		H2MessageBox("After loop");
 		ironfist_map::mapVariable_t mapVar;
 		mapVar.id(it->first);
 		mapVar.type(it->second.luaType);
 		if (it->second.luaType == "table") {
-			H2MessageBox("In table");
-			SetMapVariableValue(mapVar, it->second.singleValue);
+			H2MessageBox("Dans Table");
+			SetMapVariableValue(mapVar, it->second.tableValue);
 		}
 		else {
-			H2MessageBox("In else");
-			SetMapVariableValue(mapVar, it->second.tableValue);
+			H2MessageBox("Dans Else");
+			SetMapVariableValue(mapVar, it->second.singleValue);
 		}
 		m.mapVariable().push_back(mapVar);
 	}
@@ -556,9 +561,9 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	if (GetScriptContents() != NULL) {
 		m.script(GetScriptContents());
-		H2MessageBox("Before Save");
+		H2MessageBox("Avant save");
 		SaveMapVariables(m);
-		H2MessageBox("After Save");
+		H2MessageBox("Apres save");
 	}
 
 	xml_schema::namespace_infomap infomap;

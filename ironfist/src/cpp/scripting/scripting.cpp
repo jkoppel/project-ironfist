@@ -777,6 +777,7 @@ const char* GetSingleValue(const char* mapVariableType) {
 		return lua_tostring(map_lua, -1);
 	}
 	else if (mapVariableType == "number") {
+		H2MessageBox((char*)std::to_string(lua_tonumber(map_lua, -1)).c_str());
 		return std::to_string(lua_tonumber(map_lua, -1)).c_str();
 	}
 	else if (mapVariableType == "boolean") {
@@ -792,7 +793,11 @@ luaTable GetTable(const char *&mapVariableId) {
 		if (valueType == "string" ||
 				valueType == "number" ||
 				valueType == "boolean") {
+			H2MessageBox((char*)valueType);
+			H2MessageBox((char*)GetSingleValue(valueType));
 			lt[lua_tostring(map_lua, -2)] = std::pair<const char*, const char*>(valueType, GetSingleValue(valueType));
+			H2MessageBox((char*)lt[lua_tostring(map_lua, -2)].second);
+
 		}
 		else {
 			std::string errorMessage("A table can only contain numbers, strings or booleans.");
