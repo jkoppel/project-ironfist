@@ -20,9 +20,11 @@ char *GetScriptContents();
 void DisplayError();
 
 
+bool isTable(const char*);
+bool isStringNumBool(const char*);
+
 std::map<const char*, mapVariable> GetMapVariables();
 
-void SetMapVariable(const char*, const char*);
-void SetMapVariableTable(const char*, std::map<const char*, const char*>);
+void SetMapVariables(std::map<const char*, mapVariable>);
 
 #endif

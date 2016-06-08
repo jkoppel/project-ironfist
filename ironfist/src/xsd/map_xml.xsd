@@ -86,13 +86,13 @@
         <xs:complexType>
           <xs:attribute name="key" type="xs:string"/>
           <xs:attribute name="value" type="xs:string"/>
-          <xs:attribute name="type" type="xs:string"/>
+          <xs:attribute name="type" type="xs:string" default='string'/>
         </xs:complexType>
       </xs:element>
     </xs:sequence>
     <xs:attribute name="id" type="xs:string"/>
     <xs:attribute name="value" type="xs:string"/>
-    <xs:attribute name="type" type="xs:string"/>
+    <xs:attribute name="type" type="xs:string" default="string"/>
   </xs:complexType>
 
   <xs:complexType name="map_t">

@@ -248,22 +248,20 @@ void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, const char* mapVar
 
 void SaveMapVariables(ironfist_map::map_t& m) {
 
-	H2MessageBox("Avant Get");
-
 	std::map<const char*, mapVariable> mapVariables = GetMapVariables();
 
-	H2MessageBox("Apres Get");
 	for (std::map<const char*, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
 		ironfist_map::mapVariable_t mapVar;
 		mapVar.id(it->first);
 		mapVar.type(it->second.luaType);
-		if (it->second.luaType == "table") {
-			H2MessageBox("Dans Table");
+		if (isTable(it->second.luaType)) {
 			SetMapVariableValue(mapVar, it->second.tableValue);
 		}
-		else {
-			H2MessageBox("Dans Else");
+		else if (isStringNumBool(it->second.luaType)) {
 			SetMapVariableValue(mapVar, it->second.singleValue);
+		}
+		else {
+			DisplayError("Wrong Type created by GetMapVariables", "In function SaveMapVariables");
 		}
 		m.mapVariable().push_back(mapVar);
 	}
@@ -425,21 +423,33 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ScriptingInitFromString(mp->script().get().c_str());
 			}
 
-			//for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
-			//	it != mp->mapVariable().end();
-			//	it++) {
-			//	if (it->value().present()) {
-			//		SetMapVariable(it->id().get().c_str(), it->value().get().c_str());
-			//	}
-			//	else {
-			//		std::map<const char*, const char*> array;
-			//		for (ironfist_map::mapVariable_t::array_const_iterator it2 = it->array().begin(); 
-			//			it2 != it->array().end(); it2++) {
-			//			array[it2->key().get().c_str()] = it2->value().get().c_str();
-			//		}
-			//		SetMapVariableTable(it->id().get().c_str(), array);
-			//	}
-			//}
+			std::map<const char*, mapVariable> mapVariables;
+			for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
+				it != mp->mapVariable().end(); it++) {
+				mapVariable mapVar;
+				const char* mapVariableId = it->id().get().c_str();
+				//const char* mapVariableType = it->type().get().c_str();
+				const char* mapVariableType = it->type().c_str();
+				mapVar.luaType = mapVariableType;
+				if (isTable(mapVariableType)) {
+					luaTable lt;
+					for (ironfist_map::mapVariable_t::array_const_iterator it2 = it->array().begin();
+						it2 != it->array().end(); it2++) {
+						lt[it2->key().get().c_str()] = std::pair<const char*, const char*>(it2->type().c_str(), it2->value().get().c_str());
+					}
+					mapVar.tableValue = lt;
+				}
+				else if (isStringNumBool(mapVariableType)) {
+					mapVar.singleValue = it->value().get().c_str();
+				}
+				else {
+					ErrorLoadingMapVariable(mapVariableId, "A map variable can only be a table, number, string or boolean.");
+				}
+
+				mapVariables[mapVariableId] = mapVar;
+			}
+			SetMapVariables(mapVariables);
+
 		} catch(xml_schema::exception& e) {
 			cerr << e << endl;
 			exit(0);

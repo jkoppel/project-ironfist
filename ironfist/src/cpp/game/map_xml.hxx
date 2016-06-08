@@ -1351,23 +1351,22 @@ namespace ironfist_map
     // type
     // 
     typedef ::xml_schema::string type_type;
-    typedef ::xsd::cxx::tree::optional< type_type > type_optional;
     typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
 
-    const type_optional&
+    const type_type&
     type () const;
 
-    type_optional&
+    type_type&
     type ();
 
     void
     type (const type_type& x);
 
     void
-    type (const type_optional& x);
-
-    void
     type (::std::auto_ptr< type_type > p);
+
+    static const type_type&
+    type_default_value ();
 
     // Constructors.
     //
@@ -1399,7 +1398,8 @@ namespace ironfist_map
     array_sequence array_;
     id_optional id_;
     value_optional value_;
-    type_optional type_;
+    ::xsd::cxx::tree::one< type_type > type_;
+    static const type_type type_default_value_;
   };
 
   class map_t: public ::xml_schema::type
@@ -1712,23 +1712,22 @@ namespace ironfist_map
     // type
     // 
     typedef ::xml_schema::string type_type;
-    typedef ::xsd::cxx::tree::optional< type_type > type_optional;
     typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
 
-    const type_optional&
+    const type_type&
     type () const;
 
-    type_optional&
+    type_type&
     type ();
 
     void
     type (const type_type& x);
 
     void
-    type (const type_optional& x);
-
-    void
     type (::std::auto_ptr< type_type > p);
+
+    static const type_type&
+    type_default_value ();
 
     // Constructors.
     //
@@ -1759,7 +1758,8 @@ namespace ironfist_map
     protected:
     key_optional key_;
     value_optional value_;
-    type_optional type_;
+    ::xsd::cxx::tree::one< type_type > type_;
+    static const type_type type_default_value_;
   };
 }
 

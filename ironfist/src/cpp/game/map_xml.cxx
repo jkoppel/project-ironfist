@@ -1113,16 +1113,16 @@ namespace ironfist_map
     this->value_.set (x);
   }
 
-  const mapVariable_t::type_optional& mapVariable_t::
+  const mapVariable_t::type_type& mapVariable_t::
   type () const
   {
-    return this->type_;
+    return this->type_.get ();
   }
 
-  mapVariable_t::type_optional& mapVariable_t::
+  mapVariable_t::type_type& mapVariable_t::
   type ()
   {
-    return this->type_;
+    return this->type_.get ();
   }
 
   void mapVariable_t::
@@ -1132,15 +1132,15 @@ namespace ironfist_map
   }
 
   void mapVariable_t::
-  type (const type_optional& x)
-  {
-    this->type_ = x;
-  }
-
-  void mapVariable_t::
   type (::std::auto_ptr< type_type > x)
   {
     this->type_.set (x);
+  }
+
+  const mapVariable_t::type_type& mapVariable_t::
+  type_default_value ()
+  {
+    return type_default_value_;
   }
 
 
@@ -1423,16 +1423,16 @@ namespace ironfist_map
     this->value_.set (x);
   }
 
-  const array::type_optional& array::
+  const array::type_type& array::
   type () const
   {
-    return this->type_;
+    return this->type_.get ();
   }
 
-  array::type_optional& array::
+  array::type_type& array::
   type ()
   {
-    return this->type_;
+    return this->type_.get ();
   }
 
   void array::
@@ -1442,15 +1442,15 @@ namespace ironfist_map
   }
 
   void array::
-  type (const type_optional& x)
-  {
-    this->type_ = x;
-  }
-
-  void array::
   type (::std::auto_ptr< type_type > x)
   {
     this->type_.set (x);
+  }
+
+  const array::type_type& array::
+  type_default_value ()
+  {
+    return type_default_value_;
   }
 }
 
@@ -2839,13 +2839,16 @@ namespace ironfist_map
   // mapVariable_t
   //
 
+  const mapVariable_t::type_type mapVariable_t::type_default_value_ (
+    "string");
+
   mapVariable_t::
   mapVariable_t ()
   : ::xml_schema::type (),
     array_ (::xml_schema::flags (), this),
     id_ (::xml_schema::flags (), this),
     value_ (::xml_schema::flags (), this),
-    type_ (::xml_schema::flags (), this)
+    type_ (type_default_value (), ::xml_schema::flags (), this)
   {
   }
 
@@ -2934,6 +2937,11 @@ namespace ironfist_map
         this->type_.set (r);
         continue;
       }
+    }
+
+    if (!type_.present ())
+    {
+      this->type_.set (type_default_value ());
     }
   }
 
@@ -3242,12 +3250,15 @@ namespace ironfist_map
   // array
   //
 
+  const array::type_type array::type_default_value_ (
+    "string");
+
   array::
   array ()
   : ::xml_schema::type (),
     key_ (::xml_schema::flags (), this),
     value_ (::xml_schema::flags (), this),
-    type_ (::xml_schema::flags (), this)
+    type_ (type_default_value (), ::xml_schema::flags (), this)
   {
   }
 
@@ -3314,6 +3325,11 @@ namespace ironfist_map
         this->type_.set (r);
         continue;
       }
+    }
+
+    if (!type_.present ())
+    {
+      this->type_.set (type_default_value ());
     }
   }
 
@@ -5684,14 +5700,13 @@ namespace ironfist_map
 
     // type
     //
-    if (i.type ())
     {
       ::xercesc::DOMAttr& a (
         ::xsd::cxx::xml::dom::create_attribute (
           "type",
           e));
 
-      a << *i.type ();
+      a << i.type ();
     }
   }
 
@@ -6745,14 +6760,13 @@ namespace ironfist_map
 
     // type
     //
-    if (i.type ())
     {
       ::xercesc::DOMAttr& a (
         ::xsd::cxx::xml::dom::create_attribute (
           "type",
           e));
 
-      a << *i.type ();
+      a << i.type ();
     }
   }
 }
