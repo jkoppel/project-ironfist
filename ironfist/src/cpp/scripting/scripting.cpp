@@ -780,19 +780,16 @@ bool isStringNumBool(const char* valueType) {
 	return (valueType == "string" || valueType == "number" || valueType == "boolean");
 }
 
-const char* GetValue(const char* mapVariableType) {
+std::string GetValue(const char* mapVariableType) {
 	if (mapVariableType == "string") {
-		return lua_tostring(map_lua, -1);
+		std::string stringValue(lua_tostring(map_lua, -1));
+		return stringValue;
 	}
 	else if (mapVariableType == "number") {
-		double x = lua_tonumber(map_lua, -1);
-		std::string xx = to_string(x);
-		const char* res = xx.c_str();
-		const char* resres = std::to_string(lua_tonumber(map_lua, -1)).c_str();
-		return std::to_string(lua_tonumber(map_lua, -1)).c_str();
+		return std::to_string(lua_tonumber(map_lua, -1));
 	}
 	else if (mapVariableType == "boolean") {
-		return std::to_string(lua_toboolean(map_lua, -1)).c_str();
+		return std::to_string(lua_toboolean(map_lua, -1));
 	}
 }
 
@@ -803,10 +800,10 @@ luaTable GetTable(const char *&mapVariableId) {
 	while (lua_next(map_lua, -2) != 0) {
 		const char* valueType = lua_typename(map_lua, lua_type(map_lua, -1));
 		if (isStringNumBool(valueType)) {
-			lt[lua_tostring(map_lua, -2)] = std::pair<const char*, const char*>(valueType, GetValue(valueType));
+			lt[lua_tostring(map_lua, -2)] = std::pair<const char*, std::string>(valueType, GetValue(valueType));
 		}
 		else {
-			ErrorSavingMapVariable(mapVariableId, "A table can only contain numbers, strings or booleans.");
+			ErrorSavingMapVariable(mapVariableId, " A table can only contain numbers, strings or booleans.");
 		}
 		lua_pop(map_lua, 1);
 	}
@@ -834,11 +831,10 @@ std::map<const char*, mapVariable> GetMapVariables() {
 			mapVar.tableValue = GetTable(mapVariableId);
 		}
 		else if (isStringNumBool(mapVariableType)) {
-			const char * resresres = GetValue(mapVariableType);
-			mapVar.singleValue = resresres;
+			mapVar.singleValue = GetValue(mapVariableType);
 		}
 		else {
-			ErrorSavingMapVariable(mapVariableId, "A map variable can only be a table, number, string or boolean.");
+			ErrorSavingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
 		}
 
 		lua_pop(map_lua, 2);
@@ -848,20 +844,20 @@ std::map<const char*, mapVariable> GetMapVariables() {
 	return mapVariables;
 }
 
-void PushStringNumBool(const char* varType, const char* value) {
+void PushStringNumBool(const char* varType, std::string value) {
 	if (varType == "string") {
-		lua_pushstring(map_lua, value);
+		lua_pushstring(map_lua, value.c_str());
 	}
 	else if (varType == "number") {
 
-		lua_pushnumber(map_lua, atof(value));
+		lua_pushnumber(map_lua, atof(value.c_str()));
 	}
 	else if (varType == "boolean") {
-		lua_pushboolean(map_lua, atoi(value));
+		lua_pushboolean(map_lua, atoi(value.c_str()));
 	}
 }
 
-void SetMapVariable(const char* id, const char* varType, const char* value) {
+void SetMapVariable(const char* id, const char* varType, std::string value) {
 	PushStringNumBool(varType, value);
 	lua_setglobal(map_lua, id);
 }

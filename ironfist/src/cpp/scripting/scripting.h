@@ -3,11 +3,11 @@
 
 #include <map>
 
-typedef std::map<const char*, std::pair<const char*, const char*>> luaTable;
+typedef std::map<const char*, std::pair<const char*, std::string>> luaTable;
 
 struct mapVariable {
 	const char* luaType;
-	const char* singleValue;
+	std::string singleValue;
 	luaTable tableValue;
 };
 

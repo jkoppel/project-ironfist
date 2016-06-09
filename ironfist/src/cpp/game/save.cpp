@@ -231,10 +231,6 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, luaTable lt) {
 	for (luaTable::const_iterator it = lt.begin(); it != lt.end(); ++it) {
 		ironfist_map::array ar;
-		H2MessageBox("Dans loop");
-		H2MessageBox((char*)it->first);
-		H2MessageBox((char*)it->second.first);
-		H2MessageBox((char*)it->second.second);
 		ar.key(it->first);
 		ar.type(it->second.first);
 		ar.value(it->second.second);
@@ -242,7 +238,7 @@ void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, luaTable lt) {
 	}
 }
 
-void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, const char* mapVariableValue) {
+void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, std::string mapVariableValue) {
 	mapVar.value(mapVariableValue);
 }
 
@@ -428,7 +424,6 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				it != mp->mapVariable().end(); it++) {
 				mapVariable mapVar;
 				const char* mapVariableId = it->id().get().c_str();
-				//const char* mapVariableType = it->type().get().c_str();
 				const char* mapVariableType = it->type().c_str();
 				mapVar.luaType = mapVariableType;
 				if (isTable(mapVariableType)) {
