@@ -419,31 +419,31 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ScriptingInitFromString(mp->script().get().c_str());
 			}
 
-			//std::map<std::string, mapVariable> mapVariables;
-			//for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
-			//	it != mp->mapVariable().end(); it++) {
-			//	mapVariable mapVar;
-			//	std::string mapVariableId = it->id().get();
-			//	const char* mapVariableType = it->type().c_str();
-			//	mapVar.luaType = mapVariableType;
-			//	if (isTable(mapVariableType)) {
-			//		luaTable lt;
-			//		for (ironfist_map::mapVariable_t::array_const_iterator it2 = it->array().begin();
-			//			it2 != it->array().end(); it2++) {
-			//			lt[it2->key().get().c_str()] = std::pair<const char*, const char*>(it2->type().c_str(), it2->value().get().c_str());
-			//		}
-			//		mapVar.tableValue = lt;
-			//	}
-			//	else if (isStringNumBool(mapVariableType)) {
-			//		mapVar.singleValue = it->value().get().c_str();
-			//	}
-			//	else {
-			//		ErrorLoadingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
-			//	}
+			std::map<std::string, mapVariable> mapVariables;
+			for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
+				it != mp->mapVariable().end(); it++) {
+				mapVariable mapVar;
+				std::string mapVariableId = it->id().get();
+				std::string mapVariableType = it->type();
+				mapVar.luaType = mapVariableType;
+				if (isTable(mapVariableType)) {
+					luaTable lt;
+					for (ironfist_map::mapVariable_t::array_const_iterator it2 = it->array().begin();
+						it2 != it->array().end(); it2++) {
+						lt[it2->key().get()] = std::pair<std::string, std::string>(it2->type(), it2->value().get());
+					}
+					mapVar.tableValue = lt;
+				}
+				else if (isStringNumBool(mapVariableType)) {
+					mapVar.singleValue = it->value().get();
+				}
+				else {
+					ErrorLoadingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
+				}
 
-			//	mapVariables[mapVariableId] = mapVar;
-			//}
-			//SetMapVariables(mapVariables);
+				mapVariables[mapVariableId] = mapVar;
+			}
+			SetMapVariables(mapVariables);
 
 		} catch(xml_schema::exception& e) {
 			cerr << e << endl;

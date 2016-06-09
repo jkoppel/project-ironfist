@@ -3,10 +3,10 @@
 
 #include <map>
 
-typedef std::map<std::string, std::pair<const char*, std::string>> luaTable;
+typedef std::map<std::string, std::pair<std::string, std::string>> luaTable;
 
 struct mapVariable {
-	const char* luaType;
+	std::string luaType;
 	std::string singleValue;
 	luaTable tableValue;
 };
@@ -19,11 +19,8 @@ char *GetScriptContents();
 
 void DisplayError();
 
-
-bool isTable(const char*);
-bool isStringNumBool(const char*);
-//bool isTable(std::string);
-//bool isStringNumBool(std::string);
+bool isTable(std::string);
+bool isStringNumBool(std::string);
 
 std::map <std::string , mapVariable > GetMapVariables();
 

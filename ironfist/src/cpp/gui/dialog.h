@@ -22,9 +22,6 @@ void DisplayError(const char* msg, const char* title);
 
 void DisplayError(std::string msg, std::string title);
 
-void ErrorSavingMapVariable(const char* mapVariableId, std::string addErrorMessage);
-void ErrorLoadingMapVariable(const char* mapVariableId, std::string addErrorMessage);
-
 void ErrorSavingMapVariable(std::string mapVariableId, std::string addErrorMessage);
 void ErrorLoadingMapVariable(std::string mapVariableId, std::string addErrorMessage);
 
