@@ -780,7 +780,7 @@ bool isStringNumBool(const char* valueType) {
 	return (valueType == "string" || valueType == "number" || valueType == "boolean");
 }
 
-std::string GetValue(const char* mapVariableType) {
+std::string GetValue(std::string mapVariableType) {
 	if (mapVariableType == "string") {
 		std::string stringValue(lua_tostring(map_lua, -1));
 		return stringValue;
@@ -793,14 +793,14 @@ std::string GetValue(const char* mapVariableType) {
 	}
 }
 
-luaTable GetTable(const char *&mapVariableId) {
+luaTable GetTable(std::string &mapVariableId) {
 	luaTable lt;
 	lua_pushnil(map_lua);
-	const char* value;
 	while (lua_next(map_lua, -2) != 0) {
 		const char* valueType = lua_typename(map_lua, lua_type(map_lua, -1));
 		if (isStringNumBool(valueType)) {
-			lt[lua_tostring(map_lua, -2)] = std::pair<const char*, std::string>(valueType, GetValue(valueType));
+			std::string tableId(lua_tostring(map_lua, -2));
+			lt[tableId] = std::pair<const char*, std::string>(valueType, GetValue(valueType));
 		}
 		else {
 			ErrorSavingMapVariable(mapVariableId, " A table can only contain numbers, strings or booleans.");
@@ -810,9 +810,9 @@ luaTable GetTable(const char *&mapVariableId) {
 	return lt;
 }
 
-std::map<const char*, mapVariable> GetMapVariables() {
-	
-	std::map<const char*, mapVariable> mapVariables;
+std::map<std::string, mapVariable> GetMapVariables() {
+
+	std::map<std::string, mapVariable> mapVariables;
 	lua_getglobal(map_lua, "mapVariables");
 
 	if (lua_isnil(map_lua, -1)) {
@@ -821,8 +821,8 @@ std::map<const char*, mapVariable> GetMapVariables() {
 
 	lua_pushnil(map_lua);
 	while (lua_next(map_lua, -2) != 0) {
-		const char* mapVariableId = lua_tostring(map_lua, -1);
-		lua_getglobal(map_lua, mapVariableId);
+		std::string mapVariableId(lua_tostring(map_lua, -1));
+		lua_getglobal(map_lua, mapVariableId.c_str());
 		const char* mapVariableType = lua_typename(map_lua, lua_type(map_lua, -1));
 
 		mapVariable mapVar;
@@ -857,26 +857,25 @@ void PushStringNumBool(const char* varType, std::string value) {
 	}
 }
 
-void SetMapVariable(const char* id, const char* varType, std::string value) {
+void SetMapVariable(std::string id, const char* varType, std::string value) {
 	PushStringNumBool(varType, value);
-	lua_setglobal(map_lua, id);
+	lua_setglobal(map_lua, id.c_str());
 }
 
-void SetMapVariableTable(const char *id, luaTable lt) {
+void SetMapVariableTable(std::string id, luaTable lt) {
 	lua_newtable(map_lua);
 	int top = lua_gettop(map_lua);
 	for (luaTable::const_iterator it = lt.begin(); it != lt.end(); ++it) {
-		lua_pushstring(map_lua, it->first);
+		lua_pushstring(map_lua, it->first.c_str());
 		PushStringNumBool(it->second.first, it->second.second);
 		lua_settable(map_lua, top);
 	}
-	lua_setglobal(map_lua, id);
+	lua_setglobal(map_lua, id.c_str());
 }
 
-void SetMapVariables(std::map<const char*, mapVariable> mapVariables) {
+void SetMapVariables(std::map<std::string, mapVariable> mapVariables) {
 
-	for (std::map<const char*, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
-// Question: should I define names like const char* mapVariableId = it->first to make the code more readable/understandable
+	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
 		if (isTable(it->second.luaType)) {
 			SetMapVariableTable(it->first, it->second.tableValue);
 		}
