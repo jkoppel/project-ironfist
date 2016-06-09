@@ -170,6 +170,52 @@ name (::std::auto_ptr< name_type > x)
 }
 
 
+// secondary_cost_t
+// 
+
+const secondary_cost_t::resource_type& secondary_cost_t::
+resource () const
+{
+  return this->resource_.get ();
+}
+
+secondary_cost_t::resource_type& secondary_cost_t::
+resource ()
+{
+  return this->resource_.get ();
+}
+
+void secondary_cost_t::
+resource (const resource_type& x)
+{
+  this->resource_.set (x);
+}
+
+void secondary_cost_t::
+resource (::std::auto_ptr< resource_type > x)
+{
+  this->resource_.set (x);
+}
+
+const secondary_cost_t::cost_type& secondary_cost_t::
+cost () const
+{
+  return this->cost_.get ();
+}
+
+secondary_cost_t::cost_type& secondary_cost_t::
+cost ()
+{
+  return this->cost_.get ();
+}
+
+void secondary_cost_t::
+cost (const cost_type& x)
+{
+  this->cost_.set (x);
+}
+
+
 // creature_t
 // 
 
@@ -225,6 +271,24 @@ void creature_t::
 creature_attribute (const creature_attribute_sequence& s)
 {
   this->creature_attribute_ = s;
+}
+
+const creature_t::secondary_cost_sequence& creature_t::
+secondary_cost () const
+{
+  return this->secondary_cost_;
+}
+
+creature_t::secondary_cost_sequence& creature_t::
+secondary_cost ()
+{
+  return this->secondary_cost_;
+}
+
+void creature_t::
+secondary_cost (const secondary_cost_sequence& s)
+{
+  this->secondary_cost_ = s;
 }
 
 const creature_t::id_type& creature_t::
@@ -865,6 +929,96 @@ creature_attribute_t::
 {
 }
 
+// secondary_cost_t
+//
+
+secondary_cost_t::
+secondary_cost_t (const resource_type& resource,
+                  const cost_type& cost)
+: ::xml_schema::type (),
+  resource_ (resource, ::xml_schema::flags (), this),
+  cost_ (cost, ::xml_schema::flags (), this)
+{
+}
+
+secondary_cost_t::
+secondary_cost_t (const secondary_cost_t& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c),
+  resource_ (x.resource_, f, this),
+  cost_ (x.cost_, f, this)
+{
+}
+
+secondary_cost_t::
+secondary_cost_t (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+: ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+  resource_ (f, this),
+  cost_ (f, this)
+{
+  if ((f & ::xml_schema::flags::base) == 0)
+  {
+    ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+    this->parse (p, f);
+  }
+}
+
+void secondary_cost_t::
+parse (::xsd::cxx::xml::dom::parser< char >& p,
+       ::xml_schema::flags f)
+{
+  while (p.more_attributes ())
+  {
+    const ::xercesc::DOMAttr& i (p.next_attribute ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (i));
+
+    if (n.name () == "resource" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< resource_type > r (
+        resource_traits::create (i, f, this));
+
+      this->resource_.set (r);
+      continue;
+    }
+
+    if (n.name () == "cost" && n.namespace_ ().empty ())
+    {
+      this->cost_.set (cost_traits::create (i, f, this));
+      continue;
+    }
+  }
+
+  if (!resource_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_attribute< char > (
+      "resource",
+      "");
+  }
+
+  if (!cost_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_attribute< char > (
+      "cost",
+      "");
+  }
+}
+
+secondary_cost_t* secondary_cost_t::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class secondary_cost_t (*this, f, c);
+}
+
+secondary_cost_t::
+~secondary_cost_t ()
+{
+}
+
 // creature_t
 //
 
@@ -889,6 +1043,7 @@ creature_t (const id_type& id,
   damage_ (::xml_schema::flags (), this),
   random_spawn_ (::xml_schema::flags (), this),
   creature_attribute_ (::xml_schema::flags (), this),
+  secondary_cost_ (::xml_schema::flags (), this),
   id_ (id, ::xml_schema::flags (), this),
   name_singular_ (name_singular, ::xml_schema::flags (), this),
   name_plural_ (name_plural, ::xml_schema::flags (), this),
@@ -916,6 +1071,7 @@ creature_t (const creature_t& x,
   damage_ (x.damage_, f, this),
   random_spawn_ (x.random_spawn_, f, this),
   creature_attribute_ (x.creature_attribute_, f, this),
+  secondary_cost_ (x.secondary_cost_, f, this),
   id_ (x.id_, f, this),
   name_singular_ (x.name_singular_, f, this),
   name_plural_ (x.name_plural_, f, this),
@@ -943,6 +1099,7 @@ creature_t (const ::xercesc::DOMElement& e,
   damage_ (f, this),
   random_spawn_ (f, this),
   creature_attribute_ (f, this),
+  secondary_cost_ (f, this),
   id_ (f, this),
   name_singular_ (f, this),
   name_plural_ (f, this),
@@ -1007,6 +1164,17 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         creature_attribute_traits::create (i, f, this));
 
       this->creature_attribute_.push_back (r);
+      continue;
+    }
+
+    // secondary-cost
+    //
+    if (n.name () == "secondary-cost" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< secondary_cost_type > r (
+        secondary_cost_traits::create (i, f, this));
+
+      this->secondary_cost_.push_back (r);
       continue;
     }
 
@@ -2658,6 +2826,1537 @@ creature_attribute (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
     n.namespace_ (),
     "creature-attribute",
     "");
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::std::string& u,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      u, h, p, f));
+
+  h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::std::string& u,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      u, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::std::string& u,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      u, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is);
+  return ::secondary_cost (isrc, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::sax::std_input_source isrc (is);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                const ::std::string& sid,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+  return ::secondary_cost (isrc, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                const ::std::string& sid,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0,
+    (f & ::xml_schema::flags::keep_dom) == 0);
+
+  ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::std::istream& is,
+                const ::std::string& sid,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+  return ::secondary_cost (isrc, h, f, p);
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xercesc::InputSource& i,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      i, h, p, f));
+
+  h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xercesc::InputSource& i,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      i, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xercesc::InputSource& i,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::parse< char > (
+      i, h, p, f));
+
+  if (!d.get ())
+    throw ::xsd::cxx::tree::parsing< char > ();
+
+  ::std::auto_ptr< ::secondary_cost_t > r (
+    ::secondary_cost (
+      d, f | ::xml_schema::flags::own_dom, p));
+
+  return r;
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (const ::xercesc::DOMDocument& d,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+{
+  if (f & ::xml_schema::flags::keep_dom)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+      static_cast< ::xercesc::DOMDocument* > (d.cloneNode (true)));
+
+    ::std::auto_ptr< ::secondary_cost_t > r (
+      ::secondary_cost (
+        c, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  const ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "secondary-cost" &&
+      n.namespace_ () == "")
+  {
+    ::std::auto_ptr< ::secondary_cost_t > r (
+      ::xsd::cxx::tree::traits< ::secondary_cost_t, char >::create (
+        e, f, 0));
+    return r;
+  }
+
+  throw ::xsd::cxx::tree::unexpected_element < char > (
+    n.name (),
+    n.namespace_ (),
+    "secondary-cost",
+    "");
+}
+
+::std::auto_ptr< ::secondary_cost_t >
+secondary_cost (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties&)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+    ((f & ::xml_schema::flags::keep_dom) &&
+     !(f & ::xml_schema::flags::own_dom))
+    ? static_cast< ::xercesc::DOMDocument* > (d->cloneNode (true))
+    : 0);
+
+  ::xercesc::DOMDocument& doc (c.get () ? *c : *d);
+  const ::xercesc::DOMElement& e (*doc.getDocumentElement ());
+
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (f & ::xml_schema::flags::keep_dom)
+    doc.setUserData (::xml_schema::dom::tree_node_key,
+                     (c.get () ? &c : &d),
+                     0);
+
+  if (n.name () == "secondary-cost" &&
+      n.namespace_ () == "")
+  {
+    ::std::auto_ptr< ::secondary_cost_t > r (
+      ::xsd::cxx::tree::traits< ::secondary_cost_t, char >::create (
+        e, f, 0));
+    return r;
+  }
+
+  throw ::xsd::cxx::tree::unexpected_element < char > (
+    n.name (),
+    n.namespace_ (),
+    "secondary-cost",
+    "");
+}
+
+#include <ostream>
+#include <xsd/cxx/tree/error-handler.hxx>
+#include <xsd/cxx/xml/dom/serialization-source.hxx>
+
+void
+operator<< (::xercesc::DOMElement& e, const creatures_t& i)
+{
+  e << static_cast< const ::xml_schema::type& > (i);
+
+  // creature
+  //
+  for (creatures_t::creature_const_iterator
+       b (i.creature ().begin ()), n (i.creature ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "creature",
+        e));
+
+    s << *b;
+  }
+}
+
+void
+operator<< (::xercesc::DOMElement& e, const damage_t& i)
+{
+  e << static_cast< const ::xml_schema::type& > (i);
+
+  // minimum
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "minimum",
+        e));
+
+    a << i.minimum ();
+  }
+
+  // maximum
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "maximum",
+        e));
+
+    a << i.maximum ();
+  }
+}
+
+void
+operator<< (::xercesc::DOMElement& e, const random_spawn_t& i)
+{
+  e << static_cast< const ::xml_schema::type& > (i);
+
+  // minimum
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "minimum",
+        e));
+
+    a << i.minimum ();
+  }
+
+  // maximum
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "maximum",
+        e));
+
+    a << i.maximum ();
+  }
+}
+
+void
+operator<< (::xercesc::DOMElement& e, const creature_attribute_t& i)
+{
+  e << static_cast< const ::xml_schema::type& > (i);
+
+  // name
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "name",
+        e));
+
+    a << i.name ();
+  }
+}
+
+void
+operator<< (::xercesc::DOMElement& e, const secondary_cost_t& i)
+{
+  e << static_cast< const ::xml_schema::type& > (i);
+
+  // resource
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "resource",
+        e));
+
+    a << i.resource ();
+  }
+
+  // cost
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "cost",
+        e));
+
+    a << i.cost ();
+  }
+}
+
+void
+operator<< (::xercesc::DOMElement& e, const creature_t& i)
+{
+  e << static_cast< const ::xml_schema::type& > (i);
+
+  // damage
+  //
+  for (creature_t::damage_const_iterator
+       b (i.damage ().begin ()), n (i.damage ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "damage",
+        e));
+
+    s << *b;
+  }
+
+  // random-spawn
+  //
+  for (creature_t::random_spawn_const_iterator
+       b (i.random_spawn ().begin ()), n (i.random_spawn ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "random-spawn",
+        e));
+
+    s << *b;
+  }
+
+  // creature-attribute
+  //
+  for (creature_t::creature_attribute_const_iterator
+       b (i.creature_attribute ().begin ()), n (i.creature_attribute ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "creature-attribute",
+        e));
+
+    s << *b;
+  }
+
+  // secondary-cost
+  //
+  for (creature_t::secondary_cost_const_iterator
+       b (i.secondary_cost ().begin ()), n (i.secondary_cost ().end ());
+       b != n; ++b)
+  {
+    ::xercesc::DOMElement& s (
+      ::xsd::cxx::xml::dom::create_element (
+        "secondary-cost",
+        e));
+
+    s << *b;
+  }
+
+  // id
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "id",
+        e));
+
+    a << i.id ();
+  }
+
+  // name-singular
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "name-singular",
+        e));
+
+    a << i.name_singular ();
+  }
+
+  // name-plural
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "name-plural",
+        e));
+
+    a << i.name_plural ();
+  }
+
+  // icn
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "icn",
+        e));
+
+    a << i.icn ();
+  }
+
+  // frm
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "frm",
+        e));
+
+    a << i.frm ();
+  }
+
+  // cost
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "cost",
+        e));
+
+    a << i.cost ();
+  }
+
+  // fight-value
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "fight-value",
+        e));
+
+    a << i.fight_value ();
+  }
+
+  // fight-value-aux
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "fight-value-aux",
+        e));
+
+    a << i.fight_value_aux ();
+  }
+
+  // growth
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "growth",
+        e));
+
+    a << i.growth ();
+  }
+
+  // hp
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "hp",
+        e));
+
+    a << i.hp ();
+  }
+
+  // faction
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "faction",
+        e));
+
+    a << i.faction ();
+  }
+
+  // speed
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "speed",
+        e));
+
+    a << i.speed ();
+  }
+
+  // attack
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "attack",
+        e));
+
+    a << i.attack ();
+  }
+
+  // defense
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "defense",
+        e));
+
+    a << i.defense ();
+  }
+
+  // shots
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "shots",
+        e));
+
+    a << i.shots ();
+  }
+
+  // short-name
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "short-name",
+        e));
+
+    a << i.short_name ();
+  }
+}
+
+void
+creatures (::std::ostream& o,
+           const ::creatures_t& s,
+           const ::xml_schema::namespace_infomap& m,
+           const ::std::string& e,
+           ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creatures (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+creatures (::std::ostream& o,
+           const ::creatures_t& s,
+           ::xml_schema::error_handler& h,
+           const ::xml_schema::namespace_infomap& m,
+           const ::std::string& e,
+           ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creatures (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creatures (::std::ostream& o,
+           const ::creatures_t& s,
+           ::xercesc::DOMErrorHandler& h,
+           const ::xml_schema::namespace_infomap& m,
+           const ::std::string& e,
+           ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creatures (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creatures (::xercesc::XMLFormatTarget& t,
+           const ::creatures_t& s,
+           const ::xml_schema::namespace_infomap& m,
+           const ::std::string& e,
+           ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creatures (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+creatures (::xercesc::XMLFormatTarget& t,
+           const ::creatures_t& s,
+           ::xml_schema::error_handler& h,
+           const ::xml_schema::namespace_infomap& m,
+           const ::std::string& e,
+           ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creatures (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creatures (::xercesc::XMLFormatTarget& t,
+           const ::creatures_t& s,
+           ::xercesc::DOMErrorHandler& h,
+           const ::xml_schema::namespace_infomap& m,
+           const ::std::string& e,
+           ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creatures (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creatures (::xercesc::DOMDocument& d,
+           const ::creatures_t& s,
+           ::xml_schema::flags)
+{
+  ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "creatures" &&
+      n.namespace_ () == "")
+  {
+    e << s;
+  }
+  else
+  {
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "creatures",
+      "");
+  }
+}
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+creatures (const ::creatures_t& s,
+           const ::xml_schema::namespace_infomap& m,
+           ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::serialize< char > (
+      "creatures",
+      "",
+      m, f));
+
+  ::creatures (*d, s, f);
+  return d;
+}
+
+void
+creature (::std::ostream& o,
+          const ::creature_t& s,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+creature (::std::ostream& o,
+          const ::creature_t& s,
+          ::xml_schema::error_handler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature (::std::ostream& o,
+          const ::creature_t& s,
+          ::xercesc::DOMErrorHandler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature (::xercesc::XMLFormatTarget& t,
+          const ::creature_t& s,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+creature (::xercesc::XMLFormatTarget& t,
+          const ::creature_t& s,
+          ::xml_schema::error_handler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature (::xercesc::XMLFormatTarget& t,
+          const ::creature_t& s,
+          ::xercesc::DOMErrorHandler& h,
+          const ::xml_schema::namespace_infomap& m,
+          const ::std::string& e,
+          ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature (::xercesc::DOMDocument& d,
+          const ::creature_t& s,
+          ::xml_schema::flags)
+{
+  ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "creature" &&
+      n.namespace_ () == "")
+  {
+    e << s;
+  }
+  else
+  {
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "creature",
+      "");
+  }
+}
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+creature (const ::creature_t& s,
+          const ::xml_schema::namespace_infomap& m,
+          ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::serialize< char > (
+      "creature",
+      "",
+      m, f));
+
+  ::creature (*d, s, f);
+  return d;
+}
+
+void
+damage (::std::ostream& o,
+        const ::damage_t& s,
+        const ::xml_schema::namespace_infomap& m,
+        const ::std::string& e,
+        ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::damage (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+damage (::std::ostream& o,
+        const ::damage_t& s,
+        ::xml_schema::error_handler& h,
+        const ::xml_schema::namespace_infomap& m,
+        const ::std::string& e,
+        ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::damage (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+damage (::std::ostream& o,
+        const ::damage_t& s,
+        ::xercesc::DOMErrorHandler& h,
+        const ::xml_schema::namespace_infomap& m,
+        const ::std::string& e,
+        ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::damage (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+damage (::xercesc::XMLFormatTarget& t,
+        const ::damage_t& s,
+        const ::xml_schema::namespace_infomap& m,
+        const ::std::string& e,
+        ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::damage (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+damage (::xercesc::XMLFormatTarget& t,
+        const ::damage_t& s,
+        ::xml_schema::error_handler& h,
+        const ::xml_schema::namespace_infomap& m,
+        const ::std::string& e,
+        ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::damage (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+damage (::xercesc::XMLFormatTarget& t,
+        const ::damage_t& s,
+        ::xercesc::DOMErrorHandler& h,
+        const ::xml_schema::namespace_infomap& m,
+        const ::std::string& e,
+        ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::damage (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+damage (::xercesc::DOMDocument& d,
+        const ::damage_t& s,
+        ::xml_schema::flags)
+{
+  ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "damage" &&
+      n.namespace_ () == "")
+  {
+    e << s;
+  }
+  else
+  {
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "damage",
+      "");
+  }
+}
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+damage (const ::damage_t& s,
+        const ::xml_schema::namespace_infomap& m,
+        ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::serialize< char > (
+      "damage",
+      "",
+      m, f));
+
+  ::damage (*d, s, f);
+  return d;
+}
+
+void
+random_spawn (::std::ostream& o,
+              const ::random_spawn_t& s,
+              const ::xml_schema::namespace_infomap& m,
+              const ::std::string& e,
+              ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::random_spawn (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+random_spawn (::std::ostream& o,
+              const ::random_spawn_t& s,
+              ::xml_schema::error_handler& h,
+              const ::xml_schema::namespace_infomap& m,
+              const ::std::string& e,
+              ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::random_spawn (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+random_spawn (::std::ostream& o,
+              const ::random_spawn_t& s,
+              ::xercesc::DOMErrorHandler& h,
+              const ::xml_schema::namespace_infomap& m,
+              const ::std::string& e,
+              ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::random_spawn (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+random_spawn (::xercesc::XMLFormatTarget& t,
+              const ::random_spawn_t& s,
+              const ::xml_schema::namespace_infomap& m,
+              const ::std::string& e,
+              ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::random_spawn (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+random_spawn (::xercesc::XMLFormatTarget& t,
+              const ::random_spawn_t& s,
+              ::xml_schema::error_handler& h,
+              const ::xml_schema::namespace_infomap& m,
+              const ::std::string& e,
+              ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::random_spawn (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+random_spawn (::xercesc::XMLFormatTarget& t,
+              const ::random_spawn_t& s,
+              ::xercesc::DOMErrorHandler& h,
+              const ::xml_schema::namespace_infomap& m,
+              const ::std::string& e,
+              ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::random_spawn (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+random_spawn (::xercesc::DOMDocument& d,
+              const ::random_spawn_t& s,
+              ::xml_schema::flags)
+{
+  ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "random-spawn" &&
+      n.namespace_ () == "")
+  {
+    e << s;
+  }
+  else
+  {
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "random-spawn",
+      "");
+  }
+}
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+random_spawn (const ::random_spawn_t& s,
+              const ::xml_schema::namespace_infomap& m,
+              ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::serialize< char > (
+      "random-spawn",
+      "",
+      m, f));
+
+  ::random_spawn (*d, s, f);
+  return d;
+}
+
+void
+creature_attribute (::std::ostream& o,
+                    const ::creature_attribute_t& s,
+                    const ::xml_schema::namespace_infomap& m,
+                    const ::std::string& e,
+                    ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature_attribute (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+creature_attribute (::std::ostream& o,
+                    const ::creature_attribute_t& s,
+                    ::xml_schema::error_handler& h,
+                    const ::xml_schema::namespace_infomap& m,
+                    const ::std::string& e,
+                    ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature_attribute (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature_attribute (::std::ostream& o,
+                    const ::creature_attribute_t& s,
+                    ::xercesc::DOMErrorHandler& h,
+                    const ::xml_schema::namespace_infomap& m,
+                    const ::std::string& e,
+                    ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature_attribute (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature_attribute (::xercesc::XMLFormatTarget& t,
+                    const ::creature_attribute_t& s,
+                    const ::xml_schema::namespace_infomap& m,
+                    const ::std::string& e,
+                    ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature_attribute (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+creature_attribute (::xercesc::XMLFormatTarget& t,
+                    const ::creature_attribute_t& s,
+                    ::xml_schema::error_handler& h,
+                    const ::xml_schema::namespace_infomap& m,
+                    const ::std::string& e,
+                    ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature_attribute (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature_attribute (::xercesc::XMLFormatTarget& t,
+                    const ::creature_attribute_t& s,
+                    ::xercesc::DOMErrorHandler& h,
+                    const ::xml_schema::namespace_infomap& m,
+                    const ::std::string& e,
+                    ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::creature_attribute (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+creature_attribute (::xercesc::DOMDocument& d,
+                    const ::creature_attribute_t& s,
+                    ::xml_schema::flags)
+{
+  ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "creature-attribute" &&
+      n.namespace_ () == "")
+  {
+    e << s;
+  }
+  else
+  {
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "creature-attribute",
+      "");
+  }
+}
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+creature_attribute (const ::creature_attribute_t& s,
+                    const ::xml_schema::namespace_infomap& m,
+                    ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::serialize< char > (
+      "creature-attribute",
+      "",
+      m, f));
+
+  ::creature_attribute (*d, s, f);
+  return d;
+}
+
+void
+secondary_cost (::std::ostream& o,
+                const ::secondary_cost_t& s,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::secondary_cost (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+secondary_cost (::std::ostream& o,
+                const ::secondary_cost_t& s,
+                ::xml_schema::error_handler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+{
+  ::xsd::cxx::xml::auto_initializer i (
+    (f & ::xml_schema::flags::dont_initialize) == 0);
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::secondary_cost (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+secondary_cost (::std::ostream& o,
+                const ::secondary_cost_t& s,
+                ::xercesc::DOMErrorHandler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::secondary_cost (s, m, f));
+  ::xsd::cxx::xml::dom::ostream_format_target t (o);
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+secondary_cost (::xercesc::XMLFormatTarget& t,
+                const ::secondary_cost_t& s,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::secondary_cost (s, m, f));
+
+  ::xsd::cxx::tree::error_handler< char > h;
+
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+  }
+}
+
+void
+secondary_cost (::xercesc::XMLFormatTarget& t,
+                const ::secondary_cost_t& s,
+                ::xml_schema::error_handler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::secondary_cost (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+secondary_cost (::xercesc::XMLFormatTarget& t,
+                const ::secondary_cost_t& s,
+                ::xercesc::DOMErrorHandler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::secondary_cost (s, m, f));
+  if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+  {
+    throw ::xsd::cxx::tree::serialization< char > ();
+  }
+}
+
+void
+secondary_cost (::xercesc::DOMDocument& d,
+                const ::secondary_cost_t& s,
+                ::xml_schema::flags)
+{
+  ::xercesc::DOMElement& e (*d.getDocumentElement ());
+  const ::xsd::cxx::xml::qualified_name< char > n (
+    ::xsd::cxx::xml::dom::name< char > (e));
+
+  if (n.name () == "secondary-cost" &&
+      n.namespace_ () == "")
+  {
+    e << s;
+  }
+  else
+  {
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "secondary-cost",
+      "");
+  }
+}
+
+::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+secondary_cost (const ::secondary_cost_t& s,
+                const ::xml_schema::namespace_infomap& m,
+                ::xml_schema::flags f)
+{
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+    ::xsd::cxx::xml::dom::serialize< char > (
+      "secondary-cost",
+      "",
+      m, f));
+
+  ::secondary_cost (*d, s, f);
+  return d;
 }
 
 #include <xsd/cxx/post.hxx>
