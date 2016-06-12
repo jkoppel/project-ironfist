@@ -13,7 +13,6 @@ void H2MessageBox(char* msg) {
 	}
 }
 
-
 bool H2QuestionBox(char* msg) {
   NormalDialog(msg, DIALOG_YES_NO, -1,-1,-1,0,-1,0,-1,0);
   return gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL;
@@ -31,21 +30,4 @@ void DisplayError(const char* msg, const char* title) {
 
 void DisplayError(std::string msg, std::string title) {
 	MessageBoxA(NULL, msg.c_str(), title.c_str(), MB_OK);
-}
-
-void ErrorMapVariable(std::string mapVariableId, const std::string s2, std::string addErrorMessage) {
-	const std::string s1("MapVariable '");
-	const std::string errorMessage = s1 + mapVariableId + s2 + addErrorMessage;
-	const std::string errorLabel("mapVariable Error");
-	DisplayError(errorMessage, errorLabel);
-}
-
-void ErrorSavingMapVariable(std::string mapVariableId, std::string addErrorMessage) {
-	const std::string s2("' could not be saved properly.");
-	ErrorMapVariable(mapVariableId, s2, addErrorMessage);
-}
-
-void ErrorLoadingMapVariable(std::string mapVariableId, std::string addErrorMessage) {
-	const std::string s2("' could not be loaded properly.");
-	ErrorMapVariable(mapVariableId, s2, addErrorMessage);
 }

@@ -772,6 +772,23 @@ char *GetScriptContents() {
   return script_contents;
 }
 
+void ErrorMapVariable(std::string& mapVariableId, const std::string& s2, const std::string& addErrorMessage) {
+	const std::string s1("MapVariable '");
+	const std::string errorMessage = s1 + mapVariableId + s2 + addErrorMessage;
+	const std::string errorLabel("mapVariable Error");
+	DisplayError(errorMessage, errorLabel);
+}
+
+void ErrorSavingMapVariable(std::string& mapVariableId, const std::string& addErrorMessage) {
+	const std::string s2("' could not be saved properly.");
+	ErrorMapVariable(mapVariableId, s2, addErrorMessage);
+}
+
+void ErrorLoadingMapVariable(std::string& mapVariableId, const std::string& addErrorMessage) {
+	const std::string s2("' could not be loaded properly.");
+	ErrorMapVariable(mapVariableId, s2, addErrorMessage);
+}
+
 bool isTable(std::string valueType) {
 	return (valueType == "table");
 }

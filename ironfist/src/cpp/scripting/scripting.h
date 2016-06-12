@@ -26,4 +26,6 @@ std::map <std::string , mapVariable > GetMapVariables();
 
 void SetMapVariables(std::map<std::string, mapVariable>);
 
+void ErrorLoadingMapVariable(std::string&, const std::string&);
+
 #endif
