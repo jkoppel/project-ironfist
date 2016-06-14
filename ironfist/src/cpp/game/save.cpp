@@ -228,11 +228,23 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 	return hx;
 }
 
+std::string MapVarTypeToString(MapVarType type) {
+	if (type == MAPVAR_TYPE_STRING) {
+		return "string";
+	} else if (type == MAPVAR_TYPE_NUMBER) {
+		return "number";
+	} else if (type == MAPVAR_TYPE_BOOLEAN) {
+		return "boolean";
+	} else if (type == MAPVAR_TYPE_TABLE) {
+		return "table";
+	}
+}
+
 void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, luaTable lt) {
 	for (luaTable::const_iterator it = lt.begin(); it != lt.end(); ++it) {
 		ironfist_map::array ar;
 		ar.key(it->first);
-		ar.type(it->second.first);
+		ar.type(MapVarTypeToString(it->second.first));
 		ar.value(it->second.second);
 		mapVar.array().push_back(ar);
 	}
@@ -249,14 +261,12 @@ void SaveMapVariables(ironfist_map::map_t& m) {
 	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
 		ironfist_map::mapVariable_t mapVar;
 		mapVar.id(it->first);
-		mapVar.type(it->second.luaType);
-		if (isTable(it->second.luaType)) {
+		mapVar.type(MapVarTypeToString(it->second.type));
+		if (isTable(it->second.type)) {
 			SetMapVariableValue(mapVar, it->second.tableValue);
-		}
-		else if (isStringNumBool(it->second.luaType)) {
+		} else if (isStringNumBool(it->second.type)) {
 			SetMapVariableValue(mapVar, it->second.singleValue);
-		}
-		else {
+		} else {
 			DisplayError("Wrong Type created by GetMapVariables", "In function SaveMapVariables");
 		}
 		m.mapVariable().push_back(mapVar);
@@ -424,23 +434,20 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				it != mp->mapVariable().end(); it++) {
 				mapVariable mapVar;
 				std::string mapVariableId = it->id().get();
-				std::string mapVariableType = it->type();
-				mapVar.luaType = mapVariableType;
+				MapVarType mapVariableType = StringToMapVarType(it->type());
+				mapVar.type = mapVariableType;
 				if (isTable(mapVariableType)) {
 					luaTable lt;
 					for (ironfist_map::mapVariable_t::array_const_iterator it2 = it->array().begin();
 						it2 != it->array().end(); it2++) {
-						lt[it2->key().get()] = std::pair<std::string, std::string>(it2->type(), it2->value().get());
+						lt[it2->key().get()] = std::pair<MapVarType, std::string>(StringToMapVarType(it2->type()), it2->value().get());
 					}
 					mapVar.tableValue = lt;
-				}
-				else if (isStringNumBool(mapVariableType)) {
+				} else if (isStringNumBool(mapVariableType)) {
 					mapVar.singleValue = it->value().get();
-				}
-				else {
+				} else {
 					ErrorLoadingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
 				}
-
 				mapVariables[mapVariableId] = mapVar;
 			}
 			SetMapVariables(mapVariables);

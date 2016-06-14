@@ -3,10 +3,12 @@
 
 #include <map>
 
-typedef std::map<std::string, std::pair<std::string, std::string>> luaTable;
+enum MapVarType {MAPVAR_TYPE_STRING, MAPVAR_TYPE_NUMBER, MAPVAR_TYPE_TABLE, MAPVAR_TYPE_BOOLEAN, MAPVAR_TYPE_ERROR};
+
+typedef std::map<std::string, std::pair<MapVarType, std::string>> luaTable;
 
 struct mapVariable {
-	std::string luaType;
+	MapVarType type;
 	std::string singleValue;
 	luaTable tableValue;
 };
@@ -19,8 +21,10 @@ char *GetScriptContents();
 
 void DisplayError();
 
-bool isTable(std::string);
-bool isStringNumBool(std::string);
+bool isTable(MapVarType);
+bool isStringNumBool(MapVarType);
+
+MapVarType StringToMapVarType(std::string);
 
 std::map <std::string , mapVariable > GetMapVariables();
 

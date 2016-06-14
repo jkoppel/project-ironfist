@@ -789,23 +789,35 @@ void ErrorLoadingMapVariable(std::string& mapVariableId, const std::string& addE
 	ErrorMapVariable(mapVariableId, s2, addErrorMessage);
 }
 
-bool isTable(std::string valueType) {
-	return (valueType == "table");
+bool isTable(MapVarType type) {
+	return (type == MAPVAR_TYPE_TABLE);
 }
 
-bool isStringNumBool(std::string valueType) {
-	return (valueType == "string" || valueType == "number" || valueType == "boolean");
+bool isStringNumBool(MapVarType type) {
+	return (type == MAPVAR_TYPE_STRING || type == MAPVAR_TYPE_NUMBER || type == MAPVAR_TYPE_BOOLEAN);
 }
 
-std::string GetValue(std::string mapVariableType) {
-	if (mapVariableType == "string") {
+MapVarType StringToMapVarType(std::string stringType) {
+	if (stringType == "string") {
+		return MAPVAR_TYPE_STRING;
+	} else if (stringType == "number") {
+		return MAPVAR_TYPE_NUMBER;
+	} else if (stringType == "boolean") {
+		return MAPVAR_TYPE_BOOLEAN;
+	} else if (stringType == "table") {
+		return MAPVAR_TYPE_TABLE;
+	} else {
+		return MAPVAR_TYPE_ERROR;
+	}
+}
+
+std::string GetValue(MapVarType type) {
+	if (type == MAPVAR_TYPE_STRING) {
 		std::string stringValue(lua_tostring(map_lua, -1));
 		return stringValue;
-	}
-	else if (mapVariableType == "number") {
+	} else if (type == MAPVAR_TYPE_NUMBER) {
 		return std::to_string(lua_tonumber(map_lua, -1));
-	}
-	else if (mapVariableType == "boolean") {
+	} else if (type == MAPVAR_TYPE_BOOLEAN) {
 		return std::to_string(lua_toboolean(map_lua, -1));
 	}
 }
@@ -814,10 +826,10 @@ luaTable GetTable(std::string &mapVariableId) {
 	luaTable lt;
 	lua_pushnil(map_lua);
 	while (lua_next(map_lua, -2) != 0) {
-		std::string valueType(lua_typename(map_lua, lua_type(map_lua, -1)));
+		MapVarType valueType = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -1)));
 		if (isStringNumBool(valueType)) {
 			std::string tableId(lua_tostring(map_lua, -2));
-			lt[tableId] = std::pair<std::string, std::string>(valueType, GetValue(valueType));
+			lt[tableId] = std::pair<MapVarType, std::string>(valueType, GetValue(valueType));
 		}
 		else {
 			ErrorSavingMapVariable(mapVariableId, " A table can only contain numbers, strings or booleans.");
@@ -840,10 +852,10 @@ std::map<std::string, mapVariable> GetMapVariables() {
 	while (lua_next(map_lua, -2) != 0) {
 		std::string mapVariableId(lua_tostring(map_lua, -1));
 		lua_getglobal(map_lua, mapVariableId.c_str());
-		std::string mapVariableType(lua_typename(map_lua, lua_type(map_lua, -1)));
+		MapVarType mapVariableType = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -1)));
 
 		mapVariable mapVar;
-		mapVar.luaType = mapVariableType;
+		mapVar.type = mapVariableType;
 		if (isTable(mapVariableType)) {
 			mapVar.tableValue = GetTable(mapVariableId);
 		}
@@ -861,20 +873,20 @@ std::map<std::string, mapVariable> GetMapVariables() {
 	return mapVariables;
 }
 
-void PushStringNumBool(std::string varType, std::string value) {
-	if (varType == "string") {
+void PushStringNumBool(MapVarType type, std::string value) {
+	if (type == MAPVAR_TYPE_STRING) {
 		lua_pushstring(map_lua, value.c_str());
 	}
-	else if (varType == "number") {
+	else if (type == MAPVAR_TYPE_NUMBER) {
 		lua_pushnumber(map_lua, atof(value.c_str()));
 	}
-	else if (varType == "boolean") {
+	else if (type == MAPVAR_TYPE_BOOLEAN) {
 		lua_pushboolean(map_lua, atoi(value.c_str()));
 	}
 }
 
-void SetMapVariable(std::string id, std::string varType, std::string value) {
-	PushStringNumBool(varType, value);
+void SetMapVariable(std::string id, MapVarType type, std::string value) {
+	PushStringNumBool(type, value);
 	lua_setglobal(map_lua, id.c_str());
 }
 
@@ -890,13 +902,12 @@ void SetMapVariable(std::string id, luaTable lt) {
 }
 
 void SetMapVariables(std::map<std::string, mapVariable> mapVariables) {
-
 	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
-		if (isTable(it->second.luaType)) {
+		if (isTable(it->second.type)) {
 			SetMapVariable(it->first, it->second.tableValue);
 		}
 		else {
-			SetMapVariable(it->first, it->second.luaType, it->second.singleValue);
+			SetMapVariable(it->first, it->second.type, it->second.singleValue);
 		}
 	}
 }
