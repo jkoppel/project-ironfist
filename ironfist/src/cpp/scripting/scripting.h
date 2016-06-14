@@ -6,11 +6,14 @@
 enum MapVarType {MAPVAR_TYPE_STRING, MAPVAR_TYPE_NUMBER, MAPVAR_TYPE_TABLE, MAPVAR_TYPE_BOOLEAN, MAPVAR_TYPE_ERROR};
 
 typedef std::map<std::string, std::pair<MapVarType, std::string>> luaTable;
+// luaTable: map key -> <type, value>
+typedef std::map<std::string, std::pair<std::string, luaTable>> luaTables;
+// luaTables: map tableId -> <parentTableId, luaTable>
 
 struct mapVariable {
 	MapVarType type;
 	std::string singleValue;
-	luaTable tableValue;
+	luaTables tableValues;
 };
 
 void ScriptingInit(char*);

@@ -240,13 +240,28 @@ std::string MapVarTypeToString(MapVarType type) {
 	}
 }
 
-void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, luaTable lt) {
+void SetMapVariableTable(ironfist_map::table_t &mapVarTable, luaTable lt) {
 	for (luaTable::const_iterator it = lt.begin(); it != lt.end(); ++it) {
-		ironfist_map::array ar;
-		ar.key(it->first);
-		ar.type(MapVarTypeToString(it->second.first));
-		ar.value(it->second.second);
-		mapVar.array().push_back(ar);
+		ironfist_map::tableElement_t element;
+		element.key(it->first);
+		element.type(MapVarTypeToString(it->second.first));
+		element.value(it->second.second);
+		mapVarTable.tableElement().push_back(element);
+	}
+}
+
+void SetMapVariableTableParent(ironfist_map::table_t &table, std::string parentTable) {
+	if (parentTable != "") {
+		table.parentTable(parentTable);
+	}
+}
+
+void SetMapVariableTables(ironfist_map::mapVariable_t &mapVar, luaTables lt) {
+	for (luaTables::const_iterator it = lt.begin(); it != lt.end(); ++it) {
+		ironfist_map::table_t table(it->first);
+		SetMapVariableTable(table, it->second.second);
+		SetMapVariableTableParent(table, it->second.first);
+		mapVar.table().push_back(table);
 	}
 }
 
@@ -263,7 +278,7 @@ void SaveMapVariables(ironfist_map::map_t& m) {
 		mapVar.id(it->first);
 		mapVar.type(MapVarTypeToString(it->second.type));
 		if (isTable(it->second.type)) {
-			SetMapVariableValue(mapVar, it->second.tableValue);
+			SetMapVariableTables(mapVar, it->second.tableValues);
 		} else if (isStringNumBool(it->second.type)) {
 			SetMapVariableValue(mapVar, it->second.singleValue);
 		} else {

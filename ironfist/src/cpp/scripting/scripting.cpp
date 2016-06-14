@@ -839,6 +839,12 @@ luaTable GetTable(std::string &mapVariableId) {
 	return lt;
 }
 
+luaTables GetTables(std::string &mapVariableId) {
+	luaTables lts;
+
+	return lts;
+}
+
 std::map<std::string, mapVariable> GetMapVariables() {
 
 	std::map<std::string, mapVariable> mapVariables;
@@ -857,7 +863,7 @@ std::map<std::string, mapVariable> GetMapVariables() {
 		mapVariable mapVar;
 		mapVar.type = mapVariableType;
 		if (isTable(mapVariableType)) {
-			mapVar.tableValue = GetTable(mapVariableId);
+			mapVar.tableValues = GetTables(mapVariableId);
 		}
 		else if (isStringNumBool(mapVariableType)) {
 			mapVar.singleValue = GetValue(mapVariableType);

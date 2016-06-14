@@ -80,15 +80,23 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="tableElement_t">
+    <xs:attribute name="key" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="type" type="xs:string" default="string"/>
+  </xs:complexType>
+
+  <xs:complexType name="table_t">
+    <xs:sequence>
+      <xs:element name="tableId" type="xs:ID"/>
+      <xs:element name="tableElement" type="tableElement_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="parentTable" type="xs:IDREF" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+  </xs:complexType>
+
   <xs:complexType name="mapVariable_t">
     <xs:sequence>
-      <xs:element name="array" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="key" type="xs:string"/>
-          <xs:attribute name="value" type="xs:string"/>
-          <xs:attribute name="type" type="xs:string" default='string'/>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="table" type="table_t" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="id" type="xs:string"/>
     <xs:attribute name="value" type="xs:string"/>
