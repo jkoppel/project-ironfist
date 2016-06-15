@@ -10,7 +10,7 @@ typedef std::map<std::string, std::pair<MapVarType, std::string>> luaTable;
 typedef std::map<std::string, std::pair<std::string, luaTable>> luaTables;
 // luaTables: map tableId -> <parentTableId, luaTable>
 
-extern std::string TABLE_ROOT_IRONFIST;
+extern std::string MAPVARS_TABLE_ROOT;
 
 struct mapVariable {
 	MapVarType type;

@@ -251,7 +251,7 @@ void SetMapVariableTable(ironfist_map::table_t &mapVarTable, luaTable lt) {
 }
 
 void SetMapVariableTableParent(ironfist_map::table_t &table, std::string parentTable) {
-	if (parentTable != TABLE_ROOT_IRONFIST) {
+	if (parentTable != MAPVARS_TABLE_ROOT) {
 		table.parentTable(parentTable);
 	}
 }

@@ -26,7 +26,7 @@ extern "C" {
 
 using namespace std;
 
-extern std::string TABLE_ROOT_IRONFIST("");
+extern std::string MAPVARS_TABLE_ROOT("");
 
 char *script_contents = NULL;
 
@@ -813,6 +813,17 @@ MapVarType StringToMapVarType(std::string stringType) {
 	}
 }
 
+
+std::string getKey() {
+	MapVarType type = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -2)));
+	if (type == MAPVAR_TYPE_STRING) {
+		std::string stringValue(lua_tostring(map_lua, -2));
+		return stringValue;
+	} else if (type == MAPVAR_TYPE_NUMBER) {
+		return std::to_string(lua_tonumber(map_lua, -1));
+	}
+}
+
 std::string GetValue(MapVarType &type) {
 	if (type == MAPVAR_TYPE_STRING) {
 		std::string stringValue(lua_tostring(map_lua, -1));
@@ -825,17 +836,15 @@ std::string GetValue(MapVarType &type) {
 }
 
 void GetTables(luaTables &lts, std::string &mapVariableId, std::string &mapVariableParent) {
-	lua_getglobal(map_lua, mapVariableId.c_str());
 	luaTable lt;
 	lua_pushnil(map_lua);
 	while (lua_next(map_lua, -2) != 0) {
 		MapVarType valueType = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -1)));
-		std::string key(lua_tostring(map_lua, -2));
+		std::string key = getKey();// (lua_tostring(map_lua, -2));
 		if (isStringNumBool(valueType)) {
 			lt[key] = std::pair<MapVarType, std::string>(valueType, GetValue(valueType));
 			lua_pop(map_lua, 1);
 		} else if (isTable(valueType)) {
-			lua_pop(map_lua, 1);
 			GetTables(lts, key, mapVariableId);
 		} else {
 			ErrorSavingMapVariable(mapVariableId, " Wrong type in the table.");
@@ -859,13 +868,11 @@ std::map<std::string, mapVariable> GetMapVariables() {
 		std::string mapVariableId(lua_tostring(map_lua, -1));
 		lua_getglobal(map_lua, mapVariableId.c_str());
 		MapVarType mapVariableType = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -1)));
-
 		mapVariable mapVar;
-		luaTables lts;
 		mapVar.type = mapVariableType;
 		if (isTable(mapVariableType)) {
-			lua_pop(map_lua, 1);
-			GetTables(lts, mapVariableId, TABLE_ROOT_IRONFIST);
+			luaTables lts;
+			GetTables(lts, mapVariableId, MAPVARS_TABLE_ROOT);
 			mapVar.tableValues = lts;
 		}
 		else if (isStringNumBool(mapVariableType)) {
@@ -875,9 +882,7 @@ std::map<std::string, mapVariable> GetMapVariables() {
 		else {
 			ErrorSavingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
 		}
-
 		lua_pop(map_lua, 1);
-
 		mapVariables[mapVariableId] = mapVar;
 	}
 	return mapVariables;
