@@ -6,19 +6,14 @@
 
 enum MapVarType {MAPVAR_TYPE_STRING, MAPVAR_TYPE_NUMBER, MAPVAR_TYPE_TABLE, MAPVAR_TYPE_BOOLEAN, MAPVAR_TYPE_ERROR};
 
-// luaTable: map: key -> <type, value>
-typedef std::map<std::string, std::pair<MapVarType, std::string>> luaTable;
-// luaSubTables: list subtable IDs
-typedef std::list<std::string> luaSubTables;
-// luaTables: map tableId -> pair<luaTable, subtables>
-typedef std::map<std::string, std::pair<luaTable, luaSubTables>> luaTables;
+typedef std::map<std::string, mapVariable> luaTable;
 
 extern std::string MAPVARS_TABLE_ROOT;
 
 struct mapVariable {
 	MapVarType type;
 	std::string singleValue;
-	luaTables tableValues;
+	luaTable tableValue;
 };
 
 void ScriptingInit(char*);
