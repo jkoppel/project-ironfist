@@ -266,21 +266,17 @@ void SetMapVariableTables(ironfist_map::mapVariable_t &mapVar, luaTable lt) {
 	}
 }
 
-void SetMapVariableValue(ironfist_map::mapVariable_t &mapVar, std::string mapVariableValue) {
-	mapVar.value(mapVariableValue);
-}
-
 ironfist_map::mapVariable_t SaveMapVariable(std::string id, mapVariable mapVar) {
 	ironfist_map::mapVariable_t mapVarXml;
 	mapVarXml.id(id);
 	mapVarXml.type(MapVarTypeToString(mapVar.type));
 	if (isTable(mapVar.type)) {
 		for (luaTable::const_iterator it = mapVar.tableValue.begin(); it != mapVar.tableValue.end(); ++it) {
-			SaveMapVariable(it->first, it->second);
+			mapVarXml.table.push_back(SaveMapVariable(it->first, it->second));
 		}
 	}
 	else if (isStringNumBool(mapVar.type)) {
-		SetMapVariableValue(mapVarXml, mapVar.singleValue);
+		mapVarXml.value(mapVar.singleValue);
 	}
 	else {
 		DisplayError("Wrong Type created by GetMapVariables", "In function SaveMapVariables");
