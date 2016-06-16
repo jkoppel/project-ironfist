@@ -1129,30 +1129,6 @@ namespace ironfist_map
   // table_t
   // 
 
-  const table_t::tableId_type& table_t::
-  tableId () const
-  {
-    return this->tableId_.get ();
-  }
-
-  table_t::tableId_type& table_t::
-  tableId ()
-  {
-    return this->tableId_.get ();
-  }
-
-  void table_t::
-  tableId (const tableId_type& x)
-  {
-    this->tableId_.set (x);
-  }
-
-  void table_t::
-  tableId (::std::auto_ptr< tableId_type > x)
-  {
-    this->tableId_.set (x);
-  }
-
   const table_t::tableElement_sequence& table_t::
   tableElement () const
   {
@@ -1171,34 +1147,52 @@ namespace ironfist_map
     this->tableElement_ = s;
   }
 
-  const table_t::parentTable_optional& table_t::
-  parentTable () const
+  const table_t::subTable_sequence& table_t::
+  subTable () const
   {
-    return this->parentTable_;
+    return this->subTable_;
   }
 
-  table_t::parentTable_optional& table_t::
-  parentTable ()
+  table_t::subTable_sequence& table_t::
+  subTable ()
   {
-    return this->parentTable_;
-  }
-
-  void table_t::
-  parentTable (const parentTable_type& x)
-  {
-    this->parentTable_.set (x);
+    return this->subTable_;
   }
 
   void table_t::
-  parentTable (const parentTable_optional& x)
+  subTable (const subTable_sequence& s)
   {
-    this->parentTable_ = x;
+    this->subTable_ = s;
+  }
+
+  const table_t::tableId_optional& table_t::
+  tableId () const
+  {
+    return this->tableId_;
+  }
+
+  table_t::tableId_optional& table_t::
+  tableId ()
+  {
+    return this->tableId_;
   }
 
   void table_t::
-  parentTable (::std::auto_ptr< parentTable_type > x)
+  tableId (const tableId_type& x)
   {
-    this->parentTable_.set (x);
+    this->tableId_.set (x);
+  }
+
+  void table_t::
+  tableId (const tableId_optional& x)
+  {
+    this->tableId_ = x;
+  }
+
+  void table_t::
+  tableId (::std::auto_ptr< tableId_type > x)
+  {
+    this->tableId_.set (x);
   }
 
 
@@ -3014,11 +3008,11 @@ namespace ironfist_map
   //
 
   table_t::
-  table_t (const tableId_type& tableId)
+  table_t ()
   : ::xml_schema::type (),
-    tableId_ (tableId, ::xml_schema::flags (), this),
     tableElement_ (::xml_schema::flags (), this),
-    parentTable_ (::xml_schema::flags (), this)
+    subTable_ (::xml_schema::flags (), this),
+    tableId_ (::xml_schema::flags (), this)
   {
   }
 
@@ -3027,9 +3021,9 @@ namespace ironfist_map
            ::xml_schema::flags f,
            ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    tableId_ (x.tableId_, f, this),
     tableElement_ (x.tableElement_, f, this),
-    parentTable_ (x.parentTable_, f, this)
+    subTable_ (x.subTable_, f, this),
+    tableId_ (x.tableId_, f, this)
   {
   }
 
@@ -3038,13 +3032,13 @@ namespace ironfist_map
            ::xml_schema::flags f,
            ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    tableId_ (f, this),
     tableElement_ (f, this),
-    parentTable_ (f, this)
+    subTable_ (f, this),
+    tableId_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
-      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, true);
       this->parse (p, f);
     }
   }
@@ -3059,20 +3053,6 @@ namespace ironfist_map
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      // tableId
-      //
-      if (n.name () == "tableId" && n.namespace_ ().empty ())
-      {
-        ::std::auto_ptr< tableId_type > r (
-          tableId_traits::create (i, f, this));
-
-        if (!tableId_.present ())
-        {
-          this->tableId_.set (r);
-          continue;
-        }
-      }
-
       // tableElement
       //
       if (n.name () == "tableElement" && n.namespace_ ().empty ())
@@ -3084,28 +3064,34 @@ namespace ironfist_map
         continue;
       }
 
-      // parentTable
+      // subTable
       //
-      if (n.name () == "parentTable" && n.namespace_ ().empty ())
+      if (n.name () == "subTable" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< parentTable_type > r (
-          parentTable_traits::create (i, f, this));
+        ::std::auto_ptr< subTable_type > r (
+          subTable_traits::create (i, f, this));
 
-        if (!this->parentTable_)
-        {
-          this->parentTable_.set (r);
-          continue;
-        }
+        this->subTable_.push_back (r);
+        continue;
       }
 
       break;
     }
 
-    if (!tableId_.present ())
+    while (p.more_attributes ())
     {
-      throw ::xsd::cxx::tree::expected_element< char > (
-        "tableId",
-        "");
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "tableId" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< tableId_type > r (
+          tableId_traits::create (i, f, this));
+
+        this->tableId_.set (r);
+        continue;
+      }
     }
   }
 
@@ -5888,17 +5874,6 @@ namespace ironfist_map
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // tableId
-    //
-    {
-      ::xercesc::DOMElement& s (
-        ::xsd::cxx::xml::dom::create_element (
-          "tableId",
-          e));
-
-      s << i.tableId ();
-    }
-
     // tableElement
     //
     for (table_t::tableElement_const_iterator
@@ -5913,16 +5888,30 @@ namespace ironfist_map
       s << *b;
     }
 
-    // parentTable
+    // subTable
     //
-    if (i.parentTable ())
+    for (table_t::subTable_const_iterator
+         b (i.subTable ().begin ()), n (i.subTable ().end ());
+         b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "parentTable",
+          "subTable",
           e));
 
-      s << *i.parentTable ();
+      s << *b;
+    }
+
+    // tableId
+    //
+    if (i.tableId ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "tableId",
+          e));
+
+      a << *i.tableId ();
     }
   }
 

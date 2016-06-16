@@ -813,7 +813,6 @@ MapVarType StringToMapVarType(std::string stringType) {
 	}
 }
 
-
 std::string getKey() {
 	MapVarType type = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -2)));
 	if (type == MAPVAR_TYPE_STRING) {
@@ -835,22 +834,24 @@ std::string GetValue(MapVarType &type) {
 	}
 }
 
-void GetTables(luaTables &lts, std::string &mapVariableId, std::string &mapVariableParent) {
+void GetTables(luaTables &lts, std::string &mapVariableId) {
 	luaTable lt;
+	luaSubTables st;
 	lua_pushnil(map_lua);
 	while (lua_next(map_lua, -2) != 0) {
 		MapVarType valueType = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -1)));
-		std::string key = getKey();// (lua_tostring(map_lua, -2));
+		std::string key = getKey();
 		if (isStringNumBool(valueType)) {
 			lt[key] = std::pair<MapVarType, std::string>(valueType, GetValue(valueType));
 			lua_pop(map_lua, 1);
 		} else if (isTable(valueType)) {
-			GetTables(lts, key, mapVariableId);
+			st.push_back(key);
+			GetTables(lts, key);
 		} else {
 			ErrorSavingMapVariable(mapVariableId, " Wrong type in the table.");
 		}
 	}
-	lts[mapVariableId] = std::pair<std::string, luaTable>(mapVariableParent, lt);
+	lts[mapVariableId] = std::pair<luaTable, luaSubTables>(lt, st);
 	lua_pop(map_lua, 1);
 }
 
@@ -872,7 +873,7 @@ std::map<std::string, mapVariable> GetMapVariables() {
 		mapVar.type = mapVariableType;
 		if (isTable(mapVariableType)) {
 			luaTables lts;
-			GetTables(lts, mapVariableId, MAPVARS_TABLE_ROOT);
+			GetTables(lts, mapVariableId);
 			mapVar.tableValues = lts;
 		}
 		else if (isStringNumBool(mapVariableType)) {
@@ -888,44 +889,53 @@ std::map<std::string, mapVariable> GetMapVariables() {
 	return mapVariables;
 }
 
-//void PushStringNumBool(MapVarType type, std::string value) {
-//	if (type == MAPVAR_TYPE_STRING) {
-//		lua_pushstring(map_lua, value.c_str());
-//	}
-//	else if (type == MAPVAR_TYPE_NUMBER) {
-//		lua_pushnumber(map_lua, atof(value.c_str()));
-//	}
-//	else if (type == MAPVAR_TYPE_BOOLEAN) {
-//		lua_pushboolean(map_lua, atoi(value.c_str()));
-//	}
-//}
-//
-//void SetMapVariable(std::string id, MapVarType type, std::string value) {
-//	PushStringNumBool(type, value);
-//	lua_setglobal(map_lua, id.c_str());
-//}
-//
-//void SetMapVariable(std::string id, luaTable lt) {
-//	lua_newtable(map_lua);
-//	int top = lua_gettop(map_lua);
-//	for (luaTable::const_iterator it = lt.begin(); it != lt.end(); ++it) {
-//		lua_pushstring(map_lua, it->first.c_str());
-//		PushStringNumBool(it->second.first, it->second.second);
-//		lua_settable(map_lua, top);
-//	}
-//	lua_setglobal(map_lua, id.c_str());
-//}
-//
-//void SetMapVariables(std::map<std::string, mapVariable> mapVariables) {
-//	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
-//		if (isTable(it->second.type)) {
-//			SetMapVariable(it->first, it->second.tableValue);
-//		}
-//		else {
-//			SetMapVariable(it->first, it->second.type, it->second.singleValue);
-//		}
-//	}
-//}
+void PushStringNumBool(MapVarType type, std::string value) {
+	if (type == MAPVAR_TYPE_STRING) {
+		lua_pushstring(map_lua, value.c_str());
+	}
+	else if (type == MAPVAR_TYPE_NUMBER) {
+		lua_pushnumber(map_lua, atof(value.c_str()));
+	}
+	else if (type == MAPVAR_TYPE_BOOLEAN) {
+		lua_pushboolean(map_lua, atoi(value.c_str()));
+	}
+}
+
+void SetMapVariable(std::string id, MapVarType type, std::string value) {
+	PushStringNumBool(type, value);
+	lua_setglobal(map_lua, id.c_str());
+}
+
+void SetMapVariableTable(std::pair<luaTable, luaSubTables>lt_st,  luaTables lts) {
+	lua_newtable(map_lua);
+	int top = lua_gettop(map_lua);
+	for (luaTable::const_iterator it = lt_st.first.begin(); it != lt_st.first.end(); ++it) {
+		lua_pushstring(map_lua, it->first.c_str());
+		PushStringNumBool(it->second.first, it->second.second);
+		lua_settable(map_lua, top);
+	}
+	for (luaSubTables::const_iterator it = lt_st.second.begin(); it != lt_st.second.end(); ++it) {
+		lua_pushstring(map_lua, (*it).c_str());
+		SetMapVariableTable(lts[*it], lts);
+		lua_settable(map_lua, top);
+	}
+}
+
+void SetMapVariableTables(std::string id, luaTables lts) {
+	SetMapVariableTable(lts[id], lts);
+	lua_setglobal(map_lua, id.c_str());
+}
+
+void SetMapVariables(std::map<std::string, mapVariable> mapVariables) {
+	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
+		if (isTable(it->second.type)) {
+			SetMapVariableTables(it->first, it->second.tableValues);
+		}
+		else {
+			SetMapVariable(it->first, it->second.type, it->second.singleValue);
+		}
+	}
+}
 
 void DisplayError() {
   const char* msg = luaL_checkstring(map_lua, -1);

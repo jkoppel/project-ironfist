@@ -240,27 +240,28 @@ std::string MapVarTypeToString(MapVarType type) {
 	}
 }
 
-void SetMapVariableTable(ironfist_map::table_t &mapVarTable, luaTable lt) {
-	for (luaTable::const_iterator it = lt.begin(); it != lt.end(); ++it) {
+void SetMapVariableSubTables(ironfist_map::table_t &mapVarTable, luaSubTables subTables) {
+	for (std::string subTable : subTables) {
+		mapVarTable.subTable().push_back(subTable);
+	}
+}
+
+void SetMapVariableTable(ironfist_map::table_t &mapVarTable, std::pair<luaTable, luaSubTables> lt) {
+	for (luaTable::const_iterator it = lt.first.begin(); it != lt.first.end(); ++it) {
 		ironfist_map::tableElement_t element;
 		element.key(it->first);
 		element.type(MapVarTypeToString(it->second.first));
 		element.value(it->second.second);
 		mapVarTable.tableElement().push_back(element);
 	}
-}
-
-void SetMapVariableTableParent(ironfist_map::table_t &table, std::string parentTable) {
-	if (parentTable != MAPVARS_TABLE_ROOT) {
-		table.parentTable(parentTable);
-	}
+	SetMapVariableSubTables(mapVarTable, lt.second);
 }
 
 void SetMapVariableTables(ironfist_map::mapVariable_t &mapVar, luaTables lt) {
 	for (luaTables::const_iterator it = lt.begin(); it != lt.end(); ++it) {
-		ironfist_map::table_t table(it->first);
-		SetMapVariableTable(table, it->second.second);
-		SetMapVariableTableParent(table, it->second.first);
+		ironfist_map::table_t table;
+		table.tableId(it->first);
+		SetMapVariableTable(table, it->second);
 		mapVar.table().push_back(table);
 	}
 }
@@ -444,28 +445,43 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ScriptingInitFromString(mp->script().get().c_str());
 			}
 
-			//std::map<std::string, mapVariable> mapVariables;
-			//for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
-			//	it != mp->mapVariable().end(); it++) {
-			//	mapVariable mapVar;
-			//	std::string mapVariableId = it->id().get();
-			//	MapVarType mapVariableType = StringToMapVarType(it->type());
-			//	mapVar.type = mapVariableType;
-			//	if (isTable(mapVariableType)) {
-			//		luaTable lt;
-			//		for (ironfist_map::mapVariable_t::array_const_iterator it2 = it->array().begin();
-			//			it2 != it->array().end(); it2++) {
-			//			lt[it2->key().get()] = std::pair<MapVarType, std::string>(StringToMapVarType(it2->type()), it2->value().get());
-			//		}
-			//		mapVar.tableValue = lt;
-			//	} else if (isStringNumBool(mapVariableType)) {
-			//		mapVar.singleValue = it->value().get();
-			//	} else {
-			//		ErrorLoadingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
-			//	}
-			//	mapVariables[mapVariableId] = mapVar;
-			//}
-			//SetMapVariables(mapVariables);
+			std::map<std::string, mapVariable> mapVariables;
+			for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
+				it != mp->mapVariable().end(); it++) {
+				mapVariable mapVar;
+				std::string mapVariableId = it->id().get();
+				MapVarType mapVariableType = StringToMapVarType(it->type());
+				mapVar.type = mapVariableType;
+				if (isTable(mapVariableType)) {
+					luaTables lts;
+
+					for (ironfist_map::mapVariable_t::table_const_iterator table = it->table().begin();
+						table != it->table().end(); table++) {
+
+						luaTable lt;
+						luaSubTables st;
+
+						for (ironfist_map::table_t::tableElement_const_iterator tableE = table->tableElement().begin();
+						tableE != table->tableElement().end(); tableE++) {
+							lt[tableE->key().get()] = std::pair<MapVarType, std::string>(StringToMapVarType(tableE->type()), tableE->value().get());
+						}
+
+						for (ironfist_map::table_t::subTable_const_iterator subTable = table->subTable().begin();
+						subTable != table->subTable().end(); subTable++) {
+							st.push_back(*subTable);
+						}
+						lts[table->tableId().get()] = std::pair<luaTable, luaSubTables>(lt, st);
+					}
+					mapVar.tableValues = lts;
+
+				} else if (isStringNumBool(mapVariableType)) {
+					mapVar.singleValue = it->value().get();
+				} else {
+					ErrorLoadingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
+				}
+				mapVariables[mapVariableId] = mapVar;
+			}
+			SetMapVariables(mapVariables);
 
 		} catch(xml_schema::exception& e) {
 			cerr << e << endl;

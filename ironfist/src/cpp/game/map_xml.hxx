@@ -1388,23 +1388,6 @@ namespace ironfist_map
   class table_t: public ::xml_schema::type
   {
     public:
-    // tableId
-    // 
-    typedef ::xml_schema::id tableId_type;
-    typedef ::xsd::cxx::tree::traits< tableId_type, char > tableId_traits;
-
-    const tableId_type&
-    tableId () const;
-
-    tableId_type&
-    tableId ();
-
-    void
-    tableId (const tableId_type& x);
-
-    void
-    tableId (::std::auto_ptr< tableId_type > p);
-
     // tableElement
     // 
     typedef ::ironfist_map::tableElement_t tableElement_type;
@@ -1422,30 +1405,47 @@ namespace ironfist_map
     void
     tableElement (const tableElement_sequence& s);
 
-    // parentTable
+    // subTable
     // 
-    typedef ::xml_schema::idref parentTable_type;
-    typedef ::xsd::cxx::tree::optional< parentTable_type > parentTable_optional;
-    typedef ::xsd::cxx::tree::traits< parentTable_type, char > parentTable_traits;
+    typedef ::xml_schema::string subTable_type;
+    typedef ::xsd::cxx::tree::sequence< subTable_type > subTable_sequence;
+    typedef subTable_sequence::iterator subTable_iterator;
+    typedef subTable_sequence::const_iterator subTable_const_iterator;
+    typedef ::xsd::cxx::tree::traits< subTable_type, char > subTable_traits;
 
-    const parentTable_optional&
-    parentTable () const;
+    const subTable_sequence&
+    subTable () const;
 
-    parentTable_optional&
-    parentTable ();
-
-    void
-    parentTable (const parentTable_type& x);
-
-    void
-    parentTable (const parentTable_optional& x);
+    subTable_sequence&
+    subTable ();
 
     void
-    parentTable (::std::auto_ptr< parentTable_type > p);
+    subTable (const subTable_sequence& s);
+
+    // tableId
+    // 
+    typedef ::xml_schema::string tableId_type;
+    typedef ::xsd::cxx::tree::optional< tableId_type > tableId_optional;
+    typedef ::xsd::cxx::tree::traits< tableId_type, char > tableId_traits;
+
+    const tableId_optional&
+    tableId () const;
+
+    tableId_optional&
+    tableId ();
+
+    void
+    tableId (const tableId_type& x);
+
+    void
+    tableId (const tableId_optional& x);
+
+    void
+    tableId (::std::auto_ptr< tableId_type > p);
 
     // Constructors.
     //
-    table_t (const tableId_type&);
+    table_t ();
 
     table_t (const ::xercesc::DOMElement& e,
              ::xml_schema::flags f = 0,
@@ -1470,9 +1470,9 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< tableId_type > tableId_;
     tableElement_sequence tableElement_;
-    parentTable_optional parentTable_;
+    subTable_sequence subTable_;
+    tableId_optional tableId_;
   };
 
   class mapVariable_t: public ::xml_schema::type
