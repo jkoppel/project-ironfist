@@ -1199,22 +1199,34 @@ namespace ironfist_map
   // mapVariable_t
   // 
 
-  const mapVariable_t::table_sequence& mapVariable_t::
+  const mapVariable_t::table_optional& mapVariable_t::
   table () const
   {
     return this->table_;
   }
 
-  mapVariable_t::table_sequence& mapVariable_t::
+  mapVariable_t::table_optional& mapVariable_t::
   table ()
   {
     return this->table_;
   }
 
   void mapVariable_t::
-  table (const table_sequence& s)
+  table (const table_type& x)
   {
-    this->table_ = s;
+    this->table_.set (x);
+  }
+
+  void mapVariable_t::
+  table (const table_optional& x)
+  {
+    this->table_ = x;
+  }
+
+  void mapVariable_t::
+  table (::std::auto_ptr< table_type > x)
+  {
+    this->table_.set (x);
   }
 
   const mapVariable_t::id_optional& mapVariable_t::
@@ -3169,8 +3181,11 @@ namespace ironfist_map
         ::std::auto_ptr< table_type > r (
           table_traits::create (i, f, this));
 
-        this->table_.push_back (r);
-        continue;
+        if (!this->table_)
+        {
+          this->table_.set (r);
+          continue;
+        }
       }
 
       break;
@@ -5922,16 +5937,14 @@ namespace ironfist_map
 
     // table
     //
-    for (mapVariable_t::table_const_iterator
-         b (i.table ().begin ()), n (i.table ().end ());
-         b != n; ++b)
+    if (i.table ())
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
           "table",
           e));
 
-      s << *b;
+      s << *i.table ();
     }
 
     // id

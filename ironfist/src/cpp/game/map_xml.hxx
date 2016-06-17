@@ -1407,7 +1407,7 @@ namespace ironfist_map
 
     // subTable
     // 
-    typedef ::xml_schema::string subTable_type;
+    typedef ::ironfist_map::table_t subTable_type;
     typedef ::xsd::cxx::tree::sequence< subTable_type > subTable_sequence;
     typedef subTable_sequence::iterator subTable_iterator;
     typedef subTable_sequence::const_iterator subTable_const_iterator;
@@ -1481,19 +1481,23 @@ namespace ironfist_map
     // table
     // 
     typedef ::ironfist_map::table_t table_type;
-    typedef ::xsd::cxx::tree::sequence< table_type > table_sequence;
-    typedef table_sequence::iterator table_iterator;
-    typedef table_sequence::const_iterator table_const_iterator;
+    typedef ::xsd::cxx::tree::optional< table_type > table_optional;
     typedef ::xsd::cxx::tree::traits< table_type, char > table_traits;
 
-    const table_sequence&
+    const table_optional&
     table () const;
 
-    table_sequence&
+    table_optional&
     table ();
 
     void
-    table (const table_sequence& s);
+    table (const table_type& x);
+
+    void
+    table (const table_optional& x);
+
+    void
+    table (::std::auto_ptr< table_type > p);
 
     // id
     // 
@@ -1584,7 +1588,7 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    table_sequence table_;
+    table_optional table_;
     id_optional id_;
     value_optional value_;
     ::xsd::cxx::tree::one< type_type > type_;
