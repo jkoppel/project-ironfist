@@ -89,7 +89,7 @@
   <xs:complexType name="table_t">
     <xs:sequence>
       <xs:element name="tableElement" type="tableElement_t" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="subTable" type="table_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="subTable" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
     <xs:attribute name="tableId" type="xs:string"/>
   </xs:complexType>

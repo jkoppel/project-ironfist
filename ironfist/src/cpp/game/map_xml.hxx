@@ -1407,7 +1407,7 @@ namespace ironfist_map
 
     // subTable
     // 
-    typedef ::ironfist_map::table_t subTable_type;
+    typedef ::xml_schema::string subTable_type;
     typedef ::xsd::cxx::tree::sequence< subTable_type > subTable_sequence;
     typedef subTable_sequence::iterator subTable_iterator;
     typedef subTable_sequence::const_iterator subTable_const_iterator;
