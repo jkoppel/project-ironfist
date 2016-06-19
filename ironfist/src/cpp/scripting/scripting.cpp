@@ -858,9 +858,7 @@ std::map<std::string, mapVariable> LoadMapVariablesFromLUA() {
 	std::map<std::string, mapVariable> mapVariables;
 	lua_getglobal(map_lua, "mapVariables");
 
-	if (lua_isnil(map_lua, -1)) {
-		return mapVariables;
-	}
+	if (lua_isnil(map_lua, -1)) return mapVariables;
 
 	lua_pushnil(map_lua);
 	while (lua_next(map_lua, -2) != 0) {
@@ -873,12 +871,10 @@ std::map<std::string, mapVariable> LoadMapVariablesFromLUA() {
 			luaTable lt;
 			GetMVTablesFromLUA(lt, mapVariableId);
 			mapVar.tableValue = lt;
-		}
-		else if (isStringNumBool(mapVariableType)) {
+		} else if (isStringNumBool(mapVariableType)) {
 			mapVar.singleValue = GetMVValueFromLUA(mapVariableType);
 			lua_pop(map_lua, 1);
-		}
-		else {
+		} else {
 			ErrorSavingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
 		}
 		lua_pop(map_lua, 1);
@@ -890,11 +886,9 @@ std::map<std::string, mapVariable> LoadMapVariablesFromLUA() {
 void PushStringNumBoolToLUA(MapVarType type, std::string value) {
 	if (type == MAPVAR_TYPE_STRING) {
 		lua_pushstring(map_lua, value.c_str());
-	}
-	else if (type == MAPVAR_TYPE_NUMBER) {
+	} else if (type == MAPVAR_TYPE_NUMBER) {
 		lua_pushnumber(map_lua, atof(value.c_str()));
-	}
-	else if (type == MAPVAR_TYPE_BOOLEAN) {
+	} else if (type == MAPVAR_TYPE_BOOLEAN) {
 		lua_pushboolean(map_lua, atoi(value.c_str()));
 	}
 }
@@ -920,8 +914,7 @@ void WriteMapVariablesToLUA(std::map<std::string, mapVariable> mapVariables) {
 		if (isTable(it->second.type)) {
 			PushTableToLUA(it->first, it->second.tableValue);
 			lua_setglobal(map_lua, it->first.c_str());
-		}
-		else {
+		} else {
 			PushStringNumBoolToLUA(it->second.type, it->second.singleValue);
 			lua_setglobal(map_lua, it->first.c_str());
 		}
