@@ -11,6 +11,14 @@ Trigger(HERO_MOVE, "32,26", "DruidCircleVisit");
 Trigger(HERO_MOVE, "5,34", "AlchemistVisit");
 Trigger(HERO_MOVE, "18,18", "WitchVisit");
 
+Trigger(HERO_MOVE, "7,25", "SwampEnter");
+Trigger(HERO_MOVE, "31,24", "SwampEnter");
+Trigger(HERO_MOVE, "32,24", "SwampEnter");
+Trigger(HERO_MOVE, "34,24", "SwampEnter");
+Trigger(HERO_MOVE, "35,24", "SwampEnter");
+Trigger(HERO_MOVE, "2,12", "BadlandsEnter");
+Trigger(HERO_MOVE, "3,12", "BadlandsEnter");
+Trigger(HERO_MOVE, "4,12", "BadlandsEnter");
 Trigger(BATTLE_ATTACK_MELEE, NULL, "OnBattleAttack");
 
 shrineVisited = {false, false, false, false, false};
@@ -22,9 +30,25 @@ shrineVisited3 = {false, false, false, false, false};
 druidCircleVisited = "0";
 alchemistLabVisited = "0";
 witchVisited = "0";
+swampEntered = "0";
+badlandsEntered = "0";
 
-mapVariables = {"druidCircleVisited", "alchemistLabVisited", "witchVisited"};
+mapVariables = {"druidCircleVisited", "alchemistLabVisited", "witchVisited", "swampEntered", "badlandsEntered" };
 -- mapVariables = {"shrineVisited"};
+
+function SwampEnter()
+	if swampEntered == "0" then
+		swampEntered = "1";
+		MessageBox("Beware! The swamps are filled with hungry creatures roaming around. Watch your steps and stick to the road.");
+	end
+end;
+
+function BadlandsEnter()
+	if badlandsEntered == "0" then
+		badlandsEntered = "1";
+		MessageBox("Beware! The evil lord sees all and hears all; no one escapes his grasp not in life and certainly not in death!");
+	end
+end;
 
 function DruidCircleVisit()
 	if "0" == druidCircleVisited then
@@ -144,22 +168,6 @@ function OnBattleStart()
 end;
 
 function ShrineVisit()
-	h = GetCurrentHero();
-	p = GetSpellpoints(h);
-	o = GetHeroOwner(h);
-	kno = GetPrimarySkill(h, PRIMARY_SKILL_KNOWLEDGE);
-	maxPoints = kno * 10;
-	if p >= maxPoints or shrineVisited[o] == true then
-		MessageBox("You already feel refreshed to use magic");
-	else
-		p = p + 10;
-		if p > maxPoints then
-			p = maxPoints;
-		end
-		SetSpellpoints(h, p);
-		MessageBox("You feel very refreshed. Your mana is restored.");
-	end
-	shrineVisited[o] = true;
 end;
 
 function ShrineVisit2()
@@ -169,14 +177,18 @@ function ShrineVisit2()
 	kno = GetPrimarySkill(h, PRIMARY_SKILL_KNOWLEDGE);
 	maxPoints = kno * 10;
 	if p >= maxPoints or shrineVisited2[o] == true then
-		MessageBox("You already feel refreshed to use magic");
+		if o == 0 then
+			MessageBox("You already feel refreshed to use magic");
+		end
 	else
 		p = p + 20;
 		if p > maxPoints then
 			p = maxPoints;
 		end
 		SetSpellpoints(h, p);
-		MessageBox("You feel very refreshed. Your mana is restored.");
+		if o == 0 then
+			MessageBox("You feel very refreshed. Your mana is restored.");
+		end
 	end
 	shrineVisited2[o] = true;
 end;
@@ -188,21 +200,25 @@ function ShrineVisit3()
 	kno = GetPrimarySkill(h, PRIMARY_SKILL_KNOWLEDGE);
 	maxPoints = kno * 10;
 	if p >= maxPoints or shrineVisited3[o] == true then
-		MessageBox("You already feel refreshed to use magic");
+		if o == 0 then
+			MessageBox("You already feel refreshed to use magic");
+		end
 	else
 		p = p + 30;
 		if p > maxPoints then
 			p = maxPoints;
 		end
 		SetSpellpoints(h, p);
-		MessageBox("You feel very refreshed. Your mana is restored.");
+		if o == 0 then
+			MessageBox("You feel very refreshed. Your mana is restored.");
+		end
 	end
 	shrineVisited3[o] = true;
 end;
 
 function OnHeroMove()
-	MessageBox("I move!");
-	MessageBox(tostring(GetCurrentHero()));
+	--MessageBox("I move!");
+	--MessageBox(tostring(GetCurrentHero()));
 end;
 
 -- Quick hack for release -- having problem changing names of heroes in editor
@@ -226,9 +242,9 @@ function DayFunc()
 end;
 
 function WeekFunc()
-	mon = GetMonth();
+	month = GetMonth();
 -- Give army to the enemy
-	if mon == 1 then
+	if month == 1 then
 		if week == 1 then
 			GrantArmy(GetHero(GetPlayer(1), 0), CREATURE_SKELETON, 50);
 		elseif week == 2 then
