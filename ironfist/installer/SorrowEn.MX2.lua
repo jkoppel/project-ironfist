@@ -22,12 +22,7 @@ function check_library()
 		h = GetVisitingHero(t);
 		if HasArtifact(h, ARTIFACT_MAGES_RING_OF_POWER) then
 			TakeArtifact(h, ARTIFACT_MAGES_RING_OF_POWER);
-			MessageBox("The Mage's Ring fits easily in the keyhole of the sealed library door. Inside lie shelves packed with tomes.");	
-			BuildInCurrentTown(BUILDING_MAGE_GUILD); 
-			BuildInCurrentTown(BUILDING_MAGE_GUILD);
-			BuildInCurrentTown(BUILDING_MAGE_GUILD);
-			BuildInCurrentTown(BUILDING_MAGE_GUILD);
-			BuildInCurrentTown(BUILDING_MAGE_GUILD);
+			MessageBox("The Mage's Ring fits easily in the keyhole of the sealed library door. Inside lie shelves packed with tomes.");
 			SetNumGuildSpells(t, 0, 4); 
 			SetNumGuildSpells(t, 1, 4);
 			SetNumGuildSpells(t, 2, 4);
@@ -37,6 +32,11 @@ function check_library()
 			SetGuildSpell(t, 4, 1, SPELL_SUMMON_WATER_ELEMENTAL);
 			SetGuildSpell(t, 4, 2, SPELL_SUMMON_EARTH_ELEMENTAL);
 			SetGuildSpell(t, 4, 3, SPELL_RESURRECT_TRUE);
+			BuildInCurrentTown(BUILDING_MAGE_GUILD); 
+			BuildInCurrentTown(BUILDING_MAGE_GUILD);
+			BuildInCurrentTown(BUILDING_MAGE_GUILD);
+			BuildInCurrentTown(BUILDING_MAGE_GUILD);
+			BuildInCurrentTown(BUILDING_MAGE_GUILD);
 		end;
 	end;
 end;

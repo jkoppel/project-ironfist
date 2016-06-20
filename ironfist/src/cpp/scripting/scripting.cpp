@@ -315,12 +315,6 @@ int l_getheroinpool(lua_State *L) {
   return 1;
 }
 
-int l_getheroname(lua_State *L) {
-  hero *hro = (hero*)lua_touserdata(L, 1);
-  lua_pushstring(L, hro->name);
-  return 1;
-}
-
 int l_getheroowner(lua_State *L) {
   hero *hro = (hero*)lua_touserdata(L, 1);
   lua_pushinteger(L, hro->ownerIdx);
@@ -480,6 +474,7 @@ int l_setnumguildspells(lua_State *L) {
   int l = (int)luaL_checknumber(L, 2);
   int n = (int)luaL_checknumber(L, 3);
   twn->SetNumSpellsOfLevel(l, n);
+  twn->GiveSpells(NULL);
   return 0;
 }
 
@@ -489,6 +484,7 @@ int l_setguildspell(lua_State *L) {
   int n = (int)luaL_checknumber(L, 3);
   int s = (int)luaL_checknumber(L, 4);
   twn->mageGuildSpells[l][n] = s;
+  twn->GiveSpells(NULL);
   return 0;
 }
 
@@ -612,7 +608,6 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetHero", l_gethero);
   lua_register(L, "GetHeroForHire", l_getheroforhire);
   lua_register(L, "GetHeroInPool", l_getheroinpool);
-  lua_register(L, "GetHeroName", l_getheroname);
   lua_register(L, "GetHeroOwner", l_getheroowner);
   lua_register(L, "GrantArtifact", l_grantartifact);
   lua_register(L, "GrantSpell", l_grantspell);
