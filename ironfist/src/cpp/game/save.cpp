@@ -287,9 +287,9 @@ void WriteMapVariablesXML(ironfist_map::map_t& m) {
 		mapVar.id(it->first);
 		mapVar.type(MapVarTypeToString(it->second.type));
 		if (isTable(it->second.type)) {
-			mapVar.table(WriteMapVariableTableXML(it->first, it->second.tableValue));
+			mapVar.table(WriteMapVariableTableXML(it->first, *it->second.tableValue));
 		} else if (isStringNumBool(it->second.type)) {
-			mapVar.value(it->second.singleValue);
+			mapVar.value(*it->second.singleValue);
 		} else {
 			DisplayError("Wrong Type created by GetMapVariables", "In function SaveMapVariables");
 		}
@@ -463,9 +463,10 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				if (isTable(mapVariableType)) {
 					luaTable lt;
 					ReadMapVarXML(lt, it->table().get());
-					mapVar.tableValue = lt;
+					mapVar.tableValue = &lt;
 				} else if (isStringNumBool(mapVariableType)) {
-					mapVar.singleValue = it->value().get();
+					std::string sv = it->value().get();
+					mapVar.singleValue = &sv;
 				} else {
 					ErrorLoadingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
 				}

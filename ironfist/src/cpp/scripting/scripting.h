@@ -12,8 +12,10 @@ typedef std::map<std::string, std::pair<luaTableElements, luaSubTables>> luaTabl
 
 struct mapVariable {
 	MapVarType type;
-	std::string singleValue;
-	luaTable tableValue;
+	union {
+		std::string *singleValue;
+		luaTable *tableValue;
+	};
 };
 
 void ScriptingInit(char*);
