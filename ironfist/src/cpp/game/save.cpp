@@ -10,12 +10,9 @@
 
 #include<iostream>
 #include<fstream>
-#include<string>
 #include<io.h>
 #include<fcntl.h>
 #include<sys/stat.h>
-
-using namespace std;
 
 extern int giMonthType;
 extern int giMonthTypeExtra;
@@ -285,7 +282,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				return;
 			}
 
-			auto_ptr<ironfist_map::map_t> mp = ironfist_map::map(string(v8));
+			std::auto_ptr<ironfist_map::map_t> mp = ironfist_map::map(std::string(v8));
 
 			int i = 0;
 			for (ironfist_map::map_t::hero_const_iterator it = mp->hero().begin();
@@ -406,7 +403,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
             gpGame->ResetIronfistGameState();
 
 			if (mp->script().present()) {
-				ScriptingInitFromString(mp->script().get().c_str());
+				ScriptingInitFromString(mp->script().get());
 			}
 
 			i = 0;
@@ -417,7 +414,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			}
 		} catch(xml_schema::exception& e) {
             DisplayError("Error parsing save file", "Fatal Error");
-			cerr << e << endl;
+			std::cerr << e << std::endl;
 			exit(1);
 		}
 	}
@@ -527,7 +524,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	const xml_schema::base64_binary datbin(dat, sz);
 
-	ofstream os(v9);
+	std::ofstream os(v9);
 
 	ironfist_map::map_t m(datbin);
 
@@ -535,10 +532,8 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 		m.hero().push_back(WriteHeroXML(&this->heroes[i]));
 	}
 
-	if (GetScriptContents() != NULL) {
-		m.script(GetScriptContents());
-		SaveMapVariables(m);
-	}
+	m.script(GetScriptContents());
+	SaveMapVariables(m);
 
 	xml_schema::namespace_infomap infomap;
 	infomap[""].name = "ironfist_map";

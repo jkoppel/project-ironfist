@@ -155,6 +155,7 @@
     <ClCompile Include="..\src\cpp\scripting\lua_utils.cpp" />
     <ClCompile Include="..\src\cpp\scripting\scripting.cpp" />
     <ClCompile Include="..\src\cpp\scripting\consts.cpp" />
+    <ClCompile Include="..\src\cpp\scripting\temporary_file.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
   </ItemGroup>
@@ -214,6 +215,7 @@
     <ClInclude Include="..\src\cpp\scripting\hook.h" />
     <ClInclude Include="..\src\cpp\scripting\register.h" />
     <ClInclude Include="..\src\cpp\scripting\scripting.h" />
+    <ClInclude Include="..\src\cpp\scripting\temporary_file.h" />
     <ClInclude Include="..\src\cpp\skills.h" />
     <ClInclude Include="..\src\cpp\sound\sound.h" />
     <ClInclude Include="..\src\cpp\spell\spells.h" />

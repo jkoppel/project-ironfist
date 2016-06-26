@@ -1,11 +1,13 @@
 #ifndef SCRIPTING_H
 #define SCRIPTING_H
 
-void ScriptingInit(char*);
-void ScriptingInitFromString(const char*);
+#include<string>
+
+void ScriptingInit(std::string&);
+void ScriptingInitFromString(std::string&);
 void ScriptingShutdown();
 
-char *GetScriptContents();
+std::string& GetScriptContents();
 
 void DisplayError();
 
