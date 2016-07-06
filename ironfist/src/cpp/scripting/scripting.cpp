@@ -865,9 +865,9 @@ std::map<std::string, mapVariable> LoadMapVariablesFromLUA() {
 		if (isTable(mapVariableType)) {
 			luaTable lt;
 			GetMVTablesFromLUA(lt, mapVariableId);
-			mapVar.tableValue = &lt;
+			mapVar.tableValue = lt;
 		} else if (isStringNumBool(mapVariableType)) {
-			mapVar.singleValue = &GetMVValueFromLUA(mapVariableType);
+			mapVar.singleValue = GetMVValueFromLUA(mapVariableType);
 			lua_pop(map_lua, 1);
 		} else {
 			ErrorSavingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
@@ -907,10 +907,10 @@ void PushTableToLUA(std::string id, luaTable lt) {
 void WriteMapVariablesToLUA(std::map<std::string, mapVariable> mapVariables) {
 	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
 		if (isTable(it->second.type)) {
-			PushTableToLUA(it->first, *it->second.tableValue);
+			PushTableToLUA(it->first, it->second.tableValue);
 			lua_setglobal(map_lua, it->first.c_str());
 		} else {
-			PushStringNumBoolToLUA(it->second.type, *it->second.singleValue);
+			PushStringNumBoolToLUA(it->second.type, it->second.singleValue);
 			lua_setglobal(map_lua, it->first.c_str());
 		}
 	}
