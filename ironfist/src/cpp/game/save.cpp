@@ -475,8 +475,9 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			WriteMapVariablesToLUA(mapVariables);
 
 		} catch(xml_schema::exception& e) {
+            DisplayError("Error parsing save file", "Fatal Error");
 			cerr << e << endl;
-			exit(0);
+			exit(1);
 		}
 	}
 }
