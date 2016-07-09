@@ -2,7 +2,9 @@
 #include<stdlib.h>
 #include<sys/stat.h>
 
+#include<fstream>
 #include<map>
+#include<sstream>
 #include<string>
 #include<utility>
 
@@ -23,10 +25,11 @@ extern "C" {
 #include "scripting/hook.h"
 #include "scripting/register.h"
 #include "scripting/scripting.h"
+#include "scripting/temporary_file.h"
 
 using namespace std;
 
-char *script_contents = NULL;
+string script_contents("");
 
 bool scripting_on = false;
 lua_State* map_lua = NULL;
@@ -682,70 +685,44 @@ void set_lua_globals(lua_State *L) {
   set_scripting_consts(L);
 }
 
-void RunScript() {
-  if (script_contents != NULL) {
-    map_lua = luaL_newstate();
-    triggers = new map<pair<int, string>, const char* >;
-    general_triggers = new map<int, const char* >;
-    scripting_on = true;
+static void LoadScriptContents(string &filnam) {
+  ifstream in(filnam);
+  stringstream buffer;
+  buffer << in.rdbuf();
+  script_contents = buffer.str();
+}
 
-    luaL_openlibs(map_lua);
+void RunScript(string& script_filename) {
+  map_lua = luaL_newstate();
+  triggers = new map<pair<int, string>, const char* >;
+  general_triggers = new map<int, const char* >;
+  scripting_on = true;
 
-    set_lua_globals(map_lua);
+  luaL_openlibs(map_lua);
 
-    if (luaL_dostring(map_lua, script_contents)) {
-      DisplayError();
-    }
+  set_lua_globals(map_lua);
+
+  LoadScriptContents(script_filename);
+
+  if (luaL_dofile(map_lua, script_filename.c_str())) {
+    DisplayError();
   }
 }
 
-void LoadScript(char* script_filname) {
-  if (script_contents != NULL) {
-    free(script_contents);
-  }
-
-  script_contents = NULL;
-
-  FILE *fil = fopen(script_filname, "r");
-  if (fil != NULL) {
-    fseek(fil, 0, SEEK_END);
-    int length = ftell(fil);
-    fseek(fil, 0, SEEK_SET);
-    script_contents = (char*)calloc(length + 1, sizeof(char));
-    fread(script_contents, sizeof(char), length, fil);
-    fclose(fil);
-  }
-}
-
-void SetScript(const char *script) {
-  if (script_contents != NULL) {
-    free(script_contents);
-  }
-
-  script_contents = strdup(script);
-}
-
-
-void ScriptingInit(char* map_filnam) {
+void ScriptingInit(string& map_filnam) {
   ScriptingShutdown();
 
-  int size = _scprintf(".\\SCRIPTS\\%s.lua", map_filnam) + 1; //+1 for null
-  char* script_file = (char*)malloc(sizeof(char)*size);
-  sprintf_s(script_file, size, ".\\SCRIPTS\\%s.lua", map_filnam);
-
+  string script_file = ".\\SCRIPTS\\" + map_filnam + ".lua";
   struct stat st;
 
-  if (stat(script_file, &st) == 0) { //script exists
-    LoadScript(script_file);
-    RunScript();
+  if (stat(script_file.c_str(), &st) == 0) { //script exists
+    RunScript(script_file);
   }
-
-  free(script_file);
 }
 
-void ScriptingInitFromString(const char *script) {
-  SetScript(script);
-  RunScript();
+void ScriptingInitFromString(string &script) {
+  string filename = dumpToTemp(string(script));
+  RunScript(filename);
 }
 
 void ScriptingShutdown() {
@@ -757,13 +734,11 @@ void ScriptingShutdown() {
     scripting_on = false;
   }
 
-  if (script_contents != NULL) {
-    free(script_contents);
-    script_contents = NULL;
-  }
+  script_contents = "";
 }
 
-char *GetScriptContents() {
+// Returns "" if none
+string& GetScriptContents() {
   return script_contents;
 }
 

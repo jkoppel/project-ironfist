@@ -3,6 +3,7 @@
 
 #include <map>
 #include <list>
+#include<string>
 
 enum MapVarType {MAPVAR_TYPE_STRING, MAPVAR_TYPE_NUMBER, MAPVAR_TYPE_TABLE, MAPVAR_TYPE_BOOLEAN, MAPVAR_TYPE_ERROR};
 
@@ -16,11 +17,11 @@ struct mapVariable {
 	luaTable tableValue;
 };
 
-void ScriptingInit(char*);
-void ScriptingInitFromString(const char*);
+void ScriptingInit(std::string&);
+void ScriptingInitFromString(std::string&);
 void ScriptingShutdown();
 
-char *GetScriptContents();
+std::string& GetScriptContents();
 
 void DisplayError();
 
