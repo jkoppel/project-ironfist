@@ -87,3 +87,17 @@ void game::ResetIronfistGameState() {
         }
     }
 }
+
+extern int gbGameOver;
+extern int giEndSequence;
+
+void __fastcall CheckEndGame(int a, int b) {
+  CheckEndGame_orig(a, b);
+  if (gbGameOver) {
+    if (giEndSequence) {
+      ScriptSignal(SCRIPT_EVT_MAP_VICTORY, "");
+    } else {
+      ScriptSignal(SCRIPT_EVT_MAP_LOSS, "");
+    }
+  }
+}

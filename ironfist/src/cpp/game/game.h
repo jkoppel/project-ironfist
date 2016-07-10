@@ -189,6 +189,9 @@ private:
     void PropagateVision();
 };
 
+extern void __fastcall CheckEndGame_orig(int a, int b);
+void __fastcall CheckEndGame(int a, int b);
+
 extern game* gpGame;
 
 extern int gbGameOver;
