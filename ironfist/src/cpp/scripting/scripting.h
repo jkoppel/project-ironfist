@@ -5,31 +5,33 @@
 #include <list>
 
 enum MapVarType {
-	MAPVAR_TYPE_STRING, 
-	MAPVAR_TYPE_NUMBER, 
-	MAPVAR_TYPE_TABLE, 
-	MAPVAR_TYPE_BOOLEAN, 
-	MAPVAR_TYPE_ERROR};
+
+  MAPVAR_TYPE_STRING,
+  MAPVAR_TYPE_NUMBER,
+  MAPVAR_TYPE_TABLE,
+  MAPVAR_TYPE_BOOLEAN,
+  MAPVAR_TYPE_ERROR
+};
 
 typedef std::map<std::string, std::pair<MapVarType, std::string>> luaTableElements;
 typedef std::list<std::string> luaSubTables;
 typedef std::map<std::string, std::pair<luaTableElements, luaSubTables>> luaTable;
 
 struct mapVariable {
-	~mapVariable() {
-		if (type == MAPVAR_TYPE_TABLE) {
-			delete tableValue;
-		}
-		else {
-			delete singleValue;
-		}
-	}
+
+  ~mapVariable() {
+    if (type == MAPVAR_TYPE_TABLE) {
+      delete tableValue;
+    } else {
+      delete singleValue;
+    }
+  }
 
 	MapVarType type;
-	union {
-		std::string *singleValue;
-		luaTable *tableValue;
-	};
+    union {
+      std::string *singleValue; // we treat all non-table values the same
+      luaTable *tableValue;
+    };
 };
 
 void ScriptingInit(char*);

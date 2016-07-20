@@ -97,6 +97,7 @@ public:
 
   town();
 
+  void GiveSpells(hero *captain);
   void SelectSpells();
   void SetNumSpellsOfLevel(int,int);
 
