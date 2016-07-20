@@ -1,8 +1,9 @@
 #ifndef SCRIPTING_H
 #define SCRIPTING_H
 
-#include <map>
-#include <list>
+#include<list>
+#include<map>
+#include<string>
 
 enum MapVarType {
 
@@ -34,11 +35,12 @@ struct mapVariable {
     };
 };
 
-void ScriptingInit(char*);
-void ScriptingInitFromString(const char*);
+
+void ScriptingInit(std::string&);
+void ScriptingInitFromString(std::string&);
 void ScriptingShutdown();
 
-char *GetScriptContents();
+std::string& GetScriptContents();
 
 void DisplayError();
 
