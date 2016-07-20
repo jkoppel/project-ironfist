@@ -865,20 +865,22 @@ std::map<std::string, mapVariable> LoadMapVariablesFromLUA() {
 		std::string mapVariableId(lua_tostring(map_lua, -1));
 		lua_getglobal(map_lua, mapVariableId.c_str());
 		MapVarType mapVariableType = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -1)));
-		mapVariable mapVar;
-		mapVar.type = mapVariableType;
+		mapVariable *mapVar = new mapVariable;
+		mapVar->type = mapVariableType;
 		if (isTable(mapVariableType)) {
-			luaTable lt;
-			GetMVTablesFromLUA(lt, mapVariableId);
-			mapVar.tableValue = &lt;
+			luaTable *lt = new luaTable;
+			GetMVTablesFromLUA(*lt, mapVariableId);
+			mapVar->tableValue = lt;
 		} else if (isStringNumBool(mapVariableType)) {
-			mapVar.singleValue = &GetMVValueFromLUA(mapVariableType);
+			std::string *sV = new std::string;
+			*sV = GetMVValueFromLUA(mapVariableType);
+			mapVar->singleValue = sV;
 			lua_pop(map_lua, 1);
 		} else {
 			ErrorSavingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
 		}
 		lua_pop(map_lua, 1);
-		mapVariables[mapVariableId] = mapVar;
+		mapVariables[mapVariableId] = *mapVar;
 	}
 	return mapVariables;
 }
