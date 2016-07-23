@@ -228,6 +228,9 @@ public:
 
     mapCell* MoveHero(int,int,int *,int *,int *,int,int *,int);
     mapCell* MoveHero_orig(int,int,int *,int *,int *,int,int *,int);
+
+	void DoEvent_orig(class mapCell *, int, int);
+	void DoEvent(class mapCell *cell, int locX, int locY);
 };
 
 extern advManager* gpAdvManager;

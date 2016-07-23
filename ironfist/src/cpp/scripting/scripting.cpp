@@ -678,6 +678,7 @@ void set_lua_globals(lua_State *L) {
   lua_setconst(L, "UNIT_RECRUIT", SCRIPT_EVT_RECRUIT);
   lua_setconst(L, "BATTLE_START", SCRIPT_EVT_BATTLE_START);
   lua_setconst(L, "BATTLE_ATTACK_MELEE", SCRIPT_EVT_BATTLE_ATTACK_M);
+  lua_setconst(L, "VISIT_CAMPFIRE", SCRIPT_EVT_VISIT_CAMPFIRE);
 
   set_scripting_consts(L);
 }
