@@ -1,8 +1,8 @@
 #ifndef SCRIPTING_H
 #define SCRIPTING_H
 
-#include <map>
-#include <list>
+#include<list>
+#include<map>
 #include<string>
 
 enum MapVarType {
@@ -18,6 +18,7 @@ typedef std::list<std::string> luaSubTables;
 typedef std::map<std::string, std::pair<luaTableElements, luaSubTables>> luaTable;
 
 struct mapVariable {
+
   ~mapVariable() {
     if (type == MAPVAR_TYPE_TABLE) {
       delete tableValue;
@@ -26,11 +27,11 @@ struct mapVariable {
     }
   }
 
-	MapVarType type;
-    union {
-      std::string *singleValue; // we treat all non-table values the same
-      luaTable *tableValue;
-    };
+  MapVarType type;
+  union {
+    std::string *singleValue; // we treat all non-table values the same
+    luaTable *tableValue;
+  };
 };
 
 void ScriptingInit(std::string&);
@@ -48,7 +49,7 @@ MapVarType StringToMapVarType(std::string);
 
 std::map <std::string , mapVariable > LoadMapVariablesFromLUA();
 
-void WriteMapVariablesToLUA(std::map<std::string, mapVariable>);
+void WriteMapVariablesToLUA(std::map<std::string, mapVariable>&);
 
 void ErrorLoadingMapVariable(std::string&, const std::string&);
 
