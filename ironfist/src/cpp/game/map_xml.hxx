@@ -1405,22 +1405,22 @@ namespace ironfist_map
     void
     tableElement (const tableElement_sequence& s);
 
-    // subTable
+    // table
     // 
-    typedef ::ironfist_map::table_t subTable_type;
-    typedef ::xsd::cxx::tree::sequence< subTable_type > subTable_sequence;
-    typedef subTable_sequence::iterator subTable_iterator;
-    typedef subTable_sequence::const_iterator subTable_const_iterator;
-    typedef ::xsd::cxx::tree::traits< subTable_type, char > subTable_traits;
+    typedef ::ironfist_map::table_t table_type;
+    typedef ::xsd::cxx::tree::sequence< table_type > table_sequence;
+    typedef table_sequence::iterator table_iterator;
+    typedef table_sequence::const_iterator table_const_iterator;
+    typedef ::xsd::cxx::tree::traits< table_type, char > table_traits;
 
-    const subTable_sequence&
-    subTable () const;
+    const table_sequence&
+    table () const;
 
-    subTable_sequence&
-    subTable ();
+    table_sequence&
+    table ();
 
     void
-    subTable (const subTable_sequence& s);
+    table (const table_sequence& s);
 
     // tableId
     // 
@@ -1471,7 +1471,7 @@ namespace ironfist_map
 
     protected:
     tableElement_sequence tableElement_;
-    subTable_sequence subTable_;
+    table_sequence table_;
     tableId_optional tableId_;
   };
 

@@ -1147,22 +1147,22 @@ namespace ironfist_map
     this->tableElement_ = s;
   }
 
-  const table_t::subTable_sequence& table_t::
-  subTable () const
+  const table_t::table_sequence& table_t::
+  table () const
   {
-    return this->subTable_;
+    return this->table_;
   }
 
-  table_t::subTable_sequence& table_t::
-  subTable ()
+  table_t::table_sequence& table_t::
+  table ()
   {
-    return this->subTable_;
+    return this->table_;
   }
 
   void table_t::
-  subTable (const subTable_sequence& s)
+  table (const table_sequence& s)
   {
-    this->subTable_ = s;
+    this->table_ = s;
   }
 
   const table_t::tableId_optional& table_t::
@@ -3023,7 +3023,7 @@ namespace ironfist_map
   table_t ()
   : ::xml_schema::type (),
     tableElement_ (::xml_schema::flags (), this),
-    subTable_ (::xml_schema::flags (), this),
+    table_ (::xml_schema::flags (), this),
     tableId_ (::xml_schema::flags (), this)
   {
   }
@@ -3034,7 +3034,7 @@ namespace ironfist_map
            ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
     tableElement_ (x.tableElement_, f, this),
-    subTable_ (x.subTable_, f, this),
+    table_ (x.table_, f, this),
     tableId_ (x.tableId_, f, this)
   {
   }
@@ -3045,7 +3045,7 @@ namespace ironfist_map
            ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
     tableElement_ (f, this),
-    subTable_ (f, this),
+    table_ (f, this),
     tableId_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -3076,14 +3076,14 @@ namespace ironfist_map
         continue;
       }
 
-      // subTable
+      // table
       //
-      if (n.name () == "subTable" && n.namespace_ ().empty ())
+      if (n.name () == "table" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< subTable_type > r (
-          subTable_traits::create (i, f, this));
+        ::std::auto_ptr< table_type > r (
+          table_traits::create (i, f, this));
 
-        this->subTable_.push_back (r);
+        this->table_.push_back (r);
         continue;
       }
 
@@ -5903,15 +5903,15 @@ namespace ironfist_map
       s << *b;
     }
 
-    // subTable
+    // table
     //
-    for (table_t::subTable_const_iterator
-         b (i.subTable ().begin ()), n (i.subTable ().end ());
+    for (table_t::table_const_iterator
+         b (i.table ().begin ()), n (i.table ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "subTable",
+          "table",
           e));
 
       s << *b;

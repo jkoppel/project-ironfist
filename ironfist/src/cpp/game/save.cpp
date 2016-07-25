@@ -144,23 +144,27 @@ void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->y = hx.y();
 }
 
-void ReadMapVarXML(luaTable& lt, ironfist_map::table_t table) {
+luaTable *ReadMapVarXML(ironfist_map::table_t table) {
 
-	luaTableElements lte;
-	luaSubTables lst;
-
+	luaTable *lt = new luaTable;
 	for (ironfist_map::table_t::tableElement_const_iterator tableE = table.tableElement().begin();
 		tableE != table.tableElement().end(); tableE++) {
-		lte[tableE->key().get()] = std::pair<MapVarType, std::string>(StringToMapVarType(tableE->type()), tableE->value().get());
+		mapVariable *mapVar = new mapVariable;
+		mapVar->type = StringToMapVarType(tableE->type());
+
+		std::string *sV = new std::string(tableE->value().get());
+		mapVar->singleValue = sV;
+		(*lt)[tableE->key().get()] = *mapVar;
 	}
 
-	for (ironfist_map::table_t::subTable_const_iterator subTable = table.subTable().begin();
-		subTable != table.subTable().end(); subTable++) {
-		lst.push_back(subTable->tableId().get());
-		ReadMapVarXML(lt, *subTable);
+	for (ironfist_map::table_t::table_const_iterator subTable = table.table().begin();
+		subTable != table.table().end(); subTable++) {
+		mapVariable *mapVar = new mapVariable;
+		mapVar->type = MAPVAR_TYPE_TABLE;
+		mapVar->tableValue = ReadMapVarXML(*subTable);
+		(*lt)[subTable->tableId().get()] = *mapVar;
 	}
-
-	lt[table.tableId().get()] = std::pair<luaTableElements, luaSubTables>(lte, lst);
+	return lt;
 }
 
 ironfist_map::hero_t WriteHeroXML(hero* hro) {
@@ -256,21 +260,20 @@ std::string MapVarTypeToString(MapVarType type) {
 	}
 }
 
-ironfist_map::table_t WriteMapVariableTableXML(const std::string &id, luaTable lt) {
-	std::pair<luaTableElements, luaSubTables> lte_lst = lt[id];
+ironfist_map::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
 	ironfist_map::table_t xsdTable;
 	xsdTable.tableId(id);
-
-	for (luaTableElements::const_iterator it = lte_lst.first.begin(); it != lte_lst.first.end(); ++it) {
-		ironfist_map::tableElement_t element;
-		element.key(it->first);
-		element.type(MapVarTypeToString(it->second.first));
-		element.value(it->second.second);
-		xsdTable.tableElement().push_back(element);
-	}
-
-	for (luaSubTables::const_iterator it = lte_lst.second.begin(); it != lte_lst.second.end(); ++it) {
-		xsdTable.subTable().push_back(WriteMapVariableTableXML(*it, lt));
+	for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
+		if (it->second.type == MAPVAR_TYPE_TABLE) {
+			xsdTable.table().push_back(WriteMapVariableTableXML(it->first, it->second.tableValue));
+		}
+		else {
+			ironfist_map::tableElement_t element;
+			element.key(it->first);
+			element.type(MapVarTypeToString(it->second.type));
+			element.value(*it->second.singleValue);
+			xsdTable.tableElement().push_back(element);
+		}
 	}
 	return xsdTable;
 }
@@ -284,7 +287,7 @@ void WriteMapVariablesXML(ironfist_map::map_t& m) {
 		mapVar.id(it->first);
 		mapVar.type(MapVarTypeToString(it->second.type));
 		if (isTable(it->second.type)) {
-			mapVar.table(WriteMapVariableTableXML(it->first, *it->second.tableValue));
+			mapVar.table(WriteMapVariableTableXML(it->first, it->second.tableValue));
 		} else if (isStringNumBool(it->second.type)) {
 			mapVar.value(*it->second.singleValue);
 		} else {
@@ -458,9 +461,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				MapVarType mapVariableType = StringToMapVarType(it->type());
 				mapVar->type = mapVariableType;
 				if (isTable(mapVariableType)) {
-					luaTable *lt = new luaTable;
-					ReadMapVarXML(*lt, it->table().get());
-					mapVar->tableValue = lt;
+					mapVar->tableValue = ReadMapVarXML(it->table().get());
 				} else if (isStringNumBool(mapVariableType)) {
 					std::string *sV = new std::string;
 					*sV = it->value().get();
