@@ -128,3 +128,13 @@ void game::MakeAllWaterVisible(int player) {
     }
   }
 }
+
+void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
+	int locType = cell->objType & 0x7F;
+	if (locType == LOCATION_CAMPFIRE) {
+		std::ostringstream tmp;
+		tmp << locX << "," << locY;
+		ScriptSignal(SCRIPT_EVT_VISIT_CAMPFIRE, tmp.str());
+	}
+	this->DoEvent_orig(cell, locX, locY);
+}
