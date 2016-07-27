@@ -133,13 +133,17 @@ void __fastcall SetupCDRom() {
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
 	HKEY hKey;
-	BYTE old_x, old_y, old_width, old_height;
+	DWORD old_x, old_y, old_width, old_height;
 	hKey = 0;
-	RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\New World Computing\\Heroes of Might and Magic 2\\1.0"), 0, KEY_ALL_ACCESS, &hKey);
-	RegQueryValueExA(hKey, "Main Game Width", 0, NULL, &old_width, NULL);
-	RegQueryValueExA(hKey, "Main Game Height", 0, NULL, &old_height, NULL);
+	DWORD cData = 4;
+	RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\New World Computing\\Heroes of Might and Magic 2\\1.0"), 0, KEY_QUERY_VALUE, &hKey);
+	RegQueryValueExA(hKey, "Main Game X", 0, NULL, (LPBYTE)&old_x, &cData);
+	RegQueryValueExA(hKey, "Main Game Y", 0, NULL, (LPBYTE)&old_y, &cData);
+	RegQueryValueExA(hKey, "Main Game Width", 0, NULL, (LPBYTE)&old_width, &cData);
+	RegQueryValueExA(hKey, "Main Game Height", 0, NULL, (LPBYTE)&old_height, &cData);
 	RegCloseKey(hKey);
-	ResizeWindow(-1, -1, old_width, old_height);
+
+	ResizeWindow(old_x, old_y, old_width, old_height);
 
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
