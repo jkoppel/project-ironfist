@@ -10,6 +10,7 @@
 #include "resource/resources.h"
 #include "sound/sound.h"
 #include "town/town.h"
+#include "registry_prefs.h"
 
 #pragma pack(push,1)
 
@@ -132,19 +133,15 @@ void __fastcall SetupCDRom() {
 
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
-	HKEY hKey;
-	DWORD old_x, old_y, old_width, old_height;
-	hKey = 0;
-	DWORD cData = 4;
-	RegOpenKeyEx(HKEY_LOCAL_MACHINE, TEXT("SOFTWARE\\New World Computing\\Heroes of Might and Magic 2\\1.0"), 0, KEY_QUERY_VALUE, &hKey);
-	RegQueryValueExA(hKey, "Main Game X", 0, NULL, (LPBYTE)&old_x, &cData);
-	RegQueryValueExA(hKey, "Main Game Y", 0, NULL, (LPBYTE)&old_y, &cData);
-	RegQueryValueExA(hKey, "Main Game Width", 0, NULL, (LPBYTE)&old_width, &cData);
-	RegQueryValueExA(hKey, "Main Game Height", 0, NULL, (LPBYTE)&old_height, &cData);
-	RegCloseKey(hKey);
-
-	ResizeWindow(old_x, old_y, old_width, old_height);
-
+	DWORD old_x = read_registry_pref<DWORD>("Main Game X");
+	DWORD old_y = read_registry_pref<DWORD>("Main Game Y");
+	DWORD old_width = read_registry_pref<DWORD>("Main Game Width");
+	DWORD old_height = read_registry_pref<DWORD>("Main Game Height");
+	ResizeWindow(old_x == (DWORD)(-1) ? 0 : old_x,
+		old_y == (DWORD)(-1) ? 0 : old_y,
+		old_width == (DWORD)(-1) ? 640 : old_width,
+		old_height == (DWORD)(-1) ? 480 : old_height);
+	
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
 		SetPalette(gPalette->contents, 1);
