@@ -6,11 +6,11 @@
 #include "gui/dialog.h"
 #include "gui/gui.h"
 #include "manager.h"
+#include "registry_prefs.h"
 #include "resource/resourceManager.h"
 #include "resource/resources.h"
 #include "sound/sound.h"
 #include "town/town.h"
-#include "registry_prefs.h"
 
 #pragma pack(push,1)
 
