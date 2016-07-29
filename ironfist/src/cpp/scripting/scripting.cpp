@@ -874,8 +874,7 @@ void PushTableToLUA(luaTable *lt) {
 			lua_pushstring(map_lua, it->first.c_str());
 			PushTableToLUA(it->second.tableValue);
 			lua_settable(map_lua, top);
-		}
-		else {
+		} else {
 			lua_pushstring(map_lua, it->first.c_str());
 			PushStringNumBoolToLUA(it->second.type, *it->second.singleValue);
 			lua_settable(map_lua, top);
