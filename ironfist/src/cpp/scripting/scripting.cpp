@@ -602,7 +602,7 @@ int l_startbattle(lua_State *L) {
 	int mon1quantity = (int)luaL_checknumber(L, 3);
 	int switchSides = (int)luaL_checknumber(L, 4);
 	mapCell* mapcell = gpAdvManager->GetCell(hro->x, hro->y);
-	int winningSide = gpAdvManager->CombatMonsterEvent(hro, mon1, mon1quantity, mapcell, hro->x, hro->y, 1, hro->x, hro->y, -1, 0, 0, -1, 0, 0);
+	int winningSide = gpAdvManager->CombatMonsterEvent(hro, mon1, mon1quantity, mapcell, hro->x, hro->y, switchSides, hro->x, hro->y, -1, 0, 0, -1, 0, 0);
 	lua_pushinteger(L, winningSide);
 	return 1;
 }
