@@ -600,9 +600,11 @@ int l_startbattle(lua_State *L) {
 	hero* hro = (hero*)lua_touserdata(L, 1);
 	int mon1 = (int)luaL_checknumber(L, 2);
 	int mon1quantity = (int)luaL_checknumber(L, 3);
+	int switchSides = (int)luaL_checknumber(L, 4);
 	mapCell* mapcell = gpAdvManager->GetCell(hro->x, hro->y);
-	gpAdvManager->CombatMonsterEvent(hro, mon1, mon1quantity, mapcell, hro->x, hro->y, 0, hro->x, hro->y, -1, 0, 0, -1, 0, 0);
-	return 0;
+	int winningSide = gpAdvManager->CombatMonsterEvent(hro, mon1, mon1quantity, mapcell, hro->x, hro->y, 1, hro->x, hro->y, -1, 0, 0, -1, 0, 0);
+	lua_pushinteger(L, winningSide);
+	return 1;
 }
 
 void set_lua_globals(lua_State *L) {
