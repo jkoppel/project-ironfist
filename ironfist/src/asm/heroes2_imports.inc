@@ -172,6 +172,8 @@ IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
 ?SetVisibility@game@@QAEXHHHH@Z_clone EQU ?SetVisibility_orig@game@@QAEXHHHH@Z
 IMPORT_?MakeAllWaterVisible@game@@QAEXH@Z = 1
 ?MakeAllWaterVisible@game@@QAEXH@Z_clone EQU ?MakeAllWaterVisible_orig@game@@QAEXH@Z
+IMPORT_?CombatMonsterEvent@advManager@@QAEHPAVhero@@HHPAVmapCell@@HHHHHHHHHHH@Z = 1
+?CombatMonsterEvent@advManager@@QAEHPAVhero@@HHPAVmapCell@@HHHHHHHHHHH@Z_clone EQU ?CombatMonsterEvent_orig@advManager@@QAEHPAVhero@@HHPAVmapCell@@HHHHHHHHHHH@Z
 
 IMPORT_?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z = 1
 ?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z_clone EQU ?MoveHero_orig@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z
