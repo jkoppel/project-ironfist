@@ -29,12 +29,14 @@ extern "C" {
 
 using namespace std;
 
-string script_contents("");
+static string script_contents("");
 
-bool scripting_on = false;
-lua_State* map_lua = NULL;
-map<pair<int, string>, const char* > *triggers;
-map<int, const char* > *general_triggers;
+static bool scripting_on = false;
+static lua_State* map_lua = NULL;
+static map<pair<int, string>, const char* > *triggers;
+static map<int, const char* > *general_triggers;
+
+static int triggerFiredCount[NUM_SCRIPT_EVENTS]; // Note: reset every game session
 
 void SetGeneralHook(int id, const char* hook) {
   (*general_triggers)[id] = hook;
@@ -70,11 +72,26 @@ static void CallHook(const char* hook) {
 
 }
 
+static bool MaxTriggerFiringReached(int id) {
+  // I've observed map victory events firing twice in a row. I haven't ruled out that this is also possible for map loss
+  // Because we're only worried about it firing twice in a row, we need not worry about tracking this count across sessions
+  if (id == SCRIPT_EVT_MAP_VICTORY || id == SCRIPT_EVT_MAP_LOSS) {
+    return triggerFiredCount[id] > 0;
+  } else {
+    return false;
+  }
+}
+
 void ScriptSignal(int id, const char* obj) {
   if (!scripting_on) {
     return;
   }
 
+  if (MaxTriggerFiringReached(id)) {
+    return;
+  }
+
+  triggerFiredCount[id]++;
   CallHook(GetHook(id, obj));
   CallHook(GetGeneralHook(id));
 }
@@ -682,6 +699,8 @@ void set_lua_globals(lua_State *L) {
   lua_setconst(L, "BATTLE_START", SCRIPT_EVT_BATTLE_START);
   lua_setconst(L, "BATTLE_ATTACK_MELEE", SCRIPT_EVT_BATTLE_ATTACK_M);
   lua_setconst(L, "VISIT_CAMPFIRE", SCRIPT_EVT_VISIT_CAMPFIRE);
+  lua_setconst(L, "MAP_VICTORY", SCRIPT_EVT_MAP_VICTORY);
+  lua_setconst(L, "MAP_LOSS", SCRIPT_EVT_MAP_LOSS);
 
   set_scripting_consts(L);
 }
@@ -698,6 +717,10 @@ void RunScript(string& script_filename) {
   triggers = new map<pair<int, string>, const char* >;
   general_triggers = new map<int, const char* >;
   scripting_on = true;
+
+  for (int i = 0; i < ELEMENTS_IN(triggerFiredCount); i++) {
+    triggerFiredCount[i] = 0;
+  }
 
   luaL_openlibs(map_lua);
 
