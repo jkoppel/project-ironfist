@@ -616,6 +616,17 @@ int l_getherolevel(lua_State *L) {
 	return 1;
 }
 
+int l_startbattle(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	int mon1 = (int)luaL_checknumber(L, 2);
+	int mon1quantity = (int)luaL_checknumber(L, 3);
+	int switchSides = (int)luaL_checknumber(L, 4);
+	mapCell* mapcell = gpAdvManager->GetCell(hro->x, hro->y);
+	int winningSide = gpAdvManager->CombatMonsterEvent(hro, mon1, mon1quantity, mapcell, hro->x, hro->y, switchSides, hro->x, hro->y, -1, 0, 0, -1, 0, 0);
+	lua_pushinteger(L, winningSide);
+	return 1;
+}
+
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
   lua_register(L, "Trigger", l_trigger);
@@ -645,6 +656,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetGuildSpell", l_setguildspell);
   lua_register(L, "ShareVision", l_sharevision);
   lua_register(L, "GetHeroLevel", l_getherolevel);
+  lua_register(L, "StartBattle", l_startbattle);
 
   // Tales of Enroth functions
   lua_register(L, "QuestionBox", l_questionBox);
