@@ -10,12 +10,9 @@
 
 #include<iostream>
 #include<fstream>
-#include<string>
 #include<io.h>
 #include<fcntl.h>
 #include<sys/stat.h>
-
-using namespace std;
 
 extern int giMonthType;
 extern int giMonthTypeExtra;
@@ -147,6 +144,29 @@ void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->y = hx.y();
 }
 
+luaTable *ReadMapVarXML(ironfist_map::table_t table) {
+
+	luaTable *lt = new luaTable;
+	for (ironfist_map::table_t::tableElement_const_iterator tableE = table.tableElement().begin();
+		tableE != table.tableElement().end(); tableE++) {
+		mapVariable *mapVar = new mapVariable;
+		mapVar->type = StringToMapVarType(tableE->type());
+
+		std::string *sV = new std::string(tableE->value().get());
+		mapVar->singleValue = sV;
+		(*lt)[tableE->key().get()] = *mapVar;
+	}
+
+	for (ironfist_map::table_t::table_const_iterator subTable = table.table().begin();
+		subTable != table.table().end(); subTable++) {
+		mapVariable *mapVar = new mapVariable;
+		mapVar->type = MAPVAR_TYPE_TABLE;
+		mapVar->tableValue = ReadMapVarXML(*subTable);
+		(*lt)[subTable->tableId().get()] = *mapVar;
+	}
+	return lt;
+}
+
 ironfist_map::hero_t WriteHeroXML(hero* hro) {
 
 	ironfist_map::army_t arm;
@@ -228,28 +248,52 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 	return hx;
 }
 
-void SaveMapVariables(ironfist_map::map_t& m) {
-	int key = -1;
-	const char* mapVariableId;
-	const char* mapVariableValue;
-	GetNextMapVariable(key, mapVariableId, mapVariableValue);
-	while (mapVariableId != "noMapVariables") {
-		if (mapVariableValue == NULL) {
-			char *s1 = "MapVariable '";
-			char *s2 = "' could not be saved.";
-			int len = strlen(mapVariableId) + strlen(s1) + strlen(s2) + 1;
-			char *errorMessage = (char *)ALLOC(len);
-			_snprintf_s(errorMessage, len * sizeof(*errorMessage), len, "%s%s%s", s1, mapVariableId, s2);
-			DisplayError((const char*) errorMessage, "mapVariable Error");
-			FREE(errorMessage);
+std::string MapVarTypeToString(MapVarType type) {
+	if (type == MAPVAR_TYPE_STRING) {
+		return "string";
+	} else if (type == MAPVAR_TYPE_NUMBER) {
+		return "number";
+	} else if (type == MAPVAR_TYPE_BOOLEAN) {
+		return "boolean";
+	} else if (type == MAPVAR_TYPE_TABLE) {
+		return "table";
+	}
+}
+
+ironfist_map::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
+	ironfist_map::table_t xsdTable;
+	xsdTable.tableId(id);
+	for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
+		if (it->second.type == MAPVAR_TYPE_TABLE) {
+			xsdTable.table().push_back(WriteMapVariableTableXML(it->first, it->second.tableValue));
 		}
 		else {
-			ironfist_map::mapVariable_t A;
-			A.id(mapVariableId);
-			A.value(mapVariableValue);
-			m.mapVariable().push_back(A);
+			ironfist_map::tableElement_t element;
+			element.key(it->first);
+			element.type(MapVarTypeToString(it->second.type));
+			element.value(*it->second.singleValue);
+			xsdTable.tableElement().push_back(element);
 		}
-		GetNextMapVariable(key, mapVariableId, mapVariableValue);
+	}
+	return xsdTable;
+}
+
+void WriteMapVariablesXML(ironfist_map::map_t& m) {
+
+	std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
+
+	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
+		ironfist_map::mapVariable_t mapVar;
+		mapVar.id(it->first);
+		mapVar.type(MapVarTypeToString(it->second.type));
+		if (isTable(it->second.type)) {
+			mapVar.table(WriteMapVariableTableXML(it->first, it->second.tableValue));
+		} else if (isStringNumBool(it->second.type)) {
+			mapVar.value(*it->second.singleValue);
+		} else {
+			DisplayError("Wrong Type created by GetMapVariables", "In function SaveMapVariables");
+		}
+		m.mapVariable().push_back(mapVar);
 	}
 }
 
@@ -285,7 +329,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				return;
 			}
 
-			auto_ptr<ironfist_map::map_t> mp = ironfist_map::map(string(v8));
+			std::auto_ptr<ironfist_map::map_t> mp = ironfist_map::map(std::string(v8));
 
 			int i = 0;
 			for (ironfist_map::map_t::hero_const_iterator it = mp->hero().begin();
@@ -406,18 +450,32 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
             gpGame->ResetIronfistGameState();
 
 			if (mp->script().present()) {
-				ScriptingInitFromString(mp->script().get().c_str());
+				ScriptingInitFromString(mp->script().get());
 			}
 
-			i = 0;
+			std::map<std::string, mapVariable> mapVariables;
 			for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
-			it != mp->mapVariable().end();
-				it++, i++) {
-				SetMapVariables(it->id().get().c_str(), it->value().get().c_str());
+				it != mp->mapVariable().end(); it++) {
+				mapVariable *mapVar = new mapVariable;
+				std::string mapVariableId = it->id().get();
+				MapVarType mapVariableType = StringToMapVarType(it->type());
+				mapVar->type = mapVariableType;
+				if (isTable(mapVariableType)) {
+					mapVar->tableValue = ReadMapVarXML(it->table().get());
+				} else if (isStringNumBool(mapVariableType)) {
+					std::string *sV = new std::string;
+					*sV = it->value().get();
+					mapVar->singleValue = sV;
+				} else {
+					ErrorLoadingMapVariable(mapVariableId, " A map variable can only be a table, number, string or boolean.");
+				}
+				mapVariables[mapVariableId] = *mapVar;
 			}
+			WriteMapVariablesToLUA(mapVariables);
+
 		} catch(xml_schema::exception& e) {
             DisplayError("Error parsing save file", "Fatal Error");
-			cerr << e << endl;
+			std::cerr << e << std::endl;
 			exit(1);
 		}
 	}
@@ -527,7 +585,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	const xml_schema::base64_binary datbin(dat, sz);
 
-	ofstream os(v9);
+	std::ofstream os(v9);
 
 	ironfist_map::map_t m(datbin);
 
@@ -535,10 +593,8 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 		m.hero().push_back(WriteHeroXML(&this->heroes[i]));
 	}
 
-	if (GetScriptContents() != NULL) {
-		m.script(GetScriptContents());
-		SaveMapVariables(m);
-	}
+	m.script(GetScriptContents());
+	WriteMapVariablesXML(m);
 
 	xml_schema::namespace_infomap infomap;
 	infomap[""].name = "ironfist_map";

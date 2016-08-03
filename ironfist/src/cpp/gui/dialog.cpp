@@ -1,8 +1,9 @@
-#include "dialog.h"
-#include "gui.h"
+#include<string>
+#include<Windows.h>
 
 #include "base.h"
-#include<Windows.h>
+#include "dialog.h"
+#include "gui.h"
 
 extern heroWindowManager *gpWindowManager;
 
@@ -11,7 +12,6 @@ void H2MessageBox(char* msg) {
 		NormalDialog(msg, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
 	}
 }
-
 
 bool H2QuestionBox(char* msg) {
   NormalDialog(msg, DIALOG_YES_NO, -1,-1,-1,0,-1,0,-1,0);
@@ -24,17 +24,10 @@ char* H2InputBox(char* msg, int len) {
   return res;
 }
 
-static wchar_t* ConvertNarrowToWide(const char* msg) {
-	int wideCharMsgLen = MultiByteToWideChar(CP_ACP, 0, msg, -1, NULL, 0);
-	wchar_t* wideCharMsg = (wchar_t*)ALLOC(wideCharMsgLen * sizeof(wchar_t));
-	MultiByteToWideChar(CP_ACP, 0, msg, -1, wideCharMsg, wideCharMsgLen);
-	return wideCharMsg;
+void DisplayError(const char* msg, const char* title) {
+	MessageBoxA(NULL, msg, title, MB_OK);
 }
 
-void DisplayError(const char* msg, const char* title) {
-	wchar_t* wideCharMsg = ConvertNarrowToWide(msg);
-	wchar_t* wideCharTitle = ConvertNarrowToWide(title);
-	MessageBox(NULL, (LPCWSTR)wideCharMsg, (LPCWSTR)wideCharTitle, MB_OK);
-	FREE(wideCharMsg);
-	FREE(wideCharTitle);
+void DisplayError(std::string msg, std::string title) {
+	MessageBoxA(NULL, msg.c_str(), title.c_str(), MB_OK);
 }

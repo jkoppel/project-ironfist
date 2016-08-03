@@ -1,6 +1,7 @@
 #ifndef DIALOG_H
 #define DIALOG_H
 
+#include<string>
 
 enum DIALOG_TYPE {
   DIALOG_OKAY = 1,
@@ -17,8 +18,8 @@ void H2MessageBox(char* msg);
 bool H2QuestionBox(char* qst);
 char* H2InputBox(char *qst, int len);
 
-wchar_t* ConvertNarrowToWide(const char* msg);
-
 void DisplayError(const char* msg, const char* title);
+
+void DisplayError(std::string msg, std::string title);
 
 #endif

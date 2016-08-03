@@ -15,6 +15,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ironfist</RootNamespace>
     <ProjectName>ironfist_vs</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -145,7 +146,9 @@
     <ClCompile Include="..\src\cpp\lib\lua\src\ltable.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\ltablib.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\ltm.c" />
+    <ClCompile Include="..\src\cpp\lib\lua\src\lua.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lundump.c" />
+    <ClCompile Include="..\src\cpp\lib\lua\src\lutf8lib.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lvm.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lzio.c" />
     <ClCompile Include="..\src\cpp\registry_prefs.cpp" />
@@ -153,6 +156,7 @@
     <ClCompile Include="..\src\cpp\scripting\lua_utils.cpp" />
     <ClCompile Include="..\src\cpp\scripting\scripting.cpp" />
     <ClCompile Include="..\src\cpp\scripting\consts.cpp" />
+    <ClCompile Include="..\src\cpp\scripting\temporary_file.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
   </ItemGroup>
@@ -190,6 +194,7 @@
     <ClInclude Include="..\src\cpp\lib\lua\src\lobject.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lopcodes.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lparser.h" />
+    <ClInclude Include="..\src\cpp\lib\lua\src\lprefix.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lstate.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lstring.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\ltable.h" />
@@ -211,6 +216,7 @@
     <ClInclude Include="..\src\cpp\scripting\hook.h" />
     <ClInclude Include="..\src\cpp\scripting\register.h" />
     <ClInclude Include="..\src\cpp\scripting\scripting.h" />
+    <ClInclude Include="..\src\cpp\scripting\temporary_file.h" />
     <ClInclude Include="..\src\cpp\skills.h" />
     <ClInclude Include="..\src\cpp\sound\sound.h" />
     <ClInclude Include="..\src\cpp\spell\spells.h" />
@@ -226,6 +232,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).obj</Outputs>
     </CustomBuild>
     <None Include="..\src\asm\heroes2_imports.inc" />
+    <None Include="..\src\cpp\lib\lua\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resources\windows\ironfist.rc" />

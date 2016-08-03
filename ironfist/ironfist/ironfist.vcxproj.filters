@@ -255,6 +255,15 @@
     <ClCompile Include="..\src\cpp\analytics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\lib\lua\src\lua.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\cpp\lib\lua\src\lutf8lib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\cpp\scripting\temporary_file.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\stdafx.h">
@@ -434,10 +443,19 @@
     <ClInclude Include="..\src\cpp\analytics.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\cpp\lib\lua\src\lprefix.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\cpp\scripting\temporary_file.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\asm\heroes2_imports.inc">
       <Filter>Assembly Interop</Filter>
+    </None>
+    <None Include="..\src\cpp\lib\lua\src\Makefile">
+      <Filter>Source Files\lib\lua\src</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

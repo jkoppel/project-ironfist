@@ -127,7 +127,9 @@
     <ClCompile Include="..\src\cpp\lib\lua\src\ltable.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\ltablib.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\ltm.c" />
+    <ClCompile Include="..\src\cpp\lib\lua\src\lua.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lundump.c" />
+    <ClCompile Include="..\src\cpp\lib\lua\src\lutf8lib.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lvm.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lzio.c" />
     <ClCompile Include="..\src\cpp\resource\resourceManager.cpp" />
@@ -142,6 +144,7 @@
     <None Include="..\..\..\..\ironfist.ico" />
     <None Include="..\..\..\..\ironfist.png" />
     <None Include="..\src\asm\editor_imports.inc" />
+    <None Include="..\src\cpp\lib\lua\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\cpp\adventure\adv.h" />
@@ -172,6 +175,7 @@
     <ClInclude Include="..\src\cpp\lib\lua\src\lobject.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lopcodes.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lparser.h" />
+    <ClInclude Include="..\src\cpp\lib\lua\src\lprefix.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lstate.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lstring.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\ltable.h" />

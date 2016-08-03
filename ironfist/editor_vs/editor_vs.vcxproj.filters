@@ -198,6 +198,12 @@
     <ClCompile Include="..\src\cpp\editor\map_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\cpp\lib\lua\src\lua.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\cpp\lib\lua\src\lutf8lib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\src\asm\editor_imports.inc">
@@ -208,6 +214,9 @@
     </None>
     <None Include="..\..\..\..\ironfist.png">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\src\cpp\lib\lua\src\Makefile">
+      <Filter>Source Files\lib\lua\src</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -345,6 +354,9 @@
     </ClInclude>
     <ClInclude Include="..\src\cpp\editor\overlay.h">
       <Filter>Header Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\cpp\lib\lua\src\lprefix.h">
+      <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,3 +1,5 @@
+#include<string>
+
 #include "analytics.h"
 #include "base.h"
 #include "combat/creatures.h"
@@ -57,7 +59,7 @@ void game::NewMap(char* mapname) {
 	send_event(mapAction, mapname);
     this->ResetIronfistGameState();
 	this->NewMap_orig(mapname);
-    ScriptingInit(mapname);
+    ScriptingInit(std::string(mapname));
 }
 
 void game::NextPlayer() {

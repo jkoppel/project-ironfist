@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?> 
+<?xml version="1.0"?> 
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
            xmlns="ironfist_map"
             targetNamespace="ironfist_map">
@@ -80,15 +80,33 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="tableElement_t">
+    <xs:attribute name="key" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="type" type="xs:string" default="string"/>
+  </xs:complexType>
+
+  <xs:complexType name="table_t">
+    <xs:sequence>
+      <xs:element name="tableElement" type="tableElement_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="table" type="table_t" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="tableId" type="xs:string"/>
+  </xs:complexType>
+
   <xs:complexType name="mapVariable_t">
+    <xs:sequence>
+      <xs:element name="table" type="table_t" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
     <xs:attribute name="id" type="xs:string"/>
     <xs:attribute name="value" type="xs:string"/>
+    <xs:attribute name="type" type="xs:string" default="string"/>
   </xs:complexType>
 
   <xs:complexType name="map_t">
     <xs:sequence>
       <xs:element ref="hero" minOccurs="0" maxOccurs="54"/>
-      <xs:element ref="mapVariable" minOccurs="0" maxOccurs="10"/>
+      <xs:element ref="mapVariable" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="script" minOccurs="0" maxOccurs="1"/>
       <xs:element ref="raw"/>
     </xs:sequence>
