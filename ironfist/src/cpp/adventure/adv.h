@@ -232,8 +232,7 @@ public:
 	void DoEvent_orig(class mapCell *, int, int);
 	void DoEvent(class mapCell *cell, int locX, int locY);
 
-	int CombatMonsterEvent_orig(class hero *, int, int, class mapCell *, int, int, int, int, int, int, int, int, int, int, int);
-	int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int a8, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
+	int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int switchSides, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
 };
 
 extern advManager* gpAdvManager;

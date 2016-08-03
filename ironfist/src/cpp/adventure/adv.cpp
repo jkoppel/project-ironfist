@@ -138,7 +138,3 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 	}
 	this->DoEvent_orig(cell, locX, locY);
 }
-
-int advManager::CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int a8, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks) {
-	return CombatMonsterEvent_orig(hero, mon1, mon1quantity, mapcell, locX, locY, a8, locX2, locY2, mon2, mon2quantity, mon2stacks, mon3, mon3quantity, mon3stacks);
-}
