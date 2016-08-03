@@ -2,7 +2,7 @@ Trigger(MAP_START, NULL, "OnMapStart");
 Trigger(NEW_DAY, "", "DayFunc");
 Trigger(BATTLE_START, "", "OnBattleStart");
 Trigger(BATTLE_ATTACK_MELEE, NULL, "OnBattleAttack");
--- Trigger(MAP_VICTORY, "", "VictoryMessage");
+Trigger(MAP_VICTORY, "", "VictoryMessage");
 
 Trigger(HERO_MOVE, "7,25", "SwampEnter");
 Trigger(HERO_MOVE, "8,25", "SwampEnter");
