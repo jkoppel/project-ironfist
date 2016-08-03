@@ -67,7 +67,7 @@ campfireVisited = "0";
 campfire2Visited = "0";
 campfire3Visited = "0";
 colosseumVisited = "0";
--- mapVariables = {"descriptionShown", "oldWeek", "swampEntered", "badlandsEntered", "druidCircleVisited", "alchemistLabVisited", "witchVisited", "windmillVisited", "hermitVisited", "woodHouseVisited", "woodHouse2Visited", "eyeVisited", "eye2Visited", "towerVisited", "castleVisited", "graveyardVisited", "wellVisited", "campfireVisited", "campfire2Visited", "campfire3Visited", "shrineVisited", "shrine2Visited", "shrine3Visited", "colosseumVisited"};
+mapVariables = {"descriptionShown", "oldWeek", "swampEntered", "badlandsEntered", "druidCircleVisited", "alchemistLabVisited", "witchVisited", "windmillVisited", "hermitVisited", "woodHouseVisited", "woodHouse2Visited", "eyeVisited", "eye2Visited", "towerVisited", "castleVisited", "graveyardVisited", "wellVisited", "campfireVisited", "campfire2Visited", "campfire3Visited", "shrineVisited", "shrineVisited2", "shrineVisited3", "colosseumVisited"};
 
 function OnMapStart()
 	if descriptionShown == "0" then
