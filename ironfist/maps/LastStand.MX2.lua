@@ -233,7 +233,7 @@ end;
 function ColosseumVisit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and colosseumVisited == "0" then
 		MessageBox("You have a chance to enlist the mighty barbarian warriors to your cause, but first you must defeat them in battle, to show your worth, only then they will join you!");
-		if StartBattle(GetCurrentHero(), CREATURE_OGRE, 0, 1) == 1 then
+		if StartBattle(GetCurrentHero(), CREATURE_OGRE, 5, 1) == 1 then
 			GrantArmy(GetCurrentHero(), CREATURE_OGRE, 10);
 			colosseumVisited = "1";
 		end
