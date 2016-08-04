@@ -39,8 +39,6 @@ void ScriptingShutdown();
 
 std::string& GetScriptContents();
 
-void DisplayError();
-
 bool isTable(MapVarType);
 bool isStringNumBool(MapVarType);
 

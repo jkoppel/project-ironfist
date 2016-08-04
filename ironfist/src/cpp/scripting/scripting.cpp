@@ -38,7 +38,12 @@ static map<int, const char* > *general_triggers;
 
 static int triggerFiredCount[NUM_SCRIPT_EVENTS]; // Note: reset every game session
 
-void SetGeneralHook(int id, const char* hook) {
+static void DisplayLuaError() {
+	const char* msg = luaL_checkstring(map_lua, -1);
+	DisplayError(msg, "Script Error");
+}
+
+static void SetGeneralHook(int id, const char* hook) {
   (*general_triggers)[id] = hook;
 }
 
@@ -66,7 +71,7 @@ static void CallHook(const char* hook) {
     lua_getglobal(map_lua, hook);
 
     if (lua_pcall(map_lua, 0, -1, 0)) {
-      DisplayError();
+      DisplayLuaError();
     }
   }
 
@@ -741,7 +746,7 @@ void RunScript(string& script_filename) {
   LoadScriptContents(script_filename);
 
   if (luaL_dofile(map_lua, script_filename.c_str())) {
-    DisplayError();
+    DisplayLuaError();
   }
 }
 
@@ -928,9 +933,4 @@ void WriteMapVariablesToLUA(std::map<std::string, mapVariable> &mapVariables) {
 			lua_setglobal(map_lua, it->first.c_str());
 		}
 	}
-}
-
-void DisplayError() {
-  const char* msg = luaL_checkstring(map_lua, -1);
-  DisplayError(msg, "Script Error");
 }
