@@ -47,7 +47,7 @@ static void SetGeneralHook(int id, const char* hook) {
   (*general_triggers)[id] = hook;
 }
 
-const char* GetGeneralHook(int id) {
+static const char* GetGeneralHook(int id) {
   if (general_triggers->count(id) > 0) {
     return (*general_triggers)[id];
   } else {
@@ -55,11 +55,11 @@ const char* GetGeneralHook(int id) {
   }
 }
 
-void SetHook(int id, const char* obj, const char* hook) {
+static void SetHook(int id, const char* obj, const char* hook) {
   (*triggers)[make_pair(id, string(obj))] = hook;
 }
 
-const char* GetHook(int id, const char* obj) {
+static const char* GetHook(int id, const char* obj) {
   if (triggers->count(make_pair(id, obj)) > 0)
     return (*triggers)[make_pair(id, string(obj))];
   else
@@ -822,7 +822,7 @@ MapVarType StringToMapVarType(std::string stringType) {
 	}
 }
 
-std::string getMVKeyFromLUA() {
+static std::string getMVKeyFromLUA() {
 	MapVarType type = StringToMapVarType(lua_typename(map_lua, lua_type(map_lua, -2)));
 	if (type == MAPVAR_TYPE_STRING) {
 		std::string stringValue(lua_tostring(map_lua, -2));
@@ -832,7 +832,7 @@ std::string getMVKeyFromLUA() {
 	}
 }
 
-std::string GetMVValueFromLUA(MapVarType &type) {
+static std::string GetMVValueFromLUA(MapVarType &type) {
 	if (type == MAPVAR_TYPE_STRING) {
 		std::string stringValue(lua_tostring(map_lua, -1));
 		return stringValue;
@@ -843,7 +843,7 @@ std::string GetMVValueFromLUA(MapVarType &type) {
 	}
 }
 
-luaTable *GetMVTablesFromLUA(std::string &mapVariableId) {
+static luaTable *GetMVTablesFromLUA(std::string &mapVariableId) {
 	luaTable *lt = new luaTable;
 	lua_pushnil(map_lua);
 	while (lua_next(map_lua, -2) != 0) {
@@ -897,7 +897,7 @@ std::map<std::string, mapVariable> LoadMapVariablesFromLUA() {
 	return mapVariables;
 }
 
-void PushStringNumBoolToLUA(MapVarType type, std::string value) {
+static void PushStringNumBoolToLUA(MapVarType type, std::string value) {
 	if (type == MAPVAR_TYPE_STRING) {
 		lua_pushstring(map_lua, value.c_str());
 	} else if (type == MAPVAR_TYPE_NUMBER) {
@@ -907,7 +907,7 @@ void PushStringNumBoolToLUA(MapVarType type, std::string value) {
 	}
 }
 
-void PushTableToLUA(luaTable *lt) {
+static void PushTableToLUA(luaTable *lt) {
 	lua_newtable(map_lua);
 	int top = lua_gettop(map_lua);
 	for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {

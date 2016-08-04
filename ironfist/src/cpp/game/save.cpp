@@ -41,7 +41,7 @@ extern void __fastcall FileError(char*);
 extern void __fastcall GenerateStandardFileName(char*,char*);
 
 
-void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
+static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->Clear();
 
 	hro->army = armyGroup();
@@ -248,7 +248,7 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 	return hx;
 }
 
-std::string MapVarTypeToString(MapVarType type) {
+static std::string MapVarTypeToString(MapVarType type) {
 	if (type == MAPVAR_TYPE_STRING) {
 		return "string";
 	} else if (type == MAPVAR_TYPE_NUMBER) {
@@ -260,7 +260,7 @@ std::string MapVarTypeToString(MapVarType type) {
 	}
 }
 
-ironfist_map::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
+static ironfist_map::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
 	ironfist_map::table_t xsdTable;
 	xsdTable.tableId(id);
 	for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
@@ -278,7 +278,7 @@ ironfist_map::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
 	return xsdTable;
 }
 
-void WriteMapVariablesXML(ironfist_map::map_t& m) {
+static void WriteMapVariablesXML(ironfist_map::map_t& m) {
 
 	std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
 
