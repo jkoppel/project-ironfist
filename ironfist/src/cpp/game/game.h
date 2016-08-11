@@ -149,7 +149,8 @@ public:
 
     // New state
     bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
-
+	// AI redistribute troops toggle
+	bool allowAIArmySharing = true;
 
 	int SetupGame();
 	int SetupGame_orig();

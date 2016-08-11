@@ -101,3 +101,18 @@ void __fastcall CheckEndGame(int a, int b) {
     }
   }
 }
+
+class philAI {
+
+	char _; // Yes, this is a 1-byte object.
+
+public:
+	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
+	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
+};
+
+void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5) {
+	if (gpGame->allowAIArmySharing) {
+		RedistributeTroops_orig(army1, army2, a1, a2, a3, a4, a5);
+	}
+}

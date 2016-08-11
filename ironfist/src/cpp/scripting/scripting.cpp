@@ -615,6 +615,7 @@ int l_setDaysAfterTownLost(lua_State *L)
   player->daysLeftWithoutCastle = days;
   return 0;
 }
+
 int l_getherolevel(lua_State *L) {
 	hero* hro = (hero*)lua_touserdata(L, 1);
 	lua_pushinteger(L, hro->GetLevel());
@@ -630,6 +631,12 @@ int l_startbattle(lua_State *L) {
 	int winningSide = gpAdvManager->CombatMonsterEvent(hro, mon1, mon1quantity, mapcell, hro->x, hro->y, switchSides, hro->x, hro->y, -1, 0, 0, -1, 0, 0);
 	lua_pushinteger(L, winningSide);
 	return 1;
+}
+
+int l_toggleAIArmySharing(lua_State *L) {
+	bool toggle = luaL_checknumber(L, 1);
+	gpGame->allowAIArmySharing = toggle;
+	return 0;
 }
 
 void set_lua_globals(lua_State *L) {
@@ -707,6 +714,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetPrimarySkill", l_getPrimarySkill);
   lua_register(L, "GetSpellpoints", l_getSpellpoints);
   lua_register(L, "GetSecondarySkill", l_getSecondarySkill);
+
+  lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 
   lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
   lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);
