@@ -46,37 +46,37 @@ shrineVisited3 = {false, false, false, false, false};
 -- shrineVisited[1] = {false, false, false, false, false};
 -- shrineVisited[2] = {false, false, false, false, false};
 
-oldWeek = "0";
-descriptionShown = "0";
-swampEntered = "0";
-badlandsEntered = "0";
-druidCircleVisited = "0";
-alchemistLabVisited = "0";
-witchVisited = "0";
-windmillVisited = "0";
-hermitVisited = "0";
-woodHouseVisited = "0";
-woodHouse2Visited = "0";
-eyeVisited = "0";
-eye2Visited = "0";
-towerVisited = "0";
-castleVisited = "0";
-graveyardVisited = "0";
-wellVisited = "0";
-campfireVisited = "0";
-campfire2Visited = "0";
-campfire3Visited = "0";
-colosseumVisited = "0";
+oldWeek = 0;
+descriptionShown = 0;
+swampEntered = 0;
+badlandsEntered = 0;
+druidCircleVisited = 0;
+alchemistLabVisited = 0;
+witchVisited = 0;
+windmillVisited = 0;
+hermitVisited = 0;
+woodHouseVisited = 0;
+woodHouse2Visited = 0;
+eyeVisited = 0;
+eye2Visited = 0;
+towerVisited = 0;
+castleVisited = 0;
+graveyardVisited = 0;
+wellVisited = 0;
+campfireVisited = 0;
+campfire2Visited = 0;
+campfire3Visited = 0;
+colosseumVisited = 0;
 mapVariables = {"descriptionShown", "oldWeek", "swampEntered", "badlandsEntered", "druidCircleVisited", "alchemistLabVisited", "witchVisited", "windmillVisited", "hermitVisited", "woodHouseVisited", "woodHouse2Visited", "eyeVisited", "eye2Visited", "towerVisited", "castleVisited", "graveyardVisited", "wellVisited", "campfireVisited", "campfire2Visited", "campfire3Visited", "shrineVisited", "shrineVisited2", "shrineVisited3", "colosseumVisited"};
 
 function OnMapStart()
 	ToggleAIArmySharing(0);
-	if descriptionShown == "0" then
+	if descriptionShown == 0 then
 		MessageBox("The evil Necromancer Lord Varuun has been planning a take over the entire region, he is now preparing his final strike against the kingdom, his legion of doom, he has raised an alarming number of undead of all kinds from simple zombies and ghouls as the cannon fodder to giant skeleton dragons!");
 		MessageBox("You are the last line of defence in the region, as the Protector of the Realm Commander it is your duty to amass an army strong and united to stand against the forces of the evil Lord.");
 		MessageBox("Gather the aid of the local castles, with reason or charm if possible or force if necessary.");
 		MessageBox("You have just returned from a long adventure back to your castle, after hearing the news about the evil Lord Varuun.");
-		descriptionShown = "1";
+		descriptionShown = 1;
 	end
 end;
 
@@ -146,76 +146,76 @@ function NecropolisEnter()
 end;
 
 function SwampEnter()
-	if GetHeroOwner(GetCurrentHero()) == 0 and swampEntered == "0" then
-		swampEntered = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and swampEntered == 0 then
+		swampEntered = 1;
 		MessageBox("Beware! The swamps are filled with hungry creatures roaming around. Watch your steps and stick to the road.");
 	end
 end;
 
 function BadlandsEnter()
-	if GetHeroOwner(GetCurrentHero()) == 0 and badlandsEntered == "0" then
-		badlandsEntered = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and badlandsEntered == 0 then
+		badlandsEntered = 1;
 		MessageBox("Beware! The evil lord sees all and hears all; no one escapes his grasp not in life and certainly not in death!");
 	end
 end;
 
 function EyeVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and eyeVisited == "0" then
+	if GetHeroOwner(GetCurrentHero()) == 0 and eyeVisited == 0 then
 		MessageBox("The all seeing eye structure glances at you. Once you get closer it summons zombies from the ground");
 		if StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 12, 1) == 1 then
-			eyeVisited = "1";
+			eyeVisited = 1;
 		end
 	end
 end;
 
 function Eye2Visit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and eye2Visited == "0" then
+	if GetHeroOwner(GetCurrentHero()) == 0 and eye2Visited == 0 then
 		MessageBox("The all seeing eye structure, as if an extension of the evil lord's sight. As soon as you approach a horde of zombies attack you.");
 		if StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 12, 1) == 1 then
-			eye2Visited = "1";
+			eye2Visited = 1;
 		end
 	end
 end;
 
 function TowerVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and towerVisited == "0" then
+	if GetHeroOwner(GetCurrentHero()) == 0 and towerVisited == 0 then
 		MessageBox("You have stumbled upon a ruined tower, in it there are several zombies hungry for fresh meat!");
 		if StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 9, 1) == 1 then
-			towerVisited = "1";
+			towerVisited = 1;
 		end
 	end
 end;
 
 function CastleVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and castleVisited == "0" then
+	if GetHeroOwner(GetCurrentHero()) == 0 and castleVisited == 0 then
 		MessageBox("There’s a great castle ahead, but it's filled with undead monsters, it’s seems that the Lord has been busy in your absence.");
 		if StartBattle(GetCurrentHero(), CREATURE_SKELETON, 47, 1) == 1 then
-			castleVisited = "1";
+			castleVisited = 1;
 		end
 	end
 end;
 
 function GraveyardVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and graveyardVisited == "0" then
+	if GetHeroOwner(GetCurrentHero()) == 0 and graveyardVisited == 0 then
 		MessageBox("At the graveyard there are many ghouls ready to venture out into the nearby settlements. Will you help them?");
 		if StartBattle(GetCurrentHero(), CREATURE_GHOST, 23, 1) == 1 then
-			graveyardVisited = "1";
+			graveyardVisited = 1;
 		end
 	end
 end;
 
 function WellVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and wellVisited == "0" then
+	if GetHeroOwner(GetCurrentHero()) == 0 and wellVisited == 0 then
 		MessageBox("As you approach a small well in the middle of a swamp a swarm of hungry ghouls climb out of the well attacking you on sight!");
 		if StartBattle(GetCurrentHero(), CREATURE_GHOST, 13, 1) == 1 then
-			wellVisited = "1";
+			wellVisited = 1;
 		end
 	end
 end;
 
 function WindmillVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and windmillVisited == "0" then
-		windmillVisited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and windmillVisited == 0 then
+		windmillVisited = 1;
 		h = GetCurrentHero();
 		GrantSpell(h, SPELL_HASTE);
 		MessageBox("You reached a windmill near a small lake, there is a wizard there, offering to teach you Haste spell");
@@ -223,8 +223,8 @@ function WindmillVisit()
 end;
 
 function HermitVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and hermitVisited == "0" then
-		hermitVisited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and hermitVisited == 0 then
+		hermitVisited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_FIRE_CLOAK);
 		MessageBox("There’s an old hermit living here, he offers you a gift for your Journey into the fiery badlands");
@@ -232,18 +232,18 @@ function HermitVisit()
 end;
 
 function ColosseumVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and colosseumVisited == "0" then
+	if GetHeroOwner(GetCurrentHero()) == 0 and colosseumVisited == 0 then
 		MessageBox("You have a chance to enlist the mighty barbarian warriors to your cause, but first you must defeat them in battle, to show your worth, only then they will join you!");
 		if StartBattle(GetCurrentHero(), CREATURE_OGRE, 5, 1) == 1 then
 			GrantArmy(GetCurrentHero(), CREATURE_OGRE, 10);
-			colosseumVisited = "1";
+			colosseumVisited = 1;
 		end
 	end
 end;
 
 function CampfireVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and campfireVisited == "0" then
-		campfireVisited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and campfireVisited == 0 then
+		campfireVisited = 1;
 		h = GetCurrentHero();
 		GrantArmy(h, CREATURE_SWORDSMAN, 10);
 		MessageBox("A small campsite is in the swamps, and a few adventurers gather, they offer to join you in your cause");
@@ -251,8 +251,8 @@ function CampfireVisit()
 end;
 
 function Campfire2Visit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and campfire2Visited == "0" then
-		campfire2Visited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and campfire2Visited == 0 then
+		campfire2Visited = 1;
 		h = GetCurrentHero();
 		GrantArmy(h, CREATURE_SWORDSMAN, 10);
 		GrantArmy(h, CREATURE_CAVALRY, 10);
@@ -262,8 +262,8 @@ function Campfire2Visit()
 end;
 
 function Campfire3Visit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and campfire3Visited == "0" then
-		campfire3Visited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and campfire3Visited == 0 then
+		campfire3Visited = 1;
 		h = GetCurrentHero();
 		MessageBox("An campsite in the middle of the swamp, getting closer you manage to notice several corpses in sleeping bags and tents, they found their demise during their sleep.");
 		MessageBox("Once getting closer the corpses raise up and attack you!");
@@ -272,8 +272,8 @@ function Campfire3Visit()
 end;
 
 function WoodHouseVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and woodHouseVisited == "0" then
-		woodHouseVisited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and woodHouseVisited == 0 then
+		woodHouseVisited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_DRAGON_SWORD_OF_DOMINION);
 		MessageBox("A large empty house it seems recently abandoned but wait something is glistening inside, you approach and there is a great sword inside as if waiting only for you");
@@ -281,8 +281,8 @@ function WoodHouseVisit()
 end;
 
 function WoodHouse2Visit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and woodHouse2Visited == "0" then
-		woodHouse2Visited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and woodHouse2Visited == 0 then
+		woodHouse2Visited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_GOLDEN_BOW);
 		MessageBox("An abandoned wooden house in the middle of the swamp, as you get closer you see something glistening inside, it's a magical bow, lying there as if it was waiting only for you");
@@ -290,8 +290,8 @@ function WoodHouse2Visit()
 end;
 
 function DruidCircleVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and druidCircleVisited == "0" then
-		druidCircleVisited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and druidCircleVisited == 0 then
+		druidCircleVisited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
 		MessageBox("You have stumbled upon a droid circle and the old druid there foretelling "
@@ -300,8 +300,8 @@ function DruidCircleVisit()
 end;
 
 function AlchemistVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and alchemistLabVisited == "0" then
-		alchemistLabVisited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and alchemistLabVisited == 0 then
+		alchemistLabVisited = 1;
 		h = GetCurrentHero();
 		GrantArmy(h, CREATURE_RANGER, 10);
 		MessageBox("You have reached a small alchemist lab. The owner of the lab is a rich nobleman who " ..
@@ -310,8 +310,8 @@ function AlchemistVisit()
 end;
 
 function WitchVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and witchVisited == "0" then
-		witchVisited = "1";
+	if GetHeroOwner(GetCurrentHero()) == 0 and witchVisited == 0 then
+		witchVisited = 1;
 		h = GetCurrentHero();
 		
 		MessageBox("You come across a wooden house in the middle of the swamp with a strange aura inside. " ..
@@ -324,7 +324,7 @@ function WitchVisit()
 			gold = gold - 1000;
 			if gold < 0 then
 			    MessageBox("The witch stomps her feet. \"Come back when you can afford it.\"");
-				witchVisited = "0";
+				witchVisited = 0;
 			else
 				MessageBox("\"You have chosen well\" she says with a big-toothed grin, as she hands you a necklace from which a rabbit's foot dangles.");
 				GrantArtifact(h, ARTIFACT_LUCKY_RABBITS_FOOT);
