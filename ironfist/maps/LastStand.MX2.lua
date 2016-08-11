@@ -70,6 +70,7 @@ colosseumVisited = "0";
 mapVariables = {"descriptionShown", "oldWeek", "swampEntered", "badlandsEntered", "druidCircleVisited", "alchemistLabVisited", "witchVisited", "windmillVisited", "hermitVisited", "woodHouseVisited", "woodHouse2Visited", "eyeVisited", "eye2Visited", "towerVisited", "castleVisited", "graveyardVisited", "wellVisited", "campfireVisited", "campfire2Visited", "campfire3Visited", "shrineVisited", "shrineVisited2", "shrineVisited3", "colosseumVisited"};
 
 function OnMapStart()
+	ToggleAIArmySharing(0);
 	if descriptionShown == "0" then
 		MessageBox("The evil Necromancer Lord Varuun has been planning a take over the entire region, he is now preparing his final strike against the kingdom, his legion of doom, he has raised an alarming number of undead of all kinds from simple zombies and ghouls as the cannon fodder to giant skeleton dragons!");
 		MessageBox("You are the last line of defence in the region, as the Protector of the Realm Commander it is your duty to amass an army strong and united to stand against the forces of the evil Lord.");
