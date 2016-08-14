@@ -35,6 +35,15 @@ extern "C" {
 	void _start_asm();
 }
 
+#define CONSOLE_APP 1
+#ifdef CONSOLE_APP
+
+int main()
+	{
+	return WinMain(0, 0, 0, 0);
+	}
+
+#endif
 
 int WINAPI WinMain(HINSTANCE hInstace, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	IronfistInit();

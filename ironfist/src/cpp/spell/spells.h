@@ -94,8 +94,6 @@ enum Spell : int
   SPELL_MEDUSA_PETRIFY = 101,
   SPELL_ARCHMAGI_DISPEL = 102,
   SPELL_NONE = -1,
-
-  SPELL_AWARENESS = 65,
 };
 
 

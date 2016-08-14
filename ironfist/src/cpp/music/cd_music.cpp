@@ -239,6 +239,20 @@ extern DWORD soundVolume;
 extern char aMusicVolume_0;
 extern char aMusicVolume_1;
 
+void soundManager::CDStartup()
+	{
+	usingCDAudio = true;
+	}
+
+void soundManager::CDShutdown()
+	{
+	}
+
+int soundManager::CDIsPlaying()
+	{
+	return (now_playing != 0);
+	}
+
 void soundManager::CDSetVolume(int unknown_control_code, int unknown)
 	{
 	//int volume = this->volRelated;
@@ -279,7 +293,7 @@ void soundManager::CDPlay(int track_number, signed int a3, int a4, int a5)
 		}
 
 	//if(!gbNoSound && this->field_69E && *(_DWORD *)&Data)
-	if(!gbNoSound && this->field_69E)// && *(_DWORD *)&Data)
+	if(!gbNoSound && this->usingCDAudio)//this->field_69E)// && *(_DWORD *)&Data)
 		{
 		if(track_number == -1)
 			{

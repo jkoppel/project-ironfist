@@ -96,6 +96,12 @@ IMPORT_?MakeId@resourceManager@@QAEKPADH@Z = 1
 IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
 
+
+
+;;gui
+IMPORT_?BroadcastMessage@heroWindow@@QAEHAAUtag_message@@@Z = 1
+?BroadcastMessage@heroWindow@@QAEHAAUtag_message@@@Z_clone EQU ?BroadcastMessage_orig@heroWindow@@QAEHAAUtag_message@@@Z
+
 ;;creatures
 
 IMPORT_?cArmyFrameFileNames@@3PAPADA = 1

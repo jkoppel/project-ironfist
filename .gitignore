@@ -3,3 +3,12 @@
 ################################################################################
 
 /ironfist/bin/maps
+/ironfist/bin/games
+/ironfist/bin/tracks
+/ironfist/bin/data
+/ironfist/editor_vs/Debug/editor_vs.tlog
+*.obj
+*.log
+*.tlog
+*.opendb
+*.db

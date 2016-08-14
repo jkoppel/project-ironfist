@@ -73,8 +73,7 @@ char *gSpellNames[] = {
   "Set Earth Guardian",
   "Set Air Guardian",
   "Set Fire Guardian",
-  "Set Water Guardian",
-  "Awareness"
+  "Set Water Guardian"
 };
 
 char *gSpellDesc[] =
@@ -143,8 +142,7 @@ char *gSpellDesc[] =
   "{Set Earth Guardian}\n\nSets Earth Elementals to guard a mine against enemy armies.",
   "{Set Air Guardian}\n\nSets Air Elementals to guard a mine against enemy armies.",
   "{Set Fire Guardian}\n\nSets Fire Elementals to guard a mine against enemy armies.",
-  "{Set Water Guardian}\n\nSets Water Elementals to guard a mine against enemy armies.",
-  "{Awareness}\n\nExplores a large area around your hero."
+  "{Set Water Guardian}\n\nSets Water Elementals to guard a mine against enemy armies."
 };
 
 SSpellInfo gsSpellInfo[] = {
@@ -213,9 +211,6 @@ SSpellInfo gsSpellInfo[] = {
 	{"", 4, 53, 0, 700, 15, 0, 0, 0, ATTR_ADVENTURE_SPELL},
 	{"", 4, 54, 0, 700, 15, 0, 0, 0, ATTR_ADVENTURE_SPELL},
 	{"", 4, 55, 0, 700, 15, 0, 0, 0, ATTR_ADVENTURE_SPELL},
-
-	//awareness
-	{"", 1, 55, 0, 700, 20, 10, 0, 0, ATTR_ADVENTURE_SPELL},
 };
 
 #define DD_MOVEMENT_COST 225
@@ -235,11 +230,6 @@ void advManager::CastSpell(int spell) {
         this->UpdateHeroLocator(-1, 1, 1);
         this->DimensionDoor();
         break;
-	case SPELL_AWARENESS:
-		gpGame->SetVisibility(hro->x, hro->y, giCurPlayer, 15);
-		hro->UseSpell(spell);
-		RedrawAdvScreen(1,0);
-		break;
 	default:
 		this->CastSpell_orig(spell);
 		break;

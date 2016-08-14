@@ -82,6 +82,8 @@ IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 ;;allowing play without CD
 IMPORT_?SetupCDRom@@YIXXZ = 1
+IMPORT_?SetupCDDrive@@YIHXZ = 1
+?SetupCDDrive@@YIHXZ_clone EQU ?SetupCDDrive_orig@@YIHXZ
 IMPORT_?SetupGame@game@@QAEHXZ = 1
 ?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ
 
@@ -134,6 +136,11 @@ IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
 
+
+;;gui
+IMPORT_?BroadcastMessage@heroWindow@@QAEHAAUtag_message@@@Z = 1
+?BroadcastMessage@heroWindow@@QAEHAAUtag_message@@@Z_clone EQU ?BroadcastMessage_orig@heroWindow@@QAEHAAUtag_message@@@Z
+
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
 ?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
@@ -156,6 +163,14 @@ IMPORT_?CDSetVolume@soundManager@@QAEXHH@Z = 1
 ?CDSetVolume@soundManager@@QAEXHH@Z_clone EQU ?CDSetVolume_orig@soundManager@@QAEXHH@Z
 IMPORT_?ConvertVolume@soundManager@@QAEHHH@Z = 1
 ?ConvertVolume@soundManager@@QAEHHH@Z_clone EQU ?ConvertVolume_orig@soundManager@@QAEHHH@Z
+IMPORT_?CDStartup@soundManager@@QAEXXZ = 1
+?CDStartup@soundManager@@QAEXXZ_clone EQU ?CDStartup_orig@soundManager@@QAEXXZ
+IMPORT_?CDShutdown@soundManager@@QAEXXZ = 1
+?CDShutdown@soundManager@@QAEXXZ_clone EQU ?CDShutdown_orig@soundManager@@QAEXXZ
+IMPORT_?CDIsPlaying@soundManager@@QAEHXZ = 1
+?CDIsPlaying@soundManager@@QAEHXZ_clone EQU ?CDIsPlaying_orig@soundManager@@QAEHXZ
+IMPORT_?WaitEndSample@@YIXUSAMPLE2@@H@Z = 1
+?WaitEndSample@@YIXUSAMPLE2@@H@Z_clone EQU ?WaitEndSample_orig@@YIXUSAMPLE2@@H@Z
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1

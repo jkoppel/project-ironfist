@@ -22,7 +22,14 @@ public:
   __int16 width;
   __int16 height;
 
+/*
+  widgetVtable struct
+	  paint	dd ?
+	  cleanUp	dd ?
+	  handleEvent	dd ?
+	  widgetVtable ends*/
   virtual void Draw();
+  //virtual int handleEvent(tag_message*);
   virtual ~widget();
   virtual int main(tag_message&);
 };
@@ -51,6 +58,7 @@ public:
   bitmap *bitmap;
 
   heroWindow(int, int, char*);
+  int BroadcastMessage_orig(tag_message&);
   int BroadcastMessage(tag_message&);
 };
 
