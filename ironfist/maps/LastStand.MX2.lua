@@ -35,6 +35,7 @@ Trigger(HERO_MOVE, "11,22", "CastleVisit");
 Trigger(HERO_MOVE, "21,16", "GraveyardVisit");
 Trigger(HERO_MOVE, "28,20", "WellVisit");
 Trigger(HERO_MOVE, "27,29", "ColosseumVisit");
+Trigger(HERO_MOVE, "17,31", "HomeReached");
 
 Trigger(VISIT_CAMPFIRE, "14,19", "CampfireVisit");
 Trigger(VISIT_CAMPFIRE, "35,23", "Campfire2Visit");
@@ -48,6 +49,7 @@ shrineVisited3 = {false, false, false, false, false};
 
 oldWeek = 0;
 descriptionShown = 0;
+homeReachedShown = 0;
 swampEntered = 0;
 badlandsEntered = 0;
 druidCircleVisited = 0;
@@ -80,11 +82,20 @@ function OnMapStart()
 	end
 end;
 
+function HomeReached()
+	if homeReachedShown == 0 then
+		MessageBox("You have reached your home castle finally after so many nights in the wild, but alas it seems that in your absence Lord Varuun has overrun the castle with his zombie troops, you must free the castle to start your campaign.");
+		homeReachedShown = 1;
+	end
+end;
+
 function VictoryMessage()
-	MessageBox("Congratulations! Lord Varuun looks at you in dispise shouting “You may have won this battle, but you will never win the war. We will meet again!” He raises his hands and a puff of smoke appears around him, when it clears out he is no longer there.");
-	MessageBox("You go up the tower searching every corner and the evil lord is nowhere to be found. The Lord and his armies are defeated! The sky clears and a great victory roar from your army as everyone is relieved that the great evil necromancer lord is no more!");
-	MessageBox("You return home and celebrate your victory with a big feast, with everyone in the kingdom celebrating the victory. You are granted the Hero’s Star, the highest honor and decoration any protector can receive!");
-	MessageBox("Your only worry is the knowledge that one day you will have to face the necromancer again...");
+	MessageBox("Congratulations!");
+	MessageBox("Lord Varuun looks at you in despise, shouting \"you may have won this battle, but you will never win the war - we will meet again!\". He raises his hands and a cloud of smoke appears around him. When it clears out, he is no longer there.");
+	MessageBox("You climb up the tower, searching every corner, but the evil lord is nowhere to be found. The lord and his armies are defeated! The sky clears and your army roars in honor of the great victory. Everyone is finally relieved as the great evil necromancer lord is no more!");
+	MessageBox("You and your allies return home and celebrate your victory with a marvelous feast. The entire kingdom celebrates the miraculous victory.");
+	MessageBox("You are granted the Hero’s Star, the highest honor and decoration any protector can receive!");
+	MessageBox("Your only concern is knowing that one day you will have to face the necromancer again...");
 end;
 
 function DayFunc()
@@ -134,14 +145,14 @@ end;
 
 function PortalEnter()
 	if GetHeroOwner(GetCurrentHero()) == 0 then
-		MessageBox("A strange magical structure is carved into the stone wall of the mountain, once you get closer you see strange carvings on the wall of language long gone, you try to examine it by touching it, once you do, it shocks your entire body, a portal is opened sucking you into a limbo and dropping you on the other side.");
+		MessageBox("An odd magical structure is carved into a stone wall in the mountain in front of you. When you come closer, strange carvings of a long gone language are revealed. As you near your hand,  they start glowing and when you touch the symbols your entire body starts to shake. Then a portal opens and sucks you into a limbo, dropping you on the other side of the mountain.");
 	end
 end;
 
 function NecropolisEnter()
 	if GetHeroOwner(GetCurrentHero()) == 0 then
-		MessageBox("The Lord Varuun is standing at the top of his tower, laughing, “so you are the thorn in my backside, you will pay for your insolence!” he laughs again, motioning with his hands in the air, the air sparkles and turns into a heavy black mist rolling on from him, the mist passes like a titlewave through the entire castle, and as it clears out, a huge horde of undead skeletons, zombies, rise");
-		MessageBox("The lord laughs even harder when he raises his scepter and a shockwave emits, the ground trembles and a huge skeleton dragon breaks the ground dropping several zombies and skeletons down as he climbs up angry and restless.");
+		MessageBox("Lord Varuun is standing at the top of his tower, laughing. \"So you are the thorn in my backside - you will pay for your insolence!\". He laughs again, motioning his hands in the air. The air sparkles and turns into a heavy black mist rolling away from him. The mist passes like a titlewave through the entire castle, and as it clears out a huge horde of undead skeletons and zombies rises.");
+		MessageBox("The lord laughs even harder when he raises his scepter and emits a shockwave. The ground trembles and a huge skeleton dragon breaks out, dropping several zombies and skeletons as he ascends angry and restless.");
 	end
 end;
 
@@ -155,13 +166,13 @@ end;
 function BadlandsEnter()
 	if GetHeroOwner(GetCurrentHero()) == 0 and badlandsEntered == 0 then
 		badlandsEntered = 1;
-		MessageBox("Beware! The evil lord sees all and hears all; no one escapes his grasp not in life and certainly not in death!");
+		MessageBox("Beware! The evil lord sees all and hears all. No one escapes his grasp - not in life and certainly not in death!");
 	end
 end;
 
 function EyeVisit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and eyeVisited == 0 then
-		MessageBox("The all seeing eye structure glances at you. Once you get closer it summons zombies from the ground");
+		MessageBox("The All Seeing Eye structure - as if an extension of the evil lord's sight. As soon as you approach a horde of zombies attacks you.");
 		if StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 12, 1) == 1 then
 			eyeVisited = 1;
 		end
@@ -170,7 +181,7 @@ end;
 
 function Eye2Visit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and eye2Visited == 0 then
-		MessageBox("The all seeing eye structure, as if an extension of the evil lord's sight. As soon as you approach a horde of zombies attack you.");
+		MessageBox("The All Seeing Eye structure glances at you. Once you get closer it summons zombies from the ground.");
 		if StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 12, 1) == 1 then
 			eye2Visited = 1;
 		end
@@ -218,7 +229,7 @@ function WindmillVisit()
 		windmillVisited = 1;
 		h = GetCurrentHero();
 		GrantSpell(h, SPELL_HASTE);
-		MessageBox("You reached a windmill near a small lake, there is a wizard there, offering to teach you Haste spell");
+		MessageBox("You reach a windmill near a small lake. The wizard there offers to teach you the spell \"Haste\".");
 	end
 end;
 
@@ -227,7 +238,7 @@ function HermitVisit()
 		hermitVisited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_FIRE_CLOAK);
-		MessageBox("There’s an old hermit living here, he offers you a gift for your Journey into the fiery badlands");
+		MessageBox("You approach a lone house amongst the old swamp trees. An old hermit greets you and invites you in for dinner and rest. After a long philosophical discussion, he offers you a gift for your Journey into the fiery badlands.");
 	end
 end;
 
@@ -246,7 +257,7 @@ function CampfireVisit()
 		campfireVisited = 1;
 		h = GetCurrentHero();
 		GrantArmy(h, CREATURE_SWORDSMAN, 10);
-		MessageBox("A small campsite is in the swamps, and a few adventurers gather, they offer to join you in your cause");
+		MessageBox("A few adventurers gather around a campfire in the swamps area. Impressed with you and your party, they offer to join your cause.");
 	end
 end;
 
@@ -256,8 +267,8 @@ function Campfire2Visit()
 		h = GetCurrentHero();
 		GrantArmy(h, CREATURE_SWORDSMAN, 10);
 		GrantArmy(h, CREATURE_CAVALRY, 10);
-		MessageBox("There is a campsite nearby, with fire, and you see shadowy figures around a big fire. When you approach you see a few soldiers and rangers preparing their dinner, and singing songs. When you approach there is a silence,but as they figure you are not an undead they happily invite you to join.");
-		MessageBox("After a great night they offer to join you on your campaign against the evil lord");
+		MessageBox("You spot a campsite nearby. Shadowy figures gather around a big bonfire. When you approach, you see that these are a few soldiers and rangers preparing their dinner while singing songs. Silence drops as you approach, but when they recognize that you’re not one of the dead, they happily invite you to join.");
+		MessageBox("After a long wonderful night they offer to join your campaign against the evil lord.");
 	end
 end;
 
@@ -276,7 +287,7 @@ function WoodHouseVisit()
 		woodHouseVisited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_DRAGON_SWORD_OF_DOMINION);
-		MessageBox("A large empty house it seems recently abandoned but wait something is glistening inside, you approach and there is a great sword inside as if waiting only for you");
+		MessageBox("Still in the swamps region, you stumble upon a large wooden house. It seems to have been recently abandoned, but wait! Something is glistening inside. You go in and discover a great sword - as if it was placed there for you to find.");
 	end
 end;
 
@@ -285,7 +296,7 @@ function WoodHouse2Visit()
 		woodHouse2Visited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_GOLDEN_BOW);
-		MessageBox("An abandoned wooden house in the middle of the swamp, as you get closer you see something glistening inside, it's a magical bow, lying there as if it was waiting only for you");
+		MessageBox("An abandoned wooden house in the midst of the swamps. As you approach you spot something glistening inside. It's a magical bow - lying there as if it was waiting for you to discover.");
 	end
 end;
 
@@ -294,8 +305,7 @@ function DruidCircleVisit()
 		druidCircleVisited = 1;
 		h = GetCurrentHero();
 		GrantArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
-		MessageBox("You have stumbled upon a droid circle and the old druid there foretelling "
-					.. "your arrival has granted you these Boots of Travel as a gift to aid you on your journey!")
+		MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, grants you this as a gift, to aid you on your journey.");
 	end
 end;
 
@@ -304,8 +314,7 @@ function AlchemistVisit()
 		alchemistLabVisited = 1;
 		h = GetCurrentHero();
 		GrantArmy(h, CREATURE_RANGER, 10);
-		MessageBox("You have reached a small alchemist lab. The owner of the lab is a rich nobleman who " ..
-		             "has seen the merits of your efforts and offers to aid you by giving you some of his best archers.");
+		MessageBox("You reach a small estate. The owner of the house, a rich nobleman, acknowledges the merits of your efforts by offering you aid and giving you some of his best archers");
 	end
 end;
 
