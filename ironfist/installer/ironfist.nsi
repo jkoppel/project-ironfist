@@ -1,7 +1,7 @@
 outfile "ironfist-install.exe"
 Name "Project Ironfist"
 
-installDir "$PROGRAMFILES\GOG.com\Heroes of Might and Magic 2 GOLD"
+installDir "C:\GOG Games\Heroes of Might and Magic 2 GOLD"
 
 Page directory
 Page instfiles
@@ -17,32 +17,32 @@ section
 
 	setOutPath $INSTDIR
 
-	File ironfist.exe
+	File ..\bin\ironfist.exe
 	File MSS32.DLL
 	File SMACKW32.DLL
-	File editor.exe
+	File ..\bin\editor.exe
 
 	setOutPath $INSTDIR\DATA
 	
-	File ironfist.agg
-	File creatures_xml.xsd
-	File creatures.xml
+	File ..\resources\agg\ironfist.agg
+	File ..\src\xsd\creatures_xml.xsd
+	File ..\data\creatures.xml
 
 	setOutPath $INSTDIR\GAMES
 
-	File map_xml.xsd
+	File ..\src\xsd\map_xml.xsd
 	
 	setOutPath $INSTDIR\MAPS
 	
-	File SorrowEn.MX2
-	File LastStand.MX2
+	File ..\maps\SorrowEn.MX2
+	File ..\maps\LastStand.MX2
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
 	setOutPath $INSTDIR\SCRIPTS
 	
-	File SorrowEn.MX2.lua
-	File LastStand.MX2.lua
+	File ..\maps\SorrowEn.MX2.lua
+	File ..\maps\LastStand.MX2.lua
 
 
 	setOutPath $INSTDIR
