@@ -47,8 +47,8 @@ shrineVisited3 = {false, false, false, false, false};
 -- shrineVisited[1] = {false, false, false, false, false};
 -- shrineVisited[2] = {false, false, false, false, false};
 
-oldWeek = 0;
 descriptionShown = 0;
+oldWeek = 0;
 homeReachedShown = 0;
 swampEntered = 0;
 badlandsEntered = 0;
@@ -69,7 +69,11 @@ campfireVisited = 0;
 campfire2Visited = 0;
 campfire3Visited = 0;
 colosseumVisited = 0;
-mapVariables = {"descriptionShown", "oldWeek", "swampEntered", "badlandsEntered", "druidCircleVisited", "alchemistLabVisited", "witchVisited", "windmillVisited", "hermitVisited", "woodHouseVisited", "woodHouse2Visited", "eyeVisited", "eye2Visited", "towerVisited", "castleVisited", "graveyardVisited", "wellVisited", "campfireVisited", "campfire2Visited", "campfire3Visited", "shrineVisited", "shrineVisited2", "shrineVisited3", "colosseumVisited"};
+mapVariables = {"shrineVisited", "shrineVisited2", "shrineVisited3",
+                "descriptionShown", "oldWeek", "homeReachedShown", "swampEntered", "badlandsEntered", "druidCircleVisited", "alchemistLabVisited",
+                "witchVisited", "windmillVisited", "hermitVisited", "woodHouseVisited", "woodHouse2Visited", "eyeVisited", "eye2Visited",
+				"towerVisited", "castleVisited", "graveyardVisited", "wellVisited", "campfireVisited", "campfire2Visited", "campfire3Visited",
+				"colosseumVisited"};
 
 function OnMapStart()
 	ToggleAIArmySharing(0);
