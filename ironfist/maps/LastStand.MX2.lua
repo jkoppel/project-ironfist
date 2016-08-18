@@ -74,17 +74,16 @@ mapVariables = {"descriptionShown", "oldWeek", "swampEntered", "badlandsEntered"
 function OnMapStart()
 	ToggleAIArmySharing(0);
 	if descriptionShown == 0 then
-		MessageBox("The evil Necromancer Lord Varuun has been planning a take over the entire region, he is now preparing his final strike against the kingdom, his legion of doom, he has raised an alarming number of undead of all kinds from simple zombies and ghouls as the cannon fodder to giant skeleton dragons!");
-		MessageBox("You are the last line of defence in the region, as the Protector of the Realm Commander it is your duty to amass an army strong and united to stand against the forces of the evil Lord.");
-		MessageBox("Gather the aid of the local castles, with reason or charm if possible or force if necessary.");
-		MessageBox("You have just returned from a long adventure back to your castle, after hearing the news about the evil Lord Varuun.");
+		MessageBox("The evil Necromancer Lord Varuun has been planning a take over the entire region. He is now preparing his final strike against the kingdom with his Legion of Doom. He has raised an alarming number of undead of all kinds, from simple zombies and ghouls as the cannon fodder, to giant skeleton dragons!");
+		MessageBox("You are the last line of defence in the region. As the Protector of the Realm, it is your duty to amass an army strong and united to stand against the forces of the evil Lord.");
+		MessageBox("You had been adventuring in the wilderness when you first heard the news about the evil Lord. After riding back as fast you could, you have finally arrived back to your castle. Gather the aid of the local castles, with reason or charm if possible or force if necessary. Your campaign begins.");
 		descriptionShown = 1;
 	end
 end;
 
 function HomeReached()
 	if homeReachedShown == 0 then
-		MessageBox("You have reached your home castle finally after so many nights in the wild, but alas it seems that in your absence Lord Varuun has overrun the castle with his zombie troops, you must free the castle to start your campaign.");
+		MessageBox("You have reached your home castle finally after so many nights in the wild, but alas it seems that in your absence Lord Varuun has overrun the castle with his zombie troops. You must free the castle to start your campaign.");
 		homeReachedShown = 1;
 	end
 end;
@@ -145,7 +144,7 @@ end;
 
 function PortalEnter()
 	if GetHeroOwner(GetCurrentHero()) == 0 then
-		MessageBox("An odd magical structure is carved into a stone wall in the mountain in front of you. When you come closer, strange carvings of a long gone language are revealed. As you near your hand,  they start glowing and when you touch the symbols your entire body starts to shake. Then a portal opens and sucks you into a limbo, dropping you on the other side of the mountain.");
+		MessageBox("An odd magical structure is carved into a stone wall in the mountain in front of you. When you come closer, strange carvings of a long gone language are revealed. As you near your hand, they start glowing and when you touch the symbols your entire body starts to shake. Then a portal opens and sucks you into a limbo, dropping you on the other side of the mountain.");
 	end
 end;
 
@@ -172,7 +171,7 @@ end;
 
 function EyeVisit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and eyeVisited == 0 then
-		MessageBox("The All Seeing Eye structure - as if an extension of the evil lord's sight. As soon as you approach a horde of zombies attacks you.");
+		MessageBox("The All Seeing Eye structure gazes upon you - as if an extension of the evil lord's sight. As soon as you approach a horde of zombies attacks you.");
 		if StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 12, 1) == 1 then
 			eyeVisited = 1;
 		end
@@ -190,7 +189,7 @@ end;
 
 function TowerVisit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and towerVisited == 0 then
-		MessageBox("You have stumbled upon a ruined tower, in it there are several zombies hungry for fresh meat!");
+		MessageBox("You have stumbled upon a ruined tower. In it there are several zombies hungry for fresh meat!");
 		if StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 9, 1) == 1 then
 			towerVisited = 1;
 		end
@@ -199,7 +198,7 @@ end;
 
 function CastleVisit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and castleVisited == 0 then
-		MessageBox("There’s a great castle ahead, but it's filled with undead monsters, it’s seems that the Lord has been busy in your absence.");
+		MessageBox("There’s a great castle ahead, but it's filled with undead monsters. It seems that the Lord has been busy in your absence.");
 		if StartBattle(GetCurrentHero(), CREATURE_SKELETON, 47, 1) == 1 then
 			castleVisited = 1;
 		end
@@ -217,7 +216,7 @@ end;
 
 function WellVisit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and wellVisited == 0 then
-		MessageBox("As you approach a small well in the middle of a swamp a swarm of hungry ghouls climb out of the well attacking you on sight!");
+		MessageBox("As you approach a small well in the middle of a swamp, a swarm of hungry ghouls climb out of the well, attacking you on sight!");
 		if StartBattle(GetCurrentHero(), CREATURE_GHOST, 13, 1) == 1 then
 			wellVisited = 1;
 		end
@@ -244,7 +243,7 @@ end;
 
 function ColosseumVisit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and colosseumVisited == 0 then
-		MessageBox("You have a chance to enlist the mighty barbarian warriors to your cause, but first you must defeat them in battle, to show your worth, only then they will join you!");
+		MessageBox("You have a chance to enlist the mighty barbarian warriors to your cause, but first you must defeat them in battle, to show your worth. Only then they will join you!");
 		if StartBattle(GetCurrentHero(), CREATURE_OGRE, 5, 1) == 1 then
 			GrantArmy(GetCurrentHero(), CREATURE_OGRE, 10);
 			colosseumVisited = 1;
@@ -276,7 +275,7 @@ function Campfire3Visit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and campfire3Visited == 0 then
 		campfire3Visited = 1;
 		h = GetCurrentHero();
-		MessageBox("An campsite in the middle of the swamp, getting closer you manage to notice several corpses in sleeping bags and tents, they found their demise during their sleep.");
+		MessageBox("You come across a campsite in the middle of the swamp. Getting closer you manage to notice several corpses in sleeping bags and tents. Seems they found their demise during their sleep.");
 		MessageBox("Once getting closer the corpses raise up and attack you!");
 		StartBattle(GetCurrentHero(), CREATURE_ZOMBIE, 13, 1);
 	end
