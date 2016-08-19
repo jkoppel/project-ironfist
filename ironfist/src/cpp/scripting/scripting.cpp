@@ -879,6 +879,11 @@ static luaTable *GetMVTablesFromLUA(std::string &mapVariableId) {
 std::map<std::string, mapVariable> LoadMapVariablesFromLUA() {
 
 	std::map<std::string, mapVariable> mapVariables;
+
+    if (!scripting_on) {
+      return mapVariables;
+    }
+
 	lua_getglobal(map_lua, "mapVariables");
 
 	if (lua_isnil(map_lua, -1)) return mapVariables;
@@ -933,6 +938,11 @@ static void PushTableToLUA(luaTable *lt) {
 }
 
 void WriteMapVariablesToLUA(std::map<std::string, mapVariable> &mapVariables) {
+    if (!scripting_on) {
+      DisplayError("Warning: Map variables detected in map without a script.", "Ironfist bug detected");
+      return;
+    }
+
 	for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
 		if (isTable(it->second.type)) {
 			PushTableToLUA(it->second.tableValue);
