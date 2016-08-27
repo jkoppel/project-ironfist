@@ -21,8 +21,8 @@ Trigger(HERO_MOVE, "35,25", "ShrineVisit");
 Trigger(HERO_MOVE, "1,23", "ShrineVisit2");
 Trigger(HERO_MOVE, "9,7", "ShrineVisit3");
 
-Trigger(HERO_MOVE, "32,26", "DruidCircleLeftVisit");
-Trigger(HERO_MOVE, "33,26", "DruidCircleRightVisit");
+Trigger(HERO_MOVE, "32,26", "DruidCircleVisit");
+Trigger(HERO_MOVE, "33,26", "DruidCircleVisit");
 Trigger(HERO_MOVE, "5,34", "AlchemistVisit");
 Trigger(HERO_MOVE, "18,18", "WitchVisit");
 Trigger(HERO_MOVE, "31,35", "WindmillVisit");
@@ -53,8 +53,7 @@ oldWeek = 0;
 homeReachedShown = 0;
 swampEntered = 0;
 badlandsEntered = 0;
-druidCircleLeftVisited = 0;
-druidCircleRightVisited = 0;
+druidCircleVisited = 0;
 alchemistLabVisited = 0;
 witchVisited = 0;
 windmillVisited = 0;
@@ -79,11 +78,54 @@ battleAlchemistDone = 0;
 firstWitchVisitDone = 0;
 
 mapVariables = {"shrineVisited", "shrineVisited2", "shrineVisited3",
-                "descriptionShown", "oldWeek", "homeReachedShown", "swampEntered", "badlandsEntered", "druidCircleLeftVisited", "druidCircleRightVisited","alchemistLabVisited",
+                "descriptionShown", "oldWeek", "homeReachedShown", "swampEntered", "badlandsEntered", "druidCircleVisited", "alchemistLabVisited",
                 "witchVisited", "windmillVisited", "hermitVisited", "woodHouseVisited", "woodHouse2Visited", "eyeVisited", "eye2Visited",
 				"towerVisited", "castleVisited", "graveyardVisited", "wellVisited", "campfireVisited", "campfire2Visited", "campfire3Visited",
 				"colosseumVisited",
 				"battleColosseumDone", "campfireComeback", "campfire2Comeback", "battleAlchemistDone", "firstWitchVisitDone"};
+
+
+
+function HasOpenCreatureSlot(h)
+   -- palliative for lack of built-in function
+   GrantArmy(h, CREATURE_GHOST, 1);
+   if HasTroop(h, CREATURE_GHOST, 1) then
+      TakeTroop(h, CREATURE_GHOST, 1);
+      return true;
+   else
+      return false;
+   end
+end
+
+function HasTwoOpenCreatureSlots(h)
+   -- palliative for lack of built-in function
+   GrantArmy(h, CREATURE_GHOST, 1);
+   GrantArmy(h, CREATURE_GENIE, 1);
+   if HasTroop(h, CREATURE_GENIE, 1) then
+      TakeTroop(h, CREATURE_GHOST, 1);
+      TakeTroop(h, CREATURE_GENIE, 1);
+      return true;
+   elseif HasTroop(h, CREATURE_GHOST, 1) then
+      TakeTroop(h, CREATURE_GHOST, 1);
+      return false;
+   else
+      return false;
+   end
+end
+
+
+function HasOpenArtifactSlot(h)
+   -- palliative for a check if there is a free slot for artifact in hero inventory.
+   -- low probability that the hero has the Golden Goose artifact on this small map, even if he dig randomly for the Ultimate Artifact, but still possible.
+   -- tried first with the Battle Garb of Anduran ARTIFACT_BATTLE_GARB_OF_ANDURAN, but it messes up the hero primary skills values.
+   GrantArtifact(h, ARTIFACT_GOLDEN_GOOSE);
+   if HasArtifact(h, ARTIFACT_GOLDEN_GOOSE) then
+      TakeArtifact(h, ARTIFACT_GOLDEN_GOOSE);
+      return true;
+   else
+      return false;
+   end
+end
 
 function OnMapStart()
 	ToggleAIArmySharing(0);
@@ -291,58 +333,58 @@ function ColosseumVisit()
 end;
 
 function CampfireVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and campfireVisited == 0 then
-		MessageBox("A few adventurers gather around a campfire in the swamps area. Impressed with you and your party, they offer to join your cause.");
-		GrantArmy(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
-		if HasTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 10) == true then
-			campfireVisited = 1;
-		else
-			MessageBox("Milord, it seems your army is full, we will wait for your return here.");
-			Trigger(HERO_MOVE, "14,19", "CampfireComeback");
-		end
-	end
+   if GetHeroOwner(GetCurrentHero()) == 0 and campfireVisited == 0 then
+      campfireVisited = 1;
+      MessageBox("A few adventurers gather around a campfire in the swamps area. Impressed with you and your party, they offer to join your cause.");
+      if HasOpenCreatureSlot(GetCurrentHero()) or HasTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 1) then
+         GrantArmy(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
+      else
+         MessageBox("Milord, it seems your army is full. We will wait for your return here.");
+         Trigger(HERO_MOVE, "14,19", "CampfireComeback");
+      end
+   end
 end;
 
 function CampfireComeback()
-	if GetHeroOwner(GetCurrentHero()) == 0 and campfireComeback == 0 then
-		GrantArmy(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
-		if HasTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 10) == true then
-			MessageBox("The Swordsmen are glad you are back. They join your army.");
-			campfireComeback = 1;
-		else
-			MessageBox("Milord, it seems your army is still full, we will wait for your return here.");
-		end
-	end
+   if GetHeroOwner(GetCurrentHero()) == 0 and campfireComeback == 0 then
+      if HasOpenCreatureSlot(GetCurrentHero()) or HasTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 1) then
+         MessageBox("The Swordsmen are glad you are back. They join your army.");
+         campfireComeback = 1;
+         GrantArmy(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
+      else
+         MessageBox("Milord, it seems your army is still full. We will wait for your return here.");
+      end
+   end
 end;
 
 function Campfire2Visit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and campfire2Visited == 0 then
+        h = GetCurrentHero();
+	if GetHeroOwner(h) == 0 and campfire2Visited == 0 then
 		MessageBox("You spot a campsite nearby. Shadowy figures gather around a big bonfire. When you approach, you see that these are a few soldiers and rangers preparing their dinner while singing songs. Silence drops as you approach, but when they recognize that you’re not one of the dead, they happily invite you to join.");
 		MessageBox("After a long wonderful night they offer to join your campaign against the evil lord.");
-		GrantArmy(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
-		GrantArmy(GetCurrentHero(), CREATURE_CAVALRY, 10);
-		if HasTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 10) == true and HasTroop(GetCurrentHero(), CREATURE_CAVALRY, 10) == true then
-			campfire2Visited = 1;
+                if HasTwoOpenCreatureSlots(h) or (HasTroop(h, CREATURE_SWORDSMAN, 1) and HasTroop(h, CREATURE_CAVALRY, 1)) then
+                   GrantArmy(h, CREATURE_SWORDSMAN, 10);
+                   GrantArmy(h, CREATURE_CAVALRY, 10);
+                   campfire2Visited = 1;
 		else
-			MessageBox ("My Lord, it seems there is not enough space in your army for both our troops, we will wait for your return here.");
-			TakeTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
-			Trigger(HERO_MOVE, "35,23", "Campfire2Comeback");
+                   MessageBox ("My Lord, it seems there is not enough space in your army for both our troops, we will wait for your return here.");
+                   Trigger(HERO_MOVE, "35,23", "Campfire2Comeback");
 		end
 	end
 end;
 
 function Campfire2Comeback()
-	if GetHeroOwner(GetCurrentHero()) == 0 and campfire2Comeback == 0 then
-		GrantArmy(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
-		GrantArmy(GetCurrentHero(), CREATURE_CAVALRY, 10);
-		if HasTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 10) == true and HasTroop(GetCurrentHero(), CREATURE_CAVALRY, 10) == true then
-			MessageBox("The Swordsmen and Cavalries are happy to see you again. They join your army with enthusiasm.");
-			campfire2Comeback = 1;
-		else
-			MessageBox("Milord, it seems there is still not enough space in your army, we will wait for your return here.");
-			TakeTroop(GetCurrentHero(), CREATURE_SWORDSMAN, 10);
-		end
-	end
+   h = GetCurrentHero();
+   if GetHeroOwner(h) == 0 and campfire2Comeback == 0 then
+      if HasTwoOpenCreatureSlots(GetCurrentHero()) or (HasTroop(h, CREATURE_SWORDSMAN, 1) and HasTroop(h, CREATURE_CAVALRY, 1)) then
+         GrantArmy(h, CREATURE_SWORDSMAN, 10);
+         GrantArmy(h, CREATURE_CAVALRY, 10);
+         MessageBox("The Swordsmen and Cavalries are happy to see you again. They join your army with enthusiasm.");
+         campfire2Comeback = 1;
+      else
+         MessageBox("Milord, it seems there is still not enough space in your army. We will wait for your return here.");
+      end
+   end
 end;
 
 function Campfire3Visit()
@@ -366,12 +408,7 @@ function WoodHouseVisit()
 			result = QuestionBox("Do you wish to free and keep the Dragon Sword of Dominion?");
 			
 			if result then
-					-- palliative for a check if there is a free slot for artifact in hero inventory.
-					-- low probability that the hero has the Golden Goose artifact on this small map, even if he dig randomly for the Ultimate Artifact, but still possible.
-					-- tried first with the Battle Garb of Anduran ARTIFACT_BATTLE_GARB_OF_ANDURAN, but it messes up the hero primary skills values.
-					GrantArtifact(h, ARTIFACT_GOLDEN_GOOSE);
-					if HasArtifact(h, ARTIFACT_GOLDEN_GOOSE) then
-						TakeArtifact(h, ARTIFACT_GOLDEN_GOOSE);
+					if HasOpenArtifactSlot(h) then
 						GrantArtifact(h, ARTIFACT_DRAGON_SWORD_OF_DOMINION);
 						MessageBox("You feel invincible, as soon you get the sword.");
 						woodHouseVisited = 1;
@@ -401,7 +438,7 @@ function WoodHouse2Visit()
 	if GetHeroOwner(GetCurrentHero()) == 0 and woodHouse2Visited == 0 then
 		h = GetCurrentHero();
 		if HasArtifact(h, ARTIFACT_GOLDEN_BOW) then
-			MessageBox("An abandoned wooden house in the midst of the swamps. As you approach you spot something glistening inside. It's a magical bow - lying there as if it was waiting for you to discover. But, as you already have one, you decide to break it into pieces, you get 1000 gold from it.");
+			MessageBox("An abandoned wooden house in the midst of the swamps. As you approach you spot something glistening inside. It's a magical bow - lying there as if it was waiting for you to discover. But, as you already have one, you decide to break it into pieces, and get 1000 gold from it.");
 			GiveResource(GetPlayer(0), RESOURCE_GOLD, 1000);
 			woodHouse2Visited = 1;
 		else
@@ -417,47 +454,21 @@ function WoodHouse2Visit()
 	end
 end;
 
-function DruidCircleLeftVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and druidCircleLeftVisited == 0 then
+function DruidCircleVisit()
+	if GetHeroOwner(GetCurrentHero()) == 0 and druidCircleVisited == 0 then
 		h = GetCurrentHero();
 		if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
-			MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, knows that you already have the Travelers's Boots of Mobility he wanted to give you, instead, he gives you 3000 gold.");
+			MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, knows that you already have the Travelers's Boots of Mobility he wanted to give you. Instead, he gives you 3000 gold.");
 			GiveResource(GetPlayer(0), RESOURCE_GOLD, 3000);
-			druidCircleLeftVisited = 1;
-			druidCircleRightVisited = 1;
+			druidCircleVisited = 1;
 		else
 			GrantArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
 			MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, would like to grant you the Travelers's Boots of Mobility as a gift, to aid you on your journey.");
 			if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
-				druidCircleLeftVisited = 1;
-				druidCircleRightVisited = 1;
+				druidCircleVisited = 1;
 			else
 				MessageBox("Unfortunately, you have no free space in your inventory. The old druid says you can come back later to get the Travelers's Boots of Mobility.");
-				druidCircleLeftVisited = 0;
-				druidCircleRightVisited = 0;
-			end
-		end
-	end
-end;
-
-function DruidCircleRightVisit()
-	if GetHeroOwner(GetCurrentHero()) == 0 and druidCircleRightVisited == 0 then
-		h = GetCurrentHero();
-		if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
-			MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, knows that you already have the Travelers's Boots of Mobility he wanted to give you, instead, he gives you 3000 gold.");
-			GiveResource(GetPlayer(0), RESOURCE_GOLD, 3000);
-			druidCircleRightVisited = 1;
-			druidCircleLeftVisited = 1;
-		else
-			GrantArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
-			MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, would like to grant you the Travelers's Boots of Mobility as a gift, to aid you on your journey.");
-			if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
-				druidCircleRightVisited = 1;
-				druidCircleLeftVisited = 1;
-			else
-				MessageBox("Unfortunately, you have no free space in your inventory. The old druid says you can come back later to get the Travelers's Boots of Mobility.");
-				druidCircleRightVisited = 0;
-				druidCircleLeftVisited = 0;
+				druidCircleVisited = 0;
 			end
 		end
 	end
@@ -475,7 +486,7 @@ function AlchemistVisit()
 				MessageBox("The Rangers join your ranks.");
 				alchemistLabVisited = 1;
 			else
-				MessageBox("Milord, it seems your army is full, we will wait for your return here.");
+				MessageBox("Milord, it seems your army is full. We will wait for your return here.");
 			end
 		end
 	end
@@ -510,9 +521,8 @@ function WitchVisit()
 				if HasArtifact(GetCurrentHero(), ARTIFACT_LUCKY_RABBITS_FOOT) then
 					witchVisited = 1;
 				else
-					MessageBox("\"Your inventory seems full, I'll give you your gold back, come back when you will have put some order in your stuff.\"");
-					GiveResource(GetPlayer(0), RESOURCE_GOLD, 1000);
-					witchVisited = 0;
+                                        MessageBox("\"Your inventory seems full. My, my.\" she says with a smirk as she pockets your gold.");
+                                        witchVisited = 1;
 				end
 			else
 				MessageBox("\"Foolish child to turn down a golden offer. I won't make it again.\"");
