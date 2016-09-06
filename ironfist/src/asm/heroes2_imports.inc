@@ -161,6 +161,8 @@ IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
 IMPORT_?sElevationOverlay@@3PAUSElevationOverlay@@A = 1
 IMPORT_?DoAttack@army@@QAEXH@Z = 1
 ?DoAttack@army@@QAEXH@Z_clone EQU ?DoAttack_orig@army@@QAEXH@Z
+IMPORT_?SpecialAttack@army@@QAEXXZ = 1
+?SpecialAttack@army@@QAEXXZ_clone EQU ?SpecialAttack_orig@army@@QAEXXZ
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

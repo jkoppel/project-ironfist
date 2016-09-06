@@ -117,6 +117,8 @@ public:
   int MidY();
   void DoAttack(int);
   void DoAttack_orig(int);
+  void SpecialAttack();
+  void SpecialAttack_orig();
   float SpellCastWorkChance(int);
   float SpellCastWorkChance_orig(int);
 };
@@ -254,6 +256,8 @@ public:
   int FindResurrectArmyIndex(int side, int spell, int hex);
   void Resurrect(int spell, int hex, int spellpower);
   void SummonElemental(int, int);
+
+  void CastSpell(int,int,int,int);
 };
 
 extern combatManager* gpCombatManager;

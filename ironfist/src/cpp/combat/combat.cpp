@@ -4,6 +4,8 @@
 #include "game/game.h"
 #include "artifacts.h"
 #include "skills.h"
+#include "spells.h"
+
 #include "gui/dialog.h"
 
 #include "scripting/hook.h"
@@ -100,14 +102,24 @@ void army::MoveAttack(int targHex, int x) {
 
 void army::DoAttack(int x) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
-  this->DoAttack_orig(x);
-
-  ScriptSetSpecialVariableData("__atackingStack", this);
+  ScriptSetSpecialVariableData("__attackingStack", this);
   ScriptSetSpecialVariableData("__targetStack", primaryTarget);
-  sprintf_s(gText, 80, "%d,%d", this->creatureIdx, primaryTarget->creatureIdx);
-  ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, gText);
-}
+  std::string tmp = std::to_string(this->creatureIdx) + "," + std::to_string(primaryTarget->creatureIdx);
+  ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, tmp);
+  this->DoAttack_orig(x);
+ }
 
+void army::SpecialAttack() {
+	army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+	ScriptSetSpecialVariableData("__attackingStack", this);
+	ScriptSetSpecialVariableData("__targetStack", primaryTarget);
+	std::string tmp = std::to_string(this->creatureIdx) + "," + std::to_string(primaryTarget->creatureIdx);
+	ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, tmp);
+	if (this->creatureIdx == CREATURE_MAGE) { // temporary creature. cyber behemoth attack
+		gpCombatManager->CastSpell(SPELL_FIREBLAST, primaryTarget->occupiedHex, 1, 0);
+	}
+	else this->SpecialAttack_orig();
+}
 
 // We don't actually change anything in sElevationOverlay, but the disasm was causing some problems
 
