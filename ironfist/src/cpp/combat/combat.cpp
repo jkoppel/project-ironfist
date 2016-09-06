@@ -114,7 +114,7 @@ void army::SpecialAttack() {
 	ScriptSetSpecialVariableData("__attackingStack", this);
 	ScriptSetSpecialVariableData("__targetStack", primaryTarget);
 	std::string tmp = std::to_string(this->creatureIdx) + "," + std::to_string(primaryTarget->creatureIdx);
-	ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, tmp);
+	ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_S, tmp);
 	if (this->creatureIdx == CREATURE_MAGE) { // temporary creature. cyber behemoth attack
 		gpCombatManager->CastSpell(SPELL_FIREBLAST, primaryTarget->occupiedHex, 1, 0);
 	}
