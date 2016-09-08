@@ -27,7 +27,7 @@ extern char gText[];
 extern void __fastcall LogStr(char *);
 extern int glTimers;
 extern long __fastcall KBTickCount();
-extern float *gfCombatSpeedMod;
+extern float gfCombatSpeedMod[3];
 extern int giCombatSpeed;
 extern int giMinExtentX;
 extern int giMinExtentY;
