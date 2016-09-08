@@ -8,6 +8,8 @@ public:
 	soundManager();
 
 	void SwitchAmbientMusic(int track);
+	sample* MemorySample(sample*);
+	
 };
 
 extern soundManager *gpSoundManager;

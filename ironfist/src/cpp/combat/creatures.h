@@ -106,6 +106,12 @@ enum CREATURE_FLAGS : __int16
   CREATURE_PETRIFIED = 0x4000,
 };
 
+enum CREATURE_EVENT_CODE {
+	CREATURE_MOVED_CODE = 0,
+	CREATURE_TOOK_TURN_EVENT_CODE = 1,
+	CREATURE_TOOK_DAMAGE_CODE = 2,
+};
+
 #define STRIKE_AND_RETURN "strike-and-return"
 
 struct tag_monsterInfo

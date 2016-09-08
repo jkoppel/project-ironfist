@@ -31,6 +31,7 @@ public:
 class bitmap : public resource
 {
 public:
+	void* vtable;
   __int16 setInConstructor;
   __int16 width;
   __int16 height;
@@ -38,7 +39,12 @@ public:
 
   bitmap();
   bitmap(unsigned long);
+  bitmap(short, short, short);
   ~bitmap();
+
+  void GrabBitmapCareful(bitmap *, short, short);
+  void DrawToBufferCareful(short, short);
+  void DrawToBuffer(short, short);
 };
 
 struct IconEntry

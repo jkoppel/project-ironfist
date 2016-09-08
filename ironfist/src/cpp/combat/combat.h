@@ -121,6 +121,13 @@ public:
   void SpecialAttack_orig();
   float SpellCastWorkChance(int);
   float SpellCastWorkChance_orig(int);
+  void CheckLuck();
+  void DamageEnemy(class army *, int *, int *, int, int);
+  int SpellCastWorks(int);
+  void PowEffect(int, int, int, int);
+  void WaitSample(int);
+  void CancelSpellType(int);
+  int GetAdjacentCellIndex(int, int);
 };
 
 class combatManager : public baseManager
@@ -220,7 +227,7 @@ public:
   int field_F36F;
   int field_F373;
   int field_F377[2];
-  signed int stuffHappenedToCreature[2][20];
+  int limitCreature[40];
   int field_F41F;
   int field_F423;
   int field_F427[2];
@@ -239,7 +246,7 @@ public:
   heroWindow *combatEndWindow;
   int current_spell_id;
   int winningSide;
-
+ 
   combatManager();
   void InitNonVisualVars();
   void InitNonVisualVars_orig();
@@ -258,6 +265,10 @@ public:
   void SummonElemental(int, int);
 
   void CastSpell(int,int,int,int);
+
+  void ResetLimitCreature();
+  void DoBolt(int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int);
+  void ClearEffects();
 };
 
 extern combatManager* gpCombatManager;

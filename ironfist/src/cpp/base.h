@@ -25,7 +25,23 @@ extern void __fastcall EarlyShutdown(char*, char*);
 
 extern char gText[];
 extern void __fastcall LogStr(char *);
-
+extern int glTimers;
+extern long __fastcall KBTickCount();
+extern float *gfCombatSpeedMod;
+extern int giCombatSpeed;
+extern int giMinExtentX;
+extern int giMinExtentY;
+extern int giMaxExtentX;
+extern int giMaxExtentY;
+extern void __fastcall DelayTil(int *);
+extern void __fastcall DelayMilli(long);
+extern signed char* gArmyEffected[20];
+extern char aPerish_0[7];
+extern char aDo[3];
+extern char aDo_0[3];
+extern char * gArmyNames;
+extern char * gArmyNamesPlural;
+extern int bSecondAttack;
 /*
  * Updates sound, graphics if needed.
  *
