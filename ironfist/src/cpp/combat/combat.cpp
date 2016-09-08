@@ -235,12 +235,12 @@ void army::SpecialAttack()
 	int offsetX; // [sp+9Ch] [bp-150h]@46
 	bitmap *from; // [sp+A0h] [bp-14Ch]@56
 	int v27; // [sp+A4h] [bp-148h]@43
-	__int16 y[2]; // [sp+A8h] [bp-144h]@58
+	int y; // [sp+A8h] [bp-144h]@58
 	int sourceFacingRight; // [sp+ACh] [bp-140h]@1
 	army *v30; // [sp+B0h] [bp-13Ch]@1
 	float v31; // [sp+B4h] [bp-138h]@25
 	int v32; // [sp+B8h] [bp-134h]@49
-	__int16 x[2]; // [sp+BCh] [bp-130h]@58
+	int x; // [sp+BCh] [bp-130h]@58
 	char targetRowHex; // [sp+C0h] [bp-12Ch]@1
 	int v35; // [sp+C4h] [bp-128h]@43
 	signed int endY; // [sp+C8h] [bp-124h]@49
@@ -369,7 +369,7 @@ void army::SpecialAttack()
 			gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
 		glTimers = (signed __int64)((double)KBTickCount()
 			+ (double)this->frameInfo.shootingTime
-			* *(float *)&(&gfCombatSpeedMod)[*(_DWORD *)&giCombatSpeed]
+			* gfCombatSpeedMod[giCombatSpeed]
 			/ (double)this->frameInfo.animationLengths[this->animationType]);
 	}
 	this->animationFrame = this->frameInfo.animationLengths[this->animationType] - 1;
@@ -424,8 +424,8 @@ void army::SpecialAttack()
 		from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - v27, v38 - v18);
 		v59 = v44;
 		v53 = v38;
-		*(_DWORD *)x = 0;
-		*(_DWORD *)y = 0;
+		x = 0;
+		y = 0;
 		for (hexIdx = 0; hexIdx < v52; ++hexIdx)
 		{
 			if (v59 - v27 < offsetX)
@@ -446,7 +446,7 @@ void army::SpecialAttack()
 				v15 = 442;
 			if (hexIdx)
 			{
-				from->DrawToBufferCareful(x[0], y[0]);
+				from->DrawToBufferCareful(x, y);
 			}
 			else
 			{
@@ -459,17 +459,17 @@ void army::SpecialAttack()
 				if (v15 > giMaxExtentY)
 					giMaxExtentY = v15;
 			}
-			*(_DWORD *)x = v44 - v27;
+			x = v44 - v27;
 			if (v44 - v27 < 0)
-				*(_DWORD *)x = 0;
-			if (*(_DWORD *)x + (signed int)from->width > 640)
-				*(_DWORD *)x = 640 - from->width;
-			*(_DWORD *)y = v38 - v18;
+				x = 0;
+			if (x + (signed int)from->width > 640)
+				x = 640 - from->width;
+			y = v38 - v18;
 			if (v38 - v18 < 0)
-				*(_DWORD *)y = 0;
-			if (*(_DWORD *)y + (signed int)from->height > 640)
-				*(_DWORD *)y = 640 - from->height;
-			from->GrabBitmapCareful(gpWindowManager->screenBuffer, x[0], y[0]);
+				y = 0;
+			if (y + (signed int)from->height > 640)
+				y = 640 - from->height;
+			from->GrabBitmapCareful(gpWindowManager->screenBuffer, x, y);
 			this->missileIcon->DrawToBuffer(v44, v38, spriteIdx, v51);
 			if (hexIdx)
 			{
@@ -484,8 +484,8 @@ void army::SpecialAttack()
 					giMaxExtentX - giMinExtentX + 1,
 					giMaxExtentY - giMinExtentY + 1);
 			}
-			glTimers = (signed __int64)((double)KBTickCount()
-				+ (double)v22 * *(float *)&(&gfCombatSpeedMod)[*(_DWORD *)&giCombatSpeed]);
+
+			glTimers = (signed __int64)((double)KBTickCount() + (double)v22 * gfCombatSpeedMod[giCombatSpeed]);
 			v59 = v44;
 			v53 = v38;
 			v44 += v43;
@@ -495,7 +495,7 @@ void army::SpecialAttack()
 			offsetY = v38 - v18;
 			v15 = v18 + v38;
 		}
-		from->DrawToBuffer(x[0], y[0]);
+		from->DrawToBuffer(x, y);
 		gpWindowManager->UpdateScreenRegion(v59 - v27, v53 - v18, 2 * v27, 2 * v18);
 		if (from)
 			(*(void(__thiscall **)(bitmap *, signed int))from->vtable)(from, 1);
@@ -507,7 +507,7 @@ void army::SpecialAttack()
 			giMinExtentY,
 			giMaxExtentX - giMinExtentX + 1,
 			giMaxExtentY - giMinExtentY + 1);
-		DelayMilli((signed __int64)(*(float *)&(&gfCombatSpeedMod)[*(_DWORD *)&giCombatSpeed] * 115.0));
+		DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 115.0));
 		gpCombatManager->DoBolt(
 			1,
 			startX,
@@ -622,7 +622,7 @@ void army::SpecialAttack()
 		{
 			if (v30)
 			{
-				LOBYTE(v2) = v30->SpellCastWorks(SPELL_ARCHMAGI_DISPEL);
+				v2 = v30->SpellCastWorks(SPELL_ARCHMAGI_DISPEL);
 				if (v2)
 					v30->spellEnemyCreatureAbilityIsCasting = 102;
 			}

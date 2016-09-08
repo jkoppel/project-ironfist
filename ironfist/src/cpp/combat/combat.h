@@ -25,7 +25,7 @@ public:
   char isBlocked;
   char combatObjIdx;
   char unitOwner;
-  signed __int8 stackIdx;
+  char stackIdx;
   char occupiersOtherHexIsToLeft;
   int numCorpses;
   char corpseOwners[14];
