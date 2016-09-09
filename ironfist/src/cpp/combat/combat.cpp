@@ -15,6 +15,11 @@
 extern int giNextAction;
 extern signed char gbCombatSurrender;
 extern signed char gbRetreatWin;
+extern char *gArmyNames[256];
+extern char *gArmyNamesPlural[256];
+char aDo[3] = "do";
+char aDo_0[3] = "do";
+char aPerish_0[7] = "perish";
 
 int squaresAroundCaster[2][3] = {
 	{14,27,40},
@@ -237,7 +242,7 @@ void army::SpecialAttack()
 	int v27; // [sp+A4h] [bp-148h]@43
 	int y; // [sp+A8h] [bp-144h]@58
 	int sourceFacingRight; // [sp+ACh] [bp-140h]@1
-	army *v30; // [sp+B0h] [bp-13Ch]@1
+	army *target; // [sp+B0h] [bp-13Ch]@1
 	float v31; // [sp+B4h] [bp-138h]@25
 	int v32; // [sp+B8h] [bp-134h]@49
 	int x; // [sp+BCh] [bp-130h]@58
@@ -272,9 +277,9 @@ void army::SpecialAttack()
 	creaturesKilled = 0;
 	sourceFacingRight = this->facingRight;
 	this->field_125 = 0;
-	v30 = (army*)&gpCombatManager->creatures[21 * this->targetOwner] + this->targetStackIdx;
-	targetColumnHex = v30->occupiedHex % 13;
-	targetRowHex = v30->occupiedHex / 13;
+	target = &gpCombatManager->creatures[this->targetOwner][this->targetStackIdx];
+	targetColumnHex = target->occupiedHex % 13;
+	targetRowHex = target->occupiedHex / 13;
 	sourceColumnHex = this->occupiedHex % 13;
 	sourceRowHex = this->occupiedHex / 13;
 	sourceFacingRight = this->facingRight;
@@ -300,14 +305,20 @@ void army::SpecialAttack()
 	v39 = this->MidY();
 	if (this->creatureIdx == CREATURE_LICH || this->creatureIdx == CREATURE_POWER_LICH)
 	{
-		v57 = gpCombatManager->combatGrid[v30->occupiedHex].centerX;
-		v39 = gpCombatManager->combatGrid[v30->occupiedHex].occupyingCreatureBottomY - 17;
+		v57 = gpCombatManager->combatGrid[target->occupiedHex].centerX;
+		v39 = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
 	}
+	//if (this->facingRight == 1)
+	//	v10 = (short)this->frameInfo.projectileStartOffset[2] + gpCombatManager->combatGrid[this->occupiedHex].centerX;
+	//else
+	//	v10 = gpCombatManager->combatGrid[this->occupiedHex].centerX - (short)this->frameInfo.projectileStartOffset[2];
+	//v56 = (short)this->frameInfo.projectileStartOffset[3]
+	//	+ gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
 	if (this->facingRight == 1)
-		v10 = (short)this->frameInfo.projectileStartOffset[2] + gpCombatManager->combatGrid[this->occupiedHex].centerX;
+		v10 = this->frameInfo.projectileStartOffset[1][0] + gpCombatManager->combatGrid[this->occupiedHex].centerX;
 	else
-		v10 = gpCombatManager->combatGrid[this->occupiedHex].centerX - (short)this->frameInfo.projectileStartOffset[2];
-	v56 = (short)this->frameInfo.projectileStartOffset[3]
+		v10 = gpCombatManager->combatGrid[this->occupiedHex].centerX - this->frameInfo.projectileStartOffset[1][0];
+	v56 = this->frameInfo.projectileStartOffset[1][1]
 		+ gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
 	v17 = v57 - v10;
 	v51 = 0;
@@ -339,7 +350,7 @@ void army::SpecialAttack()
 			spriteIdx = 0;
 		else
 			spriteIdx = this->frameInfo.numMissileDirs - 1;
-		v11 = (double)((((v13 <= 0) - 1) & 0xFFFFFF4C) + 90);
+		v11 = (double)(v13 <= 0 ? 90 : -90);
 	}
 	if (v11 <= 25.0)
 	{
@@ -389,11 +400,12 @@ void army::SpecialAttack()
 	v15 = 0;
 	offsetY = 479;
 	if (this->facingRight == 1)
-		startX = gpCombatManager->combatGrid[this->occupiedHex].centerX + (short)this->frameInfo.projectileStartOffset[2 * v40];
+		startX = this->frameInfo.projectileStartOffset[1][0] + gpCombatManager->combatGrid[this->occupiedHex].centerX;
 	else
-		startX = gpCombatManager->combatGrid[this->occupiedHex].centerX - (short)this->frameInfo.projectileStartOffset[2 * v40];
-	startY = gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY
-		+ (short)this->frameInfo.projectileStartOffset[2 * v40 + 1];
+		startX = gpCombatManager->combatGrid[this->occupiedHex].centerX - this->frameInfo.projectileStartOffset[1][0];
+	startY = this->frameInfo.projectileStartOffset[1][1]
+		+ gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
+
 	endX = this->MidX();
 	endY = this->MidY();
 	v42 = endX - startX;
@@ -498,7 +510,7 @@ void army::SpecialAttack()
 		from->DrawToBuffer(x, y);
 		gpWindowManager->UpdateScreenRegion(v59 - v27, v53 - v18, 2 * v27, 2 * v18);
 		if (from)
-			(*(void(__thiscall **)(bitmap *, signed int))from->vtable)(from, 1);
+			from->~bitmap();
 	}
 	else
 	{
@@ -535,7 +547,7 @@ void army::SpecialAttack()
 	a5 = -1;
 	if (this->creatureIdx != CREATURE_LICH && this->creatureIdx != CREATURE_POWER_LICH)
 	{
-		this->DamageEnemy(v30, &damageDone, &creaturesKilled, 1, 0);
+		this->DamageEnemy(target, &damageDone, &creaturesKilled, 1, 0);
 	}
 	else
 	{
@@ -543,27 +555,19 @@ void army::SpecialAttack()
 		for (hexIdx = 0; hexIdx < 7; ++hexIdx)
 		{
 			if (hexIdx >= 6)
-				v8 = v30->occupiedHex;
+				v8 = target->occupiedHex;
 			else
-				v8 = v30->GetAdjacentCellIndex(v30->occupiedHex, hexIdx);
+				v8 = target->GetAdjacentCellIndex(target->occupiedHex, hexIdx);
 			if (v8 != -1)
 			{
 				if (gpCombatManager->combatGrid[v8].unitOwner != -1)
 				{
-					targ = (army*)&gpCombatManager->creatures[21 * gpCombatManager->combatGrid[v8].unitOwner]
-						+ gpCombatManager->combatGrid[v8].stackIdx;
-					if (!gArmyEffected[*(int *)((char *)&gpCombatManager->creatures[21
-						* gpCombatManager->combatGrid[v8].unitOwner]->owningSide
-						+ 1154 * gpCombatManager->combatGrid[v8].stackIdx)][*(int *)((char *)&gpCombatManager->creatures[21 * gpCombatManager->combatGrid[v8].unitOwner]->stackIdx
-							+ 1154
-							* gpCombatManager->combatGrid[v8].stackIdx)])
+					targ = &gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx];
+					if (!gArmyEffected[gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].owningSide][gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].stackIdx])
 					{
-						if (v30 != targ || hexIdx == 6)
+						if (target != targ || hexIdx == 6)
 						{
-							gArmyEffected[*(int *)((char *)&gpCombatManager->creatures[21 * gpCombatManager->combatGrid[v8].unitOwner]->owningSide
-								+ 1154 * gpCombatManager->combatGrid[v8].stackIdx)][*(int *)((char *)&gpCombatManager->creatures[21 * gpCombatManager->combatGrid[v8].unitOwner]->stackIdx
-									+ 1154
-									* gpCombatManager->combatGrid[v8].stackIdx)] = 1;
+							gArmyEffected[gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].owningSide][gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].stackIdx] = 1;
 							this->DamageEnemy(targ, &damageDone, &creaturesKilled, 1, 0);
 						}
 					}
@@ -580,9 +584,9 @@ void army::SpecialAttack()
 	if (creaturesKilled <= 0)
 	{
 		if (this->quantity <= 1)
-			v4 = (&gArmyNames)[4 * this->creatureIdx];
+			v4 = gArmyNames[this->creatureIdx];
 		else
-			v4 = (&gArmyNamesPlural)[4 * this->creatureIdx];
+			v4 = gArmyNamesPlural[this->creatureIdx];
 		sprintf(gText, "%s %s %d %s.", v4, &aDo_0[("does" - "do") & ((this->quantity > 1) - 1)], damageDone, "damage");
 		gText[0] -= 32;
 	}
@@ -595,13 +599,13 @@ void army::SpecialAttack()
 		else
 		{
 			if (creaturesKilled <= 1)
-				v6 = (&gArmyNames)[4 * v30->creatureIdx];
+				v6 = gArmyNames[target->creatureIdx];
 			else
-				v6 = (&gArmyNamesPlural)[4 * v30->creatureIdx];
+				v6 = gArmyNamesPlural[target->creatureIdx];
 			if (this->quantity <= 1)
-				v5 = (&gArmyNames)[4 * this->creatureIdx];
+				v5 = gArmyNames[this->creatureIdx];
 			else
-				v5 = (&gArmyNamesPlural)[4 * this->creatureIdx];
+				v5 = gArmyNamesPlural[this->creatureIdx];
 			sprintf(
 				gText,
 				"%s %s %d %s.\n%d %s %s.",
@@ -615,21 +619,20 @@ void army::SpecialAttack()
 			gText[0] -= 32;
 		}
 	}
-	strcpy(&message, gText);
 	if (this->creatureIdx == CREATURE_ARCHMAGE)
 	{
 		if (SRandom(1, 100) < 20)
 		{
-			if (v30)
+			if (target)
 			{
-				v2 = v30->SpellCastWorks(SPELL_ARCHMAGI_DISPEL);
+				v2 = target->SpellCastWorks(SPELL_ARCHMAGI_DISPEL);
 				if (v2)
-					v30->spellEnemyCreatureAbilityIsCasting = 102;
+					target->spellEnemyCreatureAbilityIsCasting = 102;
 			}
 		}
 	}
 	this->PowEffect(animIdx, 0, a4, a5);
-	gpCombatManager->CombatMessage(&message, 1, 1, 0);
+	gpCombatManager->CombatMessage(gText, 1, 1, 0);
 	this->WaitSample(3);
 	if (this->facingRight != sourceFacingRight)
 	{
@@ -646,7 +649,7 @@ void army::SpecialAttack()
 		&& (this->creatureIdx == CREATURE_ELF
 			|| this->creatureIdx == CREATURE_GRAND_ELF
 			|| this->creatureIdx == CREATURE_RANGER)
-		&& v30->quantity > 0)
+		&& target->quantity > 0)
 	{
 		bSecondAttack = 1;
 		this->SpecialAttack();

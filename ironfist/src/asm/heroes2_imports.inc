@@ -116,18 +116,6 @@ IMPORT_?ReadLong@resourceManager@@QAEJXZ = 1
 IMPORT_?MakeId@resourceManager@@QAEKPADH@Z = 1
 IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
-IMPORT_??0bitmap@@QAE@FFF@Z = 1
-IMPORT_?GrabBitmapCareful@bitmap@@QAEXPAV1@FF@Z = 1
-IMPORT_?DrawToBufferCareful@bitmap@@QAEXFF@Z = 1
-IMPORT_?giMinExtentX@@3HA = 1
-IMPORT_?giMinExtentY@@3HA = 1
-IMPORT_?giMaxExtentX@@3HA = 1
-IMPORT_?giMaxExtentY@@3HA = 1
-IMPORT_?UpdateScreenRegion@heroWindowManager@@QAEXHHHH@Z = 1
-IMPORT_?DrawToBuffer@bitmap@@QAEXFF@Z = 1
-
-;;sound
-IMPORT_?MemorySample@soundManager@@QAEPAU_SAMPLE@@PAVsample@@@Z = 1
 
 ;;creatures
 
@@ -138,40 +126,18 @@ IMPORT_?gArmyNamesPlural@@3PAPADA = 1
 IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
 IMPORT_?GetMonsterCost@@YIXHQAH@Z = 1
 
-
 ;;armies
 
 IMPORT_??0armyGroup@@QAE@XZ = 1
-IMPORT_?CheckLuck@army@@QAEXXZ = 1
-IMPORT_?ResetLimitCreature@combatManager@@QAEXXZ = 1
-IMPORT_?DamageEnemy@army@@QAEXPAV1@PAH1HH@Z = 1
-IMPORT_?SpellCastWorks@army@@QAEHH@Z = 1
-IMPORT_?PowEffect@army@@QAEXHHHH@Z = 1
-IMPORT_?WaitSample@army@@QAEXH@Z = 1
-IMPORT_?CancelSpellType@army@@QAEXH@Z = 1
-IMPORT_?GetAdjacentCellIndex@army@@QAEHHH@Z = 1
 
 ;;game
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
-IMPORT_?glTimers@@3HA = 1
-IMPORT_?KBTickCount@@YIJXZ = 1
-IMPORT_?gfCombatSpeedMod@@3PAMA = 1
-IMPORT_?giCombatSpeed@@3HA = 1
-IMPORT_?DelayMilli@@YIXJ@Z = 1
-IMPORT_?gArmyEffected@@3PAY0BE@CA = 1
-IMPORT_aPerish_0 = 1
-IMPORT_aDo = 1
-IMPORT_aDo_0 = 1
-IMPORT_?gArmyNames@@3PAPADA = 1
-IMPORT_?gArmyNamesPlural@@3PAPADA = 1
-IMPORT_?bSecondAttack@@3HA = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
 ?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
-IMPORT_?DelayTil@@YIXPAH@Z = 1
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
@@ -196,8 +162,6 @@ IMPORT_?DoAttack@army@@QAEXH@Z = 1
 ?DoAttack@army@@QAEXH@Z_clone EQU ?DoAttack_orig@army@@QAEXH@Z
 IMPORT_?SpecialAttack@army@@QAEXXZ = 1
 ?SpecialAttack@army@@QAEXXZ_clone EQU ?SpecialAttack_orig@army@@QAEXXZ
-IMPORT_?DoBolt@combatManager@@QAEXHHHHHHHHHHHHHHHHH@Z = 1
-IMPORT_?ClearEffects@combatManager@@QAEXXZ = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

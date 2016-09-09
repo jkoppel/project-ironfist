@@ -35,12 +35,7 @@ extern int giMaxExtentX;
 extern int giMaxExtentY;
 extern void __fastcall DelayTil(int *);
 extern void __fastcall DelayMilli(long);
-extern signed char* gArmyEffected[20];
-extern char aPerish_0[7];
-extern char aDo[3];
-extern char aDo_0[3];
-extern char * gArmyNames;
-extern char * gArmyNamesPlural;
+extern signed char gArmyEffected[2][20];
 extern int bSecondAttack;
 /*
  * Updates sound, graphics if needed.

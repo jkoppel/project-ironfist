@@ -31,7 +31,6 @@ public:
 class bitmap : public resource
 {
 public:
-	void* vtable;
   __int16 setInConstructor;
   __int16 width;
   __int16 height;

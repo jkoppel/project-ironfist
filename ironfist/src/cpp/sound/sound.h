@@ -8,7 +8,7 @@ public:
 	soundManager();
 
 	void SwitchAmbientMusic(int track);
-	sample* MemorySample(sample*);
+	struct _SAMPLE * MemorySample(sample*);
 	
 };
 
