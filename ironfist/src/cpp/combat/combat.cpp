@@ -519,7 +519,7 @@ void army::SpecialAttack()
 		int v8;
 		for (int j = 0; j < 18; j++) {
 			v8 = target->occupiedHex + cyberBehemothAttackMask[j];
-			if (v8 != -1) {
+			if (v8 >= 0 && v8 < 116) {
 				if (gpCombatManager->combatGrid[v8].unitOwner != -1) {
 					army *targ = &gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx];
 					if (!gArmyEffected[gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].owningSide][gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].stackIdx]) {
