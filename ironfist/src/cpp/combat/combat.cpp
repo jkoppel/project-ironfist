@@ -108,6 +108,8 @@ void army::MoveAttack(int targHex, int x) {
 
 void army::DoAttack(int x) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+  if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
+	  primaryTarget = this;
   ScriptSetSpecialVariableData("__attackingStack", this);
   ScriptSetSpecialVariableData("__targetStack", primaryTarget);
   std::string tmp = std::to_string(this->creatureIdx) + "," + std::to_string(primaryTarget->creatureIdx);
