@@ -341,7 +341,7 @@ void army::SpecialAttack()
 	int offsetX = 639;
 	v15 = 0;
 	int offsetY = 479;
-	signed int startX;
+	int startX;
 	if (this->facingRight == 1)
 		startX = this->frameInfo.projectileStartOffset[attackDirectionAnimationIdx][0] + gpCombatManager->combatGrid[this->occupiedHex].centerX;
 	else
@@ -351,18 +351,18 @@ void army::SpecialAttack()
 
 	int endX = target->MidX();
 	int endY = target->MidY();
-	int v42 = endX - startX;
-	int v47 = endY - startY;
-	int v32 = (signed __int64)sqrt((double)(v47 * v47 + (endX - startX) * (endX - startX)));
-	int v52 = (v32 + (v35 >> 1)) / v35;
+	int diffX = endX - startX;
+	int diffY = endY - startY;
+	int distance = (signed __int64)sqrt((double)(diffY * diffY + diffX * diffX));
+	int v52 = (distance + (v35 / 2)) / v35;
 	if (this->creatureIdx != CREATURE_MAGE && this->creatureIdx != CREATURE_ARCHMAGE) {
 		int v37;
 		if (v52 <= 1) {
-			v43 = v42;
-			v37 = v47;
+			v43 = diffX;
+			v37 = diffY;
 		} else {
-			v43 = v42 / (v52 - 1);
-			v37 = v47 / (v52 - 1);
+			v43 = diffX / (v52 - 1);
+			v37 = diffY / (v52 - 1);
 		}
 		v44 = startX;
 		v38 = startY;
@@ -465,7 +465,7 @@ void army::SpecialAttack()
 			302,
 			0,
 			0,
-			v32 / 15 + 15,
+			distance / 15 + 15,
 			1,
 			0,
 			10,
