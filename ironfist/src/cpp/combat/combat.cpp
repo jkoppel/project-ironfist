@@ -477,10 +477,10 @@ void army::SpecialAttack()
 	animIdx = -1;
 	a4 = -1;
 	a5 = -1;
-	if (this->creatureIdx != CREATURE_LICH && this->creatureIdx != CREATURE_POWER_LICH) {
-		this->DamageEnemy(target, &damageDone, &creaturesKilled, 1, 0);
-	} else {
-		signed int v8;
+	
+		
+	if (this->creatureIdx == CREATURE_LICH || this->creatureIdx == CREATURE_POWER_LICH) {
+		int v8;
 		gpCombatManager->ClearEffects();
 		for (int i = 0; i < 7; ++i)	{
 			if (i >= 6)
@@ -504,6 +504,50 @@ void army::SpecialAttack()
 		a4 = gpCombatManager->combatGrid[v8].centerX;
 		a5 = gpCombatManager->combatGrid[v8].occupyingCreatureBottomY - 17;
 		gpSoundManager->MemorySample(combatSounds[5]);
+	} else if (this->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
+
+		int cyberBehemothAttackMask[] = {
+			-27,-26,-25,
+			-14,-13,-12,-11,
+			-2,-1,1,2,
+			12,13,14,15,
+			25,26,27
+		};
+
+		gpCombatManager->ClearEffects();
+
+		int v8;
+		for (int j = 0; j < 18; j++) {
+			v8 = target->occupiedHex + cyberBehemothAttackMask[j];
+			if (v8 != -1) {
+				if (gpCombatManager->combatGrid[v8].unitOwner != -1) {
+					army *targ = &gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx];
+					if (!gArmyEffected[gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].owningSide][gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].stackIdx]) {
+						if (target != targ) {
+							gArmyEffected[gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].owningSide][gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].stackIdx] = 1;
+							this->DamageEnemy(targ, &damageDone, &creaturesKilled, 1, 0);
+						}
+					}
+				}
+			}
+		}
+		v8 = target->occupiedHex;
+		if (v8 != -1) {
+			if (gpCombatManager->combatGrid[v8].unitOwner != -1) {
+				army *targ = &gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx];
+				if (!gArmyEffected[gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].owningSide][gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].stackIdx]) {
+					gArmyEffected[gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].owningSide][gpCombatManager->creatures[gpCombatManager->combatGrid[v8].unitOwner][gpCombatManager->combatGrid[v8].stackIdx].stackIdx] = 1;
+					this->DamageEnemy(targ, &damageDone, &creaturesKilled, 1, 0);
+				}
+			}
+		}
+		this->field_FA = 0;
+		animIdx = 20;
+		a4 = gpCombatManager->combatGrid[target->occupiedHex].centerX;
+		a5 = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
+		gpSoundManager->MemorySample(combatSounds[5]);
+	} else {
+		this->DamageEnemy(target, &damageDone, &creaturesKilled, 1, 0);
 	}
 	this->creature.attack = monAttack;
 
