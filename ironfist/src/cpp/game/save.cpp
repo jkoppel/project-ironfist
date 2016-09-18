@@ -503,7 +503,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 	int fd = open("tmp", O_WRONLY | O_TRUNC | O_CREAT | O_BINARY, S_IWRITE);
 	if ( fd == -1 )
-		FileError(v9);
+		FileError("tmp");
 
 	_write(fd, &this->map.width, 4);
 	_write(fd, &this->map.height, 4);
