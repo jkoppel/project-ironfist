@@ -15,11 +15,6 @@
 extern int giNextAction;
 extern signed char gbCombatSurrender;
 extern signed char gbRetreatWin;
-extern char *gArmyNames[256];
-extern char *gArmyNamesPlural[256];
-char aDo[3] = "do";
-char aDo_0[3] = "do";
-char aPerish_0[7] = "perish";
 
 int squaresAroundCaster[2][3] = {
 	{14,27,40},
@@ -552,39 +547,37 @@ void army::SpecialAttack()
 	this->creature.attack = monAttack;
 
 	// Battle messages
+	char *attackingCreature;
 	if (creaturesKilled <= 0) {
-		char *tmpString;
 		if (this->quantity <= 1)
-			tmpString = gArmyNames[this->creatureIdx];
+			attackingCreature = GetCreatureName(this->creatureIdx);
 		else
-			tmpString = gArmyNamesPlural[this->creatureIdx];
-		sprintf(gText, "%s %s %d %s.", tmpString, &aDo_0[("does" - "do") & ((this->quantity > 1) - 1)], damageDone, "damage");
-		gText[0] -= 32;
+			attackingCreature = GetCreaturePluralName(this->creatureIdx);
+		sprintf(gText, "%s %s %d damage.", attackingCreature, (this->quantity > 1) ? "do" : "does", damageDone);
+		toupper(gText[0]);
 	} else {
 		if (damageDone == -1) {
 			sprintf(gText, "The mirror image is destroyed!");
 		} else {
-			char *attackingArmyName;
-			char *attackedArmyName;
+			char *attackedCreature;
 			if (creaturesKilled <= 1)
-				attackedArmyName = gArmyNames[target->creatureIdx];
+				attackedCreature = GetCreatureName(target->creatureIdx);
 			else
-				attackedArmyName = gArmyNamesPlural[target->creatureIdx];
+				attackedCreature = GetCreaturePluralName(target->creatureIdx);
 			if (this->quantity <= 1)
-				attackingArmyName = gArmyNames[this->creatureIdx];
+				attackingCreature = GetCreatureName(this->creatureIdx);
 			else
-				attackingArmyName = gArmyNamesPlural[this->creatureIdx];
+				attackingCreature = GetCreaturePluralName(this->creatureIdx);
 			sprintf(
 				gText,
-				"%s %s %d %s.\n%d %s %s.",
-				attackingArmyName,
-				&aDo[("does" - "do") & ((this->quantity > 1) - 1)],
+				"%s %s %d damage.\n%d %s %s.",
+				attackingCreature,
+				(this->quantity > 1) ? "do" : "does",
 				damageDone,
-				"damage",
 				creaturesKilled,
-				attackedArmyName,
-				&aPerish_0[("perishes" - "perish") & ((creaturesKilled > 1) - 1)]);
-			gText[0] -= 32;
+				attackedCreature,
+				(creaturesKilled > 1) ? "perish" : "perishes");
+			toupper(gText[0]);
 		}
 	}
 	if (this->creatureIdx == CREATURE_ARCHMAGE) {
