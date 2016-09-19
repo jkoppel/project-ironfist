@@ -297,15 +297,15 @@ void army::SpecialAttack()
 	int attackDirectionAnimationIdx;
 	if (angleDeg <= 25.0) {
 		if (angleDeg <= -25.0) {
-			this->animationType = 32;
+			this->animationType = ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS;
 			attackDirectionAnimationIdx = 2;
 		}
 		else {
-			this->animationType = 30;
+			this->animationType = ANIMATION_TYPE_RANGED_ATTACK_FORWARDS;
 			attackDirectionAnimationIdx = 1;
 		}
 	} else {
-		this->animationType = 28;
+		this->animationType = ANIMATION_TYPE_RANGED_ATTACK_UPWARDS;
 		attackDirectionAnimationIdx = 0;
 	}
 	for (this->animationFrame = 0;
@@ -466,14 +466,15 @@ void army::SpecialAttack()
 			10,
 			0);
 	}
+	// Decrease the number of shots left
 	if (!gpCombatManager->heroes[this->owningSide] || !gpCombatManager->heroes[this->owningSide]->HasArtifact(ARTIFACT_AMMO_CART))
 		--this->creature.shots;
+
 	char monAttack = this->creature.attack;
 	animIdx = -1;
 	a4 = -1;
 	a5 = -1;
-	
-		
+			
 	if (this->creatureIdx == CREATURE_LICH || this->creatureIdx == CREATURE_POWER_LICH) {
 		int v8;
 		gpCombatManager->ClearEffects();
