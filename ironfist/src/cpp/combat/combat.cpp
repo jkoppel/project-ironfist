@@ -231,17 +231,16 @@ void army::SpecialAttack()
 	int v59; // [sp+1E8h] [bp-4h]@58
 	int damageDone = 0;
 	int creaturesKilled = 0;
-	int sourceFacingRight = this->facingRight;
 	this->field_125 = 0;
 	army *target = &gpCombatManager->creatures[this->targetOwner][this->targetStackIdx];
 	char targetColumnHex = target->occupiedHex % 13;
 	char targetRowHex = target->occupiedHex / 13;
 	char sourceColumnHex = this->occupiedHex % 13;
 	char sourceRowHex = this->occupiedHex / 13;
-	sourceFacingRight = this->facingRight;
+	int tmpFacingRight = this->facingRight;
 	this->facingRight = targetColumnHex > sourceColumnHex || !(sourceRowHex & 1) && targetColumnHex == sourceColumnHex;
-	if (this->facingRight != sourceFacingRight)	{
-		if (this->creature.creature_flags & 1) {
+	if (this->facingRight != tmpFacingRight) {
+		if (this->creature.creature_flags & TWO_HEXER) {
 			if (this->facingRight == 1)
 				--this->occupiedHex;
 			else
@@ -361,14 +360,9 @@ void army::SpecialAttack()
 		}
 		v44 = startX;
 		v38 = startY;
-		//v7 = (bitmap *)operator new(26);
-		bitmap *from; // [sp+A0h] [bp-14Ch]@56
-		bitmap *v7 = new bitmap(33, 2 * v27, 2 * v18);
-		if (v7)
-			from = v7;
-			//from = v7(33, 2 * v27, 2 * v18);
-		else
-			from = 0;
+		//from = (bitmap *)operator new(26);
+		bitmap *from = nullptr;
+		from = new bitmap(33, 2 * v27, 2 * v18);
 		from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - v27, v38 - v18);
 		v59 = v44;
 		v53 = v38;
@@ -419,11 +413,7 @@ void army::SpecialAttack()
 				DelayTil(&glTimers);
 				gpWindowManager->UpdateScreenRegion(offsetX, offsetY, v20 - offsetX + 1, v15 - offsetY + 1);
 			} else {
-				gpWindowManager->UpdateScreenRegion(
-					giMinExtentX,
-					giMinExtentY,
-					giMaxExtentX - giMinExtentX + 1,
-					giMaxExtentY - giMinExtentY + 1);
+				gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
 			}
 
 			glTimers = (signed __int64)((double)KBTickCount() + (double)v22 * gfCombatSpeedMod[giCombatSpeed]);
@@ -441,30 +431,9 @@ void army::SpecialAttack()
 		if (from)
 			from->~bitmap();
 	} else {
-		gpWindowManager->UpdateScreenRegion(
-			giMinExtentX,
-			giMinExtentY,
-			giMaxExtentX - giMinExtentX + 1,
-			giMaxExtentY - giMinExtentY + 1);
+		gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
 		DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 115.0));
-		gpCombatManager->DoBolt(
-			1,
-			startX,
-			startY,
-			endX,
-			endY,
-			0,
-			0,
-			5,
-			4,
-			302,
-			0,
-			0,
-			distance / 15 + 15,
-			1,
-			0,
-			10,
-			0);
+		gpCombatManager->DoBolt(1, startX, startY, endX, endY, 0, 0, 5, 4, 302, 0, 0, distance / 15 + 15, 1, 0, 10, 0);
 	}
 	// Decrease the number of shots left
 	if (!gpCombatManager->heroes[this->owningSide] || !gpCombatManager->heroes[this->owningSide]->HasArtifact(ARTIFACT_AMMO_CART))
@@ -555,7 +524,7 @@ void army::SpecialAttack()
 		else
 			attackingCreature = GetCreaturePluralName(this->creatureIdx);
 		sprintf(gText, "%s %s %d damage.", attackingCreature, (this->quantity > 1) ? "do" : "does", damageDone);
-		toupper(gText[0]);
+		gText[0] = toupper(gText[0]);
 	} else {
 		if (damageDone == -1) {
 			sprintf(gText, "The mirror image is destroyed!");
@@ -578,7 +547,7 @@ void army::SpecialAttack()
 				creaturesKilled,
 				attackedCreature,
 				(creaturesKilled > 1) ? "perish" : "perishes");
-			toupper(gText[0]);
+			gText[0] = toupper(gText[0]);
 		}
 	}
 	if (this->creatureIdx == CREATURE_ARCHMAGE) {
@@ -593,14 +562,14 @@ void army::SpecialAttack()
 	gpCombatManager->CombatMessage(gText, 1, 1, 0);
 
 	this->WaitSample(3);
-	if (this->facingRight != sourceFacingRight) {
+	if (this->facingRight != tmpFacingRight) {
 		if (this->creature.creature_flags & TWO_HEXER) {
 			if (this->facingRight == 1)
 				++this->occupiedHex;
 			else
 				--this->occupiedHex;
 		}
-		this->facingRight = sourceFacingRight;
+		this->facingRight = tmpFacingRight;
 	}
 	if (!bSecondAttack
 		&& (this->creatureIdx == CREATURE_ELF
