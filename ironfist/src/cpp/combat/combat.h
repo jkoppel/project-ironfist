@@ -227,7 +227,7 @@ public:
   int field_F36F;
   int field_F373;
   int field_F377[2];
-  int limitCreature[40];
+  int limitCreature[2][20];
   int field_F41F;
   int field_F423;
   int field_F427[2];

@@ -251,8 +251,7 @@ void army::SpecialAttack()
 	this->CheckLuck();
 	gpSoundManager->MemorySample(this->combatSounds[3]);
 	gpCombatManager->ResetLimitCreature();
-	int v1 = 80 * this->owningSide + 4 * this->stackIdx;
-	++*(int *)((char *)gpCombatManager->limitCreature + v1);
+	gpCombatManager->limitCreature[this->owningSide][this->stackIdx]++;
 	gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
 	targMidX = target->MidX();
 	targMidY = target->MidY();
