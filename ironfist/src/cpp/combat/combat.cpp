@@ -486,7 +486,6 @@ void army::SpecialAttack() {
 	if (!gpCombatManager->heroes[this->owningSide] || !gpCombatManager->heroes[this->owningSide]->HasArtifact(ARTIFACT_AMMO_CART))
 		--this->creature.shots;
 
-	char monAttack = this->creature.attack;
 	int animIdx = -1;
 	int a4 = -1;
 	int a5 = -1;
@@ -564,7 +563,6 @@ void army::SpecialAttack() {
 	} else {
 		this->DamageEnemy(target, &damageDone, &creaturesKilled, 1, 0);
 	}
-	this->creature.attack = monAttack;
 
 	SpecialAttackBattleMessage(this, target, creaturesKilled, damageDone);
 
