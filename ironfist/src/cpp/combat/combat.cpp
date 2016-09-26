@@ -499,9 +499,9 @@ void army::SpecialAttack() {
 			else
 				possibleTarget = target->GetAdjacentCellIndex(target->occupiedHex, i);
 			if (possibleTarget != -1) {
-				hexcell targetHex = gpCombatManager->combatGrid[possibleTarget];
-				if (targetHex.unitOwner != -1) {
-					army *targ = &gpCombatManager->creatures[targetHex.unitOwner][targetHex.stackIdx];
+				hexcell *targetHex = &gpCombatManager->combatGrid[possibleTarget];
+				if (targetHex->unitOwner != -1) {
+					army *targ = &gpCombatManager->creatures[targetHex->unitOwner][targetHex->stackIdx];
 					if (!gArmyEffected[targ->owningSide][targ->stackIdx]) {
 						if (target != targ || i == 6) {
 							gArmyEffected[targ->owningSide][targ->stackIdx] = 1;
@@ -532,9 +532,9 @@ void army::SpecialAttack() {
 		for (int j = 0; j < 18; j++) {
 			possibleTarget = target->occupiedHex + cyberBehemothAttackMask[j];
 			if (possibleTarget >= 0 && possibleTarget < 116) {
-				hexcell targetHex = gpCombatManager->combatGrid[possibleTarget];
-				if (targetHex.unitOwner != -1) {
-					army *targ = &gpCombatManager->creatures[targetHex.unitOwner][targetHex.stackIdx];
+				hexcell *targetHex = &gpCombatManager->combatGrid[possibleTarget];
+				if (targetHex->unitOwner != -1) {
+					army *targ = &gpCombatManager->creatures[targetHex->unitOwner][targetHex->stackIdx];
 					if (!gArmyEffected[targ->owningSide][targ->stackIdx]) {
 						if (target != targ) {
 							gArmyEffected[targ->owningSide][targ->stackIdx] = 1;
@@ -546,9 +546,9 @@ void army::SpecialAttack() {
 		}
 		possibleTarget = target->occupiedHex;
 		if (possibleTarget != -1) {
-			hexcell targetHex = gpCombatManager->combatGrid[possibleTarget];
-			if (targetHex.unitOwner != -1) {
-				army *targ = &gpCombatManager->creatures[targetHex.unitOwner][targetHex.stackIdx];
+			hexcell *targetHex = &gpCombatManager->combatGrid[possibleTarget];
+			if (targetHex->unitOwner != -1) {
+				army *targ = &gpCombatManager->creatures[targetHex->unitOwner][targetHex->stackIdx];
 				if (!gArmyEffected[targ->owningSide][targ->stackIdx]) {
 					gArmyEffected[targ->owningSide][targ->stackIdx] = 1;
 					this->DamageEnemy(targ, &damageDone, &creaturesKilled, 1, 0);
