@@ -222,8 +222,7 @@ void SpecialAttackBattleMessage(army *attacker, army *target, int creaturesKille
 	else {
 		if (damageDone == -1) {
 			sprintf(gText, "The mirror image is destroyed!");
-		}
-		else {
+		} else {
 			char *targetCreature;
 			if (creaturesKilled <= 1)
 				targetCreature = GetCreatureName(target->creatureIdx);
