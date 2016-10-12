@@ -434,7 +434,9 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			}
 			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
 			this->map.Read(fd, 0);
+			SetFileAttributes(L"tmp", GetFileAttributes(L"tmp") & ~FILE_ATTRIBUTE_READONLY);
 			_close(fd);
+			remove("tmp");
             gpAdvManager->heroMobilized = 0;
 			gpCurPlayer = &gpGame->players[giCurPlayer];
 			giCurPlayerBit = 1 << giCurPlayer;
@@ -582,6 +584,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 	lseek(fd, 0, SEEK_SET);
 	read(fd, dat, sz);
 	close(fd);
+	remove("tmp");
 
 	const xml_schema::base64_binary datbin(dat, sz);
 
