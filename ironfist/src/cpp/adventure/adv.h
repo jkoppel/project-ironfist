@@ -245,6 +245,7 @@ extern int giHeroScreenSrcIndex;
 hero* GetCurrentHero();
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
+void __fastcall GiveTakeArtifactStat(hero *h, int art, int take);
 void __fastcall GetMonsterCost(int, int * const);
 
 #pragma pack(pop)
