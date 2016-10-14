@@ -45,8 +45,7 @@ int monQtyFields[] = { IDC_MON1_QTY
 
 int buildingIdToIdx[32];
 
-static const std::wstring GetWC(const char *c)
-{
+static const std::wstring GetWC(const char *c) {
 	const size_t cSize = strlen(c) + 1;
 	std::wstring wc(cSize, L'#');
 	mbstowcs(&wc[0], c, cSize);
