@@ -773,6 +773,7 @@ void ScriptingInit(string& map_filnam) {
 void ScriptingInitFromString(string &script) {
   string filename = dumpToTemp(string(script));
   RunScript(filename);
+  remove(filename.c_str());
 }
 
 void ScriptingShutdown() {
