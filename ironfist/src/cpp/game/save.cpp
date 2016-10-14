@@ -39,8 +39,8 @@ extern int giThisGamePos;
 extern void __fastcall FileError(char*);
 
 extern void __fastcall GenerateStandardFileName(char*,char*);
-const char *tmpFileName = "tmp";
-LPCWSTR tmpFileNameW = L"tmp";
+static const char *tmpFileName = "tmp";
+static const LPCWSTR tmpFileNameW = L"tmp";
 
 static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->Clear();
