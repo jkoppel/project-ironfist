@@ -105,6 +105,7 @@ public:
   icon *missileIcon;
   sample *combatSounds[7];
   
+  void LoadResources();
   int FlyTo(int hex);
   int ValidFlight(int hex, int);
   int WalkTo(int hex);
@@ -274,6 +275,8 @@ public:
 extern combatManager* gpCombatManager;
 
 extern int gbNoShowCombat;
+
+void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 
 #pragma pack(pop)
 
