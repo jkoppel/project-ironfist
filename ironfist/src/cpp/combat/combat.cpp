@@ -19,6 +19,43 @@ extern signed char gbRetreatWin;
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
 
+char *gCombatFxNames[33] =
+{
+	"",
+	"magic01.icn",
+	"magic02.icn",
+	"magic03.icn",
+	"magic04.icn",
+	"magic05.icn",
+	"magic06.icn",
+	"magic07.icn",
+	"magic08.icn",
+	"rainbluk.icn",
+	"cloudluk.icn",
+	"moraleg.icn",
+	"moraleb.icn",
+	"reddeath.icn",
+	"redfire.icn",
+	"sparks.icn",
+	"electric.icn",
+	"physical.icn",
+	"bluefire.icn",
+	"icecloud.icn",
+	"lichclod.icn",
+	"bless.icn",
+	"berzerk.icn",
+	"shield.icn",
+	"haste.icn",
+	"paralyze.icn",
+	"hypnotiz.icn",
+	"dragslay.icn",
+	"blind.icn",
+	"curse.icn",
+	"stonskin.icn",
+	"stelskin.icn",
+	"plasmblast.icn"
+};
+
 int squaresAroundCaster[2][3] = {
 	{14,27,40},
 	{11,24,37}
@@ -558,7 +595,7 @@ void army::SpecialAttack() {
 			}
 		}
 		this->field_FA = 0;
-		animIdx = 20;
+		animIdx = 32;
 		a4 = gpCombatManager->combatGrid[target->occupiedHex].centerX;
 		a5 = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
 		gpSoundManager->MemorySample(combatSounds[5]);
