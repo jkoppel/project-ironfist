@@ -604,6 +604,7 @@ void army::LoadResources() {
 		gpResourceManager->ReadBlock((signed char*)&this->frameInfo, 821u);
 		ModifyFrameInfo(&this->frameInfo, (CREATURES)creatureID);
 		this->field_B2 = this->frameInfo.stepTime;
+
 		sprintf(gText, "%smove.82M", this->creature.short_name);
 		this->combatSounds[0] = gpResourceManager->GetSample(gText);
 		sprintf(gText, "%sattk.82M", this->creature.short_name);
@@ -629,8 +630,9 @@ void army::LoadResources() {
 				this->combatSounds[5] = gpResourceManager->GetSample(gText);
 			}
 		}
-
+		
 		this->creatureIcon = gpResourceManager->GetIcon(cMonFilename[creatureID]);
+
 		// Loading projectiles
 		if (this->creature.creature_flags & SHOOTER) {
 			switch (creatureID) {
@@ -671,6 +673,7 @@ void army::LoadResources() {
 			this->combatSounds[3] = 0;
 			this->missileIcon = 0;
 		}
+
 		for (int i = 0; i < 5; ++i) {
 			if (this->combatSounds[i]) {
 				this->combatSounds[i]->field_28 = 64;
