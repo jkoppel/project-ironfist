@@ -515,7 +515,7 @@ void army::SpecialAttack() {
 		a4 = gpCombatManager->combatGrid[possibleTarget].centerX;
 		a5 = gpCombatManager->combatGrid[possibleTarget].occupyingCreatureBottomY - 17;
 		gpSoundManager->MemorySample(combatSounds[5]);
-	} else if (this->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
+	} else if (CreatureHasAttribute(this->creatureIdx, PLASMA_BLAST)) {
 
 		int cyberBehemothAttackMask[] = {
 			-27,-26,-25,

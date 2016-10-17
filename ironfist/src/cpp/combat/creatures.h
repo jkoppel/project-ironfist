@@ -114,6 +114,7 @@ enum CREATURE_EVENT_CODE {
 };
 
 #define STRIKE_AND_RETURN "strike-and-return"
+#define PLASMA_BLAST "plasma-blast"
 
 struct tag_monsterInfo
 {
