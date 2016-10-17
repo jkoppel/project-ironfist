@@ -596,14 +596,13 @@ void army::SpecialAttack() {
 	}
 }
 
-void army::LoadResources()
-{
-	if (!gbNoShowCombat)
-	{
-		int formFileID = gpResourceManager->MakeId(cArmyFrameFileNames[this->creatureIdx], 1);
+void army::LoadResources() {
+	if (!gbNoShowCombat) {
+		int creatureID = this->creatureIdx;
+		int formFileID = gpResourceManager->MakeId(cArmyFrameFileNames[creatureID], 1);
 		gpResourceManager->PointToFile(formFileID);
 		gpResourceManager->ReadBlock((signed char*)&this->frameInfo, 821u);
-		ModifyFrameInfo(&this->frameInfo, (CREATURES)this->creatureIdx);
+		ModifyFrameInfo(&this->frameInfo, (CREATURES)creatureID);
 		this->field_B2 = this->frameInfo.stepTime;
 		sprintf(gText, "%smove.82M", this->creature.short_name);
 		this->combatSounds[0] = gpResourceManager->GetSample(gText);
@@ -613,80 +612,67 @@ void army::LoadResources()
 		this->combatSounds[2] = gpResourceManager->GetSample(gText);
 		sprintf(gText, "%skill.82M", this->creature.short_name);
 		this->combatSounds[4] = gpResourceManager->GetSample(gText);
-		if (this->creature.creature_flags & SHOOTER)
-		{
+		if (this->creature.creature_flags & SHOOTER) {
 			sprintf(gText, "%sshot.82M", this->creature.short_name);
 			this->combatSounds[3] = gpResourceManager->GetSample(gText);
 		}
-		if (this->creatureIdx == CREATURE_VAMPIRE || this->creatureIdx == CREATURE_VAMPIRE_LORD)
-		{
-			sprintf(gText, "%sext1.82M", this->creature.short_name);
-			this->combatSounds[5] = gpResourceManager->GetSample(gText);
-			sprintf(gText, "%sext2.82M", this->creature.short_name);
-			this->combatSounds[6] = gpResourceManager->GetSample(gText);
-		}
-		if (this->creatureIdx == CREATURE_LICH || this->creatureIdx == CREATURE_POWER_LICH)
-		{
-			sprintf(gText, "%sexpl.82M", this->creature.short_name);
-			this->combatSounds[5] = gpResourceManager->GetSample(gText);
-		}
-		this->creatureIcon = gpResourceManager->GetIcon(cMonFilename[this->creatureIdx]);
-		if (this->creature.creature_flags & SHOOTER)
-		{
-			if (this->creatureIdx != CREATURE_GIANT && this->creatureIdx != CREATURE_TITAN)
-			{
-				if (this->creatureIdx == CREATURE_HALFLING)
-				{
-					sprintf(gText, "halflmsl.icn");
-				}
-				else if (this->creatureIdx != CREATURE_ARCHER && this->creatureIdx != CREATURE_RANGER)
-				{
-					if (this->creatureIdx != CREATURE_LICH && this->creatureIdx != CREATURE_POWER_LICH)
-					{
-						if (this->creatureIdx != CREATURE_ORC && this->creatureIdx != CREATURE_ORC_CHIEF)
-						{
-							if (this->creatureIdx != CREATURE_DRUID && this->creatureIdx != CREATURE_GREATER_DRUID)
-							{
-								if (this->creatureIdx != CREATURE_TROLL && this->creatureIdx != CREATURE_WAR_TROLL)
-									sprintf(gText, "elf__msl.icn");
-								else
-									sprintf(gText, "trollmsl.icn");
-							}
-							else
-							{
-								sprintf(gText, "druidmsl.icn");
-							}
-						}
-						else
-						{
-							sprintf(gText, "orc__msl.icn");
-						}
-					}
-					else
-					{
-						sprintf(gText, "lich_msl.icn");
-					}
-				}
-				else
-				{
-					sprintf(gText, "arch_msl.icn");
-				}
+		switch (creatureID) {
+			case CREATURE_VAMPIRE: case CREATURE_VAMPIRE_LORD: {
+				sprintf(gText, "%sext1.82M", this->creature.short_name);
+				this->combatSounds[5] = gpResourceManager->GetSample(gText);
+				sprintf(gText, "%sext2.82M", this->creature.short_name);
+				this->combatSounds[6] = gpResourceManager->GetSample(gText);
+				break;
 			}
-			else
-			{
-				sprintf(gText, "titanmsl.icn");
+			case CREATURE_LICH: case CREATURE_POWER_LICH: {
+				sprintf(gText, "%sexpl.82M", this->creature.short_name);
+				this->combatSounds[5] = gpResourceManager->GetSample(gText);
+			}
+		}
+
+		this->creatureIcon = gpResourceManager->GetIcon(cMonFilename[creatureID]);
+		// Loading projectiles
+		if (this->creature.creature_flags & SHOOTER) {
+			switch (creatureID) {
+				case CREATURE_HALFLING: {
+					sprintf(gText, "halflmsl.icn");
+					break;
+				}
+				case CREATURE_GIANT: case CREATURE_TITAN: {
+					sprintf(gText, "titanmsl.icn");
+					break;
+				}
+				case CREATURE_ARCHER: case CREATURE_RANGER: {
+					sprintf(gText, "arch_msl.icn");
+					break;
+				}
+				case CREATURE_LICH: case CREATURE_POWER_LICH: {
+					sprintf(gText, "lich_msl.icn");
+					break;
+				}
+				case CREATURE_ORC: case CREATURE_ORC_CHIEF: {
+					sprintf(gText, "orc__msl.icn");
+					break;
+				}
+				case CREATURE_DRUID: case CREATURE_GREATER_DRUID: {
+					sprintf(gText, "druidmsl.icn");
+					break;
+				}
+				case CREATURE_TROLL: case CREATURE_WAR_TROLL: {
+					sprintf(gText, "trollmsl.icn");
+					break;
+				}
+				default: {
+					sprintf(gText, "elf__msl.icn");
+				}
 			}
 			this->missileIcon = gpResourceManager->GetIcon(gText);
-		}
-		else
-		{
+		} else {
 			this->combatSounds[3] = 0;
 			this->missileIcon = 0;
 		}
-		for (int i = 0; i < 5; ++i)
-		{
-			if (this->combatSounds[i])
-			{
+		for (int i = 0; i < 5; ++i) {
+			if (this->combatSounds[i]) {
 				this->combatSounds[i]->field_28 = 64;
 				this->combatSounds[i]->codeThing = 3;
 				this->combatSounds[i]->loopCount = 1;
