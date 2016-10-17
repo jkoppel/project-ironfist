@@ -664,6 +664,10 @@ void army::LoadResources() {
 					sprintf(gText, "trollmsl.icn");
 					break;
 				}
+				case CREATURE_CYBER_BEHEMOTH: {
+					sprintf(gText, "cbeh_msl.icn");
+					break;
+				}
 				default: {
 					sprintf(gText, "elf__msl.icn");
 				}
