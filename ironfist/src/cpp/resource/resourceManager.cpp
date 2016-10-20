@@ -155,13 +155,7 @@ font* resourceManager::GetFont(char* filename) {
 #ifndef EDITOR
 
 sample* resourceManager::GetSample(const std::string &filename) {
-	//converting to char*
-	char *charname = new char[filename.size() + 1];
-	std::copy(filename.begin(), filename.end(), charname);
-	charname[filename.size()] = '\0';
-	sample* samp = this->GetSample(charname);
-	delete[] charname;
-	return samp;
+	return this->GetSample((char*)filename.c_str());
 }
 
 sample* resourceManager::GetSample(char* filename) {
