@@ -287,16 +287,14 @@ void SpecialAttackBattleMessage(army *attacker, army *target, int creaturesKille
 	gpCombatManager->CombatMessage(gText, 1, 1, 0);
 }
 
-void OccupyHexes(army *a)
-{
+void OccupyHexes(army *a) {
 	if (a->facingRight == 1)
 		a->occupiedHex--;
 	else
 		a->occupiedHex++;
 }
 
-void ProcessSecondAttack(army *attacker, army *target)
-{
+void ProcessSecondAttack(army *attacker, army *target) {
 	if (!bSecondAttack && target->quantity > 0) {
 		bSecondAttack = 1;
 		attacker->SpecialAttack();
@@ -304,8 +302,7 @@ void ProcessSecondAttack(army *attacker, army *target)
 	}
 }
 
-void SpecialAttackGraphics(army *attacker, army *target)
-{
+void SpecialAttackGraphics(army *attacker, army *target) {
 	gpCombatManager->ResetLimitCreature();
 	gpCombatManager->limitCreature[attacker->owningSide][attacker->stackIdx]++;
 	gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
