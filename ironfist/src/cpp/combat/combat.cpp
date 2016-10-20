@@ -598,7 +598,7 @@ void army::SpecialAttack() {
 		animIdx = 32;
 		a4 = gpCombatManager->combatGrid[target->occupiedHex].centerX;
 		a5 = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
-		gpSoundManager->MemorySample(combatSounds[5]);
+		//gpSoundManager->MemorySample(combatSounds[5]);
 	} else {
 		this->DamageEnemy(target, &damageDone, &creaturesKilled, 1, 0);
 	}
