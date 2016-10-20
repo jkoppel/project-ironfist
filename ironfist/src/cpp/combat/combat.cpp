@@ -390,6 +390,12 @@ void SpecialAttackGraphics(army *attacker, army *target)
 		v27 = 10;
 		v18 = 10;
 	}
+	if (attacker->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
+		v27 = 100;
+		v18 = 100;
+		v35 = 31;
+		v22 = 25;
+	}
 	int v20 = 0;
 	int offsetX = 639;
 	int v15 = 0;
