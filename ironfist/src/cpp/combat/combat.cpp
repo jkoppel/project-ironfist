@@ -648,29 +648,22 @@ void army::LoadResources() {
 		ModifyFrameInfo(&this->frameInfo, (CREATURES)creatureID);
 		this->field_B2 = this->frameInfo.stepTime;
 
-		sprintf(gText, "%smove.82M", this->creature.short_name);
-		this->combatSounds[0] = gpResourceManager->GetSample(gText);
-		sprintf(gText, "%sattk.82M", this->creature.short_name);
-		this->combatSounds[1] = gpResourceManager->GetSample(gText);
-		sprintf(gText, "%swnce.82M", this->creature.short_name);
-		this->combatSounds[2] = gpResourceManager->GetSample(gText);
-		sprintf(gText, "%skill.82M", this->creature.short_name);
-		this->combatSounds[4] = gpResourceManager->GetSample(gText);
+		std::string shortName = this->creature.short_name;
+		this->combatSounds[0] = gpResourceManager->GetSample(shortName + "move.82M");
+		this->combatSounds[1] = gpResourceManager->GetSample(shortName + "attk.82M");
+		this->combatSounds[2] = gpResourceManager->GetSample(shortName + "wnce.82M");
+		this->combatSounds[4] = gpResourceManager->GetSample(shortName + "kill.82M");
 		if (this->creature.creature_flags & SHOOTER) {
-			sprintf(gText, "%sshot.82M", this->creature.short_name);
-			this->combatSounds[3] = gpResourceManager->GetSample(gText);
+			this->combatSounds[3] = gpResourceManager->GetSample(shortName + "shot.82M");
 		}
 		switch (creatureID) {
 			case CREATURE_VAMPIRE: case CREATURE_VAMPIRE_LORD: {
-				sprintf(gText, "%sext1.82M", this->creature.short_name);
-				this->combatSounds[5] = gpResourceManager->GetSample(gText);
-				sprintf(gText, "%sext2.82M", this->creature.short_name);
-				this->combatSounds[6] = gpResourceManager->GetSample(gText);
+				this->combatSounds[5] = gpResourceManager->GetSample(shortName + "ext1.82M");
+				this->combatSounds[6] = gpResourceManager->GetSample(shortName + "ext2.82M");
 				break;
 			}
 			case CREATURE_LICH: case CREATURE_POWER_LICH: {
-				sprintf(gText, "%sexpl.82M", this->creature.short_name);
-				this->combatSounds[5] = gpResourceManager->GetSample(gText);
+				this->combatSounds[5] = gpResourceManager->GetSample(shortName + "expl.82M");
 			}
 		}
 		
