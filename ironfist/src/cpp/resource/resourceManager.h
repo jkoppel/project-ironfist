@@ -1,6 +1,8 @@
 #ifndef LIFTED_RESOURCEMANAGER_H
 #define LIFTED_RESOURCEMANAGER_H
 
+#include <string>
+
 #include "resource/resources.h"
 #include "manager.h"
 #include "msg.h"
@@ -52,6 +54,7 @@ public:
   icon* GetIcon(unsigned long);
   tileset* GetTileset(char*);
   font* GetFont(char*);
+  sample* GetSample(const std::string &filename);
   sample* GetSample(char*);
   MIDIWrap* GetMIDIWrap(char*);
   void Dispose(resource*);
