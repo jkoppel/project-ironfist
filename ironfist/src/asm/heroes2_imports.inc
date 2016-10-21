@@ -117,9 +117,6 @@ IMPORT_?MakeId@resourceManager@@QAEKPADH@Z = 1
 IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
 
-;;icon
-IMPORT_?CombatClipDrawToBuffer@icon@@QAEHHHHPAUSLimitData@@HHPAEPAC@Z = 1
-
 ;;creatures
 
 IMPORT_?cArmyFrameFileNames@@3PAPADA = 1
