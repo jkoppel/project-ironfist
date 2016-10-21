@@ -2,7 +2,7 @@
 #define TIED_RESOURCE_H
 
 #include <winsock.h>
-
+#include "graphics.h"
 #pragma pack(push,1)
 
 #define MAX_FILENAME_LENGTH 13
@@ -65,6 +65,7 @@ public:
   icon(unsigned long);
   ~icon();
   void DrawToBuffer(int,int,int,int);
+  signed int CombatClipDrawToBuffer(int offsetX, int offsetY, int imageIdx, H2RECT *rect, int mirrored, int a11, char *paletteSubstitution, int a12);
 };
 
 class sample : public resource

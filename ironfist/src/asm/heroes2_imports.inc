@@ -117,6 +117,9 @@ IMPORT_?MakeId@resourceManager@@QAEKPADH@Z = 1
 IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
 
+;;icon
+IMPORT_?CombatClipDrawToBuffer@icon@@QAEHHHHPAUSLimitData@@HHPAEPAC@Z = 1
+
 ;;creatures
 
 IMPORT_?cArmyFrameFileNames@@3PAPADA = 1
@@ -165,6 +168,7 @@ IMPORT_?DoAttack@army@@QAEXH@Z = 1
 ?DoAttack@army@@QAEXH@Z_clone EQU ?DoAttack_orig@army@@QAEXH@Z
 IMPORT_?SpecialAttack@army@@QAEXXZ = 1
 ?SpecialAttack@army@@QAEXXZ_clone EQU ?SpecialAttack_orig@army@@QAEXXZ
+IMPORT_?PowEffect@army@@QAEXHHHH@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

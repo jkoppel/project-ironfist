@@ -129,6 +129,7 @@ public:
   void WaitSample(int);
   void CancelSpellType(int);
   int GetAdjacentCellIndex(int, int);
+  void ProcessDeath(int a2);
 };
 
 class combatManager : public baseManager
@@ -270,6 +271,8 @@ public:
   void ResetLimitCreature();
   void DoBolt(int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int);
   void ClearEffects();
+  void PowEffect(int,int,int,int);
+  void MakeCreaturesVanish();
 };
 
 extern combatManager* gpCombatManager;
