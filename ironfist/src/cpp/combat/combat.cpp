@@ -747,6 +747,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 	} else {
 		doCreatureEffect = true;
 	}
+
 	if (!gbNoShowCombat && animIdx != -1 && doCreatureEffect && animIdx != gCurLoadedSpellEffect) {
 		gpResourceManager->Dispose((resource *)gCurLoadedSpellIcon);
 		gCurLoadedSpellIcon = gpResourceManager->GetIcon(gCombatFxNames[animIdx]);
@@ -764,17 +765,15 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 		creatureEffectNumFrames = giNumPowFrames[gCurLoadedSpellEffect];
 
 	for (int i = 0; i < 2; i++)	{
-		for (int l = 0; gpCombatManager->numCreatures[i] > l; l++) {
-			army *othstack = &gpCombatManager->creatures[i][l];
-			if (gpCombatManager->creatures[i][l].mightBeIsAttacking) {
+		for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+			army *othstack = &gpCombatManager->creatures[i][j];
+			if (othstack->mightBeIsAttacking) {
 				toAnimLen = othstack->frameInfo.animationLengths[this->mightBeAttackAnimIdx];
 				fromAnimLen = othstack->frameInfo.animationLengths[this->mightBeAttackAnimIdx + 1] + 1;
-			} else if (gpCombatManager->creatures[i][l].dead) {
-				oneWayAnimLen = gpCombatManager->creatures[i][l].frameInfo.animationLengths[13];
-			} else if (gpCombatManager->creatures[i][l].damageTakenDuringSomeTimePeriod) {
-				oneWayAnimLen = gpCombatManager->creatures[i][l].frameInfo.animationLengths[15]
-					+ gpCombatManager->creatures[i][l].frameInfo.animationLengths[14]
-					+ 1;
+			} else if (othstack->dead) {
+				oneWayAnimLen = othstack->frameInfo.animationLengths[13];
+			} else if (othstack->damageTakenDuringSomeTimePeriod) {
+				oneWayAnimLen = othstack->frameInfo.animationLengths[15] + othstack->frameInfo.animationLengths[14] + 1;
 			}
 			if (maxToAnimLen <= toAnimLen)
 				maxToAnimLen = toAnimLen;
@@ -789,32 +788,30 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 		maxAnyCreatureAnimLen = maxFromAnimLen + maxToAnimLen;
 
 	int maxAnyCreatureAnimLena = maxOneWayAnimLen;
-	if (maxOneWayAnimLen <= maxAnyCreatureAnimLen)
+	if (maxAnyCreatureAnimLena <= maxAnyCreatureAnimLen)
 		maxAnyCreatureAnimLena = maxAnyCreatureAnimLen;
 
 	int maxAnimLen = creatureEffectNumFrames;
-	if (creatureEffectNumFrames <= maxAnyCreatureAnimLena)
+	if (maxAnimLen <= maxAnyCreatureAnimLena)
 		maxAnimLen = maxAnyCreatureAnimLena;
 	
 	if (a3)
 		gpCombatManager->ResetLimitCreature();
 
-	for (int m = 0; m < 2; m++) {
-		for (int n = 0; gpCombatManager->numCreatures[m] > n; n++) {
-			gpCombatManager->creatures[m][n].animatingRangedAttack = gpCombatManager->creatures[m][n].animationType == ANIMATION_TYPE_RANGED_ATTACK_UPWARDS
-				|| gpCombatManager->creatures[m][n].animationType == ANIMATION_TYPE_RANGED_ATTACK_FORWARDS
-				|| gpCombatManager->creatures[m][n].animationType == ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS;
-			if ((gpCombatManager->creatures[m][n].damageTakenDuringSomeTimePeriod
-				|| gpCombatManager->creatures[m][n].mightBeIsAttacking
-				|| gpCombatManager->creatures[m][n].animatingRangedAttack)
-				&& !gpCombatManager->limitCreature[m][n])
-				++gpCombatManager->limitCreature[m][n];
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+			army *creature = &gpCombatManager->creatures[i][j];
+			int animType = creature->animationType;
+			if(animType == ANIMATION_TYPE_RANGED_ATTACK_UPWARDS || animType == ANIMATION_TYPE_RANGED_ATTACK_FORWARDS || animType == ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS)
+				creature->animatingRangedAttack = true;
+			if ((creature->damageTakenDuringSomeTimePeriod || creature->mightBeIsAttacking || creature->animatingRangedAttack) && !gpCombatManager->limitCreature[i][j])
+				gpCombatManager->limitCreature[i][j]++;
 		}
 	}
 	gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
 	if (a4 != -1) {
-		for (int ii = 0; gCurLoadedSpellIcon->numSprites > ii; ii++) {
-			IconEntry *animICNHeader = &gCurLoadedSpellIcon->headersAndImageData[ii];
+		for (int i = 0; gCurLoadedSpellIcon->numSprites > i; i++) {
+			IconEntry *animICNHeader = &gCurLoadedSpellIcon->headersAndImageData[i];
 			giMinExtentX = a4 + animICNHeader->offsetX;
 			if (giMinExtentX >= giMinExtentX)
 				giMinExtentX = giMinExtentX;
@@ -837,110 +834,106 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 		if (giMaxExtentY >= 442)
 			giMaxExtentY = 442;
 	}
-	for (int jj = 0; jj < 2; jj++) {
-		for (int kk = 0; gpCombatManager->numCreatures[jj] > kk; kk++) {
-			army *thisc = &gpCombatManager->creatures[jj][kk];
-			gpCombatManager->creatures[jj][kk].field_3 = -1;
-			thisc->field_4 = -1;
-			thisc->effectStrengths[15] = 0;
-			if (thisc->damageTakenDuringSomeTimePeriod || thisc->mightBeIsAttacking) {
-				if (thisc->mightBeIsAttacking) {
-					thisc->field_3 = this->mightBeAttackAnimIdx;
-					thisc->field_4 = this->mightBeAttackAnimIdx + 1;
-				} else if (thisc->dead) {
-					thisc->field_3 = ANIMATION_TYPE_DYING;
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+			army *creature = &gpCombatManager->creatures[i][j];
+			creature->field_3 = -1;
+			creature->field_4 = -1;
+			creature->effectStrengths[15] = 0;
+			if (creature->damageTakenDuringSomeTimePeriod || creature->mightBeIsAttacking) {
+				if (creature->mightBeIsAttacking) {
+					creature->field_3 = this->mightBeAttackAnimIdx;
+					creature->field_4 = this->mightBeAttackAnimIdx + 1;
+				} else if (creature->dead) {
+					creature->field_3 = ANIMATION_TYPE_DYING;
 				} else {
-					thisc->field_3 = ANIMATION_TYPE_WINCE;
-					thisc->field_4 = ANIMATION_TYPE_WINCE_RETURN;
+					creature->field_3 = ANIMATION_TYPE_WINCE;
+					creature->field_4 = ANIMATION_TYPE_WINCE_RETURN;
 				}
-				if (thisc->field_3 == 13)
-					thisc->field_5 = thisc->frameInfo.animationLengths[13];
+				if (creature->field_3 == 13)
+					creature->field_5 = creature->frameInfo.animationLengths[13];
 				else
-					thisc->field_5 = thisc->frameInfo.animationLengths[thisc->field_3]
-					+ thisc->frameInfo.animationLengths[thisc->field_3 + 1];
-				if (thisc->field_3 == thisc->animationType)
-					--thisc->field_5;
+					creature->field_5 = creature->frameInfo.animationLengths[creature->field_3]
+					+ creature->frameInfo.animationLengths[creature->field_3 + 1];
+				if (creature->field_3 == creature->animationType)
+					--creature->field_5;
 				if (this->field_6 < 2)
 					this->field_6 = 2;
 			}
 		}
 	}
-	for (int ll = 0; maxAnimLen > ll; ll++) {
-		for (int mm = 0; mm < 2; mm++) {
-			for (int nn = 0; gpCombatManager->numCreatures[mm] > nn; nn++) {
-				army *thisd = &gpCombatManager->creatures[mm][nn];
-				if (gpCombatManager->creatures[mm][nn].animatingRangedAttack) {
-					if (gpCombatManager->creatures[mm][nn].animationType != ANIMATION_TYPE_RANGED_ATTACK_UPWARDS
-						&& gpCombatManager->creatures[mm][nn].animationType != ANIMATION_TYPE_RANGED_ATTACK_FORWARDS
-						&& gpCombatManager->creatures[mm][nn].animationType != ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS) {
-						if (gpCombatManager->creatures[mm][nn].animationType != ANIMATION_TYPE_STANDING) {
-							if (gpCombatManager->creatures[mm][nn].frameInfo.animationLengths[gpCombatManager->creatures[mm][nn].animationType] <= gpCombatManager->creatures[mm][nn].animationFrame + 1) {
-								gpCombatManager->creatures[mm][nn].animationType = ANIMATION_TYPE_STANDING;
-								thisd->animationFrame = 0;
+	for (int k = 0; maxAnimLen > k; k++) {
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+				army *creature = &gpCombatManager->creatures[i][j];
+				
+				if (creature->animatingRangedAttack) {
+					if (creature->animationType != ANIMATION_TYPE_RANGED_ATTACK_UPWARDS
+						&& creature->animationType != ANIMATION_TYPE_RANGED_ATTACK_FORWARDS
+						&& creature->animationType != ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS) {
+						if (creature->animationType != ANIMATION_TYPE_STANDING) {
+							if (creature->frameInfo.animationLengths[creature->animationType] <= creature->animationFrame + 1) {
+								creature->animationType = ANIMATION_TYPE_STANDING;
+								creature->animationFrame = 0;
 							} else {
-								++gpCombatManager->creatures[mm][nn].animationFrame;
+								++creature->animationFrame;
 							}
 						}
 					} else {
-						++gpCombatManager->creatures[mm][nn].animationType;
-						thisd->animationFrame = 0;
+						++creature->animationType;
+						creature->animationFrame = 0;
 					}
 				}
-				if (thisd->field_3 != -1
-					&& !thisd->effectStrengths[15]
-					&& (thisd->mightBeIsAttacking
-						|| thisd->field_5 >= maxAnimLen - ll - 1
-						|| maxToAnimLen && maxToAnimLen - 1 <= ll
+				if (creature->field_3 != -1
+					&& !creature->effectStrengths[15]
+					&& (creature->mightBeIsAttacking
+						|| creature->field_5 >= maxAnimLen - k - 1
+						|| maxToAnimLen && maxToAnimLen - 1 <= k
 						|| !maxToAnimLen
-						&& thisd->animationType != ANIMATION_TYPE_WINCE_RETURN
-						&& (thisd->animationType != ANIMATION_TYPE_WINCE
-							|| thisd->frameInfo.animationLengths[thisd->animationType] > thisd->animationFrame + 1))) {
-					if (thisd->field_3 == thisd->animationType || thisd->field_4 == thisd->animationType) {
-						if (thisd->frameInfo.animationLengths[thisd->animationType] <= thisd->animationFrame + 1) {
-							if (thisd->field_4 == thisd->animationType || thisd->field_4 == -1) {
-								if (thisd->animationType != ANIMATION_TYPE_STANDING && thisd->animationType != ANIMATION_TYPE_DYING) {
-									thisd->animationType = ANIMATION_TYPE_STANDING;
-									thisd->animationFrame = 0;
-									thisd->effectStrengths[15] = 1;
+						&& creature->animationType != ANIMATION_TYPE_WINCE_RETURN
+						&& (creature->animationType != ANIMATION_TYPE_WINCE
+							|| creature->frameInfo.animationLengths[creature->animationType] > creature->animationFrame + 1))) {
+					if (creature->field_3 == creature->animationType || creature->field_4 == creature->animationType) {
+						if (creature->frameInfo.animationLengths[creature->animationType] <= creature->animationFrame + 1) {
+							if (creature->field_4 == creature->animationType || creature->field_4 == -1) {
+								if (creature->animationType != ANIMATION_TYPE_STANDING && creature->animationType != ANIMATION_TYPE_DYING) {
+									creature->animationType = ANIMATION_TYPE_STANDING;
+									creature->animationFrame = 0;
+									creature->effectStrengths[15] = 1;
 								}
 							} else {
-								thisd->animationType = thisd->field_4;
-								thisd->animationFrame = 0;
+								creature->animationType = creature->field_4;
+								creature->animationFrame = 0;
 							}
 						} else {
-							++thisd->animationFrame;
+							creature->animationFrame++;
 						}
 					} else {
-						if (!gbNoShowCombat && thisd->field_3 == 14)
-							gpSoundManager->MemorySample(gpCombatManager->creatures[mm][nn].combatSounds[2]);
-						if (!gbNoShowCombat && thisd->field_3 == 13)
-							gpSoundManager->MemorySample(gpCombatManager->creatures[mm][nn].combatSounds[4]);
-						thisd->animationType = thisd->field_3;
-						thisd->animationFrame = 0;
+						if (!gbNoShowCombat && creature->field_3 == 14)
+							gpSoundManager->MemorySample(creature->combatSounds[2]);
+						if (!gbNoShowCombat && creature->field_3 == 13)
+							gpSoundManager->MemorySample(creature->combatSounds[4]);
+						creature->animationType = creature->field_3;
+						creature->animationFrame = 0;
 					}
 				}
 			}
 		}
 		glTimers = (signed __int64)((double)KBTickCount() + (double)120 * gfCombatSpeedMod[giCombatSpeed]);
-		if (doCreatureEffect && giNumPowFrames[gCurLoadedSpellEffect] > ll)
-			gCurSpellEffectFrame = ll;
+		if (doCreatureEffect && giNumPowFrames[gCurLoadedSpellEffect] > k)
+			gCurSpellEffectFrame = k;
 		gpCombatManager->DrawFrame(0, 1, 0, 0, 75, 1, 1);
-		if (a4 != -1 && giNumPowFrames[gCurLoadedSpellEffect] > ll)
+		if (a4 != -1 && giNumPowFrames[gCurLoadedSpellEffect] > k)
 			gCurLoadedSpellIcon->CombatClipDrawToBuffer(a4,	a5 + this->field_FA, gCurSpellEffectFrame, &this->effectAnimationBounds, 0, 0, 0, 0);
 		gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
 	}
-	for (int i1 = 0; i1 < 2; i1++) {
-		for (int i2 = 0; gpCombatManager->numCreatures[i1] > i2; i2++) {
-			army *thise = &gpCombatManager->creatures[i1][i2];
-			if (gpCombatManager->creatures[i1][i2].damageTakenDuringSomeTimePeriod
-				&& gpCombatManager->creatures[i1][i2].spellEnemyCreatureAbilityIsCasting != -1
-				&& gpCombatManager->creatures[i1][i2].spellEnemyCreatureAbilityIsCasting != 101) {
-				gpCombatManager->CastSpell(
-					(Spell)gpCombatManager->creatures[i1][i2].spellEnemyCreatureAbilityIsCasting,
-					gpCombatManager->creatures[i1][i2].occupiedHex,
-					1,
-					-1);
-				thise->spellEnemyCreatureAbilityIsCasting = -1;
+
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+			army *creature = &gpCombatManager->creatures[i][j];
+			if (creature->damageTakenDuringSomeTimePeriod && creature->spellEnemyCreatureAbilityIsCasting != -1 && creature->spellEnemyCreatureAbilityIsCasting != 101) {
+				gpCombatManager->CastSpell((Spell)creature->spellEnemyCreatureAbilityIsCasting, creature->occupiedHex, 1, -1);
+				creature->spellEnemyCreatureAbilityIsCasting = -1;
 			}
 		}
 	}
@@ -949,43 +942,44 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 	while (v41)
 	{
 		v41 = false;
-		for (int i3 = 0; i3 < 2; i3++) {
-			for (int i4 = 0; gpCombatManager->numCreatures[i3] > i4; i4++) {
-				army *thisf = &gpCombatManager->creatures[i3][i4];
-				if (gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_WINCE
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_MELEE_ATTACK_UPWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_MELEE_ATTACK_FORWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_TWO_HEX_ATTACK_UPWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_TWO_HEX_ATTACK_FORWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_TWO_HEX_ATTACK_DOWNWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_RANGED_ATTACK_UPWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_RANGED_ATTACK_FORWARDS
-					&& gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS) {
-					if (gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_DYING
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_WINCE_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_TWO_HEX_ATTACK_UPWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_TWO_HEX_ATTACK_FORWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_TWO_HEX_ATTACK_DOWNWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_RANGED_ATTACK_UPWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_RANGED_ATTACK_FORWARDS_RETURN
-						|| gpCombatManager->creatures[i3][i4].animationType == ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS_RETURN) {
-						if (gpCombatManager->creatures[i3][i4].frameInfo.animationLengths[gpCombatManager->creatures[i3][i4].animationType] <= gpCombatManager->creatures[i3][i4].animationFrame + 1) {
-							if (gpCombatManager->creatures[i3][i4].animationType != ANIMATION_TYPE_DYING) {
-								gpCombatManager->creatures[i3][i4].animationType = ANIMATION_TYPE_STANDING;
+		for (int i = 0; i < 2; i++) {
+			for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+				army *thisf = &gpCombatManager->creatures[i][j];
+				int animType = thisf->animationType;
+				if (animType != ANIMATION_TYPE_WINCE
+					&& animType != ANIMATION_TYPE_MELEE_ATTACK_UPWARDS
+					&& animType != ANIMATION_TYPE_MELEE_ATTACK_FORWARDS
+					&& animType != ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS
+					&& animType != ANIMATION_TYPE_TWO_HEX_ATTACK_UPWARDS
+					&& animType != ANIMATION_TYPE_TWO_HEX_ATTACK_FORWARDS
+					&& animType != ANIMATION_TYPE_TWO_HEX_ATTACK_DOWNWARDS
+					&& animType != ANIMATION_TYPE_RANGED_ATTACK_UPWARDS
+					&& animType != ANIMATION_TYPE_RANGED_ATTACK_FORWARDS
+					&& animType != ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS) {
+					if (animType == ANIMATION_TYPE_DYING
+						|| animType == ANIMATION_TYPE_WINCE_RETURN
+						|| animType == ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN
+						|| animType == ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN
+						|| animType == ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN
+						|| animType == ANIMATION_TYPE_TWO_HEX_ATTACK_UPWARDS_RETURN
+						|| animType == ANIMATION_TYPE_TWO_HEX_ATTACK_FORWARDS_RETURN
+						|| animType == ANIMATION_TYPE_TWO_HEX_ATTACK_DOWNWARDS_RETURN
+						|| animType == ANIMATION_TYPE_RANGED_ATTACK_UPWARDS_RETURN
+						|| animType == ANIMATION_TYPE_RANGED_ATTACK_FORWARDS_RETURN
+						|| animType == ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS_RETURN) {
+						if (thisf->frameInfo.animationLengths[animType] <= thisf->animationFrame + 1) {
+							if (animType != ANIMATION_TYPE_DYING) {
+								thisf->animationType = ANIMATION_TYPE_STANDING;
 								thisf->animationFrame = 0;
 								v41 = true;
 							}
 						} else {
-							++gpCombatManager->creatures[i3][i4].animationFrame;
+							thisf->animationFrame++;
 							v41 = true;
 						}
 					}
 				} else {
-					++gpCombatManager->creatures[i3][i4].animationType;
+					thisf->animationType++;
 					thisf->animationFrame = 0;
 					v41 = true;
 				}
@@ -1000,32 +994,27 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 		gpCombatManager->ResetLimitCreature();
 	memset(gpCombatManager->shouldVanish, 0, 0x28u);
 	gpCombatManager->anyStacksShouldVanish = 0;
-	for (int i5 = 0; i5 < 2; i5++) {
-		for (int i6 = 0; gpCombatManager->numCreatures[i5] > i6; i6++) {
-			if (gpCombatManager->creatures[i5][i6].dead)
-				gpCombatManager->creatures[i5][i6].ProcessDeath(0);
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+			if (gpCombatManager->creatures[i][j].dead)
+				gpCombatManager->creatures[i][j].ProcessDeath(0);
 		}
 	}
 	if (gpCombatManager->anyStacksShouldVanish)
 		gpCombatManager->MakeCreaturesVanish();
-	for (int i7 = 0; i7 < 2; i7++) {
-		for (int i8 = 0; gpCombatManager->numCreatures[i7] > i8; i8++) {
-			army *thisg = &gpCombatManager->creatures[i7][i8];
-			if (gpCombatManager->creatures[i7][i8].damageTakenDuringSomeTimePeriod
-				&& gpCombatManager->creatures[i7][i8].spellEnemyCreatureAbilityIsCasting == 101) {
-				gpCombatManager->CastSpell(
-					(Spell)gpCombatManager->creatures[i7][i8].spellEnemyCreatureAbilityIsCasting,
-					gpCombatManager->creatures[i7][i8].occupiedHex,
-					1,
-					-1);
-				thisg->spellEnemyCreatureAbilityIsCasting = -1;
+	for (int i = 0; i < 2; i++) {
+		for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
+			army *creature = &gpCombatManager->creatures[i][j];
+			if (creature->damageTakenDuringSomeTimePeriod && creature->spellEnemyCreatureAbilityIsCasting == 101) {
+				gpCombatManager->CastSpell((Spell)creature->spellEnemyCreatureAbilityIsCasting, creature->occupiedHex, 1, -1);
+				creature->spellEnemyCreatureAbilityIsCasting = -1;
 			}
-			thisg->probablyIsNeedDrawSpellEffect = 0;
-			thisg->damageTakenDuringSomeTimePeriod = 0;
-			thisg->hasTakenLosses = 0;
-			thisg->field_6 = 1;
-			thisg->mightBeIsAttacking = 0;
-			thisg->previousQuantity = -1;
+			creature->probablyIsNeedDrawSpellEffect = 0;
+			creature->damageTakenDuringSomeTimePeriod = 0;
+			creature->hasTakenLosses = 0;
+			creature->field_6 = 1;
+			creature->mightBeIsAttacking = 0;
+			creature->previousQuantity = -1;
 		}
 	}
 	gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
