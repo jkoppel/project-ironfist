@@ -154,6 +154,7 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 
 ;;combat
 IMPORT_?gCombatFxNames@@3PAPADA = 1
+IMPORT_?giNumPowFrames@@3PAEA = 1
 IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1
 ?InitNonVisualVars@combatManager@@QAEXXZ_clone EQU ?InitNonVisualVars_orig@combatManager@@QAEXXZ
 IMPORT_?LoadResources@army@@QAEXXZ = 1

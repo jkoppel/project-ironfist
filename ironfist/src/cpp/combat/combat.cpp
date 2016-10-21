@@ -19,9 +19,46 @@ extern signed char gbRetreatWin;
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
 extern icon *gCurLoadedSpellIcon;
-extern unsigned __int8 giNumPowFrames[32];
+
 extern int gCurSpellEffectFrame;
 extern int gCurLoadedSpellEffect;
+
+unsigned __int8 giNumPowFrames[33] =
+{
+	10u,
+	10u,
+	10u,
+	10u,
+	10u,
+	10u,
+	10u,
+	10u,
+	10u,
+	8u,
+	8u,
+	10u,
+	10u,
+	10u,
+	10u,
+	15u,
+	10u,
+	10u,
+	10u,
+	10u,
+	10u,
+	16u,
+	16u,
+	14u,
+	19u,
+	22u,
+	10u,
+	17u,
+	10u,
+	12u,
+	11u,
+	16u,
+	7u
+};
 
 char *gCombatFxNames[33] =
 {
