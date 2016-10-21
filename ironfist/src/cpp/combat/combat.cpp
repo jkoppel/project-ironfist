@@ -759,7 +759,6 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 	int maxOneWayAnimLen = 0;
 	int maxFromAnimLen = 0;
 	int maxToAnimLen = 0;
-	int maxAnimLen;
 	int creatureEffectNumFrames = 0;
 	if (doCreatureEffect)
 		creatureEffectNumFrames = giNumPowFrames[gCurLoadedSpellEffect];
@@ -777,34 +776,29 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 					+ gpCombatManager->creatures[i][l].frameInfo.animationLengths[14]
 					+ 1;
 			}
-			int tmp = maxToAnimLen;
 			if (maxToAnimLen <= toAnimLen)
-				tmp = toAnimLen;
-			maxToAnimLen = tmp;
-			tmp = maxFromAnimLen;
+				maxToAnimLen = toAnimLen;
 			if (maxFromAnimLen <= fromAnimLen)
-				tmp = fromAnimLen;
-			maxFromAnimLen = tmp;
-			tmp = maxOneWayAnimLen;
+				maxFromAnimLen = fromAnimLen;
 			if (maxOneWayAnimLen <= oneWayAnimLen)
-				tmp = oneWayAnimLen;
-			maxOneWayAnimLen = tmp;
+				maxOneWayAnimLen = oneWayAnimLen;
 		}
 	}
-	int tmp = maxOneWayAnimLen + maxToAnimLen - specialCaseOverlapWeirdness;
-	if (tmp <= maxFromAnimLen + maxToAnimLen)
-		tmp = maxFromAnimLen + maxToAnimLen;
-	int maxAnyCreatureAnimLen = tmp;
-	tmp = maxOneWayAnimLen;
+	int maxAnyCreatureAnimLen = maxOneWayAnimLen + maxToAnimLen - specialCaseOverlapWeirdness;
+	if (maxAnyCreatureAnimLen <= maxFromAnimLen + maxToAnimLen)
+		maxAnyCreatureAnimLen = maxFromAnimLen + maxToAnimLen;
+
+	int maxAnyCreatureAnimLena = maxOneWayAnimLen;
 	if (maxOneWayAnimLen <= maxAnyCreatureAnimLen)
-		tmp = maxAnyCreatureAnimLen;
-	int maxAnyCreatureAnimLena = tmp;
-	tmp = creatureEffectNumFrames;
+		maxAnyCreatureAnimLena = maxAnyCreatureAnimLen;
+
+	int maxAnimLen = creatureEffectNumFrames;
 	if (creatureEffectNumFrames <= maxAnyCreatureAnimLena)
-		tmp = maxAnyCreatureAnimLena;
-	maxAnimLen = tmp;
+		maxAnimLen = maxAnyCreatureAnimLena;
+	
 	if (a3)
 		gpCombatManager->ResetLimitCreature();
+
 	for (int m = 0; m < 2; m++) {
 		for (int n = 0; gpCombatManager->numCreatures[m] > n; n++) {
 			gpCombatManager->creatures[m][n].animatingRangedAttack = gpCombatManager->creatures[m][n].animationType == ANIMATION_TYPE_RANGED_ATTACK_UPWARDS
@@ -821,39 +815,27 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 	if (a4 != -1) {
 		for (int ii = 0; gCurLoadedSpellIcon->numSprites > ii; ii++) {
 			IconEntry *animICNHeader = &gCurLoadedSpellIcon->headersAndImageData[ii];
-			int v11 = a4 + animICNHeader->offsetX;
-			if (v11 >= giMinExtentX)
-				v11 = giMinExtentX;
-			giMinExtentX = v11;
-			int v12 = a5 + animICNHeader->offsetY;
-			if (v12 >= giMinExtentY)
-				v12 = giMinExtentY;
-			giMinExtentY = v12;
-			int v13 = a4 + animICNHeader->offsetX + animICNHeader->width - 1;
-			if (v13 <= giMaxExtentX)
-				v13 = giMaxExtentX;
-			giMaxExtentX = v13;
-			int v14 = a5 + animICNHeader->height + animICNHeader->offsetY - 1;
-			if (v14 <= giMaxExtentY)
-				v14 = giMaxExtentY;
-			giMaxExtentY = v14;
+			giMinExtentX = a4 + animICNHeader->offsetX;
+			if (giMinExtentX >= giMinExtentX)
+				giMinExtentX = giMinExtentX;
+			giMinExtentY = a5 + animICNHeader->offsetY;
+			if (giMinExtentY >= giMinExtentY)
+				giMinExtentY = giMinExtentY;
+			giMaxExtentX = a4 + animICNHeader->offsetX + animICNHeader->width - 1;
+			if (giMaxExtentX <= giMaxExtentX)
+				giMaxExtentX = giMaxExtentX;
+			giMaxExtentY = a5 + animICNHeader->height + animICNHeader->offsetY - 1;
+			if (giMaxExtentY <= giMaxExtentY)
+				giMaxExtentY = giMaxExtentY;
 		}
-		int v15 = giMinExtentX;
 		if (giMinExtentX <= 0)
-			v15 = 0;
-		giMinExtentX = v15;
-		int v16 = giMinExtentY;
+			giMinExtentX = 0;
 		if (giMinExtentY <= 0)
-			v16 = 0;
-		giMinExtentY = v16;
-		int v17 = giMaxExtentX;
+			giMinExtentY = 0;
 		if (giMaxExtentX >= 639)
-			v17 = 639;
-		giMaxExtentX = v17;
-		int v18 = giMaxExtentY;
+			giMaxExtentX = 639;
 		if (giMaxExtentY >= 442)
-			v18 = 442;
-		giMaxExtentY = v18;
+			giMaxExtentY = 442;
 	}
 	for (int jj = 0; jj < 2; jj++) {
 		for (int kk = 0; gpCombatManager->numCreatures[jj] > kk; kk++) {
