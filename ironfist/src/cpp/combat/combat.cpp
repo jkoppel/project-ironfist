@@ -452,7 +452,14 @@ void SpecialAttackGraphics(army *attacker, army *target) {
 	int diffY = endY - startY;
 	int distance = (signed __int64)sqrt((double)(diffY * diffY + diffX * diffX));
 	int v52 = (distance + (v35 / 2)) / v35;
-	if (attacker->creatureIdx != CREATURE_MAGE && attacker->creatureIdx != CREATURE_ARCHMAGE) {
+
+	if (attacker->creatureIdx == CREATURE_MAGE || attacker->creatureIdx == CREATURE_ARCHMAGE) {
+		gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
+		DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 115.0));
+		gpCombatManager->DoBolt(1, startX, startY, endX, endY, 0, 0, 5, 4, 302, 0, 0, distance / 15 + 15, 1, 0, 10, 0);
+	} else if (attacker->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
+		gpCombatManager->ArcShot(attacker->missileIcon, attacker->MidX(), attacker->MidY(), endX, endY);
+	} else {	
 		int v37;
 		int v43;
 		if (v52 <= 1) {
