@@ -1,6 +1,8 @@
 #ifndef COMBAT_MANAGER_H
 #define COMBAT_MANAGER_H
 
+#include <string>
+
 #include "gui/gui.h"
 #include "graphics.h"
 #include "manager.h"
@@ -273,6 +275,7 @@ public:
   void ClearEffects();
   void PowEffect(int,int,int,int);
   void MakeCreaturesVanish();
+  void ArcShot(icon *icn, int fromX, int fromY, int targX, int targY);
 };
 
 extern combatManager* gpCombatManager;

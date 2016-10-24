@@ -534,11 +534,7 @@ void SpecialAttackGraphics(army *attacker, army *target) {
 		gpWindowManager->UpdateScreenRegion(v59 - v27, v53 - v18, 2 * v27, 2 * v18);
 		if (from)
 			from->~bitmap();
-	} else {
-		gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
-		DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 115.0));
-		gpCombatManager->DoBolt(1, startX, startY, endX, endY, 0, 0, 5, 4, 302, 0, 0, distance / 15 + 15, 1, 0, 10, 0);
-	}
+	}		
 }
 
 void army::SpecialAttack() {
@@ -1057,4 +1053,62 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 		}
 	}
 	gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+}
+
+void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targY)
+{
+	float boulderX = fromX;
+	float boulderY = fromY;
+	float v33 = (double)((targX + 84) / 2);
+	float v32 = (double)targY - (double)(targX - 84) * 0.3 - (double)targY * 0.35;
+	float stepX = (v33 - (double)84) / 12.5;
+	float stepY = (v32 - (double)304) / 78.0;
+	int oldX = -1;
+	int oldY = -1;
+	int imageIdx = 0; // changes projectile sprite when it changes vertical direction
+	giMinExtentX = 0;
+	giMaxExtentX = 160;
+	giMinExtentY = 263;
+	giMaxExtentY = 413;
+	for (int i = 0; i < 25; i++) {
+		if (i == 12)
+			stepY = (v32 - (double)targY) / 78.0;
+		if (i) {
+			int projWidth = icn->headersAndImageData->width;
+			int projHeight = icn->headersAndImageData->height;
+			giMinExtentX = oldX - projWidth;
+			giMaxExtentX = (signed __int64)(boulderX + projWidth);
+			giMinExtentY = (signed __int64)(boulderY - projHeight);
+			giMaxExtentY = (signed __int64)(boulderY + projHeight);
+
+			if ((double)oldY >= boulderY)
+				giMaxExtentY = oldY + projHeight;
+			else
+				giMinExtentY = oldY - projHeight;
+			if (i <= 6)	{
+				giMinExtentX = 0;
+				giMaxExtentY = 413;
+			}
+			if (giMinExtentX < 0)
+				giMinExtentX = 0;
+			if (giMinExtentY < 0)
+				giMinExtentY = 0;
+			if (giMaxExtentX > 639)
+				giMaxExtentX = 639;
+			if (giMaxExtentY > 442)
+				giMaxExtentY = 442;
+			if (giMaxExtentY < 1)
+				giMaxExtentY = 1;
+		}
+		this->DrawFrame(0, 0, 1, 0, 63, 1, 1); // Re-render everything behind boulder
+		H2RECT rect; // unused
+		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, &rect, 0, 0, 0, 0);
+		gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
+		oldX = (int)boulderX;
+		oldY = (int)boulderY;
+		boulderX += stepX;
+		boulderY += (double)(12 - i) * stepY;
+		//imageIdx++;
+	}
+	this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 }
