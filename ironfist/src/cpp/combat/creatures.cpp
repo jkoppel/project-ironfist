@@ -41,7 +41,7 @@ char *gArmyNames[MAX_CREATURES];
 char *gArmyNamesPlural[MAX_CREATURES];
 int gMonRandBound[MAX_CREATURES][2];
 int gMonSecondaryResourceCost[MAX_CREATURES][NUM_SECONDARY_RESOURCES];
-
+char *cArmyProjectileFileNames[MAX_CREATURES];
 
 struct attributeNameTableEntry{char* name; int flag;};
 
@@ -125,6 +125,7 @@ void LoadCreatures() {
 				cArmyFrameFileNames[id] = strdup(c.frm().c_str());
 				gArmyNames[id] = strdup(c.name_singular().c_str());
 				gArmyNamesPlural[id] = strdup(c.name_plural().c_str());
+				cArmyProjectileFileNames[id] = strdup(c.projectile().c_str());
 				gMonRandBound[id][0] = c.random_spawn().begin()->minimum();
 				gMonRandBound[id][1] = c.random_spawn().begin()->maximum();
 

@@ -38,6 +38,7 @@
     <xs:attribute name="name-plural" type="xs:string" use="required"/>
     <xs:attribute name="icn" type="xs:string" use="required"/>
     <xs:attribute name="frm" type="xs:string" use="required"/>
+    <xs:attribute name="projectile" type="xs:string" use="required"/>
     <xs:attribute name="cost" type="xs:int" use="required"/>
     <xs:attribute name="fight-value" type="xs:int" use="required"/>
     <xs:attribute name="fight-value-aux" type="xs:int" use="required"/>

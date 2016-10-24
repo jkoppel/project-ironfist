@@ -18,6 +18,7 @@ extern signed char gbCombatSurrender;
 extern signed char gbRetreatWin;
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
+extern char *cArmyProjectileFileNames[]; // it's inside creature.cpp
 extern icon *gCurLoadedSpellIcon;
 
 extern int gCurSpellEffectFrame;
@@ -712,44 +713,10 @@ void army::LoadResources() {
 
 		// Loading projectiles
 		if (this->creature.creature_flags & SHOOTER) {
-			switch (creatureID) {
-				case CREATURE_HALFLING: {
-					sprintf(gText, "halflmsl.icn");
-					break;
-				}
-				case CREATURE_GIANT: case CREATURE_TITAN: {
-					sprintf(gText, "titanmsl.icn");
-					break;
-				}
-				case CREATURE_ARCHER: case CREATURE_RANGER: {
-					sprintf(gText, "arch_msl.icn");
-					break;
-				}
-				case CREATURE_LICH: case CREATURE_POWER_LICH: {
-					sprintf(gText, "lich_msl.icn");
-					break;
-				}
-				case CREATURE_ORC: case CREATURE_ORC_CHIEF: {
-					sprintf(gText, "orc__msl.icn");
-					break;
-				}
-				case CREATURE_DRUID: case CREATURE_GREATER_DRUID: {
-					sprintf(gText, "druidmsl.icn");
-					break;
-				}
-				case CREATURE_TROLL: case CREATURE_WAR_TROLL: {
-					sprintf(gText, "trollmsl.icn");
-					break;
-				}
-				case CREATURE_CYBER_BEHEMOTH: {
-					sprintf(gText, "cbeh_msl.icn");
-					break;
-				}
-				default: {
-					sprintf(gText, "elf__msl.icn");
-				}
-			}
-			this->missileIcon = gpResourceManager->GetIcon(gText);
+			if(!cArmyProjectileFileNames[creatureID])
+				this->missileIcon = gpResourceManager->GetIcon("elf__msl.icn");
+			else
+				this->missileIcon = gpResourceManager->GetIcon(cArmyProjectileFileNames[creatureID]);
 		} else {
 			this->combatSounds[3] = 0;
 			this->missileIcon = 0;

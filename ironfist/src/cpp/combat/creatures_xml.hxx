@@ -712,6 +712,23 @@ class creature_t: public ::xml_schema::type
   void
   frm (::std::auto_ptr< frm_type > p);
 
+  // projectile
+  // 
+  typedef ::xml_schema::string projectile_type;
+  typedef ::xsd::cxx::tree::traits< projectile_type, char > projectile_traits;
+
+  const projectile_type&
+  projectile () const;
+
+  projectile_type&
+  projectile ();
+
+  void
+  projectile (const projectile_type& x);
+
+  void
+  projectile (::std::auto_ptr< projectile_type > p);
+
   // cost
   // 
   typedef ::xml_schema::int_ cost_type;
@@ -876,6 +893,7 @@ class creature_t: public ::xml_schema::type
               const name_plural_type&,
               const icn_type&,
               const frm_type&,
+              const projectile_type&,
               const cost_type&,
               const fight_value_type&,
               const fight_value_aux_type&,
@@ -920,6 +938,7 @@ class creature_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< name_plural_type > name_plural_;
   ::xsd::cxx::tree::one< icn_type > icn_;
   ::xsd::cxx::tree::one< frm_type > frm_;
+  ::xsd::cxx::tree::one< projectile_type > projectile_;
   ::xsd::cxx::tree::one< cost_type > cost_;
   ::xsd::cxx::tree::one< fight_value_type > fight_value_;
   ::xsd::cxx::tree::one< fight_value_aux_type > fight_value_aux_;
