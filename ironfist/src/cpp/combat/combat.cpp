@@ -841,6 +841,8 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 			int animType = creature->animationType;
 			if(animType == ANIMATION_TYPE_RANGED_ATTACK_UPWARDS || animType == ANIMATION_TYPE_RANGED_ATTACK_FORWARDS || animType == ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS)
 				creature->animatingRangedAttack = true;
+			else
+				creature->animatingRangedAttack = false;
 			if ((creature->damageTakenDuringSomeTimePeriod || creature->mightBeIsAttacking || creature->animatingRangedAttack) && !gpCombatManager->limitCreature[i][j])
 				gpCombatManager->limitCreature[i][j]++;
 		}
