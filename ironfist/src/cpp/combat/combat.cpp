@@ -1033,7 +1033,7 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 {
 	float boulderX = fromX;
 	float boulderY = fromY;
-	float amplitude = 0.0641;
+	float amplitude = 0.01282;
 	float v33 = (double)((targX + 84) / 2);
 	if (fromX > targX)
 		v33 = -v33;
