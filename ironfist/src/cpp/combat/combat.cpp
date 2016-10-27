@@ -1034,12 +1034,12 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 	float boulderX = fromX;
 	float boulderY = fromY;
 	float amplitude = 0.01282;
-	float v33 = (double)((targX + 84) / 2);
+	float v33 = (double)((targX + fromX) / 2.);
 	if (fromX > targX)
 		v33 = -v33;
-	float stepX = (v33 - (double)84) / 12.5;
-	float v32 = (double)targY - (double)(targX - 84) * 0.3 - (double)targY * 0.35;
-	float stepY = (v32 - (double)304) * amplitude;
+	float stepX = (v33 - (double)fromX) / 12.5;
+	float v32 = (double)targY - (double)(targX - fromX) * 0.3 - (double)targY * 0.35;
+	float stepY = (v32 - (double)fromY) * amplitude;
 	int oldX = -1;
 	int oldY = -1;
 	int imageIdx = 0; // changes projectile sprite when it changes vertical direction
