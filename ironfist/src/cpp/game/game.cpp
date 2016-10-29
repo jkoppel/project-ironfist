@@ -83,7 +83,7 @@ void game::PerDay() {
 void game::ResetIronfistGameState() {
     for (int i = 0; i < NUM_PLAYERS; i++) {
         for (int j = 0; j < NUM_PLAYERS; j++) {
-            this->sharePlayerVision[i][j] = 0;
+            this->sharePlayerVision[i][j] = false;
         }
     }
 }
