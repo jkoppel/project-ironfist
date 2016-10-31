@@ -302,6 +302,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 	if(newGame) {
 		this->SetupOrigData();
 
+		gpGame->ResetIronfistGameState();
+
 		for(int i = 0; i < MAX_HEROES; i++) {
 			//SetupOrigData clears out spellsLearned. Of course, we've changed
 			//spellsLearned from an array to a pointer, so that actually NULLs it out
