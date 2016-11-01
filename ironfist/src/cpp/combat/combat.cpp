@@ -376,7 +376,7 @@ void SpecialAttackGraphics(army *attacker, army *target) {
 		angleDeg = atan(slope) * 180.0 / 3.14159;
 		int i;
 		for (i = 1;	attacker->frameInfo.numMissileDirs > i &&
-			(*(float *)((char *)&attacker->frameInfo.projectileStartOffset[2 * i + 4] + 1) +
+			(*(float *)((char *)&attacker->frameInfo.projectileStartOffset[i + 2] + 1) +
 				attacker->frameInfo.projDirAngle[i]) / 2.0 >= angleDeg;	++i)
 			;
 		if (attacker->frameInfo.numMissileDirs <= i)
