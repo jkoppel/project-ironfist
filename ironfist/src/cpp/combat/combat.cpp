@@ -1045,21 +1045,29 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 	float stepY = (v32 - (double)fromY) * amplitude;
 	int oldX = -1;
 	int oldY = -1;
-	int imageIdx = 0; // changes projectile sprite when it changes angle
+	int imageIdx = 0; // changes the sprite when its angle changes
+
+	// temporarily save the screen so we can clear it from the projectile sprite later
+	bitmap *savedscreen = new bitmap(0, 640, 480);
+	gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, 640, 480);
+
 	for (int i = 0; i < 25; i++) {
 		if (i == 12)
 			stepY = (v32 - (double)targY) * amplitude;
-		int delay = 63;
-		this->DrawFrame(1, 0, 0, 0, delay, 1, 1); // clear the screen from the previous boulder sprite
-		H2RECT rect; // unused
-		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, &rect, firingLeft, 0, 0, 0);
+		if (i == 7 || i == 16) // changes the sprite of projectile
+			imageIdx++;
+
+		savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, 640, 480); // clear the screen from the previous projectile sprite
+		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, NULL, firingLeft, 0, 0, 0);
 		gpWindowManager->UpdateScreenRegion(0, 0, 640, 480);
+		
 		oldX = (int)boulderX;
 		oldY = (int)boulderY;
 		boulderX += stepX;
 		boulderY += (double)(12 - i) * stepY;
-		if(i == 7 || i == 16) // changes the sprite of projectile
-			imageIdx++;
+		
+		glTimers = (signed __int64)((double)KBTickCount() + (double)40 * gfCombatSpeedMod[giCombatSpeed]);
+		DelayTil(&glTimers);
 	}
-	this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+	delete savedscreen;
 }

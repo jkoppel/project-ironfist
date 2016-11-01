@@ -44,6 +44,7 @@ public:
   void GrabBitmapCareful(bitmap *, short, short);
   void DrawToBufferCareful(short, short);
   void DrawToBuffer(short, short);
+  void CopyTo(bitmap *buf, int xTarg, int yTarg, int xFrom, int yFrom, int width, int height);
 };
 
 struct IconEntry
