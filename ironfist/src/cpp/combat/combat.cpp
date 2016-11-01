@@ -1070,4 +1070,5 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 		DelayTil(&glTimers);
 	}
 	delete savedscreen;
+	this->DrawFrame(1, 0, 0, 0, 1, 1, 1); // clear screen from the projectile
 }
