@@ -459,7 +459,7 @@ void SpecialAttackGraphics(army *attacker, army *target) {
 		DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 115.0));
 		gpCombatManager->DoBolt(1, startX, startY, endX, endY, 0, 0, 5, 4, 302, 0, 0, distance / 15 + 15, 1, 0, 10, 0);
 	} else if (attacker->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
-		gpCombatManager->ArcShot(attacker->missileIcon, attacker->MidX(), attacker->MidY(), endX, endY);
+		gpCombatManager->ArcShot(attacker->missileIcon, startX, startY, endX, endY);
 	} else {	
 		int v37;
 		int v43;
@@ -1031,61 +1031,35 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 
 void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targY)
 {
+	bool firingLeft = false;
+	if (fromX > targX)
+		firingLeft = true;
 	float boulderX = fromX;
 	float boulderY = fromY;
 	float amplitude = 0.01282;
 	float v33 = (double)((targX + fromX) / 2.);
 	float stepX = (v33 - (double)fromX) / 12.5;
 	float v32 = (double)targY - (double)(targX - fromX) * 0.3 - (double)targY * 0.35;
-	if (fromX > targX)
+	if(firingLeft)
 		  v32 = (double)targY - (double)(fromX - targX) * 0.3 - (double)targY * 0.35;
 	float stepY = (v32 - (double)fromY) * amplitude;
 	int oldX = -1;
 	int oldY = -1;
-	int imageIdx = 0; // changes projectile sprite when it changes vertical direction
-	giMinExtentX = 0;
-	giMaxExtentX = 160;
-	giMinExtentY = 263;
-	giMaxExtentY = 413;
+	int imageIdx = 0; // changes projectile sprite when it changes angle
 	for (int i = 0; i < 25; i++) {
 		if (i == 12)
 			stepY = (v32 - (double)targY) * amplitude;
-		if (i) {
-			int projWidth = icn->headersAndImageData->width;
-			int projHeight = icn->headersAndImageData->height;
-			giMinExtentX = oldX - projWidth;
-			giMaxExtentX = (signed __int64)(boulderX + projWidth);
-			giMinExtentY = (signed __int64)(boulderY - projHeight);
-			giMaxExtentY = (signed __int64)(boulderY + projHeight);
-
-			if ((double)oldY >= boulderY)
-				giMaxExtentY = oldY + projHeight;
-			else
-				giMinExtentY = oldY - projHeight;
-			if (i <= 6)	{
-				giMinExtentX = 0;
-				giMaxExtentY = 413;
-			}
-			if (giMinExtentX < 0)
-				giMinExtentX = 0;
-			if (giMinExtentY < 0)
-				giMinExtentY = 0;
-			if (giMaxExtentX > 639)
-				giMaxExtentX = 639;
-			if (giMaxExtentY > 442)
-				giMaxExtentY = 442;
-			if (giMaxExtentY < 1)
-				giMaxExtentY = 1;
-		}
-		this->DrawFrame(0, 0, 1, 0, 63, 1, 1); // Re-render everything behind boulder
+		int delay = 63;
+		this->DrawFrame(1, 0, 0, 0, delay, 1, 1); // clear the screen from the previous boulder sprite
 		H2RECT rect; // unused
-		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, &rect, 0, 0, 0, 0);
-		gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
+		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, &rect, firingLeft, 0, 0, 0);
+		gpWindowManager->UpdateScreenRegion(0, 0, 640, 480);
 		oldX = (int)boulderX;
 		oldY = (int)boulderY;
 		boulderX += stepX;
 		boulderY += (double)(12 - i) * stepY;
-		//imageIdx++;
+		if(i == 7 || i == 16) // changes the sprite of projectile
+			imageIdx++;
 	}
 	this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 }
