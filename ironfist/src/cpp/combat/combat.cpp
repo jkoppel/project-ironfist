@@ -1048,8 +1048,8 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 	int imageIdx = 0; // changes the sprite when its angle changes
 
 	// temporarily save the screen so we can clear it from the projectile sprite later
-	bitmap *savedscreen = new bitmap(0, 640, 480);
-	gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, 640, 480);
+	bitmap *savedscreen = new bitmap(0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+	gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
 
 	const int NUM_CYCLES = 24; // equals to the number of frames for the whole arc path
 	for (int i = 0; i <= NUM_CYCLES; i++) {
@@ -1059,9 +1059,9 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 			i == (NUM_CYCLES / 2 + 4))
 			imageIdx++; // changes the sprite of projectile
 
-		savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, 640, 480); // clear the screen from the previous projectile sprite
+		savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous projectile sprite
 		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, NULL, firingLeft, 0, 0, 0);
-		gpWindowManager->UpdateScreenRegion(0, 0, 640, 480);
+		gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
 		
 		oldX = (int)boulderX;
 		oldY = (int)boulderY;

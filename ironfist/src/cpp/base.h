@@ -6,6 +6,9 @@
 #ifndef BASE_H
 #define BASE_H
 
+#define INTERNAL_WINDOW_WIDTH 640
+#define INTERNAL_WINDOW_HEIGHT 480
+
 #define ELEMENTS_IN(x) ((sizeof(x))/(sizeof((x)[0])))
 
 extern void __fastcall BaseFree(void *,char *,int);
