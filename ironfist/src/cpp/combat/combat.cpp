@@ -1051,11 +1051,13 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 	bitmap *savedscreen = new bitmap(0, 640, 480);
 	gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, 640, 480);
 
-	for (int i = 0; i < 25; i++) {
-		if (i == 12)
+	const int NUM_CYCLES = 24; // equals to the number of frames for the whole arc path
+	for (int i = 0; i <= NUM_CYCLES; i++) {
+		if (i == (NUM_CYCLES / 2)) // reached the peak height
 			stepY = (v32 - (double)targY) * amplitude;
-		if (i == 7 || i == 16) // changes the sprite of projectile
-			imageIdx++;
+		if (i == (NUM_CYCLES / 2 - 4) ||
+			i == (NUM_CYCLES / 2 + 4))
+			imageIdx++; // changes the sprite of projectile
 
 		savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, 640, 480); // clear the screen from the previous projectile sprite
 		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, NULL, firingLeft, 0, 0, 0);
@@ -1064,7 +1066,7 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 		oldX = (int)boulderX;
 		oldY = (int)boulderY;
 		boulderX += stepX;
-		boulderY += (double)(12 - i) * stepY;
+		boulderY += (double)((NUM_CYCLES / 2) - i) * stepY;
 		
 		glTimers = (signed __int64)((double)KBTickCount() + (double)40 * gfCombatSpeedMod[giCombatSpeed]);
 		DelayTil(&glTimers);
