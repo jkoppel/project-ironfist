@@ -163,7 +163,7 @@ void __fastcall SetupCDRom() {
 	}
 
 }
-int __fastcall SetupCDDrive()
-{
+
+int __fastcall SetupCDDrive() {
 	return 1;
 }
