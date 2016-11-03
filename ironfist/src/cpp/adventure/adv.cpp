@@ -155,6 +155,6 @@ void advManager::SetHeroContext(int heroIdx, int a3) {
 	this->SetHeroContext(heroIdx, a3);
 }
 
-void advManager::CheckDimHero() {
-	this->CheckDimHero_orig();
+int advManager::CheckDimHero() {
+	return this->CheckDimHero_orig();
 }
