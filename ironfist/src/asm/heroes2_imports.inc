@@ -188,7 +188,11 @@ IMPORT_?StopCursor@advManager@@QAEXH@Z = 1
 IMPORT_?DoAdvCommand@advManager@@QAEPAVmapCell@@XZ = 1
 ?DoAdvCommand@advManager@@QAEPAVmapCell@@XZ_clone EQU ?DoAdvCommand_orig@advManager@@QAEPAVmapCell@@XZ
 
+IMPORT_?SetHeroContext@advManager@@QAEXHH@Z = 1
+?SetHeroContext@advManager@@QAEXHH@Z_clone EQU ?SetHeroContext_orig@advManager@@QAEXHH@Z
 
+IMPORT_?CheckDimHero@advManager@@QAEXXZ = 1
+?CheckDimHero@advManager@@QAEXXZ_clone EQU ?CheckDimHero_orig@advManager@@QAEXXZ
 
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1

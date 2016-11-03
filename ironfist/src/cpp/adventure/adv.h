@@ -210,6 +210,12 @@ public:
 	void StopCursor(int);
 	void StopCursor_orig(int);
 
+	void SetHeroContext(int, int);
+	void SetHeroContext_orig(int, int);
+
+	void CheckDimHero(void);
+	void CheckDimHero_orig(void);
+
 	void DimensionDoor();
 	void TeleportTo(hero*, int, int, int, int);
 

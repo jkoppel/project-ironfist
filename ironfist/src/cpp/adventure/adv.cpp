@@ -150,3 +150,11 @@ mapCell* advManager::DoAdvCommand() {
 void advManager::StopCursor(int a2) {
 	this->StopCursor_orig(a2);
 }
+
+void advManager::SetHeroContext(int heroIdx, int a3) {
+	this->SetHeroContext(heroIdx, a3);
+}
+
+void advManager::CheckDimHero() {
+	this->CheckDimHero_orig();
+}
