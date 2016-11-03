@@ -27200,7 +27200,7 @@ void __thiscall game::NextPlayer(game *this)
     advManager::CheckDimNextHeroBut();
     game::TurnOnAIMusic();
     SetNoDialogMenus(0);
-    giBottomViewOverride = 6;
+    giBottomViewOverride = 6;  //This line might make line 27215 redundant...
     game::ShowComputerScreen();
     bShowIt = 0;
     if ( gbRemoteOn )
@@ -27212,7 +27212,7 @@ void __thiscall game::NextPlayer(game *this)
           ShutDown(0);
       }
     }
-    if ( giBottomViewOverride == 6 )
+    if ( giBottomViewOverride == 6 )  //This line might be redundant due to line 27203...
       giBottomViewOverride = 0;
   }
   if ( gbThisNetHumanPlayer[giCurPlayer] && gbRemoteOn && this->day != 1 && giForceSwitchMusic == -1 )

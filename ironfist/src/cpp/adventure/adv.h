@@ -201,7 +201,14 @@ public:
 	void PurgeMapChangeQueue();
 	void CheckSetEvilInterface(int,int);
 	
-	void DemobilizeCurrHero();
+	void DemobilizeCurrHero(void);
+	void DemobilizeCurrHero_orig(void);
+
+	mapCell* DoAdvCommand(void);
+	mapCell* DoAdvCommand_orig(void);
+
+	void StopCursor(int);
+	void StopCursor_orig(int);
 
 	void DimensionDoor();
 	void TeleportTo(hero*, int, int, int, int);

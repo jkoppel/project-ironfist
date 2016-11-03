@@ -138,3 +138,15 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 	}
 	this->DoEvent_orig(cell, locX, locY);
 }
+
+void advManager::DemobilizeCurrHero() {
+	this->DemobilizeCurrHero_orig();
+}
+
+mapCell* advManager::DoAdvCommand() {
+	return this->DoAdvCommand_orig();
+}
+
+void advManager::StopCursor(int a2) {
+	this->StopCursor_orig(a2);
+}

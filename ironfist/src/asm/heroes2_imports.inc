@@ -179,6 +179,17 @@ IMPORT_?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z = 1
 IMPORT_?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z = 1
 ?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z_clone EQU ?DoEvent_orig@advManager@@QAEXPAVmapCell@@HH@Z
 
+IMPORT_?DemobilizeCurrHero@advManager@@QAEXXZ = 1
+?DemobilizeCurrHero@advManager@@QAEXXZ_clone EQU ?DemobilizeCurrHero_orig@advManager@@QAEXXZ
+
+IMPORT_?StopCursor@advManager@@QAEXH@Z = 1
+?StopCursor@advManager@@QAEXH@Z_clone EQU ?StopCursor_orig@advManager@@QAEXH@Z
+
+IMPORT_?DoAdvCommand@advManager@@QAEPAVmapCell@@XZ = 1
+?DoAdvCommand@advManager@@QAEPAVmapCell@@XZ_clone EQU ?DoAdvCommand_orig@advManager@@QAEPAVmapCell@@XZ
+
+
+
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
 ?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z
