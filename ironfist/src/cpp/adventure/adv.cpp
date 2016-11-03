@@ -139,7 +139,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 	this->DoEvent_orig(cell, locX, locY);
 }
 
-int advManager::SpawnMonsterOnMap(int x, int y, int monIdx, int monQty) {
+int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
 	int cellIdx = x * gpGame->map.height + y;
 	gpGame->map.tiles[cellIdx].objectIndex = monIdx;
 	gpGame->map.tiles[cellIdx].extraInfo = monQty;
