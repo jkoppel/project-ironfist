@@ -333,6 +333,15 @@ int l_mapSetObject(lua_State *L) {
   return 0;
 }
 
+int l_mapPutArmy(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	int monIdx = (int)luaL_checknumber(L, 3);
+	int monQty = (int)luaL_checknumber(L, 4);
+
+	lua_pushinteger(L, gpAdvManager->MapPutArmy(x, y, monIdx, monQty));
+	return 1;
+}
 
 int l_getheroinpool(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
@@ -702,6 +711,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetTownFaction", l_setTownFaction);
 
   lua_register(L, "MapSetObject", l_mapSetObject);
+  lua_register(L, "MapPutArmy", l_mapPutArmy);
 
   lua_register(L, "GetCurrentPlayer", l_getCurrentPlayer);
   lua_register(L, "TeleportHero", l_teleportHero);
