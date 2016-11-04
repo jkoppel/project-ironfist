@@ -8,3 +8,5 @@
 *.vcxproj*  eol=crlf
 *.sln       eol=crlf
 *.ico       -text
+
+*.rc        diff
