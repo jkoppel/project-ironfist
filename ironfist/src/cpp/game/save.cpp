@@ -39,7 +39,8 @@ extern int giThisGamePos;
 extern void __fastcall FileError(char*);
 
 extern void __fastcall GenerateStandardFileName(char*,char*);
-
+static const char *tmpFileName = "tmp";
+static const LPCWSTR tmpFileNameW = L"tmp";
 
 static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->Clear();
@@ -301,6 +302,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 	if(newGame) {
 		this->SetupOrigData();
 
+		gpGame->ResetIronfistGameState();
+
 		for(int i = 0; i < MAX_HEROES; i++) {
 			//SetupOrigData clears out spellsLearned. Of course, we've changed
 			//spellsLearned from an array to a pointer, so that actually NULLs it out
@@ -339,7 +342,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ReadHeroXML(hx, &this->heroes[i]);
 			}
 
-			int tmp_fd = _open("tmp", O_BINARY | O_CREAT | O_WRONLY);
+			int tmp_fd = _open(tmpFileName, O_BINARY | O_CREAT | O_WRONLY);
 			_write(tmp_fd, mp->raw().data(), mp->raw().size());
 			_close(tmp_fd);
 
@@ -349,7 +352,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 
 			int width,height;
 
-			fd = open("tmp", O_BINARY | O_RDONLY);
+			fd = open(tmpFileName, O_BINARY | O_RDONLY);
 			if ( fd == -1 )
 				FileError(v8);
 			ClearMapExtra();
@@ -434,7 +437,9 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			}
 			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
 			this->map.Read(fd, 0);
+			SetFileAttributes(tmpFileNameW, GetFileAttributes(tmpFileNameW) & ~FILE_ATTRIBUTE_READONLY);
 			_close(fd);
+			remove(tmpFileName);
             gpAdvManager->heroMobilized = 0;
 			gpCurPlayer = &gpGame->players[giCurPlayer];
 			giCurPlayerBit = 1 << giCurPlayer;
@@ -501,9 +506,9 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 	if(strnicmp(path, "AUTOSAVE", 8) && strnicmp(path, "PLYREXIT", 8))
 		strcpy(gpGame->lastSaveFile, saveFile);
 
-	int fd = open("tmp", O_WRONLY | O_TRUNC | O_CREAT | O_BINARY, S_IWRITE);
+	int fd = open(tmpFileName, O_WRONLY | O_TRUNC | O_CREAT | O_BINARY, S_IWRITE);
 	if ( fd == -1 )
-		FileError(v9);
+		FileError("tmp");
 
 	_write(fd, &this->map.width, 4);
 	_write(fd, &this->map.height, 4);
@@ -576,12 +581,13 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
 
 	unsigned char dat[1000000];
-	fd = _open("tmp", O_BINARY);
+	fd = _open(tmpFileName, O_BINARY);
 	lseek(fd, 0, SEEK_END);
 	int sz = tell(fd);
 	lseek(fd, 0, SEEK_SET);
 	read(fd, dat, sz);
 	close(fd);
+	remove(tmpFileName);
 
 	const xml_schema::base64_binary datbin(dat, sz);
 

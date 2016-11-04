@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <string>
 
 #include "base.h"
 
@@ -43,6 +44,14 @@ int monQtyFields[] = { IDC_MON1_QTY
 					 };
 
 int buildingIdToIdx[32];
+
+static const std::wstring GetWC(const char *c) {
+	const size_t cSize = strlen(c) + 1;
+	std::wstring wc(cSize, L'#');
+	mbstowcs(&wc[0], c, cSize);
+
+	return wc;
+}
 
 void InitBuildingMap() {
   for(int i = 0; i < ELEMENTS_IN(buildingIdToIdx); i++) {
@@ -114,7 +123,7 @@ void FillInTownEdit(HWND hwnd, TownExtra* twnExtra) {
 
 	if(twnExtra->customName) {
 		SendDlgItemMessage(hwnd, IDC_NAME_CUSTOM, BM_SETCHECK, BST_CHECKED, 0);
-		SendDlgItemMessage(hwnd, IDC_NAME, WM_SETTEXT, 0, (LPARAM)twnExtra->name);
+		SendDlgItemMessage(hwnd, IDC_NAME, WM_SETTEXT, 0, (LPARAM)GetWC(twnExtra->name).c_str());
 		ShowWindow(GetDlgItem(hwnd, IDC_NAME), SW_SHOW);
 	} else {
 		SendDlgItemMessage(hwnd, IDC_NAME_STANDARD, BM_SETCHECK, BST_CHECKED, 0);
@@ -175,7 +184,7 @@ void InitializeTownEdit(HWND hwnd) {
 	EnableWindow(hwnd, TRUE);
 
 	for(int i = 0; i < ELEMENTS_IN(monTypeFields); i++) {
-		SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)"-empty-");
+		SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"-empty-");
 		for(int j = 0; j < GetNumCreatures(); j++) {
 			sprintf(gText, "%s", GetCreatureName(j));
 			if(strlen(gText) == 0) {
@@ -183,24 +192,25 @@ void InitializeTownEdit(HWND hwnd) {
 			}
 
 			gText[0] -= 32; // This is seriously "the C++ way" to capitalize...
-			int idx = SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)gText);
+
+			int idx = SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)GetWC(gText).c_str());
 			SendDlgItemMessage(hwnd, monTypeFields[i], CB_SETITEMDATA, idx, j);
 		}
 	}
 
-	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)"-None-");
-	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)"Level 1");
-	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)"Level 2");
-	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)"Level 3");
-	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)"Level 4");
-	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)"Level 5");
+	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"-None-");
+	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"Level 1");
+	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"Level 2");
+	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"Level 3");
+	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"Level 4");
+	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"Level 5");
 
 	int faction = gEditTownExtra.faction;
-	SendDlgItemMessage(hwnd, IDC_SPECIAL_GROWTH_BUILDING, WM_SETTEXT, 0, (LPARAM)gWellExtraNames[faction]);
-	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)gSpecialBuildingNames[faction]);
+	SendDlgItemMessage(hwnd, IDC_SPECIAL_GROWTH_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(gWellExtraNames[faction]).c_str());
+	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(gSpecialBuildingNames[faction]).c_str());
 
 	if(faction == FACTION_NECROMANCER) {
-		SendDlgItemMessage(hwnd, IDC_TAVERN, WM_SETTEXT, 0, (LPARAM)"Shrine");
+		SendDlgItemMessage(hwnd, IDC_TAVERN, WM_SETTEXT, 0, (LPARAM)L"Shrine");
 	}
 }
 
