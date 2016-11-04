@@ -441,7 +441,7 @@ STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP
 FONT 8, "System", 0, 0, 0x0
 BEGIN
     CTEXT           "Heroes of Might and Magic II",-1,29,5,97,8
-    CTEXT           "Version 1.2.1",-1,29,27,97,8
+    CTEXT           "Version 0.1",-1,55,27,38,8
     CTEXT           "Developed by the Project Ironfist Team",-1,14,43,132,12
     DEFPUSHBUTTON   "OK",1,61,85,32,14,WS_GROUP
     CTEXT           "Ironfist",-1,29,15,97,8
