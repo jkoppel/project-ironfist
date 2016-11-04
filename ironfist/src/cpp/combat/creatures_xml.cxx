@@ -405,6 +405,30 @@ frm (::std::auto_ptr< frm_type > x)
   this->frm_.set (x);
 }
 
+const creature_t::projectile_type& creature_t::
+projectile () const
+{
+  return this->projectile_.get ();
+}
+
+creature_t::projectile_type& creature_t::
+projectile ()
+{
+  return this->projectile_.get ();
+}
+
+void creature_t::
+projectile (const projectile_type& x)
+{
+  this->projectile_.set (x);
+}
+
+void creature_t::
+projectile (::std::auto_ptr< projectile_type > x)
+{
+  this->projectile_.set (x);
+}
+
 const creature_t::cost_type& creature_t::
 cost () const
 {
@@ -1028,6 +1052,7 @@ creature_t (const id_type& id,
             const name_plural_type& name_plural,
             const icn_type& icn,
             const frm_type& frm,
+            const projectile_type& projectile,
             const cost_type& cost,
             const fight_value_type& fight_value,
             const fight_value_aux_type& fight_value_aux,
@@ -1049,6 +1074,7 @@ creature_t (const id_type& id,
   name_plural_ (name_plural, ::xml_schema::flags (), this),
   icn_ (icn, ::xml_schema::flags (), this),
   frm_ (frm, ::xml_schema::flags (), this),
+  projectile_ (projectile, ::xml_schema::flags (), this),
   cost_ (cost, ::xml_schema::flags (), this),
   fight_value_ (fight_value, ::xml_schema::flags (), this),
   fight_value_aux_ (fight_value_aux, ::xml_schema::flags (), this),
@@ -1077,6 +1103,7 @@ creature_t (const creature_t& x,
   name_plural_ (x.name_plural_, f, this),
   icn_ (x.icn_, f, this),
   frm_ (x.frm_, f, this),
+  projectile_ (x.projectile_, f, this),
   cost_ (x.cost_, f, this),
   fight_value_ (x.fight_value_, f, this),
   fight_value_aux_ (x.fight_value_aux_, f, this),
@@ -1105,6 +1132,7 @@ creature_t (const ::xercesc::DOMElement& e,
   name_plural_ (f, this),
   icn_ (f, this),
   frm_ (f, this),
+  projectile_ (f, this),
   cost_ (f, this),
   fight_value_ (f, this),
   fight_value_aux_ (f, this),
@@ -1229,6 +1257,15 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       continue;
     }
 
+    if (n.name () == "projectile" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< projectile_type > r (
+        projectile_traits::create (i, f, this));
+
+      this->projectile_.set (r);
+      continue;
+    }
+
     if (n.name () == "cost" && n.namespace_ ().empty ())
     {
       this->cost_.set (cost_traits::create (i, f, this));
@@ -1331,6 +1368,13 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
   {
     throw ::xsd::cxx::tree::expected_attribute< char > (
       "frm",
+      "");
+  }
+
+  if (!projectile_.present ())
+  {
+    throw ::xsd::cxx::tree::expected_attribute< char > (
+      "projectile",
       "");
   }
 
@@ -3347,6 +3391,17 @@ operator<< (::xercesc::DOMElement& e, const creature_t& i)
         e));
 
     a << i.frm ();
+  }
+
+  // projectile
+  //
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "projectile",
+        e));
+
+    a << i.projectile ();
   }
 
   // cost

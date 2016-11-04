@@ -154,6 +154,10 @@ font* resourceManager::GetFont(char* filename) {
 
 #ifndef EDITOR
 
+sample* resourceManager::GetSample(const std::string &filename) {
+	return this->GetSample((char*)filename.c_str());
+}
+
 sample* resourceManager::GetSample(char* filename) {
 	unsigned int hash = MakeId(filename, 1);
 	sample *samp = (sample*)Query(hash);

@@ -6,6 +6,9 @@
 #ifndef BASE_H
 #define BASE_H
 
+#define INTERNAL_WINDOW_WIDTH 640
+#define INTERNAL_WINDOW_HEIGHT 480
+
 #define ELEMENTS_IN(x) ((sizeof(x))/(sizeof((x)[0])))
 
 extern void __fastcall BaseFree(void *,char *,int);
@@ -25,7 +28,18 @@ extern void __fastcall EarlyShutdown(char*, char*);
 
 extern char gText[];
 extern void __fastcall LogStr(char *);
-
+extern int glTimers;
+extern long __fastcall KBTickCount();
+extern float gfCombatSpeedMod[3];
+extern int giCombatSpeed;
+extern int giMinExtentX;
+extern int giMinExtentY;
+extern int giMaxExtentX;
+extern int giMaxExtentY;
+extern void __fastcall DelayTil(int *);
+extern void __fastcall DelayMilli(long);
+extern signed char gArmyEffected[2][20];
+extern int bSecondAttack;
 /*
  * Updates sound, graphics if needed.
  *

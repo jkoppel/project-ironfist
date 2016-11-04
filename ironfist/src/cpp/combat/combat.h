@@ -1,6 +1,8 @@
 #ifndef COMBAT_MANAGER_H
 #define COMBAT_MANAGER_H
 
+#include <string>
+
 #include "gui/gui.h"
 #include "graphics.h"
 #include "manager.h"
@@ -25,7 +27,7 @@ public:
   char isBlocked;
   char combatObjIdx;
   char unitOwner;
-  signed __int8 stackIdx;
+  char stackIdx;
   char occupiersOtherHexIsToLeft;
   int numCorpses;
   char corpseOwners[14];
@@ -105,6 +107,7 @@ public:
   icon *missileIcon;
   sample *combatSounds[7];
   
+  void LoadResources();
   int FlyTo(int hex);
   int ValidFlight(int hex, int);
   int WalkTo(int hex);
@@ -117,8 +120,18 @@ public:
   int MidY();
   void DoAttack(int);
   void DoAttack_orig(int);
+  void SpecialAttack();
+  void SpecialAttack_orig();
   float SpellCastWorkChance(int);
   float SpellCastWorkChance_orig(int);
+  void CheckLuck();
+  void DamageEnemy(class army *, int *, int *, int, int);
+  int SpellCastWorks(int);
+  void PowEffect(int, int, int, int);
+  void WaitSample(int);
+  void CancelSpellType(int);
+  int GetAdjacentCellIndex(int, int);
+  void ProcessDeath(int a2);
 };
 
 class combatManager : public baseManager
@@ -218,7 +231,7 @@ public:
   int field_F36F;
   int field_F373;
   int field_F377[2];
-  signed int stuffHappenedToCreature[2][20];
+  int limitCreature[2][20];
   int field_F41F;
   int field_F423;
   int field_F427[2];
@@ -237,7 +250,7 @@ public:
   heroWindow *combatEndWindow;
   int current_spell_id;
   int winningSide;
-
+ 
   combatManager();
   void InitNonVisualVars();
   void InitNonVisualVars_orig();
@@ -254,11 +267,22 @@ public:
   int FindResurrectArmyIndex(int side, int spell, int hex);
   void Resurrect(int spell, int hex, int spellpower);
   void SummonElemental(int, int);
+
+  void CastSpell(int,int,int,int);
+
+  void ResetLimitCreature();
+  void DoBolt(int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int, int);
+  void ClearEffects();
+  void PowEffect(int,int,int,int);
+  void MakeCreaturesVanish();
+  void ArcShot(icon *icn, int fromX, int fromY, int targX, int targY);
 };
 
 extern combatManager* gpCombatManager;
 
 extern int gbNoShowCombat;
+
+void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 
 #pragma pack(pop)
 

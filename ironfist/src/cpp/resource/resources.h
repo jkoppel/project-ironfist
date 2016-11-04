@@ -2,7 +2,7 @@
 #define TIED_RESOURCE_H
 
 #include <winsock.h>
-
+#include "graphics.h"
 #pragma pack(push,1)
 
 #define MAX_FILENAME_LENGTH 13
@@ -38,7 +38,13 @@ public:
 
   bitmap();
   bitmap(unsigned long);
+  bitmap(short, short, short);
   ~bitmap();
+
+  void GrabBitmapCareful(bitmap *, short, short);
+  void DrawToBufferCareful(short, short);
+  void DrawToBuffer(short, short);
+  void CopyTo(bitmap *buf, int xTarg, int yTarg, int xFrom, int yFrom, int width, int height);
 };
 
 struct IconEntry
@@ -60,6 +66,7 @@ public:
   icon(unsigned long);
   ~icon();
   void DrawToBuffer(int,int,int,int);
+  signed int CombatClipDrawToBuffer(int offsetX, int offsetY, int imageIdx, H2RECT *rect, int mirrored, int a11, unsigned char *paletteSubstitution, signed char *a12);
 };
 
 class sample : public resource
