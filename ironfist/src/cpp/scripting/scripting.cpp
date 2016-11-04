@@ -639,6 +639,20 @@ int l_toggleAIArmySharing(lua_State *L) {
 	return 0;
 }
 
+int l_settownowner(lua_State *L) {
+  int townIdx = (int)luaL_checknumber(L, 1);
+  int playerIdx = (int)luaL_checknumber(L, 2);
+  gpGame->ClaimTown(townIdx, playerIdx, 0);
+  return 0;
+}
+
+int l_gettownidfrompos(lua_State *L) {
+  int x = (int)luaL_checknumber(L, 1);
+  int y = (int)luaL_checknumber(L, 2);
+  lua_pushinteger(L, gpGame->GetTownId(x, y));
+  return 1;
+}
+
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
   lua_register(L, "Trigger", l_trigger);
@@ -716,6 +730,9 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetSecondarySkill", l_getSecondarySkill);
 
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
+
+  lua_register(L, "SetTownOwner", l_settownowner);
+  lua_register(L, "GetTownIdFromPos", l_gettownidfrompos);
 
   lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
   lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);
