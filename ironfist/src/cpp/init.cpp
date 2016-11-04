@@ -1,22 +1,25 @@
-#include "resource/resourceManager.h"
+#include "adventure/adv.h"
+#include "analytics.h"
 #include "base.h"
 #include "combat/combat.h"
 #include "game/game.h"
 #include "gui/dialog.h"
-#include "manager.h"
-#include "adventure/adv.h"
 #include "gui/gui.h"
+#include "manager.h"
+#include "registry_prefs.h"
+#include "resource/resourceManager.h"
 #include "resource/resources.h"
-#include "town/town.h"
 #include "sound/sound.h"
-
+#include "town/town.h"
 
 #pragma pack(push,1)
 
 class executive {
 public:
-	char _[16];
-	executive();
+  char _[16];
+  executive();
+
+  int DoDialog(baseManager *a2);
 };
 
 class inputManager {
@@ -53,7 +56,9 @@ public:
 extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern mouseManager* gpMouseManager;
+extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
+extern soundManager* gpSoundManager;
 extern highScoreManager* gpHighScoreManager;
 extern advManager* gpAdvManager;
 extern searchArray* gpSearchArray;
@@ -123,10 +128,20 @@ void __fastcall SetupCDRom() {
 	 * down the stack.
 	 */
 
+	// Sending an Open event to Google Analytics
+	send_event(gameAction, open);
+
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
-	ResizeWindow(0,0,640,480);
-
+	DWORD old_x = read_registry_pref<DWORD>("Main Game X");
+	DWORD old_y = read_registry_pref<DWORD>("Main Game Y");
+	DWORD old_width = read_registry_pref<DWORD>("Main Game Width");
+	DWORD old_height = read_registry_pref<DWORD>("Main Game Height");
+	ResizeWindow(old_x == (DWORD)(-1) ? 0 : old_x,
+		old_y == (DWORD)(-1) ? 0 : old_y,
+		old_width == (DWORD)(-1) ? 640 : old_width,
+		old_height == (DWORD)(-1) ? 480 : old_height);
+	
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
 		SetPalette(gPalette->contents, 1);
@@ -147,4 +162,8 @@ void __fastcall SetupCDRom() {
 		exit(0);
 	}
 
+}
+
+int __fastcall SetupCDDrive() {
+	return 1;
 }

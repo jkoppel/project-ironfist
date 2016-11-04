@@ -213,6 +213,17 @@ void set_town_consts(lua_State* L) {
 	lua_setconst(L, "BUILDING_UPGRADE_5B", BUILDING_UPGRADE_5B);
 }
 
+void set_faction_consts(lua_State* L) {
+  lua_setconst(L, "FACTION_KNIGHT", 0);
+  lua_setconst(L, "FACTION_BARBARIAN", 1);
+  lua_setconst(L, "FACTION_SORCERESS", 2);
+  lua_setconst(L, "FACTION_WARLOCK", 3);
+  lua_setconst(L, "FACTION_WIZARD", 4);
+  lua_setconst(L, "FACTION_NECROMANCER", 5);
+  lua_setconst(L, "FACTION_MULTIPLE", 6);
+  lua_setconst(L, "FACTION_RANDOM", 7);
+}
+
 
 void set_skill_consts(lua_State* L) {
 	lua_setconst(L, "PRIMARY_SKILL_ATTACK", PRIMARY_SKILL_ATTACK);
@@ -310,10 +321,22 @@ void set_creature_consts(lua_State* L) {
 	lua_setconst(L, "CREATURE_TREANT", CREATURE_TREANT);
 }
 
+void set_resources_consts(lua_State *L) {
+  lua_setconst(L, "RESOURCE_WOOD", RESOURCE_WOOD);
+  lua_setconst(L, "RESOURCE_MERCURY", RESOURCE_MERCURY);
+  lua_setconst(L, "RESOURCE_ORE", RESOURCE_ORE);
+  lua_setconst(L, "RESOURCE_SULFUR", RESOURCE_SULFUR);
+  lua_setconst(L, "RESOURCE_CRYSTALS", RESOURCE_CRYSTAL);
+  lua_setconst(L, "RESOURCE_GEMS", RESOURCE_GEMS);
+  lua_setconst(L, "RESOURCE_GOLD", RESOURCE_GOLD);
+}
+
 void set_scripting_consts(lua_State* L) {
 	set_spell_consts(L);
 	set_artifact_consts(L);
 	set_town_consts(L);
+	set_faction_consts(L);
 	set_skill_consts(L);
 	set_creature_consts(L);
+	set_resources_consts(L);
 }

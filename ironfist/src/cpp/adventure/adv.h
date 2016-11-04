@@ -6,11 +6,15 @@
 
 #include "base.h"
 
+class mapCell;
+
 #define ORIG_SPELLS 65
 
 #pragma pack(push, 1)
 
 #define MAX_TOTAL_HEROES 48
+
+#define CREATURES_IN_ARMY 5
 
 enum PRIMARY_SKILL
 {
@@ -38,11 +42,25 @@ enum SECONDARY_SKILL
   SECONDARY_SKILL_ESTATES = 13,
 };
 
+#define NUM_RESOURCES 7
+#define NUM_SECONDARY_RESOURCES 6
+
+
+enum RESOURCES {
+  RESOURCE_WOOD = 0,
+  RESOURCE_MERCURY = 1,
+  RESOURCE_ORE = 2,
+  RESOURCE_SULFUR = 3,
+  RESOURCE_CRYSTAL = 4,
+  RESOURCE_GEMS = 5,
+  RESOURCE_GOLD = 6,
+};
+
 class armyGroup
 {
 public:
-  char creatureTypes[5];
-  __int16 quantities[5];
+  char creatureTypes[CREATURES_IN_ARMY];
+  __int16 quantities[CREATURES_IN_ARMY];
 
   armyGroup() {
       for (int i = 0; i < ELEMENTS_IN(this->creatureTypes); i++) {
@@ -141,6 +159,7 @@ public:
   void TakeArtifact(int);
 
   signed char Stats(int);
+  signed char GetSSLevel(int);
   void SetSS(int,int);
   int CalcMobility();
 
@@ -204,6 +223,16 @@ public:
 
     void PasswordEvent(mapCell *tile, hero *hero);
     int BarrierEvent(mapCell *tile, hero *hero);
+
+    void ExpansionRecruitEvent(class hero*, int, short*);
+
+    mapCell* MoveHero(int,int,int *,int *,int *,int,int *,int);
+    mapCell* MoveHero_orig(int,int,int *,int *,int *,int,int *,int);
+
+	void DoEvent_orig(class mapCell *, int, int);
+	void DoEvent(class mapCell *cell, int locX, int locY);
+
+	int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int switchSides, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
 };
 
 extern advManager* gpAdvManager;
@@ -216,6 +245,8 @@ extern int giHeroScreenSrcIndex;
 hero* GetCurrentHero();
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
+void __fastcall GiveTakeArtifactStat(hero *h, int art, int take);
+void __fastcall GetMonsterCost(int, int * const);
 
 #pragma pack(pop)
 

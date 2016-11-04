@@ -1,10 +1,13 @@
-#include "base.h"
-#include "game/game.h"
-#include "spell/spells.h"
-#include "combat/creatures.h"
+#include<string>
 
+#include "analytics.h"
+#include "base.h"
+#include "combat/creatures.h"
+#include "game/game.h"
 #include "scripting/hook.h"
 #include "scripting/scripting.h"
+#include "spell/spells.h"
+
 
 char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
                              "Multiple", "Random", NULL, NULL, NULL, NULL,
@@ -53,9 +56,10 @@ void game::RandomizeHeroPool() {
 }
 
 void game::NewMap(char* mapname) {
+	send_event(mapAction, mapname);
     this->ResetIronfistGameState();
 	this->NewMap_orig(mapname);
-    ScriptingInit(mapname);
+    ScriptingInit(std::string(mapname));
 }
 
 void game::NextPlayer() {
@@ -79,7 +83,36 @@ void game::PerDay() {
 void game::ResetIronfistGameState() {
     for (int i = 0; i < NUM_PLAYERS; i++) {
         for (int j = 0; j < NUM_PLAYERS; j++) {
-            this->sharePlayerVision[i][j] = 0;
+            this->sharePlayerVision[i][j] = false;
         }
     }
+}
+
+extern int gbGameOver;
+extern int giEndSequence;
+
+void __fastcall CheckEndGame(int a, int b) {
+  CheckEndGame_orig(a, b);
+  if (gbGameOver) {
+    if (giEndSequence) {
+      ScriptSignal(SCRIPT_EVT_MAP_VICTORY, "");
+    } else {
+      ScriptSignal(SCRIPT_EVT_MAP_LOSS, "");
+    }
+  }
+}
+
+class philAI {
+
+	char _; // Yes, this is a 1-byte object.
+
+public:
+	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
+	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
+};
+
+void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5) {
+	if (gpGame->allowAIArmySharing) {
+		RedistributeTroops_orig(army1, army2, a1, a2, a3, a4, a5);
+	}
 }

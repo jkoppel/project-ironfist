@@ -150,6 +150,7 @@ void hero::TakeArtifact(int art) {
 	for(int i = 0; i < 14; i++) {
 		if(this->artifacts[i] == art) {
 			this->artifacts[i] = -1;
+			GiveTakeArtifactStat(this, this->artifacts[i], 1);
 			break;
 		}
 	}

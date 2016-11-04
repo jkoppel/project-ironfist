@@ -36,6 +36,8 @@ public:
   char field_52[16];
 };
 
+int __fastcall ValidHex(int);
+
 
 class army
 {
@@ -113,6 +115,8 @@ public:
 
   int MidX();
   int MidY();
+  void DoAttack(int);
+  void DoAttack_orig(int);
   float SpellCastWorkChance(int);
   float SpellCastWorkChance_orig(int);
 };
@@ -238,7 +242,8 @@ public:
   void InitNonVisualVars();
   void InitNonVisualVars_orig();
 
-  void CombatMessage(char *msg, int, int, int);
+  void CombatMessage(char *msg, int updateScreen, int keepPrevMessage, int);
+  void CombatMessage(char *msg) { CombatMessage(msg, 1, 1, 0); }
 
   void UpdateCombatArea();
   void DrawFrame(int redrawAll,int,int,int,int,int,int);
@@ -248,6 +253,7 @@ public:
 
   int FindResurrectArmyIndex(int side, int spell, int hex);
   void Resurrect(int spell, int hex, int spellpower);
+  void SummonElemental(int, int);
 };
 
 extern combatManager* gpCombatManager;

@@ -91,6 +91,9 @@ void GUISetText(heroWindow*, int, char*);
 
 void GUIBroadcastMessage(heroWindow*, int,int,void*);
 
+void __fastcall SetupRecruitWin(heroWindow *,int,int,int,int,int);
+void __fastcall QuickViewWait(void);
+
 #pragma pack(pop)
 
 #endif

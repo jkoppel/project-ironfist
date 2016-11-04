@@ -1,13 +1,13 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "combat/creatures.h"
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
 #include "scripting/hook.h"
 #include "prefs.h"
 
-const int BUTTON_CODE_OKAY = 30725;
-const int BUTTON_CODE_CANCEL = 30726;
+#include <sstream>
 
 static const int END_TURN_BUTTON = 4;
 
@@ -77,8 +77,17 @@ int advManager::Open(int idx) {
   return res;
 }
 
+mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9){
+  mapCell* res = MoveHero_orig(a2, a3, a4, a5, a6, a7, a8, a9);
+  hero *hro = GetCurrentHero();
+  std::ostringstream msg;
+  msg << hro->x << "," << hro->y;
+  ScriptSignal(SCRIPT_EVT_MOVEHERO, msg.str());
+  return res;
+}
+
 void game::ShareVision(int sourcePlayer, int destPlayer) {
-  this->sharePlayerVision[sourcePlayer][destPlayer] = 1;
+  this->sharePlayerVision[sourcePlayer][destPlayer] = true;
   this->PropagateVision();
 }
 
@@ -118,4 +127,14 @@ void game::MakeAllWaterVisible(int player) {
       this->MakeAllWaterVisible_orig(i);
     }
   }
+}
+
+void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
+	int locType = cell->objType & 0x7F;
+	if (locType == LOCATION_CAMPFIRE) {
+		std::ostringstream tmp;
+		tmp << locX << "," << locY;
+		ScriptSignal(SCRIPT_EVT_VISIT_CAMPFIRE, tmp.str());
+	}
+	this->DoEvent_orig(cell, locX, locY);
 }

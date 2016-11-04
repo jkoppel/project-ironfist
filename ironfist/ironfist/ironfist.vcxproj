@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -15,6 +15,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ironfist</RootNamespace>
     <ProjectName>ironfist_vs</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -56,16 +57,18 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;XERCES_STATIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\ironfist\src\cpp;..\..\ironfist\src\cpp\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmtd.lib;PocoFoundationmtd.lib;xerces-c_static_3D.lib</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>
@@ -90,6 +93,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\ironfist\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -97,6 +101,7 @@
     <ClCompile Include="..\src\cpp\adventure\hero.cpp" />
     <ClCompile Include="..\src\cpp\adventure\map.cpp" />
     <ClCompile Include="..\src\cpp\adventure\map_events.cpp" />
+    <ClCompile Include="..\src\cpp\analytics.cpp" />
     <ClCompile Include="..\src\cpp\artifacts.cpp" />
     <ClCompile Include="..\src\cpp\combat\animation.cpp" />
     <ClCompile Include="..\src\cpp\combat\combat.cpp" />
@@ -141,7 +146,9 @@
     <ClCompile Include="..\src\cpp\lib\lua\src\ltable.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\ltablib.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\ltm.c" />
+    <ClCompile Include="..\src\cpp\lib\lua\src\lua.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lundump.c" />
+    <ClCompile Include="..\src\cpp\lib\lua\src\lutf8lib.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lvm.c" />
     <ClCompile Include="..\src\cpp\lib\lua\src\lzio.c" />
     <ClCompile Include="..\src\cpp\registry_prefs.cpp" />
@@ -149,6 +156,7 @@
     <ClCompile Include="..\src\cpp\scripting\lua_utils.cpp" />
     <ClCompile Include="..\src\cpp\scripting\scripting.cpp" />
     <ClCompile Include="..\src\cpp\scripting\consts.cpp" />
+    <ClCompile Include="..\src\cpp\scripting\temporary_file.cpp" />
     <ClCompile Include="..\src\cpp\spell\spells.cpp" />
     <ClCompile Include="..\src\cpp\town\town.cpp" />
   </ItemGroup>
@@ -157,6 +165,7 @@
     <ClInclude Include="..\src\cpp\adventure\adv.h" />
     <ClInclude Include="..\src\cpp\adventure\map.h" />
     <ClInclude Include="..\src\cpp\adventure\terrain.h" />
+    <ClInclude Include="..\src\cpp\analytics.h" />
     <ClInclude Include="..\src\cpp\artifacts.h" />
     <ClInclude Include="..\src\cpp\base.h" />
     <ClInclude Include="..\src\cpp\combat\animation.h" />
@@ -185,6 +194,7 @@
     <ClInclude Include="..\src\cpp\lib\lua\src\lobject.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lopcodes.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lparser.h" />
+    <ClInclude Include="..\src\cpp\lib\lua\src\lprefix.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lstate.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\lstring.h" />
     <ClInclude Include="..\src\cpp\lib\lua\src\ltable.h" />
@@ -206,6 +216,7 @@
     <ClInclude Include="..\src\cpp\scripting\hook.h" />
     <ClInclude Include="..\src\cpp\scripting\register.h" />
     <ClInclude Include="..\src\cpp\scripting\scripting.h" />
+    <ClInclude Include="..\src\cpp\scripting\temporary_file.h" />
     <ClInclude Include="..\src\cpp\skills.h" />
     <ClInclude Include="..\src\cpp\sound\sound.h" />
     <ClInclude Include="..\src\cpp\spell\spells.h" />
@@ -221,6 +232,7 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).obj</Outputs>
     </CustomBuild>
     <None Include="..\src\asm\heroes2_imports.inc" />
+    <None Include="..\src\cpp\lib\lua\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\resources\windows\ironfist.rc" />

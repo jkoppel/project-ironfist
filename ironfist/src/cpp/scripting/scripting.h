@@ -1,15 +1,53 @@
 #ifndef SCRIPTING_H
 #define SCRIPTING_H
 
-void ScriptingInit(char*);
-void ScriptingInitFromString(const char*);
+#include<list>
+#include<map>
+#include<string>
+
+enum MapVarType {
+	MAPVAR_TYPE_STRING,
+	MAPVAR_TYPE_NUMBER,
+	MAPVAR_TYPE_TABLE,
+	MAPVAR_TYPE_BOOLEAN,
+	MAPVAR_TYPE_ERROR
+};
+
+struct mapVariable;
+
+typedef std::map<std::string, mapVariable> luaTable;
+
+struct mapVariable {
+  ~mapVariable() {
+    if (type == MAPVAR_TYPE_TABLE) {
+      delete tableValue;
+    } else {
+      delete singleValue;
+    }
+  }
+
+  MapVarType type;
+  union {
+    std::string *singleValue; // we treat all non-table values the same
+    luaTable *tableValue;
+  };
+};
+
+void ScriptingInit(std::string&);
+void ScriptingInitFromString(std::string&);
 void ScriptingShutdown();
 
-char *GetScriptContents();
+std::string& GetScriptContents();
 
-void DisplayError();
+bool isTable(MapVarType);
+bool isStringNumBool(MapVarType);
 
-void GetNextMapVariable(int &, const char *&, const char *&);
-void SetMapVariables(const char*, const char*);
+MapVarType StringToMapVarType(std::string);
+
+std::map <std::string , mapVariable > LoadMapVariablesFromLUA();
+
+void WriteMapVariablesToLUA(std::map<std::string, mapVariable>&);
+
+void ErrorLoadingMapVariable(std::string&, const std::string&);
 
 #endif

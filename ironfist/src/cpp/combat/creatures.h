@@ -4,6 +4,7 @@
 #include<string.h>
 #include<stdio.h>
 
+
 #pragma pack(push, 1)
 
 enum CREATURES
@@ -136,6 +137,8 @@ struct tag_monsterInfo
 						}
 };
 
+
+
 tag_monsterInfo gMonsterDatabase[];
 
 int gMonRandBound[][2];
@@ -148,6 +151,8 @@ int GetNumCreatures();
 void LoadCreatures();
 void UnloadCreatures();
 
+
+void __fastcall GetMonsterCost(int, int *const);
 
 #pragma pack(pop)
 

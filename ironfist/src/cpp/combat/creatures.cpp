@@ -7,6 +7,7 @@
 #include "base.h"
 #include "combat/creatures.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 
 #include "combat/creatures_xml.hxx"
 
@@ -39,6 +40,8 @@ char *cArmyFrameFileNames[MAX_CREATURES];
 char *gArmyNames[MAX_CREATURES];
 char *gArmyNamesPlural[MAX_CREATURES];
 int gMonRandBound[MAX_CREATURES][2];
+int gMonSecondaryResourceCost[MAX_CREATURES][NUM_SECONDARY_RESOURCES];
+
 
 struct attributeNameTableEntry{char* name; int flag;};
 
@@ -49,6 +52,17 @@ attributeNameTableEntry creatureAttributeNameTable[] = {
 	{"two-hex-attack", TWO_HEX_ATTACKER},
 	{"undead", UNDEAD}
 };
+
+struct SecondaryResourceNameTableEntry { string name; int resource_id; };
+SecondaryResourceNameTableEntry SecondaryResourceNameTable[] = {
+	{"wood", RESOURCE_WOOD},
+	{"mercury", RESOURCE_MERCURY},
+	{"ore", RESOURCE_ORE},
+	{"sulfur", RESOURCE_SULFUR},
+	{"crystal", RESOURCE_CRYSTAL},
+	{"gems", RESOURCE_GEMS}
+};
+
 
 char* ironfistAttributeNames[] = {STRIKE_AND_RETURN};
 int ironfistAttributeTable[ELEMENTS_IN(ironfistAttributeNames)][MAX_CREATURES];
@@ -137,6 +151,31 @@ void LoadCreatures() {
 						}
 				}
 
+				for (int i = 0; i < NUM_SECONDARY_RESOURCES ; i++) {
+					gMonSecondaryResourceCost[id][i] = 0;
+				}
+
+				bool customed_secondary_cost = false;
+
+				for (creature_t::secondary_cost_iterator i = c.secondary_cost().begin();
+				     i != c.secondary_cost().end();
+					 ++i) {
+					    for (int k = 0; k < NUM_SECONDARY_RESOURCES; k++) {
+						   if (SecondaryResourceNameTable[k].name == i->resource()) {
+							   if (!customed_secondary_cost) {
+								   gMonSecondaryResourceCost[id][SecondaryResourceNameTable[k].resource_id] = i->cost();
+								   customed_secondary_cost = true;
+							   }
+							   else {
+								   string error_message = "Error loading creatures.xml.\nToo many secondary resource costs for creature "
+									                      + c.name_singular() + "!";
+								   EarlyShutdown("Startup Error", (char *)error_message.c_str());
+							   }
+							       
+						   }
+					    }
+				}
+				
 				gMonsterDatabase[id] = tag_monsterInfo(
 					c.cost(),
 					c.fight_value(),
@@ -167,4 +206,12 @@ void UnloadCreatures() {
 		if(gArmyNames[i] != NULL) free(gArmyNames[i]);
 		if(gArmyNamesPlural[i] != NULL) free(gArmyNamesPlural[i]);
 	}
+}
+
+void __fastcall GetMonsterCost(int mon, int *const costs) {
+	for (int i = 0; i < NUM_SECONDARY_RESOURCES; i++) {
+		costs[i] = gMonSecondaryResourceCost[mon][i];
+	}
+        
+	costs[RESOURCE_GOLD] = gMonsterDatabase[mon].cost;
 }

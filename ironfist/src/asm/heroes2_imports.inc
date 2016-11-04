@@ -81,6 +81,7 @@ IMPORT_?InitMainClasses@@YIXXZ = 1
 IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 ;;allowing play without CD
+IMPORT_?SetupCDDrive@@YIHXZ = 1
 IMPORT_?SetupCDRom@@YIXXZ = 1
 IMPORT_?SetupGame@game@@QAEHXZ = 1
 ?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ
@@ -124,6 +125,8 @@ IMPORT_?cMonFilename@@3PAPADA = 1
 IMPORT_?gArmyNames@@3PAPADA = 1
 IMPORT_?gArmyNamesPlural@@3PAPADA = 1
 IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
+IMPORT_?GetMonsterCost@@YIXHQAH@Z = 1
+
 
 ;;armies
 
@@ -157,6 +160,8 @@ IMPORT_?InitNonVisualVars@combatManager@@QAEXXZ = 1
 IMPORT_?MoveAttack@army@@QAEXHH@Z = 1
 ?MoveAttack@army@@QAEXHH@Z_clone EQU ?MoveAttack_orig@army@@QAEXHH@Z
 IMPORT_?sElevationOverlay@@3PAUSElevationOverlay@@A = 1
+IMPORT_?DoAttack@army@@QAEXH@Z = 1
+?DoAttack@army@@QAEXH@Z_clone EQU ?DoAttack_orig@army@@QAEXH@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
@@ -169,9 +174,16 @@ IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
 IMPORT_?MakeAllWaterVisible@game@@QAEXH@Z = 1
 ?MakeAllWaterVisible@game@@QAEXH@Z_clone EQU ?MakeAllWaterVisible_orig@game@@QAEXH@Z
 
+IMPORT_?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z = 1
+?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z_clone EQU ?MoveHero_orig@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z
+
+IMPORT_?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z = 1
+?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z_clone EQU ?DoEvent_orig@advManager@@QAEXPAVmapCell@@HH@Z
+
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
 ?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z
+
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
@@ -207,6 +219,9 @@ IMPORT_?RecruitHero@townManager@@QAEHHH@Z = 1
 IMPORT_?GetBuildingName@@YIPADHH@Z = 1
 IMPORT_?ClaimTown@game@@QAEXHHH@Z = 1
 IMPORT_?GetTownId@game@@QAEHHH@Z = 1
+?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
+IMPORT_?Open@recruitUnit@@UAEHH@Z = 1
+?Open@recruitUnit@@UAEHH@Z_clone EQU ?Open_orig@recruitUnit@@QAEHH@Z
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1
@@ -215,3 +230,9 @@ IMPORT_?Open@advManager@@UAEHH@Z = 1
 ?Open@advManager@@UAEHH@Z_clone EQU ?Open_orig@advManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@townManager@@UAEHH@Z = 1
 ?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
+IMPORT_?CheckEndGame@@YIXHH@Z = 1
+?CheckEndGame@@YIXHH@Z_clone EQU ?CheckEndGame_orig@@YIXHH@Z
+
+;; AI
+IMPORT_?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z = 1
+?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z_clone EQU ?RedistributeTroops_orig@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z

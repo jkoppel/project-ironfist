@@ -35,7 +35,7 @@ public:
 	char _3[45];
 	char field_40;
 	__int16 field_41;
-	char field_43;
+	char daysLeftWithoutCastle;
 	char numCastles;
 	__int16 field_45;
 	char castlesOwned[MAX_TOWNS];
@@ -149,7 +149,8 @@ public:
 
     // New state
     bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
-
+	// AI redistribute troops toggle
+	bool allowAIArmySharing = true;
 
 	int SetupGame();
 	int SetupGame_orig();
@@ -172,7 +173,7 @@ public:
     void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
-	int GetTownId(int,int);
+        void GetTownId(int,int);
 
 	void NextPlayer();
 	void NextPlayer_orig();
@@ -189,6 +190,9 @@ public:
 private:
     void PropagateVision();
 };
+
+extern void __fastcall CheckEndGame_orig(int a, int b);
+void __fastcall CheckEndGame(int a, int b);
 
 extern game* gpGame;
 
