@@ -87,7 +87,7 @@ mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7,
 }
 
 void game::ShareVision(int sourcePlayer, int destPlayer) {
-  this->sharePlayerVision[sourcePlayer][destPlayer] = 1;
+  this->sharePlayerVision[sourcePlayer][destPlayer] = true;
   this->PropagateVision();
 }
 
