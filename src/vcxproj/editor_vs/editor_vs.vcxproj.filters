@@ -195,28 +195,28 @@
     <ClCompile Include="..\..\cpp\editor\editor.cpp">
       <Filter>Source Files\editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\editor\map_state.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\lib\lua\src\lua.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cpp\lib\lua\src\lutf8lib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\editor\map_state.cpp">
+      <Filter>Source Files\editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\editor_imports.inc">
       <Filter>Assembly Interop</Filter>
     </None>
-    <None Include="..\..\..\resources\windows\ironfist.ico">
-      <Filter>Resource Files</Filter>
-    </None>
-    <None Include="..\..\..\resources\windows\ironfist.png">
-      <Filter>Resource Files</Filter>
-    </None>
     <None Include="..\..\cpp\lib\lua\src\Makefile">
       <Filter>Source Files\lib\lua\src</Filter>
+    </None>
+    <None Include="..\..\..\..\ironfist.ico">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\..\ironfist.png">
+      <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -328,7 +328,7 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-	<ClInclude Include="..\..\..\resources\windows\editor\resource.h">
+    <ClInclude Include="..\..\..\resources\windows\editor\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\base.h">
