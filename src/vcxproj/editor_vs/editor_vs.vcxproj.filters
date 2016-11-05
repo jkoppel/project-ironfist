@@ -63,309 +63,309 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src\cpp\editor\overlay.cpp">
+    <ClCompile Include="..\..\cpp\editor\overlay.cpp">
       <Filter>Source Files\editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\artifacts.cpp">
+    <ClCompile Include="..\..\cpp\artifacts.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\resource\resourceManager.cpp">
+    <ClCompile Include="..\..\cpp\resource\resourceManager.cpp">
       <Filter>Source Files\resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\init_editor.cpp">
+    <ClCompile Include="..\..\cpp\init_editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\combat\creatures.cpp">
+    <ClCompile Include="..\..\cpp\combat\creatures.cpp">
       <Filter>Source Files\combat</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\compat.cpp">
+    <ClCompile Include="..\..\cpp\compat.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\combat\creatures_xml.cxx">
+    <ClCompile Include="..\..\cpp\combat\creatures_xml.cxx">
       <Filter>Source Files\combat</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\driver.cpp">
+    <ClCompile Include="..\..\cpp\driver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lapi.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lapi.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lauxlib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lauxlib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lbaselib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lbaselib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lbitlib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lbitlib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lcode.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lcode.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lcorolib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lcorolib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lctype.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lctype.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\ldblib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldblib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\ldebug.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldebug.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\ldo.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldo.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\ldump.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldump.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lfunc.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lfunc.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lgc.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lgc.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\linit.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\linit.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\liolib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\liolib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\llex.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\llex.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lmathlib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lmathlib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lmem.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lmem.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\loadlib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\loadlib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lobject.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lobject.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lopcodes.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lopcodes.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\loslib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\loslib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lparser.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lparser.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lstate.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lstate.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lstring.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lstring.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lstrlib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lstrlib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\ltable.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\ltable.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\ltablib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\ltablib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\ltm.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\ltm.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lundump.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lundump.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lvm.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lvm.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lzio.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lzio.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\gui\dialog.cpp">
+    <ClCompile Include="..\..\cpp\gui\dialog.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\editor\events.cpp">
+    <ClCompile Include="..\..\cpp\editor\events.cpp">
       <Filter>Source Files\editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\gui\msg.cpp">
+    <ClCompile Include="..\..\cpp\gui\msg.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\editor\editor.cpp">
+    <ClCompile Include="..\..\cpp\editor\editor.cpp">
       <Filter>Source Files\editor</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\editor\map_state.cpp">
+    <ClCompile Include="..\..\cpp\editor\map_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lua.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lua.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\cpp\lib\lua\src\lutf8lib.c">
+    <ClCompile Include="..\..\cpp\lib\lua\src\lutf8lib.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\src\asm\editor_imports.inc">
+    <None Include="..\..\asm\editor_imports.inc">
       <Filter>Assembly Interop</Filter>
     </None>
-    <None Include="..\..\..\..\ironfist.ico">
+    <None Include="..\..\..\resources\windows\ironfist.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\..\ironfist.png">
+    <None Include="..\..\..\resources\windows\ironfist.png">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\src\cpp\lib\lua\src\Makefile">
+    <None Include="..\..\cpp\lib\lua\src\Makefile">
       <Filter>Source Files\lib\lua\src</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\cpp\artifacts.h">
+    <ClInclude Include="..\..\cpp\artifacts.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\resource\resources.h">
+    <ClInclude Include="..\..\cpp\resource\resources.h">
       <Filter>Header Files\resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\resource\resourceManager.h">
+    <ClInclude Include="..\..\cpp\resource\resourceManager.h">
       <Filter>Header Files\resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\driver.h">
+    <ClInclude Include="..\..\cpp\driver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\manager.h">
+    <ClInclude Include="..\..\cpp\manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\msg.h">
+    <ClInclude Include="..\..\cpp\msg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\combat\creatures.h">
+    <ClInclude Include="..\..\cpp\combat\creatures.h">
       <Filter>Header Files\combat</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\adventure\adv.h">
+    <ClInclude Include="..\..\cpp\adventure\adv.h">
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\combat\creatures_xml.hxx">
+    <ClInclude Include="..\..\cpp\combat\creatures_xml.hxx">
       <Filter>Header Files\combat</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lapi.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lapi.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lauxlib.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lauxlib.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lcode.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lcode.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lctype.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lctype.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\ldebug.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\ldebug.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\ldo.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\ldo.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lfunc.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lfunc.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lgc.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lgc.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\llex.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\llex.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\llimits.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\llimits.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lmem.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lmem.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lobject.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lobject.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lopcodes.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lopcodes.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lparser.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lparser.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lstate.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lstate.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lstring.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lstring.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\ltable.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\ltable.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\ltm.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\ltm.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lua.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lua.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lua.hpp">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lua.hpp">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\luaconf.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\luaconf.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lualib.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lualib.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lundump.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lundump.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lvm.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lvm.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lzio.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lzio.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\editor\events.h">
+    <ClInclude Include="..\..\cpp\editor\events.h">
       <Filter>Header Files\editor</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\editor\resource.h">
+    <ClInclude Include="..\..\cpp\editor\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\base.h">
+    <ClInclude Include="..\..\cpp\base.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\adventure\army.h">
+    <ClInclude Include="..\..\cpp\adventure\army.h">
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\editor\editor.h">
+    <ClInclude Include="..\..\cpp\editor\editor.h">
       <Filter>Header Files\editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\gui\dialog.h">
+    <ClInclude Include="..\..\cpp\gui\dialog.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\gui\gui.h">
+    <ClInclude Include="..\..\cpp\gui\gui.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\town\town.h">
+    <ClInclude Include="..\..\cpp\town\town.h">
       <Filter>Header Files\town</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\adventure\map.h">
+    <ClInclude Include="..\..\cpp\adventure\map.h">
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\editor\overlay.h">
+    <ClInclude Include="..\..\cpp\editor\overlay.h">
       <Filter>Header Files\editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\cpp\lib\lua\src\lprefix.h">
+    <ClInclude Include="..\..\cpp\lib\lua\src\lprefix.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\src\asm\editor.asm">
+    <CustomBuild Include="..\..\asm\editor.asm">
       <Filter>Assembly Interop</Filter>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\src\cpp\editor\edittown.rc">
+    <ResourceCompile Include="..\..\cpp\editor\edittown.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

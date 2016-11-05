@@ -1,0 +1,210 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{F0415D0D-50FD-433E-9A32-075398C90660}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>editor_vs</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\bin\</OutDir>
+    <TargetName>editor</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;XERCES_STATIC_LIBRARY;%(PreprocessorDefinitions);EDITOR</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\cpp;..\..\cpp\lib</AdditionalIncludeDirectories>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_static_3D.lib</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\cpp\artifacts.cpp" />
+    <ClCompile Include="..\..\cpp\combat\creatures.cpp" />
+    <ClCompile Include="..\..\cpp\combat\creatures_xml.cxx" />
+    <ClCompile Include="..\..\cpp\compat.cpp" />
+    <ClCompile Include="..\..\cpp\driver.cpp" />
+    <ClCompile Include="..\..\cpp\editor\editor.cpp" />
+    <ClCompile Include="..\..\cpp\editor\events.cpp" />
+    <ClCompile Include="..\..\cpp\editor\map_state.cpp" />
+    <ClCompile Include="..\..\cpp\editor\overlay.cpp" />
+    <ClCompile Include="..\..\cpp\gui\dialog.cpp" />
+    <ClCompile Include="..\..\cpp\gui\msg.cpp" />
+    <ClCompile Include="..\..\cpp\init_editor.cpp" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lapi.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lauxlib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lbaselib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lbitlib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lcode.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lcorolib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lctype.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldblib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldebug.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldo.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\ldump.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lfunc.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lgc.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\linit.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\liolib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\llex.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lmathlib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lmem.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\loadlib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lobject.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lopcodes.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\loslib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lparser.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lstate.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lstring.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lstrlib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\ltable.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\ltablib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\ltm.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lua.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lundump.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lutf8lib.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lvm.c" />
+    <ClCompile Include="..\..\cpp\lib\lua\src\lzio.c" />
+    <ClCompile Include="..\..\cpp\resource\resourceManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\asm\editor.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(VCInstallDir)\bin\ml.exe" /c /Cx /coff "%(FullPath)"</Command>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling editor.asm</Message>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).obj</Outputs>
+    </CustomBuild>
+    <None Include="..\..\..\..\ironfist.ico" />
+    <None Include="..\..\..\..\ironfist.png" />
+    <None Include="..\..\asm\editor_imports.inc" />
+    <None Include="..\..\cpp\lib\lua\src\Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\cpp\adventure\adv.h" />
+    <ClInclude Include="..\..\cpp\adventure\army.h" />
+    <ClInclude Include="..\..\cpp\adventure\map.h" />
+    <ClInclude Include="..\..\cpp\artifacts.h" />
+    <ClInclude Include="..\..\cpp\base.h" />
+    <ClInclude Include="..\..\cpp\combat\creatures.h" />
+    <ClInclude Include="..\..\cpp\combat\creatures_xml.hxx" />
+    <ClInclude Include="..\..\cpp\driver.h" />
+    <ClInclude Include="..\..\cpp\editor\editor.h" />
+    <ClInclude Include="..\..\cpp\editor\events.h" />
+    <ClInclude Include="..\..\cpp\editor\overlay.h" />
+    <ClInclude Include="..\..\cpp\editor\resource.h" />
+    <ClInclude Include="..\..\cpp\gui\dialog.h" />
+    <ClInclude Include="..\..\cpp\gui\gui.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lapi.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lauxlib.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lcode.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lctype.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\ldebug.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\ldo.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lfunc.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lgc.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\llex.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\llimits.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lmem.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lobject.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lopcodes.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lparser.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lprefix.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lstate.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lstring.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\ltable.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\ltm.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lua.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lua.hpp" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\luaconf.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lualib.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lundump.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lvm.h" />
+    <ClInclude Include="..\..\cpp\lib\lua\src\lzio.h" />
+    <ClInclude Include="..\..\cpp\manager.h" />
+    <ClInclude Include="..\..\cpp\msg.h" />
+    <ClInclude Include="..\..\cpp\resource\resourceManager.h" />
+    <ClInclude Include="..\..\cpp\resource\resources.h" />
+    <ClInclude Include="..\..\cpp\town\town.h" />
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\cpp\editor\edittown.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

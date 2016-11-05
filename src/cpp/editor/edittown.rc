@@ -1,4 +1,4 @@
-// Microsoft Visual C++ generated resource script.
+﻿// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -180,7 +180,7 @@ END
 // PNG
 //
 
-IDB_PNG1                PNG                     "..\\resources\\windows\\ironfist.png"
+IDB_PNG1                PNG                     "..\\..\\..\\resources\\windows\\ironfist.png"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -189,7 +189,7 @@ IDB_PNG1                PNG                     "..\\resources\\windows\\ironfis
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                    "..\\resources\\windows\\ironfist.ico"
+IDI_ICON1               ICON                    "..\\..\\..\\resources\\windows\\ironfist.ico"
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
