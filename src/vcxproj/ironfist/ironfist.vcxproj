@@ -161,7 +161,7 @@
     <ClCompile Include="..\..\cpp\town\town.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\resources\windows\resource.h" />
+    <ClInclude Include="..\..\..\resources\windows\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\adventure\map.h" />
     <ClInclude Include="..\..\cpp\adventure\terrain.h" />
@@ -235,7 +235,7 @@
     <None Include="..\..\cpp\lib\lua\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\resources\windows\ironfist.rc" />
+    <ResourceCompile Include="..\..\..\resources\windows\ironfist\ironfist.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\..\..\resources\windows\just_ironfist.ico" />

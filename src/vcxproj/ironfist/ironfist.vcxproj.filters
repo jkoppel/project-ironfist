@@ -422,7 +422,7 @@
     <ClInclude Include="..\..\cpp\adventure\map.h">
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\resources\windows\resource.h">
+    <ClInclude Include="..\..\..\resources\windows\ironfist\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\combat\animation.h">
@@ -459,7 +459,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\resources\windows\ironfist.rc">
+    <ResourceCompile Include="..\..\..\resources\windows\ironfist\ironfist.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

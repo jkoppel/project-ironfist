@@ -8,7 +8,7 @@
 
 #include "editor/editor.h"
 #include "editor/events.h"
-#include "editor/resource.h"
+#include "../../../resources/windows/editor/resource.h"
 #include "town/town.h"
 
 extern void* hwndApp;

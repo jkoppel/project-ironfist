@@ -328,7 +328,7 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cpp\editor\resource.h">
+	<ClInclude Include="..\..\..\resources\windows\editor\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\base.h">
@@ -365,7 +365,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\cpp\editor\edittown.rc">
+    <ResourceCompile Include="..\..\..\resources\windows\editor\edittown.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
