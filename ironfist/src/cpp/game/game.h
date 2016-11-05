@@ -173,7 +173,7 @@ public:
     void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
-        void GetTownId(int,int);
+    int GetTownId(int,int);
 
 	void NextPlayer();
 	void NextPlayer_orig();
