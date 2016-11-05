@@ -6,8 +6,8 @@
 #include "adventure/map.h"
 #include "combat/creatures.h"
 
-#include "editor/editor.h"
-#include "editor/events.h"
+#include "editor.h"
+#include "events.h"
 #include "../../../resources/windows/editor/resource.h"
 #include "town/town.h"
 

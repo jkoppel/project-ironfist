@@ -5,8 +5,8 @@
 #include "artifacts.h"
 
 #include "adventure/map.h"
-#include "editor/editor.h"
-#include "editor/overlay.h"
+#include "editor.h"
+#include "overlay.h"
 #include "town/town.h"
 
 int NumTownsOfColor(int color) {

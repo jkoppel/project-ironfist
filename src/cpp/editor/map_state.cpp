@@ -1,5 +1,5 @@
 #include "adventure/map.h"
-#include "editor/editor.h"
+#include "editor.h"
 
 #include "base.h"
 
