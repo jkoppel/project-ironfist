@@ -177,9 +177,6 @@
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lutf8lib.c">
       <Filter>Source Files\shared\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\editor\init_editor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\editor\editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -200,6 +197,9 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\driver.cpp">
       <Filter>Source Files\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\editor\init.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

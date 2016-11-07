@@ -97,7 +97,7 @@
     <ClCompile Include="..\..\cpp\editor\overlay.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
-    <ClCompile Include="..\..\cpp\editor\init_editor.cpp" />
+    <ClCompile Include="..\..\cpp\editor\init.cpp" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lauxlib.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lbaselib.c" />
