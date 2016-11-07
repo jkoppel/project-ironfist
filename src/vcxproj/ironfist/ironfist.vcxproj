@@ -1,0 +1,246 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{A9FE2D03-4A23-4595-88C1-BBB1B9217B1A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ironfist</RootNamespace>
+    <ProjectName>ironfist_vs</ProjectName>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\..\bin</OutDir>
+    <TargetName>ironfist</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\..\bin</OutDir>
+    <TargetName>ironfist</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;XERCES_STATIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmtd.lib;PocoFoundationmtd.lib;xerces-c_static_3D.lib</AdditionalDependencies>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <Manifest>
+      <AdditionalManifestFiles>
+      </AdditionalManifestFiles>
+    </Manifest>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\cpp\shared\adventure\adv.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\hero.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\map.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\map_events.cpp" />
+    <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
+    <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
+    <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
+    <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
+    <ClCompile Include="..\..\cpp\shared\combat\combat_spells.cpp" />
+    <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
+    <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />
+    <ClCompile Include="..\..\cpp\shared\compat.cpp" />
+    <ClCompile Include="..\..\cpp\shared\driver.cpp" />
+    <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp" />
+    <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
+    <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx" />
+    <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
+    <ClCompile Include="..\..\cpp\shared\init.cpp" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lauxlib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lbaselib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lbitlib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lcode.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lcorolib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lctype.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldblib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldebug.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldo.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldump.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lfunc.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lgc.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\linit.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\liolib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\llex.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lmathlib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lmem.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\loadlib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lobject.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lopcodes.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\loslib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lparser.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstate.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstring.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstrlib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltable.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltablib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltm.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lua.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lundump.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lutf8lib.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lvm.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c" />
+    <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp" />
+    <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\lua_utils.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\consts.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\temporary_file.cpp" />
+    <ClCompile Include="..\..\cpp\shared\spell\spells.cpp" />
+    <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\rc\ironfist\resource.h" />
+    <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
+    <ClInclude Include="..\..\cpp\shared\adventure\map.h" />
+    <ClInclude Include="..\..\cpp\shared\adventure\terrain.h" />
+    <ClInclude Include="..\..\cpp\shared\analytics.h" />
+    <ClInclude Include="..\..\cpp\shared\artifacts.h" />
+    <ClInclude Include="..\..\cpp\shared\base.h" />
+    <ClInclude Include="..\..\cpp\shared\combat\animation.h" />
+    <ClInclude Include="..\..\cpp\shared\combat\combat.h" />
+    <ClInclude Include="..\..\cpp\shared\combat\creatures.h" />
+    <ClInclude Include="..\..\cpp\shared\combat\creatures_xml.hxx" />
+    <ClInclude Include="..\..\cpp\shared\combat\speed.h" />
+    <ClInclude Include="..\..\cpp\shared\driver.h" />
+    <ClInclude Include="..\..\cpp\shared\game\game.h" />
+    <ClInclude Include="..\..\cpp\shared\game\map_xml.hxx" />
+    <ClInclude Include="..\..\cpp\shared\graphics.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\dialog.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\gui.h" />
+    <ClInclude Include="..\..\cpp\shared\import_val.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lapi.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lauxlib.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lcode.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lctype.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ldebug.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ldo.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lfunc.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lgc.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\llex.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\llimits.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lmem.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lobject.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lopcodes.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lparser.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lprefix.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lstate.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lstring.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ltable.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ltm.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lua.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lua.hpp" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\luaconf.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lualib.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lundump.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lvm.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lzio.h" />
+    <ClInclude Include="..\..\cpp\shared\manager.h" />
+    <ClInclude Include="..\..\cpp\shared\msg.h" />
+    <ClInclude Include="..\..\cpp\shared\mss32.h" />
+    <ClInclude Include="..\..\cpp\shared\prefs.h" />
+    <ClInclude Include="..\..\cpp\shared\registry_prefs.h" />
+    <ClInclude Include="..\..\cpp\shared\resource\resourceManager.h" />
+    <ClInclude Include="..\..\cpp\shared\resource\resources.h" />
+    <ClInclude Include="..\..\cpp\shared\scripting\hook.h" />
+    <ClInclude Include="..\..\cpp\shared\scripting\register.h" />
+    <ClInclude Include="..\..\cpp\shared\scripting\scripting.h" />
+    <ClInclude Include="..\..\cpp\shared\scripting\temporary_file.h" />
+    <ClInclude Include="..\..\cpp\shared\skills.h" />
+    <ClInclude Include="..\..\cpp\shared\sound\sound.h" />
+    <ClInclude Include="..\..\cpp\shared\spell\spells.h" />
+    <ClInclude Include="..\..\cpp\shared\stdafx.h" />
+    <ClInclude Include="..\..\cpp\shared\town\town.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="..\..\asm\heroes2.asm">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(VCInstallDir)\bin\ml.exe" /c /Cx /coff "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).obj</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(VCInstallDir)\bin\ml.exe" /c /Cx /coff "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(Filename).obj</Outputs>
+    </CustomBuild>
+    <None Include="..\..\asm\heroes2_imports.inc" />
+    <None Include="..\..\cpp\shared\lib\lua\src\Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\rc\ironfist\ironfist.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\assets\windows\just_ironfist.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
