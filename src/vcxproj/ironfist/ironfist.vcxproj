@@ -161,7 +161,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\resources\windows\ironfist\resource.h" />
+    <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\map.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\terrain.h" />
@@ -235,10 +235,10 @@
     <None Include="..\..\cpp\shared\lib\lua\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\resources\windows\ironfist\ironfist.rc" />
+    <ResourceCompile Include="..\..\rc\ironfist\ironfist.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\resources\windows\just_ironfist.ico" />
+    <Image Include="..\..\..\assets\windows\just_ironfist.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -209,10 +209,10 @@
     <None Include="..\..\asm\editor_imports.inc">
       <Filter>Assembly Interop</Filter>
     </None>
-    <None Include="..\..\..\..\ironfist.ico">
+    <None Include="..\..\..\assets\windows\ironfist.ico">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="..\..\..\..\ironfist.png">
+    <None Include="..\..\..\assets\windows\ironfist.png">
       <Filter>Resource Files</Filter>
     </None>
     <None Include="..\..\cpp\lib\lua\src\Makefile" />
@@ -326,7 +326,7 @@
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\resources\windows\editor\resource.h">
+    <ClInclude Include="..\..\rc\editor\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\base.h">
@@ -363,7 +363,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\resources\windows\editor\edittown.rc">
+    <ResourceCompile Include="..\..\rc\editor\edittown.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>

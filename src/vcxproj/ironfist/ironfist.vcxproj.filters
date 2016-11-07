@@ -422,7 +422,7 @@
     <ClInclude Include="..\..\cpp\shared\adventure\map.h">
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\resources\windows\ironfist\resource.h">
+    <ClInclude Include="..\..\rc\ironfist\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\combat\animation.h">
@@ -459,7 +459,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\resources\windows\ironfist\ironfist.rc">
+    <ResourceCompile Include="..\..\rc\ironfist\ironfist.rc">
       <Filter>Resource Files</Filter>
     </ResourceCompile>
   </ItemGroup>
@@ -469,7 +469,7 @@
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\resources\windows\just_ironfist.ico">
+    <Image Include="..\..\..\assets\windows\just_ironfist.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

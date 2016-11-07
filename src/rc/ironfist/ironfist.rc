@@ -1,4 +1,4 @@
-﻿// Microsoft Visual C++ generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -473,7 +473,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDI_ICON1               ICON                   "..\\..\\..\\resources\\windows\\just_ironfist.ico"
+IDI_ICON1               ICON                   "..\\..\\..\\assets\\windows\\just_ironfist.ico"
 #endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 

@@ -147,7 +147,7 @@
     <None Include="..\..\cpp\lib\lua\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\resources\windows\editor\resource.h" />
+    <ClInclude Include="..\..\rc\editor\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\army.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\map.h" />
@@ -202,7 +202,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\..\resources\windows\editor\edittown.rc" />
+    <ResourceCompile Include="..\..\rc\editor\edittown.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
