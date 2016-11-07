@@ -141,10 +141,9 @@
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Assembling editor.asm</Message>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).obj</Outputs>
     </CustomBuild>
-    <None Include="..\..\..\..\ironfist.ico" />
-    <None Include="..\..\..\..\ironfist.png" />
+    <None Include="..\..\..\assets\windows\ironfist.ico" />
+    <None Include="..\..\..\assets\windows\ironfist.png" />
     <None Include="..\..\asm\editor_imports.inc" />
-    <None Include="..\..\cpp\lib\lua\src\Makefile" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\rc\editor\resource.h" />
@@ -192,14 +191,6 @@
     <ClInclude Include="..\..\cpp\shared\resource\resourceManager.h" />
     <ClInclude Include="..\..\cpp\shared\resource\resources.h" />
     <ClInclude Include="..\..\cpp\shared\town\town.h" />
-    <ClInclude Include="resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\rc\editor\edittown.rc" />
