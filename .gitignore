@@ -17,6 +17,8 @@ x86/
 bld/
 [Oo]bj/
 [Ll]og/
+[Bb]in/
+*.obj
 
 # Visual C++ cache files
 ipch/
@@ -35,4 +37,5 @@ ipch/
 *.vspx
 *.sap
 
-*.obj
+# Ironfist packed resources
+[Bb]uild/
