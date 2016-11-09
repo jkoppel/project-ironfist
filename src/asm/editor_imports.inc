@@ -117,6 +117,8 @@ IMPORT_?PlaceOverlay@@YIHPAUoverlay@@HHH@Z = 1
 
 ;;map
 IMPORT_?CopyMap@@YAPAXXZ = 1
+IMPORT_?Clone@fullMap@@QAEPAXPAV1@@Z = 1
+
 ;;mapExtra
 IMPORT_?DeleteExtraObjectData@@YIXI@Z = 1
 

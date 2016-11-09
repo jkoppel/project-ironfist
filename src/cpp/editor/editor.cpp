@@ -29,14 +29,14 @@ std::deque<fullMap*> undoStack;
 void * __cdecl CopyMap(void) {
 	gMap2.Clone(&gpMap);
 
-	if (undoStack.size() > 10)
-	{
-		//undoStack.back().Close();
+	if (undoStack.size() > 10) {
+		//undoStack.front().Close();
 		undoStack.pop_front();
 	}
-	fullMap *tmp = new fullMap();
+	fullMap *tmp = (fullMap *)operator new (sizeof(fullMap));
+	tmp->cellExtras = nullptr;
+	tmp->tiles = nullptr;
 	tmp->Clone(&gMap2);
-
 	undoStack.push_back(tmp);
 	return NULL;
 }
@@ -44,26 +44,27 @@ void * __cdecl CopyMap(void) {
 void * fullMap::Clone(fullMap *oth) {
 	if(this->cellExtras)
 		delete(this->cellExtras);
-	/*if (this->tiles)
-		delete (this->tiles);*/
+	if (this->tiles)
+		delete(this->tiles);
 
+	// copy data to another fullMap
 	this->height = oth->height;
 	this->width = oth->width;
-	// copy data to another fullMap
 	this->numCellExtras = oth->numCellExtras;
 	this->cellExtras = (mapCellExtra *)operator new(sizeof(mapCellExtra) * this->numCellExtras);
-	memcpy(this->tiles, oth->tiles, sizeof(mapCell) * this->height * this->width);
-	memcpy(this->cellExtras, oth->cellExtras, 15 * this->numCellExtras);
+	this->tiles = (mapCell *)operator new(sizeof(mapCell) * this->height * this->width);
+	
+	//if(oth->cellExtras)
+		memcpy(this->tiles, oth->tiles, sizeof(mapCell) * this->height * this->width);
+	//if(oth->tiles)
+		memcpy(this->cellExtras, oth->cellExtras, 15 * this->numCellExtras);
 
-	if (this == &gpMap)
-	{
-		if (undoStack.size() > 2)
-		{
-			// Close?
+	if (this == &gpMap)	{
+		if(undoStack.size())
+			gpMap = *undoStack.back();
+		if (undoStack.size() > 2) {
 			undoStack.pop_back();
 		}
-		if(undoStack.size())
-			gMap2 = *undoStack.back();
 	}
 	return NULL;
 }
