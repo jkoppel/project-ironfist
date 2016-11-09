@@ -115,6 +115,8 @@ IMPORT_?gOverlayDatabase@@3PAUoverlay@@A = 1
 IMPORT_?FillInOverlayTiles@@YAXXZ = 1
 IMPORT_?PlaceOverlay@@YIHPAUoverlay@@HHH@Z = 1
 
+;;map
+IMPORT_?CopyMap@@YAPAXXZ = 1
 ;;mapExtra
 IMPORT_?DeleteExtraObjectData@@YIXI@Z = 1
 
