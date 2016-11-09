@@ -60,8 +60,11 @@ void * fullMap::Clone(fullMap *oth) {
 		memcpy(this->cellExtras, oth->cellExtras, 15 * this->numCellExtras);
 
 	if (this == &gpMap)	{
-		if(undoStack.size())
+		if (undoStack.size()) {
+			delete gpMap.cellExtras;
+			delete gpMap.tiles;
 			gpMap = *undoStack.back();
+		}
 		if (undoStack.size() > 2) {
 			undoStack.pop_back();
 		}
