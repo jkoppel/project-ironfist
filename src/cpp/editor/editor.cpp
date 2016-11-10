@@ -71,3 +71,8 @@ void * fullMap::Clone(fullMap *oth) {
 	}
 	return NULL;
 }
+
+void editManager::InitializeMap(int random, int width, int height) {
+	this->InitializeMap_orig(random, width, height);
+	undoStack.clear();
+}

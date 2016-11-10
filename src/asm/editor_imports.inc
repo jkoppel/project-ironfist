@@ -126,3 +126,7 @@ IMPORT_?DeleteExtraObjectData@@YIXI@Z = 1
 IMPORT_?EditTown@eventsManager@@QAEXHH@Z = 1
 IMPORT_?ShowErrorMessage@@YIXPBD@Z = 1
 ?ShowErrorMessage@@YIXPBD@Z_clone EQU ?ShowErrorMessage_orig@@YIXPBD@Z
+
+;;editManager
+IMPORT_?InitializeMap@editManager@@QAEXHHH@Z = 1
+?InitializeMap@editManager@@QAEXHHH@Z_clone EQU ?InitializeMap_orig@editManager@@QAEXHHH@Z
