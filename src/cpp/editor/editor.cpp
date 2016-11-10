@@ -22,57 +22,45 @@ void __fastcall ShowErrorMessage(const char *str) {
 }
 
 extern fullMap gpMap;
-extern fullMap gMap2;
 
 std::deque<fullMap*> undoStack;
 
 void * __cdecl CopyMap(void) {
-	gMap2.Clone(&gpMap);
 
 	if (undoStack.size() > 10) {
 		//undoStack.front().Close();
 		undoStack.pop_front();
 	}
 	fullMap *tmp = (fullMap *)operator new (sizeof(fullMap));
-	tmp->cellExtras = nullptr;
-	tmp->tiles = nullptr;
-	tmp->Clone(&gMap2);
+	// copy data to another fullMap
+	tmp->height = gpMap.height;
+	tmp->width = gpMap.width;
+	tmp->numCellExtras = gpMap.numCellExtras;
+	tmp->cellExtras = (mapCellExtra *)operator new(sizeof(mapCellExtra) * tmp->numCellExtras);
+	tmp->tiles = (mapCell *)operator new(sizeof(mapCell) * tmp->height * tmp->width);
+	memcpy(tmp->tiles, gpMap.tiles, sizeof(mapCell) * tmp->height * tmp->width);
+	memcpy(tmp->cellExtras, gpMap.cellExtras, 15 * tmp->numCellExtras);
 	undoStack.push_back(tmp);
 	return NULL;
 }
 
 void * fullMap::Clone(fullMap *oth) {
-	if(this->cellExtras)
-		delete(this->cellExtras);
-	if (this->tiles)
-		delete(this->tiles);
-
-	// copy data to another fullMap
-	this->height = oth->height;
-	this->width = oth->width;
-	this->numCellExtras = oth->numCellExtras;
-	this->cellExtras = (mapCellExtra *)operator new(sizeof(mapCellExtra) * this->numCellExtras);
-	this->tiles = (mapCell *)operator new(sizeof(mapCell) * this->height * this->width);
-	
-	//if(oth->cellExtras)
-		memcpy(this->tiles, oth->tiles, sizeof(mapCell) * this->height * this->width);
-	//if(oth->tiles)
-		memcpy(this->cellExtras, oth->cellExtras, 15 * this->numCellExtras);
-
-	if (this == &gpMap)	{
-		if (undoStack.size()) {
-			delete gpMap.cellExtras;
-			delete gpMap.tiles;
-			gpMap = *undoStack.back();
-		}
-		if (undoStack.size() > 2) {
-			undoStack.pop_back();
-		}
+	if (undoStack.size()) {
+		delete gpMap.cellExtras;
+		delete gpMap.tiles;
+		gpMap = *undoStack.back();
+		undoStack.pop_back();
 	}
 	return NULL;
 }
 
 void editManager::InitializeMap(int random, int width, int height) {
-	this->InitializeMap_orig(random, width, height);
+	for (auto i : undoStack) {
+		if (i->cellExtras)
+			delete i->cellExtras;
+		if (i->tiles)
+			delete i->tiles;
+	}
 	undoStack.clear();
+	this->InitializeMap_orig(random, width, height);
 }
