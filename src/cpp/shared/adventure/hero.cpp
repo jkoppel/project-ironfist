@@ -160,7 +160,6 @@ int hero::CalcMobility() {
 	signed int minSpeed;
 	__int16 speedToMovementPoints[9];
 	int points;
-
 	float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
 
 	speedToMovementPoints[0] = 1000;
@@ -173,7 +172,10 @@ int hero::CalcMobility() {
 	speedToMovementPoints[7] = 1500;
 	speedToMovementPoints[8] = 1500;
 
-
+	mapCell* cell = gpAdvManager->GetCell(x, y);
+	if (cell->objType != LOCATION_TOWN) {
+		return CalcMobility_orig();
+	}
 
 	minSpeed = 7;
 
