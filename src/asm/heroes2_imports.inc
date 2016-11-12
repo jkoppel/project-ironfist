@@ -147,6 +147,9 @@ IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
 
+IMPORT_?CalcMobility@hero@@QAEHXZ = 1
+?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
+
 ;;artifacts
 IMPORT_?gArtifactNames@@3PAPADA = 1
 IMPORT_?gArtifactDesc@@3PAPADA = 1
