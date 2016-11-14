@@ -8,7 +8,7 @@ extern unsigned __int16 gpEventDataIndices[];
 extern int __fastcall HasExtraObjectData(int);
 
 void __fastcall DeleteExtraObjectData(unsigned int idx) {
-    delete gpEditManager->mapExtra[idx];
+	BaseFree(gpEditManager->mapExtra[idx], __FILE__ , __LINE__);
 
     if (gpEditManager->nMapExtra > idx + 1) {
         memmove(
