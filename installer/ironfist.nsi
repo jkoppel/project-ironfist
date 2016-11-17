@@ -17,14 +17,15 @@ section
 
 	setOutPath $INSTDIR
 
-	File ..\bin\ironfist.exe
+	File ..\build\bin\ironfist.exe
 	File MSS32.DLL
 	File SMACKW32.DLL
-	File ..\bin\editor.exe
+	File xerces-c_3_1.dll
+	File ..\build\bin\editor.exe
 
 	setOutPath $INSTDIR\DATA
 	
-	File ..\resources\agg\ironfist.agg
+	File ..\build\ironfist.agg
 	File ..\src\xsd\creatures_xml.xsd
 	File ..\data\creatures.xml
 
