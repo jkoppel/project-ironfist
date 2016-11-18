@@ -25,6 +25,8 @@ extern fullMap gpMap;
 
 std::stack<fullMap*> undoStack;
 
+// This is used for Undo action in editor
+// It copies the map and saves it in a stack
 void * __cdecl CopyMap(void) {
 	fullMap *tmp = (fullMap *)operator new (sizeof(fullMap));
 	tmp->height = gpMap.height;
@@ -38,6 +40,8 @@ void * __cdecl CopyMap(void) {
 	return NULL;
 }
 
+// Read it as "Point to previously saved map"
+// In the original game it was just "Make a duplicate and return a pointer to it"
 void * fullMap::Clone(fullMap *oth) {
 	if (undoStack.size()) {
 		delete gpMap.cellExtras;
