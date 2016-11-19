@@ -143,7 +143,7 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
 	int cellIdx = x * gpGame->map.height + y;
 	gpGame->map.tiles[cellIdx].objectIndex = monIdx;
 	gpGame->map.tiles[cellIdx].extraInfo = monQty;
-	gpGame->map.tiles[cellIdx].objTileset = 12;
+	gpGame->map.tiles[cellIdx].objTileset = TILESET_MONSTER;
 	gpGame->map.tiles[cellIdx].objType = 152;
 	gpGame->map.tiles[cellIdx].overlayIndex = -1;
 	gpGame->map.tiles[cellIdx].field_4_1 = 0;
