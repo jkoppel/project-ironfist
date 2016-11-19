@@ -42,6 +42,7 @@ void * __cdecl CopyMap(void) {
 
 // Read it as "Point to previously saved map"
 // In the original game it was just "Make a duplicate and return a pointer to it"
+// The assembly code was changed for this to work. Search for "undo" in assembly
 void * fullMap::Clone(fullMap *oth) {
 	if (undoStack.size()) {
 		delete gpMap.cellExtras;
