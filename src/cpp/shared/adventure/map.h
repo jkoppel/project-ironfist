@@ -68,6 +68,7 @@ public:
 
 	void Read(int,int);
 	void Write(int);
+	void* Clone(fullMap *oth);
 
 	mapCellExtra* GetNewCellExtraOverlay(int x, int y);
 	mapCellExtra* GetNewCellExtraObject(int x, int y);
