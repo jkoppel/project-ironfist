@@ -50,4 +50,6 @@ void WriteMapVariablesToLUA(std::map<std::string, mapVariable>&);
 
 void ErrorLoadingMapVariable(std::string&, const std::string&);
 
+void CallbackMe(const char * funcName, int arg1);
+
 #endif
