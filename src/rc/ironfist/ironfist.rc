@@ -1,0 +1,491 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+MNUADV MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Quit",                       40140
+    END
+    POPUP "&Display"
+    BEGIN
+        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&800 x 600",                  40006
+        MENUITEM "&1024 x 768",                 40007
+        MENUITEM "1&280 x 1024",                40008
+        MENUITEM "&Full Screen (F4)",           40009
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "On Line &Manual",             40052
+        MENUITEM SEPARATOR
+        MENUITEM "About",                       40053
+    END
+END
+
+MNUADVD MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Quit",                       40140
+    END
+    POPUP "&Display"
+    BEGIN
+        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&800 x 600",                  40006
+        MENUITEM "&1024 x 768",                 40007
+        MENUITEM "1&280 x 1024",                40008
+        MENUITEM "&Full Screen (F4)",           40009
+    END
+    POPUP "&Debug"
+    BEGIN
+        MENUITEM "View Entire Map",             40141
+        MENUITEM "Extra Hero Mobility",         40142
+        MENUITEM "Free Spells",                 40143
+        MENUITEM "Free Resources",              40144
+        POPUP "Free Creatures"
+        BEGIN
+            POPUP "Knight"
+            BEGIN
+                MENUITEM "Peasants",                    41000
+                MENUITEM "Archers",                     41001
+                MENUITEM "Rangers",                     41002
+                MENUITEM "Pikemen",                     41003
+                MENUITEM "Veteran Pikemen",             41004
+                MENUITEM "Swordsmen",                   41005
+                MENUITEM "Master Swordsmen",            41006
+                MENUITEM "Cavalries",                   41007
+                MENUITEM "Champions",                   41008
+                MENUITEM "Paladins",                    41009
+                MENUITEM "Crusaders",                   41010
+            END
+            POPUP "Barbarian"
+            BEGIN
+                MENUITEM "Goblins",                     41011
+                MENUITEM "Orcs",                        41012
+                MENUITEM "Orc Chiefs",                  41013
+                MENUITEM "Wolves",                      41014
+                MENUITEM "Ogres",                       41015
+                MENUITEM "Ogre Lords",                  41016
+                MENUITEM "Trolls",                      41017
+                MENUITEM "War Trolls",                  41018
+                MENUITEM "Cyclopes",                    41019
+            END
+            POPUP "Sorceress"
+            BEGIN
+                MENUITEM "Sprites",                     41020
+                MENUITEM "Dwarves",                     41021
+                MENUITEM "Battle Dwarves",              41022
+                MENUITEM "Elves",                       41023
+                MENUITEM "Grand Elves",                 41024
+                MENUITEM "Druids",                      41025
+                MENUITEM "Greater Druids",              41026
+                MENUITEM "Unicorns",                    41027
+                MENUITEM "Phoenix",                     41028
+            END
+            POPUP "Warlock"
+            BEGIN
+                MENUITEM "Centaurs",                    41029
+                MENUITEM "Gargoyles",                   41030
+                MENUITEM "Griffins",                    41031
+                MENUITEM "Minotaurs",                   41032
+                MENUITEM "Minotaur Kings",              41033
+                MENUITEM "Hydras",                      41034
+                MENUITEM "Green Dragons",               41035
+                MENUITEM "Red Dragons",                 41036
+                MENUITEM "Black Dragons",               41037
+            END
+            POPUP "Wizard"
+            BEGIN
+                MENUITEM "Halflings",                   41038
+                MENUITEM "Boars",                       41039
+                MENUITEM "Iron Golems",                 41040
+                MENUITEM "Steel Golems",                41041
+                MENUITEM "Rocs",                        41042
+                MENUITEM "Magi",                        41043
+                MENUITEM "Archmagi",                    41044
+                MENUITEM "Giants",                      41045
+                MENUITEM "Titans",                      41046
+            END
+            POPUP "Necromancer"
+            BEGIN
+                MENUITEM "Skeletons",                   41047
+                MENUITEM "Zombies",                     41048
+                MENUITEM "Mutant Zombies",              41049
+                MENUITEM "Mummys",                      41050
+                MENUITEM "Royal Mummies",               41051
+                MENUITEM "Vampires",                    41052
+                MENUITEM "Vampire Lords",               41053
+                MENUITEM "Lichs",                       41054
+                MENUITEM "Power Lichs",                 41055
+                MENUITEM "Bone Dragons",                41056
+            END
+            POPUP "Miscellaneous"
+            BEGIN
+                MENUITEM "Rogues",                      41057
+                MENUITEM "Nomads",                      41058
+                MENUITEM "Ghosts",                      41059
+                MENUITEM "Genies",                      41060
+                MENUITEM "Medusas",                     41061
+                MENUITEM "Earth Elementals",            41062
+                MENUITEM "Air Elementals",              41063
+                MENUITEM "Fire Elementals",             41064
+                MENUITEM "Water Elementals",            41065
+            END
+        END
+        POPUP "Secondary Skills"
+        BEGIN
+            POPUP "Pathfinding"
+            BEGIN
+                MENUITEM "None",                        42000
+                MENUITEM "Basic",                       42001
+                MENUITEM "Advanced",                    42002
+                MENUITEM "Expert",                      42003
+            END
+            POPUP "Archery"
+            BEGIN
+                MENUITEM "None",                        42004
+                MENUITEM "Basic",                       42005
+                MENUITEM "Advanced",                    42006
+                MENUITEM "Expert",                      42007
+            END
+            POPUP "Logistics"
+            BEGIN
+                MENUITEM "None",                        42008
+                MENUITEM "Basic",                       42009
+                MENUITEM "Advanced",                    42010
+                MENUITEM "Expert",                      42011
+            END
+            POPUP "Scouting"
+            BEGIN
+                MENUITEM "None",                        42012
+                MENUITEM "Basic",                       42013
+                MENUITEM "Advanced",                    42014
+                MENUITEM "Expert",                      42015
+            END
+            POPUP "Diplomacy"
+            BEGIN
+                MENUITEM "None",                        42016
+                MENUITEM "Basic",                       42017
+                MENUITEM "Advanced",                    42018
+                MENUITEM "Expert",                      42019
+            END
+            POPUP "Navigation"
+            BEGIN
+                MENUITEM "None",                        42020
+                MENUITEM "Basic",                       42021
+                MENUITEM "Advanced",                    42022
+                MENUITEM "Expert",                      42023
+            END
+            POPUP "Leadership"
+            BEGIN
+                MENUITEM "None",                        42024
+                MENUITEM "Basic",                       42025
+                MENUITEM "Advanced",                    42026
+                MENUITEM "Expert",                      42027
+            END
+            POPUP "Wisdom"
+            BEGIN
+                MENUITEM "None",                        42028
+                MENUITEM "Basic",                       42029
+                MENUITEM "Advanced",                    42030
+                MENUITEM "Expert",                      42031
+            END
+            POPUP "Mysticism"
+            BEGIN
+                MENUITEM "None",                        42032
+                MENUITEM "Basic",                       42033
+                MENUITEM "Advanced",                    42034
+                MENUITEM "Expert",                      42035
+            END
+            POPUP "Luck"
+            BEGIN
+                MENUITEM "None",                        42036
+                MENUITEM "Basic",                       42037
+                MENUITEM "Advanced",                    42038
+                MENUITEM "Expert",                      42039
+            END
+            POPUP "Ballistics"
+            BEGIN
+                MENUITEM "None",                        42040
+                MENUITEM "Basic",                       42041
+                MENUITEM "Advanced",                    42042
+                MENUITEM "Expert",                      42043
+            END
+            POPUP "Eagle Eyes"
+            BEGIN
+                MENUITEM "None",                        42044
+                MENUITEM "Basic",                       42045
+                MENUITEM "Advanced",                    42046
+                MENUITEM "Expert",                      42047
+            END
+            POPUP "Necromancy"
+            BEGIN
+                MENUITEM "None",                        42048
+                MENUITEM "Basic",                       42049
+                MENUITEM "Advanced",                    42050
+                MENUITEM "Expert",                      42051
+            END
+            POPUP "Estates"
+            BEGIN
+                MENUITEM "None",                        42052
+                MENUITEM "Basic",                       42053
+                MENUITEM "Advanced",                    42054
+                MENUITEM "Expert",                      42055
+            END
+        END
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "On Line &Manual",             40052
+        MENUITEM SEPARATOR
+        MENUITEM "About",                       40053
+    END
+END
+
+MNUCMBT MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Quit",                       40140
+    END
+    POPUP "&Display"
+    BEGIN
+        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&800 x 600",                  40006
+        MENUITEM "&1024 x 768",                 40007
+        MENUITEM "1&280 x 1024",                40008
+        MENUITEM "&Full Screen (F4)",           40009
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "On Line &Manual",             40052
+        MENUITEM SEPARATOR
+        MENUITEM "About",                       40053
+    END
+END
+
+MNUDFLT MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Quit",                       40140
+    END
+    POPUP "&Display"
+    BEGIN
+        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&800 x 600",                  40006
+        MENUITEM "&1024 x 768",                 40007
+        MENUITEM "1&280 x 1024",                40008
+        MENUITEM "&Full Screen (F4)",           40009
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "On Line &Manual",             40052
+        MENUITEM SEPARATOR
+        MENUITEM "About",                       40053
+    END
+END
+
+MNUTOWN MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Quit",                       40140
+    END
+    POPUP "&Display"
+    BEGIN
+        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&800 x 600",                  40006
+        MENUITEM "&1024 x 768",                 40007
+        MENUITEM "1&280 x 1024",                40008
+        MENUITEM "&Full Screen (F4)",           40009
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "On Line &Manual",             40052
+        MENUITEM SEPARATOR
+        MENUITEM "About",                       40053
+    END
+END
+
+MNUTOWND MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Quit",                       40140
+    END
+    POPUP "&Display"
+    BEGIN
+        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&800 x 600",                  40006
+        MENUITEM "&1024 x 768",                 40007
+        MENUITEM "1&280 x 1024",                40008
+        MENUITEM "&Full Screen (F4)",           40009
+    END
+    POPUP "&Debug"
+    BEGIN
+        POPUP "Build Free Building"
+        BEGIN
+            MENUITEM "Build All Buildings",         43100
+            MENUITEM "Build Mage Guild",            43000
+            MENUITEM "Build Thieves Guild",         43001
+            MENUITEM "Build Tavern",                43002
+            MENUITEM "Build Dock",                  43003
+            MENUITEM "Build Well",                  43004
+            MENUITEM "Build Tent",                  43005
+            MENUITEM "Build Castle",                43006
+            MENUITEM "Build Statue",                43007
+            MENUITEM "Build Left Turret",           43008
+            MENUITEM "Build Right Turret",          43009
+            MENUITEM "Build Marketplace",           43010
+            MENUITEM "Build 1st Level Grower",      43011
+            MENUITEM "Build Moat",                  43012
+            MENUITEM "Build Town Specific Building", 43013
+            MENUITEM "Build Captain's Quarters",    43015
+            MENUITEM "Build Dwelling 1",            43019
+            MENUITEM "Build Dwelling 2",            43020
+            MENUITEM "Build Dwelling 3",            43021
+            MENUITEM "Build Dwelling 4",            43022
+            MENUITEM "Build Dwelling 5",            43023
+            MENUITEM "Build Dwelling 6",            43024
+            MENUITEM "Build Dwelling 2 Upgrade",    43025
+            MENUITEM "Build Dwelling 3 Upgrade",    43026
+            MENUITEM "Build Dwelling 4 Upgrade",    43027
+            MENUITEM "Build Dwelling 5 Upgrade",    43028
+            MENUITEM "Build Dwelling 6 Upgrade",    43029
+            MENUITEM "Build Dwelling 6 Upgrade 2",  43030
+        END
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "On Line &Manual",             40052
+        MENUITEM SEPARATOR
+        MENUITEM "About",                       40053
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+HEROES DIALOGEX 22, 17, 188, 111
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP
+FONT 8, "System", 0, 0, 0x0
+BEGIN
+    CTEXT           "Heroes of Might and Magic II",-1,29,5,97,8
+    CTEXT           "Version 0.1",-1,55,27,38,8
+    CTEXT           "Developed by the Project Ironfist Team",-1,14,43,132,12
+    DEFPUSHBUTTON   "OK",1,61,85,32,14,WS_GROUP
+    CTEXT           "Ironfist",-1,29,15,97,8
+    CTEXT           "All original game content property of Ubisoft. The Project Ironfist team is in no way affiliated with Ubisoft.",-1,14,54,132,26
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    "HEROES", DIALOG
+    BEGIN
+        RIGHTMARGIN, 152
+        BOTTOMMARGIN, 80
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                   "..\\..\\..\\assets\\windows\\just_ironfist.ico"
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

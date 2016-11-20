@@ -1,0 +1,207 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    "EDIT_TOWN", DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 441
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 253
+    END
+
+    "EDITOR", DIALOG
+    BEGIN
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+EDIT_TOWN DIALOGEX 0, 0, 448, 260
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_POPUP | WS_DISABLED | WS_CAPTION
+CAPTION "Edit Town"
+FONT 8, "MS Shell Dlg", 400, 0, 0x0
+BEGIN
+    PUSHBUTTON      "Okay",IDOK,150,240,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,239,240,50,14
+    CONTROL         "Standard",IDC_TROOP_STANDARD,"Button",BS_AUTORADIOBUTTON | WS_GROUP,42,30,45,10
+    CONTROL         "Custom",IDC_TROOP_CUSTOM,"Button",BS_AUTORADIOBUTTON,90,30,40,10
+    CONTROL         "Standard",IDC_BUILDING_STANDARD,"Button",BS_AUTORADIOBUTTON | WS_GROUP,306,30,45,10
+    CONTROL         "Custom",IDC_BUILDING_CUSTOM,"Button",BS_AUTORADIOBUTTON,354,30,40,10
+    CONTROL         "Standard",IDC_NAME_STANDARD,"Button",BS_AUTORADIOBUTTON | WS_GROUP,48,198,45,10
+    CONTROL         "Custom",IDC_NAME_CUSTOM,"Button",BS_AUTORADIOBUTTON,108,198,40,10
+    GROUPBOX        "Troops",IDC_STATIC,20,18,238,162
+    GROUPBOX        "Buildings",IDC_STATIC,276,18,144,208
+    COMBOBOX        IDC_MON1_TYPE,60,60,150,78,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MON2_TYPE,60,84,150,78,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MON3_TYPE,60,108,150,78,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MON4_TYPE,60,132,150,78,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    COMBOBOX        IDC_MON5_TYPE,60,156,150,78,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mon 1",IDC_MON1,30,60,20,8
+    LTEXT           "Mon 2",IDC_MON2,30,84,20,8
+    LTEXT           "Mon 3",IDC_MON3,30,109,20,8
+    LTEXT           "Mon 4",IDC_MON4,30,132,20,8
+    LTEXT           "Mon 5",IDC_MON5,30,156,20,8
+    EDITTEXT        IDC_MON1_QTY,222,60,24,14,ES_AUTOHSCROLL
+    LTEXT           "Type",IDC_MON_TYPE_LABEL,72,48,18,8
+    LTEXT           "Qty",IDC_MON_QTY_LABEL,228,48,13,8
+    EDITTEXT        IDC_MON2_QTY,222,84,24,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MON3_QTY,222,108,24,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MON4_QTY,222,132,24,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MON5_QTY,222,156,24,14,ES_AUTOHSCROLL
+    CONTROL         "Dwelling 1",IDC_DWELLING1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,48,48,10
+    CONTROL         "Dwelling 2",IDC_DWELLING2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,60,48,10
+    CONTROL         "Dwelling 3",IDC_DWELLING3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,72,48,10
+    CONTROL         "Dwelling 4",IDC_DWELLING4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,84,48,10
+    CONTROL         "Dwelling 5",IDC_DWELLING5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,96,48,10
+    CONTROL         "Dwelling 6",IDC_DWELLING6,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,108,48,10
+    CONTROL         "Upgrade",IDC_UPGRADE1,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,60,43,10
+    CONTROL         "Upgrade",IDC_UPGRADE2,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,72,43,10
+    CONTROL         "Upgrade",IDC_UPGRADE3,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,84,43,10
+    CONTROL         "Upgrade",IDC_UPGRADE4,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,96,43,10
+    CONTROL         "Upgrade",IDC_UPGRADE5,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,108,43,10
+    COMBOBOX        IDC_MAGE_GUILD,336,132,66,72,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Mage Guild",IDC_MAGE_GUILD_LABEL,294,132,36,8
+    CONTROL         "Thieves Guild",IDC_THIEVES_GUILD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,150,58,10
+    CONTROL         "Tavern",IDC_TAVERN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,162,39,10
+    CONTROL         "Shipyard",IDC_SHIPYARD,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,174,44,10
+    CONTROL         "Well",IDC_WELL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,186,29,10
+    CONTROL         "Statue",IDC_STATUE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,198,37,10
+    CONTROL         "Left Turret",IDC_LEFT_TURRET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,288,210,51,10
+    CONTROL         "Right Turret",IDC_RIGHT_TURRET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,150,55,10
+    CONTROL         "Marketplace",IDC_MARKETPLACE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,353,163,55,10
+    CONTROL         "Special Growth",IDC_SPECIAL_GROWTH_BUILDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,174,63,10
+    CONTROL         "Moat",IDC_MOAT,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,186,32,10
+    CONTROL         "Special",IDC_SPECIAL_BUILDING,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,354,198,60,10
+    CONTROL         "Captain",IDC_CAPTAIN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,180,198,41,10
+    CONTROL         "Allow Castle",IDC_ALLOW_CASTLE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,180,210,55,10
+    GROUPBOX        "Name",IDC_STATIC,24,186,144,40
+    EDITTEXT        IDC_NAME,48,210,90,14,ES_AUTOHSCROLL
+    GROUPBOX        "Misc",IDC_STATIC,174,186,84,40
+END
+
+EDITOR DIALOG 22, 17, 153, 84
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP
+FONT 8, "System"
+BEGIN
+    ICON            "EDITOR",-1,9,19,18,20
+    CTEXT           "Heroes of Might and Magic II\nThe Price of Loyalty Editor",-1,27,6,98,17
+    CTEXT           "Version 2.1",-1,57,27,38,8
+    CTEXT           "Copyright 1995-1997\nNew World Computing",-1,35,39,82,16
+    DEFPUSHBUTTON   "OK",1,60,59,32,14,WS_GROUP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+MNUDFLT MENU
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&Quit",                       40140
+    END
+    POPUP "&Display"
+    BEGIN
+        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&800 x 600",                  40006
+        MENUITEM "&1024 x 768",                 40007
+        MENUITEM "1&280 x 1024",                40008
+        MENUITEM "&Full Screen (F4)",           40009
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "On Line &Manual",             40052
+        MENUITEM SEPARATOR
+        MENUITEM "About",                       40053
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDB_PNG1                PNG                     "..\\..\\..\\assets\\windows\\ironfist.png"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_ICON1               ICON                    "..\\..\\..\\assets\\windows\\ironfist.ico"
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
