@@ -452,6 +452,9 @@
     <ClInclude Include="..\..\rc\ironfist\resource.h">
       <Filter>Header Files\rc</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\scripting\callback.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\heroes2_imports.inc">

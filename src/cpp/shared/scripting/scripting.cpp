@@ -87,13 +87,6 @@ static bool MaxTriggerFiringReached(int id) {
   }
 }
 
-void CallbackMe(const char * funcName, int arg1)
-{
-  lua_getglobal(map_lua, funcName);
-  lua_pushnumber(map_lua, arg1);
-  lua_pcall(map_lua, 1, 0, 0);
-}
-
 void ScriptSignal(int id, const char* obj) {
   if (!scripting_on) {
     return;
