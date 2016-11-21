@@ -22,7 +22,7 @@ void ironfist_lua_push(std::string arg) {
 }
 
 template<typename... Args, typename T>
-void CallbackMe(const char * funcName, T first, Args... args) {
+void ScriptCallback(const char * funcName, T first, Args... args) {
   lua_getglobal(map_lua, funcName);
   ironfist_lua_push(first);
   ironfist_lua_push(args...);
@@ -31,13 +31,13 @@ void CallbackMe(const char * funcName, T first, Args... args) {
 }
 
 template<typename T>
-void CallbackMe(const char * funcName, T first) {
+void ScriptCallback(const char * funcName, T first) {
   lua_getglobal(map_lua, funcName);
   ironfist_lua_push(first);
   lua_pcall(map_lua, 1, 0, 0);
 }
 
-void CallbackMe(const char * funcName) {
+void ScriptCallback(const char * funcName) {
   lua_getglobal(map_lua, funcName);
   lua_pcall(map_lua, 0, 0, 0);
 }
