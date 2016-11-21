@@ -32,7 +32,7 @@ using namespace std;
 static string script_contents("");
 
 static bool scripting_on = false;
-static lua_State* map_lua = NULL;
+lua_State* map_lua = NULL;
 static map<pair<int, string>, const char* > *triggers;
 static map<int, const char* > *general_triggers;
 
