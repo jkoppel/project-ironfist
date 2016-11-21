@@ -5,7 +5,7 @@
 #include "combat/creatures.h"
 #include "game/game.h"
 #include "prefs.h"
-#include "scripting/hook.h"
+#include "scripting/callback.h"
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 
@@ -102,7 +102,7 @@ void game::NextPlayer() {
 
 void game::PerDay() {
 	this->PerDay_orig();
-	ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
+	ScriptCallback("OnNewDay");
 }
 
 void game::ResetIronfistGameState() {
@@ -120,9 +120,9 @@ void __fastcall CheckEndGame(int a, int b) {
   CheckEndGame_orig(a, b);
   if (gbGameOver) {
     if (giEndSequence) {
-      ScriptSignal(SCRIPT_EVT_MAP_VICTORY, "");
+      ScriptCallback("OnMapVictory");
     } else {
-      ScriptSignal(SCRIPT_EVT_MAP_LOSS, "");
+      ScriptCallback("OnMapLoss");
     }
   }
 }

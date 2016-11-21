@@ -7,7 +7,7 @@
 #include "game/game.h"
 #include "gui/gui.h"
 #include "resource/resources.h"
-#include "scripting/hook.h"
+#include "scripting/callback.h"
 #include "spell/spells.h"
 #include "town/town.h"
 
@@ -204,7 +204,7 @@ void town::SelectSpells() {
 
 int townManager::Open(int idx) {
 	int res = this->Open_orig(idx);
-	ScriptSignal(SCRIPT_EVT_TOWN_LOADED, this->castle->name);
+  ScriptCallback("OnTownOpen", this->castle->name);
 	return res;
 }
 
@@ -295,8 +295,6 @@ char *__fastcall GetBuildingName(int faction, int building) {
 }
 
 int recruitUnit::Open(int x) {
-  std::ostringstream msg;
-  msg << this->creatureType;
-  ScriptSignal(SCRIPT_EVT_RECRUIT, msg.str());
+  ScriptCallback("OnTownRecruit", this->creatureType);
   return this->Open_orig(x);
 }

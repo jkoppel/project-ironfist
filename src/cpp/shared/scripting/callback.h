@@ -1,25 +1,19 @@
 #ifndef SCRIPTING_CALLBACK_H
 #define SCRIPTING_CALLBACK_H
 
+#include <string>
+
 extern "C" {
 #include "lua/src/lua.h"
 #include "lua/src/lualib.h"
 #include "lua/src/lauxlib.h"
 }
 
+void ironfist_lua_push(int arg);
+void ironfist_lua_push(bool arg);
+void ironfist_lua_push(std::string arg);
+
 extern lua_State* map_lua;
-
-void ironfist_lua_push(int arg) {
-  lua_pushinteger(map_lua, arg);
-}
-
-void ironfist_lua_push(bool arg) {
-  lua_pushboolean(map_lua, arg);
-}
-
-void ironfist_lua_push(std::string arg) {
-  lua_pushstring(map_lua, arg.c_str());
-}
 
 template<typename... Args, typename T>
 void ScriptCallback(const char * funcName, T first, Args... args) {
@@ -37,9 +31,6 @@ void ScriptCallback(const char * funcName, T first) {
   lua_pcall(map_lua, 1, 0, 0);
 }
 
-void ScriptCallback(const char * funcName) {
-  lua_getglobal(map_lua, funcName);
-  lua_pcall(map_lua, 0, 0, 0);
-}
+void ScriptCallback(const char * funcName);
 
 #endif

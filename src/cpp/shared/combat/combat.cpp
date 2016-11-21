@@ -10,7 +10,7 @@
 
 #include "gui/dialog.h"
 
-#include "scripting/hook.h"
+#include "scripting/callback.h"
 #include <string>
 
 extern int giNextAction;
@@ -106,7 +106,7 @@ int squaresAroundCaster[2][3] = {
 void combatManager::InitNonVisualVars() {
 	combatManager::InitNonVisualVars_orig();
         
-        ScriptSignal(SCRIPT_EVT_BATTLE_START, "");
+  ScriptCallback("OnBattleStart");
 
 	for(int i = 0; i < 2; i++) {
 		HandlePandoraBox(i);
@@ -187,10 +187,7 @@ void army::DoAttack(int x) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
 	  primaryTarget = this;
-  ScriptSetSpecialVariableData("__attackingStack", this);
-  ScriptSetSpecialVariableData("__targetStack", primaryTarget);
-  std::string tmp = std::to_string(this->creatureIdx) + "," + std::to_string(primaryTarget->creatureIdx);
-  ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_M, tmp);
+  ScriptCallback("OnBattleMeleeAttack", this->creatureIdx, primaryTarget->creatureIdx);
   this->DoAttack_orig(x);
  }
 

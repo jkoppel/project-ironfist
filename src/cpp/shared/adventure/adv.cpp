@@ -4,7 +4,6 @@
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
-#include "scripting/hook.h"
 #include "scripting/callback.h"
 #include "prefs.h"
 
@@ -72,8 +71,8 @@ int advManager::Open(int idx) {
     //The correct place to put this is wherever the start-of-map events fire
     //This kinda works, but will also fire after exiting the town screen or
     //combat on the first day
-    ScriptSignal(SCRIPT_EVT_MAP_START, "");
-    ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
+    ScriptCallback("OnMapStart");
+    ScriptCallback("OnNewDay");
   }
   return res;
 }
@@ -81,10 +80,7 @@ int advManager::Open(int idx) {
 mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9){
   mapCell* res = MoveHero_orig(a2, a3, a4, a5, a6, a7, a8, a9);
   hero *hro = GetCurrentHero();
-  std::ostringstream msg;
-  msg << hro->x << "," << hro->y;
-  ScriptSignal(SCRIPT_EVT_MOVEHERO, msg.str());
-  ScriptCallback("TestCallback", 1, 2);
+  ScriptCallback("OnHeroMoved", hro->x, hro->y);
   return res;
 }
 
@@ -136,7 +132,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 	if (locType == LOCATION_CAMPFIRE) {
 		std::ostringstream tmp;
 		tmp << locX << "," << locY;
-		ScriptSignal(SCRIPT_EVT_VISIT_CAMPFIRE, tmp.str());
+    ScriptCallback("OnCampfireVisit", locX, locY);
 	}
 	this->DoEvent_orig(cell, locX, locY);
 }
