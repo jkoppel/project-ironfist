@@ -173,8 +173,8 @@ int hero::CalcMobility() {
 	speedToMovementPoints[8] = 1500;
 
 	mapCell* cell = gpAdvManager->GetCell(x, y);
-	if (cell->objType != LOCATION_TOWN) {
-		return CalcMobility_orig();
+	if ((cell->objType & 0x7F) != LOCATION_TOWN) {
+		return this->CalcMobility_orig();
 	}
 
 	minSpeed = 7;
