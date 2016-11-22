@@ -31,7 +31,7 @@ template<typename... Args>
 void ScriptCallback(const char * funcName, Args... args) {
   lua_getglobal(map_lua, funcName);
   ironfist_lua_pushmulti(args...);
-  int size = 1 + sizeof...(Args);
+  int size = sizeof...(Args);
   lua_pcall(map_lua, size, 0, 0);
 }
 
