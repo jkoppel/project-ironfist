@@ -344,9 +344,6 @@
     <ClInclude Include="..\..\cpp\shared\scripting\scripting.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cpp\shared\scripting\hook.h">
-      <Filter>Header Files\scripting</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\cpp\shared\lib\lua\src\lapi.h">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClInclude>

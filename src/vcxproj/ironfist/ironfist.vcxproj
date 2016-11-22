@@ -215,7 +215,6 @@
     <ClInclude Include="..\..\cpp\shared\registry_prefs.h" />
     <ClInclude Include="..\..\cpp\shared\resource\resourceManager.h" />
     <ClInclude Include="..\..\cpp\shared\resource\resources.h" />
-    <ClInclude Include="..\..\cpp\shared\scripting\hook.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\register.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\scripting.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\temporary_file.h" />
