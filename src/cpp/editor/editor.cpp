@@ -1,3 +1,5 @@
+#include <stack>
+
 #include "editor.h"
 
 #include "base.h"
@@ -17,4 +19,48 @@ void __fastcall ShowErrorMessage(const char *str) {
 	ShowErrorMessage_orig(buf);
 
 	FREE(buf);
+}
+
+extern fullMap gpMap;
+
+std::stack<fullMap*> undoStack;
+
+// This is used for Undo action in editor
+// It copies the map and saves it in a stack
+void * __cdecl CopyMap(void) {
+	fullMap *tmp = (fullMap *)operator new (sizeof(fullMap));
+	tmp->height = gpMap.height;
+	tmp->width = gpMap.width;
+	tmp->numCellExtras = gpMap.numCellExtras;
+	tmp->cellExtras = (mapCellExtra *)operator new(sizeof(mapCellExtra) * tmp->numCellExtras);
+	tmp->tiles = (mapCell *)operator new(sizeof(mapCell) * tmp->height * tmp->width);
+	memcpy(tmp->tiles, gpMap.tiles, sizeof(mapCell) * tmp->height * tmp->width);
+	memcpy(tmp->cellExtras, gpMap.cellExtras, 15 * tmp->numCellExtras);
+	undoStack.push(tmp);
+	return NULL;
+}
+
+// Read it as "Point to previously saved map"
+// In the original game it was just "Make a duplicate and return a pointer to it"
+// The assembly code was changed for this to work. Search for "undo" in assembly
+void * fullMap::Clone(fullMap *oth) {
+	if (undoStack.size()) {
+		delete gpMap.cellExtras;
+		delete gpMap.tiles;
+		gpMap = *undoStack.top();
+		undoStack.pop();
+	}
+	return NULL;
+}
+
+void editManager::InitializeMap(int random, int width, int height) {
+	while (undoStack.size()) {
+		fullMap *i = undoStack.top();
+		if (i->cellExtras)
+			delete i->cellExtras;
+		if (i->tiles)
+			delete i->tiles;
+		undoStack.pop();
+	}
+	this->InitializeMap_orig(random, width, height);
 }

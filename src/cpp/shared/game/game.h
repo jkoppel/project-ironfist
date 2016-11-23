@@ -161,6 +161,8 @@ public:
 
 	int GetRandomNumTroops(int);
 	void GiveTroopsToNeutralTown(int);
+	void InitNewGame(struct SMapHeader *a);
+	void InitNewGame_orig(struct SMapHeader *a);
 	void LoadGame(char*, int, int);
 	void LoadGame_orig(char*, int, int);
 	void NewMap(char*);

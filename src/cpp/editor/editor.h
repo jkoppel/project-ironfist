@@ -48,6 +48,9 @@ public:
   int cursorY;
 
   editManager();
+
+  void InitializeMap(int random, int width, int height);
+  void InitializeMap_orig(int random, int width, int height);
 };
 
 extern editManager* gpEditManager;
