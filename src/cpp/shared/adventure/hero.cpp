@@ -166,9 +166,11 @@ int hero::CalcMobility() {
 	float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
 
 	mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
-	if ((cell->objType & 0x7F) != LOCATION_TOWN) {
+	if (cell->objType != (LOCATION_TOWN | TILE_HAS_EVENT)) {
 		return this->CalcMobility_orig();
-	} else if ((cell->objTileset == TILESET_TOWN_SHADOW) || (cell->objTileset == TILESET_TOWN_TERRAIN)) {
+	} 
+	
+	/*else if ((cell->objTileset == TILESET_TOWN_SHADOW) || (cell->objTileset == TILESET_TOWN_TERRAIN)) {
 		return this->CalcMobility_orig();
 	}
 	/*
