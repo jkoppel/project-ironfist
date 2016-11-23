@@ -406,8 +406,8 @@ function OnHeroMove(x, y)
 	end
 end
 
-function OnCampfireVisit(x, y)
-	if x == 14 and y == 19 then
+function OnLocationVisit(type, x, y)
+	if x == 14 and y == 19 and type == LOCATION_CAMPFIRE then
 		if GetHeroOwner(GetCurrentHero()) == 0 and campfireVisited == 0 then
 		  campfireVisited = 1;
 		  MessageBox("A few adventurers gather around a campfire in the swamps area. Impressed with you and your party, they offer to join your cause.");
@@ -417,7 +417,7 @@ function OnCampfireVisit(x, y)
 			 MessageBox("Milord, it seems your army is full. We will wait for your return here.");
 		  end
 		end
-	elseif x == 35 and y == 23 then
+	elseif x == 35 and y == 23 and type == LOCATION_CAMPFIRE then
 	    h = GetCurrentHero();
 		if GetHeroOwner(h) == 0 and campfire2Visited == 0 then
 			MessageBox("You spot a campsite nearby. Shadowy figures gather around a big bonfire. When you approach, you see that these are a few soldiers and rangers preparing their dinner while singing songs. Silence drops as you approach, but when they recognize that you’re not one of the dead, they happily invite you to join.");
@@ -430,7 +430,7 @@ function OnCampfireVisit(x, y)
 					   MessageBox ("My Lord, it seems there is not enough space in your army for both our troops, we will wait for your return here.");
 			end
 		end
-	elseif x == 32 and y == 18 then
+	elseif x == 32 and y == 18 and type == LOCATION_CAMPFIRE then
 		if GetHeroOwner(GetCurrentHero()) == 0 and campfire3Visited == 0 then
 			campfire3Visited = 1;
 			h = GetCurrentHero();
