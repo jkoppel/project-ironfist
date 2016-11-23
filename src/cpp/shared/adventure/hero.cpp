@@ -157,56 +157,44 @@ void hero::TakeArtifact(int art) {
 }
 
 int hero::CalcMobility() {
-	int points;
-	signed int playerIdxi;
-	int MAX_CREATURE_TERM_MOVEMENT_POINTS = 1500;
-	int PLAYER_FIRST = 0;
-	int PLAYER_LAST = 5;
-
-	float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
-
-	mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
-	if (cell->objType != (LOCATION_TOWN | TILE_HAS_EVENT)) {
-		return this->CalcMobility_orig();
-	} 
-	
-	/*else if ((cell->objTileset == TILESET_TOWN_SHADOW) || (cell->objTileset == TILESET_TOWN_TERRAIN)) {
-		return this->CalcMobility_orig();
-	}
-	/*
-	for (playerIdxi = 0; playerIdxi < 72; ++playerIdxi) {
-		if (gpGame->castles[playerIdxi].visitingHeroIdx == this->idx) {
-			return this->CalcMobility_orig();
-		}
-	}
-	*/
-	points = MAX_CREATURE_TERM_MOVEMENT_POINTS;
-	points = (signed __int64)((double)points * gfSSLogisticsMod[GetSSLevel(SECONDARY_SKILL_LOGISTICS)]);
-	if (this->HasArtifact(ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) {
-		points += 600;
-	}
-	if (this->HasArtifact(ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY)) {
-		points += 300;
-	}
-	if (this->flags & HERO_AT_SEA) {
-		points += 400;
-	}
-	if (this->HasArtifact(ARTIFACT_TRUE_COMPASS_OF_MOBILITY)) {
-		points += 500;
-	}
-	if (this->ownerIdx >= PLAYER_FIRST) {
-		if (this->ownerIdx <= PLAYER_LAST) {
-			if (!gbHumanPlayer[ownerIdx]) {
-				if (gpGame->difficulty >= 2) {
-					points += 75;
-					if (gpGame->players[ownerIdx].personality == 2) {
-						points += 50;
-					}
-				}
-			}
-		}
-	}
-	return points;
+   int points;
+   int MOVEMENT_POINTS_TERM_CREATURE_MAX = 1500;
+   int PLAYER_FIRST = 0;
+   int PLAYER_LAST = 5;
+   
+   float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
+   
+   mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
+   if (cell->objType != (LOCATION_TOWN | TILE_HAS_EVENT)) {
+      return this->CalcMobility_orig();
+   } 
+   
+   points = MOVEMENT_POINTS_TERM_CREATURE_MAX;
+   points = (signed __int64)((double)points * gfSSLogisticsMod[GetSSLevel(SECONDARY_SKILL_LOGISTICS)]);
+   if (this->flags & HERO_AT_SEA) {
+      points += 400;
+   }
+   if (this->HasArtifact(ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) {
+      points += 600;
+   }
+   if (this->HasArtifact(ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY)) {
+      points += 300;
+   }
+   if (this->HasArtifact(ARTIFACT_TRUE_COMPASS_OF_MOBILITY)) {
+      points += 500;
+   }
+   if (this->ownerIdx >= PLAYER_FIRST 
+	   && this->ownerIdx <= PLAYER_LAST) {
+      if (!gbHumanPlayer[ownerIdx]) {
+         if (gpGame->difficulty >= 2) {
+            points += 75;
+            if (gpGame->players[ownerIdx].personality == 2) {
+               points += 50;
+            }
+         }
+      }
+   }
+   return points;
 }
 
 hero* GetCurrentHero() {
