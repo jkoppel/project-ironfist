@@ -102,7 +102,7 @@ void game::NextPlayer() {
 
 void game::PerDay() {
 	this->PerDay_orig();
-	ScriptCallback("OnNewDay");
+	ScriptCallback("OnNewDay", this->month, this->week, this->day);
 }
 
 void game::ResetIronfistGameState() {

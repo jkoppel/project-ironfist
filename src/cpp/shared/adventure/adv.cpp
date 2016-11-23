@@ -72,7 +72,7 @@ int advManager::Open(int idx) {
     //This kinda works, but will also fire after exiting the town screen or
     //combat on the first day
     ScriptCallback("OnMapStart");
-    ScriptCallback("OnNewDay");
+    ScriptCallback("OnNewDay", gpGame->month, gpGame->week, gpGame->day);
   }
   return res;
 }

@@ -295,6 +295,6 @@ char *__fastcall GetBuildingName(int faction, int building) {
 }
 
 int recruitUnit::Open(int x) {
-  ScriptCallback("OnTownRecruit", this->creatureType);
+  ScriptCallback("OnUnitRecruit", this->creatureType);
   return this->Open_orig(x);
 }
