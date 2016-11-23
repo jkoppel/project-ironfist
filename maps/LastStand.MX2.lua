@@ -450,10 +450,7 @@ function OnMapVictory()
 	MessageBox("Your only concern is knowing that one day you will have to face the necromancer again...");
 end;
 
-function OnNewDay()
-	day = GetDay();
-	week = GetWeek();
-	
+function OnNewDay(month, week, day)
 	if day == 0 and week == 0 then
 		oldWeek = 0;
 	end
