@@ -170,6 +170,12 @@ int hero::CalcMobility() {
 		return this->CalcMobility_orig();
 	}
 
+	for (playerIdxi = 0; playerIdxi < 72; ++playerIdxi) {
+		if (gpGame->castles[playerIdxi].visitingHeroIdx == this->idx) {
+			return this->CalcMobility_orig();
+		}
+	}
+
 	points = MAX_CREATURE_TERM_MOVEMENT_POINTS;
 	points = (signed __int64)((double)points * gfSSLogisticsMod[GetSSLevel(SECONDARY_SKILL_LOGISTICS)]);
 	if (this->HasArtifact(ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) {
