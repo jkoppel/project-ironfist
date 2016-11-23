@@ -157,44 +157,35 @@ void hero::TakeArtifact(int art) {
 }
 
 int hero::CalcMobility() {
-	signed int minSpeed;
-	__int16 speedToMovementPoints[9];
 	int points;
+	signed int playerIdxi;
+	int MAX_CREATURE_TERM_MOVEMENT_POINTS = 1500;
+	int PLAYER_FIRST = 0;
+	int PLAYER_LAST = 5;
+
 	float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
 
-	speedToMovementPoints[0] = 1000;
-	speedToMovementPoints[1] = 1000;
-	speedToMovementPoints[2] = 1000;
-	speedToMovementPoints[3] = 1100;
-	speedToMovementPoints[4] = 1200;
-	speedToMovementPoints[5] = 1300;
-	speedToMovementPoints[6] = 1400;
-	speedToMovementPoints[7] = 1500;
-	speedToMovementPoints[8] = 1500;
-
-	mapCell* cell = gpAdvManager->GetCell(x, y);
+	mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
 	if ((cell->objType & 0x7F) != LOCATION_TOWN) {
 		return this->CalcMobility_orig();
 	}
 
-	minSpeed = 7;
-
-	points = speedToMovementPoints[minSpeed];
+	points = MAX_CREATURE_TERM_MOVEMENT_POINTS;
 	points = (signed __int64)((double)points * gfSSLogisticsMod[GetSSLevel(SECONDARY_SKILL_LOGISTICS)]);
-	if (HasArtifact(ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) {
+	if (this->HasArtifact(ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) {
 		points += 600;
 	}
-	if (HasArtifact(ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY)) {
+	if (this->HasArtifact(ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY)) {
 		points += 300;
 	}
-	if (flags & HERO_AT_SEA) {
+	if (this->flags & HERO_AT_SEA) {
 		points += 400;
 	}
-	if (HasArtifact(ARTIFACT_TRUE_COMPASS_OF_MOBILITY)) {
+	if (this->HasArtifact(ARTIFACT_TRUE_COMPASS_OF_MOBILITY)) {
 		points += 500;
 	}
-	if (ownerIdx >= 0) {
-		if (ownerIdx < 6) {
+	if (this->ownerIdx >= PLAYER_FIRST) {
+		if (this->ownerIdx <= PLAYER_LAST) {
 			if (!gbHumanPlayer[ownerIdx]) {
 				if (gpGame->difficulty >= 2) {
 					points += 75;
