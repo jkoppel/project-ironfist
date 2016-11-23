@@ -128,13 +128,9 @@ void game::MakeAllWaterVisible(int player) {
 }
 
 void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
-	int locType = cell->objType & 0x7F;
-	if (locType == LOCATION_CAMPFIRE) {
-		std::ostringstream tmp;
-		tmp << locX << "," << locY;
-    ScriptCallback("OnCampfireVisit", locX, locY);
-	}
-	this->DoEvent_orig(cell, locX, locY);
+  int locType = cell->objType & 0x7F;
+  ScriptCallback("OnLocationVisit", locType, locX, locY);
+  this->DoEvent_orig(cell, locX, locY);
 }
 
 int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
