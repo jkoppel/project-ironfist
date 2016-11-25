@@ -14,11 +14,6 @@ void ironfist_lua_push(bool arg);
 void ironfist_lua_push(std::string arg);
 void ironfist_lua_pushmulti();
 
-template<typename T>
-void ironfist_lua_pushmulti(T first) {
-  ironfist_lua_push(first);
-}
-
 template<typename T, typename... Args>
 void ironfist_lua_pushmulti(T first, Args... args) {
   ironfist_lua_push(first);
