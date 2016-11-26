@@ -358,7 +358,8 @@ int l_getheroowner(lua_State *L) {
 int l_grantartifact(lua_State *L) {
   hero* hro = (hero*)lua_touserdata(L, 1);
   int art = (int)luaL_checknumber(L, 2);
-  GiveArtifact(hro, art, 1, -1);
+  
+  (hro, art, 1, -1);
   return 0;
 }
 
@@ -374,6 +375,12 @@ int l_takeartifact(lua_State *L) {
   int art = (int)luaL_checknumber(L, 2);
   hro->TakeArtifact(art);
   return 0;
+}
+
+int l_countemptyslots(lua_State *L) {
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	lua_pushinteger(L, hro->CountEmptySlots());
+    return 1; 
 }
 
 int l_setprimaryskill(lua_State *L) {
