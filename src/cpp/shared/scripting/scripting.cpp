@@ -699,6 +699,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "ShareVision", l_sharevision);
   lua_register(L, "GetHeroLevel", l_getherolevel);
   lua_register(L, "StartBattle", l_startbattle);
+  lua_register(L, "CountEmptySlots", l_countemptyslots);
 
   // Tales of Enroth functions
   lua_register(L, "QuestionBox", l_questionBox);

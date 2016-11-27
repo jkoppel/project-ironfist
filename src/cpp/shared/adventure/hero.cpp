@@ -156,14 +156,14 @@ void hero::TakeArtifact(int art) {
 	}
 }
 
-int CountEmptySlots(hero *her)
-{
-	int amount = 0; //The counted amount of empty artifacts that the player has
-	int i = 0;
+int hero::CountEmptySlots(){
 
+
+	int amount = 0; //The counted amount of empty artifacts that the player has
+	int i = 0;	
 	for (int i = 0; i < 14; ++i);
 	{		
-		if (her->artifacts[i] = -1)
+		if (this->artifacts[i] = -1)
 		{
 			amount += 1;
 		}
