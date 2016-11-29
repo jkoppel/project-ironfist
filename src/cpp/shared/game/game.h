@@ -193,6 +193,14 @@ private:
     void PropagateVision();
 };
 
+enum GAME_DIFFICULTY {
+	DIFFICULTY_EASY = 0,
+	DIFFICULTY_NORMAL = 1,
+	DIFFICULTY_HARD = 2,
+	DIFFICULTY_EXPERT = 3,
+	DIFFICULTY_IMPOSSIBLE = 4,
+};
+
 extern void __fastcall CheckEndGame_orig(int a, int b);
 void __fastcall CheckEndGame(int a, int b);
 
