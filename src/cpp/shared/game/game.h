@@ -201,6 +201,13 @@ enum GAME_DIFFICULTY {
 	DIFFICULTY_IMPOSSIBLE = 4,
 };
 
+enum PERSONALITY_TYPE {
+   PERSONALITY_WARRIOR = 0,
+   PERSONALITY_BUILDER = 1,
+   PERSONALITY_EXPLORER = 2,
+   PERSONALITY_HUMAN = 3,
+};
+
 extern void __fastcall CheckEndGame_orig(int a, int b);
 void __fastcall CheckEndGame(int a, int b);
 

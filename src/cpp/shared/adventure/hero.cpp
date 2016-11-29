@@ -188,7 +188,7 @@ int hero::CalcMobility() {
       if (!gbHumanPlayer[ownerIdx]) {
          if (gpGame->difficulty >= DIFFICULTY_HARD) {
             points += 75;
-            if (gpGame->players[ownerIdx].personality == 2) {
+            if (gpGame->players[ownerIdx].personality == PERSONALITY_EXPLORER) {
                points += 50;
             }
          }
