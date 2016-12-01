@@ -358,8 +358,7 @@ int l_getheroowner(lua_State *L) {
 int l_grantartifact(lua_State *L) {
   hero* hro = (hero*)lua_touserdata(L, 1);
   int art = (int)luaL_checknumber(L, 2);
-  
-  (hro, art, 1, -1);
+  GiveArtifact(hro, art, 1, -1);
   return 0;
 }
 
