@@ -162,6 +162,7 @@ public:
   signed char GetSSLevel(int);
   void SetSS(int,int);
   int CalcMobility();
+  int CalcMobility_orig();
 
   void Read(int, signed char);
   void ResetSpellsLearned();
