@@ -934,7 +934,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 		gpCombatManager->DrawFrame(0, 1, 0, 0, 75, 1, 1);
 		if (a4 != -1 && giNumPowFrames[gCurLoadedSpellEffect] > k)
 			gCurLoadedSpellIcon->CombatClipDrawToBuffer(a4,	a5 + this->field_FA, gCurSpellEffectFrame, &this->effectAnimationBounds, 0, 0, 0, 0);
-		gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
+    gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
 	}
 
 	for (int i = 0; i < 2; i++) {
