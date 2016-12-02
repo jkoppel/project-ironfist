@@ -713,7 +713,7 @@ void army::LoadResources() {
 
 		// Loading projectiles
 		if (this->creature.creature_flags & SHOOTER) {
-			if(!cArmyProjectileFileNames[creatureID])
+			if(!strlen(cArmyProjectileFileNames[creatureID]))
 				this->missileIcon = gpResourceManager->GetIcon("elf__msl.icn");
 			else
 				this->missileIcon = gpResourceManager->GetIcon(cArmyProjectileFileNames[creatureID]);
