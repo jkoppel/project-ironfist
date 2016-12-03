@@ -157,7 +157,7 @@ public:
 	  
   int HasArtifact(int);
   void TakeArtifact(int);
-  int CountEmptySlots();
+  int CountEmptyArtifactSlots();
 
   signed char Stats(int);
   signed char GetSSLevel(int);
