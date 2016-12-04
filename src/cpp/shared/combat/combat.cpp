@@ -1055,9 +1055,9 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 	for (int i = 0; i <= NUM_CYCLES; i++) {
 		if (i == (NUM_CYCLES / 2)) // reached the peak height
 			stepY = (v32 - (double)targY) * amplitude;
-		if (i == (NUM_CYCLES / 2 - 4) ||
-			i == (NUM_CYCLES / 2 + 4))
-			imageIdx++; // changes the sprite of projectile
+    if (i % 3 == 0) // every 3rd cycle
+      if(imageIdx < (icn->numSprites - 1))
+        imageIdx++; // changes the sprite of projectile
 
 		savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous projectile sprite
 		icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, NULL, firingLeft, 0, 0, 0);
