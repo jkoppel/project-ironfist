@@ -377,9 +377,9 @@ int l_takeartifact(lua_State *L) {
 }
 
 int l_countemptyartifactslots(lua_State *L) {
-	hero* hro = (hero*)lua_touserdata(L, 1);
-	lua_pushinteger(L, hro->CountEmptyArtifactSlots());
-    return 1; 
+  hero* hro = (hero*)lua_touserdata(L, 1);
+  lua_pushinteger(L, hro->CountEmptyArtifactSlots());
+  return 1; 
 }
 
 int l_setprimaryskill(lua_State *L) {
