@@ -164,36 +164,38 @@ int hero::CalcMobility() {
   float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
   
   mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
-  if (cell == NULL && cell->objType != (LOCATION_TOWN | TILE_HAS_EVENT)) {
-    return this->CalcMobility_orig();
-  } 
-  
-  points = MOVEMENT_POINTS_TERM_CREATURE_MAX;
-  points = (signed __int64)((double)points * gfSSLogisticsMod[GetSSLevel(SECONDARY_SKILL_LOGISTICS)]);
-  if (this->flags & HERO_AT_SEA) {
-    points += 400;
-  }
-  if (this->HasArtifact(ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) {
-    points += 600;
-  }
-  if (this->HasArtifact(ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY)) {
-    points += 300;
-  }
-  if (this->HasArtifact(ARTIFACT_TRUE_COMPASS_OF_MOBILITY)) {
-    points += 500;
-  }
-  if (this->ownerIdx >= PLAYER_FIRST 
-	    && this->ownerIdx <= PLAYER_LAST) {
-    if (!gbHumanPlayer[ownerIdx]) {
-      if (gpGame->difficulty >= DIFFICULTY_HARD) {
-        points += 75;
-        if (gpGame->players[ownerIdx].personality == PERSONALITY_EXPLORER) {
-          points += 50;
+  if (cell != nullptr) {  //This is here because CalcMobility() is called on the first successive start of a New Game in the current running instance of the program
+    if (cell->objType == (LOCATION_TOWN | TILE_HAS_EVENT)) {  //Non-creature adjusted CalcMobility() output
+      points = MOVEMENT_POINTS_TERM_CREATURE_MAX;
+      points = (signed __int64)((double)points * gfSSLogisticsMod[GetSSLevel(SECONDARY_SKILL_LOGISTICS)]);
+      if (this->flags & HERO_AT_SEA) {
+        points += 400;
+      }
+      if (this->HasArtifact(ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) {
+        points += 600;
+      }
+      if (this->HasArtifact(ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY)) {
+        points += 300;
+      }
+      if (this->HasArtifact(ARTIFACT_TRUE_COMPASS_OF_MOBILITY)) {
+        points += 500;
+      }
+      if (this->ownerIdx >= PLAYER_FIRST
+          && this->ownerIdx <= PLAYER_LAST) {
+        if (!gbHumanPlayer[ownerIdx]) {
+          if (gpGame->difficulty >= DIFFICULTY_HARD) {
+            points += 75;
+            if (gpGame->players[ownerIdx].personality == PERSONALITY_EXPLORER) {
+              points += 50;
+            }
+          }
         }
       }
+      return points;
     }
   }
-  return points;
+
+  return this->CalcMobility_orig(); //Default CalcMobility output
 }
 
 hero* GetCurrentHero() {
