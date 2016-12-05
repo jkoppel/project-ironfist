@@ -161,7 +161,6 @@ int hero::CalcMobility() {
   int MOVEMENT_POINTS_TERM_CREATURE_MAX = 1500;
   int PLAYER_FIRST = 0;
   int PLAYER_LAST = 5;
-  
   float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
   
   mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
