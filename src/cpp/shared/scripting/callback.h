@@ -11,6 +11,7 @@ extern "C" {
 
 void ironfist_lua_push(int arg);
 void ironfist_lua_push(bool arg);
+void ironfist_lua_push(void *arg);
 void ironfist_lua_push(std::string arg);
 void ironfist_lua_pushmulti();
 
