@@ -183,12 +183,12 @@ void army::MoveAttack(int targHex, int x) {
 	}
 }
 
-void army::DoAttack(int x) {
+void army::DoAttack(int isRetaliation) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
 	  primaryTarget = this;
-  ScriptCallback("OnBattleMeleeAttack", this, primaryTarget);
-  this->DoAttack_orig(x);
+  ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, isRetaliation);
+  this->DoAttack_orig(isRetaliation);
  }
 
 /*
