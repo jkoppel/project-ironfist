@@ -76,6 +76,10 @@ IMPORT_??2@YAPAXI@Z = 1
 ??3@YAXPAX@Z EQU _op_del
 IMPORT_??3@YAXPAX@Z = 1
 
+;; executive
+IMPORT_?AddManager@executive@@QAEHPAVbaseManager@@H@Z = 1
+?AddManager@executive@@QAEHPAVbaseManager@@H@Z_clone EQU ?AddManager_orig@executive@@QAEHPAVbaseManager@@H@Z
+
 ;;init
 IMPORT_?InitMainClasses@@YIXXZ = 1
 IMPORT_?DeleteMainClasses@@YIXXZ = 1
