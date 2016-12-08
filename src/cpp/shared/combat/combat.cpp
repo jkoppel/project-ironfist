@@ -928,10 +928,11 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5)
 		glTimers = (signed __int64)((double)KBTickCount() + (double)120 * gfCombatSpeedMod[giCombatSpeed]);
 		if (doCreatureEffect && giNumPowFrames[gCurLoadedSpellEffect] > k)
 			gCurSpellEffectFrame = k;
-		gpCombatManager->DrawFrame(0, 1, 0, 0, 75, 1, 1);
+    gpCombatManager->DrawFrame(0, 0, 0, 0, 75, 1, 1);
 		if (a4 != -1 && giNumPowFrames[gCurLoadedSpellEffect] > k)
 			gCurLoadedSpellIcon->CombatClipDrawToBuffer(a4,	a5 + this->field_FA, gCurSpellEffectFrame, &this->effectAnimationBounds, 0, 0, 0, 0);
     gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+    DelayTil(&glTimers);
 	}
 
 	for (int i = 0; i < 2; i++) {
