@@ -153,6 +153,7 @@
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c" />
     <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp" />
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\callback.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\lua_utils.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\consts.cpp" />
@@ -161,6 +162,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\map.h" />
@@ -213,7 +215,6 @@
     <ClInclude Include="..\..\cpp\shared\registry_prefs.h" />
     <ClInclude Include="..\..\cpp\shared\resource\resourceManager.h" />
     <ClInclude Include="..\..\cpp\shared\resource\resources.h" />
-    <ClInclude Include="..\..\cpp\shared\scripting\hook.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\register.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\scripting.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\temporary_file.h" />

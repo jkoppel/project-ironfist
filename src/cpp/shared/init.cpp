@@ -9,6 +9,7 @@
 #include "registry_prefs.h"
 #include "resource/resourceManager.h"
 #include "resource/resources.h"
+#include "scripting/callback.h"
 #include "sound/sound.h"
 #include "town/town.h"
 
@@ -20,6 +21,8 @@ public:
   executive();
 
   int DoDialog(baseManager *a2);
+  int AddManager(baseManager *mgr, int argIdx);
+  int AddManager_orig(baseManager *mgr, int argIdx);
 };
 
 class inputManager {
@@ -166,4 +169,14 @@ void __fastcall SetupCDRom() {
 
 int __fastcall SetupCDDrive() {
 	return 1;
+}
+
+int executive::AddManager(baseManager *mgr, int argIdx) {
+  int ret = this->AddManager_orig(mgr, argIdx);
+  if (mgr == gpAdvManager)
+    if (!strcmp(gpGame->lastSaveFile, "NEWGAME")) { // that tells us it's a NEW game, not a loaded game. A loaded game can't have NEWGAME as a save filename
+      ScriptCallback("OnMapStart");
+      ScriptCallback("OnNewDay", gpGame->month, gpGame->week, gpGame->day);
+    }
+  return ret;
 }
