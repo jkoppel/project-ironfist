@@ -23,7 +23,7 @@ extern DWORD Data; //should really be named 'musicVolume'
 
 #define MAXTRACK 64
 
-int chan = 0;
+int currentChan = 0;
 const char *trkpath = "./MUSIC";
 int now_playing = 0;
 int *t_savepos;               // "save position" flag
@@ -86,7 +86,7 @@ void bass_set_volume(int chan, float volume) {
 }
 
 void bass_set_volume(float volume) {
-  bass_set_volume(chan, volume);
+  bass_set_volume(currentChan, volume);
 }
 
 void bass_play_track(int trknum) {
@@ -124,32 +124,32 @@ void bass_play_track(int trknum) {
   }
 
   // okay, it's not a jingle. do full-fledged processing (stop, restore, etc).
-  bass_stop_chan(chan);
-  chan = next;
+  bass_stop_chan(currentChan);
+  currentChan = next;
   now_playing = trknum;
 
   // set looping (that's okay, we checked for length):
-  BASS_ChannelFlags(chan, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
+  BASS_ChannelFlags(currentChan, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
 
   // set volume:
-  BASS_ChannelSetAttribute(chan, BASS_ATTRIB_VOL, global_volume);
+  BASS_ChannelSetAttribute(currentChan, BASS_ATTRIB_VOL, global_volume);
 
   // seek to start:
   if (t_savepos[now_playing] && t_position[now_playing] > 0) {
-    if (!BASS_ChannelSetPosition(chan, t_position[now_playing], BASS_POS_BYTE))
+    if (!BASS_ChannelSetPosition(currentChan, t_position[now_playing], BASS_POS_BYTE))
       std::cerr << "Seek failed";
     else {
       // we're starting from the middle of track, do fade-in:
-      BASS_ChannelSetAttribute(chan, BASS_ATTRIB_VOL, 0.0);
-      BASS_ChannelSlideAttribute(chan, BASS_ATTRIB_VOL, global_volume, 2000);
+      BASS_ChannelSetAttribute(currentChan, BASS_ATTRIB_VOL, 0.0);
+      BASS_ChannelSlideAttribute(currentChan, BASS_ATTRIB_VOL, global_volume, 2000);
     }
   }
 
-  BASS_ChannelPlay(chan, FALSE);
+  BASS_ChannelPlay(currentChan, FALSE);
 }
 
 void soundManager::CDStop() {
-  bass_stop_chan(chan);
+  bass_stop_chan(currentChan);
 }
 
 int soundManager::ConvertVolume(int weight, int is_music_flag) { //this does not seem to work
