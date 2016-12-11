@@ -16,30 +16,29 @@
 #include "manager.h"
 #include <iostream>
 
-extern BOOL gbNoSound;
-extern BOOL CDPlaying;
+extern int gbNoSound;
+extern int CDPlaying;
 extern int useOpera;
-#define MAXTRACK 64
-HANDLE evt[MAXTRACK];
+extern DWORD Data; //should really be named 'musicVolume'
 
-DWORD chan = 0;
-char *trkpath = "./MUSIC";
+#define MAXTRACK 64
+
+int chan = 0;
+const char *trkpath = "./MUSIC";
 int now_playing = 0;
 int *t_savepos;               // "save position" flag
 QWORD *t_position;            // saved position
 float global_volume = 1.0f;
+bool setup_bass = false;
 
 extern void __fastcall Process1WindowsMessage();
-
-void reset_town_saved_music_positions();
 
 void reset_town_saved_music_positions() {
   for (int i = 5; i < 11; i++)
     t_savepos[i] = 0;
 }
 
-bool init_bass() //maybe put this in soundManager ctor? //soundManager::CDStartup(soundManager *this)
-{
+bool init_bass() {
   if (HIWORD(BASS_GetVersion()) != BASSVERSION) {
     std::cerr << "An incorrect version of BASS was loaded.\n";
     return false;
@@ -57,28 +56,24 @@ bool init_bass() //maybe put this in soundManager ctor? //soundManager::CDStartu
   return true;
 }
 
-void cleanup_bass() //put in soundManager dtor? //soundManager::CDShutdown(soundManager *this)
-{
+void cleanup_bass() {
+  reset_town_saved_music_positions();
+  setup_bass = false;
   BASS_Free();
 }
 
 void bass_stop_chan(int chan) {
-  // stop the track that is been playing
   if (!BASS_ChannelIsActive(chan))
     return;
 
   if (t_savepos[now_playing]) {
     t_position[now_playing] =
       BASS_ChannelGetPosition(chan, BASS_POS_BYTE);
-    //log_str("Saved position for track #%02d (%08ld bytes)\n",
-    //		now_playing, t_position[now_playing]);
   }
   // fadeout and stop
-  //log_str("Stopping %02d playback...\n", now_playing);
   BASS_ChannelSlideAttribute(chan, BASS_ATTRIB_VOL, -1, 200);
   while (BASS_ChannelIsSliding(chan, 0))
     Sleep(1);
-  //usleep(100);
 
   BASS_ChannelStop(chan);
   now_playing = 0;
@@ -97,67 +92,60 @@ void bass_set_volume(float volume) {
 void bass_play_track(int trknum) {
   char trkbuf[1024];
   trknum--;
-  if (trknum >= 1 && trknum <= 41) {
-    if (trknum == now_playing)
-      return; //this track is already being played
 
-    // preload next chan
-    DWORD next = 0;
-    int next_len = -1;
+  if (trknum < 1 || trknum > 41)
+    return;
 
-    if (!useOpera && trknum >= 4 && trknum <= 9)  //only for the town screen
-      sprintf(trkbuf, "%s/sw/homm2_%02d.ogg", trkpath, trknum);
-    else
-      sprintf(trkbuf, "%s/homm2_%02d.ogg", trkpath, trknum);
+  if (trknum == now_playing)
+    return; //this track is already being played
 
-    next =
-      BASS_StreamCreateFile(FALSE, trkbuf, 0, 0, BASS_STREAM_AUTOFREE);
-    if (!next) {
-      //log_str("Error while opening track #%d\n", trknum);
-      return;
-    }
+  if (!useOpera && trknum >= 4 && trknum <= 9)
+    sprintf(trkbuf, "%s/sw/homm2_%02d.ogg", trkpath, trknum);
+  else // use opera versions for town screens
+    sprintf(trkbuf, "%s/homm2_%02d.ogg", trkpath, trknum);
 
-    // check length
-    {
-      QWORD pos = BASS_ChannelGetLength(next, BASS_POS_BYTE);
-      if (pos != -1)
-        next_len = (DWORD)BASS_ChannelBytes2Seconds(next, pos);
-    }
-    // "jingle"? play it and forget it
-    if (next_len <= 10) {
-      //log_str
-      //	("Track #%02d is a jingle (%d sec), playing in background\n",
-      //	 trknum, next_len);
-      BASS_ChannelPlay(next, FALSE);
-      return;
-    }
-
-    // okay, it's not a jingle. do full-fledged processing (stop, restore, etc).
-    bass_stop_chan(chan);
-    chan = next;
-    now_playing = trknum;
-
-    // set looping (that's okay, we checked for length):
-    BASS_ChannelFlags(chan, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
-
-    // set volume:
-    BASS_ChannelSetAttribute(chan, BASS_ATTRIB_VOL, global_volume);
-
-    // seek to start:
-    if (t_savepos[now_playing] && t_position[now_playing] > 0) {
-      if (!BASS_ChannelSetPosition
-      (chan, t_position[now_playing], BASS_POS_BYTE))
-        std::cerr << "Seek failed";
-      else {
-        // we're starting from the middle of track, do fade-in:
-        BASS_ChannelSetAttribute(chan, BASS_ATTRIB_VOL, 0.0);
-        BASS_ChannelSlideAttribute(chan, BASS_ATTRIB_VOL, global_volume, 2000);
-      }
-    }
-
-    BASS_ChannelPlay(chan, FALSE);
+  // preload next chan
+  int next = BASS_StreamCreateFile(FALSE, trkbuf, 0, 0, BASS_STREAM_AUTOFREE);
+  if (!next) {
+    std::cerr << "Error while opening track #" << trknum << std::endl;
     return;
   }
+
+  // check length
+  QWORD pos = BASS_ChannelGetLength(next, BASS_POS_BYTE);
+  int next_len = -1;
+  if (pos != -1)
+      next_len = BASS_ChannelBytes2Seconds(next, pos);
+
+  // "jingle"? play it and forget it
+  if (next_len <= 10) {
+    BASS_ChannelPlay(next, FALSE);
+    return;
+  }
+
+  // okay, it's not a jingle. do full-fledged processing (stop, restore, etc).
+  bass_stop_chan(chan);
+  chan = next;
+  now_playing = trknum;
+
+  // set looping (that's okay, we checked for length):
+  BASS_ChannelFlags(chan, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
+
+  // set volume:
+  BASS_ChannelSetAttribute(chan, BASS_ATTRIB_VOL, global_volume);
+
+  // seek to start:
+  if (t_savepos[now_playing] && t_position[now_playing] > 0) {
+    if (!BASS_ChannelSetPosition(chan, t_position[now_playing], BASS_POS_BYTE))
+      std::cerr << "Seek failed";
+    else {
+      // we're starting from the middle of track, do fade-in:
+      BASS_ChannelSetAttribute(chan, BASS_ATTRIB_VOL, 0.0);
+      BASS_ChannelSlideAttribute(chan, BASS_ATTRIB_VOL, global_volume, 2000);
+    }
+  }
+
+  BASS_ChannelPlay(chan, FALSE);
 }
 
 void soundManager::CDStop() {
@@ -170,14 +158,8 @@ int soundManager::ConvertVolume(int weight, int is_music_flag) { //this does not
     std::cerr << "volume out of bounds";
     return ConvertVolume_orig(weight, is_music_flag);
   }
-
   return ConvertVolume_orig(weight, is_music_flag);
 }
-
-extern DWORD Data; //should really be named 'musicVolume'
-extern DWORD soundVolume;
-extern char aMusicVolume_0;
-extern char aMusicVolume_1;
 
 void soundManager::CDStartup() {
   usingCDAudio = true;
@@ -191,11 +173,6 @@ int soundManager::CDIsPlaying() {
 }
 
 void soundManager::CDSetVolume(int unknown_control_code, int unknown) {
-  //int volume = this->volRelated;
-
-  //int a = soundVolume;
-  //int b = aMusicVolume_0;
-  //int c = aMusicVolume_1;
   float volume = ((11 - Data) / 10.0f);
   if (Data == 0) {
     global_volume = 0;
@@ -203,8 +180,7 @@ void soundManager::CDSetVolume(int unknown_control_code, int unknown) {
     return;
   }
 
-  if (global_volume == 0 && Data == 1) //going from 'Off' to 'On'
-  {
+  if (global_volume == 0 && Data == 1) { //going from 'Off' to 'On' 
     bass_set_volume(volume);
     bass_play_track(currentTrack);
     return;
@@ -214,20 +190,13 @@ void soundManager::CDSetVolume(int unknown_control_code, int unknown) {
 }
 
 void soundManager::CDPlay(int track_number, signed int a3, int a4, int a5) {
-  int volume; // eax@20
-  unsigned __int32 startmsec; // [sp+10h] [bp-18h]@14
-
   CDSetVolume(0, 0);
-
-  static bool setup_bass = false;
   if (!setup_bass) {
     init_bass();
     setup_bass = true;
   }
 
-  //if(!gbNoSound && this->field_69E && *(_DWORD *)&Data)
-  if (!gbNoSound && this->usingCDAudio)//this->field_69E)// && *(_DWORD *)&Data)
-  {
+  if (!gbNoSound && this->usingCDAudio) {
     if (track_number == -1) {
       soundManager::CDStop();
     } else if (this->currentTrack != track_number || !CDPlaying || a5) {
@@ -247,8 +216,7 @@ void soundManager::CDPlay(int track_number, signed int a3, int a4, int a5) {
         }
       } else {
         this->volRelated = 10;
-        //dword_524BF8 = KBTickCount() + 600;
-        volume = soundManager::ConvertVolume(1, 101);
+        int volume = soundManager::ConvertVolume(1, 101);
         soundManager::CDSetVolume(volume, 1);
       }
       this->currentTrack = track_number;
