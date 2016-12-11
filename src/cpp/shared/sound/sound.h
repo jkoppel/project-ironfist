@@ -71,5 +71,6 @@ class soundManager : public baseManager
 extern soundManager *gpSoundManager;
 
 extern unsigned char giTerrainToMusicTrack[];
+extern signed char townTheme[];
 
 #endif

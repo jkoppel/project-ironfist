@@ -23,57 +23,20 @@ extern int useOpera;
 HANDLE evt[MAXTRACK];
 
 DWORD chan = 0;
-char *trkpath = "./tracks";
+char *trkpath = "./MUSIC";
 int now_playing = 0;
 int *t_savepos;               // "save position" flag
 QWORD *t_position;            // saved position
 float global_volume = 1.0f;
 
-bool actually_use_opera = true; //this is a hack, need a better way to implement this
-
 extern void __fastcall Process1WindowsMessage();
 
 void reset_town_saved_music_positions();
-
-
-//SystemOptionsHandler is called when the 'System Options' dialog is shown/interacted with
-//
-//int __fastcall SystemOptionsHandler_orig(struct tag_message &msg);
-//int __fastcall SystemOptionsHandler(struct tag_message &msg)
-//	{
-//
-//	//this is a hack to get the 'useOpera' setting to do something different
-//	//if(msg.xCoordOrKeycode == 12 && msg.yCoordOrFieldID == 13)
-//	//	{
-//	//	if(actually_use_opera == false && useOpera == true)
-//	//		useOpera = false;
-//
-//	//	DWORD use_opera_before = useOpera;
-//	//	int ret = SystemOptionsHandler_orig(msg);
-//	//	DWORD use_opera_after = useOpera;
-//
-//	//	if(use_opera_before == false && use_opera_after == true)
-//	//		actually_use_opera = true;
-//
-//	//	if(use_opera_before == true && use_opera_after == false)
-//	//		{
-//	//		actually_use_opera = false;
-//	//		useOpera = true;
-//	//		reset_town_saved_music_positions();
-//	//		}
-//
-//	//	return ret;
-//	//	}
-//
-//	int ret = SystemOptionsHandler_orig(msg);
-//	return ret;
-//	}
 
 void reset_town_saved_music_positions() {
   for (int i = 5; i < 11; i++)
     t_savepos[i] = 0;
 }
-
 
 bool init_bass() //maybe put this in soundManager ctor? //soundManager::CDStartup(soundManager *this)
 {
@@ -133,18 +96,19 @@ void bass_set_volume(float volume) {
 
 void bass_play_track(int trknum) {
   char trkbuf[1024];
-  if (trknum >= 1 && trknum <= 49) {
+  trknum--;
+  if (trknum >= 1 && trknum <= 41) {
     if (trknum == now_playing)
       return; //this track is already being played
 
-          // preload next chan
+    // preload next chan
     DWORD next = 0;
     int next_len = -1;
 
-    if (!actually_use_opera && trknum >= 5 && trknum <= 10)  //only for the town screen
-      sprintf(trkbuf, "%s/track%02d_no_opera.mp3", trkpath, trknum);
+    if (!useOpera && trknum >= 4 && trknum <= 9)  //only for the town screen
+      sprintf(trkbuf, "%s/sw/homm2_%02d.ogg", trkpath, trknum);
     else
-      sprintf(trkbuf, "%s/track%02d.mp3", trkpath, trknum);
+      sprintf(trkbuf, "%s/homm2_%02d.ogg", trkpath, trknum);
 
     next =
       BASS_StreamCreateFile(FALSE, trkbuf, 0, 0, BASS_STREAM_AUTOFREE);
@@ -173,7 +137,6 @@ void bass_play_track(int trknum) {
     chan = next;
     now_playing = trknum;
 
-
     // set looping (that's okay, we checked for length):
     BASS_ChannelFlags(chan, BASS_SAMPLE_LOOP, BASS_SAMPLE_LOOP);
 
@@ -182,9 +145,6 @@ void bass_play_track(int trknum) {
 
     // seek to start:
     if (t_savepos[now_playing] && t_position[now_playing] > 0) {
-      //log_str
-      //	("Playing track %s, volume = %.2f (saved position = %08ld)\n",
-      //	 trkbuf, volume, t_position[now_playing]);
       if (!BASS_ChannelSetPosition
       (chan, t_position[now_playing], BASS_POS_BYTE))
         std::cerr << "Seek failed";
@@ -193,8 +153,6 @@ void bass_play_track(int trknum) {
         BASS_ChannelSetAttribute(chan, BASS_ATTRIB_VOL, 0.0);
         BASS_ChannelSlideAttribute(chan, BASS_ATTRIB_VOL, global_volume, 2000);
       }
-    } else {
-      //log_str("Playing track %s, volume = %.2f\n", trkbuf, volume);
     }
 
     BASS_ChannelPlay(chan, FALSE);
@@ -281,24 +239,6 @@ void soundManager::CDPlay(int track_number, signed int a3, int a4, int a5) {
       bass_play_track(track_number);
       t_savepos[track_number] = 1;
 
-      /*
-      if(*((_BYTE *)&bSaveMusicPosition + a2))
-      a3 = 1;
-      soundManager::StopAllSamples(thisa, 1);
-      soundManager::CDStop();
-      if(!a5 && a3 && *((_DWORD *)dword_4ED0B8 + a2))
-      startmsec = *((_DWORD *)dword_4ED0B8 + a2);
-      else
-      startmsec = *((_DWORD *)ptr + track_number);
-      this->redbookStatus = AIL_redbook_play(aStatusCdPositi, startmsec, *((_DWORD *)dword_4ED0B4 + a2));
-      if(thisa->redbookStatus != REDBOOK_DIGITAL_AUDIO_EXTRACTION_INFO_VERSION)
-      {
-      DelayMilli(100);
-      thisa->redbookStatus = AIL_redbook_status(aStatusCdPositi);
-      if(thisa->redbookStatus != REDBOOK_DIGITAL_AUDIO_EXTRACTION_INFO_VERSION)
-      thisa->redbookStatus = AIL_redbook_play(aStatusCdPositi, startmsec, *((_DWORD *)dword_4ED0B4 + a2));
-      }*/
-      //CDPlaying = 1;
       Process1WindowsMessage();
       soundManager::ServiceSound();
       if (this->volRelated <= 0) {
