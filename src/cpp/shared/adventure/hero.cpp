@@ -157,17 +157,13 @@ void hero::TakeArtifact(int art) {
 }
 
 int hero::CountEmptyArtifactSlots() {
-
-
-	int amount = 0; //The counted amount of empty artifacts that the player has
-	 
-	
-	for (int i = 0; i < 14; i++) {
-		if (this->artifacts[i] == -1) {
-			amount++;
-		}
+  int amount = 0; //The counted amount of empty artifacts that the player has
+  for (int i = 0; i < 14; i++) {
+    if (this->artifacts[i] == -1) {
+      amount++;
 	}
-	return amount;
+  }
+  return amount;
 }
 
 hero* GetCurrentHero() {
