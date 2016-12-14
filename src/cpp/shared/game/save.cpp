@@ -436,6 +436,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
 			}
 			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
+			_read(fd, &this->allowAIArmySharing, 1u);
 			this->map.Read(fd, 0);
 			SetFileAttributes(tmpFileNameW, GetFileAttributes(tmpFileNameW) & ~FILE_ATTRIBUTE_READONLY);
 			_close(fd);
@@ -575,6 +576,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 			_write(fd, extraMemory, pwSizeOfMapExtra[i]);
 	}
 	_write(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
+	_write(fd, &this->allowAIArmySharing, 1u);
 	this->map.Write(fd);
 	_close(fd);
 	FREE(extraMemory);

@@ -86,6 +86,7 @@ void game::NewMap(char* mapname) {
   this->NewMap_orig(mapname);
   ScriptingInit(std::string(mapname));
   gpGame->firstDayEventDone = false;
+  gpGame->allowAIArmySharing = true;
 }
 
 void game::NextPlayer() {
