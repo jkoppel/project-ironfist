@@ -14,8 +14,21 @@ extern const std::string gameAction = "gameAction";
 extern const std::string mapAction = "mapAction";
 extern const std::string open = "open";
 
-const std::string IRONFIST_TRACKER_ID("UA-24357556-4");
-bool internetDetected = true;
+static const std::string IRONFIST_TRACKER_ID("UA-24357556-4");
+static bool analyticsEnabled = true;
+static bool analyticsInitialized = false;
+static const std::string registryPref = "IronfistAnalyticsEnabled";
+
+void AnalyticsInit() {
+	int res = read_pref<DWORD>(registryPref);
+	if (res == -1) { // no key in registry
+		analyticsEnabled = true;
+		write_pref<DWORD>(registryPref, 1);
+	} else {
+		analyticsEnabled = res;
+	}
+	analyticsInitialized = true;
+}
 
 const std::string createOrGetUuid() {
 	std::string uuid;
@@ -46,12 +59,15 @@ void send_event_with_internet(const std::string &category, const std::string &ac
 }
 
 void send_event(const std::string &category, const std::string &action) {
-	if (internetDetected) {
+	if (!analyticsInitialized) {
+		AnalyticsInit();
+	}
+	if (analyticsEnabled) {
 		try {
 			send_event_with_internet(category, action);
 		}
-		catch (...) {
-			internetDetected = false;
+		catch (...) { // no internet
+			analyticsEnabled = false;
 		}
 	}
 }
