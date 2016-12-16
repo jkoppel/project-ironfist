@@ -284,6 +284,12 @@ int l_takeartifact(lua_State *L) {
   return 0;
 }
 
+int l_countemptyartifactslots(lua_State *L) {
+  hero* hro = (hero*)lua_touserdata(L, 1);
+  lua_pushinteger(L, hro->CountEmptyArtifactSlots());
+  return 1; 
+}
+
 int l_setprimaryskill(lua_State *L) {
   hero* hro = (hero*)lua_touserdata(L, 1);
   int skill = (int)luaL_checknumber(L, 2);
@@ -599,6 +605,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "ShareVision", l_sharevision);
   lua_register(L, "GetHeroLevel", l_getherolevel);
   lua_register(L, "StartBattle", l_startbattle);
+  lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
 
   // Tales of Enroth functions
   lua_register(L, "QuestionBox", l_questionBox);
