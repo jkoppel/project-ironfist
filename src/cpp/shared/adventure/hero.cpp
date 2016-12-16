@@ -161,7 +161,7 @@ int hero::CountEmptyArtifactSlots() {
   for (int i = 0; i < 14; i++) {
     if (this->artifacts[i] == -1) {
       amount++;
-	}
+	  }
   }
   return amount;
 }
