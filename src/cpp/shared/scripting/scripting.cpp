@@ -22,7 +22,6 @@ extern "C" {
 #include "town/town.h"
 
 
-#include "scripting/hook.h"
 #include "scripting/register.h"
 #include "scripting/scripting.h"
 #include "scripting/temporary_file.h"
@@ -32,87 +31,11 @@ using namespace std;
 static string script_contents("");
 
 static bool scripting_on = false;
-static lua_State* map_lua = NULL;
-static map<pair<int, string>, const char* > *triggers;
-static map<int, const char* > *general_triggers;
-
-static int triggerFiredCount[NUM_SCRIPT_EVENTS]; // Note: reset every game session
+lua_State* map_lua = NULL;
 
 static void DisplayLuaError() {
 	const char* msg = luaL_checkstring(map_lua, -1);
 	DisplayError(msg, "Script Error");
-}
-
-static void SetGeneralHook(int id, const char* hook) {
-  (*general_triggers)[id] = hook;
-}
-
-static const char* GetGeneralHook(int id) {
-  if (general_triggers->count(id) > 0) {
-    return (*general_triggers)[id];
-  } else {
-    return NULL;
-  }
-}
-
-static void SetHook(int id, const char* obj, const char* hook) {
-  (*triggers)[make_pair(id, string(obj))] = hook;
-}
-
-static const char* GetHook(int id, const char* obj) {
-  if (triggers->count(make_pair(id, obj)) > 0)
-    return (*triggers)[make_pair(id, string(obj))];
-  else
-    return NULL;
-}
-
-static void CallHook(const char* hook) {
-  if (hook != NULL) {
-    lua_getglobal(map_lua, hook);
-
-    if (lua_pcall(map_lua, 0, -1, 0)) {
-      DisplayLuaError();
-    }
-  }
-
-}
-
-static bool MaxTriggerFiringReached(int id) {
-  // I've observed map victory events firing twice in a row. I haven't ruled out that this is also possible for map loss
-  // Because we're only worried about it firing twice in a row, we need not worry about tracking this count across sessions
-  if (id == SCRIPT_EVT_MAP_VICTORY || id == SCRIPT_EVT_MAP_LOSS) {
-    return triggerFiredCount[id] > 0;
-  } else {
-    return false;
-  }
-}
-
-void ScriptSignal(int id, const char* obj) {
-  if (!scripting_on) {
-    return;
-  }
-
-  if (MaxTriggerFiringReached(id)) {
-    return;
-  }
-
-  triggerFiredCount[id]++;
-  CallHook(GetHook(id, obj));
-  CallHook(GetGeneralHook(id));
-}
-
-void ScriptSignal(int id, const string& obj) {
-  const char* x = obj.c_str();
-  ScriptSignal(id, x);
-}
-
-void ScriptSetSpecialVariableData(const char* nam, void* val) {
-  if (!scripting_on) {
-    return;
-  }
-
-  lua_pushlightuserdata(map_lua, val);
-  lua_setglobal(map_lua, nam);
 }
 
 int l_msgbox(lua_State *L) {
@@ -146,21 +69,6 @@ int l_recruitBox(lua_State *L)
 
   lua_pushinteger(L, startQ - quantity);
   return 1;
-}
-
-int l_trigger(lua_State *L) {
-  int id = (int)luaL_checknumber(L, 1);
-  const char* obj = lua_tolstring(L, 2, NULL); // string or NULL
-  const char* hook = luaL_checkstring(L, 3);
-
-  if (obj == NULL) {
-    SetGeneralHook(id, hook);
-  }
-  else {
-    SetHook(id, obj, hook);
-  }
-
-  return 0;
 }
 
 int l_getday(lua_State *L) {
@@ -670,7 +578,6 @@ int l_gettownidfrompos(lua_State *L) {
 
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
-  lua_register(L, "Trigger", l_trigger);
   lua_register(L, "GetDay", l_getday);
   lua_register(L, "GetWeek", l_getweek);
   lua_register(L, "GetMonth", l_getmonth);
@@ -751,18 +658,6 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetTownOwner", l_settownowner);
   lua_register(L, "GetTownIdFromPos", l_gettownidfrompos);
 
-  lua_setconst(L, "NEW_DAY", SCRIPT_EVT_NEW_DAY);
-  lua_setconst(L, "MAP_START", SCRIPT_EVT_MAP_START);
-  lua_setconst(L, "TOWN_LOADED", SCRIPT_EVT_TOWN_LOADED);
-  lua_setconst(L, "HERO_MOVE", SCRIPT_EVT_MOVEHERO);
-  lua_setconst(L, "UNIT_RECRUIT", SCRIPT_EVT_RECRUIT);
-  lua_setconst(L, "BATTLE_START", SCRIPT_EVT_BATTLE_START);
-  lua_setconst(L, "BATTLE_ATTACK_MELEE", SCRIPT_EVT_BATTLE_ATTACK_M);
-  lua_setconst(L, "BATTLE_ATTACK_SPECIAL", SCRIPT_EVT_BATTLE_ATTACK_S);
-  lua_setconst(L, "VISIT_CAMPFIRE", SCRIPT_EVT_VISIT_CAMPFIRE);
-  lua_setconst(L, "MAP_VICTORY", SCRIPT_EVT_MAP_VICTORY);
-  lua_setconst(L, "MAP_LOSS", SCRIPT_EVT_MAP_LOSS);
-
   set_scripting_consts(L);
 }
 
@@ -775,13 +670,7 @@ static void LoadScriptContents(string &filnam) {
 
 void RunScript(string& script_filename) {
   map_lua = luaL_newstate();
-  triggers = new map<pair<int, string>, const char* >;
-  general_triggers = new map<int, const char* >;
   scripting_on = true;
-
-  for (int i = 0; i < ELEMENTS_IN(triggerFiredCount); i++) {
-    triggerFiredCount[i] = 0;
-  }
 
   luaL_openlibs(map_lua);
 
@@ -815,8 +704,6 @@ void ScriptingShutdown() {
   if (map_lua != NULL) {
     lua_close(map_lua);
     map_lua = NULL;
-    delete triggers;
-    delete general_triggers;
     scripting_on = false;
   }
 

@@ -4,7 +4,7 @@
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
-#include "scripting/hook.h"
+#include "scripting/callback.h"
 #include "prefs.h"
 
 #include <sstream>
@@ -64,25 +64,13 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
 
 int advManager::Open(int idx) {
   int res = this->Open_orig(idx);
-  if (gpGame->day == 1 && gpGame->week == 1 && gpGame->month == 1) {
-    //The NEW_DAY event is triggered after game::PerDay, but that is not called
-    //before the first day
-    //
-    //The correct place to put this is wherever the start-of-map events fire
-    //This kinda works, but will also fire after exiting the town screen or
-    //combat on the first day
-    ScriptSignal(SCRIPT_EVT_MAP_START, "");
-    ScriptSignal(SCRIPT_EVT_NEW_DAY, "");
-  }
   return res;
 }
 
 mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9){
   mapCell* res = MoveHero_orig(a2, a3, a4, a5, a6, a7, a8, a9);
   hero *hro = GetCurrentHero();
-  std::ostringstream msg;
-  msg << hro->x << "," << hro->y;
-  ScriptSignal(SCRIPT_EVT_MOVEHERO, msg.str());
+  ScriptCallback("OnHeroMove", hro->x, hro->y);
   return res;
 }
 
@@ -130,13 +118,9 @@ void game::MakeAllWaterVisible(int player) {
 }
 
 void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
-	int locType = cell->objType & 0x7F;
-	if (locType == LOCATION_CAMPFIRE) {
-		std::ostringstream tmp;
-		tmp << locX << "," << locY;
-		ScriptSignal(SCRIPT_EVT_VISIT_CAMPFIRE, tmp.str());
-	}
-	this->DoEvent_orig(cell, locX, locY);
+  int locType = cell->objType & 0x7F;
+  ScriptCallback("OnLocationVisit", locType, locX, locY);
+  this->DoEvent_orig(cell, locX, locY);
 }
 
 int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {

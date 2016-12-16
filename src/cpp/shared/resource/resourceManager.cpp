@@ -396,3 +396,17 @@ void resourceManager::ReadBlock(signed char* buf, unsigned long n) {
 	}
 	PollSound();
 }
+
+unsigned long __fastcall MAKEFILEID(char *str) {
+  std::string tmp(str);
+  int v2 = 0;
+  unsigned __int32 fileID = 0;
+  for (int i = strlen(str) - 1; i >= 0; i--) {
+    char c = tmp[i];
+    if (c >= 'a' && c <= 'z')
+      tmp[i] = toupper(c);
+    v2 += tmp[i];
+    fileID = v2 + tmp[i] + 32 * fileID + (fileID >> 25);
+  }
+  return fileID;
+}

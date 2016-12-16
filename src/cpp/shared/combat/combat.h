@@ -118,8 +118,8 @@ public:
 
   int MidX();
   int MidY();
-  void DoAttack(int);
-  void DoAttack_orig(int);
+  void DoAttack(int isRetaliation);
+  void DoAttack_orig(int isRetaliation);
   void SpecialAttack();
   void SpecialAttack_orig();
   float SpellCastWorkChance(int);

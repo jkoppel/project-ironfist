@@ -76,6 +76,10 @@ IMPORT_??2@YAPAXI@Z = 1
 ??3@YAXPAX@Z EQU _op_del
 IMPORT_??3@YAXPAX@Z = 1
 
+;; executive
+IMPORT_?AddManager@executive@@QAEHPAVbaseManager@@H@Z = 1
+?AddManager@executive@@QAEHPAVbaseManager@@H@Z_clone EQU ?AddManager_orig@executive@@QAEHPAVbaseManager@@H@Z
+
 ;;init
 IMPORT_?InitMainClasses@@YIXXZ = 1
 IMPORT_?DeleteMainClasses@@YIXXZ = 1
@@ -117,6 +121,7 @@ IMPORT_?ReadLong@resourceManager@@QAEJXZ = 1
 IMPORT_?MakeId@resourceManager@@QAEKPADH@Z = 1
 IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
+IMPORT_?MAKEFILEID@@YIKPAD@Z = 1
 
 ;;creatures
 
@@ -146,6 +151,9 @@ IMPORT_?AddSpell@hero@@QAEXHH@Z = 1
 IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
+
+IMPORT_?CalcMobility@hero@@QAEHXZ = 1
+?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
 
 ;;artifacts
 IMPORT_?gArtifactNames@@3PAPADA = 1
