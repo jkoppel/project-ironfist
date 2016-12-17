@@ -244,6 +244,7 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 
 	for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++) {
 		hx.artifact().push_back(ironfist_map::hero_t::artifact_type(hro->artifacts[i]));
+    hx.artifact().back().spell(hro->scrollSpell[i]);
 	}
 
 	return hx;
