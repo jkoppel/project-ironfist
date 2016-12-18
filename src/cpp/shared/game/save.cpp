@@ -42,6 +42,15 @@ extern void __fastcall GenerateStandardFileName(char*,char*);
 static const char *tmpFileName = "tmp";
 static const LPCWSTR tmpFileNameW = L"tmp";
 
+static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
+  gam->allowAIArmySharing = gs.allowAIArmySharing();
+}
+
+ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
+  ironfist_map::gamestate_t gs((int)gam->allowAIArmySharing);
+  return gs;
+}
+
 static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->Clear();
 
@@ -342,6 +351,9 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ReadHeroXML(hx, &this->heroes[i]);
 			}
 
+      std::auto_ptr<ironfist_map::gamestate_t> gs = ironfist_map::gamestate(std::string(v8));
+      ReadGameStateXML(*gs, gpGame);
+
 			int tmp_fd = _open(tmpFileName, O_BINARY | O_CREAT | O_WRONLY);
 			_write(tmp_fd, mp->raw().data(), mp->raw().size());
 			_close(tmp_fd);
@@ -576,7 +588,6 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 			_write(fd, extraMemory, pwSizeOfMapExtra[i]);
 	}
 	_write(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
-	_write(fd, &this->allowAIArmySharing, 1u);
 	this->map.Write(fd);
 	_close(fd);
 	FREE(extraMemory);
@@ -601,8 +612,10 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 		m.hero().push_back(WriteHeroXML(&this->heroes[i]));
 	}
 
+  m.gamestate(WriteGameStateXML(gpGame));
 	m.script(GetScriptContents());
-	WriteMapVariablesXML(m);
+  WriteMapVariablesXML(m);
+  
 
 	xml_schema::namespace_infomap infomap;
 	infomap[""].name = "ironfist_map";

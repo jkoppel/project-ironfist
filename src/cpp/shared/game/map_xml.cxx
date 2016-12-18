@@ -1320,8 +1320,60 @@ namespace ironfist_map
   }
 
 
+  // gamestate_t
+  // 
+
+  const gamestate_t::allowAIArmySharing_type& gamestate_t::
+  allowAIArmySharing () const
+  {
+    return this->allowAIArmySharing_.get ();
+  }
+
+  gamestate_t::allowAIArmySharing_type& gamestate_t::
+  allowAIArmySharing ()
+  {
+    return this->allowAIArmySharing_.get ();
+  }
+
+  void gamestate_t::
+  allowAIArmySharing (const allowAIArmySharing_type& x)
+  {
+    this->allowAIArmySharing_.set (x);
+  }
+
+  gamestate_t::allowAIArmySharing_type gamestate_t::
+  allowAIArmySharing_default_value ()
+  {
+    return allowAIArmySharing_type (1);
+  }
+
+
   // map_t
   // 
+
+  const map_t::gamestate_type& map_t::
+  gamestate () const
+  {
+    return this->gamestate_.get ();
+  }
+
+  map_t::gamestate_type& map_t::
+  gamestate ()
+  {
+    return this->gamestate_.get ();
+  }
+
+  void map_t::
+  gamestate (const gamestate_type& x)
+  {
+    this->gamestate_.set (x);
+  }
+
+  void map_t::
+  gamestate (::std::auto_ptr< gamestate_type > x)
+  {
+    this->gamestate_.set (x);
+  }
 
   const map_t::hero_sequence& map_t::
   hero () const
@@ -3243,12 +3295,103 @@ namespace ironfist_map
   {
   }
 
+  // gamestate_t
+  //
+
+  gamestate_t::
+  gamestate_t (const allowAIArmySharing_type& allowAIArmySharing)
+  : ::xml_schema::type (),
+    allowAIArmySharing_ (allowAIArmySharing, ::xml_schema::flags (), this)
+  {
+  }
+
+  gamestate_t::
+  gamestate_t (const gamestate_t& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    allowAIArmySharing_ (x.allowAIArmySharing_, f, this)
+  {
+  }
+
+  gamestate_t::
+  gamestate_t (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    allowAIArmySharing_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void gamestate_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // allowAIArmySharing
+      //
+      if (n.name () == "allowAIArmySharing" && n.namespace_ ().empty ())
+      {
+        if (!allowAIArmySharing_.present ())
+        {
+          this->allowAIArmySharing_.set (allowAIArmySharing_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      break;
+    }
+
+    if (!allowAIArmySharing_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "allowAIArmySharing",
+        "");
+    }
+  }
+
+  gamestate_t* gamestate_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class gamestate_t (*this, f, c);
+  }
+
+  gamestate_t::
+  ~gamestate_t ()
+  {
+  }
+
   // map_t
   //
 
   map_t::
-  map_t (const raw_type& raw)
+  map_t (const gamestate_type& gamestate,
+         const raw_type& raw)
   : ::xml_schema::type (),
+    gamestate_ (gamestate, ::xml_schema::flags (), this),
+    hero_ (::xml_schema::flags (), this),
+    mapVariable_ (::xml_schema::flags (), this),
+    script_ (::xml_schema::flags (), this),
+    raw_ (raw, ::xml_schema::flags (), this)
+  {
+  }
+
+  map_t::
+  map_t (::std::auto_ptr< gamestate_type >& gamestate,
+         const raw_type& raw)
+  : ::xml_schema::type (),
+    gamestate_ (gamestate, ::xml_schema::flags (), this),
     hero_ (::xml_schema::flags (), this),
     mapVariable_ (::xml_schema::flags (), this),
     script_ (::xml_schema::flags (), this),
@@ -3261,6 +3404,7 @@ namespace ironfist_map
          ::xml_schema::flags f,
          ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
+    gamestate_ (x.gamestate_, f, this),
     hero_ (x.hero_, f, this),
     mapVariable_ (x.mapVariable_, f, this),
     script_ (x.script_, f, this),
@@ -3273,6 +3417,7 @@ namespace ironfist_map
          ::xml_schema::flags f,
          ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    gamestate_ (f, this),
     hero_ (f, this),
     mapVariable_ (f, this),
     script_ (f, this),
@@ -3294,6 +3439,20 @@ namespace ironfist_map
       const ::xercesc::DOMElement& i (p.cur_element ());
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
+
+      // gamestate
+      //
+      if (n.name () == "gamestate" && n.namespace_ () == "ironfist_map")
+      {
+        ::std::auto_ptr< gamestate_type > r (
+          gamestate_traits::create (i, f, this));
+
+        if (!gamestate_.present ())
+        {
+          this->gamestate_.set (r);
+          continue;
+        }
+      }
 
       // hero
       //
@@ -3346,6 +3505,13 @@ namespace ironfist_map
       }
 
       break;
+    }
+
+    if (!gamestate_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "gamestate",
+        "ironfist_map");
     }
 
     if (!raw_.present ())
@@ -3817,6 +3983,286 @@ namespace ironfist_map
       n.name (),
       n.namespace_ (),
       "map",
+      "ironfist_map");
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::std::string& u,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+      ::ironfist_map::gamestate (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::std::string& u,
+             ::xml_schema::error_handler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+      ::ironfist_map::gamestate (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::std::string& u,
+             ::xercesc::DOMErrorHandler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+      ::ironfist_map::gamestate (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_map::gamestate (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             ::xml_schema::error_handler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_map::gamestate (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             ::xercesc::DOMErrorHandler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_map::gamestate (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             const ::std::string& sid,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_map::gamestate (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             const ::std::string& sid,
+             ::xml_schema::error_handler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_map::gamestate (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             const ::std::string& sid,
+             ::xercesc::DOMErrorHandler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_map::gamestate (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xercesc::InputSource& i,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+      ::ironfist_map::gamestate (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xercesc::InputSource& i,
+             ::xml_schema::error_handler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+      ::ironfist_map::gamestate (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xercesc::InputSource& i,
+             ::xercesc::DOMErrorHandler& h,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+      ::ironfist_map::gamestate (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::xercesc::DOMDocument& d,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties& p)
+  {
+    if (f & ::xml_schema::flags::keep_dom)
+    {
+      ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+        static_cast< ::xercesc::DOMDocument* > (d.cloneNode (true)));
+
+      ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+        ::ironfist_map::gamestate (
+          c, f | ::xml_schema::flags::own_dom, p));
+
+      return r;
+    }
+
+    const ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "gamestate" &&
+        n.namespace_ () == "ironfist_map")
+    {
+      ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+        ::xsd::cxx::tree::traits< ::ironfist_map::gamestate_t, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "gamestate",
+      "ironfist_map");
+  }
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+             ::xml_schema::flags f,
+             const ::xml_schema::properties&)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+      ((f & ::xml_schema::flags::keep_dom) &&
+       !(f & ::xml_schema::flags::own_dom))
+      ? static_cast< ::xercesc::DOMDocument* > (d->cloneNode (true))
+      : 0);
+
+    ::xercesc::DOMDocument& doc (c.get () ? *c : *d);
+    const ::xercesc::DOMElement& e (*doc.getDocumentElement ());
+
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (f & ::xml_schema::flags::keep_dom)
+      doc.setUserData (::xml_schema::dom::tree_node_key,
+                       (c.get () ? &c : &d),
+                       0);
+
+    if (n.name () == "gamestate" &&
+        n.namespace_ () == "ironfist_map")
+    {
+      ::std::auto_ptr< ::ironfist_map::gamestate_t > r (
+        ::xsd::cxx::tree::traits< ::ironfist_map::gamestate_t, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "gamestate",
       "ironfist_map");
   }
 
@@ -5984,9 +6430,38 @@ namespace ironfist_map
   }
 
   void
+  operator<< (::xercesc::DOMElement& e, const gamestate_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // allowAIArmySharing
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "allowAIArmySharing",
+          e));
+
+      s << i.allowAIArmySharing ();
+    }
+  }
+
+  void
   operator<< (::xercesc::DOMElement& e, const map_t& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
+
+    // gamestate
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "gamestate",
+          "ironfist_map",
+          e));
+
+      s << i.gamestate ();
+    }
 
     // hero
     //
@@ -6189,6 +6664,154 @@ namespace ironfist_map
         m, f));
 
     ::ironfist_map::map (*d, s, f);
+    return d;
+  }
+
+  void
+  gamestate (::std::ostream& o,
+             const ::ironfist_map::gamestate_t& s,
+             const ::xml_schema::namespace_infomap& m,
+             const ::std::string& e,
+             ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::gamestate (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  gamestate (::std::ostream& o,
+             const ::ironfist_map::gamestate_t& s,
+             ::xml_schema::error_handler& h,
+             const ::xml_schema::namespace_infomap& m,
+             const ::std::string& e,
+             ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::gamestate (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  gamestate (::std::ostream& o,
+             const ::ironfist_map::gamestate_t& s,
+             ::xercesc::DOMErrorHandler& h,
+             const ::xml_schema::namespace_infomap& m,
+             const ::std::string& e,
+             ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::gamestate (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  gamestate (::xercesc::XMLFormatTarget& t,
+             const ::ironfist_map::gamestate_t& s,
+             const ::xml_schema::namespace_infomap& m,
+             const ::std::string& e,
+             ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::gamestate (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  gamestate (::xercesc::XMLFormatTarget& t,
+             const ::ironfist_map::gamestate_t& s,
+             ::xml_schema::error_handler& h,
+             const ::xml_schema::namespace_infomap& m,
+             const ::std::string& e,
+             ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::gamestate (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  gamestate (::xercesc::XMLFormatTarget& t,
+             const ::ironfist_map::gamestate_t& s,
+             ::xercesc::DOMErrorHandler& h,
+             const ::xml_schema::namespace_infomap& m,
+             const ::std::string& e,
+             ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_map::gamestate (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  gamestate (::xercesc::DOMDocument& d,
+             const ::ironfist_map::gamestate_t& s,
+             ::xml_schema::flags)
+  {
+    ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "gamestate" &&
+        n.namespace_ () == "ironfist_map")
+    {
+      e << s;
+    }
+    else
+    {
+      throw ::xsd::cxx::tree::unexpected_element < char > (
+        n.name (),
+        n.namespace_ (),
+        "gamestate",
+        "ironfist_map");
+    }
+  }
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+  gamestate (const ::ironfist_map::gamestate_t& s,
+             const ::xml_schema::namespace_infomap& m,
+             ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::serialize< char > (
+        "gamestate",
+        "ironfist_map",
+        m, f));
+
+    ::ironfist_map::gamestate (*d, s, f);
     return d;
   }
 

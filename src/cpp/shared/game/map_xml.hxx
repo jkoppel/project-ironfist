@@ -255,6 +255,7 @@ namespace ironfist_map
   class tableElement_t;
   class table_t;
   class mapVariable_t;
+  class gamestate_t;
   class map_t;
   class secondarySkill;
   class artifact;
@@ -1595,9 +1596,76 @@ namespace ironfist_map
     static const type_type type_default_value_;
   };
 
+  class gamestate_t: public ::xml_schema::type
+  {
+    public:
+    // allowAIArmySharing
+    // 
+    typedef ::xml_schema::int_ allowAIArmySharing_type;
+    typedef ::xsd::cxx::tree::traits< allowAIArmySharing_type, char > allowAIArmySharing_traits;
+
+    const allowAIArmySharing_type&
+    allowAIArmySharing () const;
+
+    allowAIArmySharing_type&
+    allowAIArmySharing ();
+
+    void
+    allowAIArmySharing (const allowAIArmySharing_type& x);
+
+    static allowAIArmySharing_type
+    allowAIArmySharing_default_value ();
+
+    // Constructors.
+    //
+    gamestate_t (const allowAIArmySharing_type&);
+
+    gamestate_t (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    gamestate_t (const gamestate_t& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual gamestate_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~gamestate_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< allowAIArmySharing_type > allowAIArmySharing_;
+  };
+
   class map_t: public ::xml_schema::type
   {
     public:
+    // gamestate
+    // 
+    typedef ::ironfist_map::gamestate_t gamestate_type;
+    typedef ::xsd::cxx::tree::traits< gamestate_type, char > gamestate_traits;
+
+    const gamestate_type&
+    gamestate () const;
+
+    gamestate_type&
+    gamestate ();
+
+    void
+    gamestate (const gamestate_type& x);
+
+    void
+    gamestate (::std::auto_ptr< gamestate_type > p);
+
     // hero
     // 
     typedef ::ironfist_map::hero_t hero_type;
@@ -1672,7 +1740,11 @@ namespace ironfist_map
 
     // Constructors.
     //
-    map_t (const raw_type&);
+    map_t (const gamestate_type&,
+           const raw_type&);
+
+    map_t (::std::auto_ptr< gamestate_type >&,
+           const raw_type&);
 
     map_t (const ::xercesc::DOMElement& e,
            ::xml_schema::flags f = 0,
@@ -1697,6 +1769,7 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
+    ::xsd::cxx::tree::one< gamestate_type > gamestate_;
     hero_sequence hero_;
     mapVariable_sequence mapVariable_;
     script_optional script_;
@@ -1958,6 +2031,99 @@ namespace ironfist_map
   map (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse a URI or a local file.
+  //
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::std::string& uri,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::std::string& uri,
+             ::xml_schema::error_handler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::std::string& uri,
+             ::xercesc::DOMErrorHandler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse std::istream.
+  //
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             ::xml_schema::error_handler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             ::xercesc::DOMErrorHandler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             const ::std::string& id,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             const ::std::string& id,
+             ::xml_schema::error_handler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::std::istream& is,
+             const ::std::string& id,
+             ::xercesc::DOMErrorHandler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse xercesc::InputSource.
+  //
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xercesc::InputSource& is,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xercesc::InputSource& is,
+             ::xml_schema::error_handler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xercesc::InputSource& is,
+             ::xercesc::DOMErrorHandler& eh,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  // Parse xercesc::DOMDocument.
+  //
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (const ::xercesc::DOMDocument& d,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
+
+  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  gamestate (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+             ::xml_schema::flags f = 0,
+             const ::xml_schema::properties& p = ::xml_schema::properties ());
 
   // Parse a URI or a local file.
   //
@@ -2454,6 +2620,9 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement&, const mapVariable_t&);
 
   void
+  operator<< (::xercesc::DOMElement&, const gamestate_t&);
+
+  void
   operator<< (::xercesc::DOMElement&, const map_t&);
 
   // Serialize to std::ostream.
@@ -2523,6 +2692,74 @@ namespace ironfist_map
   map (const ::ironfist_map::map_t& x, 
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        ::xml_schema::flags f = 0);
+
+  // Serialize to std::ostream.
+  //
+
+  void
+  gamestate (::std::ostream& os,
+             const ::ironfist_map::gamestate_t& x, 
+             const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+             const ::std::string& e = "UTF-8",
+             ::xml_schema::flags f = 0);
+
+  void
+  gamestate (::std::ostream& os,
+             const ::ironfist_map::gamestate_t& x, 
+             ::xml_schema::error_handler& eh,
+             const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+             const ::std::string& e = "UTF-8",
+             ::xml_schema::flags f = 0);
+
+  void
+  gamestate (::std::ostream& os,
+             const ::ironfist_map::gamestate_t& x, 
+             ::xercesc::DOMErrorHandler& eh,
+             const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+             const ::std::string& e = "UTF-8",
+             ::xml_schema::flags f = 0);
+
+  // Serialize to xercesc::XMLFormatTarget.
+  //
+
+  void
+  gamestate (::xercesc::XMLFormatTarget& ft,
+             const ::ironfist_map::gamestate_t& x, 
+             const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+             const ::std::string& e = "UTF-8",
+             ::xml_schema::flags f = 0);
+
+  void
+  gamestate (::xercesc::XMLFormatTarget& ft,
+             const ::ironfist_map::gamestate_t& x, 
+             ::xml_schema::error_handler& eh,
+             const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+             const ::std::string& e = "UTF-8",
+             ::xml_schema::flags f = 0);
+
+  void
+  gamestate (::xercesc::XMLFormatTarget& ft,
+             const ::ironfist_map::gamestate_t& x, 
+             ::xercesc::DOMErrorHandler& eh,
+             const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+             const ::std::string& e = "UTF-8",
+             ::xml_schema::flags f = 0);
+
+  // Serialize to an existing xercesc::DOMDocument.
+  //
+
+  void
+  gamestate (::xercesc::DOMDocument& d,
+             const ::ironfist_map::gamestate_t& x,
+             ::xml_schema::flags f = 0);
+
+  // Serialize to a new xercesc::DOMDocument.
+  //
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+  gamestate (const ::ironfist_map::gamestate_t& x, 
+             const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+             ::xml_schema::flags f = 0);
 
   // Serialize to std::ostream.
   //
