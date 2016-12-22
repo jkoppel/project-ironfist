@@ -351,7 +351,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ReadHeroXML(hx, &this->heroes[i]);
 			}
       
-      ReadGameStateXML(*mp->gamestate(), gpGame);
+      if(mp->gamestate())
+        ReadGameStateXML(*mp->gamestate(), gpGame);
 
 			int tmp_fd = _open(tmpFileName, O_BINARY | O_CREAT | O_WRONLY);
 			_write(tmp_fd, mp->raw().data(), mp->raw().size());
