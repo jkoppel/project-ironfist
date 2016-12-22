@@ -1652,16 +1652,20 @@ namespace ironfist_map
     // gamestate
     // 
     typedef ::ironfist_map::gamestate_t gamestate_type;
+    typedef ::xsd::cxx::tree::optional< gamestate_type > gamestate_optional;
     typedef ::xsd::cxx::tree::traits< gamestate_type, char > gamestate_traits;
 
-    const gamestate_type&
+    const gamestate_optional&
     gamestate () const;
 
-    gamestate_type&
+    gamestate_optional&
     gamestate ();
 
     void
     gamestate (const gamestate_type& x);
+
+    void
+    gamestate (const gamestate_optional& x);
 
     void
     gamestate (::std::auto_ptr< gamestate_type > p);
@@ -1740,11 +1744,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    map_t (const gamestate_type&,
-           const raw_type&);
-
-    map_t (::std::auto_ptr< gamestate_type >&,
-           const raw_type&);
+    map_t (const raw_type&);
 
     map_t (const ::xercesc::DOMElement& e,
            ::xml_schema::flags f = 0,
@@ -1769,7 +1769,7 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< gamestate_type > gamestate_;
+    gamestate_optional gamestate_;
     hero_sequence hero_;
     mapVariable_sequence mapVariable_;
     script_optional script_;

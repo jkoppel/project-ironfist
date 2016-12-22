@@ -350,9 +350,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ironfist_map::hero_t hx = *it;
 				ReadHeroXML(hx, &this->heroes[i]);
 			}
-
-      std::auto_ptr<ironfist_map::gamestate_t> gs = ironfist_map::gamestate(std::string(v8));
-      ReadGameStateXML(*gs, gpGame);
+      
+      ReadGameStateXML(*mp->gamestate(), gpGame);
 
 			int tmp_fd = _open(tmpFileName, O_BINARY | O_CREAT | O_WRONLY);
 			_write(tmp_fd, mp->raw().data(), mp->raw().size());
@@ -448,7 +447,6 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
 			}
 			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
-			_read(fd, &this->allowAIArmySharing, 1u);
 			this->map.Read(fd, 0);
 			SetFileAttributes(tmpFileNameW, GetFileAttributes(tmpFileNameW) & ~FILE_ATTRIBUTE_READONLY);
 			_close(fd);

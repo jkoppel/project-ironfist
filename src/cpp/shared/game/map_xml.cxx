@@ -1351,22 +1351,28 @@ namespace ironfist_map
   // map_t
   // 
 
-  const map_t::gamestate_type& map_t::
+  const map_t::gamestate_optional& map_t::
   gamestate () const
   {
-    return this->gamestate_.get ();
+    return this->gamestate_;
   }
 
-  map_t::gamestate_type& map_t::
+  map_t::gamestate_optional& map_t::
   gamestate ()
   {
-    return this->gamestate_.get ();
+    return this->gamestate_;
   }
 
   void map_t::
   gamestate (const gamestate_type& x)
   {
     this->gamestate_.set (x);
+  }
+
+  void map_t::
+  gamestate (const gamestate_optional& x)
+  {
+    this->gamestate_ = x;
   }
 
   void map_t::
@@ -3376,22 +3382,9 @@ namespace ironfist_map
   //
 
   map_t::
-  map_t (const gamestate_type& gamestate,
-         const raw_type& raw)
+  map_t (const raw_type& raw)
   : ::xml_schema::type (),
-    gamestate_ (gamestate, ::xml_schema::flags (), this),
-    hero_ (::xml_schema::flags (), this),
-    mapVariable_ (::xml_schema::flags (), this),
-    script_ (::xml_schema::flags (), this),
-    raw_ (raw, ::xml_schema::flags (), this)
-  {
-  }
-
-  map_t::
-  map_t (::std::auto_ptr< gamestate_type >& gamestate,
-         const raw_type& raw)
-  : ::xml_schema::type (),
-    gamestate_ (gamestate, ::xml_schema::flags (), this),
+    gamestate_ (::xml_schema::flags (), this),
     hero_ (::xml_schema::flags (), this),
     mapVariable_ (::xml_schema::flags (), this),
     script_ (::xml_schema::flags (), this),
@@ -3447,7 +3440,7 @@ namespace ironfist_map
         ::std::auto_ptr< gamestate_type > r (
           gamestate_traits::create (i, f, this));
 
-        if (!gamestate_.present ())
+        if (!this->gamestate_)
         {
           this->gamestate_.set (r);
           continue;
@@ -3505,13 +3498,6 @@ namespace ironfist_map
       }
 
       break;
-    }
-
-    if (!gamestate_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_element< char > (
-        "gamestate",
-        "ironfist_map");
     }
 
     if (!raw_.present ())
@@ -6453,6 +6439,7 @@ namespace ironfist_map
 
     // gamestate
     //
+    if (i.gamestate ())
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
@@ -6460,7 +6447,7 @@ namespace ironfist_map
           "ironfist_map",
           e));
 
-      s << i.gamestate ();
+      s << *i.gamestate ();
     }
 
     // hero

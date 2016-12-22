@@ -111,7 +111,7 @@
   
   <xs:complexType name="map_t">
     <xs:sequence>
-	  <xs:element ref="gamestate" minOccurs="1" maxOccurs="1"/> 
+	  <xs:element ref="gamestate" minOccurs="0" maxOccurs="1"/> 
       <xs:element ref="hero" minOccurs="0" maxOccurs="54"/>
       <xs:element ref="mapVariable" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="script" minOccurs="0" maxOccurs="1"/>
