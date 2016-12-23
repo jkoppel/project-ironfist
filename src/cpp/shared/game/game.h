@@ -151,6 +151,8 @@ public:
     bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
+  // Used for OnMapStart
+  bool firstDayEventDone = false;
 
 	int SetupGame();
 	int SetupGame_orig();

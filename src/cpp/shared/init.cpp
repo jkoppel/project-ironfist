@@ -174,9 +174,10 @@ int __fastcall SetupCDDrive() {
 int executive::AddManager(baseManager *mgr, int argIdx) {
   int ret = this->AddManager_orig(mgr, argIdx);
   if (mgr == gpAdvManager)
-    if (!strcmp(gpGame->lastSaveFile, "NEWGAME")) { // that tells us it's a NEW game, not a loaded game. A loaded game can't have NEWGAME as a save filename
-      ScriptCallback("OnMapStart");
-      ScriptCallback("OnNewDay", gpGame->month, gpGame->week, gpGame->day);
+    if (!strcmp(gpGame->lastSaveFile, "NEWGAME") && !gpGame->firstDayEventDone) { // that tells us it's a NEW game, not a loaded game. A loaded game can't have NEWGAME as a save filename
+        ScriptCallback("OnMapStart");
+        ScriptCallback("OnNewDay", gpGame->month, gpGame->week, gpGame->day);
+        gpGame->firstDayEventDone = true;
     }
   return ret;
 }

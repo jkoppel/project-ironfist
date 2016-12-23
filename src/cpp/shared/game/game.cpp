@@ -77,14 +77,16 @@ void game::InitNewGame(struct SMapHeader *a) {
 }
 
 void game::NewMap(char* mapname) {
-	send_event(mapAction, mapname);
-	if (xIsExpansionMap)
-		write_pref("Last Map expansion", std::string(gMapName));
-	else
-		write_pref("Last Map", std::string(gMapName));
-    this->ResetIronfistGameState();
-	this->NewMap_orig(mapname);
-    ScriptingInit(std::string(mapname));
+  send_event(mapAction, mapname);
+  if (xIsExpansionMap)
+	  write_pref("Last Map expansion", std::string(gMapName));
+  else
+	  write_pref("Last Map", std::string(gMapName));
+  this->ResetIronfistGameState();
+  this->NewMap_orig(mapname);
+  ScriptingInit(std::string(mapname));
+  gpGame->firstDayEventDone = false;
+  gpGame->allowAIArmySharing = true;
 }
 
 void game::NextPlayer() {

@@ -103,8 +103,15 @@
     <xs:attribute name="type" type="xs:string" default="string"/>
   </xs:complexType>
 
+  <xs:complexType name="gamestate_t">
+	<xs:sequence>
+      <xs:element name="allowAIArmySharing" type="xs:int" default="1"/>
+	</xs:sequence>
+  </xs:complexType>
+  
   <xs:complexType name="map_t">
     <xs:sequence>
+	  <xs:element ref="gamestate" minOccurs="0" maxOccurs="1"/> 
       <xs:element ref="hero" minOccurs="0" maxOccurs="54"/>
       <xs:element ref="mapVariable" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element ref="script" minOccurs="0" maxOccurs="1"/>
@@ -113,10 +120,12 @@
   </xs:complexType>
 
   <xs:element name="map" type="map_t"/>
+  <xs:element name="gamestate" type="gamestate_t"/> 
   <xs:element name="hero" type="hero_t"/>
   <xs:element name="mapVariable" type="mapVariable_t"/>
   <xs:element name="raw" type="xs:base64Binary"/>
   <xs:element name="army" type="army_t"/>
   <xs:element name="script" type="xs:string"/>
+   
 
 </xs:schema>
