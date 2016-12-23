@@ -25,6 +25,8 @@ extern lua_State* map_lua;
 
 template<typename... Args>
 void ScriptCallback(const char * funcName, Args... args) {
+  if (!map_lua) // if it's not an ironfist map
+    return;
   lua_getglobal(map_lua, funcName);
   ironfist_lua_pushmulti(args...);
   int size = sizeof...(Args);

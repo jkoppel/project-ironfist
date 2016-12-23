@@ -492,7 +492,6 @@ function WeekFunc()
 	end
 end;
 
-function OnBattleMeleeAttack(attackerStack, targetStack)
 function OnBattleMeleeAttack(attackerStack, targetStack, isRetaliation)
 	st = targetStack;
 	
@@ -500,7 +499,6 @@ function OnBattleMeleeAttack(attackerStack, targetStack, isRetaliation)
 		return;
 	end
 	
-	if GetStackSide(st) == 1 and GetStackType(st) == CREATURE_EARTH_ELEMENTAL then
 	if GetStackSide(st) == 1 and GetStackType(st) == CREATURE_EARTH_ELEMENTAL and isRetaliation == false then
 	
 		up_occupied = false;

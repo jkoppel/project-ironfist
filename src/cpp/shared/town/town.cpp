@@ -8,6 +8,7 @@
 #include "gui/gui.h"
 #include "resource/resources.h"
 #include "scripting/callback.h"
+#include "sound/sound.h"
 #include "spell/spells.h"
 #include "town/town.h"
 
@@ -203,9 +204,10 @@ void town::SelectSpells() {
 }
 
 int townManager::Open(int idx) {
-	int res = this->Open_orig(idx);
+  int res = this->Open_orig(idx);
   ScriptCallback("OnTownOpen", this->castle->name);
-	return res;
+  gpSoundManager->SwitchAmbientMusic(townTheme[this->castle->factionID]);
+  return res;
 }
 
 void town::SetNumSpellsOfLevel(int l, int n) {

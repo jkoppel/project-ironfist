@@ -42,6 +42,15 @@ extern void __fastcall GenerateStandardFileName(char*,char*);
 static const char *tmpFileName = "tmp";
 static const LPCWSTR tmpFileNameW = L"tmp";
 
+static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
+  gam->allowAIArmySharing = gs.allowAIArmySharing();
+}
+
+ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
+  ironfist_map::gamestate_t gs((int)gam->allowAIArmySharing);
+  return gs;
+}
+
 static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 	hro->Clear();
 
@@ -242,9 +251,10 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 			hx.spell().push_back(i);
 	}
 
-	for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++) {
-		hx.artifact().push_back(ironfist_map::hero_t::artifact_type(hro->artifacts[i]));
-	}
+  for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++) {
+    hx.artifact().push_back(ironfist_map::hero_t::artifact_type(hro->artifacts[i]));
+    hx.artifact().back().spell(hro->scrollSpell[i]); // This will save this in the sub-element of the complex element "artifact",
+  }                                                  // even though the scrollSpell data is actually not part of the "artifacts" array in the hero class.
 
 	return hx;
 }
@@ -341,6 +351,9 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				ironfist_map::hero_t hx = *it;
 				ReadHeroXML(hx, &this->heroes[i]);
 			}
+      
+      if(mp->gamestate())
+        ReadGameStateXML(*mp->gamestate(), gpGame);
 
 			int tmp_fd = _open(tmpFileName, O_BINARY | O_CREAT | O_WRONLY);
 			_write(tmp_fd, mp->raw().data(), mp->raw().size());
@@ -599,8 +612,10 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 		m.hero().push_back(WriteHeroXML(&this->heroes[i]));
 	}
 
+  m.gamestate(WriteGameStateXML(gpGame));
 	m.script(GetScriptContents());
-	WriteMapVariablesXML(m);
+  WriteMapVariablesXML(m);
+  
 
 	xml_schema::namespace_infomap infomap;
 	infomap[""].name = "ironfist_map";
