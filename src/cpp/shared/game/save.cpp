@@ -251,9 +251,10 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
 			hx.spell().push_back(i);
 	}
 
-	for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++) {
-		hx.artifact().push_back(ironfist_map::hero_t::artifact_type(hro->artifacts[i]));
-	}
+  for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++) {
+    hx.artifact().push_back(ironfist_map::hero_t::artifact_type(hro->artifacts[i]));
+    hx.artifact().back().spell(hro->scrollSpell[i]); // This will save this in the sub-element of the complex element "artifact",
+  }                                                  // even though the scrollSpell data is actually not part of the "artifacts" array in the hero class.
 
 	return hx;
 }
@@ -448,6 +449,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 				_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
 			}
 			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
+			_read(fd, &this->allowAIArmySharing, 1u);
 			this->map.Read(fd, 0);
 			SetFileAttributes(tmpFileNameW, GetFileAttributes(tmpFileNameW) & ~FILE_ATTRIBUTE_READONLY);
 			_close(fd);
@@ -587,6 +589,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 			_write(fd, extraMemory, pwSizeOfMapExtra[i]);
 	}
 	_write(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
+	_write(fd, &this->allowAIArmySharing, 1u);
 	this->map.Write(fd);
 	_close(fd);
 	FREE(extraMemory);
