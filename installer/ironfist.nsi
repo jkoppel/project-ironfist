@@ -1,21 +1,40 @@
 outfile "ironfist-install.exe"
 Name "Project Ironfist"
 
-installDir "C:\"
+InstallDir "C:\"
 
 Page directory
 Page instfiles
 
-section
+Function .onInit
 
-	setOutPath $SYSDIR
+	MessageBox MB_OK "Please select a folder that contains a copy of Heroes of Might and Magic II.$\r$\n$\n\
+		This folder may (or may not) look like:$\r$\n$\n\
+		$\"C:\GOG Games\Heroes of Might and Magic 2 GOLD$\" or$\r$\n\
+		$\"C:\GOG Games\Heroes of Might and Magic 2 (Win)$\" or$\r$\n\
+		$\"C:\GOG Games\HoMM 2 Gold$\".$\r$\n"
+	
+FunctionEnd
+
+Section
+
+	IfFileExists "$INSTDIR\HEROES2W.EXE" game_found win_not_found
+	win_not_found:
+		IfFileExists "$INSTDIR\HEROES2.EXE" game_found game_not_found
+	game_not_found:
+		MessageBox MB_OK "Installation Failed: Game not found in selected folder.$\r$\n$\n\
+			Please try again and select a folder that contains a copy of Heroes of Might and Magic II."
+		Quit
+	game_found:
+
+	SetOutPath $SYSDIR
 
     SetOverwrite off
 	File WING32.DLL
 	
 	SetOverwrite on
 
-	setOutPath $INSTDIR
+	SetOutPath $INSTDIR
 
 	File ..\build\bin\ironfist.exe
 	File MSS32.DLL
@@ -23,62 +42,62 @@ section
 	File xerces-c_3_1.dll
 	File ..\build\bin\editor.exe
 
-	setOutPath $INSTDIR\DATA
+	SetOutPath $INSTDIR\DATA
 	
 	File ..\build\ironfist.agg
 	File ..\src\xsd\creatures_xml.xsd
 	File ..\data\creatures.xml
 
-	setOutPath $INSTDIR\GAMES
+	SetOutPath $INSTDIR\GAMES
 
 	File ..\src\xsd\map_xml.xsd
 	
-	setOutPath $INSTDIR\MAPS
+	SetOutPath $INSTDIR\MAPS
 	
 	File ..\maps\SorrowEn.MX2
 	File ..\maps\LastStand.MX2
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
-	setOutPath $INSTDIR\SCRIPTS
+	SetOutPath $INSTDIR\SCRIPTS
 	
 	File ..\maps\SorrowEn.MX2.lua
 	File ..\maps\LastStand.MX2.lua
 
 
-	setOutPath $INSTDIR
-	writeUninstaller "$INSTDIR\uninstall-ironfist.exe"
+	SetOutPath $INSTDIR
+	WriteUninstaller "$INSTDIR\uninstall-ironfist.exe"
 
 	CreateDirectory "$SMPROGRAMS\Project Ironfist"
-	createShortCut "$SMPROGRAMS\Project Ironfist\Ironfist.lnk" "$INSTDIR\ironfist.exe"
-	createShortCut "$SMPROGRAMS\Project Ironfist\Map Editor.lnk" "$INSTDIR\editor.exe"
-	createShortCut "$SMPROGRAMS\Project Ironfist\Uninstall.lnk" "$INSTDIR\uninstall-ironfist.exe"
+	CreateShortCut "$SMPROGRAMS\Project Ironfist\Ironfist.lnk" "$INSTDIR\ironfist.exe"
+	CreateShortCut "$SMPROGRAMS\Project Ironfist\Map Editor.lnk" "$INSTDIR\editor.exe"
+	CreateShortCut "$SMPROGRAMS\Project Ironfist\Uninstall.lnk" "$INSTDIR\uninstall-ironfist.exe"
 
-sectionEnd
+SectionEnd
 
-section "uninstall"
+Section "uninstall"
 
-	delete "$INSTDIR\ironfist.exe"
-	delete "$INSTDIR\editor.exe"
+	Delete "$INSTDIR\ironfist.exe"
+	Delete "$INSTDIR\editor.exe"
 
-	delete "$INSTDIR\DATA\ironfist.agg"
-	delete "$INSTDIR\DATA\creatures_xml.xsd"
-	delete "$INSTDIR\DATA\creatures.xml"
+	Delete "$INSTDIR\DATA\ironfist.agg"
+	Delete "$INSTDIR\DATA\creatures_xml.xsd"
+	Delete "$INSTDIR\DATA\creatures.xml"
 
-	delete "$INSTDIR\GAMES\map_xml.xsd"
+	Delete "$INSTDIR\GAMES\map_xml.xsd"
 
 	RMDIR "$INSTDIR\SCRIPTS"
 
-	delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
-	delete "$SMPROGRAMS\Project Ironfist\Map Editor.lnk"
-	delete "$SMPROGRAMS\Project Ironfist\Uninstall.lnk"
+	Delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
+	Delete "$SMPROGRAMS\Project Ironfist\Map Editor.lnk"
+	Delete "$SMPROGRAMS\Project Ironfist\Uninstall.lnk"
 	RMDIR "$SMPROGRAMS\Project Ironfist"
 
         #Because Vista moves shortcuts to the "All Users" folder
         SetShellVarContext all
-	delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
-	delete "$SMPROGRAMS\Project Ironfist\Map Editor.lnk"
-	delete "$SMPROGRAMS\Project Ironfist\Uninstall.lnk"
+	Delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
+	Delete "$SMPROGRAMS\Project Ironfist\Map Editor.lnk"
+	Delete "$SMPROGRAMS\Project Ironfist\Uninstall.lnk"
 	RMDIR "$SMPROGRAMS\Project Ironfist"
 
-sectionEnd
+SectionEnd
