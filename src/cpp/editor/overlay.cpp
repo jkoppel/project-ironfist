@@ -205,7 +205,7 @@ int __fastcall PlaceOverlay(overlay *ovr, int left, int top, int userDemanded) {
     ShowErrorMessage(gText);
     return 0;
   } else {
-    PlaceOverlay_orig(ovr, left, top, userDemanded);
+    return PlaceOverlay_orig(ovr, left, top, userDemanded);
   }
 }
 
