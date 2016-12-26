@@ -1,7 +1,7 @@
 outfile "ironfist-install.exe"
 Name "Project Ironfist"
 
-installDir "C:\GOG Games\"
+installDir "C:\"
 
 Page directory
 Page instfiles
