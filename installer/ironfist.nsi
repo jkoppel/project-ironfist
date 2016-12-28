@@ -1,20 +1,15 @@
 outfile "ironfist-install.exe"
 Name "Project Ironfist"
 
+DirText "Please select a folder that contains a copy of Heroes of Might and Magic II.$\r$\n\
+		This folder may (or may not) look like: $\"C:\GOG Games\HoMM 2 Gold$\" or$\r$\n\
+		$\"C:\GOG Games\Heroes of Might and Magic 2 GOLD$\" or$\r$\n\
+		$\"C:\GOG Games\Heroes of Might and Magic 2 (Win)$\"."
+
 InstallDir "C:\"
 
 Page directory
 Page instfiles
-
-Function .onInit
-
-	MessageBox MB_OK "Please select a folder that contains a copy of Heroes of Might and Magic II.$\r$\n$\n\
-		This folder may (or may not) look like:$\r$\n$\n\
-		$\"C:\GOG Games\Heroes of Might and Magic 2 GOLD$\" or$\r$\n\
-		$\"C:\GOG Games\Heroes of Might and Magic 2 (Win)$\" or$\r$\n\
-		$\"C:\GOG Games\HoMM 2 Gold$\".$\r$\n"
-	
-FunctionEnd
 
 Section
 
