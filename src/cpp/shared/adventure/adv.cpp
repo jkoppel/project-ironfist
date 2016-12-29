@@ -125,27 +125,15 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 
   switch (locType) {
     case LOCATION_SHRINE_FIRST: {
-      sprintf(
-        gText,
-        "%s'%s'.  ",
-        "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ",
-        gSpellNames[cell->extraInfo - 1];
+      sprintf(gText, "%s'%s'.  ", "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ", gSpellNames[cell->extraInfo - 1]);
       break;
     }
     case LOCATION_SHRINE_SECOND_ORDER: {
-      sprintf(
-        gText,
-        "%s'%s'.  ",
-        "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ",
-        gSpellNames[cell->extraInfo - 1];
+      sprintf(gText, "%s'%s'.  ", "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ", gSpellNames[cell->extraInfo - 1]);
       break;
     }
     case LOCATION_SHRINE_THIRD_ORDER: {
-      sprintf(
-        gText,
-        "%s'%s'.  ",
-        "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ",
-        gSpellNames[cell->extraInfo - 1];
+      sprintf(gText, "%s'%s'.  ", "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ", gSpellNames[cell->extraInfo - 1]);
       break;
     }
     default: {
@@ -157,9 +145,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 
   if (hro->HasArtifact(81)) {
     if (gsSpellInfo[(cell->extraInfo) - 1].level > hro->secondarySkillLevel[7] + 2) {
-      strcat(
-        gText,
-        "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
+      strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
       this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
     } else {
       this->EventSound(locType, NULL, &res2);
