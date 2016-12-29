@@ -5,6 +5,7 @@
 #include "game/game.h"
 #include "gui/dialog.h"
 #include "scripting/callback.h"
+#include "game/spells.cpp"
 #include "prefs.h"
 
 #include <sstream>
@@ -128,7 +129,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
         gText,
         "%s'%s'.  ",
         "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ",
-        cell->extraInfo - 1;
+        gSpellNames[cell->extraInfo - 1];
       break;
     }
     case LOCATION_SHRINE_SECOND_ORDER: {
@@ -136,7 +137,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
         gText,
         "%s'%s'.  ",
         "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ",
-        cell->extraInfo - 1;
+        gSpellNames[cell->extraInfo - 1];
       break;
     }
     case LOCATION_SHRINE_THIRD_ORDER: {
@@ -144,7 +145,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
         gText,
         "%s'%s'.  ",
         "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ",
-        cell->extraInfo - 1;
+        gSpellNames[cell->extraInfo - 1];
       break;
     }
     default: {
@@ -155,29 +156,16 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   }
 
   if (hro->HasArtifact(81)) {
-    if (gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->extraInfo) - 1].level > hro->secondarySkillLevel[7] + 2) {
+    if (gsSpellInfo[(cell->extraInfo) - 1].level > hro->secondarySkillLevel[7] + 2) {
       strcat(
         gText,
         "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
       this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
     } else {
-      this->EventSound(
-        locType,
-        (unsigned __int8)((unsigned __int8)(cell->extraInfo),
-        &res2);
-      v29 = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
-      hro->AddSpell(
-        (unsigned __int8)((unsigned __int8)(cell->extraInfo) - 1,
-        v29);
-      this->EventWindow(
-        -1,
-        1,
-        gText,
-        8,
-        (unsigned __int8)((unsigned __int8)(cell->extraInfo) - 1,
-        -1,
-        0,
-        -1);
+      this->EventSound(locType, NULL, &res2);
+      int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
+      hro->AddSpell((cell->extraInfo) - 1, heroKnowledge);
+      this->EventWindow(-1, 1, gText, 8, (cell->extraInfo) - 1, -1, 0, -1);
     }
   } else {
     strcat(gText, "Unfortunately, you have no Magic Book to record the spell with.");
