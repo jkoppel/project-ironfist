@@ -5,7 +5,7 @@
 #include "game/game.h"
 #include "gui/dialog.h"
 #include "scripting/callback.h"
-#include "game/spells.cpp"
+#include "spell/spells.h"
 #include "prefs.h"
 
 #include <sstream>
@@ -163,10 +163,10 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   this->UpdateTownLocators(1, 1);
   this->UpdBottomView(1, 1, 1);
   this->UpdateScreen(0, 0);
-  soundManager::SwitchAmbientMusic(
-    (soundManager *)gpSoundManager,
-    (unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
-  WaitEndSample((void *)0xFFFFFFFF, (resource *)res2.file, res2.sample);
+  gpSoundManager->SwitchAmbientMusic((unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
+  
+  
+  ((void *)0xFFFFFFFF, (resource *)res2.file, res2.sample);
   CheckEndGame(0, 0);
 }
 

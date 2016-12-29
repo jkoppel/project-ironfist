@@ -3,6 +3,7 @@
 
 #include "gui/gui.h"
 #include "resource/resources.h"
+#include "spell/spells.h"
 
 #include "base.h"
 

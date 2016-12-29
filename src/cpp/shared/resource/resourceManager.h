@@ -76,6 +76,8 @@ public:
 
 extern resourceManager* gpResourceManager;
 
+extern void __fastcall WaitEndSample(struct SAMPLE2, int);
+
 #pragma pack(pop)
 
 #endif
