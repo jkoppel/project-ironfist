@@ -3,6 +3,7 @@
 
 #include "gui/gui.h"
 #include "resource/resources.h"
+#include "resource/resourceManager.h"
 #include "spell/spells.h"
 
 #include "base.h"
@@ -213,6 +214,11 @@ public:
   void UpdateHeroLocator(int, int, int);
   void UpdBottomView(int, int, int);
   void EventSound(int locType, int locType2, SAMPLE2 *samp);
+
+  void __thiscall EventWindow(int, int, char *, int, int, int, int, int);
+  void __thiscall UpdateHeroLocators(int, int);
+  void __thiscall UpdateScreen(int, int);
+  void __thiscall UpdateTownLocators(int, int);
 
   int ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, class mapCell **a4);
   int ProcessDeSelect_orig(struct tag_message *, int *, class mapCell **);

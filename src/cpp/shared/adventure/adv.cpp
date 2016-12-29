@@ -4,7 +4,9 @@
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "resource/resourceManager.h"
 #include "scripting/callback.h"
+#include "sound/sound.h"
 #include "spell/spells.h"
 #include "prefs.h"
 
@@ -121,6 +123,7 @@ void game::MakeAllWaterVisible(int player) {
 void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   int locType = cell->objType & 0x7F;
+  SAMPLE2 res2 = NULL_SAMPLE2;
   ScriptCallback("OnLocationVisit", locType, locX, locY);
 
   switch (locType) {
@@ -166,7 +169,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   gpSoundManager->SwitchAmbientMusic((unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
   
   
-  ((void *)0xFFFFFFFF, (resource *)res2.file, res2.sample);
+  //WaitEndSample((resource *)res2.file, res2.sample); // According to Kert, this does nothing?
   CheckEndGame(0, 0);
 }
 
