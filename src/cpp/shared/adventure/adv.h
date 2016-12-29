@@ -16,16 +16,14 @@ class mapCell;
 
 #define CREATURES_IN_ARMY 5
 
-enum PRIMARY_SKILL
-{
+enum PRIMARY_SKILL {
   PRIMARY_SKILL_ATTACK = 0,
   PRIMARY_SKILL_DEFENSE = 1,
   PRIMARY_SKILL_SPELLPOWER = 2,
   PRIMARY_SKILL_KNOWLEDGE = 3,
 };
 
-enum SECONDARY_SKILL
-{
+enum SECONDARY_SKILL {
   SECONDARY_SKILL_PATHFINDING = 0,
   SECONDARY_SKILL_ARCHERY = 1,
   SECONDARY_SKILL_LOGISTICS = 2,
@@ -56,27 +54,25 @@ enum RESOURCES {
   RESOURCE_GOLD = 6,
 };
 
-class armyGroup
-{
+class armyGroup {
 public:
   char creatureTypes[CREATURES_IN_ARMY];
   __int16 quantities[CREATURES_IN_ARMY];
 
   armyGroup() {
-      for (int i = 0; i < ELEMENTS_IN(this->creatureTypes); i++) {
-          this->creatureTypes[i] = -1;
-      }
+    for (int i = 0; i < ELEMENTS_IN(this->creatureTypes); i++) {
+      this->creatureTypes[i] = -1;
+    }
 
-      for (int i = 0; i < ELEMENTS_IN(this->quantities); i++) {
-          this->quantities[i] = 0;
-      }
+    for (int i = 0; i < ELEMENTS_IN(this->quantities); i++) {
+      this->quantities[i] = 0;
+    }
   };
 
-  int Add(int,int,int);
+  int Add(int, int, int);
 };
 
-class hero
-{
+class hero {
 public:
   __int16 spellpoints;
   char idx;
@@ -122,7 +118,7 @@ public:
   char secondarySkillLevel[14];
   char skillIndex[14];
   int numSecSkillsKnown;
-  
+
   /*
    * In order to put more space in the hero class for new spells,
    * we would need to decompile virtually the entire codebase, as doing so would also
@@ -134,7 +130,7 @@ public:
    * There ARE memory leaks associated with doing this. We've done much of what we can to avoid this,
    * but there's no easy way out, and the leak is upper-bounded by 3 kb every time you load a map
    */
-  //char spellsLearned[65];
+   //char spellsLearned[65];
   char* spellsLearned;
   char _[ORIG_SPELLS - sizeof(char*)];
 
@@ -149,32 +145,32 @@ public:
   hero();
   ~hero(); //newly added
   void AddSpell(int);
-  void AddSpell(int,int);
+  void AddSpell(int, int);
   int HasSpell(int);
   int GetNumSpells(int);
-  int GetNthSpell(int,int);
+  int GetNthSpell(int, int);
   void UseSpell(int);
-	  
+
   int HasArtifact(int);
   void TakeArtifact(int);
   int CountEmptyArtifactSlots();
 
   signed char Stats(int);
   signed char GetSSLevel(int);
-  void SetSS(int,int);
+  void SetSS(int, int);
   int CalcMobility();
   int CalcMobility_orig();
 
   void Read(int, signed char);
   void ResetSpellsLearned();
 
-  void SetPrimarySkill(int,int);
+  void SetPrimarySkill(int, int);
   int GetLevel();
   void Clear();
 };
 
 enum HERO_FLAGS {
-	HERO_AT_SEA = 0x80
+  HERO_AT_SEA = 0x80
 };
 
 char cHeroTypeInitial[];
@@ -183,59 +179,59 @@ class mapCell;
 
 class advManager : public baseManager {
 public:
-	char _[0xA6-sizeof(baseManager)];
-	int currentTerrain;
-	char _1[0x12C];
-	int viewX;
-	int viewY;
-	int field_1DE;
-	int field_1E2;
-	int xOff;
-	int yOff;
-	char _2[0xB8];
-    int heroMobilized;
-    char _3[0xD4];
+  char _[0xA6 - sizeof(baseManager)];
+  int currentTerrain;
+  char _1[0x12C];
+  int viewX;
+  int viewY;
+  int field_1DE;
+  int field_1E2;
+  int xOff;
+  int yOff;
+  char _2[0xB8];
+  int heroMobilized;
+  char _3[0xD4];
 
-	advManager();
+  advManager();
 
-	mapCell *GetCell(int x, int y);
+  mapCell *GetCell(int x, int y);
 
-	void PurgeMapChangeQueue();
-	void CheckSetEvilInterface(int,int);
-	
-	void DemobilizeCurrHero();
+  void PurgeMapChangeQueue();
+  void CheckSetEvilInterface(int, int);
 
-	void DimensionDoor();
-	void TeleportTo(hero*, int, int, int, int);
+  void DemobilizeCurrHero();
 
-	void CastSpell(int);
-	void CastSpell_orig(int);
+  void DimensionDoor();
+  void TeleportTo(hero*, int, int, int, int);
 
-	void RedrawAdvScreen(int,int);
-	void UpdateRadar(int, int);
-    void UpdateHeroLocator(int, int, int);
-	void UpdBottomView(int, int, int);
-    void EventSound(int locType, int locType2, SAMPLE2 *samp);
+  void CastSpell(int);
+  void CastSpell_orig(int);
 
-	int ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, class mapCell **a4);
-	int ProcessDeSelect_orig(struct tag_message *, int *, class mapCell **);
+  void RedrawAdvScreen(int, int);
+  void UpdateRadar(int, int);
+  void UpdateHeroLocator(int, int, int);
+  void UpdBottomView(int, int, int);
+  void EventSound(int locType, int locType2, SAMPLE2 *samp);
 
-	virtual int Open(int);
-	int Open_orig(int);
+  int ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, class mapCell **a4);
+  int ProcessDeSelect_orig(struct tag_message *, int *, class mapCell **);
 
-    void PasswordEvent(mapCell *tile, hero *hero);
-    int BarrierEvent(mapCell *tile, hero *hero);
+  virtual int Open(int);
+  int Open_orig(int);
 
-    void ExpansionRecruitEvent(class hero*, int, short*);
+  void PasswordEvent(mapCell *tile, hero *hero);
+  int BarrierEvent(mapCell *tile, hero *hero);
 
-    mapCell* MoveHero(int,int,int *,int *,int *,int,int *,int);
-    mapCell* MoveHero_orig(int,int,int *,int *,int *,int,int *,int);
+  void ExpansionRecruitEvent(class hero*, int, short*);
 
-	void DoEvent_orig(class mapCell *, int, int);
-	void DoEvent(class mapCell *cell, int locX, int locY);
+  mapCell* MoveHero(int, int, int *, int *, int *, int, int *, int);
+  mapCell* MoveHero_orig(int, int, int *, int *, int *, int, int *, int);
 
-	int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int switchSides, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
-	int MapPutArmy(int x, int y, int monIdx, int monQty);
+  void DoEvent_orig(class mapCell *, int, int);
+  void DoEvent(class mapCell *cell, int locX, int locY);
+
+  int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int switchSides, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
+  int MapPutArmy(int x, int y, int monIdx, int monQty);
 };
 
 extern advManager* gpAdvManager;
