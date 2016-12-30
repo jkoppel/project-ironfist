@@ -131,7 +131,7 @@ enum STACK_MODIFYING_EFFECT {
 
 char* gSpellNames[];
 
-extern int __fastcall GetManaCost(int, hero*);
+extern int __fastcall GetManaCost(int, class hero*);
 int GetManaCost(int);
 
 #pragma pack(pop)

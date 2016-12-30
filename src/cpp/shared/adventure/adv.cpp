@@ -1,10 +1,14 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "artifacts.h"
 #include "combat/creatures.h"
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "resource/resourceManager.h"
 #include "scripting/callback.h"
+#include "sound/sound.h"
+#include "spell/spells.h"
 #include "prefs.h"
 
 #include <sstream>
@@ -51,7 +55,6 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
 
       giBottomViewOverrideEndTime = KBTickCount() + 3000;
       UpdBottomView(1, 1, 1);
-  
     }
 
     return 1;
@@ -67,7 +70,7 @@ int advManager::Open(int idx) {
   return res;
 }
 
-mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9){
+mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9) {
   mapCell* res = MoveHero_orig(a2, a3, a4, a5, a6, a7, a8, a9);
   hero *hro = GetCurrentHero();
   ScriptCallback("OnHeroMove", hro->x, hro->y);
@@ -118,9 +121,53 @@ void game::MakeAllWaterVisible(int player) {
 }
 
 void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
+  hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   int locType = cell->objType & 0x7F;
+  SAMPLE2 res2 = NULL_SAMPLE2;
   ScriptCallback("OnLocationVisit", locType, locX, locY);
-  this->DoEvent_orig(cell, locX, locY);
+
+  switch (locType) {
+    case LOCATION_SHRINE_FIRST: {
+      sprintf(gText, "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      break;
+    }
+    case LOCATION_SHRINE_SECOND_ORDER: {
+      sprintf(gText, "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      break;
+    }
+    case LOCATION_SHRINE_THIRD_ORDER: {
+      sprintf(gText, "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      break;
+    }
+    default: {
+      this->DoEvent_orig(cell, locX, locY);
+      return;
+    }
+  }
+
+  if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+    if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
+      strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
+      this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+    } else {
+      this->EventSound(locType, NULL, &res2);
+      int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
+      hro->AddSpell(cell->extraInfo - 1, heroKnowledge);
+      this->EventWindow(-1, 1, gText, 8, cell->extraInfo - 1, -1, 0, -1);
+    }
+  } else {
+    strcat(gText, "Unfortunately, you have no Magic Book to record the spell with.");
+    this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+  }
+
+  this->UpdateRadar(1, 0);
+  this->UpdateHeroLocators(1, 1);
+  this->UpdateTownLocators(1, 1);
+  this->UpdBottomView(1, 1, 1);
+  this->UpdateScreen(0, 0);
+  gpSoundManager->SwitchAmbientMusic(giTerrainToMusicTrack[this->currentTerrain]);
+  WaitEndSample(res2, res2.sample);
+  CheckEndGame(0, 0);
 }
 
 int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
@@ -132,5 +179,5 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
   gpGame->map.tiles[cellIdx].overlayIndex = -1;
   gpGame->map.tiles[cellIdx].field_4_1 = 0;
   gpGame->map.tiles[cellIdx].isShadow = 0;
-	return 0;
+  return 0;
 }
