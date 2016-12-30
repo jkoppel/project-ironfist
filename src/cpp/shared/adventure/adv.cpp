@@ -55,7 +55,6 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
 
       giBottomViewOverrideEndTime = KBTickCount() + 3000;
       UpdBottomView(1, 1, 1);
-
     }
 
     return 1;
