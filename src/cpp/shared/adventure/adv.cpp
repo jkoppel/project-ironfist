@@ -145,14 +145,14 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   }
 
   if (hro->HasArtifact(81)) {
-    if (gsSpellInfo[(cell->extraInfo) - 1].level > hro->secondarySkillLevel[7] + 2) {
+    if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[7] + 2) {
       strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
       this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
     } else {
       this->EventSound(locType, NULL, &res2);
       int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
-      hro->AddSpell((cell->extraInfo) - 1, heroKnowledge);
-      this->EventWindow(-1, 1, gText, 8, (cell->extraInfo) - 1, -1, 0, -1);
+      hro->AddSpell(cell->extraInfo - 1, heroKnowledge);
+      this->EventWindow(-1, 1, gText, 8, cell->extraInfo - 1, -1, 0, -1);
     }
   } else {
     strcat(gText, "Unfortunately, you have no Magic Book to record the spell with.");
