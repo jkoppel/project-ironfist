@@ -51,6 +51,7 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
       } else {
         giBottomViewOverride = 2;
       }
+
       giBottomViewOverrideEndTime = KBTickCount() + 3000;
       UpdBottomView(1, 1, 1);
 
@@ -127,15 +128,24 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 
   switch (locType) {
     case LOCATION_SHRINE_FIRST: {
-      sprintf(gText, "%s'%s'.  ", "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ", gSpellNames[cell->extraInfo - 1]);
+      sprintf(gText,
+              "%s'%s'.  ",
+              "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ",
+              gSpellNames[cell->extraInfo - 1]);
       break;
     }
     case LOCATION_SHRINE_SECOND_ORDER: {
-      sprintf(gText, "%s'%s'.  ", "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ", gSpellNames[cell->extraInfo - 1]);
+      sprintf(gText,
+              "%s'%s'.  ",
+              "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ",
+              gSpellNames[cell->extraInfo - 1]);
       break;
     }
     case LOCATION_SHRINE_THIRD_ORDER: {
-      sprintf(gText, "%s'%s'.  ", "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ", gSpellNames[cell->extraInfo - 1]);
+      sprintf(gText,
+              "%s'%s'.  ",
+              "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ",
+              gSpellNames[cell->extraInfo - 1]);
       break;
     }
     default: {
@@ -144,8 +154,8 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
     }
   }
 
-  if (hro->HasArtifact(81)) {
-    if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[7] + 2) {
+  if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+    if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
       strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
       this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
     } else {
@@ -164,7 +174,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   this->UpdateTownLocators(1, 1);
   this->UpdBottomView(1, 1, 1);
   this->UpdateScreen(0, 0);
-  gpSoundManager->SwitchAmbientMusic((unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
+  gpSoundManager->SwitchAmbientMusic(giTerrainToMusicTrack[this->currentTerrain]);
   WaitEndSample(res2, res2.sample);
   CheckEndGame(0, 0);
 }
