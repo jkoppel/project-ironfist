@@ -167,7 +167,6 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   this->UpdBottomView(1, 1, 1);
   this->UpdateScreen(0, 0);
   gpSoundManager->SwitchAmbientMusic((unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
-  
   //WaitEndSample((resource *)res2.file, res2.sample); // According to Kert, this does nothing?
   CheckEndGame(0, 0);
 }
