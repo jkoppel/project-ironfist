@@ -1,5 +1,6 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "artifacts.h"
 #include "combat/creatures.h"
 #include "combat/speed.h"
 #include "game/game.h"
