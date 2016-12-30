@@ -141,7 +141,6 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
     default: {
       this->DoEvent_orig(cell, locX, locY);
       return;
-      break;  // Super-redundant. Leaving for futher review, just in case. :)
     }
   }
 
