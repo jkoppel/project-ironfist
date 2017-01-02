@@ -68,7 +68,7 @@ public:
       this->quantities[i] = 0;
     }
   };
-
+  int CountEmptyCreatureSlots();
   int Add(int, int, int);
 };
 
