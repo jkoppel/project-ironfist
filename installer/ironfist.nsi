@@ -1,7 +1,7 @@
 outfile "ironfist-install.exe"
 Name "Project Ironfist"
 
-installDir "C:\GOG Games\Heroes of Might and Magic 2 GOLD"
+installDir "C:\"
 
 Page directory
 Page instfiles
