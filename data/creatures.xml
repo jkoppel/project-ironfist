@@ -388,6 +388,11 @@
         <creature-attribute name="shoots"/>
         <random-spawn minimum="10" maximum="20"/>
     </creature>
+    <creature id="81" name-singular="cyber indigo panther" name-plural="cyber indigo panthers" icn="cipanther.icn" frm="cipanther.bin" projectile="" cost="2500" fight-value="1690" fight-value-aux="34" growth="4" hp="200" faction="6" speed="10" attack="15" defense="6" shots="0" short-name="lich">
+        <damage minimum="40" maximum="40"/>
+        <creature-attribute name="two-hex"/>
+        <random-spawn minimum="6" maximum="10"/>
+    </creature>
     <creature id="83" name-singular="cyber behemoth" name-plural="cyber behemoths" icn="cbehemoth.icn" frm="cbehemoth.bin" projectile="cbeh_msl.icn" cost="3000" fight-value="1690" fight-value-aux="34" growth="2" hp="300" faction="6" speed="3" attack="13" defense="12" shots="2" short-name="lich">
         <damage minimum="40" maximum="40"/>
         <creature-attribute name="shoots"/>
