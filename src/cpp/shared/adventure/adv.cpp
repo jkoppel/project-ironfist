@@ -5,7 +5,6 @@
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
-#include "resource/resourceManager.h"
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
