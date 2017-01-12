@@ -121,10 +121,14 @@ void game::MakeAllWaterVisible(int player) {
 
 void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
-  int LocationType = cell->objType & 0x7F;
+  int locationType = cell->objType & 0x7F;
   SAMPLE2 res2 = NULL_SAMPLE2;
-  ScriptCallback("OnLocationVisit", LocationType, locX, locY);
-  this->HandleSpellShrine(cell, LocationType, hro, res2, locX, locY);
+  ScriptCallback("OnLocationVisit", locationType, locX, locY);
+  if (locationType != LOCATION_SHRINE_FIRST && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
+    this->DoEvent_orig(cell, locX, locY);
+    return;
+  }
+  this->HandleSpellShrine(cell, locationType, hro, res2, locX, locY);
   this->UpdateRadar(1, 0);
   this->UpdateHeroLocators(1, 1);
   this->UpdateTownLocators(1, 1);
@@ -135,8 +139,8 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   CheckEndGame(0, 0);
 }
 
-void advManager::HandleSpellShrine(class mapCell *cell, int LocationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
-  switch (LocationType) {
+void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
+  switch (locationType) {
     case LOCATION_SHRINE_FIRST: {
       sprintf(gText, "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
       break;
@@ -149,10 +153,6 @@ void advManager::HandleSpellShrine(class mapCell *cell, int LocationType, hero *
       sprintf(gText, "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
       break;
     }
-    default: {
-      this->DoEvent_orig(cell, locX, locY);
-      return;
-    }
   }
 
   if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
@@ -160,7 +160,7 @@ void advManager::HandleSpellShrine(class mapCell *cell, int LocationType, hero *
       strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
       this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
     } else {
-      this->EventSound(LocationType, NULL, &res2);
+      this->EventSound(locationType, NULL, &res2);
       int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
       hro->AddSpell(cell->extraInfo - 1, heroKnowledge);
       this->EventWindow(-1, 1, gText, 8, cell->extraInfo - 1, -1, 0, -1);
