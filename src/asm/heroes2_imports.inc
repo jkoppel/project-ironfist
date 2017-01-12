@@ -194,6 +194,7 @@ IMPORT_?DoAttack@army@@QAEXH@Z = 1
 IMPORT_?SpecialAttack@army@@QAEXXZ = 1
 ?SpecialAttack@army@@QAEXXZ_clone EQU ?SpecialAttack_orig@army@@QAEXXZ
 IMPORT_?PowEffect@army@@QAEXHHHH@Z = 1
+IMPORT_?OppositeDirection@@YIHH@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

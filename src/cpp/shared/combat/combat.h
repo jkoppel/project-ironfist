@@ -132,6 +132,7 @@ public:
   void CancelSpellType(int);
   int GetAdjacentCellIndex(int, int);
   void ProcessDeath(int a2);
+  void DoHydraAttack(int ignored);
 };
 
 class combatManager : public baseManager

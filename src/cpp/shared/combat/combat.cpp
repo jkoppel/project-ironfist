@@ -183,13 +183,329 @@ void army::MoveAttack(int targHex, int x) {
   }
 }
 
+int __fastcall OppositeDirection(signed int hex) {
+  int result;
+  if (hex >= 6) {
+    if (hex == 6)
+      result = 7;
+    else
+      result = 6;
+  } else {
+    result = (hex + 3) % 6;
+  }
+  return result;
+}
+
+extern int gbGenieHalf;
+extern int gbRemoteOn;
+
+void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, int damageDone) {
+  char *attackingCreature;
+  if (attacker->quantity <= 1)
+    attackingCreature = GetCreatureName(attacker->creatureIdx);
+  else
+    attackingCreature = GetCreaturePluralName(attacker->creatureIdx);
+
+  if (damageDone == -1) {
+    sprintf(gText, "The mirror image is destroyed!");
+  } else if (gbGenieHalf) {
+    sprintf(gText,"%s %s half the enemy troops!", attackingCreature, (attacker->quantity > 1) ? "damage" : "damages");
+  } else if (creaturesKilled <= 0) {
+    sprintf(gText, "%s %s %d damage.", attackingCreature, (attacker->quantity > 1) ? "do" : "does", damageDone);
+    gText[0] = toupper(gText[0]);
+  } else {
+    char *targetCreature;
+    if (creaturesKilled <= 1)
+      targetCreature = GetCreatureName(target->creatureIdx);
+    else
+      targetCreature = GetCreaturePluralName(target->creatureIdx);
+    sprintf(
+      gText,
+      "%s %s %d damage.\n%d %s %s.",
+      attackingCreature,
+      (attacker->quantity > 1) ? "do" : "does",
+      damageDone,
+      creaturesKilled,
+      targetCreature,
+      (creaturesKilled > 1) ? "perish" : "perishes");
+      gText[0] = toupper(gText[0]);
+  }
+  gpCombatManager->CombatMessage(gText, 1, 1, 0);
+}
+
 void army::DoAttack(int isRetaliation) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
     primaryTarget = this;
   ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, isRetaliation);
-  this->DoAttack_orig(isRetaliation);
- }
+
+  primaryTarget = 0;
+  this->field_6 = 3;
+  int creaturesKilled = 0;
+  army *secondHexTarget = nullptr;
+  int oldFacingRight = this->facingRight;
+  if (isRetaliation)
+    gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
+  if (this->creatureIdx == CREATURE_HYDRA) {
+    this->DoHydraAttack(isRetaliation);
+  } else {
+    int v18 = this->targetNeighborIdx;
+    int targetHex = this->occupiedHex;
+    if (this->creature.creature_flags & TWO_HEXER
+      && (!this->facingRight && this->targetNeighborIdx >= 3
+        || this->facingRight == 1 && (this->targetNeighborIdx <= 2 || this->targetNeighborIdx >= 6))) {
+      if (oldFacingRight)
+        targetHex = this->occupiedHex + 1;
+      else
+        targetHex = this->occupiedHex - 1;
+    }
+    targetHex = this->GetAdjacentCellIndex(targetHex, this->targetNeighborIdx);
+    primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+    if (this->creature.creature_flags & TWO_HEX_ATTACKER) {
+      int secondTargetHex = this->GetAdjacentCellIndex(targetHex, this->targetNeighborIdx);
+      if (ValidHex(secondTargetHex)) {
+        if (gpCombatManager->combatGrid[secondTargetHex].unitOwner >= 0
+          && gpCombatManager->combatGrid[secondTargetHex].stackIdx >= 0
+          && (gpCombatManager->combatGrid[secondTargetHex].unitOwner != primaryTarget->owningSide
+            || gpCombatManager->combatGrid[secondTargetHex].stackIdx != primaryTarget->stackIdx))
+          secondHexTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[secondTargetHex].unitOwner][gpCombatManager->combatGrid[secondTargetHex].stackIdx];
+      }
+    }
+    gpCombatManager->ResetLimitCreature();
+    int v2 = 80 * this->owningSide + 4 * this->stackIdx;
+    ++*(signed int *)((char *)gpCombatManager->limitCreature[0] + v2);
+    int v3 = 80 * primaryTarget->owningSide + 4 * primaryTarget->stackIdx;
+    ++*(signed int *)((char *)gpCombatManager->limitCreature[0] + v3);
+    if (secondHexTarget) {
+      int v4 = 80 * secondHexTarget->owningSide + 4 * secondHexTarget->stackIdx;
+      ++*(signed int *)((char *)gpCombatManager->limitCreature[0] + v4);
+    }
+    gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
+    int targetOldFacingRight = primaryTarget->facingRight;
+
+    int shouldFaceRight;
+    if (this->targetNeighborIdx > 2) {
+      if (this->targetNeighborIdx > 5)
+        shouldFaceRight = this->facingRight;
+      else
+        shouldFaceRight = 0;
+    } else {
+      shouldFaceRight = 1;
+    }
+    if (this->facingRight != shouldFaceRight) {
+      this->facingRight = shouldFaceRight;
+      if (this->creature.creature_flags & TWO_HEXER) {
+        if (shouldFaceRight == 1)
+          --this->occupiedHex;
+        else
+          ++this->occupiedHex;
+      }
+      primaryTarget->facingRight = 1 - this->facingRight;
+      if (primaryTarget->facingRight != targetOldFacingRight && primaryTarget->creature.creature_flags & TWO_HEXER) {
+        if (primaryTarget->facingRight == 1)
+          --primaryTarget->occupiedHex;
+        else
+          ++primaryTarget->occupiedHex;
+      }
+    }
+    this->CheckLuck();
+    this->mightBeIsAttacking = 1;
+    if (this->targetNeighborIdx != 6 && this->targetNeighborIdx != 5 && this->targetNeighborIdx) {
+      if (this->targetNeighborIdx != 1 && this->targetNeighborIdx != 4)
+        this->mightBeAttackAnimIdx = 24;
+      else
+        this->mightBeAttackAnimIdx = 20;
+    } else {
+      this->mightBeAttackAnimIdx = 16;
+    }
+    if (secondHexTarget)
+      this->mightBeAttackAnimIdx += 2;
+    gpSoundManager->MemorySample(this->combatSounds[1]);
+    
+    int damDone;
+    int damageDone = 0;
+    this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
+    int v13 = 0; // unused
+    if (secondHexTarget)
+      this->DamageEnemy(secondHexTarget, &damageDone, &v13, 0, 0);
+    
+    DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
+    
+    int enemyIncapacitated = 0;
+    switch (this->creatureIdx) {
+      case CREATURE_CYCLOPS:
+        if (primaryTarget->quantity > 0 && (!secondHexTarget || secondHexTarget->quantity > 0)) {
+          if (SRandom(1, 100) >= 20) {
+            if (SRandom(1, 100) < 20 && secondHexTarget && secondHexTarget->SpellCastWorks(SPELL_PARALYZE))
+              secondHexTarget->spellEnemyCreatureAbilityIsCasting = SPELL_PARALYZE;
+          } else if (primaryTarget && primaryTarget->SpellCastWorks(SPELL_PARALYZE)) {
+            primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_PARALYZE;
+            enemyIncapacitated = 1;
+          }
+        }
+        break;
+      case CREATURE_UNICORN:
+        if (SRandom(1, 100) < 20 && primaryTarget && primaryTarget->SpellCastWorks(SPELL_BLIND)) {
+          primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_BLIND;
+          enemyIncapacitated = 1;
+        }
+        break;
+      case CREATURE_MEDUSA:
+        if (SRandom(1, 100) < 20 && primaryTarget && primaryTarget->SpellCastWorks(SPELL_MEDUSA_PETRIFY)) {
+          primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_MEDUSA_PETRIFY;
+          enemyIncapacitated = 1;
+        }
+        break;
+      case CREATURE_MUMMY:
+        if (SRandom(1, 100) < 20)
+          goto LABEL_97;
+        break;
+      case CREATURE_ROYAL_MUMMY:
+        if (SRandom(1, 100) < 30) {
+        LABEL_97:
+          if (primaryTarget && primaryTarget->SpellCastWorks(SPELL_CURSE))
+            primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_CURSE;
+        }
+        break;
+      case CREATURE_ARCHMAGE:
+        if (SRandom(1, 100) < 20 && primaryTarget && primaryTarget->SpellCastWorks(SPELL_ARCHMAGI_DISPEL))
+          primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_ARCHMAGI_DISPEL;
+        break;
+      case CREATURE_GHOST:
+        gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] = creaturesKilled;
+        break;
+      case CREATURE_VAMPIRE_LORD:
+        gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] = creaturesKilled * primaryTarget->creature.hp;
+        break;
+      case CREATURE_SPRITE:
+      case CREATURE_DWARF:
+      case CREATURE_BATTLE_DWARF:
+      case CREATURE_ELF:
+      case CREATURE_GRAND_ELF:
+      case CREATURE_DRUID:
+      case CREATURE_GREATER_DRUID:
+      case CREATURE_PHOENIX:
+      case CREATURE_CENTAUR:
+      case CREATURE_GARGOYLE:
+      case CREATURE_GRIFFIN:
+      case CREATURE_MINOTAUR:
+      case CREATURE_MINOTAUR_KING:
+      case CREATURE_HYDRA:
+      case CREATURE_GREEN_DRAGON:
+      case CREATURE_RED_DRAGON:
+      case CREATURE_BLACK_DRAGON:
+      case CREATURE_HALFLING:
+      case CREATURE_BOAR:
+      case CREATURE_IRON_GOLEM:
+      case CREATURE_STEEL_GOLEM:
+      case CREATURE_ROC:
+      case CREATURE_MAGE:
+      case CREATURE_GIANT:
+      case CREATURE_TITAN:
+      case CREATURE_SKELETON:
+      case CREATURE_ZOMBIE:
+      case CREATURE_MUTANT_ZOMBIE:
+      case CREATURE_VAMPIRE:
+      case CREATURE_LICH:
+      case CREATURE_POWER_LICH:
+      case CREATURE_BONE_DRAGON:
+      case CREATURE_ROGUE:
+      case CREATURE_NOMAD:
+      case CREATURE_GENIE:
+        break;
+    }
+    this->PowEffect(-1, 0, -1, -1);
+    gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
+    if (this->creatureIdx == CREATURE_GHOST)
+      this->quantity += gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner];
+    if (this->creatureIdx == CREATURE_VAMPIRE_LORD) {
+      if (gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] >= this->damage) {
+        int v5 = gpCombatManager->combatGrid[this->occupiedHex].unitOwner;
+        gpCombatManager->ghostAndVampireAbilityStrength[v5] -= this->damage;
+        this->damage = 0;
+        int v11 = gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] / this->creature.hp;
+        if (this->initialQuantity - this->quantity <= v11)
+          this->quantity = this->initialQuantity;
+        else
+          this->quantity += v11;
+      } else {
+        this->damage -= gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner];
+      }
+    }
+    if (primaryTarget
+      && primaryTarget->quantity > 0
+      && !primaryTarget->effectStrengths[6]
+      && !primaryTarget->effectStrengths[11]
+      && (primaryTarget->creatureIdx == CREATURE_GRIFFIN || !(primaryTarget->creature.creature_flags & RETALIATED))
+      && this->creatureIdx != CREATURE_ROGUE
+      && this->creatureIdx != CREATURE_SPRITE
+      && this->creatureIdx != CREATURE_VAMPIRE
+      && this->creatureIdx != CREATURE_VAMPIRE_LORD
+      && !enemyIncapacitated
+      && !isRetaliation) {
+      DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 150.0));
+      primaryTarget->targetNeighborIdx = OppositeDirection(this->targetNeighborIdx);
+      if (primaryTarget->creature.creature_flags & TWO_HEXER) {
+        if (this->occupiedHex == this->GetAdjacentCellIndex(primaryTarget->occupiedHex, (unsigned int)(primaryTarget->facingRight - 1) < 1 ? 0 : 5))
+          primaryTarget->targetNeighborIdx = 6;
+        if (this->occupiedHex == this->GetAdjacentCellIndex(primaryTarget->occupiedHex, 3 - ((unsigned int)(primaryTarget->facingRight - 1) < 1)))
+          primaryTarget->targetNeighborIdx = 7;
+      }
+      primaryTarget->DoAttack(1);
+      primaryTarget->creature.creature_flags |= RETALIATED;
+      if (gbRemoteOn
+        && gpCombatManager->involvedInBadMorale[0]
+        && gpCombatManager->involvedInBadMorale[1]
+        && primaryTarget->creatureIdx == CREATURE_GHOST)
+        primaryTarget->quantity += gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[primaryTarget->occupiedHex].unitOwner];
+    }
+    if ((this->creatureIdx == CREATURE_WOLF
+      || this->creatureIdx == CREATURE_PALADIN
+      || this->creatureIdx == CREATURE_CRUSADER)
+      && primaryTarget
+      && primaryTarget->quantity > 0
+      && !isRetaliation
+      && !this->effectStrengths[6]
+      && !this->effectStrengths[11]
+      && !this->effectStrengths[2]
+      && this->quantity > 0) {
+      DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
+      int v16 = this->targetNeighborIdx;
+      this->targetNeighborIdx = v18;
+      this->DoAttack(1);
+      this->targetNeighborIdx = v16;
+    }
+    if (this->facingRight != oldFacingRight) {
+      if (!(this->creature.creature_flags & DEAD)) {
+        this->facingRight = oldFacingRight;
+        if (this->creature.creature_flags & TWO_HEXER) {
+          if (oldFacingRight == 1)
+            --this->occupiedHex;
+          else
+            ++this->occupiedHex;
+        }
+      }
+      if (!(primaryTarget->creature.creature_flags & DEAD)) {
+        if (primaryTarget->facingRight != targetOldFacingRight) {
+          primaryTarget->facingRight = targetOldFacingRight;
+          if (primaryTarget->creature.creature_flags & TWO_HEXER) {
+            if (primaryTarget->facingRight == 1)
+              --primaryTarget->occupiedHex;
+            else
+              ++primaryTarget->occupiedHex;
+          }
+        }
+      }
+    }
+  }
+  if (!isRetaliation && (this->effectStrengths[5] || this->effectStrengths[7])) {
+    this->CancelSpellType(1);
+    gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+  }
+  this->targetOwner = -1;
+  if (isRetaliation)
+    gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
+}
 
 /*
 void army::SpecialAttack() {
