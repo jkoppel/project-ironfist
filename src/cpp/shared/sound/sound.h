@@ -61,4 +61,6 @@ extern soundManager *gpSoundManager;
 extern unsigned char giTerrainToMusicTrack[];
 extern signed char townTheme[];
 
+extern void __fastcall WaitEndSample(struct SAMPLE2, int);
+
 #endif
