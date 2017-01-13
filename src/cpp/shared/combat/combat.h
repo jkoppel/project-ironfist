@@ -13,6 +13,14 @@
 #include "combat/animation.h"
 #include "combat/creatures.h"
 
+enum BRIDGE_STATUS {
+  BRIDGE_OPEN = 0x0,
+  BRIDGE_CLOSING_1 = 0x1,
+  BRIDGE_CLOSING_2 = 0x2,
+  BRIDGE_DESTROYED = 0x3,
+  BRIDGE_CLOSED = 0x4,
+};
+
 #pragma pack(push, 1)
 
 class hexcell {
@@ -133,6 +141,9 @@ public:
   int GetAdjacentCellIndex(int, int);
   void ProcessDeath(int a2);
   void DoHydraAttack(int ignored);
+  void Walk(signed int dir, int last, int notFirst);
+  void DrawToBuffer(int centX, int standingBotY, int a4);
+  int FlyTo(int hexIdx);
 };
 
 class combatManager : public baseManager
@@ -277,6 +288,7 @@ public:
   void PowEffect(int,int,int,int);
   void MakeCreaturesVanish();
   void ArcShot(icon *icn, int fromX, int fromY, int targX, int targY);
+  void LowerDoor();
 };
 
 extern combatManager* gpCombatManager;
@@ -284,6 +296,7 @@ extern combatManager* gpCombatManager;
 extern int gbNoShowCombat;
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
+extern void __fastcall BuildTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst);
 
 #pragma pack(pop)
 

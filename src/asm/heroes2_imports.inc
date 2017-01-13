@@ -135,6 +135,7 @@ IMPORT_?GetMonsterCost@@YIXHQAH@Z = 1
 ;;armies
 
 IMPORT_??0armyGroup@@QAE@XZ = 1
+IMPORT_?Walk@army@@QAEXHHH@Z = 1
 
 ;;game
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
@@ -195,6 +196,8 @@ IMPORT_?SpecialAttack@army@@QAEXXZ = 1
 ?SpecialAttack@army@@QAEXXZ_clone EQU ?SpecialAttack_orig@army@@QAEXXZ
 IMPORT_?PowEffect@army@@QAEXHHHH@Z = 1
 IMPORT_?OppositeDirection@@YIHH@Z = 1
+IMPORT_?LowerDoor@combatManager@@QAEXXZ = 1
+?LowerDoor@combatManager@@QAEXXZ_clone EQU ?LowerDoor_orig@combatManager@@QAEXXZ
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
