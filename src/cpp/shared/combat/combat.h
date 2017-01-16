@@ -116,7 +116,7 @@ public:
   sample *combatSounds[7];
   
   void LoadResources();
-  int FlyTo(int hex);
+  int FlyTo(int hexIdx);
   int ValidFlight(int hex, int);
   int WalkTo(int hex);
   void MoveTo(int hex);
@@ -143,7 +143,6 @@ public:
   void DoHydraAttack(int ignored);
   void Walk(signed int dir, int last, int notFirst);
   void DrawToBuffer(int centX, int standingBotY, int a4);
-  int FlyTo(int hexIdx);
 };
 
 class combatManager : public baseManager
@@ -289,6 +288,7 @@ public:
   void MakeCreaturesVanish();
   void ArcShot(icon *icn, int fromX, int fromY, int targX, int targY);
   void LowerDoor();
+  void TestRaiseDoor();
 };
 
 extern combatManager* gpCombatManager;

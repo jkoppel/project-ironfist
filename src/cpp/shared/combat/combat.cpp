@@ -832,6 +832,152 @@ void army::Walk(signed int dir, int last, int notFirst) {
   }
 }
 
+void BuildTeleporterTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst, bool closeMove) {
+  frm->animationLengths[ANIMATION_TYPE_WALKING] = 0;
+  if (notFirst || !last) {
+    if (notFirst) {
+      if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0 && !closeMove) { // middle
+        memcpy(
+          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_START_MOVE],
+          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
+        memcpy(
+          &frm->moveAnimInfoIgnored[frm->animationLengths[6]],
+          frm->subStartMoveAnimInfoIgnored,
+          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
+          frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE];
+      }
+    } else if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0 && !closeMove) { // first
+      memcpy(
+        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->animationFrameToImgIdx,
+        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
+      memcpy(
+        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->startMoveAnimInfoIgnored,
+        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
+        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_START_MOVE];
+    }
+    if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0 && closeMove) { // doesn't matter
+      memcpy(
+        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->animationFrameToImgIdx[ANIMATION_TYPE_MOVE],
+        frm->animationLengths[ANIMATION_TYPE_MOVE]);
+      memcpy(
+        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->mainMoveAnimInfoIgnored,
+        frm->animationLengths[ANIMATION_TYPE_MOVE]);
+      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_MOVE];
+    }
+    if (last) { // last
+      if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0 && !closeMove) {
+        memcpy(
+          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE],
+          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
+        memcpy(
+          &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->endMoveAnimInfoIgnored,
+          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
+        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_END_MOVE];
+      }
+    } else if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) { // middle or first
+      memcpy(
+        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_END_MOVE],
+        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
+      memcpy(
+        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->subEndMoveAnimInfoIgnored,
+        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
+      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE];
+    }
+  } else if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) { // dunno
+    memcpy(
+      &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+      frm->animationFrameToImgIdx[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE],
+      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
+    memcpy(
+      &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+      frm->fullMoveAnimInfoIgnored,
+      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
+    frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE];
+  }
+}
+
+void __fastcall BuildTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst) {
+  frm->animationLengths[ANIMATION_TYPE_WALKING] = 0;
+  if (notFirst || !last) {
+    if (notFirst) {
+      if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0) { // middle
+        memcpy(
+          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_START_MOVE],
+          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
+        memcpy(
+          &frm->moveAnimInfoIgnored[frm->animationLengths[6]],
+          frm->subStartMoveAnimInfoIgnored,
+          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
+        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE];
+      }
+    } else if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0) { // first
+      memcpy(
+        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->animationFrameToImgIdx,
+        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
+      memcpy(
+        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->startMoveAnimInfoIgnored,
+        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
+      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_START_MOVE];
+    }
+    if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0) { // doesn't matter
+      memcpy(
+        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->animationFrameToImgIdx[ANIMATION_TYPE_MOVE],
+        frm->animationLengths[ANIMATION_TYPE_MOVE]);
+      memcpy(
+        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->mainMoveAnimInfoIgnored,
+        frm->animationLengths[ANIMATION_TYPE_MOVE]);
+      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_MOVE];
+    }
+    if (last) { // last
+      if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0) {
+        memcpy(
+          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE],
+          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
+        memcpy(
+          &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->endMoveAnimInfoIgnored,
+          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
+        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_END_MOVE];
+      }
+    } else if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) { // middle or first
+      memcpy(
+        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_END_MOVE],
+        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
+      memcpy(
+        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+        frm->subEndMoveAnimInfoIgnored,
+        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
+      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE];
+    }
+  } else if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) { // dunno
+    memcpy(
+      &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+      frm->animationFrameToImgIdx[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE],
+      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
+    memcpy(
+      &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+      frm->fullMoveAnimInfoIgnored,
+      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
+    frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE];
+  }
+}
+
 int army::FlyTo(int hexIdx) {
   signed int result; // eax@2
   int v3; // ST98_4@19
@@ -879,7 +1025,7 @@ int army::FlyTo(int hexIdx) {
       }
     }
     if (this->field_8E)
-      combatManager::DrawFrame(gpCombatManager, 1, 0, 0, 0, 75, 1, 1);
+      gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     v19 = gpCombatManager->combatGrid[this->occupiedHex].centerX;
     v14 = gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
     v23 = (double)v19;
@@ -903,54 +1049,70 @@ int army::FlyTo(int hexIdx) {
       gpCombatManager->combatGrid[v3].unitOwner = -1;
       gpCombatManager->combatGrid[v3].occupiersOtherHexIsToLeft = -1;
     }
+
+    int teleporter = true;
+    int closeMove = false;
     if (!gbNoShowCombat) {
       v7 = 0;
-      combatManager::DrawFrame(gpCombatManager, 0, 0, 0, 0, 75, 1, 1);
-      bitmap::CopyTo(
-        gpWindowManager->screenBuffer,
-        gpCombatManager->probablyBitmapForCombatScreen,
-        0,
-        0,
-        0,
-        0,
-        0x280u,
-        442);
+      gpCombatManager->DrawFrame(0, 0, 0, 0, 75, 1, 1);
+      gpWindowManager->screenBuffer->CopyTo(gpCombatManager->probablyBitmapForCombatScreen, 0, 0, 0, 0, 0x280u, 442);
       gpCombatManager->zeroedAfterAnimatingDeathAndHolySpells = 0;
-      this->animationType = 6;
+      
+      for(int j = 0; j < 6; j++) {
+        if(this->creature.creature_flags & TWO_HEXER)
+        {
+          if (gpCombatManager->hexNeighbors[this->occupiedHex + 1][j] == hexIdx)
+            closeMove = true;
+        }
+        if(gpCombatManager->hexNeighbors[this->occupiedHex][j] == hexIdx)
+          closeMove = true;
+      }
+      
+      this->animationType = ANIMATION_TYPE_WALKING;
       for (i = 0; numFrames > i; ++i) {
-        BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
+        if(teleporter) {
+          BuildTeleporterTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0, closeMove);
+        }
+        else
+          BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
+
         if (numFrames) {
           if (i <= 0)
-            v8 = this->frameInfo.animationLengths[0];
+            v8 = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
           else
             v8 = 0;
-          v12 = this->frameInfo.animationLengths[2];
-          v7 = this->frameInfo.animationLengths[2];
+          v12 = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
+          v7 = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           if (i + 1 < numFrames)
-            v12 += this->frameInfo.animationLengths[3];
+            v12 += this->frameInfo.animationLengths[ANIMATION_TYPE_SUB_END_MOVE];
         } else {
-          v12 = this->frameInfo.animationLengths[6];
+          v12 = this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING];
           v8 = 0;
         }
-        for (this->animationFrame = 0; this->frameInfo.animationLengths[6] > this->animationFrame; ++this->animationFrame) {
+        for (this->animationFrame; this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] > this->animationFrame; ++this->animationFrame) {
           if (this->animationFrame >= v8 && v8 + v12 > this->animationFrame) {
-            v23 = v16 / (double)v12 + v23;
-            v22 = v24 / (double)v12 + v22;
+            if (teleporter && !closeMove) {
+              v23 = gpCombatManager->combatGrid[hexIdx].centerX;
+              v22 = gpCombatManager->combatGrid[hexIdx].occupyingCreatureBottomY;
+            }
+            else {
+              v23 = v16 / (double)v12 + v23;
+              v22 = v24 / (double)v12 + v22;
+            }
           }
-          if (this->animationFrame % this->frameInfo.animationLengths[6] == 1) {
+          if (this->animationFrame % this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] == 1) {
             if (this->creatureIdx != 52 && this->creatureIdx != 53 || i) {
               if (this->creatureIdx != 52 && this->creatureIdx != 53 || numFrames - 1 != i)
-                soundManager::MemorySample((soundManager *)gpSoundManager, this->combatSounds[0]);
+                gpSoundManager->MemorySample(this->combatSounds[0]);
               else
-                soundManager::MemorySample((soundManager *)gpSoundManager, this->combatSounds[6]);
+                gpSoundManager->MemorySample(this->combatSounds[6]);
             } else {
-              soundManager::MemorySample((soundManager *)gpSoundManager, this->combatSounds[5]);
+              gpSoundManager->MemorySample(this->combatSounds[5]);
               DelayMilli(100);
             }
           }
           if (i || this->animationFrame) {
-            bitmap::CopyTo(
-              gpCombatManager->probablyBitmapForCombatScreen,
+            gpCombatManager->probablyBitmapForCombatScreen->CopyTo(
               gpWindowManager->screenBuffer,
               giMinExtentX,
               giMinExtentY,
@@ -974,7 +1136,7 @@ int army::FlyTo(int hexIdx) {
           giMaxExtentX = 0;
           gbComputeExtent = 1;
           gbSaveBiggestExtent = 1;
-          army::DrawToBuffer(this, (signed __int64)v23, (signed __int64)v22, 0);
+          this->DrawToBuffer((signed __int64)v23, (signed __int64)v22, 0);
           gbComputeExtent = 0;
           gbSaveBiggestExtent = 0;
           if (giMinExtentX < 0)
@@ -1004,22 +1166,22 @@ int army::FlyTo(int hexIdx) {
               * gfCombatSpeedMod[giCombatSpeed]
               * 1.3
               / (double)v12);
-          heroWindowManager::UpdateScreenRegion(gpWindowManager, offsetX, offsetY, v10 - offsetX + 1, v6 - offsetY + 1);
-          if (this->frameInfo.animationLengths[6] - 1 == this->animationFrame) {
+          gpWindowManager->UpdateScreenRegion(offsetX, offsetY, v10 - offsetX + 1, v6 - offsetY + 1);
+          if (this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] - 1 == this->animationFrame) {
             v23 = (double)(i + 1) * v16 + (double)v19;
             v22 = (double)(i + 1) * v24 + (double)v14;
           }
         }
       }
     }
-    army::CancelSpellType(this, 0);
-    gpCombatManager->combatGrid[hexIdx].unitOwner = LOBYTE(gpCombatManager->activeStackOwner);
-    gpCombatManager->combatGrid[hexIdx].stackIdx = LOBYTE(gpCombatManager->activeStack);
+    this->CancelSpellType(0);
+    gpCombatManager->combatGrid[hexIdx].unitOwner = LOBYTE(gpCombatManager->otherCurrentSideThing);
+    gpCombatManager->combatGrid[hexIdx].stackIdx = LOBYTE(gpCombatManager->someSortOfStackIdx);
     gpCombatManager->combatGrid[hexIdx].occupiersOtherHexIsToLeft = -1;
     if (this->creature.creature_flags & TWO_HEXER) {
       v5 = hexIdx + (this->facingRight < 1u ? -1 : 1);
-      gpCombatManager->combatGrid[v5].unitOwner = LOBYTE(gpCombatManager->activeStackOwner);
-      gpCombatManager->combatGrid[v5].stackIdx = LOBYTE(gpCombatManager->activeStack);
+      gpCombatManager->combatGrid[v5].unitOwner = LOBYTE(gpCombatManager->otherCurrentSideThing);
+      gpCombatManager->combatGrid[v5].stackIdx = LOBYTE(gpCombatManager->someSortOfStackIdx);
       gpCombatManager->combatGrid[v5].occupiersOtherHexIsToLeft = v5 >= hexIdx;
       gpCombatManager->combatGrid[hexIdx].occupiersOtherHexIsToLeft = v5 <= hexIdx;
     }
@@ -1036,8 +1198,8 @@ int army::FlyTo(int hexIdx) {
       }
       this->field_8E = 0;
     }
-    combatManager::DrawFrame(gpCombatManager, 1, 0, 0, 0, 75, 1, 1);
-    combatManager::TestRaiseDoor(gpCombatManager);
+    gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+    gpCombatManager->TestRaiseDoor();
     result = 1;
   } else {
     result = 0;
