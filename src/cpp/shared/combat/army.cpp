@@ -733,7 +733,7 @@ int army::FlyTo(int hexIdx) {
           BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
 
         if (numFrames) {
-          if (i <= 0)
+          if (i <= 0 && (!closeMove && teleporter))
             v8 = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
           else
             v8 = 0;
