@@ -143,6 +143,7 @@ public:
   void DoHydraAttack(int ignored);
   void Walk(signed int dir, int last, int notFirst);
   void DrawToBuffer(int centX, int standingBotY, int a4);
+  bool IsCloseMove(int toHexIdx);
 };
 
 class combatManager : public baseManager

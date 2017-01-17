@@ -978,6 +978,18 @@ void __fastcall BuildTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst) {
   }
 }
 
+bool army::IsCloseMove(int toHexIdx) {
+  for (int j = 0; j < 6; j++) {
+    if (this->creature.creature_flags & TWO_HEXER) {
+      if (gpCombatManager->hexNeighbors[this->occupiedHex + 1][j] == toHexIdx)
+        return true;
+    }
+    if (gpCombatManager->hexNeighbors[this->occupiedHex][j] == toHexIdx)
+      return true;
+  }
+  return false;
+}
+
 int army::FlyTo(int hexIdx) {
   signed int result; // eax@2
   int v3; // ST98_4@19
@@ -1050,24 +1062,14 @@ int army::FlyTo(int hexIdx) {
       gpCombatManager->combatGrid[v3].occupiersOtherHexIsToLeft = -1;
     }
 
-    int teleporter = true;
-    int closeMove = false;
     if (!gbNoShowCombat) {
+      bool closeMove = IsCloseMove(hexIdx);
+      bool teleporter = CreatureHasAttribute(this->creatureIdx, TELEPORTER);
       v7 = 0;
       gpCombatManager->DrawFrame(0, 0, 0, 0, 75, 1, 1);
       gpWindowManager->screenBuffer->CopyTo(gpCombatManager->probablyBitmapForCombatScreen, 0, 0, 0, 0, 0x280u, 442);
       gpCombatManager->zeroedAfterAnimatingDeathAndHolySpells = 0;
-      
-      for(int j = 0; j < 6; j++) {
-        if(this->creature.creature_flags & TWO_HEXER)
-        {
-          if (gpCombatManager->hexNeighbors[this->occupiedHex + 1][j] == hexIdx)
-            closeMove = true;
-        }
-        if(gpCombatManager->hexNeighbors[this->occupiedHex][j] == hexIdx)
-          closeMove = true;
-      }
-      
+
       this->animationType = ANIMATION_TYPE_WALKING;
       for (i = 0; numFrames > i; ++i) {
         if(teleporter) {
@@ -1101,8 +1103,8 @@ int army::FlyTo(int hexIdx) {
             }
           }
           if (this->animationFrame % this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] == 1) {
-            if (this->creatureIdx != 52 && this->creatureIdx != 53 || i) {
-              if (this->creatureIdx != 52 && this->creatureIdx != 53 || numFrames - 1 != i)
+            if (this->creatureIdx != CREATURE_VAMPIRE && this->creatureIdx != CREATURE_VAMPIRE_LORD || i) {
+              if (this->creatureIdx != CREATURE_VAMPIRE && this->creatureIdx != CREATURE_VAMPIRE_LORD || numFrames - 1 != i)
                 gpSoundManager->MemorySample(this->combatSounds[0]);
               else
                 gpSoundManager->MemorySample(this->combatSounds[6]);
@@ -1157,7 +1159,7 @@ int army::FlyTo(int hexIdx) {
             v6 = giMaxExtentY;
           DelayTil(&glTimers);
           if (this->animationFrame >= v8
-            && (this->animationFrame + 1 < v7 || this->creatureIdx != 52 && this->creatureIdx != 53))
+            && (this->animationFrame + 1 < v7 || this->creatureIdx != CREATURE_VAMPIRE && this->creatureIdx != CREATURE_VAMPIRE_LORD))
             glTimers = (signed __int64)((double)KBTickCount()
               + (double)this->frameInfo.stepTime * gfCombatSpeedMod[giCombatSpeed] / (double)v12);
           else
