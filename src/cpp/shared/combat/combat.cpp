@@ -13,6 +13,8 @@
 #include "scripting/callback.h"
 #include <string>
 
+bool gCloseMove;
+
 extern int giNextAction;
 extern signed char gbCombatSurrender;
 extern signed char gbRetreatWin;
@@ -79,26 +81,6 @@ void combatManager::HandlePandoraBox(int side) {
 
     hexcell* cell = &this->combatGrid[hex];
     this->creatures[cell->unitOwner][cell->stackIdx].temporaryQty = amt;
-  }
-}
-
-void army::MoveTo(int hexIdx) {
-  if(this->creature.creature_flags & FLYER) {
-    this->targetHex = hexIdx;
-    if(ValidFlight(this->targetHex, 0))
-      FlyTo(this->targetHex);
-  } else {
-    WalkTo(hexIdx);
-  }
-}
-
-void army::MoveAttack(int targHex, int x) {
-  int startHex = this->occupiedHex;
-  this->MoveAttack_orig(targHex, x);
-
-  if( !(this->creature.creature_flags & DEAD) &&
-    CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
-    MoveTo(startHex);
   }
 }
 

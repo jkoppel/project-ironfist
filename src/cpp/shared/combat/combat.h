@@ -193,6 +193,7 @@ public:
   void ArcShot(icon *icn, int fromX, int fromY, int targX, int targY);
   void LowerDoor();
   void TestRaiseDoor();
+  int ShotIsThroughWall(int side, signed int occupiedHex, signed int targHex);
 };
 
 extern combatManager* gpCombatManager;

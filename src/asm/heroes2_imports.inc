@@ -199,6 +199,7 @@ IMPORT_?OppositeDirection@@YIHH@Z = 1
 IMPORT_?LowerDoor@combatManager@@QAEXXZ = 1
 IMPORT_?FlyTo@army@@QAEHH@Z = 1
 IMPORT_?BuildTempWalkSeq@@YIXPAUSMonFrameInfo@@HH@Z = 1
+IMPORT_?DamageEnemy@army@@QAEXPAV1@PAH1HH@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
