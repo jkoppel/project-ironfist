@@ -320,6 +320,7 @@ void set_creature_consts(lua_State* L) {
 	lua_setconst(L, "CREATURE_BLACK_KNIGHT", CREATURE_BLACK_KNIGHT);
 	lua_setconst(L, "CREATURE_CATOBLEBA", CREATURE_CATOBLEBA);
 	lua_setconst(L, "CREATURE_TREANT", CREATURE_TREANT);
+  lua_setconst(L, "CREATURE_CYBER_INDIGO_PANTHER", CREATURE_CYBER_INDIGO_PANTHER);
 }
 
 void set_resources_consts(lua_State *L) {
