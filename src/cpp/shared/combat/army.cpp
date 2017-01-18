@@ -144,6 +144,9 @@ void army::DoAttack(int isRetaliation) {
     primaryTarget = this;
   ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, isRetaliation);
 
+  if(isRetaliation)
+    gCloseMove = true;
+
   primaryTarget = 0;
   this->field_6 = 3;
   int creaturesKilled = 0;
@@ -411,7 +414,6 @@ void army::DoAttack(int isRetaliation) {
   this->targetOwner = -1;
   if (isRetaliation)
     gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
-  gCloseMove = false;
 }
 
 extern int giWalkingFrom;
