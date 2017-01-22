@@ -107,7 +107,7 @@ void FillInTownEdit(HWND hwnd, TownExtra* twnExtra) {
 	armyGroup* army = &twnExtra->garrison;
 
 	for(int i = 0; i < ELEMENTS_IN(army->creatureTypes); i++) {
-		int idx = SendDlgItemMessage(hwnd, monTypeFields[i], CB_FINDSTRING, -1, (LPARAM)GetCreatureName(army->creatureTypes[i]));
+		int idx = SendDlgItemMessage(hwnd, monTypeFields[i], CB_FINDSTRING, -1, (LPARAM)GetWC(GetCreatureName(army->creatureTypes[i])).c_str());
 		if(idx == CB_ERR) {
 			SendDlgItemMessage(hwnd, monTypeFields[i], CB_SETCURSEL, 0, 0);
 		} else {
@@ -188,6 +188,7 @@ void InitializeTownEdit(HWND hwnd) {
 		for(int j = 0; j < GetNumCreatures(); j++) {
 			sprintf(gText, "%s", GetCreatureName(j));
 			if(strlen(gText) == 0) {
+                SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"###UNKNOWN CREATURE###");
 				continue; //ghetto way of checking for if creature is real (not random)
 			}
 

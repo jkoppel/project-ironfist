@@ -129,7 +129,7 @@ void LoadCreatures() {
 				gMonRandBound[id][0] = c.random_spawn().begin()->minimum();
 				gMonRandBound[id][1] = c.random_spawn().begin()->maximum();
 
-				giNumCreatures++;
+                id > giNumCreatures ? giNumCreatures = id : giNumCreatures;
 
 				int creature_flags = 0;
 				for(creature_t::creature_attribute_const_iterator j = c.creature_attribute().begin();
@@ -198,6 +198,7 @@ void LoadCreatures() {
 	} catch(const xml_schema::exception& e) {
 		EarlyShutdown("Startup Error", "Error loading creatures.xml. Try reinstalling Ironfist.");
 	}
+    giNumCreatures++;
 }
 
 void UnloadCreatures() {
