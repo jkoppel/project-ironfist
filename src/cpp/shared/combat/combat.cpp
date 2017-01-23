@@ -15,10 +15,6 @@
 
 bool gCloseMove;
 
-extern int giNextAction;
-extern signed char gbCombatSurrender;
-extern signed char gbRetreatWin;
-
 int squaresAroundCaster[2][3] = {
   {14,27,40},
   {11,24,37}
@@ -84,19 +80,6 @@ void combatManager::HandlePandoraBox(int side) {
   }
 }
 
-/*
-void army::SpecialAttack() {
-  army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
-  ScriptSetSpecialVariableData("__attackingStack", this);
-  ScriptSetSpecialVariableData("__targetStack", primaryTarget);
-  std::string tmp = std::to_string(this->creatureIdx) + "," + std::to_string(primaryTarget->creatureIdx);
-  ScriptSignal(SCRIPT_EVT_BATTLE_ATTACK_S, tmp);
-  if (this->creatureIdx == CREATURE_MAGE) { // temporary creature. cyber behemoth attack
-    gpCombatManager->CastSpell(SPELL_FIREBLAST, primaryTarget->occupiedHex, 1, 0);
-  }
-  else this->SpecialAttack_orig();
-}
-*/
 // We don't actually change anything in sElevationOverlay, but the disasm was causing some problems
 
 #pragma pack(push, 1)
