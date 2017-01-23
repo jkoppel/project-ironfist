@@ -166,6 +166,16 @@ int hero::CountEmptyArtifactSlots() {
   return amount;
 }
 
+int armyGroup::CountEmptyCreatureSlots() {
+	int amount = 0;
+	for (int i = 0; i < CREATURES_IN_ARMY; i++) {
+		if (this->quantities[i] == -1) {
+			amount++;
+		}
+	}
+	return amount;
+}
+
 int hero::CalcMobility() {
   int points;
   int MOVEMENT_POINTS_TERM_CREATURE_MAX = 1500;

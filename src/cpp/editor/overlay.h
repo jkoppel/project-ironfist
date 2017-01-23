@@ -2,7 +2,7 @@
 #define OVERLAY_H
 
 
-#define NUM_OVERLAYS 964
+#define NUM_OVERLAYS 970 // must be also changed in asm!
 #define NUM_TILESETS 64
 
 enum OVERLAY_CATEGORY : __int8 {
