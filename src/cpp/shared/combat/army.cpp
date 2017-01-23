@@ -12,8 +12,23 @@ extern char *cArmyProjectileFileNames[]; // it's inside creature.cpp
 extern icon *gCurLoadedSpellIcon;
 extern int gCurLoadedSpellEffect;
 extern int gCurSpellEffectFrame;
+extern int gbGenieHalf;
+extern int gbRemoteOn;
+extern int giWalkingFrom;
+extern int giWalkingFrom2;
+extern int giWalkingTo;
+extern int giWalkingTo2;
+extern int giWalkingYMod;
+extern int gbComputeExtent;
+extern int gbSaveBiggestExtent;
+extern int gbReturnAfterComputeExtent;
+extern int gbCurrArmyDrawn;
+extern int gbLimitToExtent;
+extern unsigned __int8 moatCell[];
+extern float gfBattleStat[];
+extern float gfSSArcheryMod[];
 
-extern bool gCloseMove;
+bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
 
 char *gCombatFxNames[33] =
 {
@@ -100,9 +115,6 @@ int __fastcall OppositeDirection(signed int hex) {
   }
   return result;
 }
-
-extern int gbGenieHalf;
-extern int gbRemoteOn;
 
 void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, int damageDone) {
   char *attackingCreature;
@@ -415,17 +427,6 @@ void army::DoAttack(int isRetaliation) {
   if (isRetaliation)
     gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
 }
-
-extern int giWalkingFrom;
-extern int giWalkingFrom2;
-extern int giWalkingTo;
-extern int giWalkingTo2;
-extern int giWalkingYMod;
-extern int gbComputeExtent;
-extern int gbSaveBiggestExtent;
-extern int gbReturnAfterComputeExtent;
-extern int gbCurrArmyDrawn;
-extern int gbLimitToExtent;
 
 void army::Walk(signed int dir, int last, int notFirst) { 
   int v4; // ST3C_4@78
@@ -1599,10 +1600,6 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
   }
   gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 }
-
-extern unsigned __int8 moatCell[];
-extern float gfBattleStat[];
-extern float gfSSArcheryMod[];
 
 void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int a6) {
   int v7; // [sp+1Ch] [bp-24h]@65
