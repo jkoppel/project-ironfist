@@ -634,7 +634,7 @@ void army::Walk(signed int dir, int last, int notFirst) {
   }
 }
 
-
+// ironfist function
 bool army::IsCloseMove(int toHexIdx) {
   for (int j = 0; j < 6; j++) {
     if (this->creature.creature_flags & TWO_HEXER) {
@@ -1602,100 +1602,98 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
 }
 
 void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int a6) {
-  int v7; // [sp+1Ch] [bp-24h]@65
-  int othHex; // [sp+20h] [bp-20h]@17
-  hero *owningHero; // [sp+24h] [bp-1Ch]@47
-  float damagePerUnit; // [sp+2Ch] [bp-14h]@2
-  float damagePerUnita; // [sp+2Ch] [bp-14h]@29
-  int i; // [sp+30h] [bp-10h]@2
-  signed int j; // [sp+30h] [bp-10h]@19
-  int baseDam; // [sp+34h] [bp-Ch]@63
-  int attackDiff; // [sp+3Ch] [bp-4h]@10
+  if (!targ)
+    return;
 
-  if (targ) {
-    damagePerUnit = 0.0;
-    gbGenieHalf = 0;
-    for (i = 0; this->quantity > i; ++i) {
-      if (this->effectStrengths[3]) {
-        damagePerUnit = (double)this->creature.max_damage + damagePerUnit;
-      } else if (this->effectStrengths[4]) {
-        damagePerUnit = (double)this->creature.min_damage + damagePerUnit;
-      } else {
-        damagePerUnit = (double)SRandom(this->creature.min_damage, this->creature.max_damage) + damagePerUnit;
-      }
+  int attackDiff = this->creature.attack - (a6 + targ->creature.defense);
+  if (this->effectStrengths[8]
+    && (targ->creatureIdx == CREATURE_GREEN_DRAGON
+      || targ->creatureIdx == CREATURE_RED_DRAGON
+      || targ->creatureIdx == CREATURE_BLACK_DRAGON
+      || targ->creatureIdx == CREATURE_BONE_DRAGON))
+    attackDiff += 5;
+  if (gpCombatManager->hasMoat) {
+    int othHex = -1;
+    if (targ->creature.creature_flags & TWO_HEXER)
+      othHex = targ->occupiedHex + ((unsigned int)(targ->facingRight - 1) < 1 ? 1 : -1);
+    for (int j = 0; j < 9; ++j) {
+      if (moatCell[j] == targ->occupiedHex || moatCell[j] == othHex)
+        attackDiff += 3;
     }
-    attackDiff = this->creature.attack - (a6 + targ->creature.defense);
-    if (this->effectStrengths[8]
-      && (targ->creatureIdx == CREATURE_GREEN_DRAGON
-        || targ->creatureIdx == CREATURE_RED_DRAGON
-        || targ->creatureIdx == CREATURE_BLACK_DRAGON
-        || targ->creatureIdx == CREATURE_BONE_DRAGON))
-      attackDiff += 5;
-    if (gpCombatManager->hasMoat) {
-      othHex = -1;
-      if (targ->creature.creature_flags & TWO_HEXER)
-        othHex = targ->occupiedHex + ((unsigned int)(targ->facingRight - 1) < 1 ? 1 : -1);
-      for (j = 0; j < 9; ++j) {
-        if (moatCell[j] == targ->occupiedHex || moatCell[j] == othHex)
-          attackDiff += 3;
-      }
-    }
-    if (attackDiff > 20)
-      attackDiff = 20;
-    if (attackDiff < -20)
-      attackDiff = -20;
-    damagePerUnita = gfBattleStat[attackDiff + 20] * damagePerUnit;
-    if (this->creatureIdx == CREATURE_CRUSADER && HIBYTE(targ->creature.creature_flags) & ATTR_UNDEAD
-      || this->creatureIdx == CREATURE_EARTH_ELEMENTAL && targ->creatureIdx == CREATURE_AIR_ELEMENTAL
-      || this->creatureIdx == CREATURE_AIR_ELEMENTAL && targ->creatureIdx == CREATURE_EARTH_ELEMENTAL
-      || this->creatureIdx == CREATURE_WATER_ELEMENTAL && targ->creatureIdx == CREATURE_FIRE_ELEMENTAL
-      || this->creatureIdx == CREATURE_FIRE_ELEMENTAL && targ->creatureIdx == CREATURE_WATER_ELEMENTAL)
-      damagePerUnita = damagePerUnita * 2.0;
-    if (this->luckStatus > 0)
-      damagePerUnita = damagePerUnita * 2.0;
-    if (this->luckStatus < 0)
-      damagePerUnita = damagePerUnita / 2.0;
-    this->luckStatus = 0;
-    if (isRanged
-      && gpCombatManager->ShotIsThroughWall(this->owningSide, this->occupiedHex, targ->occupiedHex))
-      damagePerUnita = damagePerUnita / 2.0;
-    owningHero = gpCombatManager->heroes[this->owningSide];
-    if (owningHero && isRanged)
-      damagePerUnita = gfSSArcheryMod[owningHero->secondarySkillLevel[1]] * damagePerUnita;
-    if (this->creature.creature_flags & SHOOTER
-      && !isRanged
-      && this->creatureIdx != CREATURE_TITAN
-      && this->creatureIdx != CREATURE_MAGE
-      && this->creatureIdx != CREATURE_ARCHMAGE)
-      damagePerUnita = damagePerUnita / 2.0;
-    if (isRanged && targ->effectStrengths[10])
-      damagePerUnita = damagePerUnita / 2.0;
-    if (this->otherBadLuckThing == 2)
-      damagePerUnita = damagePerUnita / 2.0;
-    this->otherBadLuckThing = 0;
-    if (targ->effectStrengths[11])
-      damagePerUnita = damagePerUnita / 2.0;
-    if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
-      baseDam = (signed __int64)(damagePerUnita * 1.25 + 0.5);
-    } else {
-      baseDam = (signed __int64)(damagePerUnita + 0.5);
-    }
-    if (this->creatureIdx == CREATURE_GENIE) {
-      if (SRandom(1, 5) == 2) {
-        v7 = targ->creature.hp * ((targ->quantity + 1) / 2);
-        if (baseDam < v7) {
-          gbGenieHalf = 1;
-          baseDam = v7;
-        }
-      }
-    }
-    if (baseDam <= 0)
-      baseDam = 1;
-    if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
-      baseDam = -1;
-    *damageDone = baseDam;
-    *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
   }
+
+  if (attackDiff > 20)
+    attackDiff = 20;
+  if (attackDiff < -20)
+    attackDiff = -20;
+
+  float damagePerUnit = 0.0;
+  for (int i = 0; this->quantity > i; ++i) {
+    if (this->effectStrengths[3]) {
+      damagePerUnit += (double)this->creature.max_damage;
+    } else if (this->effectStrengths[4]) {
+      damagePerUnit += (double)this->creature.min_damage;
+    } else {
+      damagePerUnit += (double)SRandom(this->creature.min_damage, this->creature.max_damage);
+    }
+  }
+  float damagePerUnita = gfBattleStat[attackDiff + 20] * damagePerUnit;
+  if (this->creatureIdx == CREATURE_CRUSADER && HIBYTE(targ->creature.creature_flags) & ATTR_UNDEAD
+    || this->creatureIdx == CREATURE_EARTH_ELEMENTAL && targ->creatureIdx == CREATURE_AIR_ELEMENTAL
+    || this->creatureIdx == CREATURE_AIR_ELEMENTAL && targ->creatureIdx == CREATURE_EARTH_ELEMENTAL
+    || this->creatureIdx == CREATURE_WATER_ELEMENTAL && targ->creatureIdx == CREATURE_FIRE_ELEMENTAL
+    || this->creatureIdx == CREATURE_FIRE_ELEMENTAL && targ->creatureIdx == CREATURE_WATER_ELEMENTAL)
+    damagePerUnita *= 2.0;
+
+  if (this->luckStatus > 0)
+    damagePerUnita *= 2.0;
+  if (this->luckStatus < 0)
+    damagePerUnita /= 2.0;
+  this->luckStatus = 0;
+
+  if (isRanged && gpCombatManager->ShotIsThroughWall(this->owningSide, this->occupiedHex, targ->occupiedHex))
+    damagePerUnita /= 2.0;
+
+  hero *owningHero = gpCombatManager->heroes[this->owningSide];
+  if (owningHero && isRanged)
+    damagePerUnita *= gfSSArcheryMod[owningHero->secondarySkillLevel[1]];
+  if (this->creature.creature_flags & SHOOTER
+    && !isRanged
+    && this->creatureIdx != CREATURE_TITAN
+    && this->creatureIdx != CREATURE_MAGE
+    && this->creatureIdx != CREATURE_ARCHMAGE)
+    damagePerUnita /= 2.0;
+  if (isRanged && targ->effectStrengths[10])
+    damagePerUnita /= 2.0;
+  if (this->otherBadLuckThing == 2)
+    damagePerUnita /= 2.0;
+  this->otherBadLuckThing = 0;
+  if (targ->effectStrengths[11])
+    damagePerUnita /= 2.0;
+
+  int baseDam;
+  if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
+    baseDam = (signed __int64)(damagePerUnita * 1.25 + 0.5);
+  } else {
+    baseDam = (signed __int64)(damagePerUnita + 0.5);
+  }
+
+  gbGenieHalf = 0;
+  if (this->creatureIdx == CREATURE_GENIE) {
+    if (SRandom(1, 5) == 2) {
+      int tmp = targ->creature.hp * ((targ->quantity + 1) / 2);
+      if (baseDam < tmp) {
+        gbGenieHalf = 1;
+        baseDam = tmp;
+      }
+    }
+  }
+  if (baseDam <= 0)
+    baseDam = 1;
+  if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
+    baseDam = -1;
+  *damageDone = baseDam;
+  *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
 }
 
 void army::MoveTo(int hexIdx) {
