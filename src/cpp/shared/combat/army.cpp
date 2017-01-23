@@ -1601,11 +1601,11 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
   gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 }
 
-void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int a6) {
+void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int unusedArg) {
   if (!targ)
     return;
 
-  int attackDiff = this->creature.attack - (a6 + targ->creature.defense);
+  int attackDiff = this->creature.attack - (unusedArg + targ->creature.defense);
   if (this->effectStrengths[8]
     && (targ->creatureIdx == CREATURE_GREEN_DRAGON
       || targ->creatureIdx == CREATURE_RED_DRAGON
