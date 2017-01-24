@@ -104,6 +104,13 @@ unsigned __int8 giNumPowFrames[33] =
   7u
 };
 
+void OccupyHexes(army *a) {
+  if (a->facingRight == 1)
+    a->occupiedHex--;
+  else
+    a->occupiedHex++;
+}
+
 int __fastcall OppositeDirection(signed int hex) {
   int result;
   if (hex == 6) {
@@ -638,31 +645,9 @@ bool army::IsCloseMove(int toHexIdx) {
 
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
-  signed int result; // eax@2
-  int v3; // ST98_4@19
-  signed int v5; // [sp+64h] [bp-70h]@76
-  signed int v6; // [sp+68h] [bp-6Ch]@47
-  int v7; // [sp+6Ch] [bp-68h]@21
-  int v8; // [sp+70h] [bp-64h]@24
-  int offsetY; // [sp+74h] [bp-60h]@47
-  signed int v10; // [sp+78h] [bp-5Ch]@47
-  int offsetX; // [sp+7Ch] [bp-58h]@47
-  signed int v12; // [sp+80h] [bp-54h]@24
-  int dist; // [sp+8Ch] [bp-48h]@14
-  signed int v14; // [sp+90h] [bp-44h]@14
-  int deltaY; // [sp+94h] [bp-40h]@14
-  float v16; // [sp+98h] [bp-3Ch]@18
-  int i; // [sp+A0h] [bp-34h]@21
-  int colDiff; // [sp+A4h] [bp-30h]@3
-  signed int v19; // [sp+A8h] [bp-2Ch]@14
-  int deltaX; // [sp+ACh] [bp-28h]@14
-  int numFrames; // [sp+BCh] [bp-18h]@14
-  float v22; // [sp+C4h] [bp-10h]@14
-  float v23; // [sp+CCh] [bp-8h]@14
-  float v24; // [sp+D0h] [bp-4h]@18
 
   if (ValidHex(hexIdx)) {
-    colDiff = hexIdx % 13 - this->occupiedHex % 13;
+    int colDiff = hexIdx % 13 - this->occupiedHex % 13;
     this->field_8E = 0;
     if (colDiff <= 0 || this->facingRight) {
       if (colDiff < 0) {
@@ -685,25 +670,26 @@ int army::FlyTo(int hexIdx) {
     }
     if (this->field_8E)
       gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
-    v19 = gpCombatManager->combatGrid[this->occupiedHex].centerX;
-    v14 = gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
-    v23 = (double)v19;
-    v22 = (double)v14;
-    deltaX = gpCombatManager->combatGrid[hexIdx].centerX - v19;
-    deltaY = gpCombatManager->combatGrid[hexIdx].occupyingCreatureBottomY - v14;
-    dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
-    numFrames = 0;
+    int v19 = gpCombatManager->combatGrid[this->occupiedHex].centerX;
+    int v14 = gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
+    float currentDrawX = (double)v19;
+    float currentDrawY = (double)v14;
+    int deltaX = gpCombatManager->combatGrid[hexIdx].centerX - v19;
+    int deltaY = gpCombatManager->combatGrid[hexIdx].occupyingCreatureBottomY - v14;
+    int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
+
+    int numFrames = 0;
     if (this->frameInfo.flightSpeed > 0)
       numFrames = (dist + (this->frameInfo.flightSpeed >> 1)) / this->frameInfo.flightSpeed;
     if (numFrames <= 0)
       numFrames = 1;
-    v16 = (double)deltaX / (double)numFrames;
-    v24 = (double)deltaY / (double)numFrames;
+    float stepX = (double)deltaX / (double)numFrames;
+    float stepY = (double)deltaY / (double)numFrames;
     gpCombatManager->combatGrid[this->occupiedHex].stackIdx = -1;
     gpCombatManager->combatGrid[this->occupiedHex].unitOwner = -1;
     gpCombatManager->combatGrid[this->occupiedHex].occupiersOtherHexIsToLeft = -1;
     if (this->creature.creature_flags & TWO_HEXER) {
-      v3 = this->occupiedHex + (this->facingRight < 1u ? -1 : 1);
+      int v3 = this->occupiedHex + (this->facingRight < 1u ? -1 : 1);
       gpCombatManager->combatGrid[v3].stackIdx = -1;
       gpCombatManager->combatGrid[v3].unitOwner = -1;
       gpCombatManager->combatGrid[v3].occupiersOtherHexIsToLeft = -1;
@@ -712,39 +698,39 @@ int army::FlyTo(int hexIdx) {
     if (!gbNoShowCombat) {
       bool closeMove = IsCloseMove(hexIdx);
       bool teleporter = CreatureHasAttribute(this->creatureIdx, TELEPORTER);
-      v7 = 0;
       gpCombatManager->DrawFrame(0, 0, 0, 0, 75, 1, 1);
       gpWindowManager->screenBuffer->CopyTo(gpCombatManager->probablyBitmapForCombatScreen, 0, 0, 0, 0, 0x280u, 442);
       gpCombatManager->zeroedAfterAnimatingDeathAndHolySpells = 0;
 
       this->animationType = ANIMATION_TYPE_WALKING;
-      for (i = 0; numFrames > i; ++i) {
+      for (int i = 0; numFrames > i; ++i) {
         if (teleporter) {
           BuildTeleporterTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0, closeMove);
         } else
           BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
 
+        int startMoveLen = 0;
+        int moveLen = 0;
+        int moveAndSubEndMoveLen;
         if (numFrames) {
           if (i <= 0 && (!closeMove && teleporter))
-            v8 = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
-          else
-            v8 = 0;
-          v12 = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
-          v7 = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
+            startMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
+          moveAndSubEndMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
+          moveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           if (i + 1 < numFrames)
-            v12 += this->frameInfo.animationLengths[ANIMATION_TYPE_SUB_END_MOVE];
+            moveAndSubEndMoveLen += this->frameInfo.animationLengths[ANIMATION_TYPE_SUB_END_MOVE];
         } else {
-          v12 = this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING];
-          v8 = 0;
+          moveAndSubEndMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING];
+          startMoveLen = 0;
         }
         for (this->animationFrame = 0; this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] > this->animationFrame; ++this->animationFrame) {
-          if (this->animationFrame >= v8 && v8 + v12 > this->animationFrame) {
+          if (this->animationFrame >= startMoveLen && startMoveLen + moveAndSubEndMoveLen > this->animationFrame) {
             if (teleporter && !closeMove) {
-              v23 = gpCombatManager->combatGrid[hexIdx].centerX;
-              v22 = gpCombatManager->combatGrid[hexIdx].occupyingCreatureBottomY;
+              currentDrawX = gpCombatManager->combatGrid[hexIdx].centerX;
+              currentDrawY = gpCombatManager->combatGrid[hexIdx].occupyingCreatureBottomY;
             } else {
-              v23 = v16 / (double)v12 + v23;
-              v22 = v24 / (double)v12 + v22;
+              currentDrawX += stepX / (double)moveAndSubEndMoveLen;
+              currentDrawY += stepY / (double)moveAndSubEndMoveLen;
             }
           }
           if (this->animationFrame % this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] == 1) {
@@ -758,6 +744,10 @@ int army::FlyTo(int hexIdx) {
               DelayMilli(100);
             }
           }
+          int offsetX = 0;
+          int offsetY = 0;
+          int v10 = 639;
+          int v6 = 442;
           if (i || this->animationFrame) {
             gpCombatManager->probablyBitmapForCombatScreen->CopyTo(
               gpWindowManager->screenBuffer,
@@ -771,11 +761,6 @@ int army::FlyTo(int hexIdx) {
             offsetY = giMinExtentY;
             v10 = giMaxExtentX;
             v6 = giMaxExtentY;
-          } else {
-            offsetX = 0;
-            offsetY = 0;
-            v10 = 639;
-            v6 = 442;
           }
           giMinExtentY = 640;
           giMinExtentX = 640;
@@ -783,7 +768,7 @@ int army::FlyTo(int hexIdx) {
           giMaxExtentX = 0;
           gbComputeExtent = 1;
           gbSaveBiggestExtent = 1;
-          this->DrawToBuffer((signed __int64)v23, (signed __int64)v22, 0);
+          this->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
           gbComputeExtent = 0;
           gbSaveBiggestExtent = 0;
           if (giMinExtentX < 0)
@@ -803,20 +788,20 @@ int army::FlyTo(int hexIdx) {
           if (giMaxExtentY > v6)
             v6 = giMaxExtentY;
           DelayTil(&glTimers);
-          if (this->animationFrame >= v8
-            && (this->animationFrame + 1 < v7 || this->creatureIdx != CREATURE_VAMPIRE && this->creatureIdx != CREATURE_VAMPIRE_LORD))
+          if (this->animationFrame >= startMoveLen
+            && (this->animationFrame + 1 < moveLen || this->creatureIdx != CREATURE_VAMPIRE && this->creatureIdx != CREATURE_VAMPIRE_LORD))
             glTimers = (signed __int64)((double)KBTickCount()
-              + (double)this->frameInfo.stepTime * gfCombatSpeedMod[giCombatSpeed] / (double)v12);
+              + (double)this->frameInfo.stepTime * gfCombatSpeedMod[giCombatSpeed] / (double)moveAndSubEndMoveLen);
           else
             glTimers = (signed __int64)((double)KBTickCount()
               + (double)this->frameInfo.stepTime
               * gfCombatSpeedMod[giCombatSpeed]
               * 1.3
-              / (double)v12);
+              / (double)moveAndSubEndMoveLen);
           gpWindowManager->UpdateScreenRegion(offsetX, offsetY, v10 - offsetX + 1, v6 - offsetY + 1);
           if (this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] - 1 == this->animationFrame) {
-            v23 = (double)(i + 1) * v16 + (double)v19;
-            v22 = (double)(i + 1) * v24 + (double)v14;
+            currentDrawX = (double)(i + 1) * stepX + (double)v19;
+            currentDrawY = (double)(i + 1) * stepY + (double)v14;
           }
         }
       }
@@ -826,32 +811,27 @@ int army::FlyTo(int hexIdx) {
     gpCombatManager->combatGrid[hexIdx].stackIdx = LOBYTE(gpCombatManager->someSortOfStackIdx);
     gpCombatManager->combatGrid[hexIdx].occupiersOtherHexIsToLeft = -1;
     if (this->creature.creature_flags & TWO_HEXER) {
-      v5 = hexIdx + (this->facingRight < 1u ? -1 : 1);
+      int v5 = hexIdx + (this->facingRight < 1u ? -1 : 1);
       gpCombatManager->combatGrid[v5].unitOwner = LOBYTE(gpCombatManager->otherCurrentSideThing);
       gpCombatManager->combatGrid[v5].stackIdx = LOBYTE(gpCombatManager->someSortOfStackIdx);
       gpCombatManager->combatGrid[v5].occupiersOtherHexIsToLeft = v5 >= hexIdx;
       gpCombatManager->combatGrid[hexIdx].occupiersOtherHexIsToLeft = v5 <= hexIdx;
     }
     this->occupiedHex = hexIdx;
-    this->animationType = 7;
+    this->animationType = ANIMATION_TYPE_STANDING;
     this->animationFrame = 0;
     if (this->field_8E) {
       this->facingRight = 1 - this->facingRight;
       if (this->creature.creature_flags & TWO_HEXER) {
-        if (this->facingRight)
-          --this->occupiedHex;
-        else
-          ++this->occupiedHex;
+        OccupyHexes(this);
       }
       this->field_8E = 0;
     }
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     gpCombatManager->TestRaiseDoor();
-    result = 1;
-  } else {
-    result = 0;
+    return 1;
   }
-  return result;
+  return 0;
 }
 
 void SpecialAttackBattleMessage(army *attacker, army *target, int creaturesKilled, int damageDone) {
@@ -889,13 +869,6 @@ void SpecialAttackBattleMessage(army *attacker, army *target, int creaturesKille
     }
   }
   gpCombatManager->CombatMessage(gText, 1, 1, 0);
-}
-
-void OccupyHexes(army *a) {
-  if (a->facingRight == 1)
-    a->occupiedHex--;
-  else
-    a->occupiedHex++;
 }
 
 void ProcessSecondAttack(army *attacker, army *target) {
