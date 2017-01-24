@@ -1637,45 +1637,46 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
       damagePerUnit += (double)SRandom(this->creature.min_damage, this->creature.max_damage);
     }
   }
-  float damagePerUnita = gfBattleStat[attackDiff + 20] * damagePerUnit;
+  
+  damagePerUnit *= gfBattleStat[attackDiff + 20];
   if (this->creatureIdx == CREATURE_CRUSADER && HIBYTE(targ->creature.creature_flags) & ATTR_UNDEAD
     || this->creatureIdx == CREATURE_EARTH_ELEMENTAL && targ->creatureIdx == CREATURE_AIR_ELEMENTAL
     || this->creatureIdx == CREATURE_AIR_ELEMENTAL && targ->creatureIdx == CREATURE_EARTH_ELEMENTAL
     || this->creatureIdx == CREATURE_WATER_ELEMENTAL && targ->creatureIdx == CREATURE_FIRE_ELEMENTAL
     || this->creatureIdx == CREATURE_FIRE_ELEMENTAL && targ->creatureIdx == CREATURE_WATER_ELEMENTAL)
-    damagePerUnita *= 2.0;
+    damagePerUnit *= 2.0;
 
   if (this->luckStatus > 0)
-    damagePerUnita *= 2.0;
+    damagePerUnit *= 2.0;
   if (this->luckStatus < 0)
-    damagePerUnita /= 2.0;
+    damagePerUnit /= 2.0;
   this->luckStatus = 0;
 
   if (isRanged && gpCombatManager->ShotIsThroughWall(this->owningSide, this->occupiedHex, targ->occupiedHex))
-    damagePerUnita /= 2.0;
+    damagePerUnit /= 2.0;
 
   hero *owningHero = gpCombatManager->heroes[this->owningSide];
   if (owningHero && isRanged)
-    damagePerUnita *= gfSSArcheryMod[owningHero->secondarySkillLevel[1]];
+    damagePerUnit *= gfSSArcheryMod[owningHero->secondarySkillLevel[1]];
   if (this->creature.creature_flags & SHOOTER
     && !isRanged
     && this->creatureIdx != CREATURE_TITAN
     && this->creatureIdx != CREATURE_MAGE
     && this->creatureIdx != CREATURE_ARCHMAGE)
-    damagePerUnita /= 2.0;
+    damagePerUnit /= 2.0;
   if (isRanged && targ->effectStrengths[10])
-    damagePerUnita /= 2.0;
+    damagePerUnit /= 2.0;
   if (this->otherBadLuckThing == 2)
-    damagePerUnita /= 2.0;
+    damagePerUnit /= 2.0;
   this->otherBadLuckThing = 0;
   if (targ->effectStrengths[11])
-    damagePerUnita /= 2.0;
+    damagePerUnit /= 2.0;
 
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
-    baseDam = (signed __int64)(damagePerUnita * 1.25 + 0.5);
+    baseDam = (signed __int64)(damagePerUnit * 1.25 + 0.5);
   } else {
-    baseDam = (signed __int64)(damagePerUnita + 0.5);
+    baseDam = (signed __int64)(damagePerUnit + 0.5);
   }
 
   gbGenieHalf = 0;
