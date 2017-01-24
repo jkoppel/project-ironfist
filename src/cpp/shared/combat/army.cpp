@@ -117,11 +117,15 @@ int __fastcall OppositeDirection(signed int hex) {
 }
 
 void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, int damageDone) {
-  char *attackingCreature;
+  char *attackingCreature, *targetCreature;
   if (attacker->quantity <= 1)
     attackingCreature = GetCreatureName(attacker->creatureIdx);
   else
     attackingCreature = GetCreaturePluralName(attacker->creatureIdx);
+  if (creaturesKilled <= 1)
+    targetCreature = GetCreatureName(target->creatureIdx);
+  else
+    targetCreature = GetCreaturePluralName(target->creatureIdx);
 
   if (damageDone == -1) {
     sprintf(gText, "The mirror image is destroyed!");
@@ -129,13 +133,7 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
     sprintf(gText, "%s %s half the enemy troops!", attackingCreature, (attacker->quantity > 1) ? "damage" : "damages");
   } else if (creaturesKilled <= 0) {
     sprintf(gText, "%s %s %d damage.", attackingCreature, (attacker->quantity > 1) ? "do" : "does", damageDone);
-    gText[0] = toupper(gText[0]);
   } else {
-    char *targetCreature;
-    if (creaturesKilled <= 1)
-      targetCreature = GetCreatureName(target->creatureIdx);
-    else
-      targetCreature = GetCreaturePluralName(target->creatureIdx);
     sprintf(
       gText,
       "%s %s %d damage.\n%d %s %s.",
@@ -145,8 +143,8 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
       creaturesKilled,
       targetCreature,
       (creaturesKilled > 1) ? "perish" : "perishes");
-    gText[0] = toupper(gText[0]);
   }
+  gText[0] = toupper(gText[0]);
   gpCombatManager->CombatMessage(gText, 1, 1, 0);
 }
 
