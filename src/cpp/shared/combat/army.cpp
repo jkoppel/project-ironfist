@@ -427,21 +427,13 @@ void army::DoAttack(int isRetaliation) {
 }
 
 void army::Walk(signed int dir, int last, int notFirst) { 
-  int v4; // ST3C_4@78
-  int v6; // [sp+1Ch] [bp-24h]@26
-  int v7; // [sp+20h] [bp-20h]@80
-  int i; // [sp+24h] [bp-1Ch]@47
-  int v9; // [sp+28h] [bp-18h]@77
-  signed int targCell; // [sp+30h] [bp-10h]@1
-  int offsetY; // [sp+34h] [bp-Ch]@26
-  int v12; // [sp+38h] [bp-8h]@26
-  int offsetX; // [sp+3Ch] [bp-4h]@26
-
-  targCell = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+  int targCell = this->GetAdjacentCellIndex(this->occupiedHex, dir);
   gCloseMove = IsCloseMove(targCell);
+  
+  // Bridge opening
   if (this->owningSide == 1
     && gpCombatManager->isCastleBattle
-    && (targCell == 58 || targCell == 59 || targCell == 60 && this->owningSide == 1 && this->creature.creature_flags & 1)
+    && (targCell == 58 || targCell == 59 || targCell == 60 && this->owningSide == 1 && this->creature.creature_flags & TWO_HEXER)
     && gpCombatManager->drawBridgePosition == BRIDGE_CLOSED) {
     this->animationType = ANIMATION_TYPE_STANDING;
     this->animationFrame = 0;
@@ -449,17 +441,18 @@ void army::Walk(signed int dir, int last, int notFirst) {
     gpCombatManager->LowerDoor();
     notFirst = 0;
   }
+  
   giWalkingFrom = this->occupiedHex;
-  if (this->creature.creature_flags & 1)
-    giWalkingFrom2 = this->occupiedHex + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
-  else
-    giWalkingFrom2 = -1;
   giWalkingTo = targCell;
-  if (this->creature.creature_flags & 1)
+  if (this->creature.creature_flags & TWO_HEXER) {
+    giWalkingFrom2 = this->occupiedHex + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
     giWalkingTo2 = targCell + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
-  else
+  } else {
+    giWalkingFrom2 = -1;
     giWalkingTo2 = -1;
+  }
   giWalkingYMod = 0;
+  
   BuildTempWalkSeq(&this->frameInfo, last, notFirst);
   this->field_8A = dir;
   if (!notFirst) {
@@ -483,10 +476,10 @@ void army::Walk(signed int dir, int last, int notFirst) {
     giMaxExtentX = 639;
   if (giMaxExtentY > 442)
     giMaxExtentY = 442;
-  offsetX = giMinExtentX;
-  offsetY = giMinExtentY;
-  v12 = giMaxExtentX;
-  v6 = giMaxExtentY;
+  int offsetX = giMinExtentX;
+  int offsetY = giMinExtentY;
+  int v12 = giMaxExtentX;
+  int v6 = giMaxExtentY;
   this->field_8E = 0;
   if (dir >= 3) {
     if (this->facingRight == 1) {
@@ -506,7 +499,7 @@ void army::Walk(signed int dir, int last, int notFirst) {
   if (dir == 2 || dir == 3)
     this->field_6 = 3;
   this->animationFrame = 0;
-  this->animationType = 6;
+  this->animationType = ANIMATION_TYPE_WALKING;
   if (!gbNoShowCombat)
     gpSoundManager->MemorySample(this->combatSounds[0]);
   if (!notFirst) {
@@ -518,7 +511,7 @@ void army::Walk(signed int dir, int last, int notFirst) {
     gpCombatManager->zeroedAfterAnimatingDeathAndHolySpells = 0;
   }
   if (!gbNoShowCombat) {
-    for (i = 0; this->frameInfo.animationLengths[6] > i; ++i) {
+    for (int i = 0; this->frameInfo.animationLengths[6] > i; ++i) {
       this->animationFrame = i;
       if (notFirst || i) {
         gpCombatManager->probablyBitmapForCombatScreen->CopyTo(
@@ -589,44 +582,42 @@ void army::Walk(signed int dir, int last, int notFirst) {
       gpWindowManager->UpdateScreenRegion(offsetX, offsetY, v12 - offsetX + 1, v6 - offsetY + 1);
     }
   }
-  v9 = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+  int adjCell = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+  gpCombatManager->combatGrid[adjCell].unitOwner = LOBYTE(this->owningSide);
+  gpCombatManager->combatGrid[adjCell].stackIdx = LOBYTE(this->stackIdx);
+  gpCombatManager->combatGrid[adjCell].occupiersOtherHexIsToLeft = -1;
   gpCombatManager->combatGrid[this->occupiedHex].stackIdx = -1;
   gpCombatManager->combatGrid[this->occupiedHex].unitOwner = -1;
   gpCombatManager->combatGrid[this->occupiedHex].occupiersOtherHexIsToLeft = -1;
-  if (this->creature.creature_flags & 1) {
-    v4 = this->occupiedHex + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
+
+  if (this->creature.creature_flags & TWO_HEXER) {
+    int v4 = this->occupiedHex + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
     gpCombatManager->combatGrid[v4].stackIdx = -1;
     gpCombatManager->combatGrid[v4].unitOwner = -1;
     gpCombatManager->combatGrid[v4].occupiersOtherHexIsToLeft = -1;
-  }
-  gpCombatManager->combatGrid[v9].unitOwner = LOBYTE(this->owningSide);
-  gpCombatManager->combatGrid[v9].stackIdx = LOBYTE(this->stackIdx);
-  gpCombatManager->combatGrid[v9].occupiersOtherHexIsToLeft = -1;
-  if (this->creature.creature_flags & 1) {
-    v7 = v9 + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
+    int v7 = adjCell + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
     gpCombatManager->combatGrid[v7].unitOwner = LOBYTE(this->owningSide);
     gpCombatManager->combatGrid[v7].stackIdx = LOBYTE(this->stackIdx);
-    gpCombatManager->combatGrid[v7].occupiersOtherHexIsToLeft = v9 <= v7;
-    gpCombatManager->combatGrid[v9].occupiersOtherHexIsToLeft = v9 >= v7;
+    gpCombatManager->combatGrid[v7].occupiersOtherHexIsToLeft = adjCell <= v7;
+    gpCombatManager->combatGrid[adjCell].occupiersOtherHexIsToLeft = adjCell >= v7;
   }
-  this->occupiedHex = v9;
+
+  this->occupiedHex = adjCell;
   if (this->field_8E) {
     this->facingRight = 1 - this->facingRight;
     if (this->creature.creature_flags & TWO_HEXER) {
-      if (this->facingRight)
-        --this->occupiedHex;
-      else
-        ++this->occupiedHex;
+      OccupyHexes(this);
     }
     this->field_8E = 0;
   }
+
   giWalkingFrom = -1;
   giWalkingFrom2 = -1;
   giWalkingTo = -1;
   giWalkingTo2 = -1;
   this->field_6 = 1;
   if (last == 1) {
-    this->animationType = 7;
+    this->animationType = ANIMATION_TYPE_STANDING;
     this->animationFrame = 0;
     gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
   }
