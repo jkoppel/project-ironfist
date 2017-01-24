@@ -105,6 +105,9 @@ unsigned __int8 giNumPowFrames[33] =
 };
 
 void OccupyHexes(army *a) {
+  if (!(a->creature.creature_flags & TWO_HEXER))
+    return;
+
   if (a->facingRight == 1)
     a->occupiedHex--;
   else
@@ -174,11 +177,10 @@ void army::DoAttack(int isRetaliation) {
   if (this->creatureIdx == CREATURE_HYDRA) {
     this->DoHydraAttack(isRetaliation);
   } else {
-    int v18 = this->targetNeighborIdx;
+    int tmpTargetNeighborIdx = this->targetNeighborIdx;
     int targetHex = this->occupiedHex;
     if (this->creature.creature_flags & TWO_HEXER
-      && (!this->facingRight && this->targetNeighborIdx >= 3
-        || this->facingRight == 1 && (this->targetNeighborIdx <= 2 || this->targetNeighborIdx >= 6))) {
+      && (!this->facingRight && this->targetNeighborIdx >= 3 || this->facingRight == 1 && (this->targetNeighborIdx <= 2 || this->targetNeighborIdx >= 6))) {
       if (oldFacingRight)
         targetHex = this->occupiedHex + 1;
       else
@@ -196,6 +198,7 @@ void army::DoAttack(int isRetaliation) {
           secondHexTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[secondTargetHex].unitOwner][gpCombatManager->combatGrid[secondTargetHex].stackIdx];
       }
     }
+
     gpCombatManager->ResetLimitCreature();
     int v2 = 80 * this->owningSide + 4 * this->stackIdx;
     ++*(signed int *)((char *)gpCombatManager->limitCreature[0] + v2);
@@ -205,6 +208,7 @@ void army::DoAttack(int isRetaliation) {
       int v4 = 80 * secondHexTarget->owningSide + 4 * secondHexTarget->stackIdx;
       ++*(signed int *)((char *)gpCombatManager->limitCreature[0] + v4);
     }
+
     gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
     int targetOldFacingRight = primaryTarget->facingRight;
 
@@ -226,12 +230,8 @@ void army::DoAttack(int isRetaliation) {
           ++this->occupiedHex;
       }
       primaryTarget->facingRight = 1 - this->facingRight;
-      if (primaryTarget->facingRight != targetOldFacingRight && primaryTarget->creature.creature_flags & TWO_HEXER) {
-        if (primaryTarget->facingRight == 1)
-          --primaryTarget->occupiedHex;
-        else
-          ++primaryTarget->occupiedHex;
-      }
+      if (primaryTarget->facingRight != targetOldFacingRight)
+        OccupyHexes(primaryTarget);
     }
     this->CheckLuck();
     this->mightBeIsAttacking = 1;
@@ -248,11 +248,10 @@ void army::DoAttack(int isRetaliation) {
     gpSoundManager->MemorySample(this->combatSounds[1]);
 
     int damDone;
-    int damageDone = 0;
     this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
     int v13 = 0; // unused
     if (secondHexTarget)
-      this->DamageEnemy(secondHexTarget, &damageDone, &v13, 0, 0);
+      this->DamageEnemy(secondHexTarget, &v13, &v13, 0, 0);
 
     DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
 
@@ -281,16 +280,15 @@ void army::DoAttack(int isRetaliation) {
           enemyIncapacitated = 1;
         }
         break;
-      case CREATURE_MUMMY:
-        if (SRandom(1, 100) < 20)
-          goto LABEL_97;
-        break;
-      case CREATURE_ROYAL_MUMMY:
-        if (SRandom(1, 100) < 30) {
-        LABEL_97:
+      case CREATURE_MUMMY: case CREATURE_ROYAL_MUMMY:
+        int chance;
+        if (this->creatureIdx == CREATURE_MUMMY)
+          chance = 20;
+        else
+          chance = 30;
+        if (SRandom(1, 100) < chance)
           if (primaryTarget && primaryTarget->SpellCastWorks(SPELL_CURSE))
             primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_CURSE;
-        }
         break;
       case CREATURE_ARCHMAGE:
         if (SRandom(1, 100) < 20 && primaryTarget && primaryTarget->SpellCastWorks(SPELL_ARCHMAGI_DISPEL))
@@ -301,42 +299,6 @@ void army::DoAttack(int isRetaliation) {
         break;
       case CREATURE_VAMPIRE_LORD:
         gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] = creaturesKilled * primaryTarget->creature.hp;
-        break;
-      case CREATURE_SPRITE:
-      case CREATURE_DWARF:
-      case CREATURE_BATTLE_DWARF:
-      case CREATURE_ELF:
-      case CREATURE_GRAND_ELF:
-      case CREATURE_DRUID:
-      case CREATURE_GREATER_DRUID:
-      case CREATURE_PHOENIX:
-      case CREATURE_CENTAUR:
-      case CREATURE_GARGOYLE:
-      case CREATURE_GRIFFIN:
-      case CREATURE_MINOTAUR:
-      case CREATURE_MINOTAUR_KING:
-      case CREATURE_HYDRA:
-      case CREATURE_GREEN_DRAGON:
-      case CREATURE_RED_DRAGON:
-      case CREATURE_BLACK_DRAGON:
-      case CREATURE_HALFLING:
-      case CREATURE_BOAR:
-      case CREATURE_IRON_GOLEM:
-      case CREATURE_STEEL_GOLEM:
-      case CREATURE_ROC:
-      case CREATURE_MAGE:
-      case CREATURE_GIANT:
-      case CREATURE_TITAN:
-      case CREATURE_SKELETON:
-      case CREATURE_ZOMBIE:
-      case CREATURE_MUTANT_ZOMBIE:
-      case CREATURE_VAMPIRE:
-      case CREATURE_LICH:
-      case CREATURE_POWER_LICH:
-      case CREATURE_BONE_DRAGON:
-      case CREATURE_ROGUE:
-      case CREATURE_NOMAD:
-      case CREATURE_GENIE:
         break;
     }
     this->PowEffect(-1, 0, -1, -1);
@@ -397,33 +359,24 @@ void army::DoAttack(int isRetaliation) {
       && this->quantity > 0) {
       DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
       int v16 = this->targetNeighborIdx;
-      this->targetNeighborIdx = v18;
+      this->targetNeighborIdx = tmpTargetNeighborIdx;
       this->DoAttack(1);
       this->targetNeighborIdx = v16;
     }
     if (this->facingRight != oldFacingRight) {
       if (!(this->creature.creature_flags & DEAD)) {
         this->facingRight = oldFacingRight;
-        if (this->creature.creature_flags & TWO_HEXER) {
-          if (oldFacingRight == 1)
-            --this->occupiedHex;
-          else
-            ++this->occupiedHex;
-        }
+        OccupyHexes(this);
       }
       if (!(primaryTarget->creature.creature_flags & DEAD)) {
         if (primaryTarget->facingRight != targetOldFacingRight) {
           primaryTarget->facingRight = targetOldFacingRight;
-          if (primaryTarget->creature.creature_flags & TWO_HEXER) {
-            if (primaryTarget->facingRight == 1)
-              --primaryTarget->occupiedHex;
-            else
-              ++primaryTarget->occupiedHex;
-          }
+          OccupyHexes(primaryTarget);
         }
       }
     }
   }
+
   if (!isRetaliation && (this->effectStrengths[5] || this->effectStrengths[7])) {
     this->CancelSpellType(1);
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
@@ -612,9 +565,7 @@ void army::Walk(signed int dir, int last, int notFirst) {
   this->occupiedHex = adjCell;
   if (this->field_8E) {
     this->facingRight = 1 - this->facingRight;
-    if (this->creature.creature_flags & TWO_HEXER) {
-      OccupyHexes(this);
-    }
+    OccupyHexes(this);
     this->field_8E = 0;
   }
 
@@ -822,9 +773,7 @@ int army::FlyTo(int hexIdx) {
     this->animationFrame = 0;
     if (this->field_8E) {
       this->facingRight = 1 - this->facingRight;
-      if (this->creature.creature_flags & TWO_HEXER) {
-        OccupyHexes(this);
-      }
+      OccupyHexes(this);
       this->field_8E = 0;
     }
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
@@ -1090,12 +1039,10 @@ void army::SpecialAttack() {
   int tmpFacingRight = this->facingRight;
   this->facingRight = targetColumnHex > sourceColumnHex || !(sourceRowHex & 1) && targetColumnHex == sourceColumnHex;
 
-  if (this->facingRight != tmpFacingRight) {
-    if (this->creature.creature_flags & TWO_HEXER) {
+  if (this->facingRight != tmpFacingRight)
       OccupyHexes(this);
-    }
-    gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
-  }
+
+  gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 
   this->CheckLuck();
   gpSoundManager->MemorySample(this->combatSounds[3]);
@@ -1198,9 +1145,7 @@ void army::SpecialAttack() {
   this->PowEffect(animIdx, 0, a4, a5);
 
   if (this->facingRight != tmpFacingRight) {
-    if (this->creature.creature_flags & TWO_HEXER) {
-      OccupyHexes(this);
-    }
+    OccupyHexes(this);
     this->facingRight = tmpFacingRight;
   }
 
