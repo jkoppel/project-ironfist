@@ -543,18 +543,19 @@ void army::Walk(signed int dir, int last, int notFirst) {
     }
   }
   int adjCell = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-  gpCombatManager->combatGrid[adjCell].unitOwner = LOBYTE(this->owningSide);
-  gpCombatManager->combatGrid[adjCell].stackIdx = LOBYTE(this->stackIdx);
-  gpCombatManager->combatGrid[adjCell].occupiersOtherHexIsToLeft = -1;
   gpCombatManager->combatGrid[this->occupiedHex].stackIdx = -1;
   gpCombatManager->combatGrid[this->occupiedHex].unitOwner = -1;
   gpCombatManager->combatGrid[this->occupiedHex].occupiersOtherHexIsToLeft = -1;
-
   if (this->creature.creature_flags & TWO_HEXER) {
     int v4 = this->occupiedHex + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
     gpCombatManager->combatGrid[v4].stackIdx = -1;
     gpCombatManager->combatGrid[v4].unitOwner = -1;
     gpCombatManager->combatGrid[v4].occupiersOtherHexIsToLeft = -1;
+  }
+  gpCombatManager->combatGrid[adjCell].unitOwner = LOBYTE(this->owningSide);
+  gpCombatManager->combatGrid[adjCell].stackIdx = LOBYTE(this->stackIdx);
+  gpCombatManager->combatGrid[adjCell].occupiersOtherHexIsToLeft = -1;
+  if (this->creature.creature_flags & TWO_HEXER) {
     int v7 = adjCell + ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
     gpCombatManager->combatGrid[v7].unitOwner = LOBYTE(this->owningSide);
     gpCombatManager->combatGrid[v7].stackIdx = LOBYTE(this->stackIdx);
