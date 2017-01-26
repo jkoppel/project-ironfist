@@ -1,149 +1,79 @@
 #include <string.h>
 #include "combat/animation.h"
 
+static void AllocAnimation(SMonFrameInfo *frm, int animType, char *animInfo) {
+  memcpy(&frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx[animType],
+          frm->animationLengths[animType]);
+  memcpy(&frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          animInfo,
+          frm->animationLengths[animType]);
+  frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[animType];
+}
+
+static void AllocAnimation2(SMonFrameInfo *frm, int animType, char *animInfo) {
+  memcpy(&frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx,
+          frm->animationLengths[animType]);
+  memcpy(&frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          animInfo,
+          frm->animationLengths[animType]);
+  frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[animType];
+}
+
 void BuildTeleporterTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst, bool closeMove) {
   frm->animationLengths[ANIMATION_TYPE_WALKING] = 0;
-  if (notFirst || !last) {
-    if (notFirst) {
-      if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0 && !closeMove) { // middle
-        memcpy(
-          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-          frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_START_MOVE],
-          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
-        memcpy(
-          &frm->moveAnimInfoIgnored[frm->animationLengths[6]],
-          frm->subStartMoveAnimInfoIgnored,
-          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
-        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE];
-      }
-    } else if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0 && !closeMove) { // first
-      memcpy(
-        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->animationFrameToImgIdx,
-        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
-      memcpy(
-        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->startMoveAnimInfoIgnored,
-        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
-      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_START_MOVE];
-    }
-    if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0 && closeMove) { // doesn't matter
-      memcpy(
-        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->animationFrameToImgIdx[ANIMATION_TYPE_MOVE],
-        frm->animationLengths[ANIMATION_TYPE_MOVE]);
-      memcpy(
-        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->mainMoveAnimInfoIgnored,
-        frm->animationLengths[ANIMATION_TYPE_MOVE]);
-      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_MOVE];
-    }
-    if (last) { // last
-      if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0 && !closeMove) {
-        memcpy(
-          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-          frm->animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE],
-          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
-        memcpy(
-          &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-          frm->endMoveAnimInfoIgnored,
-          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
-        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_END_MOVE];
-      }
-    } else if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) { // middle or first
-      memcpy(
-        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_END_MOVE],
-        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
-      memcpy(
-        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->subEndMoveAnimInfoIgnored,
-        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
-      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE];
-    }
-  } else if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) { // dunno
-    memcpy(
-      &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-      frm->animationFrameToImgIdx[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE],
-      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
-    memcpy(
-      &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-      frm->fullMoveAnimInfoIgnored,
-      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
-    frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE];
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0 && !closeMove) {
+    if (notFirst)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_START_MOVE, frm->subStartMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0 && !closeMove) {
+    if(!notFirst && !last)
+      AllocAnimation2(frm, ANIMATION_TYPE_START_MOVE, frm->startMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0 && closeMove) {
+    if (notFirst || !last)  
+      AllocAnimation(frm, ANIMATION_TYPE_MOVE, frm->mainMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) {
+    if(!last)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_END_MOVE, frm->subEndMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0 && !closeMove) {
+    if (notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_END_MOVE, frm->endMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) {
+    if (!notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE, frm->fullMoveAnimInfoIgnored);
   }
 }
 
 void __fastcall BuildTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst) {
   frm->animationLengths[ANIMATION_TYPE_WALKING] = 0;
-  if (notFirst || !last) {
-    if (notFirst) {
-      if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0) { // middle
-        memcpy(
-          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-          frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_START_MOVE],
-          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
-        memcpy(
-          &frm->moveAnimInfoIgnored[frm->animationLengths[6]],
-          frm->subStartMoveAnimInfoIgnored,
-          frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE]);
-        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE];
-      }
-    } else if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0) { // first
-      memcpy(
-        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->animationFrameToImgIdx,
-        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
-      memcpy(
-        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->startMoveAnimInfoIgnored,
-        frm->animationLengths[ANIMATION_TYPE_START_MOVE]);
-      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_START_MOVE];
-    }
-    if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0) { // doesn't matter
-      memcpy(
-        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->animationFrameToImgIdx[ANIMATION_TYPE_MOVE],
-        frm->animationLengths[ANIMATION_TYPE_MOVE]);
-      memcpy(
-        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->mainMoveAnimInfoIgnored,
-        frm->animationLengths[ANIMATION_TYPE_MOVE]);
-      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_MOVE];
-    }
-    if (last) { // last
-      if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0) {
-        memcpy(
-          &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-          frm->animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE],
-          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
-        memcpy(
-          &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-          frm->endMoveAnimInfoIgnored,
-          frm->animationLengths[ANIMATION_TYPE_END_MOVE]);
-        frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_END_MOVE];
-      }
-    } else if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) { // middle or first
-      memcpy(
-        &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->animationFrameToImgIdx[ANIMATION_TYPE_SUB_END_MOVE],
-        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
-      memcpy(
-        &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-        frm->subEndMoveAnimInfoIgnored,
-        frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE]);
-      frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE];
-    }
-  } else if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) { // dunno
-    memcpy(
-      &frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
-      frm->animationFrameToImgIdx[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE],
-      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
-    memcpy(
-      &frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
-      frm->fullMoveAnimInfoIgnored,
-      frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE]);
-    frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE];
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0) {
+    if (notFirst)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_START_MOVE, frm->subStartMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0) {
+    if(!notFirst && !last)
+      AllocAnimation2(frm, ANIMATION_TYPE_START_MOVE, frm->startMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0) {
+    if (notFirst || !last)  
+      AllocAnimation(frm, ANIMATION_TYPE_MOVE, frm->mainMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) {
+    if(!last)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_END_MOVE, frm->subEndMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0) {
+    if (notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_END_MOVE, frm->endMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) {
+    if (!notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE, frm->fullMoveAnimInfoIgnored);
   }
 }
 
