@@ -1,4 +1,81 @@
+#include <string.h>
 #include "combat/animation.h"
+
+static void AllocAnimation(SMonFrameInfo *frm, int animType, char *animInfo) {
+  memcpy(&frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx[animType],
+          frm->animationLengths[animType]);
+  memcpy(&frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          animInfo,
+          frm->animationLengths[animType]);
+  frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[animType];
+}
+
+static void AllocAnimation2(SMonFrameInfo *frm, int animType, char *animInfo) {
+  memcpy(&frm->animationFrameToImgIdx[ANIMATION_TYPE_WALKING][frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          frm->animationFrameToImgIdx,
+          frm->animationLengths[animType]);
+  memcpy(&frm->moveAnimInfoIgnored[frm->animationLengths[ANIMATION_TYPE_WALKING]],
+          animInfo,
+          frm->animationLengths[animType]);
+  frm->animationLengths[ANIMATION_TYPE_WALKING] += frm->animationLengths[animType];
+}
+
+void BuildTeleporterTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst, bool closeMove) {
+  frm->animationLengths[ANIMATION_TYPE_WALKING] = 0;
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0 && !closeMove) {
+    if (notFirst)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_START_MOVE, frm->subStartMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0 && !closeMove) {
+    if(!notFirst && !last)
+      AllocAnimation2(frm, ANIMATION_TYPE_START_MOVE, frm->startMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0 && closeMove) {
+    if (notFirst || !last)  
+      AllocAnimation(frm, ANIMATION_TYPE_MOVE, frm->mainMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) {
+    if(!last)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_END_MOVE, frm->subEndMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0 && !closeMove) {
+    if (notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_END_MOVE, frm->endMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) {
+    if (!notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE, frm->fullMoveAnimInfoIgnored);
+  }
+}
+
+void __fastcall BuildTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst) {
+  frm->animationLengths[ANIMATION_TYPE_WALKING] = 0;
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_START_MOVE] > 0) {
+    if (notFirst)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_START_MOVE, frm->subStartMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_START_MOVE] > 0) {
+    if(!notFirst && !last)
+      AllocAnimation2(frm, ANIMATION_TYPE_START_MOVE, frm->startMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_MOVE] > 0) {
+    if (notFirst || !last)  
+      AllocAnimation(frm, ANIMATION_TYPE_MOVE, frm->mainMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_SUB_END_MOVE] > 0) {
+    if(!last)
+      AllocAnimation(frm, ANIMATION_TYPE_SUB_END_MOVE, frm->subEndMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_END_MOVE] > 0) {
+    if (notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_END_MOVE, frm->endMoveAnimInfoIgnored);
+  }
+  if (frm->animationLengths[ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE] > 0) {
+    if (!notFirst && last)
+      AllocAnimation(frm, ANIMATION_TYPE_WHOLE_MOVEMENT_CYCLE, frm->fullMoveAnimInfoIgnored);
+  }
+}
 
 SCmbtHero sCmbtHero[13] = {
 	// Knight 
