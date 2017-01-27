@@ -1258,9 +1258,9 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
         toAnimLen = othstack->frameInfo.animationLengths[this->mightBeAttackAnimIdx];
         fromAnimLen = othstack->frameInfo.animationLengths[this->mightBeAttackAnimIdx + 1] + 1;
       } else if (othstack->dead) {
-        oneWayAnimLen = othstack->frameInfo.animationLengths[13];
+        oneWayAnimLen = othstack->frameInfo.animationLengths[ANIMATION_TYPE_DYING];
       } else if (othstack->damageTakenDuringSomeTimePeriod) {
-        oneWayAnimLen = othstack->frameInfo.animationLengths[15] + othstack->frameInfo.animationLengths[14] + 1;
+        oneWayAnimLen = othstack->frameInfo.animationLengths[ANIMATION_TYPE_WINCE_RETURN] + othstack->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] + 1;
       }
       if (maxToAnimLen <= toAnimLen)
         maxToAnimLen = toAnimLen;
@@ -1339,8 +1339,8 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
           creature->field_3 = ANIMATION_TYPE_WINCE;
           creature->field_4 = ANIMATION_TYPE_WINCE_RETURN;
         }
-        if (creature->field_3 == 13)
-          creature->field_5 = creature->frameInfo.animationLengths[13];
+        if (creature->field_3 == ANIMATION_TYPE_DYING)
+          creature->field_5 = creature->frameInfo.animationLengths[ANIMATION_TYPE_DYING];
         else
           creature->field_5 = creature->frameInfo.animationLengths[creature->field_3]
           + creature->frameInfo.animationLengths[creature->field_3 + 1];
@@ -1398,9 +1398,9 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
               creature->animationFrame++;
             }
           } else {
-            if (!gbNoShowCombat && creature->field_3 == 14)
+            if (!gbNoShowCombat && creature->field_3 == ANIMATION_TYPE_WINCE)
               gpSoundManager->MemorySample(creature->combatSounds[2]);
-            if (!gbNoShowCombat && creature->field_3 == 13)
+            if (!gbNoShowCombat && creature->field_3 == ANIMATION_TYPE_DYING)
               gpSoundManager->MemorySample(creature->combatSounds[4]);
             creature->animationType = creature->field_3;
             creature->animationFrame = 0;
