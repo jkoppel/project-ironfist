@@ -902,22 +902,11 @@ void SpecialAttackGraphics(army *attacker, army *target) {
       / (double)attacker->frameInfo.animationLengths[attacker->animationType]);
   }
   attacker->animationFrame = attacker->frameInfo.animationLengths[attacker->animationType] - 1;
-  int v27 = 25;
-  int v18 = 25;
+  int v27 = 100;
+  int v18 = 100;
   int v35 = 31;
   int v22 = 25;
-  if (attacker->creatureIdx == CREATURE_LICH || attacker->creatureIdx == CREATURE_POWER_LICH) {
-    v35 = 26;
-    v22 = 7;
-    v27 = 10;
-    v18 = 10;
-  }
-  if (attacker->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
-    v27 = 100;
-    v18 = 100;
-    v35 = 31;
-    v22 = 25;
-  }
+
   int v20 = 0;
   int offsetX = 639;
   int v15 = 0;
