@@ -1592,7 +1592,7 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     baseDam = 1;
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
-  if(targ->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN && !(targ->creature.creature_flags & RETALIATED))
+  if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && !(targ->creature.creature_flags & RETALIATED))
     baseDam = -2;
   *damageDone = baseDam;
   *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
