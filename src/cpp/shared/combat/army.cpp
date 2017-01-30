@@ -4,7 +4,7 @@
 #include "resource/resourceManager.h"
 #include "scripting/callback.h"
 #include "sound/sound.h"
-#include "spells.h"
+#include "spell/spells.h"
 
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
@@ -301,6 +301,9 @@ void army::DoAttack(int isRetaliation) {
         break;
       case CREATURE_VAMPIRE_LORD:
         gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] = creaturesKilled * primaryTarget->creature.hp;
+        break;
+      case CREATURE_CYBER_SHADOW_ASSASSIN:
+        primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_SHADOW_MARK;
         break;
     }
     this->PowEffect(-1, 0, -1, -1);
@@ -1627,5 +1630,132 @@ void army::MoveAttack(int targHex, int x) {
   if (!(this->creature.creature_flags & DEAD) &&
     CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
     MoveTo(startHex);
+  }
+}
+
+void army::DecrementSpellRounds() {
+  for (int effect = 0; effect < 16; ++effect) {
+    if (this->effectStrengths[effect]) {
+      if (this->effectStrengths[effect] == 1)
+        this->CancelIndividualSpell(effect);
+      else
+        this->effectStrengths[effect]--;
+    }
+  }
+  if (this->lifespan > 0)
+    this->lifespan--;
+}
+
+int army::AddActiveEffect(int effectType, int strength) {
+  ++this->numActiveEffects;
+  this->effectStrengths[effectType] = strength;
+  return 1;
+}
+
+signed int army::SetSpellInfluence(int effectType, signed int strength) {
+  signed int result;
+  __int64 v4;
+  int effect;
+
+  if (this->effectStrengths[effectType]) {
+    if (this->effectStrengths[effectType] < strength)
+      this->effectStrengths[effectType] = strength;
+    return 0;
+  } else {
+    switch (effectType) {
+    case EFFECT_HASTE:
+      this->CancelIndividualSpell(EFFECT_SLOW);
+      this->creature.speed += 2;
+      this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 0.65);
+      break;
+    case EFFECT_SLOW:
+      this->CancelIndividualSpell(0);
+      v4 = (signed int)this->creature.speed + 1;
+      this->creature.speed = ((signed int)v4 - v4) >> 1;
+      if (this->creature.creature_flags & 2)
+        this->creature.creature_flags -= 2;
+      this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 1.5);
+      break;
+    case EFFECT_BLESS:
+      this->CancelIndividualSpell(EFFECT_CURSE);
+      break;
+    case EFFECT_CURSE:
+      this->CancelIndividualSpell(EFFECT_BLESS);
+      break;
+    case EFFECT_BERSERKER:
+      this->CancelIndividualSpell(EFFECT_HYPNOTIZE);
+      break;
+    case EFFECT_HYPNOTIZE:
+      this->CancelIndividualSpell(EFFECT_BERSERKER);
+      break;
+    case EFFECT_BLOOD_LUST:
+      this->creature.attack += 3;
+      break;
+    case EFFECT_ANTI_MAGIC:
+      for (effect = 0; (signed int)effect < 15; ++effect)
+        this->CancelIndividualSpell(effect);
+      break;
+    case EFFECT_STONESKIN:
+      if (this->effectStrengths[14]) {
+        return 0;
+      } else {
+        this->creature.defense += 3;
+        break;
+      }
+    case EFFECT_STEELSKIN:
+      this->CancelIndividualSpell(EFFECT_STONESKIN);
+      this->creature.defense += 5;
+      break;
+    case EFFECT_BLIND:
+    case EFFECT_PARALYZE:
+    case EFFECT_DRAGON_SLAYER:
+    case EFFECT_SHIELD:
+    case EFFECT_PETRIFY:
+      break;
+    case EFFECT_SHADOW_MARK:
+      this->creature.defense -= 5;
+      if (this->creature.defense < 1)
+        this->creature.defense = 1;
+      break;
+    }
+    return this->AddActiveEffect(effect, strength);
+  }
+}
+
+void army::CancelIndividualSpell(int effect) {
+  if (this->effectStrengths[effect]) {
+    --this->numActiveEffects;
+    this->effectStrengths[effect] = 0;
+    switch (effect) {
+    case EFFECT_HASTE:
+    case EFFECT_SLOW:
+      this->creature.speed = LOBYTE(this->speed);
+      this->frameInfo.stepTime = this->field_B2;
+      this->creature.creature_flags |= gMonsterDatabase[this->creatureIdx].creature_flags & FLYER;
+      break;
+    case EFFECT_BLOOD_LUST:
+      this->creature.attack -= 3;
+      break;
+    case EFFECT_STONESKIN:
+      this->creature.defense -= 3;
+      break;
+    case EFFECT_STEELSKIN:
+      this->creature.defense -= 5;
+      break;
+    case EFFECT_SHADOW_MARK:
+      this->creature.defense = gMonsterDatabase[this->creatureIdx].defense;
+      break;
+    case EFFECT_BLIND:
+    case EFFECT_BLESS:
+    case EFFECT_CURSE:
+    case EFFECT_BERSERKER:
+    case EFFECT_PARALYZE:
+    case EFFECT_HYPNOTIZE:
+    case EFFECT_DRAGON_SLAYER:
+    case EFFECT_SHIELD:
+    case EFFECT_PETRIFY:
+    case EFFECT_ANTI_MAGIC:
+      return;
+    }
   }
 }

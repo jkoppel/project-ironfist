@@ -6,7 +6,7 @@
 #include "artifacts.h"
 #include "skills.h"
 #include "sound/sound.h"
-#include "spells.h"
+#include "spell/spells.h"
 
 #include "gui/dialog.h"
 

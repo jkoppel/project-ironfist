@@ -5,6 +5,7 @@
 #include "combat/creatures.h"
 #include "graphics.h"
 #include "resource/resources.h"
+#include "spell/spells.h"
 
 #pragma pack(push, 1)
 class army {
@@ -63,7 +64,7 @@ public:
   int yDrawOffset;
   int xDrawOffset;
   int numActiveEffects;
-  char effectStrengths[19];
+  char effectStrengths[19]; // spell remaining rounds
   int field_11D;
   int hitByHydraAttack;
   void *field_125;
@@ -102,6 +103,10 @@ public:
   void DrawToBuffer(int centX, int standingBotY, int a4);
   int Damage(long baseDam, int spell);
   bool IsCloseMove(int toHexIdx);
+  void DecrementSpellRounds();
+  void CancelIndividualSpell(int effect);
+  signed int SetSpellInfluence(int effectType, signed int strength);
+  int AddActiveEffect(int effectType, int strength);
 };
 
 #pragma pack(pop)

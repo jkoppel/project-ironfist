@@ -17,7 +17,7 @@ struct SSpellInfo {
   char nonMagicFactionAppearanceChance;
   int field_10;
   char field_14;
-  unsigned __int8 attributes;
+  char attributes;
 };
 
 SSpellInfo gsSpellInfo[];
@@ -91,6 +91,7 @@ enum Spell : int {
 
   SPELL_MEDUSA_PETRIFY = 101,
   SPELL_ARCHMAGI_DISPEL = 102,
+  SPELL_SHADOW_MARK = 103,
   SPELL_NONE = -1,
 
   SPELL_AWARENESS = 65,
@@ -111,7 +112,7 @@ enum SPELL_CATEGORY {
   SPELL_CATEGORY_ALL = 2,
 };
 
-enum STACK_MODIFYING_EFFECT {
+enum STACK_MODIFYING_EFFECT : __int16 {
   EFFECT_HASTE = 0,
   EFFECT_SLOW = 1,
   EFFECT_BLIND = 2,
@@ -127,6 +128,7 @@ enum STACK_MODIFYING_EFFECT {
   EFFECT_ANTI_MAGIC = 12,
   EFFECT_STONESKIN = 13,
   EFFECT_STEELSKIN = 14,
+  EFFECT_SHADOW_MARK = 16
 };
 
 char* gSpellNames[];
