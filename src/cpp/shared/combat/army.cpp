@@ -1329,6 +1329,18 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
         } else {
           creature->field_3 = ANIMATION_TYPE_WINCE;
           creature->field_4 = ANIMATION_TYPE_WINCE_RETURN;
+          if(creature->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+            if (!(creature->creature.creature_flags & RETALIATED)) {
+              int dodgeAnimLen = 7;
+              creature->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+              for (int p = 0; p < dodgeAnimLen; p++)
+                creature->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
+            } else { // revert to usual animations after the first received attack
+              int winceAnimLen = 1;
+              creature->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+              creature->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
+            }
+          }
         }
         if (creature->field_3 == ANIMATION_TYPE_DYING)
           creature->field_5 = creature->frameInfo.animationLengths[ANIMATION_TYPE_DYING];
