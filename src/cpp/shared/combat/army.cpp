@@ -139,6 +139,8 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
 
   if (damageDone == -1) {
     sprintf(gText, "The mirror image is destroyed!");
+  } else if (damageDone == -2) {
+    sprintf(gText, "Cyber Shadow Assasins dodge the attack!");
   } else if (gbGenieHalf) {
     sprintf(gText, "%s %s half the enemy troops!", attackingCreature, (attacker->quantity > 1) ? "damage" : "damages");
   } else if (creaturesKilled <= 0) {
@@ -1590,6 +1592,8 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     baseDam = 1;
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
+  if(targ->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN && !(targ->creature.creature_flags & RETALIATED))
+    baseDam = -2;
   *damageDone = baseDam;
   *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
 }
