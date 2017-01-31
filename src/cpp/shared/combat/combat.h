@@ -90,8 +90,8 @@ public:
   char field_33A1;
   char field_33A2;
   char field_33A3[2];
-  int heroIconIdxRelated[2];
-  int countRelatedToSpellAnimation[2];
+  int heroAnimationType[2];
+  int heroAnimationFrameCount[2];
   int heroType[2];
   int field_33BD[2];
   icon *heroIcon[2];
@@ -113,7 +113,7 @@ public:
   int field_3543;
   int numCreatures[2];
   army creatures[2][21];
-  int otherCurrentSideThing;
+  int otherCurrentSideThing; // activeStackOwner
   int someSortOfStackIdx;
   int field_F2AB;
   int currentActionSide;
@@ -194,6 +194,27 @@ public:
   void LowerDoor();
   void TestRaiseDoor();
   int ShotIsThroughWall(int side, signed int occupiedHex, signed int targHex);
+  signed int CheckApplyBadMorale(int side, int stackIdx);
+  void GetControl();
+  void CheckCastleAttack();
+  void ModifyDamageForArtifacts(long *, int, hero *, hero *);
+  void RippleCreature(int side, int stackIdx, int a4);
+  void DoBlast(int hexIdx, int spell);
+  void ChainLightning(int targetHex, int power);
+  void CastMassSpell(int spell, signed int spellpower);
+  void MirrorImage(int hex);
+  void ShowSpellMessage(int a2, int spell, army *stack);
+  void BloodLustEffect(army *a2, int flagAdditions);
+  void TurnToStone(army *stack);
+  void Fireball(int hexIdx, int spell);
+  void MeteorShower(int);
+  void ElementalStorm();
+  void Armageddon();
+  void Earthquake();
+  void DefaultSpell(int hexIdx);
+  void ShowSpellCastFailure(army *, int);
+  void CheckChangeSelector();
+  void ShootMissile(int, int, int, int, float *, icon *);
 };
 
 extern combatManager* gpCombatManager;

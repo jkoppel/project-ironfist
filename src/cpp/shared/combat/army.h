@@ -107,6 +107,10 @@ public:
   void CancelIndividualSpell(int effect);
   signed int SetSpellInfluence(int effectType, signed int strength);
   int AddActiveEffect(int effectType, int strength);
+  void SpellEffect(int animationIdx, signed int a3, int a4);
+  void Cure(int spellpower);
+  void DispelGood();
+  void InitClean();
 };
 
 #pragma pack(pop)

@@ -74,7 +74,8 @@ char *gSpellNames[] = {
   "Set Air Guardian",
   "Set Fire Guardian",
   "Set Water Guardian",
-  "Awareness"
+  "Awareness",
+  "Shadow Mark"
 };
 
 char *gSpellDesc[] =
@@ -144,7 +145,8 @@ char *gSpellDesc[] =
   "{Set Air Guardian}\n\nSets Air Elementals to guard a mine against enemy armies.",
   "{Set Fire Guardian}\n\nSets Fire Elementals to guard a mine against enemy armies.",
   "{Set Water Guardian}\n\nSets Water Elementals to guard a mine against enemy armies.",
-  "{Awareness}\n\nExplores a large area around your hero."
+  "{Awareness}\n\nExplores a large area around your hero.",
+  "{Shadow Mark}\n\nMarked creature receives 150% damage from your troops for 1 turn"
 };
 
 SSpellInfo gsSpellInfo[] = {
@@ -216,6 +218,7 @@ SSpellInfo gsSpellInfo[] = {
 
 	//awareness
 	{"", 1, 55, 0, 700, 20, 10, 0, 0, ATTR_ADVENTURE_SPELL},
+  {"", 1, 15, 23, 150, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
 };
 
 #define DD_MOVEMENT_COST 225

@@ -1718,7 +1718,7 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
         this->creature.defense = 1;
       break;
     }
-    return this->AddActiveEffect(effect, strength);
+    return this->AddActiveEffect(effectType, strength);
   }
 }
 
@@ -1758,4 +1758,23 @@ void army::CancelIndividualSpell(int effect) {
       return;
     }
   }
+}
+
+void army::InitClean() {
+  for (int i = 0; i < 7; ++i)
+    this->combatSounds[i] = 0;
+  this->lifespan = -1;
+  this->numActiveEffects = 0;
+  for(int i = 0; i < 19; i++) {
+    this->effectStrengths[i] = 0;
+  }
+  this->baseFidgetTime = KBTickCount();
+  this->field_11D = 1;
+  this->creatureIcon = 0;
+  this->probablyIsNeedDrawSpellEffect = 0;
+  this->spellEnemyCreatureAbilityIsCasting = -1;
+  this->mirroredIdx = -1;
+  this->mirrorIdx = -1;
+  this->armyIdx = -1;
+  this->previousQuantity = -1;
 }
