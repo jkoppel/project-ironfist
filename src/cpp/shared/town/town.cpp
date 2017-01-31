@@ -236,7 +236,7 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 				GUISetImgIdx(mageGuildWindow, SPELL_SCROLLS+4*i+j, 0);
 				GUISetImgIdx(mageGuildWindow,
 							 SPELL_ICONS+4*i+j,
-							  gsSpellInfo[this->castle->mageGuildSpells[i][j]].spriteIdx);
+							  gsSpellInfo[this->castle->mageGuildSpells[i][j]].magicBookIconIdx);
 				if(smallFont->LineLength(gSpellNames[this->castle->mageGuildSpells[i][j]], 74) == 1 ) {
 					int c = GetManaCost(this->castle->mageGuildSpells[i][j]);
 					sprintf(gText, "%s\n[%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);

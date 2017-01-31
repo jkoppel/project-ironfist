@@ -5,13 +5,13 @@
 
 #pragma pack(push, 1)
 
-#define NUM_SPELLS 66
+#define NUM_SPELLS 67
 
 struct SSpellInfo {
   char soundName[9];
   char level;
-  char spriteIdx;
-  char creatureEffectAnimationIdx;
+  char magicBookIconIdx;
+  char creatureEffectAnimationIdx; // gCombatFxNames
   __int16 appearingChance;
   char cost;
   char nonMagicFactionAppearanceChance;

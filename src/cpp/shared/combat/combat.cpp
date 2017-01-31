@@ -773,7 +773,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       break;
     case SPELL_SHADOW_MARK:
       stack->SetSpellInfluence(EFFECT_SHADOW_MARK, 1);
-      stack->SpellEffect((unsigned __int8)gsSpellInfo[18].creatureEffectAnimationIdx, 0, 0);
+      stack->SpellEffect(gsSpellInfo[SPELL_SHADOW_MARK].creatureEffectAnimationIdx, 0, 0);
       // add graphics
       break;
     default:
