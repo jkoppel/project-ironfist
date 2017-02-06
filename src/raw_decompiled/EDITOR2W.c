@@ -28,7 +28,7 @@ void __thiscall editManager::UpdateCursor(editManager *this);
 void __thiscall editManager::UpdateCursorTo(editManager *this, int left, int top);
 void __thiscall sub_40365F(editManager *this, int a2);
 void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, int editWindowX, int editWindowY, char renderPass);
-void __thiscall sub_404A83(int ecx0);
+void __thiscall sub_404A83(editManager *ecx0);
 void __thiscall editManager::SelectToolbox(editManager *this, int toolBoxNo);
 void __thiscall sub_404EC0(int this, int a2, int a3);
 mouseManager *__thiscall sub_404FDC(int this, int a2);
@@ -193,8 +193,8 @@ BOOL __cdecl CleanUpWinGraphics();
 void __thiscall SetFullScreenStatus(void *this);
 signed int __cdecl QueryNewPalette();
 signed int __thiscall SetGraphicsType(void *this);
-int __thiscall sub_418C30(editManager *, void **a1);
-signed int __thiscall sub_418DE3(int this);
+void __thiscall sub_418C30(editManager *, void **a1);
+signed int __fastcall sub_418DE3(tag_message *msg);
 signed int __fastcall GetMapHeader(char *filnam, SMapHeader *buf);
 // _DWORD __fastcall ShowThisMap(char *); weak
 int __thiscall fileRequester::InitializeFiles(void *this, int a2, int a3, int a4);
@@ -363,7 +363,7 @@ void __thiscall CycleColors(void *this);
 // heroWindowManager *__thiscall heroWindowManager::heroWindowManager(heroWindowManager *this);
 // _DWORD __stdcall heroWindowManager::AddWindow(_DWORD, _DWORD, _DWORD); weak
 // _DWORD __stdcall heroWindowManager::RemoveWindow(_DWORD); weak
-// _DWORD __stdcall heroWindowManager::DoDialog(_DWORD, _DWORD, _DWORD); weak
+// int __thiscall heroWindowManager::DoDialog(void *ecx0, heroWindow *this, int (__thiscall *a3)(_DWORD), int a4);
 // void __thiscall heroWindowManager::UpdateScreen(void *this);
 // void __stdcall heroWindowManager::UpdateScreenRegion(int a1, int a2, int a3, int a4);
 void __thiscall heroWindowManager::FadeScreen(void *this, int a2, signed int a3, int a4);
@@ -26627,7 +26627,7 @@ signed int __thiscall editManager::Main(editManager *this, int a2)
             sub_41C370();
             return 0;
           case 0x6F:
-            sub_404A83((int)this);
+            sub_404A83(this);
             return 0;
           case 0x75:
             goto LABEL_23;
@@ -27866,36 +27866,36 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
 // 48A17C: using guessed type int dword_48A17C;
 
 //----- (00404A83) --------------------------------------------------------
-void __thiscall sub_404A83(int ecx0)
+void __thiscall sub_404A83(editManager *ecx0)
 {
-  int this; // [sp+Ch] [bp-4h]@1
+  editManager *this; // [sp+Ch] [bp-4h]@1
 
   this = ecx0;
-  if ( *(_DWORD *)(ecx0 + 610) )
+  if ( ecx0->cursorType )
   {
-    if ( *(_DWORD *)(ecx0 + 610) == 2 )
+    if ( ecx0->cursorType == 2 )
     {
-      *(_DWORD *)(ecx0 + 610) = 1;
-      sub_404EC0(ecx0, 14, 14);
+      ecx0->cursorType = 1;
+      sub_404EC0((int)ecx0, 14, 14);
     }
     else
     {
-      *(_DWORD *)(ecx0 + 610) = 0;
-      sub_404EC0(ecx0, 7, 7);
+      ecx0->cursorType = 0;
+      sub_404EC0((int)ecx0, 7, 7);
     }
   }
   else if ( MAP_HEIGHT == 36 )
   {
-    *(_DWORD *)(ecx0 + 610) = 1;
-    sub_404EC0(ecx0, -7, -7);
+    ecx0->cursorType = 1;
+    sub_404EC0((int)ecx0, -7, -7);
   }
   else
   {
-    *(_DWORD *)(ecx0 + 610) = 2;
-    sub_404EC0(ecx0, -21, -21);
+    ecx0->cursorType = 2;
+    sub_404EC0((int)ecx0, -21, -21);
   }
-  editManager::UpdateCursorTo((editManager *)this, *(_DWORD *)(this + 3730), *(_DWORD *)(this + 3734));
-  sub_40365F((editManager *)this, 1);
+  editManager::UpdateCursorTo(this, this->cellLeft, this->cellTop);
+  sub_40365F(this, 1);
   RedrawEditPane();
 }
 
@@ -31303,7 +31303,7 @@ signed int __stdcall sub_40E634(int a1, int a2, int a3)
 //----- (0040E712) --------------------------------------------------------
 int __cdecl sub_40E712()
 {
-  void *v1; // [sp+38h] [bp-8h]@2
+  heroWindow *v1; // [sp+38h] [bp-8h]@2
   int v2; // [sp+3Ch] [bp-4h]@6
 
   if ( operator new(0x44u) )
@@ -31312,7 +31312,7 @@ int __cdecl sub_40E712()
     v1 = 0;
   if ( !v1 )
     MemError();
-  heroWindowManager::DoDialog(v1, sub_40E7FD, 0);
+  heroWindowManager::DoDialog(gpWindowManager, v1, sub_40E7FD, 0);
   operator delete(v1);
   v2 = -1;
   switch ( gpWindowManager->buttonPressedCode )
@@ -31328,7 +31328,6 @@ int __cdecl sub_40E712()
   }
   return v2;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 
 //----- (0040E7FD) --------------------------------------------------------
 signed int __thiscall sub_40E7FD(int this)
@@ -31451,13 +31450,12 @@ LSTATUS __cdecl combatManager::CombatSystemOptions()
     MemError();
   SetWinText(CSPanel, 3);
   UpdateCombatSystemOptions((void *)1);
-  heroWindowManager::DoDialog(CSPanel, CombatSystemOptionsHandler, 0);
+  heroWindowManager::DoDialog(gpWindowManager, CSPanel, (int (__thiscall *)(_DWORD))CombatSystemOptionsHandler, 0);
   result = operator delete(CSPanel);
   if ( bCPrefsChanged )
     result = WritePrefs();
   return result;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 489E14: using guessed type int bCPrefsChanged;
 
 //----- (0040EBC3) --------------------------------------------------------
@@ -31876,7 +31874,7 @@ void __cdecl sub_40F8AC()
 int __cdecl oldmain()
 {
   char Dest; // [sp+1Ch] [bp-138h]@13
-  void *v2; // [sp+148h] [bp-Ch]@3
+  heroWindow *v2; // [sp+148h] [bp-Ch]@3
   int v3; // [sp+14Ch] [bp-8h]@3
   int v4; // [sp+150h] [bp-4h]@3
 
@@ -31904,7 +31902,7 @@ int __cdecl oldmain()
       v2 = 0;
     if ( !v2 )
       MemError();
-    heroWindowManager::DoDialog(v2, sub_41C290, 0);
+    heroWindowManager::DoDialog(gpWindowManager, v2, (int (__thiscall *)(_DWORD))sub_41C290, 0);
     operator delete(v2);
     v3 = gpWindowManager->buttonPressedCode;
     dword_46AEC8 = 0;
@@ -31963,7 +31961,6 @@ LABEL_17:
 // 42FDB0: using guessed type int __thiscall mouseManager__ShowColorPointer(_DWORD);
 // 431010: using guessed type _DWORD __stdcall resourceManager__GetFont(_DWORD);
 // 4310B0: using guessed type _DWORD __stdcall resourceManager__Dispose(_DWORD);
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 436D00: using guessed type _DWORD __stdcall executive__RemoveManager(_DWORD);
 // 46AAAC: using guessed type int bigFont;
 // 46AE34: using guessed type int giCurExe;
@@ -32321,14 +32318,13 @@ int __fastcall NormalDialog(char *text, int a2, int a3, signed int a4, int a5, i
   }
   else
   {
-    heroWindowManager::DoDialog(dword_48E914, sub_410918, 0);
+    heroWindowManager::DoDialog(gpWindowManager, dword_48E914, sub_410918, 0);
   }
   return operator delete(dword_48E914);
 }
 // 4109EB: using guessed type void __fastcall QuickViewWait();
 // 432040: using guessed type _DWORD __stdcall heroWindowManager__AddWindow(_DWORD, _DWORD, _DWORD);
 // 432100: using guessed type _DWORD __stdcall heroWindowManager__RemoveWindow(_DWORD);
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 
 //----- (00410918) --------------------------------------------------------
 signed int __thiscall sub_410918(int this)
@@ -34212,7 +34208,7 @@ int __thiscall eventsManager::DefaultEdit(eventsManager *this, int x, int y)
     sprintf(buf, "%d", gpExaminedCell->ovrLink);
     evt.yCoordOrFieldID = 713;
     heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
-    heroWindowManager::DoDialog(gpCellEditDialog, DebugCellEditHandler, 0);
+    heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, (int (__thiscall *)(_DWORD))DebugCellEditHandler, 0);
     operator delete(gpCellEditDialog);
     if ( gpWindowManager->buttonPressedCode == 30721 )
       memcpy(&gpMap.tiles[x] + y * gpMap.width, &v7, 0x14u);
@@ -34237,7 +34233,6 @@ int __thiscall eventsManager::DefaultEdit(eventsManager *this, int x, int y)
   }
   return result;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 48E288: using guessed type int giDebugLevel;
 
 //----- (00414CAC) --------------------------------------------------------
@@ -34392,7 +34387,7 @@ _DWORD __thiscall eventsManager::EditUltimateArtifactOrMonster(eventsManager *th
   evt.yCoordOrFieldID = 522;
   evt.payload = &Dest;
   heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
-  heroWindowManager::DoDialog(gpCellEditDialog, sub_4152C8, 0);
+  heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, sub_4152C8, 0);
   operator delete(gpCellEditDialog);
   if ( gpWindowManager->buttonPressedCode != 30721 )
   {
@@ -34403,7 +34398,6 @@ _DWORD __thiscall eventsManager::EditUltimateArtifactOrMonster(eventsManager *th
   RedrawEditPane();
   return result;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 48F1A4: using guessed type int dword_48F1A4;
 // 48F1C8: using guessed type int dword_48F1C8;
 
@@ -34571,13 +34565,12 @@ bool __cdecl sub_415574()
     heroWindow::AddWidget(dword_484160, (widget *)*(&dword_48F190 + j), -1);
   }
   sub_415889();
-  heroWindowManager::DoDialog(dword_484160, sub_415C06, 0);
+  heroWindowManager::DoDialog(gpWindowManager, dword_484160, sub_415C06, 0);
   operator delete(dword_484160);
   dword_484160 = 0;
   sub_415A3F(-1);
   return gpWindowManager->buttonPressedCode != 30721;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 
 //----- (00415889) --------------------------------------------------------
 int __cdecl sub_415889()
@@ -34931,7 +34924,7 @@ _DWORD __thiscall eventsManager::EditSign(eventsManager *this, int x, int y)
     evt.yCoordOrFieldID = 100;
     heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
     sub_416620(gEditSignHeader);
-    heroWindowManager::DoDialog(gpCellEditDialog, EditSignHandler, 0);
+    heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, (int (__thiscall *)(_DWORD))EditSignHandler, 0);
     operator delete(gpCellEditDialog);
     if ( gpWindowManager->buttonPressedCode != 30721 )
     {
@@ -34961,7 +34954,6 @@ _DWORD __thiscall eventsManager::EditSign(eventsManager *this, int x, int y)
   return result;
 }
 // 416620: using guessed type _DWORD __stdcall sub_416620(_DWORD);
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 
 //----- (00416620) --------------------------------------------------------
 int __stdcall sub_416620(int a1)
@@ -36093,9 +36085,8 @@ signed int __thiscall SetGraphicsType(void *this)
 // 48EAD0: using guessed type int gpBufferPalette;
 
 //----- (00418C30) --------------------------------------------------------
-int __thiscall sub_418C30(editManager *this, void **a1)
+void __thiscall sub_418C30(editManager *this, void **a1)
 {
-  int result; // eax@9
   tag_message evt; // [sp+1Ch] [bp-20h]@4
   int i; // [sp+38h] [bp-4h]@4
 
@@ -36105,7 +36096,7 @@ int __thiscall sub_418C30(editManager *this, void **a1)
   else
     gpCellEditDialog = 0;
   evt.eventCode = 512;
-  evt.xCoordOrKeycode = 3;
+  evt.xCoordOrKeycode = GUI_MESSAGE_SET_CONTENTS;
   evt.payload = &gText;
   evt.yCoordOrFieldID = 101;
   strcpy((char *)&gText, "Spell Scroll");
@@ -36113,7 +36104,7 @@ int __thiscall sub_418C30(editManager *this, void **a1)
   evt.yCoordOrFieldID = 102;
   strcpy((char *)&gText, "Attach Spell");
   heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
-  evt.xCoordOrKeycode = 56;
+  evt.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
   evt.yCoordOrFieldID = 100;
   for ( i = 0; i < 65; ++i )
   {
@@ -36124,7 +36115,7 @@ int __thiscall sub_418C30(editManager *this, void **a1)
   evt.xCoordOrKeycode = 54;
   evt.payload = *a1;
   heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
-  heroWindowManager::DoDialog(gpCellEditDialog, sub_418DE3, 0);
+  heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, (int (__thiscall *)(_DWORD))sub_418DE3, 0);
   operator delete(gpCellEditDialog);
   if ( gpWindowManager->buttonPressedCode != 30721 )
   {
@@ -36133,53 +36124,49 @@ int __thiscall sub_418C30(editManager *this, void **a1)
   }
   editManager::UpdateCursor(gpEditManager);
   RedrawEditPane();
-  return result;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 46CE80: using guessed type char *off_46CE80[65];
 // 48F6B8: using guessed type int dword_48F6B8;
 
 //----- (00418DE3) --------------------------------------------------------
-signed int __thiscall sub_418DE3(int this)
+signed int __fastcall sub_418DE3(tag_message *msg)
 {
-  signed int v2; // [sp+14h] [bp-14h]@3
+  int v2; // [sp+14h] [bp-14h]@3
   int v3; // [sp+18h] [bp-10h]@2
-  int v4; // [sp+1Ch] [bp-Ch]@1
-  int evt; // [sp+20h] [bp-8h]@1
+  INPUT_EVENT_CODE evtCode; // [sp+1Ch] [bp-Ch]@1
 
-  evt = this;
-  v4 = *(_DWORD *)this;
-  if ( v4 == 1 )
+  evtCode = msg->eventCode;
+  if ( evtCode == 1 )
   {
-    if ( *(_DWORD *)(this + 4) == 1 )
+    if ( msg->xCoordOrKeycode == 1 )
     {
-      *(_DWORD *)this = 512;
-      *(_DWORD *)(this + 8) = 10;
-      *(_DWORD *)(this + 4) = *(_DWORD *)(this + 8);
+      msg->eventCode = 512;
+      msg->yCoordOrFieldID = 10;
+      msg->xCoordOrKeycode = msg->yCoordOrFieldID;
       return 2;
     }
   }
-  else if ( v4 == 512 )
+  else if ( evtCode == 512 )
   {
-    v3 = *(_DWORD *)(this + 4);
+    v3 = msg->xCoordOrKeycode;
     if ( v3 == 12 )
     {
-      if ( *(_DWORD *)(this + 8) == 100 )
+      if ( msg->yCoordOrFieldID == 100 )
       {
-        *(_DWORD *)(this + 4) = 55;
-        heroWindow::BroadcastMessage(gpCellEditDialog, (tag_message *)this);
-        dword_48F6B8 = *(_DWORD *)(evt + 24);
+        msg->xCoordOrKeycode = 55;
+        heroWindow::BroadcastMessage(gpCellEditDialog, msg);
+        dword_48F6B8 = (int)msg->payload;
       }
     }
     else if ( v3 == 13 )
     {
-      v2 = *(_DWORD *)(this + 8);
+      v2 = msg->yCoordOrFieldID;
       if ( v2 >= 30721 && v2 <= 30722 )
       {
-        gpWindowManager->buttonPressedCode = *(_DWORD *)(this + 8);
-        *(_DWORD *)this = 512;
-        *(_DWORD *)(this + 8) = 10;
-        *(_DWORD *)(this + 4) = *(_DWORD *)(this + 8);
+        gpWindowManager->buttonPressedCode = msg->yCoordOrFieldID;
+        msg->eventCode = 512;
+        msg->yCoordOrFieldID = 10;
+        msg->xCoordOrKeycode = msg->yCoordOrFieldID;
         return 2;
       }
     }
@@ -37175,7 +37162,7 @@ int __thiscall fileRequester::GetFilename(int this)
 int __cdecl sub_41BD90()
 {
   int v1; // [sp+Ch] [bp-14h]@6
-  void *v2; // [sp+1Ch] [bp-4h]@2
+  heroWindow *v2; // [sp+1Ch] [bp-4h]@2
 
   if ( operator new(0x44u) )
     v2 = heroWindow::heroWindow(405, 8, "stpenew.bin");
@@ -37183,7 +37170,7 @@ int __cdecl sub_41BD90()
     v2 = 0;
   if ( !v2 )
     MemError();
-  heroWindowManager::DoDialog(v2, ExpLoadCampaignHandler, 0);
+  heroWindowManager::DoDialog(gpWindowManager, v2, (int (__thiscall *)(_DWORD))ExpLoadCampaignHandler, 0);
   operator delete(v2);
   v1 = gpWindowManager->buttonPressedCode;
   switch ( v1 )
@@ -37199,14 +37186,13 @@ int __cdecl sub_41BD90()
   }
   return sub_41BE93() != 0;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 485220: using guessed type int gbDoRandomMap;
 
 //----- (0041BE93) --------------------------------------------------------
 signed int __cdecl sub_41BE93()
 {
   int v1; // [sp+Ch] [bp-14h]@6
-  void *v2; // [sp+1Ch] [bp-4h]@2
+  heroWindow *v2; // [sp+1Ch] [bp-4h]@2
 
   if ( operator new(0x44u) )
     v2 = heroWindow::heroWindow(405, 8, "stpesize.bin");
@@ -37214,7 +37200,7 @@ signed int __cdecl sub_41BE93()
     v2 = 0;
   if ( !v2 )
     MemError();
-  heroWindowManager::DoDialog(v2, SetupMultiPlayerGameHandler, 0);
+  heroWindowManager::DoDialog(gpWindowManager, v2, (int (__thiscall *)(_DWORD))SetupMultiPlayerGameHandler, 0);
   operator delete(v2);
   v1 = gpWindowManager->buttonPressedCode;
   if ( v1 <= 30721 )
@@ -37241,7 +37227,6 @@ signed int __cdecl sub_41BE93()
   }
   return 1;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 
 //----- (0041BFB9) --------------------------------------------------------
 signed int __thiscall ExpLoadCampaignHandler(void *this)
@@ -37468,7 +37453,7 @@ bool __cdecl sub_41C370()
   evt.payload = (void *)(unsigned __int8)gpMapHeader.field_22;
   heroWindow::BroadcastMessage(dword_485248, &evt);
   sub_41D5F6();
-  heroWindowManager::DoDialog(dword_485248, sub_41E24C, 0);
+  heroWindowManager::DoDialog(gpWindowManager, dword_485248, (int (__thiscall *)(_DWORD))sub_41E24C, 0);
   operator delete(dword_485248);
   dword_485248 = 0;
   editManager::UpdateCursor(gpEditManager);
@@ -37477,7 +37462,6 @@ bool __cdecl sub_41C370()
     memcpy(&gpMapHeader, &v7, sizeof(gpMapHeader));
   return gpWindowManager->buttonPressedCode != 30721;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 46B660: using guessed type char *off_46B660[10];
 // 46B678: using guessed type char *off_46B678[4];
 // 485244: using guessed type int dword_485244;
@@ -38524,7 +38508,7 @@ void __thiscall eventsManager::EditTown(eventsManager *this, int x, int y)
       heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
     }
     FillInTownEdit(&gEditTownExtra);
-    heroWindowManager::DoDialog(gpCellEditDialog, EditTownHandler, 0);
+    heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, (int (__thiscall *)(_DWORD))EditTownHandler, 0);
     operator delete(gpCellEditDialog);
     if ( gpWindowManager->buttonPressedCode != 30721 )
     {
@@ -38542,7 +38526,6 @@ void __thiscall eventsManager::EditTown(eventsManager *this, int x, int y)
     NormalDialog("Unable to edit town - created under old editor", 1, -1, -1, -1, 0, -1, 0, -1, 0);
   }
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 46BFE0: using guessed type char *gArmyNames[133];
 // 48F6C8: using guessed type TownExtra gEditTownExtra;
 
@@ -40378,7 +40361,7 @@ int __thiscall overlayManager::SelectObject(overlayManager *ecx0, int objType)
   inputManager::Flush(gpInputManager);
   heroWindowManager::AddWindow(ecx0->selectionWindow, -1, 0);
   sub_4230AC(ecx0, 1);
-  heroWindowManager::DoDialog(ecx0->selectionWindow, sub_423649, 0);
+  heroWindowManager::DoDialog(gpWindowManager, ecx0->selectionWindow, sub_423649, 0);
   heroWindowManager::RemoveWindow(ecx0->selectionWindow);
   operator delete(ecx0->selectionWindow);
   inputManager::Flush(gpInputManager);
@@ -40387,7 +40370,6 @@ int __thiscall overlayManager::SelectObject(overlayManager *ecx0, int objType)
 }
 // 432040: using guessed type _DWORD __stdcall heroWindowManager__AddWindow(_DWORD, _DWORD, _DWORD);
 // 432100: using guessed type _DWORD __stdcall heroWindowManager__RemoveWindow(_DWORD);
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 437610: using guessed type int __thiscall inputManager__Flush(_DWORD);
 // 48556C: using guessed type int giOverlaySelectMaybeNumUnseen;
 // 485570: using guessed type int dword_485570;
@@ -41066,7 +41048,7 @@ _DWORD __thiscall eventsManager::EditHero(eventsManager *this, int x, int y, int
     }
   }
   FillInHeroEdit(&gEditedHeroExtra);
-  heroWindowManager::DoDialog(gpCellEditDialog, EditHeroHandler, 0);
+  heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, (int (__thiscall *)(_DWORD))EditHeroHandler, 0);
   operator delete(gpCellEditDialog);
   if ( gpWindowManager->buttonPressedCode != 30721 )
   {
@@ -41080,7 +41062,6 @@ _DWORD __thiscall eventsManager::EditHero(eventsManager *this, int x, int y, int
   RedrawEditPane();
   return result;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 46BFE0: using guessed type char *gArmyNames[133];
 // 46CF88: using guessed type char *off_46CF88[3];
 // 46CF98: using guessed type char *off_46CF98[25];
@@ -41467,7 +41448,7 @@ int __stdcall sub_426180(int a1)
     gpCellEditDialog = 0;
   SetWinText(gpCellEditDialog, 11);
   sub_42635C((int)&unk_4901D8);
-  heroWindowManager::DoDialog(gpCellEditDialog, sub_4263A0, 0);
+  heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, sub_4263A0, 0);
   operator delete(gpCellEditDialog);
   if ( gpWindowManager->buttonPressedCode != 30721 )
   {
@@ -41485,7 +41466,6 @@ int __stdcall sub_426180(int a1)
   RedrawEditPane();
   return gpWindowManager->buttonPressedCode;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 
 //----- (0042635C) --------------------------------------------------------
 int __stdcall sub_42635C(int a1)
@@ -41596,7 +41576,7 @@ _DWORD __thiscall eventsManager::EditSphinx(eventsManager *this, int a2)
     heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
   }
   sub_42686D(&curSphinxExtra);
-  heroWindowManager::DoDialog(gpCellEditDialog, EditSphinxHandler, 0);
+  heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, (int (__thiscall *)(_DWORD))EditSphinxHandler, 0);
   operator delete(gpCellEditDialog);
   if ( gpWindowManager->buttonPressedCode != 30721 )
   {
@@ -41614,7 +41594,6 @@ _DWORD __thiscall eventsManager::EditSphinx(eventsManager *this, int a2)
   RedrawEditPane();
   return gpWindowManager->buttonPressedCode;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 
 //----- (0042686D) --------------------------------------------------------
 int __stdcall sub_42686D(SphinxExtra *sphinx)
@@ -41852,7 +41831,7 @@ _DWORD __thiscall eventsManager::EditEvent(eventsManager *this, int mapExtraIdx)
     heroWindow::BroadcastMessage(gpCellEditDialog, &evt);
   }
   sub_427299(&curEventMapExtra);
-  heroWindowManager::DoDialog(gpCellEditDialog, sub_427563, 0);
+  heroWindowManager::DoDialog(gpWindowManager, gpCellEditDialog, sub_427563, 0);
   operator delete(gpCellEditDialog);
   if ( gpWindowManager->buttonPressedCode != 30721 )
   {
@@ -41870,7 +41849,6 @@ _DWORD __thiscall eventsManager::EditEvent(eventsManager *this, int mapExtraIdx)
   RedrawEditPane();
   return gpWindowManager->buttonPressedCode;
 }
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 46B4E0: using guessed type char *off_46B4E0[11];
 
 //----- (00427299) --------------------------------------------------------
@@ -46054,7 +46032,7 @@ int __fastcall GetDataEntry(void *a1, char *a2, int a3, const char *a4, unsigned
   {
     bDataEntryTime = 2;
   }
-  heroWindowManager::DoDialog(DataEntryWin, DataEntryWindowHandler, 0);
+  heroWindowManager::DoDialog(gpWindowManager, (heroWindow *)DataEntryWin, DataEntryWindowHandler, 0);
   operator delete(DataEntryWin);
   result = mouseManager::SetPointer(&unk_4872A0, v19, v18);
   gbAllowTextEntryEscape = 1;
@@ -46062,7 +46040,6 @@ int __fastcall GetDataEntry(void *a1, char *a2, int a3, const char *a4, unsigned
 }
 // 42F190: using guessed type _DWORD __stdcall mouseManager__SetPointer(_DWORD, _DWORD, _DWORD);
 // 42FDB0: using guessed type int __thiscall mouseManager__ShowColorPointer(_DWORD);
-// 432190: using guessed type _DWORD __stdcall heroWindowManager__DoDialog(_DWORD, _DWORD, _DWORD);
 // 46AAB4: using guessed type int gbAllowTextEntryEscape;
 // 491A38: using guessed type int bDataEntryTime;
 // 491A3C: using guessed type int inBoxY;
