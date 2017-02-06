@@ -51,6 +51,8 @@ public:
 
   void InitializeMap(int random, int width, int height);
   void InitializeMap_orig(int random, int width, int height);
+  void SpellScrollEditDialog(void **a1);
+  void __thiscall UpdateCursor();
 };
 
 extern editManager* gpEditManager;
@@ -63,6 +65,8 @@ extern int CountMines();
 extern int __fastcall SelectTerrainTile(int, int, int, int, int, int, float);
 
 extern char* gpTownNames[];
+
+extern void __cdecl RedrawEditPane();
 
 #pragma pack(pop)
 
