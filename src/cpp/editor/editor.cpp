@@ -67,17 +67,15 @@ void editManager::InitializeMap(int random, int width, int height) {
 	this->InitializeMap_orig(random, width, height);
 }
 
-void editManager::SpellScrollEditDialog(int *a1) {
+void editManager::SpellScrollEditDialog(int *a1) { // ?SpellScrollEditDialog@editManager@@QAEXPAH@Z
   tag_message evt; // [sp+1Ch] [bp-20h]@4
   int i; // [sp+38h] [bp-4h]@4
-  heroWindow *gpCellEditDialog;
-  int OriginalValue;
 
-  OriginalValue = *a1;
+  dword_48F6B8 = *a1;
   gpCellEditDialog = new heroWindow(0, 0, "x_spedit.bin");
   
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = GUI_MESSAGE_SET_TEXT;  //change to GUI_MESSAGE_SET_TEXT??? They have equal values and the type would be correct
+  evt.xCoordOrKeycode = GUI_MESSAGE_SET_TEXT;
   evt.payload = &gText;
   evt.yCoordOrFieldID = 101;
   strcpy((char *)&gText, "Spell Scroll");
@@ -95,44 +93,44 @@ void editManager::SpellScrollEditDialog(int *a1) {
   evt.xCoordOrKeycode = 54;
   evt.payload = (void *)*a1;
   gpCellEditDialog->BroadcastMessage(evt);
-  gpWindowManager->DoDialog(gpCellEditDialog, sub_418DE3, 0);
+  gpWindowManager->DoDialog(gpCellEditDialog, SpellScrollEditDialogCallback, 0);
   delete(gpCellEditDialog);
   if (gpWindowManager->buttonPressedCode != 30721) {
-    *a1 = OriginalValue;
+    *a1 = dword_48F6B8;
     gpEditManager->setOnEventUpdate = 1;
   }
   gpEditManager->UpdateCursor();
   RedrawEditPane();
 }
 
-signed int __fastcall sub_418DE3(tag_message *msg) {
+signed int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z
   int v2; // [sp+14h] [bp-14h]@3
   int v3; // [sp+18h] [bp-10h]@2
   INPUT_EVENT_CODE evtCode; // [sp+1Ch] [bp-Ch]@1
 
-  evtCode = msg->eventCode;
+  evtCode = msg.eventCode;
   if (evtCode == INPUT_KEYDOWN_EVENT_CODE) {
-    if (msg->xCoordOrKeycode == 1) {
-      msg->eventCode = INPUT_GUI_MESSAGE_CODE;
-      msg->yCoordOrFieldID = 10;
-      msg->xCoordOrKeycode = msg->yCoordOrFieldID;
+    if (msg.xCoordOrKeycode == 1) {
+      msg.eventCode = INPUT_GUI_MESSAGE_CODE;
+      msg.yCoordOrFieldID = 10;
+      msg.xCoordOrKeycode = msg.yCoordOrFieldID;
       return 2;
     }
   } else if (evtCode == INPUT_GUI_MESSAGE_CODE) {
-    v3 = msg->xCoordOrKeycode;
+    v3 = msg.xCoordOrKeycode;
     if (v3 == 12) {
-      if (msg->yCoordOrFieldID == 100) {
-        msg->xCoordOrKeycode = 55;
+      if (msg.yCoordOrFieldID == 100) {
+        msg.xCoordOrKeycode = 55;
         gpCellEditDialog->BroadcastMessage(msg);
-        OriginalValue = (int)msg->payload;
+        dword_48F6B8 = (int)msg.payload;
       }
     } else if (v3 == 13) {
-      v2 = msg->yCoordOrFieldID;
+      v2 = msg.yCoordOrFieldID;
       if (v2 >= 30721 && v2 <= 30722) {
-        gpWindowManager->buttonPressedCode = msg->yCoordOrFieldID;
-        msg->eventCode = INPUT_GUI_MESSAGE_CODE;
-        msg->yCoordOrFieldID = 10;
-        msg->xCoordOrKeycode = msg->yCoordOrFieldID;
+        gpWindowManager->buttonPressedCode = msg.yCoordOrFieldID;
+        msg.eventCode = INPUT_GUI_MESSAGE_CODE;
+        msg.yCoordOrFieldID = 10;
+        msg.xCoordOrKeycode = msg.yCoordOrFieldID;
         return 2;
       }
     }

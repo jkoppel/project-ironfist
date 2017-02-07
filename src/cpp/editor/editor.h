@@ -51,14 +51,20 @@ public:
 
   void InitializeMap(int random, int width, int height);
   void InitializeMap_orig(int random, int width, int height);
-  void SpellScrollEditDialog(void **a1);
+  void SpellScrollEditDialog(int *a1);
+  void SpellScrollEditDialog_orig(int *a1);
   void __thiscall UpdateCursor();
 };
 
 extern editManager* gpEditManager;
 extern SMapHeader gpMapHeader;
+extern heroWindow* gpCellEditDialog;
+extern int dword_48F6B8;
 
 void __fastcall ShowErrorMessage(const char *str);
+
+signed int __fastcall SpellScrollEditDialogCallback(tag_message& msg);
+signed int __fastcall SpellScrollEditDialogCallback_orig(tag_message& msg);
 
 extern int CountMines();
 
