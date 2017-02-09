@@ -205,6 +205,7 @@ IMPORT_?SetSpellInfluence@army@@QAEHHH@Z = 1
 IMPORT_?CancelIndividualSpell@army@@QAEXH@Z = 1
 IMPORT_?CastSpell@combatManager@@QAEXHHHH@Z = 1
 IMPORT_?InitClean@army@@QAEXXZ = 1
+IMPORT_?ShowSpellMessage@combatManager@@QAEXHHPAVarmy@@@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

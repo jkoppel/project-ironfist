@@ -152,5 +152,8 @@ float army::SpellCastWorkChance(int spell) {
 		&& spell == SPELL_METEOR_SHOWER)
 		return 1.0;
 
+  if (spell == SPELL_SHADOW_MARK && this->dead)
+    return 0.0;
+
 	return this->SpellCastWorkChance_orig(spell);
 }

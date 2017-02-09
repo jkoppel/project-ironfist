@@ -253,7 +253,6 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   int effect; // [sp+8Ch] [bp-34h]@165
   long damage; // [sp+90h] [bp-30h]@122
   int owner; // [sp+94h] [bp-2Ch]@41
-  char buf[8]; // [sp+98h] [bp-28h]@82
   int spellpower; // [sp+A8h] [bp-18h]@46
   SAMPLE2 res; // [sp+ACh] [bp-14h]@9
   int spell; // [sp+B4h] [bp-Ch]@77
@@ -382,9 +381,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   if (proto_spell == SPELL_ARCHMAGI_DISPEL)
     spell = SPELL_DISPEL_MAGIC;
   if (strlen(gsSpellInfo[spell].soundName))
-    sprintf(buf, "%s.82M", &gsSpellInfo[spell]);
+    sprintf(gText, "%s.82M", &gsSpellInfo[spell].soundName);
   if (isCreatureAbility || !stack || stack->SpellCastWorks(proto_spell)) {
-    res = (SAMPLE2)LoadPlaySample(buf);
+    res = LoadPlaySample(gText);
     switch (proto_spell) {
     case SPELL_TELEPORT:
       thisb = stack;
@@ -699,8 +698,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       this->Earthquake();
       break;
     case SPELL_SHADOW_MARK:
-      stack->SetSpellInfluence(EFFECT_SHADOW_MARK, 1);
-      stack->SpellEffect(gsSpellInfo[SPELL_SHADOW_MARK].creatureEffectAnimationIdx, 0, 0);
+        this->ShowSpellMessage(isCreatureAbility, proto_spell, stack);
+        stack->SetSpellInfluence(EFFECT_SHADOW_MARK, 1);
+        stack->SpellEffect(gsSpellInfo[SPELL_SHADOW_MARK].creatureEffectAnimationIdx, 0, 0);
       break;
     default:
       this->DefaultSpell(hexIdx);
@@ -733,4 +733,47 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   }
   WaitEndSample(res, res.sample);
   this->CheckChangeSelector();
+}
+
+void combatManager::ShowSpellMessage(int isCreatureAbility, int spell, army *stack) {
+  char *creatureName;
+
+  if (stack) {
+    if (stack->quantity <= 1)
+      creatureName = GetCreatureName(stack->creatureIdx);
+    else
+      creatureName = GetCreaturePluralName(stack->creatureIdx);
+  }
+  if (isCreatureAbility) {
+    switch (spell) {
+    case SPELL_PARALYZE:
+      sprintf(gText, "The %s are paralyzed by the Cyclopes!", creatureName);
+      break;
+    case SPELL_BLIND:
+      sprintf(gText, "The Unicorns' attack blinds the %s!", creatureName);
+      break;
+    case SPELL_MEDUSA_PETRIFY:
+      sprintf(gText, "The Medusas' gaze turns the %s to stone!", creatureName);
+      break;
+    case SPELL_CURSE:
+      sprintf(gText, "The Mummies' curse falls upon the %s!", creatureName);
+      break;
+    case SPELL_ARCHMAGI_DISPEL:
+      sprintf(gText, "The Archmagi dispel all good spells\non the %s!", creatureName);
+      break;
+    case SPELL_SHADOW_MARK:
+      sprintf(gText, "The Shadow Assassins mark the %s with Shadow Mark!", creatureName);
+      break;
+    }
+  } else if (stack) {
+    if (this->heroes[this->currentActionSide]->isCaptain)
+      sprintf(gText, "The captain casts '%s' on the %s.", gSpellNames[spell], creatureName);
+    else
+      sprintf(gText,"%s casts '%s' on the %s.", this->heroes[this->currentActionSide]->name, gSpellNames[spell], creatureName);
+  } else if (this->heroes[this->currentActionSide]->isCaptain) {
+    sprintf(gText, "The captain casts '%s'.", gSpellNames[spell]);
+  } else {
+    sprintf(gText, "%s casts '%s'.", this->heroes[this->currentActionSide]->name, gSpellNames[spell]);
+  }
+  this->CombatMessage(gText, 1, 1, 0);
 }

@@ -200,7 +200,7 @@ public:
   void ChainLightning(int targetHex, int power);
   void CastMassSpell(int spell, signed int spellpower);
   void MirrorImage(int hex);
-  void ShowSpellMessage(int a2, int spell, army *stack);
+  void ShowSpellMessage(int isCreatureAbility, int spell, army *stack);
   void BloodLustEffect(army *a2, int flagAdditions);
   void TurnToStone(army *stack);
   void Fireball(int hexIdx, int spell);

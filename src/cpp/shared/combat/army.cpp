@@ -303,7 +303,8 @@ void army::DoAttack(int isRetaliation) {
         gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] = creaturesKilled * primaryTarget->creature.hp;
         break;
       case CREATURE_CYBER_SHADOW_ASSASSIN:
-        primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_SHADOW_MARK;
+        if(primaryTarget->SpellCastWorks(SPELL_SHADOW_MARK))
+          primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_SHADOW_MARK;
         break;
     }
     this->PowEffect(-1, 0, -1, -1);
