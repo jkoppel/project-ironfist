@@ -719,7 +719,7 @@ void combatManager::ShowSpellMessage(int isCreatureAbility, int spell, army *sta
       sprintf(gText, "The Archmagi dispel all good spells\non the %s!", creatureName);
       break;
     case SPELL_SHADOW_MARK:
-      sprintf(gText, "The Shadow Assassins mark the %s with Shadow Mark!", creatureName);
+      sprintf(gText, "The Shadow Assassins mark the %s!", creatureName);
       break;
     }
   } else if (stack) {
