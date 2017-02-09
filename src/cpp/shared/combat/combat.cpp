@@ -226,16 +226,17 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
 }
 
 void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility, int a5) {
+  hero* enemyHero = this->heroes[1 - this->currentActionSide];
+  hero *currentHero = this->heroes[this->currentActionSide];
+
   if (!isCreatureAbility) {
     if (this->eagleEyeSpellLearned[1 - this->currentActionSide] == SPELL_NONE) {
-      if (this->heroes[1 - this->currentActionSide]) {
-        if (!this->heroes[1 - this->currentActionSide]->HasSpell(proto_spell)) {
-          if (this->heroes[1 - this->currentActionSide]->secondarySkillLevel[SECONDARY_SKILL_EAGLE_EYE]) {
-            if (this->heroes[1 - this->currentActionSide]->secondarySkillLevel[SECONDARY_SKILL_EAGLE_EYE] + 1 >= gsSpellInfo[proto_spell].level) {
-              int eagleEyeLevel = this->heroes[1 - this->currentActionSide]->secondarySkillLevel[SECONDARY_SKILL_EAGLE_EYE];
-              if (eagleEyeLevel >= SRandom(0, 9))
-                this->eagleEyeSpellLearned[1 - this->currentActionSide] = proto_spell;
-            }
+      if (enemyHero) {
+        if (!enemyHero->HasSpell(proto_spell)) {
+          int eagleEyeLevel = enemyHero->secondarySkillLevel[SECONDARY_SKILL_EAGLE_EYE];
+          if (eagleEyeLevel + 1 >= gsSpellInfo[proto_spell].level) {
+            if (eagleEyeLevel >= SRandom(0, 9))
+              this->eagleEyeSpellLearned[1 - this->currentActionSide] = proto_spell;
           }
         }
       }
@@ -251,15 +252,16 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     this->field_F2BB = -1;
     gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
   }
-  if (!isCreatureAbility && this->heroes[this->currentActionSide])
-    this->heroes[this->currentActionSide]->UseSpell(proto_spell);
+  
+  if (!isCreatureAbility && currentHero)
+    currentHero->UseSpell(proto_spell);
 
   army *stack = 0;
   int owner;
   int spellpower;
   int stackidx;
 
-  if (proto_spell
+  if (proto_spell != SPELL_FIREBALL
     && proto_spell != SPELL_FIREBLAST
     && proto_spell != SPELL_COLD_RING
     && proto_spell != SPELL_METEOR_SHOWER
@@ -280,10 +282,12 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     && proto_spell != SPELL_ARMAGEDDON
     && proto_spell != SPELL_ELEMENTAL_STORM
     && proto_spell != SPELL_MASS_DISPEL) {
-    if (ValidHex(hexIdx) && this->combatGrid[hexIdx].unitOwner >= 0) {
-      stack = &this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx];
-      owner = this->combatGrid[hexIdx].unitOwner;
-      stackidx = this->combatGrid[hexIdx].stackIdx;
+    int targetedUnitOwner = this->combatGrid[hexIdx].unitOwner;
+    int targetedUnitStackIdx = this->combatGrid[hexIdx].stackIdx;
+    if (ValidHex(hexIdx) && targetedUnitOwner >= 0) {
+      stack = &this->creatures[targetedUnitOwner][targetedUnitStackIdx];
+      owner = targetedUnitOwner;
+      stackidx = targetedUnitStackIdx;
     } else {
       stack = NULL;
     }
@@ -296,13 +300,16 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     spellpower = 3;
   } else {
     spellpower = this->heroSpellpowers[this->currentActionSide];
-    if (this->heroes[this->currentActionSide]->HasArtifact(ARTIFACT_ENCHANTED_HOURGLASS)
-      && gsSpellInfo[proto_spell].attributes & ATTR_DURATIONED_SPELL)
-      spellpower += 2;
-    if (this->heroes[this->currentActionSide]->HasArtifact(ARTIFACT_WIZARDS_HAT)
-      && gsSpellInfo[proto_spell].attributes & ATTR_DURATIONED_SPELL)
-      spellpower += 10;
+    int isDurationedSpell = gsSpellInfo[proto_spell].attributes & ATTR_DURATIONED_SPELL;
+    if(isDurationedSpell) {
+      if (currentHero->HasArtifact(ARTIFACT_ENCHANTED_HOURGLASS))
+        spellpower += 2;
+      if (currentHero->HasArtifact(ARTIFACT_WIZARDS_HAT))
+        spellpower += 10;
+    }
   }
+
+  SCmbtHero combatHero = sCmbtHero[this->heroType[this->currentActionSide]];
   if (!isCreatureAbility) {
     int centX = -1;
     int centY = -1;
@@ -316,31 +323,32 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       centX = this->combatGrid[hexIdx].centerX;
       centY = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
     }
+
     if (centX == -1) {
       this->heroAnimationType[this->currentActionSide] = 3;
     } else {
       if (this->currentActionSide) {
-        castX = 610 - sCmbtHero[this->heroType[this->currentActionSide]].castXOff;
-        castY = sCmbtHero[this->heroType[this->currentActionSide]].castYOff + 148;
+        castX = 610 - combatHero.castXOff;
+        castY = combatHero.castYOff + 148;
       } else {
-        castX = sCmbtHero[this->heroType[this->currentActionSide]].castXOff + 30;
-        castY = sCmbtHero[this->heroType[this->currentActionSide]].castYOff + 183;
+        castX = combatHero.castXOff + 30;
+        castY = combatHero.castYOff + 183;
       }
       if ((centX - castX) * (this->currentActionSide < 1u ? 1 : -1) >= centY - castY) {
         this->heroAnimationType[this->currentActionSide] = 5;
       } else {
         this->heroAnimationType[this->currentActionSide] = 7;
         if (this->currentActionSide) {
-          castX = 610 - sCmbtHero[this->heroType[this->currentActionSide]].castLowXOff;
-          castY = sCmbtHero[this->heroType[this->currentActionSide]].castLowYOff + 148;
+          castX = 610 - combatHero.castLowXOff;
+          castY = combatHero.castLowYOff + 148;
         } else {
-          castX = sCmbtHero[this->heroType[this->currentActionSide]].castLowXOff + 30;
-          castY = sCmbtHero[this->heroType[this->currentActionSide]].castLowYOff + 183;
+          castX = combatHero.castLowXOff + 30;
+          castY = combatHero.castLowYOff + 183;
         }
       }
     }
     for (this->heroAnimationFrameCount[this->currentActionSide] = 0;
-      sCmbtHero[this->heroType[this->currentActionSide]].animationLength[this->heroAnimationType[this->currentActionSide]] > this->heroAnimationFrameCount[this->currentActionSide];
+      combatHero.animationLength[this->heroAnimationType[this->currentActionSide]] > this->heroAnimationFrameCount[this->currentActionSide];
       ++this->heroAnimationFrameCount[this->currentActionSide])
       this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     --this->heroAnimationFrameCount[this->currentActionSide];
@@ -443,7 +451,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
         damage *= 2;
       if (stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
         damage /= 2;
-      this->ModifyDamageForArtifacts(&damage, SPELL_COLD_RAY, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+      this->ModifyDamageForArtifacts(&damage, SPELL_COLD_RAY, currentHero, enemyHero);
       char *creatureName;
       if (stack->quantity <= 1)
         creatureName = GetCreatureName(stack->creatureIdx);
@@ -463,7 +471,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_MAGIC_ARROW: {
       DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
       long damage = 10 * spellpower;
-      this->ModifyDamageForArtifacts(&damage, SPELL_MAGIC_ARROW, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+      this->ModifyDamageForArtifacts(&damage, SPELL_MAGIC_ARROW, currentHero, enemyHero);
       char *creatureName;
       if (stack->quantity <= 1)
         creatureName = GetCreatureName(stack->creatureIdx);
@@ -486,7 +494,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       if (stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM) {
         damage /= 2;
       }
-      this->ModifyDamageForArtifacts(&damage, SPELL_LIGHTNING_BOLT, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+      this->ModifyDamageForArtifacts(&damage, SPELL_LIGHTNING_BOLT, currentHero, enemyHero);
       char *creatureName;
       if (stack->quantity <= 1)
         creatureName = GetCreatureName(stack->creatureIdx);
@@ -673,7 +681,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   if (!isCreatureAbility) {
     ++this->heroAnimationType[this->currentActionSide];
     for (this->heroAnimationFrameCount[this->currentActionSide] = 0;
-      sCmbtHero[this->heroType[this->currentActionSide]].animationLength[this->heroAnimationType[this->currentActionSide]] > this->heroAnimationFrameCount[this->currentActionSide];
+      combatHero.animationLength[this->heroAnimationType[this->currentActionSide]] > this->heroAnimationFrameCount[this->currentActionSide];
       ++this->heroAnimationFrameCount[this->currentActionSide])
       this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     this->heroAnimationType[this->currentActionSide] = 0;
