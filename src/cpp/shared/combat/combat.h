@@ -194,9 +194,6 @@ public:
   void LowerDoor();
   void TestRaiseDoor();
   int ShotIsThroughWall(int side, signed int occupiedHex, signed int targHex);
-  signed int CheckApplyBadMorale(int side, int stackIdx);
-  void GetControl();
-  void CheckCastleAttack();
   void ModifyDamageForArtifacts(long *, int, hero *, hero *);
   void RippleCreature(int side, int stackIdx, int a4);
   void DoBlast(int hexIdx, int spell);
