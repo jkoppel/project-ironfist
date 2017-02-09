@@ -1334,7 +1334,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
           creature->field_3 = ANIMATION_TYPE_WINCE;
           creature->field_4 = ANIMATION_TYPE_WINCE_RETURN;
           if(creature->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
-            if (!(creature->creature.creature_flags & RETALIATED)) {
+            if (!(creature->creature.creature_flags & RETALIATED) && !this->animatingRangedAttack) {
               int dodgeAnimLen = 7;
               creature->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
               for (int p = 0; p < dodgeAnimLen; p++)
