@@ -381,10 +381,10 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     spell = SPELL_PARALYZE;
   if (proto_spell == SPELL_ARCHMAGI_DISPEL)
     spell = SPELL_DISPEL_MAGIC;
-  //if (strlen(gsSpellInfo[spell].soundName))
-  //  sprintf(buf, "%s.82M", &gsSpellInfo[spell]);
+  if (strlen(gsSpellInfo[spell].soundName))
+    sprintf(buf, "%s.82M", &gsSpellInfo[spell]);
   if (isCreatureAbility || !stack || stack->SpellCastWorks(proto_spell)) {
-    //res = (SAMPLE2)LoadPlaySample(buf);
+    res = (SAMPLE2)LoadPlaySample(buf);
     switch (proto_spell) {
     case SPELL_TELEPORT:
       thisb = stack;
@@ -701,7 +701,6 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_SHADOW_MARK:
       stack->SetSpellInfluence(EFFECT_SHADOW_MARK, 1);
       stack->SpellEffect(gsSpellInfo[SPELL_SHADOW_MARK].creatureEffectAnimationIdx, 0, 0);
-      // add graphics
       break;
     default:
       this->DefaultSpell(hexIdx);
@@ -732,6 +731,6 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     this->heroAnimationFrameCount[this->currentActionSide] = 0;
     this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
   }
-  //WaitEndSample(res, res.sample);
+  WaitEndSample(res, res.sample);
   this->CheckChangeSelector();
 }
