@@ -242,7 +242,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   char *v18; // [sp+20h] [bp-A0h]@142
   char *v19; // [sp+24h] [bp-9Ch]@133
   char *v20; // [sp+28h] [bp-98h]@128
-  float a7[9]; // [sp+44h] [bp-7Ch]@135
+  float a7[9] = {90.000000,45.000038,26.565073,18.262905,0.000000,-18.262905,-26.565073,-45.000038,-90.000000};
   int knownHex; // [sp+68h] [bp-58h]@97
   army *thisb; // [sp+6Ch] [bp-54h]@88
   int oldDefense; // [sp+70h] [bp-50h]@119
@@ -502,14 +502,6 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       sprintf(gText, "The magic arrow does %d\n damage to the %s.", damage, v19);
       this->CombatMessage(gText, 1, 1, 0);
       v9 = gpResourceManager->GetIcon("keep.icn");
-      a7[0] = 1116274688;
-      a7[1] = 1110704128;
-      a7[2] = 1101424230;
-      a7[3] = 0;
-      a7[4] = -1046059418;
-      a7[5] = -1036779520;
-      a7[6] = -1031208960;
-      a7[7] = -1028390912;
       v10 = stack->MidY();
       v11 = stack->MidX();
       combatManager::ShootMissile(castX, castY, v11, v10, a7, v9);
