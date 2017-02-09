@@ -326,8 +326,8 @@ void army::DoAttack(int isRetaliation) {
     }
     if (primaryTarget
       && primaryTarget->quantity > 0
-      && !primaryTarget->effectStrengths[6]
-      && !primaryTarget->effectStrengths[11]
+      && !primaryTarget->effectStrengths[EFFECT_PARALYZE]
+      && !primaryTarget->effectStrengths[EFFECT_PETRIFY]
       && (primaryTarget->creatureIdx == CREATURE_GRIFFIN || !(primaryTarget->creature.creature_flags & RETALIATED))
       && this->creatureIdx != CREATURE_ROGUE
       && this->creatureIdx != CREATURE_SPRITE
@@ -358,9 +358,9 @@ void army::DoAttack(int isRetaliation) {
       && primaryTarget
       && primaryTarget->quantity > 0
       && !isRetaliation
-      && !this->effectStrengths[6]
-      && !this->effectStrengths[11]
-      && !this->effectStrengths[2]
+      && !this->effectStrengths[EFFECT_PARALYZE]
+      && !this->effectStrengths[EFFECT_PETRIFY]
+      && !this->effectStrengths[EFFECT_BLIND]
       && this->quantity > 0) {
       DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
       int v16 = this->targetNeighborIdx;
@@ -382,7 +382,7 @@ void army::DoAttack(int isRetaliation) {
     }
   }
 
-  if (!isRetaliation && (this->effectStrengths[5] || this->effectStrengths[7])) {
+  if (!isRetaliation && (this->effectStrengths[EFFECT_BERSERKER] || this->effectStrengths[EFFECT_HYPNOTIZE])) {
     this->CancelSpellType(1);
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
   }
@@ -1148,7 +1148,7 @@ void army::SpecialAttack() {
     ProcessSecondAttack(this, target);
 
   // Block mind spells
-  if (this->effectStrengths[5] || this->effectStrengths[7]) {
+  if (this->effectStrengths[EFFECT_BERSERKER] || this->effectStrengths[EFFECT_HYPNOTIZE]) {
     this->CancelSpellType(1);
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
   }
@@ -1520,7 +1520,7 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     return;
 
   int attackDiff = this->creature.attack - (unusedArg + targ->creature.defense);
-  if (this->effectStrengths[8]
+  if (this->effectStrengths[EFFECT_DRAGON_SLAYER]
     && (targ->creatureIdx == CREATURE_GREEN_DRAGON
       || targ->creatureIdx == CREATURE_RED_DRAGON
       || targ->creatureIdx == CREATURE_BLACK_DRAGON
@@ -1543,9 +1543,9 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
 
   float damagePerUnit = 0.0;
   for (int i = 0; this->quantity > i; ++i) {
-    if (this->effectStrengths[3]) {
+    if (this->effectStrengths[EFFECT_BLESS]) {
       damagePerUnit += (double)this->creature.max_damage;
-    } else if (this->effectStrengths[4]) {
+    } else if (this->effectStrengths[EFFECT_CURSE]) {
       damagePerUnit += (double)this->creature.min_damage;
     } else {
       damagePerUnit += (double)SRandom(this->creature.min_damage, this->creature.max_damage);
@@ -1578,12 +1578,12 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     && this->creatureIdx != CREATURE_MAGE
     && this->creatureIdx != CREATURE_ARCHMAGE)
     damagePerUnit /= 2.0;
-  if (isRanged && targ->effectStrengths[10])
+  if (isRanged && targ->effectStrengths[EFFECT_SHIELD])
     damagePerUnit /= 2.0;
   if (this->otherBadLuckThing == 2)
     damagePerUnit /= 2.0;
   this->otherBadLuckThing = 0;
-  if (targ->effectStrengths[11])
+  if (targ->effectStrengths[EFFECT_PETRIFY])
     damagePerUnit /= 2.0;
 
   int baseDam;
@@ -1696,7 +1696,7 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
         this->CancelIndividualSpell(effect);
       break;
     case EFFECT_STONESKIN:
-      if (this->effectStrengths[14]) {
+      if (this->effectStrengths[EFFECT_STEELSKIN]) {
         return 0;
       } else {
         this->creature.defense += 3;
