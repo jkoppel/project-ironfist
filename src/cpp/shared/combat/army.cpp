@@ -1636,7 +1636,7 @@ void army::MoveAttack(int targHex, int x) {
 }
 
 void army::DecrementSpellRounds() {
-  for (int effect = 0; effect < 16; ++effect) {
+  for (int effect = 0; effect < 19; ++effect) {
     if (this->effectStrengths[effect]) {
       if (this->effectStrengths[effect] == 1)
         this->CancelIndividualSpell(effect);
