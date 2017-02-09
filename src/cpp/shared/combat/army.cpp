@@ -1585,6 +1585,8 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   this->otherBadLuckThing = 0;
   if (targ->effectStrengths[EFFECT_PETRIFY])
     damagePerUnit /= 2.0;
+  if (targ->effectStrengths[EFFECT_SHADOW_MARK])
+	  damagePerUnit *= 1.5;
 
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
@@ -1713,9 +1715,6 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
     case EFFECT_PETRIFY:
       break;
     case EFFECT_SHADOW_MARK:
-      this->creature.defense -= 5;
-      if (this->creature.defense < 1)
-        this->creature.defense = 1;
       break;
     }
     return this->AddActiveEffect(effectType, strength);
@@ -1743,7 +1742,6 @@ void army::CancelIndividualSpell(int effect) {
       this->creature.defense -= 5;
       break;
     case EFFECT_SHADOW_MARK:
-      this->creature.defense = gMonsterDatabase[this->creatureIdx].defense;
       break;
     case EFFECT_BLIND:
     case EFFECT_BLESS:
