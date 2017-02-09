@@ -81,4 +81,7 @@ SCmbtHero scmbtHero[];
 
 #pragma pack(pop)
 
+void BuildTeleporterTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst, bool closeMove);
+void __fastcall BuildTempWalkSeq(SMonFrameInfo *frm, int last, int notFirst);
+
 #endif
