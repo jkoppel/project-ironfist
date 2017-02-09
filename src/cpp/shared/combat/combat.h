@@ -200,6 +200,7 @@ public:
   void ChainLightning(int targetHex, int power);
   void CastMassSpell(int spell, signed int spellpower);
   void MirrorImage(int hex);
+  void SpellMessage(int spell, int hex);
   void ShowSpellMessage(int isCreatureAbility, int spell, army *stack);
   void BloodLustEffect(army *a2, int flagAdditions);
   void TurnToStone(army *stack);
@@ -212,6 +213,7 @@ public:
   void ShowSpellCastFailure(army *, int);
   void CheckChangeSelector();
   void ShootMissile(int, int, int, int, float *, icon *);
+  int ValidSpellTarget(int spell, int hexIdx);
 };
 
 extern combatManager* gpCombatManager;

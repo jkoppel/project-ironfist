@@ -111,6 +111,7 @@ public:
   void Cure(int spellpower);
   void DispelGood();
   void InitClean();
+  int CanFit(int hex, int mayShiftTwoHexers, int *rearHex);
 };
 
 #pragma pack(pop)
