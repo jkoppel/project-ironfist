@@ -908,8 +908,8 @@ void SpecialAttackGraphics(army *attacker, army *target) {
       / (double)attacker->frameInfo.animationLengths[attacker->animationType]);
   }
   attacker->animationFrame = attacker->frameInfo.animationLengths[attacker->animationType] - 1;
-  int v27 = 100;
-  int v18 = 100;
+  int projIconWidth = 100;
+  int projIconHeight = 100;
   int v35 = 31;
   int v22 = 25;
 
@@ -952,27 +952,27 @@ void SpecialAttackGraphics(army *attacker, army *target) {
     int v38 = startY;
     //from = (bitmap *)operator new(26);
     bitmap *from = nullptr;
-    from = new bitmap(33, 2 * v27, 2 * v18);
-    from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - v27, v38 - v18);
+    from = new bitmap(33, 2 * projIconWidth, 2 * projIconHeight);
+    from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - projIconWidth, v38 - projIconHeight);
     int v59 = v44;
     int v53 = v38;
     int x = 0;
     int y = 0;
     for (int i = 0; i < v52; ++i) {
-      if (v59 - v27 < offsetX)
-        offsetX = v59 - v27;
+      if (v59 - projIconWidth < offsetX)
+        offsetX = v59 - projIconWidth;
       if (offsetX < 0)
         offsetX = 0;
-      if (v27 + v59 > v20)
-        v20 = v27 + v59;
+      if (projIconWidth + v59 > v20)
+        v20 = projIconWidth + v59;
       if (v20 > 639)
         v20 = 639;
-      if (v53 - v18 < offsetY)
-        offsetY = v53 - v18;
+      if (v53 - projIconHeight < offsetY)
+        offsetY = v53 - projIconHeight;
       if (offsetY < 0)
         offsetY = 0;
-      if (v18 + v53 > v15)
-        v15 = v18 + v53;
+      if (projIconHeight + v53 > v15)
+        v15 = projIconHeight + v53;
       if (v15 > 442)
         v15 = 442;
       if (i) {
@@ -987,13 +987,13 @@ void SpecialAttackGraphics(army *attacker, army *target) {
         if (v15 > giMaxExtentY)
           giMaxExtentY = v15;
       }
-      x = v44 - v27;
-      if (v44 - v27 < 0)
+      x = v44 - projIconWidth;
+      if (v44 - projIconWidth < 0)
         x = 0;
       if (x + (signed int)from->width > 640)
         x = 640 - from->width;
-      y = v38 - v18;
-      if (v38 - v18 < 0)
+      y = v38 - projIconHeight;
+      if (v38 - projIconHeight < 0)
         y = 0;
       if (y + (signed int)from->height > 640)
         y = 640 - from->height;
@@ -1011,13 +1011,13 @@ void SpecialAttackGraphics(army *attacker, army *target) {
       v53 = v38;
       v44 += v43;
       v38 += v37;
-      offsetX = v44 - v27;
-      v20 = v27 + v44;
-      offsetY = v38 - v18;
-      v15 = v18 + v38;
+      offsetX = v44 - projIconWidth;
+      v20 = projIconWidth + v44;
+      offsetY = v38 - projIconHeight;
+      v15 = projIconHeight + v38;
     }
     from->DrawToBuffer(x, y);
-    gpWindowManager->UpdateScreenRegion(v59 - v27, v53 - v18, 2 * v27, 2 * v18);
+    gpWindowManager->UpdateScreenRegion(v59 - projIconWidth, v53 - projIconHeight, 2 * projIconWidth, 2 * projIconHeight);
     if (from)
       from->~bitmap();
   }
@@ -1337,8 +1337,9 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
             if (!(creature->creature.creature_flags & RETALIATED) && !this->animatingRangedAttack) {
               int dodgeAnimLen = 7;
               creature->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
-              for (int p = 0; p < dodgeAnimLen; p++)
+              for (int p = 0; p < dodgeAnimLen; p++) {
                 creature->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
+              }
             } else { // revert to usual animations after the first received attack
               int winceAnimLen = 1;
               creature->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
@@ -1637,7 +1638,7 @@ void army::MoveAttack(int targHex, int x) {
 }
 
 void army::DecrementSpellRounds() {
-  for (int effect = 0; effect < 19; ++effect) {
+  for (int effect = 0; effect < NUM_SPELL_EFFECTS; ++effect) {
     if (this->effectStrengths[effect]) {
       if (this->effectStrengths[effect] == 1)
         this->CancelIndividualSpell(effect);
@@ -1764,7 +1765,7 @@ void army::InitClean() {
     this->combatSounds[i] = 0;
   this->lifespan = -1;
   this->numActiveEffects = 0;
-  for(int i = 0; i < 19; i++) {
+  for(int i = 0; i <  NUM_SPELL_EFFECTS; i++) {
     this->effectStrengths[i] = 0;
   }
   this->baseFidgetTime = KBTickCount();

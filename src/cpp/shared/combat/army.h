@@ -7,6 +7,8 @@
 #include "resource/resources.h"
 #include "spell/spells.h"
 
+#define NUM_SPELL_EFFECTS 19 // don't ever change it for now  
+
 #pragma pack(push, 1)
 class army {
 public:
@@ -64,7 +66,7 @@ public:
   int yDrawOffset;
   int xDrawOffset;
   int numActiveEffects;
-  char effectStrengths[19]; // spell remaining rounds
+  char effectStrengths[NUM_SPELL_EFFECTS]; // spell remaining rounds
   int field_11D;
   int hitByHydraAttack;
   void *field_125;
