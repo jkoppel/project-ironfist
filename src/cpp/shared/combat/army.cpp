@@ -30,7 +30,7 @@ extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
 
-char *gCombatFxNames[33] =
+char *gCombatFxNames[34] =
 {
   "",
   "magic01.icn",
@@ -64,10 +64,11 @@ char *gCombatFxNames[33] =
   "curse.icn",
   "stonskin.icn",
   "stelskin.icn",
-  "plasmblast.icn"
+  "plasmblast.icn",
+  "shdwmark.icn"
 };
 
-unsigned __int8 giNumPowFrames[33] =
+unsigned __int8 giNumPowFrames[34] =
 {
   10u,
   10u,
@@ -101,7 +102,8 @@ unsigned __int8 giNumPowFrames[33] =
   12u,
   11u,
   16u,
-  7u
+  7u,
+  8u
 };
 
 void OccupyHexes(army *a) {
