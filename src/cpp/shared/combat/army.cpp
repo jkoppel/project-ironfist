@@ -250,10 +250,10 @@ void army::DoAttack(int isRetaliation) {
     gpSoundManager->MemorySample(this->combatSounds[1]);
 
     int damDone;
-    this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
+    this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, isRetaliation);
     int v13 = 0; // unused
     if (secondHexTarget)
-      this->DamageEnemy(secondHexTarget, &v13, &v13, 0, 0);
+      this->DamageEnemy(secondHexTarget, &v13, &v13, 0, isRetaliation);
 
     DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
 
@@ -308,7 +308,26 @@ void army::DoAttack(int isRetaliation) {
         primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_SHADOW_MARK;
       }
     }
-    this->PowEffect(-1, 0, -1, -1);
+
+    if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+      if (!(primaryTarget->creature.creature_flags & RETALIATED) && !isRetaliation) {
+        int dodgeAnimLen = 7;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+        for (int p = 0; p < dodgeAnimLen; p++) {
+          primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
+        }
+      }
+
+      this->PowEffect(-1, 0, -1, -1);
+      
+      // revert to usual animations after the first received attack
+      int winceAnimLen = 1;
+      primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+      primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
+    } else {
+      this->PowEffect(-1, 0, -1, -1);
+    }
+    
     gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
     if (this->creatureIdx == CREATURE_GHOST)
       this->quantity += gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner];
@@ -1334,19 +1353,6 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
         } else {
           creature->field_3 = ANIMATION_TYPE_WINCE;
           creature->field_4 = ANIMATION_TYPE_WINCE_RETURN;
-          if(creature->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
-            if (!(creature->creature.creature_flags & RETALIATED) && !this->animatingRangedAttack) {
-              int dodgeAnimLen = 7;
-              creature->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
-              for (int p = 0; p < dodgeAnimLen; p++) {
-                creature->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
-              }
-            } else { // revert to usual animations after the first received attack
-              int winceAnimLen = 1;
-              creature->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
-              creature->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
-            }
-          }
         }
         if (creature->field_3 == ANIMATION_TYPE_DYING)
           creature->field_5 = creature->frameInfo.animationLengths[ANIMATION_TYPE_DYING];
@@ -1518,11 +1524,11 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
   gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 }
 
-void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int unusedArg) {
+void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int isRetaliation) {
   if (!targ)
     return;
 
-  int attackDiff = this->creature.attack - (unusedArg + targ->creature.defense);
+  int attackDiff = this->creature.attack - targ->creature.defense;
   if (this->effectStrengths[EFFECT_DRAGON_SLAYER]
     && (targ->creatureIdx == CREATURE_GREEN_DRAGON
       || targ->creatureIdx == CREATURE_RED_DRAGON
@@ -1612,7 +1618,7 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     baseDam = 1;
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
-  if(!isRanged) {
+  if(!isRanged && !isRetaliation) {
     if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && !(targ->creature.creature_flags & RETALIATED))
       baseDam = -2;
   }
