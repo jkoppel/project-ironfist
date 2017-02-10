@@ -398,6 +398,7 @@
     <creature id="82" name-singular="cyber shadow assassin" name-plural="cyber shadow assassins" icn="sassassn.icn" frm="sassassn.bin" projectile="" cost="1500" fight-value="1690" fight-value-aux="34" growth="4" hp="150" faction="6" speed="7" attack="13" defense="7" shots="0" short-name="lich">
         <damage minimum="40" maximum="40"/>
         <creature-attribute name="astral-dodge"/>
+        <creature-attribute name="shadow-mark"/>
         <random-spawn minimum="6" maximum="10"/>
     </creature>
     <creature id="83" name-singular="cyber behemoth" name-plural="cyber behemoths" icn="cbehemoth.icn" frm="cbehemoth.bin" projectile="cbeh_msl.icn" cost="3000" fight-value="1690" fight-value-aux="34" growth="2" hp="300" faction="6" speed="3" attack="13" defense="12" shots="2" short-name="lich">
