@@ -130,33 +130,23 @@ void __fastcall CheckEndGame(int a, int b) {
 }
 
 signed int __fastcall HandleAppSpecificMenuCommands(signed int a1, int a2) {
-  signed int v3; // [sp+10h] [bp-1Ch]@1
-  int v4; // [sp+14h] [bp-18h]@94
-  int level; // [sp+1Ch] [bp-10h]@85
-  signed int v6; // [sp+20h] [bp-Ch]@1
   int spell; // [sp+24h] [bp-8h]@55
-  signed int spella; // [sp+24h] [bp-8h]@62
-  signed int spellb; // [sp+24h] [bp-8h]@89
-  signed int spellc; // [sp+24h] [bp-8h]@92
-  char *this; // [sp+28h] [bp-4h]@1
+  char *ptr; // [sp+28h] [bp-4h]@1
 
-  v3 = a1;
-  v6 = 0;
-  this = 0;
+  ptr = 0;
   if (gpCurPlayer && gpCurPlayer->curHeroIdx != -1)
-    this = (char *)&gpGame->heroes[gpCurPlayer->curHeroIdx];
+    ptr = (char *)&gpGame->heroes[gpCurPlayer->curHeroIdx];
+  hero *hro = (hero*)ptr;
   switch (a1) {
     case 40143:
       gpGame->_B[1] = 1;
       if (gbInCampaign)
         gpGame->_11[72] = 1;
-      if (this) {
-        for (spell = 0; spell < 65; ++spell) // constant here
-          hero::AddSpell((hero *)this, spell, 10);
-        *(_WORD *)this = 999;
+      if (ptr) {
+        for (spell = 0; spell < NUM_SPELLS; ++spell) // constant here
+          hro->AddSpell(spell, 10);
+        *(_WORD *)ptr = 999;
       }
-      if (v6)
-        WritePrefs();
       return 0;
     default:
       return HandleAppSpecificMenuCommands_orig(a1, a2);

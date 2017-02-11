@@ -217,6 +217,7 @@ signed int __fastcall HandleAppSpecificMenuCommands(signed int a1, int a2);
 signed int __fastcall HandleAppSpecificMenuCommands_orig(signed int a1, int a2);
 
 extern game* gpGame;
+extern int gbInCampaign;
 
 extern int gbGameOver;
 

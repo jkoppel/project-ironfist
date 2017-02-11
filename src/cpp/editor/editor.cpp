@@ -6,8 +6,6 @@
 
 #include "string.h"
 
-#include "spell\spells.cpp"
-
 // That "const" is a fiction -- the original ShowErrorMessage mutates
 // its arguments. This was fine in the original Heroes II, which
 // placed constant strings in read-write memory, but not for a
