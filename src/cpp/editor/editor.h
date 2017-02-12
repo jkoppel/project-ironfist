@@ -58,13 +58,13 @@ public:
 
 extern editManager* gpEditManager;
 extern SMapHeader gpMapHeader;
-extern class heroWindow* gpCellEditDialog;
+extern heroWindow* gpCellEditDialog;
 extern int dword_48F6B8;
 
 void __fastcall ShowErrorMessage(const char *str);
 
-signed int __fastcall SpellScrollEditDialogCallback(tag_message& msg);
-signed int __fastcall SpellScrollEditDialogCallback_orig(tag_message& msg);
+int __fastcall SpellScrollEditDialogCallback(tag_message& msg);
+int __fastcall SpellScrollEditDialogCallback_orig(tag_message& msg);
 
 extern int CountMines();
 

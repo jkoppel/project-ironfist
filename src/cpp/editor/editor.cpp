@@ -100,7 +100,7 @@ void editManager::SpellScrollEditDialog(int *a1) { // ?SpellScrollEditDialog@edi
   RedrawEditPane();
 }
 
-signed int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z
+int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z
   int v2; // [sp+14h] [bp-14h]@3
   int v3; // [sp+18h] [bp-10h]@2
   INPUT_EVENT_CODE evtCode; // [sp+1Ch] [bp-Ch]@1

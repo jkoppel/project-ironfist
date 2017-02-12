@@ -137,7 +137,7 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
   if (gpCurPlayer && gpCurPlayer->curHeroIdx != -1)
     hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   switch (a1) {
-    case 40143:
+    case 40143: // MENUITEM "Free Spells"
       gpGame->_B[1] = 1;
       if (gbInCampaign)
         gpGame->_11[72] = 1;
