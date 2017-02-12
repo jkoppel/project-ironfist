@@ -4,3 +4,7 @@
 #pragma pack(push, 1)
 
 #define NUM_SPELLS 66
+
+#pragma pack(pop)
+
+#endif

@@ -2,6 +2,7 @@
 #define SPELLS_H
 
 #include "adventure/adv.h"
+#include "spell_constants.h"
 
 #pragma pack(push, 1)
 
