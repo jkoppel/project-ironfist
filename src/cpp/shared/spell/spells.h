@@ -128,8 +128,6 @@ enum STACK_MODIFYING_EFFECT {
   EFFECT_STEELSKIN = 14,
 };
 
-char* gSpellNames[];
-
 extern int __fastcall GetManaCost(int, class hero*);
 int GetManaCost(int);
 

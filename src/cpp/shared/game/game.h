@@ -213,8 +213,8 @@ enum PERSONALITY_TYPE {
 extern void __fastcall CheckEndGame_orig(int a, int b);
 void __fastcall CheckEndGame(int a, int b);
 
-signed int __fastcall HandleAppSpecificMenuCommands(signed int a1, int a2);
-signed int __fastcall HandleAppSpecificMenuCommands_orig(signed int a1, int a2);
+int __fastcall HandleAppSpecificMenuCommands(int a1);
+int __fastcall HandleAppSpecificMenuCommands_orig(int a1);
 
 extern game* gpGame;
 extern int gbInCampaign;

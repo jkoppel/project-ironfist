@@ -58,7 +58,7 @@ public:
 
 extern editManager* gpEditManager;
 extern SMapHeader gpMapHeader;
-extern heroWindow* gpCellEditDialog;
+extern class heroWindow* gpCellEditDialog;
 extern int dword_48F6B8;
 
 void __fastcall ShowErrorMessage(const char *str);

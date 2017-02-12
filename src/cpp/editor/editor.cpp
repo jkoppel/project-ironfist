@@ -1,10 +1,9 @@
 #include <stack>
 
 #include "editor.h"
-
 #include "base.h"
-
 #include "string.h"
+#include "spell/spell_constants.h"
 
 // That "const" is a fiction -- the original ShowErrorMessage mutates
 // its arguments. This was fine in the original Heroes II, which

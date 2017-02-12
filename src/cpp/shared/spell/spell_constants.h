@@ -5,6 +5,8 @@
 
 #define NUM_SPELLS 66
 
+char* gSpellNames[];
+
 #pragma pack(pop)
 
 #endif

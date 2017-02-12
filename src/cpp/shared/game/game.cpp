@@ -129,27 +129,26 @@ void __fastcall CheckEndGame(int a, int b) {
   }
 }
 
-signed int __fastcall HandleAppSpecificMenuCommands(signed int a1, int a2) {
+int __fastcall HandleAppSpecificMenuCommands(int a1) {
   int spell; // [sp+24h] [bp-8h]@55
-  char *ptr; // [sp+28h] [bp-4h]@1
+  hero *hro; // [sp+28h] [bp-4h]@1
 
-  ptr = 0;
+  hro = 0;
   if (gpCurPlayer && gpCurPlayer->curHeroIdx != -1)
-    ptr = (char *)&gpGame->heroes[gpCurPlayer->curHeroIdx];
-  hero *hro = (hero*)ptr;
+    hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   switch (a1) {
     case 40143:
       gpGame->_B[1] = 1;
       if (gbInCampaign)
         gpGame->_11[72] = 1;
-      if (ptr) {
-        for (spell = 0; spell < NUM_SPELLS; ++spell) // constant here
+      if (hro) {
+        for (spell = 0; spell < NUM_SPELLS; ++spell)
           hro->AddSpell(spell, 10);
-        *(_WORD *)ptr = 999;
+        hro->spellpoints = 999;
       }
       return 0;
     default:
-      return HandleAppSpecificMenuCommands_orig(a1, a2);
+      return HandleAppSpecificMenuCommands_orig(a1);
   }
 }
 
