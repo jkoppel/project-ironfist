@@ -11,7 +11,16 @@
 #include "resource/resources.h"
 
 #include "combat/animation.h"
+#include "combat/army.h"
 #include "combat/creatures.h"
+
+enum BRIDGE_STATUS {
+  BRIDGE_OPEN = 0x0,
+  BRIDGE_CLOSING_1 = 0x1,
+  BRIDGE_CLOSING_2 = 0x2,
+  BRIDGE_DESTROYED = 0x3,
+  BRIDGE_CLOSED = 0x4,
+};
 
 #pragma pack(push, 1)
 
@@ -39,100 +48,6 @@ public:
 };
 
 int __fastcall ValidHex(int);
-
-
-class army
-{
-public:
-  char mightBeIsAttacking;
-  char animatingRangedAttack;
-  char mightBeAttackAnimIdx;
-  char field_3;
-  char field_4;
-  char field_5;
-  int field_6;
-  H2RECT stackSizeDispBounds;
-  H2RECT field_1A;
-  H2RECT bounds;
-  H2RECT effectAnimationBounds;
-  int field_4A;
-  float field_4E;
-  int targetOwner;
-  int targetStackIdx;
-  int targetNeighborIdx;
-  int field_5E;
-  int targetHex;
-  int probablyIsNeedDrawSpellEffect;
-  int mirroredIdx;
-  int mirrorIdx;
-  int lifespan;
-  int creatureIdx;
-  int occupiedHex;
-  int animationType;
-  int animationFrame;
-  int facingRight;
-  int field_8A;
-  int field_8E;
-  int initialQuantity;
-  int quantity;
-  unsigned int previousQuantity;
-  int temporaryQty;
-  int damage;
-  int armyIdx;
-  int otherBadLuckThing;
-  int speed;
-  int field_B2;
-  int luckStatus;
-  tag_monsterInfo creature;
-  __int16 field_D4;
-  int damageTakenDuringSomeTimePeriod;
-  int hasTakenLosses;
-  int dead;
-  int spellEnemyCreatureAbilityIsCasting;
-  int owningSide;
-  int stackIdx;
-  int baseFidgetTime;
-  int morale;
-  int luck;
-  int field_FA;
-  int yDrawOffset;
-  int xDrawOffset;
-  int numActiveEffects;
-  char effectStrengths[19];
-  int field_11D;
-  int hitByHydraAttack;
-  void *field_125;
-  SMonFrameInfo frameInfo;
-  icon *creatureIcon;
-  icon *missileIcon;
-  sample *combatSounds[7];
-  
-  void LoadResources();
-  int FlyTo(int hex);
-  int ValidFlight(int hex, int);
-  int WalkTo(int hex);
-  void MoveTo(int hex);
-  
-  void MoveAttack(int,int);
-  void MoveAttack_orig(int,int);
-
-  int MidX();
-  int MidY();
-  void DoAttack(int isRetaliation);
-  void DoAttack_orig(int isRetaliation);
-  void SpecialAttack();
-  void SpecialAttack_orig();
-  float SpellCastWorkChance(int);
-  float SpellCastWorkChance_orig(int);
-  void CheckLuck();
-  void DamageEnemy(class army *, int *, int *, int, int);
-  int SpellCastWorks(int);
-  void PowEffect(int, int, int, int);
-  void WaitSample(int);
-  void CancelSpellType(int);
-  int GetAdjacentCellIndex(int, int);
-  void ProcessDeath(int a2);
-};
 
 class combatManager : public baseManager
 {
@@ -276,6 +191,9 @@ public:
   void PowEffect(int,int,int,int);
   void MakeCreaturesVanish();
   void ArcShot(icon *icn, int fromX, int fromY, int targX, int targY);
+  void LowerDoor();
+  void TestRaiseDoor();
+  int ShotIsThroughWall(int side, signed int occupiedHex, signed int targHex);
 };
 
 extern combatManager* gpCombatManager;

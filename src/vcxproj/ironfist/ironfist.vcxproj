@@ -104,6 +104,7 @@
     <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
+    <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat_spells.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
@@ -227,6 +228,7 @@
     <ClInclude Include="..\..\cpp\shared\spell\spells.h" />
     <ClInclude Include="..\..\cpp\shared\stdafx.h" />
     <ClInclude Include="..\..\cpp\shared\town\town.h" />
+    <ClInclude Include="..\..\cpp\shared\combat\army.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\asm\heroes2.asm">

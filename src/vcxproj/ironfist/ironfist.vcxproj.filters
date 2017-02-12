@@ -282,6 +282,9 @@
     <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp">
       <Filter>Header Files\spells</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\combat\army.cpp">
+      <Filter>Source Files\combat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\stdafx.h">
@@ -472,6 +475,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h">
       <Filter>Header Files\spells</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\cpp\shared\combat\army.h">
+      <Filter>Header Files\combat</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
