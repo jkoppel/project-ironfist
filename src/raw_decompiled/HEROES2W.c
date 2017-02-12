@@ -29389,7 +29389,7 @@ void __thiscall game::SetupTowns(game *this)
             tries = 0;
             while ( 1 )
             {
-              for ( spell = Random(0, 64); gsSpellInfo[spell].level - 1 != j; spell = Random(0, 64) )   // constant here
+              for ( spell = Random(0, 64); gsSpellInfo[spell].level - 1 != j; spell = Random(0, 64) )
                 ;
               if ( castle->ownerIdx == -1 || gbHumanPlayer[castle->ownerIdx] )
                 v5 = 1500;
@@ -33862,7 +33862,7 @@ _DWORD __fastcall GetMonType(signed int a1, _DWORD a2)
 {
   signed int i; // [sp+14h] [bp-4h]@1
 
-  for ( i = 65; i >= 0; --i ) // not likely, but check later
+  for ( i = 65; i >= 0; --i )
   {
     if ( a2 && a2 != 2 )
     {
@@ -34901,7 +34901,7 @@ LABEL_35:
         gpGame->_11[72] = 1;
       if ( this )
       {
-        for ( spell = 0; spell < 65; ++spell ) // constant here
+        for ( spell = 0; spell < 65; ++spell )
           hero::AddSpell((hero *)this, spell, 10);
         *(_WORD *)this = 999;
       }
@@ -74249,7 +74249,7 @@ LABEL_12:
           giCurPlayer);
         if ( v57 == 23 )
         {
-          for ( spell = 61; (signed int)spell < 64; ++spell )   //this might be for the Elementals (61 to 64)
+          for ( spell = 61; (signed int)spell < 64; ++spell )
           {
             if ( hero::HasSpell(hro, spell) && GetManaCost(spell, hro) < hro->spellpoints )
             {
@@ -89071,7 +89071,7 @@ int __stdcall philAI::QuickCombat(int a1, int a2, __int64 a3, int a4, int a5, fl
   }
   if ( (_DWORD)this && *(_BYTE *)(this + 127) && HIDWORD(this) )
   {
-    for ( spell = 0; (signed int)spell < 65; ++spell ) // constant here
+    for ( spell = 0; (signed int)spell < 65; ++spell )
     {
       if ( hero::HasSpell((hero *)this, spell)
         && !hero::HasSpell(HIDWORD(this), spell)
@@ -99146,7 +99146,7 @@ void __fastcall FadeIn(int a1)
   memset(pal->contents, 0, 0x300u);
   for ( i = 0; ; i += stride )
   {
-    if ( i < 64 ) //what is this?
+    if ( i < 64 )
       goto LABEL_11;
     if ( hit63 )
       break;
@@ -99209,7 +99209,7 @@ int __fastcall FadeOut(signed int a1)
   v4 = 0;
   while ( 1 )
   {
-    if ( v4 < 64 ) //what is this?
+    if ( v4 < 64 )
       goto LABEL_11;
     result = v10;
     if ( v10 )
