@@ -143,7 +143,7 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
         gpGame->_11[72] = 1;
       if (hro) {
         for (spell = 0; spell < NUM_SPELLS; ++spell)
-          hro->AddSpell(spell, 10);
+          hro->AddSpell(spell, 10); // Knowledge argument "10" is redundant due to zeroing out of value in modified AddSpell
         hro->spellpoints = 999;
       }
       return 0;
