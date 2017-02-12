@@ -161,6 +161,7 @@
     <ClCompile Include="..\..\cpp\shared\sound\cd_music.cpp" />
     <ClCompile Include="..\..\cpp\shared\spell\spells.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
+    <ClCompile Include="spell_constants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
@@ -225,6 +226,7 @@
     <ClInclude Include="..\..\cpp\shared\spell\spells.h" />
     <ClInclude Include="..\..\cpp\shared\stdafx.h" />
     <ClInclude Include="..\..\cpp\shared\town\town.h" />
+    <ClInclude Include="spell_constants.h" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\asm\heroes2.asm">

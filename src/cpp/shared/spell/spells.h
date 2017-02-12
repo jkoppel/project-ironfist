@@ -5,8 +5,6 @@
 
 #pragma pack(push, 1)
 
-#define NUM_SPELLS 66
-
 struct SSpellInfo {
   char soundName[9];
   char level;
