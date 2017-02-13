@@ -73,11 +73,17 @@ void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) { // ?SpellScrol
   OriginalSpell = *RelatedToSpellIdx;
   gpCellEditDialog = new heroWindow(0, 0, "x_spedit.bin");
   
+  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+  evt.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
+  evt.yCoordOrFieldID = 100;
   GUISetText(gpCellEditDialog, 101, "Spell Scroll");
   GUISetText(gpCellEditDialog, 102, "Attach Spell");
   for (i = 0; i < NUM_SPELLS; ++i) {
+
     GUIDroplistAdd(gpCellEditDialog, 100, gSpellNames[i]);
   }
+  evt.xCoordOrKeycode = 54;
+  evt.payload = (void *)*RelatedToSpellIdx;
   GUIBroadcastMessage(gpCellEditDialog, 100, 54, (void *)*RelatedToSpellIdx);
   gpWindowManager->DoDialog(gpCellEditDialog, SpellScrollEditDialogCallback, 0);
   delete(gpCellEditDialog);
@@ -106,7 +112,9 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScroll
     v3 = msg.xCoordOrKeycode;
     if (v3 == 12) {
       if (msg.yCoordOrFieldID == 100) {
-        GUIBroadcastMessage(gpCellEditDialog, 100, 55, msg.payload);
+        msg.xCoordOrKeycode = 55;
+        gpCellEditDialog->BroadcastMessage(msg);
+        //GUIBroadcastMessage(gpCellEditDialog, 100, 55, msg.payload);
         OriginalSpell = (int)msg.payload;
       }
     } else if (v3 == 13) {
