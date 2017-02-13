@@ -165,6 +165,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
@@ -214,7 +215,6 @@
     <ClInclude Include="..\..\cpp\shared\lib\lua\src\lvm.h" />
     <ClInclude Include="..\..\cpp\shared\lib\lua\src\lzio.h" />
     <ClInclude Include="..\..\cpp\shared\manager.h" />
-    <ClInclude Include="..\..\cpp\shared\msg.h" />
     <ClInclude Include="..\..\cpp\shared\mss32.h" />
     <ClInclude Include="..\..\cpp\shared\prefs.h" />
     <ClInclude Include="..\..\cpp\shared\registry_prefs.h" />

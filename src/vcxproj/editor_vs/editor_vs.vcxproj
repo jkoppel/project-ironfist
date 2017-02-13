@@ -147,6 +147,7 @@
     <None Include="..\..\asm\editor_imports.inc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
     <ClInclude Include="..\..\rc\editor\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />

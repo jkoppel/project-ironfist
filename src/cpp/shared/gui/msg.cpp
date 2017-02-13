@@ -22,6 +22,10 @@ void GUISetText(heroWindow* hwnd, int f, char* p) {
 	GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_SET_TEXT, (void*)p);
 }
 
+void GUIDroplistAdd(heroWindow* hwnd, int f, char* p) {
+  GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_DROPLIST_ADD, (void*)p);
+}
+
 
 void GUIBroadcastMessage(heroWindow* hwnd, int f, int c, void* p) {
 	tag_message evt;

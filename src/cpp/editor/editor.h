@@ -52,7 +52,7 @@ public:
   void InitializeMap(int random, int width, int height);
   void InitializeMap_orig(int random, int width, int height);
   void SpellScrollEditDialog(int *a1);
-  void SpellScrollEditDialog_orig(int *a1);
+  void SpellScrollEditDialog_orig(int *RelatedToSpellIdx);
   void __thiscall UpdateCursor();
 };
 

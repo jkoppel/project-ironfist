@@ -355,6 +355,9 @@
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\msg.h">
+      <Filter>Source Files\shared\gui</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\asm\editor.asm">

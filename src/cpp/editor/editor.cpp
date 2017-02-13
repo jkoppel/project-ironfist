@@ -4,6 +4,7 @@
 #include "base.h"
 #include "string.h"
 #include "gui/gui.h"
+#include "gui/msg.h"
 #include "spell/spell_constants.h"
 
 // That "const" is a fiction -- the original ShowErrorMessage mutates
@@ -65,36 +66,23 @@ void editManager::InitializeMap(int random, int width, int height) {
 	this->InitializeMap_orig(random, width, height);
 }
 
-void editManager::SpellScrollEditDialog(int *a1) { // ?SpellScrollEditDialog@editManager@@QAEXPAH@Z
+void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) { // ?SpellScrollEditDialog@editManager@@QAEXPAH@Z
   tag_message evt; // [sp+1Ch] [bp-20h]@4
   int i; // [sp+38h] [bp-4h]@4
 
-  OriginalSpell = *a1;
+  OriginalSpell = *RelatedToSpellIdx;
   gpCellEditDialog = new heroWindow(0, 0, "x_spedit.bin");
   
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = GUI_MESSAGE_SET_TEXT;
-  evt.payload = &gText;
-  evt.yCoordOrFieldID = 101;
-  strcpy((char *)&gText, "Spell Scroll");
-  gpCellEditDialog->BroadcastMessage(evt);
-  evt.yCoordOrFieldID = 102;
-  strcpy((char *)&gText, "Attach Spell");
-  gpCellEditDialog->BroadcastMessage(evt);
-  evt.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
-  evt.yCoordOrFieldID = 100;
+  GUISetText(gpCellEditDialog, 101, "Spell Scroll");
+  GUISetText(gpCellEditDialog, 102, "Attach Spell");
   for (i = 0; i < NUM_SPELLS; ++i) {
-    sprintf((char *)&gText, "%s", gSpellNames[i]);
-    evt.payload = &gText;
-    gpCellEditDialog->BroadcastMessage(evt);
+    GUIDroplistAdd(gpCellEditDialog, 100, gSpellNames[i]);
   }
-  evt.xCoordOrKeycode = 54;
-  evt.payload = (void *)*a1;
-  gpCellEditDialog->BroadcastMessage(evt);
+  GUIBroadcastMessage(gpCellEditDialog, 100, 54, (void *)*RelatedToSpellIdx);
   gpWindowManager->DoDialog(gpCellEditDialog, SpellScrollEditDialogCallback, 0);
   delete(gpCellEditDialog);
   if (gpWindowManager->buttonPressedCode != BUTTON_CANCEL) {
-    *a1 = OriginalSpell;
+    *RelatedToSpellIdx = OriginalSpell;
     gpEditManager->setOnEventUpdate = 1;
   }
   gpEditManager->UpdateCursor();
@@ -118,8 +106,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScroll
     v3 = msg.xCoordOrKeycode;
     if (v3 == 12) {
       if (msg.yCoordOrFieldID == 100) {
-        msg.xCoordOrKeycode = 55;
-        gpCellEditDialog->BroadcastMessage(msg);
+        GUIBroadcastMessage(gpCellEditDialog, 100, 55, msg.payload);
         OriginalSpell = (int)msg.payload;
       }
     } else if (v3 == 13) {
