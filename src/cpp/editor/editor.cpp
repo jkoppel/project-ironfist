@@ -68,7 +68,7 @@ void editManager::SpellScrollEditDialog(int *a1) { // ?SpellScrollEditDialog@edi
   tag_message evt; // [sp+1Ch] [bp-20h]@4
   int i; // [sp+38h] [bp-4h]@4
 
-  dword_48F6B8 = *a1;
+  OriginalSpell = *a1;
   gpCellEditDialog = new heroWindow(0, 0, "x_spedit.bin");
   
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
@@ -93,7 +93,7 @@ void editManager::SpellScrollEditDialog(int *a1) { // ?SpellScrollEditDialog@edi
   gpWindowManager->DoDialog(gpCellEditDialog, SpellScrollEditDialogCallback, 0);
   delete(gpCellEditDialog);
   if (gpWindowManager->buttonPressedCode != 30721) {
-    *a1 = dword_48F6B8;
+    *a1 = OriginalSpell;
     gpEditManager->setOnEventUpdate = 1;
   }
   gpEditManager->UpdateCursor();
@@ -119,7 +119,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScroll
       if (msg.yCoordOrFieldID == 100) {
         msg.xCoordOrKeycode = 55;
         gpCellEditDialog->BroadcastMessage(msg);
-        dword_48F6B8 = (int)msg.payload;
+        OriginalSpell = (int)msg.payload;
       }
     } else if (v3 == 13) {
       v2 = msg.yCoordOrFieldID;
