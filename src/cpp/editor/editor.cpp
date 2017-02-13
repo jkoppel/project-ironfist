@@ -3,6 +3,7 @@
 #include "editor.h"
 #include "base.h"
 #include "string.h"
+#include "gui/gui.h"
 #include "spell/spell_constants.h"
 
 // That "const" is a fiction -- the original ShowErrorMessage mutates
@@ -92,7 +93,7 @@ void editManager::SpellScrollEditDialog(int *a1) { // ?SpellScrollEditDialog@edi
   gpCellEditDialog->BroadcastMessage(evt);
   gpWindowManager->DoDialog(gpCellEditDialog, SpellScrollEditDialogCallback, 0);
   delete(gpCellEditDialog);
-  if (gpWindowManager->buttonPressedCode != 30721) {
+  if (gpWindowManager->buttonPressedCode != BUTTON_CANCEL) {
     *a1 = OriginalSpell;
     gpEditManager->setOnEventUpdate = 1;
   }
@@ -123,7 +124,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScroll
       }
     } else if (v3 == 13) {
       v2 = msg.yCoordOrFieldID;
-      if (v2 >= 30721 && v2 <= 30722) {
+      if (v2 >= BUTTON_CANCEL && v2 <= BUTTON_OK) {
         gpWindowManager->buttonPressedCode = msg.yCoordOrFieldID;
         msg.eventCode = INPUT_GUI_MESSAGE_CODE;
         msg.yCoordOrFieldID = 10;
