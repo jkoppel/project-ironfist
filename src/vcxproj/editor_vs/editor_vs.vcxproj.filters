@@ -201,6 +201,9 @@
     <ClCompile Include="..\..\cpp\editor\init.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp">
+      <Filter>Header Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\editor_imports.inc">
@@ -348,6 +351,9 @@
     </ClInclude>
     <ClInclude Include="..\..\rc\editor\resource.h">
       <Filter>Header Files\rc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
