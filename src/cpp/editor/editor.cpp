@@ -74,12 +74,10 @@ void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) { // ?SpellScrol
   gpCellEditDialog = new heroWindow(0, 0, "x_spedit.bin");
   
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
   evt.yCoordOrFieldID = 100;
   GUISetText(gpCellEditDialog, 101, "Spell Scroll");
   GUISetText(gpCellEditDialog, 102, "Attach Spell");
   for (i = 0; i < NUM_SPELLS; ++i) {
-
     GUIDroplistAdd(gpCellEditDialog, 100, gSpellNames[i]);
   }
   evt.xCoordOrKeycode = 54;
