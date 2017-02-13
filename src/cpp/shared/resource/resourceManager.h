@@ -5,7 +5,7 @@
 
 #include "resource/resources.h"
 #include "manager.h"
-#include "msg.h"
+#include "gui/msg.h"
 
 #pragma pack(push, 1)
 

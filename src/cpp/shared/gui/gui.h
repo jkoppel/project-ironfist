@@ -82,6 +82,12 @@ enum ICON_GUI_FLAGS
   ICON_GUI_VISIBLE = 0x4,
 };
 
+enum GENERAL_GUI_FIELD_IDS {
+  FIELD_TOP_BANNER = 2,
+  BUTTON_CANCEL = 30721,
+  BUTTON_OK = 30722,
+};
+
 /* These functions provide a simpler API to parts of the old GUI "BroadcastMessage" API */
 
 void GUIAddFlag(heroWindow*, int, int);
