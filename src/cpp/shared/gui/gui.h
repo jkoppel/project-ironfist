@@ -97,7 +97,8 @@ void GUISetIcon(heroWindow*, int, char*);
 void GUISetText(heroWindow*, int, char*);
 void GUIDroplistAdd(heroWindow*, int, char*);
 
-void GUIBroadcastMessage(heroWindow*, int,int,void*);
+void GUIBroadcastMessage(heroWindow*, int, int, void*);
+void GUIBroadcastMessageDirect(heroWindow*, int, int, void*, tag_message&);
 
 void __fastcall SetupRecruitWin(heroWindow *,int,int,int,int,int);
 void __fastcall QuickViewWait(void);

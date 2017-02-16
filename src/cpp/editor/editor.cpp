@@ -94,8 +94,6 @@ void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) { // ?SpellScrol
 }
 
 int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z
-  int v2; // [sp+14h] [bp-14h]@3
-  int v3; // [sp+18h] [bp-10h]@2
   INPUT_EVENT_CODE evtCode; // [sp+1Ch] [bp-Ch]@1
 
   evtCode = msg.eventCode;
@@ -107,17 +105,15 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScroll
       return 2;
     }
   } else if (evtCode == INPUT_GUI_MESSAGE_CODE) {
-    v3 = msg.xCoordOrKeycode;
-    if (v3 == 12) {
+    if (msg.xCoordOrKeycode == 12) {
       if (msg.yCoordOrFieldID == 100) {
-        msg.xCoordOrKeycode = 55;
-        gpCellEditDialog->BroadcastMessage(msg);
-        //GUIBroadcastMessage(gpCellEditDialog, 100, 55, msg.payload);
+        //msg.xCoordOrKeycode = 55;
+        //gpCellEditDialog->BroadcastMessage(msg);
+        GUIBroadcastMessageDirect(gpCellEditDialog, msg.yCoordOrFieldID, 55, (void *)msg.payload, msg);
         OriginalSpell = (int)msg.payload;
       }
-    } else if (v3 == 13) {
-      v2 = msg.yCoordOrFieldID;
-      if (v2 >= BUTTON_CANCEL && v2 <= BUTTON_OK) {
+    } else if (msg.xCoordOrKeycode == 13) {
+      if (msg.yCoordOrFieldID >= BUTTON_CANCEL && msg.yCoordOrFieldID <= BUTTON_OK) {
         gpWindowManager->buttonPressedCode = msg.yCoordOrFieldID;
         msg.eventCode = INPUT_GUI_MESSAGE_CODE;
         msg.yCoordOrFieldID = 10;

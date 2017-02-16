@@ -35,3 +35,11 @@ void GUIBroadcastMessage(heroWindow* hwnd, int f, int c, void* p) {
 	evt.payload = p;
 	hwnd->BroadcastMessage(evt);
 }
+
+void GUIBroadcastMessageDirect(heroWindow* hwnd, int f, int c, void* p, tag_message& evt) {
+  evt.yCoordOrFieldID = f;
+  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+  evt.xCoordOrKeycode = c;
+  evt.payload = p;
+  hwnd->BroadcastMessage(evt);
+}
