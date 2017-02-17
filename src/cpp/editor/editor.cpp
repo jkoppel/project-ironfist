@@ -66,7 +66,7 @@ void editManager::InitializeMap(int random, int width, int height) {
 	this->InitializeMap_orig(random, width, height);
 }
 
-void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) { // ?SpellScrollEditDialog@editManager@@QAEXPAH@Z
+void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) {
   tag_message evt; // [sp+1Ch] [bp-20h]@4
   int i; // [sp+38h] [bp-4h]@4
 
@@ -93,7 +93,7 @@ void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) { // ?SpellScrol
   RedrawEditPane();
 }
 
-int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z
+int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
   INPUT_EVENT_CODE evtCode; // [sp+1Ch] [bp-Ch]@1
 
   evtCode = msg.eventCode;
@@ -107,10 +107,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) { // ?SpellScroll
   } else if (evtCode == INPUT_GUI_MESSAGE_CODE) {
     if (msg.xCoordOrKeycode == 12) {
       if (msg.yCoordOrFieldID == 100) {
-        //msg.xCoordOrKeycode = 55;
-        //gpCellEditDialog->BroadcastMessage(msg);
-        GUIBroadcastMessageDirect(gpCellEditDialog, msg.yCoordOrFieldID, 55, (void *)msg.payload, msg);
-        OriginalSpell = (int)msg.payload;
+        OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, (void *)msg.payload);
       }
     } else if (msg.xCoordOrKeycode == 13) {
       if (msg.yCoordOrFieldID >= BUTTON_CANCEL && msg.yCoordOrFieldID <= BUTTON_OK) {

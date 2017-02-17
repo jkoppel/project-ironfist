@@ -36,10 +36,12 @@ void GUIBroadcastMessage(heroWindow* hwnd, int f, int c, void* p) {
 	hwnd->BroadcastMessage(evt);
 }
 
-void GUIBroadcastMessageDirect(heroWindow* hwnd, int f, int c, void* p, tag_message& evt) {
-  evt.yCoordOrFieldID = f;
+int GUIGetDropdownSelection(heroWindow* hwnd, void* p) {
+  tag_message evt;
+  evt.yCoordOrFieldID = 100;
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = c;
+  evt.xCoordOrKeycode = 55;
   evt.payload = p;
   hwnd->BroadcastMessage(evt);
+  return (int)evt.payload;
 }
