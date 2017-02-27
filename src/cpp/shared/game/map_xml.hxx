@@ -1616,9 +1616,363 @@ namespace ironfist_map
     static allowAIArmySharing_type
     allowAIArmySharing_default_value ();
 
+    // mapWidth
+    // 
+    typedef ::xml_schema::int_ mapWidth_type;
+    typedef ::xsd::cxx::tree::traits< mapWidth_type, char > mapWidth_traits;
+
+    const mapWidth_type&
+    mapWidth () const;
+
+    mapWidth_type&
+    mapWidth ();
+
+    void
+    mapWidth (const mapWidth_type& x);
+
+    static mapWidth_type
+    mapWidth_default_value ();
+
+    // mapHeight
+    // 
+    typedef ::xml_schema::int_ mapHeight_type;
+    typedef ::xsd::cxx::tree::traits< mapHeight_type, char > mapHeight_traits;
+
+    const mapHeight_type&
+    mapHeight () const;
+
+    mapHeight_type&
+    mapHeight ();
+
+    void
+    mapHeight (const mapHeight_type& x);
+
+    static mapHeight_type
+    mapHeight_default_value ();
+
+    // gameInstanceID
+    // 
+    typedef ::xml_schema::int_ gameInstanceID_type;
+    typedef ::xsd::cxx::tree::traits< gameInstanceID_type, char > gameInstanceID_traits;
+
+    const gameInstanceID_type&
+    gameInstanceID () const;
+
+    gameInstanceID_type&
+    gameInstanceID ();
+
+    void
+    gameInstanceID (const gameInstanceID_type& x);
+
+    // monthType
+    // 
+    typedef ::xml_schema::int_ monthType_type;
+    typedef ::xsd::cxx::tree::traits< monthType_type, char > monthType_traits;
+
+    const monthType_type&
+    monthType () const;
+
+    monthType_type&
+    monthType ();
+
+    void
+    monthType (const monthType_type& x);
+
+    // monthTypeExtra
+    // 
+    typedef ::xml_schema::int_ monthTypeExtra_type;
+    typedef ::xsd::cxx::tree::traits< monthTypeExtra_type, char > monthTypeExtra_traits;
+
+    const monthTypeExtra_type&
+    monthTypeExtra () const;
+
+    monthTypeExtra_type&
+    monthTypeExtra ();
+
+    void
+    monthTypeExtra (const monthTypeExtra_type& x);
+
+    // weekType
+    // 
+    typedef ::xml_schema::int_ weekType_type;
+    typedef ::xsd::cxx::tree::traits< weekType_type, char > weekType_traits;
+
+    const weekType_type&
+    weekType () const;
+
+    weekType_type&
+    weekType ();
+
+    void
+    weekType (const weekType_type& x);
+
+    // weekTypeExtra
+    // 
+    typedef ::xml_schema::int_ weekTypeExtra_type;
+    typedef ::xsd::cxx::tree::traits< weekTypeExtra_type, char > weekTypeExtra_traits;
+
+    const weekTypeExtra_type&
+    weekTypeExtra () const;
+
+    weekTypeExtra_type&
+    weekTypeExtra ();
+
+    void
+    weekTypeExtra (const weekTypeExtra_type& x);
+
+    // mapChangeCtr
+    // 
+    typedef ::xml_schema::int_ mapChangeCtr_type;
+    typedef ::xsd::cxx::tree::traits< mapChangeCtr_type, char > mapChangeCtr_traits;
+
+    const mapChangeCtr_type&
+    mapChangeCtr () const;
+
+    mapChangeCtr_type&
+    mapChangeCtr ();
+
+    void
+    mapChangeCtr (const mapChangeCtr_type& x);
+
+    // numPlayers
+    // 
+    typedef ::xml_schema::int_ numPlayers_type;
+    typedef ::xsd::cxx::tree::traits< numPlayers_type, char > numPlayers_traits;
+
+    const numPlayers_type&
+    numPlayers () const;
+
+    numPlayers_type&
+    numPlayers ();
+
+    void
+    numPlayers (const numPlayers_type& x);
+
+    // currentPlayer
+    // 
+    typedef ::xml_schema::int_ currentPlayer_type;
+    typedef ::xsd::cxx::tree::traits< currentPlayer_type, char > currentPlayer_traits;
+
+    const currentPlayer_type&
+    currentPlayer () const;
+
+    currentPlayer_type&
+    currentPlayer ();
+
+    void
+    currentPlayer (const currentPlayer_type& x);
+
+    // numDefatedPlayers
+    // 
+    typedef ::xml_schema::int_ numDefatedPlayers_type;
+    typedef ::xsd::cxx::tree::traits< numDefatedPlayers_type, char > numDefatedPlayers_traits;
+
+    const numDefatedPlayers_type&
+    numDefatedPlayers () const;
+
+    numDefatedPlayers_type&
+    numDefatedPlayers ();
+
+    void
+    numDefatedPlayers (const numDefatedPlayers_type& x);
+
+    // day
+    // 
+    typedef ::xml_schema::int_ day_type;
+    typedef ::xsd::cxx::tree::traits< day_type, char > day_traits;
+
+    const day_type&
+    day () const;
+
+    day_type&
+    day ();
+
+    void
+    day (const day_type& x);
+
+    // week
+    // 
+    typedef ::xml_schema::int_ week_type;
+    typedef ::xsd::cxx::tree::traits< week_type, char > week_traits;
+
+    const week_type&
+    week () const;
+
+    week_type&
+    week ();
+
+    void
+    week (const week_type& x);
+
+    // month
+    // 
+    typedef ::xml_schema::int_ month_type;
+    typedef ::xsd::cxx::tree::traits< month_type, char > month_traits;
+
+    const month_type&
+    month () const;
+
+    month_type&
+    month ();
+
+    void
+    month (const month_type& x);
+
+    // numObelisks
+    // 
+    typedef ::xml_schema::int_ numObelisks_type;
+    typedef ::xsd::cxx::tree::traits< numObelisks_type, char > numObelisks_traits;
+
+    const numObelisks_type&
+    numObelisks () const;
+
+    numObelisks_type&
+    numObelisks ();
+
+    void
+    numObelisks (const numObelisks_type& x);
+
+    // field_6395
+    // 
+    typedef ::xml_schema::int_ field_6395_type;
+    typedef ::xsd::cxx::tree::traits< field_6395_type, char > field_6395_traits;
+
+    const field_6395_type&
+    field_6395 () const;
+
+    field_6395_type&
+    field_6395 ();
+
+    void
+    field_6395 (const field_6395_type& x);
+
+    // field_6396
+    // 
+    typedef ::xml_schema::int_ field_6396_type;
+    typedef ::xsd::cxx::tree::traits< field_6396_type, char > field_6396_traits;
+
+    const field_6396_type&
+    field_6396 () const;
+
+    field_6396_type&
+    field_6396 ();
+
+    void
+    field_6396 (const field_6396_type& x);
+
+    // field_6397
+    // 
+    typedef ::xml_schema::int_ field_6397_type;
+    typedef ::xsd::cxx::tree::traits< field_6397_type, char > field_6397_traits;
+
+    const field_6397_type&
+    field_6397 () const;
+
+    field_6397_type&
+    field_6397 ();
+
+    void
+    field_6397 (const field_6397_type& x);
+
+    // currentRumor
+    // 
+    typedef ::xml_schema::string currentRumor_type;
+    typedef ::xsd::cxx::tree::traits< currentRumor_type, char > currentRumor_traits;
+
+    const currentRumor_type&
+    currentRumor () const;
+
+    currentRumor_type&
+    currentRumor ();
+
+    void
+    currentRumor (const currentRumor_type& x);
+
+    void
+    currentRumor (::std::auto_ptr< currentRumor_type > p);
+
+    // numRumors
+    // 
+    typedef ::xml_schema::int_ numRumors_type;
+    typedef ::xsd::cxx::tree::traits< numRumors_type, char > numRumors_traits;
+
+    const numRumors_type&
+    numRumors () const;
+
+    numRumors_type&
+    numRumors ();
+
+    void
+    numRumors (const numRumors_type& x);
+
+    // numEvents
+    // 
+    typedef ::xml_schema::int_ numEvents_type;
+    typedef ::xsd::cxx::tree::traits< numEvents_type, char > numEvents_traits;
+
+    const numEvents_type&
+    numEvents () const;
+
+    numEvents_type&
+    numEvents ();
+
+    void
+    numEvents (const numEvents_type& x);
+
+    // field_657B
+    // 
+    typedef ::xml_schema::int_ field_657B_type;
+    typedef ::xsd::cxx::tree::traits< field_657B_type, char > field_657B_traits;
+
+    const field_657B_type&
+    field_657B () const;
+
+    field_657B_type&
+    field_657B ();
+
+    void
+    field_657B (const field_657B_type& x);
+
+    // maxMapExtra
+    // 
+    typedef ::xml_schema::int_ maxMapExtra_type;
+    typedef ::xsd::cxx::tree::traits< maxMapExtra_type, char > maxMapExtra_traits;
+
+    const maxMapExtra_type&
+    maxMapExtra () const;
+
+    maxMapExtra_type&
+    maxMapExtra ();
+
+    void
+    maxMapExtra (const maxMapExtra_type& x);
+
     // Constructors.
     //
-    gamestate_t (const allowAIArmySharing_type&);
+    gamestate_t (const allowAIArmySharing_type&,
+                 const mapWidth_type&,
+                 const mapHeight_type&,
+                 const gameInstanceID_type&,
+                 const monthType_type&,
+                 const monthTypeExtra_type&,
+                 const weekType_type&,
+                 const weekTypeExtra_type&,
+                 const mapChangeCtr_type&,
+                 const numPlayers_type&,
+                 const currentPlayer_type&,
+                 const numDefatedPlayers_type&,
+                 const day_type&,
+                 const week_type&,
+                 const month_type&,
+                 const numObelisks_type&,
+                 const field_6395_type&,
+                 const field_6396_type&,
+                 const field_6397_type&,
+                 const currentRumor_type&,
+                 const numRumors_type&,
+                 const numEvents_type&,
+                 const field_657B_type&,
+                 const maxMapExtra_type&);
 
     gamestate_t (const ::xercesc::DOMElement& e,
                  ::xml_schema::flags f = 0,
@@ -1644,6 +1998,29 @@ namespace ironfist_map
 
     protected:
     ::xsd::cxx::tree::one< allowAIArmySharing_type > allowAIArmySharing_;
+    ::xsd::cxx::tree::one< mapWidth_type > mapWidth_;
+    ::xsd::cxx::tree::one< mapHeight_type > mapHeight_;
+    ::xsd::cxx::tree::one< gameInstanceID_type > gameInstanceID_;
+    ::xsd::cxx::tree::one< monthType_type > monthType_;
+    ::xsd::cxx::tree::one< monthTypeExtra_type > monthTypeExtra_;
+    ::xsd::cxx::tree::one< weekType_type > weekType_;
+    ::xsd::cxx::tree::one< weekTypeExtra_type > weekTypeExtra_;
+    ::xsd::cxx::tree::one< mapChangeCtr_type > mapChangeCtr_;
+    ::xsd::cxx::tree::one< numPlayers_type > numPlayers_;
+    ::xsd::cxx::tree::one< currentPlayer_type > currentPlayer_;
+    ::xsd::cxx::tree::one< numDefatedPlayers_type > numDefatedPlayers_;
+    ::xsd::cxx::tree::one< day_type > day_;
+    ::xsd::cxx::tree::one< week_type > week_;
+    ::xsd::cxx::tree::one< month_type > month_;
+    ::xsd::cxx::tree::one< numObelisks_type > numObelisks_;
+    ::xsd::cxx::tree::one< field_6395_type > field_6395_;
+    ::xsd::cxx::tree::one< field_6396_type > field_6396_;
+    ::xsd::cxx::tree::one< field_6397_type > field_6397_;
+    ::xsd::cxx::tree::one< currentRumor_type > currentRumor_;
+    ::xsd::cxx::tree::one< numRumors_type > numRumors_;
+    ::xsd::cxx::tree::one< numEvents_type > numEvents_;
+    ::xsd::cxx::tree::one< field_657B_type > field_657B_;
+    ::xsd::cxx::tree::one< maxMapExtra_type > maxMapExtra_;
   };
 
   class map_t: public ::xml_schema::type

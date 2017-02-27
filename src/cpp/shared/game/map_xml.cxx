@@ -1347,6 +1347,438 @@ namespace ironfist_map
     return allowAIArmySharing_type (1);
   }
 
+  const gamestate_t::mapWidth_type& gamestate_t::
+  mapWidth () const
+  {
+    return this->mapWidth_.get ();
+  }
+
+  gamestate_t::mapWidth_type& gamestate_t::
+  mapWidth ()
+  {
+    return this->mapWidth_.get ();
+  }
+
+  void gamestate_t::
+  mapWidth (const mapWidth_type& x)
+  {
+    this->mapWidth_.set (x);
+  }
+
+  gamestate_t::mapWidth_type gamestate_t::
+  mapWidth_default_value ()
+  {
+    return mapWidth_type (32);
+  }
+
+  const gamestate_t::mapHeight_type& gamestate_t::
+  mapHeight () const
+  {
+    return this->mapHeight_.get ();
+  }
+
+  gamestate_t::mapHeight_type& gamestate_t::
+  mapHeight ()
+  {
+    return this->mapHeight_.get ();
+  }
+
+  void gamestate_t::
+  mapHeight (const mapHeight_type& x)
+  {
+    this->mapHeight_.set (x);
+  }
+
+  gamestate_t::mapHeight_type gamestate_t::
+  mapHeight_default_value ()
+  {
+    return mapHeight_type (32);
+  }
+
+  const gamestate_t::gameInstanceID_type& gamestate_t::
+  gameInstanceID () const
+  {
+    return this->gameInstanceID_.get ();
+  }
+
+  gamestate_t::gameInstanceID_type& gamestate_t::
+  gameInstanceID ()
+  {
+    return this->gameInstanceID_.get ();
+  }
+
+  void gamestate_t::
+  gameInstanceID (const gameInstanceID_type& x)
+  {
+    this->gameInstanceID_.set (x);
+  }
+
+  const gamestate_t::monthType_type& gamestate_t::
+  monthType () const
+  {
+    return this->monthType_.get ();
+  }
+
+  gamestate_t::monthType_type& gamestate_t::
+  monthType ()
+  {
+    return this->monthType_.get ();
+  }
+
+  void gamestate_t::
+  monthType (const monthType_type& x)
+  {
+    this->monthType_.set (x);
+  }
+
+  const gamestate_t::monthTypeExtra_type& gamestate_t::
+  monthTypeExtra () const
+  {
+    return this->monthTypeExtra_.get ();
+  }
+
+  gamestate_t::monthTypeExtra_type& gamestate_t::
+  monthTypeExtra ()
+  {
+    return this->monthTypeExtra_.get ();
+  }
+
+  void gamestate_t::
+  monthTypeExtra (const monthTypeExtra_type& x)
+  {
+    this->monthTypeExtra_.set (x);
+  }
+
+  const gamestate_t::weekType_type& gamestate_t::
+  weekType () const
+  {
+    return this->weekType_.get ();
+  }
+
+  gamestate_t::weekType_type& gamestate_t::
+  weekType ()
+  {
+    return this->weekType_.get ();
+  }
+
+  void gamestate_t::
+  weekType (const weekType_type& x)
+  {
+    this->weekType_.set (x);
+  }
+
+  const gamestate_t::weekTypeExtra_type& gamestate_t::
+  weekTypeExtra () const
+  {
+    return this->weekTypeExtra_.get ();
+  }
+
+  gamestate_t::weekTypeExtra_type& gamestate_t::
+  weekTypeExtra ()
+  {
+    return this->weekTypeExtra_.get ();
+  }
+
+  void gamestate_t::
+  weekTypeExtra (const weekTypeExtra_type& x)
+  {
+    this->weekTypeExtra_.set (x);
+  }
+
+  const gamestate_t::mapChangeCtr_type& gamestate_t::
+  mapChangeCtr () const
+  {
+    return this->mapChangeCtr_.get ();
+  }
+
+  gamestate_t::mapChangeCtr_type& gamestate_t::
+  mapChangeCtr ()
+  {
+    return this->mapChangeCtr_.get ();
+  }
+
+  void gamestate_t::
+  mapChangeCtr (const mapChangeCtr_type& x)
+  {
+    this->mapChangeCtr_.set (x);
+  }
+
+  const gamestate_t::numPlayers_type& gamestate_t::
+  numPlayers () const
+  {
+    return this->numPlayers_.get ();
+  }
+
+  gamestate_t::numPlayers_type& gamestate_t::
+  numPlayers ()
+  {
+    return this->numPlayers_.get ();
+  }
+
+  void gamestate_t::
+  numPlayers (const numPlayers_type& x)
+  {
+    this->numPlayers_.set (x);
+  }
+
+  const gamestate_t::currentPlayer_type& gamestate_t::
+  currentPlayer () const
+  {
+    return this->currentPlayer_.get ();
+  }
+
+  gamestate_t::currentPlayer_type& gamestate_t::
+  currentPlayer ()
+  {
+    return this->currentPlayer_.get ();
+  }
+
+  void gamestate_t::
+  currentPlayer (const currentPlayer_type& x)
+  {
+    this->currentPlayer_.set (x);
+  }
+
+  const gamestate_t::numDefatedPlayers_type& gamestate_t::
+  numDefatedPlayers () const
+  {
+    return this->numDefatedPlayers_.get ();
+  }
+
+  gamestate_t::numDefatedPlayers_type& gamestate_t::
+  numDefatedPlayers ()
+  {
+    return this->numDefatedPlayers_.get ();
+  }
+
+  void gamestate_t::
+  numDefatedPlayers (const numDefatedPlayers_type& x)
+  {
+    this->numDefatedPlayers_.set (x);
+  }
+
+  const gamestate_t::day_type& gamestate_t::
+  day () const
+  {
+    return this->day_.get ();
+  }
+
+  gamestate_t::day_type& gamestate_t::
+  day ()
+  {
+    return this->day_.get ();
+  }
+
+  void gamestate_t::
+  day (const day_type& x)
+  {
+    this->day_.set (x);
+  }
+
+  const gamestate_t::week_type& gamestate_t::
+  week () const
+  {
+    return this->week_.get ();
+  }
+
+  gamestate_t::week_type& gamestate_t::
+  week ()
+  {
+    return this->week_.get ();
+  }
+
+  void gamestate_t::
+  week (const week_type& x)
+  {
+    this->week_.set (x);
+  }
+
+  const gamestate_t::month_type& gamestate_t::
+  month () const
+  {
+    return this->month_.get ();
+  }
+
+  gamestate_t::month_type& gamestate_t::
+  month ()
+  {
+    return this->month_.get ();
+  }
+
+  void gamestate_t::
+  month (const month_type& x)
+  {
+    this->month_.set (x);
+  }
+
+  const gamestate_t::numObelisks_type& gamestate_t::
+  numObelisks () const
+  {
+    return this->numObelisks_.get ();
+  }
+
+  gamestate_t::numObelisks_type& gamestate_t::
+  numObelisks ()
+  {
+    return this->numObelisks_.get ();
+  }
+
+  void gamestate_t::
+  numObelisks (const numObelisks_type& x)
+  {
+    this->numObelisks_.set (x);
+  }
+
+  const gamestate_t::field_6395_type& gamestate_t::
+  field_6395 () const
+  {
+    return this->field_6395_.get ();
+  }
+
+  gamestate_t::field_6395_type& gamestate_t::
+  field_6395 ()
+  {
+    return this->field_6395_.get ();
+  }
+
+  void gamestate_t::
+  field_6395 (const field_6395_type& x)
+  {
+    this->field_6395_.set (x);
+  }
+
+  const gamestate_t::field_6396_type& gamestate_t::
+  field_6396 () const
+  {
+    return this->field_6396_.get ();
+  }
+
+  gamestate_t::field_6396_type& gamestate_t::
+  field_6396 ()
+  {
+    return this->field_6396_.get ();
+  }
+
+  void gamestate_t::
+  field_6396 (const field_6396_type& x)
+  {
+    this->field_6396_.set (x);
+  }
+
+  const gamestate_t::field_6397_type& gamestate_t::
+  field_6397 () const
+  {
+    return this->field_6397_.get ();
+  }
+
+  gamestate_t::field_6397_type& gamestate_t::
+  field_6397 ()
+  {
+    return this->field_6397_.get ();
+  }
+
+  void gamestate_t::
+  field_6397 (const field_6397_type& x)
+  {
+    this->field_6397_.set (x);
+  }
+
+  const gamestate_t::currentRumor_type& gamestate_t::
+  currentRumor () const
+  {
+    return this->currentRumor_.get ();
+  }
+
+  gamestate_t::currentRumor_type& gamestate_t::
+  currentRumor ()
+  {
+    return this->currentRumor_.get ();
+  }
+
+  void gamestate_t::
+  currentRumor (const currentRumor_type& x)
+  {
+    this->currentRumor_.set (x);
+  }
+
+  void gamestate_t::
+  currentRumor (::std::auto_ptr< currentRumor_type > x)
+  {
+    this->currentRumor_.set (x);
+  }
+
+  const gamestate_t::numRumors_type& gamestate_t::
+  numRumors () const
+  {
+    return this->numRumors_.get ();
+  }
+
+  gamestate_t::numRumors_type& gamestate_t::
+  numRumors ()
+  {
+    return this->numRumors_.get ();
+  }
+
+  void gamestate_t::
+  numRumors (const numRumors_type& x)
+  {
+    this->numRumors_.set (x);
+  }
+
+  const gamestate_t::numEvents_type& gamestate_t::
+  numEvents () const
+  {
+    return this->numEvents_.get ();
+  }
+
+  gamestate_t::numEvents_type& gamestate_t::
+  numEvents ()
+  {
+    return this->numEvents_.get ();
+  }
+
+  void gamestate_t::
+  numEvents (const numEvents_type& x)
+  {
+    this->numEvents_.set (x);
+  }
+
+  const gamestate_t::field_657B_type& gamestate_t::
+  field_657B () const
+  {
+    return this->field_657B_.get ();
+  }
+
+  gamestate_t::field_657B_type& gamestate_t::
+  field_657B ()
+  {
+    return this->field_657B_.get ();
+  }
+
+  void gamestate_t::
+  field_657B (const field_657B_type& x)
+  {
+    this->field_657B_.set (x);
+  }
+
+  const gamestate_t::maxMapExtra_type& gamestate_t::
+  maxMapExtra () const
+  {
+    return this->maxMapExtra_.get ();
+  }
+
+  gamestate_t::maxMapExtra_type& gamestate_t::
+  maxMapExtra ()
+  {
+    return this->maxMapExtra_.get ();
+  }
+
+  void gamestate_t::
+  maxMapExtra (const maxMapExtra_type& x)
+  {
+    this->maxMapExtra_.set (x);
+  }
+
 
   // map_t
   // 
@@ -3305,9 +3737,55 @@ namespace ironfist_map
   //
 
   gamestate_t::
-  gamestate_t (const allowAIArmySharing_type& allowAIArmySharing)
+  gamestate_t (const allowAIArmySharing_type& allowAIArmySharing,
+               const mapWidth_type& mapWidth,
+               const mapHeight_type& mapHeight,
+               const gameInstanceID_type& gameInstanceID,
+               const monthType_type& monthType,
+               const monthTypeExtra_type& monthTypeExtra,
+               const weekType_type& weekType,
+               const weekTypeExtra_type& weekTypeExtra,
+               const mapChangeCtr_type& mapChangeCtr,
+               const numPlayers_type& numPlayers,
+               const currentPlayer_type& currentPlayer,
+               const numDefatedPlayers_type& numDefatedPlayers,
+               const day_type& day,
+               const week_type& week,
+               const month_type& month,
+               const numObelisks_type& numObelisks,
+               const field_6395_type& field_6395,
+               const field_6396_type& field_6396,
+               const field_6397_type& field_6397,
+               const currentRumor_type& currentRumor,
+               const numRumors_type& numRumors,
+               const numEvents_type& numEvents,
+               const field_657B_type& field_657B,
+               const maxMapExtra_type& maxMapExtra)
   : ::xml_schema::type (),
-    allowAIArmySharing_ (allowAIArmySharing, ::xml_schema::flags (), this)
+    allowAIArmySharing_ (allowAIArmySharing, ::xml_schema::flags (), this),
+    mapWidth_ (mapWidth, ::xml_schema::flags (), this),
+    mapHeight_ (mapHeight, ::xml_schema::flags (), this),
+    gameInstanceID_ (gameInstanceID, ::xml_schema::flags (), this),
+    monthType_ (monthType, ::xml_schema::flags (), this),
+    monthTypeExtra_ (monthTypeExtra, ::xml_schema::flags (), this),
+    weekType_ (weekType, ::xml_schema::flags (), this),
+    weekTypeExtra_ (weekTypeExtra, ::xml_schema::flags (), this),
+    mapChangeCtr_ (mapChangeCtr, ::xml_schema::flags (), this),
+    numPlayers_ (numPlayers, ::xml_schema::flags (), this),
+    currentPlayer_ (currentPlayer, ::xml_schema::flags (), this),
+    numDefatedPlayers_ (numDefatedPlayers, ::xml_schema::flags (), this),
+    day_ (day, ::xml_schema::flags (), this),
+    week_ (week, ::xml_schema::flags (), this),
+    month_ (month, ::xml_schema::flags (), this),
+    numObelisks_ (numObelisks, ::xml_schema::flags (), this),
+    field_6395_ (field_6395, ::xml_schema::flags (), this),
+    field_6396_ (field_6396, ::xml_schema::flags (), this),
+    field_6397_ (field_6397, ::xml_schema::flags (), this),
+    currentRumor_ (currentRumor, ::xml_schema::flags (), this),
+    numRumors_ (numRumors, ::xml_schema::flags (), this),
+    numEvents_ (numEvents, ::xml_schema::flags (), this),
+    field_657B_ (field_657B, ::xml_schema::flags (), this),
+    maxMapExtra_ (maxMapExtra, ::xml_schema::flags (), this)
   {
   }
 
@@ -3316,7 +3794,30 @@ namespace ironfist_map
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    allowAIArmySharing_ (x.allowAIArmySharing_, f, this)
+    allowAIArmySharing_ (x.allowAIArmySharing_, f, this),
+    mapWidth_ (x.mapWidth_, f, this),
+    mapHeight_ (x.mapHeight_, f, this),
+    gameInstanceID_ (x.gameInstanceID_, f, this),
+    monthType_ (x.monthType_, f, this),
+    monthTypeExtra_ (x.monthTypeExtra_, f, this),
+    weekType_ (x.weekType_, f, this),
+    weekTypeExtra_ (x.weekTypeExtra_, f, this),
+    mapChangeCtr_ (x.mapChangeCtr_, f, this),
+    numPlayers_ (x.numPlayers_, f, this),
+    currentPlayer_ (x.currentPlayer_, f, this),
+    numDefatedPlayers_ (x.numDefatedPlayers_, f, this),
+    day_ (x.day_, f, this),
+    week_ (x.week_, f, this),
+    month_ (x.month_, f, this),
+    numObelisks_ (x.numObelisks_, f, this),
+    field_6395_ (x.field_6395_, f, this),
+    field_6396_ (x.field_6396_, f, this),
+    field_6397_ (x.field_6397_, f, this),
+    currentRumor_ (x.currentRumor_, f, this),
+    numRumors_ (x.numRumors_, f, this),
+    numEvents_ (x.numEvents_, f, this),
+    field_657B_ (x.field_657B_, f, this),
+    maxMapExtra_ (x.maxMapExtra_, f, this)
   {
   }
 
@@ -3325,7 +3826,30 @@ namespace ironfist_map
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    allowAIArmySharing_ (f, this)
+    allowAIArmySharing_ (f, this),
+    mapWidth_ (f, this),
+    mapHeight_ (f, this),
+    gameInstanceID_ (f, this),
+    monthType_ (f, this),
+    monthTypeExtra_ (f, this),
+    weekType_ (f, this),
+    weekTypeExtra_ (f, this),
+    mapChangeCtr_ (f, this),
+    numPlayers_ (f, this),
+    currentPlayer_ (f, this),
+    numDefatedPlayers_ (f, this),
+    day_ (f, this),
+    week_ (f, this),
+    month_ (f, this),
+    numObelisks_ (f, this),
+    field_6395_ (f, this),
+    field_6396_ (f, this),
+    field_6397_ (f, this),
+    currentRumor_ (f, this),
+    numRumors_ (f, this),
+    numEvents_ (f, this),
+    field_657B_ (f, this),
+    maxMapExtra_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -3355,6 +3879,262 @@ namespace ironfist_map
         }
       }
 
+      // mapWidth
+      //
+      if (n.name () == "mapWidth" && n.namespace_ ().empty ())
+      {
+        if (!mapWidth_.present ())
+        {
+          this->mapWidth_.set (mapWidth_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // mapHeight
+      //
+      if (n.name () == "mapHeight" && n.namespace_ ().empty ())
+      {
+        if (!mapHeight_.present ())
+        {
+          this->mapHeight_.set (mapHeight_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // gameInstanceID
+      //
+      if (n.name () == "gameInstanceID" && n.namespace_ ().empty ())
+      {
+        if (!gameInstanceID_.present ())
+        {
+          this->gameInstanceID_.set (gameInstanceID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // monthType
+      //
+      if (n.name () == "monthType" && n.namespace_ ().empty ())
+      {
+        if (!monthType_.present ())
+        {
+          this->monthType_.set (monthType_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // monthTypeExtra
+      //
+      if (n.name () == "monthTypeExtra" && n.namespace_ ().empty ())
+      {
+        if (!monthTypeExtra_.present ())
+        {
+          this->monthTypeExtra_.set (monthTypeExtra_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // weekType
+      //
+      if (n.name () == "weekType" && n.namespace_ ().empty ())
+      {
+        if (!weekType_.present ())
+        {
+          this->weekType_.set (weekType_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // weekTypeExtra
+      //
+      if (n.name () == "weekTypeExtra" && n.namespace_ ().empty ())
+      {
+        if (!weekTypeExtra_.present ())
+        {
+          this->weekTypeExtra_.set (weekTypeExtra_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // mapChangeCtr
+      //
+      if (n.name () == "mapChangeCtr" && n.namespace_ ().empty ())
+      {
+        if (!mapChangeCtr_.present ())
+        {
+          this->mapChangeCtr_.set (mapChangeCtr_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numPlayers
+      //
+      if (n.name () == "numPlayers" && n.namespace_ ().empty ())
+      {
+        if (!numPlayers_.present ())
+        {
+          this->numPlayers_.set (numPlayers_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // currentPlayer
+      //
+      if (n.name () == "currentPlayer" && n.namespace_ ().empty ())
+      {
+        if (!currentPlayer_.present ())
+        {
+          this->currentPlayer_.set (currentPlayer_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numDefatedPlayers
+      //
+      if (n.name () == "numDefatedPlayers" && n.namespace_ ().empty ())
+      {
+        if (!numDefatedPlayers_.present ())
+        {
+          this->numDefatedPlayers_.set (numDefatedPlayers_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // day
+      //
+      if (n.name () == "day" && n.namespace_ ().empty ())
+      {
+        if (!day_.present ())
+        {
+          this->day_.set (day_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // week
+      //
+      if (n.name () == "week" && n.namespace_ ().empty ())
+      {
+        if (!week_.present ())
+        {
+          this->week_.set (week_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // month
+      //
+      if (n.name () == "month" && n.namespace_ ().empty ())
+      {
+        if (!month_.present ())
+        {
+          this->month_.set (month_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numObelisks
+      //
+      if (n.name () == "numObelisks" && n.namespace_ ().empty ())
+      {
+        if (!numObelisks_.present ())
+        {
+          this->numObelisks_.set (numObelisks_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_6395
+      //
+      if (n.name () == "field_6395" && n.namespace_ ().empty ())
+      {
+        if (!field_6395_.present ())
+        {
+          this->field_6395_.set (field_6395_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_6396
+      //
+      if (n.name () == "field_6396" && n.namespace_ ().empty ())
+      {
+        if (!field_6396_.present ())
+        {
+          this->field_6396_.set (field_6396_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_6397
+      //
+      if (n.name () == "field_6397" && n.namespace_ ().empty ())
+      {
+        if (!field_6397_.present ())
+        {
+          this->field_6397_.set (field_6397_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // currentRumor
+      //
+      if (n.name () == "currentRumor" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< currentRumor_type > r (
+          currentRumor_traits::create (i, f, this));
+
+        if (!currentRumor_.present ())
+        {
+          this->currentRumor_.set (r);
+          continue;
+        }
+      }
+
+      // numRumors
+      //
+      if (n.name () == "numRumors" && n.namespace_ ().empty ())
+      {
+        if (!numRumors_.present ())
+        {
+          this->numRumors_.set (numRumors_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numEvents
+      //
+      if (n.name () == "numEvents" && n.namespace_ ().empty ())
+      {
+        if (!numEvents_.present ())
+        {
+          this->numEvents_.set (numEvents_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_657B
+      //
+      if (n.name () == "field_657B" && n.namespace_ ().empty ())
+      {
+        if (!field_657B_.present ())
+        {
+          this->field_657B_.set (field_657B_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // maxMapExtra
+      //
+      if (n.name () == "maxMapExtra" && n.namespace_ ().empty ())
+      {
+        if (!maxMapExtra_.present ())
+        {
+          this->maxMapExtra_.set (maxMapExtra_traits::create (i, f, this));
+          continue;
+        }
+      }
+
       break;
     }
 
@@ -3362,6 +4142,167 @@ namespace ironfist_map
     {
       throw ::xsd::cxx::tree::expected_element< char > (
         "allowAIArmySharing",
+        "");
+    }
+
+    if (!mapWidth_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "mapWidth",
+        "");
+    }
+
+    if (!mapHeight_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "mapHeight",
+        "");
+    }
+
+    if (!gameInstanceID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "gameInstanceID",
+        "");
+    }
+
+    if (!monthType_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "monthType",
+        "");
+    }
+
+    if (!monthTypeExtra_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "monthTypeExtra",
+        "");
+    }
+
+    if (!weekType_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "weekType",
+        "");
+    }
+
+    if (!weekTypeExtra_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "weekTypeExtra",
+        "");
+    }
+
+    if (!mapChangeCtr_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "mapChangeCtr",
+        "");
+    }
+
+    if (!numPlayers_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numPlayers",
+        "");
+    }
+
+    if (!currentPlayer_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "currentPlayer",
+        "");
+    }
+
+    if (!numDefatedPlayers_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numDefatedPlayers",
+        "");
+    }
+
+    if (!day_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "day",
+        "");
+    }
+
+    if (!week_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "week",
+        "");
+    }
+
+    if (!month_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "month",
+        "");
+    }
+
+    if (!numObelisks_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numObelisks",
+        "");
+    }
+
+    if (!field_6395_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_6395",
+        "");
+    }
+
+    if (!field_6396_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_6396",
+        "");
+    }
+
+    if (!field_6397_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_6397",
+        "");
+    }
+
+    if (!currentRumor_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "currentRumor",
+        "");
+    }
+
+    if (!numRumors_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numRumors",
+        "");
+    }
+
+    if (!numEvents_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numEvents",
+        "");
+    }
+
+    if (!field_657B_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_657B",
+        "");
+    }
+
+    if (!maxMapExtra_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "maxMapExtra",
         "");
     }
   }
@@ -6429,6 +7370,259 @@ namespace ironfist_map
           e));
 
       s << i.allowAIArmySharing ();
+    }
+
+    // mapWidth
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapWidth",
+          e));
+
+      s << i.mapWidth ();
+    }
+
+    // mapHeight
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapHeight",
+          e));
+
+      s << i.mapHeight ();
+    }
+
+    // gameInstanceID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "gameInstanceID",
+          e));
+
+      s << i.gameInstanceID ();
+    }
+
+    // monthType
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "monthType",
+          e));
+
+      s << i.monthType ();
+    }
+
+    // monthTypeExtra
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "monthTypeExtra",
+          e));
+
+      s << i.monthTypeExtra ();
+    }
+
+    // weekType
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "weekType",
+          e));
+
+      s << i.weekType ();
+    }
+
+    // weekTypeExtra
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "weekTypeExtra",
+          e));
+
+      s << i.weekTypeExtra ();
+    }
+
+    // mapChangeCtr
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapChangeCtr",
+          e));
+
+      s << i.mapChangeCtr ();
+    }
+
+    // numPlayers
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numPlayers",
+          e));
+
+      s << i.numPlayers ();
+    }
+
+    // currentPlayer
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "currentPlayer",
+          e));
+
+      s << i.currentPlayer ();
+    }
+
+    // numDefatedPlayers
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numDefatedPlayers",
+          e));
+
+      s << i.numDefatedPlayers ();
+    }
+
+    // day
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "day",
+          e));
+
+      s << i.day ();
+    }
+
+    // week
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "week",
+          e));
+
+      s << i.week ();
+    }
+
+    // month
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "month",
+          e));
+
+      s << i.month ();
+    }
+
+    // numObelisks
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numObelisks",
+          e));
+
+      s << i.numObelisks ();
+    }
+
+    // field_6395
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_6395",
+          e));
+
+      s << i.field_6395 ();
+    }
+
+    // field_6396
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_6396",
+          e));
+
+      s << i.field_6396 ();
+    }
+
+    // field_6397
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_6397",
+          e));
+
+      s << i.field_6397 ();
+    }
+
+    // currentRumor
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "currentRumor",
+          e));
+
+      s << i.currentRumor ();
+    }
+
+    // numRumors
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numRumors",
+          e));
+
+      s << i.numRumors ();
+    }
+
+    // numEvents
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numEvents",
+          e));
+
+      s << i.numEvents ();
+    }
+
+    // field_657B
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_657B",
+          e));
+
+      s << i.field_657B ();
+    }
+
+    // maxMapExtra
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "maxMapExtra",
+          e));
+
+      s << i.maxMapExtra ();
     }
   }
 

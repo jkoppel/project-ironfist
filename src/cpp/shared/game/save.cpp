@@ -47,7 +47,32 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
 }
 
 ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
-  ironfist_map::gamestate_t gs((int)gam->allowAIArmySharing);
+  ironfist_map::gamestate_t gs(
+	  (int)gam->allowAIArmySharing,
+	  gam->map.width,
+	gam->map.height,
+	(int)gam,
+	giMonthType,
+	giMonthTypeExtra,
+	giWeekType,
+	giWeekTypeExtra,
+	giMapChangeCtr,
+	(int)gam->numPlayers,
+	giCurPlayer,
+	(int)gam->couldBeNumDefeatedPlayers,
+	(int)gam->day,
+	(int)gam->week,
+	(int)gam->month,
+	(int)gam->numObelisks,
+	(int)gam->field_6395,
+	(int)gam->field_6396,
+	(int)gam->field_6397,
+	gam->currentRumor,
+	(int)gam->numRumors,
+	(int)gam->numEvents,
+	(int)gam->field_657B,
+	iMaxMapExtra
+  );
   return gs;
 }
 

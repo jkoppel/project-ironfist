@@ -106,6 +106,29 @@
   <xs:complexType name="gamestate_t">
 	<xs:sequence>
       <xs:element name="allowAIArmySharing" type="xs:int" default="1"/>
+	  <xs:element name="mapWidth" type="xs:int" default="32"/>
+	  <xs:element name="mapHeight" type="xs:int" default="32"/>
+	  <xs:element name="gameInstanceID" type="xs:int"/>
+	  <xs:element name="monthType" type="xs:int"/>
+	  <xs:element name="monthTypeExtra" type="xs:int"/>
+	  <xs:element name="weekType" type="xs:int"/>
+	  <xs:element name="weekTypeExtra" type="xs:int"/>
+	  <xs:element name="mapChangeCtr" type="xs:int"/>
+	  <xs:element name="numPlayers" type="xs:int"/>
+	  <xs:element name="currentPlayer" type="xs:int"/>
+	  <xs:element name="numDefatedPlayers" type="xs:int"/>
+	  <xs:element name="day" type="xs:int"/>
+	  <xs:element name="week" type="xs:int"/>
+	  <xs:element name="month" type="xs:int"/>
+	  <xs:element name="numObelisks" type="xs:int"/>
+	  <xs:element name="field_6395" type="xs:int"/>
+	  <xs:element name="field_6396" type="xs:int"/>
+	  <xs:element name="field_6397" type="xs:int"/>
+	  <xs:element name="currentRumor" type="xs:string"/>
+	  <xs:element name="numRumors" type="xs:int"/>
+	  <xs:element name="numEvents" type="xs:int"/>
+	  <xs:element name="field_657B" type="xs:int"/>
+	  <xs:element name="maxMapExtra" type="xs:int"/>
 	</xs:sequence>
   </xs:complexType>
   
