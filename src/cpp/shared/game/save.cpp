@@ -47,9 +47,10 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
 }
 
 ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
+  
   ironfist_map::gamestate_t gs(
-	  (int)gam->allowAIArmySharing,
-	  gam->map.width,
+	(int)gam->allowAIArmySharing,
+	gam->map.width,
 	gam->map.height,
 	(int)gam,
 	giMonthType,
@@ -73,6 +74,34 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	(int)gam->field_657B,
 	iMaxMapExtra
   );
+
+  for(int i = 0; i < ELEMENTS_IN(cPlayerNames); i++) {
+	  gs.playerNames().push_back(ironfist_map::gamestate_t::playerNames_type(i));
+	  gs.playerNames().back().name(cPlayerNames[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->playerDead); i++) {
+	  gs.deadPlayers().push_back(ironfist_map::gamestate_t::deadPlayers_type(i));
+	  gs.deadPlayers().back().playerID(gam->playerDead[i]);
+  }
+
+  char playerAlive[6];
+	for (int i = 0; i < 6; ++i)	{
+		playerAlive[i] = gbHumanPlayer[i];
+		if(gam->playerDead[i])
+			playerAlive[i] = 0;
+	}
+
+  for(int i = 0; i < ELEMENTS_IN(playerAlive); i++) {
+	  gs.alivePlayers().push_back(ironfist_map::gamestate_t::alivePlayers_type(i));
+	  gs.alivePlayers().back().playerID(playerAlive[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->relatedToHeroForHireStatus); i++) {
+	  gs.heroHireStatus().push_back(ironfist_map::gamestate_t::heroHireStatus_type(i));
+	  gs.heroHireStatus().back().status(gam->relatedToHeroForHireStatus[i]);
+  }
+
   return gs;
 }
 

@@ -1779,6 +1779,78 @@ namespace ironfist_map
     this->maxMapExtra_.set (x);
   }
 
+  const gamestate_t::playerNames_sequence& gamestate_t::
+  playerNames () const
+  {
+    return this->playerNames_;
+  }
+
+  gamestate_t::playerNames_sequence& gamestate_t::
+  playerNames ()
+  {
+    return this->playerNames_;
+  }
+
+  void gamestate_t::
+  playerNames (const playerNames_sequence& s)
+  {
+    this->playerNames_ = s;
+  }
+
+  const gamestate_t::deadPlayers_sequence& gamestate_t::
+  deadPlayers () const
+  {
+    return this->deadPlayers_;
+  }
+
+  gamestate_t::deadPlayers_sequence& gamestate_t::
+  deadPlayers ()
+  {
+    return this->deadPlayers_;
+  }
+
+  void gamestate_t::
+  deadPlayers (const deadPlayers_sequence& s)
+  {
+    this->deadPlayers_ = s;
+  }
+
+  const gamestate_t::alivePlayers_sequence& gamestate_t::
+  alivePlayers () const
+  {
+    return this->alivePlayers_;
+  }
+
+  gamestate_t::alivePlayers_sequence& gamestate_t::
+  alivePlayers ()
+  {
+    return this->alivePlayers_;
+  }
+
+  void gamestate_t::
+  alivePlayers (const alivePlayers_sequence& s)
+  {
+    this->alivePlayers_ = s;
+  }
+
+  const gamestate_t::heroHireStatus_sequence& gamestate_t::
+  heroHireStatus () const
+  {
+    return this->heroHireStatus_;
+  }
+
+  gamestate_t::heroHireStatus_sequence& gamestate_t::
+  heroHireStatus ()
+  {
+    return this->heroHireStatus_;
+  }
+
+  void gamestate_t::
+  heroHireStatus (const heroHireStatus_sequence& s)
+  {
+    this->heroHireStatus_ = s;
+  }
+
 
   // map_t
   // 
@@ -2023,6 +2095,196 @@ namespace ironfist_map
   spell_default_value ()
   {
     return spell_type (-1);
+  }
+
+
+  // playerNames
+  // 
+
+  const playerNames::id_type& playerNames::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  playerNames::id_type& playerNames::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void playerNames::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const playerNames::name_optional& playerNames::
+  name () const
+  {
+    return this->name_;
+  }
+
+  playerNames::name_optional& playerNames::
+  name ()
+  {
+    return this->name_;
+  }
+
+  void playerNames::
+  name (const name_type& x)
+  {
+    this->name_.set (x);
+  }
+
+  void playerNames::
+  name (const name_optional& x)
+  {
+    this->name_ = x;
+  }
+
+  void playerNames::
+  name (::std::auto_ptr< name_type > x)
+  {
+    this->name_.set (x);
+  }
+
+
+  // deadPlayers
+  // 
+
+  const deadPlayers::id_type& deadPlayers::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  deadPlayers::id_type& deadPlayers::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void deadPlayers::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const deadPlayers::playerID_optional& deadPlayers::
+  playerID () const
+  {
+    return this->playerID_;
+  }
+
+  deadPlayers::playerID_optional& deadPlayers::
+  playerID ()
+  {
+    return this->playerID_;
+  }
+
+  void deadPlayers::
+  playerID (const playerID_type& x)
+  {
+    this->playerID_.set (x);
+  }
+
+  void deadPlayers::
+  playerID (const playerID_optional& x)
+  {
+    this->playerID_ = x;
+  }
+
+
+  // alivePlayers
+  // 
+
+  const alivePlayers::id_type& alivePlayers::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  alivePlayers::id_type& alivePlayers::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void alivePlayers::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const alivePlayers::playerID_optional& alivePlayers::
+  playerID () const
+  {
+    return this->playerID_;
+  }
+
+  alivePlayers::playerID_optional& alivePlayers::
+  playerID ()
+  {
+    return this->playerID_;
+  }
+
+  void alivePlayers::
+  playerID (const playerID_type& x)
+  {
+    this->playerID_.set (x);
+  }
+
+  void alivePlayers::
+  playerID (const playerID_optional& x)
+  {
+    this->playerID_ = x;
+  }
+
+
+  // heroHireStatus
+  // 
+
+  const heroHireStatus::id_type& heroHireStatus::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  heroHireStatus::id_type& heroHireStatus::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void heroHireStatus::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const heroHireStatus::status_optional& heroHireStatus::
+  status () const
+  {
+    return this->status_;
+  }
+
+  heroHireStatus::status_optional& heroHireStatus::
+  status ()
+  {
+    return this->status_;
+  }
+
+  void heroHireStatus::
+  status (const status_type& x)
+  {
+    this->status_.set (x);
+  }
+
+  void heroHireStatus::
+  status (const status_optional& x)
+  {
+    this->status_ = x;
   }
 }
 
@@ -3785,7 +4047,11 @@ namespace ironfist_map
     numRumors_ (numRumors, ::xml_schema::flags (), this),
     numEvents_ (numEvents, ::xml_schema::flags (), this),
     field_657B_ (field_657B, ::xml_schema::flags (), this),
-    maxMapExtra_ (maxMapExtra, ::xml_schema::flags (), this)
+    maxMapExtra_ (maxMapExtra, ::xml_schema::flags (), this),
+    playerNames_ (::xml_schema::flags (), this),
+    deadPlayers_ (::xml_schema::flags (), this),
+    alivePlayers_ (::xml_schema::flags (), this),
+    heroHireStatus_ (::xml_schema::flags (), this)
   {
   }
 
@@ -3817,7 +4083,11 @@ namespace ironfist_map
     numRumors_ (x.numRumors_, f, this),
     numEvents_ (x.numEvents_, f, this),
     field_657B_ (x.field_657B_, f, this),
-    maxMapExtra_ (x.maxMapExtra_, f, this)
+    maxMapExtra_ (x.maxMapExtra_, f, this),
+    playerNames_ (x.playerNames_, f, this),
+    deadPlayers_ (x.deadPlayers_, f, this),
+    alivePlayers_ (x.alivePlayers_, f, this),
+    heroHireStatus_ (x.heroHireStatus_, f, this)
   {
   }
 
@@ -3849,7 +4119,11 @@ namespace ironfist_map
     numRumors_ (f, this),
     numEvents_ (f, this),
     field_657B_ (f, this),
-    maxMapExtra_ (f, this)
+    maxMapExtra_ (f, this),
+    playerNames_ (f, this),
+    deadPlayers_ (f, this),
+    alivePlayers_ (f, this),
+    heroHireStatus_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -4133,6 +4407,50 @@ namespace ironfist_map
           this->maxMapExtra_.set (maxMapExtra_traits::create (i, f, this));
           continue;
         }
+      }
+
+      // playerNames
+      //
+      if (n.name () == "playerNames" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< playerNames_type > r (
+          playerNames_traits::create (i, f, this));
+
+        this->playerNames_.push_back (r);
+        continue;
+      }
+
+      // deadPlayers
+      //
+      if (n.name () == "deadPlayers" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< deadPlayers_type > r (
+          deadPlayers_traits::create (i, f, this));
+
+        this->deadPlayers_.push_back (r);
+        continue;
+      }
+
+      // alivePlayers
+      //
+      if (n.name () == "alivePlayers" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< alivePlayers_type > r (
+          alivePlayers_traits::create (i, f, this));
+
+        this->alivePlayers_.push_back (r);
+        continue;
+      }
+
+      // heroHireStatus
+      //
+      if (n.name () == "heroHireStatus" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< heroHireStatus_type > r (
+          heroHireStatus_traits::create (i, f, this));
+
+        this->heroHireStatus_.push_back (r);
+        continue;
       }
 
       break;
@@ -4623,6 +4941,325 @@ namespace ironfist_map
 
   artifact::
   ~artifact ()
+  {
+  }
+
+  // playerNames
+  //
+
+  playerNames::
+  playerNames (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    name_ (::xml_schema::flags (), this)
+  {
+  }
+
+  playerNames::
+  playerNames (const playerNames& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    name_ (x.name_, f, this)
+  {
+  }
+
+  playerNames::
+  playerNames (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    name_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void playerNames::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "name" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< name_type > r (
+          name_traits::create (i, f, this));
+
+        this->name_.set (r);
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  playerNames* playerNames::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class playerNames (*this, f, c);
+  }
+
+  playerNames::
+  ~playerNames ()
+  {
+  }
+
+  // deadPlayers
+  //
+
+  deadPlayers::
+  deadPlayers (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    playerID_ (::xml_schema::flags (), this)
+  {
+  }
+
+  deadPlayers::
+  deadPlayers (const deadPlayers& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    playerID_ (x.playerID_, f, this)
+  {
+  }
+
+  deadPlayers::
+  deadPlayers (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    playerID_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void deadPlayers::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "playerID" && n.namespace_ ().empty ())
+      {
+        this->playerID_.set (playerID_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  deadPlayers* deadPlayers::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class deadPlayers (*this, f, c);
+  }
+
+  deadPlayers::
+  ~deadPlayers ()
+  {
+  }
+
+  // alivePlayers
+  //
+
+  alivePlayers::
+  alivePlayers (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    playerID_ (::xml_schema::flags (), this)
+  {
+  }
+
+  alivePlayers::
+  alivePlayers (const alivePlayers& x,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    playerID_ (x.playerID_, f, this)
+  {
+  }
+
+  alivePlayers::
+  alivePlayers (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    playerID_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void alivePlayers::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "playerID" && n.namespace_ ().empty ())
+      {
+        this->playerID_.set (playerID_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  alivePlayers* alivePlayers::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class alivePlayers (*this, f, c);
+  }
+
+  alivePlayers::
+  ~alivePlayers ()
+  {
+  }
+
+  // heroHireStatus
+  //
+
+  heroHireStatus::
+  heroHireStatus (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    status_ (::xml_schema::flags (), this)
+  {
+  }
+
+  heroHireStatus::
+  heroHireStatus (const heroHireStatus& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    status_ (x.status_, f, this)
+  {
+  }
+
+  heroHireStatus::
+  heroHireStatus (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    status_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void heroHireStatus::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "status" && n.namespace_ ().empty ())
+      {
+        this->status_.set (status_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  heroHireStatus* heroHireStatus::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class heroHireStatus (*this, f, c);
+  }
+
+  heroHireStatus::
+  ~heroHireStatus ()
   {
   }
 }
@@ -7624,6 +8261,62 @@ namespace ironfist_map
 
       s << i.maxMapExtra ();
     }
+
+    // playerNames
+    //
+    for (gamestate_t::playerNames_const_iterator
+         b (i.playerNames ().begin ()), n (i.playerNames ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "playerNames",
+          e));
+
+      s << *b;
+    }
+
+    // deadPlayers
+    //
+    for (gamestate_t::deadPlayers_const_iterator
+         b (i.deadPlayers ().begin ()), n (i.deadPlayers ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "deadPlayers",
+          e));
+
+      s << *b;
+    }
+
+    // alivePlayers
+    //
+    for (gamestate_t::alivePlayers_const_iterator
+         b (i.alivePlayers ().begin ()), n (i.alivePlayers ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "alivePlayers",
+          e));
+
+      s << *b;
+    }
+
+    // heroHireStatus
+    //
+    for (gamestate_t::heroHireStatus_const_iterator
+         b (i.heroHireStatus ().begin ()), n (i.heroHireStatus ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "heroHireStatus",
+          e));
+
+      s << *b;
+    }
   }
 
   void
@@ -8803,6 +9496,122 @@ namespace ironfist_map
           e));
 
       a << i.spell ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const playerNames& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // name
+    //
+    if (i.name ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "name",
+          e));
+
+      a << *i.name ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const deadPlayers& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // playerID
+    //
+    if (i.playerID ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "playerID",
+          e));
+
+      a << *i.playerID ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const alivePlayers& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // playerID
+    //
+    if (i.playerID ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "playerID",
+          e));
+
+      a << *i.playerID ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const heroHireStatus& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // status
+    //
+    if (i.status ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "status",
+          e));
+
+      a << *i.status ();
     }
   }
 }

@@ -129,6 +129,30 @@
 	  <xs:element name="numEvents" type="xs:int"/>
 	  <xs:element name="field_657B" type="xs:int"/>
 	  <xs:element name="maxMapExtra" type="xs:int"/>
+	  <xs:element name="playerNames" minOccurs="6" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="name" type="xs:string"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="deadPlayers" minOccurs="6" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="playerID" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="alivePlayers" minOccurs="6" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="playerID" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="heroHireStatus" minOccurs="54" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="status" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
 	</xs:sequence>
   </xs:complexType>
   

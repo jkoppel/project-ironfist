@@ -259,6 +259,10 @@ namespace ironfist_map
   class map_t;
   class secondarySkill;
   class artifact;
+  class playerNames;
+  class deadPlayers;
+  class alivePlayers;
+  class heroHireStatus;
 }
 
 
@@ -1947,6 +1951,74 @@ namespace ironfist_map
     void
     maxMapExtra (const maxMapExtra_type& x);
 
+    // playerNames
+    // 
+    typedef ::ironfist_map::playerNames playerNames_type;
+    typedef ::xsd::cxx::tree::sequence< playerNames_type > playerNames_sequence;
+    typedef playerNames_sequence::iterator playerNames_iterator;
+    typedef playerNames_sequence::const_iterator playerNames_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerNames_type, char > playerNames_traits;
+
+    const playerNames_sequence&
+    playerNames () const;
+
+    playerNames_sequence&
+    playerNames ();
+
+    void
+    playerNames (const playerNames_sequence& s);
+
+    // deadPlayers
+    // 
+    typedef ::ironfist_map::deadPlayers deadPlayers_type;
+    typedef ::xsd::cxx::tree::sequence< deadPlayers_type > deadPlayers_sequence;
+    typedef deadPlayers_sequence::iterator deadPlayers_iterator;
+    typedef deadPlayers_sequence::const_iterator deadPlayers_const_iterator;
+    typedef ::xsd::cxx::tree::traits< deadPlayers_type, char > deadPlayers_traits;
+
+    const deadPlayers_sequence&
+    deadPlayers () const;
+
+    deadPlayers_sequence&
+    deadPlayers ();
+
+    void
+    deadPlayers (const deadPlayers_sequence& s);
+
+    // alivePlayers
+    // 
+    typedef ::ironfist_map::alivePlayers alivePlayers_type;
+    typedef ::xsd::cxx::tree::sequence< alivePlayers_type > alivePlayers_sequence;
+    typedef alivePlayers_sequence::iterator alivePlayers_iterator;
+    typedef alivePlayers_sequence::const_iterator alivePlayers_const_iterator;
+    typedef ::xsd::cxx::tree::traits< alivePlayers_type, char > alivePlayers_traits;
+
+    const alivePlayers_sequence&
+    alivePlayers () const;
+
+    alivePlayers_sequence&
+    alivePlayers ();
+
+    void
+    alivePlayers (const alivePlayers_sequence& s);
+
+    // heroHireStatus
+    // 
+    typedef ::ironfist_map::heroHireStatus heroHireStatus_type;
+    typedef ::xsd::cxx::tree::sequence< heroHireStatus_type > heroHireStatus_sequence;
+    typedef heroHireStatus_sequence::iterator heroHireStatus_iterator;
+    typedef heroHireStatus_sequence::const_iterator heroHireStatus_const_iterator;
+    typedef ::xsd::cxx::tree::traits< heroHireStatus_type, char > heroHireStatus_traits;
+
+    const heroHireStatus_sequence&
+    heroHireStatus () const;
+
+    heroHireStatus_sequence&
+    heroHireStatus ();
+
+    void
+    heroHireStatus (const heroHireStatus_sequence& s);
+
     // Constructors.
     //
     gamestate_t (const allowAIArmySharing_type&,
@@ -2021,6 +2093,10 @@ namespace ironfist_map
     ::xsd::cxx::tree::one< numEvents_type > numEvents_;
     ::xsd::cxx::tree::one< field_657B_type > field_657B_;
     ::xsd::cxx::tree::one< maxMapExtra_type > maxMapExtra_;
+    playerNames_sequence playerNames_;
+    deadPlayers_sequence deadPlayers_;
+    alivePlayers_sequence alivePlayers_;
+    heroHireStatus_sequence heroHireStatus_;
   };
 
   class map_t: public ::xml_schema::type
@@ -2305,6 +2381,273 @@ namespace ironfist_map
     protected:
     ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< spell_type > spell_;
+  };
+
+  class playerNames: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // name
+    // 
+    typedef ::xml_schema::string name_type;
+    typedef ::xsd::cxx::tree::optional< name_type > name_optional;
+    typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
+
+    const name_optional&
+    name () const;
+
+    name_optional&
+    name ();
+
+    void
+    name (const name_type& x);
+
+    void
+    name (const name_optional& x);
+
+    void
+    name (::std::auto_ptr< name_type > p);
+
+    // Constructors.
+    //
+    playerNames (const id_type&);
+
+    playerNames (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    playerNames (const playerNames& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual playerNames*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~playerNames ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    name_optional name_;
+  };
+
+  class deadPlayers: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // playerID
+    // 
+    typedef ::xml_schema::int_ playerID_type;
+    typedef ::xsd::cxx::tree::optional< playerID_type > playerID_optional;
+    typedef ::xsd::cxx::tree::traits< playerID_type, char > playerID_traits;
+
+    const playerID_optional&
+    playerID () const;
+
+    playerID_optional&
+    playerID ();
+
+    void
+    playerID (const playerID_type& x);
+
+    void
+    playerID (const playerID_optional& x);
+
+    // Constructors.
+    //
+    deadPlayers (const id_type&);
+
+    deadPlayers (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    deadPlayers (const deadPlayers& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual deadPlayers*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~deadPlayers ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    playerID_optional playerID_;
+  };
+
+  class alivePlayers: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // playerID
+    // 
+    typedef ::xml_schema::int_ playerID_type;
+    typedef ::xsd::cxx::tree::optional< playerID_type > playerID_optional;
+    typedef ::xsd::cxx::tree::traits< playerID_type, char > playerID_traits;
+
+    const playerID_optional&
+    playerID () const;
+
+    playerID_optional&
+    playerID ();
+
+    void
+    playerID (const playerID_type& x);
+
+    void
+    playerID (const playerID_optional& x);
+
+    // Constructors.
+    //
+    alivePlayers (const id_type&);
+
+    alivePlayers (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    alivePlayers (const alivePlayers& x,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    virtual alivePlayers*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~alivePlayers ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    playerID_optional playerID_;
+  };
+
+  class heroHireStatus: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // status
+    // 
+    typedef ::xml_schema::int_ status_type;
+    typedef ::xsd::cxx::tree::optional< status_type > status_optional;
+    typedef ::xsd::cxx::tree::traits< status_type, char > status_traits;
+
+    const status_optional&
+    status () const;
+
+    status_optional&
+    status ();
+
+    void
+    status (const status_type& x);
+
+    void
+    status (const status_optional& x);
+
+    // Constructors.
+    //
+    heroHireStatus (const id_type&);
+
+    heroHireStatus (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    heroHireStatus (const heroHireStatus& x,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    virtual heroHireStatus*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~heroHireStatus ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    status_optional status_;
   };
 }
 
@@ -3483,6 +3826,18 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const artifact&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const playerNames&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const deadPlayers&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const alivePlayers&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const heroHireStatus&);
 }
 
 #include <xsd/cxx/post.hxx>
