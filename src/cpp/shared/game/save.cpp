@@ -72,7 +72,11 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	(int)gam->numRumors,
 	(int)gam->numEvents,
 	(int)gam->field_657B,
-	iMaxMapExtra
+	iMaxMapExtra,
+	gam->field_44D,
+	gam->field_451,
+	gam->difficulty,
+	gam->mapFilename
   );
 
   for(int i = 0; i < ELEMENTS_IN(cPlayerNames); i++) {
@@ -100,6 +104,74 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   for(int i = 0; i < ELEMENTS_IN(gam->relatedToHeroForHireStatus); i++) {
 	  gs.heroHireStatus().push_back(ironfist_map::gamestate_t::heroHireStatus_type(i));
 	  gs.heroHireStatus().back().status(gam->relatedToHeroForHireStatus[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->playerHandicap); i++) {
+	  gs.playerHandicap().push_back(ironfist_map::gamestate_t::playerHandicap_type(i));
+	  gs.playerHandicap().back().handicap(gam->playerHandicap[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->field_459); i++) {
+	  gs.field_459().push_back(ironfist_map::gamestate_t::field_459_type(i));
+	  gs.field_459().back().value(gam->field_459[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->field_45F); i++) {
+	  gs.field_45F().push_back(ironfist_map::gamestate_t::field_45F_type(i));
+	  gs.field_45F().back().value(gam->field_45F[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->field_2773); i++) {
+	  gs.field_2773().push_back(ironfist_map::gamestate_t::field_2773_type(i));
+	  gs.field_2773().back().value(gam->field_2773[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->field_27BB); i++) {
+	  gs.field_27BB().push_back(ironfist_map::gamestate_t::field_27BB_type(i));
+	  gs.field_27BB().back().value(gam->field_27BB[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->field_60A6); i++) {
+	  gs.field_60A6().push_back(ironfist_map::gamestate_t::field_60A6_type(i));
+	  gs.field_60A6().back().value(gam->field_60A6[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->artifactGeneratedRandomly); i++) {
+	  gs.randomArtifacts().push_back(ironfist_map::gamestate_t::randomArtifacts_type(i));
+	  gs.randomArtifacts().back().artifact(gam->artifactGeneratedRandomly[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->boatBuilt); i++) {
+	  gs.boatBuilt().push_back(ironfist_map::gamestate_t::boatBuilt_type(i));
+	  gs.boatBuilt().back().boat(gam->boatBuilt[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->obeliskVisitedMasks); i++) {
+	  gs.obeliskVisitedMasks().push_back(ironfist_map::gamestate_t::obeliskVisitedMasks_type(i));
+	  gs.obeliskVisitedMasks().back().obelisk(gam->obeliskVisitedMasks[i]);
+  }
+
+  for(int i = 0; i < ELEMENTS_IN(gam->field_637D); i++) {
+	  gs.field_637D().push_back(ironfist_map::gamestate_t::field_637D_type(i));
+	  gs.field_637D().back().value(gam->field_637D[i]);
+  }
+  for(int i = 0; i < ELEMENTS_IN(gam->rumorIndices); i++) {
+	  gs.rumorIndices().push_back(ironfist_map::gamestate_t::rumorIndices_type(i));
+	  gs.rumorIndices().back().index(gam->rumorIndices[i]);
+  }
+  for(int i = 0; i < ELEMENTS_IN(gam->eventIndices); i++) {
+	  gs.eventIndices().push_back(ironfist_map::gamestate_t::eventIndices_type(i));
+	  gs.eventIndices().back().index(gam->eventIndices[i]);
+  }
+  for(int i = 0; i < ELEMENTS_IN(gam->_D); i++) {
+	  gs._D().push_back(ironfist_map::gamestate_t::_D_type(i));
+	  gs._D().back().value(gam->_D[i]);
+  }
+  for(int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
+	  int x = i % MAP_HEIGHT;
+	  int y = i / MAP_HEIGHT;
+	  gs.mapRevealed().push_back(ironfist_map::gamestate_t::mapRevealed_type(i, x, y));
+	  gs.mapRevealed().back().revealed(mapRevealed[i]);
   }
 
   return gs;

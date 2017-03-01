@@ -263,6 +263,20 @@ namespace ironfist_map
   class deadPlayers;
   class alivePlayers;
   class heroHireStatus;
+  class playerHandicap;
+  class field_459;
+  class field_45F;
+  class field_2773;
+  class field_27BB;
+  class field_60A6;
+  class randomArtifacts;
+  class boatBuilt;
+  class obeliskVisitedMasks;
+  class field_637D;
+  class rumorIndices;
+  class eventIndices;
+  class _D;
+  class mapRevealed;
 }
 
 
@@ -2019,6 +2033,303 @@ namespace ironfist_map
     void
     heroHireStatus (const heroHireStatus_sequence& s);
 
+    // field_44D
+    // 
+    typedef ::xml_schema::int_ field_44D_type;
+    typedef ::xsd::cxx::tree::traits< field_44D_type, char > field_44D_traits;
+
+    const field_44D_type&
+    field_44D () const;
+
+    field_44D_type&
+    field_44D ();
+
+    void
+    field_44D (const field_44D_type& x);
+
+    // field_451
+    // 
+    typedef ::xml_schema::int_ field_451_type;
+    typedef ::xsd::cxx::tree::traits< field_451_type, char > field_451_traits;
+
+    const field_451_type&
+    field_451 () const;
+
+    field_451_type&
+    field_451 ();
+
+    void
+    field_451 (const field_451_type& x);
+
+    // playerHandicap
+    // 
+    typedef ::ironfist_map::playerHandicap playerHandicap_type;
+    typedef ::xsd::cxx::tree::sequence< playerHandicap_type > playerHandicap_sequence;
+    typedef playerHandicap_sequence::iterator playerHandicap_iterator;
+    typedef playerHandicap_sequence::const_iterator playerHandicap_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerHandicap_type, char > playerHandicap_traits;
+
+    const playerHandicap_sequence&
+    playerHandicap () const;
+
+    playerHandicap_sequence&
+    playerHandicap ();
+
+    void
+    playerHandicap (const playerHandicap_sequence& s);
+
+    // field_459
+    // 
+    typedef ::ironfist_map::field_459 field_459_type;
+    typedef ::xsd::cxx::tree::sequence< field_459_type > field_459_sequence;
+    typedef field_459_sequence::iterator field_459_iterator;
+    typedef field_459_sequence::const_iterator field_459_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_459_type, char > field_459_traits;
+
+    const field_459_sequence&
+    field_459 () const;
+
+    field_459_sequence&
+    field_459 ();
+
+    void
+    field_459 (const field_459_sequence& s);
+
+    // field_45F
+    // 
+    typedef ::ironfist_map::field_45F field_45F_type;
+    typedef ::xsd::cxx::tree::sequence< field_45F_type > field_45F_sequence;
+    typedef field_45F_sequence::iterator field_45F_iterator;
+    typedef field_45F_sequence::const_iterator field_45F_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_45F_type, char > field_45F_traits;
+
+    const field_45F_sequence&
+    field_45F () const;
+
+    field_45F_sequence&
+    field_45F ();
+
+    void
+    field_45F (const field_45F_sequence& s);
+
+    // difficulty
+    // 
+    typedef ::xml_schema::int_ difficulty_type;
+    typedef ::xsd::cxx::tree::traits< difficulty_type, char > difficulty_traits;
+
+    const difficulty_type&
+    difficulty () const;
+
+    difficulty_type&
+    difficulty ();
+
+    void
+    difficulty (const difficulty_type& x);
+
+    // mapFilename
+    // 
+    typedef ::xml_schema::string mapFilename_type;
+    typedef ::xsd::cxx::tree::traits< mapFilename_type, char > mapFilename_traits;
+
+    const mapFilename_type&
+    mapFilename () const;
+
+    mapFilename_type&
+    mapFilename ();
+
+    void
+    mapFilename (const mapFilename_type& x);
+
+    void
+    mapFilename (::std::auto_ptr< mapFilename_type > p);
+
+    // field_2773
+    // 
+    typedef ::ironfist_map::field_2773 field_2773_type;
+    typedef ::xsd::cxx::tree::sequence< field_2773_type > field_2773_sequence;
+    typedef field_2773_sequence::iterator field_2773_iterator;
+    typedef field_2773_sequence::const_iterator field_2773_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_2773_type, char > field_2773_traits;
+
+    const field_2773_sequence&
+    field_2773 () const;
+
+    field_2773_sequence&
+    field_2773 ();
+
+    void
+    field_2773 (const field_2773_sequence& s);
+
+    // field_27BB
+    // 
+    typedef ::ironfist_map::field_27BB field_27BB_type;
+    typedef ::xsd::cxx::tree::sequence< field_27BB_type > field_27BB_sequence;
+    typedef field_27BB_sequence::iterator field_27BB_iterator;
+    typedef field_27BB_sequence::const_iterator field_27BB_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_27BB_type, char > field_27BB_traits;
+
+    const field_27BB_sequence&
+    field_27BB () const;
+
+    field_27BB_sequence&
+    field_27BB ();
+
+    void
+    field_27BB (const field_27BB_sequence& s);
+
+    // field_60A6
+    // 
+    typedef ::ironfist_map::field_60A6 field_60A6_type;
+    typedef ::xsd::cxx::tree::sequence< field_60A6_type > field_60A6_sequence;
+    typedef field_60A6_sequence::iterator field_60A6_iterator;
+    typedef field_60A6_sequence::const_iterator field_60A6_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_60A6_type, char > field_60A6_traits;
+
+    const field_60A6_sequence&
+    field_60A6 () const;
+
+    field_60A6_sequence&
+    field_60A6 ();
+
+    void
+    field_60A6 (const field_60A6_sequence& s);
+
+    // randomArtifacts
+    // 
+    typedef ::ironfist_map::randomArtifacts randomArtifacts_type;
+    typedef ::xsd::cxx::tree::sequence< randomArtifacts_type > randomArtifacts_sequence;
+    typedef randomArtifacts_sequence::iterator randomArtifacts_iterator;
+    typedef randomArtifacts_sequence::const_iterator randomArtifacts_const_iterator;
+    typedef ::xsd::cxx::tree::traits< randomArtifacts_type, char > randomArtifacts_traits;
+
+    const randomArtifacts_sequence&
+    randomArtifacts () const;
+
+    randomArtifacts_sequence&
+    randomArtifacts ();
+
+    void
+    randomArtifacts (const randomArtifacts_sequence& s);
+
+    // boatBuilt
+    // 
+    typedef ::ironfist_map::boatBuilt boatBuilt_type;
+    typedef ::xsd::cxx::tree::sequence< boatBuilt_type > boatBuilt_sequence;
+    typedef boatBuilt_sequence::iterator boatBuilt_iterator;
+    typedef boatBuilt_sequence::const_iterator boatBuilt_const_iterator;
+    typedef ::xsd::cxx::tree::traits< boatBuilt_type, char > boatBuilt_traits;
+
+    const boatBuilt_sequence&
+    boatBuilt () const;
+
+    boatBuilt_sequence&
+    boatBuilt ();
+
+    void
+    boatBuilt (const boatBuilt_sequence& s);
+
+    // obeliskVisitedMasks
+    // 
+    typedef ::ironfist_map::obeliskVisitedMasks obeliskVisitedMasks_type;
+    typedef ::xsd::cxx::tree::sequence< obeliskVisitedMasks_type > obeliskVisitedMasks_sequence;
+    typedef obeliskVisitedMasks_sequence::iterator obeliskVisitedMasks_iterator;
+    typedef obeliskVisitedMasks_sequence::const_iterator obeliskVisitedMasks_const_iterator;
+    typedef ::xsd::cxx::tree::traits< obeliskVisitedMasks_type, char > obeliskVisitedMasks_traits;
+
+    const obeliskVisitedMasks_sequence&
+    obeliskVisitedMasks () const;
+
+    obeliskVisitedMasks_sequence&
+    obeliskVisitedMasks ();
+
+    void
+    obeliskVisitedMasks (const obeliskVisitedMasks_sequence& s);
+
+    // field_637D
+    // 
+    typedef ::ironfist_map::field_637D field_637D_type;
+    typedef ::xsd::cxx::tree::sequence< field_637D_type > field_637D_sequence;
+    typedef field_637D_sequence::iterator field_637D_iterator;
+    typedef field_637D_sequence::const_iterator field_637D_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_637D_type, char > field_637D_traits;
+
+    const field_637D_sequence&
+    field_637D () const;
+
+    field_637D_sequence&
+    field_637D ();
+
+    void
+    field_637D (const field_637D_sequence& s);
+
+    // rumorIndices
+    // 
+    typedef ::ironfist_map::rumorIndices rumorIndices_type;
+    typedef ::xsd::cxx::tree::sequence< rumorIndices_type > rumorIndices_sequence;
+    typedef rumorIndices_sequence::iterator rumorIndices_iterator;
+    typedef rumorIndices_sequence::const_iterator rumorIndices_const_iterator;
+    typedef ::xsd::cxx::tree::traits< rumorIndices_type, char > rumorIndices_traits;
+
+    const rumorIndices_sequence&
+    rumorIndices () const;
+
+    rumorIndices_sequence&
+    rumorIndices ();
+
+    void
+    rumorIndices (const rumorIndices_sequence& s);
+
+    // eventIndices
+    // 
+    typedef ::ironfist_map::eventIndices eventIndices_type;
+    typedef ::xsd::cxx::tree::sequence< eventIndices_type > eventIndices_sequence;
+    typedef eventIndices_sequence::iterator eventIndices_iterator;
+    typedef eventIndices_sequence::const_iterator eventIndices_const_iterator;
+    typedef ::xsd::cxx::tree::traits< eventIndices_type, char > eventIndices_traits;
+
+    const eventIndices_sequence&
+    eventIndices () const;
+
+    eventIndices_sequence&
+    eventIndices ();
+
+    void
+    eventIndices (const eventIndices_sequence& s);
+
+    // _D
+    // 
+    typedef ::ironfist_map::_D _D_type;
+    typedef ::xsd::cxx::tree::sequence< _D_type > _D_sequence;
+    typedef _D_sequence::iterator _D_iterator;
+    typedef _D_sequence::const_iterator _D_const_iterator;
+    typedef ::xsd::cxx::tree::traits< _D_type, char > _D_traits;
+
+    const _D_sequence&
+    _D () const;
+
+    _D_sequence&
+    _D ();
+
+    void
+    _D (const _D_sequence& s);
+
+    // mapRevealed
+    // 
+    typedef ::ironfist_map::mapRevealed mapRevealed_type;
+    typedef ::xsd::cxx::tree::sequence< mapRevealed_type > mapRevealed_sequence;
+    typedef mapRevealed_sequence::iterator mapRevealed_iterator;
+    typedef mapRevealed_sequence::const_iterator mapRevealed_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapRevealed_type, char > mapRevealed_traits;
+
+    const mapRevealed_sequence&
+    mapRevealed () const;
+
+    mapRevealed_sequence&
+    mapRevealed ();
+
+    void
+    mapRevealed (const mapRevealed_sequence& s);
+
     // Constructors.
     //
     gamestate_t (const allowAIArmySharing_type&,
@@ -2044,7 +2355,11 @@ namespace ironfist_map
                  const numRumors_type&,
                  const numEvents_type&,
                  const field_657B_type&,
-                 const maxMapExtra_type&);
+                 const maxMapExtra_type&,
+                 const field_44D_type&,
+                 const field_451_type&,
+                 const difficulty_type&,
+                 const mapFilename_type&);
 
     gamestate_t (const ::xercesc::DOMElement& e,
                  ::xml_schema::flags f = 0,
@@ -2097,6 +2412,24 @@ namespace ironfist_map
     deadPlayers_sequence deadPlayers_;
     alivePlayers_sequence alivePlayers_;
     heroHireStatus_sequence heroHireStatus_;
+    ::xsd::cxx::tree::one< field_44D_type > field_44D_;
+    ::xsd::cxx::tree::one< field_451_type > field_451_;
+    playerHandicap_sequence playerHandicap_;
+    field_459_sequence field_459_;
+    field_45F_sequence field_45F_;
+    ::xsd::cxx::tree::one< difficulty_type > difficulty_;
+    ::xsd::cxx::tree::one< mapFilename_type > mapFilename_;
+    field_2773_sequence field_2773_;
+    field_27BB_sequence field_27BB_;
+    field_60A6_sequence field_60A6_;
+    randomArtifacts_sequence randomArtifacts_;
+    boatBuilt_sequence boatBuilt_;
+    obeliskVisitedMasks_sequence obeliskVisitedMasks_;
+    field_637D_sequence field_637D_;
+    rumorIndices_sequence rumorIndices_;
+    eventIndices_sequence eventIndices_;
+    _D_sequence _D_;
+    mapRevealed_sequence mapRevealed_;
   };
 
   class map_t: public ::xml_schema::type
@@ -2648,6 +2981,962 @@ namespace ironfist_map
     protected:
     ::xsd::cxx::tree::one< id_type > id_;
     status_optional status_;
+  };
+
+  class playerHandicap: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // handicap
+    // 
+    typedef ::xml_schema::int_ handicap_type;
+    typedef ::xsd::cxx::tree::optional< handicap_type > handicap_optional;
+    typedef ::xsd::cxx::tree::traits< handicap_type, char > handicap_traits;
+
+    const handicap_optional&
+    handicap () const;
+
+    handicap_optional&
+    handicap ();
+
+    void
+    handicap (const handicap_type& x);
+
+    void
+    handicap (const handicap_optional& x);
+
+    // Constructors.
+    //
+    playerHandicap (const id_type&);
+
+    playerHandicap (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    playerHandicap (const playerHandicap& x,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    virtual playerHandicap*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~playerHandicap ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    handicap_optional handicap_;
+  };
+
+  class field_459: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    field_459 (const id_type&);
+
+    field_459 (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    field_459 (const field_459& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    virtual field_459*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~field_459 ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
+
+  class field_45F: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    field_45F (const id_type&);
+
+    field_45F (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    field_45F (const field_45F& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    virtual field_45F*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~field_45F ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
+
+  class field_2773: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    field_2773 (const id_type&);
+
+    field_2773 (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    field_2773 (const field_2773& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual field_2773*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~field_2773 ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
+
+  class field_27BB: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    field_27BB (const id_type&);
+
+    field_27BB (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    field_27BB (const field_27BB& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual field_27BB*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~field_27BB ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
+
+  class field_60A6: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    field_60A6 (const id_type&);
+
+    field_60A6 (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    field_60A6 (const field_60A6& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual field_60A6*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~field_60A6 ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
+
+  class randomArtifacts: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // artifact
+    // 
+    typedef ::xml_schema::int_ artifact_type;
+    typedef ::xsd::cxx::tree::optional< artifact_type > artifact_optional;
+    typedef ::xsd::cxx::tree::traits< artifact_type, char > artifact_traits;
+
+    const artifact_optional&
+    artifact () const;
+
+    artifact_optional&
+    artifact ();
+
+    void
+    artifact (const artifact_type& x);
+
+    void
+    artifact (const artifact_optional& x);
+
+    // Constructors.
+    //
+    randomArtifacts (const id_type&);
+
+    randomArtifacts (const ::xercesc::DOMElement& e,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+    randomArtifacts (const randomArtifacts& x,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+    virtual randomArtifacts*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~randomArtifacts ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    artifact_optional artifact_;
+  };
+
+  class boatBuilt: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // boat
+    // 
+    typedef ::xml_schema::int_ boat_type;
+    typedef ::xsd::cxx::tree::optional< boat_type > boat_optional;
+    typedef ::xsd::cxx::tree::traits< boat_type, char > boat_traits;
+
+    const boat_optional&
+    boat () const;
+
+    boat_optional&
+    boat ();
+
+    void
+    boat (const boat_type& x);
+
+    void
+    boat (const boat_optional& x);
+
+    // Constructors.
+    //
+    boatBuilt (const id_type&);
+
+    boatBuilt (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    boatBuilt (const boatBuilt& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    virtual boatBuilt*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~boatBuilt ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    boat_optional boat_;
+  };
+
+  class obeliskVisitedMasks: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // obelisk
+    // 
+    typedef ::xml_schema::int_ obelisk_type;
+    typedef ::xsd::cxx::tree::optional< obelisk_type > obelisk_optional;
+    typedef ::xsd::cxx::tree::traits< obelisk_type, char > obelisk_traits;
+
+    const obelisk_optional&
+    obelisk () const;
+
+    obelisk_optional&
+    obelisk ();
+
+    void
+    obelisk (const obelisk_type& x);
+
+    void
+    obelisk (const obelisk_optional& x);
+
+    // Constructors.
+    //
+    obeliskVisitedMasks (const id_type&);
+
+    obeliskVisitedMasks (const ::xercesc::DOMElement& e,
+                         ::xml_schema::flags f = 0,
+                         ::xml_schema::container* c = 0);
+
+    obeliskVisitedMasks (const obeliskVisitedMasks& x,
+                         ::xml_schema::flags f = 0,
+                         ::xml_schema::container* c = 0);
+
+    virtual obeliskVisitedMasks*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~obeliskVisitedMasks ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    obelisk_optional obelisk_;
+  };
+
+  class field_637D: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    field_637D (const id_type&);
+
+    field_637D (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    field_637D (const field_637D& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual field_637D*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~field_637D ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
+
+  class rumorIndices: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // index
+    // 
+    typedef ::xml_schema::int_ index_type;
+    typedef ::xsd::cxx::tree::optional< index_type > index_optional;
+    typedef ::xsd::cxx::tree::traits< index_type, char > index_traits;
+
+    const index_optional&
+    index () const;
+
+    index_optional&
+    index ();
+
+    void
+    index (const index_type& x);
+
+    void
+    index (const index_optional& x);
+
+    // Constructors.
+    //
+    rumorIndices (const id_type&);
+
+    rumorIndices (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    rumorIndices (const rumorIndices& x,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    virtual rumorIndices*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~rumorIndices ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    index_optional index_;
+  };
+
+  class eventIndices: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // index
+    // 
+    typedef ::xml_schema::int_ index_type;
+    typedef ::xsd::cxx::tree::optional< index_type > index_optional;
+    typedef ::xsd::cxx::tree::traits< index_type, char > index_traits;
+
+    const index_optional&
+    index () const;
+
+    index_optional&
+    index ();
+
+    void
+    index (const index_type& x);
+
+    void
+    index (const index_optional& x);
+
+    // Constructors.
+    //
+    eventIndices (const id_type&);
+
+    eventIndices (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    eventIndices (const eventIndices& x,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    virtual eventIndices*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~eventIndices ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    index_optional index_;
+  };
+
+  class _D: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    _D (const id_type&);
+
+    _D (const ::xercesc::DOMElement& e,
+        ::xml_schema::flags f = 0,
+        ::xml_schema::container* c = 0);
+
+    _D (const _D& x,
+        ::xml_schema::flags f = 0,
+        ::xml_schema::container* c = 0);
+
+    virtual _D*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~_D ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
+
+  class mapRevealed: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // revealed
+    // 
+    typedef ::xml_schema::int_ revealed_type;
+    typedef ::xsd::cxx::tree::optional< revealed_type > revealed_optional;
+    typedef ::xsd::cxx::tree::traits< revealed_type, char > revealed_traits;
+
+    const revealed_optional&
+    revealed () const;
+
+    revealed_optional&
+    revealed ();
+
+    void
+    revealed (const revealed_type& x);
+
+    void
+    revealed (const revealed_optional& x);
+
+    // Constructors.
+    //
+    mapRevealed (const id_type&,
+                 const x_type&,
+                 const y_type&);
+
+    mapRevealed (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    mapRevealed (const mapRevealed& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual mapRevealed*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapRevealed ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+    revealed_optional revealed_;
   };
 }
 
@@ -3838,6 +5127,48 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const heroHireStatus&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const playerHandicap&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const field_459&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const field_45F&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const field_2773&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const field_27BB&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const field_60A6&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const randomArtifacts&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const boatBuilt&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const obeliskVisitedMasks&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const field_637D&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const rumorIndices&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const eventIndices&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const _D&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mapRevealed&);
 }
 
 #include <xsd/cxx/post.hxx>

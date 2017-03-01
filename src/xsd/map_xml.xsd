@@ -153,6 +153,97 @@
           <xs:attribute name="status" type="xs:int"/>
         </xs:complexType>
       </xs:element>
+	  <xs:element name="field_44D" type="xs:int"/>
+	  <xs:element name="field_451" type="xs:int"/>
+	  <xs:element name="playerHandicap" minOccurs="6" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="handicap" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="field_459" minOccurs="6" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="field_45F" minOccurs="6" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="difficulty" type="xs:int"/>
+	  <xs:element name="mapFilename" type="xs:string"/>
+	  <xs:element name="field_2773" minOccurs="72" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="field_27BB" minOccurs="9" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="field_60A6" minOccurs="144" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="randomArtifacts" minOccurs="103" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="artifact" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="boatBuilt" minOccurs="48" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="boat" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="obeliskVisitedMasks" minOccurs="48" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="obelisk" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="field_637D" minOccurs="24" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="rumorIndices" minOccurs="30" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="index" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="eventIndices" minOccurs="60" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="index" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="_D" minOccurs="140" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="mapRevealed" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+		  <xs:attribute name="x" type="xs:int" use="required"/>
+		  <xs:attribute name="y" type="xs:int" use="required"/>
+          <xs:attribute name="revealed" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  
 	</xs:sequence>
   </xs:complexType>
   

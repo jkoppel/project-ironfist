@@ -1851,6 +1851,336 @@ namespace ironfist_map
     this->heroHireStatus_ = s;
   }
 
+  const gamestate_t::field_44D_type& gamestate_t::
+  field_44D () const
+  {
+    return this->field_44D_.get ();
+  }
+
+  gamestate_t::field_44D_type& gamestate_t::
+  field_44D ()
+  {
+    return this->field_44D_.get ();
+  }
+
+  void gamestate_t::
+  field_44D (const field_44D_type& x)
+  {
+    this->field_44D_.set (x);
+  }
+
+  const gamestate_t::field_451_type& gamestate_t::
+  field_451 () const
+  {
+    return this->field_451_.get ();
+  }
+
+  gamestate_t::field_451_type& gamestate_t::
+  field_451 ()
+  {
+    return this->field_451_.get ();
+  }
+
+  void gamestate_t::
+  field_451 (const field_451_type& x)
+  {
+    this->field_451_.set (x);
+  }
+
+  const gamestate_t::playerHandicap_sequence& gamestate_t::
+  playerHandicap () const
+  {
+    return this->playerHandicap_;
+  }
+
+  gamestate_t::playerHandicap_sequence& gamestate_t::
+  playerHandicap ()
+  {
+    return this->playerHandicap_;
+  }
+
+  void gamestate_t::
+  playerHandicap (const playerHandicap_sequence& s)
+  {
+    this->playerHandicap_ = s;
+  }
+
+  const gamestate_t::field_459_sequence& gamestate_t::
+  field_459 () const
+  {
+    return this->field_459_;
+  }
+
+  gamestate_t::field_459_sequence& gamestate_t::
+  field_459 ()
+  {
+    return this->field_459_;
+  }
+
+  void gamestate_t::
+  field_459 (const field_459_sequence& s)
+  {
+    this->field_459_ = s;
+  }
+
+  const gamestate_t::field_45F_sequence& gamestate_t::
+  field_45F () const
+  {
+    return this->field_45F_;
+  }
+
+  gamestate_t::field_45F_sequence& gamestate_t::
+  field_45F ()
+  {
+    return this->field_45F_;
+  }
+
+  void gamestate_t::
+  field_45F (const field_45F_sequence& s)
+  {
+    this->field_45F_ = s;
+  }
+
+  const gamestate_t::difficulty_type& gamestate_t::
+  difficulty () const
+  {
+    return this->difficulty_.get ();
+  }
+
+  gamestate_t::difficulty_type& gamestate_t::
+  difficulty ()
+  {
+    return this->difficulty_.get ();
+  }
+
+  void gamestate_t::
+  difficulty (const difficulty_type& x)
+  {
+    this->difficulty_.set (x);
+  }
+
+  const gamestate_t::mapFilename_type& gamestate_t::
+  mapFilename () const
+  {
+    return this->mapFilename_.get ();
+  }
+
+  gamestate_t::mapFilename_type& gamestate_t::
+  mapFilename ()
+  {
+    return this->mapFilename_.get ();
+  }
+
+  void gamestate_t::
+  mapFilename (const mapFilename_type& x)
+  {
+    this->mapFilename_.set (x);
+  }
+
+  void gamestate_t::
+  mapFilename (::std::auto_ptr< mapFilename_type > x)
+  {
+    this->mapFilename_.set (x);
+  }
+
+  const gamestate_t::field_2773_sequence& gamestate_t::
+  field_2773 () const
+  {
+    return this->field_2773_;
+  }
+
+  gamestate_t::field_2773_sequence& gamestate_t::
+  field_2773 ()
+  {
+    return this->field_2773_;
+  }
+
+  void gamestate_t::
+  field_2773 (const field_2773_sequence& s)
+  {
+    this->field_2773_ = s;
+  }
+
+  const gamestate_t::field_27BB_sequence& gamestate_t::
+  field_27BB () const
+  {
+    return this->field_27BB_;
+  }
+
+  gamestate_t::field_27BB_sequence& gamestate_t::
+  field_27BB ()
+  {
+    return this->field_27BB_;
+  }
+
+  void gamestate_t::
+  field_27BB (const field_27BB_sequence& s)
+  {
+    this->field_27BB_ = s;
+  }
+
+  const gamestate_t::field_60A6_sequence& gamestate_t::
+  field_60A6 () const
+  {
+    return this->field_60A6_;
+  }
+
+  gamestate_t::field_60A6_sequence& gamestate_t::
+  field_60A6 ()
+  {
+    return this->field_60A6_;
+  }
+
+  void gamestate_t::
+  field_60A6 (const field_60A6_sequence& s)
+  {
+    this->field_60A6_ = s;
+  }
+
+  const gamestate_t::randomArtifacts_sequence& gamestate_t::
+  randomArtifacts () const
+  {
+    return this->randomArtifacts_;
+  }
+
+  gamestate_t::randomArtifacts_sequence& gamestate_t::
+  randomArtifacts ()
+  {
+    return this->randomArtifacts_;
+  }
+
+  void gamestate_t::
+  randomArtifacts (const randomArtifacts_sequence& s)
+  {
+    this->randomArtifacts_ = s;
+  }
+
+  const gamestate_t::boatBuilt_sequence& gamestate_t::
+  boatBuilt () const
+  {
+    return this->boatBuilt_;
+  }
+
+  gamestate_t::boatBuilt_sequence& gamestate_t::
+  boatBuilt ()
+  {
+    return this->boatBuilt_;
+  }
+
+  void gamestate_t::
+  boatBuilt (const boatBuilt_sequence& s)
+  {
+    this->boatBuilt_ = s;
+  }
+
+  const gamestate_t::obeliskVisitedMasks_sequence& gamestate_t::
+  obeliskVisitedMasks () const
+  {
+    return this->obeliskVisitedMasks_;
+  }
+
+  gamestate_t::obeliskVisitedMasks_sequence& gamestate_t::
+  obeliskVisitedMasks ()
+  {
+    return this->obeliskVisitedMasks_;
+  }
+
+  void gamestate_t::
+  obeliskVisitedMasks (const obeliskVisitedMasks_sequence& s)
+  {
+    this->obeliskVisitedMasks_ = s;
+  }
+
+  const gamestate_t::field_637D_sequence& gamestate_t::
+  field_637D () const
+  {
+    return this->field_637D_;
+  }
+
+  gamestate_t::field_637D_sequence& gamestate_t::
+  field_637D ()
+  {
+    return this->field_637D_;
+  }
+
+  void gamestate_t::
+  field_637D (const field_637D_sequence& s)
+  {
+    this->field_637D_ = s;
+  }
+
+  const gamestate_t::rumorIndices_sequence& gamestate_t::
+  rumorIndices () const
+  {
+    return this->rumorIndices_;
+  }
+
+  gamestate_t::rumorIndices_sequence& gamestate_t::
+  rumorIndices ()
+  {
+    return this->rumorIndices_;
+  }
+
+  void gamestate_t::
+  rumorIndices (const rumorIndices_sequence& s)
+  {
+    this->rumorIndices_ = s;
+  }
+
+  const gamestate_t::eventIndices_sequence& gamestate_t::
+  eventIndices () const
+  {
+    return this->eventIndices_;
+  }
+
+  gamestate_t::eventIndices_sequence& gamestate_t::
+  eventIndices ()
+  {
+    return this->eventIndices_;
+  }
+
+  void gamestate_t::
+  eventIndices (const eventIndices_sequence& s)
+  {
+    this->eventIndices_ = s;
+  }
+
+  const gamestate_t::_D_sequence& gamestate_t::
+  _D () const
+  {
+    return this->_D_;
+  }
+
+  gamestate_t::_D_sequence& gamestate_t::
+  _D ()
+  {
+    return this->_D_;
+  }
+
+  void gamestate_t::
+  _D (const _D_sequence& s)
+  {
+    this->_D_ = s;
+  }
+
+  const gamestate_t::mapRevealed_sequence& gamestate_t::
+  mapRevealed () const
+  {
+    return this->mapRevealed_;
+  }
+
+  gamestate_t::mapRevealed_sequence& gamestate_t::
+  mapRevealed ()
+  {
+    return this->mapRevealed_;
+  }
+
+  void gamestate_t::
+  mapRevealed (const mapRevealed_sequence& s)
+  {
+    this->mapRevealed_ = s;
+  }
+
 
   // map_t
   // 
@@ -2285,6 +2615,686 @@ namespace ironfist_map
   status (const status_optional& x)
   {
     this->status_ = x;
+  }
+
+
+  // playerHandicap
+  // 
+
+  const playerHandicap::id_type& playerHandicap::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  playerHandicap::id_type& playerHandicap::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void playerHandicap::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const playerHandicap::handicap_optional& playerHandicap::
+  handicap () const
+  {
+    return this->handicap_;
+  }
+
+  playerHandicap::handicap_optional& playerHandicap::
+  handicap ()
+  {
+    return this->handicap_;
+  }
+
+  void playerHandicap::
+  handicap (const handicap_type& x)
+  {
+    this->handicap_.set (x);
+  }
+
+  void playerHandicap::
+  handicap (const handicap_optional& x)
+  {
+    this->handicap_ = x;
+  }
+
+
+  // field_459
+  // 
+
+  const field_459::id_type& field_459::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  field_459::id_type& field_459::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void field_459::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const field_459::value_optional& field_459::
+  value () const
+  {
+    return this->value_;
+  }
+
+  field_459::value_optional& field_459::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void field_459::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void field_459::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // field_45F
+  // 
+
+  const field_45F::id_type& field_45F::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  field_45F::id_type& field_45F::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void field_45F::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const field_45F::value_optional& field_45F::
+  value () const
+  {
+    return this->value_;
+  }
+
+  field_45F::value_optional& field_45F::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void field_45F::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void field_45F::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // field_2773
+  // 
+
+  const field_2773::id_type& field_2773::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  field_2773::id_type& field_2773::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void field_2773::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const field_2773::value_optional& field_2773::
+  value () const
+  {
+    return this->value_;
+  }
+
+  field_2773::value_optional& field_2773::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void field_2773::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void field_2773::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // field_27BB
+  // 
+
+  const field_27BB::id_type& field_27BB::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  field_27BB::id_type& field_27BB::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void field_27BB::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const field_27BB::value_optional& field_27BB::
+  value () const
+  {
+    return this->value_;
+  }
+
+  field_27BB::value_optional& field_27BB::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void field_27BB::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void field_27BB::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // field_60A6
+  // 
+
+  const field_60A6::id_type& field_60A6::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  field_60A6::id_type& field_60A6::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void field_60A6::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const field_60A6::value_optional& field_60A6::
+  value () const
+  {
+    return this->value_;
+  }
+
+  field_60A6::value_optional& field_60A6::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void field_60A6::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void field_60A6::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // randomArtifacts
+  // 
+
+  const randomArtifacts::id_type& randomArtifacts::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  randomArtifacts::id_type& randomArtifacts::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void randomArtifacts::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const randomArtifacts::artifact_optional& randomArtifacts::
+  artifact () const
+  {
+    return this->artifact_;
+  }
+
+  randomArtifacts::artifact_optional& randomArtifacts::
+  artifact ()
+  {
+    return this->artifact_;
+  }
+
+  void randomArtifacts::
+  artifact (const artifact_type& x)
+  {
+    this->artifact_.set (x);
+  }
+
+  void randomArtifacts::
+  artifact (const artifact_optional& x)
+  {
+    this->artifact_ = x;
+  }
+
+
+  // boatBuilt
+  // 
+
+  const boatBuilt::id_type& boatBuilt::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  boatBuilt::id_type& boatBuilt::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void boatBuilt::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const boatBuilt::boat_optional& boatBuilt::
+  boat () const
+  {
+    return this->boat_;
+  }
+
+  boatBuilt::boat_optional& boatBuilt::
+  boat ()
+  {
+    return this->boat_;
+  }
+
+  void boatBuilt::
+  boat (const boat_type& x)
+  {
+    this->boat_.set (x);
+  }
+
+  void boatBuilt::
+  boat (const boat_optional& x)
+  {
+    this->boat_ = x;
+  }
+
+
+  // obeliskVisitedMasks
+  // 
+
+  const obeliskVisitedMasks::id_type& obeliskVisitedMasks::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  obeliskVisitedMasks::id_type& obeliskVisitedMasks::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void obeliskVisitedMasks::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const obeliskVisitedMasks::obelisk_optional& obeliskVisitedMasks::
+  obelisk () const
+  {
+    return this->obelisk_;
+  }
+
+  obeliskVisitedMasks::obelisk_optional& obeliskVisitedMasks::
+  obelisk ()
+  {
+    return this->obelisk_;
+  }
+
+  void obeliskVisitedMasks::
+  obelisk (const obelisk_type& x)
+  {
+    this->obelisk_.set (x);
+  }
+
+  void obeliskVisitedMasks::
+  obelisk (const obelisk_optional& x)
+  {
+    this->obelisk_ = x;
+  }
+
+
+  // field_637D
+  // 
+
+  const field_637D::id_type& field_637D::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  field_637D::id_type& field_637D::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void field_637D::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const field_637D::value_optional& field_637D::
+  value () const
+  {
+    return this->value_;
+  }
+
+  field_637D::value_optional& field_637D::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void field_637D::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void field_637D::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // rumorIndices
+  // 
+
+  const rumorIndices::id_type& rumorIndices::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  rumorIndices::id_type& rumorIndices::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void rumorIndices::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const rumorIndices::index_optional& rumorIndices::
+  index () const
+  {
+    return this->index_;
+  }
+
+  rumorIndices::index_optional& rumorIndices::
+  index ()
+  {
+    return this->index_;
+  }
+
+  void rumorIndices::
+  index (const index_type& x)
+  {
+    this->index_.set (x);
+  }
+
+  void rumorIndices::
+  index (const index_optional& x)
+  {
+    this->index_ = x;
+  }
+
+
+  // eventIndices
+  // 
+
+  const eventIndices::id_type& eventIndices::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  eventIndices::id_type& eventIndices::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void eventIndices::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const eventIndices::index_optional& eventIndices::
+  index () const
+  {
+    return this->index_;
+  }
+
+  eventIndices::index_optional& eventIndices::
+  index ()
+  {
+    return this->index_;
+  }
+
+  void eventIndices::
+  index (const index_type& x)
+  {
+    this->index_.set (x);
+  }
+
+  void eventIndices::
+  index (const index_optional& x)
+  {
+    this->index_ = x;
+  }
+
+
+  // _D
+  // 
+
+  const _D::id_type& _D::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  _D::id_type& _D::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void _D::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const _D::value_optional& _D::
+  value () const
+  {
+    return this->value_;
+  }
+
+  _D::value_optional& _D::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void _D::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void _D::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // mapRevealed
+  // 
+
+  const mapRevealed::id_type& mapRevealed::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  mapRevealed::id_type& mapRevealed::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void mapRevealed::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const mapRevealed::x_type& mapRevealed::
+  x () const
+  {
+    return this->x_.get ();
+  }
+
+  mapRevealed::x_type& mapRevealed::
+  x ()
+  {
+    return this->x_.get ();
+  }
+
+  void mapRevealed::
+  x (const x_type& x)
+  {
+    this->x_.set (x);
+  }
+
+  const mapRevealed::y_type& mapRevealed::
+  y () const
+  {
+    return this->y_.get ();
+  }
+
+  mapRevealed::y_type& mapRevealed::
+  y ()
+  {
+    return this->y_.get ();
+  }
+
+  void mapRevealed::
+  y (const y_type& x)
+  {
+    this->y_.set (x);
+  }
+
+  const mapRevealed::revealed_optional& mapRevealed::
+  revealed () const
+  {
+    return this->revealed_;
+  }
+
+  mapRevealed::revealed_optional& mapRevealed::
+  revealed ()
+  {
+    return this->revealed_;
+  }
+
+  void mapRevealed::
+  revealed (const revealed_type& x)
+  {
+    this->revealed_.set (x);
+  }
+
+  void mapRevealed::
+  revealed (const revealed_optional& x)
+  {
+    this->revealed_ = x;
   }
 }
 
@@ -4022,7 +5032,11 @@ namespace ironfist_map
                const numRumors_type& numRumors,
                const numEvents_type& numEvents,
                const field_657B_type& field_657B,
-               const maxMapExtra_type& maxMapExtra)
+               const maxMapExtra_type& maxMapExtra,
+               const field_44D_type& field_44D,
+               const field_451_type& field_451,
+               const difficulty_type& difficulty,
+               const mapFilename_type& mapFilename)
   : ::xml_schema::type (),
     allowAIArmySharing_ (allowAIArmySharing, ::xml_schema::flags (), this),
     mapWidth_ (mapWidth, ::xml_schema::flags (), this),
@@ -4051,7 +5065,25 @@ namespace ironfist_map
     playerNames_ (::xml_schema::flags (), this),
     deadPlayers_ (::xml_schema::flags (), this),
     alivePlayers_ (::xml_schema::flags (), this),
-    heroHireStatus_ (::xml_schema::flags (), this)
+    heroHireStatus_ (::xml_schema::flags (), this),
+    field_44D_ (field_44D, ::xml_schema::flags (), this),
+    field_451_ (field_451, ::xml_schema::flags (), this),
+    playerHandicap_ (::xml_schema::flags (), this),
+    field_459_ (::xml_schema::flags (), this),
+    field_45F_ (::xml_schema::flags (), this),
+    difficulty_ (difficulty, ::xml_schema::flags (), this),
+    mapFilename_ (mapFilename, ::xml_schema::flags (), this),
+    field_2773_ (::xml_schema::flags (), this),
+    field_27BB_ (::xml_schema::flags (), this),
+    field_60A6_ (::xml_schema::flags (), this),
+    randomArtifacts_ (::xml_schema::flags (), this),
+    boatBuilt_ (::xml_schema::flags (), this),
+    obeliskVisitedMasks_ (::xml_schema::flags (), this),
+    field_637D_ (::xml_schema::flags (), this),
+    rumorIndices_ (::xml_schema::flags (), this),
+    eventIndices_ (::xml_schema::flags (), this),
+    _D_ (::xml_schema::flags (), this),
+    mapRevealed_ (::xml_schema::flags (), this)
   {
   }
 
@@ -4087,7 +5119,25 @@ namespace ironfist_map
     playerNames_ (x.playerNames_, f, this),
     deadPlayers_ (x.deadPlayers_, f, this),
     alivePlayers_ (x.alivePlayers_, f, this),
-    heroHireStatus_ (x.heroHireStatus_, f, this)
+    heroHireStatus_ (x.heroHireStatus_, f, this),
+    field_44D_ (x.field_44D_, f, this),
+    field_451_ (x.field_451_, f, this),
+    playerHandicap_ (x.playerHandicap_, f, this),
+    field_459_ (x.field_459_, f, this),
+    field_45F_ (x.field_45F_, f, this),
+    difficulty_ (x.difficulty_, f, this),
+    mapFilename_ (x.mapFilename_, f, this),
+    field_2773_ (x.field_2773_, f, this),
+    field_27BB_ (x.field_27BB_, f, this),
+    field_60A6_ (x.field_60A6_, f, this),
+    randomArtifacts_ (x.randomArtifacts_, f, this),
+    boatBuilt_ (x.boatBuilt_, f, this),
+    obeliskVisitedMasks_ (x.obeliskVisitedMasks_, f, this),
+    field_637D_ (x.field_637D_, f, this),
+    rumorIndices_ (x.rumorIndices_, f, this),
+    eventIndices_ (x.eventIndices_, f, this),
+    _D_ (x._D_, f, this),
+    mapRevealed_ (x.mapRevealed_, f, this)
   {
   }
 
@@ -4123,7 +5173,25 @@ namespace ironfist_map
     playerNames_ (f, this),
     deadPlayers_ (f, this),
     alivePlayers_ (f, this),
-    heroHireStatus_ (f, this)
+    heroHireStatus_ (f, this),
+    field_44D_ (f, this),
+    field_451_ (f, this),
+    playerHandicap_ (f, this),
+    field_459_ (f, this),
+    field_45F_ (f, this),
+    difficulty_ (f, this),
+    mapFilename_ (f, this),
+    field_2773_ (f, this),
+    field_27BB_ (f, this),
+    field_60A6_ (f, this),
+    randomArtifacts_ (f, this),
+    boatBuilt_ (f, this),
+    obeliskVisitedMasks_ (f, this),
+    field_637D_ (f, this),
+    rumorIndices_ (f, this),
+    eventIndices_ (f, this),
+    _D_ (f, this),
+    mapRevealed_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -4453,6 +5521,207 @@ namespace ironfist_map
         continue;
       }
 
+      // field_44D
+      //
+      if (n.name () == "field_44D" && n.namespace_ ().empty ())
+      {
+        if (!field_44D_.present ())
+        {
+          this->field_44D_.set (field_44D_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_451
+      //
+      if (n.name () == "field_451" && n.namespace_ ().empty ())
+      {
+        if (!field_451_.present ())
+        {
+          this->field_451_.set (field_451_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // playerHandicap
+      //
+      if (n.name () == "playerHandicap" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< playerHandicap_type > r (
+          playerHandicap_traits::create (i, f, this));
+
+        this->playerHandicap_.push_back (r);
+        continue;
+      }
+
+      // field_459
+      //
+      if (n.name () == "field_459" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_459_type > r (
+          field_459_traits::create (i, f, this));
+
+        this->field_459_.push_back (r);
+        continue;
+      }
+
+      // field_45F
+      //
+      if (n.name () == "field_45F" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_45F_type > r (
+          field_45F_traits::create (i, f, this));
+
+        this->field_45F_.push_back (r);
+        continue;
+      }
+
+      // difficulty
+      //
+      if (n.name () == "difficulty" && n.namespace_ ().empty ())
+      {
+        if (!difficulty_.present ())
+        {
+          this->difficulty_.set (difficulty_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // mapFilename
+      //
+      if (n.name () == "mapFilename" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapFilename_type > r (
+          mapFilename_traits::create (i, f, this));
+
+        if (!mapFilename_.present ())
+        {
+          this->mapFilename_.set (r);
+          continue;
+        }
+      }
+
+      // field_2773
+      //
+      if (n.name () == "field_2773" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_2773_type > r (
+          field_2773_traits::create (i, f, this));
+
+        this->field_2773_.push_back (r);
+        continue;
+      }
+
+      // field_27BB
+      //
+      if (n.name () == "field_27BB" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_27BB_type > r (
+          field_27BB_traits::create (i, f, this));
+
+        this->field_27BB_.push_back (r);
+        continue;
+      }
+
+      // field_60A6
+      //
+      if (n.name () == "field_60A6" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_60A6_type > r (
+          field_60A6_traits::create (i, f, this));
+
+        this->field_60A6_.push_back (r);
+        continue;
+      }
+
+      // randomArtifacts
+      //
+      if (n.name () == "randomArtifacts" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< randomArtifacts_type > r (
+          randomArtifacts_traits::create (i, f, this));
+
+        this->randomArtifacts_.push_back (r);
+        continue;
+      }
+
+      // boatBuilt
+      //
+      if (n.name () == "boatBuilt" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< boatBuilt_type > r (
+          boatBuilt_traits::create (i, f, this));
+
+        this->boatBuilt_.push_back (r);
+        continue;
+      }
+
+      // obeliskVisitedMasks
+      //
+      if (n.name () == "obeliskVisitedMasks" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< obeliskVisitedMasks_type > r (
+          obeliskVisitedMasks_traits::create (i, f, this));
+
+        this->obeliskVisitedMasks_.push_back (r);
+        continue;
+      }
+
+      // field_637D
+      //
+      if (n.name () == "field_637D" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_637D_type > r (
+          field_637D_traits::create (i, f, this));
+
+        this->field_637D_.push_back (r);
+        continue;
+      }
+
+      // rumorIndices
+      //
+      if (n.name () == "rumorIndices" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< rumorIndices_type > r (
+          rumorIndices_traits::create (i, f, this));
+
+        this->rumorIndices_.push_back (r);
+        continue;
+      }
+
+      // eventIndices
+      //
+      if (n.name () == "eventIndices" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< eventIndices_type > r (
+          eventIndices_traits::create (i, f, this));
+
+        this->eventIndices_.push_back (r);
+        continue;
+      }
+
+      // _D
+      //
+      if (n.name () == "_D" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< _D_type > r (
+          _D_traits::create (i, f, this));
+
+        this->_D_.push_back (r);
+        continue;
+      }
+
+      // mapRevealed
+      //
+      if (n.name () == "mapRevealed" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapRevealed_type > r (
+          mapRevealed_traits::create (i, f, this));
+
+        this->mapRevealed_.push_back (r);
+        continue;
+      }
+
       break;
     }
 
@@ -4621,6 +5890,34 @@ namespace ironfist_map
     {
       throw ::xsd::cxx::tree::expected_element< char > (
         "maxMapExtra",
+        "");
+    }
+
+    if (!field_44D_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_44D",
+        "");
+    }
+
+    if (!field_451_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_451",
+        "");
+    }
+
+    if (!difficulty_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "difficulty",
+        "");
+    }
+
+    if (!mapFilename_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "mapFilename",
         "");
     }
   }
@@ -5260,6 +6557,1146 @@ namespace ironfist_map
 
   heroHireStatus::
   ~heroHireStatus ()
+  {
+  }
+
+  // playerHandicap
+  //
+
+  playerHandicap::
+  playerHandicap (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    handicap_ (::xml_schema::flags (), this)
+  {
+  }
+
+  playerHandicap::
+  playerHandicap (const playerHandicap& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    handicap_ (x.handicap_, f, this)
+  {
+  }
+
+  playerHandicap::
+  playerHandicap (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    handicap_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void playerHandicap::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "handicap" && n.namespace_ ().empty ())
+      {
+        this->handicap_.set (handicap_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  playerHandicap* playerHandicap::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class playerHandicap (*this, f, c);
+  }
+
+  playerHandicap::
+  ~playerHandicap ()
+  {
+  }
+
+  // field_459
+  //
+
+  field_459::
+  field_459 (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  field_459::
+  field_459 (const field_459& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  field_459::
+  field_459 (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void field_459::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  field_459* field_459::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class field_459 (*this, f, c);
+  }
+
+  field_459::
+  ~field_459 ()
+  {
+  }
+
+  // field_45F
+  //
+
+  field_45F::
+  field_45F (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  field_45F::
+  field_45F (const field_45F& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  field_45F::
+  field_45F (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void field_45F::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  field_45F* field_45F::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class field_45F (*this, f, c);
+  }
+
+  field_45F::
+  ~field_45F ()
+  {
+  }
+
+  // field_2773
+  //
+
+  field_2773::
+  field_2773 (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  field_2773::
+  field_2773 (const field_2773& x,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  field_2773::
+  field_2773 (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void field_2773::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  field_2773* field_2773::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class field_2773 (*this, f, c);
+  }
+
+  field_2773::
+  ~field_2773 ()
+  {
+  }
+
+  // field_27BB
+  //
+
+  field_27BB::
+  field_27BB (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  field_27BB::
+  field_27BB (const field_27BB& x,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  field_27BB::
+  field_27BB (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void field_27BB::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  field_27BB* field_27BB::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class field_27BB (*this, f, c);
+  }
+
+  field_27BB::
+  ~field_27BB ()
+  {
+  }
+
+  // field_60A6
+  //
+
+  field_60A6::
+  field_60A6 (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  field_60A6::
+  field_60A6 (const field_60A6& x,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  field_60A6::
+  field_60A6 (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void field_60A6::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  field_60A6* field_60A6::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class field_60A6 (*this, f, c);
+  }
+
+  field_60A6::
+  ~field_60A6 ()
+  {
+  }
+
+  // randomArtifacts
+  //
+
+  randomArtifacts::
+  randomArtifacts (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    artifact_ (::xml_schema::flags (), this)
+  {
+  }
+
+  randomArtifacts::
+  randomArtifacts (const randomArtifacts& x,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    artifact_ (x.artifact_, f, this)
+  {
+  }
+
+  randomArtifacts::
+  randomArtifacts (const ::xercesc::DOMElement& e,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    artifact_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void randomArtifacts::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "artifact" && n.namespace_ ().empty ())
+      {
+        this->artifact_.set (artifact_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  randomArtifacts* randomArtifacts::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class randomArtifacts (*this, f, c);
+  }
+
+  randomArtifacts::
+  ~randomArtifacts ()
+  {
+  }
+
+  // boatBuilt
+  //
+
+  boatBuilt::
+  boatBuilt (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    boat_ (::xml_schema::flags (), this)
+  {
+  }
+
+  boatBuilt::
+  boatBuilt (const boatBuilt& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    boat_ (x.boat_, f, this)
+  {
+  }
+
+  boatBuilt::
+  boatBuilt (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    boat_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void boatBuilt::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "boat" && n.namespace_ ().empty ())
+      {
+        this->boat_.set (boat_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  boatBuilt* boatBuilt::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class boatBuilt (*this, f, c);
+  }
+
+  boatBuilt::
+  ~boatBuilt ()
+  {
+  }
+
+  // obeliskVisitedMasks
+  //
+
+  obeliskVisitedMasks::
+  obeliskVisitedMasks (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    obelisk_ (::xml_schema::flags (), this)
+  {
+  }
+
+  obeliskVisitedMasks::
+  obeliskVisitedMasks (const obeliskVisitedMasks& x,
+                       ::xml_schema::flags f,
+                       ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    obelisk_ (x.obelisk_, f, this)
+  {
+  }
+
+  obeliskVisitedMasks::
+  obeliskVisitedMasks (const ::xercesc::DOMElement& e,
+                       ::xml_schema::flags f,
+                       ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    obelisk_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void obeliskVisitedMasks::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "obelisk" && n.namespace_ ().empty ())
+      {
+        this->obelisk_.set (obelisk_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  obeliskVisitedMasks* obeliskVisitedMasks::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class obeliskVisitedMasks (*this, f, c);
+  }
+
+  obeliskVisitedMasks::
+  ~obeliskVisitedMasks ()
+  {
+  }
+
+  // field_637D
+  //
+
+  field_637D::
+  field_637D (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  field_637D::
+  field_637D (const field_637D& x,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  field_637D::
+  field_637D (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void field_637D::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  field_637D* field_637D::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class field_637D (*this, f, c);
+  }
+
+  field_637D::
+  ~field_637D ()
+  {
+  }
+
+  // rumorIndices
+  //
+
+  rumorIndices::
+  rumorIndices (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    index_ (::xml_schema::flags (), this)
+  {
+  }
+
+  rumorIndices::
+  rumorIndices (const rumorIndices& x,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    index_ (x.index_, f, this)
+  {
+  }
+
+  rumorIndices::
+  rumorIndices (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    index_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void rumorIndices::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "index" && n.namespace_ ().empty ())
+      {
+        this->index_.set (index_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  rumorIndices* rumorIndices::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class rumorIndices (*this, f, c);
+  }
+
+  rumorIndices::
+  ~rumorIndices ()
+  {
+  }
+
+  // eventIndices
+  //
+
+  eventIndices::
+  eventIndices (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    index_ (::xml_schema::flags (), this)
+  {
+  }
+
+  eventIndices::
+  eventIndices (const eventIndices& x,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    index_ (x.index_, f, this)
+  {
+  }
+
+  eventIndices::
+  eventIndices (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    index_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void eventIndices::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "index" && n.namespace_ ().empty ())
+      {
+        this->index_.set (index_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  eventIndices* eventIndices::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class eventIndices (*this, f, c);
+  }
+
+  eventIndices::
+  ~eventIndices ()
+  {
+  }
+
+  // _D
+  //
+
+  _D::
+  _D (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  _D::
+  _D (const _D& x,
+      ::xml_schema::flags f,
+      ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  _D::
+  _D (const ::xercesc::DOMElement& e,
+      ::xml_schema::flags f,
+      ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void _D::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  _D* _D::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class _D (*this, f, c);
+  }
+
+  _D::
+  ~_D ()
+  {
+  }
+
+  // mapRevealed
+  //
+
+  mapRevealed::
+  mapRevealed (const id_type& id,
+               const x_type& x,
+               const y_type& y)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    x_ (x, ::xml_schema::flags (), this),
+    y_ (y, ::xml_schema::flags (), this),
+    revealed_ (::xml_schema::flags (), this)
+  {
+  }
+
+  mapRevealed::
+  mapRevealed (const mapRevealed& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    x_ (x.x_, f, this),
+    y_ (x.y_, f, this),
+    revealed_ (x.revealed_, f, this)
+  {
+  }
+
+  mapRevealed::
+  mapRevealed (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    x_ (f, this),
+    y_ (f, this),
+    revealed_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void mapRevealed::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "x" && n.namespace_ ().empty ())
+      {
+        this->x_.set (x_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "y" && n.namespace_ ().empty ())
+      {
+        this->y_.set (y_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "revealed" && n.namespace_ ().empty ())
+      {
+        this->revealed_.set (revealed_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+
+    if (!x_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "x",
+        "");
+    }
+
+    if (!y_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "y",
+        "");
+    }
+  }
+
+  mapRevealed* mapRevealed::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class mapRevealed (*this, f, c);
+  }
+
+  mapRevealed::
+  ~mapRevealed ()
   {
   }
 }
@@ -8317,6 +10754,246 @@ namespace ironfist_map
 
       s << *b;
     }
+
+    // field_44D
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_44D",
+          e));
+
+      s << i.field_44D ();
+    }
+
+    // field_451
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_451",
+          e));
+
+      s << i.field_451 ();
+    }
+
+    // playerHandicap
+    //
+    for (gamestate_t::playerHandicap_const_iterator
+         b (i.playerHandicap ().begin ()), n (i.playerHandicap ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "playerHandicap",
+          e));
+
+      s << *b;
+    }
+
+    // field_459
+    //
+    for (gamestate_t::field_459_const_iterator
+         b (i.field_459 ().begin ()), n (i.field_459 ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_459",
+          e));
+
+      s << *b;
+    }
+
+    // field_45F
+    //
+    for (gamestate_t::field_45F_const_iterator
+         b (i.field_45F ().begin ()), n (i.field_45F ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_45F",
+          e));
+
+      s << *b;
+    }
+
+    // difficulty
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "difficulty",
+          e));
+
+      s << i.difficulty ();
+    }
+
+    // mapFilename
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapFilename",
+          e));
+
+      s << i.mapFilename ();
+    }
+
+    // field_2773
+    //
+    for (gamestate_t::field_2773_const_iterator
+         b (i.field_2773 ().begin ()), n (i.field_2773 ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_2773",
+          e));
+
+      s << *b;
+    }
+
+    // field_27BB
+    //
+    for (gamestate_t::field_27BB_const_iterator
+         b (i.field_27BB ().begin ()), n (i.field_27BB ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_27BB",
+          e));
+
+      s << *b;
+    }
+
+    // field_60A6
+    //
+    for (gamestate_t::field_60A6_const_iterator
+         b (i.field_60A6 ().begin ()), n (i.field_60A6 ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_60A6",
+          e));
+
+      s << *b;
+    }
+
+    // randomArtifacts
+    //
+    for (gamestate_t::randomArtifacts_const_iterator
+         b (i.randomArtifacts ().begin ()), n (i.randomArtifacts ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "randomArtifacts",
+          e));
+
+      s << *b;
+    }
+
+    // boatBuilt
+    //
+    for (gamestate_t::boatBuilt_const_iterator
+         b (i.boatBuilt ().begin ()), n (i.boatBuilt ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "boatBuilt",
+          e));
+
+      s << *b;
+    }
+
+    // obeliskVisitedMasks
+    //
+    for (gamestate_t::obeliskVisitedMasks_const_iterator
+         b (i.obeliskVisitedMasks ().begin ()), n (i.obeliskVisitedMasks ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "obeliskVisitedMasks",
+          e));
+
+      s << *b;
+    }
+
+    // field_637D
+    //
+    for (gamestate_t::field_637D_const_iterator
+         b (i.field_637D ().begin ()), n (i.field_637D ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_637D",
+          e));
+
+      s << *b;
+    }
+
+    // rumorIndices
+    //
+    for (gamestate_t::rumorIndices_const_iterator
+         b (i.rumorIndices ().begin ()), n (i.rumorIndices ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "rumorIndices",
+          e));
+
+      s << *b;
+    }
+
+    // eventIndices
+    //
+    for (gamestate_t::eventIndices_const_iterator
+         b (i.eventIndices ().begin ()), n (i.eventIndices ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "eventIndices",
+          e));
+
+      s << *b;
+    }
+
+    // _D
+    //
+    for (gamestate_t::_D_const_iterator
+         b (i._D ().begin ()), n (i._D ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "_D",
+          e));
+
+      s << *b;
+    }
+
+    // mapRevealed
+    //
+    for (gamestate_t::mapRevealed_const_iterator
+         b (i.mapRevealed ().begin ()), n (i.mapRevealed ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapRevealed",
+          e));
+
+      s << *b;
+    }
   }
 
   void
@@ -9612,6 +12289,434 @@ namespace ironfist_map
           e));
 
       a << *i.status ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const playerHandicap& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // handicap
+    //
+    if (i.handicap ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "handicap",
+          e));
+
+      a << *i.handicap ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const field_459& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const field_45F& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const field_2773& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const field_27BB& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const field_60A6& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const randomArtifacts& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // artifact
+    //
+    if (i.artifact ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "artifact",
+          e));
+
+      a << *i.artifact ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const boatBuilt& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // boat
+    //
+    if (i.boat ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "boat",
+          e));
+
+      a << *i.boat ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const obeliskVisitedMasks& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // obelisk
+    //
+    if (i.obelisk ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "obelisk",
+          e));
+
+      a << *i.obelisk ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const field_637D& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const rumorIndices& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // index
+    //
+    if (i.index ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "index",
+          e));
+
+      a << *i.index ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const eventIndices& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // index
+    //
+    if (i.index ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "index",
+          e));
+
+      a << *i.index ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const _D& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const mapRevealed& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // x
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "x",
+          e));
+
+      a << i.x ();
+    }
+
+    // y
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "y",
+          e));
+
+      a << i.y ();
+    }
+
+    // revealed
+    //
+    if (i.revealed ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "revealed",
+          e));
+
+      a << *i.revealed ();
     }
   }
 }
