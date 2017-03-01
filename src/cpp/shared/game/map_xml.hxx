@@ -256,6 +256,7 @@ namespace ironfist_map
   class table_t;
   class mapVariable_t;
   class gamestate_t;
+  class mapExtra_t;
   class map_t;
   class secondarySkill;
   class artifact;
@@ -277,6 +278,7 @@ namespace ironfist_map
   class eventIndices;
   class _D;
   class mapRevealed;
+  class ppMapExtra;
 }
 
 
@@ -2330,6 +2332,23 @@ namespace ironfist_map
     void
     mapRevealed (const mapRevealed_sequence& s);
 
+    // mapExtra
+    // 
+    typedef ::ironfist_map::mapExtra_t mapExtra_type;
+    typedef ::xsd::cxx::tree::sequence< mapExtra_type > mapExtra_sequence;
+    typedef mapExtra_sequence::iterator mapExtra_iterator;
+    typedef mapExtra_sequence::const_iterator mapExtra_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapExtra_type, char > mapExtra_traits;
+
+    const mapExtra_sequence&
+    mapExtra () const;
+
+    mapExtra_sequence&
+    mapExtra ();
+
+    void
+    mapExtra (const mapExtra_sequence& s);
+
     // Constructors.
     //
     gamestate_t (const allowAIArmySharing_type&,
@@ -2430,6 +2449,57 @@ namespace ironfist_map
     eventIndices_sequence eventIndices_;
     _D_sequence _D_;
     mapRevealed_sequence mapRevealed_;
+    mapExtra_sequence mapExtra_;
+  };
+
+  class mapExtra_t: public ::xml_schema::type
+  {
+    public:
+    // ppMapExtra
+    // 
+    typedef ::ironfist_map::ppMapExtra ppMapExtra_type;
+    typedef ::xsd::cxx::tree::sequence< ppMapExtra_type > ppMapExtra_sequence;
+    typedef ppMapExtra_sequence::iterator ppMapExtra_iterator;
+    typedef ppMapExtra_sequence::const_iterator ppMapExtra_const_iterator;
+    typedef ::xsd::cxx::tree::traits< ppMapExtra_type, char > ppMapExtra_traits;
+
+    const ppMapExtra_sequence&
+    ppMapExtra () const;
+
+    ppMapExtra_sequence&
+    ppMapExtra ();
+
+    void
+    ppMapExtra (const ppMapExtra_sequence& s);
+
+    // Constructors.
+    //
+    mapExtra_t ();
+
+    mapExtra_t (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    mapExtra_t (const mapExtra_t& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual mapExtra_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapExtra_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ppMapExtra_sequence ppMapExtra_;
   };
 
   class map_t: public ::xml_schema::type
@@ -3938,6 +4008,72 @@ namespace ironfist_map
     ::xsd::cxx::tree::one< y_type > y_;
     revealed_optional revealed_;
   };
+
+  class ppMapExtra: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    ppMapExtra (const id_type&);
+
+    ppMapExtra (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    ppMapExtra (const ppMapExtra& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual ppMapExtra*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~ppMapExtra ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    value_optional value_;
+  };
 }
 
 #include <iosfwd>
@@ -4632,6 +4768,9 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement&, const gamestate_t&);
 
   void
+  operator<< (::xercesc::DOMElement&, const mapExtra_t&);
+
+  void
   operator<< (::xercesc::DOMElement&, const map_t&);
 
   // Serialize to std::ostream.
@@ -5169,6 +5308,9 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const mapRevealed&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const ppMapExtra&);
 }
 
 #include <xsd/cxx/post.hxx>

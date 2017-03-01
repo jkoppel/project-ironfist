@@ -2181,6 +2181,46 @@ namespace ironfist_map
     this->mapRevealed_ = s;
   }
 
+  const gamestate_t::mapExtra_sequence& gamestate_t::
+  mapExtra () const
+  {
+    return this->mapExtra_;
+  }
+
+  gamestate_t::mapExtra_sequence& gamestate_t::
+  mapExtra ()
+  {
+    return this->mapExtra_;
+  }
+
+  void gamestate_t::
+  mapExtra (const mapExtra_sequence& s)
+  {
+    this->mapExtra_ = s;
+  }
+
+
+  // mapExtra_t
+  // 
+
+  const mapExtra_t::ppMapExtra_sequence& mapExtra_t::
+  ppMapExtra () const
+  {
+    return this->ppMapExtra_;
+  }
+
+  mapExtra_t::ppMapExtra_sequence& mapExtra_t::
+  ppMapExtra ()
+  {
+    return this->ppMapExtra_;
+  }
+
+  void mapExtra_t::
+  ppMapExtra (const ppMapExtra_sequence& s)
+  {
+    this->ppMapExtra_ = s;
+  }
+
 
   // map_t
   // 
@@ -3295,6 +3335,52 @@ namespace ironfist_map
   revealed (const revealed_optional& x)
   {
     this->revealed_ = x;
+  }
+
+
+  // ppMapExtra
+  // 
+
+  const ppMapExtra::id_type& ppMapExtra::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  ppMapExtra::id_type& ppMapExtra::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void ppMapExtra::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const ppMapExtra::value_optional& ppMapExtra::
+  value () const
+  {
+    return this->value_;
+  }
+
+  ppMapExtra::value_optional& ppMapExtra::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void ppMapExtra::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void ppMapExtra::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
   }
 }
 
@@ -5083,7 +5169,8 @@ namespace ironfist_map
     rumorIndices_ (::xml_schema::flags (), this),
     eventIndices_ (::xml_schema::flags (), this),
     _D_ (::xml_schema::flags (), this),
-    mapRevealed_ (::xml_schema::flags (), this)
+    mapRevealed_ (::xml_schema::flags (), this),
+    mapExtra_ (::xml_schema::flags (), this)
   {
   }
 
@@ -5137,7 +5224,8 @@ namespace ironfist_map
     rumorIndices_ (x.rumorIndices_, f, this),
     eventIndices_ (x.eventIndices_, f, this),
     _D_ (x._D_, f, this),
-    mapRevealed_ (x.mapRevealed_, f, this)
+    mapRevealed_ (x.mapRevealed_, f, this),
+    mapExtra_ (x.mapExtra_, f, this)
   {
   }
 
@@ -5191,7 +5279,8 @@ namespace ironfist_map
     rumorIndices_ (f, this),
     eventIndices_ (f, this),
     _D_ (f, this),
-    mapRevealed_ (f, this)
+    mapRevealed_ (f, this),
+    mapExtra_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -5722,6 +5811,17 @@ namespace ironfist_map
         continue;
       }
 
+      // mapExtra
+      //
+      if (n.name () == "mapExtra" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapExtra_type > r (
+          mapExtra_traits::create (i, f, this));
+
+        this->mapExtra_.push_back (r);
+        continue;
+      }
+
       break;
     }
 
@@ -5931,6 +6031,76 @@ namespace ironfist_map
 
   gamestate_t::
   ~gamestate_t ()
+  {
+  }
+
+  // mapExtra_t
+  //
+
+  mapExtra_t::
+  mapExtra_t ()
+  : ::xml_schema::type (),
+    ppMapExtra_ (::xml_schema::flags (), this)
+  {
+  }
+
+  mapExtra_t::
+  mapExtra_t (const mapExtra_t& x,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    ppMapExtra_ (x.ppMapExtra_, f, this)
+  {
+  }
+
+  mapExtra_t::
+  mapExtra_t (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    ppMapExtra_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void mapExtra_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // ppMapExtra
+      //
+      if (n.name () == "ppMapExtra" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< ppMapExtra_type > r (
+          ppMapExtra_traits::create (i, f, this));
+
+        this->ppMapExtra_.push_back (r);
+        continue;
+      }
+
+      break;
+    }
+  }
+
+  mapExtra_t* mapExtra_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class mapExtra_t (*this, f, c);
+  }
+
+  mapExtra_t::
+  ~mapExtra_t ()
   {
   }
 
@@ -7697,6 +7867,85 @@ namespace ironfist_map
 
   mapRevealed::
   ~mapRevealed ()
+  {
+  }
+
+  // ppMapExtra
+  //
+
+  ppMapExtra::
+  ppMapExtra (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  ppMapExtra::
+  ppMapExtra (const ppMapExtra& x,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  ppMapExtra::
+  ppMapExtra (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f,
+              ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void ppMapExtra::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  ppMapExtra* ppMapExtra::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class ppMapExtra (*this, f, c);
+  }
+
+  ppMapExtra::
+  ~ppMapExtra ()
   {
   }
 }
@@ -10994,6 +11243,40 @@ namespace ironfist_map
 
       s << *b;
     }
+
+    // mapExtra
+    //
+    for (gamestate_t::mapExtra_const_iterator
+         b (i.mapExtra ().begin ()), n (i.mapExtra ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapExtra",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const mapExtra_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // ppMapExtra
+    //
+    for (mapExtra_t::ppMapExtra_const_iterator
+         b (i.ppMapExtra ().begin ()), n (i.ppMapExtra ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "ppMapExtra",
+          e));
+
+      s << *b;
+    }
   }
 
   void
@@ -12717,6 +13000,35 @@ namespace ironfist_map
           e));
 
       a << *i.revealed ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const ppMapExtra& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
     }
   }
 }
