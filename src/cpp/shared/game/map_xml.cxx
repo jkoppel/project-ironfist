@@ -2271,6 +2271,666 @@ namespace ironfist_map
     this->boat_ = s;
   }
 
+  const gamestate_t::fullMap_sequence& gamestate_t::
+  fullMap () const
+  {
+    return this->fullMap_;
+  }
+
+  gamestate_t::fullMap_sequence& gamestate_t::
+  fullMap ()
+  {
+    return this->fullMap_;
+  }
+
+  void gamestate_t::
+  fullMap (const fullMap_sequence& s)
+  {
+    this->fullMap_ = s;
+  }
+
+
+  // fullMap_t
+  // 
+
+  const fullMap_t::width_type& fullMap_t::
+  width () const
+  {
+    return this->width_.get ();
+  }
+
+  fullMap_t::width_type& fullMap_t::
+  width ()
+  {
+    return this->width_.get ();
+  }
+
+  void fullMap_t::
+  width (const width_type& x)
+  {
+    this->width_.set (x);
+  }
+
+  const fullMap_t::height_type& fullMap_t::
+  height () const
+  {
+    return this->height_.get ();
+  }
+
+  fullMap_t::height_type& fullMap_t::
+  height ()
+  {
+    return this->height_.get ();
+  }
+
+  void fullMap_t::
+  height (const height_type& x)
+  {
+    this->height_.set (x);
+  }
+
+  const fullMap_t::numCellExtras_type& fullMap_t::
+  numCellExtras () const
+  {
+    return this->numCellExtras_.get ();
+  }
+
+  fullMap_t::numCellExtras_type& fullMap_t::
+  numCellExtras ()
+  {
+    return this->numCellExtras_.get ();
+  }
+
+  void fullMap_t::
+  numCellExtras (const numCellExtras_type& x)
+  {
+    this->numCellExtras_.set (x);
+  }
+
+  const fullMap_t::mapCell_sequence& fullMap_t::
+  mapCell () const
+  {
+    return this->mapCell_;
+  }
+
+  fullMap_t::mapCell_sequence& fullMap_t::
+  mapCell ()
+  {
+    return this->mapCell_;
+  }
+
+  void fullMap_t::
+  mapCell (const mapCell_sequence& s)
+  {
+    this->mapCell_ = s;
+  }
+
+  const fullMap_t::mapCellExtra_sequence& fullMap_t::
+  mapCellExtra () const
+  {
+    return this->mapCellExtra_;
+  }
+
+  fullMap_t::mapCellExtra_sequence& fullMap_t::
+  mapCellExtra ()
+  {
+    return this->mapCellExtra_;
+  }
+
+  void fullMap_t::
+  mapCellExtra (const mapCellExtra_sequence& s)
+  {
+    this->mapCellExtra_ = s;
+  }
+
+
+  // mapCellExtra_t
+  // 
+
+  const mapCellExtra_t::id_type& mapCellExtra_t::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  mapCellExtra_t::id_type& mapCellExtra_t::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void mapCellExtra_t::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const mapCellExtra_t::nextIdx_type& mapCellExtra_t::
+  nextIdx () const
+  {
+    return this->nextIdx_.get ();
+  }
+
+  mapCellExtra_t::nextIdx_type& mapCellExtra_t::
+  nextIdx ()
+  {
+    return this->nextIdx_.get ();
+  }
+
+  void mapCellExtra_t::
+  nextIdx (const nextIdx_type& x)
+  {
+    this->nextIdx_.set (x);
+  }
+
+  const mapCellExtra_t::animatedObject_type& mapCellExtra_t::
+  animatedObject () const
+  {
+    return this->animatedObject_.get ();
+  }
+
+  mapCellExtra_t::animatedObject_type& mapCellExtra_t::
+  animatedObject ()
+  {
+    return this->animatedObject_.get ();
+  }
+
+  void mapCellExtra_t::
+  animatedObject (const animatedObject_type& x)
+  {
+    this->animatedObject_.set (x);
+  }
+
+  const mapCellExtra_t::objTileset_type& mapCellExtra_t::
+  objTileset () const
+  {
+    return this->objTileset_.get ();
+  }
+
+  mapCellExtra_t::objTileset_type& mapCellExtra_t::
+  objTileset ()
+  {
+    return this->objTileset_.get ();
+  }
+
+  void mapCellExtra_t::
+  objTileset (const objTileset_type& x)
+  {
+    this->objTileset_.set (x);
+  }
+
+  const mapCellExtra_t::objectIndex_type& mapCellExtra_t::
+  objectIndex () const
+  {
+    return this->objectIndex_.get ();
+  }
+
+  mapCellExtra_t::objectIndex_type& mapCellExtra_t::
+  objectIndex ()
+  {
+    return this->objectIndex_.get ();
+  }
+
+  void mapCellExtra_t::
+  objectIndex (const objectIndex_type& x)
+  {
+    this->objectIndex_.set (x);
+  }
+
+  const mapCellExtra_t::field_4_1_type& mapCellExtra_t::
+  field_4_1 () const
+  {
+    return this->field_4_1_.get ();
+  }
+
+  mapCellExtra_t::field_4_1_type& mapCellExtra_t::
+  field_4_1 ()
+  {
+    return this->field_4_1_.get ();
+  }
+
+  void mapCellExtra_t::
+  field_4_1 (const field_4_1_type& x)
+  {
+    this->field_4_1_.set (x);
+  }
+
+  const mapCellExtra_t::field_4_2_type& mapCellExtra_t::
+  field_4_2 () const
+  {
+    return this->field_4_2_.get ();
+  }
+
+  mapCellExtra_t::field_4_2_type& mapCellExtra_t::
+  field_4_2 ()
+  {
+    return this->field_4_2_.get ();
+  }
+
+  void mapCellExtra_t::
+  field_4_2 (const field_4_2_type& x)
+  {
+    this->field_4_2_.set (x);
+  }
+
+  const mapCellExtra_t::field_4_3_type& mapCellExtra_t::
+  field_4_3 () const
+  {
+    return this->field_4_3_.get ();
+  }
+
+  mapCellExtra_t::field_4_3_type& mapCellExtra_t::
+  field_4_3 ()
+  {
+    return this->field_4_3_.get ();
+  }
+
+  void mapCellExtra_t::
+  field_4_3 (const field_4_3_type& x)
+  {
+    this->field_4_3_.set (x);
+  }
+
+  const mapCellExtra_t::field_4_4_type& mapCellExtra_t::
+  field_4_4 () const
+  {
+    return this->field_4_4_.get ();
+  }
+
+  mapCellExtra_t::field_4_4_type& mapCellExtra_t::
+  field_4_4 ()
+  {
+    return this->field_4_4_.get ();
+  }
+
+  void mapCellExtra_t::
+  field_4_4 (const field_4_4_type& x)
+  {
+    this->field_4_4_.set (x);
+  }
+
+  const mapCellExtra_t::animatedLateOverlay_type& mapCellExtra_t::
+  animatedLateOverlay () const
+  {
+    return this->animatedLateOverlay_.get ();
+  }
+
+  mapCellExtra_t::animatedLateOverlay_type& mapCellExtra_t::
+  animatedLateOverlay ()
+  {
+    return this->animatedLateOverlay_.get ();
+  }
+
+  void mapCellExtra_t::
+  animatedLateOverlay (const animatedLateOverlay_type& x)
+  {
+    this->animatedLateOverlay_.set (x);
+  }
+
+  const mapCellExtra_t::hasLateOverlay_type& mapCellExtra_t::
+  hasLateOverlay () const
+  {
+    return this->hasLateOverlay_.get ();
+  }
+
+  mapCellExtra_t::hasLateOverlay_type& mapCellExtra_t::
+  hasLateOverlay ()
+  {
+    return this->hasLateOverlay_.get ();
+  }
+
+  void mapCellExtra_t::
+  hasLateOverlay (const hasLateOverlay_type& x)
+  {
+    this->hasLateOverlay_.set (x);
+  }
+
+  const mapCellExtra_t::tileset_type& mapCellExtra_t::
+  tileset () const
+  {
+    return this->tileset_.get ();
+  }
+
+  mapCellExtra_t::tileset_type& mapCellExtra_t::
+  tileset ()
+  {
+    return this->tileset_.get ();
+  }
+
+  void mapCellExtra_t::
+  tileset (const tileset_type& x)
+  {
+    this->tileset_.set (x);
+  }
+
+  const mapCellExtra_t::overlayIndex_type& mapCellExtra_t::
+  overlayIndex () const
+  {
+    return this->overlayIndex_.get ();
+  }
+
+  mapCellExtra_t::overlayIndex_type& mapCellExtra_t::
+  overlayIndex ()
+  {
+    return this->overlayIndex_.get ();
+  }
+
+  void mapCellExtra_t::
+  overlayIndex (const overlayIndex_type& x)
+  {
+    this->overlayIndex_.set (x);
+  }
+
+
+  // mapCell_t
+  // 
+
+  const mapCell_t::id_type& mapCell_t::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  mapCell_t::id_type& mapCell_t::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void mapCell_t::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const mapCell_t::groundIndex_type& mapCell_t::
+  groundIndex () const
+  {
+    return this->groundIndex_.get ();
+  }
+
+  mapCell_t::groundIndex_type& mapCell_t::
+  groundIndex ()
+  {
+    return this->groundIndex_.get ();
+  }
+
+  void mapCell_t::
+  groundIndex (const groundIndex_type& x)
+  {
+    this->groundIndex_.set (x);
+  }
+
+  const mapCell_t::hasObject_type& mapCell_t::
+  hasObject () const
+  {
+    return this->hasObject_.get ();
+  }
+
+  mapCell_t::hasObject_type& mapCell_t::
+  hasObject ()
+  {
+    return this->hasObject_.get ();
+  }
+
+  void mapCell_t::
+  hasObject (const hasObject_type& x)
+  {
+    this->hasObject_.set (x);
+  }
+
+  const mapCell_t::isRoad_type& mapCell_t::
+  isRoad () const
+  {
+    return this->isRoad_.get ();
+  }
+
+  mapCell_t::isRoad_type& mapCell_t::
+  isRoad ()
+  {
+    return this->isRoad_.get ();
+  }
+
+  void mapCell_t::
+  isRoad (const isRoad_type& x)
+  {
+    this->isRoad_.set (x);
+  }
+
+  const mapCell_t::objTileset_type& mapCell_t::
+  objTileset () const
+  {
+    return this->objTileset_.get ();
+  }
+
+  mapCell_t::objTileset_type& mapCell_t::
+  objTileset ()
+  {
+    return this->objTileset_.get ();
+  }
+
+  void mapCell_t::
+  objTileset (const objTileset_type& x)
+  {
+    this->objTileset_.set (x);
+  }
+
+  const mapCell_t::objectIndex_type& mapCell_t::
+  objectIndex () const
+  {
+    return this->objectIndex_.get ();
+  }
+
+  mapCell_t::objectIndex_type& mapCell_t::
+  objectIndex ()
+  {
+    return this->objectIndex_.get ();
+  }
+
+  void mapCell_t::
+  objectIndex (const objectIndex_type& x)
+  {
+    this->objectIndex_.set (x);
+  }
+
+  const mapCell_t::field_4_1_type& mapCell_t::
+  field_4_1 () const
+  {
+    return this->field_4_1_.get ();
+  }
+
+  mapCell_t::field_4_1_type& mapCell_t::
+  field_4_1 ()
+  {
+    return this->field_4_1_.get ();
+  }
+
+  void mapCell_t::
+  field_4_1 (const field_4_1_type& x)
+  {
+    this->field_4_1_.set (x);
+  }
+
+  const mapCell_t::isShadow_type& mapCell_t::
+  isShadow () const
+  {
+    return this->isShadow_.get ();
+  }
+
+  mapCell_t::isShadow_type& mapCell_t::
+  isShadow ()
+  {
+    return this->isShadow_.get ();
+  }
+
+  void mapCell_t::
+  isShadow (const isShadow_type& x)
+  {
+    this->isShadow_.set (x);
+  }
+
+  const mapCell_t::field_4_3_type& mapCell_t::
+  field_4_3 () const
+  {
+    return this->field_4_3_.get ();
+  }
+
+  mapCell_t::field_4_3_type& mapCell_t::
+  field_4_3 ()
+  {
+    return this->field_4_3_.get ();
+  }
+
+  void mapCell_t::
+  field_4_3 (const field_4_3_type& x)
+  {
+    this->field_4_3_.set (x);
+  }
+
+  const mapCell_t::extraInfo_type& mapCell_t::
+  extraInfo () const
+  {
+    return this->extraInfo_.get ();
+  }
+
+  mapCell_t::extraInfo_type& mapCell_t::
+  extraInfo ()
+  {
+    return this->extraInfo_.get ();
+  }
+
+  void mapCell_t::
+  extraInfo (const extraInfo_type& x)
+  {
+    this->extraInfo_.set (x);
+  }
+
+  const mapCell_t::hasOverlay_type& mapCell_t::
+  hasOverlay () const
+  {
+    return this->hasOverlay_.get ();
+  }
+
+  mapCell_t::hasOverlay_type& mapCell_t::
+  hasOverlay ()
+  {
+    return this->hasOverlay_.get ();
+  }
+
+  void mapCell_t::
+  hasOverlay (const hasOverlay_type& x)
+  {
+    this->hasOverlay_.set (x);
+  }
+
+  const mapCell_t::hasLateOverlay_type& mapCell_t::
+  hasLateOverlay () const
+  {
+    return this->hasLateOverlay_.get ();
+  }
+
+  mapCell_t::hasLateOverlay_type& mapCell_t::
+  hasLateOverlay ()
+  {
+    return this->hasLateOverlay_.get ();
+  }
+
+  void mapCell_t::
+  hasLateOverlay (const hasLateOverlay_type& x)
+  {
+    this->hasLateOverlay_.set (x);
+  }
+
+  const mapCell_t::overlayTileset_type& mapCell_t::
+  overlayTileset () const
+  {
+    return this->overlayTileset_.get ();
+  }
+
+  mapCell_t::overlayTileset_type& mapCell_t::
+  overlayTileset ()
+  {
+    return this->overlayTileset_.get ();
+  }
+
+  void mapCell_t::
+  overlayTileset (const overlayTileset_type& x)
+  {
+    this->overlayTileset_.set (x);
+  }
+
+  const mapCell_t::overlayIndex_type& mapCell_t::
+  overlayIndex () const
+  {
+    return this->overlayIndex_.get ();
+  }
+
+  mapCell_t::overlayIndex_type& mapCell_t::
+  overlayIndex ()
+  {
+    return this->overlayIndex_.get ();
+  }
+
+  void mapCell_t::
+  overlayIndex (const overlayIndex_type& x)
+  {
+    this->overlayIndex_.set (x);
+  }
+
+  const mapCell_t::displayFlags_type& mapCell_t::
+  displayFlags () const
+  {
+    return this->displayFlags_.get ();
+  }
+
+  mapCell_t::displayFlags_type& mapCell_t::
+  displayFlags ()
+  {
+    return this->displayFlags_.get ();
+  }
+
+  void mapCell_t::
+  displayFlags (const displayFlags_type& x)
+  {
+    this->displayFlags_.set (x);
+  }
+
+  const mapCell_t::objType_type& mapCell_t::
+  objType () const
+  {
+    return this->objType_.get ();
+  }
+
+  mapCell_t::objType_type& mapCell_t::
+  objType ()
+  {
+    return this->objType_.get ();
+  }
+
+  void mapCell_t::
+  objType (const objType_type& x)
+  {
+    this->objType_.set (x);
+  }
+
+  const mapCell_t::extraIdx_type& mapCell_t::
+  extraIdx () const
+  {
+    return this->extraIdx_.get ();
+  }
+
+  mapCell_t::extraIdx_type& mapCell_t::
+  extraIdx ()
+  {
+    return this->extraIdx_.get ();
+  }
+
+  void mapCell_t::
+  extraIdx (const extraIdx_type& x)
+  {
+    this->extraIdx_.set (x);
+  }
+
 
   // mine_t
   // 
@@ -6902,7 +7562,8 @@ namespace ironfist_map
     playerData_ (::xml_schema::flags (), this),
     towns_ (::xml_schema::flags (), this),
     mine_ (::xml_schema::flags (), this),
-    boat_ (::xml_schema::flags (), this)
+    boat_ (::xml_schema::flags (), this),
+    fullMap_ (::xml_schema::flags (), this)
   {
   }
 
@@ -6961,7 +7622,8 @@ namespace ironfist_map
     playerData_ (x.playerData_, f, this),
     towns_ (x.towns_, f, this),
     mine_ (x.mine_, f, this),
-    boat_ (x.boat_, f, this)
+    boat_ (x.boat_, f, this),
+    fullMap_ (x.fullMap_, f, this)
   {
   }
 
@@ -7020,7 +7682,8 @@ namespace ironfist_map
     playerData_ (f, this),
     towns_ (f, this),
     mine_ (f, this),
-    boat_ (f, this)
+    boat_ (f, this),
+    fullMap_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -7606,6 +8269,17 @@ namespace ironfist_map
         continue;
       }
 
+      // fullMap
+      //
+      if (n.name () == "fullMap" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< fullMap_type > r (
+          fullMap_traits::create (i, f, this));
+
+        this->fullMap_.push_back (r);
+        continue;
+      }
+
       break;
     }
 
@@ -7815,6 +8489,771 @@ namespace ironfist_map
 
   gamestate_t::
   ~gamestate_t ()
+  {
+  }
+
+  // fullMap_t
+  //
+
+  fullMap_t::
+  fullMap_t (const width_type& width,
+             const height_type& height,
+             const numCellExtras_type& numCellExtras)
+  : ::xml_schema::type (),
+    width_ (width, ::xml_schema::flags (), this),
+    height_ (height, ::xml_schema::flags (), this),
+    numCellExtras_ (numCellExtras, ::xml_schema::flags (), this),
+    mapCell_ (::xml_schema::flags (), this),
+    mapCellExtra_ (::xml_schema::flags (), this)
+  {
+  }
+
+  fullMap_t::
+  fullMap_t (const fullMap_t& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    width_ (x.width_, f, this),
+    height_ (x.height_, f, this),
+    numCellExtras_ (x.numCellExtras_, f, this),
+    mapCell_ (x.mapCell_, f, this),
+    mapCellExtra_ (x.mapCellExtra_, f, this)
+  {
+  }
+
+  fullMap_t::
+  fullMap_t (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    width_ (f, this),
+    height_ (f, this),
+    numCellExtras_ (f, this),
+    mapCell_ (f, this),
+    mapCellExtra_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void fullMap_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // width
+      //
+      if (n.name () == "width" && n.namespace_ ().empty ())
+      {
+        if (!width_.present ())
+        {
+          this->width_.set (width_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // height
+      //
+      if (n.name () == "height" && n.namespace_ ().empty ())
+      {
+        if (!height_.present ())
+        {
+          this->height_.set (height_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numCellExtras
+      //
+      if (n.name () == "numCellExtras" && n.namespace_ ().empty ())
+      {
+        if (!numCellExtras_.present ())
+        {
+          this->numCellExtras_.set (numCellExtras_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // mapCell
+      //
+      if (n.name () == "mapCell" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapCell_type > r (
+          mapCell_traits::create (i, f, this));
+
+        this->mapCell_.push_back (r);
+        continue;
+      }
+
+      // mapCellExtra
+      //
+      if (n.name () == "mapCellExtra" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapCellExtra_type > r (
+          mapCellExtra_traits::create (i, f, this));
+
+        this->mapCellExtra_.push_back (r);
+        continue;
+      }
+
+      break;
+    }
+
+    if (!width_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "width",
+        "");
+    }
+
+    if (!height_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "height",
+        "");
+    }
+
+    if (!numCellExtras_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numCellExtras",
+        "");
+    }
+  }
+
+  fullMap_t* fullMap_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class fullMap_t (*this, f, c);
+  }
+
+  fullMap_t::
+  ~fullMap_t ()
+  {
+  }
+
+  // mapCellExtra_t
+  //
+
+  mapCellExtra_t::
+  mapCellExtra_t (const id_type& id,
+                  const nextIdx_type& nextIdx,
+                  const animatedObject_type& animatedObject,
+                  const objTileset_type& objTileset,
+                  const objectIndex_type& objectIndex,
+                  const field_4_1_type& field_4_1,
+                  const field_4_2_type& field_4_2,
+                  const field_4_3_type& field_4_3,
+                  const field_4_4_type& field_4_4,
+                  const animatedLateOverlay_type& animatedLateOverlay,
+                  const hasLateOverlay_type& hasLateOverlay,
+                  const tileset_type& tileset,
+                  const overlayIndex_type& overlayIndex)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    nextIdx_ (nextIdx, ::xml_schema::flags (), this),
+    animatedObject_ (animatedObject, ::xml_schema::flags (), this),
+    objTileset_ (objTileset, ::xml_schema::flags (), this),
+    objectIndex_ (objectIndex, ::xml_schema::flags (), this),
+    field_4_1_ (field_4_1, ::xml_schema::flags (), this),
+    field_4_2_ (field_4_2, ::xml_schema::flags (), this),
+    field_4_3_ (field_4_3, ::xml_schema::flags (), this),
+    field_4_4_ (field_4_4, ::xml_schema::flags (), this),
+    animatedLateOverlay_ (animatedLateOverlay, ::xml_schema::flags (), this),
+    hasLateOverlay_ (hasLateOverlay, ::xml_schema::flags (), this),
+    tileset_ (tileset, ::xml_schema::flags (), this),
+    overlayIndex_ (overlayIndex, ::xml_schema::flags (), this)
+  {
+  }
+
+  mapCellExtra_t::
+  mapCellExtra_t (const mapCellExtra_t& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    nextIdx_ (x.nextIdx_, f, this),
+    animatedObject_ (x.animatedObject_, f, this),
+    objTileset_ (x.objTileset_, f, this),
+    objectIndex_ (x.objectIndex_, f, this),
+    field_4_1_ (x.field_4_1_, f, this),
+    field_4_2_ (x.field_4_2_, f, this),
+    field_4_3_ (x.field_4_3_, f, this),
+    field_4_4_ (x.field_4_4_, f, this),
+    animatedLateOverlay_ (x.animatedLateOverlay_, f, this),
+    hasLateOverlay_ (x.hasLateOverlay_, f, this),
+    tileset_ (x.tileset_, f, this),
+    overlayIndex_ (x.overlayIndex_, f, this)
+  {
+  }
+
+  mapCellExtra_t::
+  mapCellExtra_t (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    nextIdx_ (f, this),
+    animatedObject_ (f, this),
+    objTileset_ (f, this),
+    objectIndex_ (f, this),
+    field_4_1_ (f, this),
+    field_4_2_ (f, this),
+    field_4_3_ (f, this),
+    field_4_4_ (f, this),
+    animatedLateOverlay_ (f, this),
+    hasLateOverlay_ (f, this),
+    tileset_ (f, this),
+    overlayIndex_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void mapCellExtra_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "nextIdx" && n.namespace_ ().empty ())
+      {
+        this->nextIdx_.set (nextIdx_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "animatedObject" && n.namespace_ ().empty ())
+      {
+        this->animatedObject_.set (animatedObject_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "objTileset" && n.namespace_ ().empty ())
+      {
+        this->objTileset_.set (objTileset_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "objectIndex" && n.namespace_ ().empty ())
+      {
+        this->objectIndex_.set (objectIndex_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_4_1" && n.namespace_ ().empty ())
+      {
+        this->field_4_1_.set (field_4_1_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_4_2" && n.namespace_ ().empty ())
+      {
+        this->field_4_2_.set (field_4_2_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_4_3" && n.namespace_ ().empty ())
+      {
+        this->field_4_3_.set (field_4_3_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_4_4" && n.namespace_ ().empty ())
+      {
+        this->field_4_4_.set (field_4_4_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "animatedLateOverlay" && n.namespace_ ().empty ())
+      {
+        this->animatedLateOverlay_.set (animatedLateOverlay_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "hasLateOverlay" && n.namespace_ ().empty ())
+      {
+        this->hasLateOverlay_.set (hasLateOverlay_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "tileset" && n.namespace_ ().empty ())
+      {
+        this->tileset_.set (tileset_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "overlayIndex" && n.namespace_ ().empty ())
+      {
+        this->overlayIndex_.set (overlayIndex_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+
+    if (!nextIdx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "nextIdx",
+        "");
+    }
+
+    if (!animatedObject_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "animatedObject",
+        "");
+    }
+
+    if (!objTileset_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "objTileset",
+        "");
+    }
+
+    if (!objectIndex_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "objectIndex",
+        "");
+    }
+
+    if (!field_4_1_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_4_1",
+        "");
+    }
+
+    if (!field_4_2_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_4_2",
+        "");
+    }
+
+    if (!field_4_3_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_4_3",
+        "");
+    }
+
+    if (!field_4_4_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_4_4",
+        "");
+    }
+
+    if (!animatedLateOverlay_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "animatedLateOverlay",
+        "");
+    }
+
+    if (!hasLateOverlay_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "hasLateOverlay",
+        "");
+    }
+
+    if (!tileset_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "tileset",
+        "");
+    }
+
+    if (!overlayIndex_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "overlayIndex",
+        "");
+    }
+  }
+
+  mapCellExtra_t* mapCellExtra_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class mapCellExtra_t (*this, f, c);
+  }
+
+  mapCellExtra_t::
+  ~mapCellExtra_t ()
+  {
+  }
+
+  // mapCell_t
+  //
+
+  mapCell_t::
+  mapCell_t (const id_type& id,
+             const groundIndex_type& groundIndex,
+             const hasObject_type& hasObject,
+             const isRoad_type& isRoad,
+             const objTileset_type& objTileset,
+             const objectIndex_type& objectIndex,
+             const field_4_1_type& field_4_1,
+             const isShadow_type& isShadow,
+             const field_4_3_type& field_4_3,
+             const extraInfo_type& extraInfo,
+             const hasOverlay_type& hasOverlay,
+             const hasLateOverlay_type& hasLateOverlay,
+             const overlayTileset_type& overlayTileset,
+             const overlayIndex_type& overlayIndex,
+             const displayFlags_type& displayFlags,
+             const objType_type& objType,
+             const extraIdx_type& extraIdx)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    groundIndex_ (groundIndex, ::xml_schema::flags (), this),
+    hasObject_ (hasObject, ::xml_schema::flags (), this),
+    isRoad_ (isRoad, ::xml_schema::flags (), this),
+    objTileset_ (objTileset, ::xml_schema::flags (), this),
+    objectIndex_ (objectIndex, ::xml_schema::flags (), this),
+    field_4_1_ (field_4_1, ::xml_schema::flags (), this),
+    isShadow_ (isShadow, ::xml_schema::flags (), this),
+    field_4_3_ (field_4_3, ::xml_schema::flags (), this),
+    extraInfo_ (extraInfo, ::xml_schema::flags (), this),
+    hasOverlay_ (hasOverlay, ::xml_schema::flags (), this),
+    hasLateOverlay_ (hasLateOverlay, ::xml_schema::flags (), this),
+    overlayTileset_ (overlayTileset, ::xml_schema::flags (), this),
+    overlayIndex_ (overlayIndex, ::xml_schema::flags (), this),
+    displayFlags_ (displayFlags, ::xml_schema::flags (), this),
+    objType_ (objType, ::xml_schema::flags (), this),
+    extraIdx_ (extraIdx, ::xml_schema::flags (), this)
+  {
+  }
+
+  mapCell_t::
+  mapCell_t (const mapCell_t& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    groundIndex_ (x.groundIndex_, f, this),
+    hasObject_ (x.hasObject_, f, this),
+    isRoad_ (x.isRoad_, f, this),
+    objTileset_ (x.objTileset_, f, this),
+    objectIndex_ (x.objectIndex_, f, this),
+    field_4_1_ (x.field_4_1_, f, this),
+    isShadow_ (x.isShadow_, f, this),
+    field_4_3_ (x.field_4_3_, f, this),
+    extraInfo_ (x.extraInfo_, f, this),
+    hasOverlay_ (x.hasOverlay_, f, this),
+    hasLateOverlay_ (x.hasLateOverlay_, f, this),
+    overlayTileset_ (x.overlayTileset_, f, this),
+    overlayIndex_ (x.overlayIndex_, f, this),
+    displayFlags_ (x.displayFlags_, f, this),
+    objType_ (x.objType_, f, this),
+    extraIdx_ (x.extraIdx_, f, this)
+  {
+  }
+
+  mapCell_t::
+  mapCell_t (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    groundIndex_ (f, this),
+    hasObject_ (f, this),
+    isRoad_ (f, this),
+    objTileset_ (f, this),
+    objectIndex_ (f, this),
+    field_4_1_ (f, this),
+    isShadow_ (f, this),
+    field_4_3_ (f, this),
+    extraInfo_ (f, this),
+    hasOverlay_ (f, this),
+    hasLateOverlay_ (f, this),
+    overlayTileset_ (f, this),
+    overlayIndex_ (f, this),
+    displayFlags_ (f, this),
+    objType_ (f, this),
+    extraIdx_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void mapCell_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "groundIndex" && n.namespace_ ().empty ())
+      {
+        this->groundIndex_.set (groundIndex_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "hasObject" && n.namespace_ ().empty ())
+      {
+        this->hasObject_.set (hasObject_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "isRoad" && n.namespace_ ().empty ())
+      {
+        this->isRoad_.set (isRoad_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "objTileset" && n.namespace_ ().empty ())
+      {
+        this->objTileset_.set (objTileset_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "objectIndex" && n.namespace_ ().empty ())
+      {
+        this->objectIndex_.set (objectIndex_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_4_1" && n.namespace_ ().empty ())
+      {
+        this->field_4_1_.set (field_4_1_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "isShadow" && n.namespace_ ().empty ())
+      {
+        this->isShadow_.set (isShadow_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_4_3" && n.namespace_ ().empty ())
+      {
+        this->field_4_3_.set (field_4_3_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "extraInfo" && n.namespace_ ().empty ())
+      {
+        this->extraInfo_.set (extraInfo_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "hasOverlay" && n.namespace_ ().empty ())
+      {
+        this->hasOverlay_.set (hasOverlay_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "hasLateOverlay" && n.namespace_ ().empty ())
+      {
+        this->hasLateOverlay_.set (hasLateOverlay_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "overlayTileset" && n.namespace_ ().empty ())
+      {
+        this->overlayTileset_.set (overlayTileset_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "overlayIndex" && n.namespace_ ().empty ())
+      {
+        this->overlayIndex_.set (overlayIndex_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "displayFlags" && n.namespace_ ().empty ())
+      {
+        this->displayFlags_.set (displayFlags_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "objType" && n.namespace_ ().empty ())
+      {
+        this->objType_.set (objType_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "extraIdx" && n.namespace_ ().empty ())
+      {
+        this->extraIdx_.set (extraIdx_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+
+    if (!groundIndex_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "groundIndex",
+        "");
+    }
+
+    if (!hasObject_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "hasObject",
+        "");
+    }
+
+    if (!isRoad_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "isRoad",
+        "");
+    }
+
+    if (!objTileset_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "objTileset",
+        "");
+    }
+
+    if (!objectIndex_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "objectIndex",
+        "");
+    }
+
+    if (!field_4_1_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_4_1",
+        "");
+    }
+
+    if (!isShadow_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "isShadow",
+        "");
+    }
+
+    if (!field_4_3_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_4_3",
+        "");
+    }
+
+    if (!extraInfo_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "extraInfo",
+        "");
+    }
+
+    if (!hasOverlay_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "hasOverlay",
+        "");
+    }
+
+    if (!hasLateOverlay_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "hasLateOverlay",
+        "");
+    }
+
+    if (!overlayTileset_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "overlayTileset",
+        "");
+    }
+
+    if (!overlayIndex_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "overlayIndex",
+        "");
+    }
+
+    if (!displayFlags_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "displayFlags",
+        "");
+    }
+
+    if (!objType_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "objType",
+        "");
+    }
+
+    if (!extraIdx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "extraIdx",
+        "");
+    }
+  }
+
+  mapCell_t* mapCell_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class mapCell_t (*this, f, c);
+  }
+
+  mapCell_t::
+  ~mapCell_t ()
   {
   }
 
@@ -15408,6 +16847,429 @@ namespace ironfist_map
           e));
 
       s << *b;
+    }
+
+    // fullMap
+    //
+    for (gamestate_t::fullMap_const_iterator
+         b (i.fullMap ().begin ()), n (i.fullMap ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "fullMap",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const fullMap_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // width
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "width",
+          e));
+
+      s << i.width ();
+    }
+
+    // height
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "height",
+          e));
+
+      s << i.height ();
+    }
+
+    // numCellExtras
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numCellExtras",
+          e));
+
+      s << i.numCellExtras ();
+    }
+
+    // mapCell
+    //
+    for (fullMap_t::mapCell_const_iterator
+         b (i.mapCell ().begin ()), n (i.mapCell ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapCell",
+          e));
+
+      s << *b;
+    }
+
+    // mapCellExtra
+    //
+    for (fullMap_t::mapCellExtra_const_iterator
+         b (i.mapCellExtra ().begin ()), n (i.mapCellExtra ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapCellExtra",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const mapCellExtra_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // nextIdx
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "nextIdx",
+          e));
+
+      a << i.nextIdx ();
+    }
+
+    // animatedObject
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "animatedObject",
+          e));
+
+      a << i.animatedObject ();
+    }
+
+    // objTileset
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "objTileset",
+          e));
+
+      a << i.objTileset ();
+    }
+
+    // objectIndex
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "objectIndex",
+          e));
+
+      a << i.objectIndex ();
+    }
+
+    // field_4_1
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_4_1",
+          e));
+
+      a << i.field_4_1 ();
+    }
+
+    // field_4_2
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_4_2",
+          e));
+
+      a << i.field_4_2 ();
+    }
+
+    // field_4_3
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_4_3",
+          e));
+
+      a << i.field_4_3 ();
+    }
+
+    // field_4_4
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_4_4",
+          e));
+
+      a << i.field_4_4 ();
+    }
+
+    // animatedLateOverlay
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "animatedLateOverlay",
+          e));
+
+      a << i.animatedLateOverlay ();
+    }
+
+    // hasLateOverlay
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "hasLateOverlay",
+          e));
+
+      a << i.hasLateOverlay ();
+    }
+
+    // tileset
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "tileset",
+          e));
+
+      a << i.tileset ();
+    }
+
+    // overlayIndex
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "overlayIndex",
+          e));
+
+      a << i.overlayIndex ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const mapCell_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // groundIndex
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "groundIndex",
+          e));
+
+      a << i.groundIndex ();
+    }
+
+    // hasObject
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "hasObject",
+          e));
+
+      a << i.hasObject ();
+    }
+
+    // isRoad
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "isRoad",
+          e));
+
+      a << i.isRoad ();
+    }
+
+    // objTileset
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "objTileset",
+          e));
+
+      a << i.objTileset ();
+    }
+
+    // objectIndex
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "objectIndex",
+          e));
+
+      a << i.objectIndex ();
+    }
+
+    // field_4_1
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_4_1",
+          e));
+
+      a << i.field_4_1 ();
+    }
+
+    // isShadow
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "isShadow",
+          e));
+
+      a << i.isShadow ();
+    }
+
+    // field_4_3
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_4_3",
+          e));
+
+      a << i.field_4_3 ();
+    }
+
+    // extraInfo
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "extraInfo",
+          e));
+
+      a << i.extraInfo ();
+    }
+
+    // hasOverlay
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "hasOverlay",
+          e));
+
+      a << i.hasOverlay ();
+    }
+
+    // hasLateOverlay
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "hasLateOverlay",
+          e));
+
+      a << i.hasLateOverlay ();
+    }
+
+    // overlayTileset
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "overlayTileset",
+          e));
+
+      a << i.overlayTileset ();
+    }
+
+    // overlayIndex
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "overlayIndex",
+          e));
+
+      a << i.overlayIndex ();
+    }
+
+    // displayFlags
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "displayFlags",
+          e));
+
+      a << i.displayFlags ();
+    }
+
+    // objType
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "objType",
+          e));
+
+      a << i.objType ();
+    }
+
+    // extraIdx
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "extraIdx",
+          e));
+
+      a << i.extraIdx ();
     }
   }
 

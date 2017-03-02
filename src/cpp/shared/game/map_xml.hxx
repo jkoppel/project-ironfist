@@ -256,6 +256,9 @@ namespace ironfist_map
   class table_t;
   class mapVariable_t;
   class gamestate_t;
+  class fullMap_t;
+  class mapCellExtra_t;
+  class mapCell_t;
   class mine_t;
   class boat_t;
   class armyGroup_t;
@@ -2432,6 +2435,23 @@ namespace ironfist_map
     void
     boat (const boat_sequence& s);
 
+    // fullMap
+    // 
+    typedef ::ironfist_map::fullMap_t fullMap_type;
+    typedef ::xsd::cxx::tree::sequence< fullMap_type > fullMap_sequence;
+    typedef fullMap_sequence::iterator fullMap_iterator;
+    typedef fullMap_sequence::const_iterator fullMap_const_iterator;
+    typedef ::xsd::cxx::tree::traits< fullMap_type, char > fullMap_traits;
+
+    const fullMap_sequence&
+    fullMap () const;
+
+    fullMap_sequence&
+    fullMap ();
+
+    void
+    fullMap (const fullMap_sequence& s);
+
     // Constructors.
     //
     gamestate_t (const allowAIArmySharing_type&,
@@ -2537,6 +2557,664 @@ namespace ironfist_map
     towns_sequence towns_;
     mine_sequence mine_;
     boat_sequence boat_;
+    fullMap_sequence fullMap_;
+  };
+
+  class fullMap_t: public ::xml_schema::type
+  {
+    public:
+    // width
+    // 
+    typedef ::xml_schema::int_ width_type;
+    typedef ::xsd::cxx::tree::traits< width_type, char > width_traits;
+
+    const width_type&
+    width () const;
+
+    width_type&
+    width ();
+
+    void
+    width (const width_type& x);
+
+    // height
+    // 
+    typedef ::xml_schema::int_ height_type;
+    typedef ::xsd::cxx::tree::traits< height_type, char > height_traits;
+
+    const height_type&
+    height () const;
+
+    height_type&
+    height ();
+
+    void
+    height (const height_type& x);
+
+    // numCellExtras
+    // 
+    typedef ::xml_schema::int_ numCellExtras_type;
+    typedef ::xsd::cxx::tree::traits< numCellExtras_type, char > numCellExtras_traits;
+
+    const numCellExtras_type&
+    numCellExtras () const;
+
+    numCellExtras_type&
+    numCellExtras ();
+
+    void
+    numCellExtras (const numCellExtras_type& x);
+
+    // mapCell
+    // 
+    typedef ::ironfist_map::mapCell_t mapCell_type;
+    typedef ::xsd::cxx::tree::sequence< mapCell_type > mapCell_sequence;
+    typedef mapCell_sequence::iterator mapCell_iterator;
+    typedef mapCell_sequence::const_iterator mapCell_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapCell_type, char > mapCell_traits;
+
+    const mapCell_sequence&
+    mapCell () const;
+
+    mapCell_sequence&
+    mapCell ();
+
+    void
+    mapCell (const mapCell_sequence& s);
+
+    // mapCellExtra
+    // 
+    typedef ::ironfist_map::mapCellExtra_t mapCellExtra_type;
+    typedef ::xsd::cxx::tree::sequence< mapCellExtra_type > mapCellExtra_sequence;
+    typedef mapCellExtra_sequence::iterator mapCellExtra_iterator;
+    typedef mapCellExtra_sequence::const_iterator mapCellExtra_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapCellExtra_type, char > mapCellExtra_traits;
+
+    const mapCellExtra_sequence&
+    mapCellExtra () const;
+
+    mapCellExtra_sequence&
+    mapCellExtra ();
+
+    void
+    mapCellExtra (const mapCellExtra_sequence& s);
+
+    // Constructors.
+    //
+    fullMap_t (const width_type&,
+               const height_type&,
+               const numCellExtras_type&);
+
+    fullMap_t (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    fullMap_t (const fullMap_t& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    virtual fullMap_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~fullMap_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< width_type > width_;
+    ::xsd::cxx::tree::one< height_type > height_;
+    ::xsd::cxx::tree::one< numCellExtras_type > numCellExtras_;
+    mapCell_sequence mapCell_;
+    mapCellExtra_sequence mapCellExtra_;
+  };
+
+  class mapCellExtra_t: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // nextIdx
+    // 
+    typedef ::xml_schema::int_ nextIdx_type;
+    typedef ::xsd::cxx::tree::traits< nextIdx_type, char > nextIdx_traits;
+
+    const nextIdx_type&
+    nextIdx () const;
+
+    nextIdx_type&
+    nextIdx ();
+
+    void
+    nextIdx (const nextIdx_type& x);
+
+    // animatedObject
+    // 
+    typedef ::xml_schema::int_ animatedObject_type;
+    typedef ::xsd::cxx::tree::traits< animatedObject_type, char > animatedObject_traits;
+
+    const animatedObject_type&
+    animatedObject () const;
+
+    animatedObject_type&
+    animatedObject ();
+
+    void
+    animatedObject (const animatedObject_type& x);
+
+    // objTileset
+    // 
+    typedef ::xml_schema::int_ objTileset_type;
+    typedef ::xsd::cxx::tree::traits< objTileset_type, char > objTileset_traits;
+
+    const objTileset_type&
+    objTileset () const;
+
+    objTileset_type&
+    objTileset ();
+
+    void
+    objTileset (const objTileset_type& x);
+
+    // objectIndex
+    // 
+    typedef ::xml_schema::int_ objectIndex_type;
+    typedef ::xsd::cxx::tree::traits< objectIndex_type, char > objectIndex_traits;
+
+    const objectIndex_type&
+    objectIndex () const;
+
+    objectIndex_type&
+    objectIndex ();
+
+    void
+    objectIndex (const objectIndex_type& x);
+
+    // field_4_1
+    // 
+    typedef ::xml_schema::int_ field_4_1_type;
+    typedef ::xsd::cxx::tree::traits< field_4_1_type, char > field_4_1_traits;
+
+    const field_4_1_type&
+    field_4_1 () const;
+
+    field_4_1_type&
+    field_4_1 ();
+
+    void
+    field_4_1 (const field_4_1_type& x);
+
+    // field_4_2
+    // 
+    typedef ::xml_schema::int_ field_4_2_type;
+    typedef ::xsd::cxx::tree::traits< field_4_2_type, char > field_4_2_traits;
+
+    const field_4_2_type&
+    field_4_2 () const;
+
+    field_4_2_type&
+    field_4_2 ();
+
+    void
+    field_4_2 (const field_4_2_type& x);
+
+    // field_4_3
+    // 
+    typedef ::xml_schema::int_ field_4_3_type;
+    typedef ::xsd::cxx::tree::traits< field_4_3_type, char > field_4_3_traits;
+
+    const field_4_3_type&
+    field_4_3 () const;
+
+    field_4_3_type&
+    field_4_3 ();
+
+    void
+    field_4_3 (const field_4_3_type& x);
+
+    // field_4_4
+    // 
+    typedef ::xml_schema::int_ field_4_4_type;
+    typedef ::xsd::cxx::tree::traits< field_4_4_type, char > field_4_4_traits;
+
+    const field_4_4_type&
+    field_4_4 () const;
+
+    field_4_4_type&
+    field_4_4 ();
+
+    void
+    field_4_4 (const field_4_4_type& x);
+
+    // animatedLateOverlay
+    // 
+    typedef ::xml_schema::int_ animatedLateOverlay_type;
+    typedef ::xsd::cxx::tree::traits< animatedLateOverlay_type, char > animatedLateOverlay_traits;
+
+    const animatedLateOverlay_type&
+    animatedLateOverlay () const;
+
+    animatedLateOverlay_type&
+    animatedLateOverlay ();
+
+    void
+    animatedLateOverlay (const animatedLateOverlay_type& x);
+
+    // hasLateOverlay
+    // 
+    typedef ::xml_schema::int_ hasLateOverlay_type;
+    typedef ::xsd::cxx::tree::traits< hasLateOverlay_type, char > hasLateOverlay_traits;
+
+    const hasLateOverlay_type&
+    hasLateOverlay () const;
+
+    hasLateOverlay_type&
+    hasLateOverlay ();
+
+    void
+    hasLateOverlay (const hasLateOverlay_type& x);
+
+    // tileset
+    // 
+    typedef ::xml_schema::int_ tileset_type;
+    typedef ::xsd::cxx::tree::traits< tileset_type, char > tileset_traits;
+
+    const tileset_type&
+    tileset () const;
+
+    tileset_type&
+    tileset ();
+
+    void
+    tileset (const tileset_type& x);
+
+    // overlayIndex
+    // 
+    typedef ::xml_schema::int_ overlayIndex_type;
+    typedef ::xsd::cxx::tree::traits< overlayIndex_type, char > overlayIndex_traits;
+
+    const overlayIndex_type&
+    overlayIndex () const;
+
+    overlayIndex_type&
+    overlayIndex ();
+
+    void
+    overlayIndex (const overlayIndex_type& x);
+
+    // Constructors.
+    //
+    mapCellExtra_t (const id_type&,
+                    const nextIdx_type&,
+                    const animatedObject_type&,
+                    const objTileset_type&,
+                    const objectIndex_type&,
+                    const field_4_1_type&,
+                    const field_4_2_type&,
+                    const field_4_3_type&,
+                    const field_4_4_type&,
+                    const animatedLateOverlay_type&,
+                    const hasLateOverlay_type&,
+                    const tileset_type&,
+                    const overlayIndex_type&);
+
+    mapCellExtra_t (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    mapCellExtra_t (const mapCellExtra_t& x,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    virtual mapCellExtra_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapCellExtra_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    ::xsd::cxx::tree::one< nextIdx_type > nextIdx_;
+    ::xsd::cxx::tree::one< animatedObject_type > animatedObject_;
+    ::xsd::cxx::tree::one< objTileset_type > objTileset_;
+    ::xsd::cxx::tree::one< objectIndex_type > objectIndex_;
+    ::xsd::cxx::tree::one< field_4_1_type > field_4_1_;
+    ::xsd::cxx::tree::one< field_4_2_type > field_4_2_;
+    ::xsd::cxx::tree::one< field_4_3_type > field_4_3_;
+    ::xsd::cxx::tree::one< field_4_4_type > field_4_4_;
+    ::xsd::cxx::tree::one< animatedLateOverlay_type > animatedLateOverlay_;
+    ::xsd::cxx::tree::one< hasLateOverlay_type > hasLateOverlay_;
+    ::xsd::cxx::tree::one< tileset_type > tileset_;
+    ::xsd::cxx::tree::one< overlayIndex_type > overlayIndex_;
+  };
+
+  class mapCell_t: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // groundIndex
+    // 
+    typedef ::xml_schema::int_ groundIndex_type;
+    typedef ::xsd::cxx::tree::traits< groundIndex_type, char > groundIndex_traits;
+
+    const groundIndex_type&
+    groundIndex () const;
+
+    groundIndex_type&
+    groundIndex ();
+
+    void
+    groundIndex (const groundIndex_type& x);
+
+    // hasObject
+    // 
+    typedef ::xml_schema::int_ hasObject_type;
+    typedef ::xsd::cxx::tree::traits< hasObject_type, char > hasObject_traits;
+
+    const hasObject_type&
+    hasObject () const;
+
+    hasObject_type&
+    hasObject ();
+
+    void
+    hasObject (const hasObject_type& x);
+
+    // isRoad
+    // 
+    typedef ::xml_schema::int_ isRoad_type;
+    typedef ::xsd::cxx::tree::traits< isRoad_type, char > isRoad_traits;
+
+    const isRoad_type&
+    isRoad () const;
+
+    isRoad_type&
+    isRoad ();
+
+    void
+    isRoad (const isRoad_type& x);
+
+    // objTileset
+    // 
+    typedef ::xml_schema::int_ objTileset_type;
+    typedef ::xsd::cxx::tree::traits< objTileset_type, char > objTileset_traits;
+
+    const objTileset_type&
+    objTileset () const;
+
+    objTileset_type&
+    objTileset ();
+
+    void
+    objTileset (const objTileset_type& x);
+
+    // objectIndex
+    // 
+    typedef ::xml_schema::int_ objectIndex_type;
+    typedef ::xsd::cxx::tree::traits< objectIndex_type, char > objectIndex_traits;
+
+    const objectIndex_type&
+    objectIndex () const;
+
+    objectIndex_type&
+    objectIndex ();
+
+    void
+    objectIndex (const objectIndex_type& x);
+
+    // field_4_1
+    // 
+    typedef ::xml_schema::int_ field_4_1_type;
+    typedef ::xsd::cxx::tree::traits< field_4_1_type, char > field_4_1_traits;
+
+    const field_4_1_type&
+    field_4_1 () const;
+
+    field_4_1_type&
+    field_4_1 ();
+
+    void
+    field_4_1 (const field_4_1_type& x);
+
+    // isShadow
+    // 
+    typedef ::xml_schema::int_ isShadow_type;
+    typedef ::xsd::cxx::tree::traits< isShadow_type, char > isShadow_traits;
+
+    const isShadow_type&
+    isShadow () const;
+
+    isShadow_type&
+    isShadow ();
+
+    void
+    isShadow (const isShadow_type& x);
+
+    // field_4_3
+    // 
+    typedef ::xml_schema::int_ field_4_3_type;
+    typedef ::xsd::cxx::tree::traits< field_4_3_type, char > field_4_3_traits;
+
+    const field_4_3_type&
+    field_4_3 () const;
+
+    field_4_3_type&
+    field_4_3 ();
+
+    void
+    field_4_3 (const field_4_3_type& x);
+
+    // extraInfo
+    // 
+    typedef ::xml_schema::int_ extraInfo_type;
+    typedef ::xsd::cxx::tree::traits< extraInfo_type, char > extraInfo_traits;
+
+    const extraInfo_type&
+    extraInfo () const;
+
+    extraInfo_type&
+    extraInfo ();
+
+    void
+    extraInfo (const extraInfo_type& x);
+
+    // hasOverlay
+    // 
+    typedef ::xml_schema::int_ hasOverlay_type;
+    typedef ::xsd::cxx::tree::traits< hasOverlay_type, char > hasOverlay_traits;
+
+    const hasOverlay_type&
+    hasOverlay () const;
+
+    hasOverlay_type&
+    hasOverlay ();
+
+    void
+    hasOverlay (const hasOverlay_type& x);
+
+    // hasLateOverlay
+    // 
+    typedef ::xml_schema::int_ hasLateOverlay_type;
+    typedef ::xsd::cxx::tree::traits< hasLateOverlay_type, char > hasLateOverlay_traits;
+
+    const hasLateOverlay_type&
+    hasLateOverlay () const;
+
+    hasLateOverlay_type&
+    hasLateOverlay ();
+
+    void
+    hasLateOverlay (const hasLateOverlay_type& x);
+
+    // overlayTileset
+    // 
+    typedef ::xml_schema::int_ overlayTileset_type;
+    typedef ::xsd::cxx::tree::traits< overlayTileset_type, char > overlayTileset_traits;
+
+    const overlayTileset_type&
+    overlayTileset () const;
+
+    overlayTileset_type&
+    overlayTileset ();
+
+    void
+    overlayTileset (const overlayTileset_type& x);
+
+    // overlayIndex
+    // 
+    typedef ::xml_schema::int_ overlayIndex_type;
+    typedef ::xsd::cxx::tree::traits< overlayIndex_type, char > overlayIndex_traits;
+
+    const overlayIndex_type&
+    overlayIndex () const;
+
+    overlayIndex_type&
+    overlayIndex ();
+
+    void
+    overlayIndex (const overlayIndex_type& x);
+
+    // displayFlags
+    // 
+    typedef ::xml_schema::int_ displayFlags_type;
+    typedef ::xsd::cxx::tree::traits< displayFlags_type, char > displayFlags_traits;
+
+    const displayFlags_type&
+    displayFlags () const;
+
+    displayFlags_type&
+    displayFlags ();
+
+    void
+    displayFlags (const displayFlags_type& x);
+
+    // objType
+    // 
+    typedef ::xml_schema::int_ objType_type;
+    typedef ::xsd::cxx::tree::traits< objType_type, char > objType_traits;
+
+    const objType_type&
+    objType () const;
+
+    objType_type&
+    objType ();
+
+    void
+    objType (const objType_type& x);
+
+    // extraIdx
+    // 
+    typedef ::xml_schema::int_ extraIdx_type;
+    typedef ::xsd::cxx::tree::traits< extraIdx_type, char > extraIdx_traits;
+
+    const extraIdx_type&
+    extraIdx () const;
+
+    extraIdx_type&
+    extraIdx ();
+
+    void
+    extraIdx (const extraIdx_type& x);
+
+    // Constructors.
+    //
+    mapCell_t (const id_type&,
+               const groundIndex_type&,
+               const hasObject_type&,
+               const isRoad_type&,
+               const objTileset_type&,
+               const objectIndex_type&,
+               const field_4_1_type&,
+               const isShadow_type&,
+               const field_4_3_type&,
+               const extraInfo_type&,
+               const hasOverlay_type&,
+               const hasLateOverlay_type&,
+               const overlayTileset_type&,
+               const overlayIndex_type&,
+               const displayFlags_type&,
+               const objType_type&,
+               const extraIdx_type&);
+
+    mapCell_t (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    mapCell_t (const mapCell_t& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    virtual mapCell_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapCell_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    ::xsd::cxx::tree::one< groundIndex_type > groundIndex_;
+    ::xsd::cxx::tree::one< hasObject_type > hasObject_;
+    ::xsd::cxx::tree::one< isRoad_type > isRoad_;
+    ::xsd::cxx::tree::one< objTileset_type > objTileset_;
+    ::xsd::cxx::tree::one< objectIndex_type > objectIndex_;
+    ::xsd::cxx::tree::one< field_4_1_type > field_4_1_;
+    ::xsd::cxx::tree::one< isShadow_type > isShadow_;
+    ::xsd::cxx::tree::one< field_4_3_type > field_4_3_;
+    ::xsd::cxx::tree::one< extraInfo_type > extraInfo_;
+    ::xsd::cxx::tree::one< hasOverlay_type > hasOverlay_;
+    ::xsd::cxx::tree::one< hasLateOverlay_type > hasLateOverlay_;
+    ::xsd::cxx::tree::one< overlayTileset_type > overlayTileset_;
+    ::xsd::cxx::tree::one< overlayIndex_type > overlayIndex_;
+    ::xsd::cxx::tree::one< displayFlags_type > displayFlags_;
+    ::xsd::cxx::tree::one< objType_type > objType_;
+    ::xsd::cxx::tree::one< extraIdx_type > extraIdx_;
   };
 
   class mine_t: public ::xml_schema::type
@@ -6734,6 +7412,15 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const gamestate_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const fullMap_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mapCellExtra_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mapCell_t&);
 
   void
   operator<< (::xercesc::DOMElement&, const mine_t&);

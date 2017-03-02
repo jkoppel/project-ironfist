@@ -297,6 +297,50 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	  boat *b = &gam->boats[i];
 	  gs.boat().push_back(ironfist_map::gamestate_t::boat_type(i, b->idx, b->x, b->y, b->field_3, b->underlyingObjType, b->underlyingObjExtra, b->field_6, b->owner));
   }
+
+  fullMap *map = &gam->map;
+  gs.fullMap().push_back(ironfist_map::gamestate_t::fullMap_type(map->width, map->height, map->numCellExtras));
+  for(int i = 0; i < map->height * map->width; i++) {
+	  mapCell *c = &map->tiles[i];
+	  ironfist_map::fullMap_t::mapCell_type cell(
+		  i,
+		  c->groundIndex,
+		  c->hasObject,
+		  c->isRoad,
+		  c->objTileset,
+		  c->objectIndex,
+		  c->field_4_1,
+		  c->isShadow,
+		  c->field_4_3,
+		  c->extraInfo,
+		  c->hasOverlay,
+		  c->hasLateOverlay,
+		  c->overlayTileset,
+		  c->overlayIndex,
+		  c->displayFlags,
+		  c->objType,
+		  c->extraIdx);
+	  gs.fullMap().back().mapCell().push_back(cell);
+  }
+  for (int i = 0; i < map->numCellExtras; i++) {
+	  mapCellExtra *e = &map->cellExtras[i];
+	  ironfist_map::fullMap_t::mapCellExtra_type cellExtra(
+		i,
+		  e->nextIdx,
+		  e->animatedObject,
+		  e->objTileset,
+		  e->objectIndex,
+		  e->field_4_1,
+		  e->field_4_2,
+		  e->field_4_3,
+		  e->field_4_4,
+		  e->animatedLateOverlay,
+		  e->hasLateOverlay,
+		  e->tileset,
+		  e->overlayIndex
+	);
+	gs.fullMap().back().mapCellExtra().push_back(cellExtra);
+  }
   return gs;
 }
 
