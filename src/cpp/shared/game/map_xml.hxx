@@ -256,6 +256,8 @@ namespace ironfist_map
   class table_t;
   class mapVariable_t;
   class gamestate_t;
+  class armyGroup_t;
+  class town_t;
   class playerData_t;
   class mapExtra_t;
   class map_t;
@@ -279,6 +281,10 @@ namespace ironfist_map
   class eventIndices;
   class _D;
   class mapRevealed;
+  class creature;
+  class numCreaturesInDwelling;
+  class mageGuildSpells;
+  class numSpellsOfLevel;
   class heroesOwned;
   class heroesForPurchase;
   class castlesOwned;
@@ -2373,6 +2379,23 @@ namespace ironfist_map
     void
     playerData (const playerData_sequence& s);
 
+    // town
+    // 
+    typedef ::ironfist_map::town_t town_type;
+    typedef ::xsd::cxx::tree::sequence< town_type > town_sequence;
+    typedef town_sequence::iterator town_iterator;
+    typedef town_sequence::const_iterator town_const_iterator;
+    typedef ::xsd::cxx::tree::traits< town_type, char > town_traits;
+
+    const town_sequence&
+    town () const;
+
+    town_sequence&
+    town ();
+
+    void
+    town (const town_sequence& s);
+
     // Constructors.
     //
     gamestate_t (const allowAIArmySharing_type&,
@@ -2475,6 +2498,483 @@ namespace ironfist_map
     mapRevealed_sequence mapRevealed_;
     mapExtra_sequence mapExtra_;
     playerData_sequence playerData_;
+    town_sequence town_;
+  };
+
+  class armyGroup_t: public ::xml_schema::type
+  {
+    public:
+    // creature
+    // 
+    typedef ::ironfist_map::creature creature_type;
+    typedef ::xsd::cxx::tree::sequence< creature_type > creature_sequence;
+    typedef creature_sequence::iterator creature_iterator;
+    typedef creature_sequence::const_iterator creature_const_iterator;
+    typedef ::xsd::cxx::tree::traits< creature_type, char > creature_traits;
+
+    const creature_sequence&
+    creature () const;
+
+    creature_sequence&
+    creature ();
+
+    void
+    creature (const creature_sequence& s);
+
+    // Constructors.
+    //
+    armyGroup_t ();
+
+    armyGroup_t (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    armyGroup_t (const armyGroup_t& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual armyGroup_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~armyGroup_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    creature_sequence creature_;
+  };
+
+  class town_t: public ::xml_schema::type
+  {
+    public:
+    // idx
+    // 
+    typedef ::xml_schema::int_ idx_type;
+    typedef ::xsd::cxx::tree::traits< idx_type, char > idx_traits;
+
+    const idx_type&
+    idx () const;
+
+    idx_type&
+    idx ();
+
+    void
+    idx (const idx_type& x);
+
+    // ownerIdx
+    // 
+    typedef ::xml_schema::int_ ownerIdx_type;
+    typedef ::xsd::cxx::tree::traits< ownerIdx_type, char > ownerIdx_traits;
+
+    const ownerIdx_type&
+    ownerIdx () const;
+
+    ownerIdx_type&
+    ownerIdx ();
+
+    void
+    ownerIdx (const ownerIdx_type& x);
+
+    // alignment
+    // 
+    typedef ::xml_schema::int_ alignment_type;
+    typedef ::xsd::cxx::tree::traits< alignment_type, char > alignment_traits;
+
+    const alignment_type&
+    alignment () const;
+
+    alignment_type&
+    alignment ();
+
+    void
+    alignment (const alignment_type& x);
+
+    // factionID
+    // 
+    typedef ::xml_schema::int_ factionID_type;
+    typedef ::xsd::cxx::tree::traits< factionID_type, char > factionID_traits;
+
+    const factionID_type&
+    factionID () const;
+
+    factionID_type&
+    factionID ();
+
+    void
+    factionID (const factionID_type& x);
+
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // buildDockRelated
+    // 
+    typedef ::xml_schema::int_ buildDockRelated_type;
+    typedef ::xsd::cxx::tree::traits< buildDockRelated_type, char > buildDockRelated_traits;
+
+    const buildDockRelated_type&
+    buildDockRelated () const;
+
+    buildDockRelated_type&
+    buildDockRelated ();
+
+    void
+    buildDockRelated (const buildDockRelated_type& x);
+
+    // field_7
+    // 
+    typedef ::xml_schema::int_ field_7_type;
+    typedef ::xsd::cxx::tree::traits< field_7_type, char > field_7_traits;
+
+    const field_7_type&
+    field_7 () const;
+
+    field_7_type&
+    field_7 ();
+
+    void
+    field_7 (const field_7_type& x);
+
+    // visitingHeroIdx
+    // 
+    typedef ::xml_schema::int_ visitingHeroIdx_type;
+    typedef ::xsd::cxx::tree::traits< visitingHeroIdx_type, char > visitingHeroIdx_traits;
+
+    const visitingHeroIdx_type&
+    visitingHeroIdx () const;
+
+    visitingHeroIdx_type&
+    visitingHeroIdx ();
+
+    void
+    visitingHeroIdx (const visitingHeroIdx_type& x);
+
+    // buildingsBuiltFlags
+    // 
+    typedef ::xml_schema::int_ buildingsBuiltFlags_type;
+    typedef ::xsd::cxx::tree::traits< buildingsBuiltFlags_type, char > buildingsBuiltFlags_traits;
+
+    const buildingsBuiltFlags_type&
+    buildingsBuiltFlags () const;
+
+    buildingsBuiltFlags_type&
+    buildingsBuiltFlags ();
+
+    void
+    buildingsBuiltFlags (const buildingsBuiltFlags_type& x);
+
+    // mageGuildLevel
+    // 
+    typedef ::xml_schema::int_ mageGuildLevel_type;
+    typedef ::xsd::cxx::tree::traits< mageGuildLevel_type, char > mageGuildLevel_traits;
+
+    const mageGuildLevel_type&
+    mageGuildLevel () const;
+
+    mageGuildLevel_type&
+    mageGuildLevel ();
+
+    void
+    mageGuildLevel (const mageGuildLevel_type& x);
+
+    // field_1D
+    // 
+    typedef ::xml_schema::int_ field_1D_type;
+    typedef ::xsd::cxx::tree::traits< field_1D_type, char > field_1D_traits;
+
+    const field_1D_type&
+    field_1D () const;
+
+    field_1D_type&
+    field_1D ();
+
+    void
+    field_1D (const field_1D_type& x);
+
+    // exists
+    // 
+    typedef ::xml_schema::int_ exists_type;
+    typedef ::xsd::cxx::tree::traits< exists_type, char > exists_traits;
+
+    const exists_type&
+    exists () const;
+
+    exists_type&
+    exists ();
+
+    void
+    exists (const exists_type& x);
+
+    // mayNotBeUpgradedToCastle
+    // 
+    typedef ::xml_schema::int_ mayNotBeUpgradedToCastle_type;
+    typedef ::xsd::cxx::tree::traits< mayNotBeUpgradedToCastle_type, char > mayNotBeUpgradedToCastle_traits;
+
+    const mayNotBeUpgradedToCastle_type&
+    mayNotBeUpgradedToCastle () const;
+
+    mayNotBeUpgradedToCastle_type&
+    mayNotBeUpgradedToCastle ();
+
+    void
+    mayNotBeUpgradedToCastle (const mayNotBeUpgradedToCastle_type& x);
+
+    // field_38
+    // 
+    typedef ::xml_schema::int_ field_38_type;
+    typedef ::xsd::cxx::tree::traits< field_38_type, char > field_38_traits;
+
+    const field_38_type&
+    field_38 () const;
+
+    field_38_type&
+    field_38 ();
+
+    void
+    field_38 (const field_38_type& x);
+
+    // playerPos
+    // 
+    typedef ::xml_schema::int_ playerPos_type;
+    typedef ::xsd::cxx::tree::traits< playerPos_type, char > playerPos_traits;
+
+    const playerPos_type&
+    playerPos () const;
+
+    playerPos_type&
+    playerPos ();
+
+    void
+    playerPos (const playerPos_type& x);
+
+    // extraIdx
+    // 
+    typedef ::xml_schema::int_ extraIdx_type;
+    typedef ::xsd::cxx::tree::traits< extraIdx_type, char > extraIdx_traits;
+
+    const extraIdx_type&
+    extraIdx () const;
+
+    extraIdx_type&
+    extraIdx ();
+
+    void
+    extraIdx (const extraIdx_type& x);
+
+    // field_55
+    // 
+    typedef ::xml_schema::int_ field_55_type;
+    typedef ::xsd::cxx::tree::traits< field_55_type, char > field_55_traits;
+
+    const field_55_type&
+    field_55 () const;
+
+    field_55_type&
+    field_55 ();
+
+    void
+    field_55 (const field_55_type& x);
+
+    // field_63
+    // 
+    typedef ::xml_schema::int_ field_63_type;
+    typedef ::xsd::cxx::tree::traits< field_63_type, char > field_63_traits;
+
+    const field_63_type&
+    field_63 () const;
+
+    field_63_type&
+    field_63 ();
+
+    void
+    field_63 (const field_63_type& x);
+
+    // name
+    // 
+    typedef ::xml_schema::string name_type;
+    typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
+
+    const name_type&
+    name () const;
+
+    name_type&
+    name ();
+
+    void
+    name (const name_type& x);
+
+    void
+    name (::std::auto_ptr< name_type > p);
+
+    // garrison
+    // 
+    typedef ::ironfist_map::armyGroup_t garrison_type;
+    typedef ::xsd::cxx::tree::sequence< garrison_type > garrison_sequence;
+    typedef garrison_sequence::iterator garrison_iterator;
+    typedef garrison_sequence::const_iterator garrison_const_iterator;
+    typedef ::xsd::cxx::tree::traits< garrison_type, char > garrison_traits;
+
+    const garrison_sequence&
+    garrison () const;
+
+    garrison_sequence&
+    garrison ();
+
+    void
+    garrison (const garrison_sequence& s);
+
+    // numCreaturesInDwelling
+    // 
+    typedef ::ironfist_map::numCreaturesInDwelling numCreaturesInDwelling_type;
+    typedef ::xsd::cxx::tree::sequence< numCreaturesInDwelling_type > numCreaturesInDwelling_sequence;
+    typedef numCreaturesInDwelling_sequence::iterator numCreaturesInDwelling_iterator;
+    typedef numCreaturesInDwelling_sequence::const_iterator numCreaturesInDwelling_const_iterator;
+    typedef ::xsd::cxx::tree::traits< numCreaturesInDwelling_type, char > numCreaturesInDwelling_traits;
+
+    const numCreaturesInDwelling_sequence&
+    numCreaturesInDwelling () const;
+
+    numCreaturesInDwelling_sequence&
+    numCreaturesInDwelling ();
+
+    void
+    numCreaturesInDwelling (const numCreaturesInDwelling_sequence& s);
+
+    // mageGuildSpells
+    // 
+    typedef ::ironfist_map::mageGuildSpells mageGuildSpells_type;
+    typedef ::xsd::cxx::tree::sequence< mageGuildSpells_type > mageGuildSpells_sequence;
+    typedef mageGuildSpells_sequence::iterator mageGuildSpells_iterator;
+    typedef mageGuildSpells_sequence::const_iterator mageGuildSpells_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mageGuildSpells_type, char > mageGuildSpells_traits;
+
+    const mageGuildSpells_sequence&
+    mageGuildSpells () const;
+
+    mageGuildSpells_sequence&
+    mageGuildSpells ();
+
+    void
+    mageGuildSpells (const mageGuildSpells_sequence& s);
+
+    // numSpellsOfLevel
+    // 
+    typedef ::ironfist_map::numSpellsOfLevel numSpellsOfLevel_type;
+    typedef ::xsd::cxx::tree::sequence< numSpellsOfLevel_type > numSpellsOfLevel_sequence;
+    typedef numSpellsOfLevel_sequence::iterator numSpellsOfLevel_iterator;
+    typedef numSpellsOfLevel_sequence::const_iterator numSpellsOfLevel_const_iterator;
+    typedef ::xsd::cxx::tree::traits< numSpellsOfLevel_type, char > numSpellsOfLevel_traits;
+
+    const numSpellsOfLevel_sequence&
+    numSpellsOfLevel () const;
+
+    numSpellsOfLevel_sequence&
+    numSpellsOfLevel ();
+
+    void
+    numSpellsOfLevel (const numSpellsOfLevel_sequence& s);
+
+    // Constructors.
+    //
+    town_t (const idx_type&,
+            const ownerIdx_type&,
+            const alignment_type&,
+            const factionID_type&,
+            const x_type&,
+            const y_type&,
+            const buildDockRelated_type&,
+            const field_7_type&,
+            const visitingHeroIdx_type&,
+            const buildingsBuiltFlags_type&,
+            const mageGuildLevel_type&,
+            const field_1D_type&,
+            const exists_type&,
+            const mayNotBeUpgradedToCastle_type&,
+            const field_38_type&,
+            const playerPos_type&,
+            const extraIdx_type&,
+            const field_55_type&,
+            const field_63_type&,
+            const name_type&);
+
+    town_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    town_t (const town_t& x,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    virtual town_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~town_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< idx_type > idx_;
+    ::xsd::cxx::tree::one< ownerIdx_type > ownerIdx_;
+    ::xsd::cxx::tree::one< alignment_type > alignment_;
+    ::xsd::cxx::tree::one< factionID_type > factionID_;
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+    ::xsd::cxx::tree::one< buildDockRelated_type > buildDockRelated_;
+    ::xsd::cxx::tree::one< field_7_type > field_7_;
+    ::xsd::cxx::tree::one< visitingHeroIdx_type > visitingHeroIdx_;
+    ::xsd::cxx::tree::one< buildingsBuiltFlags_type > buildingsBuiltFlags_;
+    ::xsd::cxx::tree::one< mageGuildLevel_type > mageGuildLevel_;
+    ::xsd::cxx::tree::one< field_1D_type > field_1D_;
+    ::xsd::cxx::tree::one< exists_type > exists_;
+    ::xsd::cxx::tree::one< mayNotBeUpgradedToCastle_type > mayNotBeUpgradedToCastle_;
+    ::xsd::cxx::tree::one< field_38_type > field_38_;
+    ::xsd::cxx::tree::one< playerPos_type > playerPos_;
+    ::xsd::cxx::tree::one< extraIdx_type > extraIdx_;
+    ::xsd::cxx::tree::one< field_55_type > field_55_;
+    ::xsd::cxx::tree::one< field_63_type > field_63_;
+    ::xsd::cxx::tree::one< name_type > name_;
+    garrison_sequence garrison_;
+    numCreaturesInDwelling_sequence numCreaturesInDwelling_;
+    mageGuildSpells_sequence mageGuildSpells_;
+    numSpellsOfLevel_sequence numSpellsOfLevel_;
   };
 
   class playerData_t: public ::xml_schema::type
@@ -4413,6 +4913,283 @@ namespace ironfist_map
     revealed_optional revealed_;
   };
 
+  class creature: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // type
+    // 
+    typedef ::xml_schema::int_ type_type;
+    typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
+
+    const type_type&
+    type () const;
+
+    type_type&
+    type ();
+
+    void
+    type (const type_type& x);
+
+    // quantity
+    // 
+    typedef ::xml_schema::int_ quantity_type;
+    typedef ::xsd::cxx::tree::traits< quantity_type, char > quantity_traits;
+
+    const quantity_type&
+    quantity () const;
+
+    quantity_type&
+    quantity ();
+
+    void
+    quantity (const quantity_type& x);
+
+    // Constructors.
+    //
+    creature (const id_type&,
+              const type_type&,
+              const quantity_type&);
+
+    creature (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
+
+    creature (const creature& x,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
+
+    virtual creature*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~creature ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    ::xsd::cxx::tree::one< type_type > type_;
+    ::xsd::cxx::tree::one< quantity_type > quantity_;
+  };
+
+  class numCreaturesInDwelling: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // quantity
+    // 
+    typedef ::xml_schema::int_ quantity_type;
+    typedef ::xsd::cxx::tree::optional< quantity_type > quantity_optional;
+    typedef ::xsd::cxx::tree::traits< quantity_type, char > quantity_traits;
+
+    const quantity_optional&
+    quantity () const;
+
+    quantity_optional&
+    quantity ();
+
+    void
+    quantity (const quantity_type& x);
+
+    void
+    quantity (const quantity_optional& x);
+
+    // Constructors.
+    //
+    numCreaturesInDwelling (const id_type&);
+
+    numCreaturesInDwelling (const ::xercesc::DOMElement& e,
+                            ::xml_schema::flags f = 0,
+                            ::xml_schema::container* c = 0);
+
+    numCreaturesInDwelling (const numCreaturesInDwelling& x,
+                            ::xml_schema::flags f = 0,
+                            ::xml_schema::container* c = 0);
+
+    virtual numCreaturesInDwelling*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~numCreaturesInDwelling ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    quantity_optional quantity_;
+  };
+
+  class mageGuildSpells: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // spell
+    // 
+    typedef ::xml_schema::int_ spell_type;
+    typedef ::xsd::cxx::tree::optional< spell_type > spell_optional;
+    typedef ::xsd::cxx::tree::traits< spell_type, char > spell_traits;
+
+    const spell_optional&
+    spell () const;
+
+    spell_optional&
+    spell ();
+
+    void
+    spell (const spell_type& x);
+
+    void
+    spell (const spell_optional& x);
+
+    // Constructors.
+    //
+    mageGuildSpells (const id_type&);
+
+    mageGuildSpells (const ::xercesc::DOMElement& e,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+    mageGuildSpells (const mageGuildSpells& x,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+    virtual mageGuildSpells*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mageGuildSpells ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    spell_optional spell_;
+  };
+
+  class numSpellsOfLevel: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // spell
+    // 
+    typedef ::xml_schema::int_ spell_type;
+    typedef ::xsd::cxx::tree::optional< spell_type > spell_optional;
+    typedef ::xsd::cxx::tree::traits< spell_type, char > spell_traits;
+
+    const spell_optional&
+    spell () const;
+
+    spell_optional&
+    spell ();
+
+    void
+    spell (const spell_type& x);
+
+    void
+    spell (const spell_optional& x);
+
+    // Constructors.
+    //
+    numSpellsOfLevel (const id_type&);
+
+    numSpellsOfLevel (const ::xercesc::DOMElement& e,
+                      ::xml_schema::flags f = 0,
+                      ::xml_schema::container* c = 0);
+
+    numSpellsOfLevel (const numSpellsOfLevel& x,
+                      ::xml_schema::flags f = 0,
+                      ::xml_schema::container* c = 0);
+
+    virtual numSpellsOfLevel*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~numSpellsOfLevel ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    spell_optional spell_;
+  };
+
   class heroesOwned: public ::xml_schema::type
   {
     public:
@@ -5587,6 +6364,12 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement&, const gamestate_t&);
 
   void
+  operator<< (::xercesc::DOMElement&, const armyGroup_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const town_t&);
+
+  void
   operator<< (::xercesc::DOMElement&, const playerData_t&);
 
   void
@@ -6130,6 +6913,18 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const mapRevealed&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const creature&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const numCreaturesInDwelling&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mageGuildSpells&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const numSpellsOfLevel&);
 
   void
   operator<< (::xercesc::DOMElement&, const heroesOwned&);

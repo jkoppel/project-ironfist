@@ -2217,6 +2217,488 @@ namespace ironfist_map
     this->playerData_ = s;
   }
 
+  const gamestate_t::town_sequence& gamestate_t::
+  town () const
+  {
+    return this->town_;
+  }
+
+  gamestate_t::town_sequence& gamestate_t::
+  town ()
+  {
+    return this->town_;
+  }
+
+  void gamestate_t::
+  town (const town_sequence& s)
+  {
+    this->town_ = s;
+  }
+
+
+  // armyGroup_t
+  // 
+
+  const armyGroup_t::creature_sequence& armyGroup_t::
+  creature () const
+  {
+    return this->creature_;
+  }
+
+  armyGroup_t::creature_sequence& armyGroup_t::
+  creature ()
+  {
+    return this->creature_;
+  }
+
+  void armyGroup_t::
+  creature (const creature_sequence& s)
+  {
+    this->creature_ = s;
+  }
+
+
+  // town_t
+  // 
+
+  const town_t::idx_type& town_t::
+  idx () const
+  {
+    return this->idx_.get ();
+  }
+
+  town_t::idx_type& town_t::
+  idx ()
+  {
+    return this->idx_.get ();
+  }
+
+  void town_t::
+  idx (const idx_type& x)
+  {
+    this->idx_.set (x);
+  }
+
+  const town_t::ownerIdx_type& town_t::
+  ownerIdx () const
+  {
+    return this->ownerIdx_.get ();
+  }
+
+  town_t::ownerIdx_type& town_t::
+  ownerIdx ()
+  {
+    return this->ownerIdx_.get ();
+  }
+
+  void town_t::
+  ownerIdx (const ownerIdx_type& x)
+  {
+    this->ownerIdx_.set (x);
+  }
+
+  const town_t::alignment_type& town_t::
+  alignment () const
+  {
+    return this->alignment_.get ();
+  }
+
+  town_t::alignment_type& town_t::
+  alignment ()
+  {
+    return this->alignment_.get ();
+  }
+
+  void town_t::
+  alignment (const alignment_type& x)
+  {
+    this->alignment_.set (x);
+  }
+
+  const town_t::factionID_type& town_t::
+  factionID () const
+  {
+    return this->factionID_.get ();
+  }
+
+  town_t::factionID_type& town_t::
+  factionID ()
+  {
+    return this->factionID_.get ();
+  }
+
+  void town_t::
+  factionID (const factionID_type& x)
+  {
+    this->factionID_.set (x);
+  }
+
+  const town_t::x_type& town_t::
+  x () const
+  {
+    return this->x_.get ();
+  }
+
+  town_t::x_type& town_t::
+  x ()
+  {
+    return this->x_.get ();
+  }
+
+  void town_t::
+  x (const x_type& x)
+  {
+    this->x_.set (x);
+  }
+
+  const town_t::y_type& town_t::
+  y () const
+  {
+    return this->y_.get ();
+  }
+
+  town_t::y_type& town_t::
+  y ()
+  {
+    return this->y_.get ();
+  }
+
+  void town_t::
+  y (const y_type& x)
+  {
+    this->y_.set (x);
+  }
+
+  const town_t::buildDockRelated_type& town_t::
+  buildDockRelated () const
+  {
+    return this->buildDockRelated_.get ();
+  }
+
+  town_t::buildDockRelated_type& town_t::
+  buildDockRelated ()
+  {
+    return this->buildDockRelated_.get ();
+  }
+
+  void town_t::
+  buildDockRelated (const buildDockRelated_type& x)
+  {
+    this->buildDockRelated_.set (x);
+  }
+
+  const town_t::field_7_type& town_t::
+  field_7 () const
+  {
+    return this->field_7_.get ();
+  }
+
+  town_t::field_7_type& town_t::
+  field_7 ()
+  {
+    return this->field_7_.get ();
+  }
+
+  void town_t::
+  field_7 (const field_7_type& x)
+  {
+    this->field_7_.set (x);
+  }
+
+  const town_t::visitingHeroIdx_type& town_t::
+  visitingHeroIdx () const
+  {
+    return this->visitingHeroIdx_.get ();
+  }
+
+  town_t::visitingHeroIdx_type& town_t::
+  visitingHeroIdx ()
+  {
+    return this->visitingHeroIdx_.get ();
+  }
+
+  void town_t::
+  visitingHeroIdx (const visitingHeroIdx_type& x)
+  {
+    this->visitingHeroIdx_.set (x);
+  }
+
+  const town_t::buildingsBuiltFlags_type& town_t::
+  buildingsBuiltFlags () const
+  {
+    return this->buildingsBuiltFlags_.get ();
+  }
+
+  town_t::buildingsBuiltFlags_type& town_t::
+  buildingsBuiltFlags ()
+  {
+    return this->buildingsBuiltFlags_.get ();
+  }
+
+  void town_t::
+  buildingsBuiltFlags (const buildingsBuiltFlags_type& x)
+  {
+    this->buildingsBuiltFlags_.set (x);
+  }
+
+  const town_t::mageGuildLevel_type& town_t::
+  mageGuildLevel () const
+  {
+    return this->mageGuildLevel_.get ();
+  }
+
+  town_t::mageGuildLevel_type& town_t::
+  mageGuildLevel ()
+  {
+    return this->mageGuildLevel_.get ();
+  }
+
+  void town_t::
+  mageGuildLevel (const mageGuildLevel_type& x)
+  {
+    this->mageGuildLevel_.set (x);
+  }
+
+  const town_t::field_1D_type& town_t::
+  field_1D () const
+  {
+    return this->field_1D_.get ();
+  }
+
+  town_t::field_1D_type& town_t::
+  field_1D ()
+  {
+    return this->field_1D_.get ();
+  }
+
+  void town_t::
+  field_1D (const field_1D_type& x)
+  {
+    this->field_1D_.set (x);
+  }
+
+  const town_t::exists_type& town_t::
+  exists () const
+  {
+    return this->exists_.get ();
+  }
+
+  town_t::exists_type& town_t::
+  exists ()
+  {
+    return this->exists_.get ();
+  }
+
+  void town_t::
+  exists (const exists_type& x)
+  {
+    this->exists_.set (x);
+  }
+
+  const town_t::mayNotBeUpgradedToCastle_type& town_t::
+  mayNotBeUpgradedToCastle () const
+  {
+    return this->mayNotBeUpgradedToCastle_.get ();
+  }
+
+  town_t::mayNotBeUpgradedToCastle_type& town_t::
+  mayNotBeUpgradedToCastle ()
+  {
+    return this->mayNotBeUpgradedToCastle_.get ();
+  }
+
+  void town_t::
+  mayNotBeUpgradedToCastle (const mayNotBeUpgradedToCastle_type& x)
+  {
+    this->mayNotBeUpgradedToCastle_.set (x);
+  }
+
+  const town_t::field_38_type& town_t::
+  field_38 () const
+  {
+    return this->field_38_.get ();
+  }
+
+  town_t::field_38_type& town_t::
+  field_38 ()
+  {
+    return this->field_38_.get ();
+  }
+
+  void town_t::
+  field_38 (const field_38_type& x)
+  {
+    this->field_38_.set (x);
+  }
+
+  const town_t::playerPos_type& town_t::
+  playerPos () const
+  {
+    return this->playerPos_.get ();
+  }
+
+  town_t::playerPos_type& town_t::
+  playerPos ()
+  {
+    return this->playerPos_.get ();
+  }
+
+  void town_t::
+  playerPos (const playerPos_type& x)
+  {
+    this->playerPos_.set (x);
+  }
+
+  const town_t::extraIdx_type& town_t::
+  extraIdx () const
+  {
+    return this->extraIdx_.get ();
+  }
+
+  town_t::extraIdx_type& town_t::
+  extraIdx ()
+  {
+    return this->extraIdx_.get ();
+  }
+
+  void town_t::
+  extraIdx (const extraIdx_type& x)
+  {
+    this->extraIdx_.set (x);
+  }
+
+  const town_t::field_55_type& town_t::
+  field_55 () const
+  {
+    return this->field_55_.get ();
+  }
+
+  town_t::field_55_type& town_t::
+  field_55 ()
+  {
+    return this->field_55_.get ();
+  }
+
+  void town_t::
+  field_55 (const field_55_type& x)
+  {
+    this->field_55_.set (x);
+  }
+
+  const town_t::field_63_type& town_t::
+  field_63 () const
+  {
+    return this->field_63_.get ();
+  }
+
+  town_t::field_63_type& town_t::
+  field_63 ()
+  {
+    return this->field_63_.get ();
+  }
+
+  void town_t::
+  field_63 (const field_63_type& x)
+  {
+    this->field_63_.set (x);
+  }
+
+  const town_t::name_type& town_t::
+  name () const
+  {
+    return this->name_.get ();
+  }
+
+  town_t::name_type& town_t::
+  name ()
+  {
+    return this->name_.get ();
+  }
+
+  void town_t::
+  name (const name_type& x)
+  {
+    this->name_.set (x);
+  }
+
+  void town_t::
+  name (::std::auto_ptr< name_type > x)
+  {
+    this->name_.set (x);
+  }
+
+  const town_t::garrison_sequence& town_t::
+  garrison () const
+  {
+    return this->garrison_;
+  }
+
+  town_t::garrison_sequence& town_t::
+  garrison ()
+  {
+    return this->garrison_;
+  }
+
+  void town_t::
+  garrison (const garrison_sequence& s)
+  {
+    this->garrison_ = s;
+  }
+
+  const town_t::numCreaturesInDwelling_sequence& town_t::
+  numCreaturesInDwelling () const
+  {
+    return this->numCreaturesInDwelling_;
+  }
+
+  town_t::numCreaturesInDwelling_sequence& town_t::
+  numCreaturesInDwelling ()
+  {
+    return this->numCreaturesInDwelling_;
+  }
+
+  void town_t::
+  numCreaturesInDwelling (const numCreaturesInDwelling_sequence& s)
+  {
+    this->numCreaturesInDwelling_ = s;
+  }
+
+  const town_t::mageGuildSpells_sequence& town_t::
+  mageGuildSpells () const
+  {
+    return this->mageGuildSpells_;
+  }
+
+  town_t::mageGuildSpells_sequence& town_t::
+  mageGuildSpells ()
+  {
+    return this->mageGuildSpells_;
+  }
+
+  void town_t::
+  mageGuildSpells (const mageGuildSpells_sequence& s)
+  {
+    this->mageGuildSpells_ = s;
+  }
+
+  const town_t::numSpellsOfLevel_sequence& town_t::
+  numSpellsOfLevel () const
+  {
+    return this->numSpellsOfLevel_;
+  }
+
+  town_t::numSpellsOfLevel_sequence& town_t::
+  numSpellsOfLevel ()
+  {
+    return this->numSpellsOfLevel_;
+  }
+
+  void town_t::
+  numSpellsOfLevel (const numSpellsOfLevel_sequence& s)
+  {
+    this->numSpellsOfLevel_ = s;
+  }
+
 
   // playerData_t
   // 
@@ -3735,6 +4217,202 @@ namespace ironfist_map
   revealed (const revealed_optional& x)
   {
     this->revealed_ = x;
+  }
+
+
+  // creature
+  // 
+
+  const creature::id_type& creature::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  creature::id_type& creature::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void creature::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const creature::type_type& creature::
+  type () const
+  {
+    return this->type_.get ();
+  }
+
+  creature::type_type& creature::
+  type ()
+  {
+    return this->type_.get ();
+  }
+
+  void creature::
+  type (const type_type& x)
+  {
+    this->type_.set (x);
+  }
+
+  const creature::quantity_type& creature::
+  quantity () const
+  {
+    return this->quantity_.get ();
+  }
+
+  creature::quantity_type& creature::
+  quantity ()
+  {
+    return this->quantity_.get ();
+  }
+
+  void creature::
+  quantity (const quantity_type& x)
+  {
+    this->quantity_.set (x);
+  }
+
+
+  // numCreaturesInDwelling
+  // 
+
+  const numCreaturesInDwelling::id_type& numCreaturesInDwelling::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  numCreaturesInDwelling::id_type& numCreaturesInDwelling::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void numCreaturesInDwelling::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const numCreaturesInDwelling::quantity_optional& numCreaturesInDwelling::
+  quantity () const
+  {
+    return this->quantity_;
+  }
+
+  numCreaturesInDwelling::quantity_optional& numCreaturesInDwelling::
+  quantity ()
+  {
+    return this->quantity_;
+  }
+
+  void numCreaturesInDwelling::
+  quantity (const quantity_type& x)
+  {
+    this->quantity_.set (x);
+  }
+
+  void numCreaturesInDwelling::
+  quantity (const quantity_optional& x)
+  {
+    this->quantity_ = x;
+  }
+
+
+  // mageGuildSpells
+  // 
+
+  const mageGuildSpells::id_type& mageGuildSpells::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  mageGuildSpells::id_type& mageGuildSpells::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void mageGuildSpells::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const mageGuildSpells::spell_optional& mageGuildSpells::
+  spell () const
+  {
+    return this->spell_;
+  }
+
+  mageGuildSpells::spell_optional& mageGuildSpells::
+  spell ()
+  {
+    return this->spell_;
+  }
+
+  void mageGuildSpells::
+  spell (const spell_type& x)
+  {
+    this->spell_.set (x);
+  }
+
+  void mageGuildSpells::
+  spell (const spell_optional& x)
+  {
+    this->spell_ = x;
+  }
+
+
+  // numSpellsOfLevel
+  // 
+
+  const numSpellsOfLevel::id_type& numSpellsOfLevel::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  numSpellsOfLevel::id_type& numSpellsOfLevel::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void numSpellsOfLevel::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const numSpellsOfLevel::spell_optional& numSpellsOfLevel::
+  spell () const
+  {
+    return this->spell_;
+  }
+
+  numSpellsOfLevel::spell_optional& numSpellsOfLevel::
+  spell ()
+  {
+    return this->spell_;
+  }
+
+  void numSpellsOfLevel::
+  spell (const spell_type& x)
+  {
+    this->spell_.set (x);
+  }
+
+  void numSpellsOfLevel::
+  spell (const spell_optional& x)
+  {
+    this->spell_ = x;
   }
 
 
@@ -5871,7 +6549,8 @@ namespace ironfist_map
     _D_ (::xml_schema::flags (), this),
     mapRevealed_ (::xml_schema::flags (), this),
     mapExtra_ (::xml_schema::flags (), this),
-    playerData_ (::xml_schema::flags (), this)
+    playerData_ (::xml_schema::flags (), this),
+    town_ (::xml_schema::flags (), this)
   {
   }
 
@@ -5927,7 +6606,8 @@ namespace ironfist_map
     _D_ (x._D_, f, this),
     mapRevealed_ (x.mapRevealed_, f, this),
     mapExtra_ (x.mapExtra_, f, this),
-    playerData_ (x.playerData_, f, this)
+    playerData_ (x.playerData_, f, this),
+    town_ (x.town_, f, this)
   {
   }
 
@@ -5983,7 +6663,8 @@ namespace ironfist_map
     _D_ (f, this),
     mapRevealed_ (f, this),
     mapExtra_ (f, this),
-    playerData_ (f, this)
+    playerData_ (f, this),
+    town_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -6536,6 +7217,17 @@ namespace ironfist_map
         continue;
       }
 
+      // town
+      //
+      if (n.name () == "town" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< town_type > r (
+          town_traits::create (i, f, this));
+
+        this->town_.push_back (r);
+        continue;
+      }
+
       break;
     }
 
@@ -6745,6 +7437,630 @@ namespace ironfist_map
 
   gamestate_t::
   ~gamestate_t ()
+  {
+  }
+
+  // armyGroup_t
+  //
+
+  armyGroup_t::
+  armyGroup_t ()
+  : ::xml_schema::type (),
+    creature_ (::xml_schema::flags (), this)
+  {
+  }
+
+  armyGroup_t::
+  armyGroup_t (const armyGroup_t& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    creature_ (x.creature_, f, this)
+  {
+  }
+
+  armyGroup_t::
+  armyGroup_t (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    creature_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void armyGroup_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // creature
+      //
+      if (n.name () == "creature" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< creature_type > r (
+          creature_traits::create (i, f, this));
+
+        this->creature_.push_back (r);
+        continue;
+      }
+
+      break;
+    }
+  }
+
+  armyGroup_t* armyGroup_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class armyGroup_t (*this, f, c);
+  }
+
+  armyGroup_t::
+  ~armyGroup_t ()
+  {
+  }
+
+  // town_t
+  //
+
+  town_t::
+  town_t (const idx_type& idx,
+          const ownerIdx_type& ownerIdx,
+          const alignment_type& alignment,
+          const factionID_type& factionID,
+          const x_type& x,
+          const y_type& y,
+          const buildDockRelated_type& buildDockRelated,
+          const field_7_type& field_7,
+          const visitingHeroIdx_type& visitingHeroIdx,
+          const buildingsBuiltFlags_type& buildingsBuiltFlags,
+          const mageGuildLevel_type& mageGuildLevel,
+          const field_1D_type& field_1D,
+          const exists_type& exists,
+          const mayNotBeUpgradedToCastle_type& mayNotBeUpgradedToCastle,
+          const field_38_type& field_38,
+          const playerPos_type& playerPos,
+          const extraIdx_type& extraIdx,
+          const field_55_type& field_55,
+          const field_63_type& field_63,
+          const name_type& name)
+  : ::xml_schema::type (),
+    idx_ (idx, ::xml_schema::flags (), this),
+    ownerIdx_ (ownerIdx, ::xml_schema::flags (), this),
+    alignment_ (alignment, ::xml_schema::flags (), this),
+    factionID_ (factionID, ::xml_schema::flags (), this),
+    x_ (x, ::xml_schema::flags (), this),
+    y_ (y, ::xml_schema::flags (), this),
+    buildDockRelated_ (buildDockRelated, ::xml_schema::flags (), this),
+    field_7_ (field_7, ::xml_schema::flags (), this),
+    visitingHeroIdx_ (visitingHeroIdx, ::xml_schema::flags (), this),
+    buildingsBuiltFlags_ (buildingsBuiltFlags, ::xml_schema::flags (), this),
+    mageGuildLevel_ (mageGuildLevel, ::xml_schema::flags (), this),
+    field_1D_ (field_1D, ::xml_schema::flags (), this),
+    exists_ (exists, ::xml_schema::flags (), this),
+    mayNotBeUpgradedToCastle_ (mayNotBeUpgradedToCastle, ::xml_schema::flags (), this),
+    field_38_ (field_38, ::xml_schema::flags (), this),
+    playerPos_ (playerPos, ::xml_schema::flags (), this),
+    extraIdx_ (extraIdx, ::xml_schema::flags (), this),
+    field_55_ (field_55, ::xml_schema::flags (), this),
+    field_63_ (field_63, ::xml_schema::flags (), this),
+    name_ (name, ::xml_schema::flags (), this),
+    garrison_ (::xml_schema::flags (), this),
+    numCreaturesInDwelling_ (::xml_schema::flags (), this),
+    mageGuildSpells_ (::xml_schema::flags (), this),
+    numSpellsOfLevel_ (::xml_schema::flags (), this)
+  {
+  }
+
+  town_t::
+  town_t (const town_t& x,
+          ::xml_schema::flags f,
+          ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    idx_ (x.idx_, f, this),
+    ownerIdx_ (x.ownerIdx_, f, this),
+    alignment_ (x.alignment_, f, this),
+    factionID_ (x.factionID_, f, this),
+    x_ (x.x_, f, this),
+    y_ (x.y_, f, this),
+    buildDockRelated_ (x.buildDockRelated_, f, this),
+    field_7_ (x.field_7_, f, this),
+    visitingHeroIdx_ (x.visitingHeroIdx_, f, this),
+    buildingsBuiltFlags_ (x.buildingsBuiltFlags_, f, this),
+    mageGuildLevel_ (x.mageGuildLevel_, f, this),
+    field_1D_ (x.field_1D_, f, this),
+    exists_ (x.exists_, f, this),
+    mayNotBeUpgradedToCastle_ (x.mayNotBeUpgradedToCastle_, f, this),
+    field_38_ (x.field_38_, f, this),
+    playerPos_ (x.playerPos_, f, this),
+    extraIdx_ (x.extraIdx_, f, this),
+    field_55_ (x.field_55_, f, this),
+    field_63_ (x.field_63_, f, this),
+    name_ (x.name_, f, this),
+    garrison_ (x.garrison_, f, this),
+    numCreaturesInDwelling_ (x.numCreaturesInDwelling_, f, this),
+    mageGuildSpells_ (x.mageGuildSpells_, f, this),
+    numSpellsOfLevel_ (x.numSpellsOfLevel_, f, this)
+  {
+  }
+
+  town_t::
+  town_t (const ::xercesc::DOMElement& e,
+          ::xml_schema::flags f,
+          ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    idx_ (f, this),
+    ownerIdx_ (f, this),
+    alignment_ (f, this),
+    factionID_ (f, this),
+    x_ (f, this),
+    y_ (f, this),
+    buildDockRelated_ (f, this),
+    field_7_ (f, this),
+    visitingHeroIdx_ (f, this),
+    buildingsBuiltFlags_ (f, this),
+    mageGuildLevel_ (f, this),
+    field_1D_ (f, this),
+    exists_ (f, this),
+    mayNotBeUpgradedToCastle_ (f, this),
+    field_38_ (f, this),
+    playerPos_ (f, this),
+    extraIdx_ (f, this),
+    field_55_ (f, this),
+    field_63_ (f, this),
+    name_ (f, this),
+    garrison_ (f, this),
+    numCreaturesInDwelling_ (f, this),
+    mageGuildSpells_ (f, this),
+    numSpellsOfLevel_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void town_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // idx
+      //
+      if (n.name () == "idx" && n.namespace_ ().empty ())
+      {
+        if (!idx_.present ())
+        {
+          this->idx_.set (idx_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // ownerIdx
+      //
+      if (n.name () == "ownerIdx" && n.namespace_ ().empty ())
+      {
+        if (!ownerIdx_.present ())
+        {
+          this->ownerIdx_.set (ownerIdx_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // alignment
+      //
+      if (n.name () == "alignment" && n.namespace_ ().empty ())
+      {
+        if (!alignment_.present ())
+        {
+          this->alignment_.set (alignment_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // factionID
+      //
+      if (n.name () == "factionID" && n.namespace_ ().empty ())
+      {
+        if (!factionID_.present ())
+        {
+          this->factionID_.set (factionID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // x
+      //
+      if (n.name () == "x" && n.namespace_ ().empty ())
+      {
+        if (!x_.present ())
+        {
+          this->x_.set (x_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // y
+      //
+      if (n.name () == "y" && n.namespace_ ().empty ())
+      {
+        if (!y_.present ())
+        {
+          this->y_.set (y_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // buildDockRelated
+      //
+      if (n.name () == "buildDockRelated" && n.namespace_ ().empty ())
+      {
+        if (!buildDockRelated_.present ())
+        {
+          this->buildDockRelated_.set (buildDockRelated_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_7
+      //
+      if (n.name () == "field_7" && n.namespace_ ().empty ())
+      {
+        if (!field_7_.present ())
+        {
+          this->field_7_.set (field_7_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // visitingHeroIdx
+      //
+      if (n.name () == "visitingHeroIdx" && n.namespace_ ().empty ())
+      {
+        if (!visitingHeroIdx_.present ())
+        {
+          this->visitingHeroIdx_.set (visitingHeroIdx_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // buildingsBuiltFlags
+      //
+      if (n.name () == "buildingsBuiltFlags" && n.namespace_ ().empty ())
+      {
+        if (!buildingsBuiltFlags_.present ())
+        {
+          this->buildingsBuiltFlags_.set (buildingsBuiltFlags_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // mageGuildLevel
+      //
+      if (n.name () == "mageGuildLevel" && n.namespace_ ().empty ())
+      {
+        if (!mageGuildLevel_.present ())
+        {
+          this->mageGuildLevel_.set (mageGuildLevel_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_1D
+      //
+      if (n.name () == "field_1D" && n.namespace_ ().empty ())
+      {
+        if (!field_1D_.present ())
+        {
+          this->field_1D_.set (field_1D_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // exists
+      //
+      if (n.name () == "exists" && n.namespace_ ().empty ())
+      {
+        if (!exists_.present ())
+        {
+          this->exists_.set (exists_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // mayNotBeUpgradedToCastle
+      //
+      if (n.name () == "mayNotBeUpgradedToCastle" && n.namespace_ ().empty ())
+      {
+        if (!mayNotBeUpgradedToCastle_.present ())
+        {
+          this->mayNotBeUpgradedToCastle_.set (mayNotBeUpgradedToCastle_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_38
+      //
+      if (n.name () == "field_38" && n.namespace_ ().empty ())
+      {
+        if (!field_38_.present ())
+        {
+          this->field_38_.set (field_38_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // playerPos
+      //
+      if (n.name () == "playerPos" && n.namespace_ ().empty ())
+      {
+        if (!playerPos_.present ())
+        {
+          this->playerPos_.set (playerPos_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // extraIdx
+      //
+      if (n.name () == "extraIdx" && n.namespace_ ().empty ())
+      {
+        if (!extraIdx_.present ())
+        {
+          this->extraIdx_.set (extraIdx_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_55
+      //
+      if (n.name () == "field_55" && n.namespace_ ().empty ())
+      {
+        if (!field_55_.present ())
+        {
+          this->field_55_.set (field_55_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_63
+      //
+      if (n.name () == "field_63" && n.namespace_ ().empty ())
+      {
+        if (!field_63_.present ())
+        {
+          this->field_63_.set (field_63_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // name
+      //
+      if (n.name () == "name" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< name_type > r (
+          name_traits::create (i, f, this));
+
+        if (!name_.present ())
+        {
+          this->name_.set (r);
+          continue;
+        }
+      }
+
+      // garrison
+      //
+      if (n.name () == "garrison" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< garrison_type > r (
+          garrison_traits::create (i, f, this));
+
+        this->garrison_.push_back (r);
+        continue;
+      }
+
+      // numCreaturesInDwelling
+      //
+      if (n.name () == "numCreaturesInDwelling" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< numCreaturesInDwelling_type > r (
+          numCreaturesInDwelling_traits::create (i, f, this));
+
+        this->numCreaturesInDwelling_.push_back (r);
+        continue;
+      }
+
+      // mageGuildSpells
+      //
+      if (n.name () == "mageGuildSpells" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mageGuildSpells_type > r (
+          mageGuildSpells_traits::create (i, f, this));
+
+        this->mageGuildSpells_.push_back (r);
+        continue;
+      }
+
+      // numSpellsOfLevel
+      //
+      if (n.name () == "numSpellsOfLevel" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< numSpellsOfLevel_type > r (
+          numSpellsOfLevel_traits::create (i, f, this));
+
+        this->numSpellsOfLevel_.push_back (r);
+        continue;
+      }
+
+      break;
+    }
+
+    if (!idx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "idx",
+        "");
+    }
+
+    if (!ownerIdx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "ownerIdx",
+        "");
+    }
+
+    if (!alignment_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "alignment",
+        "");
+    }
+
+    if (!factionID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "factionID",
+        "");
+    }
+
+    if (!x_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "x",
+        "");
+    }
+
+    if (!y_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "y",
+        "");
+    }
+
+    if (!buildDockRelated_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "buildDockRelated",
+        "");
+    }
+
+    if (!field_7_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_7",
+        "");
+    }
+
+    if (!visitingHeroIdx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "visitingHeroIdx",
+        "");
+    }
+
+    if (!buildingsBuiltFlags_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "buildingsBuiltFlags",
+        "");
+    }
+
+    if (!mageGuildLevel_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "mageGuildLevel",
+        "");
+    }
+
+    if (!field_1D_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_1D",
+        "");
+    }
+
+    if (!exists_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "exists",
+        "");
+    }
+
+    if (!mayNotBeUpgradedToCastle_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "mayNotBeUpgradedToCastle",
+        "");
+    }
+
+    if (!field_38_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_38",
+        "");
+    }
+
+    if (!playerPos_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "playerPos",
+        "");
+    }
+
+    if (!extraIdx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "extraIdx",
+        "");
+    }
+
+    if (!field_55_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_55",
+        "");
+    }
+
+    if (!field_63_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_63",
+        "");
+    }
+
+    if (!name_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "name",
+        "");
+    }
+  }
+
+  town_t* town_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class town_t (*this, f, c);
+  }
+
+  town_t::
+  ~town_t ()
   {
   }
 
@@ -9050,6 +10366,347 @@ namespace ironfist_map
 
   mapRevealed::
   ~mapRevealed ()
+  {
+  }
+
+  // creature
+  //
+
+  creature::
+  creature (const id_type& id,
+            const type_type& type,
+            const quantity_type& quantity)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    type_ (type, ::xml_schema::flags (), this),
+    quantity_ (quantity, ::xml_schema::flags (), this)
+  {
+  }
+
+  creature::
+  creature (const creature& x,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    type_ (x.type_, f, this),
+    quantity_ (x.quantity_, f, this)
+  {
+  }
+
+  creature::
+  creature (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    type_ (f, this),
+    quantity_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void creature::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "type" && n.namespace_ ().empty ())
+      {
+        this->type_.set (type_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "quantity" && n.namespace_ ().empty ())
+      {
+        this->quantity_.set (quantity_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+
+    if (!type_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "type",
+        "");
+    }
+
+    if (!quantity_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "quantity",
+        "");
+    }
+  }
+
+  creature* creature::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class creature (*this, f, c);
+  }
+
+  creature::
+  ~creature ()
+  {
+  }
+
+  // numCreaturesInDwelling
+  //
+
+  numCreaturesInDwelling::
+  numCreaturesInDwelling (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    quantity_ (::xml_schema::flags (), this)
+  {
+  }
+
+  numCreaturesInDwelling::
+  numCreaturesInDwelling (const numCreaturesInDwelling& x,
+                          ::xml_schema::flags f,
+                          ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    quantity_ (x.quantity_, f, this)
+  {
+  }
+
+  numCreaturesInDwelling::
+  numCreaturesInDwelling (const ::xercesc::DOMElement& e,
+                          ::xml_schema::flags f,
+                          ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    quantity_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void numCreaturesInDwelling::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "quantity" && n.namespace_ ().empty ())
+      {
+        this->quantity_.set (quantity_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  numCreaturesInDwelling* numCreaturesInDwelling::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class numCreaturesInDwelling (*this, f, c);
+  }
+
+  numCreaturesInDwelling::
+  ~numCreaturesInDwelling ()
+  {
+  }
+
+  // mageGuildSpells
+  //
+
+  mageGuildSpells::
+  mageGuildSpells (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    spell_ (::xml_schema::flags (), this)
+  {
+  }
+
+  mageGuildSpells::
+  mageGuildSpells (const mageGuildSpells& x,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    spell_ (x.spell_, f, this)
+  {
+  }
+
+  mageGuildSpells::
+  mageGuildSpells (const ::xercesc::DOMElement& e,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    spell_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void mageGuildSpells::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "spell" && n.namespace_ ().empty ())
+      {
+        this->spell_.set (spell_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  mageGuildSpells* mageGuildSpells::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class mageGuildSpells (*this, f, c);
+  }
+
+  mageGuildSpells::
+  ~mageGuildSpells ()
+  {
+  }
+
+  // numSpellsOfLevel
+  //
+
+  numSpellsOfLevel::
+  numSpellsOfLevel (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    spell_ (::xml_schema::flags (), this)
+  {
+  }
+
+  numSpellsOfLevel::
+  numSpellsOfLevel (const numSpellsOfLevel& x,
+                    ::xml_schema::flags f,
+                    ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    spell_ (x.spell_, f, this)
+  {
+  }
+
+  numSpellsOfLevel::
+  numSpellsOfLevel (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f,
+                    ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    spell_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void numSpellsOfLevel::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "spell" && n.namespace_ ().empty ())
+      {
+        this->spell_.set (spell_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  numSpellsOfLevel* numSpellsOfLevel::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class numSpellsOfLevel (*this, f, c);
+  }
+
+  numSpellsOfLevel::
+  ~numSpellsOfLevel ()
   {
   }
 
@@ -12937,6 +14594,322 @@ namespace ironfist_map
 
       s << *b;
     }
+
+    // town
+    //
+    for (gamestate_t::town_const_iterator
+         b (i.town ().begin ()), n (i.town ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "town",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const armyGroup_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // creature
+    //
+    for (armyGroup_t::creature_const_iterator
+         b (i.creature ().begin ()), n (i.creature ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "creature",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const town_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // idx
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "idx",
+          e));
+
+      s << i.idx ();
+    }
+
+    // ownerIdx
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "ownerIdx",
+          e));
+
+      s << i.ownerIdx ();
+    }
+
+    // alignment
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "alignment",
+          e));
+
+      s << i.alignment ();
+    }
+
+    // factionID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "factionID",
+          e));
+
+      s << i.factionID ();
+    }
+
+    // x
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "x",
+          e));
+
+      s << i.x ();
+    }
+
+    // y
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "y",
+          e));
+
+      s << i.y ();
+    }
+
+    // buildDockRelated
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "buildDockRelated",
+          e));
+
+      s << i.buildDockRelated ();
+    }
+
+    // field_7
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_7",
+          e));
+
+      s << i.field_7 ();
+    }
+
+    // visitingHeroIdx
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "visitingHeroIdx",
+          e));
+
+      s << i.visitingHeroIdx ();
+    }
+
+    // buildingsBuiltFlags
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "buildingsBuiltFlags",
+          e));
+
+      s << i.buildingsBuiltFlags ();
+    }
+
+    // mageGuildLevel
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mageGuildLevel",
+          e));
+
+      s << i.mageGuildLevel ();
+    }
+
+    // field_1D
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_1D",
+          e));
+
+      s << i.field_1D ();
+    }
+
+    // exists
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "exists",
+          e));
+
+      s << i.exists ();
+    }
+
+    // mayNotBeUpgradedToCastle
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mayNotBeUpgradedToCastle",
+          e));
+
+      s << i.mayNotBeUpgradedToCastle ();
+    }
+
+    // field_38
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_38",
+          e));
+
+      s << i.field_38 ();
+    }
+
+    // playerPos
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "playerPos",
+          e));
+
+      s << i.playerPos ();
+    }
+
+    // extraIdx
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "extraIdx",
+          e));
+
+      s << i.extraIdx ();
+    }
+
+    // field_55
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_55",
+          e));
+
+      s << i.field_55 ();
+    }
+
+    // field_63
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_63",
+          e));
+
+      s << i.field_63 ();
+    }
+
+    // name
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "name",
+          e));
+
+      s << i.name ();
+    }
+
+    // garrison
+    //
+    for (town_t::garrison_const_iterator
+         b (i.garrison ().begin ()), n (i.garrison ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "garrison",
+          e));
+
+      s << *b;
+    }
+
+    // numCreaturesInDwelling
+    //
+    for (town_t::numCreaturesInDwelling_const_iterator
+         b (i.numCreaturesInDwelling ().begin ()), n (i.numCreaturesInDwelling ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numCreaturesInDwelling",
+          e));
+
+      s << *b;
+    }
+
+    // mageGuildSpells
+    //
+    for (town_t::mageGuildSpells_const_iterator
+         b (i.mageGuildSpells ().begin ()), n (i.mageGuildSpells ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mageGuildSpells",
+          e));
+
+      s << *b;
+    }
+
+    // numSpellsOfLevel
+    //
+    for (town_t::numSpellsOfLevel_const_iterator
+         b (i.numSpellsOfLevel ().begin ()), n (i.numSpellsOfLevel ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numSpellsOfLevel",
+          e));
+
+      s << *b;
+    }
   }
 
   void
@@ -14935,6 +16908,132 @@ namespace ironfist_map
           e));
 
       a << *i.revealed ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const creature& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // type
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "type",
+          e));
+
+      a << i.type ();
+    }
+
+    // quantity
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "quantity",
+          e));
+
+      a << i.quantity ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const numCreaturesInDwelling& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // quantity
+    //
+    if (i.quantity ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "quantity",
+          e));
+
+      a << *i.quantity ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const mageGuildSpells& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // spell
+    //
+    if (i.spell ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "spell",
+          e));
+
+      a << *i.spell ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const numSpellsOfLevel& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // spell
+    //
+    if (i.spell ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "spell",
+          e));
+
+      a << *i.spell ();
     }
   }
 

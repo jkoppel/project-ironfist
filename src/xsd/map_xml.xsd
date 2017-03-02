@@ -245,7 +245,64 @@
       </xs:element>
 	  <xs:element name="mapExtra" type="mapExtra_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="playerData" type="playerData_t" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name="town" type="town_t" minOccurs="0" maxOccurs="unbounded"/>
 	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="armyGroup_t">
+    <xs:sequence>
+		<xs:element name="creature" minOccurs="5" maxOccurs="unbounded">
+			<xs:complexType>
+			  <xs:attribute name="id" type="xs:int" use="required"/>
+			  <xs:attribute name="type" type="xs:int" use="required"/>
+			  <xs:attribute name="quantity" type="xs:int" use="required"/>
+		  </xs:complexType>
+	  </xs:element>
+	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="town_t">
+    <xs:sequence>
+		<xs:element name="idx" type="xs:int"/>
+		<xs:element name="ownerIdx" type="xs:int"/>
+		<xs:element name="alignment" type="xs:int"/>
+		<xs:element name="factionID" type="xs:int"/>
+		<xs:element name="x" type="xs:int"/>
+		<xs:element name="y" type="xs:int"/>
+		<xs:element name="buildDockRelated" type="xs:int"/>
+		<xs:element name="field_7" type="xs:int"/>
+		<xs:element name="visitingHeroIdx" type="xs:int"/>
+		<xs:element name="buildingsBuiltFlags" type="xs:int"/>
+		<xs:element name="mageGuildLevel" type="xs:int"/>
+		<xs:element name="field_1D" type="xs:int"/>
+		<xs:element name="exists" type="xs:int"/>
+		<xs:element name="mayNotBeUpgradedToCastle" type="xs:int"/>
+		<xs:element name="field_38" type="xs:int"/>
+		<xs:element name="playerPos" type="xs:int"/>
+		<xs:element name="extraIdx" type="xs:int"/>
+		<xs:element name="field_55" type="xs:int"/>
+		<xs:element name="field_63" type="xs:int"/>
+		<xs:element name="name" type="xs:string"/>
+		<xs:element name="garrison" type="armyGroup_t" minOccurs="0" maxOccurs="unbounded"/>
+		<xs:element name="numCreaturesInDwelling" minOccurs="12" maxOccurs="unbounded">
+			<xs:complexType>
+			  <xs:attribute name="id" type="xs:int" use="required"/>
+			  <xs:attribute name="quantity" type="xs:int"/>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="mageGuildSpells" minOccurs="20" maxOccurs="unbounded">
+			<xs:complexType>
+			  <xs:attribute name="id" type="xs:int" use="required"/>
+			  <xs:attribute name="spell" type="xs:int"/>
+			</xs:complexType>
+		</xs:element>
+		<xs:element name="numSpellsOfLevel" minOccurs="5" maxOccurs="unbounded">
+			<xs:complexType>
+			  <xs:attribute name="id" type="xs:int" use="required"/>
+			  <xs:attribute name="spell" type="xs:int"/>
+			</xs:complexType>
+		</xs:element>
+    </xs:sequence>
   </xs:complexType>
   
   <xs:complexType name="playerData_t">

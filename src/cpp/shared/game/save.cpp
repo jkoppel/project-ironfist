@@ -240,6 +240,55 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	  }
   }
 
+  for(int i = 0; i < ELEMENTS_IN(gam->castles); i++) {
+	  town twn = gam->castles[i];
+	  ironfist_map::gamestate_t::town_type data(
+		  twn.idx,
+		  twn.ownerIdx,
+		  twn.alignment,
+		  twn.factionID,
+		  twn.x,
+		  twn.y,
+		  twn.buildDockRelated,
+		  twn.field_7,
+		  twn.visitingHeroIdx,
+		  (int)twn.buildingsBuiltFlags,
+		  twn.mageGuildLevel,
+		  twn.field_1D,
+		  twn.exists,
+		  twn.mayNotBeUpgradedToCastle,
+		  twn.field_38,
+		  twn.playerPos,
+		  twn.extraIdx,
+		  twn.field_55,
+		  twn.field_63,
+		  twn.name
+	  );
+	  gs.town().push_back(data);
+
+	  for(int j = 0; j < ELEMENTS_IN(twn.numCreaturesInDwelling); j++) {
+		  gs.town().back().numCreaturesInDwelling().push_back(ironfist_map::town_t::numCreaturesInDwelling_type(j));
+		  gs.town().back().numCreaturesInDwelling().back().quantity(twn.numCreaturesInDwelling[j]);
+	  }
+
+	  for(int j = 0; j < 20; j++) {
+		  int x = j % 5;
+		  int y = j / 5;
+		  gs.town().back().mageGuildSpells().push_back(ironfist_map::town_t::mageGuildSpells_type(j));
+		  gs.town().back().mageGuildSpells().back().spell(twn.mageGuildSpells[x][y]);
+	  }
+
+	  for(int j = 0; j < ELEMENTS_IN(twn.numSpellsOfLevel); j++) {
+		  gs.town().back().numSpellsOfLevel().push_back(ironfist_map::town_t::numSpellsOfLevel_type(j));
+		  gs.town().back().numSpellsOfLevel().back().spell(twn.numSpellsOfLevel[j]);
+	  }
+
+	  gs.town().back().garrison().push_back(ironfist_map::town_t::garrison_type());
+	  for(int j = 0; j < ELEMENTS_IN(twn.garrison.creatureTypes); j++) {
+		  gs.town().back().garrison().back().creature().push_back(ironfist_map::armyGroup_t::creature_type(j, twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
+	  }
+  }
+
   return gs;
 }
 
