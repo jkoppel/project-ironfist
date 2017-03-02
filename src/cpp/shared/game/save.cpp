@@ -175,17 +175,16 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   }
 
   for(int i = 1; i < iMaxMapExtra; i++) {
-	  if (ppMapExtra[i]) {
-		  gs.mapExtra().push_back(ironfist_map::gamestate_t::mapExtra_type());
-		 // ironfist_map::gamestate_t::mapExtra_type::ppMapExtra_type extraData(i);
-		 // gs.mapExtra().back().ppMapExtra() = extraData;
-		  for (int j = 0; j < pwSizeOfMapExtra[i]; j++) {
-			 //gs.mapExtra().back().ppMapExtra().push_back((int)(&ppMapExtra[i] + j));
-		  gs.mapExtra().back().ppMapExtra().push_back(j);
-		  //gs.mapExtra().back().ppMapExtra().back().value((char*)ppMapExtra[i]);
-		  gs.mapExtra().back().ppMapExtra().back((&ppMapExtra[i] + j));
-		 }
-	  }
+	  gs.mapExtra().push_back(ironfist_map::gamestate_t::mapExtra_type());
+	  for (int j = 0; j < pwSizeOfMapExtra[i]; j++) {
+		gs.mapExtra().back().ppMapExtra().push_back(j);
+		gs.mapExtra().back().ppMapExtra().back().mapExtraIndex(i);
+		if (ppMapExtra[i]) {
+			gs.mapExtra().back().ppMapExtra().back().value(*((char*)ppMapExtra[i] + j));
+		} else {
+			gs.mapExtra().back().ppMapExtra().back().value(0);
+		}
+	 }
   }
 
   return gs;

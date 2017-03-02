@@ -252,6 +252,7 @@
 		<xs:element name="ppMapExtra" minOccurs="0" maxOccurs="unbounded">
 			<xs:complexType>
 			  <xs:attribute name="id" type="xs:int" use="required"/>
+			  <xs:attribute name="mapExtraIndex" type="xs:int"/>
 			  <xs:attribute name="value" type="xs:int"/>
 			</xs:complexType>
 		</xs:element>

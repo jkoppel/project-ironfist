@@ -4026,6 +4026,24 @@ namespace ironfist_map
     void
     id (const id_type& x);
 
+    // mapExtraIndex
+    // 
+    typedef ::xml_schema::int_ mapExtraIndex_type;
+    typedef ::xsd::cxx::tree::optional< mapExtraIndex_type > mapExtraIndex_optional;
+    typedef ::xsd::cxx::tree::traits< mapExtraIndex_type, char > mapExtraIndex_traits;
+
+    const mapExtraIndex_optional&
+    mapExtraIndex () const;
+
+    mapExtraIndex_optional&
+    mapExtraIndex ();
+
+    void
+    mapExtraIndex (const mapExtraIndex_type& x);
+
+    void
+    mapExtraIndex (const mapExtraIndex_optional& x);
+
     // value
     // 
     typedef ::xml_schema::int_ value_type;
@@ -4072,6 +4090,7 @@ namespace ironfist_map
 
     protected:
     ::xsd::cxx::tree::one< id_type > id_;
+    mapExtraIndex_optional mapExtraIndex_;
     value_optional value_;
   };
 }

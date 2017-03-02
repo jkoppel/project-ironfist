@@ -3359,6 +3359,30 @@ namespace ironfist_map
     this->id_.set (x);
   }
 
+  const ppMapExtra::mapExtraIndex_optional& ppMapExtra::
+  mapExtraIndex () const
+  {
+    return this->mapExtraIndex_;
+  }
+
+  ppMapExtra::mapExtraIndex_optional& ppMapExtra::
+  mapExtraIndex ()
+  {
+    return this->mapExtraIndex_;
+  }
+
+  void ppMapExtra::
+  mapExtraIndex (const mapExtraIndex_type& x)
+  {
+    this->mapExtraIndex_.set (x);
+  }
+
+  void ppMapExtra::
+  mapExtraIndex (const mapExtraIndex_optional& x)
+  {
+    this->mapExtraIndex_ = x;
+  }
+
   const ppMapExtra::value_optional& ppMapExtra::
   value () const
   {
@@ -7877,6 +7901,7 @@ namespace ironfist_map
   ppMapExtra (const id_type& id)
   : ::xml_schema::type (),
     id_ (id, ::xml_schema::flags (), this),
+    mapExtraIndex_ (::xml_schema::flags (), this),
     value_ (::xml_schema::flags (), this)
   {
   }
@@ -7887,6 +7912,7 @@ namespace ironfist_map
               ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
     id_ (x.id_, f, this),
+    mapExtraIndex_ (x.mapExtraIndex_, f, this),
     value_ (x.value_, f, this)
   {
   }
@@ -7897,6 +7923,7 @@ namespace ironfist_map
               ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
     id_ (f, this),
+    mapExtraIndex_ (f, this),
     value_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -7919,6 +7946,12 @@ namespace ironfist_map
       if (n.name () == "id" && n.namespace_ ().empty ())
       {
         this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "mapExtraIndex" && n.namespace_ ().empty ())
+      {
+        this->mapExtraIndex_.set (mapExtraIndex_traits::create (i, f, this));
         continue;
       }
 
@@ -13017,6 +13050,18 @@ namespace ironfist_map
           e));
 
       a << i.id ();
+    }
+
+    // mapExtraIndex
+    //
+    if (i.mapExtraIndex ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "mapExtraIndex",
+          e));
+
+      a << *i.mapExtraIndex ();
     }
 
     // value
