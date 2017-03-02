@@ -256,6 +256,8 @@ namespace ironfist_map
   class table_t;
   class mapVariable_t;
   class gamestate_t;
+  class mine_t;
+  class boat_t;
   class armyGroup_t;
   class town_t;
   class playerData_t;
@@ -2379,22 +2381,56 @@ namespace ironfist_map
     void
     playerData (const playerData_sequence& s);
 
-    // town
+    // towns
     // 
-    typedef ::ironfist_map::town_t town_type;
-    typedef ::xsd::cxx::tree::sequence< town_type > town_sequence;
-    typedef town_sequence::iterator town_iterator;
-    typedef town_sequence::const_iterator town_const_iterator;
-    typedef ::xsd::cxx::tree::traits< town_type, char > town_traits;
+    typedef ::ironfist_map::town_t towns_type;
+    typedef ::xsd::cxx::tree::sequence< towns_type > towns_sequence;
+    typedef towns_sequence::iterator towns_iterator;
+    typedef towns_sequence::const_iterator towns_const_iterator;
+    typedef ::xsd::cxx::tree::traits< towns_type, char > towns_traits;
 
-    const town_sequence&
-    town () const;
+    const towns_sequence&
+    towns () const;
 
-    town_sequence&
-    town ();
+    towns_sequence&
+    towns ();
 
     void
-    town (const town_sequence& s);
+    towns (const towns_sequence& s);
+
+    // mine
+    // 
+    typedef ::ironfist_map::mine_t mine_type;
+    typedef ::xsd::cxx::tree::sequence< mine_type > mine_sequence;
+    typedef mine_sequence::iterator mine_iterator;
+    typedef mine_sequence::const_iterator mine_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mine_type, char > mine_traits;
+
+    const mine_sequence&
+    mine () const;
+
+    mine_sequence&
+    mine ();
+
+    void
+    mine (const mine_sequence& s);
+
+    // boat
+    // 
+    typedef ::ironfist_map::boat_t boat_type;
+    typedef ::xsd::cxx::tree::sequence< boat_type > boat_sequence;
+    typedef boat_sequence::iterator boat_iterator;
+    typedef boat_sequence::const_iterator boat_const_iterator;
+    typedef ::xsd::cxx::tree::traits< boat_type, char > boat_traits;
+
+    const boat_sequence&
+    boat () const;
+
+    boat_sequence&
+    boat ();
+
+    void
+    boat (const boat_sequence& s);
 
     // Constructors.
     //
@@ -2498,7 +2534,343 @@ namespace ironfist_map
     mapRevealed_sequence mapRevealed_;
     mapExtra_sequence mapExtra_;
     playerData_sequence playerData_;
-    town_sequence town_;
+    towns_sequence towns_;
+    mine_sequence mine_;
+    boat_sequence boat_;
+  };
+
+  class mine_t: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // field_0
+    // 
+    typedef ::xml_schema::int_ field_0_type;
+    typedef ::xsd::cxx::tree::traits< field_0_type, char > field_0_traits;
+
+    const field_0_type&
+    field_0 () const;
+
+    field_0_type&
+    field_0 ();
+
+    void
+    field_0 (const field_0_type& x);
+
+    // owner
+    // 
+    typedef ::xml_schema::int_ owner_type;
+    typedef ::xsd::cxx::tree::traits< owner_type, char > owner_traits;
+
+    const owner_type&
+    owner () const;
+
+    owner_type&
+    owner ();
+
+    void
+    owner (const owner_type& x);
+
+    // type
+    // 
+    typedef ::xml_schema::int_ type_type;
+    typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
+
+    const type_type&
+    type () const;
+
+    type_type&
+    type ();
+
+    void
+    type (const type_type& x);
+
+    // guardianType
+    // 
+    typedef ::xml_schema::int_ guardianType_type;
+    typedef ::xsd::cxx::tree::traits< guardianType_type, char > guardianType_traits;
+
+    const guardianType_type&
+    guardianType () const;
+
+    guardianType_type&
+    guardianType ();
+
+    void
+    guardianType (const guardianType_type& x);
+
+    // guardianQty
+    // 
+    typedef ::xml_schema::int_ guardianQty_type;
+    typedef ::xsd::cxx::tree::traits< guardianQty_type, char > guardianQty_traits;
+
+    const guardianQty_type&
+    guardianQty () const;
+
+    guardianQty_type&
+    guardianQty ();
+
+    void
+    guardianQty (const guardianQty_type& x);
+
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // Constructors.
+    //
+    mine_t (const id_type&,
+            const field_0_type&,
+            const owner_type&,
+            const type_type&,
+            const guardianType_type&,
+            const guardianQty_type&,
+            const x_type&,
+            const y_type&);
+
+    mine_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    mine_t (const mine_t& x,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    virtual mine_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mine_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    ::xsd::cxx::tree::one< field_0_type > field_0_;
+    ::xsd::cxx::tree::one< owner_type > owner_;
+    ::xsd::cxx::tree::one< type_type > type_;
+    ::xsd::cxx::tree::one< guardianType_type > guardianType_;
+    ::xsd::cxx::tree::one< guardianQty_type > guardianQty_;
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+  };
+
+  class boat_t: public ::xml_schema::type
+  {
+    public:
+    // id
+    // 
+    typedef ::xml_schema::int_ id_type;
+    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
+
+    const id_type&
+    id () const;
+
+    id_type&
+    id ();
+
+    void
+    id (const id_type& x);
+
+    // idx
+    // 
+    typedef ::xml_schema::int_ idx_type;
+    typedef ::xsd::cxx::tree::traits< idx_type, char > idx_traits;
+
+    const idx_type&
+    idx () const;
+
+    idx_type&
+    idx ();
+
+    void
+    idx (const idx_type& x);
+
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // field_3
+    // 
+    typedef ::xml_schema::int_ field_3_type;
+    typedef ::xsd::cxx::tree::traits< field_3_type, char > field_3_traits;
+
+    const field_3_type&
+    field_3 () const;
+
+    field_3_type&
+    field_3 ();
+
+    void
+    field_3 (const field_3_type& x);
+
+    // underlyingObjType
+    // 
+    typedef ::xml_schema::int_ underlyingObjType_type;
+    typedef ::xsd::cxx::tree::traits< underlyingObjType_type, char > underlyingObjType_traits;
+
+    const underlyingObjType_type&
+    underlyingObjType () const;
+
+    underlyingObjType_type&
+    underlyingObjType ();
+
+    void
+    underlyingObjType (const underlyingObjType_type& x);
+
+    // underlyingObjExtra
+    // 
+    typedef ::xml_schema::int_ underlyingObjExtra_type;
+    typedef ::xsd::cxx::tree::traits< underlyingObjExtra_type, char > underlyingObjExtra_traits;
+
+    const underlyingObjExtra_type&
+    underlyingObjExtra () const;
+
+    underlyingObjExtra_type&
+    underlyingObjExtra ();
+
+    void
+    underlyingObjExtra (const underlyingObjExtra_type& x);
+
+    // field_6
+    // 
+    typedef ::xml_schema::int_ field_6_type;
+    typedef ::xsd::cxx::tree::traits< field_6_type, char > field_6_traits;
+
+    const field_6_type&
+    field_6 () const;
+
+    field_6_type&
+    field_6 ();
+
+    void
+    field_6 (const field_6_type& x);
+
+    // owner
+    // 
+    typedef ::xml_schema::int_ owner_type;
+    typedef ::xsd::cxx::tree::traits< owner_type, char > owner_traits;
+
+    const owner_type&
+    owner () const;
+
+    owner_type&
+    owner ();
+
+    void
+    owner (const owner_type& x);
+
+    // Constructors.
+    //
+    boat_t (const id_type&,
+            const idx_type&,
+            const x_type&,
+            const y_type&,
+            const field_3_type&,
+            const underlyingObjType_type&,
+            const underlyingObjExtra_type&,
+            const field_6_type&,
+            const owner_type&);
+
+    boat_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    boat_t (const boat_t& x,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    virtual boat_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~boat_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< id_type > id_;
+    ::xsd::cxx::tree::one< idx_type > idx_;
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+    ::xsd::cxx::tree::one< field_3_type > field_3_;
+    ::xsd::cxx::tree::one< underlyingObjType_type > underlyingObjType_;
+    ::xsd::cxx::tree::one< underlyingObjExtra_type > underlyingObjExtra_;
+    ::xsd::cxx::tree::one< field_6_type > field_6_;
+    ::xsd::cxx::tree::one< owner_type > owner_;
   };
 
   class armyGroup_t: public ::xml_schema::type
@@ -6362,6 +6734,12 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const gamestate_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mine_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const boat_t&);
 
   void
   operator<< (::xercesc::DOMElement&, const armyGroup_t&);

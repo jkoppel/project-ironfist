@@ -242,7 +242,7 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 
   for(int i = 0; i < ELEMENTS_IN(gam->castles); i++) {
 	  town twn = gam->castles[i];
-	  ironfist_map::gamestate_t::town_type data(
+	  ironfist_map::gamestate_t::towns_type data(
 		  twn.idx,
 		  twn.ownerIdx,
 		  twn.alignment,
@@ -264,31 +264,39 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 		  twn.field_63,
 		  twn.name
 	  );
-	  gs.town().push_back(data);
+	  gs.towns().push_back(data);
 
 	  for(int j = 0; j < ELEMENTS_IN(twn.numCreaturesInDwelling); j++) {
-		  gs.town().back().numCreaturesInDwelling().push_back(ironfist_map::town_t::numCreaturesInDwelling_type(j));
-		  gs.town().back().numCreaturesInDwelling().back().quantity(twn.numCreaturesInDwelling[j]);
+		  gs.towns().back().numCreaturesInDwelling().push_back(ironfist_map::town_t::numCreaturesInDwelling_type(j));
+		  gs.towns().back().numCreaturesInDwelling().back().quantity(twn.numCreaturesInDwelling[j]);
 	  }
 
 	  for(int j = 0; j < 20; j++) {
 		  int x = j % 5;
 		  int y = j / 5;
-		  gs.town().back().mageGuildSpells().push_back(ironfist_map::town_t::mageGuildSpells_type(j));
-		  gs.town().back().mageGuildSpells().back().spell(twn.mageGuildSpells[x][y]);
+		  gs.towns().back().mageGuildSpells().push_back(ironfist_map::town_t::mageGuildSpells_type(j));
+		  gs.towns().back().mageGuildSpells().back().spell(twn.mageGuildSpells[x][y]);
 	  }
 
 	  for(int j = 0; j < ELEMENTS_IN(twn.numSpellsOfLevel); j++) {
-		  gs.town().back().numSpellsOfLevel().push_back(ironfist_map::town_t::numSpellsOfLevel_type(j));
-		  gs.town().back().numSpellsOfLevel().back().spell(twn.numSpellsOfLevel[j]);
+		  gs.towns().back().numSpellsOfLevel().push_back(ironfist_map::town_t::numSpellsOfLevel_type(j));
+		  gs.towns().back().numSpellsOfLevel().back().spell(twn.numSpellsOfLevel[j]);
 	  }
 
-	  gs.town().back().garrison().push_back(ironfist_map::town_t::garrison_type());
+	  gs.towns().back().garrison().push_back(ironfist_map::town_t::garrison_type());
 	  for(int j = 0; j < ELEMENTS_IN(twn.garrison.creatureTypes); j++) {
-		  gs.town().back().garrison().back().creature().push_back(ironfist_map::armyGroup_t::creature_type(j, twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
+		  gs.towns().back().garrison().back().creature().push_back(ironfist_map::armyGroup_t::creature_type(j, twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
 	  }
   }
 
+  for(int i = 0; i < ELEMENTS_IN(gam->mines); i++) {
+	  mine *m = &gam->mines[i];
+	  gs.mine().push_back(ironfist_map::gamestate_t::mine_type(i, m->field_0, m->owner, m->type, m->guardianType, m->guadianQty, m->x, m->y));
+  }
+  for(int i = 0; i < ELEMENTS_IN(gam->boats); i++) {
+	  boat *b = &gam->boats[i];
+	  gs.boat().push_back(ironfist_map::gamestate_t::boat_type(i, b->idx, b->x, b->y, b->field_3, b->underlyingObjType, b->underlyingObjExtra, b->field_6, b->owner));
+  }
   return gs;
 }
 

@@ -2217,22 +2217,372 @@ namespace ironfist_map
     this->playerData_ = s;
   }
 
-  const gamestate_t::town_sequence& gamestate_t::
-  town () const
+  const gamestate_t::towns_sequence& gamestate_t::
+  towns () const
   {
-    return this->town_;
+    return this->towns_;
   }
 
-  gamestate_t::town_sequence& gamestate_t::
-  town ()
+  gamestate_t::towns_sequence& gamestate_t::
+  towns ()
   {
-    return this->town_;
+    return this->towns_;
   }
 
   void gamestate_t::
-  town (const town_sequence& s)
+  towns (const towns_sequence& s)
   {
-    this->town_ = s;
+    this->towns_ = s;
+  }
+
+  const gamestate_t::mine_sequence& gamestate_t::
+  mine () const
+  {
+    return this->mine_;
+  }
+
+  gamestate_t::mine_sequence& gamestate_t::
+  mine ()
+  {
+    return this->mine_;
+  }
+
+  void gamestate_t::
+  mine (const mine_sequence& s)
+  {
+    this->mine_ = s;
+  }
+
+  const gamestate_t::boat_sequence& gamestate_t::
+  boat () const
+  {
+    return this->boat_;
+  }
+
+  gamestate_t::boat_sequence& gamestate_t::
+  boat ()
+  {
+    return this->boat_;
+  }
+
+  void gamestate_t::
+  boat (const boat_sequence& s)
+  {
+    this->boat_ = s;
+  }
+
+
+  // mine_t
+  // 
+
+  const mine_t::id_type& mine_t::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  mine_t::id_type& mine_t::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void mine_t::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const mine_t::field_0_type& mine_t::
+  field_0 () const
+  {
+    return this->field_0_.get ();
+  }
+
+  mine_t::field_0_type& mine_t::
+  field_0 ()
+  {
+    return this->field_0_.get ();
+  }
+
+  void mine_t::
+  field_0 (const field_0_type& x)
+  {
+    this->field_0_.set (x);
+  }
+
+  const mine_t::owner_type& mine_t::
+  owner () const
+  {
+    return this->owner_.get ();
+  }
+
+  mine_t::owner_type& mine_t::
+  owner ()
+  {
+    return this->owner_.get ();
+  }
+
+  void mine_t::
+  owner (const owner_type& x)
+  {
+    this->owner_.set (x);
+  }
+
+  const mine_t::type_type& mine_t::
+  type () const
+  {
+    return this->type_.get ();
+  }
+
+  mine_t::type_type& mine_t::
+  type ()
+  {
+    return this->type_.get ();
+  }
+
+  void mine_t::
+  type (const type_type& x)
+  {
+    this->type_.set (x);
+  }
+
+  const mine_t::guardianType_type& mine_t::
+  guardianType () const
+  {
+    return this->guardianType_.get ();
+  }
+
+  mine_t::guardianType_type& mine_t::
+  guardianType ()
+  {
+    return this->guardianType_.get ();
+  }
+
+  void mine_t::
+  guardianType (const guardianType_type& x)
+  {
+    this->guardianType_.set (x);
+  }
+
+  const mine_t::guardianQty_type& mine_t::
+  guardianQty () const
+  {
+    return this->guardianQty_.get ();
+  }
+
+  mine_t::guardianQty_type& mine_t::
+  guardianQty ()
+  {
+    return this->guardianQty_.get ();
+  }
+
+  void mine_t::
+  guardianQty (const guardianQty_type& x)
+  {
+    this->guardianQty_.set (x);
+  }
+
+  const mine_t::x_type& mine_t::
+  x () const
+  {
+    return this->x_.get ();
+  }
+
+  mine_t::x_type& mine_t::
+  x ()
+  {
+    return this->x_.get ();
+  }
+
+  void mine_t::
+  x (const x_type& x)
+  {
+    this->x_.set (x);
+  }
+
+  const mine_t::y_type& mine_t::
+  y () const
+  {
+    return this->y_.get ();
+  }
+
+  mine_t::y_type& mine_t::
+  y ()
+  {
+    return this->y_.get ();
+  }
+
+  void mine_t::
+  y (const y_type& x)
+  {
+    this->y_.set (x);
+  }
+
+
+  // boat_t
+  // 
+
+  const boat_t::id_type& boat_t::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  boat_t::id_type& boat_t::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void boat_t::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const boat_t::idx_type& boat_t::
+  idx () const
+  {
+    return this->idx_.get ();
+  }
+
+  boat_t::idx_type& boat_t::
+  idx ()
+  {
+    return this->idx_.get ();
+  }
+
+  void boat_t::
+  idx (const idx_type& x)
+  {
+    this->idx_.set (x);
+  }
+
+  const boat_t::x_type& boat_t::
+  x () const
+  {
+    return this->x_.get ();
+  }
+
+  boat_t::x_type& boat_t::
+  x ()
+  {
+    return this->x_.get ();
+  }
+
+  void boat_t::
+  x (const x_type& x)
+  {
+    this->x_.set (x);
+  }
+
+  const boat_t::y_type& boat_t::
+  y () const
+  {
+    return this->y_.get ();
+  }
+
+  boat_t::y_type& boat_t::
+  y ()
+  {
+    return this->y_.get ();
+  }
+
+  void boat_t::
+  y (const y_type& x)
+  {
+    this->y_.set (x);
+  }
+
+  const boat_t::field_3_type& boat_t::
+  field_3 () const
+  {
+    return this->field_3_.get ();
+  }
+
+  boat_t::field_3_type& boat_t::
+  field_3 ()
+  {
+    return this->field_3_.get ();
+  }
+
+  void boat_t::
+  field_3 (const field_3_type& x)
+  {
+    this->field_3_.set (x);
+  }
+
+  const boat_t::underlyingObjType_type& boat_t::
+  underlyingObjType () const
+  {
+    return this->underlyingObjType_.get ();
+  }
+
+  boat_t::underlyingObjType_type& boat_t::
+  underlyingObjType ()
+  {
+    return this->underlyingObjType_.get ();
+  }
+
+  void boat_t::
+  underlyingObjType (const underlyingObjType_type& x)
+  {
+    this->underlyingObjType_.set (x);
+  }
+
+  const boat_t::underlyingObjExtra_type& boat_t::
+  underlyingObjExtra () const
+  {
+    return this->underlyingObjExtra_.get ();
+  }
+
+  boat_t::underlyingObjExtra_type& boat_t::
+  underlyingObjExtra ()
+  {
+    return this->underlyingObjExtra_.get ();
+  }
+
+  void boat_t::
+  underlyingObjExtra (const underlyingObjExtra_type& x)
+  {
+    this->underlyingObjExtra_.set (x);
+  }
+
+  const boat_t::field_6_type& boat_t::
+  field_6 () const
+  {
+    return this->field_6_.get ();
+  }
+
+  boat_t::field_6_type& boat_t::
+  field_6 ()
+  {
+    return this->field_6_.get ();
+  }
+
+  void boat_t::
+  field_6 (const field_6_type& x)
+  {
+    this->field_6_.set (x);
+  }
+
+  const boat_t::owner_type& boat_t::
+  owner () const
+  {
+    return this->owner_.get ();
+  }
+
+  boat_t::owner_type& boat_t::
+  owner ()
+  {
+    return this->owner_.get ();
+  }
+
+  void boat_t::
+  owner (const owner_type& x)
+  {
+    this->owner_.set (x);
   }
 
 
@@ -6550,7 +6900,9 @@ namespace ironfist_map
     mapRevealed_ (::xml_schema::flags (), this),
     mapExtra_ (::xml_schema::flags (), this),
     playerData_ (::xml_schema::flags (), this),
-    town_ (::xml_schema::flags (), this)
+    towns_ (::xml_schema::flags (), this),
+    mine_ (::xml_schema::flags (), this),
+    boat_ (::xml_schema::flags (), this)
   {
   }
 
@@ -6607,7 +6959,9 @@ namespace ironfist_map
     mapRevealed_ (x.mapRevealed_, f, this),
     mapExtra_ (x.mapExtra_, f, this),
     playerData_ (x.playerData_, f, this),
-    town_ (x.town_, f, this)
+    towns_ (x.towns_, f, this),
+    mine_ (x.mine_, f, this),
+    boat_ (x.boat_, f, this)
   {
   }
 
@@ -6664,7 +7018,9 @@ namespace ironfist_map
     mapRevealed_ (f, this),
     mapExtra_ (f, this),
     playerData_ (f, this),
-    town_ (f, this)
+    towns_ (f, this),
+    mine_ (f, this),
+    boat_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -7217,14 +7573,36 @@ namespace ironfist_map
         continue;
       }
 
-      // town
+      // towns
       //
-      if (n.name () == "town" && n.namespace_ ().empty ())
+      if (n.name () == "towns" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< town_type > r (
-          town_traits::create (i, f, this));
+        ::std::auto_ptr< towns_type > r (
+          towns_traits::create (i, f, this));
 
-        this->town_.push_back (r);
+        this->towns_.push_back (r);
+        continue;
+      }
+
+      // mine
+      //
+      if (n.name () == "mine" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mine_type > r (
+          mine_traits::create (i, f, this));
+
+        this->mine_.push_back (r);
+        continue;
+      }
+
+      // boat
+      //
+      if (n.name () == "boat" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< boat_type > r (
+          boat_traits::create (i, f, this));
+
+        this->boat_.push_back (r);
         continue;
       }
 
@@ -7437,6 +7815,401 @@ namespace ironfist_map
 
   gamestate_t::
   ~gamestate_t ()
+  {
+  }
+
+  // mine_t
+  //
+
+  mine_t::
+  mine_t (const id_type& id,
+          const field_0_type& field_0,
+          const owner_type& owner,
+          const type_type& type,
+          const guardianType_type& guardianType,
+          const guardianQty_type& guardianQty,
+          const x_type& x,
+          const y_type& y)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    field_0_ (field_0, ::xml_schema::flags (), this),
+    owner_ (owner, ::xml_schema::flags (), this),
+    type_ (type, ::xml_schema::flags (), this),
+    guardianType_ (guardianType, ::xml_schema::flags (), this),
+    guardianQty_ (guardianQty, ::xml_schema::flags (), this),
+    x_ (x, ::xml_schema::flags (), this),
+    y_ (y, ::xml_schema::flags (), this)
+  {
+  }
+
+  mine_t::
+  mine_t (const mine_t& x,
+          ::xml_schema::flags f,
+          ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    field_0_ (x.field_0_, f, this),
+    owner_ (x.owner_, f, this),
+    type_ (x.type_, f, this),
+    guardianType_ (x.guardianType_, f, this),
+    guardianQty_ (x.guardianQty_, f, this),
+    x_ (x.x_, f, this),
+    y_ (x.y_, f, this)
+  {
+  }
+
+  mine_t::
+  mine_t (const ::xercesc::DOMElement& e,
+          ::xml_schema::flags f,
+          ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    field_0_ (f, this),
+    owner_ (f, this),
+    type_ (f, this),
+    guardianType_ (f, this),
+    guardianQty_ (f, this),
+    x_ (f, this),
+    y_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void mine_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_0" && n.namespace_ ().empty ())
+      {
+        this->field_0_.set (field_0_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "owner" && n.namespace_ ().empty ())
+      {
+        this->owner_.set (owner_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "type" && n.namespace_ ().empty ())
+      {
+        this->type_.set (type_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "guardianType" && n.namespace_ ().empty ())
+      {
+        this->guardianType_.set (guardianType_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "guardianQty" && n.namespace_ ().empty ())
+      {
+        this->guardianQty_.set (guardianQty_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "x" && n.namespace_ ().empty ())
+      {
+        this->x_.set (x_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "y" && n.namespace_ ().empty ())
+      {
+        this->y_.set (y_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+
+    if (!field_0_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_0",
+        "");
+    }
+
+    if (!owner_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "owner",
+        "");
+    }
+
+    if (!type_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "type",
+        "");
+    }
+
+    if (!guardianType_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "guardianType",
+        "");
+    }
+
+    if (!guardianQty_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "guardianQty",
+        "");
+    }
+
+    if (!x_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "x",
+        "");
+    }
+
+    if (!y_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "y",
+        "");
+    }
+  }
+
+  mine_t* mine_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class mine_t (*this, f, c);
+  }
+
+  mine_t::
+  ~mine_t ()
+  {
+  }
+
+  // boat_t
+  //
+
+  boat_t::
+  boat_t (const id_type& id,
+          const idx_type& idx,
+          const x_type& x,
+          const y_type& y,
+          const field_3_type& field_3,
+          const underlyingObjType_type& underlyingObjType,
+          const underlyingObjExtra_type& underlyingObjExtra,
+          const field_6_type& field_6,
+          const owner_type& owner)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    idx_ (idx, ::xml_schema::flags (), this),
+    x_ (x, ::xml_schema::flags (), this),
+    y_ (y, ::xml_schema::flags (), this),
+    field_3_ (field_3, ::xml_schema::flags (), this),
+    underlyingObjType_ (underlyingObjType, ::xml_schema::flags (), this),
+    underlyingObjExtra_ (underlyingObjExtra, ::xml_schema::flags (), this),
+    field_6_ (field_6, ::xml_schema::flags (), this),
+    owner_ (owner, ::xml_schema::flags (), this)
+  {
+  }
+
+  boat_t::
+  boat_t (const boat_t& x,
+          ::xml_schema::flags f,
+          ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    idx_ (x.idx_, f, this),
+    x_ (x.x_, f, this),
+    y_ (x.y_, f, this),
+    field_3_ (x.field_3_, f, this),
+    underlyingObjType_ (x.underlyingObjType_, f, this),
+    underlyingObjExtra_ (x.underlyingObjExtra_, f, this),
+    field_6_ (x.field_6_, f, this),
+    owner_ (x.owner_, f, this)
+  {
+  }
+
+  boat_t::
+  boat_t (const ::xercesc::DOMElement& e,
+          ::xml_schema::flags f,
+          ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    idx_ (f, this),
+    x_ (f, this),
+    y_ (f, this),
+    field_3_ (f, this),
+    underlyingObjType_ (f, this),
+    underlyingObjExtra_ (f, this),
+    field_6_ (f, this),
+    owner_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void boat_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "idx" && n.namespace_ ().empty ())
+      {
+        this->idx_.set (idx_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "x" && n.namespace_ ().empty ())
+      {
+        this->x_.set (x_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "y" && n.namespace_ ().empty ())
+      {
+        this->y_.set (y_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_3" && n.namespace_ ().empty ())
+      {
+        this->field_3_.set (field_3_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "underlyingObjType" && n.namespace_ ().empty ())
+      {
+        this->underlyingObjType_.set (underlyingObjType_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "underlyingObjExtra" && n.namespace_ ().empty ())
+      {
+        this->underlyingObjExtra_.set (underlyingObjExtra_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "field_6" && n.namespace_ ().empty ())
+      {
+        this->field_6_.set (field_6_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "owner" && n.namespace_ ().empty ())
+      {
+        this->owner_.set (owner_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+
+    if (!idx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "idx",
+        "");
+    }
+
+    if (!x_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "x",
+        "");
+    }
+
+    if (!y_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "y",
+        "");
+    }
+
+    if (!field_3_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_3",
+        "");
+    }
+
+    if (!underlyingObjType_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "underlyingObjType",
+        "");
+    }
+
+    if (!underlyingObjExtra_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "underlyingObjExtra",
+        "");
+    }
+
+    if (!field_6_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "field_6",
+        "");
+    }
+
+    if (!owner_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "owner",
+        "");
+    }
+  }
+
+  boat_t* boat_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class boat_t (*this, f, c);
+  }
+
+  boat_t::
+  ~boat_t ()
   {
   }
 
@@ -14595,18 +15368,245 @@ namespace ironfist_map
       s << *b;
     }
 
-    // town
+    // towns
     //
-    for (gamestate_t::town_const_iterator
-         b (i.town ().begin ()), n (i.town ().end ());
+    for (gamestate_t::towns_const_iterator
+         b (i.towns ().begin ()), n (i.towns ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "town",
+          "towns",
           e));
 
       s << *b;
+    }
+
+    // mine
+    //
+    for (gamestate_t::mine_const_iterator
+         b (i.mine ().begin ()), n (i.mine ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mine",
+          e));
+
+      s << *b;
+    }
+
+    // boat
+    //
+    for (gamestate_t::boat_const_iterator
+         b (i.boat ().begin ()), n (i.boat ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "boat",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const mine_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // field_0
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_0",
+          e));
+
+      a << i.field_0 ();
+    }
+
+    // owner
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "owner",
+          e));
+
+      a << i.owner ();
+    }
+
+    // type
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "type",
+          e));
+
+      a << i.type ();
+    }
+
+    // guardianType
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "guardianType",
+          e));
+
+      a << i.guardianType ();
+    }
+
+    // guardianQty
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "guardianQty",
+          e));
+
+      a << i.guardianQty ();
+    }
+
+    // x
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "x",
+          e));
+
+      a << i.x ();
+    }
+
+    // y
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "y",
+          e));
+
+      a << i.y ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const boat_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // idx
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "idx",
+          e));
+
+      a << i.idx ();
+    }
+
+    // x
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "x",
+          e));
+
+      a << i.x ();
+    }
+
+    // y
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "y",
+          e));
+
+      a << i.y ();
+    }
+
+    // field_3
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_3",
+          e));
+
+      a << i.field_3 ();
+    }
+
+    // underlyingObjType
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "underlyingObjType",
+          e));
+
+      a << i.underlyingObjType ();
+    }
+
+    // underlyingObjExtra
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "underlyingObjExtra",
+          e));
+
+      a << i.underlyingObjExtra ();
+    }
+
+    // field_6
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "field_6",
+          e));
+
+      a << i.field_6 ();
+    }
+
+    // owner
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "owner",
+          e));
+
+      a << i.owner ();
     }
   }
 

@@ -245,8 +245,33 @@
       </xs:element>
 	  <xs:element name="mapExtra" type="mapExtra_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="playerData" type="playerData_t" minOccurs="0" maxOccurs="unbounded"/>
-	  <xs:element name="town" type="town_t" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name="towns" type="town_t" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name="mine" type="mine_t" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name="boat" type="boat_t" minOccurs="0" maxOccurs="unbounded"/>
 	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="mine_t">
+	  <xs:attribute name="id" type="xs:int" use="required"/>
+	  <xs:attribute name="field_0" type="xs:int" use="required"/>
+	  <xs:attribute name="owner" type="xs:int" use="required"/>
+	  <xs:attribute name="type" type="xs:int" use="required"/>
+	  <xs:attribute name="guardianType" type="xs:int" use="required"/>
+	  <xs:attribute name="guardianQty" type="xs:int" use="required"/>
+	  <xs:attribute name="x" type="xs:int" use="required"/>
+	  <xs:attribute name="y" type="xs:int" use="required"/>
+  </xs:complexType>
+  
+  <xs:complexType name="boat_t">
+	  <xs:attribute name="id" type="xs:int" use="required"/>
+	  <xs:attribute name="idx" type="xs:int" use="required"/>
+	  <xs:attribute name="x" type="xs:int" use="required"/>
+	  <xs:attribute name="y" type="xs:int" use="required"/>
+	  <xs:attribute name="field_3" type="xs:int" use="required"/>
+	  <xs:attribute name="underlyingObjType" type="xs:int" use="required"/>
+	  <xs:attribute name="underlyingObjExtra" type="xs:int" use="required"/>
+	  <xs:attribute name="field_6" type="xs:int" use="required"/>
+	  <xs:attribute name="owner" type="xs:int" use="required"/>
   </xs:complexType>
   
   <xs:complexType name="armyGroup_t">
