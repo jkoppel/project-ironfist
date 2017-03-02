@@ -43,7 +43,100 @@ static const char *tmpFileName = "tmp";
 static const LPCWSTR tmpFileNameW = L"tmp";
 
 static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
+  ClearMapExtra();
   gam->allowAIArmySharing = gs.allowAIArmySharing();
+  gam->map.width = gs.mapWidth();
+  gam->map.height = gs.mapHeight();
+	gam->SetMapSize(gam->map.width, gam->map.height);
+ 
+  //mapHeader ...
+	//_read(fd, &this->field_44D, 0x41u);
+  //gam = gs.instanceID();
+
+  giMonthType = gs.monthType();
+  giMonthTypeExtra = gs.monthTypeExtra();
+  giWeekType = gs.weekTypeExtra();
+  giWeekType = gs.weekType();
+  for (int i = 0; i < gs.playerNames().size(); i++) {
+    strcpy(cPlayerNames[i], gs.playerNames().at(i).name().get().c_str());
+  }
+  /*
+  _read(fd, &giMonthType, 1);
+	_read(fd, &giMonthTypeExtra, 1u);
+	_read(fd, &giWeekType, 1u);
+	_read(fd, &giWeekTypeExtra, 1u);
+	_read(fd, cPlayerNames, sizeof(cPlayerNames));
+
+	gpAdvManager->PurgeMapChangeQueue();
+	_read(fd, &giMapChangeCtr, 4u);
+
+	sprintf(gpGame->lastSaveFile, filnam);
+	_read(fd, &this->numPlayers, sizeof(this->numPlayers));
+	_read(fd, &curPlayer, sizeof(curPlayer));
+	giCurPlayer = curPlayer;
+	_read(fd, &this->couldBeNumDefeatedPlayers, 1u);
+	_read(fd, this->playerDead, 6u);
+
+	_read(fd, hasPlayer, sizeof(hasPlayer));
+	for(int i = 0; i < 6; ++i) {
+		if(hasPlayer[i] && v14 < iLastMsgNumHumanPlayers) {
+			++v14;
+			gbHumanPlayer[i] = 1;
+		} else {
+			gbHumanPlayer[i] = 0;
+		}
+	}
+	for(int i = 0; i < 6; ++i) {
+		if(gbHumanPlayer[i])
+			gbThisNetHumanPlayer[i] = !gbRemoteOn || i == giThisGamePos;
+		else
+			gbThisNetHumanPlayer[i] = 0;
+	}
+
+	_read(fd, &this->day, 2u);
+	_read(fd, &this->week, 2u);
+	_read(fd, &this->month, 2u);
+	giCurTurn = this->day + 7 * (this->week - 1) + 28 * (this->month - 1);
+	for(int i = 0; i < 6; ++i)
+		this->players[i].Read(fd);
+	_read(fd, &this->numObelisks, 1u);
+	_read(fd, this->relatedToHeroForHireStatus, 0x36u);
+	_read(fd, this->castles, 7200u);
+	_read(fd, this->field_2773, 0x48u);
+	_read(fd, this->field_27BB, 9u);
+	_read(fd, this->mines, 0x3F0u);
+	_read(fd, this->field_60A6, 144u);
+
+	_read(fd, this->artifactGeneratedRandomly, 0x67u);
+	_read(fd, this->boats, 0x180u);
+	_read(fd, this->boatBuilt, 0x30u);
+	_read(fd, this->obeliskVisitedMasks, 0x30u);
+	_read(fd, &this->field_6395, 1u);
+	_read(fd, &this->field_6396, 1u);
+	_read(fd, &this->field_6397, 1u);
+	_read(fd, this->currentRumor, 301u);
+	_read(fd, this->field_637D, 0x18u);
+	_read(fd, &this->numRumors, 4u);
+	_read(fd, this->rumorIndices, 2 * this->numRumors);
+	_read(fd, &this->numEvents, 4u);
+	_read(fd, this->eventIndices, 2 * this->numEvents);
+	_read(fd, &this->field_657B, 4u);
+	_read(fd, this->_D, 2 * this->field_657B);
+	_read(fd, &iMaxMapExtra, 4u);
+	ppMapExtra = (void**)ALLOC(4 * iMaxMapExtra);
+	pwSizeOfMapExtra = (short*)ALLOC(2 * iMaxMapExtra);
+	memset(ppMapExtra, 0, 4 * iMaxMapExtra);
+	memset(pwSizeOfMapExtra, 0, 2 * iMaxMapExtra);
+	for(int i = 1; i < iMaxMapExtra; ++i ) {
+		_read(fd, &pwSizeOfMapExtra[i], 2u);
+		ppMapExtra[i] = ALLOC(pwSizeOfMapExtra[i]);
+		_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
+	}
+	_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
+	this->map.Read(fd, 0);
+	SetFileAttributes(tmpFileNameW, GetFileAttributes(tmpFileNameW) & ~FILE_ATTRIBUTE_READONLY);
+	_close(fd);
+	remove(tmpFileName);*/
 }
 
 ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
