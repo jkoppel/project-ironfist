@@ -244,7 +244,64 @@
         </xs:complexType>
       </xs:element>
 	  <xs:element name="mapExtra" type="mapExtra_t" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name="playerData" type="playerData_t" minOccurs="0" maxOccurs="unbounded"/>
 	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="playerData_t">
+    <xs:sequence>
+	  <xs:element name="instance" type="xs:int"/>
+	  <xs:element name="numHeroes" type="xs:int"/>
+	  <xs:element name="curHeroIdx" type="xs:int"/>
+	  <xs:element name="field_3" type="xs:int"/>
+	  <xs:element name="game_B" type="xs:int"/>
+	  <xs:element name="_3" type="xs:int"/>
+	  <xs:element name="personality" type="xs:int"/>
+	  <xs:element name="_2" type="xs:int"/>
+	  <xs:element name="_4_1" type="xs:int"/>
+	  <xs:element name="field_40" type="xs:int"/>
+	  <xs:element name="field_41" type="xs:int"/>
+	  <xs:element name="daysLeftWithoutCastle" type="xs:int"/>
+	  <xs:element name="numCastles" type="xs:int"/>
+	  <xs:element name="field_45" type="xs:int"/>
+	  <xs:element name="barrierTentsVisited" type="xs:int"/>
+	  <xs:element name="heroesOwned" minOccurs="8" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="hero" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="heroesForPurchase" minOccurs="2" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="hero" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="castlesOwned" minOccurs="72" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="castle" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="resources" minOccurs="7" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="quantity" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="field_E7" minOccurs="7" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="_4_2" minOccurs="6" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="id" type="xs:int" use="required"/>
+          <xs:attribute name="value" type="xs:int"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
   </xs:complexType>
   
   <xs:complexType name="mapExtra_t">

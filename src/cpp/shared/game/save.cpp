@@ -187,6 +187,59 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	 }
   }
 
+  for(int i = 0; i < 6; i++) {
+	  playerData player = gam->players[i];
+	  
+	  ironfist_map::gamestate_t::playerData_type data(
+		  (int)&player,
+		  player.numHeroes,
+		  player.curHeroIdx,
+		  player.field_3,
+		  gam->_B[1],
+		  (int)player._3,
+		  player.personality,
+		  player._2,
+		  player._4_1,
+		  player.field_40,
+		  player.field_41,
+		  player.daysLeftWithoutCastle,
+		  player.numCastles,
+		  player.field_45,
+		  player.barrierTentsVisited
+	  );
+	  gs.playerData().push_back(data);
+	  
+	  for(int j = 0; j < ELEMENTS_IN(player.heroesOwned); j++) {
+		  gs.playerData().back().heroesOwned().push_back(ironfist_map::playerData_t::heroesOwned_type(j));
+		  gs.playerData().back().heroesOwned().back().hero(player.heroesOwned[j]);
+	  }
+
+	  for(int j = 0; j < ELEMENTS_IN(player.heroesForPurchase); j++) {
+		  gs.playerData().back().heroesForPurchase().push_back(ironfist_map::playerData_t::heroesForPurchase_type(j));
+		  gs.playerData().back().heroesForPurchase().back().hero(player.heroesForPurchase[j]);
+	  }
+
+	  for(int j = 0; j < ELEMENTS_IN(player.castlesOwned); j++) {
+		  gs.playerData().back().castlesOwned().push_back(ironfist_map::playerData_t::castlesOwned_type(j));
+		  gs.playerData().back().castlesOwned().back().castle(player.castlesOwned[j]);
+	  }
+
+	  for(int j = 0; j < ELEMENTS_IN(player.resources); j++) {
+		  gs.playerData().back().resources().push_back(ironfist_map::playerData_t::resources_type(j));
+		  gs.playerData().back().resources().back().quantity(player.resources[j]);
+	  }
+
+	  for(int j = 0; j < ELEMENTS_IN(player.field_E7); j++) {
+		  gs.playerData().back().field_E7().push_back(ironfist_map::playerData_t::field_E7_type(j));
+		  gs.playerData().back().field_E7().back().value(player.field_E7[j]);
+	  }
+
+	  for(int j = 0; j < 6; j++) {
+		  gs.playerData().back()._4_2().push_back(ironfist_map::playerData_t::_4_2_type(j));
+		  gs.playerData().back()._4_2().back().value(player._4_2[j]);
+	  }
+  }
+
   return gs;
 }
 

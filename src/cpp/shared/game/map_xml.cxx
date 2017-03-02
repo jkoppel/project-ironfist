@@ -2199,6 +2199,406 @@ namespace ironfist_map
     this->mapExtra_ = s;
   }
 
+  const gamestate_t::playerData_sequence& gamestate_t::
+  playerData () const
+  {
+    return this->playerData_;
+  }
+
+  gamestate_t::playerData_sequence& gamestate_t::
+  playerData ()
+  {
+    return this->playerData_;
+  }
+
+  void gamestate_t::
+  playerData (const playerData_sequence& s)
+  {
+    this->playerData_ = s;
+  }
+
+
+  // playerData_t
+  // 
+
+  const playerData_t::instance_type& playerData_t::
+  instance () const
+  {
+    return this->instance_.get ();
+  }
+
+  playerData_t::instance_type& playerData_t::
+  instance ()
+  {
+    return this->instance_.get ();
+  }
+
+  void playerData_t::
+  instance (const instance_type& x)
+  {
+    this->instance_.set (x);
+  }
+
+  const playerData_t::numHeroes_type& playerData_t::
+  numHeroes () const
+  {
+    return this->numHeroes_.get ();
+  }
+
+  playerData_t::numHeroes_type& playerData_t::
+  numHeroes ()
+  {
+    return this->numHeroes_.get ();
+  }
+
+  void playerData_t::
+  numHeroes (const numHeroes_type& x)
+  {
+    this->numHeroes_.set (x);
+  }
+
+  const playerData_t::curHeroIdx_type& playerData_t::
+  curHeroIdx () const
+  {
+    return this->curHeroIdx_.get ();
+  }
+
+  playerData_t::curHeroIdx_type& playerData_t::
+  curHeroIdx ()
+  {
+    return this->curHeroIdx_.get ();
+  }
+
+  void playerData_t::
+  curHeroIdx (const curHeroIdx_type& x)
+  {
+    this->curHeroIdx_.set (x);
+  }
+
+  const playerData_t::field_3_type& playerData_t::
+  field_3 () const
+  {
+    return this->field_3_.get ();
+  }
+
+  playerData_t::field_3_type& playerData_t::
+  field_3 ()
+  {
+    return this->field_3_.get ();
+  }
+
+  void playerData_t::
+  field_3 (const field_3_type& x)
+  {
+    this->field_3_.set (x);
+  }
+
+  const playerData_t::game_B_type& playerData_t::
+  game_B () const
+  {
+    return this->game_B_.get ();
+  }
+
+  playerData_t::game_B_type& playerData_t::
+  game_B ()
+  {
+    return this->game_B_.get ();
+  }
+
+  void playerData_t::
+  game_B (const game_B_type& x)
+  {
+    this->game_B_.set (x);
+  }
+
+  const playerData_t::_3_type& playerData_t::
+  _3 () const
+  {
+    return this->_3_.get ();
+  }
+
+  playerData_t::_3_type& playerData_t::
+  _3 ()
+  {
+    return this->_3_.get ();
+  }
+
+  void playerData_t::
+  _3 (const _3_type& x)
+  {
+    this->_3_.set (x);
+  }
+
+  const playerData_t::personality_type& playerData_t::
+  personality () const
+  {
+    return this->personality_.get ();
+  }
+
+  playerData_t::personality_type& playerData_t::
+  personality ()
+  {
+    return this->personality_.get ();
+  }
+
+  void playerData_t::
+  personality (const personality_type& x)
+  {
+    this->personality_.set (x);
+  }
+
+  const playerData_t::_2_type& playerData_t::
+  _2 () const
+  {
+    return this->_2_.get ();
+  }
+
+  playerData_t::_2_type& playerData_t::
+  _2 ()
+  {
+    return this->_2_.get ();
+  }
+
+  void playerData_t::
+  _2 (const _2_type& x)
+  {
+    this->_2_.set (x);
+  }
+
+  const playerData_t::_4_1_type& playerData_t::
+  _4_1 () const
+  {
+    return this->_4_1_.get ();
+  }
+
+  playerData_t::_4_1_type& playerData_t::
+  _4_1 ()
+  {
+    return this->_4_1_.get ();
+  }
+
+  void playerData_t::
+  _4_1 (const _4_1_type& x)
+  {
+    this->_4_1_.set (x);
+  }
+
+  const playerData_t::field_40_type& playerData_t::
+  field_40 () const
+  {
+    return this->field_40_.get ();
+  }
+
+  playerData_t::field_40_type& playerData_t::
+  field_40 ()
+  {
+    return this->field_40_.get ();
+  }
+
+  void playerData_t::
+  field_40 (const field_40_type& x)
+  {
+    this->field_40_.set (x);
+  }
+
+  const playerData_t::field_41_type& playerData_t::
+  field_41 () const
+  {
+    return this->field_41_.get ();
+  }
+
+  playerData_t::field_41_type& playerData_t::
+  field_41 ()
+  {
+    return this->field_41_.get ();
+  }
+
+  void playerData_t::
+  field_41 (const field_41_type& x)
+  {
+    this->field_41_.set (x);
+  }
+
+  const playerData_t::daysLeftWithoutCastle_type& playerData_t::
+  daysLeftWithoutCastle () const
+  {
+    return this->daysLeftWithoutCastle_.get ();
+  }
+
+  playerData_t::daysLeftWithoutCastle_type& playerData_t::
+  daysLeftWithoutCastle ()
+  {
+    return this->daysLeftWithoutCastle_.get ();
+  }
+
+  void playerData_t::
+  daysLeftWithoutCastle (const daysLeftWithoutCastle_type& x)
+  {
+    this->daysLeftWithoutCastle_.set (x);
+  }
+
+  const playerData_t::numCastles_type& playerData_t::
+  numCastles () const
+  {
+    return this->numCastles_.get ();
+  }
+
+  playerData_t::numCastles_type& playerData_t::
+  numCastles ()
+  {
+    return this->numCastles_.get ();
+  }
+
+  void playerData_t::
+  numCastles (const numCastles_type& x)
+  {
+    this->numCastles_.set (x);
+  }
+
+  const playerData_t::field_45_type& playerData_t::
+  field_45 () const
+  {
+    return this->field_45_.get ();
+  }
+
+  playerData_t::field_45_type& playerData_t::
+  field_45 ()
+  {
+    return this->field_45_.get ();
+  }
+
+  void playerData_t::
+  field_45 (const field_45_type& x)
+  {
+    this->field_45_.set (x);
+  }
+
+  const playerData_t::barrierTentsVisited_type& playerData_t::
+  barrierTentsVisited () const
+  {
+    return this->barrierTentsVisited_.get ();
+  }
+
+  playerData_t::barrierTentsVisited_type& playerData_t::
+  barrierTentsVisited ()
+  {
+    return this->barrierTentsVisited_.get ();
+  }
+
+  void playerData_t::
+  barrierTentsVisited (const barrierTentsVisited_type& x)
+  {
+    this->barrierTentsVisited_.set (x);
+  }
+
+  const playerData_t::heroesOwned_sequence& playerData_t::
+  heroesOwned () const
+  {
+    return this->heroesOwned_;
+  }
+
+  playerData_t::heroesOwned_sequence& playerData_t::
+  heroesOwned ()
+  {
+    return this->heroesOwned_;
+  }
+
+  void playerData_t::
+  heroesOwned (const heroesOwned_sequence& s)
+  {
+    this->heroesOwned_ = s;
+  }
+
+  const playerData_t::heroesForPurchase_sequence& playerData_t::
+  heroesForPurchase () const
+  {
+    return this->heroesForPurchase_;
+  }
+
+  playerData_t::heroesForPurchase_sequence& playerData_t::
+  heroesForPurchase ()
+  {
+    return this->heroesForPurchase_;
+  }
+
+  void playerData_t::
+  heroesForPurchase (const heroesForPurchase_sequence& s)
+  {
+    this->heroesForPurchase_ = s;
+  }
+
+  const playerData_t::castlesOwned_sequence& playerData_t::
+  castlesOwned () const
+  {
+    return this->castlesOwned_;
+  }
+
+  playerData_t::castlesOwned_sequence& playerData_t::
+  castlesOwned ()
+  {
+    return this->castlesOwned_;
+  }
+
+  void playerData_t::
+  castlesOwned (const castlesOwned_sequence& s)
+  {
+    this->castlesOwned_ = s;
+  }
+
+  const playerData_t::resources_sequence& playerData_t::
+  resources () const
+  {
+    return this->resources_;
+  }
+
+  playerData_t::resources_sequence& playerData_t::
+  resources ()
+  {
+    return this->resources_;
+  }
+
+  void playerData_t::
+  resources (const resources_sequence& s)
+  {
+    this->resources_ = s;
+  }
+
+  const playerData_t::field_E7_sequence& playerData_t::
+  field_E7 () const
+  {
+    return this->field_E7_;
+  }
+
+  playerData_t::field_E7_sequence& playerData_t::
+  field_E7 ()
+  {
+    return this->field_E7_;
+  }
+
+  void playerData_t::
+  field_E7 (const field_E7_sequence& s)
+  {
+    this->field_E7_ = s;
+  }
+
+  const playerData_t::_4_2_sequence& playerData_t::
+  _4_2 () const
+  {
+    return this->_4_2_;
+  }
+
+  playerData_t::_4_2_sequence& playerData_t::
+  _4_2 ()
+  {
+    return this->_4_2_;
+  }
+
+  void playerData_t::
+  _4_2 (const _4_2_sequence& s)
+  {
+    this->_4_2_ = s;
+  }
+
 
   // mapExtra_t
   // 
@@ -3335,6 +3735,282 @@ namespace ironfist_map
   revealed (const revealed_optional& x)
   {
     this->revealed_ = x;
+  }
+
+
+  // heroesOwned
+  // 
+
+  const heroesOwned::id_type& heroesOwned::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  heroesOwned::id_type& heroesOwned::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void heroesOwned::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const heroesOwned::hero_optional& heroesOwned::
+  hero () const
+  {
+    return this->hero_;
+  }
+
+  heroesOwned::hero_optional& heroesOwned::
+  hero ()
+  {
+    return this->hero_;
+  }
+
+  void heroesOwned::
+  hero (const hero_type& x)
+  {
+    this->hero_.set (x);
+  }
+
+  void heroesOwned::
+  hero (const hero_optional& x)
+  {
+    this->hero_ = x;
+  }
+
+
+  // heroesForPurchase
+  // 
+
+  const heroesForPurchase::id_type& heroesForPurchase::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  heroesForPurchase::id_type& heroesForPurchase::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void heroesForPurchase::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const heroesForPurchase::hero_optional& heroesForPurchase::
+  hero () const
+  {
+    return this->hero_;
+  }
+
+  heroesForPurchase::hero_optional& heroesForPurchase::
+  hero ()
+  {
+    return this->hero_;
+  }
+
+  void heroesForPurchase::
+  hero (const hero_type& x)
+  {
+    this->hero_.set (x);
+  }
+
+  void heroesForPurchase::
+  hero (const hero_optional& x)
+  {
+    this->hero_ = x;
+  }
+
+
+  // castlesOwned
+  // 
+
+  const castlesOwned::id_type& castlesOwned::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  castlesOwned::id_type& castlesOwned::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void castlesOwned::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const castlesOwned::castle_optional& castlesOwned::
+  castle () const
+  {
+    return this->castle_;
+  }
+
+  castlesOwned::castle_optional& castlesOwned::
+  castle ()
+  {
+    return this->castle_;
+  }
+
+  void castlesOwned::
+  castle (const castle_type& x)
+  {
+    this->castle_.set (x);
+  }
+
+  void castlesOwned::
+  castle (const castle_optional& x)
+  {
+    this->castle_ = x;
+  }
+
+
+  // resources
+  // 
+
+  const resources::id_type& resources::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  resources::id_type& resources::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void resources::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const resources::quantity_optional& resources::
+  quantity () const
+  {
+    return this->quantity_;
+  }
+
+  resources::quantity_optional& resources::
+  quantity ()
+  {
+    return this->quantity_;
+  }
+
+  void resources::
+  quantity (const quantity_type& x)
+  {
+    this->quantity_.set (x);
+  }
+
+  void resources::
+  quantity (const quantity_optional& x)
+  {
+    this->quantity_ = x;
+  }
+
+
+  // field_E7
+  // 
+
+  const field_E7::id_type& field_E7::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  field_E7::id_type& field_E7::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void field_E7::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const field_E7::value_optional& field_E7::
+  value () const
+  {
+    return this->value_;
+  }
+
+  field_E7::value_optional& field_E7::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void field_E7::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void field_E7::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
+  }
+
+
+  // _4_2
+  // 
+
+  const _4_2::id_type& _4_2::
+  id () const
+  {
+    return this->id_.get ();
+  }
+
+  _4_2::id_type& _4_2::
+  id ()
+  {
+    return this->id_.get ();
+  }
+
+  void _4_2::
+  id (const id_type& x)
+  {
+    this->id_.set (x);
+  }
+
+  const _4_2::value_optional& _4_2::
+  value () const
+  {
+    return this->value_;
+  }
+
+  _4_2::value_optional& _4_2::
+  value ()
+  {
+    return this->value_;
+  }
+
+  void _4_2::
+  value (const value_type& x)
+  {
+    this->value_.set (x);
+  }
+
+  void _4_2::
+  value (const value_optional& x)
+  {
+    this->value_ = x;
   }
 
 
@@ -5194,7 +5870,8 @@ namespace ironfist_map
     eventIndices_ (::xml_schema::flags (), this),
     _D_ (::xml_schema::flags (), this),
     mapRevealed_ (::xml_schema::flags (), this),
-    mapExtra_ (::xml_schema::flags (), this)
+    mapExtra_ (::xml_schema::flags (), this),
+    playerData_ (::xml_schema::flags (), this)
   {
   }
 
@@ -5249,7 +5926,8 @@ namespace ironfist_map
     eventIndices_ (x.eventIndices_, f, this),
     _D_ (x._D_, f, this),
     mapRevealed_ (x.mapRevealed_, f, this),
-    mapExtra_ (x.mapExtra_, f, this)
+    mapExtra_ (x.mapExtra_, f, this),
+    playerData_ (x.playerData_, f, this)
   {
   }
 
@@ -5304,7 +5982,8 @@ namespace ironfist_map
     eventIndices_ (f, this),
     _D_ (f, this),
     mapRevealed_ (f, this),
-    mapExtra_ (f, this)
+    mapExtra_ (f, this),
+    playerData_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -5846,6 +6525,17 @@ namespace ironfist_map
         continue;
       }
 
+      // playerData
+      //
+      if (n.name () == "playerData" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< playerData_type > r (
+          playerData_traits::create (i, f, this));
+
+        this->playerData_.push_back (r);
+        continue;
+      }
+
       break;
     }
 
@@ -6055,6 +6745,475 @@ namespace ironfist_map
 
   gamestate_t::
   ~gamestate_t ()
+  {
+  }
+
+  // playerData_t
+  //
+
+  playerData_t::
+  playerData_t (const instance_type& instance,
+                const numHeroes_type& numHeroes,
+                const curHeroIdx_type& curHeroIdx,
+                const field_3_type& field_3,
+                const game_B_type& game_B,
+                const _3_type& _3,
+                const personality_type& personality,
+                const _2_type& _2,
+                const _4_1_type& _4_1,
+                const field_40_type& field_40,
+                const field_41_type& field_41,
+                const daysLeftWithoutCastle_type& daysLeftWithoutCastle,
+                const numCastles_type& numCastles,
+                const field_45_type& field_45,
+                const barrierTentsVisited_type& barrierTentsVisited)
+  : ::xml_schema::type (),
+    instance_ (instance, ::xml_schema::flags (), this),
+    numHeroes_ (numHeroes, ::xml_schema::flags (), this),
+    curHeroIdx_ (curHeroIdx, ::xml_schema::flags (), this),
+    field_3_ (field_3, ::xml_schema::flags (), this),
+    game_B_ (game_B, ::xml_schema::flags (), this),
+    _3_ (_3, ::xml_schema::flags (), this),
+    personality_ (personality, ::xml_schema::flags (), this),
+    _2_ (_2, ::xml_schema::flags (), this),
+    _4_1_ (_4_1, ::xml_schema::flags (), this),
+    field_40_ (field_40, ::xml_schema::flags (), this),
+    field_41_ (field_41, ::xml_schema::flags (), this),
+    daysLeftWithoutCastle_ (daysLeftWithoutCastle, ::xml_schema::flags (), this),
+    numCastles_ (numCastles, ::xml_schema::flags (), this),
+    field_45_ (field_45, ::xml_schema::flags (), this),
+    barrierTentsVisited_ (barrierTentsVisited, ::xml_schema::flags (), this),
+    heroesOwned_ (::xml_schema::flags (), this),
+    heroesForPurchase_ (::xml_schema::flags (), this),
+    castlesOwned_ (::xml_schema::flags (), this),
+    resources_ (::xml_schema::flags (), this),
+    field_E7_ (::xml_schema::flags (), this),
+    _4_2_ (::xml_schema::flags (), this)
+  {
+  }
+
+  playerData_t::
+  playerData_t (const playerData_t& x,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    instance_ (x.instance_, f, this),
+    numHeroes_ (x.numHeroes_, f, this),
+    curHeroIdx_ (x.curHeroIdx_, f, this),
+    field_3_ (x.field_3_, f, this),
+    game_B_ (x.game_B_, f, this),
+    _3_ (x._3_, f, this),
+    personality_ (x.personality_, f, this),
+    _2_ (x._2_, f, this),
+    _4_1_ (x._4_1_, f, this),
+    field_40_ (x.field_40_, f, this),
+    field_41_ (x.field_41_, f, this),
+    daysLeftWithoutCastle_ (x.daysLeftWithoutCastle_, f, this),
+    numCastles_ (x.numCastles_, f, this),
+    field_45_ (x.field_45_, f, this),
+    barrierTentsVisited_ (x.barrierTentsVisited_, f, this),
+    heroesOwned_ (x.heroesOwned_, f, this),
+    heroesForPurchase_ (x.heroesForPurchase_, f, this),
+    castlesOwned_ (x.castlesOwned_, f, this),
+    resources_ (x.resources_, f, this),
+    field_E7_ (x.field_E7_, f, this),
+    _4_2_ (x._4_2_, f, this)
+  {
+  }
+
+  playerData_t::
+  playerData_t (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    instance_ (f, this),
+    numHeroes_ (f, this),
+    curHeroIdx_ (f, this),
+    field_3_ (f, this),
+    game_B_ (f, this),
+    _3_ (f, this),
+    personality_ (f, this),
+    _2_ (f, this),
+    _4_1_ (f, this),
+    field_40_ (f, this),
+    field_41_ (f, this),
+    daysLeftWithoutCastle_ (f, this),
+    numCastles_ (f, this),
+    field_45_ (f, this),
+    barrierTentsVisited_ (f, this),
+    heroesOwned_ (f, this),
+    heroesForPurchase_ (f, this),
+    castlesOwned_ (f, this),
+    resources_ (f, this),
+    field_E7_ (f, this),
+    _4_2_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void playerData_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // instance
+      //
+      if (n.name () == "instance" && n.namespace_ ().empty ())
+      {
+        if (!instance_.present ())
+        {
+          this->instance_.set (instance_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numHeroes
+      //
+      if (n.name () == "numHeroes" && n.namespace_ ().empty ())
+      {
+        if (!numHeroes_.present ())
+        {
+          this->numHeroes_.set (numHeroes_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // curHeroIdx
+      //
+      if (n.name () == "curHeroIdx" && n.namespace_ ().empty ())
+      {
+        if (!curHeroIdx_.present ())
+        {
+          this->curHeroIdx_.set (curHeroIdx_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_3
+      //
+      if (n.name () == "field_3" && n.namespace_ ().empty ())
+      {
+        if (!field_3_.present ())
+        {
+          this->field_3_.set (field_3_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // game_B
+      //
+      if (n.name () == "game_B" && n.namespace_ ().empty ())
+      {
+        if (!game_B_.present ())
+        {
+          this->game_B_.set (game_B_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // _3
+      //
+      if (n.name () == "_3" && n.namespace_ ().empty ())
+      {
+        if (!_3_.present ())
+        {
+          this->_3_.set (_3_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // personality
+      //
+      if (n.name () == "personality" && n.namespace_ ().empty ())
+      {
+        if (!personality_.present ())
+        {
+          this->personality_.set (personality_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // _2
+      //
+      if (n.name () == "_2" && n.namespace_ ().empty ())
+      {
+        if (!_2_.present ())
+        {
+          this->_2_.set (_2_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // _4_1
+      //
+      if (n.name () == "_4_1" && n.namespace_ ().empty ())
+      {
+        if (!_4_1_.present ())
+        {
+          this->_4_1_.set (_4_1_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_40
+      //
+      if (n.name () == "field_40" && n.namespace_ ().empty ())
+      {
+        if (!field_40_.present ())
+        {
+          this->field_40_.set (field_40_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_41
+      //
+      if (n.name () == "field_41" && n.namespace_ ().empty ())
+      {
+        if (!field_41_.present ())
+        {
+          this->field_41_.set (field_41_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // daysLeftWithoutCastle
+      //
+      if (n.name () == "daysLeftWithoutCastle" && n.namespace_ ().empty ())
+      {
+        if (!daysLeftWithoutCastle_.present ())
+        {
+          this->daysLeftWithoutCastle_.set (daysLeftWithoutCastle_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numCastles
+      //
+      if (n.name () == "numCastles" && n.namespace_ ().empty ())
+      {
+        if (!numCastles_.present ())
+        {
+          this->numCastles_.set (numCastles_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_45
+      //
+      if (n.name () == "field_45" && n.namespace_ ().empty ())
+      {
+        if (!field_45_.present ())
+        {
+          this->field_45_.set (field_45_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // barrierTentsVisited
+      //
+      if (n.name () == "barrierTentsVisited" && n.namespace_ ().empty ())
+      {
+        if (!barrierTentsVisited_.present ())
+        {
+          this->barrierTentsVisited_.set (barrierTentsVisited_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // heroesOwned
+      //
+      if (n.name () == "heroesOwned" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< heroesOwned_type > r (
+          heroesOwned_traits::create (i, f, this));
+
+        this->heroesOwned_.push_back (r);
+        continue;
+      }
+
+      // heroesForPurchase
+      //
+      if (n.name () == "heroesForPurchase" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< heroesForPurchase_type > r (
+          heroesForPurchase_traits::create (i, f, this));
+
+        this->heroesForPurchase_.push_back (r);
+        continue;
+      }
+
+      // castlesOwned
+      //
+      if (n.name () == "castlesOwned" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< castlesOwned_type > r (
+          castlesOwned_traits::create (i, f, this));
+
+        this->castlesOwned_.push_back (r);
+        continue;
+      }
+
+      // resources
+      //
+      if (n.name () == "resources" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< resources_type > r (
+          resources_traits::create (i, f, this));
+
+        this->resources_.push_back (r);
+        continue;
+      }
+
+      // field_E7
+      //
+      if (n.name () == "field_E7" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_E7_type > r (
+          field_E7_traits::create (i, f, this));
+
+        this->field_E7_.push_back (r);
+        continue;
+      }
+
+      // _4_2
+      //
+      if (n.name () == "_4_2" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< _4_2_type > r (
+          _4_2_traits::create (i, f, this));
+
+        this->_4_2_.push_back (r);
+        continue;
+      }
+
+      break;
+    }
+
+    if (!instance_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "instance",
+        "");
+    }
+
+    if (!numHeroes_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numHeroes",
+        "");
+    }
+
+    if (!curHeroIdx_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "curHeroIdx",
+        "");
+    }
+
+    if (!field_3_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_3",
+        "");
+    }
+
+    if (!game_B_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "game_B",
+        "");
+    }
+
+    if (!_3_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "_3",
+        "");
+    }
+
+    if (!personality_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "personality",
+        "");
+    }
+
+    if (!_2_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "_2",
+        "");
+    }
+
+    if (!_4_1_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "_4_1",
+        "");
+    }
+
+    if (!field_40_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_40",
+        "");
+    }
+
+    if (!field_41_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_41",
+        "");
+    }
+
+    if (!daysLeftWithoutCastle_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "daysLeftWithoutCastle",
+        "");
+    }
+
+    if (!numCastles_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numCastles",
+        "");
+    }
+
+    if (!field_45_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_45",
+        "");
+    }
+
+    if (!barrierTentsVisited_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "barrierTentsVisited",
+        "");
+    }
+  }
+
+  playerData_t* playerData_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class playerData_t (*this, f, c);
+  }
+
+  playerData_t::
+  ~playerData_t ()
   {
   }
 
@@ -7891,6 +9050,480 @@ namespace ironfist_map
 
   mapRevealed::
   ~mapRevealed ()
+  {
+  }
+
+  // heroesOwned
+  //
+
+  heroesOwned::
+  heroesOwned (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    hero_ (::xml_schema::flags (), this)
+  {
+  }
+
+  heroesOwned::
+  heroesOwned (const heroesOwned& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    hero_ (x.hero_, f, this)
+  {
+  }
+
+  heroesOwned::
+  heroesOwned (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    hero_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void heroesOwned::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "hero" && n.namespace_ ().empty ())
+      {
+        this->hero_.set (hero_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  heroesOwned* heroesOwned::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class heroesOwned (*this, f, c);
+  }
+
+  heroesOwned::
+  ~heroesOwned ()
+  {
+  }
+
+  // heroesForPurchase
+  //
+
+  heroesForPurchase::
+  heroesForPurchase (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    hero_ (::xml_schema::flags (), this)
+  {
+  }
+
+  heroesForPurchase::
+  heroesForPurchase (const heroesForPurchase& x,
+                     ::xml_schema::flags f,
+                     ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    hero_ (x.hero_, f, this)
+  {
+  }
+
+  heroesForPurchase::
+  heroesForPurchase (const ::xercesc::DOMElement& e,
+                     ::xml_schema::flags f,
+                     ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    hero_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void heroesForPurchase::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "hero" && n.namespace_ ().empty ())
+      {
+        this->hero_.set (hero_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  heroesForPurchase* heroesForPurchase::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class heroesForPurchase (*this, f, c);
+  }
+
+  heroesForPurchase::
+  ~heroesForPurchase ()
+  {
+  }
+
+  // castlesOwned
+  //
+
+  castlesOwned::
+  castlesOwned (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    castle_ (::xml_schema::flags (), this)
+  {
+  }
+
+  castlesOwned::
+  castlesOwned (const castlesOwned& x,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    castle_ (x.castle_, f, this)
+  {
+  }
+
+  castlesOwned::
+  castlesOwned (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    castle_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void castlesOwned::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "castle" && n.namespace_ ().empty ())
+      {
+        this->castle_.set (castle_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  castlesOwned* castlesOwned::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class castlesOwned (*this, f, c);
+  }
+
+  castlesOwned::
+  ~castlesOwned ()
+  {
+  }
+
+  // resources
+  //
+
+  resources::
+  resources (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    quantity_ (::xml_schema::flags (), this)
+  {
+  }
+
+  resources::
+  resources (const resources& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    quantity_ (x.quantity_, f, this)
+  {
+  }
+
+  resources::
+  resources (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    quantity_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void resources::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "quantity" && n.namespace_ ().empty ())
+      {
+        this->quantity_.set (quantity_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  resources* resources::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class resources (*this, f, c);
+  }
+
+  resources::
+  ~resources ()
+  {
+  }
+
+  // field_E7
+  //
+
+  field_E7::
+  field_E7 (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  field_E7::
+  field_E7 (const field_E7& x,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  field_E7::
+  field_E7 (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f,
+            ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void field_E7::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  field_E7* field_E7::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class field_E7 (*this, f, c);
+  }
+
+  field_E7::
+  ~field_E7 ()
+  {
+  }
+
+  // _4_2
+  //
+
+  _4_2::
+  _4_2 (const id_type& id)
+  : ::xml_schema::type (),
+    id_ (id, ::xml_schema::flags (), this),
+    value_ (::xml_schema::flags (), this)
+  {
+  }
+
+  _4_2::
+  _4_2 (const _4_2& x,
+        ::xml_schema::flags f,
+        ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    id_ (x.id_, f, this),
+    value_ (x.value_, f, this)
+  {
+  }
+
+  _4_2::
+  _4_2 (const ::xercesc::DOMElement& e,
+        ::xml_schema::flags f,
+        ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    id_ (f, this),
+    value_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void _4_2::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "id" && n.namespace_ ().empty ())
+      {
+        this->id_.set (id_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "value" && n.namespace_ ().empty ())
+      {
+        this->value_.set (value_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!id_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "id",
+        "");
+    }
+  }
+
+  _4_2* _4_2::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class _4_2 (*this, f, c);
+  }
+
+  _4_2::
+  ~_4_2 ()
   {
   }
 
@@ -11290,6 +12923,275 @@ namespace ironfist_map
 
       s << *b;
     }
+
+    // playerData
+    //
+    for (gamestate_t::playerData_const_iterator
+         b (i.playerData ().begin ()), n (i.playerData ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "playerData",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const playerData_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // instance
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "instance",
+          e));
+
+      s << i.instance ();
+    }
+
+    // numHeroes
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numHeroes",
+          e));
+
+      s << i.numHeroes ();
+    }
+
+    // curHeroIdx
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "curHeroIdx",
+          e));
+
+      s << i.curHeroIdx ();
+    }
+
+    // field_3
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_3",
+          e));
+
+      s << i.field_3 ();
+    }
+
+    // game_B
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "game_B",
+          e));
+
+      s << i.game_B ();
+    }
+
+    // _3
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "_3",
+          e));
+
+      s << i._3 ();
+    }
+
+    // personality
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "personality",
+          e));
+
+      s << i.personality ();
+    }
+
+    // _2
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "_2",
+          e));
+
+      s << i._2 ();
+    }
+
+    // _4_1
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "_4_1",
+          e));
+
+      s << i._4_1 ();
+    }
+
+    // field_40
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_40",
+          e));
+
+      s << i.field_40 ();
+    }
+
+    // field_41
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_41",
+          e));
+
+      s << i.field_41 ();
+    }
+
+    // daysLeftWithoutCastle
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "daysLeftWithoutCastle",
+          e));
+
+      s << i.daysLeftWithoutCastle ();
+    }
+
+    // numCastles
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numCastles",
+          e));
+
+      s << i.numCastles ();
+    }
+
+    // field_45
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_45",
+          e));
+
+      s << i.field_45 ();
+    }
+
+    // barrierTentsVisited
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "barrierTentsVisited",
+          e));
+
+      s << i.barrierTentsVisited ();
+    }
+
+    // heroesOwned
+    //
+    for (playerData_t::heroesOwned_const_iterator
+         b (i.heroesOwned ().begin ()), n (i.heroesOwned ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "heroesOwned",
+          e));
+
+      s << *b;
+    }
+
+    // heroesForPurchase
+    //
+    for (playerData_t::heroesForPurchase_const_iterator
+         b (i.heroesForPurchase ().begin ()), n (i.heroesForPurchase ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "heroesForPurchase",
+          e));
+
+      s << *b;
+    }
+
+    // castlesOwned
+    //
+    for (playerData_t::castlesOwned_const_iterator
+         b (i.castlesOwned ().begin ()), n (i.castlesOwned ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "castlesOwned",
+          e));
+
+      s << *b;
+    }
+
+    // resources
+    //
+    for (playerData_t::resources_const_iterator
+         b (i.resources ().begin ()), n (i.resources ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "resources",
+          e));
+
+      s << *b;
+    }
+
+    // field_E7
+    //
+    for (playerData_t::field_E7_const_iterator
+         b (i.field_E7 ().begin ()), n (i.field_E7 ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_E7",
+          e));
+
+      s << *b;
+    }
+
+    // _4_2
+    //
+    for (playerData_t::_4_2_const_iterator
+         b (i._4_2 ().begin ()), n (i._4_2 ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "_4_2",
+          e));
+
+      s << *b;
+    }
   }
 
   void
@@ -13033,6 +14935,180 @@ namespace ironfist_map
           e));
 
       a << *i.revealed ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const heroesOwned& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // hero
+    //
+    if (i.hero ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "hero",
+          e));
+
+      a << *i.hero ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const heroesForPurchase& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // hero
+    //
+    if (i.hero ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "hero",
+          e));
+
+      a << *i.hero ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const castlesOwned& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // castle
+    //
+    if (i.castle ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "castle",
+          e));
+
+      a << *i.castle ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const resources& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // quantity
+    //
+    if (i.quantity ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "quantity",
+          e));
+
+      a << *i.quantity ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const field_E7& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const _4_2& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // id
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "id",
+          e));
+
+      a << i.id ();
+    }
+
+    // value
+    //
+    if (i.value ())
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "value",
+          e));
+
+      a << *i.value ();
     }
   }
 
