@@ -358,11 +358,11 @@
     <ClInclude Include="..\..\rc\editor\resource.h">
       <Filter>Header Files\rc</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cpp\shared\gui\msg.h">
-      <Filter>Source Files\shared\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h">
       <Filter>Header Files\shared\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\msg.h">
+      <Filter>Header Files\shared\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
