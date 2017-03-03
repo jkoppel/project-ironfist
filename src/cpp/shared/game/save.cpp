@@ -50,42 +50,37 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
 	gam->SetMapSize(gam->map.width, gam->map.height);
  
   //mapHeader ...
+  //_write(fd, &this->mapHeader, 420);
 	//_read(fd, &this->field_44D, 0x41u);
   //gam = gs.instanceID();
 
   giMonthType = gs.monthType();
   giMonthTypeExtra = gs.monthTypeExtra();
-  giWeekType = gs.weekTypeExtra();
   giWeekType = gs.weekType();
+  giWeekTypeExtra = gs.weekTypeExtra();
   for (int i = 0; i < gs.playerNames().size(); i++) {
     strcpy(cPlayerNames[i], gs.playerNames().at(i).name().get().c_str());
   }
-  /*
-  _read(fd, &giMonthType, 1);
-	_read(fd, &giMonthTypeExtra, 1u);
-	_read(fd, &giWeekType, 1u);
-	_read(fd, &giWeekTypeExtra, 1u);
-	_read(fd, cPlayerNames, sizeof(cPlayerNames));
+  gpAdvManager->PurgeMapChangeQueue();
+  giMapChangeCtr = gs.mapChangeCtr();
+  //sprintf(gpGame->lastSaveFile, filnam);
+  gam->numPlayers = gs.numPlayers();
+  giCurPlayer = gs.currentPlayer();
+  gam->couldBeNumDefeatedPlayers = gs.numDefatedPlayers();
 
-	gpAdvManager->PurgeMapChangeQueue();
-	_read(fd, &giMapChangeCtr, 4u);
-
-	sprintf(gpGame->lastSaveFile, filnam);
-	_read(fd, &this->numPlayers, sizeof(this->numPlayers));
-	_read(fd, &curPlayer, sizeof(curPlayer));
-	giCurPlayer = curPlayer;
-	_read(fd, &this->couldBeNumDefeatedPlayers, 1u);
-	_read(fd, this->playerDead, 6u);
-
-	_read(fd, hasPlayer, sizeof(hasPlayer));
-	for(int i = 0; i < 6; ++i) {
-		if(hasPlayer[i] && v14 < iLastMsgNumHumanPlayers) {
-			++v14;
+  char hasPlayer[6];
+  int c = 0;
+  for (int i = 0; i < gs.deadPlayers().size(); i++) {
+    gam->playerDead[i] = gs.deadPlayers().at(i).playerID().get();
+    hasPlayer[i] = gs.alivePlayers().at(i).playerID().get();
+    if(hasPlayer[i] && c < iLastMsgNumHumanPlayers) {
+			c++;
 			gbHumanPlayer[i] = 1;
 		} else {
 			gbHumanPlayer[i] = 0;
 		}
-	}
+  }
+
 	for(int i = 0; i < 6; ++i) {
 		if(gbHumanPlayer[i])
 			gbThisNetHumanPlayer[i] = !gbRemoteOn || i == giThisGamePos;
@@ -93,50 +88,115 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
 			gbThisNetHumanPlayer[i] = 0;
 	}
 
-	_read(fd, &this->day, 2u);
-	_read(fd, &this->week, 2u);
-	_read(fd, &this->month, 2u);
-	giCurTurn = this->day + 7 * (this->week - 1) + 28 * (this->month - 1);
-	for(int i = 0; i < 6; ++i)
-		this->players[i].Read(fd);
-	_read(fd, &this->numObelisks, 1u);
-	_read(fd, this->relatedToHeroForHireStatus, 0x36u);
-	_read(fd, this->castles, 7200u);
-	_read(fd, this->field_2773, 0x48u);
-	_read(fd, this->field_27BB, 9u);
-	_read(fd, this->mines, 0x3F0u);
-	_read(fd, this->field_60A6, 144u);
+  gam->day = gs.day();
+  gam->week = gs.week();
+  gam->month = gs.month();
 
-	_read(fd, this->artifactGeneratedRandomly, 0x67u);
-	_read(fd, this->boats, 0x180u);
-	_read(fd, this->boatBuilt, 0x30u);
-	_read(fd, this->obeliskVisitedMasks, 0x30u);
-	_read(fd, &this->field_6395, 1u);
-	_read(fd, &this->field_6396, 1u);
-	_read(fd, &this->field_6397, 1u);
-	_read(fd, this->currentRumor, 301u);
-	_read(fd, this->field_637D, 0x18u);
-	_read(fd, &this->numRumors, 4u);
-	_read(fd, this->rumorIndices, 2 * this->numRumors);
-	_read(fd, &this->numEvents, 4u);
-	_read(fd, this->eventIndices, 2 * this->numEvents);
-	_read(fd, &this->field_657B, 4u);
-	_read(fd, this->_D, 2 * this->field_657B);
-	_read(fd, &iMaxMapExtra, 4u);
-	ppMapExtra = (void**)ALLOC(4 * iMaxMapExtra);
+  giCurTurn = gam->day + 7 * (gam->week - 1) + 28 * (gam->month - 1);
+  
+  for (int i = 0; i < gs.playerData().size(); i++) {
+    //instanceID ?
+    gam->players[i].barrierTentsVisited = gs.playerData().at(i).barrierTentsVisited();
+    gam->players[i].numHeroes = gs.playerData().at(i).numHeroes();
+    gam->players[i].curHeroIdx = gs.playerData().at(i).curHeroIdx();
+    gam->players[i].field_3 = gs.playerData().at(i).field_3();
+    for(int j = 0; j < gs.playerData().at(i).heroesForPurchase().size(); j++) {
+      gam->players[i].heroesForPurchase[j] = gs.playerData().at(i).heroesForPurchase().at(j).hero().get();
+    }
+    for(int j = 0; j < gs.playerData().at(i).heroesOwned().size(); j++) {
+      gam->players[i].heroesOwned[j] = gs.playerData().at(i).heroesOwned().at(j).hero().get();
+    }
+    gam->_B[1] = gs.playerData().at(i).game_B();
+    //gam->players[i]._3 = gs.playerData().at(i)._3();
+    gam->players[i].personality = gs.playerData().at(i).personality();
+    gam->players[i]._2 = gs.playerData().at(i)._2();
+    gam->players[i]._4_1 = gs.playerData().at(i)._4_1();
+    gam->players[i].field_40 = gs.playerData().at(i).field_40();
+    gam->players[i].field_41 = gs.playerData().at(i).field_41();
+    gam->players[i].daysLeftWithoutCastle = gs.playerData().at(i).daysLeftWithoutCastle();
+    gam->players[i].numCastles = gs.playerData().at(i).numCastles();
+    gam->players[i].field_45 = gs.playerData().at(i).field_45();
+    for(int j = 0; j < gs.playerData().at(i).castlesOwned().size(); j++) {
+      gam->players[i].castlesOwned[j] = gs.playerData().at(i).castlesOwned().at(j).castle().get();
+    }
+    for(int j = 0; j < gs.playerData().at(i).resources().size(); j++) {
+      gam->players[i].resources[j] = gs.playerData().at(i).resources().at(j).quantity().get();
+    }
+    for(int j = 0; j < gs.playerData().at(i).field_E7().size(); j++) {
+      gam->players[i].field_E7[j] = gs.playerData().at(i).field_E7().at(j).value().get();
+    }
+    gam->players[i].barrierTentsVisited = gs.playerData().at(i).barrierTentsVisited();
+    for(int j = 0; j < gs.playerData().at(i)._4_2().size(); j++) {
+      gam->players[i]._4_2[j] = gs.playerData().at(i)._4_2().at(j).value().get();
+    }
+  }
+  gam->numObelisks = gs.numObelisks();
+
+  for (int i = 0; i < gs.heroHireStatus().size(); i++) {
+    gam->relatedToHeroForHireStatus[i] = gs.heroHireStatus().at(i).status().get();
+  }
+  for (int i = 0; i < gs.towns().size(); i++) {
+   // gam->castles[i] = gs.heroHireStatus().at(i).status().get();
+  }
+  for (int i = 0; i < gs.field_2773().size(); i++) {
+    gam->field_2773[i] = gs.field_2773().at(i).value().get();
+  }
+  for (int i = 0; i < gs.field_27BB().size(); i++) {
+    gam->field_27BB[i] = gs.field_27BB().at(i).value().get();
+  }
+  for (int i = 0; i < gs.mine().size(); i++) {
+    //gam->mines[i] = gs.field_27BB().at(i).value().get();
+  }
+  for (int i = 0; i < gs.field_60A6().size(); i++) {
+    gam->field_60A6[i] = gs.field_60A6().at(i).value().get();
+  }
+  for (int i = 0; i < gs.randomArtifacts().size(); i++) {
+    gam->artifactGeneratedRandomly[i] = gs.randomArtifacts().at(i).artifact().get();
+  }
+  for (int i = 0; i < gs.boat().size(); i++) {
+    //gam->boats[i] = gs.field_27BB().at(i).value().get();
+  }
+  for (int i = 0; i < gs.boatBuilt().size(); i++) {
+    gam->boatBuilt[i] = gs.boatBuilt().at(i).boat().get();
+  }
+  for (int i = 0; i < gs.obeliskVisitedMasks().size(); i++) {
+    gam->obeliskVisitedMasks[i] = gs.obeliskVisitedMasks().at(i).obelisk().get();
+  }
+  gam->field_6395 = gs.field_6395();
+  gam->field_6396 = gs.field_6396();
+  gam->field_6397 = gs.field_6397();
+  strcpy(gam->currentRumor, gs.currentRumor().c_str());
+  for (int i = 0; i < gs.field_637D().size(); i++) {
+    gam->field_637D[i] = gs.field_637D().at(i).value().get();
+  }
+  gam->numRumors = gs.numRumors();
+  gam->numEvents = gs.numEvents();
+  gam->field_657B = gs.field_657B(); // ???
+  //_read(fd, this->_D, 2 * this->field_657B);
+  iMaxMapExtra = gs.maxMapExtra();
+
+  for (int i = 0; i < gs.rumorIndices().size(); i++) {
+    gam->rumorIndices[i] = gs.rumorIndices().at(i).index().get();
+  }
+  for (int i = 0; i < gs.eventIndices().size(); i++) {
+    gam->eventIndices[i] = gs.eventIndices().at(i).index().get();
+  }
+  ppMapExtra = (void**)ALLOC(4 * iMaxMapExtra);
 	pwSizeOfMapExtra = (short*)ALLOC(2 * iMaxMapExtra);
 	memset(ppMapExtra, 0, 4 * iMaxMapExtra);
 	memset(pwSizeOfMapExtra, 0, 2 * iMaxMapExtra);
-	for(int i = 1; i < iMaxMapExtra; ++i ) {
-		_read(fd, &pwSizeOfMapExtra[i], 2u);
+
+  for(int i = 1; i < iMaxMapExtra; ++i ) {
+		pwSizeOfMapExtra[i] = gs.mapExtra().at(i).ppMapExtra().size();
 		ppMapExtra[i] = ALLOC(pwSizeOfMapExtra[i]);
-		_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
+    for(int j = 0; j < pwSizeOfMapExtra[i]; j++) {
+      *((char*)&ppMapExtra[i] + j) = gs.mapExtra().at(i).ppMapExtra().at(j).value().get();
+    }
 	}
-	_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
-	this->map.Read(fd, 0);
-	SetFileAttributes(tmpFileNameW, GetFileAttributes(tmpFileNameW) & ~FILE_ATTRIBUTE_READONLY);
-	_close(fd);
-	remove(tmpFileName);*/
+  for (int i = 0; i < gs.mapRevealed().size(); i++) {
+    mapRevealed[i] = gs.mapRevealed().at(i).revealed().get();
+  }
+  /*this->map.Read(fd, 0);*/
 }
 
 ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
