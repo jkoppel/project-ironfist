@@ -67,22 +67,21 @@ void editManager::InitializeMap(int random, int width, int height) {
 }
 
 void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) {
-  tag_message evt; // [sp+1Ch] [bp-20h]@4
+  //tag_message evt; // [sp+1Ch] [bp-20h]@4
   int i; // [sp+38h] [bp-4h]@4
-
+  const int WINDOW_LABEL = 101;
+  const int DROPLIST_LABEL = 102;
+  const int FIELD_ID_SPELL_SCROLL_PAYLOAD = 100;
+  const int KEYCODE_UNKNOWN_1 = 54;
   OriginalSpell = *RelatedToSpellIdx;
   gpCellEditDialog = new heroWindow(0, 0, "x_spedit.bin");
   
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.yCoordOrFieldID = 100;
-  GUISetText(gpCellEditDialog, 101, "Spell Scroll");
-  GUISetText(gpCellEditDialog, 102, "Attach Spell");
+  GUISetText(gpCellEditDialog, WINDOW_LABEL, "Spell Scroll");
+  GUISetText(gpCellEditDialog, DROPLIST_LABEL, "Attach Spell");
   for (i = 0; i < NUM_SPELLS; ++i) {
-    GUIDroplistAdd(gpCellEditDialog, 100, gSpellNames[i]);
+    GUIDroplistAdd(gpCellEditDialog, FIELD_ID_SPELL_SCROLL_PAYLOAD, gSpellNames[i]);
   }
-  evt.xCoordOrKeycode = 54;
-  evt.payload = (void *)*RelatedToSpellIdx;
-  GUIBroadcastMessage(gpCellEditDialog, 100, 54, (void *)*RelatedToSpellIdx);
+  GUIBroadcastMessage(gpCellEditDialog, FIELD_ID_SPELL_SCROLL_PAYLOAD, KEYCODE_UNKNOWN_1, (void *)*RelatedToSpellIdx);
   gpWindowManager->DoDialog(gpCellEditDialog, SpellScrollEditDialogCallback, 0);
   delete(gpCellEditDialog);
   if (gpWindowManager->buttonPressedCode != BUTTON_CANCEL) {
@@ -94,26 +93,27 @@ void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) {
 }
 
 int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
-  INPUT_EVENT_CODE evtCode; // [sp+1Ch] [bp-Ch]@1
+  const int FIELD_ID_SPELL_SCROLL_PAYLOAD = 100;
+  const int KEYCODE_UNKNOWN_2 = 10;
 
-  evtCode = msg.eventCode;
-  if (evtCode == INPUT_KEYDOWN_EVENT_CODE) {
+  if (msg.eventCode == INPUT_KEYDOWN_EVENT_CODE) {
     if (msg.xCoordOrKeycode == 1) {
       msg.eventCode = INPUT_GUI_MESSAGE_CODE;
-      msg.yCoordOrFieldID = 10;
+      msg.yCoordOrFieldID = KEYCODE_UNKNOWN_2;
       msg.xCoordOrKeycode = msg.yCoordOrFieldID;
       return 2;
     }
-  } else if (evtCode == INPUT_GUI_MESSAGE_CODE) {
+  } else if (msg.eventCode == INPUT_GUI_MESSAGE_CODE) {
     if (msg.xCoordOrKeycode == 12) {
-      if (msg.yCoordOrFieldID == 100) {
+      if (msg.yCoordOrFieldID == FIELD_ID_SPELL_SCROLL_PAYLOAD) {
         OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, (void *)msg.payload);
+        // "return 1;" will be reached at the end of this function.
       }
     } else if (msg.xCoordOrKeycode == 13) {
       if (msg.yCoordOrFieldID >= BUTTON_CANCEL && msg.yCoordOrFieldID <= BUTTON_OK) {
         gpWindowManager->buttonPressedCode = msg.yCoordOrFieldID;
         msg.eventCode = INPUT_GUI_MESSAGE_CODE;
-        msg.yCoordOrFieldID = 10;
+        msg.yCoordOrFieldID = KEYCODE_UNKNOWN_2;
         msg.xCoordOrKeycode = msg.yCoordOrFieldID;
         return 2;
       }
