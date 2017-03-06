@@ -1570,7 +1570,8 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     && !isRanged
     && this->creatureIdx != CREATURE_TITAN
     && this->creatureIdx != CREATURE_MAGE
-    && this->creatureIdx != CREATURE_ARCHMAGE)
+    && this->creatureIdx != CREATURE_ARCHMAGE
+    && this->creatureIdx != CREATURE_CYBER_BEHEMOTH)
     damagePerUnit /= 2.0;
   if (isRanged && targ->effectStrengths[10])
     damagePerUnit /= 2.0;
