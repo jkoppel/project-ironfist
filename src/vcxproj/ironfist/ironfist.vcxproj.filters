@@ -1,150 +1,500 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\..\cpp\shared\adventure\adv.cpp" />
-    <ClCompile Include="..\..\cpp\shared\adventure\hero.cpp" />
-    <ClCompile Include="..\..\cpp\shared\adventure\map.cpp" />
-    <ClCompile Include="..\..\cpp\shared\adventure\map_events.cpp" />
-    <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
-    <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\combat_spells.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />
-    <ClCompile Include="..\..\cpp\shared\compat.cpp" />
-    <ClCompile Include="..\..\cpp\shared\driver.cpp" />
-    <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp" />
-    <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
-    <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx" />
-    <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
-    <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
-    <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
-    <ClCompile Include="..\..\cpp\shared\init.cpp" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lauxlib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lbaselib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lbitlib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lcode.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lcorolib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lctype.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldblib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldebug.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldo.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldump.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lfunc.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lgc.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\linit.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\liolib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\llex.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lmathlib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lmem.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\loadlib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lobject.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lopcodes.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\loslib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lparser.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstate.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstring.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstrlib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltable.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltablib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltm.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lua.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lundump.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lutf8lib.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lvm.c" />
-    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c" />
-    <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp" />
-    <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
-    <ClCompile Include="..\..\cpp\shared\scripting\callback.cpp" />
-    <ClCompile Include="..\..\cpp\shared\scripting\lua_utils.cpp" />
-    <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp" />
-    <ClCompile Include="..\..\cpp\shared\scripting\consts.cpp" />
-    <ClCompile Include="..\..\cpp\shared\scripting\temporary_file.cpp" />
-    <ClCompile Include="..\..\cpp\shared\sound\cd_music.cpp" />
-    <ClCompile Include="..\..\cpp\shared\spell\spells.cpp" />
-    <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp" />
-    <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\adventure">
+      <UniqueIdentifier>{88939e47-9473-4cdb-80cc-54254ac3bcc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{1ab3b45b-fd44-4565-8ff3-82ce3141a634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\gui">
+      <UniqueIdentifier>{0cb2fa56-fe78-40d2-a55a-c309526b714d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\combat">
+      <UniqueIdentifier>{5d80179b-0621-4bb4-8c00-4c8e1ed7094f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\spells">
+      <UniqueIdentifier>{edd91aef-5ca2-4247-8d6b-261477fd98a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource">
+      <UniqueIdentifier>{dc38e639-f2f0-45da-ac30-d467aedf8902}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\adventure">
+      <UniqueIdentifier>{8f616c70-90cb-46cb-8ec6-05672b4e81d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game">
+      <UniqueIdentifier>{0ab80775-972a-4c79-81b6-fb680b01d5e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\gui">
+      <UniqueIdentifier>{6ac16096-b9db-4611-befd-9500aad32023}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\combat">
+      <UniqueIdentifier>{2ab76d52-d8c1-4ae8-b0f3-7e3c0a2d1597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\resource">
+      <UniqueIdentifier>{df03de58-af92-4c34-bab0-27d58ac51efc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\spells">
+      <UniqueIdentifier>{cbef695e-2180-4e16-aac9-0cc1ed1ef743}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Assembly Interop">
+      <UniqueIdentifier>{da16eb6a-da1f-41dd-b995-1374ddcc3912}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\town">
+      <UniqueIdentifier>{473ac23d-c617-4e5c-9014-4143cc7bf115}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\town">
+      <UniqueIdentifier>{24883924-e3bd-4ec2-83ec-441c388629fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\scripting">
+      <UniqueIdentifier>{f3fbec8d-922e-4ada-b2b6-58f1ca5681c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\scripting">
+      <UniqueIdentifier>{5213638a-8b2f-4639-87ff-f05270f2f3cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib">
+      <UniqueIdentifier>{ca37cf5a-9a5d-4bd8-837e-72b103d47c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\lua">
+      <UniqueIdentifier>{53cae65e-3cd3-45b5-9776-019195ebcfd3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\lua\src">
+      <UniqueIdentifier>{f2502571-6d29-4c8f-9777-59b219f6e654}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\sound">
+      <UniqueIdentifier>{628f1e93-a2a7-481b-b913-eeeb9d5f8499}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\rc">
+      <UniqueIdentifier>{e157905e-3896-457a-9483-8a9605e3203a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\sound">
+      <UniqueIdentifier>{b1532208-54f1-42bc-b01a-032a31121137}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\lib\bass">
+      <UniqueIdentifier>{5966a619-67a3-4cb0-b8ff-7b20409d5688}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
-    <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
-    <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
-    <ClInclude Include="..\..\rc\ironfist\resource.h" />
-    <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
-    <ClInclude Include="..\..\cpp\shared\adventure\map.h" />
-    <ClInclude Include="..\..\cpp\shared\adventure\terrain.h" />
-    <ClInclude Include="..\..\cpp\shared\analytics.h" />
-    <ClInclude Include="..\..\cpp\shared\artifacts.h" />
-    <ClInclude Include="..\..\cpp\shared\base.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\animation.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\combat.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\creatures.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\creatures_xml.hxx" />
-    <ClInclude Include="..\..\cpp\shared\combat\speed.h" />
-    <ClInclude Include="..\..\cpp\shared\driver.h" />
-    <ClInclude Include="..\..\cpp\shared\game\game.h" />
-    <ClInclude Include="..\..\cpp\shared\game\map_xml.hxx" />
-    <ClInclude Include="..\..\cpp\shared\graphics.h" />
-    <ClInclude Include="..\..\cpp\shared\gui\dialog.h" />
-    <ClInclude Include="..\..\cpp\shared\gui\gui.h" />
-    <ClInclude Include="..\..\cpp\shared\import_val.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lapi.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lauxlib.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lcode.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lctype.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ldebug.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ldo.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lfunc.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lgc.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\llex.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\llimits.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lmem.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lobject.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lopcodes.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lparser.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lprefix.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lstate.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lstring.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ltable.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ltm.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lua.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lua.hpp" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\luaconf.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lualib.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lundump.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lvm.h" />
-    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lzio.h" />
-    <ClInclude Include="..\..\cpp\shared\manager.h" />
-    <ClInclude Include="..\..\cpp\shared\mss32.h" />
-    <ClInclude Include="..\..\cpp\shared\prefs.h" />
-    <ClInclude Include="..\..\cpp\shared\registry_prefs.h" />
-    <ClInclude Include="..\..\cpp\shared\resource\resourceManager.h" />
-    <ClInclude Include="..\..\cpp\shared\resource\resources.h" />
-    <ClInclude Include="..\..\cpp\shared\scripting\register.h" />
-    <ClInclude Include="..\..\cpp\shared\scripting\scripting.h" />
-    <ClInclude Include="..\..\cpp\shared\scripting\temporary_file.h" />
-    <ClInclude Include="..\..\cpp\shared\skills.h" />
-    <ClInclude Include="..\..\cpp\shared\sound\sound.h" />
-    <ClInclude Include="..\..\cpp\shared\spell\spells.h" />
-    <ClInclude Include="..\..\cpp\shared\stdafx.h" />
-    <ClInclude Include="..\..\cpp\shared\town\town.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\army.h" />
-    <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
+    <ClCompile Include="..\..\cpp\shared\init.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\artifacts.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\compat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\driver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\adventure\hero.cpp">
+      <Filter>Source Files\adventure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\game\save.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\game\game.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\combat\combat.cpp">
+      <Filter>Source Files\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp">
+      <Filter>Source Files\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx">
+      <Filter>Source Files\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp">
+      <Filter>Source Files\resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\spell\spells.cpp">
+      <Filter>Source Files\spells</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\town\town.cpp">
+      <Filter>Source Files\town</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lauxlib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lbaselib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lbitlib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lcode.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lcorolib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lctype.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldblib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldebug.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldo.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ldump.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lfunc.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lgc.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\linit.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\liolib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\llex.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lmathlib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lmem.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\loadlib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lobject.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lopcodes.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\loslib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lparser.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstate.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstring.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lstrlib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltable.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltablib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\ltm.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lundump.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lvm.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\scripting\lua_utils.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\scripting\consts.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\adventure\adv.cpp">
+      <Filter>Source Files\adventure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\gui\msg.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\combat\combat_spells.cpp">
+      <Filter>Source Files\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\combat\animation.cpp">
+      <Filter>Source Files\combat</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\adventure\map.cpp">
+      <Filter>Source Files\adventure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\adventure\map_events.cpp">
+      <Filter>Source Files\adventure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\analytics.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lua.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\lua\src\lutf8lib.c">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\scripting\temporary_file.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\scripting\callback.cpp">
+      <Filter>Source Files\scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\sound\cd_music.cpp">
+      <Filter>Source Files\sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\combat\army.cpp">
+      <Filter>Source Files\combat</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="..\..\asm\heroes2.asm" />
+    <ClInclude Include="..\..\cpp\shared\stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\artifacts.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\base.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\driver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\graphics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\import_val.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\msg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\mss32.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\prefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\skills.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\adventure\adv.h">
+      <Filter>Header Files\adventure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\game\game.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\game\map_xml.hxx">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\gui.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\combat\creatures_xml.hxx">
+      <Filter>Header Files\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\combat\combat.h">
+      <Filter>Header Files\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\combat\creatures.h">
+      <Filter>Header Files\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\spell\spells.h">
+      <Filter>Header Files\spells</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\resource\resourceManager.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\resource\resources.h">
+      <Filter>Header Files\resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\town\town.h">
+      <Filter>Header Files\town</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\dialog.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\scripting\scripting.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lapi.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lauxlib.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lcode.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lctype.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ldebug.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ldo.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lfunc.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lgc.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\llex.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\llimits.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lmem.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lobject.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lopcodes.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lparser.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lstate.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lstring.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ltable.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\ltm.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lua.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lua.hpp">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\luaconf.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lualib.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lundump.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lvm.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lzio.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\scripting\register.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\adventure\map.h">
+      <Filter>Header Files\adventure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\combat\animation.h">
+      <Filter>Header Files\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\combat\speed.h">
+      <Filter>Header Files\combat</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\sound\sound.h">
+      <Filter>Header Files\sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\adventure\terrain.h">
+      <Filter>Header Files\adventure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\registry_prefs.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\analytics.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\lua\src\lprefix.h">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\scripting\temporary_file.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\rc\ironfist\resource.h">
+      <Filter>Header Files\rc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\scripting\callback.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h">
+      <Filter>Source Files\lib\bass</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\combat\army.h">
+      <Filter>Header Files\combat</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\..\rc\ironfist\ironfist.rc" />
+    <None Include="..\..\asm\heroes2_imports.inc">
+      <Filter>Assembly Interop</Filter>
+    </None>
+    <None Include="..\..\cpp\shared\lib\lua\src\Makefile">
+      <Filter>Source Files\lib\lua\src</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\assets\windows\just_ironfist.ico" />
+    <ResourceCompile Include="..\..\rc\ironfist\ironfist.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\asm\heroes2_imports.inc" />
-    <None Include="..\..\cpp\shared\lib\lua\src\Makefile" />
+    <CustomBuild Include="..\..\asm\heroes2.asm">
+      <Filter>Assembly Interop</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\assets\windows\just_ironfist.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
