@@ -67,7 +67,6 @@ void editManager::InitializeMap(int random, int width, int height) {
 }
 
 void editManager::SpellScrollEditDialog(int *RelatedToSpellIdx) {
-  //tag_message evt; // [sp+1Ch] [bp-20h]@4
   int i; // [sp+38h] [bp-4h]@4
   const int WINDOW_LABEL = 101;
   const int DROPLIST_LABEL = 102;
