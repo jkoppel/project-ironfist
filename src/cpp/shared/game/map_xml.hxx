@@ -256,6 +256,7 @@ namespace ironfist_map
   class table_t;
   class mapVariable_t;
   class gamestate_t;
+  class mapHeader_t;
   class fullMap_t;
   class mapCellExtra_t;
   class mapCell_t;
@@ -286,6 +287,10 @@ namespace ironfist_map
   class eventIndices;
   class _D;
   class mapRevealed;
+  class hasPlayer;
+  class playerMayBeHuman;
+  class playerMayBeComp;
+  class playerFactions;
   class creature;
   class numCreaturesInDwelling;
   class mageGuildSpells;
@@ -2350,6 +2355,23 @@ namespace ironfist_map
     void
     mapRevealed (const mapRevealed_sequence& s);
 
+    // mapHeader
+    // 
+    typedef ::ironfist_map::mapHeader_t mapHeader_type;
+    typedef ::xsd::cxx::tree::sequence< mapHeader_type > mapHeader_sequence;
+    typedef mapHeader_sequence::iterator mapHeader_iterator;
+    typedef mapHeader_sequence::const_iterator mapHeader_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapHeader_type, char > mapHeader_traits;
+
+    const mapHeader_sequence&
+    mapHeader () const;
+
+    mapHeader_sequence&
+    mapHeader ();
+
+    void
+    mapHeader (const mapHeader_sequence& s);
+
     // mapExtra
     // 
     typedef ::ironfist_map::mapExtra_t mapExtra_type;
@@ -2552,12 +2574,570 @@ namespace ironfist_map
     eventIndices_sequence eventIndices_;
     _D_sequence _D_;
     mapRevealed_sequence mapRevealed_;
+    mapHeader_sequence mapHeader_;
     mapExtra_sequence mapExtra_;
     playerData_sequence playerData_;
     towns_sequence towns_;
     mine_sequence mine_;
     boat_sequence boat_;
     fullMap_sequence fullMap_;
+  };
+
+  class mapHeader_t: public ::xml_schema::type
+  {
+    public:
+    // field_0
+    // 
+    typedef ::xml_schema::int_ field_0_type;
+    typedef ::xsd::cxx::tree::traits< field_0_type, char > field_0_traits;
+
+    const field_0_type&
+    field_0 () const;
+
+    field_0_type&
+    field_0 ();
+
+    void
+    field_0 (const field_0_type& x);
+
+    // field_4
+    // 
+    typedef ::xml_schema::int_ field_4_type;
+    typedef ::xsd::cxx::tree::traits< field_4_type, char > field_4_traits;
+
+    const field_4_type&
+    field_4 () const;
+
+    field_4_type&
+    field_4 ();
+
+    void
+    field_4 (const field_4_type& x);
+
+    // width
+    // 
+    typedef ::xml_schema::int_ width_type;
+    typedef ::xsd::cxx::tree::traits< width_type, char > width_traits;
+
+    const width_type&
+    width () const;
+
+    width_type&
+    width ();
+
+    void
+    width (const width_type& x);
+
+    // height
+    // 
+    typedef ::xml_schema::int_ height_type;
+    typedef ::xsd::cxx::tree::traits< height_type, char > height_traits;
+
+    const height_type&
+    height () const;
+
+    height_type&
+    height ();
+
+    void
+    height (const height_type& x);
+
+    // numPlayers
+    // 
+    typedef ::xml_schema::int_ numPlayers_type;
+    typedef ::xsd::cxx::tree::traits< numPlayers_type, char > numPlayers_traits;
+
+    const numPlayers_type&
+    numPlayers () const;
+
+    numPlayers_type&
+    numPlayers ();
+
+    void
+    numPlayers (const numPlayers_type& x);
+
+    // minHumans
+    // 
+    typedef ::xml_schema::int_ minHumans_type;
+    typedef ::xsd::cxx::tree::traits< minHumans_type, char > minHumans_traits;
+
+    const minHumans_type&
+    minHumans () const;
+
+    minHumans_type&
+    minHumans ();
+
+    void
+    minHumans (const minHumans_type& x);
+
+    // maxHumans
+    // 
+    typedef ::xml_schema::int_ maxHumans_type;
+    typedef ::xsd::cxx::tree::traits< maxHumans_type, char > maxHumans_traits;
+
+    const maxHumans_type&
+    maxHumans () const;
+
+    maxHumans_type&
+    maxHumans ();
+
+    void
+    maxHumans (const maxHumans_type& x);
+
+    // winConditionType
+    // 
+    typedef ::xml_schema::int_ winConditionType_type;
+    typedef ::xsd::cxx::tree::traits< winConditionType_type, char > winConditionType_traits;
+
+    const winConditionType_type&
+    winConditionType () const;
+
+    winConditionType_type&
+    winConditionType ();
+
+    void
+    winConditionType (const winConditionType_type& x);
+
+    // field_1E
+    // 
+    typedef ::xml_schema::int_ field_1E_type;
+    typedef ::xsd::cxx::tree::traits< field_1E_type, char > field_1E_traits;
+
+    const field_1E_type&
+    field_1E () const;
+
+    field_1E_type&
+    field_1E ();
+
+    void
+    field_1E (const field_1E_type& x);
+
+    // allowDefeatAllVictory
+    // 
+    typedef ::xml_schema::int_ allowDefeatAllVictory_type;
+    typedef ::xsd::cxx::tree::traits< allowDefeatAllVictory_type, char > allowDefeatAllVictory_traits;
+
+    const allowDefeatAllVictory_type&
+    allowDefeatAllVictory () const;
+
+    allowDefeatAllVictory_type&
+    allowDefeatAllVictory ();
+
+    void
+    allowDefeatAllVictory (const allowDefeatAllVictory_type& x);
+
+    // winConditionArgument
+    // 
+    typedef ::xml_schema::int_ winConditionArgument_type;
+    typedef ::xsd::cxx::tree::traits< winConditionArgument_type, char > winConditionArgument_traits;
+
+    const winConditionArgument_type&
+    winConditionArgument () const;
+
+    winConditionArgument_type&
+    winConditionArgument ();
+
+    void
+    winConditionArgument (const winConditionArgument_type& x);
+
+    // field_22
+    // 
+    typedef ::xml_schema::int_ field_22_type;
+    typedef ::xsd::cxx::tree::traits< field_22_type, char > field_22_traits;
+
+    const field_22_type&
+    field_22 () const;
+
+    field_22_type&
+    field_22 ();
+
+    void
+    field_22 (const field_22_type& x);
+
+    // field_23
+    // 
+    typedef ::xml_schema::int_ field_23_type;
+    typedef ::xsd::cxx::tree::traits< field_23_type, char > field_23_traits;
+
+    const field_23_type&
+    field_23 () const;
+
+    field_23_type&
+    field_23 ();
+
+    void
+    field_23 (const field_23_type& x);
+
+    // field_24
+    // 
+    typedef ::xml_schema::int_ field_24_type;
+    typedef ::xsd::cxx::tree::traits< field_24_type, char > field_24_traits;
+
+    const field_24_type&
+    field_24 () const;
+
+    field_24_type&
+    field_24 ();
+
+    void
+    field_24 (const field_24_type& x);
+
+    // noStartingHeroInCastle
+    // 
+    typedef ::xml_schema::int_ noStartingHeroInCastle_type;
+    typedef ::xsd::cxx::tree::traits< noStartingHeroInCastle_type, char > noStartingHeroInCastle_traits;
+
+    const noStartingHeroInCastle_type&
+    noStartingHeroInCastle () const;
+
+    noStartingHeroInCastle_type&
+    noStartingHeroInCastle ();
+
+    void
+    noStartingHeroInCastle (const noStartingHeroInCastle_type& x);
+
+    // field_2C
+    // 
+    typedef ::xml_schema::int_ field_2C_type;
+    typedef ::xsd::cxx::tree::traits< field_2C_type, char > field_2C_traits;
+
+    const field_2C_type&
+    field_2C () const;
+
+    field_2C_type&
+    field_2C ();
+
+    void
+    field_2C (const field_2C_type& x);
+
+    // field_2E
+    // 
+    typedef ::xml_schema::int_ field_2E_type;
+    typedef ::xsd::cxx::tree::traits< field_2E_type, char > field_2E_traits;
+
+    const field_2E_type&
+    field_2E () const;
+
+    field_2E_type&
+    field_2E ();
+
+    void
+    field_2E (const field_2E_type& x);
+
+    // field_32
+    // 
+    typedef ::xml_schema::int_ field_32_type;
+    typedef ::xsd::cxx::tree::traits< field_32_type, char > field_32_traits;
+
+    const field_32_type&
+    field_32 () const;
+
+    field_32_type&
+    field_32 ();
+
+    void
+    field_32 (const field_32_type& x);
+
+    // field_36
+    // 
+    typedef ::xml_schema::int_ field_36_type;
+    typedef ::xsd::cxx::tree::traits< field_36_type, char > field_36_traits;
+
+    const field_36_type&
+    field_36 () const;
+
+    field_36_type&
+    field_36 ();
+
+    void
+    field_36 (const field_36_type& x);
+
+    // field_37
+    // 
+    typedef ::xml_schema::int_ field_37_type;
+    typedef ::xsd::cxx::tree::traits< field_37_type, char > field_37_traits;
+
+    const field_37_type&
+    field_37 () const;
+
+    field_37_type&
+    field_37 ();
+
+    void
+    field_37 (const field_37_type& x);
+
+    // nextTownName
+    // 
+    typedef ::xml_schema::int_ nextTownName_type;
+    typedef ::xsd::cxx::tree::traits< nextTownName_type, char > nextTownName_traits;
+
+    const nextTownName_type&
+    nextTownName () const;
+
+    nextTownName_type&
+    nextTownName ();
+
+    void
+    nextTownName (const nextTownName_type& x);
+
+    // field_39
+    // 
+    typedef ::xml_schema::int_ field_39_type;
+    typedef ::xsd::cxx::tree::traits< field_39_type, char > field_39_traits;
+
+    const field_39_type&
+    field_39 () const;
+
+    field_39_type&
+    field_39 ();
+
+    void
+    field_39 (const field_39_type& x);
+
+    // name
+    // 
+    typedef ::xml_schema::string name_type;
+    typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
+
+    const name_type&
+    name () const;
+
+    name_type&
+    name ();
+
+    void
+    name (const name_type& x);
+
+    void
+    name (::std::auto_ptr< name_type > p);
+
+    // description
+    // 
+    typedef ::xml_schema::string description_type;
+    typedef ::xsd::cxx::tree::traits< description_type, char > description_traits;
+
+    const description_type&
+    description () const;
+
+    description_type&
+    description ();
+
+    void
+    description (const description_type& x);
+
+    void
+    description (::std::auto_ptr< description_type > p);
+
+    // field_1A0
+    // 
+    typedef ::xml_schema::int_ field_1A0_type;
+    typedef ::xsd::cxx::tree::traits< field_1A0_type, char > field_1A0_traits;
+
+    const field_1A0_type&
+    field_1A0 () const;
+
+    field_1A0_type&
+    field_1A0 ();
+
+    void
+    field_1A0 (const field_1A0_type& x);
+
+    // field_1A1
+    // 
+    typedef ::xml_schema::int_ field_1A1_type;
+    typedef ::xsd::cxx::tree::traits< field_1A1_type, char > field_1A1_traits;
+
+    const field_1A1_type&
+    field_1A1 () const;
+
+    field_1A1_type&
+    field_1A1 ();
+
+    void
+    field_1A1 (const field_1A1_type& x);
+
+    // numRumors
+    // 
+    typedef ::xml_schema::int_ numRumors_type;
+    typedef ::xsd::cxx::tree::traits< numRumors_type, char > numRumors_traits;
+
+    const numRumors_type&
+    numRumors () const;
+
+    numRumors_type&
+    numRumors ();
+
+    void
+    numRumors (const numRumors_type& x);
+
+    // numEvents
+    // 
+    typedef ::xml_schema::int_ numEvents_type;
+    typedef ::xsd::cxx::tree::traits< numEvents_type, char > numEvents_traits;
+
+    const numEvents_type&
+    numEvents () const;
+
+    numEvents_type&
+    numEvents ();
+
+    void
+    numEvents (const numEvents_type& x);
+
+    // hasPlayer
+    // 
+    typedef ::ironfist_map::hasPlayer hasPlayer_type;
+    typedef ::xsd::cxx::tree::sequence< hasPlayer_type > hasPlayer_sequence;
+    typedef hasPlayer_sequence::iterator hasPlayer_iterator;
+    typedef hasPlayer_sequence::const_iterator hasPlayer_const_iterator;
+    typedef ::xsd::cxx::tree::traits< hasPlayer_type, char > hasPlayer_traits;
+
+    const hasPlayer_sequence&
+    hasPlayer () const;
+
+    hasPlayer_sequence&
+    hasPlayer ();
+
+    void
+    hasPlayer (const hasPlayer_sequence& s);
+
+    // playerMayBeHuman
+    // 
+    typedef ::ironfist_map::playerMayBeHuman playerMayBeHuman_type;
+    typedef ::xsd::cxx::tree::sequence< playerMayBeHuman_type > playerMayBeHuman_sequence;
+    typedef playerMayBeHuman_sequence::iterator playerMayBeHuman_iterator;
+    typedef playerMayBeHuman_sequence::const_iterator playerMayBeHuman_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerMayBeHuman_type, char > playerMayBeHuman_traits;
+
+    const playerMayBeHuman_sequence&
+    playerMayBeHuman () const;
+
+    playerMayBeHuman_sequence&
+    playerMayBeHuman ();
+
+    void
+    playerMayBeHuman (const playerMayBeHuman_sequence& s);
+
+    // playerMayBeComp
+    // 
+    typedef ::ironfist_map::playerMayBeComp playerMayBeComp_type;
+    typedef ::xsd::cxx::tree::sequence< playerMayBeComp_type > playerMayBeComp_sequence;
+    typedef playerMayBeComp_sequence::iterator playerMayBeComp_iterator;
+    typedef playerMayBeComp_sequence::const_iterator playerMayBeComp_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerMayBeComp_type, char > playerMayBeComp_traits;
+
+    const playerMayBeComp_sequence&
+    playerMayBeComp () const;
+
+    playerMayBeComp_sequence&
+    playerMayBeComp ();
+
+    void
+    playerMayBeComp (const playerMayBeComp_sequence& s);
+
+    // playerFactions
+    // 
+    typedef ::ironfist_map::playerFactions playerFactions_type;
+    typedef ::xsd::cxx::tree::sequence< playerFactions_type > playerFactions_sequence;
+    typedef playerFactions_sequence::iterator playerFactions_iterator;
+    typedef playerFactions_sequence::const_iterator playerFactions_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerFactions_type, char > playerFactions_traits;
+
+    const playerFactions_sequence&
+    playerFactions () const;
+
+    playerFactions_sequence&
+    playerFactions ();
+
+    void
+    playerFactions (const playerFactions_sequence& s);
+
+    // Constructors.
+    //
+    mapHeader_t (const field_0_type&,
+                 const field_4_type&,
+                 const width_type&,
+                 const height_type&,
+                 const numPlayers_type&,
+                 const minHumans_type&,
+                 const maxHumans_type&,
+                 const winConditionType_type&,
+                 const field_1E_type&,
+                 const allowDefeatAllVictory_type&,
+                 const winConditionArgument_type&,
+                 const field_22_type&,
+                 const field_23_type&,
+                 const field_24_type&,
+                 const noStartingHeroInCastle_type&,
+                 const field_2C_type&,
+                 const field_2E_type&,
+                 const field_32_type&,
+                 const field_36_type&,
+                 const field_37_type&,
+                 const nextTownName_type&,
+                 const field_39_type&,
+                 const name_type&,
+                 const description_type&,
+                 const field_1A0_type&,
+                 const field_1A1_type&,
+                 const numRumors_type&,
+                 const numEvents_type&);
+
+    mapHeader_t (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    mapHeader_t (const mapHeader_t& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual mapHeader_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapHeader_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< field_0_type > field_0_;
+    ::xsd::cxx::tree::one< field_4_type > field_4_;
+    ::xsd::cxx::tree::one< width_type > width_;
+    ::xsd::cxx::tree::one< height_type > height_;
+    ::xsd::cxx::tree::one< numPlayers_type > numPlayers_;
+    ::xsd::cxx::tree::one< minHumans_type > minHumans_;
+    ::xsd::cxx::tree::one< maxHumans_type > maxHumans_;
+    ::xsd::cxx::tree::one< winConditionType_type > winConditionType_;
+    ::xsd::cxx::tree::one< field_1E_type > field_1E_;
+    ::xsd::cxx::tree::one< allowDefeatAllVictory_type > allowDefeatAllVictory_;
+    ::xsd::cxx::tree::one< winConditionArgument_type > winConditionArgument_;
+    ::xsd::cxx::tree::one< field_22_type > field_22_;
+    ::xsd::cxx::tree::one< field_23_type > field_23_;
+    ::xsd::cxx::tree::one< field_24_type > field_24_;
+    ::xsd::cxx::tree::one< noStartingHeroInCastle_type > noStartingHeroInCastle_;
+    ::xsd::cxx::tree::one< field_2C_type > field_2C_;
+    ::xsd::cxx::tree::one< field_2E_type > field_2E_;
+    ::xsd::cxx::tree::one< field_32_type > field_32_;
+    ::xsd::cxx::tree::one< field_36_type > field_36_;
+    ::xsd::cxx::tree::one< field_37_type > field_37_;
+    ::xsd::cxx::tree::one< nextTownName_type > nextTownName_;
+    ::xsd::cxx::tree::one< field_39_type > field_39_;
+    ::xsd::cxx::tree::one< name_type > name_;
+    ::xsd::cxx::tree::one< description_type > description_;
+    ::xsd::cxx::tree::one< field_1A0_type > field_1A0_;
+    ::xsd::cxx::tree::one< field_1A1_type > field_1A1_;
+    ::xsd::cxx::tree::one< numRumors_type > numRumors_;
+    ::xsd::cxx::tree::one< numEvents_type > numEvents_;
+    hasPlayer_sequence hasPlayer_;
+    playerMayBeHuman_sequence playerMayBeHuman_;
+    playerMayBeComp_sequence playerMayBeComp_;
+    playerFactions_sequence playerFactions_;
   };
 
   class fullMap_t: public ::xml_schema::type
@@ -5963,6 +6543,194 @@ namespace ironfist_map
     revealed_optional revealed_;
   };
 
+  class hasPlayer: public ::xml_schema::type
+  {
+    public:
+    // player
+    // 
+    typedef ::xml_schema::int_ player_type;
+    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
+
+    const player_type&
+    player () const;
+
+    player_type&
+    player ();
+
+    void
+    player (const player_type& x);
+
+    // Constructors.
+    //
+    hasPlayer (const player_type&);
+
+    hasPlayer (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    hasPlayer (const hasPlayer& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    virtual hasPlayer*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~hasPlayer ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< player_type > player_;
+  };
+
+  class playerMayBeHuman: public ::xml_schema::type
+  {
+    public:
+    // player
+    // 
+    typedef ::xml_schema::int_ player_type;
+    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
+
+    const player_type&
+    player () const;
+
+    player_type&
+    player ();
+
+    void
+    player (const player_type& x);
+
+    // Constructors.
+    //
+    playerMayBeHuman (const player_type&);
+
+    playerMayBeHuman (const ::xercesc::DOMElement& e,
+                      ::xml_schema::flags f = 0,
+                      ::xml_schema::container* c = 0);
+
+    playerMayBeHuman (const playerMayBeHuman& x,
+                      ::xml_schema::flags f = 0,
+                      ::xml_schema::container* c = 0);
+
+    virtual playerMayBeHuman*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~playerMayBeHuman ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< player_type > player_;
+  };
+
+  class playerMayBeComp: public ::xml_schema::type
+  {
+    public:
+    // player
+    // 
+    typedef ::xml_schema::int_ player_type;
+    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
+
+    const player_type&
+    player () const;
+
+    player_type&
+    player ();
+
+    void
+    player (const player_type& x);
+
+    // Constructors.
+    //
+    playerMayBeComp (const player_type&);
+
+    playerMayBeComp (const ::xercesc::DOMElement& e,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+    playerMayBeComp (const playerMayBeComp& x,
+                     ::xml_schema::flags f = 0,
+                     ::xml_schema::container* c = 0);
+
+    virtual playerMayBeComp*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~playerMayBeComp ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< player_type > player_;
+  };
+
+  class playerFactions: public ::xml_schema::type
+  {
+    public:
+    // player
+    // 
+    typedef ::xml_schema::int_ player_type;
+    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
+
+    const player_type&
+    player () const;
+
+    player_type&
+    player ();
+
+    void
+    player (const player_type& x);
+
+    // Constructors.
+    //
+    playerFactions (const player_type&);
+
+    playerFactions (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    playerFactions (const playerFactions& x,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    virtual playerFactions*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~playerFactions ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< player_type > player_;
+  };
+
   class creature: public ::xml_schema::type
   {
     public:
@@ -7414,6 +8182,9 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement&, const gamestate_t&);
 
   void
+  operator<< (::xercesc::DOMElement&, const mapHeader_t&);
+
+  void
   operator<< (::xercesc::DOMElement&, const fullMap_t&);
 
   void
@@ -7978,6 +8749,18 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const mapRevealed&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const hasPlayer&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const playerMayBeHuman&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const playerMayBeComp&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const playerFactions&);
 
   void
   operator<< (::xercesc::DOMElement&, const creature&);

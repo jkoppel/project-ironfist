@@ -2181,6 +2181,24 @@ namespace ironfist_map
     this->mapRevealed_ = s;
   }
 
+  const gamestate_t::mapHeader_sequence& gamestate_t::
+  mapHeader () const
+  {
+    return this->mapHeader_;
+  }
+
+  gamestate_t::mapHeader_sequence& gamestate_t::
+  mapHeader ()
+  {
+    return this->mapHeader_;
+  }
+
+  void gamestate_t::
+  mapHeader (const mapHeader_sequence& s)
+  {
+    this->mapHeader_ = s;
+  }
+
   const gamestate_t::mapExtra_sequence& gamestate_t::
   mapExtra () const
   {
@@ -2287,6 +2305,598 @@ namespace ironfist_map
   fullMap (const fullMap_sequence& s)
   {
     this->fullMap_ = s;
+  }
+
+
+  // mapHeader_t
+  // 
+
+  const mapHeader_t::field_0_type& mapHeader_t::
+  field_0 () const
+  {
+    return this->field_0_.get ();
+  }
+
+  mapHeader_t::field_0_type& mapHeader_t::
+  field_0 ()
+  {
+    return this->field_0_.get ();
+  }
+
+  void mapHeader_t::
+  field_0 (const field_0_type& x)
+  {
+    this->field_0_.set (x);
+  }
+
+  const mapHeader_t::field_4_type& mapHeader_t::
+  field_4 () const
+  {
+    return this->field_4_.get ();
+  }
+
+  mapHeader_t::field_4_type& mapHeader_t::
+  field_4 ()
+  {
+    return this->field_4_.get ();
+  }
+
+  void mapHeader_t::
+  field_4 (const field_4_type& x)
+  {
+    this->field_4_.set (x);
+  }
+
+  const mapHeader_t::width_type& mapHeader_t::
+  width () const
+  {
+    return this->width_.get ();
+  }
+
+  mapHeader_t::width_type& mapHeader_t::
+  width ()
+  {
+    return this->width_.get ();
+  }
+
+  void mapHeader_t::
+  width (const width_type& x)
+  {
+    this->width_.set (x);
+  }
+
+  const mapHeader_t::height_type& mapHeader_t::
+  height () const
+  {
+    return this->height_.get ();
+  }
+
+  mapHeader_t::height_type& mapHeader_t::
+  height ()
+  {
+    return this->height_.get ();
+  }
+
+  void mapHeader_t::
+  height (const height_type& x)
+  {
+    this->height_.set (x);
+  }
+
+  const mapHeader_t::numPlayers_type& mapHeader_t::
+  numPlayers () const
+  {
+    return this->numPlayers_.get ();
+  }
+
+  mapHeader_t::numPlayers_type& mapHeader_t::
+  numPlayers ()
+  {
+    return this->numPlayers_.get ();
+  }
+
+  void mapHeader_t::
+  numPlayers (const numPlayers_type& x)
+  {
+    this->numPlayers_.set (x);
+  }
+
+  const mapHeader_t::minHumans_type& mapHeader_t::
+  minHumans () const
+  {
+    return this->minHumans_.get ();
+  }
+
+  mapHeader_t::minHumans_type& mapHeader_t::
+  minHumans ()
+  {
+    return this->minHumans_.get ();
+  }
+
+  void mapHeader_t::
+  minHumans (const minHumans_type& x)
+  {
+    this->minHumans_.set (x);
+  }
+
+  const mapHeader_t::maxHumans_type& mapHeader_t::
+  maxHumans () const
+  {
+    return this->maxHumans_.get ();
+  }
+
+  mapHeader_t::maxHumans_type& mapHeader_t::
+  maxHumans ()
+  {
+    return this->maxHumans_.get ();
+  }
+
+  void mapHeader_t::
+  maxHumans (const maxHumans_type& x)
+  {
+    this->maxHumans_.set (x);
+  }
+
+  const mapHeader_t::winConditionType_type& mapHeader_t::
+  winConditionType () const
+  {
+    return this->winConditionType_.get ();
+  }
+
+  mapHeader_t::winConditionType_type& mapHeader_t::
+  winConditionType ()
+  {
+    return this->winConditionType_.get ();
+  }
+
+  void mapHeader_t::
+  winConditionType (const winConditionType_type& x)
+  {
+    this->winConditionType_.set (x);
+  }
+
+  const mapHeader_t::field_1E_type& mapHeader_t::
+  field_1E () const
+  {
+    return this->field_1E_.get ();
+  }
+
+  mapHeader_t::field_1E_type& mapHeader_t::
+  field_1E ()
+  {
+    return this->field_1E_.get ();
+  }
+
+  void mapHeader_t::
+  field_1E (const field_1E_type& x)
+  {
+    this->field_1E_.set (x);
+  }
+
+  const mapHeader_t::allowDefeatAllVictory_type& mapHeader_t::
+  allowDefeatAllVictory () const
+  {
+    return this->allowDefeatAllVictory_.get ();
+  }
+
+  mapHeader_t::allowDefeatAllVictory_type& mapHeader_t::
+  allowDefeatAllVictory ()
+  {
+    return this->allowDefeatAllVictory_.get ();
+  }
+
+  void mapHeader_t::
+  allowDefeatAllVictory (const allowDefeatAllVictory_type& x)
+  {
+    this->allowDefeatAllVictory_.set (x);
+  }
+
+  const mapHeader_t::winConditionArgument_type& mapHeader_t::
+  winConditionArgument () const
+  {
+    return this->winConditionArgument_.get ();
+  }
+
+  mapHeader_t::winConditionArgument_type& mapHeader_t::
+  winConditionArgument ()
+  {
+    return this->winConditionArgument_.get ();
+  }
+
+  void mapHeader_t::
+  winConditionArgument (const winConditionArgument_type& x)
+  {
+    this->winConditionArgument_.set (x);
+  }
+
+  const mapHeader_t::field_22_type& mapHeader_t::
+  field_22 () const
+  {
+    return this->field_22_.get ();
+  }
+
+  mapHeader_t::field_22_type& mapHeader_t::
+  field_22 ()
+  {
+    return this->field_22_.get ();
+  }
+
+  void mapHeader_t::
+  field_22 (const field_22_type& x)
+  {
+    this->field_22_.set (x);
+  }
+
+  const mapHeader_t::field_23_type& mapHeader_t::
+  field_23 () const
+  {
+    return this->field_23_.get ();
+  }
+
+  mapHeader_t::field_23_type& mapHeader_t::
+  field_23 ()
+  {
+    return this->field_23_.get ();
+  }
+
+  void mapHeader_t::
+  field_23 (const field_23_type& x)
+  {
+    this->field_23_.set (x);
+  }
+
+  const mapHeader_t::field_24_type& mapHeader_t::
+  field_24 () const
+  {
+    return this->field_24_.get ();
+  }
+
+  mapHeader_t::field_24_type& mapHeader_t::
+  field_24 ()
+  {
+    return this->field_24_.get ();
+  }
+
+  void mapHeader_t::
+  field_24 (const field_24_type& x)
+  {
+    this->field_24_.set (x);
+  }
+
+  const mapHeader_t::noStartingHeroInCastle_type& mapHeader_t::
+  noStartingHeroInCastle () const
+  {
+    return this->noStartingHeroInCastle_.get ();
+  }
+
+  mapHeader_t::noStartingHeroInCastle_type& mapHeader_t::
+  noStartingHeroInCastle ()
+  {
+    return this->noStartingHeroInCastle_.get ();
+  }
+
+  void mapHeader_t::
+  noStartingHeroInCastle (const noStartingHeroInCastle_type& x)
+  {
+    this->noStartingHeroInCastle_.set (x);
+  }
+
+  const mapHeader_t::field_2C_type& mapHeader_t::
+  field_2C () const
+  {
+    return this->field_2C_.get ();
+  }
+
+  mapHeader_t::field_2C_type& mapHeader_t::
+  field_2C ()
+  {
+    return this->field_2C_.get ();
+  }
+
+  void mapHeader_t::
+  field_2C (const field_2C_type& x)
+  {
+    this->field_2C_.set (x);
+  }
+
+  const mapHeader_t::field_2E_type& mapHeader_t::
+  field_2E () const
+  {
+    return this->field_2E_.get ();
+  }
+
+  mapHeader_t::field_2E_type& mapHeader_t::
+  field_2E ()
+  {
+    return this->field_2E_.get ();
+  }
+
+  void mapHeader_t::
+  field_2E (const field_2E_type& x)
+  {
+    this->field_2E_.set (x);
+  }
+
+  const mapHeader_t::field_32_type& mapHeader_t::
+  field_32 () const
+  {
+    return this->field_32_.get ();
+  }
+
+  mapHeader_t::field_32_type& mapHeader_t::
+  field_32 ()
+  {
+    return this->field_32_.get ();
+  }
+
+  void mapHeader_t::
+  field_32 (const field_32_type& x)
+  {
+    this->field_32_.set (x);
+  }
+
+  const mapHeader_t::field_36_type& mapHeader_t::
+  field_36 () const
+  {
+    return this->field_36_.get ();
+  }
+
+  mapHeader_t::field_36_type& mapHeader_t::
+  field_36 ()
+  {
+    return this->field_36_.get ();
+  }
+
+  void mapHeader_t::
+  field_36 (const field_36_type& x)
+  {
+    this->field_36_.set (x);
+  }
+
+  const mapHeader_t::field_37_type& mapHeader_t::
+  field_37 () const
+  {
+    return this->field_37_.get ();
+  }
+
+  mapHeader_t::field_37_type& mapHeader_t::
+  field_37 ()
+  {
+    return this->field_37_.get ();
+  }
+
+  void mapHeader_t::
+  field_37 (const field_37_type& x)
+  {
+    this->field_37_.set (x);
+  }
+
+  const mapHeader_t::nextTownName_type& mapHeader_t::
+  nextTownName () const
+  {
+    return this->nextTownName_.get ();
+  }
+
+  mapHeader_t::nextTownName_type& mapHeader_t::
+  nextTownName ()
+  {
+    return this->nextTownName_.get ();
+  }
+
+  void mapHeader_t::
+  nextTownName (const nextTownName_type& x)
+  {
+    this->nextTownName_.set (x);
+  }
+
+  const mapHeader_t::field_39_type& mapHeader_t::
+  field_39 () const
+  {
+    return this->field_39_.get ();
+  }
+
+  mapHeader_t::field_39_type& mapHeader_t::
+  field_39 ()
+  {
+    return this->field_39_.get ();
+  }
+
+  void mapHeader_t::
+  field_39 (const field_39_type& x)
+  {
+    this->field_39_.set (x);
+  }
+
+  const mapHeader_t::name_type& mapHeader_t::
+  name () const
+  {
+    return this->name_.get ();
+  }
+
+  mapHeader_t::name_type& mapHeader_t::
+  name ()
+  {
+    return this->name_.get ();
+  }
+
+  void mapHeader_t::
+  name (const name_type& x)
+  {
+    this->name_.set (x);
+  }
+
+  void mapHeader_t::
+  name (::std::auto_ptr< name_type > x)
+  {
+    this->name_.set (x);
+  }
+
+  const mapHeader_t::description_type& mapHeader_t::
+  description () const
+  {
+    return this->description_.get ();
+  }
+
+  mapHeader_t::description_type& mapHeader_t::
+  description ()
+  {
+    return this->description_.get ();
+  }
+
+  void mapHeader_t::
+  description (const description_type& x)
+  {
+    this->description_.set (x);
+  }
+
+  void mapHeader_t::
+  description (::std::auto_ptr< description_type > x)
+  {
+    this->description_.set (x);
+  }
+
+  const mapHeader_t::field_1A0_type& mapHeader_t::
+  field_1A0 () const
+  {
+    return this->field_1A0_.get ();
+  }
+
+  mapHeader_t::field_1A0_type& mapHeader_t::
+  field_1A0 ()
+  {
+    return this->field_1A0_.get ();
+  }
+
+  void mapHeader_t::
+  field_1A0 (const field_1A0_type& x)
+  {
+    this->field_1A0_.set (x);
+  }
+
+  const mapHeader_t::field_1A1_type& mapHeader_t::
+  field_1A1 () const
+  {
+    return this->field_1A1_.get ();
+  }
+
+  mapHeader_t::field_1A1_type& mapHeader_t::
+  field_1A1 ()
+  {
+    return this->field_1A1_.get ();
+  }
+
+  void mapHeader_t::
+  field_1A1 (const field_1A1_type& x)
+  {
+    this->field_1A1_.set (x);
+  }
+
+  const mapHeader_t::numRumors_type& mapHeader_t::
+  numRumors () const
+  {
+    return this->numRumors_.get ();
+  }
+
+  mapHeader_t::numRumors_type& mapHeader_t::
+  numRumors ()
+  {
+    return this->numRumors_.get ();
+  }
+
+  void mapHeader_t::
+  numRumors (const numRumors_type& x)
+  {
+    this->numRumors_.set (x);
+  }
+
+  const mapHeader_t::numEvents_type& mapHeader_t::
+  numEvents () const
+  {
+    return this->numEvents_.get ();
+  }
+
+  mapHeader_t::numEvents_type& mapHeader_t::
+  numEvents ()
+  {
+    return this->numEvents_.get ();
+  }
+
+  void mapHeader_t::
+  numEvents (const numEvents_type& x)
+  {
+    this->numEvents_.set (x);
+  }
+
+  const mapHeader_t::hasPlayer_sequence& mapHeader_t::
+  hasPlayer () const
+  {
+    return this->hasPlayer_;
+  }
+
+  mapHeader_t::hasPlayer_sequence& mapHeader_t::
+  hasPlayer ()
+  {
+    return this->hasPlayer_;
+  }
+
+  void mapHeader_t::
+  hasPlayer (const hasPlayer_sequence& s)
+  {
+    this->hasPlayer_ = s;
+  }
+
+  const mapHeader_t::playerMayBeHuman_sequence& mapHeader_t::
+  playerMayBeHuman () const
+  {
+    return this->playerMayBeHuman_;
+  }
+
+  mapHeader_t::playerMayBeHuman_sequence& mapHeader_t::
+  playerMayBeHuman ()
+  {
+    return this->playerMayBeHuman_;
+  }
+
+  void mapHeader_t::
+  playerMayBeHuman (const playerMayBeHuman_sequence& s)
+  {
+    this->playerMayBeHuman_ = s;
+  }
+
+  const mapHeader_t::playerMayBeComp_sequence& mapHeader_t::
+  playerMayBeComp () const
+  {
+    return this->playerMayBeComp_;
+  }
+
+  mapHeader_t::playerMayBeComp_sequence& mapHeader_t::
+  playerMayBeComp ()
+  {
+    return this->playerMayBeComp_;
+  }
+
+  void mapHeader_t::
+  playerMayBeComp (const playerMayBeComp_sequence& s)
+  {
+    this->playerMayBeComp_ = s;
+  }
+
+  const mapHeader_t::playerFactions_sequence& mapHeader_t::
+  playerFactions () const
+  {
+    return this->playerFactions_;
+  }
+
+  mapHeader_t::playerFactions_sequence& mapHeader_t::
+  playerFactions ()
+  {
+    return this->playerFactions_;
+  }
+
+  void mapHeader_t::
+  playerFactions (const playerFactions_sequence& s)
+  {
+    this->playerFactions_ = s;
   }
 
 
@@ -5230,6 +5840,94 @@ namespace ironfist_map
   }
 
 
+  // hasPlayer
+  // 
+
+  const hasPlayer::player_type& hasPlayer::
+  player () const
+  {
+    return this->player_.get ();
+  }
+
+  hasPlayer::player_type& hasPlayer::
+  player ()
+  {
+    return this->player_.get ();
+  }
+
+  void hasPlayer::
+  player (const player_type& x)
+  {
+    this->player_.set (x);
+  }
+
+
+  // playerMayBeHuman
+  // 
+
+  const playerMayBeHuman::player_type& playerMayBeHuman::
+  player () const
+  {
+    return this->player_.get ();
+  }
+
+  playerMayBeHuman::player_type& playerMayBeHuman::
+  player ()
+  {
+    return this->player_.get ();
+  }
+
+  void playerMayBeHuman::
+  player (const player_type& x)
+  {
+    this->player_.set (x);
+  }
+
+
+  // playerMayBeComp
+  // 
+
+  const playerMayBeComp::player_type& playerMayBeComp::
+  player () const
+  {
+    return this->player_.get ();
+  }
+
+  playerMayBeComp::player_type& playerMayBeComp::
+  player ()
+  {
+    return this->player_.get ();
+  }
+
+  void playerMayBeComp::
+  player (const player_type& x)
+  {
+    this->player_.set (x);
+  }
+
+
+  // playerFactions
+  // 
+
+  const playerFactions::player_type& playerFactions::
+  player () const
+  {
+    return this->player_.get ();
+  }
+
+  playerFactions::player_type& playerFactions::
+  player ()
+  {
+    return this->player_.get ();
+  }
+
+  void playerFactions::
+  player (const player_type& x)
+  {
+    this->player_.set (x);
+  }
+
+
   // creature
   // 
 
@@ -7558,6 +8256,7 @@ namespace ironfist_map
     eventIndices_ (::xml_schema::flags (), this),
     _D_ (::xml_schema::flags (), this),
     mapRevealed_ (::xml_schema::flags (), this),
+    mapHeader_ (::xml_schema::flags (), this),
     mapExtra_ (::xml_schema::flags (), this),
     playerData_ (::xml_schema::flags (), this),
     towns_ (::xml_schema::flags (), this),
@@ -7618,6 +8317,7 @@ namespace ironfist_map
     eventIndices_ (x.eventIndices_, f, this),
     _D_ (x._D_, f, this),
     mapRevealed_ (x.mapRevealed_, f, this),
+    mapHeader_ (x.mapHeader_, f, this),
     mapExtra_ (x.mapExtra_, f, this),
     playerData_ (x.playerData_, f, this),
     towns_ (x.towns_, f, this),
@@ -7678,6 +8378,7 @@ namespace ironfist_map
     eventIndices_ (f, this),
     _D_ (f, this),
     mapRevealed_ (f, this),
+    mapHeader_ (f, this),
     mapExtra_ (f, this),
     playerData_ (f, this),
     towns_ (f, this),
@@ -8214,6 +8915,17 @@ namespace ironfist_map
         continue;
       }
 
+      // mapHeader
+      //
+      if (n.name () == "mapHeader" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapHeader_type > r (
+          mapHeader_traits::create (i, f, this));
+
+        this->mapHeader_.push_back (r);
+        continue;
+      }
+
       // mapExtra
       //
       if (n.name () == "mapExtra" && n.namespace_ ().empty ())
@@ -8489,6 +9201,739 @@ namespace ironfist_map
 
   gamestate_t::
   ~gamestate_t ()
+  {
+  }
+
+  // mapHeader_t
+  //
+
+  mapHeader_t::
+  mapHeader_t (const field_0_type& field_0,
+               const field_4_type& field_4,
+               const width_type& width,
+               const height_type& height,
+               const numPlayers_type& numPlayers,
+               const minHumans_type& minHumans,
+               const maxHumans_type& maxHumans,
+               const winConditionType_type& winConditionType,
+               const field_1E_type& field_1E,
+               const allowDefeatAllVictory_type& allowDefeatAllVictory,
+               const winConditionArgument_type& winConditionArgument,
+               const field_22_type& field_22,
+               const field_23_type& field_23,
+               const field_24_type& field_24,
+               const noStartingHeroInCastle_type& noStartingHeroInCastle,
+               const field_2C_type& field_2C,
+               const field_2E_type& field_2E,
+               const field_32_type& field_32,
+               const field_36_type& field_36,
+               const field_37_type& field_37,
+               const nextTownName_type& nextTownName,
+               const field_39_type& field_39,
+               const name_type& name,
+               const description_type& description,
+               const field_1A0_type& field_1A0,
+               const field_1A1_type& field_1A1,
+               const numRumors_type& numRumors,
+               const numEvents_type& numEvents)
+  : ::xml_schema::type (),
+    field_0_ (field_0, ::xml_schema::flags (), this),
+    field_4_ (field_4, ::xml_schema::flags (), this),
+    width_ (width, ::xml_schema::flags (), this),
+    height_ (height, ::xml_schema::flags (), this),
+    numPlayers_ (numPlayers, ::xml_schema::flags (), this),
+    minHumans_ (minHumans, ::xml_schema::flags (), this),
+    maxHumans_ (maxHumans, ::xml_schema::flags (), this),
+    winConditionType_ (winConditionType, ::xml_schema::flags (), this),
+    field_1E_ (field_1E, ::xml_schema::flags (), this),
+    allowDefeatAllVictory_ (allowDefeatAllVictory, ::xml_schema::flags (), this),
+    winConditionArgument_ (winConditionArgument, ::xml_schema::flags (), this),
+    field_22_ (field_22, ::xml_schema::flags (), this),
+    field_23_ (field_23, ::xml_schema::flags (), this),
+    field_24_ (field_24, ::xml_schema::flags (), this),
+    noStartingHeroInCastle_ (noStartingHeroInCastle, ::xml_schema::flags (), this),
+    field_2C_ (field_2C, ::xml_schema::flags (), this),
+    field_2E_ (field_2E, ::xml_schema::flags (), this),
+    field_32_ (field_32, ::xml_schema::flags (), this),
+    field_36_ (field_36, ::xml_schema::flags (), this),
+    field_37_ (field_37, ::xml_schema::flags (), this),
+    nextTownName_ (nextTownName, ::xml_schema::flags (), this),
+    field_39_ (field_39, ::xml_schema::flags (), this),
+    name_ (name, ::xml_schema::flags (), this),
+    description_ (description, ::xml_schema::flags (), this),
+    field_1A0_ (field_1A0, ::xml_schema::flags (), this),
+    field_1A1_ (field_1A1, ::xml_schema::flags (), this),
+    numRumors_ (numRumors, ::xml_schema::flags (), this),
+    numEvents_ (numEvents, ::xml_schema::flags (), this),
+    hasPlayer_ (::xml_schema::flags (), this),
+    playerMayBeHuman_ (::xml_schema::flags (), this),
+    playerMayBeComp_ (::xml_schema::flags (), this),
+    playerFactions_ (::xml_schema::flags (), this)
+  {
+  }
+
+  mapHeader_t::
+  mapHeader_t (const mapHeader_t& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    field_0_ (x.field_0_, f, this),
+    field_4_ (x.field_4_, f, this),
+    width_ (x.width_, f, this),
+    height_ (x.height_, f, this),
+    numPlayers_ (x.numPlayers_, f, this),
+    minHumans_ (x.minHumans_, f, this),
+    maxHumans_ (x.maxHumans_, f, this),
+    winConditionType_ (x.winConditionType_, f, this),
+    field_1E_ (x.field_1E_, f, this),
+    allowDefeatAllVictory_ (x.allowDefeatAllVictory_, f, this),
+    winConditionArgument_ (x.winConditionArgument_, f, this),
+    field_22_ (x.field_22_, f, this),
+    field_23_ (x.field_23_, f, this),
+    field_24_ (x.field_24_, f, this),
+    noStartingHeroInCastle_ (x.noStartingHeroInCastle_, f, this),
+    field_2C_ (x.field_2C_, f, this),
+    field_2E_ (x.field_2E_, f, this),
+    field_32_ (x.field_32_, f, this),
+    field_36_ (x.field_36_, f, this),
+    field_37_ (x.field_37_, f, this),
+    nextTownName_ (x.nextTownName_, f, this),
+    field_39_ (x.field_39_, f, this),
+    name_ (x.name_, f, this),
+    description_ (x.description_, f, this),
+    field_1A0_ (x.field_1A0_, f, this),
+    field_1A1_ (x.field_1A1_, f, this),
+    numRumors_ (x.numRumors_, f, this),
+    numEvents_ (x.numEvents_, f, this),
+    hasPlayer_ (x.hasPlayer_, f, this),
+    playerMayBeHuman_ (x.playerMayBeHuman_, f, this),
+    playerMayBeComp_ (x.playerMayBeComp_, f, this),
+    playerFactions_ (x.playerFactions_, f, this)
+  {
+  }
+
+  mapHeader_t::
+  mapHeader_t (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    field_0_ (f, this),
+    field_4_ (f, this),
+    width_ (f, this),
+    height_ (f, this),
+    numPlayers_ (f, this),
+    minHumans_ (f, this),
+    maxHumans_ (f, this),
+    winConditionType_ (f, this),
+    field_1E_ (f, this),
+    allowDefeatAllVictory_ (f, this),
+    winConditionArgument_ (f, this),
+    field_22_ (f, this),
+    field_23_ (f, this),
+    field_24_ (f, this),
+    noStartingHeroInCastle_ (f, this),
+    field_2C_ (f, this),
+    field_2E_ (f, this),
+    field_32_ (f, this),
+    field_36_ (f, this),
+    field_37_ (f, this),
+    nextTownName_ (f, this),
+    field_39_ (f, this),
+    name_ (f, this),
+    description_ (f, this),
+    field_1A0_ (f, this),
+    field_1A1_ (f, this),
+    numRumors_ (f, this),
+    numEvents_ (f, this),
+    hasPlayer_ (f, this),
+    playerMayBeHuman_ (f, this),
+    playerMayBeComp_ (f, this),
+    playerFactions_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void mapHeader_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // field_0
+      //
+      if (n.name () == "field_0" && n.namespace_ ().empty ())
+      {
+        if (!field_0_.present ())
+        {
+          this->field_0_.set (field_0_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_4
+      //
+      if (n.name () == "field_4" && n.namespace_ ().empty ())
+      {
+        if (!field_4_.present ())
+        {
+          this->field_4_.set (field_4_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // width
+      //
+      if (n.name () == "width" && n.namespace_ ().empty ())
+      {
+        if (!width_.present ())
+        {
+          this->width_.set (width_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // height
+      //
+      if (n.name () == "height" && n.namespace_ ().empty ())
+      {
+        if (!height_.present ())
+        {
+          this->height_.set (height_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numPlayers
+      //
+      if (n.name () == "numPlayers" && n.namespace_ ().empty ())
+      {
+        if (!numPlayers_.present ())
+        {
+          this->numPlayers_.set (numPlayers_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // minHumans
+      //
+      if (n.name () == "minHumans" && n.namespace_ ().empty ())
+      {
+        if (!minHumans_.present ())
+        {
+          this->minHumans_.set (minHumans_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // maxHumans
+      //
+      if (n.name () == "maxHumans" && n.namespace_ ().empty ())
+      {
+        if (!maxHumans_.present ())
+        {
+          this->maxHumans_.set (maxHumans_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // winConditionType
+      //
+      if (n.name () == "winConditionType" && n.namespace_ ().empty ())
+      {
+        if (!winConditionType_.present ())
+        {
+          this->winConditionType_.set (winConditionType_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_1E
+      //
+      if (n.name () == "field_1E" && n.namespace_ ().empty ())
+      {
+        if (!field_1E_.present ())
+        {
+          this->field_1E_.set (field_1E_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // allowDefeatAllVictory
+      //
+      if (n.name () == "allowDefeatAllVictory" && n.namespace_ ().empty ())
+      {
+        if (!allowDefeatAllVictory_.present ())
+        {
+          this->allowDefeatAllVictory_.set (allowDefeatAllVictory_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // winConditionArgument
+      //
+      if (n.name () == "winConditionArgument" && n.namespace_ ().empty ())
+      {
+        if (!winConditionArgument_.present ())
+        {
+          this->winConditionArgument_.set (winConditionArgument_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_22
+      //
+      if (n.name () == "field_22" && n.namespace_ ().empty ())
+      {
+        if (!field_22_.present ())
+        {
+          this->field_22_.set (field_22_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_23
+      //
+      if (n.name () == "field_23" && n.namespace_ ().empty ())
+      {
+        if (!field_23_.present ())
+        {
+          this->field_23_.set (field_23_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_24
+      //
+      if (n.name () == "field_24" && n.namespace_ ().empty ())
+      {
+        if (!field_24_.present ())
+        {
+          this->field_24_.set (field_24_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // noStartingHeroInCastle
+      //
+      if (n.name () == "noStartingHeroInCastle" && n.namespace_ ().empty ())
+      {
+        if (!noStartingHeroInCastle_.present ())
+        {
+          this->noStartingHeroInCastle_.set (noStartingHeroInCastle_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_2C
+      //
+      if (n.name () == "field_2C" && n.namespace_ ().empty ())
+      {
+        if (!field_2C_.present ())
+        {
+          this->field_2C_.set (field_2C_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_2E
+      //
+      if (n.name () == "field_2E" && n.namespace_ ().empty ())
+      {
+        if (!field_2E_.present ())
+        {
+          this->field_2E_.set (field_2E_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_32
+      //
+      if (n.name () == "field_32" && n.namespace_ ().empty ())
+      {
+        if (!field_32_.present ())
+        {
+          this->field_32_.set (field_32_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_36
+      //
+      if (n.name () == "field_36" && n.namespace_ ().empty ())
+      {
+        if (!field_36_.present ())
+        {
+          this->field_36_.set (field_36_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_37
+      //
+      if (n.name () == "field_37" && n.namespace_ ().empty ())
+      {
+        if (!field_37_.present ())
+        {
+          this->field_37_.set (field_37_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // nextTownName
+      //
+      if (n.name () == "nextTownName" && n.namespace_ ().empty ())
+      {
+        if (!nextTownName_.present ())
+        {
+          this->nextTownName_.set (nextTownName_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_39
+      //
+      if (n.name () == "field_39" && n.namespace_ ().empty ())
+      {
+        if (!field_39_.present ())
+        {
+          this->field_39_.set (field_39_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // name
+      //
+      if (n.name () == "name" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< name_type > r (
+          name_traits::create (i, f, this));
+
+        if (!name_.present ())
+        {
+          this->name_.set (r);
+          continue;
+        }
+      }
+
+      // description
+      //
+      if (n.name () == "description" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< description_type > r (
+          description_traits::create (i, f, this));
+
+        if (!description_.present ())
+        {
+          this->description_.set (r);
+          continue;
+        }
+      }
+
+      // field_1A0
+      //
+      if (n.name () == "field_1A0" && n.namespace_ ().empty ())
+      {
+        if (!field_1A0_.present ())
+        {
+          this->field_1A0_.set (field_1A0_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_1A1
+      //
+      if (n.name () == "field_1A1" && n.namespace_ ().empty ())
+      {
+        if (!field_1A1_.present ())
+        {
+          this->field_1A1_.set (field_1A1_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numRumors
+      //
+      if (n.name () == "numRumors" && n.namespace_ ().empty ())
+      {
+        if (!numRumors_.present ())
+        {
+          this->numRumors_.set (numRumors_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numEvents
+      //
+      if (n.name () == "numEvents" && n.namespace_ ().empty ())
+      {
+        if (!numEvents_.present ())
+        {
+          this->numEvents_.set (numEvents_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // hasPlayer
+      //
+      if (n.name () == "hasPlayer" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< hasPlayer_type > r (
+          hasPlayer_traits::create (i, f, this));
+
+        this->hasPlayer_.push_back (r);
+        continue;
+      }
+
+      // playerMayBeHuman
+      //
+      if (n.name () == "playerMayBeHuman" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< playerMayBeHuman_type > r (
+          playerMayBeHuman_traits::create (i, f, this));
+
+        this->playerMayBeHuman_.push_back (r);
+        continue;
+      }
+
+      // playerMayBeComp
+      //
+      if (n.name () == "playerMayBeComp" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< playerMayBeComp_type > r (
+          playerMayBeComp_traits::create (i, f, this));
+
+        this->playerMayBeComp_.push_back (r);
+        continue;
+      }
+
+      // playerFactions
+      //
+      if (n.name () == "playerFactions" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< playerFactions_type > r (
+          playerFactions_traits::create (i, f, this));
+
+        this->playerFactions_.push_back (r);
+        continue;
+      }
+
+      break;
+    }
+
+    if (!field_0_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_0",
+        "");
+    }
+
+    if (!field_4_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_4",
+        "");
+    }
+
+    if (!width_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "width",
+        "");
+    }
+
+    if (!height_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "height",
+        "");
+    }
+
+    if (!numPlayers_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numPlayers",
+        "");
+    }
+
+    if (!minHumans_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "minHumans",
+        "");
+    }
+
+    if (!maxHumans_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "maxHumans",
+        "");
+    }
+
+    if (!winConditionType_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "winConditionType",
+        "");
+    }
+
+    if (!field_1E_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_1E",
+        "");
+    }
+
+    if (!allowDefeatAllVictory_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "allowDefeatAllVictory",
+        "");
+    }
+
+    if (!winConditionArgument_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "winConditionArgument",
+        "");
+    }
+
+    if (!field_22_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_22",
+        "");
+    }
+
+    if (!field_23_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_23",
+        "");
+    }
+
+    if (!field_24_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_24",
+        "");
+    }
+
+    if (!noStartingHeroInCastle_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "noStartingHeroInCastle",
+        "");
+    }
+
+    if (!field_2C_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_2C",
+        "");
+    }
+
+    if (!field_2E_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_2E",
+        "");
+    }
+
+    if (!field_32_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_32",
+        "");
+    }
+
+    if (!field_36_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_36",
+        "");
+    }
+
+    if (!field_37_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_37",
+        "");
+    }
+
+    if (!nextTownName_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "nextTownName",
+        "");
+    }
+
+    if (!field_39_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_39",
+        "");
+    }
+
+    if (!name_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "name",
+        "");
+    }
+
+    if (!description_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "description",
+        "");
+    }
+
+    if (!field_1A0_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_1A0",
+        "");
+    }
+
+    if (!field_1A1_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "field_1A1",
+        "");
+    }
+
+    if (!numRumors_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numRumors",
+        "");
+    }
+
+    if (!numEvents_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numEvents",
+        "");
+    }
+  }
+
+  mapHeader_t* mapHeader_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class mapHeader_t (*this, f, c);
+  }
+
+  mapHeader_t::
+  ~mapHeader_t ()
   {
   }
 
@@ -12578,6 +14023,286 @@ namespace ironfist_map
 
   mapRevealed::
   ~mapRevealed ()
+  {
+  }
+
+  // hasPlayer
+  //
+
+  hasPlayer::
+  hasPlayer (const player_type& player)
+  : ::xml_schema::type (),
+    player_ (player, ::xml_schema::flags (), this)
+  {
+  }
+
+  hasPlayer::
+  hasPlayer (const hasPlayer& x,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    player_ (x.player_, f, this)
+  {
+  }
+
+  hasPlayer::
+  hasPlayer (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f,
+             ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    player_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void hasPlayer::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "player" && n.namespace_ ().empty ())
+      {
+        this->player_.set (player_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!player_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "player",
+        "");
+    }
+  }
+
+  hasPlayer* hasPlayer::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class hasPlayer (*this, f, c);
+  }
+
+  hasPlayer::
+  ~hasPlayer ()
+  {
+  }
+
+  // playerMayBeHuman
+  //
+
+  playerMayBeHuman::
+  playerMayBeHuman (const player_type& player)
+  : ::xml_schema::type (),
+    player_ (player, ::xml_schema::flags (), this)
+  {
+  }
+
+  playerMayBeHuman::
+  playerMayBeHuman (const playerMayBeHuman& x,
+                    ::xml_schema::flags f,
+                    ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    player_ (x.player_, f, this)
+  {
+  }
+
+  playerMayBeHuman::
+  playerMayBeHuman (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f,
+                    ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    player_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void playerMayBeHuman::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "player" && n.namespace_ ().empty ())
+      {
+        this->player_.set (player_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!player_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "player",
+        "");
+    }
+  }
+
+  playerMayBeHuman* playerMayBeHuman::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class playerMayBeHuman (*this, f, c);
+  }
+
+  playerMayBeHuman::
+  ~playerMayBeHuman ()
+  {
+  }
+
+  // playerMayBeComp
+  //
+
+  playerMayBeComp::
+  playerMayBeComp (const player_type& player)
+  : ::xml_schema::type (),
+    player_ (player, ::xml_schema::flags (), this)
+  {
+  }
+
+  playerMayBeComp::
+  playerMayBeComp (const playerMayBeComp& x,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    player_ (x.player_, f, this)
+  {
+  }
+
+  playerMayBeComp::
+  playerMayBeComp (const ::xercesc::DOMElement& e,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    player_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void playerMayBeComp::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "player" && n.namespace_ ().empty ())
+      {
+        this->player_.set (player_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!player_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "player",
+        "");
+    }
+  }
+
+  playerMayBeComp* playerMayBeComp::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class playerMayBeComp (*this, f, c);
+  }
+
+  playerMayBeComp::
+  ~playerMayBeComp ()
+  {
+  }
+
+  // playerFactions
+  //
+
+  playerFactions::
+  playerFactions (const player_type& player)
+  : ::xml_schema::type (),
+    player_ (player, ::xml_schema::flags (), this)
+  {
+  }
+
+  playerFactions::
+  playerFactions (const playerFactions& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    player_ (x.player_, f, this)
+  {
+  }
+
+  playerFactions::
+  playerFactions (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    player_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void playerFactions::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "player" && n.namespace_ ().empty ())
+      {
+        this->player_.set (player_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!player_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "player",
+        "");
+    }
+  }
+
+  playerFactions* playerFactions::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class playerFactions (*this, f, c);
+  }
+
+  playerFactions::
+  ~playerFactions ()
   {
   }
 
@@ -16779,6 +18504,20 @@ namespace ironfist_map
       s << *b;
     }
 
+    // mapHeader
+    //
+    for (gamestate_t::mapHeader_const_iterator
+         b (i.mapHeader ().begin ()), n (i.mapHeader ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapHeader",
+          e));
+
+      s << *b;
+    }
+
     // mapExtra
     //
     for (gamestate_t::mapExtra_const_iterator
@@ -16858,6 +18597,376 @@ namespace ironfist_map
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
           "fullMap",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const mapHeader_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // field_0
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_0",
+          e));
+
+      s << i.field_0 ();
+    }
+
+    // field_4
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_4",
+          e));
+
+      s << i.field_4 ();
+    }
+
+    // width
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "width",
+          e));
+
+      s << i.width ();
+    }
+
+    // height
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "height",
+          e));
+
+      s << i.height ();
+    }
+
+    // numPlayers
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numPlayers",
+          e));
+
+      s << i.numPlayers ();
+    }
+
+    // minHumans
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "minHumans",
+          e));
+
+      s << i.minHumans ();
+    }
+
+    // maxHumans
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "maxHumans",
+          e));
+
+      s << i.maxHumans ();
+    }
+
+    // winConditionType
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "winConditionType",
+          e));
+
+      s << i.winConditionType ();
+    }
+
+    // field_1E
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_1E",
+          e));
+
+      s << i.field_1E ();
+    }
+
+    // allowDefeatAllVictory
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "allowDefeatAllVictory",
+          e));
+
+      s << i.allowDefeatAllVictory ();
+    }
+
+    // winConditionArgument
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "winConditionArgument",
+          e));
+
+      s << i.winConditionArgument ();
+    }
+
+    // field_22
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_22",
+          e));
+
+      s << i.field_22 ();
+    }
+
+    // field_23
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_23",
+          e));
+
+      s << i.field_23 ();
+    }
+
+    // field_24
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_24",
+          e));
+
+      s << i.field_24 ();
+    }
+
+    // noStartingHeroInCastle
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "noStartingHeroInCastle",
+          e));
+
+      s << i.noStartingHeroInCastle ();
+    }
+
+    // field_2C
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_2C",
+          e));
+
+      s << i.field_2C ();
+    }
+
+    // field_2E
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_2E",
+          e));
+
+      s << i.field_2E ();
+    }
+
+    // field_32
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_32",
+          e));
+
+      s << i.field_32 ();
+    }
+
+    // field_36
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_36",
+          e));
+
+      s << i.field_36 ();
+    }
+
+    // field_37
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_37",
+          e));
+
+      s << i.field_37 ();
+    }
+
+    // nextTownName
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "nextTownName",
+          e));
+
+      s << i.nextTownName ();
+    }
+
+    // field_39
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_39",
+          e));
+
+      s << i.field_39 ();
+    }
+
+    // name
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "name",
+          e));
+
+      s << i.name ();
+    }
+
+    // description
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "description",
+          e));
+
+      s << i.description ();
+    }
+
+    // field_1A0
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_1A0",
+          e));
+
+      s << i.field_1A0 ();
+    }
+
+    // field_1A1
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_1A1",
+          e));
+
+      s << i.field_1A1 ();
+    }
+
+    // numRumors
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numRumors",
+          e));
+
+      s << i.numRumors ();
+    }
+
+    // numEvents
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numEvents",
+          e));
+
+      s << i.numEvents ();
+    }
+
+    // hasPlayer
+    //
+    for (mapHeader_t::hasPlayer_const_iterator
+         b (i.hasPlayer ().begin ()), n (i.hasPlayer ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "hasPlayer",
+          e));
+
+      s << *b;
+    }
+
+    // playerMayBeHuman
+    //
+    for (mapHeader_t::playerMayBeHuman_const_iterator
+         b (i.playerMayBeHuman ().begin ()), n (i.playerMayBeHuman ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "playerMayBeHuman",
+          e));
+
+      s << *b;
+    }
+
+    // playerMayBeComp
+    //
+    for (mapHeader_t::playerMayBeComp_const_iterator
+         b (i.playerMayBeComp ().begin ()), n (i.playerMayBeComp ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "playerMayBeComp",
+          e));
+
+      s << *b;
+    }
+
+    // playerFactions
+    //
+    for (mapHeader_t::playerFactions_const_iterator
+         b (i.playerFactions ().begin ()), n (i.playerFactions ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "playerFactions",
           e));
 
       s << *b;
@@ -19770,6 +21879,74 @@ namespace ironfist_map
           e));
 
       a << *i.revealed ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const hasPlayer& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // player
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "player",
+          e));
+
+      a << i.player ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const playerMayBeHuman& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // player
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "player",
+          e));
+
+      a << i.player ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const playerMayBeComp& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // player
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "player",
+          e));
+
+      a << i.player ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const playerFactions& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // player
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "player",
+          e));
+
+      a << i.player ();
     }
   }
 

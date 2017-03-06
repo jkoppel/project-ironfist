@@ -49,7 +49,42 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
   gam->map.height = gs.mapHeight();
 	gam->SetMapSize(gam->map.width, gam->map.height);
  
-  //_write(fd, &this->mapHeader, 420);
+  SMapHeader *mh = &gam->mapHeader;
+  mh->field_0 = gs.mapHeader().back().field_0();
+  mh->field_4 = gs.mapHeader().back().field_4();
+  mh->width = gs.mapHeader().back().width();
+  mh->height = gs.mapHeader().back().height();
+  mh->numPlayers = gs.mapHeader().back().numPlayers();
+  mh->minHumans = gs.mapHeader().back().minHumans();
+	mh->maxHumans = gs.mapHeader().back().maxHumans();
+	mh->winConditionType = gs.mapHeader().back().winConditionType();
+	mh->field_1E = gs.mapHeader().back().field_1E();
+	mh->allowDefeatAllVictory = gs.mapHeader().back().allowDefeatAllVictory();
+	mh->winConditionArgument = gs.mapHeader().back().winConditionArgument();
+	mh->field_22 = gs.mapHeader().back().field_22();
+	mh->field_23 = gs.mapHeader().back().field_23();
+	mh->field_24 = gs.mapHeader().back().field_24();
+	mh->noStartingHeroInCastle = gs.mapHeader().back().noStartingHeroInCastle();
+	mh->field_2C = gs.mapHeader().back().field_2C();
+	mh->field_2E = gs.mapHeader().back().field_2E();
+	mh->field_32 = gs.mapHeader().back().field_32();
+	mh->field_36 = gs.mapHeader().back().field_36();
+	mh->field_37 = gs.mapHeader().back().field_37();
+	mh->nextTownName = gs.mapHeader().back().nextTownName();
+	mh->field_39 = gs.mapHeader().back().field_39();
+  strcpy(gam->mapHeader.name, gs.mapHeader().back().name().c_str());
+  strcpy(gam->mapHeader.description, gs.mapHeader().back().description().c_str());
+	mh->field_1A0 = gs.mapHeader().back().field_1A0();
+	mh->field_1A1 = gs.mapHeader().back().field_1A1();
+	mh->numRumors = gs.mapHeader().back().numRumors();
+	mh->numEvents = gs.mapHeader().back().numEvents();
+
+  for(int i = 0; i < gs.mapHeader().back().hasPlayer().size(); i++) {
+    mh->hasPlayer[i] = gs.mapHeader().back().hasPlayer().at(i).player();
+    mh->playerMayBeHuman[i] = gs.mapHeader().back().playerMayBeHuman().at(i).player();
+    mh->playerMayBeComp[i] = gs.mapHeader().back().playerMayBeComp().at(i).player();
+    mh->playerFactions[i] = gs.mapHeader().back().playerFactions().at(i).player();
+  }
 
   gam->field_44D = gs.field_44D();
   gam->field_451 = gs.field_451();
@@ -327,6 +362,46 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	gam->mapFilename
   );
 
+  SMapHeader *mh = &gam->mapHeader;
+
+  gs.mapHeader().push_back(ironfist_map::gamestate_t::mapHeader_type(
+  mh->field_0,
+	mh->field_4,
+	mh->width,
+	mh->height,
+	mh->numPlayers,
+	mh->minHumans,
+	mh->maxHumans,
+	mh->winConditionType,
+	mh->field_1E,
+	mh->allowDefeatAllVictory,
+	mh->winConditionArgument,
+	mh->field_22,
+	mh->field_23,
+	mh->field_24,
+	mh->noStartingHeroInCastle,
+	mh->field_2C,
+	mh->field_2E,
+	mh->field_32,
+	mh->field_36,
+	mh->field_37,
+	mh->nextTownName,
+	mh->field_39,
+	mh->name,
+	mh->description,
+	mh->field_1A0,
+	mh->field_1A1,
+	mh->numRumors,
+	mh->numEvents
+  ));
+
+  for(int i = 0; i < ELEMENTS_IN(mh->hasPlayer); i++) {
+    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->hasPlayer[i]));
+    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->playerMayBeHuman[i]));
+    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->playerMayBeComp[i]));
+    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->playerFactions[i]));
+  }
+
   for(int i = 0; i < ELEMENTS_IN(cPlayerNames); i++) {
 	  gs.playerNames().push_back(ironfist_map::gamestate_t::playerNames_type(i));
 	  gs.playerNames().back().name(cPlayerNames[i]);
@@ -586,8 +661,8 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 		  e->hasLateOverlay,
 		  e->tileset,
 		  e->overlayIndex
-	);
-	gs.fullMap().back().mapCellExtra().push_back(cellExtra);
+	  );
+	  gs.fullMap().back().mapCellExtra().push_back(cellExtra);
   }
   return gs;
 }

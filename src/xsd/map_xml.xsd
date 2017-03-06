@@ -243,12 +243,66 @@
           <xs:attribute name="revealed" type="xs:int"/>
         </xs:complexType>
       </xs:element>
+	  <xs:element name="mapHeader" type="mapHeader_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="mapExtra" type="mapExtra_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="playerData" type="playerData_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="towns" type="town_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="mine" type="mine_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="boat" type="boat_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="fullMap" type="fullMap_t" minOccurs="0" maxOccurs="unbounded"/>
+	</xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="mapHeader_t">
+    <xs:sequence>
+	  <xs:element name="field_0" type="xs:int"/>
+	  <xs:element name="field_4" type="xs:int"/>
+	  <xs:element name="width" type="xs:int"/>
+	  <xs:element name="height" type="xs:int"/>
+	  <xs:element name="numPlayers" type="xs:int"/>
+	  <xs:element name="minHumans" type="xs:int"/>
+	  <xs:element name="maxHumans" type="xs:int"/>
+	  <xs:element name="winConditionType" type="xs:int"/>
+	  <xs:element name="field_1E" type="xs:int"/>
+	  <xs:element name="allowDefeatAllVictory" type="xs:int"/>
+	  <xs:element name="winConditionArgument" type="xs:int"/>
+	  <xs:element name="field_22" type="xs:int"/>
+	  <xs:element name="field_23" type="xs:int"/>
+	  <xs:element name="field_24" type="xs:int"/>
+	  <xs:element name="noStartingHeroInCastle" type="xs:int"/>
+	  <xs:element name="field_2C" type="xs:int"/>
+	  <xs:element name="field_2E" type="xs:int"/>
+	  <xs:element name="field_32" type="xs:int"/>
+	  <xs:element name="field_36" type="xs:int"/>
+	  <xs:element name="field_37" type="xs:int"/>
+	  <xs:element name="nextTownName" type="xs:int"/>
+	  <xs:element name="field_39" type="xs:int"/>
+	  <xs:element name="name" type="xs:string"/>
+	  <xs:element name="description" type="xs:string"/>
+	  <xs:element name="field_1A0" type="xs:int"/>
+	  <xs:element name="field_1A1" type="xs:int"/>
+	  <xs:element name="numRumors" type="xs:int"/>
+	  <xs:element name="numEvents" type="xs:int"/>
+	  <xs:element name="hasPlayer" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="player" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="playerMayBeHuman" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="player" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="playerMayBeComp" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="player" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
+	  <xs:element name="playerFactions" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="player" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
 	</xs:sequence>
   </xs:complexType>
   
