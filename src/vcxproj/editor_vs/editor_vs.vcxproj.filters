@@ -58,11 +58,11 @@
     <Filter Include="Header Files\rc">
       <UniqueIdentifier>{a1f257f6-842c-45eb-a850-a80e06e5762d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\shared\spell">
-      <UniqueIdentifier>{392c4a50-5c25-4ceb-929c-1b88817a4d2c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\shared\spell">
       <UniqueIdentifier>{ee1c67bf-65fb-411f-9a85-f0b6f1729d63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\shared\spell">
+      <UniqueIdentifier>{392c4a50-5c25-4ceb-929c-1b88817a4d2c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
