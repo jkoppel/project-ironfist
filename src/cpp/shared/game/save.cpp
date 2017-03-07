@@ -42,7 +42,7 @@ extern void __fastcall GenerateStandardFileName(char*, char*);
 static const char *tmpFileName = "tmp";
 static const LPCWSTR tmpFileNameW = L"tmp";
 
-static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
+static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ClearMapExtra();
   gam->allowAIArmySharing = gs.allowAIArmySharing();
   gam->map.width = gs.mapWidth();
@@ -327,9 +327,9 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
   }
 }
 
-ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
+ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
 
-  ironfist_map::gamestate_t gs(
+  ironfist_save::gamestate_t gs(
     (int)gam->allowAIArmySharing,
     gam->map.width,
     gam->map.height,
@@ -362,7 +362,7 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 
   SMapHeader *mh = &gam->mapHeader;
 
-  gs.mapHeader().push_back(ironfist_map::gamestate_t::mapHeader_type(
+  gs.mapHeader().push_back(ironfist_save::gamestate_t::mapHeader_type(
     mh->field_0,
     mh->field_4,
     mh->width,
@@ -394,19 +394,19 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   ));
 
   for (int i = 0; i < ELEMENTS_IN(mh->hasPlayer); i++) {
-    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->hasPlayer[i]));
-    gs.mapHeader().back().playerMayBeHuman().push_back(ironfist_map::gamestate_t::mapHeader_type::playerMayBeHuman_type(mh->playerMayBeHuman[i]));
-    gs.mapHeader().back().playerMayBeComp().push_back(ironfist_map::gamestate_t::mapHeader_type::playerMayBeComp_type(mh->playerMayBeComp[i]));
-    gs.mapHeader().back().playerFactions().push_back(ironfist_map::gamestate_t::mapHeader_type::playerFactions_type(mh->playerFactions[i]));
+    gs.mapHeader().back().hasPlayer().push_back(ironfist_save::gamestate_t::mapHeader_type::hasPlayer_type(mh->hasPlayer[i]));
+    gs.mapHeader().back().playerMayBeHuman().push_back(ironfist_save::gamestate_t::mapHeader_type::playerMayBeHuman_type(mh->playerMayBeHuman[i]));
+    gs.mapHeader().back().playerMayBeComp().push_back(ironfist_save::gamestate_t::mapHeader_type::playerMayBeComp_type(mh->playerMayBeComp[i]));
+    gs.mapHeader().back().playerFactions().push_back(ironfist_save::gamestate_t::mapHeader_type::playerFactions_type(mh->playerFactions[i]));
   }
 
   for (int i = 0; i < ELEMENTS_IN(cPlayerNames); i++) {
-    gs.playerNames().push_back(ironfist_map::gamestate_t::playerNames_type(i));
+    gs.playerNames().push_back(ironfist_save::gamestate_t::playerNames_type(i));
     gs.playerNames().back().name(cPlayerNames[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->playerDead); i++) {
-    gs.deadPlayers().push_back(ironfist_map::gamestate_t::deadPlayers_type(i));
+    gs.deadPlayers().push_back(ironfist_save::gamestate_t::deadPlayers_type(i));
     gs.deadPlayers().back().playerID(gam->playerDead[i]);
   }
 
@@ -418,87 +418,87 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   }
 
   for (int i = 0; i < ELEMENTS_IN(playerAlive); i++) {
-    gs.alivePlayers().push_back(ironfist_map::gamestate_t::alivePlayers_type(i));
+    gs.alivePlayers().push_back(ironfist_save::gamestate_t::alivePlayers_type(i));
     gs.alivePlayers().back().playerID(playerAlive[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->relatedToHeroForHireStatus); i++) {
-    gs.heroHireStatus().push_back(ironfist_map::gamestate_t::heroHireStatus_type(i));
+    gs.heroHireStatus().push_back(ironfist_save::gamestate_t::heroHireStatus_type(i));
     gs.heroHireStatus().back().status(gam->relatedToHeroForHireStatus[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->playerHandicap); i++) {
-    gs.playerHandicap().push_back(ironfist_map::gamestate_t::playerHandicap_type(i));
+    gs.playerHandicap().push_back(ironfist_save::gamestate_t::playerHandicap_type(i));
     gs.playerHandicap().back().handicap(gam->playerHandicap[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->field_459); i++) {
-    gs.field_459().push_back(ironfist_map::gamestate_t::field_459_type(i));
+    gs.field_459().push_back(ironfist_save::gamestate_t::field_459_type(i));
     gs.field_459().back().value(gam->field_459[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->field_45F); i++) {
-    gs.field_45F().push_back(ironfist_map::gamestate_t::field_45F_type(i));
+    gs.field_45F().push_back(ironfist_save::gamestate_t::field_45F_type(i));
     gs.field_45F().back().value(gam->field_45F[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->field_2773); i++) {
-    gs.field_2773().push_back(ironfist_map::gamestate_t::field_2773_type(i));
+    gs.field_2773().push_back(ironfist_save::gamestate_t::field_2773_type(i));
     gs.field_2773().back().value(gam->field_2773[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->field_27BB); i++) {
-    gs.field_27BB().push_back(ironfist_map::gamestate_t::field_27BB_type(i));
+    gs.field_27BB().push_back(ironfist_save::gamestate_t::field_27BB_type(i));
     gs.field_27BB().back().value(gam->field_27BB[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->field_60A6); i++) {
-    gs.field_60A6().push_back(ironfist_map::gamestate_t::field_60A6_type(i));
+    gs.field_60A6().push_back(ironfist_save::gamestate_t::field_60A6_type(i));
     gs.field_60A6().back().value(gam->field_60A6[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->artifactGeneratedRandomly); i++) {
-    gs.randomArtifacts().push_back(ironfist_map::gamestate_t::randomArtifacts_type(i));
+    gs.randomArtifacts().push_back(ironfist_save::gamestate_t::randomArtifacts_type(i));
     gs.randomArtifacts().back().artifact(gam->artifactGeneratedRandomly[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->boatBuilt); i++) {
-    gs.boatBuilt().push_back(ironfist_map::gamestate_t::boatBuilt_type(i));
+    gs.boatBuilt().push_back(ironfist_save::gamestate_t::boatBuilt_type(i));
     gs.boatBuilt().back().boat(gam->boatBuilt[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->obeliskVisitedMasks); i++) {
-    gs.obeliskVisitedMasks().push_back(ironfist_map::gamestate_t::obeliskVisitedMasks_type(i));
+    gs.obeliskVisitedMasks().push_back(ironfist_save::gamestate_t::obeliskVisitedMasks_type(i));
     gs.obeliskVisitedMasks().back().obelisk(gam->obeliskVisitedMasks[i]);
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->field_637D); i++) {
-    gs.field_637D().push_back(ironfist_map::gamestate_t::field_637D_type(i));
+    gs.field_637D().push_back(ironfist_save::gamestate_t::field_637D_type(i));
     gs.field_637D().back().value(gam->field_637D[i]);
   }
   for (int i = 0; i < ELEMENTS_IN(gam->rumorIndices); i++) {
-    gs.rumorIndices().push_back(ironfist_map::gamestate_t::rumorIndices_type(i));
+    gs.rumorIndices().push_back(ironfist_save::gamestate_t::rumorIndices_type(i));
     gs.rumorIndices().back().index(gam->rumorIndices[i]);
   }
   for (int i = 0; i < ELEMENTS_IN(gam->eventIndices); i++) {
-    gs.eventIndices().push_back(ironfist_map::gamestate_t::eventIndices_type(i));
+    gs.eventIndices().push_back(ironfist_save::gamestate_t::eventIndices_type(i));
     gs.eventIndices().back().index(gam->eventIndices[i]);
   }
   for (int i = 0; i < ELEMENTS_IN(gam->_D); i++) {
-    gs._D().push_back(ironfist_map::gamestate_t::_D_type(i));
+    gs._D().push_back(ironfist_save::gamestate_t::_D_type(i));
     gs._D().back().value(gam->_D[i]);
   }
   for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
     int x = i % MAP_HEIGHT;
     int y = i / MAP_HEIGHT;
-    gs.mapRevealed().push_back(ironfist_map::gamestate_t::mapRevealed_type(x, y));
+    gs.mapRevealed().push_back(ironfist_save::gamestate_t::mapRevealed_type(x, y));
     gs.mapRevealed().back().revealed(mapRevealed[i]);
   }
 
   for (int i = 1; i < iMaxMapExtra; i++) {
-    gs.mapExtra().push_back(ironfist_map::gamestate_t::mapExtra_type());
+    gs.mapExtra().push_back(ironfist_save::gamestate_t::mapExtra_type());
     for (int j = 0; j < pwSizeOfMapExtra[i]; j++) {
-      gs.mapExtra().back().ppMapExtra().push_back(ironfist_map::mapExtra_t::ppMapExtra_type());
+      gs.mapExtra().back().ppMapExtra().push_back(ironfist_save::mapExtra_t::ppMapExtra_type());
       gs.mapExtra().back().ppMapExtra().back().mapExtraIndex(i);
       if (ppMapExtra[i]) {
         gs.mapExtra().back().ppMapExtra().back().value(*((char*)ppMapExtra[i] + j));
@@ -511,7 +511,7 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   for (int i = 0; i < 6; i++) {
     playerData player = gam->players[i];
 
-    ironfist_map::gamestate_t::playerData_type data(
+    ironfist_save::gamestate_t::playerData_type data(
       player.color,
       player.numHeroes,
       player.curHeroIdx,
@@ -531,39 +531,39 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
     gs.playerData().push_back(data);
 
     for (int j = 0; j < ELEMENTS_IN(player.heroesOwned); j++) {
-      gs.playerData().back().heroesOwned().push_back(ironfist_map::playerData_t::heroesOwned_type(j));
+      gs.playerData().back().heroesOwned().push_back(ironfist_save::playerData_t::heroesOwned_type(j));
       gs.playerData().back().heroesOwned().back().hero(player.heroesOwned[j]);
     }
 
     for (int j = 0; j < ELEMENTS_IN(player.heroesForPurchase); j++) {
-      gs.playerData().back().heroesForPurchase().push_back(ironfist_map::playerData_t::heroesForPurchase_type(j));
+      gs.playerData().back().heroesForPurchase().push_back(ironfist_save::playerData_t::heroesForPurchase_type(j));
       gs.playerData().back().heroesForPurchase().back().hero(player.heroesForPurchase[j]);
     }
 
     for (int j = 0; j < ELEMENTS_IN(player.castlesOwned); j++) {
-      gs.playerData().back().castlesOwned().push_back(ironfist_map::playerData_t::castlesOwned_type(j));
+      gs.playerData().back().castlesOwned().push_back(ironfist_save::playerData_t::castlesOwned_type(j));
       gs.playerData().back().castlesOwned().back().castle(player.castlesOwned[j]);
     }
 
     for (int j = 0; j < ELEMENTS_IN(player.resources); j++) {
-      gs.playerData().back().resources().push_back(ironfist_map::playerData_t::resources_type(j));
+      gs.playerData().back().resources().push_back(ironfist_save::playerData_t::resources_type(j));
       gs.playerData().back().resources().back().quantity(player.resources[j]);
     }
 
     for (int j = 0; j < ELEMENTS_IN(player.field_E7); j++) {
-      gs.playerData().back().field_E7().push_back(ironfist_map::playerData_t::field_E7_type(j));
+      gs.playerData().back().field_E7().push_back(ironfist_save::playerData_t::field_E7_type(j));
       gs.playerData().back().field_E7().back().value(player.field_E7[j]);
     }
 
     for (int j = 0; j < 6; j++) {
-      gs.playerData().back()._4_2().push_back(ironfist_map::playerData_t::_4_2_type(j));
+      gs.playerData().back()._4_2().push_back(ironfist_save::playerData_t::_4_2_type(j));
       gs.playerData().back()._4_2().back().value(player._4_2[j]);
     }
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->castles); i++) {
     town twn = gam->castles[i];
-    ironfist_map::gamestate_t::towns_type data(
+    ironfist_save::gamestate_t::towns_type data(
       twn.idx,
       twn.ownerIdx,
       twn.alignment,
@@ -588,42 +588,42 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
     gs.towns().push_back(data);
 
     for (int j = 0; j < ELEMENTS_IN(twn.numCreaturesInDwelling); j++) {
-      gs.towns().back().numCreaturesInDwelling().push_back(ironfist_map::town_t::numCreaturesInDwelling_type(j));
+      gs.towns().back().numCreaturesInDwelling().push_back(ironfist_save::town_t::numCreaturesInDwelling_type(j));
       gs.towns().back().numCreaturesInDwelling().back().quantity(twn.numCreaturesInDwelling[j]);
     }
 
     for (int j = 0; j < 20; j++) {
       int x = j % 5;
       int y = j / 5;
-      gs.towns().back().mageGuildSpells().push_back(ironfist_map::town_t::mageGuildSpells_type(j));
+      gs.towns().back().mageGuildSpells().push_back(ironfist_save::town_t::mageGuildSpells_type(j));
       gs.towns().back().mageGuildSpells().back().spell(twn.mageGuildSpells[x][y]);
     }
 
     for (int j = 0; j < ELEMENTS_IN(twn.numSpellsOfLevel); j++) {
-      gs.towns().back().numSpellsOfLevel().push_back(ironfist_map::town_t::numSpellsOfLevel_type(j));
+      gs.towns().back().numSpellsOfLevel().push_back(ironfist_save::town_t::numSpellsOfLevel_type(j));
       gs.towns().back().numSpellsOfLevel().back().spell(twn.numSpellsOfLevel[j]);
     }
 
-    gs.towns().back().garrison().push_back(ironfist_map::town_t::garrison_type());
+    gs.towns().back().garrison().push_back(ironfist_save::town_t::garrison_type());
     for (int j = 0; j < ELEMENTS_IN(twn.garrison.creatureTypes); j++) {
-      gs.towns().back().garrison().back().creature().push_back(ironfist_map::armyGroup_t::creature_type(twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
+      gs.towns().back().garrison().back().creature().push_back(ironfist_save::armyGroup_t::creature_type(twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
     }
   }
 
   for (int i = 0; i < ELEMENTS_IN(gam->mines); i++) {
     mine *m = &gam->mines[i];
-    gs.mine().push_back(ironfist_map::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guadianQty, m->x, m->y));
+    gs.mine().push_back(ironfist_save::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guadianQty, m->x, m->y));
   }
   for (int i = 0; i < ELEMENTS_IN(gam->boats); i++) {
     boat *b = &gam->boats[i];
-    gs.boat().push_back(ironfist_map::gamestate_t::boat_type(b->idx, b->x, b->y, b->field_3, b->underlyingObjType, b->underlyingObjExtra, b->field_6, b->owner));
+    gs.boat().push_back(ironfist_save::gamestate_t::boat_type(b->idx, b->x, b->y, b->field_3, b->underlyingObjType, b->underlyingObjExtra, b->field_6, b->owner));
   }
 
   fullMap *map = &gam->map;
-  gs.fullMap().push_back(ironfist_map::gamestate_t::fullMap_type(map->width, map->height, map->numCellExtras));
+  gs.fullMap().push_back(ironfist_save::gamestate_t::fullMap_type(map->width, map->height, map->numCellExtras));
   for (int i = 0; i < map->height * map->width; i++) {
     mapCell *c = &map->tiles[i];
-    ironfist_map::fullMap_t::mapCell_type cell(
+    ironfist_save::fullMap_t::mapCell_type cell(
       c->groundIndex,
       c->hasObject,
       c->isRoad,
@@ -644,7 +644,7 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   }
   for (int i = 0; i < map->numCellExtras; i++) {
     mapCellExtra *e = &map->cellExtras[i];
-    ironfist_map::fullMap_t::mapCellExtra_type cellExtra(
+    ironfist_save::fullMap_t::mapCellExtra_type cellExtra(
       e->nextIdx,
       e->animatedObject,
       e->objTileset,
@@ -663,13 +663,13 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   return gs;
 }
 
-static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
+static void ReadHeroXML(ironfist_save::hero_t& hx, hero* hro) {
   hro->Clear();
 
   hro->army = armyGroup();
 
   int i = 0;
-  for (ironfist_map::army_t::slot_const_iterator it = hx.army().slot().begin();
+  for (ironfist_save::army_t::slot_const_iterator it = hx.army().slot().begin();
     it != hx.army().slot().end();
     it++,
     i++) {
@@ -680,7 +680,7 @@ static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 
   memset(hro->artifacts, -1, sizeof(hro->artifacts));
   i = 0;
-  for (ironfist_map::hero_t::artifact_const_iterator jt = hx.artifact().begin();
+  for (ironfist_save::hero_t::artifact_const_iterator jt = hx.artifact().begin();
     jt != hx.artifact().end();
     jt++,
     i++) {
@@ -690,7 +690,7 @@ static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
   }
 
   int nSS = 0;
-  for (ironfist_map::hero_t::secondarySkill_const_iterator it =
+  for (ironfist_save::hero_t::secondarySkill_const_iterator it =
     hx.secondarySkill().begin();
     it != hx.secondarySkill().end();
     it++) {
@@ -706,7 +706,7 @@ static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
 
   hro->GetNumSpells(1);
 
-  for (ironfist_map::hero_t::spell_const_iterator it = hx.spell().begin();
+  for (ironfist_save::hero_t::spell_const_iterator it = hx.spell().begin();
     it != hx.spell().end();
     it++) {
 
@@ -766,10 +766,10 @@ static void ReadHeroXML(ironfist_map::hero_t& hx, hero* hro) {
   hro->y = hx.y();
 }
 
-luaTable *ReadMapVarXML(ironfist_map::table_t table) {
+luaTable *ReadMapVarXML(ironfist_save::table_t table) {
 
   luaTable *lt = new luaTable;
-  for (ironfist_map::table_t::tableElement_const_iterator tableE = table.tableElement().begin();
+  for (ironfist_save::table_t::tableElement_const_iterator tableE = table.tableElement().begin();
     tableE != table.tableElement().end(); tableE++) {
     mapVariable *mapVar = new mapVariable;
     mapVar->type = StringToMapVarType(tableE->type());
@@ -779,7 +779,7 @@ luaTable *ReadMapVarXML(ironfist_map::table_t table) {
     (*lt)[tableE->key().get()] = *mapVar;
   }
 
-  for (ironfist_map::table_t::table_const_iterator subTable = table.table().begin();
+  for (ironfist_save::table_t::table_const_iterator subTable = table.table().begin();
     subTable != table.table().end(); subTable++) {
     mapVariable *mapVar = new mapVariable;
     mapVar->type = MAPVAR_TYPE_TABLE;
@@ -789,19 +789,19 @@ luaTable *ReadMapVarXML(ironfist_map::table_t table) {
   return lt;
 }
 
-ironfist_map::hero_t WriteHeroXML(hero* hro) {
+ironfist_save::hero_t WriteHeroXML(hero* hro) {
 
-  ironfist_map::army_t arm;
+  ironfist_save::army_t arm;
 
   for (int i = 0; i < ELEMENTS_IN(hro->army.creatureTypes); i++) {
-    ironfist_map::slot_t sl;
+    ironfist_save::slot_t sl;
     sl.id(hro->army.creatureTypes[i]);
     sl.quantity(hro->army.quantities[i]);
 
     arm.slot().push_back(sl);
   }
 
-  ironfist_map::hero_t hx(
+  ironfist_save::hero_t hx(
     hro->spellpoints,
     hro->idx,
     hro->ownerIdx,
@@ -851,7 +851,7 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
     hro->field_E8);
 
   for (int i = 0; i < ELEMENTS_IN(hro->secondarySkillLevel); i++) {
-    ironfist_map::secondarySkill sk;
+    ironfist_save::secondarySkill sk;
     sk.id(i);
     sk.level(hro->secondarySkillLevel[i]);
     sk.idx(hro->skillIndex[i]);
@@ -864,7 +864,7 @@ ironfist_map::hero_t WriteHeroXML(hero* hro) {
   }
 
   for (int i = 0; i < ELEMENTS_IN(hro->artifacts); i++) {
-    hx.artifact().push_back(ironfist_map::hero_t::artifact_type(hro->artifacts[i]));
+    hx.artifact().push_back(ironfist_save::hero_t::artifact_type(hro->artifacts[i]));
     hx.artifact().back().spell(hro->scrollSpell[i]); // This will save this in the sub-element of the complex element "artifact",
   }                                                  // even though the scrollSpell data is actually not part of the "artifacts" array in the hero class.
 
@@ -883,14 +883,14 @@ static std::string MapVarTypeToString(MapVarType type) {
   }
 }
 
-static ironfist_map::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
-  ironfist_map::table_t xsdTable;
+static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
+  ironfist_save::table_t xsdTable;
   xsdTable.tableId(id);
   for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
     if (it->second.type == MAPVAR_TYPE_TABLE) {
       xsdTable.table().push_back(WriteMapVariableTableXML(it->first, it->second.tableValue));
     } else {
-      ironfist_map::tableElement_t element;
+      ironfist_save::tableElement_t element;
       element.key(it->first);
       element.type(MapVarTypeToString(it->second.type));
       element.value(*it->second.singleValue);
@@ -900,12 +900,12 @@ static ironfist_map::table_t WriteMapVariableTableXML(std::string id, luaTable *
   return xsdTable;
 }
 
-static void WriteMapVariablesXML(ironfist_map::map_t& m) {
+static void WriteMapVariablesXML(ironfist_save::map_t& m) {
 
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
 
   for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
-    ironfist_map::mapVariable_t mapVar;
+    ironfist_save::mapVariable_t mapVar;
     mapVar.id(it->first);
     mapVar.type(MapVarTypeToString(it->second.type));
     if (isTable(it->second.type)) {
@@ -951,13 +951,13 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
         return;
       }
 
-      std::auto_ptr<ironfist_map::map_t> mp = ironfist_map::map(std::string(v8));
+      std::auto_ptr<ironfist_save::map_t> mp = ironfist_save::map(std::string(v8));
 
       int i = 0;
-      for (ironfist_map::map_t::hero_const_iterator it = mp->hero().begin();
+      for (ironfist_save::map_t::hero_const_iterator it = mp->hero().begin();
         it != mp->hero().end();
         it++, i++) {
-        ironfist_map::hero_t hx = *it;
+        ironfist_save::hero_t hx = *it;
         ReadHeroXML(hx, &this->heroes[i]);
       }
 
@@ -983,7 +983,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       }
 
       std::map<std::string, mapVariable> mapVariables;
-      for (ironfist_map::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
+      for (ironfist_save::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
         it != mp->mapVariable().end(); it++) {
         mapVariable *mapVar = new mapVariable;
         std::string mapVariableId = it->id().get();
@@ -1031,93 +1031,9 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
   if (strnicmp(path, "AUTOSAVE", 8) && strnicmp(path, "PLYREXIT", 8))
     strcpy(gpGame->lastSaveFile, saveFile);
 
-  int fd = open(tmpFileName, O_WRONLY | O_TRUNC | O_CREAT | O_BINARY, S_IWRITE);
-  if (fd == -1)
-    FileError("tmp");
-
-  _write(fd, &this->map.width, 4);
-  _write(fd, &this->map.height, 4);
-  _write(fd, &this->mapHeader, 420);
-  _write(fd, &this->field_44D, 65);
-  _write(fd, this, 2);
-  _write(fd, &giMonthType, 1);
-  _write(fd, &giMonthTypeExtra, 1);
-  _write(fd, &giWeekType, 1);
-  _write(fd, &giWeekTypeExtra, 1);
-  _write(fd, cPlayerNames, 126);
-
-  char buf[100];
-
-  gpAdvManager->PurgeMapChangeQueue();
-  _write(fd, &giMapChangeCtr, 4);
-  GenerateStandardFileName(this->lastSaveFile, buf);
-  _write(fd, &this->numPlayers, 1);
-  int v14 = giCurPlayer;
-  _write(fd, &v14, 1);
-  _write(fd, &this->couldBeNumDefeatedPlayers, 1);
-  _write(fd, this->playerDead, 6);
-  char playerAlive[6];
-  for (int i = 0; i < 6; ++i) {
-    playerAlive[i] = gbHumanPlayer[i];
-    if (this->playerDead[i])
-      playerAlive[i] = 0;
-  }
-  _write(fd, playerAlive, 6);
-  _write(fd, &this->day, 2);
-  _write(fd, &this->week, 2);
-  _write(fd, &this->month, 2);
-  for (int i = 0; i < 6; ++i)
-    this->players[i].Write(fd);
-  _write(fd, &this->numObelisks, 1);
-  _write(fd, this->relatedToHeroForHireStatus, 54);
-  _write(fd, this->castles, 7200);
-  _write(fd, this->field_2773, 72);
-  _write(fd, this->field_27BB, 9);
-  _write(fd, this->mines, 1008);
-  _write(fd, this->field_60A6, 144);
-  _write(fd, this->artifactGeneratedRandomly, 103);
-  _write(fd, this->boats, 384);
-  _write(fd, this->boatBuilt, 48);
-  _write(fd, this->obeliskVisitedMasks, 48);
-  _write(fd, &this->field_6395, 1);
-  _write(fd, &this->field_6396, 1);
-  _write(fd, &this->field_6397, 1);
-  _write(fd, this->currentRumor, 301);
-  _write(fd, this->field_637D, 24);
-  _write(fd, &this->numRumors, 4);
-  _write(fd, this->rumorIndices, 2 * this->numRumors);
-  _write(fd, &this->numEvents, 4);
-  _write(fd, this->eventIndices, 2 * this->numEvents);
-  _write(fd, &this->field_657B, 4);
-  _write(fd, this->_D, 2 * this->field_657B);
-  _write(fd, &iMaxMapExtra, 4);
-  for (int i = 1; i < iMaxMapExtra; ++i) {
-    _write(fd, &pwSizeOfMapExtra[i], 2);
-    if (ppMapExtra[i])
-      _write(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
-    else
-      _write(fd, extraMemory, pwSizeOfMapExtra[i]);
-  }
-  _write(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
-  this->map.Write(fd);
-  _close(fd);
-  FREE(extraMemory);
-
-
-  unsigned char dat[1000000];
-  fd = _open(tmpFileName, O_BINARY);
-  lseek(fd, 0, SEEK_END);
-  int sz = tell(fd);
-  lseek(fd, 0, SEEK_SET);
-  read(fd, dat, sz);
-  close(fd);
-  remove(tmpFileName);
-
-  const xml_schema::base64_binary datbin(dat, sz);
-
   std::ofstream os(v9);
 
-  ironfist_map::map_t m(datbin);
+  ironfist_save::map_t m;
 
   for (int i = 0; i < ELEMENTS_IN(this->heroes); i++) {
     m.hero().push_back(WriteHeroXML(&this->heroes[i]));
@@ -1126,13 +1042,12 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
   m.gamestate(WriteGameStateXML(gpGame));
   m.script(GetScriptContents());
   WriteMapVariablesXML(m);
-
-
+  
   xml_schema::namespace_infomap infomap;
-  infomap[""].name = "ironfist_map";
+  infomap[""].name = "ironfist_save";
   infomap[""].schema = "map_xml.xsd";
 
-  ironfist_map::map(os, m, infomap);
+  ironfist_save::map(os, m, infomap);
 
   return 1;
 }

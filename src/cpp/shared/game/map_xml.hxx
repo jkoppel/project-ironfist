@@ -247,7 +247,7 @@ namespace xml_schema
 
 // Forward declarations.
 //
-namespace ironfist_map
+namespace ironfist_save
 {
   class slot_t;
   class army_t;
@@ -318,7 +318,7 @@ namespace ironfist_map
 
 #include <xsd/cxx/xml/dom/parsing-header.hxx>
 
-namespace ironfist_map
+namespace ironfist_save
 {
   class slot_t: public ::xml_schema::type
   {
@@ -395,7 +395,7 @@ namespace ironfist_map
     public:
     // slot
     // 
-    typedef ::ironfist_map::slot_t slot_type;
+    typedef ::ironfist_save::slot_t slot_type;
     typedef ::xsd::cxx::tree::sequence< slot_type > slot_sequence;
     typedef slot_sequence::iterator slot_iterator;
     typedef slot_sequence::const_iterator slot_const_iterator;
@@ -1050,7 +1050,7 @@ namespace ironfist_map
 
     // army
     // 
-    typedef ::ironfist_map::army_t army_type;
+    typedef ::ironfist_save::army_t army_type;
     typedef ::xsd::cxx::tree::traits< army_type, char > army_traits;
 
     const army_type&
@@ -1067,7 +1067,7 @@ namespace ironfist_map
 
     // secondarySkill
     // 
-    typedef ::ironfist_map::secondarySkill secondarySkill_type;
+    typedef ::ironfist_save::secondarySkill secondarySkill_type;
     typedef ::xsd::cxx::tree::sequence< secondarySkill_type > secondarySkill_sequence;
     typedef secondarySkill_sequence::iterator secondarySkill_iterator;
     typedef secondarySkill_sequence::const_iterator secondarySkill_const_iterator;
@@ -1101,7 +1101,7 @@ namespace ironfist_map
 
     // artifact
     // 
-    typedef ::ironfist_map::artifact artifact_type;
+    typedef ::ironfist_save::artifact artifact_type;
     typedef ::xsd::cxx::tree::sequence< artifact_type > artifact_sequence;
     typedef artifact_sequence::iterator artifact_iterator;
     typedef artifact_sequence::const_iterator artifact_const_iterator;
@@ -1434,7 +1434,7 @@ namespace ironfist_map
     public:
     // tableElement
     // 
-    typedef ::ironfist_map::tableElement_t tableElement_type;
+    typedef ::ironfist_save::tableElement_t tableElement_type;
     typedef ::xsd::cxx::tree::sequence< tableElement_type > tableElement_sequence;
     typedef tableElement_sequence::iterator tableElement_iterator;
     typedef tableElement_sequence::const_iterator tableElement_const_iterator;
@@ -1451,7 +1451,7 @@ namespace ironfist_map
 
     // table
     // 
-    typedef ::ironfist_map::table_t table_type;
+    typedef ::ironfist_save::table_t table_type;
     typedef ::xsd::cxx::tree::sequence< table_type > table_sequence;
     typedef table_sequence::iterator table_iterator;
     typedef table_sequence::const_iterator table_const_iterator;
@@ -1524,7 +1524,7 @@ namespace ironfist_map
     public:
     // table
     // 
-    typedef ::ironfist_map::table_t table_type;
+    typedef ::ironfist_save::table_t table_type;
     typedef ::xsd::cxx::tree::optional< table_type > table_optional;
     typedef ::xsd::cxx::tree::traits< table_type, char > table_traits;
 
@@ -1992,7 +1992,7 @@ namespace ironfist_map
 
     // playerNames
     // 
-    typedef ::ironfist_map::playerNames playerNames_type;
+    typedef ::ironfist_save::playerNames playerNames_type;
     typedef ::xsd::cxx::tree::sequence< playerNames_type > playerNames_sequence;
     typedef playerNames_sequence::iterator playerNames_iterator;
     typedef playerNames_sequence::const_iterator playerNames_const_iterator;
@@ -2009,7 +2009,7 @@ namespace ironfist_map
 
     // deadPlayers
     // 
-    typedef ::ironfist_map::deadPlayers deadPlayers_type;
+    typedef ::ironfist_save::deadPlayers deadPlayers_type;
     typedef ::xsd::cxx::tree::sequence< deadPlayers_type > deadPlayers_sequence;
     typedef deadPlayers_sequence::iterator deadPlayers_iterator;
     typedef deadPlayers_sequence::const_iterator deadPlayers_const_iterator;
@@ -2026,7 +2026,7 @@ namespace ironfist_map
 
     // alivePlayers
     // 
-    typedef ::ironfist_map::alivePlayers alivePlayers_type;
+    typedef ::ironfist_save::alivePlayers alivePlayers_type;
     typedef ::xsd::cxx::tree::sequence< alivePlayers_type > alivePlayers_sequence;
     typedef alivePlayers_sequence::iterator alivePlayers_iterator;
     typedef alivePlayers_sequence::const_iterator alivePlayers_const_iterator;
@@ -2043,7 +2043,7 @@ namespace ironfist_map
 
     // heroHireStatus
     // 
-    typedef ::ironfist_map::heroHireStatus heroHireStatus_type;
+    typedef ::ironfist_save::heroHireStatus heroHireStatus_type;
     typedef ::xsd::cxx::tree::sequence< heroHireStatus_type > heroHireStatus_sequence;
     typedef heroHireStatus_sequence::iterator heroHireStatus_iterator;
     typedef heroHireStatus_sequence::const_iterator heroHireStatus_const_iterator;
@@ -2088,7 +2088,7 @@ namespace ironfist_map
 
     // playerHandicap
     // 
-    typedef ::ironfist_map::playerHandicap playerHandicap_type;
+    typedef ::ironfist_save::playerHandicap playerHandicap_type;
     typedef ::xsd::cxx::tree::sequence< playerHandicap_type > playerHandicap_sequence;
     typedef playerHandicap_sequence::iterator playerHandicap_iterator;
     typedef playerHandicap_sequence::const_iterator playerHandicap_const_iterator;
@@ -2105,7 +2105,7 @@ namespace ironfist_map
 
     // field_459
     // 
-    typedef ::ironfist_map::field_459 field_459_type;
+    typedef ::ironfist_save::field_459 field_459_type;
     typedef ::xsd::cxx::tree::sequence< field_459_type > field_459_sequence;
     typedef field_459_sequence::iterator field_459_iterator;
     typedef field_459_sequence::const_iterator field_459_const_iterator;
@@ -2122,7 +2122,7 @@ namespace ironfist_map
 
     // field_45F
     // 
-    typedef ::ironfist_map::field_45F field_45F_type;
+    typedef ::ironfist_save::field_45F field_45F_type;
     typedef ::xsd::cxx::tree::sequence< field_45F_type > field_45F_sequence;
     typedef field_45F_sequence::iterator field_45F_iterator;
     typedef field_45F_sequence::const_iterator field_45F_const_iterator;
@@ -2170,7 +2170,7 @@ namespace ironfist_map
 
     // field_2773
     // 
-    typedef ::ironfist_map::field_2773 field_2773_type;
+    typedef ::ironfist_save::field_2773 field_2773_type;
     typedef ::xsd::cxx::tree::sequence< field_2773_type > field_2773_sequence;
     typedef field_2773_sequence::iterator field_2773_iterator;
     typedef field_2773_sequence::const_iterator field_2773_const_iterator;
@@ -2187,7 +2187,7 @@ namespace ironfist_map
 
     // field_27BB
     // 
-    typedef ::ironfist_map::field_27BB field_27BB_type;
+    typedef ::ironfist_save::field_27BB field_27BB_type;
     typedef ::xsd::cxx::tree::sequence< field_27BB_type > field_27BB_sequence;
     typedef field_27BB_sequence::iterator field_27BB_iterator;
     typedef field_27BB_sequence::const_iterator field_27BB_const_iterator;
@@ -2204,7 +2204,7 @@ namespace ironfist_map
 
     // field_60A6
     // 
-    typedef ::ironfist_map::field_60A6 field_60A6_type;
+    typedef ::ironfist_save::field_60A6 field_60A6_type;
     typedef ::xsd::cxx::tree::sequence< field_60A6_type > field_60A6_sequence;
     typedef field_60A6_sequence::iterator field_60A6_iterator;
     typedef field_60A6_sequence::const_iterator field_60A6_const_iterator;
@@ -2221,7 +2221,7 @@ namespace ironfist_map
 
     // randomArtifacts
     // 
-    typedef ::ironfist_map::randomArtifacts randomArtifacts_type;
+    typedef ::ironfist_save::randomArtifacts randomArtifacts_type;
     typedef ::xsd::cxx::tree::sequence< randomArtifacts_type > randomArtifacts_sequence;
     typedef randomArtifacts_sequence::iterator randomArtifacts_iterator;
     typedef randomArtifacts_sequence::const_iterator randomArtifacts_const_iterator;
@@ -2238,7 +2238,7 @@ namespace ironfist_map
 
     // boatBuilt
     // 
-    typedef ::ironfist_map::boatBuilt boatBuilt_type;
+    typedef ::ironfist_save::boatBuilt boatBuilt_type;
     typedef ::xsd::cxx::tree::sequence< boatBuilt_type > boatBuilt_sequence;
     typedef boatBuilt_sequence::iterator boatBuilt_iterator;
     typedef boatBuilt_sequence::const_iterator boatBuilt_const_iterator;
@@ -2255,7 +2255,7 @@ namespace ironfist_map
 
     // obeliskVisitedMasks
     // 
-    typedef ::ironfist_map::obeliskVisitedMasks obeliskVisitedMasks_type;
+    typedef ::ironfist_save::obeliskVisitedMasks obeliskVisitedMasks_type;
     typedef ::xsd::cxx::tree::sequence< obeliskVisitedMasks_type > obeliskVisitedMasks_sequence;
     typedef obeliskVisitedMasks_sequence::iterator obeliskVisitedMasks_iterator;
     typedef obeliskVisitedMasks_sequence::const_iterator obeliskVisitedMasks_const_iterator;
@@ -2272,7 +2272,7 @@ namespace ironfist_map
 
     // field_637D
     // 
-    typedef ::ironfist_map::field_637D field_637D_type;
+    typedef ::ironfist_save::field_637D field_637D_type;
     typedef ::xsd::cxx::tree::sequence< field_637D_type > field_637D_sequence;
     typedef field_637D_sequence::iterator field_637D_iterator;
     typedef field_637D_sequence::const_iterator field_637D_const_iterator;
@@ -2289,7 +2289,7 @@ namespace ironfist_map
 
     // rumorIndices
     // 
-    typedef ::ironfist_map::rumorIndices rumorIndices_type;
+    typedef ::ironfist_save::rumorIndices rumorIndices_type;
     typedef ::xsd::cxx::tree::sequence< rumorIndices_type > rumorIndices_sequence;
     typedef rumorIndices_sequence::iterator rumorIndices_iterator;
     typedef rumorIndices_sequence::const_iterator rumorIndices_const_iterator;
@@ -2306,7 +2306,7 @@ namespace ironfist_map
 
     // eventIndices
     // 
-    typedef ::ironfist_map::eventIndices eventIndices_type;
+    typedef ::ironfist_save::eventIndices eventIndices_type;
     typedef ::xsd::cxx::tree::sequence< eventIndices_type > eventIndices_sequence;
     typedef eventIndices_sequence::iterator eventIndices_iterator;
     typedef eventIndices_sequence::const_iterator eventIndices_const_iterator;
@@ -2323,7 +2323,7 @@ namespace ironfist_map
 
     // _D
     // 
-    typedef ::ironfist_map::_D _D_type;
+    typedef ::ironfist_save::_D _D_type;
     typedef ::xsd::cxx::tree::sequence< _D_type > _D_sequence;
     typedef _D_sequence::iterator _D_iterator;
     typedef _D_sequence::const_iterator _D_const_iterator;
@@ -2340,7 +2340,7 @@ namespace ironfist_map
 
     // mapRevealed
     // 
-    typedef ::ironfist_map::mapRevealed mapRevealed_type;
+    typedef ::ironfist_save::mapRevealed mapRevealed_type;
     typedef ::xsd::cxx::tree::sequence< mapRevealed_type > mapRevealed_sequence;
     typedef mapRevealed_sequence::iterator mapRevealed_iterator;
     typedef mapRevealed_sequence::const_iterator mapRevealed_const_iterator;
@@ -2357,7 +2357,7 @@ namespace ironfist_map
 
     // mapHeader
     // 
-    typedef ::ironfist_map::mapHeader_t mapHeader_type;
+    typedef ::ironfist_save::mapHeader_t mapHeader_type;
     typedef ::xsd::cxx::tree::sequence< mapHeader_type > mapHeader_sequence;
     typedef mapHeader_sequence::iterator mapHeader_iterator;
     typedef mapHeader_sequence::const_iterator mapHeader_const_iterator;
@@ -2374,7 +2374,7 @@ namespace ironfist_map
 
     // mapExtra
     // 
-    typedef ::ironfist_map::mapExtra_t mapExtra_type;
+    typedef ::ironfist_save::mapExtra_t mapExtra_type;
     typedef ::xsd::cxx::tree::sequence< mapExtra_type > mapExtra_sequence;
     typedef mapExtra_sequence::iterator mapExtra_iterator;
     typedef mapExtra_sequence::const_iterator mapExtra_const_iterator;
@@ -2391,7 +2391,7 @@ namespace ironfist_map
 
     // playerData
     // 
-    typedef ::ironfist_map::playerData_t playerData_type;
+    typedef ::ironfist_save::playerData_t playerData_type;
     typedef ::xsd::cxx::tree::sequence< playerData_type > playerData_sequence;
     typedef playerData_sequence::iterator playerData_iterator;
     typedef playerData_sequence::const_iterator playerData_const_iterator;
@@ -2408,7 +2408,7 @@ namespace ironfist_map
 
     // towns
     // 
-    typedef ::ironfist_map::town_t towns_type;
+    typedef ::ironfist_save::town_t towns_type;
     typedef ::xsd::cxx::tree::sequence< towns_type > towns_sequence;
     typedef towns_sequence::iterator towns_iterator;
     typedef towns_sequence::const_iterator towns_const_iterator;
@@ -2425,7 +2425,7 @@ namespace ironfist_map
 
     // mine
     // 
-    typedef ::ironfist_map::mine_t mine_type;
+    typedef ::ironfist_save::mine_t mine_type;
     typedef ::xsd::cxx::tree::sequence< mine_type > mine_sequence;
     typedef mine_sequence::iterator mine_iterator;
     typedef mine_sequence::const_iterator mine_const_iterator;
@@ -2442,7 +2442,7 @@ namespace ironfist_map
 
     // boat
     // 
-    typedef ::ironfist_map::boat_t boat_type;
+    typedef ::ironfist_save::boat_t boat_type;
     typedef ::xsd::cxx::tree::sequence< boat_type > boat_sequence;
     typedef boat_sequence::iterator boat_iterator;
     typedef boat_sequence::const_iterator boat_const_iterator;
@@ -2459,7 +2459,7 @@ namespace ironfist_map
 
     // fullMap
     // 
-    typedef ::ironfist_map::fullMap_t fullMap_type;
+    typedef ::ironfist_save::fullMap_t fullMap_type;
     typedef ::xsd::cxx::tree::sequence< fullMap_type > fullMap_sequence;
     typedef fullMap_sequence::iterator fullMap_iterator;
     typedef fullMap_sequence::const_iterator fullMap_const_iterator;
@@ -2986,7 +2986,7 @@ namespace ironfist_map
 
     // hasPlayer
     // 
-    typedef ::ironfist_map::hasPlayer hasPlayer_type;
+    typedef ::ironfist_save::hasPlayer hasPlayer_type;
     typedef ::xsd::cxx::tree::sequence< hasPlayer_type > hasPlayer_sequence;
     typedef hasPlayer_sequence::iterator hasPlayer_iterator;
     typedef hasPlayer_sequence::const_iterator hasPlayer_const_iterator;
@@ -3003,7 +3003,7 @@ namespace ironfist_map
 
     // playerMayBeHuman
     // 
-    typedef ::ironfist_map::playerMayBeHuman playerMayBeHuman_type;
+    typedef ::ironfist_save::playerMayBeHuman playerMayBeHuman_type;
     typedef ::xsd::cxx::tree::sequence< playerMayBeHuman_type > playerMayBeHuman_sequence;
     typedef playerMayBeHuman_sequence::iterator playerMayBeHuman_iterator;
     typedef playerMayBeHuman_sequence::const_iterator playerMayBeHuman_const_iterator;
@@ -3020,7 +3020,7 @@ namespace ironfist_map
 
     // playerMayBeComp
     // 
-    typedef ::ironfist_map::playerMayBeComp playerMayBeComp_type;
+    typedef ::ironfist_save::playerMayBeComp playerMayBeComp_type;
     typedef ::xsd::cxx::tree::sequence< playerMayBeComp_type > playerMayBeComp_sequence;
     typedef playerMayBeComp_sequence::iterator playerMayBeComp_iterator;
     typedef playerMayBeComp_sequence::const_iterator playerMayBeComp_const_iterator;
@@ -3037,7 +3037,7 @@ namespace ironfist_map
 
     // playerFactions
     // 
-    typedef ::ironfist_map::playerFactions playerFactions_type;
+    typedef ::ironfist_save::playerFactions playerFactions_type;
     typedef ::xsd::cxx::tree::sequence< playerFactions_type > playerFactions_sequence;
     typedef playerFactions_sequence::iterator playerFactions_iterator;
     typedef playerFactions_sequence::const_iterator playerFactions_const_iterator;
@@ -3187,7 +3187,7 @@ namespace ironfist_map
 
     // mapCell
     // 
-    typedef ::ironfist_map::mapCell_t mapCell_type;
+    typedef ::ironfist_save::mapCell_t mapCell_type;
     typedef ::xsd::cxx::tree::sequence< mapCell_type > mapCell_sequence;
     typedef mapCell_sequence::iterator mapCell_iterator;
     typedef mapCell_sequence::const_iterator mapCell_const_iterator;
@@ -3204,7 +3204,7 @@ namespace ironfist_map
 
     // mapCellExtra
     // 
-    typedef ::ironfist_map::mapCellExtra_t mapCellExtra_type;
+    typedef ::ironfist_save::mapCellExtra_t mapCellExtra_type;
     typedef ::xsd::cxx::tree::sequence< mapCellExtra_type > mapCellExtra_sequence;
     typedef mapCellExtra_sequence::iterator mapCellExtra_iterator;
     typedef mapCellExtra_sequence::const_iterator mapCellExtra_const_iterator;
@@ -4072,7 +4072,7 @@ namespace ironfist_map
     public:
     // creature
     // 
-    typedef ::ironfist_map::creature creature_type;
+    typedef ::ironfist_save::creature creature_type;
     typedef ::xsd::cxx::tree::sequence< creature_type > creature_sequence;
     typedef creature_sequence::iterator creature_iterator;
     typedef creature_sequence::const_iterator creature_const_iterator;
@@ -4405,7 +4405,7 @@ namespace ironfist_map
 
     // garrison
     // 
-    typedef ::ironfist_map::armyGroup_t garrison_type;
+    typedef ::ironfist_save::armyGroup_t garrison_type;
     typedef ::xsd::cxx::tree::sequence< garrison_type > garrison_sequence;
     typedef garrison_sequence::iterator garrison_iterator;
     typedef garrison_sequence::const_iterator garrison_const_iterator;
@@ -4422,7 +4422,7 @@ namespace ironfist_map
 
     // numCreaturesInDwelling
     // 
-    typedef ::ironfist_map::numCreaturesInDwelling numCreaturesInDwelling_type;
+    typedef ::ironfist_save::numCreaturesInDwelling numCreaturesInDwelling_type;
     typedef ::xsd::cxx::tree::sequence< numCreaturesInDwelling_type > numCreaturesInDwelling_sequence;
     typedef numCreaturesInDwelling_sequence::iterator numCreaturesInDwelling_iterator;
     typedef numCreaturesInDwelling_sequence::const_iterator numCreaturesInDwelling_const_iterator;
@@ -4439,7 +4439,7 @@ namespace ironfist_map
 
     // mageGuildSpells
     // 
-    typedef ::ironfist_map::mageGuildSpells mageGuildSpells_type;
+    typedef ::ironfist_save::mageGuildSpells mageGuildSpells_type;
     typedef ::xsd::cxx::tree::sequence< mageGuildSpells_type > mageGuildSpells_sequence;
     typedef mageGuildSpells_sequence::iterator mageGuildSpells_iterator;
     typedef mageGuildSpells_sequence::const_iterator mageGuildSpells_const_iterator;
@@ -4456,7 +4456,7 @@ namespace ironfist_map
 
     // numSpellsOfLevel
     // 
-    typedef ::ironfist_map::numSpellsOfLevel numSpellsOfLevel_type;
+    typedef ::ironfist_save::numSpellsOfLevel numSpellsOfLevel_type;
     typedef ::xsd::cxx::tree::sequence< numSpellsOfLevel_type > numSpellsOfLevel_sequence;
     typedef numSpellsOfLevel_sequence::iterator numSpellsOfLevel_iterator;
     typedef numSpellsOfLevel_sequence::const_iterator numSpellsOfLevel_const_iterator;
@@ -4758,7 +4758,7 @@ namespace ironfist_map
 
     // heroesOwned
     // 
-    typedef ::ironfist_map::heroesOwned heroesOwned_type;
+    typedef ::ironfist_save::heroesOwned heroesOwned_type;
     typedef ::xsd::cxx::tree::sequence< heroesOwned_type > heroesOwned_sequence;
     typedef heroesOwned_sequence::iterator heroesOwned_iterator;
     typedef heroesOwned_sequence::const_iterator heroesOwned_const_iterator;
@@ -4775,7 +4775,7 @@ namespace ironfist_map
 
     // heroesForPurchase
     // 
-    typedef ::ironfist_map::heroesForPurchase heroesForPurchase_type;
+    typedef ::ironfist_save::heroesForPurchase heroesForPurchase_type;
     typedef ::xsd::cxx::tree::sequence< heroesForPurchase_type > heroesForPurchase_sequence;
     typedef heroesForPurchase_sequence::iterator heroesForPurchase_iterator;
     typedef heroesForPurchase_sequence::const_iterator heroesForPurchase_const_iterator;
@@ -4792,7 +4792,7 @@ namespace ironfist_map
 
     // castlesOwned
     // 
-    typedef ::ironfist_map::castlesOwned castlesOwned_type;
+    typedef ::ironfist_save::castlesOwned castlesOwned_type;
     typedef ::xsd::cxx::tree::sequence< castlesOwned_type > castlesOwned_sequence;
     typedef castlesOwned_sequence::iterator castlesOwned_iterator;
     typedef castlesOwned_sequence::const_iterator castlesOwned_const_iterator;
@@ -4809,7 +4809,7 @@ namespace ironfist_map
 
     // resources
     // 
-    typedef ::ironfist_map::resources resources_type;
+    typedef ::ironfist_save::resources resources_type;
     typedef ::xsd::cxx::tree::sequence< resources_type > resources_sequence;
     typedef resources_sequence::iterator resources_iterator;
     typedef resources_sequence::const_iterator resources_const_iterator;
@@ -4826,7 +4826,7 @@ namespace ironfist_map
 
     // field_E7
     // 
-    typedef ::ironfist_map::field_E7 field_E7_type;
+    typedef ::ironfist_save::field_E7 field_E7_type;
     typedef ::xsd::cxx::tree::sequence< field_E7_type > field_E7_sequence;
     typedef field_E7_sequence::iterator field_E7_iterator;
     typedef field_E7_sequence::const_iterator field_E7_const_iterator;
@@ -4843,7 +4843,7 @@ namespace ironfist_map
 
     // _4_2
     // 
-    typedef ::ironfist_map::_4_2 _4_2_type;
+    typedef ::ironfist_save::_4_2 _4_2_type;
     typedef ::xsd::cxx::tree::sequence< _4_2_type > _4_2_sequence;
     typedef _4_2_sequence::iterator _4_2_iterator;
     typedef _4_2_sequence::const_iterator _4_2_const_iterator;
@@ -4927,7 +4927,7 @@ namespace ironfist_map
     public:
     // ppMapExtra
     // 
-    typedef ::ironfist_map::ppMapExtra ppMapExtra_type;
+    typedef ::ironfist_save::ppMapExtra ppMapExtra_type;
     typedef ::xsd::cxx::tree::sequence< ppMapExtra_type > ppMapExtra_sequence;
     typedef ppMapExtra_sequence::iterator ppMapExtra_iterator;
     typedef ppMapExtra_sequence::const_iterator ppMapExtra_const_iterator;
@@ -4977,7 +4977,7 @@ namespace ironfist_map
     public:
     // gamestate
     // 
-    typedef ::ironfist_map::gamestate_t gamestate_type;
+    typedef ::ironfist_save::gamestate_t gamestate_type;
     typedef ::xsd::cxx::tree::optional< gamestate_type > gamestate_optional;
     typedef ::xsd::cxx::tree::traits< gamestate_type, char > gamestate_traits;
 
@@ -4998,7 +4998,7 @@ namespace ironfist_map
 
     // hero
     // 
-    typedef ::ironfist_map::hero_t hero_type;
+    typedef ::ironfist_save::hero_t hero_type;
     typedef ::xsd::cxx::tree::sequence< hero_type > hero_sequence;
     typedef hero_sequence::iterator hero_iterator;
     typedef hero_sequence::const_iterator hero_const_iterator;
@@ -5015,7 +5015,7 @@ namespace ironfist_map
 
     // mapVariable
     // 
-    typedef ::ironfist_map::mapVariable_t mapVariable_type;
+    typedef ::ironfist_save::mapVariable_t mapVariable_type;
     typedef ::xsd::cxx::tree::sequence< mapVariable_type > mapVariable_sequence;
     typedef mapVariable_sequence::iterator mapVariable_iterator;
     typedef mapVariable_sequence::const_iterator mapVariable_const_iterator;
@@ -5051,26 +5051,9 @@ namespace ironfist_map
     void
     script (::std::auto_ptr< script_type > p);
 
-    // raw
-    // 
-    typedef ::xml_schema::base64_binary raw_type;
-    typedef ::xsd::cxx::tree::traits< raw_type, char > raw_traits;
-
-    const raw_type&
-    raw () const;
-
-    raw_type&
-    raw ();
-
-    void
-    raw (const raw_type& x);
-
-    void
-    raw (::std::auto_ptr< raw_type > p);
-
     // Constructors.
     //
-    map_t (const raw_type&);
+    map_t ();
 
     map_t (const ::xercesc::DOMElement& e,
            ::xml_schema::flags f = 0,
@@ -5099,7 +5082,6 @@ namespace ironfist_map
     hero_sequence hero_;
     mapVariable_sequence mapVariable_;
     script_optional script_;
-    ::xsd::cxx::tree::one< raw_type > raw_;
   };
 
   class secondarySkill: public ::xml_schema::type
@@ -7385,23 +7367,23 @@ namespace ironfist_map
 #include <xercesc/dom/DOMDocument.hpp>
 #include <xercesc/dom/DOMErrorHandler.hpp>
 
-namespace ironfist_map
+namespace ironfist_save
 {
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (const ::std::string& uri,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (const ::std::string& uri,
        ::xml_schema::error_handler& eh,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (const ::std::string& uri,
        ::xercesc::DOMErrorHandler& eh,
        ::xml_schema::flags f = 0,
@@ -7410,37 +7392,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::std::istream& is,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::std::istream& is,
        ::xml_schema::error_handler& eh,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::std::istream& is,
        ::xercesc::DOMErrorHandler& eh,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::std::istream& is,
        const ::std::string& id,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::std::istream& is,
        const ::std::string& id,
        ::xml_schema::error_handler& eh,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::std::istream& is,
        const ::std::string& id,
        ::xercesc::DOMErrorHandler& eh,
@@ -7450,18 +7432,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::xercesc::InputSource& is,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::xercesc::InputSource& is,
        ::xml_schema::error_handler& eh,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::xercesc::InputSource& is,
        ::xercesc::DOMErrorHandler& eh,
        ::xml_schema::flags f = 0,
@@ -7470,12 +7452,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (const ::xercesc::DOMDocument& d,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
+  ::std::auto_ptr< ::ironfist_save::map_t >
   map (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
        ::xml_schema::flags f = 0,
        const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -7483,18 +7465,18 @@ namespace ironfist_map
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::std::string& uri,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::std::string& uri,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::std::string& uri,
              ::xercesc::DOMErrorHandler& eh,
              ::xml_schema::flags f = 0,
@@ -7503,37 +7485,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              ::xercesc::DOMErrorHandler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              const ::std::string& id,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              const ::std::string& id,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              const ::std::string& id,
              ::xercesc::DOMErrorHandler& eh,
@@ -7543,18 +7525,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xercesc::InputSource& is,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xercesc::InputSource& is,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xercesc::InputSource& is,
              ::xercesc::DOMErrorHandler& eh,
              ::xml_schema::flags f = 0,
@@ -7563,12 +7545,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::xercesc::DOMDocument& d,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -7576,18 +7558,18 @@ namespace ironfist_map
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::std::string& uri,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::std::string& uri,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::std::string& uri,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -7596,37 +7578,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         const ::std::string& id,
         ::xercesc::DOMErrorHandler& eh,
@@ -7636,18 +7618,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xercesc::InputSource& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xercesc::InputSource& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xercesc::InputSource& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -7656,12 +7638,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::xercesc::DOMDocument& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -7669,18 +7651,18 @@ namespace ironfist_map
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::std::string& uri,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::std::string& uri,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::std::string& uri,
                ::xercesc::DOMErrorHandler& eh,
                ::xml_schema::flags f = 0,
@@ -7689,37 +7671,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                ::xercesc::DOMErrorHandler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                const ::std::string& id,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                const ::std::string& id,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                const ::std::string& id,
                ::xercesc::DOMErrorHandler& eh,
@@ -7729,18 +7711,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xercesc::InputSource& is,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xercesc::InputSource& is,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xercesc::InputSource& is,
                ::xercesc::DOMErrorHandler& eh,
                ::xml_schema::flags f = 0,
@@ -7749,12 +7731,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::xercesc::DOMDocument& d,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -7855,18 +7837,18 @@ namespace ironfist_map
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::std::string& uri,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::std::string& uri,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::std::string& uri,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -7875,37 +7857,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         const ::std::string& id,
         ::xercesc::DOMErrorHandler& eh,
@@ -7915,18 +7897,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xercesc::InputSource& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xercesc::InputSource& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xercesc::InputSource& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -7935,12 +7917,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::xercesc::DOMDocument& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -8047,7 +8029,7 @@ namespace ironfist_map
 
 #include <xsd/cxx/xml/dom/auto-ptr.hxx>
 
-namespace ironfist_map
+namespace ironfist_save
 {
   void
   operator<< (::xercesc::DOMElement&, const slot_t&);
@@ -8108,14 +8090,14 @@ namespace ironfist_map
 
   void
   map (::std::ostream& os,
-       const ::ironfist_map::map_t& x, 
+       const ::ironfist_save::map_t& x, 
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        const ::std::string& e = "UTF-8",
        ::xml_schema::flags f = 0);
 
   void
   map (::std::ostream& os,
-       const ::ironfist_map::map_t& x, 
+       const ::ironfist_save::map_t& x, 
        ::xml_schema::error_handler& eh,
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        const ::std::string& e = "UTF-8",
@@ -8123,7 +8105,7 @@ namespace ironfist_map
 
   void
   map (::std::ostream& os,
-       const ::ironfist_map::map_t& x, 
+       const ::ironfist_save::map_t& x, 
        ::xercesc::DOMErrorHandler& eh,
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        const ::std::string& e = "UTF-8",
@@ -8134,14 +8116,14 @@ namespace ironfist_map
 
   void
   map (::xercesc::XMLFormatTarget& ft,
-       const ::ironfist_map::map_t& x, 
+       const ::ironfist_save::map_t& x, 
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        const ::std::string& e = "UTF-8",
        ::xml_schema::flags f = 0);
 
   void
   map (::xercesc::XMLFormatTarget& ft,
-       const ::ironfist_map::map_t& x, 
+       const ::ironfist_save::map_t& x, 
        ::xml_schema::error_handler& eh,
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        const ::std::string& e = "UTF-8",
@@ -8149,7 +8131,7 @@ namespace ironfist_map
 
   void
   map (::xercesc::XMLFormatTarget& ft,
-       const ::ironfist_map::map_t& x, 
+       const ::ironfist_save::map_t& x, 
        ::xercesc::DOMErrorHandler& eh,
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        const ::std::string& e = "UTF-8",
@@ -8160,14 +8142,14 @@ namespace ironfist_map
 
   void
   map (::xercesc::DOMDocument& d,
-       const ::ironfist_map::map_t& x,
+       const ::ironfist_save::map_t& x,
        ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  map (const ::ironfist_map::map_t& x, 
+  map (const ::ironfist_save::map_t& x, 
        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
        ::xml_schema::flags f = 0);
 
@@ -8176,14 +8158,14 @@ namespace ironfist_map
 
   void
   gamestate (::std::ostream& os,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
              ::xml_schema::flags f = 0);
 
   void
   gamestate (::std::ostream& os,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xml_schema::error_handler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -8191,7 +8173,7 @@ namespace ironfist_map
 
   void
   gamestate (::std::ostream& os,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xercesc::DOMErrorHandler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -8202,14 +8184,14 @@ namespace ironfist_map
 
   void
   gamestate (::xercesc::XMLFormatTarget& ft,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
              ::xml_schema::flags f = 0);
 
   void
   gamestate (::xercesc::XMLFormatTarget& ft,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xml_schema::error_handler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -8217,7 +8199,7 @@ namespace ironfist_map
 
   void
   gamestate (::xercesc::XMLFormatTarget& ft,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xercesc::DOMErrorHandler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -8228,14 +8210,14 @@ namespace ironfist_map
 
   void
   gamestate (::xercesc::DOMDocument& d,
-             const ::ironfist_map::gamestate_t& x,
+             const ::ironfist_save::gamestate_t& x,
              ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  gamestate (const ::ironfist_map::gamestate_t& x, 
+  gamestate (const ::ironfist_save::gamestate_t& x, 
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              ::xml_schema::flags f = 0);
 
@@ -8244,14 +8226,14 @@ namespace ironfist_map
 
   void
   hero (::std::ostream& os,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   hero (::std::ostream& os,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8259,7 +8241,7 @@ namespace ironfist_map
 
   void
   hero (::std::ostream& os,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8270,14 +8252,14 @@ namespace ironfist_map
 
   void
   hero (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   hero (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8285,7 +8267,7 @@ namespace ironfist_map
 
   void
   hero (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8296,14 +8278,14 @@ namespace ironfist_map
 
   void
   hero (::xercesc::DOMDocument& d,
-        const ::ironfist_map::hero_t& x,
+        const ::ironfist_save::hero_t& x,
         ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  hero (const ::ironfist_map::hero_t& x, 
+  hero (const ::ironfist_save::hero_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         ::xml_schema::flags f = 0);
 
@@ -8312,14 +8294,14 @@ namespace ironfist_map
 
   void
   mapVariable (::std::ostream& os,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
                ::xml_schema::flags f = 0);
 
   void
   mapVariable (::std::ostream& os,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xml_schema::error_handler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -8327,7 +8309,7 @@ namespace ironfist_map
 
   void
   mapVariable (::std::ostream& os,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xercesc::DOMErrorHandler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -8338,14 +8320,14 @@ namespace ironfist_map
 
   void
   mapVariable (::xercesc::XMLFormatTarget& ft,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
                ::xml_schema::flags f = 0);
 
   void
   mapVariable (::xercesc::XMLFormatTarget& ft,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xml_schema::error_handler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -8353,7 +8335,7 @@ namespace ironfist_map
 
   void
   mapVariable (::xercesc::XMLFormatTarget& ft,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xercesc::DOMErrorHandler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -8364,14 +8346,14 @@ namespace ironfist_map
 
   void
   mapVariable (::xercesc::DOMDocument& d,
-               const ::ironfist_map::mapVariable_t& x,
+               const ::ironfist_save::mapVariable_t& x,
                ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  mapVariable (const ::ironfist_map::mapVariable_t& x, 
+  mapVariable (const ::ironfist_save::mapVariable_t& x, 
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                ::xml_schema::flags f = 0);
 
@@ -8448,14 +8430,14 @@ namespace ironfist_map
 
   void
   army (::std::ostream& os,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   army (::std::ostream& os,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8463,7 +8445,7 @@ namespace ironfist_map
 
   void
   army (::std::ostream& os,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8474,14 +8456,14 @@ namespace ironfist_map
 
   void
   army (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   army (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8489,7 +8471,7 @@ namespace ironfist_map
 
   void
   army (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -8500,14 +8482,14 @@ namespace ironfist_map
 
   void
   army (::xercesc::DOMDocument& d,
-        const ::ironfist_map::army_t& x,
+        const ::ironfist_save::army_t& x,
         ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  army (const ::ironfist_map::army_t& x, 
+  army (const ::ironfist_save::army_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         ::xml_schema::flags f = 0);
 
