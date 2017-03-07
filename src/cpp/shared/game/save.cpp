@@ -285,45 +285,45 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     mapRevealed[i] = gs.mapRevealed().at(i).revealed().get();
   }
 
-  gam->map.width = gs.fullMap().back().width();
-  gam->map.height = gs.fullMap().back().height();
+  gam->map.width = gs.map().back().width();
+  gam->map.height = gs.map().back().height();
   gam->map.Init(gam->map.width, gam->map.height);
-  for (int i = 0; i < gs.fullMap().back().mapCell().size(); i++) {
-    gam->map.tiles[i].groundIndex = gs.fullMap().back().mapCell().at(i).groundIndex();
-    gam->map.tiles[i].hasObject = gs.fullMap().back().mapCell().at(i).hasObject();
-    gam->map.tiles[i].isRoad = gs.fullMap().back().mapCell().at(i).isRoad();
-    gam->map.tiles[i].objTileset = gs.fullMap().back().mapCell().at(i).objTileset();
-    gam->map.tiles[i].objectIndex = gs.fullMap().back().mapCell().at(i).objectIndex();
-    gam->map.tiles[i].field_4_1 = gs.fullMap().back().mapCell().at(i).field_4_1();
-    gam->map.tiles[i].isShadow = gs.fullMap().back().mapCell().at(i).isShadow();
-    gam->map.tiles[i].field_4_3 = gs.fullMap().back().mapCell().at(i).field_4_3();
-    gam->map.tiles[i].extraInfo = gs.fullMap().back().mapCell().at(i).extraInfo();
-    gam->map.tiles[i].hasOverlay = gs.fullMap().back().mapCell().at(i).hasOverlay();
-    gam->map.tiles[i].hasLateOverlay = gs.fullMap().back().mapCell().at(i).hasLateOverlay();
-    gam->map.tiles[i].overlayTileset = gs.fullMap().back().mapCell().at(i).overlayTileset();
-    gam->map.tiles[i].overlayIndex = gs.fullMap().back().mapCell().at(i).overlayIndex();
-    gam->map.tiles[i].displayFlags = gs.fullMap().back().mapCell().at(i).displayFlags();
-    gam->map.tiles[i].objType = gs.fullMap().back().mapCell().at(i).objType();
-    gam->map.tiles[i].extraIdx = gs.fullMap().back().mapCell().at(i).extraIdx();
+  for (int i = 0; i < gs.map().back().mapCell().size(); i++) {
+    gam->map.tiles[i].groundIndex = gs.map().back().mapCell().at(i).groundIndex();
+    gam->map.tiles[i].hasObject = gs.map().back().mapCell().at(i).hasObject();
+    gam->map.tiles[i].isRoad = gs.map().back().mapCell().at(i).isRoad();
+    gam->map.tiles[i].objTileset = gs.map().back().mapCell().at(i).objTileset();
+    gam->map.tiles[i].objectIndex = gs.map().back().mapCell().at(i).objectIndex();
+    gam->map.tiles[i].field_4_1 = gs.map().back().mapCell().at(i).field_4_1();
+    gam->map.tiles[i].isShadow = gs.map().back().mapCell().at(i).isShadow();
+    gam->map.tiles[i].field_4_3 = gs.map().back().mapCell().at(i).field_4_3();
+    gam->map.tiles[i].extraInfo = gs.map().back().mapCell().at(i).extraInfo();
+    gam->map.tiles[i].hasOverlay = gs.map().back().mapCell().at(i).hasOverlay();
+    gam->map.tiles[i].hasLateOverlay = gs.map().back().mapCell().at(i).hasLateOverlay();
+    gam->map.tiles[i].overlayTileset = gs.map().back().mapCell().at(i).overlayTileset();
+    gam->map.tiles[i].overlayIndex = gs.map().back().mapCell().at(i).overlayIndex();
+    gam->map.tiles[i].displayFlags = gs.map().back().mapCell().at(i).displayFlags();
+    gam->map.tiles[i].objType = gs.map().back().mapCell().at(i).objType();
+    gam->map.tiles[i].extraIdx = gs.map().back().mapCell().at(i).extraIdx();
   }
-  gam->map.numCellExtras = gs.fullMap().back().numCellExtras();
+  gam->map.numCellExtras = gs.map().back().numCellExtras();
   if (gam->map.numCellExtras)
     delete(gam->map.cellExtras);
   gam->map.cellExtras = (mapCellExtra *)operator new(7 * gam->map.numCellExtras);
 
-  for (int i = 0; i < gs.fullMap().back().mapCellExtra().size(); i++) {
-    gam->map.cellExtras[i].nextIdx = gs.fullMap().back().mapCellExtra().at(i).nextIdx();
-    gam->map.cellExtras[i].animatedObject = gs.fullMap().back().mapCellExtra().at(i).animatedObject();
-    gam->map.cellExtras[i].objTileset = gs.fullMap().back().mapCellExtra().at(i).objTileset();
-    gam->map.cellExtras[i].objectIndex = gs.fullMap().back().mapCellExtra().at(i).objectIndex();
-    gam->map.cellExtras[i].field_4_1 = gs.fullMap().back().mapCellExtra().at(i).field_4_1();
-    gam->map.cellExtras[i].field_4_2 = gs.fullMap().back().mapCellExtra().at(i).field_4_2();
-    gam->map.cellExtras[i].field_4_3 = gs.fullMap().back().mapCellExtra().at(i).field_4_3();
-    gam->map.cellExtras[i].field_4_4 = gs.fullMap().back().mapCellExtra().at(i).field_4_4();
-    gam->map.cellExtras[i].animatedLateOverlay = gs.fullMap().back().mapCellExtra().at(i).animatedLateOverlay();
-    gam->map.cellExtras[i].hasLateOverlay = gs.fullMap().back().mapCellExtra().at(i).hasLateOverlay();
-    gam->map.cellExtras[i].tileset = gs.fullMap().back().mapCellExtra().at(i).tileset();
-    gam->map.cellExtras[i].overlayIndex = gs.fullMap().back().mapCellExtra().at(i).overlayIndex();
+  for (int i = 0; i < gs.map().back().mapCellExtra().size(); i++) {
+    gam->map.cellExtras[i].nextIdx = gs.map().back().mapCellExtra().at(i).nextIdx();
+    gam->map.cellExtras[i].animatedObject = gs.map().back().mapCellExtra().at(i).animatedObject();
+    gam->map.cellExtras[i].objTileset = gs.map().back().mapCellExtra().at(i).objTileset();
+    gam->map.cellExtras[i].objectIndex = gs.map().back().mapCellExtra().at(i).objectIndex();
+    gam->map.cellExtras[i].field_4_1 = gs.map().back().mapCellExtra().at(i).field_4_1();
+    gam->map.cellExtras[i].field_4_2 = gs.map().back().mapCellExtra().at(i).field_4_2();
+    gam->map.cellExtras[i].field_4_3 = gs.map().back().mapCellExtra().at(i).field_4_3();
+    gam->map.cellExtras[i].field_4_4 = gs.map().back().mapCellExtra().at(i).field_4_4();
+    gam->map.cellExtras[i].animatedLateOverlay = gs.map().back().mapCellExtra().at(i).animatedLateOverlay();
+    gam->map.cellExtras[i].hasLateOverlay = gs.map().back().mapCellExtra().at(i).hasLateOverlay();
+    gam->map.cellExtras[i].tileset = gs.map().back().mapCellExtra().at(i).tileset();
+    gam->map.cellExtras[i].overlayIndex = gs.map().back().mapCellExtra().at(i).overlayIndex();
   }
 }
 
@@ -620,10 +620,10 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   }
 
   fullMap *map = &gam->map;
-  gs.fullMap().push_back(ironfist_save::gamestate_t::fullMap_type(map->width, map->height, map->numCellExtras));
+  gs.map().push_back(ironfist_save::gamestate_t::map_type(map->width, map->height, map->numCellExtras));
   for (int i = 0; i < map->height * map->width; i++) {
     mapCell *c = &map->tiles[i];
-    ironfist_save::fullMap_t::mapCell_type cell(
+    ironfist_save::map_t::mapCell_type cell(
       c->groundIndex,
       c->hasObject,
       c->isRoad,
@@ -640,11 +640,11 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       c->displayFlags,
       c->objType,
       c->extraIdx);
-    gs.fullMap().back().mapCell().push_back(cell);
+    gs.map().back().mapCell().push_back(cell);
   }
   for (int i = 0; i < map->numCellExtras; i++) {
     mapCellExtra *e = &map->cellExtras[i];
-    ironfist_save::fullMap_t::mapCellExtra_type cellExtra(
+    ironfist_save::map_t::mapCellExtra_type cellExtra(
       e->nextIdx,
       e->animatedObject,
       e->objTileset,
@@ -658,7 +658,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       e->tileset,
       e->overlayIndex
     );
-    gs.fullMap().back().mapCellExtra().push_back(cellExtra);
+    gs.map().back().mapCellExtra().push_back(cellExtra);
   }
   return gs;
 }
@@ -900,7 +900,7 @@ static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable 
   return xsdTable;
 }
 
-static void WriteMapVariablesXML(ironfist_save::map_t& m) {
+static void WriteMapVariablesXML(ironfist_save::save_t& m) {
 
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
 
@@ -951,10 +951,10 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
         return;
       }
 
-      std::auto_ptr<ironfist_save::map_t> mp = ironfist_save::map(std::string(v8));
+      std::auto_ptr<ironfist_save::save_t> mp = ironfist_save::save(std::string(v8));
 
       int i = 0;
-      for (ironfist_save::map_t::hero_const_iterator it = mp->hero().begin();
+      for (ironfist_save::save_t::hero_const_iterator it = mp->hero().begin();
         it != mp->hero().end();
         it++, i++) {
         ironfist_save::hero_t hx = *it;
@@ -983,7 +983,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       }
 
       std::map<std::string, mapVariable> mapVariables;
-      for (ironfist_save::map_t::mapVariable_const_iterator it = mp->mapVariable().begin();
+      for (ironfist_save::save_t::mapVariable_const_iterator it = mp->mapVariable().begin();
         it != mp->mapVariable().end(); it++) {
         mapVariable *mapVar = new mapVariable;
         std::string mapVariableId = it->id().get();
@@ -1033,7 +1033,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
   std::ofstream os(v9);
 
-  ironfist_save::map_t m;
+  ironfist_save::save_t m;
 
   for (int i = 0; i < ELEMENTS_IN(this->heroes); i++) {
     m.hero().push_back(WriteHeroXML(&this->heroes[i]));
@@ -1047,7 +1047,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
   infomap[""].name = "ironfist_save";
   infomap[""].schema = "map_xml.xsd";
 
-  ironfist_save::map(os, m, infomap);
+  ironfist_save::save(os, m, infomap);
 
   return 1;
 }

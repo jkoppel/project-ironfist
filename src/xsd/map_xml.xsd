@@ -248,7 +248,7 @@
 	  <xs:element name="towns" type="town_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="mine" type="mine_t" minOccurs="0" maxOccurs="unbounded"/>
 	  <xs:element name="boat" type="boat_t" minOccurs="0" maxOccurs="unbounded"/>
-	  <xs:element name="fullMap" type="fullMap_t" minOccurs="0" maxOccurs="unbounded"/>
+	  <xs:element name="map" type="map_t" minOccurs="0" maxOccurs="unbounded"/>
 	</xs:sequence>
   </xs:complexType>
   
@@ -305,7 +305,7 @@
 	</xs:sequence>
   </xs:complexType>
   
-  <xs:complexType name="fullMap_t">
+  <xs:complexType name="map_t">
    <xs:sequence>
 		<xs:element name="width" type="xs:int"/>
 		<xs:element name="height" type="xs:int"/>
@@ -492,7 +492,7 @@
 	  </xs:sequence>
    </xs:complexType>
 	  
-  <xs:complexType name="map_t">
+  <xs:complexType name="save_t">
     <xs:sequence>
 	  <xs:element ref="gamestate" minOccurs="0" maxOccurs="1"/> 
       <xs:element ref="hero" minOccurs="0" maxOccurs="54"/>
@@ -501,7 +501,7 @@
     </xs:sequence>
   </xs:complexType>
 
-  <xs:element name="map" type="map_t"/>
+  <xs:element name="save" type="save_t"/>
   <xs:element name="gamestate" type="gamestate_t"/> 
   <xs:element name="hero" type="hero_t"/>
   <xs:element name="mapVariable" type="mapVariable_t"/>
