@@ -108,7 +108,7 @@
       <xs:element name="allowAIArmySharing" type="xs:int" default="1"/>
 	  <xs:element name="mapWidth" type="xs:int" default="32"/>
 	  <xs:element name="mapHeight" type="xs:int" default="32"/>
-	  <xs:element name="gameInstanceID" type="xs:int"/>
+	  <xs:element name="gameDifficulty" type="xs:int"/>
 	  <xs:element name="monthType" type="xs:int"/>
 	  <xs:element name="monthTypeExtra" type="xs:int"/>
 	  <xs:element name="weekType" type="xs:int"/>
@@ -229,7 +229,7 @@
           <xs:attribute name="index" type="xs:int"/>
         </xs:complexType>
       </xs:element>
-	  <xs:element name="_D" minOccurs="140" maxOccurs="unbounded">
+	  <xs:element name="_D" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
           <xs:attribute name="id" type="xs:int" use="required"/>
           <xs:attribute name="value" type="xs:int"/>
@@ -237,7 +237,6 @@
       </xs:element>
 	  <xs:element name="mapRevealed" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
 		  <xs:attribute name="x" type="xs:int" use="required"/>
 		  <xs:attribute name="y" type="xs:int" use="required"/>
           <xs:attribute name="revealed" type="xs:int"/>
@@ -317,7 +316,6 @@
   </xs:complexType>
   
   <xs:complexType name="mapCellExtra_t">
-	  <xs:attribute name="id" type="xs:int" use="required"/>
 	  <xs:attribute name="nextIdx" type="xs:int" use="required"/>
 	  <xs:attribute name="animatedObject" type="xs:int" use="required"/>
 	  <xs:attribute name="objTileset" type="xs:int" use="required"/>
@@ -333,7 +331,6 @@
   </xs:complexType>
   
   <xs:complexType name="mapCell_t">
-	  <xs:attribute name="id" type="xs:int" use="required"/>
 	  <xs:attribute name="groundIndex" type="xs:int" use="required"/>
 	  <xs:attribute name="hasObject" type="xs:int" use="required"/>
 	  <xs:attribute name="isRoad" type="xs:int" use="required"/>
@@ -353,7 +350,6 @@
   </xs:complexType>
   
   <xs:complexType name="mine_t">
-	  <xs:attribute name="id" type="xs:int" use="required"/>
 	  <xs:attribute name="field_0" type="xs:int" use="required"/>
 	  <xs:attribute name="owner" type="xs:int" use="required"/>
 	  <xs:attribute name="type" type="xs:int" use="required"/>
@@ -364,7 +360,6 @@
   </xs:complexType>
   
   <xs:complexType name="boat_t">
-	  <xs:attribute name="id" type="xs:int" use="required"/>
 	  <xs:attribute name="idx" type="xs:int" use="required"/>
 	  <xs:attribute name="x" type="xs:int" use="required"/>
 	  <xs:attribute name="y" type="xs:int" use="required"/>
@@ -379,7 +374,6 @@
     <xs:sequence>
 		<xs:element name="creature" minOccurs="5" maxOccurs="unbounded">
 			<xs:complexType>
-			  <xs:attribute name="id" type="xs:int" use="required"/>
 			  <xs:attribute name="type" type="xs:int" use="required"/>
 			  <xs:attribute name="quantity" type="xs:int" use="required"/>
 		  </xs:complexType>
@@ -433,7 +427,7 @@
   
   <xs:complexType name="playerData_t">
     <xs:sequence>
-	  <xs:element name="instance" type="xs:int"/>
+	  <xs:element name="color" type="xs:int"/>
 	  <xs:element name="numHeroes" type="xs:int"/>
 	  <xs:element name="curHeroIdx" type="xs:int"/>
 	  <xs:element name="field_3" type="xs:int"/>

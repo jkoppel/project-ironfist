@@ -1693,19 +1693,19 @@ namespace ironfist_map
     static mapHeight_type
     mapHeight_default_value ();
 
-    // gameInstanceID
+    // gameDifficulty
     // 
-    typedef ::xml_schema::int_ gameInstanceID_type;
-    typedef ::xsd::cxx::tree::traits< gameInstanceID_type, char > gameInstanceID_traits;
+    typedef ::xml_schema::int_ gameDifficulty_type;
+    typedef ::xsd::cxx::tree::traits< gameDifficulty_type, char > gameDifficulty_traits;
 
-    const gameInstanceID_type&
-    gameInstanceID () const;
+    const gameDifficulty_type&
+    gameDifficulty () const;
 
-    gameInstanceID_type&
-    gameInstanceID ();
+    gameDifficulty_type&
+    gameDifficulty ();
 
     void
-    gameInstanceID (const gameInstanceID_type& x);
+    gameDifficulty (const gameDifficulty_type& x);
 
     // monthType
     // 
@@ -2479,7 +2479,7 @@ namespace ironfist_map
     gamestate_t (const allowAIArmySharing_type&,
                  const mapWidth_type&,
                  const mapHeight_type&,
-                 const gameInstanceID_type&,
+                 const gameDifficulty_type&,
                  const monthType_type&,
                  const monthTypeExtra_type&,
                  const weekType_type&,
@@ -2531,7 +2531,7 @@ namespace ironfist_map
     ::xsd::cxx::tree::one< allowAIArmySharing_type > allowAIArmySharing_;
     ::xsd::cxx::tree::one< mapWidth_type > mapWidth_;
     ::xsd::cxx::tree::one< mapHeight_type > mapHeight_;
-    ::xsd::cxx::tree::one< gameInstanceID_type > gameInstanceID_;
+    ::xsd::cxx::tree::one< gameDifficulty_type > gameDifficulty_;
     ::xsd::cxx::tree::one< monthType_type > monthType_;
     ::xsd::cxx::tree::one< monthTypeExtra_type > monthTypeExtra_;
     ::xsd::cxx::tree::one< weekType_type > weekType_;
@@ -3258,20 +3258,6 @@ namespace ironfist_map
   class mapCellExtra_t: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // nextIdx
     // 
     typedef ::xml_schema::int_ nextIdx_type;
@@ -3442,8 +3428,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    mapCellExtra_t (const id_type&,
-                    const nextIdx_type&,
+    mapCellExtra_t (const nextIdx_type&,
                     const animatedObject_type&,
                     const objTileset_type&,
                     const objectIndex_type&,
@@ -3479,7 +3464,6 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< nextIdx_type > nextIdx_;
     ::xsd::cxx::tree::one< animatedObject_type > animatedObject_;
     ::xsd::cxx::tree::one< objTileset_type > objTileset_;
@@ -3497,20 +3481,6 @@ namespace ironfist_map
   class mapCell_t: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // groundIndex
     // 
     typedef ::xml_schema::int_ groundIndex_type;
@@ -3737,8 +3707,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    mapCell_t (const id_type&,
-               const groundIndex_type&,
+    mapCell_t (const groundIndex_type&,
                const hasObject_type&,
                const isRoad_type&,
                const objTileset_type&,
@@ -3778,7 +3747,6 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< groundIndex_type > groundIndex_;
     ::xsd::cxx::tree::one< hasObject_type > hasObject_;
     ::xsd::cxx::tree::one< isRoad_type > isRoad_;
@@ -3800,20 +3768,6 @@ namespace ironfist_map
   class mine_t: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // field_0
     // 
     typedef ::xml_schema::int_ field_0_type;
@@ -3914,8 +3868,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    mine_t (const id_type&,
-            const field_0_type&,
+    mine_t (const field_0_type&,
             const owner_type&,
             const type_type&,
             const guardianType_type&,
@@ -3946,7 +3899,6 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< field_0_type > field_0_;
     ::xsd::cxx::tree::one< owner_type > owner_;
     ::xsd::cxx::tree::one< type_type > type_;
@@ -3959,20 +3911,6 @@ namespace ironfist_map
   class boat_t: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // idx
     // 
     typedef ::xml_schema::int_ idx_type;
@@ -4087,8 +4025,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    boat_t (const id_type&,
-            const idx_type&,
+    boat_t (const idx_type&,
             const x_type&,
             const y_type&,
             const field_3_type&,
@@ -4120,7 +4057,6 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< idx_type > idx_;
     ::xsd::cxx::tree::one< x_type > x_;
     ::xsd::cxx::tree::one< y_type > y_;
@@ -4610,19 +4546,19 @@ namespace ironfist_map
   class playerData_t: public ::xml_schema::type
   {
     public:
-    // instance
+    // color
     // 
-    typedef ::xml_schema::int_ instance_type;
-    typedef ::xsd::cxx::tree::traits< instance_type, char > instance_traits;
+    typedef ::xml_schema::int_ color_type;
+    typedef ::xsd::cxx::tree::traits< color_type, char > color_traits;
 
-    const instance_type&
-    instance () const;
+    const color_type&
+    color () const;
 
-    instance_type&
-    instance ();
+    color_type&
+    color ();
 
     void
-    instance (const instance_type& x);
+    color (const color_type& x);
 
     // numHeroes
     // 
@@ -4924,7 +4860,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    playerData_t (const instance_type&,
+    playerData_t (const color_type&,
                   const numHeroes_type&,
                   const curHeroIdx_type&,
                   const field_3_type&,
@@ -4963,7 +4899,7 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< instance_type > instance_;
+    ::xsd::cxx::tree::one< color_type > color_;
     ::xsd::cxx::tree::one< numHeroes_type > numHeroes_;
     ::xsd::cxx::tree::one< curHeroIdx_type > curHeroIdx_;
     ::xsd::cxx::tree::one< field_3_type > field_3_;
@@ -6448,20 +6384,6 @@ namespace ironfist_map
   class mapRevealed: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // x
     // 
     typedef ::xml_schema::int_ x_type;
@@ -6510,8 +6432,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    mapRevealed (const id_type&,
-                 const x_type&,
+    mapRevealed (const x_type&,
                  const y_type&);
 
     mapRevealed (const ::xercesc::DOMElement& e,
@@ -6537,7 +6458,6 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< x_type > x_;
     ::xsd::cxx::tree::one< y_type > y_;
     revealed_optional revealed_;
@@ -6734,20 +6654,6 @@ namespace ironfist_map
   class creature: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // type
     // 
     typedef ::xml_schema::int_ type_type;
@@ -6778,8 +6684,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    creature (const id_type&,
-              const type_type&,
+    creature (const type_type&,
               const quantity_type&);
 
     creature (const ::xercesc::DOMElement& e,
@@ -6805,7 +6710,6 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< type_type > type_;
     ::xsd::cxx::tree::one< quantity_type > quantity_;
   };

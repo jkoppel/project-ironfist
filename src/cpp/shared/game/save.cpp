@@ -137,8 +137,7 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
   giCurTurn = gam->day + 7 * (gam->week - 1) + 28 * (gam->month - 1);
   
   for (int i = 0; i < gs.playerData().size(); i++) {
-    //instanceID ?
-    gam->players[i].barrierTentsVisited = gs.playerData().at(i).barrierTentsVisited();
+    gam->players[i].color = gs.playerData().at(i).color();
     gam->players[i].numHeroes = gs.playerData().at(i).numHeroes();
     gam->players[i].curHeroIdx = gs.playerData().at(i).curHeroIdx();
     gam->players[i].field_3 = gs.playerData().at(i).field_3();
@@ -149,7 +148,7 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
       gam->players[i].heroesOwned[j] = gs.playerData().at(i).heroesOwned().at(j).hero().get();
     }
     gam->_B[1] = gs.playerData().at(i).game_B();
-    //gam->players[i]._3 = gs.playerData().at(i)._3();
+    gam->players[i]._3[0] = gs.playerData().at(i)._3();
     gam->players[i].personality = gs.playerData().at(i).personality();
     gam->players[i]._2 = gs.playerData().at(i)._2();
     gam->players[i]._4_1 = gs.playerData().at(i)._4_1();
@@ -259,7 +258,7 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
   gam->numRumors = gs.numRumors();
   gam->numEvents = gs.numEvents();
   gam->field_657B = gs.field_657B();
-  for (int i = 0; i < gs._D().size(); i++) {
+   for(int i = 0; i < 2 * gam->field_657B; i++) {
     gam->_D[i] = gs._D().at(i).value().get();
   }
   iMaxMapExtra = gs.maxMapExtra();
@@ -335,7 +334,7 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	(int)gam->allowAIArmySharing,
 	gam->map.width,
 	gam->map.height,
-	(int)gam,
+	gam->gameDifficulty,
 	giMonthType,
 	giMonthTypeExtra,
 	giWeekType,
@@ -493,7 +492,7 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   for(int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
 	  int x = i % MAP_HEIGHT;
 	  int y = i / MAP_HEIGHT;
-	  gs.mapRevealed().push_back(ironfist_map::gamestate_t::mapRevealed_type(i, x, y));
+	  gs.mapRevealed().push_back(ironfist_map::gamestate_t::mapRevealed_type(x, y));
 	  gs.mapRevealed().back().revealed(mapRevealed[i]);
   }
 
@@ -514,12 +513,12 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 	  playerData player = gam->players[i];
 	  
 	  ironfist_map::gamestate_t::playerData_type data(
-		  (int)&player,
+		  player.color,
 		  player.numHeroes,
 		  player.curHeroIdx,
 		  player.field_3,
 		  gam->_B[1],
-		  (int)player._3,
+		  player._3[0],
 		  player.personality,
 		  player._2,
 		  player._4_1,
@@ -608,17 +607,17 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 
 	  gs.towns().back().garrison().push_back(ironfist_map::town_t::garrison_type());
 	  for(int j = 0; j < ELEMENTS_IN(twn.garrison.creatureTypes); j++) {
-		  gs.towns().back().garrison().back().creature().push_back(ironfist_map::armyGroup_t::creature_type(j, twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
+		  gs.towns().back().garrison().back().creature().push_back(ironfist_map::armyGroup_t::creature_type(twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
 	  }
   }
 
   for(int i = 0; i < ELEMENTS_IN(gam->mines); i++) {
 	  mine *m = &gam->mines[i];
-	  gs.mine().push_back(ironfist_map::gamestate_t::mine_type(i, m->field_0, m->owner, m->type, m->guardianType, m->guadianQty, m->x, m->y));
+	  gs.mine().push_back(ironfist_map::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guadianQty, m->x, m->y));
   }
   for(int i = 0; i < ELEMENTS_IN(gam->boats); i++) {
 	  boat *b = &gam->boats[i];
-	  gs.boat().push_back(ironfist_map::gamestate_t::boat_type(i, b->idx, b->x, b->y, b->field_3, b->underlyingObjType, b->underlyingObjExtra, b->field_6, b->owner));
+	  gs.boat().push_back(ironfist_map::gamestate_t::boat_type(b->idx, b->x, b->y, b->field_3, b->underlyingObjType, b->underlyingObjExtra, b->field_6, b->owner));
   }
 
   fullMap *map = &gam->map;
@@ -626,7 +625,6 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   for(int i = 0; i < map->height * map->width; i++) {
 	  mapCell *c = &map->tiles[i];
 	  ironfist_map::fullMap_t::mapCell_type cell(
-		  i,
 		  c->groundIndex,
 		  c->hasObject,
 		  c->isRoad,
@@ -648,7 +646,6 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   for (int i = 0; i < map->numCellExtras; i++) {
 	  mapCellExtra *e = &map->cellExtras[i];
 	  ironfist_map::fullMap_t::mapCellExtra_type cellExtra(
-		i,
 		  e->nextIdx,
 		  e->animatedObject,
 		  e->objTileset,
@@ -937,8 +934,6 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 		}
 	} else {
 		try {
-			int fd;
-			
 			char v8[100];
 			int v14 = 0;
 			gbGameOver = 0;
@@ -948,7 +943,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 			/*
 			 * Check if original save format
 			 */
-			fd = _open(v8, O_BINARY);
+			int fd = _open(v8, O_BINARY);
 			char first_byte;
 			_read(fd, &first_byte, sizeof(first_byte));
 			_close(fd);
@@ -970,118 +965,20 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       
       if(mp->gamestate())
         ReadGameStateXML(*mp->gamestate(), gpGame);
+			
+      gpAdvManager->heroMobilized = 0;
+      gpCurPlayer = &gpGame->players[giCurPlayer];
+      giCurPlayerBit = 1 << giCurPlayer;
+      for(giCurWatchPlayer = giCurPlayer;
+        !gbThisNetHumanPlayer[giCurWatchPlayer];
+        giCurWatchPlayer = (giCurWatchPlayer + 1) % this->numPlayers )
+        ;
+      giCurWatchPlayerBit = 1 << giCurWatchPlayer;
+      bShowIt = gbThisNetHumanPlayer[giCurPlayer];
+      this->SetupAdjacentMons();
+      gpAdvManager->CheckSetEvilInterface(0, -1);
 
-			int tmp_fd = _open(tmpFileName, O_BINARY | O_CREAT | O_WRONLY);
-			_write(tmp_fd, mp->raw().data(), mp->raw().size());
-			_close(tmp_fd);
-
-			char expansion;
-			char curPlayer;
-			char hasPlayer[6];
-
-			int width,height;
-
-			fd = open(tmpFileName, O_BINARY | O_RDONLY);
-			if ( fd == -1 )
-				FileError(v8);
-			ClearMapExtra();
-			expansion = 1;
-
-			_read(fd, &width, 4u);
-			_read(fd, &height, 4u);
-			this->SetMapSize(width, height);
-			_read(fd, &this->mapHeader, sizeof(SMapHeader));
-			_read(fd, &this->field_44D, 0x41u);
-			_read(fd, this, 2u);
-			_read(fd, &giMonthType, 1);
-			_read(fd, &giMonthTypeExtra, 1u);
-			_read(fd, &giWeekType, 1u);
-			_read(fd, &giWeekTypeExtra, 1u);
-			_read(fd, cPlayerNames, sizeof(cPlayerNames));
-
-			gpAdvManager->PurgeMapChangeQueue();
-			_read(fd, &giMapChangeCtr, 4u);
-
-			sprintf(gpGame->lastSaveFile, filnam);
-			_read(fd, &this->numPlayers, sizeof(this->numPlayers));
-			_read(fd, &curPlayer, sizeof(curPlayer));
-			giCurPlayer = curPlayer;
-			_read(fd, &this->couldBeNumDefeatedPlayers, 1u);
-			_read(fd, this->playerDead, 6u);
-
-			_read(fd, hasPlayer, sizeof(hasPlayer));
-			for(int i = 0; i < 6; ++i) {
-				if(hasPlayer[i] && v14 < iLastMsgNumHumanPlayers) {
-					++v14;
-					gbHumanPlayer[i] = 1;
-				} else {
-					gbHumanPlayer[i] = 0;
-				}
-			}
-			for(int i = 0; i < 6; ++i) {
-				if(gbHumanPlayer[i])
-					gbThisNetHumanPlayer[i] = !gbRemoteOn || i == giThisGamePos;
-				else
-					gbThisNetHumanPlayer[i] = 0;
-			}
-
-			_read(fd, &this->day, 2u);
-			_read(fd, &this->week, 2u);
-			_read(fd, &this->month, 2u);
-			giCurTurn = this->day + 7 * (this->week - 1) + 28 * (this->month - 1);
-			for(int i = 0; i < 6; ++i)
-				this->players[i].Read(fd);
-			_read(fd, &this->numObelisks, 1u);
-			_read(fd, this->relatedToHeroForHireStatus, 0x36u);
-			_read(fd, this->castles, 7200u);
-			_read(fd, this->field_2773, 0x48u);
-			_read(fd, this->field_27BB, 9u);
-			_read(fd, this->mines, 0x3F0u);
-			_read(fd, this->field_60A6, 144u);
-
-			_read(fd, this->artifactGeneratedRandomly, 0x67u);
-			_read(fd, this->boats, 0x180u);
-			_read(fd, this->boatBuilt, 0x30u);
-			_read(fd, this->obeliskVisitedMasks, 0x30u);
-			_read(fd, &this->field_6395, 1u);
-			_read(fd, &this->field_6396, 1u);
-			_read(fd, &this->field_6397, 1u);
-			_read(fd, this->currentRumor, 301u);
-			_read(fd, this->field_637D, 0x18u);
-			_read(fd, &this->numRumors, 4u);
-			_read(fd, this->rumorIndices, 2 * this->numRumors);
-			_read(fd, &this->numEvents, 4u);
-			_read(fd, this->eventIndices, 2 * this->numEvents);
-			_read(fd, &this->field_657B, 4u);
-			_read(fd, this->_D, 2 * this->field_657B);
-			_read(fd, &iMaxMapExtra, 4u);
-			ppMapExtra = (void**)ALLOC(4 * iMaxMapExtra);
-			pwSizeOfMapExtra = (short*)ALLOC(2 * iMaxMapExtra);
-			memset(ppMapExtra, 0, 4 * iMaxMapExtra);
-			memset(pwSizeOfMapExtra, 0, 2 * iMaxMapExtra);
-			for(int i = 1; i < iMaxMapExtra; ++i ) {
-				_read(fd, &pwSizeOfMapExtra[i], 2u);
-				ppMapExtra[i] = ALLOC(pwSizeOfMapExtra[i]);
-				_read(fd, ppMapExtra[i], pwSizeOfMapExtra[i]);
-			}
-			_read(fd, mapRevealed, MAP_HEIGHT * MAP_WIDTH);
-			this->map.Read(fd, 0);
-			SetFileAttributes(tmpFileNameW, GetFileAttributes(tmpFileNameW) & ~FILE_ATTRIBUTE_READONLY);
-			_close(fd);
-			remove(tmpFileName);
-            gpAdvManager->heroMobilized = 0;
-			gpCurPlayer = &gpGame->players[giCurPlayer];
-			giCurPlayerBit = 1 << giCurPlayer;
-			for(giCurWatchPlayer = giCurPlayer;
-				!gbThisNetHumanPlayer[giCurWatchPlayer];
-				giCurWatchPlayer = (giCurWatchPlayer + 1) % this->numPlayers )
-				;
-			giCurWatchPlayerBit = 1 << giCurWatchPlayer;
-			bShowIt = gbThisNetHumanPlayer[giCurPlayer];
-			this->SetupAdjacentMons();
-			gpAdvManager->CheckSetEvilInterface(0, -1);
-
-            gpGame->ResetIronfistGameState();
+      gpGame->ResetIronfistGameState();
 
 			if (mp->script().present()) {
 				ScriptingInitFromString(mp->script().get());

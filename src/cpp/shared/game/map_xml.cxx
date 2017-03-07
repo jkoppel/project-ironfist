@@ -1395,22 +1395,22 @@ namespace ironfist_map
     return mapHeight_type (32);
   }
 
-  const gamestate_t::gameInstanceID_type& gamestate_t::
-  gameInstanceID () const
+  const gamestate_t::gameDifficulty_type& gamestate_t::
+  gameDifficulty () const
   {
-    return this->gameInstanceID_.get ();
+    return this->gameDifficulty_.get ();
   }
 
-  gamestate_t::gameInstanceID_type& gamestate_t::
-  gameInstanceID ()
+  gamestate_t::gameDifficulty_type& gamestate_t::
+  gameDifficulty ()
   {
-    return this->gameInstanceID_.get ();
+    return this->gameDifficulty_.get ();
   }
 
   void gamestate_t::
-  gameInstanceID (const gameInstanceID_type& x)
+  gameDifficulty (const gameDifficulty_type& x)
   {
-    this->gameInstanceID_.set (x);
+    this->gameDifficulty_.set (x);
   }
 
   const gamestate_t::monthType_type& gamestate_t::
@@ -2997,24 +2997,6 @@ namespace ironfist_map
   // mapCellExtra_t
   // 
 
-  const mapCellExtra_t::id_type& mapCellExtra_t::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  mapCellExtra_t::id_type& mapCellExtra_t::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void mapCellExtra_t::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const mapCellExtra_t::nextIdx_type& mapCellExtra_t::
   nextIdx () const
   {
@@ -3234,24 +3216,6 @@ namespace ironfist_map
 
   // mapCell_t
   // 
-
-  const mapCell_t::id_type& mapCell_t::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  mapCell_t::id_type& mapCell_t::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void mapCell_t::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
 
   const mapCell_t::groundIndex_type& mapCell_t::
   groundIndex () const
@@ -3545,24 +3509,6 @@ namespace ironfist_map
   // mine_t
   // 
 
-  const mine_t::id_type& mine_t::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  mine_t::id_type& mine_t::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void mine_t::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const mine_t::field_0_type& mine_t::
   field_0 () const
   {
@@ -3692,24 +3638,6 @@ namespace ironfist_map
 
   // boat_t
   // 
-
-  const boat_t::id_type& boat_t::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  boat_t::id_type& boat_t::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void boat_t::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
 
   const boat_t::idx_type& boat_t::
   idx () const
@@ -4323,22 +4251,22 @@ namespace ironfist_map
   // playerData_t
   // 
 
-  const playerData_t::instance_type& playerData_t::
-  instance () const
+  const playerData_t::color_type& playerData_t::
+  color () const
   {
-    return this->instance_.get ();
+    return this->color_.get ();
   }
 
-  playerData_t::instance_type& playerData_t::
-  instance ()
+  playerData_t::color_type& playerData_t::
+  color ()
   {
-    return this->instance_.get ();
+    return this->color_.get ();
   }
 
   void playerData_t::
-  instance (const instance_type& x)
+  color (const color_type& x)
   {
-    this->instance_.set (x);
+    this->color_.set (x);
   }
 
   const playerData_t::numHeroes_type& playerData_t::
@@ -5761,24 +5689,6 @@ namespace ironfist_map
   // mapRevealed
   // 
 
-  const mapRevealed::id_type& mapRevealed::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  mapRevealed::id_type& mapRevealed::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void mapRevealed::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const mapRevealed::x_type& mapRevealed::
   x () const
   {
@@ -5930,24 +5840,6 @@ namespace ironfist_map
 
   // creature
   // 
-
-  const creature::id_type& creature::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  creature::id_type& creature::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void creature::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
 
   const creature::type_type& creature::
   type () const
@@ -8166,7 +8058,7 @@ namespace ironfist_map
   gamestate_t (const allowAIArmySharing_type& allowAIArmySharing,
                const mapWidth_type& mapWidth,
                const mapHeight_type& mapHeight,
-               const gameInstanceID_type& gameInstanceID,
+               const gameDifficulty_type& gameDifficulty,
                const monthType_type& monthType,
                const monthTypeExtra_type& monthTypeExtra,
                const weekType_type& weekType,
@@ -8195,7 +8087,7 @@ namespace ironfist_map
     allowAIArmySharing_ (allowAIArmySharing, ::xml_schema::flags (), this),
     mapWidth_ (mapWidth, ::xml_schema::flags (), this),
     mapHeight_ (mapHeight, ::xml_schema::flags (), this),
-    gameInstanceID_ (gameInstanceID, ::xml_schema::flags (), this),
+    gameDifficulty_ (gameDifficulty, ::xml_schema::flags (), this),
     monthType_ (monthType, ::xml_schema::flags (), this),
     monthTypeExtra_ (monthTypeExtra, ::xml_schema::flags (), this),
     weekType_ (weekType, ::xml_schema::flags (), this),
@@ -8256,7 +8148,7 @@ namespace ironfist_map
     allowAIArmySharing_ (x.allowAIArmySharing_, f, this),
     mapWidth_ (x.mapWidth_, f, this),
     mapHeight_ (x.mapHeight_, f, this),
-    gameInstanceID_ (x.gameInstanceID_, f, this),
+    gameDifficulty_ (x.gameDifficulty_, f, this),
     monthType_ (x.monthType_, f, this),
     monthTypeExtra_ (x.monthTypeExtra_, f, this),
     weekType_ (x.weekType_, f, this),
@@ -8317,7 +8209,7 @@ namespace ironfist_map
     allowAIArmySharing_ (f, this),
     mapWidth_ (f, this),
     mapHeight_ (f, this),
-    gameInstanceID_ (f, this),
+    gameDifficulty_ (f, this),
     monthType_ (f, this),
     monthTypeExtra_ (f, this),
     weekType_ (f, this),
@@ -8418,13 +8310,13 @@ namespace ironfist_map
         }
       }
 
-      // gameInstanceID
+      // gameDifficulty
       //
-      if (n.name () == "gameInstanceID" && n.namespace_ ().empty ())
+      if (n.name () == "gameDifficulty" && n.namespace_ ().empty ())
       {
-        if (!gameInstanceID_.present ())
+        if (!gameDifficulty_.present ())
         {
-          this->gameInstanceID_.set (gameInstanceID_traits::create (i, f, this));
+          this->gameDifficulty_.set (gameDifficulty_traits::create (i, f, this));
           continue;
         }
       }
@@ -8998,10 +8890,10 @@ namespace ironfist_map
         "");
     }
 
-    if (!gameInstanceID_.present ())
+    if (!gameDifficulty_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "gameInstanceID",
+        "gameDifficulty",
         "");
     }
 
@@ -10072,8 +9964,7 @@ namespace ironfist_map
   //
 
   mapCellExtra_t::
-  mapCellExtra_t (const id_type& id,
-                  const nextIdx_type& nextIdx,
+  mapCellExtra_t (const nextIdx_type& nextIdx,
                   const animatedObject_type& animatedObject,
                   const objTileset_type& objTileset,
                   const objectIndex_type& objectIndex,
@@ -10086,7 +9977,6 @@ namespace ironfist_map
                   const tileset_type& tileset,
                   const overlayIndex_type& overlayIndex)
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     nextIdx_ (nextIdx, ::xml_schema::flags (), this),
     animatedObject_ (animatedObject, ::xml_schema::flags (), this),
     objTileset_ (objTileset, ::xml_schema::flags (), this),
@@ -10107,7 +9997,6 @@ namespace ironfist_map
                   ::xml_schema::flags f,
                   ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     nextIdx_ (x.nextIdx_, f, this),
     animatedObject_ (x.animatedObject_, f, this),
     objTileset_ (x.objTileset_, f, this),
@@ -10128,7 +10017,6 @@ namespace ironfist_map
                   ::xml_schema::flags f,
                   ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     nextIdx_ (f, this),
     animatedObject_ (f, this),
     objTileset_ (f, this),
@@ -10158,12 +10046,6 @@ namespace ironfist_map
       const ::xercesc::DOMAttr& i (p.next_attribute ());
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
-
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
 
       if (n.name () == "nextIdx" && n.namespace_ ().empty ())
       {
@@ -10236,13 +10118,6 @@ namespace ironfist_map
         this->overlayIndex_.set (overlayIndex_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
 
     if (!nextIdx_.present ())
@@ -10346,8 +10221,7 @@ namespace ironfist_map
   //
 
   mapCell_t::
-  mapCell_t (const id_type& id,
-             const groundIndex_type& groundIndex,
+  mapCell_t (const groundIndex_type& groundIndex,
              const hasObject_type& hasObject,
              const isRoad_type& isRoad,
              const objTileset_type& objTileset,
@@ -10364,7 +10238,6 @@ namespace ironfist_map
              const objType_type& objType,
              const extraIdx_type& extraIdx)
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     groundIndex_ (groundIndex, ::xml_schema::flags (), this),
     hasObject_ (hasObject, ::xml_schema::flags (), this),
     isRoad_ (isRoad, ::xml_schema::flags (), this),
@@ -10389,7 +10262,6 @@ namespace ironfist_map
              ::xml_schema::flags f,
              ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     groundIndex_ (x.groundIndex_, f, this),
     hasObject_ (x.hasObject_, f, this),
     isRoad_ (x.isRoad_, f, this),
@@ -10414,7 +10286,6 @@ namespace ironfist_map
              ::xml_schema::flags f,
              ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     groundIndex_ (f, this),
     hasObject_ (f, this),
     isRoad_ (f, this),
@@ -10448,12 +10319,6 @@ namespace ironfist_map
       const ::xercesc::DOMAttr& i (p.next_attribute ());
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
-
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
 
       if (n.name () == "groundIndex" && n.namespace_ ().empty ())
       {
@@ -10550,13 +10415,6 @@ namespace ironfist_map
         this->extraIdx_.set (extraIdx_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
 
     if (!groundIndex_.present ())
@@ -10688,8 +10546,7 @@ namespace ironfist_map
   //
 
   mine_t::
-  mine_t (const id_type& id,
-          const field_0_type& field_0,
+  mine_t (const field_0_type& field_0,
           const owner_type& owner,
           const type_type& type,
           const guardianType_type& guardianType,
@@ -10697,7 +10554,6 @@ namespace ironfist_map
           const x_type& x,
           const y_type& y)
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     field_0_ (field_0, ::xml_schema::flags (), this),
     owner_ (owner, ::xml_schema::flags (), this),
     type_ (type, ::xml_schema::flags (), this),
@@ -10713,7 +10569,6 @@ namespace ironfist_map
           ::xml_schema::flags f,
           ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     field_0_ (x.field_0_, f, this),
     owner_ (x.owner_, f, this),
     type_ (x.type_, f, this),
@@ -10729,7 +10584,6 @@ namespace ironfist_map
           ::xml_schema::flags f,
           ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     field_0_ (f, this),
     owner_ (f, this),
     type_ (f, this),
@@ -10754,12 +10608,6 @@ namespace ironfist_map
       const ::xercesc::DOMAttr& i (p.next_attribute ());
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
-
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
 
       if (n.name () == "field_0" && n.namespace_ ().empty ())
       {
@@ -10802,13 +10650,6 @@ namespace ironfist_map
         this->y_.set (y_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
 
     if (!field_0_.present ())
@@ -10877,8 +10718,7 @@ namespace ironfist_map
   //
 
   boat_t::
-  boat_t (const id_type& id,
-          const idx_type& idx,
+  boat_t (const idx_type& idx,
           const x_type& x,
           const y_type& y,
           const field_3_type& field_3,
@@ -10887,7 +10727,6 @@ namespace ironfist_map
           const field_6_type& field_6,
           const owner_type& owner)
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     idx_ (idx, ::xml_schema::flags (), this),
     x_ (x, ::xml_schema::flags (), this),
     y_ (y, ::xml_schema::flags (), this),
@@ -10904,7 +10743,6 @@ namespace ironfist_map
           ::xml_schema::flags f,
           ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     idx_ (x.idx_, f, this),
     x_ (x.x_, f, this),
     y_ (x.y_, f, this),
@@ -10921,7 +10759,6 @@ namespace ironfist_map
           ::xml_schema::flags f,
           ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     idx_ (f, this),
     x_ (f, this),
     y_ (f, this),
@@ -10947,12 +10784,6 @@ namespace ironfist_map
       const ::xercesc::DOMAttr& i (p.next_attribute ());
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
-
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
 
       if (n.name () == "idx" && n.namespace_ ().empty ())
       {
@@ -11001,13 +10832,6 @@ namespace ironfist_map
         this->owner_.set (owner_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
 
     if (!idx_.present ())
@@ -11707,7 +11531,7 @@ namespace ironfist_map
   //
 
   playerData_t::
-  playerData_t (const instance_type& instance,
+  playerData_t (const color_type& color,
                 const numHeroes_type& numHeroes,
                 const curHeroIdx_type& curHeroIdx,
                 const field_3_type& field_3,
@@ -11723,7 +11547,7 @@ namespace ironfist_map
                 const field_45_type& field_45,
                 const barrierTentsVisited_type& barrierTentsVisited)
   : ::xml_schema::type (),
-    instance_ (instance, ::xml_schema::flags (), this),
+    color_ (color, ::xml_schema::flags (), this),
     numHeroes_ (numHeroes, ::xml_schema::flags (), this),
     curHeroIdx_ (curHeroIdx, ::xml_schema::flags (), this),
     field_3_ (field_3, ::xml_schema::flags (), this),
@@ -11752,7 +11576,7 @@ namespace ironfist_map
                 ::xml_schema::flags f,
                 ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    instance_ (x.instance_, f, this),
+    color_ (x.color_, f, this),
     numHeroes_ (x.numHeroes_, f, this),
     curHeroIdx_ (x.curHeroIdx_, f, this),
     field_3_ (x.field_3_, f, this),
@@ -11781,7 +11605,7 @@ namespace ironfist_map
                 ::xml_schema::flags f,
                 ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    instance_ (f, this),
+    color_ (f, this),
     numHeroes_ (f, this),
     curHeroIdx_ (f, this),
     field_3_ (f, this),
@@ -11820,13 +11644,13 @@ namespace ironfist_map
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      // instance
+      // color
       //
-      if (n.name () == "instance" && n.namespace_ ().empty ())
+      if (n.name () == "color" && n.namespace_ ().empty ())
       {
-        if (!instance_.present ())
+        if (!color_.present ())
         {
-          this->instance_.set (instance_traits::create (i, f, this));
+          this->color_.set (color_traits::create (i, f, this));
           continue;
         }
       }
@@ -12054,10 +11878,10 @@ namespace ironfist_map
       break;
     }
 
-    if (!instance_.present ())
+    if (!color_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "instance",
+        "color",
         "");
     }
 
@@ -13899,11 +13723,9 @@ namespace ironfist_map
   //
 
   mapRevealed::
-  mapRevealed (const id_type& id,
-               const x_type& x,
+  mapRevealed (const x_type& x,
                const y_type& y)
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     x_ (x, ::xml_schema::flags (), this),
     y_ (y, ::xml_schema::flags (), this),
     revealed_ (::xml_schema::flags (), this)
@@ -13915,7 +13737,6 @@ namespace ironfist_map
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     x_ (x.x_, f, this),
     y_ (x.y_, f, this),
     revealed_ (x.revealed_, f, this)
@@ -13927,7 +13748,6 @@ namespace ironfist_map
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     x_ (f, this),
     y_ (f, this),
     revealed_ (f, this)
@@ -13949,12 +13769,6 @@ namespace ironfist_map
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "x" && n.namespace_ ().empty ())
       {
         this->x_.set (x_traits::create (i, f, this));
@@ -13972,13 +13786,6 @@ namespace ironfist_map
         this->revealed_.set (revealed_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
 
     if (!x_.present ())
@@ -14292,11 +14099,9 @@ namespace ironfist_map
   //
 
   creature::
-  creature (const id_type& id,
-            const type_type& type,
+  creature (const type_type& type,
             const quantity_type& quantity)
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     type_ (type, ::xml_schema::flags (), this),
     quantity_ (quantity, ::xml_schema::flags (), this)
   {
@@ -14307,7 +14112,6 @@ namespace ironfist_map
             ::xml_schema::flags f,
             ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     type_ (x.type_, f, this),
     quantity_ (x.quantity_, f, this)
   {
@@ -14318,7 +14122,6 @@ namespace ironfist_map
             ::xml_schema::flags f,
             ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     type_ (f, this),
     quantity_ (f, this)
   {
@@ -14339,12 +14142,6 @@ namespace ironfist_map
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "type" && n.namespace_ ().empty ())
       {
         this->type_.set (type_traits::create (i, f, this));
@@ -14356,13 +14153,6 @@ namespace ironfist_map
         this->quantity_.set (quantity_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
 
     if (!type_.present ())
@@ -17943,15 +17733,15 @@ namespace ironfist_map
       s << i.mapHeight ();
     }
 
-    // gameInstanceID
+    // gameDifficulty
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "gameInstanceID",
+          "gameDifficulty",
           e));
 
-      s << i.gameInstanceID ();
+      s << i.gameDifficulty ();
     }
 
     // monthType
@@ -19011,17 +18801,6 @@ namespace ironfist_map
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
-
     // nextIdx
     //
     {
@@ -19159,17 +18938,6 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement& e, const mapCell_t& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
-
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
 
     // groundIndex
     //
@@ -19353,17 +19121,6 @@ namespace ironfist_map
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
-
     // field_0
     //
     {
@@ -19446,17 +19203,6 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement& e, const boat_t& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
-
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
 
     // idx
     //
@@ -19854,15 +19600,15 @@ namespace ironfist_map
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // instance
+    // color
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "instance",
+          "color",
           e));
 
-      s << i.instance ();
+      s << i.color ();
     }
 
     // numHeroes
@@ -21802,17 +21548,6 @@ namespace ironfist_map
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
-
     // x
     //
     {
@@ -21920,17 +21655,6 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement& e, const creature& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
-
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
 
     // type
     //
