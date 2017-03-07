@@ -7407,20 +7407,6 @@ namespace ironfist_map
   class ppMapExtra: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // mapExtraIndex
     // 
     typedef ::xml_schema::int_ mapExtraIndex_type;
@@ -7441,7 +7427,7 @@ namespace ironfist_map
 
     // value
     // 
-    typedef ::xml_schema::int_ value_type;
+    typedef ::xml_schema::byte value_type;
     typedef ::xsd::cxx::tree::optional< value_type > value_optional;
     typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
 
@@ -7459,7 +7445,7 @@ namespace ironfist_map
 
     // Constructors.
     //
-    ppMapExtra (const id_type&);
+    ppMapExtra ();
 
     ppMapExtra (const ::xercesc::DOMElement& e,
                 ::xml_schema::flags f = 0,
@@ -7484,7 +7470,6 @@ namespace ironfist_map
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     mapExtraIndex_optional mapExtraIndex_;
     value_optional value_;
   };

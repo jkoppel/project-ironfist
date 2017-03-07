@@ -6403,24 +6403,6 @@ namespace ironfist_map
   // ppMapExtra
   // 
 
-  const ppMapExtra::id_type& ppMapExtra::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  ppMapExtra::id_type& ppMapExtra::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void ppMapExtra::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const ppMapExtra::mapExtraIndex_optional& ppMapExtra::
   mapExtraIndex () const
   {
@@ -15125,9 +15107,8 @@ namespace ironfist_map
   //
 
   ppMapExtra::
-  ppMapExtra (const id_type& id)
+  ppMapExtra ()
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     mapExtraIndex_ (::xml_schema::flags (), this),
     value_ (::xml_schema::flags (), this)
   {
@@ -15138,7 +15119,6 @@ namespace ironfist_map
               ::xml_schema::flags f,
               ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     mapExtraIndex_ (x.mapExtraIndex_, f, this),
     value_ (x.value_, f, this)
   {
@@ -15149,7 +15129,6 @@ namespace ironfist_map
               ::xml_schema::flags f,
               ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     mapExtraIndex_ (f, this),
     value_ (f, this)
   {
@@ -15170,12 +15149,6 @@ namespace ironfist_map
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "mapExtraIndex" && n.namespace_ ().empty ())
       {
         this->mapExtraIndex_.set (mapExtraIndex_traits::create (i, f, this));
@@ -15187,13 +15160,6 @@ namespace ironfist_map
         this->value_.set (value_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
   }
 
@@ -22254,17 +22220,6 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement& e, const ppMapExtra& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
-
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
 
     // mapExtraIndex
     //

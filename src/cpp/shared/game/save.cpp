@@ -275,14 +275,14 @@ static void ReadGameStateXML(ironfist_map::gamestate_t& gs, game* gam) {
 	memset(ppMapExtra, 0, 4 * iMaxMapExtra);
 	memset(pwSizeOfMapExtra, 0, 2 * iMaxMapExtra);
 
-  // fix dis
-  /*for(int i = 1; i < iMaxMapExtra; ++i ) {
-		pwSizeOfMapExtra[i] = gs.mapExtra().at(i).ppMapExtra().size();
+  for(int i = 1; i < iMaxMapExtra; ++i ) {
+		pwSizeOfMapExtra[i] = gs.mapExtra().at(i - 1).ppMapExtra().size();
 		ppMapExtra[i] = ALLOC(pwSizeOfMapExtra[i]);
     for(int j = 0; j < pwSizeOfMapExtra[i]; j++) {
-      *((char*)&ppMapExtra[i] + j) = gs.mapExtra().at(i).ppMapExtra().at(j).value().get();
+      *((char*)ppMapExtra[i] + j) = (char)gs.mapExtra().at(i - 1).ppMapExtra().at(j).value().get();
     }
-	}*/
+	}
+
   for (int i = 0; i < gs.mapRevealed().size(); i++) {
     mapRevealed[i] = gs.mapRevealed().at(i).revealed().get();
   }
@@ -397,9 +397,9 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
 
   for(int i = 0; i < ELEMENTS_IN(mh->hasPlayer); i++) {
     gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->hasPlayer[i]));
-    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->playerMayBeHuman[i]));
-    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->playerMayBeComp[i]));
-    gs.mapHeader().back().hasPlayer().push_back(ironfist_map::gamestate_t::mapHeader_type::hasPlayer_type(mh->playerFactions[i]));
+    gs.mapHeader().back().playerMayBeHuman().push_back(ironfist_map::gamestate_t::mapHeader_type::playerMayBeHuman_type(mh->playerMayBeHuman[i]));
+    gs.mapHeader().back().playerMayBeComp().push_back(ironfist_map::gamestate_t::mapHeader_type::playerMayBeComp_type(mh->playerMayBeComp[i]));
+    gs.mapHeader().back().playerFactions().push_back(ironfist_map::gamestate_t::mapHeader_type::playerFactions_type(mh->playerFactions[i]));
   }
 
   for(int i = 0; i < ELEMENTS_IN(cPlayerNames); i++) {
@@ -500,14 +500,14 @@ ironfist_map::gamestate_t WriteGameStateXML(game* gam) {
   for(int i = 1; i < iMaxMapExtra; i++) {
 	  gs.mapExtra().push_back(ironfist_map::gamestate_t::mapExtra_type());
 	  for (int j = 0; j < pwSizeOfMapExtra[i]; j++) {
-		gs.mapExtra().back().ppMapExtra().push_back(j);
-		gs.mapExtra().back().ppMapExtra().back().mapExtraIndex(i);
-		if (ppMapExtra[i]) {
-			gs.mapExtra().back().ppMapExtra().back().value(*((char*)ppMapExtra[i] + j));
-		} else {
-			gs.mapExtra().back().ppMapExtra().back().value(0);
-		}
-	 }
+		  gs.mapExtra().back().ppMapExtra().push_back(ironfist_map::mapExtra_t::ppMapExtra_type());
+		  gs.mapExtra().back().ppMapExtra().back().mapExtraIndex(i);
+		  if (ppMapExtra[i]) {
+		  	gs.mapExtra().back().ppMapExtra().back().value(*((char*)ppMapExtra[i] + j));
+		  } else {
+		  	gs.mapExtra().back().ppMapExtra().back().value(0);
+		  }
+	  }
   }
 
   for(int i = 0; i < 6; i++) {
