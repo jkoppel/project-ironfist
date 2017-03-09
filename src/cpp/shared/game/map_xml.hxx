@@ -5241,20 +5241,6 @@ namespace ironfist_save
   class playerNames: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // name
     // 
     typedef ::xml_schema::string name_type;
@@ -5278,7 +5264,7 @@ namespace ironfist_save
 
     // Constructors.
     //
-    playerNames (const id_type&);
+    playerNames ();
 
     playerNames (const ::xercesc::DOMElement& e,
                  ::xml_schema::flags f = 0,
@@ -5303,27 +5289,12 @@ namespace ironfist_save
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     name_optional name_;
   };
 
   class deadPlayers: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // playerID
     // 
     typedef ::xml_schema::int_ playerID_type;
@@ -5344,7 +5315,7 @@ namespace ironfist_save
 
     // Constructors.
     //
-    deadPlayers (const id_type&);
+    deadPlayers ();
 
     deadPlayers (const ::xercesc::DOMElement& e,
                  ::xml_schema::flags f = 0,
@@ -5369,27 +5340,12 @@ namespace ironfist_save
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     playerID_optional playerID_;
   };
 
   class alivePlayers: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // playerID
     // 
     typedef ::xml_schema::int_ playerID_type;
@@ -5410,7 +5366,7 @@ namespace ironfist_save
 
     // Constructors.
     //
-    alivePlayers (const id_type&);
+    alivePlayers ();
 
     alivePlayers (const ::xercesc::DOMElement& e,
                   ::xml_schema::flags f = 0,
@@ -5435,27 +5391,12 @@ namespace ironfist_save
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     playerID_optional playerID_;
   };
 
   class heroHireStatus: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // status
     // 
     typedef ::xml_schema::int_ status_type;
@@ -5476,7 +5417,7 @@ namespace ironfist_save
 
     // Constructors.
     //
-    heroHireStatus (const id_type&);
+    heroHireStatus ();
 
     heroHireStatus (const ::xercesc::DOMElement& e,
                     ::xml_schema::flags f = 0,
@@ -5501,27 +5442,12 @@ namespace ironfist_save
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     status_optional status_;
   };
 
   class playerHandicap: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // handicap
     // 
     typedef ::xml_schema::int_ handicap_type;
@@ -5542,7 +5468,7 @@ namespace ironfist_save
 
     // Constructors.
     //
-    playerHandicap (const id_type&);
+    playerHandicap ();
 
     playerHandicap (const ::xercesc::DOMElement& e,
                     ::xml_schema::flags f = 0,
@@ -5567,27 +5493,12 @@ namespace ironfist_save
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     handicap_optional handicap_;
   };
 
   class field_459: public ::xml_schema::type
   {
     public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
     // value
     // 
     typedef ::xml_schema::int_ value_type;
@@ -5608,7 +5519,7 @@ namespace ironfist_save
 
     // Constructors.
     //
-    field_459 (const id_type&);
+    field_459 ();
 
     field_459 (const ::xercesc::DOMElement& e,
                ::xml_schema::flags f = 0,
@@ -5633,7 +5544,6 @@ namespace ironfist_save
            ::xml_schema::flags);
 
     protected:
-    ::xsd::cxx::tree::one< id_type > id_;
     value_optional value_;
   };
 

@@ -4877,24 +4877,6 @@ namespace ironfist_save
   // playerNames
   // 
 
-  const playerNames::id_type& playerNames::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  playerNames::id_type& playerNames::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void playerNames::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const playerNames::name_optional& playerNames::
   name () const
   {
@@ -4929,24 +4911,6 @@ namespace ironfist_save
   // deadPlayers
   // 
 
-  const deadPlayers::id_type& deadPlayers::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  deadPlayers::id_type& deadPlayers::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void deadPlayers::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const deadPlayers::playerID_optional& deadPlayers::
   playerID () const
   {
@@ -4974,24 +4938,6 @@ namespace ironfist_save
 
   // alivePlayers
   // 
-
-  const alivePlayers::id_type& alivePlayers::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  alivePlayers::id_type& alivePlayers::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void alivePlayers::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
 
   const alivePlayers::playerID_optional& alivePlayers::
   playerID () const
@@ -5021,24 +4967,6 @@ namespace ironfist_save
   // heroHireStatus
   // 
 
-  const heroHireStatus::id_type& heroHireStatus::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  heroHireStatus::id_type& heroHireStatus::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void heroHireStatus::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const heroHireStatus::status_optional& heroHireStatus::
   status () const
   {
@@ -5067,24 +4995,6 @@ namespace ironfist_save
   // playerHandicap
   // 
 
-  const playerHandicap::id_type& playerHandicap::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  playerHandicap::id_type& playerHandicap::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void playerHandicap::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
-
   const playerHandicap::handicap_optional& playerHandicap::
   handicap () const
   {
@@ -5112,24 +5022,6 @@ namespace ironfist_save
 
   // field_459
   // 
-
-  const field_459::id_type& field_459::
-  id () const
-  {
-    return this->id_.get ();
-  }
-
-  field_459::id_type& field_459::
-  id ()
-  {
-    return this->id_.get ();
-  }
-
-  void field_459::
-  id (const id_type& x)
-  {
-    this->id_.set (x);
-  }
 
   const field_459::value_optional& field_459::
   value () const
@@ -12329,9 +12221,8 @@ namespace ironfist_save
   //
 
   playerNames::
-  playerNames (const id_type& id)
+  playerNames ()
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     name_ (::xml_schema::flags (), this)
   {
   }
@@ -12341,7 +12232,6 @@ namespace ironfist_save
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     name_ (x.name_, f, this)
   {
   }
@@ -12351,7 +12241,6 @@ namespace ironfist_save
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     name_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -12371,12 +12260,6 @@ namespace ironfist_save
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "name" && n.namespace_ ().empty ())
       {
         ::std::auto_ptr< name_type > r (
@@ -12385,13 +12268,6 @@ namespace ironfist_save
         this->name_.set (r);
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
   }
 
@@ -12411,9 +12287,8 @@ namespace ironfist_save
   //
 
   deadPlayers::
-  deadPlayers (const id_type& id)
+  deadPlayers ()
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     playerID_ (::xml_schema::flags (), this)
   {
   }
@@ -12423,7 +12298,6 @@ namespace ironfist_save
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     playerID_ (x.playerID_, f, this)
   {
   }
@@ -12433,7 +12307,6 @@ namespace ironfist_save
                ::xml_schema::flags f,
                ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     playerID_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -12453,24 +12326,11 @@ namespace ironfist_save
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "playerID" && n.namespace_ ().empty ())
       {
         this->playerID_.set (playerID_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
   }
 
@@ -12490,9 +12350,8 @@ namespace ironfist_save
   //
 
   alivePlayers::
-  alivePlayers (const id_type& id)
+  alivePlayers ()
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     playerID_ (::xml_schema::flags (), this)
   {
   }
@@ -12502,7 +12361,6 @@ namespace ironfist_save
                 ::xml_schema::flags f,
                 ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     playerID_ (x.playerID_, f, this)
   {
   }
@@ -12512,7 +12370,6 @@ namespace ironfist_save
                 ::xml_schema::flags f,
                 ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     playerID_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -12532,24 +12389,11 @@ namespace ironfist_save
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "playerID" && n.namespace_ ().empty ())
       {
         this->playerID_.set (playerID_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
   }
 
@@ -12569,9 +12413,8 @@ namespace ironfist_save
   //
 
   heroHireStatus::
-  heroHireStatus (const id_type& id)
+  heroHireStatus ()
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     status_ (::xml_schema::flags (), this)
   {
   }
@@ -12581,7 +12424,6 @@ namespace ironfist_save
                   ::xml_schema::flags f,
                   ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     status_ (x.status_, f, this)
   {
   }
@@ -12591,7 +12433,6 @@ namespace ironfist_save
                   ::xml_schema::flags f,
                   ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     status_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -12611,24 +12452,11 @@ namespace ironfist_save
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "status" && n.namespace_ ().empty ())
       {
         this->status_.set (status_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
   }
 
@@ -12648,9 +12476,8 @@ namespace ironfist_save
   //
 
   playerHandicap::
-  playerHandicap (const id_type& id)
+  playerHandicap ()
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     handicap_ (::xml_schema::flags (), this)
   {
   }
@@ -12660,7 +12487,6 @@ namespace ironfist_save
                   ::xml_schema::flags f,
                   ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     handicap_ (x.handicap_, f, this)
   {
   }
@@ -12670,7 +12496,6 @@ namespace ironfist_save
                   ::xml_schema::flags f,
                   ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     handicap_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -12690,24 +12515,11 @@ namespace ironfist_save
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "handicap" && n.namespace_ ().empty ())
       {
         this->handicap_.set (handicap_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
   }
 
@@ -12727,9 +12539,8 @@ namespace ironfist_save
   //
 
   field_459::
-  field_459 (const id_type& id)
+  field_459 ()
   : ::xml_schema::type (),
-    id_ (id, ::xml_schema::flags (), this),
     value_ (::xml_schema::flags (), this)
   {
   }
@@ -12739,7 +12550,6 @@ namespace ironfist_save
              ::xml_schema::flags f,
              ::xml_schema::container* c)
   : ::xml_schema::type (x, f, c),
-    id_ (x.id_, f, this),
     value_ (x.value_, f, this)
   {
   }
@@ -12749,7 +12559,6 @@ namespace ironfist_save
              ::xml_schema::flags f,
              ::xml_schema::container* c)
   : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
-    id_ (f, this),
     value_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
@@ -12769,24 +12578,11 @@ namespace ironfist_save
       const ::xsd::cxx::xml::qualified_name< char > n (
         ::xsd::cxx::xml::dom::name< char > (i));
 
-      if (n.name () == "id" && n.namespace_ ().empty ())
-      {
-        this->id_.set (id_traits::create (i, f, this));
-        continue;
-      }
-
       if (n.name () == "value" && n.namespace_ ().empty ())
       {
         this->value_.set (value_traits::create (i, f, this));
         continue;
       }
-    }
-
-    if (!id_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_attribute< char > (
-        "id",
-        "");
     }
   }
 
@@ -20995,17 +20791,6 @@ namespace ironfist_save
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
-
     // name
     //
     if (i.name ())
@@ -21023,17 +20808,6 @@ namespace ironfist_save
   operator<< (::xercesc::DOMElement& e, const deadPlayers& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
-
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
 
     // playerID
     //
@@ -21053,17 +20827,6 @@ namespace ironfist_save
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
-
     // playerID
     //
     if (i.playerID ())
@@ -21081,17 +20844,6 @@ namespace ironfist_save
   operator<< (::xercesc::DOMElement& e, const heroHireStatus& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
-
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
 
     // status
     //
@@ -21111,17 +20863,6 @@ namespace ironfist_save
   {
     e << static_cast< const ::xml_schema::type& > (i);
 
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
-
     // handicap
     //
     if (i.handicap ())
@@ -21139,17 +20880,6 @@ namespace ironfist_save
   operator<< (::xercesc::DOMElement& e, const field_459& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
-
-    // id
-    //
-    {
-      ::xercesc::DOMAttr& a (
-        ::xsd::cxx::xml::dom::create_attribute (
-          "id",
-          e));
-
-      a << i.id ();
-    }
 
     // value
     //
