@@ -916,8 +916,6 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 }
 
 int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
-  void* extraMemory = ALLOC(50000);
-  memset(extraMemory, 0, 50000u);
   baseGame = 0;
   gpAdvManager->DemobilizeCurrHero();
   char path[100];
