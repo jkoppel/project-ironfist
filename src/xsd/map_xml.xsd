@@ -129,106 +129,27 @@
       <xs:element name="numEvents" type="xs:int"/>
       <xs:element name="field_657B" type="xs:int"/>
       <xs:element name="maxMapExtra" type="xs:int"/>
-      <xs:element name="playerNames" minOccurs="6" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="name" type="xs:string"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="deadPlayers" minOccurs="6" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="playerID" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="alivePlayers" minOccurs="6" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="playerID" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="heroHireStatus" minOccurs="54" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="status" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="playerNames" type="arrayString_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="deadPlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="alivePlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="heroHireStatus" type="arrayInt_t" minOccurs="54" maxOccurs="unbounded"/>
       <xs:element name="field_44D" type="xs:int"/>
       <xs:element name="field_451" type="xs:int"/>
-      <xs:element name="playerHandicap" minOccurs="6" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="handicap" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="field_459" minOccurs="6" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="field_45F" minOccurs="6" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="playerHandicap" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="field_459" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="field_45F" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="difficulty" type="xs:int"/>
       <xs:element name="mapFilename" type="xs:string"/>
-      <xs:element name="field_2773" minOccurs="72" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="field_27BB" minOccurs="9" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="field_60A6" minOccurs="144" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="randomArtifacts" minOccurs="103" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="artifact" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="boatBuilt" minOccurs="48" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="boat" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="obeliskVisitedMasks" minOccurs="48" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="obelisk" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="field_637D" minOccurs="24" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="rumorIndices" minOccurs="30" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="index" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="eventIndices" minOccurs="60" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="index" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="_D" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="field_2773" type="arrayInt_t" minOccurs="72" maxOccurs="unbounded"/>
+      <xs:element name="field_27BB" type="arrayInt_t" minOccurs="9" maxOccurs="unbounded"/>
+      <xs:element name="field_60A6" type="arrayInt_t" minOccurs="144" maxOccurs="unbounded"/>
+      <xs:element name="randomArtifacts" type="arrayInt_t" minOccurs="103" maxOccurs="unbounded"/>
+      <xs:element name="boatBuilt" type="arrayInt_t" minOccurs="48" maxOccurs="unbounded"/>
+      <xs:element name="obeliskVisitedMasks" type="arrayInt_t" minOccurs="48" maxOccurs="unbounded"/>
+      <xs:element name="field_637D" type="arrayInt_t" minOccurs="24" maxOccurs="unbounded"/>
+      <xs:element name="rumorIndices" type="arrayInt_t" minOccurs="30" maxOccurs="unbounded"/>
+      <xs:element name="eventIndices" type="arrayInt_t" minOccurs="60" maxOccurs="unbounded"/>
+      <xs:element name="_D" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="mapRevealed" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
           <xs:attribute name="x" type="xs:int" use="required"/>
@@ -276,26 +197,10 @@
       <xs:element name="field_1A1" type="xs:int"/>
       <xs:element name="numRumors" type="xs:int"/>
       <xs:element name="numEvents" type="xs:int"/>
-      <xs:element name="hasPlayer" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="player" type="xs:int" use="required"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="playerMayBeHuman" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="player" type="xs:int" use="required"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="playerMayBeComp" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="player" type="xs:int" use="required"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="playerFactions" minOccurs="0" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="player" type="xs:int" use="required"/>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="hasPlayer" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="playerMayBeHuman" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="playerMayBeComp" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="playerFactions" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
   
@@ -398,24 +303,9 @@
       <xs:element name="field_63" type="xs:int"/>
       <xs:element name="name" type="xs:string"/>
       <xs:element name="garrison" type="armyGroup_t" minOccurs="0" maxOccurs="unbounded"/>
-      <xs:element name="numCreaturesInDwelling" minOccurs="12" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="quantity" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="mageGuildSpells" minOccurs="20" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="spell" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="numSpellsOfLevel" minOccurs="5" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="spell" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="numCreaturesInDwelling" type="arrayInt_t" minOccurs="12" maxOccurs="unbounded"/>
+      <xs:element name="mageGuildSpells" type="arrayInt_t" minOccurs="20" maxOccurs="unbounded"/>
+      <xs:element name="numSpellsOfLevel" type="arrayInt_t" minOccurs="5" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
   
@@ -436,42 +326,12 @@
       <xs:element name="numCastles" type="xs:int"/>
       <xs:element name="field_45" type="xs:int"/>
       <xs:element name="barrierTentsVisited" type="xs:int"/>
-      <xs:element name="heroesOwned" minOccurs="8" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="hero" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="heroesForPurchase" minOccurs="2" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="hero" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="castlesOwned" minOccurs="72" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="castle" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="resources" minOccurs="7" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="quantity" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="field_E7" minOccurs="7" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="_4_2" minOccurs="6" maxOccurs="unbounded">
-        <xs:complexType>
-          <xs:attribute name="id" type="xs:int" use="required"/>
-          <xs:attribute name="value" type="xs:int"/>
-        </xs:complexType>
-      </xs:element>
+      <xs:element name="heroesOwned" type="arrayInt_t" minOccurs="8" maxOccurs="unbounded"/>
+      <xs:element name="heroesForPurchase" type="arrayInt_t" minOccurs="2" maxOccurs="unbounded"/>
+      <xs:element name="castlesOwned" type="arrayInt_t" minOccurs="72" maxOccurs="unbounded"/>
+      <xs:element name="resources" type="arrayInt_t" minOccurs="7" maxOccurs="unbounded"/>
+      <xs:element name="field_E7" type="arrayInt_t" minOccurs="7" maxOccurs="unbounded"/>
+      <xs:element name="_4_2" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
     </xs:sequence>
   </xs:complexType>
   
@@ -495,6 +355,14 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="arrayInt_t">
+    <xs:attribute name="value" type="xs:int" use="required"/>
+  </xs:complexType>
+  
+  <xs:complexType name="arrayString_t">
+    <xs:attribute name="value" type="xs:string" use="required"/>
+  </xs:complexType>
+  
   <xs:element name="save" type="save_t"/>
   <xs:element name="gamestate" type="gamestate_t"/> 
   <xs:element name="hero" type="hero_t"/>
@@ -502,5 +370,5 @@
   <xs:element name="raw" type="xs:base64Binary"/>
   <xs:element name="army" type="army_t"/>
   <xs:element name="script" type="xs:string"/>
-   
+
 </xs:schema>

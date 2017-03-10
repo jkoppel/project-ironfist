@@ -267,40 +267,12 @@ namespace ironfist_save
   class playerData_t;
   class mapExtra_t;
   class save_t;
+  class arrayInt_t;
+  class arrayString_t;
   class secondarySkill;
   class artifact;
-  class playerNames;
-  class deadPlayers;
-  class alivePlayers;
-  class heroHireStatus;
-  class playerHandicap;
-  class field_459;
-  class field_45F;
-  class field_2773;
-  class field_27BB;
-  class field_60A6;
-  class randomArtifacts;
-  class boatBuilt;
-  class obeliskVisitedMasks;
-  class field_637D;
-  class rumorIndices;
-  class eventIndices;
-  class _D;
   class mapRevealed;
-  class hasPlayer;
-  class playerMayBeHuman;
-  class playerMayBeComp;
-  class playerFactions;
   class creature;
-  class numCreaturesInDwelling;
-  class mageGuildSpells;
-  class numSpellsOfLevel;
-  class heroesOwned;
-  class heroesForPurchase;
-  class castlesOwned;
-  class resources;
-  class field_E7;
-  class _4_2;
   class ppMapExtra;
 }
 
@@ -1992,7 +1964,7 @@ namespace ironfist_save
 
     // playerNames
     // 
-    typedef ::ironfist_save::playerNames playerNames_type;
+    typedef ::ironfist_save::arrayString_t playerNames_type;
     typedef ::xsd::cxx::tree::sequence< playerNames_type > playerNames_sequence;
     typedef playerNames_sequence::iterator playerNames_iterator;
     typedef playerNames_sequence::const_iterator playerNames_const_iterator;
@@ -2009,7 +1981,7 @@ namespace ironfist_save
 
     // deadPlayers
     // 
-    typedef ::ironfist_save::deadPlayers deadPlayers_type;
+    typedef ::ironfist_save::arrayInt_t deadPlayers_type;
     typedef ::xsd::cxx::tree::sequence< deadPlayers_type > deadPlayers_sequence;
     typedef deadPlayers_sequence::iterator deadPlayers_iterator;
     typedef deadPlayers_sequence::const_iterator deadPlayers_const_iterator;
@@ -2026,7 +1998,7 @@ namespace ironfist_save
 
     // alivePlayers
     // 
-    typedef ::ironfist_save::alivePlayers alivePlayers_type;
+    typedef ::ironfist_save::arrayInt_t alivePlayers_type;
     typedef ::xsd::cxx::tree::sequence< alivePlayers_type > alivePlayers_sequence;
     typedef alivePlayers_sequence::iterator alivePlayers_iterator;
     typedef alivePlayers_sequence::const_iterator alivePlayers_const_iterator;
@@ -2043,7 +2015,7 @@ namespace ironfist_save
 
     // heroHireStatus
     // 
-    typedef ::ironfist_save::heroHireStatus heroHireStatus_type;
+    typedef ::ironfist_save::arrayInt_t heroHireStatus_type;
     typedef ::xsd::cxx::tree::sequence< heroHireStatus_type > heroHireStatus_sequence;
     typedef heroHireStatus_sequence::iterator heroHireStatus_iterator;
     typedef heroHireStatus_sequence::const_iterator heroHireStatus_const_iterator;
@@ -2088,7 +2060,7 @@ namespace ironfist_save
 
     // playerHandicap
     // 
-    typedef ::ironfist_save::playerHandicap playerHandicap_type;
+    typedef ::ironfist_save::arrayInt_t playerHandicap_type;
     typedef ::xsd::cxx::tree::sequence< playerHandicap_type > playerHandicap_sequence;
     typedef playerHandicap_sequence::iterator playerHandicap_iterator;
     typedef playerHandicap_sequence::const_iterator playerHandicap_const_iterator;
@@ -2105,7 +2077,7 @@ namespace ironfist_save
 
     // field_459
     // 
-    typedef ::ironfist_save::field_459 field_459_type;
+    typedef ::ironfist_save::arrayInt_t field_459_type;
     typedef ::xsd::cxx::tree::sequence< field_459_type > field_459_sequence;
     typedef field_459_sequence::iterator field_459_iterator;
     typedef field_459_sequence::const_iterator field_459_const_iterator;
@@ -2122,7 +2094,7 @@ namespace ironfist_save
 
     // field_45F
     // 
-    typedef ::ironfist_save::field_45F field_45F_type;
+    typedef ::ironfist_save::arrayInt_t field_45F_type;
     typedef ::xsd::cxx::tree::sequence< field_45F_type > field_45F_sequence;
     typedef field_45F_sequence::iterator field_45F_iterator;
     typedef field_45F_sequence::const_iterator field_45F_const_iterator;
@@ -2170,7 +2142,7 @@ namespace ironfist_save
 
     // field_2773
     // 
-    typedef ::ironfist_save::field_2773 field_2773_type;
+    typedef ::ironfist_save::arrayInt_t field_2773_type;
     typedef ::xsd::cxx::tree::sequence< field_2773_type > field_2773_sequence;
     typedef field_2773_sequence::iterator field_2773_iterator;
     typedef field_2773_sequence::const_iterator field_2773_const_iterator;
@@ -2187,7 +2159,7 @@ namespace ironfist_save
 
     // field_27BB
     // 
-    typedef ::ironfist_save::field_27BB field_27BB_type;
+    typedef ::ironfist_save::arrayInt_t field_27BB_type;
     typedef ::xsd::cxx::tree::sequence< field_27BB_type > field_27BB_sequence;
     typedef field_27BB_sequence::iterator field_27BB_iterator;
     typedef field_27BB_sequence::const_iterator field_27BB_const_iterator;
@@ -2204,7 +2176,7 @@ namespace ironfist_save
 
     // field_60A6
     // 
-    typedef ::ironfist_save::field_60A6 field_60A6_type;
+    typedef ::ironfist_save::arrayInt_t field_60A6_type;
     typedef ::xsd::cxx::tree::sequence< field_60A6_type > field_60A6_sequence;
     typedef field_60A6_sequence::iterator field_60A6_iterator;
     typedef field_60A6_sequence::const_iterator field_60A6_const_iterator;
@@ -2221,7 +2193,7 @@ namespace ironfist_save
 
     // randomArtifacts
     // 
-    typedef ::ironfist_save::randomArtifacts randomArtifacts_type;
+    typedef ::ironfist_save::arrayInt_t randomArtifacts_type;
     typedef ::xsd::cxx::tree::sequence< randomArtifacts_type > randomArtifacts_sequence;
     typedef randomArtifacts_sequence::iterator randomArtifacts_iterator;
     typedef randomArtifacts_sequence::const_iterator randomArtifacts_const_iterator;
@@ -2238,7 +2210,7 @@ namespace ironfist_save
 
     // boatBuilt
     // 
-    typedef ::ironfist_save::boatBuilt boatBuilt_type;
+    typedef ::ironfist_save::arrayInt_t boatBuilt_type;
     typedef ::xsd::cxx::tree::sequence< boatBuilt_type > boatBuilt_sequence;
     typedef boatBuilt_sequence::iterator boatBuilt_iterator;
     typedef boatBuilt_sequence::const_iterator boatBuilt_const_iterator;
@@ -2255,7 +2227,7 @@ namespace ironfist_save
 
     // obeliskVisitedMasks
     // 
-    typedef ::ironfist_save::obeliskVisitedMasks obeliskVisitedMasks_type;
+    typedef ::ironfist_save::arrayInt_t obeliskVisitedMasks_type;
     typedef ::xsd::cxx::tree::sequence< obeliskVisitedMasks_type > obeliskVisitedMasks_sequence;
     typedef obeliskVisitedMasks_sequence::iterator obeliskVisitedMasks_iterator;
     typedef obeliskVisitedMasks_sequence::const_iterator obeliskVisitedMasks_const_iterator;
@@ -2272,7 +2244,7 @@ namespace ironfist_save
 
     // field_637D
     // 
-    typedef ::ironfist_save::field_637D field_637D_type;
+    typedef ::ironfist_save::arrayInt_t field_637D_type;
     typedef ::xsd::cxx::tree::sequence< field_637D_type > field_637D_sequence;
     typedef field_637D_sequence::iterator field_637D_iterator;
     typedef field_637D_sequence::const_iterator field_637D_const_iterator;
@@ -2289,7 +2261,7 @@ namespace ironfist_save
 
     // rumorIndices
     // 
-    typedef ::ironfist_save::rumorIndices rumorIndices_type;
+    typedef ::ironfist_save::arrayInt_t rumorIndices_type;
     typedef ::xsd::cxx::tree::sequence< rumorIndices_type > rumorIndices_sequence;
     typedef rumorIndices_sequence::iterator rumorIndices_iterator;
     typedef rumorIndices_sequence::const_iterator rumorIndices_const_iterator;
@@ -2306,7 +2278,7 @@ namespace ironfist_save
 
     // eventIndices
     // 
-    typedef ::ironfist_save::eventIndices eventIndices_type;
+    typedef ::ironfist_save::arrayInt_t eventIndices_type;
     typedef ::xsd::cxx::tree::sequence< eventIndices_type > eventIndices_sequence;
     typedef eventIndices_sequence::iterator eventIndices_iterator;
     typedef eventIndices_sequence::const_iterator eventIndices_const_iterator;
@@ -2323,7 +2295,7 @@ namespace ironfist_save
 
     // _D
     // 
-    typedef ::ironfist_save::_D _D_type;
+    typedef ::ironfist_save::arrayInt_t _D_type;
     typedef ::xsd::cxx::tree::sequence< _D_type > _D_sequence;
     typedef _D_sequence::iterator _D_iterator;
     typedef _D_sequence::const_iterator _D_const_iterator;
@@ -2986,7 +2958,7 @@ namespace ironfist_save
 
     // hasPlayer
     // 
-    typedef ::ironfist_save::hasPlayer hasPlayer_type;
+    typedef ::ironfist_save::arrayInt_t hasPlayer_type;
     typedef ::xsd::cxx::tree::sequence< hasPlayer_type > hasPlayer_sequence;
     typedef hasPlayer_sequence::iterator hasPlayer_iterator;
     typedef hasPlayer_sequence::const_iterator hasPlayer_const_iterator;
@@ -3003,7 +2975,7 @@ namespace ironfist_save
 
     // playerMayBeHuman
     // 
-    typedef ::ironfist_save::playerMayBeHuman playerMayBeHuman_type;
+    typedef ::ironfist_save::arrayInt_t playerMayBeHuman_type;
     typedef ::xsd::cxx::tree::sequence< playerMayBeHuman_type > playerMayBeHuman_sequence;
     typedef playerMayBeHuman_sequence::iterator playerMayBeHuman_iterator;
     typedef playerMayBeHuman_sequence::const_iterator playerMayBeHuman_const_iterator;
@@ -3020,7 +2992,7 @@ namespace ironfist_save
 
     // playerMayBeComp
     // 
-    typedef ::ironfist_save::playerMayBeComp playerMayBeComp_type;
+    typedef ::ironfist_save::arrayInt_t playerMayBeComp_type;
     typedef ::xsd::cxx::tree::sequence< playerMayBeComp_type > playerMayBeComp_sequence;
     typedef playerMayBeComp_sequence::iterator playerMayBeComp_iterator;
     typedef playerMayBeComp_sequence::const_iterator playerMayBeComp_const_iterator;
@@ -3037,7 +3009,7 @@ namespace ironfist_save
 
     // playerFactions
     // 
-    typedef ::ironfist_save::playerFactions playerFactions_type;
+    typedef ::ironfist_save::arrayInt_t playerFactions_type;
     typedef ::xsd::cxx::tree::sequence< playerFactions_type > playerFactions_sequence;
     typedef playerFactions_sequence::iterator playerFactions_iterator;
     typedef playerFactions_sequence::const_iterator playerFactions_const_iterator;
@@ -4422,7 +4394,7 @@ namespace ironfist_save
 
     // numCreaturesInDwelling
     // 
-    typedef ::ironfist_save::numCreaturesInDwelling numCreaturesInDwelling_type;
+    typedef ::ironfist_save::arrayInt_t numCreaturesInDwelling_type;
     typedef ::xsd::cxx::tree::sequence< numCreaturesInDwelling_type > numCreaturesInDwelling_sequence;
     typedef numCreaturesInDwelling_sequence::iterator numCreaturesInDwelling_iterator;
     typedef numCreaturesInDwelling_sequence::const_iterator numCreaturesInDwelling_const_iterator;
@@ -4439,7 +4411,7 @@ namespace ironfist_save
 
     // mageGuildSpells
     // 
-    typedef ::ironfist_save::mageGuildSpells mageGuildSpells_type;
+    typedef ::ironfist_save::arrayInt_t mageGuildSpells_type;
     typedef ::xsd::cxx::tree::sequence< mageGuildSpells_type > mageGuildSpells_sequence;
     typedef mageGuildSpells_sequence::iterator mageGuildSpells_iterator;
     typedef mageGuildSpells_sequence::const_iterator mageGuildSpells_const_iterator;
@@ -4456,7 +4428,7 @@ namespace ironfist_save
 
     // numSpellsOfLevel
     // 
-    typedef ::ironfist_save::numSpellsOfLevel numSpellsOfLevel_type;
+    typedef ::ironfist_save::arrayInt_t numSpellsOfLevel_type;
     typedef ::xsd::cxx::tree::sequence< numSpellsOfLevel_type > numSpellsOfLevel_sequence;
     typedef numSpellsOfLevel_sequence::iterator numSpellsOfLevel_iterator;
     typedef numSpellsOfLevel_sequence::const_iterator numSpellsOfLevel_const_iterator;
@@ -4758,7 +4730,7 @@ namespace ironfist_save
 
     // heroesOwned
     // 
-    typedef ::ironfist_save::heroesOwned heroesOwned_type;
+    typedef ::ironfist_save::arrayInt_t heroesOwned_type;
     typedef ::xsd::cxx::tree::sequence< heroesOwned_type > heroesOwned_sequence;
     typedef heroesOwned_sequence::iterator heroesOwned_iterator;
     typedef heroesOwned_sequence::const_iterator heroesOwned_const_iterator;
@@ -4775,7 +4747,7 @@ namespace ironfist_save
 
     // heroesForPurchase
     // 
-    typedef ::ironfist_save::heroesForPurchase heroesForPurchase_type;
+    typedef ::ironfist_save::arrayInt_t heroesForPurchase_type;
     typedef ::xsd::cxx::tree::sequence< heroesForPurchase_type > heroesForPurchase_sequence;
     typedef heroesForPurchase_sequence::iterator heroesForPurchase_iterator;
     typedef heroesForPurchase_sequence::const_iterator heroesForPurchase_const_iterator;
@@ -4792,7 +4764,7 @@ namespace ironfist_save
 
     // castlesOwned
     // 
-    typedef ::ironfist_save::castlesOwned castlesOwned_type;
+    typedef ::ironfist_save::arrayInt_t castlesOwned_type;
     typedef ::xsd::cxx::tree::sequence< castlesOwned_type > castlesOwned_sequence;
     typedef castlesOwned_sequence::iterator castlesOwned_iterator;
     typedef castlesOwned_sequence::const_iterator castlesOwned_const_iterator;
@@ -4809,7 +4781,7 @@ namespace ironfist_save
 
     // resources
     // 
-    typedef ::ironfist_save::resources resources_type;
+    typedef ::ironfist_save::arrayInt_t resources_type;
     typedef ::xsd::cxx::tree::sequence< resources_type > resources_sequence;
     typedef resources_sequence::iterator resources_iterator;
     typedef resources_sequence::const_iterator resources_const_iterator;
@@ -4826,7 +4798,7 @@ namespace ironfist_save
 
     // field_E7
     // 
-    typedef ::ironfist_save::field_E7 field_E7_type;
+    typedef ::ironfist_save::arrayInt_t field_E7_type;
     typedef ::xsd::cxx::tree::sequence< field_E7_type > field_E7_sequence;
     typedef field_E7_sequence::iterator field_E7_iterator;
     typedef field_E7_sequence::const_iterator field_E7_const_iterator;
@@ -4843,7 +4815,7 @@ namespace ironfist_save
 
     // _4_2
     // 
-    typedef ::ironfist_save::_4_2 _4_2_type;
+    typedef ::ironfist_save::arrayInt_t _4_2_type;
     typedef ::xsd::cxx::tree::sequence< _4_2_type > _4_2_sequence;
     typedef _4_2_sequence::iterator _4_2_iterator;
     typedef _4_2_sequence::const_iterator _4_2_const_iterator;
@@ -5084,6 +5056,103 @@ namespace ironfist_save
     script_optional script_;
   };
 
+  class arrayInt_t: public ::xml_schema::type
+  {
+    public:
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_type&
+    value () const;
+
+    value_type&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    // Constructors.
+    //
+    arrayInt_t (const value_type&);
+
+    arrayInt_t (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    arrayInt_t (const arrayInt_t& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual arrayInt_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~arrayInt_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< value_type > value_;
+  };
+
+  class arrayString_t: public ::xml_schema::type
+  {
+    public:
+    // value
+    // 
+    typedef ::xml_schema::string value_type;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_type&
+    value () const;
+
+    value_type&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (::std::auto_ptr< value_type > p);
+
+    // Constructors.
+    //
+    arrayString_t (const value_type&);
+
+    arrayString_t (const ::xercesc::DOMElement& e,
+                   ::xml_schema::flags f = 0,
+                   ::xml_schema::container* c = 0);
+
+    arrayString_t (const arrayString_t& x,
+                   ::xml_schema::flags f = 0,
+                   ::xml_schema::container* c = 0);
+
+    virtual arrayString_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~arrayString_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< value_type > value_;
+  };
+
   class secondarySkill: public ::xml_schema::type
   {
     public:
@@ -5238,1041 +5307,6 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< spell_type > spell_;
   };
 
-  class playerNames: public ::xml_schema::type
-  {
-    public:
-    // name
-    // 
-    typedef ::xml_schema::string name_type;
-    typedef ::xsd::cxx::tree::optional< name_type > name_optional;
-    typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
-
-    const name_optional&
-    name () const;
-
-    name_optional&
-    name ();
-
-    void
-    name (const name_type& x);
-
-    void
-    name (const name_optional& x);
-
-    void
-    name (::std::auto_ptr< name_type > p);
-
-    // Constructors.
-    //
-    playerNames ();
-
-    playerNames (const ::xercesc::DOMElement& e,
-                 ::xml_schema::flags f = 0,
-                 ::xml_schema::container* c = 0);
-
-    playerNames (const playerNames& x,
-                 ::xml_schema::flags f = 0,
-                 ::xml_schema::container* c = 0);
-
-    virtual playerNames*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~playerNames ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    name_optional name_;
-  };
-
-  class deadPlayers: public ::xml_schema::type
-  {
-    public:
-    // playerID
-    // 
-    typedef ::xml_schema::int_ playerID_type;
-    typedef ::xsd::cxx::tree::optional< playerID_type > playerID_optional;
-    typedef ::xsd::cxx::tree::traits< playerID_type, char > playerID_traits;
-
-    const playerID_optional&
-    playerID () const;
-
-    playerID_optional&
-    playerID ();
-
-    void
-    playerID (const playerID_type& x);
-
-    void
-    playerID (const playerID_optional& x);
-
-    // Constructors.
-    //
-    deadPlayers ();
-
-    deadPlayers (const ::xercesc::DOMElement& e,
-                 ::xml_schema::flags f = 0,
-                 ::xml_schema::container* c = 0);
-
-    deadPlayers (const deadPlayers& x,
-                 ::xml_schema::flags f = 0,
-                 ::xml_schema::container* c = 0);
-
-    virtual deadPlayers*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~deadPlayers ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    playerID_optional playerID_;
-  };
-
-  class alivePlayers: public ::xml_schema::type
-  {
-    public:
-    // playerID
-    // 
-    typedef ::xml_schema::int_ playerID_type;
-    typedef ::xsd::cxx::tree::optional< playerID_type > playerID_optional;
-    typedef ::xsd::cxx::tree::traits< playerID_type, char > playerID_traits;
-
-    const playerID_optional&
-    playerID () const;
-
-    playerID_optional&
-    playerID ();
-
-    void
-    playerID (const playerID_type& x);
-
-    void
-    playerID (const playerID_optional& x);
-
-    // Constructors.
-    //
-    alivePlayers ();
-
-    alivePlayers (const ::xercesc::DOMElement& e,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    alivePlayers (const alivePlayers& x,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    virtual alivePlayers*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~alivePlayers ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    playerID_optional playerID_;
-  };
-
-  class heroHireStatus: public ::xml_schema::type
-  {
-    public:
-    // status
-    // 
-    typedef ::xml_schema::int_ status_type;
-    typedef ::xsd::cxx::tree::optional< status_type > status_optional;
-    typedef ::xsd::cxx::tree::traits< status_type, char > status_traits;
-
-    const status_optional&
-    status () const;
-
-    status_optional&
-    status ();
-
-    void
-    status (const status_type& x);
-
-    void
-    status (const status_optional& x);
-
-    // Constructors.
-    //
-    heroHireStatus ();
-
-    heroHireStatus (const ::xercesc::DOMElement& e,
-                    ::xml_schema::flags f = 0,
-                    ::xml_schema::container* c = 0);
-
-    heroHireStatus (const heroHireStatus& x,
-                    ::xml_schema::flags f = 0,
-                    ::xml_schema::container* c = 0);
-
-    virtual heroHireStatus*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~heroHireStatus ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    status_optional status_;
-  };
-
-  class playerHandicap: public ::xml_schema::type
-  {
-    public:
-    // handicap
-    // 
-    typedef ::xml_schema::int_ handicap_type;
-    typedef ::xsd::cxx::tree::optional< handicap_type > handicap_optional;
-    typedef ::xsd::cxx::tree::traits< handicap_type, char > handicap_traits;
-
-    const handicap_optional&
-    handicap () const;
-
-    handicap_optional&
-    handicap ();
-
-    void
-    handicap (const handicap_type& x);
-
-    void
-    handicap (const handicap_optional& x);
-
-    // Constructors.
-    //
-    playerHandicap ();
-
-    playerHandicap (const ::xercesc::DOMElement& e,
-                    ::xml_schema::flags f = 0,
-                    ::xml_schema::container* c = 0);
-
-    playerHandicap (const playerHandicap& x,
-                    ::xml_schema::flags f = 0,
-                    ::xml_schema::container* c = 0);
-
-    virtual playerHandicap*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~playerHandicap ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    handicap_optional handicap_;
-  };
-
-  class field_459: public ::xml_schema::type
-  {
-    public:
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    field_459 ();
-
-    field_459 (const ::xercesc::DOMElement& e,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    field_459 (const field_459& x,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    virtual field_459*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~field_459 ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    value_optional value_;
-  };
-
-  class field_45F: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    field_45F (const id_type&);
-
-    field_45F (const ::xercesc::DOMElement& e,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    field_45F (const field_45F& x,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    virtual field_45F*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~field_45F ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
-  };
-
-  class field_2773: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    field_2773 (const id_type&);
-
-    field_2773 (const ::xercesc::DOMElement& e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    field_2773 (const field_2773& x,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    virtual field_2773*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~field_2773 ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
-  };
-
-  class field_27BB: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    field_27BB (const id_type&);
-
-    field_27BB (const ::xercesc::DOMElement& e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    field_27BB (const field_27BB& x,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    virtual field_27BB*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~field_27BB ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
-  };
-
-  class field_60A6: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    field_60A6 (const id_type&);
-
-    field_60A6 (const ::xercesc::DOMElement& e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    field_60A6 (const field_60A6& x,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    virtual field_60A6*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~field_60A6 ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
-  };
-
-  class randomArtifacts: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // artifact
-    // 
-    typedef ::xml_schema::int_ artifact_type;
-    typedef ::xsd::cxx::tree::optional< artifact_type > artifact_optional;
-    typedef ::xsd::cxx::tree::traits< artifact_type, char > artifact_traits;
-
-    const artifact_optional&
-    artifact () const;
-
-    artifact_optional&
-    artifact ();
-
-    void
-    artifact (const artifact_type& x);
-
-    void
-    artifact (const artifact_optional& x);
-
-    // Constructors.
-    //
-    randomArtifacts (const id_type&);
-
-    randomArtifacts (const ::xercesc::DOMElement& e,
-                     ::xml_schema::flags f = 0,
-                     ::xml_schema::container* c = 0);
-
-    randomArtifacts (const randomArtifacts& x,
-                     ::xml_schema::flags f = 0,
-                     ::xml_schema::container* c = 0);
-
-    virtual randomArtifacts*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~randomArtifacts ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    artifact_optional artifact_;
-  };
-
-  class boatBuilt: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // boat
-    // 
-    typedef ::xml_schema::int_ boat_type;
-    typedef ::xsd::cxx::tree::optional< boat_type > boat_optional;
-    typedef ::xsd::cxx::tree::traits< boat_type, char > boat_traits;
-
-    const boat_optional&
-    boat () const;
-
-    boat_optional&
-    boat ();
-
-    void
-    boat (const boat_type& x);
-
-    void
-    boat (const boat_optional& x);
-
-    // Constructors.
-    //
-    boatBuilt (const id_type&);
-
-    boatBuilt (const ::xercesc::DOMElement& e,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    boatBuilt (const boatBuilt& x,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    virtual boatBuilt*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~boatBuilt ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    boat_optional boat_;
-  };
-
-  class obeliskVisitedMasks: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // obelisk
-    // 
-    typedef ::xml_schema::int_ obelisk_type;
-    typedef ::xsd::cxx::tree::optional< obelisk_type > obelisk_optional;
-    typedef ::xsd::cxx::tree::traits< obelisk_type, char > obelisk_traits;
-
-    const obelisk_optional&
-    obelisk () const;
-
-    obelisk_optional&
-    obelisk ();
-
-    void
-    obelisk (const obelisk_type& x);
-
-    void
-    obelisk (const obelisk_optional& x);
-
-    // Constructors.
-    //
-    obeliskVisitedMasks (const id_type&);
-
-    obeliskVisitedMasks (const ::xercesc::DOMElement& e,
-                         ::xml_schema::flags f = 0,
-                         ::xml_schema::container* c = 0);
-
-    obeliskVisitedMasks (const obeliskVisitedMasks& x,
-                         ::xml_schema::flags f = 0,
-                         ::xml_schema::container* c = 0);
-
-    virtual obeliskVisitedMasks*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~obeliskVisitedMasks ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    obelisk_optional obelisk_;
-  };
-
-  class field_637D: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    field_637D (const id_type&);
-
-    field_637D (const ::xercesc::DOMElement& e,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    field_637D (const field_637D& x,
-                ::xml_schema::flags f = 0,
-                ::xml_schema::container* c = 0);
-
-    virtual field_637D*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~field_637D ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
-  };
-
-  class rumorIndices: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // index
-    // 
-    typedef ::xml_schema::int_ index_type;
-    typedef ::xsd::cxx::tree::optional< index_type > index_optional;
-    typedef ::xsd::cxx::tree::traits< index_type, char > index_traits;
-
-    const index_optional&
-    index () const;
-
-    index_optional&
-    index ();
-
-    void
-    index (const index_type& x);
-
-    void
-    index (const index_optional& x);
-
-    // Constructors.
-    //
-    rumorIndices (const id_type&);
-
-    rumorIndices (const ::xercesc::DOMElement& e,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    rumorIndices (const rumorIndices& x,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    virtual rumorIndices*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~rumorIndices ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    index_optional index_;
-  };
-
-  class eventIndices: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // index
-    // 
-    typedef ::xml_schema::int_ index_type;
-    typedef ::xsd::cxx::tree::optional< index_type > index_optional;
-    typedef ::xsd::cxx::tree::traits< index_type, char > index_traits;
-
-    const index_optional&
-    index () const;
-
-    index_optional&
-    index ();
-
-    void
-    index (const index_type& x);
-
-    void
-    index (const index_optional& x);
-
-    // Constructors.
-    //
-    eventIndices (const id_type&);
-
-    eventIndices (const ::xercesc::DOMElement& e,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    eventIndices (const eventIndices& x,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    virtual eventIndices*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~eventIndices ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    index_optional index_;
-  };
-
-  class _D: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    _D (const id_type&);
-
-    _D (const ::xercesc::DOMElement& e,
-        ::xml_schema::flags f = 0,
-        ::xml_schema::container* c = 0);
-
-    _D (const _D& x,
-        ::xml_schema::flags f = 0,
-        ::xml_schema::container* c = 0);
-
-    virtual _D*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~_D ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
-  };
-
   class mapRevealed: public ::xml_schema::type
   {
     public:
@@ -6355,194 +5389,6 @@ namespace ironfist_save
     revealed_optional revealed_;
   };
 
-  class hasPlayer: public ::xml_schema::type
-  {
-    public:
-    // player
-    // 
-    typedef ::xml_schema::int_ player_type;
-    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
-
-    const player_type&
-    player () const;
-
-    player_type&
-    player ();
-
-    void
-    player (const player_type& x);
-
-    // Constructors.
-    //
-    hasPlayer (const player_type&);
-
-    hasPlayer (const ::xercesc::DOMElement& e,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    hasPlayer (const hasPlayer& x,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    virtual hasPlayer*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~hasPlayer ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< player_type > player_;
-  };
-
-  class playerMayBeHuman: public ::xml_schema::type
-  {
-    public:
-    // player
-    // 
-    typedef ::xml_schema::int_ player_type;
-    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
-
-    const player_type&
-    player () const;
-
-    player_type&
-    player ();
-
-    void
-    player (const player_type& x);
-
-    // Constructors.
-    //
-    playerMayBeHuman (const player_type&);
-
-    playerMayBeHuman (const ::xercesc::DOMElement& e,
-                      ::xml_schema::flags f = 0,
-                      ::xml_schema::container* c = 0);
-
-    playerMayBeHuman (const playerMayBeHuman& x,
-                      ::xml_schema::flags f = 0,
-                      ::xml_schema::container* c = 0);
-
-    virtual playerMayBeHuman*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~playerMayBeHuman ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< player_type > player_;
-  };
-
-  class playerMayBeComp: public ::xml_schema::type
-  {
-    public:
-    // player
-    // 
-    typedef ::xml_schema::int_ player_type;
-    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
-
-    const player_type&
-    player () const;
-
-    player_type&
-    player ();
-
-    void
-    player (const player_type& x);
-
-    // Constructors.
-    //
-    playerMayBeComp (const player_type&);
-
-    playerMayBeComp (const ::xercesc::DOMElement& e,
-                     ::xml_schema::flags f = 0,
-                     ::xml_schema::container* c = 0);
-
-    playerMayBeComp (const playerMayBeComp& x,
-                     ::xml_schema::flags f = 0,
-                     ::xml_schema::container* c = 0);
-
-    virtual playerMayBeComp*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~playerMayBeComp ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< player_type > player_;
-  };
-
-  class playerFactions: public ::xml_schema::type
-  {
-    public:
-    // player
-    // 
-    typedef ::xml_schema::int_ player_type;
-    typedef ::xsd::cxx::tree::traits< player_type, char > player_traits;
-
-    const player_type&
-    player () const;
-
-    player_type&
-    player ();
-
-    void
-    player (const player_type& x);
-
-    // Constructors.
-    //
-    playerFactions (const player_type&);
-
-    playerFactions (const ::xercesc::DOMElement& e,
-                    ::xml_schema::flags f = 0,
-                    ::xml_schema::container* c = 0);
-
-    playerFactions (const playerFactions& x,
-                    ::xml_schema::flags f = 0,
-                    ::xml_schema::container* c = 0);
-
-    virtual playerFactions*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~playerFactions ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< player_type > player_;
-  };
-
   class creature: public ::xml_schema::type
   {
     public:
@@ -6604,600 +5450,6 @@ namespace ironfist_save
     protected:
     ::xsd::cxx::tree::one< type_type > type_;
     ::xsd::cxx::tree::one< quantity_type > quantity_;
-  };
-
-  class numCreaturesInDwelling: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // quantity
-    // 
-    typedef ::xml_schema::int_ quantity_type;
-    typedef ::xsd::cxx::tree::optional< quantity_type > quantity_optional;
-    typedef ::xsd::cxx::tree::traits< quantity_type, char > quantity_traits;
-
-    const quantity_optional&
-    quantity () const;
-
-    quantity_optional&
-    quantity ();
-
-    void
-    quantity (const quantity_type& x);
-
-    void
-    quantity (const quantity_optional& x);
-
-    // Constructors.
-    //
-    numCreaturesInDwelling (const id_type&);
-
-    numCreaturesInDwelling (const ::xercesc::DOMElement& e,
-                            ::xml_schema::flags f = 0,
-                            ::xml_schema::container* c = 0);
-
-    numCreaturesInDwelling (const numCreaturesInDwelling& x,
-                            ::xml_schema::flags f = 0,
-                            ::xml_schema::container* c = 0);
-
-    virtual numCreaturesInDwelling*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~numCreaturesInDwelling ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    quantity_optional quantity_;
-  };
-
-  class mageGuildSpells: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // spell
-    // 
-    typedef ::xml_schema::int_ spell_type;
-    typedef ::xsd::cxx::tree::optional< spell_type > spell_optional;
-    typedef ::xsd::cxx::tree::traits< spell_type, char > spell_traits;
-
-    const spell_optional&
-    spell () const;
-
-    spell_optional&
-    spell ();
-
-    void
-    spell (const spell_type& x);
-
-    void
-    spell (const spell_optional& x);
-
-    // Constructors.
-    //
-    mageGuildSpells (const id_type&);
-
-    mageGuildSpells (const ::xercesc::DOMElement& e,
-                     ::xml_schema::flags f = 0,
-                     ::xml_schema::container* c = 0);
-
-    mageGuildSpells (const mageGuildSpells& x,
-                     ::xml_schema::flags f = 0,
-                     ::xml_schema::container* c = 0);
-
-    virtual mageGuildSpells*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~mageGuildSpells ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    spell_optional spell_;
-  };
-
-  class numSpellsOfLevel: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // spell
-    // 
-    typedef ::xml_schema::int_ spell_type;
-    typedef ::xsd::cxx::tree::optional< spell_type > spell_optional;
-    typedef ::xsd::cxx::tree::traits< spell_type, char > spell_traits;
-
-    const spell_optional&
-    spell () const;
-
-    spell_optional&
-    spell ();
-
-    void
-    spell (const spell_type& x);
-
-    void
-    spell (const spell_optional& x);
-
-    // Constructors.
-    //
-    numSpellsOfLevel (const id_type&);
-
-    numSpellsOfLevel (const ::xercesc::DOMElement& e,
-                      ::xml_schema::flags f = 0,
-                      ::xml_schema::container* c = 0);
-
-    numSpellsOfLevel (const numSpellsOfLevel& x,
-                      ::xml_schema::flags f = 0,
-                      ::xml_schema::container* c = 0);
-
-    virtual numSpellsOfLevel*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~numSpellsOfLevel ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    spell_optional spell_;
-  };
-
-  class heroesOwned: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // hero
-    // 
-    typedef ::xml_schema::int_ hero_type;
-    typedef ::xsd::cxx::tree::optional< hero_type > hero_optional;
-    typedef ::xsd::cxx::tree::traits< hero_type, char > hero_traits;
-
-    const hero_optional&
-    hero () const;
-
-    hero_optional&
-    hero ();
-
-    void
-    hero (const hero_type& x);
-
-    void
-    hero (const hero_optional& x);
-
-    // Constructors.
-    //
-    heroesOwned (const id_type&);
-
-    heroesOwned (const ::xercesc::DOMElement& e,
-                 ::xml_schema::flags f = 0,
-                 ::xml_schema::container* c = 0);
-
-    heroesOwned (const heroesOwned& x,
-                 ::xml_schema::flags f = 0,
-                 ::xml_schema::container* c = 0);
-
-    virtual heroesOwned*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~heroesOwned ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    hero_optional hero_;
-  };
-
-  class heroesForPurchase: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // hero
-    // 
-    typedef ::xml_schema::int_ hero_type;
-    typedef ::xsd::cxx::tree::optional< hero_type > hero_optional;
-    typedef ::xsd::cxx::tree::traits< hero_type, char > hero_traits;
-
-    const hero_optional&
-    hero () const;
-
-    hero_optional&
-    hero ();
-
-    void
-    hero (const hero_type& x);
-
-    void
-    hero (const hero_optional& x);
-
-    // Constructors.
-    //
-    heroesForPurchase (const id_type&);
-
-    heroesForPurchase (const ::xercesc::DOMElement& e,
-                       ::xml_schema::flags f = 0,
-                       ::xml_schema::container* c = 0);
-
-    heroesForPurchase (const heroesForPurchase& x,
-                       ::xml_schema::flags f = 0,
-                       ::xml_schema::container* c = 0);
-
-    virtual heroesForPurchase*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~heroesForPurchase ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    hero_optional hero_;
-  };
-
-  class castlesOwned: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // castle
-    // 
-    typedef ::xml_schema::int_ castle_type;
-    typedef ::xsd::cxx::tree::optional< castle_type > castle_optional;
-    typedef ::xsd::cxx::tree::traits< castle_type, char > castle_traits;
-
-    const castle_optional&
-    castle () const;
-
-    castle_optional&
-    castle ();
-
-    void
-    castle (const castle_type& x);
-
-    void
-    castle (const castle_optional& x);
-
-    // Constructors.
-    //
-    castlesOwned (const id_type&);
-
-    castlesOwned (const ::xercesc::DOMElement& e,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    castlesOwned (const castlesOwned& x,
-                  ::xml_schema::flags f = 0,
-                  ::xml_schema::container* c = 0);
-
-    virtual castlesOwned*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~castlesOwned ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    castle_optional castle_;
-  };
-
-  class resources: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // quantity
-    // 
-    typedef ::xml_schema::int_ quantity_type;
-    typedef ::xsd::cxx::tree::optional< quantity_type > quantity_optional;
-    typedef ::xsd::cxx::tree::traits< quantity_type, char > quantity_traits;
-
-    const quantity_optional&
-    quantity () const;
-
-    quantity_optional&
-    quantity ();
-
-    void
-    quantity (const quantity_type& x);
-
-    void
-    quantity (const quantity_optional& x);
-
-    // Constructors.
-    //
-    resources (const id_type&);
-
-    resources (const ::xercesc::DOMElement& e,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    resources (const resources& x,
-               ::xml_schema::flags f = 0,
-               ::xml_schema::container* c = 0);
-
-    virtual resources*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~resources ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    quantity_optional quantity_;
-  };
-
-  class field_E7: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    field_E7 (const id_type&);
-
-    field_E7 (const ::xercesc::DOMElement& e,
-              ::xml_schema::flags f = 0,
-              ::xml_schema::container* c = 0);
-
-    field_E7 (const field_E7& x,
-              ::xml_schema::flags f = 0,
-              ::xml_schema::container* c = 0);
-
-    virtual field_E7*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~field_E7 ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
-  };
-
-  class _4_2: public ::xml_schema::type
-  {
-    public:
-    // id
-    // 
-    typedef ::xml_schema::int_ id_type;
-    typedef ::xsd::cxx::tree::traits< id_type, char > id_traits;
-
-    const id_type&
-    id () const;
-
-    id_type&
-    id ();
-
-    void
-    id (const id_type& x);
-
-    // value
-    // 
-    typedef ::xml_schema::int_ value_type;
-    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
-    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
-
-    const value_optional&
-    value () const;
-
-    value_optional&
-    value ();
-
-    void
-    value (const value_type& x);
-
-    void
-    value (const value_optional& x);
-
-    // Constructors.
-    //
-    _4_2 (const id_type&);
-
-    _4_2 (const ::xercesc::DOMElement& e,
-          ::xml_schema::flags f = 0,
-          ::xml_schema::container* c = 0);
-
-    _4_2 (const _4_2& x,
-          ::xml_schema::flags f = 0,
-          ::xml_schema::container* c = 0);
-
-    virtual _4_2*
-    _clone (::xml_schema::flags f = 0,
-            ::xml_schema::container* c = 0) const;
-
-    virtual 
-    ~_4_2 ();
-
-    // Implementation.
-    //
-    protected:
-    void
-    parse (::xsd::cxx::xml::dom::parser< char >&,
-           ::xml_schema::flags);
-
-    protected:
-    ::xsd::cxx::tree::one< id_type > id_;
-    value_optional value_;
   };
 
   class ppMapExtra: public ::xml_schema::type
@@ -7995,6 +6247,12 @@ namespace ironfist_save
   void
   operator<< (::xercesc::DOMElement&, const save_t&);
 
+  void
+  operator<< (::xercesc::DOMElement&, const arrayInt_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const arrayString_t&);
+
   // Serialize to std::ostream.
   //
 
@@ -8478,100 +6736,10 @@ namespace ironfist_save
   operator<< (::xercesc::DOMElement&, const artifact&);
 
   void
-  operator<< (::xercesc::DOMElement&, const playerNames&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const deadPlayers&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const alivePlayers&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const heroHireStatus&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const playerHandicap&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const field_459&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const field_45F&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const field_2773&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const field_27BB&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const field_60A6&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const randomArtifacts&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const boatBuilt&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const obeliskVisitedMasks&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const field_637D&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const rumorIndices&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const eventIndices&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const _D&);
-
-  void
   operator<< (::xercesc::DOMElement&, const mapRevealed&);
 
   void
-  operator<< (::xercesc::DOMElement&, const hasPlayer&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const playerMayBeHuman&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const playerMayBeComp&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const playerFactions&);
-
-  void
   operator<< (::xercesc::DOMElement&, const creature&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const numCreaturesInDwelling&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const mageGuildSpells&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const numSpellsOfLevel&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const heroesOwned&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const heroesForPurchase&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const castlesOwned&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const resources&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const field_E7&);
-
-  void
-  operator<< (::xercesc::DOMElement&, const _4_2&);
 
   void
   operator<< (::xercesc::DOMElement&, const ppMapExtra&);
