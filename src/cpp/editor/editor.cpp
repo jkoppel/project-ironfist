@@ -100,21 +100,21 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
       msg.eventCode = INPUT_GUI_MESSAGE_CODE;
       msg.yCoordOrFieldID = KEYCODE_UNKNOWN_2;
       msg.xCoordOrKeycode = msg.yCoordOrFieldID;
-      return 2;
+      return GUI_MESSAGE_REPAINT;
     }
   } else if (msg.eventCode == INPUT_GUI_MESSAGE_CODE) {
-    if (msg.xCoordOrKeycode == 12) {
+    if (msg.xCoordOrKeycode == GUI_MESSAGE_BUTTON_NOT_PRESSED) {
       if (msg.yCoordOrFieldID == FIELD_ID_SPELL_SCROLL_PAYLOAD) {
         OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, (void *)msg.payload);
         // "return 1;" will be reached at the end of this function.
       }
-    } else if (msg.xCoordOrKeycode == 13) {
+    } else if (msg.xCoordOrKeycode == GUI_MESSAGE_BUTTON_PRESSED) {
       if (msg.yCoordOrFieldID >= BUTTON_CANCEL && msg.yCoordOrFieldID <= BUTTON_OK) {
         gpWindowManager->buttonPressedCode = msg.yCoordOrFieldID;
         msg.eventCode = INPUT_GUI_MESSAGE_CODE;
         msg.yCoordOrFieldID = KEYCODE_UNKNOWN_2;
         msg.xCoordOrKeycode = msg.yCoordOrFieldID;
-        return 2;
+        return GUI_MESSAGE_REPAINT;
       }
     }
   }
