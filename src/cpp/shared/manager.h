@@ -1,7 +1,7 @@
 #ifndef TIED_MANAGER_H
 #define TIED_MANAGER_H
 
-#include "msg.h"
+#include "gui/msg.h"
 
 #pragma pack(push,1)
 

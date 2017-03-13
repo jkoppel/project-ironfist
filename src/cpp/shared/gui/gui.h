@@ -82,6 +82,12 @@ enum ICON_GUI_FLAGS
   ICON_GUI_VISIBLE = 0x4,
 };
 
+enum GENERAL_GUI_FIELD_IDS {
+  FIELD_TOP_BANNER = 2,
+  BUTTON_CANCEL = 30721,
+  BUTTON_OK = 30722,
+};
+
 /* These functions provide a simpler API to parts of the old GUI "BroadcastMessage" API */
 
 void GUIAddFlag(heroWindow*, int, int);
@@ -89,8 +95,10 @@ void GUIRemoveFlag(heroWindow*, int, int);
 void GUISetImgIdx(heroWindow*, int, int);
 void GUISetIcon(heroWindow*, int, char*);
 void GUISetText(heroWindow*, int, char*);
+void GUIDroplistAdd(heroWindow*, int, char*);
 
-void GUIBroadcastMessage(heroWindow*, int,int,void*);
+void GUIBroadcastMessage(heroWindow*, int, int, void*);
+int GUIGetDropdownSelection(heroWindow*, void*);
 
 void __fastcall SetupRecruitWin(heroWindow *,int,int,int,int,int);
 void __fastcall QuickViewWait(void);

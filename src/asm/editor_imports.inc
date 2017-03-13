@@ -132,3 +132,12 @@ IMPORT_?ShowErrorMessage@@YIXPBD@Z = 1
 ;;editManager
 IMPORT_?InitializeMap@editManager@@QAEXHHH@Z = 1
 ?InitializeMap@editManager@@QAEXHHH@Z_clone EQU ?InitializeMap_orig@editManager@@QAEXHHH@Z
+
+IMPORT_?SpellScrollEditDialog@editManager@@QAEXPAH@Z = 1
+?SpellScrollEditDialog@editManager@@QAEXPAH@Z_clone EQU ?SpellScrollEditDialog_orig@editManager@@QAEXPAH@Z
+
+IMPORT_?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z = 1
+?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z_clone EQU ?SpellScrollEditDialogCallback_orig@@YIHAAUtag_message@@@Z
+
+;;spells
+IMPORT_?gSpellNames@@3PAPADA = 1
