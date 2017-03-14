@@ -247,7 +247,7 @@ namespace xml_schema
 
 // Forward declarations.
 //
-namespace ironfist_map
+namespace ironfist_save
 {
   class slot_t;
   class army_t;
@@ -256,9 +256,24 @@ namespace ironfist_map
   class table_t;
   class mapVariable_t;
   class gamestate_t;
+  class mapHeader_t;
   class map_t;
+  class mapCellExtra_t;
+  class mapCell_t;
+  class mine_t;
+  class boat_t;
+  class armyGroup_t;
+  class town_t;
+  class playerData_t;
+  class mapExtra_t;
+  class save_t;
+  class arrayInt_t;
+  class arrayString_t;
   class secondarySkill;
   class artifact;
+  class mapRevealed;
+  class creature;
+  class ppMapExtra;
 }
 
 
@@ -275,7 +290,7 @@ namespace ironfist_map
 
 #include <xsd/cxx/xml/dom/parsing-header.hxx>
 
-namespace ironfist_map
+namespace ironfist_save
 {
   class slot_t: public ::xml_schema::type
   {
@@ -352,7 +367,7 @@ namespace ironfist_map
     public:
     // slot
     // 
-    typedef ::ironfist_map::slot_t slot_type;
+    typedef ::ironfist_save::slot_t slot_type;
     typedef ::xsd::cxx::tree::sequence< slot_type > slot_sequence;
     typedef slot_sequence::iterator slot_iterator;
     typedef slot_sequence::const_iterator slot_const_iterator;
@@ -1007,7 +1022,7 @@ namespace ironfist_map
 
     // army
     // 
-    typedef ::ironfist_map::army_t army_type;
+    typedef ::ironfist_save::army_t army_type;
     typedef ::xsd::cxx::tree::traits< army_type, char > army_traits;
 
     const army_type&
@@ -1024,7 +1039,7 @@ namespace ironfist_map
 
     // secondarySkill
     // 
-    typedef ::ironfist_map::secondarySkill secondarySkill_type;
+    typedef ::ironfist_save::secondarySkill secondarySkill_type;
     typedef ::xsd::cxx::tree::sequence< secondarySkill_type > secondarySkill_sequence;
     typedef secondarySkill_sequence::iterator secondarySkill_iterator;
     typedef secondarySkill_sequence::const_iterator secondarySkill_const_iterator;
@@ -1058,7 +1073,7 @@ namespace ironfist_map
 
     // artifact
     // 
-    typedef ::ironfist_map::artifact artifact_type;
+    typedef ::ironfist_save::artifact artifact_type;
     typedef ::xsd::cxx::tree::sequence< artifact_type > artifact_sequence;
     typedef artifact_sequence::iterator artifact_iterator;
     typedef artifact_sequence::const_iterator artifact_const_iterator;
@@ -1391,7 +1406,7 @@ namespace ironfist_map
     public:
     // tableElement
     // 
-    typedef ::ironfist_map::tableElement_t tableElement_type;
+    typedef ::ironfist_save::tableElement_t tableElement_type;
     typedef ::xsd::cxx::tree::sequence< tableElement_type > tableElement_sequence;
     typedef tableElement_sequence::iterator tableElement_iterator;
     typedef tableElement_sequence::const_iterator tableElement_const_iterator;
@@ -1408,7 +1423,7 @@ namespace ironfist_map
 
     // table
     // 
-    typedef ::ironfist_map::table_t table_type;
+    typedef ::ironfist_save::table_t table_type;
     typedef ::xsd::cxx::tree::sequence< table_type > table_sequence;
     typedef table_sequence::iterator table_iterator;
     typedef table_sequence::const_iterator table_const_iterator;
@@ -1481,7 +1496,7 @@ namespace ironfist_map
     public:
     // table
     // 
-    typedef ::ironfist_map::table_t table_type;
+    typedef ::ironfist_save::table_t table_type;
     typedef ::xsd::cxx::tree::optional< table_type > table_optional;
     typedef ::xsd::cxx::tree::traits< table_type, char > table_traits;
 
@@ -1616,9 +1631,851 @@ namespace ironfist_map
     static allowAIArmySharing_type
     allowAIArmySharing_default_value ();
 
+    // mapWidth
+    // 
+    typedef ::xml_schema::int_ mapWidth_type;
+    typedef ::xsd::cxx::tree::traits< mapWidth_type, char > mapWidth_traits;
+
+    const mapWidth_type&
+    mapWidth () const;
+
+    mapWidth_type&
+    mapWidth ();
+
+    void
+    mapWidth (const mapWidth_type& x);
+
+    static mapWidth_type
+    mapWidth_default_value ();
+
+    // mapHeight
+    // 
+    typedef ::xml_schema::int_ mapHeight_type;
+    typedef ::xsd::cxx::tree::traits< mapHeight_type, char > mapHeight_traits;
+
+    const mapHeight_type&
+    mapHeight () const;
+
+    mapHeight_type&
+    mapHeight ();
+
+    void
+    mapHeight (const mapHeight_type& x);
+
+    static mapHeight_type
+    mapHeight_default_value ();
+
+    // gameDifficulty
+    // 
+    typedef ::xml_schema::int_ gameDifficulty_type;
+    typedef ::xsd::cxx::tree::traits< gameDifficulty_type, char > gameDifficulty_traits;
+
+    const gameDifficulty_type&
+    gameDifficulty () const;
+
+    gameDifficulty_type&
+    gameDifficulty ();
+
+    void
+    gameDifficulty (const gameDifficulty_type& x);
+
+    // monthType
+    // 
+    typedef ::xml_schema::int_ monthType_type;
+    typedef ::xsd::cxx::tree::traits< monthType_type, char > monthType_traits;
+
+    const monthType_type&
+    monthType () const;
+
+    monthType_type&
+    monthType ();
+
+    void
+    monthType (const monthType_type& x);
+
+    // monthTypeExtra
+    // 
+    typedef ::xml_schema::int_ monthTypeExtra_type;
+    typedef ::xsd::cxx::tree::traits< monthTypeExtra_type, char > monthTypeExtra_traits;
+
+    const monthTypeExtra_type&
+    monthTypeExtra () const;
+
+    monthTypeExtra_type&
+    monthTypeExtra ();
+
+    void
+    monthTypeExtra (const monthTypeExtra_type& x);
+
+    // weekType
+    // 
+    typedef ::xml_schema::int_ weekType_type;
+    typedef ::xsd::cxx::tree::traits< weekType_type, char > weekType_traits;
+
+    const weekType_type&
+    weekType () const;
+
+    weekType_type&
+    weekType ();
+
+    void
+    weekType (const weekType_type& x);
+
+    // weekTypeExtra
+    // 
+    typedef ::xml_schema::int_ weekTypeExtra_type;
+    typedef ::xsd::cxx::tree::traits< weekTypeExtra_type, char > weekTypeExtra_traits;
+
+    const weekTypeExtra_type&
+    weekTypeExtra () const;
+
+    weekTypeExtra_type&
+    weekTypeExtra ();
+
+    void
+    weekTypeExtra (const weekTypeExtra_type& x);
+
+    // mapChangeCtr
+    // 
+    typedef ::xml_schema::int_ mapChangeCtr_type;
+    typedef ::xsd::cxx::tree::traits< mapChangeCtr_type, char > mapChangeCtr_traits;
+
+    const mapChangeCtr_type&
+    mapChangeCtr () const;
+
+    mapChangeCtr_type&
+    mapChangeCtr ();
+
+    void
+    mapChangeCtr (const mapChangeCtr_type& x);
+
+    // numPlayers
+    // 
+    typedef ::xml_schema::int_ numPlayers_type;
+    typedef ::xsd::cxx::tree::traits< numPlayers_type, char > numPlayers_traits;
+
+    const numPlayers_type&
+    numPlayers () const;
+
+    numPlayers_type&
+    numPlayers ();
+
+    void
+    numPlayers (const numPlayers_type& x);
+
+    // currentPlayer
+    // 
+    typedef ::xml_schema::int_ currentPlayer_type;
+    typedef ::xsd::cxx::tree::traits< currentPlayer_type, char > currentPlayer_traits;
+
+    const currentPlayer_type&
+    currentPlayer () const;
+
+    currentPlayer_type&
+    currentPlayer ();
+
+    void
+    currentPlayer (const currentPlayer_type& x);
+
+    // numDefatedPlayers
+    // 
+    typedef ::xml_schema::int_ numDefatedPlayers_type;
+    typedef ::xsd::cxx::tree::traits< numDefatedPlayers_type, char > numDefatedPlayers_traits;
+
+    const numDefatedPlayers_type&
+    numDefatedPlayers () const;
+
+    numDefatedPlayers_type&
+    numDefatedPlayers ();
+
+    void
+    numDefatedPlayers (const numDefatedPlayers_type& x);
+
+    // day
+    // 
+    typedef ::xml_schema::int_ day_type;
+    typedef ::xsd::cxx::tree::traits< day_type, char > day_traits;
+
+    const day_type&
+    day () const;
+
+    day_type&
+    day ();
+
+    void
+    day (const day_type& x);
+
+    // week
+    // 
+    typedef ::xml_schema::int_ week_type;
+    typedef ::xsd::cxx::tree::traits< week_type, char > week_traits;
+
+    const week_type&
+    week () const;
+
+    week_type&
+    week ();
+
+    void
+    week (const week_type& x);
+
+    // month
+    // 
+    typedef ::xml_schema::int_ month_type;
+    typedef ::xsd::cxx::tree::traits< month_type, char > month_traits;
+
+    const month_type&
+    month () const;
+
+    month_type&
+    month ();
+
+    void
+    month (const month_type& x);
+
+    // numObelisks
+    // 
+    typedef ::xml_schema::int_ numObelisks_type;
+    typedef ::xsd::cxx::tree::traits< numObelisks_type, char > numObelisks_traits;
+
+    const numObelisks_type&
+    numObelisks () const;
+
+    numObelisks_type&
+    numObelisks ();
+
+    void
+    numObelisks (const numObelisks_type& x);
+
+    // field_6395
+    // 
+    typedef ::xml_schema::int_ field_6395_type;
+    typedef ::xsd::cxx::tree::traits< field_6395_type, char > field_6395_traits;
+
+    const field_6395_type&
+    field_6395 () const;
+
+    field_6395_type&
+    field_6395 ();
+
+    void
+    field_6395 (const field_6395_type& x);
+
+    // field_6396
+    // 
+    typedef ::xml_schema::int_ field_6396_type;
+    typedef ::xsd::cxx::tree::traits< field_6396_type, char > field_6396_traits;
+
+    const field_6396_type&
+    field_6396 () const;
+
+    field_6396_type&
+    field_6396 ();
+
+    void
+    field_6396 (const field_6396_type& x);
+
+    // field_6397
+    // 
+    typedef ::xml_schema::int_ field_6397_type;
+    typedef ::xsd::cxx::tree::traits< field_6397_type, char > field_6397_traits;
+
+    const field_6397_type&
+    field_6397 () const;
+
+    field_6397_type&
+    field_6397 ();
+
+    void
+    field_6397 (const field_6397_type& x);
+
+    // currentRumor
+    // 
+    typedef ::xml_schema::string currentRumor_type;
+    typedef ::xsd::cxx::tree::traits< currentRumor_type, char > currentRumor_traits;
+
+    const currentRumor_type&
+    currentRumor () const;
+
+    currentRumor_type&
+    currentRumor ();
+
+    void
+    currentRumor (const currentRumor_type& x);
+
+    void
+    currentRumor (::std::auto_ptr< currentRumor_type > p);
+
+    // numRumors
+    // 
+    typedef ::xml_schema::int_ numRumors_type;
+    typedef ::xsd::cxx::tree::traits< numRumors_type, char > numRumors_traits;
+
+    const numRumors_type&
+    numRumors () const;
+
+    numRumors_type&
+    numRumors ();
+
+    void
+    numRumors (const numRumors_type& x);
+
+    // numEvents
+    // 
+    typedef ::xml_schema::int_ numEvents_type;
+    typedef ::xsd::cxx::tree::traits< numEvents_type, char > numEvents_traits;
+
+    const numEvents_type&
+    numEvents () const;
+
+    numEvents_type&
+    numEvents ();
+
+    void
+    numEvents (const numEvents_type& x);
+
+    // field_657B
+    // 
+    typedef ::xml_schema::int_ field_657B_type;
+    typedef ::xsd::cxx::tree::traits< field_657B_type, char > field_657B_traits;
+
+    const field_657B_type&
+    field_657B () const;
+
+    field_657B_type&
+    field_657B ();
+
+    void
+    field_657B (const field_657B_type& x);
+
+    // maxMapExtra
+    // 
+    typedef ::xml_schema::int_ maxMapExtra_type;
+    typedef ::xsd::cxx::tree::traits< maxMapExtra_type, char > maxMapExtra_traits;
+
+    const maxMapExtra_type&
+    maxMapExtra () const;
+
+    maxMapExtra_type&
+    maxMapExtra ();
+
+    void
+    maxMapExtra (const maxMapExtra_type& x);
+
+    // playerNames
+    // 
+    typedef ::ironfist_save::arrayString_t playerNames_type;
+    typedef ::xsd::cxx::tree::sequence< playerNames_type > playerNames_sequence;
+    typedef playerNames_sequence::iterator playerNames_iterator;
+    typedef playerNames_sequence::const_iterator playerNames_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerNames_type, char > playerNames_traits;
+
+    const playerNames_sequence&
+    playerNames () const;
+
+    playerNames_sequence&
+    playerNames ();
+
+    void
+    playerNames (const playerNames_sequence& s);
+
+    // deadPlayers
+    // 
+    typedef ::ironfist_save::arrayInt_t deadPlayers_type;
+    typedef ::xsd::cxx::tree::sequence< deadPlayers_type > deadPlayers_sequence;
+    typedef deadPlayers_sequence::iterator deadPlayers_iterator;
+    typedef deadPlayers_sequence::const_iterator deadPlayers_const_iterator;
+    typedef ::xsd::cxx::tree::traits< deadPlayers_type, char > deadPlayers_traits;
+
+    const deadPlayers_sequence&
+    deadPlayers () const;
+
+    deadPlayers_sequence&
+    deadPlayers ();
+
+    void
+    deadPlayers (const deadPlayers_sequence& s);
+
+    // alivePlayers
+    // 
+    typedef ::ironfist_save::arrayInt_t alivePlayers_type;
+    typedef ::xsd::cxx::tree::sequence< alivePlayers_type > alivePlayers_sequence;
+    typedef alivePlayers_sequence::iterator alivePlayers_iterator;
+    typedef alivePlayers_sequence::const_iterator alivePlayers_const_iterator;
+    typedef ::xsd::cxx::tree::traits< alivePlayers_type, char > alivePlayers_traits;
+
+    const alivePlayers_sequence&
+    alivePlayers () const;
+
+    alivePlayers_sequence&
+    alivePlayers ();
+
+    void
+    alivePlayers (const alivePlayers_sequence& s);
+
+    // heroHireStatus
+    // 
+    typedef ::ironfist_save::arrayInt_t heroHireStatus_type;
+    typedef ::xsd::cxx::tree::sequence< heroHireStatus_type > heroHireStatus_sequence;
+    typedef heroHireStatus_sequence::iterator heroHireStatus_iterator;
+    typedef heroHireStatus_sequence::const_iterator heroHireStatus_const_iterator;
+    typedef ::xsd::cxx::tree::traits< heroHireStatus_type, char > heroHireStatus_traits;
+
+    const heroHireStatus_sequence&
+    heroHireStatus () const;
+
+    heroHireStatus_sequence&
+    heroHireStatus ();
+
+    void
+    heroHireStatus (const heroHireStatus_sequence& s);
+
+    // field_44D
+    // 
+    typedef ::xml_schema::int_ field_44D_type;
+    typedef ::xsd::cxx::tree::traits< field_44D_type, char > field_44D_traits;
+
+    const field_44D_type&
+    field_44D () const;
+
+    field_44D_type&
+    field_44D ();
+
+    void
+    field_44D (const field_44D_type& x);
+
+    // field_451
+    // 
+    typedef ::xml_schema::int_ field_451_type;
+    typedef ::xsd::cxx::tree::traits< field_451_type, char > field_451_traits;
+
+    const field_451_type&
+    field_451 () const;
+
+    field_451_type&
+    field_451 ();
+
+    void
+    field_451 (const field_451_type& x);
+
+    // playerHandicap
+    // 
+    typedef ::ironfist_save::arrayInt_t playerHandicap_type;
+    typedef ::xsd::cxx::tree::sequence< playerHandicap_type > playerHandicap_sequence;
+    typedef playerHandicap_sequence::iterator playerHandicap_iterator;
+    typedef playerHandicap_sequence::const_iterator playerHandicap_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerHandicap_type, char > playerHandicap_traits;
+
+    const playerHandicap_sequence&
+    playerHandicap () const;
+
+    playerHandicap_sequence&
+    playerHandicap ();
+
+    void
+    playerHandicap (const playerHandicap_sequence& s);
+
+    // field_459
+    // 
+    typedef ::ironfist_save::arrayInt_t field_459_type;
+    typedef ::xsd::cxx::tree::sequence< field_459_type > field_459_sequence;
+    typedef field_459_sequence::iterator field_459_iterator;
+    typedef field_459_sequence::const_iterator field_459_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_459_type, char > field_459_traits;
+
+    const field_459_sequence&
+    field_459 () const;
+
+    field_459_sequence&
+    field_459 ();
+
+    void
+    field_459 (const field_459_sequence& s);
+
+    // field_45F
+    // 
+    typedef ::ironfist_save::arrayInt_t field_45F_type;
+    typedef ::xsd::cxx::tree::sequence< field_45F_type > field_45F_sequence;
+    typedef field_45F_sequence::iterator field_45F_iterator;
+    typedef field_45F_sequence::const_iterator field_45F_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_45F_type, char > field_45F_traits;
+
+    const field_45F_sequence&
+    field_45F () const;
+
+    field_45F_sequence&
+    field_45F ();
+
+    void
+    field_45F (const field_45F_sequence& s);
+
+    // difficulty
+    // 
+    typedef ::xml_schema::int_ difficulty_type;
+    typedef ::xsd::cxx::tree::traits< difficulty_type, char > difficulty_traits;
+
+    const difficulty_type&
+    difficulty () const;
+
+    difficulty_type&
+    difficulty ();
+
+    void
+    difficulty (const difficulty_type& x);
+
+    // mapFilename
+    // 
+    typedef ::xml_schema::string mapFilename_type;
+    typedef ::xsd::cxx::tree::traits< mapFilename_type, char > mapFilename_traits;
+
+    const mapFilename_type&
+    mapFilename () const;
+
+    mapFilename_type&
+    mapFilename ();
+
+    void
+    mapFilename (const mapFilename_type& x);
+
+    void
+    mapFilename (::std::auto_ptr< mapFilename_type > p);
+
+    // field_2773
+    // 
+    typedef ::ironfist_save::arrayInt_t field_2773_type;
+    typedef ::xsd::cxx::tree::sequence< field_2773_type > field_2773_sequence;
+    typedef field_2773_sequence::iterator field_2773_iterator;
+    typedef field_2773_sequence::const_iterator field_2773_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_2773_type, char > field_2773_traits;
+
+    const field_2773_sequence&
+    field_2773 () const;
+
+    field_2773_sequence&
+    field_2773 ();
+
+    void
+    field_2773 (const field_2773_sequence& s);
+
+    // field_27BB
+    // 
+    typedef ::ironfist_save::arrayInt_t field_27BB_type;
+    typedef ::xsd::cxx::tree::sequence< field_27BB_type > field_27BB_sequence;
+    typedef field_27BB_sequence::iterator field_27BB_iterator;
+    typedef field_27BB_sequence::const_iterator field_27BB_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_27BB_type, char > field_27BB_traits;
+
+    const field_27BB_sequence&
+    field_27BB () const;
+
+    field_27BB_sequence&
+    field_27BB ();
+
+    void
+    field_27BB (const field_27BB_sequence& s);
+
+    // field_60A6
+    // 
+    typedef ::ironfist_save::arrayInt_t field_60A6_type;
+    typedef ::xsd::cxx::tree::sequence< field_60A6_type > field_60A6_sequence;
+    typedef field_60A6_sequence::iterator field_60A6_iterator;
+    typedef field_60A6_sequence::const_iterator field_60A6_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_60A6_type, char > field_60A6_traits;
+
+    const field_60A6_sequence&
+    field_60A6 () const;
+
+    field_60A6_sequence&
+    field_60A6 ();
+
+    void
+    field_60A6 (const field_60A6_sequence& s);
+
+    // randomArtifacts
+    // 
+    typedef ::ironfist_save::arrayInt_t randomArtifacts_type;
+    typedef ::xsd::cxx::tree::sequence< randomArtifacts_type > randomArtifacts_sequence;
+    typedef randomArtifacts_sequence::iterator randomArtifacts_iterator;
+    typedef randomArtifacts_sequence::const_iterator randomArtifacts_const_iterator;
+    typedef ::xsd::cxx::tree::traits< randomArtifacts_type, char > randomArtifacts_traits;
+
+    const randomArtifacts_sequence&
+    randomArtifacts () const;
+
+    randomArtifacts_sequence&
+    randomArtifacts ();
+
+    void
+    randomArtifacts (const randomArtifacts_sequence& s);
+
+    // boatBuilt
+    // 
+    typedef ::ironfist_save::arrayInt_t boatBuilt_type;
+    typedef ::xsd::cxx::tree::sequence< boatBuilt_type > boatBuilt_sequence;
+    typedef boatBuilt_sequence::iterator boatBuilt_iterator;
+    typedef boatBuilt_sequence::const_iterator boatBuilt_const_iterator;
+    typedef ::xsd::cxx::tree::traits< boatBuilt_type, char > boatBuilt_traits;
+
+    const boatBuilt_sequence&
+    boatBuilt () const;
+
+    boatBuilt_sequence&
+    boatBuilt ();
+
+    void
+    boatBuilt (const boatBuilt_sequence& s);
+
+    // obeliskVisitedMasks
+    // 
+    typedef ::ironfist_save::arrayInt_t obeliskVisitedMasks_type;
+    typedef ::xsd::cxx::tree::sequence< obeliskVisitedMasks_type > obeliskVisitedMasks_sequence;
+    typedef obeliskVisitedMasks_sequence::iterator obeliskVisitedMasks_iterator;
+    typedef obeliskVisitedMasks_sequence::const_iterator obeliskVisitedMasks_const_iterator;
+    typedef ::xsd::cxx::tree::traits< obeliskVisitedMasks_type, char > obeliskVisitedMasks_traits;
+
+    const obeliskVisitedMasks_sequence&
+    obeliskVisitedMasks () const;
+
+    obeliskVisitedMasks_sequence&
+    obeliskVisitedMasks ();
+
+    void
+    obeliskVisitedMasks (const obeliskVisitedMasks_sequence& s);
+
+    // field_637D
+    // 
+    typedef ::ironfist_save::arrayInt_t field_637D_type;
+    typedef ::xsd::cxx::tree::sequence< field_637D_type > field_637D_sequence;
+    typedef field_637D_sequence::iterator field_637D_iterator;
+    typedef field_637D_sequence::const_iterator field_637D_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_637D_type, char > field_637D_traits;
+
+    const field_637D_sequence&
+    field_637D () const;
+
+    field_637D_sequence&
+    field_637D ();
+
+    void
+    field_637D (const field_637D_sequence& s);
+
+    // rumorIndices
+    // 
+    typedef ::ironfist_save::arrayInt_t rumorIndices_type;
+    typedef ::xsd::cxx::tree::sequence< rumorIndices_type > rumorIndices_sequence;
+    typedef rumorIndices_sequence::iterator rumorIndices_iterator;
+    typedef rumorIndices_sequence::const_iterator rumorIndices_const_iterator;
+    typedef ::xsd::cxx::tree::traits< rumorIndices_type, char > rumorIndices_traits;
+
+    const rumorIndices_sequence&
+    rumorIndices () const;
+
+    rumorIndices_sequence&
+    rumorIndices ();
+
+    void
+    rumorIndices (const rumorIndices_sequence& s);
+
+    // eventIndices
+    // 
+    typedef ::ironfist_save::arrayInt_t eventIndices_type;
+    typedef ::xsd::cxx::tree::sequence< eventIndices_type > eventIndices_sequence;
+    typedef eventIndices_sequence::iterator eventIndices_iterator;
+    typedef eventIndices_sequence::const_iterator eventIndices_const_iterator;
+    typedef ::xsd::cxx::tree::traits< eventIndices_type, char > eventIndices_traits;
+
+    const eventIndices_sequence&
+    eventIndices () const;
+
+    eventIndices_sequence&
+    eventIndices ();
+
+    void
+    eventIndices (const eventIndices_sequence& s);
+
+    // _D
+    // 
+    typedef ::ironfist_save::arrayInt_t _D_type;
+    typedef ::xsd::cxx::tree::sequence< _D_type > _D_sequence;
+    typedef _D_sequence::iterator _D_iterator;
+    typedef _D_sequence::const_iterator _D_const_iterator;
+    typedef ::xsd::cxx::tree::traits< _D_type, char > _D_traits;
+
+    const _D_sequence&
+    _D () const;
+
+    _D_sequence&
+    _D ();
+
+    void
+    _D (const _D_sequence& s);
+
+    // mapRevealed
+    // 
+    typedef ::ironfist_save::mapRevealed mapRevealed_type;
+    typedef ::xsd::cxx::tree::sequence< mapRevealed_type > mapRevealed_sequence;
+    typedef mapRevealed_sequence::iterator mapRevealed_iterator;
+    typedef mapRevealed_sequence::const_iterator mapRevealed_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapRevealed_type, char > mapRevealed_traits;
+
+    const mapRevealed_sequence&
+    mapRevealed () const;
+
+    mapRevealed_sequence&
+    mapRevealed ();
+
+    void
+    mapRevealed (const mapRevealed_sequence& s);
+
+    // mapHeader
+    // 
+    typedef ::ironfist_save::mapHeader_t mapHeader_type;
+    typedef ::xsd::cxx::tree::sequence< mapHeader_type > mapHeader_sequence;
+    typedef mapHeader_sequence::iterator mapHeader_iterator;
+    typedef mapHeader_sequence::const_iterator mapHeader_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapHeader_type, char > mapHeader_traits;
+
+    const mapHeader_sequence&
+    mapHeader () const;
+
+    mapHeader_sequence&
+    mapHeader ();
+
+    void
+    mapHeader (const mapHeader_sequence& s);
+
+    // mapExtra
+    // 
+    typedef ::ironfist_save::mapExtra_t mapExtra_type;
+    typedef ::xsd::cxx::tree::sequence< mapExtra_type > mapExtra_sequence;
+    typedef mapExtra_sequence::iterator mapExtra_iterator;
+    typedef mapExtra_sequence::const_iterator mapExtra_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapExtra_type, char > mapExtra_traits;
+
+    const mapExtra_sequence&
+    mapExtra () const;
+
+    mapExtra_sequence&
+    mapExtra ();
+
+    void
+    mapExtra (const mapExtra_sequence& s);
+
+    // playerData
+    // 
+    typedef ::ironfist_save::playerData_t playerData_type;
+    typedef ::xsd::cxx::tree::sequence< playerData_type > playerData_sequence;
+    typedef playerData_sequence::iterator playerData_iterator;
+    typedef playerData_sequence::const_iterator playerData_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerData_type, char > playerData_traits;
+
+    const playerData_sequence&
+    playerData () const;
+
+    playerData_sequence&
+    playerData ();
+
+    void
+    playerData (const playerData_sequence& s);
+
+    // towns
+    // 
+    typedef ::ironfist_save::town_t towns_type;
+    typedef ::xsd::cxx::tree::sequence< towns_type > towns_sequence;
+    typedef towns_sequence::iterator towns_iterator;
+    typedef towns_sequence::const_iterator towns_const_iterator;
+    typedef ::xsd::cxx::tree::traits< towns_type, char > towns_traits;
+
+    const towns_sequence&
+    towns () const;
+
+    towns_sequence&
+    towns ();
+
+    void
+    towns (const towns_sequence& s);
+
+    // mine
+    // 
+    typedef ::ironfist_save::mine_t mine_type;
+    typedef ::xsd::cxx::tree::sequence< mine_type > mine_sequence;
+    typedef mine_sequence::iterator mine_iterator;
+    typedef mine_sequence::const_iterator mine_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mine_type, char > mine_traits;
+
+    const mine_sequence&
+    mine () const;
+
+    mine_sequence&
+    mine ();
+
+    void
+    mine (const mine_sequence& s);
+
+    // boat
+    // 
+    typedef ::ironfist_save::boat_t boat_type;
+    typedef ::xsd::cxx::tree::sequence< boat_type > boat_sequence;
+    typedef boat_sequence::iterator boat_iterator;
+    typedef boat_sequence::const_iterator boat_const_iterator;
+    typedef ::xsd::cxx::tree::traits< boat_type, char > boat_traits;
+
+    const boat_sequence&
+    boat () const;
+
+    boat_sequence&
+    boat ();
+
+    void
+    boat (const boat_sequence& s);
+
+    // map
+    // 
+    typedef ::ironfist_save::map_t map_type;
+    typedef ::xsd::cxx::tree::sequence< map_type > map_sequence;
+    typedef map_sequence::iterator map_iterator;
+    typedef map_sequence::const_iterator map_const_iterator;
+    typedef ::xsd::cxx::tree::traits< map_type, char > map_traits;
+
+    const map_sequence&
+    map () const;
+
+    map_sequence&
+    map ();
+
+    void
+    map (const map_sequence& s);
+
     // Constructors.
     //
-    gamestate_t (const allowAIArmySharing_type&);
+    gamestate_t (const allowAIArmySharing_type&,
+                 const mapWidth_type&,
+                 const mapHeight_type&,
+                 const gameDifficulty_type&,
+                 const monthType_type&,
+                 const monthTypeExtra_type&,
+                 const weekType_type&,
+                 const weekTypeExtra_type&,
+                 const mapChangeCtr_type&,
+                 const numPlayers_type&,
+                 const currentPlayer_type&,
+                 const numDefatedPlayers_type&,
+                 const day_type&,
+                 const week_type&,
+                 const month_type&,
+                 const numObelisks_type&,
+                 const field_6395_type&,
+                 const field_6396_type&,
+                 const field_6397_type&,
+                 const currentRumor_type&,
+                 const numRumors_type&,
+                 const numEvents_type&,
+                 const field_657B_type&,
+                 const maxMapExtra_type&,
+                 const field_44D_type&,
+                 const field_451_type&,
+                 const difficulty_type&,
+                 const mapFilename_type&);
 
     gamestate_t (const ::xercesc::DOMElement& e,
                  ::xml_schema::flags f = 0,
@@ -1644,14 +2501,2455 @@ namespace ironfist_map
 
     protected:
     ::xsd::cxx::tree::one< allowAIArmySharing_type > allowAIArmySharing_;
+    ::xsd::cxx::tree::one< mapWidth_type > mapWidth_;
+    ::xsd::cxx::tree::one< mapHeight_type > mapHeight_;
+    ::xsd::cxx::tree::one< gameDifficulty_type > gameDifficulty_;
+    ::xsd::cxx::tree::one< monthType_type > monthType_;
+    ::xsd::cxx::tree::one< monthTypeExtra_type > monthTypeExtra_;
+    ::xsd::cxx::tree::one< weekType_type > weekType_;
+    ::xsd::cxx::tree::one< weekTypeExtra_type > weekTypeExtra_;
+    ::xsd::cxx::tree::one< mapChangeCtr_type > mapChangeCtr_;
+    ::xsd::cxx::tree::one< numPlayers_type > numPlayers_;
+    ::xsd::cxx::tree::one< currentPlayer_type > currentPlayer_;
+    ::xsd::cxx::tree::one< numDefatedPlayers_type > numDefatedPlayers_;
+    ::xsd::cxx::tree::one< day_type > day_;
+    ::xsd::cxx::tree::one< week_type > week_;
+    ::xsd::cxx::tree::one< month_type > month_;
+    ::xsd::cxx::tree::one< numObelisks_type > numObelisks_;
+    ::xsd::cxx::tree::one< field_6395_type > field_6395_;
+    ::xsd::cxx::tree::one< field_6396_type > field_6396_;
+    ::xsd::cxx::tree::one< field_6397_type > field_6397_;
+    ::xsd::cxx::tree::one< currentRumor_type > currentRumor_;
+    ::xsd::cxx::tree::one< numRumors_type > numRumors_;
+    ::xsd::cxx::tree::one< numEvents_type > numEvents_;
+    ::xsd::cxx::tree::one< field_657B_type > field_657B_;
+    ::xsd::cxx::tree::one< maxMapExtra_type > maxMapExtra_;
+    playerNames_sequence playerNames_;
+    deadPlayers_sequence deadPlayers_;
+    alivePlayers_sequence alivePlayers_;
+    heroHireStatus_sequence heroHireStatus_;
+    ::xsd::cxx::tree::one< field_44D_type > field_44D_;
+    ::xsd::cxx::tree::one< field_451_type > field_451_;
+    playerHandicap_sequence playerHandicap_;
+    field_459_sequence field_459_;
+    field_45F_sequence field_45F_;
+    ::xsd::cxx::tree::one< difficulty_type > difficulty_;
+    ::xsd::cxx::tree::one< mapFilename_type > mapFilename_;
+    field_2773_sequence field_2773_;
+    field_27BB_sequence field_27BB_;
+    field_60A6_sequence field_60A6_;
+    randomArtifacts_sequence randomArtifacts_;
+    boatBuilt_sequence boatBuilt_;
+    obeliskVisitedMasks_sequence obeliskVisitedMasks_;
+    field_637D_sequence field_637D_;
+    rumorIndices_sequence rumorIndices_;
+    eventIndices_sequence eventIndices_;
+    _D_sequence _D_;
+    mapRevealed_sequence mapRevealed_;
+    mapHeader_sequence mapHeader_;
+    mapExtra_sequence mapExtra_;
+    playerData_sequence playerData_;
+    towns_sequence towns_;
+    mine_sequence mine_;
+    boat_sequence boat_;
+    map_sequence map_;
+  };
+
+  class mapHeader_t: public ::xml_schema::type
+  {
+    public:
+    // field_0
+    // 
+    typedef ::xml_schema::int_ field_0_type;
+    typedef ::xsd::cxx::tree::traits< field_0_type, char > field_0_traits;
+
+    const field_0_type&
+    field_0 () const;
+
+    field_0_type&
+    field_0 ();
+
+    void
+    field_0 (const field_0_type& x);
+
+    // field_4
+    // 
+    typedef ::xml_schema::int_ field_4_type;
+    typedef ::xsd::cxx::tree::traits< field_4_type, char > field_4_traits;
+
+    const field_4_type&
+    field_4 () const;
+
+    field_4_type&
+    field_4 ();
+
+    void
+    field_4 (const field_4_type& x);
+
+    // width
+    // 
+    typedef ::xml_schema::int_ width_type;
+    typedef ::xsd::cxx::tree::traits< width_type, char > width_traits;
+
+    const width_type&
+    width () const;
+
+    width_type&
+    width ();
+
+    void
+    width (const width_type& x);
+
+    // height
+    // 
+    typedef ::xml_schema::int_ height_type;
+    typedef ::xsd::cxx::tree::traits< height_type, char > height_traits;
+
+    const height_type&
+    height () const;
+
+    height_type&
+    height ();
+
+    void
+    height (const height_type& x);
+
+    // numPlayers
+    // 
+    typedef ::xml_schema::int_ numPlayers_type;
+    typedef ::xsd::cxx::tree::traits< numPlayers_type, char > numPlayers_traits;
+
+    const numPlayers_type&
+    numPlayers () const;
+
+    numPlayers_type&
+    numPlayers ();
+
+    void
+    numPlayers (const numPlayers_type& x);
+
+    // minHumans
+    // 
+    typedef ::xml_schema::int_ minHumans_type;
+    typedef ::xsd::cxx::tree::traits< minHumans_type, char > minHumans_traits;
+
+    const minHumans_type&
+    minHumans () const;
+
+    minHumans_type&
+    minHumans ();
+
+    void
+    minHumans (const minHumans_type& x);
+
+    // maxHumans
+    // 
+    typedef ::xml_schema::int_ maxHumans_type;
+    typedef ::xsd::cxx::tree::traits< maxHumans_type, char > maxHumans_traits;
+
+    const maxHumans_type&
+    maxHumans () const;
+
+    maxHumans_type&
+    maxHumans ();
+
+    void
+    maxHumans (const maxHumans_type& x);
+
+    // winConditionType
+    // 
+    typedef ::xml_schema::int_ winConditionType_type;
+    typedef ::xsd::cxx::tree::traits< winConditionType_type, char > winConditionType_traits;
+
+    const winConditionType_type&
+    winConditionType () const;
+
+    winConditionType_type&
+    winConditionType ();
+
+    void
+    winConditionType (const winConditionType_type& x);
+
+    // field_1E
+    // 
+    typedef ::xml_schema::int_ field_1E_type;
+    typedef ::xsd::cxx::tree::traits< field_1E_type, char > field_1E_traits;
+
+    const field_1E_type&
+    field_1E () const;
+
+    field_1E_type&
+    field_1E ();
+
+    void
+    field_1E (const field_1E_type& x);
+
+    // allowDefeatAllVictory
+    // 
+    typedef ::xml_schema::int_ allowDefeatAllVictory_type;
+    typedef ::xsd::cxx::tree::traits< allowDefeatAllVictory_type, char > allowDefeatAllVictory_traits;
+
+    const allowDefeatAllVictory_type&
+    allowDefeatAllVictory () const;
+
+    allowDefeatAllVictory_type&
+    allowDefeatAllVictory ();
+
+    void
+    allowDefeatAllVictory (const allowDefeatAllVictory_type& x);
+
+    // winConditionArgument
+    // 
+    typedef ::xml_schema::int_ winConditionArgument_type;
+    typedef ::xsd::cxx::tree::traits< winConditionArgument_type, char > winConditionArgument_traits;
+
+    const winConditionArgument_type&
+    winConditionArgument () const;
+
+    winConditionArgument_type&
+    winConditionArgument ();
+
+    void
+    winConditionArgument (const winConditionArgument_type& x);
+
+    // field_22
+    // 
+    typedef ::xml_schema::int_ field_22_type;
+    typedef ::xsd::cxx::tree::traits< field_22_type, char > field_22_traits;
+
+    const field_22_type&
+    field_22 () const;
+
+    field_22_type&
+    field_22 ();
+
+    void
+    field_22 (const field_22_type& x);
+
+    // field_23
+    // 
+    typedef ::xml_schema::int_ field_23_type;
+    typedef ::xsd::cxx::tree::traits< field_23_type, char > field_23_traits;
+
+    const field_23_type&
+    field_23 () const;
+
+    field_23_type&
+    field_23 ();
+
+    void
+    field_23 (const field_23_type& x);
+
+    // field_24
+    // 
+    typedef ::xml_schema::int_ field_24_type;
+    typedef ::xsd::cxx::tree::traits< field_24_type, char > field_24_traits;
+
+    const field_24_type&
+    field_24 () const;
+
+    field_24_type&
+    field_24 ();
+
+    void
+    field_24 (const field_24_type& x);
+
+    // noStartingHeroInCastle
+    // 
+    typedef ::xml_schema::int_ noStartingHeroInCastle_type;
+    typedef ::xsd::cxx::tree::traits< noStartingHeroInCastle_type, char > noStartingHeroInCastle_traits;
+
+    const noStartingHeroInCastle_type&
+    noStartingHeroInCastle () const;
+
+    noStartingHeroInCastle_type&
+    noStartingHeroInCastle ();
+
+    void
+    noStartingHeroInCastle (const noStartingHeroInCastle_type& x);
+
+    // field_2C
+    // 
+    typedef ::xml_schema::int_ field_2C_type;
+    typedef ::xsd::cxx::tree::traits< field_2C_type, char > field_2C_traits;
+
+    const field_2C_type&
+    field_2C () const;
+
+    field_2C_type&
+    field_2C ();
+
+    void
+    field_2C (const field_2C_type& x);
+
+    // field_2E
+    // 
+    typedef ::xml_schema::int_ field_2E_type;
+    typedef ::xsd::cxx::tree::traits< field_2E_type, char > field_2E_traits;
+
+    const field_2E_type&
+    field_2E () const;
+
+    field_2E_type&
+    field_2E ();
+
+    void
+    field_2E (const field_2E_type& x);
+
+    // field_32
+    // 
+    typedef ::xml_schema::int_ field_32_type;
+    typedef ::xsd::cxx::tree::traits< field_32_type, char > field_32_traits;
+
+    const field_32_type&
+    field_32 () const;
+
+    field_32_type&
+    field_32 ();
+
+    void
+    field_32 (const field_32_type& x);
+
+    // field_36
+    // 
+    typedef ::xml_schema::int_ field_36_type;
+    typedef ::xsd::cxx::tree::traits< field_36_type, char > field_36_traits;
+
+    const field_36_type&
+    field_36 () const;
+
+    field_36_type&
+    field_36 ();
+
+    void
+    field_36 (const field_36_type& x);
+
+    // field_37
+    // 
+    typedef ::xml_schema::int_ field_37_type;
+    typedef ::xsd::cxx::tree::traits< field_37_type, char > field_37_traits;
+
+    const field_37_type&
+    field_37 () const;
+
+    field_37_type&
+    field_37 ();
+
+    void
+    field_37 (const field_37_type& x);
+
+    // nextTownName
+    // 
+    typedef ::xml_schema::int_ nextTownName_type;
+    typedef ::xsd::cxx::tree::traits< nextTownName_type, char > nextTownName_traits;
+
+    const nextTownName_type&
+    nextTownName () const;
+
+    nextTownName_type&
+    nextTownName ();
+
+    void
+    nextTownName (const nextTownName_type& x);
+
+    // field_39
+    // 
+    typedef ::xml_schema::int_ field_39_type;
+    typedef ::xsd::cxx::tree::traits< field_39_type, char > field_39_traits;
+
+    const field_39_type&
+    field_39 () const;
+
+    field_39_type&
+    field_39 ();
+
+    void
+    field_39 (const field_39_type& x);
+
+    // name
+    // 
+    typedef ::xml_schema::string name_type;
+    typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
+
+    const name_type&
+    name () const;
+
+    name_type&
+    name ();
+
+    void
+    name (const name_type& x);
+
+    void
+    name (::std::auto_ptr< name_type > p);
+
+    // description
+    // 
+    typedef ::xml_schema::string description_type;
+    typedef ::xsd::cxx::tree::traits< description_type, char > description_traits;
+
+    const description_type&
+    description () const;
+
+    description_type&
+    description ();
+
+    void
+    description (const description_type& x);
+
+    void
+    description (::std::auto_ptr< description_type > p);
+
+    // field_1A0
+    // 
+    typedef ::xml_schema::int_ field_1A0_type;
+    typedef ::xsd::cxx::tree::traits< field_1A0_type, char > field_1A0_traits;
+
+    const field_1A0_type&
+    field_1A0 () const;
+
+    field_1A0_type&
+    field_1A0 ();
+
+    void
+    field_1A0 (const field_1A0_type& x);
+
+    // field_1A1
+    // 
+    typedef ::xml_schema::int_ field_1A1_type;
+    typedef ::xsd::cxx::tree::traits< field_1A1_type, char > field_1A1_traits;
+
+    const field_1A1_type&
+    field_1A1 () const;
+
+    field_1A1_type&
+    field_1A1 ();
+
+    void
+    field_1A1 (const field_1A1_type& x);
+
+    // numRumors
+    // 
+    typedef ::xml_schema::int_ numRumors_type;
+    typedef ::xsd::cxx::tree::traits< numRumors_type, char > numRumors_traits;
+
+    const numRumors_type&
+    numRumors () const;
+
+    numRumors_type&
+    numRumors ();
+
+    void
+    numRumors (const numRumors_type& x);
+
+    // numEvents
+    // 
+    typedef ::xml_schema::int_ numEvents_type;
+    typedef ::xsd::cxx::tree::traits< numEvents_type, char > numEvents_traits;
+
+    const numEvents_type&
+    numEvents () const;
+
+    numEvents_type&
+    numEvents ();
+
+    void
+    numEvents (const numEvents_type& x);
+
+    // hasPlayer
+    // 
+    typedef ::ironfist_save::arrayInt_t hasPlayer_type;
+    typedef ::xsd::cxx::tree::sequence< hasPlayer_type > hasPlayer_sequence;
+    typedef hasPlayer_sequence::iterator hasPlayer_iterator;
+    typedef hasPlayer_sequence::const_iterator hasPlayer_const_iterator;
+    typedef ::xsd::cxx::tree::traits< hasPlayer_type, char > hasPlayer_traits;
+
+    const hasPlayer_sequence&
+    hasPlayer () const;
+
+    hasPlayer_sequence&
+    hasPlayer ();
+
+    void
+    hasPlayer (const hasPlayer_sequence& s);
+
+    // playerMayBeHuman
+    // 
+    typedef ::ironfist_save::arrayInt_t playerMayBeHuman_type;
+    typedef ::xsd::cxx::tree::sequence< playerMayBeHuman_type > playerMayBeHuman_sequence;
+    typedef playerMayBeHuman_sequence::iterator playerMayBeHuman_iterator;
+    typedef playerMayBeHuman_sequence::const_iterator playerMayBeHuman_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerMayBeHuman_type, char > playerMayBeHuman_traits;
+
+    const playerMayBeHuman_sequence&
+    playerMayBeHuman () const;
+
+    playerMayBeHuman_sequence&
+    playerMayBeHuman ();
+
+    void
+    playerMayBeHuman (const playerMayBeHuman_sequence& s);
+
+    // playerMayBeComp
+    // 
+    typedef ::ironfist_save::arrayInt_t playerMayBeComp_type;
+    typedef ::xsd::cxx::tree::sequence< playerMayBeComp_type > playerMayBeComp_sequence;
+    typedef playerMayBeComp_sequence::iterator playerMayBeComp_iterator;
+    typedef playerMayBeComp_sequence::const_iterator playerMayBeComp_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerMayBeComp_type, char > playerMayBeComp_traits;
+
+    const playerMayBeComp_sequence&
+    playerMayBeComp () const;
+
+    playerMayBeComp_sequence&
+    playerMayBeComp ();
+
+    void
+    playerMayBeComp (const playerMayBeComp_sequence& s);
+
+    // playerFactions
+    // 
+    typedef ::ironfist_save::arrayInt_t playerFactions_type;
+    typedef ::xsd::cxx::tree::sequence< playerFactions_type > playerFactions_sequence;
+    typedef playerFactions_sequence::iterator playerFactions_iterator;
+    typedef playerFactions_sequence::const_iterator playerFactions_const_iterator;
+    typedef ::xsd::cxx::tree::traits< playerFactions_type, char > playerFactions_traits;
+
+    const playerFactions_sequence&
+    playerFactions () const;
+
+    playerFactions_sequence&
+    playerFactions ();
+
+    void
+    playerFactions (const playerFactions_sequence& s);
+
+    // Constructors.
+    //
+    mapHeader_t (const field_0_type&,
+                 const field_4_type&,
+                 const width_type&,
+                 const height_type&,
+                 const numPlayers_type&,
+                 const minHumans_type&,
+                 const maxHumans_type&,
+                 const winConditionType_type&,
+                 const field_1E_type&,
+                 const allowDefeatAllVictory_type&,
+                 const winConditionArgument_type&,
+                 const field_22_type&,
+                 const field_23_type&,
+                 const field_24_type&,
+                 const noStartingHeroInCastle_type&,
+                 const field_2C_type&,
+                 const field_2E_type&,
+                 const field_32_type&,
+                 const field_36_type&,
+                 const field_37_type&,
+                 const nextTownName_type&,
+                 const field_39_type&,
+                 const name_type&,
+                 const description_type&,
+                 const field_1A0_type&,
+                 const field_1A1_type&,
+                 const numRumors_type&,
+                 const numEvents_type&);
+
+    mapHeader_t (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    mapHeader_t (const mapHeader_t& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual mapHeader_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapHeader_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< field_0_type > field_0_;
+    ::xsd::cxx::tree::one< field_4_type > field_4_;
+    ::xsd::cxx::tree::one< width_type > width_;
+    ::xsd::cxx::tree::one< height_type > height_;
+    ::xsd::cxx::tree::one< numPlayers_type > numPlayers_;
+    ::xsd::cxx::tree::one< minHumans_type > minHumans_;
+    ::xsd::cxx::tree::one< maxHumans_type > maxHumans_;
+    ::xsd::cxx::tree::one< winConditionType_type > winConditionType_;
+    ::xsd::cxx::tree::one< field_1E_type > field_1E_;
+    ::xsd::cxx::tree::one< allowDefeatAllVictory_type > allowDefeatAllVictory_;
+    ::xsd::cxx::tree::one< winConditionArgument_type > winConditionArgument_;
+    ::xsd::cxx::tree::one< field_22_type > field_22_;
+    ::xsd::cxx::tree::one< field_23_type > field_23_;
+    ::xsd::cxx::tree::one< field_24_type > field_24_;
+    ::xsd::cxx::tree::one< noStartingHeroInCastle_type > noStartingHeroInCastle_;
+    ::xsd::cxx::tree::one< field_2C_type > field_2C_;
+    ::xsd::cxx::tree::one< field_2E_type > field_2E_;
+    ::xsd::cxx::tree::one< field_32_type > field_32_;
+    ::xsd::cxx::tree::one< field_36_type > field_36_;
+    ::xsd::cxx::tree::one< field_37_type > field_37_;
+    ::xsd::cxx::tree::one< nextTownName_type > nextTownName_;
+    ::xsd::cxx::tree::one< field_39_type > field_39_;
+    ::xsd::cxx::tree::one< name_type > name_;
+    ::xsd::cxx::tree::one< description_type > description_;
+    ::xsd::cxx::tree::one< field_1A0_type > field_1A0_;
+    ::xsd::cxx::tree::one< field_1A1_type > field_1A1_;
+    ::xsd::cxx::tree::one< numRumors_type > numRumors_;
+    ::xsd::cxx::tree::one< numEvents_type > numEvents_;
+    hasPlayer_sequence hasPlayer_;
+    playerMayBeHuman_sequence playerMayBeHuman_;
+    playerMayBeComp_sequence playerMayBeComp_;
+    playerFactions_sequence playerFactions_;
   };
 
   class map_t: public ::xml_schema::type
   {
     public:
+    // width
+    // 
+    typedef ::xml_schema::int_ width_type;
+    typedef ::xsd::cxx::tree::traits< width_type, char > width_traits;
+
+    const width_type&
+    width () const;
+
+    width_type&
+    width ();
+
+    void
+    width (const width_type& x);
+
+    // height
+    // 
+    typedef ::xml_schema::int_ height_type;
+    typedef ::xsd::cxx::tree::traits< height_type, char > height_traits;
+
+    const height_type&
+    height () const;
+
+    height_type&
+    height ();
+
+    void
+    height (const height_type& x);
+
+    // numCellExtras
+    // 
+    typedef ::xml_schema::int_ numCellExtras_type;
+    typedef ::xsd::cxx::tree::traits< numCellExtras_type, char > numCellExtras_traits;
+
+    const numCellExtras_type&
+    numCellExtras () const;
+
+    numCellExtras_type&
+    numCellExtras ();
+
+    void
+    numCellExtras (const numCellExtras_type& x);
+
+    // mapCell
+    // 
+    typedef ::ironfist_save::mapCell_t mapCell_type;
+    typedef ::xsd::cxx::tree::sequence< mapCell_type > mapCell_sequence;
+    typedef mapCell_sequence::iterator mapCell_iterator;
+    typedef mapCell_sequence::const_iterator mapCell_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapCell_type, char > mapCell_traits;
+
+    const mapCell_sequence&
+    mapCell () const;
+
+    mapCell_sequence&
+    mapCell ();
+
+    void
+    mapCell (const mapCell_sequence& s);
+
+    // mapCellExtra
+    // 
+    typedef ::ironfist_save::mapCellExtra_t mapCellExtra_type;
+    typedef ::xsd::cxx::tree::sequence< mapCellExtra_type > mapCellExtra_sequence;
+    typedef mapCellExtra_sequence::iterator mapCellExtra_iterator;
+    typedef mapCellExtra_sequence::const_iterator mapCellExtra_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapCellExtra_type, char > mapCellExtra_traits;
+
+    const mapCellExtra_sequence&
+    mapCellExtra () const;
+
+    mapCellExtra_sequence&
+    mapCellExtra ();
+
+    void
+    mapCellExtra (const mapCellExtra_sequence& s);
+
+    // Constructors.
+    //
+    map_t (const width_type&,
+           const height_type&,
+           const numCellExtras_type&);
+
+    map_t (const ::xercesc::DOMElement& e,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+    map_t (const map_t& x,
+           ::xml_schema::flags f = 0,
+           ::xml_schema::container* c = 0);
+
+    virtual map_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~map_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< width_type > width_;
+    ::xsd::cxx::tree::one< height_type > height_;
+    ::xsd::cxx::tree::one< numCellExtras_type > numCellExtras_;
+    mapCell_sequence mapCell_;
+    mapCellExtra_sequence mapCellExtra_;
+  };
+
+  class mapCellExtra_t: public ::xml_schema::type
+  {
+    public:
+    // nextIdx
+    // 
+    typedef ::xml_schema::int_ nextIdx_type;
+    typedef ::xsd::cxx::tree::traits< nextIdx_type, char > nextIdx_traits;
+
+    const nextIdx_type&
+    nextIdx () const;
+
+    nextIdx_type&
+    nextIdx ();
+
+    void
+    nextIdx (const nextIdx_type& x);
+
+    // animatedObject
+    // 
+    typedef ::xml_schema::int_ animatedObject_type;
+    typedef ::xsd::cxx::tree::traits< animatedObject_type, char > animatedObject_traits;
+
+    const animatedObject_type&
+    animatedObject () const;
+
+    animatedObject_type&
+    animatedObject ();
+
+    void
+    animatedObject (const animatedObject_type& x);
+
+    // objTileset
+    // 
+    typedef ::xml_schema::int_ objTileset_type;
+    typedef ::xsd::cxx::tree::traits< objTileset_type, char > objTileset_traits;
+
+    const objTileset_type&
+    objTileset () const;
+
+    objTileset_type&
+    objTileset ();
+
+    void
+    objTileset (const objTileset_type& x);
+
+    // objectIndex
+    // 
+    typedef ::xml_schema::int_ objectIndex_type;
+    typedef ::xsd::cxx::tree::traits< objectIndex_type, char > objectIndex_traits;
+
+    const objectIndex_type&
+    objectIndex () const;
+
+    objectIndex_type&
+    objectIndex ();
+
+    void
+    objectIndex (const objectIndex_type& x);
+
+    // field_4_1
+    // 
+    typedef ::xml_schema::int_ field_4_1_type;
+    typedef ::xsd::cxx::tree::traits< field_4_1_type, char > field_4_1_traits;
+
+    const field_4_1_type&
+    field_4_1 () const;
+
+    field_4_1_type&
+    field_4_1 ();
+
+    void
+    field_4_1 (const field_4_1_type& x);
+
+    // field_4_2
+    // 
+    typedef ::xml_schema::int_ field_4_2_type;
+    typedef ::xsd::cxx::tree::traits< field_4_2_type, char > field_4_2_traits;
+
+    const field_4_2_type&
+    field_4_2 () const;
+
+    field_4_2_type&
+    field_4_2 ();
+
+    void
+    field_4_2 (const field_4_2_type& x);
+
+    // field_4_3
+    // 
+    typedef ::xml_schema::int_ field_4_3_type;
+    typedef ::xsd::cxx::tree::traits< field_4_3_type, char > field_4_3_traits;
+
+    const field_4_3_type&
+    field_4_3 () const;
+
+    field_4_3_type&
+    field_4_3 ();
+
+    void
+    field_4_3 (const field_4_3_type& x);
+
+    // field_4_4
+    // 
+    typedef ::xml_schema::int_ field_4_4_type;
+    typedef ::xsd::cxx::tree::traits< field_4_4_type, char > field_4_4_traits;
+
+    const field_4_4_type&
+    field_4_4 () const;
+
+    field_4_4_type&
+    field_4_4 ();
+
+    void
+    field_4_4 (const field_4_4_type& x);
+
+    // animatedLateOverlay
+    // 
+    typedef ::xml_schema::int_ animatedLateOverlay_type;
+    typedef ::xsd::cxx::tree::traits< animatedLateOverlay_type, char > animatedLateOverlay_traits;
+
+    const animatedLateOverlay_type&
+    animatedLateOverlay () const;
+
+    animatedLateOverlay_type&
+    animatedLateOverlay ();
+
+    void
+    animatedLateOverlay (const animatedLateOverlay_type& x);
+
+    // hasLateOverlay
+    // 
+    typedef ::xml_schema::int_ hasLateOverlay_type;
+    typedef ::xsd::cxx::tree::traits< hasLateOverlay_type, char > hasLateOverlay_traits;
+
+    const hasLateOverlay_type&
+    hasLateOverlay () const;
+
+    hasLateOverlay_type&
+    hasLateOverlay ();
+
+    void
+    hasLateOverlay (const hasLateOverlay_type& x);
+
+    // tileset
+    // 
+    typedef ::xml_schema::int_ tileset_type;
+    typedef ::xsd::cxx::tree::traits< tileset_type, char > tileset_traits;
+
+    const tileset_type&
+    tileset () const;
+
+    tileset_type&
+    tileset ();
+
+    void
+    tileset (const tileset_type& x);
+
+    // overlayIndex
+    // 
+    typedef ::xml_schema::int_ overlayIndex_type;
+    typedef ::xsd::cxx::tree::traits< overlayIndex_type, char > overlayIndex_traits;
+
+    const overlayIndex_type&
+    overlayIndex () const;
+
+    overlayIndex_type&
+    overlayIndex ();
+
+    void
+    overlayIndex (const overlayIndex_type& x);
+
+    // Constructors.
+    //
+    mapCellExtra_t (const nextIdx_type&,
+                    const animatedObject_type&,
+                    const objTileset_type&,
+                    const objectIndex_type&,
+                    const field_4_1_type&,
+                    const field_4_2_type&,
+                    const field_4_3_type&,
+                    const field_4_4_type&,
+                    const animatedLateOverlay_type&,
+                    const hasLateOverlay_type&,
+                    const tileset_type&,
+                    const overlayIndex_type&);
+
+    mapCellExtra_t (const ::xercesc::DOMElement& e,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    mapCellExtra_t (const mapCellExtra_t& x,
+                    ::xml_schema::flags f = 0,
+                    ::xml_schema::container* c = 0);
+
+    virtual mapCellExtra_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapCellExtra_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< nextIdx_type > nextIdx_;
+    ::xsd::cxx::tree::one< animatedObject_type > animatedObject_;
+    ::xsd::cxx::tree::one< objTileset_type > objTileset_;
+    ::xsd::cxx::tree::one< objectIndex_type > objectIndex_;
+    ::xsd::cxx::tree::one< field_4_1_type > field_4_1_;
+    ::xsd::cxx::tree::one< field_4_2_type > field_4_2_;
+    ::xsd::cxx::tree::one< field_4_3_type > field_4_3_;
+    ::xsd::cxx::tree::one< field_4_4_type > field_4_4_;
+    ::xsd::cxx::tree::one< animatedLateOverlay_type > animatedLateOverlay_;
+    ::xsd::cxx::tree::one< hasLateOverlay_type > hasLateOverlay_;
+    ::xsd::cxx::tree::one< tileset_type > tileset_;
+    ::xsd::cxx::tree::one< overlayIndex_type > overlayIndex_;
+  };
+
+  class mapCell_t: public ::xml_schema::type
+  {
+    public:
+    // groundIndex
+    // 
+    typedef ::xml_schema::int_ groundIndex_type;
+    typedef ::xsd::cxx::tree::traits< groundIndex_type, char > groundIndex_traits;
+
+    const groundIndex_type&
+    groundIndex () const;
+
+    groundIndex_type&
+    groundIndex ();
+
+    void
+    groundIndex (const groundIndex_type& x);
+
+    // hasObject
+    // 
+    typedef ::xml_schema::int_ hasObject_type;
+    typedef ::xsd::cxx::tree::traits< hasObject_type, char > hasObject_traits;
+
+    const hasObject_type&
+    hasObject () const;
+
+    hasObject_type&
+    hasObject ();
+
+    void
+    hasObject (const hasObject_type& x);
+
+    // isRoad
+    // 
+    typedef ::xml_schema::int_ isRoad_type;
+    typedef ::xsd::cxx::tree::traits< isRoad_type, char > isRoad_traits;
+
+    const isRoad_type&
+    isRoad () const;
+
+    isRoad_type&
+    isRoad ();
+
+    void
+    isRoad (const isRoad_type& x);
+
+    // objTileset
+    // 
+    typedef ::xml_schema::int_ objTileset_type;
+    typedef ::xsd::cxx::tree::traits< objTileset_type, char > objTileset_traits;
+
+    const objTileset_type&
+    objTileset () const;
+
+    objTileset_type&
+    objTileset ();
+
+    void
+    objTileset (const objTileset_type& x);
+
+    // objectIndex
+    // 
+    typedef ::xml_schema::int_ objectIndex_type;
+    typedef ::xsd::cxx::tree::traits< objectIndex_type, char > objectIndex_traits;
+
+    const objectIndex_type&
+    objectIndex () const;
+
+    objectIndex_type&
+    objectIndex ();
+
+    void
+    objectIndex (const objectIndex_type& x);
+
+    // field_4_1
+    // 
+    typedef ::xml_schema::int_ field_4_1_type;
+    typedef ::xsd::cxx::tree::traits< field_4_1_type, char > field_4_1_traits;
+
+    const field_4_1_type&
+    field_4_1 () const;
+
+    field_4_1_type&
+    field_4_1 ();
+
+    void
+    field_4_1 (const field_4_1_type& x);
+
+    // isShadow
+    // 
+    typedef ::xml_schema::int_ isShadow_type;
+    typedef ::xsd::cxx::tree::traits< isShadow_type, char > isShadow_traits;
+
+    const isShadow_type&
+    isShadow () const;
+
+    isShadow_type&
+    isShadow ();
+
+    void
+    isShadow (const isShadow_type& x);
+
+    // field_4_3
+    // 
+    typedef ::xml_schema::int_ field_4_3_type;
+    typedef ::xsd::cxx::tree::traits< field_4_3_type, char > field_4_3_traits;
+
+    const field_4_3_type&
+    field_4_3 () const;
+
+    field_4_3_type&
+    field_4_3 ();
+
+    void
+    field_4_3 (const field_4_3_type& x);
+
+    // extraInfo
+    // 
+    typedef ::xml_schema::int_ extraInfo_type;
+    typedef ::xsd::cxx::tree::traits< extraInfo_type, char > extraInfo_traits;
+
+    const extraInfo_type&
+    extraInfo () const;
+
+    extraInfo_type&
+    extraInfo ();
+
+    void
+    extraInfo (const extraInfo_type& x);
+
+    // hasOverlay
+    // 
+    typedef ::xml_schema::int_ hasOverlay_type;
+    typedef ::xsd::cxx::tree::traits< hasOverlay_type, char > hasOverlay_traits;
+
+    const hasOverlay_type&
+    hasOverlay () const;
+
+    hasOverlay_type&
+    hasOverlay ();
+
+    void
+    hasOverlay (const hasOverlay_type& x);
+
+    // hasLateOverlay
+    // 
+    typedef ::xml_schema::int_ hasLateOverlay_type;
+    typedef ::xsd::cxx::tree::traits< hasLateOverlay_type, char > hasLateOverlay_traits;
+
+    const hasLateOverlay_type&
+    hasLateOverlay () const;
+
+    hasLateOverlay_type&
+    hasLateOverlay ();
+
+    void
+    hasLateOverlay (const hasLateOverlay_type& x);
+
+    // overlayTileset
+    // 
+    typedef ::xml_schema::int_ overlayTileset_type;
+    typedef ::xsd::cxx::tree::traits< overlayTileset_type, char > overlayTileset_traits;
+
+    const overlayTileset_type&
+    overlayTileset () const;
+
+    overlayTileset_type&
+    overlayTileset ();
+
+    void
+    overlayTileset (const overlayTileset_type& x);
+
+    // overlayIndex
+    // 
+    typedef ::xml_schema::int_ overlayIndex_type;
+    typedef ::xsd::cxx::tree::traits< overlayIndex_type, char > overlayIndex_traits;
+
+    const overlayIndex_type&
+    overlayIndex () const;
+
+    overlayIndex_type&
+    overlayIndex ();
+
+    void
+    overlayIndex (const overlayIndex_type& x);
+
+    // displayFlags
+    // 
+    typedef ::xml_schema::int_ displayFlags_type;
+    typedef ::xsd::cxx::tree::traits< displayFlags_type, char > displayFlags_traits;
+
+    const displayFlags_type&
+    displayFlags () const;
+
+    displayFlags_type&
+    displayFlags ();
+
+    void
+    displayFlags (const displayFlags_type& x);
+
+    // objType
+    // 
+    typedef ::xml_schema::int_ objType_type;
+    typedef ::xsd::cxx::tree::traits< objType_type, char > objType_traits;
+
+    const objType_type&
+    objType () const;
+
+    objType_type&
+    objType ();
+
+    void
+    objType (const objType_type& x);
+
+    // extraIdx
+    // 
+    typedef ::xml_schema::int_ extraIdx_type;
+    typedef ::xsd::cxx::tree::traits< extraIdx_type, char > extraIdx_traits;
+
+    const extraIdx_type&
+    extraIdx () const;
+
+    extraIdx_type&
+    extraIdx ();
+
+    void
+    extraIdx (const extraIdx_type& x);
+
+    // Constructors.
+    //
+    mapCell_t (const groundIndex_type&,
+               const hasObject_type&,
+               const isRoad_type&,
+               const objTileset_type&,
+               const objectIndex_type&,
+               const field_4_1_type&,
+               const isShadow_type&,
+               const field_4_3_type&,
+               const extraInfo_type&,
+               const hasOverlay_type&,
+               const hasLateOverlay_type&,
+               const overlayTileset_type&,
+               const overlayIndex_type&,
+               const displayFlags_type&,
+               const objType_type&,
+               const extraIdx_type&);
+
+    mapCell_t (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    mapCell_t (const mapCell_t& x,
+               ::xml_schema::flags f = 0,
+               ::xml_schema::container* c = 0);
+
+    virtual mapCell_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapCell_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< groundIndex_type > groundIndex_;
+    ::xsd::cxx::tree::one< hasObject_type > hasObject_;
+    ::xsd::cxx::tree::one< isRoad_type > isRoad_;
+    ::xsd::cxx::tree::one< objTileset_type > objTileset_;
+    ::xsd::cxx::tree::one< objectIndex_type > objectIndex_;
+    ::xsd::cxx::tree::one< field_4_1_type > field_4_1_;
+    ::xsd::cxx::tree::one< isShadow_type > isShadow_;
+    ::xsd::cxx::tree::one< field_4_3_type > field_4_3_;
+    ::xsd::cxx::tree::one< extraInfo_type > extraInfo_;
+    ::xsd::cxx::tree::one< hasOverlay_type > hasOverlay_;
+    ::xsd::cxx::tree::one< hasLateOverlay_type > hasLateOverlay_;
+    ::xsd::cxx::tree::one< overlayTileset_type > overlayTileset_;
+    ::xsd::cxx::tree::one< overlayIndex_type > overlayIndex_;
+    ::xsd::cxx::tree::one< displayFlags_type > displayFlags_;
+    ::xsd::cxx::tree::one< objType_type > objType_;
+    ::xsd::cxx::tree::one< extraIdx_type > extraIdx_;
+  };
+
+  class mine_t: public ::xml_schema::type
+  {
+    public:
+    // field_0
+    // 
+    typedef ::xml_schema::int_ field_0_type;
+    typedef ::xsd::cxx::tree::traits< field_0_type, char > field_0_traits;
+
+    const field_0_type&
+    field_0 () const;
+
+    field_0_type&
+    field_0 ();
+
+    void
+    field_0 (const field_0_type& x);
+
+    // owner
+    // 
+    typedef ::xml_schema::int_ owner_type;
+    typedef ::xsd::cxx::tree::traits< owner_type, char > owner_traits;
+
+    const owner_type&
+    owner () const;
+
+    owner_type&
+    owner ();
+
+    void
+    owner (const owner_type& x);
+
+    // type
+    // 
+    typedef ::xml_schema::int_ type_type;
+    typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
+
+    const type_type&
+    type () const;
+
+    type_type&
+    type ();
+
+    void
+    type (const type_type& x);
+
+    // guardianType
+    // 
+    typedef ::xml_schema::int_ guardianType_type;
+    typedef ::xsd::cxx::tree::traits< guardianType_type, char > guardianType_traits;
+
+    const guardianType_type&
+    guardianType () const;
+
+    guardianType_type&
+    guardianType ();
+
+    void
+    guardianType (const guardianType_type& x);
+
+    // guardianQty
+    // 
+    typedef ::xml_schema::int_ guardianQty_type;
+    typedef ::xsd::cxx::tree::traits< guardianQty_type, char > guardianQty_traits;
+
+    const guardianQty_type&
+    guardianQty () const;
+
+    guardianQty_type&
+    guardianQty ();
+
+    void
+    guardianQty (const guardianQty_type& x);
+
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // Constructors.
+    //
+    mine_t (const field_0_type&,
+            const owner_type&,
+            const type_type&,
+            const guardianType_type&,
+            const guardianQty_type&,
+            const x_type&,
+            const y_type&);
+
+    mine_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    mine_t (const mine_t& x,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    virtual mine_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mine_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< field_0_type > field_0_;
+    ::xsd::cxx::tree::one< owner_type > owner_;
+    ::xsd::cxx::tree::one< type_type > type_;
+    ::xsd::cxx::tree::one< guardianType_type > guardianType_;
+    ::xsd::cxx::tree::one< guardianQty_type > guardianQty_;
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+  };
+
+  class boat_t: public ::xml_schema::type
+  {
+    public:
+    // idx
+    // 
+    typedef ::xml_schema::int_ idx_type;
+    typedef ::xsd::cxx::tree::traits< idx_type, char > idx_traits;
+
+    const idx_type&
+    idx () const;
+
+    idx_type&
+    idx ();
+
+    void
+    idx (const idx_type& x);
+
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // field_3
+    // 
+    typedef ::xml_schema::int_ field_3_type;
+    typedef ::xsd::cxx::tree::traits< field_3_type, char > field_3_traits;
+
+    const field_3_type&
+    field_3 () const;
+
+    field_3_type&
+    field_3 ();
+
+    void
+    field_3 (const field_3_type& x);
+
+    // underlyingObjType
+    // 
+    typedef ::xml_schema::int_ underlyingObjType_type;
+    typedef ::xsd::cxx::tree::traits< underlyingObjType_type, char > underlyingObjType_traits;
+
+    const underlyingObjType_type&
+    underlyingObjType () const;
+
+    underlyingObjType_type&
+    underlyingObjType ();
+
+    void
+    underlyingObjType (const underlyingObjType_type& x);
+
+    // underlyingObjExtra
+    // 
+    typedef ::xml_schema::int_ underlyingObjExtra_type;
+    typedef ::xsd::cxx::tree::traits< underlyingObjExtra_type, char > underlyingObjExtra_traits;
+
+    const underlyingObjExtra_type&
+    underlyingObjExtra () const;
+
+    underlyingObjExtra_type&
+    underlyingObjExtra ();
+
+    void
+    underlyingObjExtra (const underlyingObjExtra_type& x);
+
+    // field_6
+    // 
+    typedef ::xml_schema::int_ field_6_type;
+    typedef ::xsd::cxx::tree::traits< field_6_type, char > field_6_traits;
+
+    const field_6_type&
+    field_6 () const;
+
+    field_6_type&
+    field_6 ();
+
+    void
+    field_6 (const field_6_type& x);
+
+    // owner
+    // 
+    typedef ::xml_schema::int_ owner_type;
+    typedef ::xsd::cxx::tree::traits< owner_type, char > owner_traits;
+
+    const owner_type&
+    owner () const;
+
+    owner_type&
+    owner ();
+
+    void
+    owner (const owner_type& x);
+
+    // Constructors.
+    //
+    boat_t (const idx_type&,
+            const x_type&,
+            const y_type&,
+            const field_3_type&,
+            const underlyingObjType_type&,
+            const underlyingObjExtra_type&,
+            const field_6_type&,
+            const owner_type&);
+
+    boat_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    boat_t (const boat_t& x,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    virtual boat_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~boat_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< idx_type > idx_;
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+    ::xsd::cxx::tree::one< field_3_type > field_3_;
+    ::xsd::cxx::tree::one< underlyingObjType_type > underlyingObjType_;
+    ::xsd::cxx::tree::one< underlyingObjExtra_type > underlyingObjExtra_;
+    ::xsd::cxx::tree::one< field_6_type > field_6_;
+    ::xsd::cxx::tree::one< owner_type > owner_;
+  };
+
+  class armyGroup_t: public ::xml_schema::type
+  {
+    public:
+    // creature
+    // 
+    typedef ::ironfist_save::creature creature_type;
+    typedef ::xsd::cxx::tree::sequence< creature_type > creature_sequence;
+    typedef creature_sequence::iterator creature_iterator;
+    typedef creature_sequence::const_iterator creature_const_iterator;
+    typedef ::xsd::cxx::tree::traits< creature_type, char > creature_traits;
+
+    const creature_sequence&
+    creature () const;
+
+    creature_sequence&
+    creature ();
+
+    void
+    creature (const creature_sequence& s);
+
+    // Constructors.
+    //
+    armyGroup_t ();
+
+    armyGroup_t (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    armyGroup_t (const armyGroup_t& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual armyGroup_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~armyGroup_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    creature_sequence creature_;
+  };
+
+  class town_t: public ::xml_schema::type
+  {
+    public:
+    // idx
+    // 
+    typedef ::xml_schema::int_ idx_type;
+    typedef ::xsd::cxx::tree::traits< idx_type, char > idx_traits;
+
+    const idx_type&
+    idx () const;
+
+    idx_type&
+    idx ();
+
+    void
+    idx (const idx_type& x);
+
+    // ownerIdx
+    // 
+    typedef ::xml_schema::int_ ownerIdx_type;
+    typedef ::xsd::cxx::tree::traits< ownerIdx_type, char > ownerIdx_traits;
+
+    const ownerIdx_type&
+    ownerIdx () const;
+
+    ownerIdx_type&
+    ownerIdx ();
+
+    void
+    ownerIdx (const ownerIdx_type& x);
+
+    // alignment
+    // 
+    typedef ::xml_schema::int_ alignment_type;
+    typedef ::xsd::cxx::tree::traits< alignment_type, char > alignment_traits;
+
+    const alignment_type&
+    alignment () const;
+
+    alignment_type&
+    alignment ();
+
+    void
+    alignment (const alignment_type& x);
+
+    // factionID
+    // 
+    typedef ::xml_schema::int_ factionID_type;
+    typedef ::xsd::cxx::tree::traits< factionID_type, char > factionID_traits;
+
+    const factionID_type&
+    factionID () const;
+
+    factionID_type&
+    factionID ();
+
+    void
+    factionID (const factionID_type& x);
+
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // buildDockRelated
+    // 
+    typedef ::xml_schema::int_ buildDockRelated_type;
+    typedef ::xsd::cxx::tree::traits< buildDockRelated_type, char > buildDockRelated_traits;
+
+    const buildDockRelated_type&
+    buildDockRelated () const;
+
+    buildDockRelated_type&
+    buildDockRelated ();
+
+    void
+    buildDockRelated (const buildDockRelated_type& x);
+
+    // field_7
+    // 
+    typedef ::xml_schema::int_ field_7_type;
+    typedef ::xsd::cxx::tree::traits< field_7_type, char > field_7_traits;
+
+    const field_7_type&
+    field_7 () const;
+
+    field_7_type&
+    field_7 ();
+
+    void
+    field_7 (const field_7_type& x);
+
+    // visitingHeroIdx
+    // 
+    typedef ::xml_schema::int_ visitingHeroIdx_type;
+    typedef ::xsd::cxx::tree::traits< visitingHeroIdx_type, char > visitingHeroIdx_traits;
+
+    const visitingHeroIdx_type&
+    visitingHeroIdx () const;
+
+    visitingHeroIdx_type&
+    visitingHeroIdx ();
+
+    void
+    visitingHeroIdx (const visitingHeroIdx_type& x);
+
+    // buildingsBuiltFlags
+    // 
+    typedef ::xml_schema::int_ buildingsBuiltFlags_type;
+    typedef ::xsd::cxx::tree::traits< buildingsBuiltFlags_type, char > buildingsBuiltFlags_traits;
+
+    const buildingsBuiltFlags_type&
+    buildingsBuiltFlags () const;
+
+    buildingsBuiltFlags_type&
+    buildingsBuiltFlags ();
+
+    void
+    buildingsBuiltFlags (const buildingsBuiltFlags_type& x);
+
+    // mageGuildLevel
+    // 
+    typedef ::xml_schema::int_ mageGuildLevel_type;
+    typedef ::xsd::cxx::tree::traits< mageGuildLevel_type, char > mageGuildLevel_traits;
+
+    const mageGuildLevel_type&
+    mageGuildLevel () const;
+
+    mageGuildLevel_type&
+    mageGuildLevel ();
+
+    void
+    mageGuildLevel (const mageGuildLevel_type& x);
+
+    // field_1D
+    // 
+    typedef ::xml_schema::int_ field_1D_type;
+    typedef ::xsd::cxx::tree::traits< field_1D_type, char > field_1D_traits;
+
+    const field_1D_type&
+    field_1D () const;
+
+    field_1D_type&
+    field_1D ();
+
+    void
+    field_1D (const field_1D_type& x);
+
+    // exists
+    // 
+    typedef ::xml_schema::int_ exists_type;
+    typedef ::xsd::cxx::tree::traits< exists_type, char > exists_traits;
+
+    const exists_type&
+    exists () const;
+
+    exists_type&
+    exists ();
+
+    void
+    exists (const exists_type& x);
+
+    // mayNotBeUpgradedToCastle
+    // 
+    typedef ::xml_schema::int_ mayNotBeUpgradedToCastle_type;
+    typedef ::xsd::cxx::tree::traits< mayNotBeUpgradedToCastle_type, char > mayNotBeUpgradedToCastle_traits;
+
+    const mayNotBeUpgradedToCastle_type&
+    mayNotBeUpgradedToCastle () const;
+
+    mayNotBeUpgradedToCastle_type&
+    mayNotBeUpgradedToCastle ();
+
+    void
+    mayNotBeUpgradedToCastle (const mayNotBeUpgradedToCastle_type& x);
+
+    // field_38
+    // 
+    typedef ::xml_schema::int_ field_38_type;
+    typedef ::xsd::cxx::tree::traits< field_38_type, char > field_38_traits;
+
+    const field_38_type&
+    field_38 () const;
+
+    field_38_type&
+    field_38 ();
+
+    void
+    field_38 (const field_38_type& x);
+
+    // playerPos
+    // 
+    typedef ::xml_schema::int_ playerPos_type;
+    typedef ::xsd::cxx::tree::traits< playerPos_type, char > playerPos_traits;
+
+    const playerPos_type&
+    playerPos () const;
+
+    playerPos_type&
+    playerPos ();
+
+    void
+    playerPos (const playerPos_type& x);
+
+    // extraIdx
+    // 
+    typedef ::xml_schema::int_ extraIdx_type;
+    typedef ::xsd::cxx::tree::traits< extraIdx_type, char > extraIdx_traits;
+
+    const extraIdx_type&
+    extraIdx () const;
+
+    extraIdx_type&
+    extraIdx ();
+
+    void
+    extraIdx (const extraIdx_type& x);
+
+    // field_55
+    // 
+    typedef ::xml_schema::int_ field_55_type;
+    typedef ::xsd::cxx::tree::traits< field_55_type, char > field_55_traits;
+
+    const field_55_type&
+    field_55 () const;
+
+    field_55_type&
+    field_55 ();
+
+    void
+    field_55 (const field_55_type& x);
+
+    // field_63
+    // 
+    typedef ::xml_schema::int_ field_63_type;
+    typedef ::xsd::cxx::tree::traits< field_63_type, char > field_63_traits;
+
+    const field_63_type&
+    field_63 () const;
+
+    field_63_type&
+    field_63 ();
+
+    void
+    field_63 (const field_63_type& x);
+
+    // name
+    // 
+    typedef ::xml_schema::string name_type;
+    typedef ::xsd::cxx::tree::traits< name_type, char > name_traits;
+
+    const name_type&
+    name () const;
+
+    name_type&
+    name ();
+
+    void
+    name (const name_type& x);
+
+    void
+    name (::std::auto_ptr< name_type > p);
+
+    // garrison
+    // 
+    typedef ::ironfist_save::armyGroup_t garrison_type;
+    typedef ::xsd::cxx::tree::sequence< garrison_type > garrison_sequence;
+    typedef garrison_sequence::iterator garrison_iterator;
+    typedef garrison_sequence::const_iterator garrison_const_iterator;
+    typedef ::xsd::cxx::tree::traits< garrison_type, char > garrison_traits;
+
+    const garrison_sequence&
+    garrison () const;
+
+    garrison_sequence&
+    garrison ();
+
+    void
+    garrison (const garrison_sequence& s);
+
+    // numCreaturesInDwelling
+    // 
+    typedef ::ironfist_save::arrayInt_t numCreaturesInDwelling_type;
+    typedef ::xsd::cxx::tree::sequence< numCreaturesInDwelling_type > numCreaturesInDwelling_sequence;
+    typedef numCreaturesInDwelling_sequence::iterator numCreaturesInDwelling_iterator;
+    typedef numCreaturesInDwelling_sequence::const_iterator numCreaturesInDwelling_const_iterator;
+    typedef ::xsd::cxx::tree::traits< numCreaturesInDwelling_type, char > numCreaturesInDwelling_traits;
+
+    const numCreaturesInDwelling_sequence&
+    numCreaturesInDwelling () const;
+
+    numCreaturesInDwelling_sequence&
+    numCreaturesInDwelling ();
+
+    void
+    numCreaturesInDwelling (const numCreaturesInDwelling_sequence& s);
+
+    // mageGuildSpells
+    // 
+    typedef ::ironfist_save::arrayInt_t mageGuildSpells_type;
+    typedef ::xsd::cxx::tree::sequence< mageGuildSpells_type > mageGuildSpells_sequence;
+    typedef mageGuildSpells_sequence::iterator mageGuildSpells_iterator;
+    typedef mageGuildSpells_sequence::const_iterator mageGuildSpells_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mageGuildSpells_type, char > mageGuildSpells_traits;
+
+    const mageGuildSpells_sequence&
+    mageGuildSpells () const;
+
+    mageGuildSpells_sequence&
+    mageGuildSpells ();
+
+    void
+    mageGuildSpells (const mageGuildSpells_sequence& s);
+
+    // numSpellsOfLevel
+    // 
+    typedef ::ironfist_save::arrayInt_t numSpellsOfLevel_type;
+    typedef ::xsd::cxx::tree::sequence< numSpellsOfLevel_type > numSpellsOfLevel_sequence;
+    typedef numSpellsOfLevel_sequence::iterator numSpellsOfLevel_iterator;
+    typedef numSpellsOfLevel_sequence::const_iterator numSpellsOfLevel_const_iterator;
+    typedef ::xsd::cxx::tree::traits< numSpellsOfLevel_type, char > numSpellsOfLevel_traits;
+
+    const numSpellsOfLevel_sequence&
+    numSpellsOfLevel () const;
+
+    numSpellsOfLevel_sequence&
+    numSpellsOfLevel ();
+
+    void
+    numSpellsOfLevel (const numSpellsOfLevel_sequence& s);
+
+    // Constructors.
+    //
+    town_t (const idx_type&,
+            const ownerIdx_type&,
+            const alignment_type&,
+            const factionID_type&,
+            const x_type&,
+            const y_type&,
+            const buildDockRelated_type&,
+            const field_7_type&,
+            const visitingHeroIdx_type&,
+            const buildingsBuiltFlags_type&,
+            const mageGuildLevel_type&,
+            const field_1D_type&,
+            const exists_type&,
+            const mayNotBeUpgradedToCastle_type&,
+            const field_38_type&,
+            const playerPos_type&,
+            const extraIdx_type&,
+            const field_55_type&,
+            const field_63_type&,
+            const name_type&);
+
+    town_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    town_t (const town_t& x,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
+
+    virtual town_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~town_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< idx_type > idx_;
+    ::xsd::cxx::tree::one< ownerIdx_type > ownerIdx_;
+    ::xsd::cxx::tree::one< alignment_type > alignment_;
+    ::xsd::cxx::tree::one< factionID_type > factionID_;
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+    ::xsd::cxx::tree::one< buildDockRelated_type > buildDockRelated_;
+    ::xsd::cxx::tree::one< field_7_type > field_7_;
+    ::xsd::cxx::tree::one< visitingHeroIdx_type > visitingHeroIdx_;
+    ::xsd::cxx::tree::one< buildingsBuiltFlags_type > buildingsBuiltFlags_;
+    ::xsd::cxx::tree::one< mageGuildLevel_type > mageGuildLevel_;
+    ::xsd::cxx::tree::one< field_1D_type > field_1D_;
+    ::xsd::cxx::tree::one< exists_type > exists_;
+    ::xsd::cxx::tree::one< mayNotBeUpgradedToCastle_type > mayNotBeUpgradedToCastle_;
+    ::xsd::cxx::tree::one< field_38_type > field_38_;
+    ::xsd::cxx::tree::one< playerPos_type > playerPos_;
+    ::xsd::cxx::tree::one< extraIdx_type > extraIdx_;
+    ::xsd::cxx::tree::one< field_55_type > field_55_;
+    ::xsd::cxx::tree::one< field_63_type > field_63_;
+    ::xsd::cxx::tree::one< name_type > name_;
+    garrison_sequence garrison_;
+    numCreaturesInDwelling_sequence numCreaturesInDwelling_;
+    mageGuildSpells_sequence mageGuildSpells_;
+    numSpellsOfLevel_sequence numSpellsOfLevel_;
+  };
+
+  class playerData_t: public ::xml_schema::type
+  {
+    public:
+    // color
+    // 
+    typedef ::xml_schema::int_ color_type;
+    typedef ::xsd::cxx::tree::traits< color_type, char > color_traits;
+
+    const color_type&
+    color () const;
+
+    color_type&
+    color ();
+
+    void
+    color (const color_type& x);
+
+    // numHeroes
+    // 
+    typedef ::xml_schema::int_ numHeroes_type;
+    typedef ::xsd::cxx::tree::traits< numHeroes_type, char > numHeroes_traits;
+
+    const numHeroes_type&
+    numHeroes () const;
+
+    numHeroes_type&
+    numHeroes ();
+
+    void
+    numHeroes (const numHeroes_type& x);
+
+    // curHeroIdx
+    // 
+    typedef ::xml_schema::int_ curHeroIdx_type;
+    typedef ::xsd::cxx::tree::traits< curHeroIdx_type, char > curHeroIdx_traits;
+
+    const curHeroIdx_type&
+    curHeroIdx () const;
+
+    curHeroIdx_type&
+    curHeroIdx ();
+
+    void
+    curHeroIdx (const curHeroIdx_type& x);
+
+    // field_3
+    // 
+    typedef ::xml_schema::int_ field_3_type;
+    typedef ::xsd::cxx::tree::traits< field_3_type, char > field_3_traits;
+
+    const field_3_type&
+    field_3 () const;
+
+    field_3_type&
+    field_3 ();
+
+    void
+    field_3 (const field_3_type& x);
+
+    // game_B
+    // 
+    typedef ::xml_schema::int_ game_B_type;
+    typedef ::xsd::cxx::tree::traits< game_B_type, char > game_B_traits;
+
+    const game_B_type&
+    game_B () const;
+
+    game_B_type&
+    game_B ();
+
+    void
+    game_B (const game_B_type& x);
+
+    // _3
+    // 
+    typedef ::xml_schema::int_ _3_type;
+    typedef ::xsd::cxx::tree::traits< _3_type, char > _3_traits;
+
+    const _3_type&
+    _3 () const;
+
+    _3_type&
+    _3 ();
+
+    void
+    _3 (const _3_type& x);
+
+    // personality
+    // 
+    typedef ::xml_schema::int_ personality_type;
+    typedef ::xsd::cxx::tree::traits< personality_type, char > personality_traits;
+
+    const personality_type&
+    personality () const;
+
+    personality_type&
+    personality ();
+
+    void
+    personality (const personality_type& x);
+
+    // _2
+    // 
+    typedef ::xml_schema::int_ _2_type;
+    typedef ::xsd::cxx::tree::traits< _2_type, char > _2_traits;
+
+    const _2_type&
+    _2 () const;
+
+    _2_type&
+    _2 ();
+
+    void
+    _2 (const _2_type& x);
+
+    // _4_1
+    // 
+    typedef ::xml_schema::int_ _4_1_type;
+    typedef ::xsd::cxx::tree::traits< _4_1_type, char > _4_1_traits;
+
+    const _4_1_type&
+    _4_1 () const;
+
+    _4_1_type&
+    _4_1 ();
+
+    void
+    _4_1 (const _4_1_type& x);
+
+    // field_40
+    // 
+    typedef ::xml_schema::int_ field_40_type;
+    typedef ::xsd::cxx::tree::traits< field_40_type, char > field_40_traits;
+
+    const field_40_type&
+    field_40 () const;
+
+    field_40_type&
+    field_40 ();
+
+    void
+    field_40 (const field_40_type& x);
+
+    // field_41
+    // 
+    typedef ::xml_schema::int_ field_41_type;
+    typedef ::xsd::cxx::tree::traits< field_41_type, char > field_41_traits;
+
+    const field_41_type&
+    field_41 () const;
+
+    field_41_type&
+    field_41 ();
+
+    void
+    field_41 (const field_41_type& x);
+
+    // daysLeftWithoutCastle
+    // 
+    typedef ::xml_schema::int_ daysLeftWithoutCastle_type;
+    typedef ::xsd::cxx::tree::traits< daysLeftWithoutCastle_type, char > daysLeftWithoutCastle_traits;
+
+    const daysLeftWithoutCastle_type&
+    daysLeftWithoutCastle () const;
+
+    daysLeftWithoutCastle_type&
+    daysLeftWithoutCastle ();
+
+    void
+    daysLeftWithoutCastle (const daysLeftWithoutCastle_type& x);
+
+    // numCastles
+    // 
+    typedef ::xml_schema::int_ numCastles_type;
+    typedef ::xsd::cxx::tree::traits< numCastles_type, char > numCastles_traits;
+
+    const numCastles_type&
+    numCastles () const;
+
+    numCastles_type&
+    numCastles ();
+
+    void
+    numCastles (const numCastles_type& x);
+
+    // field_45
+    // 
+    typedef ::xml_schema::int_ field_45_type;
+    typedef ::xsd::cxx::tree::traits< field_45_type, char > field_45_traits;
+
+    const field_45_type&
+    field_45 () const;
+
+    field_45_type&
+    field_45 ();
+
+    void
+    field_45 (const field_45_type& x);
+
+    // barrierTentsVisited
+    // 
+    typedef ::xml_schema::int_ barrierTentsVisited_type;
+    typedef ::xsd::cxx::tree::traits< barrierTentsVisited_type, char > barrierTentsVisited_traits;
+
+    const barrierTentsVisited_type&
+    barrierTentsVisited () const;
+
+    barrierTentsVisited_type&
+    barrierTentsVisited ();
+
+    void
+    barrierTentsVisited (const barrierTentsVisited_type& x);
+
+    // heroesOwned
+    // 
+    typedef ::ironfist_save::arrayInt_t heroesOwned_type;
+    typedef ::xsd::cxx::tree::sequence< heroesOwned_type > heroesOwned_sequence;
+    typedef heroesOwned_sequence::iterator heroesOwned_iterator;
+    typedef heroesOwned_sequence::const_iterator heroesOwned_const_iterator;
+    typedef ::xsd::cxx::tree::traits< heroesOwned_type, char > heroesOwned_traits;
+
+    const heroesOwned_sequence&
+    heroesOwned () const;
+
+    heroesOwned_sequence&
+    heroesOwned ();
+
+    void
+    heroesOwned (const heroesOwned_sequence& s);
+
+    // heroesForPurchase
+    // 
+    typedef ::ironfist_save::arrayInt_t heroesForPurchase_type;
+    typedef ::xsd::cxx::tree::sequence< heroesForPurchase_type > heroesForPurchase_sequence;
+    typedef heroesForPurchase_sequence::iterator heroesForPurchase_iterator;
+    typedef heroesForPurchase_sequence::const_iterator heroesForPurchase_const_iterator;
+    typedef ::xsd::cxx::tree::traits< heroesForPurchase_type, char > heroesForPurchase_traits;
+
+    const heroesForPurchase_sequence&
+    heroesForPurchase () const;
+
+    heroesForPurchase_sequence&
+    heroesForPurchase ();
+
+    void
+    heroesForPurchase (const heroesForPurchase_sequence& s);
+
+    // castlesOwned
+    // 
+    typedef ::ironfist_save::arrayInt_t castlesOwned_type;
+    typedef ::xsd::cxx::tree::sequence< castlesOwned_type > castlesOwned_sequence;
+    typedef castlesOwned_sequence::iterator castlesOwned_iterator;
+    typedef castlesOwned_sequence::const_iterator castlesOwned_const_iterator;
+    typedef ::xsd::cxx::tree::traits< castlesOwned_type, char > castlesOwned_traits;
+
+    const castlesOwned_sequence&
+    castlesOwned () const;
+
+    castlesOwned_sequence&
+    castlesOwned ();
+
+    void
+    castlesOwned (const castlesOwned_sequence& s);
+
+    // resources
+    // 
+    typedef ::ironfist_save::arrayInt_t resources_type;
+    typedef ::xsd::cxx::tree::sequence< resources_type > resources_sequence;
+    typedef resources_sequence::iterator resources_iterator;
+    typedef resources_sequence::const_iterator resources_const_iterator;
+    typedef ::xsd::cxx::tree::traits< resources_type, char > resources_traits;
+
+    const resources_sequence&
+    resources () const;
+
+    resources_sequence&
+    resources ();
+
+    void
+    resources (const resources_sequence& s);
+
+    // field_E7
+    // 
+    typedef ::ironfist_save::arrayInt_t field_E7_type;
+    typedef ::xsd::cxx::tree::sequence< field_E7_type > field_E7_sequence;
+    typedef field_E7_sequence::iterator field_E7_iterator;
+    typedef field_E7_sequence::const_iterator field_E7_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_E7_type, char > field_E7_traits;
+
+    const field_E7_sequence&
+    field_E7 () const;
+
+    field_E7_sequence&
+    field_E7 ();
+
+    void
+    field_E7 (const field_E7_sequence& s);
+
+    // _4_2
+    // 
+    typedef ::ironfist_save::arrayInt_t _4_2_type;
+    typedef ::xsd::cxx::tree::sequence< _4_2_type > _4_2_sequence;
+    typedef _4_2_sequence::iterator _4_2_iterator;
+    typedef _4_2_sequence::const_iterator _4_2_const_iterator;
+    typedef ::xsd::cxx::tree::traits< _4_2_type, char > _4_2_traits;
+
+    const _4_2_sequence&
+    _4_2 () const;
+
+    _4_2_sequence&
+    _4_2 ();
+
+    void
+    _4_2 (const _4_2_sequence& s);
+
+    // Constructors.
+    //
+    playerData_t (const color_type&,
+                  const numHeroes_type&,
+                  const curHeroIdx_type&,
+                  const field_3_type&,
+                  const game_B_type&,
+                  const _3_type&,
+                  const personality_type&,
+                  const _2_type&,
+                  const _4_1_type&,
+                  const field_40_type&,
+                  const field_41_type&,
+                  const daysLeftWithoutCastle_type&,
+                  const numCastles_type&,
+                  const field_45_type&,
+                  const barrierTentsVisited_type&);
+
+    playerData_t (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    playerData_t (const playerData_t& x,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+    virtual playerData_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~playerData_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< color_type > color_;
+    ::xsd::cxx::tree::one< numHeroes_type > numHeroes_;
+    ::xsd::cxx::tree::one< curHeroIdx_type > curHeroIdx_;
+    ::xsd::cxx::tree::one< field_3_type > field_3_;
+    ::xsd::cxx::tree::one< game_B_type > game_B_;
+    ::xsd::cxx::tree::one< _3_type > _3_;
+    ::xsd::cxx::tree::one< personality_type > personality_;
+    ::xsd::cxx::tree::one< _2_type > _2_;
+    ::xsd::cxx::tree::one< _4_1_type > _4_1_;
+    ::xsd::cxx::tree::one< field_40_type > field_40_;
+    ::xsd::cxx::tree::one< field_41_type > field_41_;
+    ::xsd::cxx::tree::one< daysLeftWithoutCastle_type > daysLeftWithoutCastle_;
+    ::xsd::cxx::tree::one< numCastles_type > numCastles_;
+    ::xsd::cxx::tree::one< field_45_type > field_45_;
+    ::xsd::cxx::tree::one< barrierTentsVisited_type > barrierTentsVisited_;
+    heroesOwned_sequence heroesOwned_;
+    heroesForPurchase_sequence heroesForPurchase_;
+    castlesOwned_sequence castlesOwned_;
+    resources_sequence resources_;
+    field_E7_sequence field_E7_;
+    _4_2_sequence _4_2_;
+  };
+
+  class mapExtra_t: public ::xml_schema::type
+  {
+    public:
+    // ppMapExtra
+    // 
+    typedef ::ironfist_save::ppMapExtra ppMapExtra_type;
+    typedef ::xsd::cxx::tree::sequence< ppMapExtra_type > ppMapExtra_sequence;
+    typedef ppMapExtra_sequence::iterator ppMapExtra_iterator;
+    typedef ppMapExtra_sequence::const_iterator ppMapExtra_const_iterator;
+    typedef ::xsd::cxx::tree::traits< ppMapExtra_type, char > ppMapExtra_traits;
+
+    const ppMapExtra_sequence&
+    ppMapExtra () const;
+
+    ppMapExtra_sequence&
+    ppMapExtra ();
+
+    void
+    ppMapExtra (const ppMapExtra_sequence& s);
+
+    // Constructors.
+    //
+    mapExtra_t ();
+
+    mapExtra_t (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    mapExtra_t (const mapExtra_t& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual mapExtra_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapExtra_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ppMapExtra_sequence ppMapExtra_;
+  };
+
+  class save_t: public ::xml_schema::type
+  {
+    public:
     // gamestate
     // 
-    typedef ::ironfist_map::gamestate_t gamestate_type;
+    typedef ::ironfist_save::gamestate_t gamestate_type;
     typedef ::xsd::cxx::tree::optional< gamestate_type > gamestate_optional;
     typedef ::xsd::cxx::tree::traits< gamestate_type, char > gamestate_traits;
 
@@ -1672,7 +4970,7 @@ namespace ironfist_map
 
     // hero
     // 
-    typedef ::ironfist_map::hero_t hero_type;
+    typedef ::ironfist_save::hero_t hero_type;
     typedef ::xsd::cxx::tree::sequence< hero_type > hero_sequence;
     typedef hero_sequence::iterator hero_iterator;
     typedef hero_sequence::const_iterator hero_const_iterator;
@@ -1689,7 +4987,7 @@ namespace ironfist_map
 
     // mapVariable
     // 
-    typedef ::ironfist_map::mapVariable_t mapVariable_type;
+    typedef ::ironfist_save::mapVariable_t mapVariable_type;
     typedef ::xsd::cxx::tree::sequence< mapVariable_type > mapVariable_sequence;
     typedef mapVariable_sequence::iterator mapVariable_iterator;
     typedef mapVariable_sequence::const_iterator mapVariable_const_iterator;
@@ -1725,41 +5023,24 @@ namespace ironfist_map
     void
     script (::std::auto_ptr< script_type > p);
 
-    // raw
-    // 
-    typedef ::xml_schema::base64_binary raw_type;
-    typedef ::xsd::cxx::tree::traits< raw_type, char > raw_traits;
-
-    const raw_type&
-    raw () const;
-
-    raw_type&
-    raw ();
-
-    void
-    raw (const raw_type& x);
-
-    void
-    raw (::std::auto_ptr< raw_type > p);
-
     // Constructors.
     //
-    map_t (const raw_type&);
+    save_t ();
 
-    map_t (const ::xercesc::DOMElement& e,
-           ::xml_schema::flags f = 0,
-           ::xml_schema::container* c = 0);
+    save_t (const ::xercesc::DOMElement& e,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
 
-    map_t (const map_t& x,
-           ::xml_schema::flags f = 0,
-           ::xml_schema::container* c = 0);
+    save_t (const save_t& x,
+            ::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0);
 
-    virtual map_t*
+    virtual save_t*
     _clone (::xml_schema::flags f = 0,
             ::xml_schema::container* c = 0) const;
 
     virtual 
-    ~map_t ();
+    ~save_t ();
 
     // Implementation.
     //
@@ -1773,7 +5054,103 @@ namespace ironfist_map
     hero_sequence hero_;
     mapVariable_sequence mapVariable_;
     script_optional script_;
-    ::xsd::cxx::tree::one< raw_type > raw_;
+  };
+
+  class arrayInt_t: public ::xml_schema::type
+  {
+    public:
+    // value
+    // 
+    typedef ::xml_schema::int_ value_type;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_type&
+    value () const;
+
+    value_type&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    // Constructors.
+    //
+    arrayInt_t (const value_type&);
+
+    arrayInt_t (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    arrayInt_t (const arrayInt_t& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual arrayInt_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~arrayInt_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< value_type > value_;
+  };
+
+  class arrayString_t: public ::xml_schema::type
+  {
+    public:
+    // value
+    // 
+    typedef ::xml_schema::string value_type;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_type&
+    value () const;
+
+    value_type&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (::std::auto_ptr< value_type > p);
+
+    // Constructors.
+    //
+    arrayString_t (const value_type&);
+
+    arrayString_t (const ::xercesc::DOMElement& e,
+                   ::xml_schema::flags f = 0,
+                   ::xml_schema::container* c = 0);
+
+    arrayString_t (const arrayString_t& x,
+                   ::xml_schema::flags f = 0,
+                   ::xml_schema::container* c = 0);
+
+    virtual arrayString_t*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~arrayString_t ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< value_type > value_;
   };
 
   class secondarySkill: public ::xml_schema::type
@@ -1929,6 +5306,221 @@ namespace ironfist_map
     ::xsd::cxx::tree::one< id_type > id_;
     ::xsd::cxx::tree::one< spell_type > spell_;
   };
+
+  class mapRevealed: public ::xml_schema::type
+  {
+    public:
+    // x
+    // 
+    typedef ::xml_schema::int_ x_type;
+    typedef ::xsd::cxx::tree::traits< x_type, char > x_traits;
+
+    const x_type&
+    x () const;
+
+    x_type&
+    x ();
+
+    void
+    x (const x_type& x);
+
+    // y
+    // 
+    typedef ::xml_schema::int_ y_type;
+    typedef ::xsd::cxx::tree::traits< y_type, char > y_traits;
+
+    const y_type&
+    y () const;
+
+    y_type&
+    y ();
+
+    void
+    y (const y_type& x);
+
+    // revealed
+    // 
+    typedef ::xml_schema::int_ revealed_type;
+    typedef ::xsd::cxx::tree::optional< revealed_type > revealed_optional;
+    typedef ::xsd::cxx::tree::traits< revealed_type, char > revealed_traits;
+
+    const revealed_optional&
+    revealed () const;
+
+    revealed_optional&
+    revealed ();
+
+    void
+    revealed (const revealed_type& x);
+
+    void
+    revealed (const revealed_optional& x);
+
+    // Constructors.
+    //
+    mapRevealed (const x_type&,
+                 const y_type&);
+
+    mapRevealed (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    mapRevealed (const mapRevealed& x,
+                 ::xml_schema::flags f = 0,
+                 ::xml_schema::container* c = 0);
+
+    virtual mapRevealed*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~mapRevealed ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< x_type > x_;
+    ::xsd::cxx::tree::one< y_type > y_;
+    revealed_optional revealed_;
+  };
+
+  class creature: public ::xml_schema::type
+  {
+    public:
+    // type
+    // 
+    typedef ::xml_schema::int_ type_type;
+    typedef ::xsd::cxx::tree::traits< type_type, char > type_traits;
+
+    const type_type&
+    type () const;
+
+    type_type&
+    type ();
+
+    void
+    type (const type_type& x);
+
+    // quantity
+    // 
+    typedef ::xml_schema::int_ quantity_type;
+    typedef ::xsd::cxx::tree::traits< quantity_type, char > quantity_traits;
+
+    const quantity_type&
+    quantity () const;
+
+    quantity_type&
+    quantity ();
+
+    void
+    quantity (const quantity_type& x);
+
+    // Constructors.
+    //
+    creature (const type_type&,
+              const quantity_type&);
+
+    creature (const ::xercesc::DOMElement& e,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
+
+    creature (const creature& x,
+              ::xml_schema::flags f = 0,
+              ::xml_schema::container* c = 0);
+
+    virtual creature*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~creature ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    ::xsd::cxx::tree::one< type_type > type_;
+    ::xsd::cxx::tree::one< quantity_type > quantity_;
+  };
+
+  class ppMapExtra: public ::xml_schema::type
+  {
+    public:
+    // mapExtraIndex
+    // 
+    typedef ::xml_schema::int_ mapExtraIndex_type;
+    typedef ::xsd::cxx::tree::optional< mapExtraIndex_type > mapExtraIndex_optional;
+    typedef ::xsd::cxx::tree::traits< mapExtraIndex_type, char > mapExtraIndex_traits;
+
+    const mapExtraIndex_optional&
+    mapExtraIndex () const;
+
+    mapExtraIndex_optional&
+    mapExtraIndex ();
+
+    void
+    mapExtraIndex (const mapExtraIndex_type& x);
+
+    void
+    mapExtraIndex (const mapExtraIndex_optional& x);
+
+    // value
+    // 
+    typedef ::xml_schema::byte value_type;
+    typedef ::xsd::cxx::tree::optional< value_type > value_optional;
+    typedef ::xsd::cxx::tree::traits< value_type, char > value_traits;
+
+    const value_optional&
+    value () const;
+
+    value_optional&
+    value ();
+
+    void
+    value (const value_type& x);
+
+    void
+    value (const value_optional& x);
+
+    // Constructors.
+    //
+    ppMapExtra ();
+
+    ppMapExtra (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    ppMapExtra (const ppMapExtra& x,
+                ::xml_schema::flags f = 0,
+                ::xml_schema::container* c = 0);
+
+    virtual ppMapExtra*
+    _clone (::xml_schema::flags f = 0,
+            ::xml_schema::container* c = 0) const;
+
+    virtual 
+    ~ppMapExtra ();
+
+    // Implementation.
+    //
+    protected:
+    void
+    parse (::xsd::cxx::xml::dom::parser< char >&,
+           ::xml_schema::flags);
+
+    protected:
+    mapExtraIndex_optional mapExtraIndex_;
+    value_optional value_;
+  };
 }
 
 #include <iosfwd>
@@ -1937,116 +5529,116 @@ namespace ironfist_map
 #include <xercesc/dom/DOMDocument.hpp>
 #include <xercesc/dom/DOMErrorHandler.hpp>
 
-namespace ironfist_map
+namespace ironfist_save
 {
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (const ::std::string& uri,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (const ::std::string& uri,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (const ::std::string& uri,
-       ::xml_schema::error_handler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (const ::std::string& uri,
+        ::xml_schema::error_handler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (const ::std::string& uri,
-       ::xercesc::DOMErrorHandler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (const ::std::string& uri,
+        ::xercesc::DOMErrorHandler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::std::istream& is,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::std::istream& is,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::std::istream& is,
-       ::xml_schema::error_handler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::std::istream& is,
+        ::xml_schema::error_handler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::std::istream& is,
-       ::xercesc::DOMErrorHandler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::std::istream& is,
+        ::xercesc::DOMErrorHandler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::std::istream& is,
-       const ::std::string& id,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::std::istream& is,
+        const ::std::string& id,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::std::istream& is,
-       const ::std::string& id,
-       ::xml_schema::error_handler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::std::istream& is,
+        const ::std::string& id,
+        ::xml_schema::error_handler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::std::istream& is,
-       const ::std::string& id,
-       ::xercesc::DOMErrorHandler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::std::istream& is,
+        const ::std::string& id,
+        ::xercesc::DOMErrorHandler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::xercesc::InputSource& is,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::xercesc::InputSource& is,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::xercesc::InputSource& is,
-       ::xml_schema::error_handler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::xercesc::InputSource& is,
+        ::xml_schema::error_handler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::xercesc::InputSource& is,
-       ::xercesc::DOMErrorHandler& eh,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::xercesc::InputSource& is,
+        ::xercesc::DOMErrorHandler& eh,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (const ::xercesc::DOMDocument& d,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (const ::xercesc::DOMDocument& d,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::map_t >
-  map (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
-       ::xml_schema::flags f = 0,
-       const ::xml_schema::properties& p = ::xml_schema::properties ());
+  ::std::auto_ptr< ::ironfist_save::save_t >
+  save (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+        ::xml_schema::flags f = 0,
+        const ::xml_schema::properties& p = ::xml_schema::properties ());
 
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::std::string& uri,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::std::string& uri,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::std::string& uri,
              ::xercesc::DOMErrorHandler& eh,
              ::xml_schema::flags f = 0,
@@ -2055,37 +5647,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              ::xercesc::DOMErrorHandler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              const ::std::string& id,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              const ::std::string& id,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::std::istream& is,
              const ::std::string& id,
              ::xercesc::DOMErrorHandler& eh,
@@ -2095,18 +5687,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xercesc::InputSource& is,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xercesc::InputSource& is,
              ::xml_schema::error_handler& eh,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xercesc::InputSource& is,
              ::xercesc::DOMErrorHandler& eh,
              ::xml_schema::flags f = 0,
@@ -2115,12 +5707,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (const ::xercesc::DOMDocument& d,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::gamestate_t >
+  ::std::auto_ptr< ::ironfist_save::gamestate_t >
   gamestate (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
              ::xml_schema::flags f = 0,
              const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -2128,18 +5720,18 @@ namespace ironfist_map
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::std::string& uri,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::std::string& uri,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::std::string& uri,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -2148,37 +5740,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::std::istream& is,
         const ::std::string& id,
         ::xercesc::DOMErrorHandler& eh,
@@ -2188,18 +5780,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xercesc::InputSource& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xercesc::InputSource& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xercesc::InputSource& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -2208,12 +5800,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (const ::xercesc::DOMDocument& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::hero_t >
+  ::std::auto_ptr< ::ironfist_save::hero_t >
   hero (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -2221,18 +5813,18 @@ namespace ironfist_map
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::std::string& uri,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::std::string& uri,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::std::string& uri,
                ::xercesc::DOMErrorHandler& eh,
                ::xml_schema::flags f = 0,
@@ -2241,37 +5833,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                ::xercesc::DOMErrorHandler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                const ::std::string& id,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                const ::std::string& id,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::std::istream& is,
                const ::std::string& id,
                ::xercesc::DOMErrorHandler& eh,
@@ -2281,18 +5873,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xercesc::InputSource& is,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xercesc::InputSource& is,
                ::xml_schema::error_handler& eh,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xercesc::InputSource& is,
                ::xercesc::DOMErrorHandler& eh,
                ::xml_schema::flags f = 0,
@@ -2301,12 +5893,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (const ::xercesc::DOMDocument& d,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::mapVariable_t >
+  ::std::auto_ptr< ::ironfist_save::mapVariable_t >
   mapVariable (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
                ::xml_schema::flags f = 0,
                const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -2407,18 +5999,18 @@ namespace ironfist_map
   // Parse a URI or a local file.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::std::string& uri,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::std::string& uri,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::std::string& uri,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -2427,37 +6019,37 @@ namespace ironfist_map
   // Parse std::istream.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         const ::std::string& id,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::std::istream& is,
         const ::std::string& id,
         ::xercesc::DOMErrorHandler& eh,
@@ -2467,18 +6059,18 @@ namespace ironfist_map
   // Parse xercesc::InputSource.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xercesc::InputSource& is,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xercesc::InputSource& is,
         ::xml_schema::error_handler& eh,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xercesc::InputSource& is,
         ::xercesc::DOMErrorHandler& eh,
         ::xml_schema::flags f = 0,
@@ -2487,12 +6079,12 @@ namespace ironfist_map
   // Parse xercesc::DOMDocument.
   //
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (const ::xercesc::DOMDocument& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
 
-  ::std::auto_ptr< ::ironfist_map::army_t >
+  ::std::auto_ptr< ::ironfist_save::army_t >
   army (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
         ::xml_schema::flags f = 0,
         const ::xml_schema::properties& p = ::xml_schema::properties ());
@@ -2599,7 +6191,7 @@ namespace ironfist_map
 
 #include <xsd/cxx/xml/dom/auto-ptr.hxx>
 
-namespace ironfist_map
+namespace ironfist_save
 {
   void
   operator<< (::xercesc::DOMElement&, const slot_t&);
@@ -2623,89 +6215,125 @@ namespace ironfist_map
   operator<< (::xercesc::DOMElement&, const gamestate_t&);
 
   void
+  operator<< (::xercesc::DOMElement&, const mapHeader_t&);
+
+  void
   operator<< (::xercesc::DOMElement&, const map_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mapCellExtra_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mapCell_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mine_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const boat_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const armyGroup_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const town_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const playerData_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mapExtra_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const save_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const arrayInt_t&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const arrayString_t&);
 
   // Serialize to std::ostream.
   //
 
   void
-  map (::std::ostream& os,
-       const ::ironfist_map::map_t& x, 
-       const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
-       const ::std::string& e = "UTF-8",
-       ::xml_schema::flags f = 0);
+  save (::std::ostream& os,
+        const ::ironfist_save::save_t& x, 
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
 
   void
-  map (::std::ostream& os,
-       const ::ironfist_map::map_t& x, 
-       ::xml_schema::error_handler& eh,
-       const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
-       const ::std::string& e = "UTF-8",
-       ::xml_schema::flags f = 0);
+  save (::std::ostream& os,
+        const ::ironfist_save::save_t& x, 
+        ::xml_schema::error_handler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
 
   void
-  map (::std::ostream& os,
-       const ::ironfist_map::map_t& x, 
-       ::xercesc::DOMErrorHandler& eh,
-       const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
-       const ::std::string& e = "UTF-8",
-       ::xml_schema::flags f = 0);
+  save (::std::ostream& os,
+        const ::ironfist_save::save_t& x, 
+        ::xercesc::DOMErrorHandler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
 
   // Serialize to xercesc::XMLFormatTarget.
   //
 
   void
-  map (::xercesc::XMLFormatTarget& ft,
-       const ::ironfist_map::map_t& x, 
-       const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
-       const ::std::string& e = "UTF-8",
-       ::xml_schema::flags f = 0);
+  save (::xercesc::XMLFormatTarget& ft,
+        const ::ironfist_save::save_t& x, 
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
 
   void
-  map (::xercesc::XMLFormatTarget& ft,
-       const ::ironfist_map::map_t& x, 
-       ::xml_schema::error_handler& eh,
-       const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
-       const ::std::string& e = "UTF-8",
-       ::xml_schema::flags f = 0);
+  save (::xercesc::XMLFormatTarget& ft,
+        const ::ironfist_save::save_t& x, 
+        ::xml_schema::error_handler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
 
   void
-  map (::xercesc::XMLFormatTarget& ft,
-       const ::ironfist_map::map_t& x, 
-       ::xercesc::DOMErrorHandler& eh,
-       const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
-       const ::std::string& e = "UTF-8",
-       ::xml_schema::flags f = 0);
+  save (::xercesc::XMLFormatTarget& ft,
+        const ::ironfist_save::save_t& x, 
+        ::xercesc::DOMErrorHandler& eh,
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        const ::std::string& e = "UTF-8",
+        ::xml_schema::flags f = 0);
 
   // Serialize to an existing xercesc::DOMDocument.
   //
 
   void
-  map (::xercesc::DOMDocument& d,
-       const ::ironfist_map::map_t& x,
-       ::xml_schema::flags f = 0);
+  save (::xercesc::DOMDocument& d,
+        const ::ironfist_save::save_t& x,
+        ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  map (const ::ironfist_map::map_t& x, 
-       const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
-       ::xml_schema::flags f = 0);
+  save (const ::ironfist_save::save_t& x, 
+        const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
+        ::xml_schema::flags f = 0);
 
   // Serialize to std::ostream.
   //
 
   void
   gamestate (::std::ostream& os,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
              ::xml_schema::flags f = 0);
 
   void
   gamestate (::std::ostream& os,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xml_schema::error_handler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -2713,7 +6341,7 @@ namespace ironfist_map
 
   void
   gamestate (::std::ostream& os,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xercesc::DOMErrorHandler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -2724,14 +6352,14 @@ namespace ironfist_map
 
   void
   gamestate (::xercesc::XMLFormatTarget& ft,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
              ::xml_schema::flags f = 0);
 
   void
   gamestate (::xercesc::XMLFormatTarget& ft,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xml_schema::error_handler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -2739,7 +6367,7 @@ namespace ironfist_map
 
   void
   gamestate (::xercesc::XMLFormatTarget& ft,
-             const ::ironfist_map::gamestate_t& x, 
+             const ::ironfist_save::gamestate_t& x, 
              ::xercesc::DOMErrorHandler& eh,
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              const ::std::string& e = "UTF-8",
@@ -2750,14 +6378,14 @@ namespace ironfist_map
 
   void
   gamestate (::xercesc::DOMDocument& d,
-             const ::ironfist_map::gamestate_t& x,
+             const ::ironfist_save::gamestate_t& x,
              ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  gamestate (const ::ironfist_map::gamestate_t& x, 
+  gamestate (const ::ironfist_save::gamestate_t& x, 
              const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
              ::xml_schema::flags f = 0);
 
@@ -2766,14 +6394,14 @@ namespace ironfist_map
 
   void
   hero (::std::ostream& os,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   hero (::std::ostream& os,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -2781,7 +6409,7 @@ namespace ironfist_map
 
   void
   hero (::std::ostream& os,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -2792,14 +6420,14 @@ namespace ironfist_map
 
   void
   hero (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   hero (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -2807,7 +6435,7 @@ namespace ironfist_map
 
   void
   hero (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::hero_t& x, 
+        const ::ironfist_save::hero_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -2818,14 +6446,14 @@ namespace ironfist_map
 
   void
   hero (::xercesc::DOMDocument& d,
-        const ::ironfist_map::hero_t& x,
+        const ::ironfist_save::hero_t& x,
         ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  hero (const ::ironfist_map::hero_t& x, 
+  hero (const ::ironfist_save::hero_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         ::xml_schema::flags f = 0);
 
@@ -2834,14 +6462,14 @@ namespace ironfist_map
 
   void
   mapVariable (::std::ostream& os,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
                ::xml_schema::flags f = 0);
 
   void
   mapVariable (::std::ostream& os,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xml_schema::error_handler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -2849,7 +6477,7 @@ namespace ironfist_map
 
   void
   mapVariable (::std::ostream& os,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xercesc::DOMErrorHandler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -2860,14 +6488,14 @@ namespace ironfist_map
 
   void
   mapVariable (::xercesc::XMLFormatTarget& ft,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
                ::xml_schema::flags f = 0);
 
   void
   mapVariable (::xercesc::XMLFormatTarget& ft,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xml_schema::error_handler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -2875,7 +6503,7 @@ namespace ironfist_map
 
   void
   mapVariable (::xercesc::XMLFormatTarget& ft,
-               const ::ironfist_map::mapVariable_t& x, 
+               const ::ironfist_save::mapVariable_t& x, 
                ::xercesc::DOMErrorHandler& eh,
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                const ::std::string& e = "UTF-8",
@@ -2886,14 +6514,14 @@ namespace ironfist_map
 
   void
   mapVariable (::xercesc::DOMDocument& d,
-               const ::ironfist_map::mapVariable_t& x,
+               const ::ironfist_save::mapVariable_t& x,
                ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  mapVariable (const ::ironfist_map::mapVariable_t& x, 
+  mapVariable (const ::ironfist_save::mapVariable_t& x, 
                const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
                ::xml_schema::flags f = 0);
 
@@ -2970,14 +6598,14 @@ namespace ironfist_map
 
   void
   army (::std::ostream& os,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   army (::std::ostream& os,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -2985,7 +6613,7 @@ namespace ironfist_map
 
   void
   army (::std::ostream& os,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -2996,14 +6624,14 @@ namespace ironfist_map
 
   void
   army (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
         ::xml_schema::flags f = 0);
 
   void
   army (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xml_schema::error_handler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -3011,7 +6639,7 @@ namespace ironfist_map
 
   void
   army (::xercesc::XMLFormatTarget& ft,
-        const ::ironfist_map::army_t& x, 
+        const ::ironfist_save::army_t& x, 
         ::xercesc::DOMErrorHandler& eh,
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         const ::std::string& e = "UTF-8",
@@ -3022,14 +6650,14 @@ namespace ironfist_map
 
   void
   army (::xercesc::DOMDocument& d,
-        const ::ironfist_map::army_t& x,
+        const ::ironfist_save::army_t& x,
         ::xml_schema::flags f = 0);
 
   // Serialize to a new xercesc::DOMDocument.
   //
 
   ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
-  army (const ::ironfist_map::army_t& x, 
+  army (const ::ironfist_save::army_t& x, 
         const ::xml_schema::namespace_infomap& m = ::xml_schema::namespace_infomap (),
         ::xml_schema::flags f = 0);
 
@@ -3106,6 +6734,15 @@ namespace ironfist_map
 
   void
   operator<< (::xercesc::DOMElement&, const artifact&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const mapRevealed&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const creature&);
+
+  void
+  operator<< (::xercesc::DOMElement&, const ppMapExtra&);
 }
 
 #include <xsd/cxx/post.hxx>
