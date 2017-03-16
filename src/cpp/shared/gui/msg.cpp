@@ -22,6 +22,10 @@ void GUISetText(heroWindow* hwnd, int f, char* p) {
 	GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_SET_TEXT, (void*)p);
 }
 
+void GUIDroplistAdd(heroWindow* hwnd, int f, char* p) {
+  GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_DROPLIST_ADD, (void*)p);
+}
+
 
 void GUIBroadcastMessage(heroWindow* hwnd, int f, int c, void* p) {
 	tag_message evt;
@@ -30,4 +34,14 @@ void GUIBroadcastMessage(heroWindow* hwnd, int f, int c, void* p) {
 	evt.xCoordOrKeycode = c;
 	evt.payload = p;
 	hwnd->BroadcastMessage(evt);
+}
+
+int GUIGetDropdownSelection(heroWindow* hwnd, void* spell) {
+  tag_message evt;
+  evt.yCoordOrFieldID = 100;
+  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+  evt.xCoordOrKeycode = 55;
+  evt.payload = spell;
+  hwnd->BroadcastMessage(evt);
+  return (int)evt.payload;
 }

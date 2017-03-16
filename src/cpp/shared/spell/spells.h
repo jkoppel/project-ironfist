@@ -2,10 +2,9 @@
 #define SPELLS_H
 
 #include "adventure/adv.h"
+#include "spell/spell_constants.h"
 
 #pragma pack(push, 1)
-
-#define NUM_SPELLS 67
 
 struct SSpellInfo {
   char soundName[9];
@@ -112,7 +111,7 @@ enum SPELL_CATEGORY {
   SPELL_CATEGORY_ALL = 2,
 };
 
-enum STACK_MODIFYING_EFFECT : __int16 {
+enum STACK_MODIFYING_EFFECT {
   EFFECT_HASTE = 0,
   EFFECT_SLOW = 1,
   EFFECT_BLIND = 2,
@@ -130,8 +129,6 @@ enum STACK_MODIFYING_EFFECT : __int16 {
   EFFECT_STEELSKIN = 14,
   EFFECT_SHADOW_MARK = 16
 };
-
-char* gSpellNames[];
 
 extern int __fastcall GetManaCost(int, class hero*);
 int GetManaCost(int);

@@ -1,5 +1,5 @@
 #include "base.h"
-#include "msg.h"
+#include "gui/msg.h"
 
 #include "adventure/adv.h"
 #include "adventure/map.h"

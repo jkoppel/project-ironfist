@@ -51,18 +51,28 @@ public:
 
   void InitializeMap(int random, int width, int height);
   void InitializeMap_orig(int random, int width, int height);
+  void SpellScrollEditDialog(int *a1);
+  void SpellScrollEditDialog_orig(int *RelatedToSpellIdx);
+  void __thiscall UpdateCursor();
 };
 
 extern editManager* gpEditManager;
 extern SMapHeader gpMapHeader;
+extern heroWindow* gpCellEditDialog;
+extern int OriginalSpell;
 
 void __fastcall ShowErrorMessage(const char *str);
+
+int __fastcall SpellScrollEditDialogCallback(tag_message& msg);
+int __fastcall SpellScrollEditDialogCallback_orig(tag_message& msg);
 
 extern int CountMines();
 
 extern int __fastcall SelectTerrainTile(int, int, int, int, int, int, float);
 
 extern char* gpTownNames[];
+
+extern void __cdecl RedrawEditPane();
 
 #pragma pack(pop)
 
