@@ -4,7 +4,7 @@
 #include "resource/resourceManager.h"
 #include "scripting/callback.h"
 #include "sound/sound.h"
-#include "spells.h"
+#include "spell/spells.h"
 
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
@@ -30,7 +30,7 @@ extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
 
-char *gCombatFxNames[33] =
+char *gCombatFxNames[34] =
 {
   "",
   "magic01.icn",
@@ -64,10 +64,11 @@ char *gCombatFxNames[33] =
   "curse.icn",
   "stonskin.icn",
   "stelskin.icn",
-  "plasmblast.icn"
+  "plasmblast.icn",
+  "shdwmark.icn"
 };
 
-unsigned __int8 giNumPowFrames[33] =
+unsigned __int8 giNumPowFrames[34] =
 {
   10u,
   10u,
@@ -101,7 +102,8 @@ unsigned __int8 giNumPowFrames[33] =
   12u,
   11u,
   16u,
-  7u
+  7u,
+  8u
 };
 
 void OccupyHexes(army *a) {
@@ -139,6 +141,8 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
 
   if (damageDone == -1) {
     sprintf(gText, "The mirror image is destroyed!");
+  } else if (damageDone == -2) {
+    sprintf(gText, "Cyber Shadow Assasins dodge the attack!");
   } else if (gbGenieHalf) {
     sprintf(gText, "%s %s half the enemy troops!", attackingCreature, (attacker->quantity > 1) ? "damage" : "damages");
   } else if (creaturesKilled <= 0) {
@@ -248,10 +252,10 @@ void army::DoAttack(int isRetaliation) {
     gpSoundManager->MemorySample(this->combatSounds[1]);
 
     int damDone;
-    this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
+    this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, isRetaliation);
     int v13 = 0; // unused
     if (secondHexTarget)
-      this->DamageEnemy(secondHexTarget, &v13, &v13, 0, 0);
+      this->DamageEnemy(secondHexTarget, &v13, &v13, 0, isRetaliation);
 
     DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
 
@@ -301,7 +305,31 @@ void army::DoAttack(int isRetaliation) {
         gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner] = creaturesKilled * primaryTarget->creature.hp;
         break;
     }
-    this->PowEffect(-1, 0, -1, -1);
+    if(CreatureHasAttribute(this->creatureIdx, SHADOW_MARK)) {
+      if (primaryTarget->SpellCastWorks(SPELL_SHADOW_MARK)) {
+        primaryTarget->spellEnemyCreatureAbilityIsCasting = SPELL_SHADOW_MARK;
+      }
+    }
+
+    if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+      if (!(primaryTarget->creature.creature_flags & RETALIATED) && !isRetaliation) {
+        int dodgeAnimLen = 7;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+        for (int p = 0; p < dodgeAnimLen; p++) {
+          primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
+        }
+      }
+
+      this->PowEffect(-1, 0, -1, -1);
+      
+      // revert to usual animations after the first received attack
+      int winceAnimLen = 1;
+      primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+      primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
+    } else {
+      this->PowEffect(-1, 0, -1, -1);
+    }
+    
     gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
     if (this->creatureIdx == CREATURE_GHOST)
       this->quantity += gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[this->occupiedHex].unitOwner];
@@ -321,8 +349,8 @@ void army::DoAttack(int isRetaliation) {
     }
     if (primaryTarget
       && primaryTarget->quantity > 0
-      && !primaryTarget->effectStrengths[6]
-      && !primaryTarget->effectStrengths[11]
+      && !primaryTarget->effectStrengths[EFFECT_PARALYZE]
+      && !primaryTarget->effectStrengths[EFFECT_PETRIFY]
       && (primaryTarget->creatureIdx == CREATURE_GRIFFIN || !(primaryTarget->creature.creature_flags & RETALIATED))
       && this->creatureIdx != CREATURE_ROGUE
       && this->creatureIdx != CREATURE_SPRITE
@@ -353,9 +381,9 @@ void army::DoAttack(int isRetaliation) {
       && primaryTarget
       && primaryTarget->quantity > 0
       && !isRetaliation
-      && !this->effectStrengths[6]
-      && !this->effectStrengths[11]
-      && !this->effectStrengths[2]
+      && !this->effectStrengths[EFFECT_PARALYZE]
+      && !this->effectStrengths[EFFECT_PETRIFY]
+      && !this->effectStrengths[EFFECT_BLIND]
       && this->quantity > 0) {
       DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
       int v16 = this->targetNeighborIdx;
@@ -377,7 +405,7 @@ void army::DoAttack(int isRetaliation) {
     }
   }
 
-  if (!isRetaliation && (this->effectStrengths[5] || this->effectStrengths[7])) {
+  if (!isRetaliation && (this->effectStrengths[EFFECT_BERSERKER] || this->effectStrengths[EFFECT_HYPNOTIZE])) {
     this->CancelSpellType(1);
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
   }
@@ -902,22 +930,11 @@ void SpecialAttackGraphics(army *attacker, army *target) {
       / (double)attacker->frameInfo.animationLengths[attacker->animationType]);
   }
   attacker->animationFrame = attacker->frameInfo.animationLengths[attacker->animationType] - 1;
-  int v27 = 25;
-  int v18 = 25;
+  int projIconWidth = 100;
+  int projIconHeight = 100;
   int v35 = 31;
   int v22 = 25;
-  if (attacker->creatureIdx == CREATURE_LICH || attacker->creatureIdx == CREATURE_POWER_LICH) {
-    v35 = 26;
-    v22 = 7;
-    v27 = 10;
-    v18 = 10;
-  }
-  if (attacker->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
-    v27 = 100;
-    v18 = 100;
-    v35 = 31;
-    v22 = 25;
-  }
+
   int v20 = 0;
   int offsetX = 639;
   int v15 = 0;
@@ -957,27 +974,27 @@ void SpecialAttackGraphics(army *attacker, army *target) {
     int v38 = startY;
     //from = (bitmap *)operator new(26);
     bitmap *from = nullptr;
-    from = new bitmap(33, 2 * v27, 2 * v18);
-    from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - v27, v38 - v18);
+    from = new bitmap(33, 2 * projIconWidth, 2 * projIconHeight);
+    from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - projIconWidth, v38 - projIconHeight);
     int v59 = v44;
     int v53 = v38;
     int x = 0;
     int y = 0;
     for (int i = 0; i < v52; ++i) {
-      if (v59 - v27 < offsetX)
-        offsetX = v59 - v27;
+      if (v59 - projIconWidth < offsetX)
+        offsetX = v59 - projIconWidth;
       if (offsetX < 0)
         offsetX = 0;
-      if (v27 + v59 > v20)
-        v20 = v27 + v59;
+      if (projIconWidth + v59 > v20)
+        v20 = projIconWidth + v59;
       if (v20 > 639)
         v20 = 639;
-      if (v53 - v18 < offsetY)
-        offsetY = v53 - v18;
+      if (v53 - projIconHeight < offsetY)
+        offsetY = v53 - projIconHeight;
       if (offsetY < 0)
         offsetY = 0;
-      if (v18 + v53 > v15)
-        v15 = v18 + v53;
+      if (projIconHeight + v53 > v15)
+        v15 = projIconHeight + v53;
       if (v15 > 442)
         v15 = 442;
       if (i) {
@@ -992,13 +1009,13 @@ void SpecialAttackGraphics(army *attacker, army *target) {
         if (v15 > giMaxExtentY)
           giMaxExtentY = v15;
       }
-      x = v44 - v27;
-      if (v44 - v27 < 0)
+      x = v44 - projIconWidth;
+      if (v44 - projIconWidth < 0)
         x = 0;
       if (x + (signed int)from->width > 640)
         x = 640 - from->width;
-      y = v38 - v18;
-      if (v38 - v18 < 0)
+      y = v38 - projIconHeight;
+      if (v38 - projIconHeight < 0)
         y = 0;
       if (y + (signed int)from->height > 640)
         y = 640 - from->height;
@@ -1016,13 +1033,13 @@ void SpecialAttackGraphics(army *attacker, army *target) {
       v53 = v38;
       v44 += v43;
       v38 += v37;
-      offsetX = v44 - v27;
-      v20 = v27 + v44;
-      offsetY = v38 - v18;
-      v15 = v18 + v38;
+      offsetX = v44 - projIconWidth;
+      v20 = projIconWidth + v44;
+      offsetY = v38 - projIconHeight;
+      v15 = projIconHeight + v38;
     }
     from->DrawToBuffer(x, y);
-    gpWindowManager->UpdateScreenRegion(v59 - v27, v53 - v18, 2 * v27, 2 * v18);
+    gpWindowManager->UpdateScreenRegion(v59 - projIconWidth, v53 - projIconHeight, 2 * projIconWidth, 2 * projIconHeight);
     if (from)
       from->~bitmap();
   }
@@ -1154,7 +1171,7 @@ void army::SpecialAttack() {
     ProcessSecondAttack(this, target);
 
   // Block mind spells
-  if (this->effectStrengths[5] || this->effectStrengths[7]) {
+  if (this->effectStrengths[EFFECT_BERSERKER] || this->effectStrengths[EFFECT_HYPNOTIZE]) {
     this->CancelSpellType(1);
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
   }
@@ -1258,9 +1275,9 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
         toAnimLen = othstack->frameInfo.animationLengths[this->mightBeAttackAnimIdx];
         fromAnimLen = othstack->frameInfo.animationLengths[this->mightBeAttackAnimIdx + 1] + 1;
       } else if (othstack->dead) {
-        oneWayAnimLen = othstack->frameInfo.animationLengths[13];
+        oneWayAnimLen = othstack->frameInfo.animationLengths[ANIMATION_TYPE_DYING];
       } else if (othstack->damageTakenDuringSomeTimePeriod) {
-        oneWayAnimLen = othstack->frameInfo.animationLengths[15] + othstack->frameInfo.animationLengths[14] + 1;
+        oneWayAnimLen = othstack->frameInfo.animationLengths[ANIMATION_TYPE_WINCE_RETURN] + othstack->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] + 1;
       }
       if (maxToAnimLen <= toAnimLen)
         maxToAnimLen = toAnimLen;
@@ -1339,8 +1356,8 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
           creature->field_3 = ANIMATION_TYPE_WINCE;
           creature->field_4 = ANIMATION_TYPE_WINCE_RETURN;
         }
-        if (creature->field_3 == 13)
-          creature->field_5 = creature->frameInfo.animationLengths[13];
+        if (creature->field_3 == ANIMATION_TYPE_DYING)
+          creature->field_5 = creature->frameInfo.animationLengths[ANIMATION_TYPE_DYING];
         else
           creature->field_5 = creature->frameInfo.animationLengths[creature->field_3]
           + creature->frameInfo.animationLengths[creature->field_3 + 1];
@@ -1398,9 +1415,9 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
               creature->animationFrame++;
             }
           } else {
-            if (!gbNoShowCombat && creature->field_3 == 14)
+            if (!gbNoShowCombat && creature->field_3 == ANIMATION_TYPE_WINCE)
               gpSoundManager->MemorySample(creature->combatSounds[2]);
-            if (!gbNoShowCombat && creature->field_3 == 13)
+            if (!gbNoShowCombat && creature->field_3 == ANIMATION_TYPE_DYING)
               gpSoundManager->MemorySample(creature->combatSounds[4]);
             creature->animationType = creature->field_3;
             creature->animationFrame = 0;
@@ -1509,12 +1526,12 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
   gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 }
 
-void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int unusedArg) {
+void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int isRetaliation) {
   if (!targ)
     return;
 
-  int attackDiff = this->creature.attack - (unusedArg + targ->creature.defense);
-  if (this->effectStrengths[8]
+  int attackDiff = this->creature.attack - targ->creature.defense;
+  if (this->effectStrengths[EFFECT_DRAGON_SLAYER]
     && (targ->creatureIdx == CREATURE_GREEN_DRAGON
       || targ->creatureIdx == CREATURE_RED_DRAGON
       || targ->creatureIdx == CREATURE_BLACK_DRAGON
@@ -1537,9 +1554,9 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
 
   float damagePerUnit = 0.0;
   for (int i = 0; this->quantity > i; ++i) {
-    if (this->effectStrengths[3]) {
+    if (this->effectStrengths[EFFECT_BLESS]) {
       damagePerUnit += (double)this->creature.max_damage;
-    } else if (this->effectStrengths[4]) {
+    } else if (this->effectStrengths[EFFECT_CURSE]) {
       damagePerUnit += (double)this->creature.min_damage;
     } else {
       damagePerUnit += (double)SRandom(this->creature.min_damage, this->creature.max_damage);
@@ -1573,13 +1590,15 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     && this->creatureIdx != CREATURE_ARCHMAGE
     && this->creatureIdx != CREATURE_CYBER_BEHEMOTH)
     damagePerUnit /= 2.0;
-  if (isRanged && targ->effectStrengths[10])
+  if (isRanged && targ->effectStrengths[EFFECT_SHIELD])
     damagePerUnit /= 2.0;
   if (this->otherBadLuckThing == 2)
     damagePerUnit /= 2.0;
   this->otherBadLuckThing = 0;
-  if (targ->effectStrengths[11])
+  if (targ->effectStrengths[EFFECT_PETRIFY])
     damagePerUnit /= 2.0;
+  if (targ->effectStrengths[EFFECT_SHADOW_MARK])
+	  damagePerUnit *= 1.5;
 
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
@@ -1602,6 +1621,11 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     baseDam = 1;
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
+  if(!isRanged && !isRetaliation) {
+    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && !(targ->creature.creature_flags & RETALIATED))
+      baseDam = -2;
+  }
+  
   *damageDone = baseDam;
   *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
 }
@@ -1624,4 +1648,146 @@ void army::MoveAttack(int targHex, int x) {
     CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
     MoveTo(startHex);
   }
+}
+
+void army::DecrementSpellRounds() {
+  for (int effect = 0; effect < NUM_SPELL_EFFECTS; ++effect) {
+    if (this->effectStrengths[effect]) {
+      if (this->effectStrengths[effect] == 1)
+        this->CancelIndividualSpell(effect);
+      else
+        this->effectStrengths[effect]--;
+    }
+  }
+  if (this->lifespan > 0)
+    this->lifespan--;
+}
+
+int army::AddActiveEffect(int effectType, int strength) {
+  ++this->numActiveEffects;
+  this->effectStrengths[effectType] = strength;
+  return 1;
+}
+
+signed int army::SetSpellInfluence(int effectType, signed int strength) {
+  signed int result;
+  __int64 v4;
+  int effect;
+
+  if (this->effectStrengths[effectType]) {
+    if (this->effectStrengths[effectType] < strength)
+      this->effectStrengths[effectType] = strength;
+    return 0;
+  } else {
+    switch (effectType) {
+    case EFFECT_HASTE:
+      this->CancelIndividualSpell(EFFECT_SLOW);
+      this->creature.speed += 2;
+      this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 0.65);
+      break;
+    case EFFECT_SLOW:
+      this->CancelIndividualSpell(0);
+      v4 = (signed int)this->creature.speed + 1;
+      this->creature.speed = ((signed int)v4 - v4) >> 1;
+      if (this->creature.creature_flags & 2)
+        this->creature.creature_flags -= 2;
+      this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 1.5);
+      break;
+    case EFFECT_BLESS:
+      this->CancelIndividualSpell(EFFECT_CURSE);
+      break;
+    case EFFECT_CURSE:
+      this->CancelIndividualSpell(EFFECT_BLESS);
+      break;
+    case EFFECT_BERSERKER:
+      this->CancelIndividualSpell(EFFECT_HYPNOTIZE);
+      break;
+    case EFFECT_HYPNOTIZE:
+      this->CancelIndividualSpell(EFFECT_BERSERKER);
+      break;
+    case EFFECT_BLOOD_LUST:
+      this->creature.attack += 3;
+      break;
+    case EFFECT_ANTI_MAGIC:
+      for (effect = 0; (signed int)effect < 15; ++effect)
+        this->CancelIndividualSpell(effect);
+      break;
+    case EFFECT_STONESKIN:
+      if (this->effectStrengths[EFFECT_STEELSKIN]) {
+        return 0;
+      } else {
+        this->creature.defense += 3;
+        break;
+      }
+    case EFFECT_STEELSKIN:
+      this->CancelIndividualSpell(EFFECT_STONESKIN);
+      this->creature.defense += 5;
+      break;
+    case EFFECT_BLIND:
+    case EFFECT_PARALYZE:
+    case EFFECT_DRAGON_SLAYER:
+    case EFFECT_SHIELD:
+    case EFFECT_PETRIFY:
+      break;
+    case EFFECT_SHADOW_MARK:
+      break;
+    }
+    return this->AddActiveEffect(effectType, strength);
+  }
+}
+
+void army::CancelIndividualSpell(int effect) {
+  if (this->effectStrengths[effect]) {
+    --this->numActiveEffects;
+    this->effectStrengths[effect] = 0;
+    switch (effect) {
+    case EFFECT_HASTE:
+    case EFFECT_SLOW:
+      this->creature.speed = LOBYTE(this->speed);
+      this->frameInfo.stepTime = this->field_B2;
+      this->creature.creature_flags |= gMonsterDatabase[this->creatureIdx].creature_flags & FLYER;
+      break;
+    case EFFECT_BLOOD_LUST:
+      this->creature.attack -= 3;
+      break;
+    case EFFECT_STONESKIN:
+      this->creature.defense -= 3;
+      break;
+    case EFFECT_STEELSKIN:
+      this->creature.defense -= 5;
+      break;
+    case EFFECT_SHADOW_MARK:
+      break;
+    case EFFECT_BLIND:
+    case EFFECT_BLESS:
+    case EFFECT_CURSE:
+    case EFFECT_BERSERKER:
+    case EFFECT_PARALYZE:
+    case EFFECT_HYPNOTIZE:
+    case EFFECT_DRAGON_SLAYER:
+    case EFFECT_SHIELD:
+    case EFFECT_PETRIFY:
+    case EFFECT_ANTI_MAGIC:
+      return;
+    }
+  }
+}
+
+void army::InitClean() {
+  for (int i = 0; i < 7; ++i)
+    this->combatSounds[i] = 0;
+  this->lifespan = -1;
+  this->numActiveEffects = 0;
+  for(int i = 0; i <  NUM_SPELL_EFFECTS; i++) {
+    this->effectStrengths[i] = 0;
+  }
+  this->baseFidgetTime = KBTickCount();
+  this->field_11D = 1;
+  this->creatureIcon = 0;
+  this->probablyIsNeedDrawSpellEffect = 0;
+  this->spellEnemyCreatureAbilityIsCasting = -1;
+  this->mirroredIdx = -1;
+  this->mirrorIdx = -1;
+  this->armyIdx = -1;
+  this->previousQuantity = -1;
 }

@@ -6,7 +6,7 @@
 #include "artifacts.h"
 #include "skills.h"
 #include "sound/sound.h"
-#include "spells.h"
+#include "spell/spells.h"
 
 #include "gui/dialog.h"
 
@@ -219,4 +219,210 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
   }
   delete savedscreen;
   this->DrawFrame(1, 0, 0, 0, 1, 1, 1); // clear screen from the projectile
+}
+
+void combatManager::ShowSpellMessage(int isCreatureAbility, int spell, army *stack) {
+  char *creatureName;
+
+  if (stack) {
+    if (stack->quantity <= 1)
+      creatureName = GetCreatureName(stack->creatureIdx);
+    else
+      creatureName = GetCreaturePluralName(stack->creatureIdx);
+  }
+  if (isCreatureAbility) {
+    switch (spell) {
+    case SPELL_PARALYZE:
+      sprintf(gText, "The %s are paralyzed by the Cyclopes!", creatureName);
+      break;
+    case SPELL_BLIND:
+      sprintf(gText, "The Unicorns' attack blinds the %s!", creatureName);
+      break;
+    case SPELL_MEDUSA_PETRIFY:
+      sprintf(gText, "The Medusas' gaze turns the %s to stone!", creatureName);
+      break;
+    case SPELL_CURSE:
+      sprintf(gText, "The Mummies' curse falls upon the %s!", creatureName);
+      break;
+    case SPELL_ARCHMAGI_DISPEL:
+      sprintf(gText, "The Archmagi dispel all good spells\non the %s!", creatureName);
+      break;
+    case SPELL_SHADOW_MARK:
+      sprintf(gText, "The Shadow Assassins mark the %s!", creatureName);
+      break;
+    }
+  } else if (stack) {
+    if (this->heroes[this->currentActionSide]->isCaptain)
+      sprintf(gText, "The captain casts '%s' on the %s.", gSpellNames[spell], creatureName);
+    else
+      sprintf(gText,"%s casts '%s' on the %s.", this->heroes[this->currentActionSide]->name, gSpellNames[spell], creatureName);
+  } else if (this->heroes[this->currentActionSide]->isCaptain) {
+    sprintf(gText, "The captain casts '%s'.", gSpellNames[spell]);
+  } else {
+    sprintf(gText, "%s casts '%s'.", this->heroes[this->currentActionSide]->name, gSpellNames[spell]);
+  }
+  this->CombatMessage(gText, 1, 1, 0);
+}
+
+extern int bInTeleportGetDest;
+void combatManager::SpellMessage(int spell, int hex) {
+  army *targ; // [sp+18h] [bp-4h]@7
+
+  if (!gbNoShowCombat) {
+
+    switch (spell) {
+      case SPELL_FIREBALL:
+      case SPELL_FIREBLAST:
+      case SPELL_METEOR_SHOWER:
+      case SPELL_COLD_RING:
+        sprintf(gText, "Cast %s", gSpellNames[spell]);
+        break;
+      case SPELL_TELEPORT: {
+        if (bInTeleportGetDest) {
+          sprintf(gText, "Teleport Here");
+          break;
+        }
+        targ = &this->creatures[this->combatGrid[hex].unitOwner][this->combatGrid[hex].stackIdx];
+
+        char *creatureName;
+        if (targ->quantity == 1)
+          creatureName = GetCreatureName(targ->creatureIdx);
+        else
+          creatureName = GetCreaturePluralName(targ->creatureIdx);
+        sprintf(gText, "Cast %s on %s", gSpellNames[spell], creatureName);
+        break;
+      }
+      case SPELL_RESURRECT:
+      case SPELL_RESURRECT_TRUE:
+      case SPELL_ANIMATE_DEAD: {
+        int resStack = this->FindResurrectArmyIndex(this->currentActionSide, spell, hex);
+        targ = &this->creatures[this->currentActionSide][resStack];
+
+        char *creatureName; 
+        if (targ->quantity == 1)
+          creatureName = GetCreatureName(targ->creatureIdx);
+        else
+          creatureName = GetCreaturePluralName(targ->creatureIdx);
+        sprintf(gText, "Cast %s on %s", gSpellNames[spell], creatureName);
+        break;
+      }
+      default: {
+        targ = &this->creatures[this->combatGrid[hex].unitOwner][this->combatGrid[hex].stackIdx];
+        char *creatureName; 
+        if (targ->quantity == 1)
+          creatureName = GetCreatureName(targ->creatureIdx);
+        else
+          creatureName = GetCreaturePluralName(targ->creatureIdx);
+        sprintf(gText, "Cast %s on %s", gSpellNames[spell], creatureName);
+        break;
+      }
+    }
+    this->CombatMessage(gText, 1, 0, 0);
+  }
+}
+
+extern int giNextActionGridIndex;
+
+int combatManager::ValidSpellTarget(int spell, int hexIdx) {
+  if (ValidHex(hexIdx)) {
+    army *stack = nullptr;
+    if (spell != SPELL_FIREBALL
+      && spell != SPELL_FIREBLAST
+      && spell != SPELL_METEOR_SHOWER
+      && spell != SPELL_COLD_RING
+      && spell != SPELL_RESURRECT
+      && spell != SPELL_RESURRECT_TRUE
+      && spell != SPELL_ANIMATE_DEAD
+      && this->combatGrid[hexIdx].unitOwner != -1
+      && ((stack = &this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx],
+        this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx].effectStrengths[EFFECT_ANTI_MAGIC])
+        || this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx].creatureIdx == CREATURE_GREEN_DRAGON)) {
+      return 0;
+    } else if (stack && stack->SpellCastWorkChance(spell) <= 0.0) {
+      return 0;
+    } else {
+      switch (spell) {
+      case SPELL_HOLY_WORD:
+      case SPELL_HOLY_SHOUT:
+      case SPELL_DISPEL_MAGIC:
+      case SPELL_MASS_DISPEL:
+      case SPELL_ARMAGEDDON:
+      case SPELL_ELEMENTAL_STORM:
+      case SPELL_DEATH_RIPPLE:
+      case SPELL_DEATH_WAVE:
+        if (this->combatGrid[hexIdx].unitOwner != -1)
+          return 1;
+        return 0;
+      case SPELL_RESURRECT:
+      case SPELL_RESURRECT_TRUE:
+      case SPELL_ANIMATE_DEAD:
+        return this->FindResurrectArmyIndex(this->currentActionSide, spell, hexIdx) != -1;
+      case SPELL_CURE:
+      case SPELL_MASS_CURE:
+      case SPELL_HASTE:
+      case SPELL_MASS_HASTE:
+      case SPELL_BLESS:
+      case SPELL_MASS_BLESS:
+      case SPELL_STONESKIN:
+      case SPELL_STEELSKIN:
+      case SPELL_ANTI_MAGIC:
+      case SPELL_DRAGON_SLAYER:
+      case SPELL_BLOOD_LUST:
+      case SPELL_SHIELD:
+      case SPELL_MASS_SHIELD:
+        if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
+          return 1;
+        return 0;
+      case SPELL_MIRROR_IMAGE:
+        if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide) {
+          if (this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx].mirrorIdx == -1
+            && this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx].mirroredIdx == -1)
+            return 1;
+          return 0;
+        } else {
+          return 0;
+        }
+      case SPELL_LIGHTNING_BOLT:
+      case SPELL_CHAIN_LIGHTNING:
+      case SPELL_SLOW:
+      case SPELL_MASS_SLOW:
+      case SPELL_BLIND:
+      case SPELL_CURSE:
+      case SPELL_MASS_CURSE:
+      case SPELL_MAGIC_ARROW:
+      case SPELL_BERZERKER:
+      case SPELL_PARALYZE:
+      case SPELL_HYPNOTIZE:
+      case SPELL_COLD_RAY:
+      case SPELL_DISRUPTING_RAY:
+      case SPELL_SHADOW_MARK:
+        if (this->combatGrid[hexIdx].unitOwner == 1 - this->currentActionSide)
+          return 1;
+        return 0;
+      case SPELL_TELEPORT:
+        if (bInTeleportGetDest) {
+          army* currentArmy = &this->creatures[gpCombatManager->combatGrid[giNextActionGridIndex].unitOwner][gpCombatManager->combatGrid[giNextActionGridIndex].stackIdx];
+          if (hexIdx != giNextActionGridIndex && currentArmy->CanFit(hexIdx, 0, 0))
+            return 1;
+          return 0;
+        } else {
+          if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
+            return 1;
+          return 0;
+        }
+        break;
+      case SPELL_FIREBALL:
+      case SPELL_FIREBLAST:
+      case SPELL_METEOR_SHOWER:
+      case SPELL_COLD_RING:
+        if (hexIdx != -1 && hexIdx % 13 && hexIdx % 13 != 12)
+          return 1;
+        return 0;
+      default:
+        return 1;
+      }
+    }
+  } else {
+    return 0;
+  }
 }

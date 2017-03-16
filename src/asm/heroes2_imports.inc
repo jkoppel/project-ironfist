@@ -203,6 +203,12 @@ IMPORT_?LowerDoor@combatManager@@QAEXXZ = 1
 IMPORT_?FlyTo@army@@QAEHH@Z = 1
 IMPORT_?BuildTempWalkSeq@@YIXPAUSMonFrameInfo@@HH@Z = 1
 IMPORT_?DamageEnemy@army@@QAEXPAV1@PAH1HH@Z = 1
+IMPORT_?DecrementSpellRounds@army@@QAEXXZ = 1
+IMPORT_?SetSpellInfluence@army@@QAEHHH@Z = 1
+IMPORT_?CancelIndividualSpell@army@@QAEXH@Z = 1
+IMPORT_?CastSpell@combatManager@@QAEXHHHH@Z = 1
+IMPORT_?InitClean@army@@QAEXXZ = 1
+IMPORT_?ShowSpellMessage@combatManager@@QAEXHHPAVarmy@@@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
@@ -251,6 +257,8 @@ IMPORT_?Resurrect@combatManager@@QAEXHHH@Z = 1
 IMPORT_?DimensionDoor@advManager@@QAEXXZ = 1
 IMPORT_?SpellCastWorkChance@army@@QAEMH@Z = 1
 ?SpellCastWorkChance@army@@QAEMH@Z_clone EQU ?SpellCastWorkChance_orig@army@@QAEMH@Z
+IMPORT_?SpellMessage@combatManager@@QAEXHH@Z = 1
+IMPORT_?ValidSpellTarget@combatManager@@QAEHHH@Z = 1
 
 ;;towns
 IMPORT_?SetupTowns@game@@QAEXXZ = 1

@@ -88,6 +88,7 @@ enum CREATURES
 	CREATURE_CATOBLEBA = 76,
 	CREATURE_TREANT = 77,
 	CREATURE_CYBER_INDIGO_PANTHER = 81,
+	CREATURE_CYBER_SHADOW_ASSASSIN = 82,
 	CREATURE_CYBER_BEHEMOTH = 83,
 };
 
@@ -124,6 +125,8 @@ enum CREATURE_EVENT_CODE {
 #define STRIKE_AND_RETURN "strike-and-return"
 #define PLASMA_BLAST "plasma-blast"
 #define TELEPORTER "teleporter"
+#define ASTRAL_DODGE "astral-dodge"
+#define SHADOW_MARK "shadow-mark"
 
 struct tag_monsterInfo
 {
