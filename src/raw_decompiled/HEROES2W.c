@@ -23738,7 +23738,7 @@ signed int __stdcall game::RandomScan(int a1, int a2, int a3, int a4, char a5)
 }
 
 //----- (00419A70) --------------------------------------------------------
-int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero)
+int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero) // Check this function
 {
   signed int tries; // [sp+14h] [bp-10h]@1
   int heroIdx; // [sp+20h] [bp-4h]@1
@@ -23752,7 +23752,7 @@ int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction,
     if ( this->relatedToHeroForHireStatus[heroIdx] == -1 || this->relatedToHeroForHireStatus[heroIdx] == 64 )
     {
       if ( (this->relatedToHeroForHireStatus[heroIdx] != 64 || tries >= 1500)
-        && (faction < 0 || faction > 5 || tries >= 100 || this->heroes[heroIdx].factionID == faction)
+        && (faction < 0 || faction > 5 || tries >= 100 || this->heroes[heroIdx].factionID == faction) // Constant here (for faction)
         && (!getPowerfulHero
          || tries >= 40
          || this->heroes[heroIdx].experience >= 1000
@@ -24342,7 +24342,7 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
 // 41B5F0: using guessed type char hasPlayer[12];
 
 //----- (0041C0E0) --------------------------------------------------------
-void __thiscall game::GiveTroopsToNeutralTown(game *this, int castleIdx)
+void __thiscall game::GiveTroopsToNeutralTown(game *this, int castleIdx) // Check this function
 {
   int randomQuantity; // [sp+18h] [bp-14h]@7
   int quantity; // [sp+18h] [bp-14h]@15
@@ -24526,7 +24526,7 @@ void __thiscall game::GiveTroopsToNeutralTowns(game *this)
 }
 
 //----- (0041C580) --------------------------------------------------------
-void __thiscall game::NewMap(game *this, char *name)
+void __thiscall game::NewMap(game *this, char *name) // Check this function
 {
   int v2; // eax@105
   int v3; // ST74_4@110
@@ -24594,7 +24594,7 @@ void __thiscall game::NewMap(game *this, char *name)
   giCurPlayerBit = 1;
   giCurWatchPlayerBit = 1;
   giCurWatchPlayer = 0;
-  v51 = Random(0, 5);
+  v51 = Random(0, 5); // Constant here (this may be related to factions, but I'm not sure)
   v25 = iLastMsgNumHumanPlayers;
   for ( playerIdx = 0; playerIdx < 6; ++playerIdx )
   {
@@ -24634,18 +24634,18 @@ void __thiscall game::NewMap(game *this, char *name)
     this->players[playerIdxe].field_3 = 0;
     this->players[playerIdxe].curHeroIdx = -1;
   }
-  game::RandomizeHeroPool(this);
+  game::RandomizeHeroPool(this); // Check this function
   strcpy(gMapName, name);
-  game::LoadMap(this, gMapName);
-  game::InitRandomArtifacts(this);
-  game::ProcessRandomObjects(this);
-  game::ProcessMapExtra(this);
-  game::SetupTowns(this);
+  game::LoadMap(this, gMapName); // Check this function
+  game::InitRandomArtifacts(this); // Check this function
+  game::ProcessRandomObjects(this); // Check this function
+  game::ProcessMapExtra(this); // Check this function
+  game::SetupTowns(this); // Check this function
   game::InitializePasswords();
   for ( playerIdxf = 0; playerIdxf < 6; ++playerIdxf )
     this->players[playerIdxf].barrierTentsVisited = 0;
-  game::RandomizeEvents(this);
-  game::ProcessOnMapHeroes(this);
+  game::RandomizeEvents(this); // Check this function
+  game::ProcessOnMapHeroes(this); // Check this function
   this->couldBeNumDefeatedPlayers = 0;
   for ( playerIdxg = this->numPlayers; playerIdxg < 6; ++playerIdxg )
     this->playerDead[playerIdxg] = 1;
@@ -24692,7 +24692,7 @@ void __thiscall game::NewMap(game *this, char *name)
     }
     if ( v24 != -1 )
     {
-      *(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi) = game::GetNewHeroId(this, playerIdxi, this->castles[this->players[playerIdxi].castlesOwned[v24]].factionID, 0);
+      *(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi) = game::GetNewHeroId(this, playerIdxi, this->castles[this->players[playerIdxi].castlesOwned[v24]].factionID, 0); // Check this function
       this->relatedToHeroForHireStatus[*(&this->players[0].heroesOwned[284 * playerIdxi]
                                        + this->players[playerIdxi].numHeroes
                                        - playerIdxi)] = playerIdxi;
@@ -24717,7 +24717,7 @@ void __thiscall game::NewMap(game *this, char *name)
   {
     if ( playerIdxj || !gbInCampaign || !this->field_7F && !this->field_84 )
       goto LABEL_195;
-    v20 = this->field_7F ? 2 : 5;
+    v20 = this->field_7F ? 2 : 5; // Constant here
     for ( j = 0; j < 54 && (this->heroes[j].factionID != v20 || this->relatedToHeroForHireStatus[j] != -1); ++j )
       ;
     if ( j < 54 )
@@ -24745,29 +24745,29 @@ void __thiscall game::NewMap(game *this, char *name)
 LABEL_195:
       if ( !xIsPlayingExpansionCampaign || playerIdxj )
         goto LABEL_196;
-      v21 = -1;
+      v21 = -1; // Constant here
       if ( ExpCampaign::HasAward(&xCampaign, 6) )
       {
-        v21 = 4;
+        v21 = 4;  // Constant here
         a2 = ExpCampaign::JosephName((int)&xCampaign);
         v19 = 64;
       }
       else if ( ExpCampaign::HasAward(&xCampaign, 7) )
       {
-        v21 = 1;
+        v21 = 1;  // Constant here
         a2 = ExpCampaign::IvanName((int)&xCampaign);
         v19 = 63;
       }
-      if ( v21 == -1 )
+      if ( v21 == -1 )  // Constant here
         goto LABEL_196;
       for ( k = 0; k < 54 && (this->heroes[k].factionID != v21 || this->relatedToHeroForHireStatus[k] != -1); ++k )
         ;
       if ( k >= 54 )
       {
 LABEL_196:
-        faction = Random(0, 5);
+        faction = Random(0, 5); // Constant here
         if ( this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]] < 6 )
-          faction = this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]];
+          faction = this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]]; // Constant here (stored value, possibly)
         this->players[playerIdxj].heroesForPurchase[0] = game::GetNewHeroId(this, playerIdxj, faction, 0);
         this->relatedToHeroForHireStatus[this->players[playerIdxj].heroesForPurchase[0]] = 64;
       }
@@ -24782,7 +24782,7 @@ LABEL_196:
         faction = this->heroes[k].factionID;
       }
     }
-    v2 = Random(1, 5);
+    v2 = Random(1, 5); // Constant here
     this->players[playerIdxj].heroesForPurchase[1] = game::GetNewHeroId(this, playerIdxj, (faction + v2) % 6, 0);
     this->relatedToHeroForHireStatus[this->players[playerIdxj].heroesForPurchase[1]] = 64;
   }
@@ -24813,7 +24813,7 @@ LABEL_196:
   playerIdxl = -1;
   numPlayersc = -1;
   v50 = 0;
-  v6 = Random(1, 30);
+  v6 = Random(1, 30); // Constant here (and below)
   v7 = Random(1, 20) + v6;
   v54 = Random(1, 20) + v7;
   while ( 1 )
@@ -24848,13 +24848,13 @@ LABEL_196:
     }
     if ( v50 >= 400 || giUABaseX <= 0 )
     {
-      playerIdxl = Random(9, MAP_WIDTH - 10);
+      playerIdxl = Random(9, MAP_WIDTH - 10); // Constant here (not sure what these are)
       numPlayersc = Random(9, MAP_HEIGHT - 10);
     }
     else
     {
       if ( giUARadius )
-        v16 = Random(-giUARadius, giUARadius);
+        v16 = Random(-giUARadius, giUARadius); // Constant here (and below; not sure what these are)
       else
         v16 = 0;
       playerIdxl = v16 + giUABaseX;
@@ -24864,14 +24864,14 @@ LABEL_196:
         v15 = 0;
       numPlayersc = v15 + giUABaseY;
     }
-    v9 = Random(1, 30);
+    v9 = Random(1, 30); // Constant here (and below)
     v10 = Random(1, 20) + v9;
     v54 = Random(1, 20) + v10;
     ++v50;
   }
   this->field_6395 = playerIdxl;
   this->field_6396 = numPlayersc;
-  this->field_6397 = Random(0, 7);
+  this->field_6397 = Random(0, 7); // Constant here
   if ( gbInCampaign && (!this->field_2 && this->field_4 == 7 || this->field_2 == 1 && this->field_4 == 8) )
     this->field_6397 = 6;
   for ( playerIdxm = 0; this->numPlayers > playerIdxm; ++playerIdxm )
@@ -24895,11 +24895,11 @@ LABEL_196:
     }
     else
     {
-      this->players[playerIdxm].personality = Random(0, 2);
+      this->players[playerIdxm].personality = Random(0, 2); // Constant here (this is just personality)
       memcpy(this->players[playerIdxm].resources, (char *)&unk_4F1E90 + 28 * this->difficulty, 0x1Cu);
     }
   }
-  game::SetupAdjacentMons(this);
+  game::SetupAdjacentMons(this); // Check this function
   if ( this->mapHeader.field_22 == 2 )
   {
     v11 = *(_WORD *)&this->mapHeader.field_23;
@@ -24984,7 +24984,7 @@ LABEL_196:
 // 532C5C: using guessed type char giCurPlayerBit;
 
 //----- (0041E350) --------------------------------------------------------
-int __thiscall game::RandomizeEvents(game *this)
+int __thiscall game::RandomizeEvents(game *this) // Check this function
 {
   unsigned __int16 v1; // ax@7
   unsigned __int16 v2; // ax@35
@@ -25800,7 +25800,7 @@ unsigned int __cdecl game::RandomizePassword()
 // 420A80: inconsistent function type and number of purged bytes
 
 //----- (00420AB0) --------------------------------------------------------
-int __thiscall game::LoadMap(game *ecx0, char *nam)
+int __thiscall game::LoadMap(game *ecx0, char *nam) // Check this function
 {
   char buf; // [sp+10h] [bp-20h]@22
   int fd; // [sp+18h] [bp-18h]@1
@@ -25826,7 +25826,7 @@ int __thiscall game::LoadMap(game *ecx0, char *nam)
       ecx0->castles[i].exists = 1;
       ecx0->castles[i].x = x;
       ecx0->castles[i].y = y;
-      ecx0->castles[i].factionID = alignmentAndCastle & 0x7F;
+      ecx0->castles[i].factionID = alignmentAndCastle & 0x7F; // Masks out the most significant bit, (& 0111 1111)
       if ( alignmentAndCastle >= 0 )
         ecx0->castles[i].buildingsBuiltFlags |= BUILDING_SPECIAL_DEFENSE_BUILT;
       else
@@ -28324,7 +28324,7 @@ int __thiscall game::RandomizeMine(int this, int a2, int a3)
 // 522FA0: using guessed type __int16 word_522FA0[];
 
 //----- (00427D10) --------------------------------------------------------
-int __thiscall game::InitRandomArtifacts(game *this)
+int __thiscall game::InitRandomArtifacts(game *this) // Check this function
 {
   int result; // eax@2
   mapCell *v3; // [sp+10h] [bp-10h]@5
@@ -28404,19 +28404,19 @@ bool __fastcall IsCursedItem(int art)
 }
 
 //----- (00427FF0) --------------------------------------------------------
-void __thiscall game::RandomizeHeroPool(game *this)
+void __thiscall game::RandomizeHeroPool(game *this) // Check this function
 {
   signed int idx; // [sp+10h] [bp-4h]@1
 
   for ( idx = 0; idx < 54; ++idx )
   {
     this->heroes[idx].experience = Random(0, 50) + 40;
-    game::SetRandomHeroArmies(this, idx, 0);
+    game::SetRandomHeroArmies(this, idx, 0); // Check this function
     this->heroes[idx].remainingMobility = hero::CalcMobility(&this->heroes[idx]);
     this->heroes[idx].mobility = this->heroes[idx].remainingMobility;
     this->heroes[idx].randomSeed = Random(1, 255);
     this->heroes[idx].wisdomLastOffered = 1;
-    switch ( this->heroes[idx].factionID )
+    switch ( this->heroes[idx].factionID ) // Constant here (faction-specific actions)
     {
       case FACTION_SORCERESS:
         this->heroes[idx].spellsLearned[14] = 1;
@@ -28591,7 +28591,7 @@ int __thiscall game::SetRandomHeroArmies(void *this, _DWORD a2, unsigned int a3)
 // 4281E0: too many cbuild loops
 
 //----- (00428580) --------------------------------------------------------
-int __thiscall game::ProcessRandomObjects(game *this)
+int __thiscall game::ProcessRandomObjects(game *this) // Check this function
 {
   int result; // eax@5
   char v2; // ST70_1@40
@@ -28919,7 +28919,7 @@ int __stdcall game::GetLuck(hero *hro, army *stack, town *castle)
 }
 
 //----- (004292B0) --------------------------------------------------------
-void __thiscall game::SetupAdjacentMons(game *this)
+void __thiscall game::SetupAdjacentMons(game *this) // Check this function
 {
   int a4; // [sp+10h] [bp-14h]@5
   int a3; // [sp+14h] [bp-10h]@5
@@ -28932,7 +28932,7 @@ void __thiscall game::SetupAdjacentMons(game *this)
   {
     for ( j = 0; j < MAP_HEIGHT; ++j )
     {
-      if ( advManager::FindAdjacentMonster(gpAdvManager, i, j, (int)&a3, (int)&a4, -1, -1) )
+      if ( advManager::FindAdjacentMonster(gpAdvManager, i, j, (int)&a3, (int)&a4, -1, -1) ) // Check this function
         *(&mapRevealed[i] + MAP_WIDTH * j) |= 0x80u;
       else
         *(&mapRevealed[i] + MAP_WIDTH * j) &= v3;
@@ -29140,7 +29140,7 @@ void __thiscall game::ConvertAllToLateOverlay(game *this, int x, int y)
 }
 
 //----- (00429B90) --------------------------------------------------------
-int __thiscall game::ProcessMapExtra(game *this)
+int __thiscall game::ProcessMapExtra(game *this) // Check this function
 {
   signed int v1; // ST20_4@6
   int result; // eax@28
@@ -29201,7 +29201,7 @@ int __thiscall game::ProcessMapExtra(game *this)
 // 4F0A04: using guessed type int MAP_HEIGHT;
 
 //----- (00429E30) --------------------------------------------------------
-void __thiscall game::SetupTowns(game *this)
+void __thiscall game::SetupTowns(game *this) // Check this function
 {
   char v3[10]; // [sp+14h] [bp-A0h]@22
   int v4; // [sp+20h] [bp-94h]@22
@@ -29240,9 +29240,9 @@ void __thiscall game::SetupTowns(game *this)
         {
           castle->garrison.quantities[i] = twn->garrison.quantities[i];
           if ( castle->garrison.quantities[i] <= 0 )
-            castle->garrison.creatureTypes[i] = -1;
+            castle->garrison.creatureTypes[i] = -1; // Constant here (relates to creatures somehow?)
           else
-            castle->garrison.creatureTypes[i] = twn->garrison.creatureTypes[i];
+            castle->garrison.creatureTypes[i] = twn->garrison.creatureTypes[i]; // Constant here (relates to creatures somehow?)
         }
       }
       else
@@ -29250,16 +29250,16 @@ void __thiscall game::SetupTowns(game *this)
         for ( i = 0; i < 5; ++i )
         {
           castle->garrison.quantities[i] = 0;
-          castle->garrison.creatureTypes[i] = -1;
+          castle->garrison.creatureTypes[i] = -1; // Constant here (relates to creatures somehow?)
         }
-        game::GiveTroopsToNeutralTown(this, castleIdx);
+        game::GiveTroopsToNeutralTown(this, castleIdx); // Check this function
         game::GiveTroopsToNeutralTown(this, castleIdx);
         game::GiveTroopsToNeutralTown(this, castleIdx);
         game::GiveTroopsToNeutralTown(this, castleIdx);
       }
       if ( twn->customBuildings )
       {
-        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | twn->buildingsBuilt & gTownEligibleBuildMask[castle->factionID];
+        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | twn->buildingsBuilt & gTownEligibleBuildMask[castle->factionID]; // Constant here (figure out what this mask is for)
         castle->mageGuildLevel = twn->mageGuildLevel;
       }
       else
@@ -29299,14 +29299,14 @@ void __thiscall game::SetupTowns(game *this)
       for ( i = 19; i <= 30; ++i )
       {
         if ( (1 << i) & castle->buildingsBuiltFlags )
-          *(_WORD *)&castle[-1].name[2 * i + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * castle->factionID + 27])[i + 1])].growth;
+          *(_WORD *)&castle[-1].name[2 * i + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * castle->factionID + 27])[i + 1])].growth; // Constant here (maybe; strange math)
       }
       if ( castle->buildingsBuiltFlags & 1 )
       {
         for ( i = 1; castle->mageGuildLevel >= i; ++i )
         {
           castle->mageGuildSpells[4][i + 3] = byte_4F29FF[i];
-          if ( castle->factionID == 4 && BYTE1(castle->buildingsBuiltFlags) & 0x20 )
+          if ( castle->factionID == 4 && BYTE1(castle->buildingsBuiltFlags) & 0x20 ) // Constant here
             ++castle->mageGuildSpells[4][i + 3];
         }
       }
@@ -29321,7 +29321,7 @@ void __thiscall game::SetupTowns(game *this)
         for ( k = 0; k < 4; ++k )
           castle->mageGuildSpells[j][k] = -1;
       }
-      if ( castle->factionID == FACTION_NECROMANCER && castle->ownerIdx != -1 && !gbHumanPlayer[castle->ownerIdx] )
+      if ( castle->factionID == FACTION_NECROMANCER && castle->ownerIdx != -1 && !gbHumanPlayer[castle->ownerIdx] ) // Constant here (faction-specific action)
       {
         if ( Random(0, 100) >= 50 )
           k = SPELL_DEATH_WAVE;
@@ -29401,7 +29401,7 @@ void __thiscall game::SetupTowns(game *this)
                 v5 = 1500;
               if ( hasAdventureSpellAtLevel != 1 || !(gsSpellInfo[spell].attributes & ATTR_ADVENTURE_SPELL) )
               {
-                if ( *(&gsSpellInfo[spell].nonMagicFactionAppearanceChance + castle->factionID) >= Random(0, 10) )
+                if ( *(&gsSpellInfo[spell].nonMagicFactionAppearanceChance + castle->factionID) >= Random(0, 10) ) // Constant here (relevant to particular factions)
                 {
                   ++tries;
                   if ( tries <= 500 )
@@ -29434,7 +29434,7 @@ void __thiscall game::SetupTowns(game *this)
 // 429E30: using guessed type int numSpellsOfLevel[5];
 
 //----- (0042A730) --------------------------------------------------------
-void *__thiscall game::ProcessOnMapHeroes(game *this)
+void *__thiscall game::ProcessOnMapHeroes(game *this) // Check this function
 {
   void *result; // eax@1
   int v3; // [sp+18h] [bp-70h]@20
@@ -29494,13 +29494,13 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
           {
             if ( v16 )
             {
-              v3 = mapExtra->field_3C;
+              v3 = mapExtra->field_3C; // Constant here (through stored value)
             }
             else
             {
-              v3 = cell->objectIndex % 7;
-              if ( v3 == 6 )
-                v3 = this->field_459[gcColorToSetupPos[gpGame->players[mapExtra->owner].color]];
+              v3 = cell->objectIndex % 7; // Constant here (also might be through stored value)
+              if ( v3 == 6 ) // Constant here
+                v3 = this->field_459[gcColorToSetupPos[gpGame->players[mapExtra->owner].color]]; // Constant here
             }
             if ( mapExtra->field_3D )
             {
@@ -29508,11 +29508,11 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
             }
             else
             {
-              v4 = game::RandomScan((int)v13, 9 * v3, 9, 1000, 0);
+              v4 = game::RandomScan((int)v13, 9 * v3, 9, 1000, 0); // Constant here (this could be related)
               if ( v4 == -1 )
               {
-                v4 = game::RandomScan((int)v13, 0, 54, 10000, 0);
-                v3 = v4 / 9;
+                v4 = game::RandomScan((int)v13, 0, 54, 10000, 0); // Constant here (this could be related)
+                v3 = v4 / 9; // Constant here
               }
               v13[v4] = 1;
               this->heroes[v4].factionID = v3;
@@ -29532,13 +29532,13 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
             }
             if ( mapExtra->field_1 )
             {
-              for ( k = 0; k < 5; ++k )
+              for ( k = 0; k < 5; ++k ) // Constant here (related to creatures); used below
               {
                 *(_WORD *)&thisa[2 * k + 106] = mapExtra->army.quantities[k];
                 if ( (signed int)*(_WORD *)&thisa[2 * k + 106] <= 0 )
                   thisa[k + 101] = -1;
                 else
-                  thisa[k + 101] = mapExtra->army.creatureTypes[k];
+                  thisa[k + 101] = mapExtra->army.creatureTypes[k]; // Constant here (used here)
               }
             }
             for ( l = 0; l < 3; ++l )
@@ -48073,7 +48073,7 @@ void *__fastcall advManager::DrawAdventureBorder(int this, int a2)
 // 4F2E80: using guessed type int dword_4F2E80;
 
 //----- (00456630) --------------------------------------------------------
-signed int __thiscall advManager::FindAdjacentMonster(void *this, int a2, int _1C, int a3, int a4, int a5, int a6)
+signed int __thiscall advManager::FindAdjacentMonster(void *this, int a2, int _1C, int a3, int a4, int a5, int a6) // Check this function
 {
   void *thisa; // [sp+Ch] [bp-4h]@1
 

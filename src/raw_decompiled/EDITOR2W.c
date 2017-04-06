@@ -298,7 +298,7 @@ mapCellExtra *__thiscall fullMap::Read(fullMap *this, int fd, int a3); // idb
 void __thiscall fullMap::ChangeTilesetIndex(fullMap *this, mapCell *cell, int x, int y, int tileset, int idx, int a7, int ovrLink);
 signed int __fastcall sub_429170(overlay *a1, int a2, int a3);
 signed int __fastcall sub_4291A2(int a1, int a2, int a3, int a4);
-void __thiscall editManage::GenerateRandomMap(editManager *this);
+void __thiscall editManager::GenerateRandomMap(editManager *this);
 bool __cdecl sub_429604();
 _DWORD __stdcall sub_4296C1(_DWORD, _DWORD, _DWORD); // weak
 int __cdecl editManager::CleanUpGround();
@@ -26587,7 +26587,7 @@ signed int __thiscall editManager::Main(editManager *this, int a2)
   {
     if ( gbDoRandomMap )
     {
-      editManage::GenerateRandomMap(this);
+      editManager::GenerateRandomMap(this);
       gbDoRandomMap = 0;
     }
     return 0;
@@ -42576,7 +42576,7 @@ signed int __fastcall sub_4291A2(int a1, int a2, int a3, int a4)
 }
 
 //----- (004291D6) --------------------------------------------------------
-void __thiscall editManage::GenerateRandomMap(editManager *this)
+void __thiscall editManager::GenerateRandomMap(editManager *this) // Check this function
 {
   int v1; // eax@1
   int v2; // eax@27
