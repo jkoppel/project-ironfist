@@ -68,8 +68,9 @@ public:
       this->quantities[i] = 0;
     }
   };
-  int CountEmptyCreatureSlots();
+
   int Add(int, int, int);
+  
 };
 
 class hero {
@@ -154,7 +155,7 @@ public:
   int HasArtifact(int);
   void TakeArtifact(int);
   int CountEmptyArtifactSlots();
-
+  int CountEmptyCreatureSlots();
   signed char Stats(int);
   signed char GetSSLevel(int);
   void SetSS(int, int);

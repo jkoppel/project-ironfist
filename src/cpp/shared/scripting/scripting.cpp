@@ -291,8 +291,8 @@ int l_countemptyartifactslots(lua_State *L) {
 }
 
 int l_countemptycreatureslots(lua_State *L) {
-	armyGroup* rmy = (armyGroup*)lua_touserdata(L, 1);
-	lua_pushinteger(L, rmy->CountEmptyCreatureSlots());
+	hero* hro = (hero*)lua_touserdata(L, 1);
+	lua_pushinteger(L, hro->CountEmptyCreatureSlots());
 	return 1;
 }
 

@@ -166,10 +166,10 @@ int hero::CountEmptyArtifactSlots() {
   return amount;
 }
 
-int armyGroup::CountEmptyCreatureSlots() {
+int hero::CountEmptyCreatureSlots() {	
 	int amount = 0;
 	for (int i = 0; i < CREATURES_IN_ARMY; i++) {
-		if (this->quantities[i] == -1) {
+		if (this->army.creatureTypes[i] == -1 || this->army.creatureTypes[i] == 0) {
 			amount++;
 		}
 	}
