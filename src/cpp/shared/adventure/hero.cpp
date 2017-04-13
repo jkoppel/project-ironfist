@@ -169,7 +169,7 @@ int hero::CountEmptyArtifactSlots() {
 int hero::CountEmptyCreatureSlots() {	
 	int amount = 0;
 	for (int i = 0; i < CREATURES_IN_ARMY; i++) {
-		if (this->army.creatureTypes[i] == -1 || this->army.creatureTypes[i] == 0) {
+		if (this->army.creatureTypes[i] == -1) {
 			amount++;
 		}
 	}
