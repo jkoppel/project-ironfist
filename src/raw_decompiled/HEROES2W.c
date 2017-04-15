@@ -24594,7 +24594,7 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
   giCurPlayerBit = 1;
   giCurWatchPlayerBit = 1;
   giCurWatchPlayer = 0;
-  v51 = Random(0, 5); // Constant here (this may be related to factions, but I'm not sure)
+  v51 = Random(0, 5); // Constant here (related to player colors)
   v25 = iLastMsgNumHumanPlayers;
   for ( playerIdx = 0; playerIdx < 6; ++playerIdx )
   {
@@ -24617,7 +24617,7 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
     gcColorToSetupPos[playerIdxa] = -1;
     if ( gpGame->field_459[playerIdxa] == 7 )
       gpGame->field_459[playerIdxa] = v51;
-    v51 = (v51 + 1) % 6;
+    v51 = (v51 + 1) % 6; // Constant here (related to player colors)
   }
   for ( playerIdxb = 0; this->numPlayers > playerIdxb; ++playerIdxb )
     gcColorToSetupPos[*((_BYTE *)&this->field_44D + playerIdxb)] = playerIdxb;
@@ -25078,8 +25078,8 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
           v1 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v1) = v1 | 0x60;
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = v1;
-                (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 12
-             || (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 6;
+                ((cell->field_4 >> 3) & 0x1FFF) == 12
+             || ((cell->field_4 >> 3) & 0x1FFF) == 6;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(0, 13) )
             ;
           break;
@@ -25091,12 +25091,12 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
           game::CreateBoat(this, x, y, 1);
           break;
         case TILE_HAS_EVENT|LOCATION_SPHINX:
-          v51 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          v51 = ppMapExtra[((cell->field_4 >> 3) & 0x1FFF)];
           *(_BYTE *)v51 = strlen((char *)v51 + 136) > 1 && (signed int)*((_BYTE *)v51 + 31) >= 1;
           break;
         case TILE_HAS_EVENT|LOCATION_EVENT:
-          this->mapEventIndices[this->numMapEvents] = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-          v50 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          this->mapEventIndices[this->numMapEvents] = ((cell->field_4 >> 3) & 0x1FFF);
+          v50 = ppMapExtra[((cell->field_4 >> 3) & 0x1FFF)];
           *((_WORD *)v50 + 19) = x;
           *((_WORD *)v50 + 20) = y;
           *((_BYTE *)v50 + 37) = 1;
@@ -25273,7 +25273,7 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
           break;
         case TILE_HAS_EVENT|LOCATION_CAMPFIRE:
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | ((unsigned __int16)Random(4, 6) << 7);
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 5) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 5) | ((cell->field_4 >> 3) & 0x1FFF));
           break;
         case TILE_HAS_EVENT|LOCATION_ANCIENT_LAMP:
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 2) + 2);
@@ -25377,7 +25377,7 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v67++ | (unsigned __int16)((unsigned __int16)Random(1, 3) << 6));
           break;
         case TILE_HAS_EVENT|LOCATION_ARMY_CAMP:
-          if ( !((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+          if ( !((cell->field_4 >> 3) & 0x1FFF) )
           {
             v28 = game::GetRandomNumTroops(this, cell->objectIndex);
             cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v28;
@@ -25388,14 +25388,14 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
                 && cell->objectIndex != CREATURE_FIRE_ELEMENTAL
                 && cell->objectIndex != CREATURE_WATER_ELEMENTAL
                 && Random(0, 100) < 20 )
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x1000);
+                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((cell->field_4 >> 3) & 0x1FFF) | 0x1000);
             }
           }
           break;
         case TILE_HAS_EVENT|LOCATION_RESOURCE:
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (cell->objectIndex >> 1);
-          v38 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-          if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 && v38 != 2 )
+          v38 = ((cell->field_4 >> 3) & 0x1FFF);
+          if ( ((cell->field_4 >> 3) & 0x1FFF) && v38 != 2 )
           {
             if ( v38 == 6 )
               cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
@@ -25409,28 +25409,28 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_FIRST:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
                           - 1].level != 1;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_SECOND_ORDER:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
                           - 1].level != 2;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_THIRD_ORDER:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
                           - 1].level != 3;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_PYRAMID:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
                           - 1].level != 5;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
@@ -25501,15 +25501,15 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
                 cell->field_4_1_1_isShadow_1_13_extraInfo = v33;
                 if ( gArtifactLevel[artId] == 8 )
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x39);
+                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((cell->field_4 >> 3) & 0x1FFF) | 0x39);
                 }
                 else if ( gArtifactLevel[artId] == 4 )
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 3)]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 3)]) | ((cell->field_4 >> 3) & 0x1FFF));
                 }
                 else
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 5) + 4]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 5) + 4]) | ((cell->field_4 >> 3) & 0x1FFF));
                 }
               }
               else
@@ -25782,7 +25782,7 @@ void __thiscall game::RandomizeBarrier(game *this, mapCell *cell)
 {
   int v2; // ST10_4@1
 
-  v2 = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
+  v2 = ((cell->field_4 >> 3) & 0x1FFF) & 7;
   cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
                                                                                             * (v2 | (unsigned __int16)(8 * xPasswordStringsIndex[v2]));
 }
@@ -28624,7 +28624,7 @@ int __thiscall game::ProcessRandomObjects(game *this) // Check this function
         case TILE_HAS_EVENT|LOCATION_WINDMILL|LOCATION_SKELETON:
           giUABaseX = x2;
           giUABaseY = y2;
-          giUARadius = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          giUARadius = ((cell->field_4 >> 3) & 0x1FFF);
           cell->objType = 0;
           cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
           cell->objectIndex = -1;
@@ -29163,7 +29163,7 @@ int __thiscall game::ProcessMapExtra(game *this) // Check this function
       if ( v3 == 163 || v3 >= 176 && v3 <= 177 )
       {
         v1 = game::GetTownId(this, x, y);
-        this->castles[v1].extraIdx = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        this->castles[v1].extraIdx = ((cell->field_4 >> 3) & 0x1FFF);
         cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v1 | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
       }
     }
@@ -29467,7 +29467,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this) // Check this function
         if ( (cell->objType & 0x7F) == 55 || cell->objType == 251 )
         {
           v16 = (cell->objType & 0x7F) == LOCATION_JAIL;
-          v14 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          v14 = ((cell->field_4 >> 3) & 0x1FFF);
           mapExtra = (heroMapExtra *)ppMapExtra[v14];
           if ( !i )
           {
@@ -31022,12 +31022,12 @@ int __thiscall game::CountShrines(game *this, int a2)
         v7 = 0;
         if ( cell->objType == 163 )
         {
-          v7 = &gpGame->castles[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          v7 = &gpGame->castles[((cell->field_4 >> 3) & 0x1FFF)];
         }
         else if ( cell->objType == 170
-  && gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163 )
+  && gpGame->heroes[((cell->field_4 >> 3) & 0x1FFF)].occupiedObjType == 163 )
         {
-          v7 = &gpGame->castles[gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
+          v7 = &gpGame->castles[gpGame->heroes[((cell->field_4 >> 3) & 0x1FFF)].occupiedObjVal];
         }
         if ( v7 && v7->ownerIdx == a2 && v7->buildingsBuiltFlags & 4 )
         {
@@ -40744,7 +40744,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
           else
           {
             objOrHeroIdx = cell->objType & 0x7F;
-            v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+            v18 = ((cell->field_4 >> 3) & 0x1FFF);
           }
           if ( objOrHeroIdx == LOCATION_TOWN )
           {
@@ -40818,7 +40818,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
         else
         {
           objOrHeroIdx = cell->objType & 0x7F;
-          v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          v18 = ((cell->field_4 >> 3) & 0x1FFF);
           if ( objOrHeroIdx == 42 )
           {
             if ( gpCurPlayer->curHeroIdx == v18 )
@@ -69099,32 +69099,32 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       DoTradingPost(0, 1045220557);
       goto LABEL_511;
     case LOCATION_MAGIC_GARDEN:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
           1,
           "{Magic Garden}\n\nYou catch a leprechaun foolishly sleeping amidst a cluster of magic mushrooms.  In exchange for his freedom, he guides you to a small pot filled with precious things.",
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
-          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5,
+          ((loc->field_4 >> 3) & 0x1FFF) - 1,
+          (unsigned int)((loc->field_4 >> 3) & 0x1FFF) - 7 < 1 ? 500 : 5,
           -1,
           0,
           -1);
         advManager::GiveResource(
           this,
           hero,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
-          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5);
+          ((loc->field_4 >> 3) & 0x1FFF) - 1,
+          (unsigned int)((loc->field_4 >> 3) & 0x1FFF) - 7 < 1 ? 500 : 5);
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       else
@@ -69144,9 +69144,9 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
-      sphinxMapExtra = (sphinxMapExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      sphinxMapExtra = (sphinxMapExtra *)ppMapExtra[((loc->field_4 >> 3) & 0x1FFF)];
       if ( sphinxMapExtra->unclaimed )
       {
         sprintf(
@@ -69245,7 +69245,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       NormalDialog(
         "{Observation Tower}\n\nFrom the observation tower, you are able to see distant lands.",
@@ -69307,7 +69307,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero::UpgradeCreatures(hero, CREATURE_OGRE, CREATURE_OGRE_LORD);
         hero::UpgradeCreatures(hero, CREATURE_ORC, CREATURE_ORC_CHIEF);
@@ -69389,7 +69389,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero::UpgradeCreatures(hero, 3, 4);
         hero::UpgradeCreatures(hero, 5, 6);
@@ -69440,7 +69440,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         GiveArtifact(hero, (ARTIFACT)(unsigned __int8)v6, 1, -1);
         advManager::GiveResource(this, hero, 6, 1000);
       }
-      else if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      else if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         NormalDialog(
           "{Chest}\n\nAfter spending hours trying to fish the chest out of the sea, you open it and find 1500 gold pieces.",
@@ -69473,7 +69473,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       shouldDelete = 1;
       goto LABEL_511;
     case LOCATION_FLOTSAM:
-      switch ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      switch ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         case 0u:
           NormalDialog("{Flotsam}\n\nYou search through the flotsam, but find nothing.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
@@ -69548,21 +69548,21 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         sprintf(
           gText,
           "{Shipwreck Survivor}\n\nYou've pulled a shipwreck survivor from certain death in an unforgiving ocean.  Grateful, he rewards you for your act of kindness by giving you the %s.",
-          gArtifactNames[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+          gArtifactNames[((loc->field_4 >> 3) & 0x1FFF)]);
         NormalDialog(
           gText,
           1,
           -1,
           -1,
           7,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           -1,
           0,
           -1,
           0);
         GiveArtifact(
           hero,
-          (ARTIFACT)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (ARTIFACT)((loc->field_4 >> 3) & 0x1FFF),
           1,
           -1);
       }
@@ -69575,7 +69575,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         NormalDialog(
           "{Magellan's Maps}\n\nA retired captain living on this refurbished fishing platform offers to sell you maps of the sea he made in his younger days for 1,000 gold.  Do you wish to buy the maps?",
@@ -69612,12 +69612,12 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       }
       goto LABEL_511;
     case LOCATION_WITCH_HUT:
-      if ( hero->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
+      if ( hero->secondarySkillLevel[((loc->field_4 >> 3) & 0x1FFF)] )
       {
         sprintf(
           gText,
           "{Witch's Hut}\n\nYou approach the hut and observe a witch inside studying an ancient tome on %s.  As you approach, she turns and speaks.  \"You already know that which I would teach you. I can help you no further.\"",
-          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+          gSecondarySkills[((loc->field_4 >> 3) & 0x1FFF)]);
         NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       else if ( hero->numSecSkillsKnown < 8 )
@@ -69625,39 +69625,39 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         sprintf(
           gText,
           "{Witch's Hut}\n\nAn ancient and immortal witch living in a hut with bird's legs for stilts teaches you %s for her own inscrutable purposes.",
-          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+          gSecondarySkills[((loc->field_4 >> 3) & 0x1FFF)]);
         advManager::EventWindow(
           -1,
           1,
           gText,
           17,
-          3 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          3 * ((loc->field_4 >> 3) & 0x1FFF),
           -1,
           0,
           -1);
-        hero::GiveSS(hero, (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5), 1);
+        hero::GiveSS(hero, ((loc->field_4 >> 3) & 0x1FFF), 1);
       }
       else
       {
         sprintf(
           gText,
           "{Witch's Hut}\n\nYou approach the hut and observe a witch inside studying an ancient tome on %s.  As you approach, she turns and focuses her one glass eye on you.  \"You already know everything you deserve to learn!\" the witch screeches. \"NOW GET OUT OF MY HOUSE!\"",
-          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+          gSecondarySkills[((loc->field_4 >> 3) & 0x1FFF)]);
         NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       goto LABEL_511;
     case LOCATION_ARTESIAN_SPRING:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
         v7 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
@@ -69727,7 +69727,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
         maxSP = 10 * hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
@@ -69781,7 +69781,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       }
       goto LABEL_511;
     case LOCATION_BOAT:
-      v69 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v69 = &gpGame->boats[((loc->field_4 >> 3) & 0x1FFF)];
       game::RestoreCell(-1, -1, v69->underlyingObjType, v69->underlyingObjExtra, (int)loc, 2);
       hero->flags |= HERO_AT_SEA;
       hero->remainingMobility = 0;
@@ -69795,15 +69795,15 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::UpdateScreen(this, 0, 0);
       goto LABEL_511;
     case LOCATION_MINE:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
+      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] == giCurPlayer )
         goto LABEL_511;
-      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
+      if ( gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType == -1 )
         goto LABEL_126;
       v60 = advManager::CombatMonsterEvent(
               this,
               hero,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
+              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType,
+              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guadianQty,
               loc,
               locX,
               locY,
@@ -69818,19 +69818,19 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
               0);
       if ( !v60 )
       {
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType = -1;
         hero::CheckLevel(hero);
 LABEL_126:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
-        if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 6 )
+        if ( gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type == 6 )
         {
           v82 = 1000;
         }
-        else if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 2 )
+        else if ( gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type == 2 )
         {
           v82 = 2;
         }
@@ -69839,11 +69839,11 @@ LABEL_126:
           v82 = 1;
         }
         advManager::EventWindow(
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type
+          gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type
         + 59,
           1,
           byte_514A64,
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type,
+          gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type,
           -v82,
           -1,
           0,
@@ -69852,42 +69852,42 @@ LABEL_126:
       }
       goto LABEL_511;
     case LOCATION_ALCHEMIST_LAB:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
+      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] == giCurPlayer )
         goto LABEL_511;
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(0, 1, byte_514A68, 1, -1, -1, 0, -1);
       goto LABEL_136;
     case LOCATION_SAWMILL:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
+      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] != giCurPlayer )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(73, 1, byte_514A6C, 0, -2, -1, 0, -1);
 LABEL_136:
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           giCurPlayer);
       }
       goto LABEL_511;
     case LOCATION_LIGHTHOUSE:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
+      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] != giCurPlayer )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           giCurPlayer);
         advManager::EventWindow(58, 1, byte_514A70, -1, 0, -1, 0, -1);
       }
@@ -69918,20 +69918,20 @@ LABEL_143:
           2,
           "{Chest}\n\nAfter scouring the area, you fall upon a hidden treasure cache.  You may take the gold or distribute the gold to the peasants for experience.  Do you wish to keep the gold?",
           6,
-          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          500 * ((loc->field_4 >> 3) & 0x1FFF),
           14,
-          125 * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
+          125 * (4 * ((loc->field_4 >> 3) & 0x1FFF) - 4),
           1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
           advManager::GiveResource(
             this,
             hero,
             6,
-            500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+            500 * ((loc->field_4 >> 3) & 0x1FFF));
         else
           advManager::GiveExperience(
             hero,
-            125 * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
+            125 * (4 * ((loc->field_4 >> 3) & 0x1FFF) - 4),
             0);
       }
       shouldDelete = 1;
@@ -69948,7 +69948,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero->flags |= 2u;
         ++hero->tempMoraleBonuses;
@@ -69965,7 +69965,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero->flags |= 0x10u;
         ++hero->tempLuckBonuses;
@@ -69990,7 +69990,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero->flags |= 0x2000u;
         ++hero->tempLuckBonuses;
@@ -70015,7 +70015,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero->flags |= 4u;
         ++hero->tempLuckBonuses;
@@ -70040,7 +70040,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero->flags |= 0x200u;
         ++hero->tempMoraleBonuses;
@@ -70075,7 +70075,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero->flags |= 8u;
         ++hero->tempMoraleBonuses;
@@ -70112,7 +70112,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         hero->flags |= 0x100u;
         hero->tempMoraleBonuses += 2;
@@ -70130,12 +70130,12 @@ LABEL_143:
       }
       goto LABEL_511;
     case LOCATION_LEAN_TO:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         v12 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
         v13 = (v12 & 0xF0u) >> 4;
@@ -70173,7 +70173,7 @@ LABEL_143:
       }
       goto LABEL_511;
     case LOCATION_WAGON:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((loc->field_4 >> 3) & 0x1FFF) )
         goto LABEL_180;
       if ( (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
       {
@@ -70196,7 +70196,7 @@ LABEL_180:
           advManager::EventSound(
             this,
             locType,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+            ((loc->field_4 >> 3) & 0x1FFF),
             &res2);
           v18 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
           a2 = v18 & 0x7F;
@@ -70214,7 +70214,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         v19 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
         v20 = (v19 & 0xF0u) >> 4;
@@ -70236,7 +70236,7 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_SKELETON:
-      if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
       {
         advManager::EventWindow(93, 1, byte_515240, -1, 0, -1, 0, -1);
       }
@@ -70245,7 +70245,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         if ( hero::NumArtifacts(hero) == 14 )
         {
@@ -70255,7 +70255,7 @@ LABEL_180:
         }
         else
         {
-          a2 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 2;
+          a2 = ((loc->field_4 >> 3) & 0x1FFF) - 2;
           sprintf(gText, "%s %s", gEventText[94], gArtifactNames[a2]);
           GiveArtifact(hero, (ARTIFACT)a2, 1, -1);
           advManager::EventWindow(-1, 1, gText, 7, a2, -1, 0, -1);
@@ -70273,22 +70273,22 @@ LABEL_180:
         byte_51525C,
         6,
         100
-      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4),
+      * ((signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4),
         v26 & 0xF,
-        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4,
+        (signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4,
         -1);
       advManager::GiveResource(
         this,
         hero,
         6,
         100
-      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
+      * ((signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4));
       v27 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
       advManager::GiveResource(
         this,
         hero,
         v27 & 0xF,
-        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
+        (signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4);
       shouldDelete = 1;
       v90 = 1;
       advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 1);
@@ -70327,7 +70327,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         NormalDialog(
           "{Xanadu}\n\nThe butler admits you to see the master of the house.  He trains you in the four skills a hero should know.",
@@ -70367,7 +70367,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         NormalDialog(
           "{Fort}\n\n The soldiers living in the fort teach you a few new defensive tricks.",
@@ -70404,7 +70404,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         NormalDialog(
           "{Standing Stones}\n\nYou've found a group of Druids worshipping at one of their strange stone edifices.  Silently, they teach you new ways to cast spells.",
@@ -70441,7 +70441,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         NormalDialog(
           "{Witch Doctor's Hut}\n\nAn Orcish witch doctor living in the hut deepens your knowledge of magic by showing you how to cast stones, read portents, and decipher the intricacies of chicken entrails.",
@@ -70478,7 +70478,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         NormalDialog(
           "{Mercenary Camp}\n\nYou've come upon a mercenary camp practicing their tactics.  The mercenaries welcome you and your troops and invite you to train with them.",
@@ -70505,7 +70505,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(18, 1, byte_515898, 14, 1000, -1, 0, -1);
         advManager::GiveExperience(hero, 1000, 0);
@@ -70514,19 +70514,19 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_WATERWHEEL:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           60,
           1,
           byte_5158A0,
           6,
-          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          500 * ((loc->field_4 >> 3) & 0x1FFF),
           -1,
           0,
           -1);
@@ -70534,7 +70534,7 @@ LABEL_180:
           this,
           hero,
           6,
-          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+          500 * ((loc->field_4 >> 3) & 0x1FFF));
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       else
@@ -70545,23 +70545,23 @@ LABEL_180:
     case LOCATION_RESOURCE:
       type = loc->objectIndex >> 1;
       if ( type == 6 )
-        amt = 100 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = 100 * ((loc->field_4 >> 3) & 0x1FFF);
       else
-        amt = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = ((loc->field_4 >> 3) & 0x1FFF);
       advManager::GiveResource(this, hero, type, amt);
       strcpy(&a1, gResourceNames[type]);
       a1 += 32;
       sprintf(gText, gEventText[72], &a1);
       if ( type == 6 )
-        v50 = 100 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        v50 = 100 * ((loc->field_4 >> 3) & 0x1FFF);
       else
-        v50 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        v50 = ((loc->field_4 >> 3) & 0x1FFF);
       BVResMsg(gText, type, v50);
       shouldDelete = 1;
       v90 = 1;
       goto LABEL_511;
     case LOCATION_WINDMILL:
-      if ( (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) > 6 )
+      if ( (signed int)((loc->field_4 >> 3) & 0x1FFF) > 6 )
       {
         advManager::EventWindow(86, 1, byte_5158A8, -1, 0, -1, 0, -1);
       }
@@ -70570,13 +70570,13 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           87,
           1,
           byte_5158A4,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           2,
           -1,
           0,
@@ -70584,7 +70584,7 @@ LABEL_180:
         advManager::GiveResource(
           this,
           hero,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           2);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 0x318;
       }
@@ -70593,13 +70593,13 @@ LABEL_180:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(19, 2, byte_5158AC, -1, 0, -1, 0, -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
         advManager::RecruitEvent(this, hero, 60, loc);
-        if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+        if ( !((loc->field_4 >> 3) & 0x1FFF) )
         {
           shouldDelete = 1;
           v90 = 1;
@@ -70607,12 +70607,12 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_TREE_CITY:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70640,12 +70640,12 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_RUINS:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70673,7 +70673,7 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_TROLL_BRIDGE:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventWindow(
           -1,
@@ -70703,12 +70703,12 @@ LABEL_180:
           goto LABEL_511;
         hero::CheckLevel(hero);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                                * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                                                                                                * (((loc->field_4 >> 3) & 0x1FFF)
                                                                                                  - 256);
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70727,7 +70727,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70744,7 +70744,7 @@ LABEL_180:
       advManager::RecruitEvent(this, hero, 17, loc);
       goto LABEL_511;
     case LOCATION_CITY_OF_DEAD:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventWindow(
           -1,
@@ -70774,12 +70774,12 @@ LABEL_180:
           goto LABEL_511;
         hero::CheckLevel(hero);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                                * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                                                                                                * (((loc->field_4 >> 3) & 0x1FFF)
                                                                                                  - 256);
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70798,7 +70798,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70815,7 +70815,7 @@ LABEL_180:
       advManager::RecruitEvent(this, hero, 55, loc);
       goto LABEL_511;
     case LOCATION_DRAGON_CITY:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventWindow(
           -1,
@@ -70833,7 +70833,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70884,11 +70884,11 @@ LABEL_180:
           if ( !gbGameOver )
           {
             hero::CheckLevel(hero);
-            loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 256);
+            loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((loc->field_4 >> 3) & 0x1FFF) - 256);
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              ((loc->field_4 >> 3) & 0x1FFF),
               &res2);
             advManager::EventWindow(
               -1,
@@ -70930,12 +70930,12 @@ LABEL_511:
       CheckEndGame(0, 0);
       return;
     case LOCATION_WAGON_CAMP:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(84, 2, byte_516138, -1, 0, -1, 0, -1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
@@ -70947,12 +70947,12 @@ LABEL_511:
       }
       goto LABEL_511;
     case LOCATION_DESRT_TENT:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         advManager::EventWindow(82, 2, byte_516140, -1, 0, -1, 0, -1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
@@ -70974,11 +70974,11 @@ LABEL_511:
     case LOCATION_HALFLING_HOLE:
     case LOCATION_EXCAVATION:
     case LOCATION_CAVE:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
       advManager::HouseEvent((int)hero, (int)loc);
       goto LABEL_511;
@@ -70994,7 +70994,7 @@ LABEL_511:
         __PAIR__(locY, locX));
       goto LABEL_511;
     case LOCATION_OBELISK:
-      if ( gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+      if ( gpGame->boatBuilt[((loc->field_4 >> 3) & 0x1FFF)
                            + 47] & (1 << hero->ownerIdx) )
       {
         advManager::EventWindow(69, 1, byte_516148, -1, 0, -1, 0, -1);
@@ -71004,9 +71004,9 @@ LABEL_511:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
-        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + 47] |= 1 << hero->ownerIdx;
+        gpGame->boatBuilt[((loc->field_4 >> 3) & 0x1FFF) + 47] |= 1 << hero->ownerIdx;
         advManager::EventWindow(68, 1, byte_516144, -1, 0, -1, 0, -1);
         advManager::ViewPuzzle(this);
       }
@@ -71031,12 +71031,12 @@ LABEL_511:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         level = hero::GetLevel(hero->experience);
         v28 = hero::GetExperience(level + 1);
         xp = v28 - hero::GetExperience(level);
-        v48 = (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
+        v48 = (signed int)((loc->field_4 >> 3) & 0x1FFF) >> 6;
         switch ( v48 )
         {
           case 1:
@@ -71052,7 +71052,7 @@ LABEL_511:
               -1,
               0);
             advManager::GiveExperience(hero, xp, 0);
-            hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+            hero->treesOfKnowledgeVisited |= 1 << (((loc->field_4 >> 3) & 0x1FFF) & 0x1F);
             break;
           case 2:
             if ( gpCurPlayer->resources[6] < 2000 )
@@ -71086,7 +71086,7 @@ LABEL_511:
               {
                 gpCurPlayer->resources[6] -= 2000;
                 advManager::GiveExperience(hero, xp, 0);
-                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+                hero->treesOfKnowledgeVisited |= 1 << (((loc->field_4 >> 3) & 0x1FFF) & 0x1F);
               }
             }
             break;
@@ -71122,7 +71122,7 @@ LABEL_511:
               {
                 gpCurPlayer->resources[5] -= 10;
                 advManager::GiveExperience(hero, xp, 0);
-                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+                hero->treesOfKnowledgeVisited |= 1 << (((loc->field_4 >> 3) & 0x1FFF) & 0x1F);
               }
             }
             break;
@@ -71134,7 +71134,7 @@ LABEL_511:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(74, 1, byte_516540, -1, 0, -1, 0, -1);
       thisb = (heroWindow *)operator new(68);
@@ -71161,25 +71161,25 @@ LABEL_511:
         gText,
         "%s'%s'.  ",
         "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ",
-        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
       goto LABEL_333;
     case LOCATION_SHRINE_SECOND_ORDER:
       sprintf(
         gText,
         "%s'%s'.  ",
         "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ",
-        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
       goto LABEL_333;
     case LOCATION_SHRINE_THIRD_ORDER:
       sprintf(
         gText,
         "%s'%s'.  ",
         "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ",
-        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
 LABEL_333:
       if ( hero::HasArtifact(hero, 81) )
       {
-        if ( gsSpellInfo[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1].level > hero->secondarySkillLevel[7] + 2 )
+        if ( gsSpellInfo[((loc->field_4 >> 3) & 0x1FFF) - 1].level > hero->secondarySkillLevel[7] + 2 )
         {
           strcat(
             gText,
@@ -71191,19 +71191,19 @@ LABEL_333:
           advManager::EventSound(
             this,
             locType,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+            ((loc->field_4 >> 3) & 0x1FFF),
             &res2);
           v29 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
           hero::AddSpell(
             hero,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+            ((loc->field_4 >> 3) & 0x1FFF) - 1,
             v29);
           advManager::EventWindow(
             -1,
             1,
             gText,
             8,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+            ((loc->field_4 >> 3) & 0x1FFF) - 1,
             -1,
             0,
             -1);
@@ -71222,7 +71222,7 @@ LABEL_333:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::DoWhirlpool(this, hero);
       goto LABEL_343;
@@ -71230,7 +71230,7 @@ LABEL_333:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
 LABEL_343:
       v70 = 0;
@@ -71297,13 +71297,13 @@ LABEL_357:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         strcpy(
           gText,
           "The fabled golden bow of the elves lies here in the dust.  You take it and journey back to the elven towns.  They shower you with their graciousness and the king promises that his people will aid you whenever you seek help.");
         advManager::EventWindow(-1, 1, gText, 7, a5, -1, 0, -1);
-        GiveArtifact(hero, (ARTIFACT)a5, 1, (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        GiveArtifact(hero, (ARTIFACT)a5, 1, ((loc->field_4 >> 3) & 0x1FFF));
         shouldDelete = 1;
         v90 = 1;
         goto LABEL_511;
@@ -71311,13 +71311,13 @@ LABEL_357:
       if ( a5 == ARTIFACT_SPELL_SCROLL )
       {
         advManager::EventSound(this, locType, 1, &res2);
-        xTheSpell = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        xTheSpell = ((loc->field_4 >> 3) & 0x1FFF);
         advManager::EventWindow(-1, 1, *(&gArtifactEvents + 86), 7, ARTIFACT_SPELL_SCROLL, -1, 0, -1);
         GiveArtifact(
           hero,
           ARTIFACT_SPELL_SCROLL,
           1,
-          (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          ((loc->field_4 >> 3) & 0x1FFF));
         shouldDelete = 1;
         v90 = 1;
         goto LABEL_511;
@@ -71327,7 +71327,7 @@ LABEL_357:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           &res2);
         if ( creat == 57 )
         {
@@ -71407,7 +71407,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              ((loc->field_4 >> 3) & 0x1FFF),
               &res2);
             advManager::EventWindow(-1, 1, (&gArtifactEvents)[4 * a5], 7, a5, -1, 0, -1);
             goto LABEL_392;
@@ -71415,7 +71415,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              ((loc->field_4 >> 3) & 0x1FFF),
               &res2);
             sprintf(
               gText,
@@ -71460,7 +71460,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              ((loc->field_4 >> 3) & 0x1FFF),
               &res2);
             sprintf(&a1, gResourceNames[v77]);
             a1 += 32;
@@ -71511,7 +71511,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              ((loc->field_4 >> 3) & 0x1FFF),
               &res2);
             sprintf(&a1, gResourceNames[v77]);
             a1 += 32;
@@ -71566,7 +71566,7 @@ LABEL_391:
       goto LABEL_511;
     case LOCATION_HERO:
       advManager::DemobilizeCurrHero(this);
-      v79 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v79 = &gpGame->heroes[((loc->field_4 >> 3) & 0x1FFF)];
       if ( v79->ownerIdx == giCurPlayer )
       {
         advManager::HeroSwap(this, (int)hero, (int)v79);
@@ -71596,9 +71596,9 @@ LABEL_391:
       }
       goto LABEL_511;
     case LOCATION_BOTTLE:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
-        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+        signExtra = (SignExtra *)ppMapExtra[((loc->field_4 >> 3) & 0x1FFF)];
         if ( strlen(signExtra->name) <= 1 )
           advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
@@ -71608,9 +71608,9 @@ LABEL_391:
       shouldDelete = 1;
       goto LABEL_511;
     case LOCATION_SIGN:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( ((loc->field_4 >> 3) & 0x1FFF) )
       {
-        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+        signExtra = (SignExtra *)ppMapExtra[((loc->field_4 >> 3) & 0x1FFF)];
         if ( strlen(signExtra->name) <= 1 )
           advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
@@ -71621,7 +71621,7 @@ LABEL_391:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71634,7 +71634,7 @@ LABEL_391:
         -1);
       if ( gpWindowManager->buttonPressedCode != 30726 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71779,7 +71779,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71792,7 +71792,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71826,12 +71826,12 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(20, 2, byte_517684, -1, 0, -1, 0, -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
         {
           advManager::EventWindow(21, 1, byte_517688, 13, 0, -1, 0, -1);
           if ( !(hero->flags & 0x20) )
@@ -71859,7 +71859,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71872,7 +71872,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71913,7 +71913,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71926,7 +71926,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+        if ( ((loc->field_4 >> 3) & 0x1FFF) )
         {
           if ( !advManager::CombatMonsterEvent(this, hero, 51, 30, loc, locX, locY, 0, locX, locY, 53, 20, 2, -1, 0, 0) )
           {
@@ -71935,7 +71935,7 @@ LABEL_445:
               msg,
               "%s'%s'.  ",
               "Upon defeating the monsters, you decipher an ancient glyph on the wall, telling the secret of the spell - ",
-              dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+              dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
             if ( hero::HasArtifact(hero, 81) )
             {
               if ( hero->secondarySkillLevel[7] < 3 )
@@ -71950,14 +71950,14 @@ LABEL_445:
                 v47 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
                 hero::AddSpell(
                   hero,
-                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+                  ((loc->field_4 >> 3) & 0x1FFF) - 1,
                   v47);
                 advManager::EventWindow(
                   -1,
                   1,
                   msg,
                   8,
-                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+                  ((loc->field_4 >> 3) & 0x1FFF) - 1,
                   -1,
                   0,
                   -1);
@@ -71996,7 +71996,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        ((loc->field_4 >> 3) & 0x1FFF),
         &res2);
       advManager::EventWindow(
         -1,
@@ -72011,8 +72011,8 @@ LABEL_445:
         && !advManager::CombatMonsterEvent(
               this,
               hero,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
+              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType,
+              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guadianQty,
               loc,
               locX,
               locY,
@@ -72041,12 +72041,12 @@ LABEL_445:
         game::ConvertObject(gpGame, locX - 2, locY - 1, locX + 1, locY - 1, 51, 0, 3, 32, 75, 64, 23);
         game::ConvertObject(gpGame, locX - 2, locY, locX + 1, locY, 51, 4, 7, 32, 80, 64, 23);
         game::ConvertObject(gpGame, locX, locY, locX, locY, 29, 5, 5, 29, 4, 64, 23);
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
+        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type = 6;
+        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType = -1;
+        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guadianQty = 0;
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((loc->field_4 >> 3) & 0x1FFF),
           giCurPlayer);
       }
       goto LABEL_511;
@@ -72364,8 +72364,8 @@ signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, 
   int v8; // [sp+2Ch] [bp-4h]@1
 
   res = NULL_SAMPLE2;
-  barrierColor = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
-  v8 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 3;
+  barrierColor = ((cell->field_4 >> 3) & 0x1FFF) & 7;
+  v8 = (signed int)((cell->field_4 >> 3) & 0x1FFF) >> 3;
   sprintf(
     gText,
     "A magical %s barrier stands tall before you, blocking your way.  Runes on the arch read, \"Speak the key and you may pass.\"",
@@ -72471,8 +72471,8 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
   v3 = ecx0;
   v15 = 0;
   *(_QWORD *)a3 = NULL_SAMPLE2;
-  a2 = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F;
-  switch ( ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F )
+  a2 = ((cell->field_4 >> 3) & 0x1FFF) & 0x3F;
+  switch ( ((cell->field_4 >> 3) & 0x1FFF) & 0x3F )
   {
     case 0:
       for ( i = 0; i < 14; ++i )
@@ -73182,7 +73182,7 @@ void __thiscall advManager::RecruitEvent(advManager *this, hero *hro, int creatu
   int quantityAvailable; // [sp+38h] [bp-Ch]@1
   recruitUnit *a2a; // [sp+40h] [bp-4h]@2
 
-  LOWORD(quantityAvailable) = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  LOWORD(quantityAvailable) = ((loc->field_4 >> 3) & 0x1FFF);
   thisa = (recruitUnit *)operator new(sizeof(recruitUnit));
   if ( thisa )
     a2a = recruitUnit::recruitUnit(thisa, &hro->army, creature, (int)&quantityAvailable);
@@ -74213,7 +74213,7 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
       }
       goto LABEL_308;
     case 43:
-      v43 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v43 = &gpGame->boats[((cell->field_4 >> 3) & 0x1FFF)];
       game::RestoreCell(-1, -1, v43->underlyingObjType, v43->underlyingObjExtra, (int)cell, 3);
       hro->flags |= 0x80u;
       hro->remainingMobility = 0;
@@ -74227,25 +74227,25 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
     case 1:
     case 23:
     case 29:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
+      if ( gpGame->field_60A6[((cell->field_4 >> 3) & 0x1FFF)] == giCurPlayer )
         goto LABEL_308;
-      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
+      if ( gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType == -1 )
         goto LABEL_12;
-      spell = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty;
+      spell = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty;
       v73 = philAI::CombatMonsterEvent(
               (int)hro,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+              gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType,
               (int)&spell,
               (int)cell);
       if ( v73 )
       {
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
+        gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType = -1;
+        gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = 0;
         hero::CheckLevel(hro);
 LABEL_12:
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((cell->field_4 >> 3) & 0x1FFF),
           giCurPlayer);
         if ( v57 == 23 )
         {
@@ -74254,11 +74254,11 @@ LABEL_12:
             if ( hero::HasSpell(hro, spell) && GetManaCost(spell, hro) < hro->spellpoints )
             {
               hro->spellpoints -= GetManaCost(spell, hro);
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = spell + 1;
+              gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType = spell + 1;
               v40 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER);
               if ( v40 > 51 )
                 v40 = 51;
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 5 * v40;
+              gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = 5 * v40;
               spell = 999;
             }
           }
@@ -74266,10 +74266,10 @@ LABEL_12:
       }
       goto LABEL_308;
     case 21:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
+      if ( gpGame->field_60A6[((cell->field_4 >> 3) & 0x1FFF)] != giCurPlayer )
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((cell->field_4 >> 3) & 0x1FFF),
           giCurPlayer);
       goto LABEL_308;
     case 6:
@@ -74287,21 +74287,21 @@ LABEL_12:
         cell->field_4_1_1_isShadow_1_13_extraInfo = v4;
 LABEL_28:
         if ( philAI::ChooseGoldOrExperience(
-               500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+               500 * ((cell->field_4 >> 3) & 0x1FFF),
                125
-             * (4 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4)) )
+             * (4 * ((cell->field_4 >> 3) & 0x1FFF) - 4)) )
         {
           advManager::GiveResource(
             (advManager *)thisa,
             hro,
             6,
-            500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+            500 * ((cell->field_4 >> 3) & 0x1FFF));
         }
         else
         {
           advManager::GiveExperience(
             hro,
-            125 * (4 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
+            125 * (4 * ((cell->field_4 >> 3) & 0x1FFF) - 4),
             1);
           hero::CheckLevel(hro);
         }
@@ -74362,11 +74362,11 @@ LABEL_28:
       }
       goto LABEL_308;
     case 4:
-      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) != 1 )
+      if ( ((cell->field_4 >> 3) & 0x1FFF) != 1 )
       {
         GiveArtifact(
           hro,
-          (ARTIFACT)((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 2),
+          (ARTIFACT)(((cell->field_4 >> 3) & 0x1FFF) - 2),
           1,
           -1);
         v6 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
@@ -74375,18 +74375,18 @@ LABEL_28:
       }
       goto LABEL_308;
     case 95:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (cell->field_4 >> 3) & 0x1FFF )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
-          (unsigned int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5);
+          ((cell->field_4 >> 3) & 0x1FFF) - 1,
+          (unsigned int)((cell->field_4 >> 3) & 0x1FFF) - 7 < 1 ? 500 : 5);
         cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_308;
     case 88:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (cell->field_4 >> 3) & 0x1FFF )
       {
         v7 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
         v8 = (v7 & 0xF0u) >> 4;
@@ -74396,7 +74396,7 @@ LABEL_28:
       }
       goto LABEL_308;
     case 80:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (cell->field_4 >> 3) & 0x1FFF )
       {
         if ( (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
         {
@@ -74425,14 +74425,14 @@ LABEL_28:
         GiveArtifact(hro, (ARTIFACT)(unsigned __int8)v14, 1, -1);
         advManager::GiveResource((advManager *)thisa, hro, 6, 1000);
       }
-      else if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      else if ( (cell->field_4 >> 3) & 0x1FFF )
       {
         advManager::GiveResource((advManager *)thisa, hro, 6, 1500);
       }
       v58 = 1;
       goto LABEL_308;
     case 90:
-      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      switch ( ((cell->field_4 >> 3) & 0x1FFF) )
       {
         case 1u:
           advManager::GiveResource((advManager *)this, hro, 0, 5);
@@ -74456,13 +74456,13 @@ LABEL_28:
         hro,
         6,
         100
-      * ((signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
+      * ((signed int)((cell->field_4 >> 3) & 0x1FFF) >> 4));
       v15 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
       advManager::GiveResource(
         (advManager *)thisa,
         hro,
         v15 & 0xF,
-        (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
+        (signed int)((cell->field_4 >> 3) & 0x1FFF) >> 4);
       v58 = 1;
       goto LABEL_308;
     case 62:
@@ -74513,32 +74513,32 @@ LABEL_28:
       }
       goto LABEL_308;
     case 22:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (cell->field_4 >> 3) & 0x1FFF )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
           6,
-          500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+          500 * ((cell->field_4 >> 3) & 0x1FFF));
         cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_308;
     case 27:
       type = cell->objectIndex >> 1;
       if ( type == 6 )
-        amt = 100 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = 100 * ((cell->field_4 >> 3) & 0x1FFF);
       else
-        amt = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = ((cell->field_4 >> 3) & 0x1FFF);
       advManager::GiveResource((advManager *)this, hro, type, amt);
       v58 = 1;
       goto LABEL_308;
     case 40:
-      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) != 99 )
+      if ( ((cell->field_4 >> 3) & 0x1FFF) != 99 )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((cell->field_4 >> 3) & 0x1FFF),
           2);
         cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 0x318;
       }
@@ -74628,11 +74628,11 @@ LABEL_28:
       mon = 47;
       v60 = 1;
 LABEL_132:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (cell->field_4 >> 3) & 0x1FFF )
       {
         philAI::EvaluateOneTimeCreaturePurchase(
           mon,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          ((cell->field_4 >> 3) & 0x1FFF),
           v60,
           (int)&a3a,
           (int)&v62,
@@ -74640,7 +74640,7 @@ LABEL_132:
         if ( a3a > 0 )
         {
           game::GiveArmy(&hro->army, mon, a3a, slot);
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - (_WORD)a3a);
+          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((cell->field_4 >> 3) & 0x1FFF) - (_WORD)a3a);
           if ( !v60 )
           {
             GetMonsterCost(mon, arr);
@@ -74649,7 +74649,7 @@ LABEL_132:
           }
         }
       }
-      if ( !((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) && v57 == 11 )
+      if ( !((cell->field_4 >> 3) & 0x1FFF) && v57 == 11 )
         v58 = 1;
       goto LABEL_308;
     case 24:
@@ -74661,11 +74661,11 @@ LABEL_132:
         level = hero::GetLevel(hro->experience);
         v16 = hero::GetExperience(level + 1);
         xp = v16 - hero::GetExperience(level);
-        v29 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
+        v29 = (signed int)((cell->field_4 >> 3) & 0x1FFF) >> 6;
         if ( v29 == 1 )
         {
           advManager::GiveExperience(hro, xp, 1);
-          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+          hro->treesOfKnowledgeVisited |= 1 << (((cell->field_4 >> 3) & 0x1FFF) & 0x1F);
           hero::CheckLevel(hro);
         }
         else if ( v29 == 2 )
@@ -74674,7 +74674,7 @@ LABEL_132:
           {
             gpCurPlayer->resources[6] -= 2000;
             advManager::GiveExperience(hro, xp, 1);
-            hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+            hro->treesOfKnowledgeVisited |= 1 << (((cell->field_4 >> 3) & 0x1FFF) & 0x1F);
             hero::CheckLevel(hro);
           }
         }
@@ -74682,16 +74682,16 @@ LABEL_132:
         {
           gpCurPlayer->resources[5] -= 10;
           advManager::GiveExperience(hro, xp, 1);
-          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+          hro->treesOfKnowledgeVisited |= 1 << (((cell->field_4 >> 3) & 0x1FFF) & 0x1F);
           hero::CheckLevel(hro);
         }
       }
       goto LABEL_308;
     case 25:
-      if ( !(gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+      if ( !(gpGame->boatBuilt[((cell->field_4 >> 3) & 0x1FFF)
                              + 47] & (unsigned __int8)giCurPlayerBit) )
       {
-        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+        gpGame->boatBuilt[((cell->field_4 >> 3) & 0x1FFF)
                         + 47] |= giCurPlayerBit;
         ComputeUALoc(giCurPlayer);
       }
@@ -74700,12 +74700,12 @@ LABEL_132:
     case 74:
     case 75:
       if ( hero::HasArtifact(hro, 81)
-        && gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1].level <= hro->secondarySkillLevel[7] + 2 )
+        && gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF) - 1].level <= hro->secondarySkillLevel[7] + 2 )
       {
         v17 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
         hero::AddSpell(
           hro,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          ((cell->field_4 >> 3) & 0x1FFF) - 1,
           v17);
       }
       goto LABEL_308;
@@ -74780,7 +74780,7 @@ LABEL_179:
           hro,
           ARTIFACT_SPELL_SCROLL,
           1,
-          (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          ((cell->field_4 >> 3) & 0x1FFF);
         v58 = 1;
         goto LABEL_308;
       }
@@ -74848,7 +74848,7 @@ LABEL_204:
       }
       goto LABEL_308;
     case 42:
-      v51 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v51 = &gpGame->heroes[((cell->field_4 >> 3) & 0x1FFF)];
       v42 = bShowIt;
       if ( *((_BYTE *)v51 + 3) == giCurPlayer )
       {
@@ -74907,7 +74907,7 @@ LABEL_308:
       v58 = 1;
       goto LABEL_308;
     case 5:
-      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      switch ( ((cell->field_4 >> 3) & 0x1FFF) )
       {
         case 2u:
           advManager::GiveExperience(hro, 1000, 1);
@@ -74942,17 +74942,17 @@ LABEL_308:
       cell->field_4_1_1_isShadow_1_13_extraInfo = v26;
       goto LABEL_308;
     case 76:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5
+      if ( (cell->field_4 >> 3) & 0x1FFF
         && !hero::HasSpell(
               hro,
-              (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1) )
+              ((cell->field_4 >> 3) & 0x1FFF) - 1) )
       {
         for ( spell = 0; (signed int)spell < 5; ++spell )
         {
           gpMonGroup->creatureTypes[spell] = 51;
           gpMonGroup->quantities[spell] = 10;
         }
-        spell = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1;
+        spell = ((cell->field_4 >> 3) & 0x1FFF) - 1;
         if ( gsSpellInfo[spell].attributes & 1 )
         {
           v31 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER) <= 40 ? gfBattleStat[hero::Stats(
@@ -74983,7 +74983,7 @@ LABEL_308:
             v27 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
             hero::AddSpell(
               hro,
-              (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+              ((cell->field_4 >> 3) & 0x1FFF) - 1,
               v27);
             cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
           }
@@ -74998,8 +74998,8 @@ LABEL_308:
     case 64:
       for ( spell = 0; (signed int)spell < 5; ++spell )
       {
-        gpMonGroup->creatureTypes[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType;
-        gpMonGroup->quantities[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty
+        gpMonGroup->creatureTypes[spell] = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType;
+        gpMonGroup->quantities[spell] = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty
                                       / 5;
       }
       v70 = (signed __int64)((double)*((_BYTE *)gaiTurnValueOfMine + x + HIDWORD(x) * MAP_WIDTH)
@@ -75008,15 +75008,15 @@ LABEL_308:
       philAI::ChooseEvaluateBattle((int)&hro->army, (int)hro, (unsigned int)gpMonGroup, 0, 0, v70, (int)&v63, (int)&v59);
       if ( v63 )
       {
-        v55 = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty;
+        v55 = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty;
         v73 = philAI::CombatMonsterEvent(
                 (int)hro,
-                gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+                gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType,
                 (int)&v55,
                 (int)cell);
         if ( v55 > 255 )
           v55 = 255;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = v55;
+        gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = v55;
         if ( v73 )
         {
           hero::CheckLevel(hro);
@@ -75025,12 +75025,12 @@ LABEL_308:
           game::ConvertObject(gpGame, x - 2, HIDWORD(x) - 1, x + 1, HIDWORD(x) - 1, 51, 0, 3, 32, 75, 64, 23);
           game::ConvertObject(gpGame, x - 2, SHIDWORD(x), x + 1, SHIDWORD(x), 51, 4, 7, 32, 80, 64, 23);
           game::ConvertObject(gpGame, x, SHIDWORD(x), x, SHIDWORD(x), 29, 5, 5, 29, 4, 64, 23);
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
+          gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].type = 6;
+          gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType = -1;
+          gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = 0;
           game::ClaimMine(
             gpGame,
-            (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+            ((cell->field_4 >> 3) & 0x1FFF),
             giCurPlayer);
         }
       }
@@ -75042,13 +75042,13 @@ LABEL_308:
       if ( hero::NumArtifacts(hro) < 14 )
         GiveArtifact(
           hro,
-          (ARTIFACT)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (ARTIFACT)((cell->field_4 >> 3) & 0x1FFF),
           1,
           -1);
       v58 = 1;
       goto LABEL_308;
     case 82:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (cell->field_4 >> 3) & 0x1FFF )
       {
         cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
         v28 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
@@ -75069,11 +75069,11 @@ LABEL_308:
       }
       goto LABEL_308;
     case 85:
-      if ( !hro->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
-        hero::GiveSS(hro, (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5), 1);
+      if ( !hro->secondarySkillLevel[((cell->field_4 >> 3) & 0x1FFF)] )
+        hero::GiveSS(hro, ((cell->field_4 >> 3) & 0x1FFF), 1);
       goto LABEL_308;
     case 79:
-      v56 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v56 = ppMapExtra[((cell->field_4 >> 3) & 0x1FFF)];
       if ( *(_BYTE *)v56 )
       {
         if ( Random(0, 100) >= 40 )
@@ -75401,8 +75401,8 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
   thisa = this;
   mouseManager::ShowColorPointer(gpMouseManager);
   creat = cell->objectIndex;
-  willJoin = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0;
-  qty = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  willJoin = ((cell->field_4 >> 3) & 0x1FFF) & 0;
+  qty = ((cell->field_4 >> 3) & 0x1FFF);
   v14 = (double)philAI::FightValueOfStack(&a2->army, a2, 0, 0, 0, 0)
       / (double)(qty * gMonsterDatabase[creat].fight_value);
   if ( gbInCampaign
@@ -77728,7 +77728,7 @@ signed int __fastcall HeroView(int heroIdx, int noDismiss, int dontFade)
     if ( cell->objType != 170 )
     {
       gpHVHero->occupiedObjType = cell->objType;
-      gpHVHero->occupiedObjVal = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+      gpHVHero->occupiedObjVal = ((cell->field_4 >> 3) & 0x1FFF);
     }
   }
   SetupHeroView();
