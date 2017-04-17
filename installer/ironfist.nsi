@@ -1,3 +1,5 @@
+!system '"..\assets\pack.bat"'
+
 outfile "ironfist-install.exe"
 Name "Project Ironfist"
 
