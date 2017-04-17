@@ -24636,15 +24636,15 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
   }
   game::RandomizeHeroPool(this); // Check this function
   strcpy(gMapName, name);
-  game::LoadMap(this, gMapName); // Check this function
-  game::InitRandomArtifacts(this); // Check this function
+  game::LoadMap(this, gMapName);
+  game::InitRandomArtifacts(this);
   game::ProcessRandomObjects(this); // Check this function
-  game::ProcessMapExtra(this); // Check this function
+  game::ProcessMapExtra(this); // Check this function (less likely)
   game::SetupTowns(this); // Check this function
   game::InitializePasswords();
   for ( playerIdxf = 0; playerIdxf < 6; ++playerIdxf )
     this->players[playerIdxf].barrierTentsVisited = 0;
-  game::RandomizeEvents(this); // Check this function
+  game::RandomizeEvents(this); // Check this function (random num troops design question)
   game::ProcessOnMapHeroes(this); // Check this function
   this->couldBeNumDefeatedPlayers = 0;
   for ( playerIdxg = this->numPlayers; playerIdxg < 6; ++playerIdxg )
@@ -24717,7 +24717,7 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
   {
     if ( playerIdxj || !gbInCampaign || !this->field_7F && !this->field_84 )
       goto LABEL_195;
-    v20 = this->field_7F ? 2 : 5; // Constant here
+    v20 = this->field_7F ? 2 : 5;
     for ( j = 0; j < 54 && (this->heroes[j].factionID != v20 || this->relatedToHeroForHireStatus[j] != -1); ++j )
       ;
     if ( j < 54 )
@@ -24767,7 +24767,7 @@ LABEL_195:
 LABEL_196:
         faction = Random(0, 5); // Constant here
         if ( this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]] < 6 )
-          faction = this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]]; // Constant here (stored value, possibly)
+          faction = this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]];
         this->players[playerIdxj].heroesForPurchase[0] = game::GetNewHeroId(this, playerIdxj, faction, 0);
         this->relatedToHeroForHireStatus[this->players[playerIdxj].heroesForPurchase[0]] = 64;
       }
@@ -24782,7 +24782,7 @@ LABEL_196:
         faction = this->heroes[k].factionID;
       }
     }
-    v2 = Random(1, 5); // Constant here
+    v2 = Random(1, 5);
     this->players[playerIdxj].heroesForPurchase[1] = game::GetNewHeroId(this, playerIdxj, (faction + v2) % 6, 0);
     this->relatedToHeroForHireStatus[this->players[playerIdxj].heroesForPurchase[1]] = 64;
   }
@@ -24813,7 +24813,7 @@ LABEL_196:
   playerIdxl = -1;
   numPlayersc = -1;
   v50 = 0;
-  v6 = Random(1, 30); // Constant here (and below)
+  v6 = Random(1, 30);
   v7 = Random(1, 20) + v6;
   v54 = Random(1, 20) + v7;
   while ( 1 )
@@ -24848,13 +24848,13 @@ LABEL_196:
     }
     if ( v50 >= 400 || giUABaseX <= 0 )
     {
-      playerIdxl = Random(9, MAP_WIDTH - 10); // Constant here (not sure what these are)
+      playerIdxl = Random(9, MAP_WIDTH - 10);
       numPlayersc = Random(9, MAP_HEIGHT - 10);
     }
     else
     {
       if ( giUARadius )
-        v16 = Random(-giUARadius, giUARadius); // Constant here (and below; not sure what these are)
+        v16 = Random(-giUARadius, giUARadius);
       else
         v16 = 0;
       playerIdxl = v16 + giUABaseX;
@@ -24864,14 +24864,14 @@ LABEL_196:
         v15 = 0;
       numPlayersc = v15 + giUABaseY;
     }
-    v9 = Random(1, 30); // Constant here (and below)
+    v9 = Random(1, 30);
     v10 = Random(1, 20) + v9;
     v54 = Random(1, 20) + v10;
     ++v50;
   }
   this->field_6395 = playerIdxl;
   this->field_6396 = numPlayersc;
-  this->field_6397 = Random(0, 7); // Constant here
+  this->field_6397 = Random(0, 7);
   if ( gbInCampaign && (!this->field_2 && this->field_4 == 7 || this->field_2 == 1 && this->field_4 == 8) )
     this->field_6397 = 6;
   for ( playerIdxm = 0; this->numPlayers > playerIdxm; ++playerIdxm )
@@ -24895,7 +24895,7 @@ LABEL_196:
     }
     else
     {
-      this->players[playerIdxm].personality = Random(0, 2); // Constant here (this is just personality)
+      this->players[playerIdxm].personality = Random(0, 2);
       memcpy(this->players[playerIdxm].resources, (char *)&unk_4F1E90 + 28 * this->difficulty, 0x1Cu);
     }
   }
@@ -24984,7 +24984,7 @@ LABEL_196:
 // 532C5C: using guessed type char giCurPlayerBit;
 
 //----- (0041E350) --------------------------------------------------------
-int __thiscall game::RandomizeEvents(game *this) // Check this function
+int __thiscall game::RandomizeEvents(game *this) // Check this function (for random troops function)
 {
   unsigned __int16 v1; // ax@7
   unsigned __int16 v2; // ax@35
@@ -25379,7 +25379,7 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function
         case TILE_HAS_EVENT|LOCATION_ARMY_CAMP:
           if ( !((cell->field_4 >> 3) & 0x1FFF) )
           {
-            v28 = game::GetRandomNumTroops(this, cell->objectIndex);
+            v28 = game::GetRandomNumTroops(this, cell->objectIndex); // Check this function (design question)
             cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v28;
             if ( cell->objectIndex != CREATURE_GHOST )
             {
@@ -25800,7 +25800,7 @@ unsigned int __cdecl game::RandomizePassword()
 // 420A80: inconsistent function type and number of purged bytes
 
 //----- (00420AB0) --------------------------------------------------------
-int __thiscall game::LoadMap(game *ecx0, char *nam) // Check this function
+int __thiscall game::LoadMap(game *ecx0, char *nam)
 {
   char buf; // [sp+10h] [bp-20h]@22
   int fd; // [sp+18h] [bp-18h]@1
@@ -26901,7 +26901,7 @@ LABEL_30:
 // 522FD8: using guessed type int iViewArmyType;
 
 //----- (00423760) --------------------------------------------------------
-int __thiscall game::GetRandomNumTroops(game *this, int creat)
+int __thiscall game::GetRandomNumTroops(game *this, int creat) // Check this function (design question)
 {
   int result; // eax@2
 
@@ -28132,7 +28132,7 @@ void __thiscall game::ConvertObject(game *this, int x1, int y1, int x2, int y2, 
 // 4F0A04: using guessed type int MAP_HEIGHT;
 
 //----- (00427520) --------------------------------------------------------
-int __thiscall game::RandomizeTown(void *this, int a2, int a3, int a4)
+int __thiscall game::RandomizeTown(void *this, int a2, int a3, int a4) // Check this function (for faction randomization)
 {
   int result; // eax@4
   void *thisa; // [sp+Ch] [bp-1Ch]@1
@@ -28147,7 +28147,7 @@ int __thiscall game::RandomizeTown(void *this, int a2, int a3, int a4)
                                                                + 12 * a2
                                                                + 4) >> 8) >> -5)];
   if ( *(_BYTE *)v7 == -1 )
-    v8 = Random(0, 5);
+    v8 = Random(0, 5); // Constant here (could be related to faction)
   else
     v8 = *((_BYTE *)thisa + gcColorToSetupPos[*(_BYTE *)v7] + 1113);
   *((_WORD *)thisa + 50 * v6 + 1492) = 10;
@@ -28161,7 +28161,7 @@ int __thiscall game::RandomizeTown(void *this, int a2, int a3, int a4)
 }
 
 //----- (004276F0) --------------------------------------------------------
-int __thiscall game::RandomizeMine(int this, int a2, int a3)
+int __thiscall game::RandomizeMine(int this, int a2, int a3) // Check this function (not likely)
 {
   int v3; // ecx@47
   int v4; // ST4C_4@57
@@ -28324,7 +28324,7 @@ int __thiscall game::RandomizeMine(int this, int a2, int a3)
 // 522FA0: using guessed type __int16 word_522FA0[];
 
 //----- (00427D10) --------------------------------------------------------
-int __thiscall game::InitRandomArtifacts(game *this) // Check this function
+int __thiscall game::InitRandomArtifacts(game *this)
 {
   int result; // eax@2
   mapCell *v3; // [sp+10h] [bp-10h]@5
@@ -28630,12 +28630,12 @@ int __thiscall game::ProcessRandomObjects(game *this) // Check this function
           cell->objectIndex = -1;
           continue;
         case TILE_HAS_EVENT|LOCATION_RANDOM_TOWN:
-          game::RandomizeTown(this, x2, y2, 0);
+          game::RandomizeTown(this, x2, y2, 0); // Check this function
           continue;
         case TILE_HAS_EVENT|LOCATION_RANDOM_CASTLE:
-          game::RandomizeTown(this, x2, y2, 1);
+          game::RandomizeTown(this, x2, y2, 1); // Check this function
           continue;
-        case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER:
+        case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER: // Constant here (check this and below for creature constants)
           v13 = 80;
           v9 = 2000;
           goto LABEL_18;
@@ -28659,7 +28659,7 @@ LABEL_18:
             && cell->objectIndex >= 67
             && cell->objectIndex <= 70 )
           {
-            switch ( cell->objectIndex )
+            switch ( cell->objectIndex ) // Constant here (related to creatures)
             {
               case 0x43:
                 v13 = 0;
@@ -28682,10 +28682,10 @@ LABEL_18:
             }
           }
           cell->objType = -104;
-          for ( cell->objectIndex = Random(0, 65);
+          for ( cell->objectIndex = Random(0, 65); // Constant here (creatues)
                 gMonsterDatabase[cell->objectIndex].fight_value <= v13
              || gMonsterDatabase[cell->objectIndex].fight_value >= v9;
-                cell->objectIndex = Random(0, 65) )
+                cell->objectIndex = Random(0, 65) ) // Constant here (creatures)
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_RESOURCE:
@@ -28730,7 +28730,7 @@ LABEL_18:
           game::ConvertObject(this, x2, y2, x2, y2, 11, 171, 171, 11, 2 * v5 + 1, -1, -1);
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_TOWN|LOCATION_SIGN:
-          game::RandomizeMine((int)this, x2, y2);
+          game::RandomizeMine((int)this, x2, y2); // Check this function (not likely)
           break;
         default:
           continue;
@@ -29140,7 +29140,7 @@ void __thiscall game::ConvertAllToLateOverlay(game *this, int x, int y)
 }
 
 //----- (00429B90) --------------------------------------------------------
-int __thiscall game::ProcessMapExtra(game *this) // Check this function
+int __thiscall game::ProcessMapExtra(game *this) // Check this function (less likely)
 {
   signed int v1; // ST20_4@6
   int result; // eax@28
