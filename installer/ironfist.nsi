@@ -61,7 +61,12 @@ Section
 	File ..\maps\SorrowEn.MX2.lua
 	File ..\maps\LastStand.MX2.lua
 
-
+	CreateDirectory "$INSTDIR\SCRIPTS\MODULES"
+	
+	SetOutPath $INSTDIR\SCRIPTS\MODULES
+	
+	File ..\maps\modules\niftysnippets_1.lua
+	
 	SetOutPath $INSTDIR
 	WriteUninstaller "$INSTDIR\uninstall-ironfist.exe"
 
