@@ -24644,7 +24644,7 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
   game::InitializePasswords();
   for ( playerIdxf = 0; playerIdxf < 6; ++playerIdxf )
     this->players[playerIdxf].barrierTentsVisited = 0;
-  game::RandomizeEvents(this); // Check this function (random num troops design question)
+  game::RandomizeEvents(this);
   game::ProcessOnMapHeroes(this); // Check this function
   this->couldBeNumDefeatedPlayers = 0;
   for ( playerIdxg = this->numPlayers; playerIdxg < 6; ++playerIdxg )
@@ -24899,7 +24899,7 @@ LABEL_196:
       memcpy(this->players[playerIdxm].resources, (char *)&unk_4F1E90 + 28 * this->difficulty, 0x1Cu);
     }
   }
-  game::SetupAdjacentMons(this); // Check this function
+  game::SetupAdjacentMons(this);
   if ( this->mapHeader.field_22 == 2 )
   {
     v11 = *(_WORD *)&this->mapHeader.field_23;
@@ -24907,8 +24907,7 @@ LABEL_196:
     *(_WORD *)&this->mapHeader.field_23 = 0;
     if ( *(&this->map.tiles[v11].objType + 12 * v48 * this->map.width) == 170 )
     {
-      *(_WORD *)&this->mapHeader.field_23 = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v11].field_4_1_1_isShadow_1_13_extraInfo
-                                                                                + 6 * v48 * this->map.width) >> 8) >> -5);
+      *(_WORD *)&this->mapHeader.field_23 = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v11].field_4_1_1_isShadow_1_13_extraInfo + 6 * v48 * this->map.width) >> 8) >> -5);
     }
     else if ( *(&this->map.tiles[v11].objType + 12 * (v48 - 1) * this->map.width) == 170 )
     {
