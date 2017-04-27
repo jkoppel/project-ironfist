@@ -39,7 +39,7 @@ void __thiscall soundManager::StopAllSamples(soundManager *this, int a2);
 void __thiscall soundManager::StopSample(soundManager *this, HSAMPLE a2); // idb
 void __thiscall soundManager::ModifySample(soundManager *this, HSAMPLE S, __int16 a3, int weight);
 signed __int32 __thiscall soundManager::DigitalReport(soundManager *this, HSAMPLE samp, __int16 always4); // idb
-void __thiscall soundManager::AdjustSoundVolumes(soundManager *ecx0);
+void __thiscall soundManager::AdjustSoundVolumes(soundManager *this); // idb
 void __thiscall soundManager::AdjustMusicVolumes(int this);
 void __thiscall soundManager::ForcePollSound(int this);
 char __thiscall soundManager::SetMusicQuality(int this, int a2);
@@ -179,7 +179,7 @@ bool __thiscall game::IsMobile(game *this, int a2);
 fullMap *__thiscall game::GetWorldMapData(game *this);
 signed int __thiscall game::CreateBoat(game *this, unsigned int x, unsigned int y, int doSend); // idb
 signed int __thiscall game::Scan(game *this, signed __int8 *a1, int start, int len);
-signed int __stdcall game::RandomScan(int a1, int a2, int a3, int a4, char a5);
+signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, char a5);
 int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero); // idb
 signed int __thiscall game::GetTownId(game *this, int x, int y); // idb
 signed int __thiscall game::GetMineId(game *this, int a2, int a3);
@@ -214,15 +214,15 @@ __int16 __stdcall game::WeeklyRecruitSite(int a1);
 unsigned __int16 __stdcall game::WeeklyGenericSite(mapCell *a1);
 void __thiscall game::PerMonth(game *this);
 void __thiscall game::ConvertObject(game *this, int x1, int y1, int x2, int y2, int fromObjTileset, signed int fromObjIndexLow, signed int fromObjIndexHigh, char toObjTileset, char toObjectIndexLow, int fromObjType, char toObjType);
-int __thiscall game::RandomizeTown(void *this, int a2, int a3, int a4);
-int __thiscall game::RandomizeMine(int this, int a2, int a3);
+int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUseless); // idb
+mapCell *__thiscall game::RandomizeMine(game *this, int coordX, int coordY); // idb
 int __thiscall game::InitRandomArtifacts(game *this);
 int __thiscall game::GetRandomArtifactId(game *this, char allowedLevels, int allowNegatives);
 bool __fastcall IsCursedItem(int art);
 void __thiscall game::RandomizeHeroPool(game *this);
-int __thiscall game::SetRandomHeroArmies(void *this, _DWORD a2, unsigned int a3);
+int __thiscall game::SetRandomHeroArmies(game *this, _DWORD heroIdx, unsigned int arg3); // idb
 int __thiscall game::ProcessRandomObjects(game *this);
-int __thiscall game::SetVisibility(game *, int x, int y, int playerIdx, signed int radius);
+void __thiscall game::SetVisibility(game *, int x, int y, int playerIdx, signed int radius);
 void __thiscall game::MakeAllWaterVisible(game *this, char playerIdx);
 void __stdcall game::GiveArmy(armyGroup *arm, int creatureType, int amt, signed int slot);
 int __stdcall game::ExperienceValueOfStack(int a1, int a2);
@@ -376,7 +376,7 @@ int __thiscall advManager::Open(advManager *this, int idx);
 void *__thiscall advManager::Close(void *this);
 void __thiscall advManager::GetCursorSampleSet(advManager *this, signed int speed); // idb
 mapCell *__thiscall advManager::DoAdvCommand(advManager *this);
-void __thiscall advManager::CheckSetEvilInterface(void *this, int a2, int a3);
+void __thiscall advManager::CheckSetEvilInterface(advManager *this, int a2, int a3);
 signed int __thiscall advManager::Main(advManager *this, tag_message *evt);
 int __stdcall loc_444C90(tag_message *evt); // weak
 void __stdcall advManager::Reseed(int a1, int a2);
@@ -394,7 +394,7 @@ void __thiscall advManager::UpdateRadar(advManager *this, int a2, int a3);
 BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3);
 void __thiscall advManager::UpdateHeroLocator(advManager *this, int a2, int a3, int a4);
 void __thiscall advManager::UpdateHeroLocators(advManager *this, int a2, int a3);
-void __thiscall advManager::UpdateTownLocators(void *this, int a2, int a3);
+void __thiscall advManager::UpdateTownLocators(advManager *this, int a2, int a3);
 int __thiscall advManager::UpdBottomView(advManager *this, int a2, int a3, int a4);
 signed int __thiscall advManager::ClearBottomView(advManager *this);
 int __thiscall advManager::UpdBottomViewEnemyTurn(void *this);
@@ -412,7 +412,7 @@ void __thiscall advManager::MobilizeCurrHero(advManager *this, int a2);
 void __thiscall advManager::DemobilizeCurrHero(advManager *thisa);
 advManager *__thiscall advManager::SetTownContext(advManager *this, int a2);
 void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3); // idb
-void __thiscall advManager::DoHeroKnob(void *this);
+void __thiscall advManager::DoHeroKnob(advManager *this);
 void __thiscall advManager::DoTownKnob(void *this);
 void __thiscall advManager::CastSpell(advManager *this, int spell);
 int __cdecl SaveGame();
@@ -448,7 +448,7 @@ advManager *__thiscall advManager::DisableButtons(advManager *this);
 advManager *__thiscall advManager::EnableButtons(advManager *this);
 void *__thiscall advManager::SaveAdventureBorder(int this);
 void *__fastcall advManager::DrawAdventureBorder(int this, int a2);
-signed int __thiscall advManager::FindAdjacentMonster(void *this, int a2, int, int a3, int a4, int a5, int a6);
+signed int __thiscall advManager::FindAdjacentMonster(advManager *this, int argX, int argY, int *pCoordX, int *pCoordY, int unwantedCoordX, int unwantedCoordY);
 int __cdecl ComputeAdvNetControl();
 signed int __fastcall MapExtraPosAndAdjacentsSet(int x, int y, unsigned __int8 a3); // idb
 void __thiscall advManager::ViewPuzzle(advManager *this);
@@ -999,23 +999,23 @@ double __stdcall philAI::FutureDeflator(int a1);
 int __stdcall philAI::FightValueOfStack(armyGroup *arm, hero *hro, int a3, int a4, int a5, int a6); // idb
 int __stdcall philAI::EvaluateOneTimeCreaturePurchase(int a1, int a2, int a3, int a4, int a5, int a6);
 int __stdcall philAI::QuickCombat(int a1, int a2, __int64 a3, int a4, int a5, float *a6, float *a7);
-void __stdcall philAI::HeroInteractionAtHero(int a1, int a2, int a3, int a4);
-void __stdcall philAI::HeroInteractionAtTown(int a1, signed int a2, int a3, int a4);
-void __stdcall philAI::RedistributeTroops(int a1, void *a2, int a3, int a4, int a5, int a6, signed int a7);
+void __thiscall philAI::HeroInteractionAtHero(void *ecx0, int a1, int a2, int a3, int a4);
+void __thiscall philAI::HeroInteractionAtTown(void *this, int a1, signed int a2, int a3, int a4);
+void __thiscall philAI::RedistributeTroops(int this, armyGroup *army1, armyGroup *army2, int a3, int a4, int a5, int a6, signed int a7);
 bool __stdcall philAI::ChooseGoldOrExperience(int a1, int a2);
 int __stdcall philAI::ChooseEvaluateBattle(int a1, int a2, __int64 a3, int a4, int a5, signed int a6, int a7, int a8);
 bool __stdcall philAI::ChooseToFightForArtifact(int a1, char a2, int a3);
 signed __int64 __stdcall philAI::NetValueOfArtifact(int a1, signed int a2, int a3, signed int a4);
 int __cdecl philAI::ChooseToPayRansomOnHero(unsigned int);
 void __stdcall philAI::BuildBuilding(signed int a1, signed int a2);
-void __stdcall philAI::BuildHero(signed int a1, int a2);
+void __thiscall philAI::BuildHero(void *this, signed int a1, int a2);
 void __stdcall philAI::BuildCreature(int a1, int a2, int a3);
 signed int __stdcall philAI::CanBuyBHC(int a1);
 bool __stdcall philAI::CombatMonsterEvent(int a1, char a2, int a3, int a4);
 int __stdcall philAI::FightEvent(int a1, int a2, int a3);
 signed int __stdcall philAI::DamageGroup(void *a1, int a2, int a3, float a4);
 playerData *__cdecl philAI::IncrementHourGlass();
-void __stdcall philAI::TownEvent(int a1, int a2, __int64 a3);
+void __thiscall philAI::TownEvent(void *ecx0, int a1, int a2, __int64 a3);
 signed int __stdcall philAI::ComputeUpgradeValue(int a1, int a2);
 signed int __stdcall philAI::ComputeValueOfSS(int a1, int a2, int a3);
 signed int __stdcall philAI::ComputeValueOfFreeSS(int a1, int a2);
@@ -1032,8 +1032,8 @@ bool __fastcall OnMySide(int a1);
 int __stdcall philAI::EvaluateArtifactEvent(int a1, int a2);
 int __stdcall philAI::EvaluateMineEvent(int a1, int a2, int a3, int a4);
 int __stdcall philAI::EvaluateMonsterEvent(int creat, __int16 a2, int a3); // idb
-int __stdcall philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int a5);
-int __stdcall philAI::EvaluateTownEvent(int a1, int a2, int a3, int a4, int a5);
+int __thiscall philAI::EvaluateHeroEvent(void *this, int a1, int a2, int a3, int a4, int a5);
+int __thiscall philAI::EvaluateTownEvent(void *ecx0, int a1, int a2, int a3, int a4, int a5);
 signed int __cdecl game::SetupCampaignGame();
 signed int __cdecl game::SetupBaud();
 signed int __cdecl game::SetupComPort();
@@ -1110,7 +1110,7 @@ void __fastcall SendMapChange(char a1, char a2, unsigned __int8 a3, unsigned __i
 void __stdcall combatManager::NoShowCombatLog(char *msg); // idb
 void __thiscall combatManager::ClearCombatMessages(combatManager *this, int a2);
 void __thiscall combatManager::CheckUpdateCombatMessages(combatManager *this);
-void __thiscall combatManager::CombatMessage(combatManager *this, char *message, int a3, int a4, int a5);
+void __thiscall combatManager::CombatMessage(combatManager *this, char *message, int doUpdate, int keepPrevMessage, int a5); // idb
 void __thiscall combatManager::CombatMessage(combatManager *this, int a2);
 void __thiscall combatManager::ResetLimitCreature(combatManager *this);
 void __thiscall combatManager::UpdateCombatArea(combatManager *this);
@@ -7366,8 +7366,22 @@ int gHeroGoldCost = 2500; // weak
 char normalDirTable[] = { '\0' }; // weak
 char byte_4F1DC1[] = { '\xFF' }; // weak
 int dword_4F1DE0[] = { 200 }; // weak
-void unk_4F1E00; // idb
-void unk_4F1E90; // idb
+int playerHumanInitialResources[5][7] =
+{
+  { 30, 10, 30, 10, 10, 10, 10000 },
+  { 20, 5, 20, 5, 5, 5, 7500 },
+  { 10, 2, 10, 2, 2, 2, 5000 },
+  { 5, 0, 5, 0, 0, 0, 2500 },
+  { 0, 0, 0, 0, 0, 0, 0 }
+};
+int playerAIInitialResources[5][7] =
+{
+  { 20, 5, 20, 5, 5, 5, 7500 },
+  { 20, 5, 20, 5, 5, 5, 7500 },
+  { 30, 10, 30, 10, 10, 10, 10000 },
+  { 30, 10, 30, 10, 10, 10, 10000 },
+  { 30, 10, 30, 10, 10, 10, 10000 }
+};
 int gMineCharacteristics[] = { 2 }; // weak
 int dword_4F1F38 = 1000; // weak
 int dword_4F1F3C[] = { 0 }; // weak
@@ -8803,7 +8817,7 @@ float gfBattleStat[] =
    2.9000001,
    3.0
 };
-char byte_4F29FF[] = { '\0' }; // idb
+char beforeGSpellLimits[] = { '\0' }; // idb
 char gSpellLimits[] = { '\x03', '\x03', '\x02', '\x02', '\x01' }; // idb
 float gfSpellCastableCombatMod[] =
 {
@@ -8943,91 +8957,56 @@ SSpellInfo gsSpellInfo[48] =
     '\0',
     500,
     '\t',
-    '\n',
-    168430090,
-    '\n',
+    "\n\n\n\n\n\n",
     3u
   },
-  { "fireball", '\x04', '\t', '\0', 750, '\x0F', '\n', 168430090, '\n', 3u },
-  { "lightblt", '\x02', '\x04', '\x0F', 450, '\a', '\n', 168430090, '\n', 3u },
-  { "chainlte", '\x04', '\x05', '\x0F', 650, '\x0F', '\n', 168430090, '\n', 3u },
-  { "telptout", '\x03', '\n', '\0', 30, '\t', '\n', 168430090, '\n', 2u },
-  { "cure", '\x01', '\x06', '\x01', 250, '\x06', '\n', 168430090, '\n', 2u },
-  { "masscure", '\x04', '\x06', '\x01', 700, '\x0F', '\n', 168430090, '\n', 2u },
-  { "resurect", '\x04', '\r', '\x01', 400, '\f', '\n', 168430090, '\n', 3u },
-  { "resurtru", '\x05', '\f', '\x01', 550, '\x0F', '\n', 168430090, '\n', 3u },
-  { "haste", '\x01', '\x0E', '\x18', 300, '\x03', '\n', 168430090, '\n', 11u },
-  { "masshast", '\x03', '\x0E', '\x18', 950, '\n', '\n', 168430090, '\n', 11u },
-  { "slow", '\x01', '\x01', '\x02', 350, '\x03', '\n', 168430090, '\n', 11u },
-  {
-    "massslow",
-    '\x04',
-    '\x01',
-    '\x02',
-    1000,
-    '\x0F',
-    '\n',
-    168430090,
-    '\n',
-    11u
-  },
-  { "blind", '\x02', '\x15', '\x1C', 500, '\x06', '\n', 168430090, '\n', 11u },
-  { "bless", '\x01', '\a', '\x15', 200, '\x03', '\n', 168430090, '\n', 11u },
-  { "massbles", '\x03', '\a', '\x15', 650, '\f', '\n', 168430090, '\n', 11u },
-  {
-    "stonskin",
-    '\x01',
-    '\x1F',
-    '\x1E',
-    300,
-    '\x03',
-    '\n',
-    168430090,
-    '\n',
-    11u
-  },
-  {
-    "stelskin",
-    '\x02',
-    '\x1E',
-    '\x1F',
-    575,
-    '\x06',
-    '\n',
-    168430090,
-    '\n',
-    11u
-  },
-  { "curse", '\x01', '\x03', '\x1D', 200, '\x03', '\n', 168430090, '\n', 11u },
-  { "masscurs", '\x03', '\x03', '\x1D', 500, '\f', '\n', 168430090, '\n', 11u },
-  { "masscurs", '\x03', '\x16', '\b', 300, '\t', '\n', 168430090, '\0', 3u },
-  { "masscurs", '\x04', '\x17', '\b', 450, '\f', '\n', 168430090, '\0', 3u },
-  { "antimagk", '\x03', '\x11', '\x06', 100, '\a', '\n', 168430090, '\n', 11u },
-  { "dipmagk", '\x01', '\x12', '\a', 275, '\x05', '\n', 168430090, '\n', 2u },
-  { "dipmagk", '\x03', '\x12', '\a', 450, '\f', '\n', 168430090, '\n', 2u },
-  { "magcarow", '\x01', '&', '\0', 200, '\x03', '\n', 168430090, '\n', 3u },
-  { "berzerk", '\x04', '\x13', '\x16', 1000, '\f', '\n', 168430090, '\n', 11u },
-  { "armgedn", '\x05', '\x10', '\0', 2000, '\x14', '\n', 168430090, '\n', 3u },
-  { "storm", '\x04', '\v', '\0', 1300, '\x0F', '\n', 168430090, '\n', 3u },
-  { "meteor~1", '\x04', '\x18', '\0', 1000, '\x0F', '\n', 168430090, '\n', 3u },
-  { "paralize", '\x03', '\x14', '\x19', 700, '\t', '\n', 168430090, '\n', 11u },
-  { "hypnotiz", '\x05', '%', '\x1A', 1300, '\x0F', '\n', 168430090, '\n', 11u },
-  { "coldray", '\x02', '$', '\x13', 375, '\x06', '\n', 168430090, '\n', 3u },
-  { "coldring", '\x03', '#', '\0', 500, '\t', '\n', 168430090, '\n', 3u },
-  { "disruptr", '\x02', '\"', '\0', 500, '\a', '\n', 168430090, '\n', 3u },
-  { "mnrdeath", '\x02', '\x1D', '\r', 300, '\x06', '\0', 0, '\n', 3u },
-  { "mnrdeath", '\x03', '\x1C', '\r', 450, '\n', '\0', 0, '\n', 3u },
-  { "drgnslay", '\x02', ' ', '\x1B', 100, '\x06', '\n', 168430090, '\n', 11u },
-  { "bloodlus", '\x01', '\x1B', '\0', 300, '\x03', '\n', 168430090, '\n', 11u },
-  { "resurect", '\x03', '\x19', '\x06', 400, '\n', '\n', 168430090, '\n', 3u },
-  { "mirrorim", '\x05', '\x1A', '\0', 800, '\x19', '\n', 168430090, '\n', 11u },
-  { "shield", '\x01', '\x0F', '\x17', 150, '\x03', '\n', 168430090, '\n', 11u },
-  { "shield", '\x04', '\x0F', '\x17', 375, '\a', '\n', 168430090, '\n', 11u },
-  { "sumnelm", '\x05', '8', '\0', 1000, '\x1E', '\0', 0, '\0', 3u },
-  { "sumnelm", '\x05', '9', '\0', 1000, '\x1E', '\0', 0, '\0', 3u },
-  { "sumnelm", '\x05', ':', '\0', 1000, '\x1E', '\0', 0, '\0', 3u },
-  { "sumnelm", '\x05', ';', '\0', 1000, '\x1E', '\0', 0, '\0', 3u },
-  { "erthquak", '\x03', '!', '\0', 300, '\x0F', '\n', 168430090, '\n', 3u }
+  { "fireball", '\x04', '\t', '\0', 750, '\x0F', "\n\n\n\n\n\n", 3u },
+  { "lightblt", '\x02', '\x04', '\x0F', 450, '\a', "\n\n\n\n\n\n", 3u },
+  { "chainlte", '\x04', '\x05', '\x0F', 650, '\x0F', "\n\n\n\n\n\n", 3u },
+  { "telptout", '\x03', '\n', '\0', 30, '\t', "\n\n\n\n\n\n", 2u },
+  { "cure", '\x01', '\x06', '\x01', 250, '\x06', "\n\n\n\n\n\n", 2u },
+  { "masscure", '\x04', '\x06', '\x01', 700, '\x0F', "\n\n\n\n\n\n", 2u },
+  { "resurect", '\x04', '\r', '\x01', 400, '\f', "\n\n\n\n\n\n", 3u },
+  { "resurtru", '\x05', '\f', '\x01', 550, '\x0F', "\n\n\n\n\n\n", 3u },
+  { "haste", '\x01', '\x0E', '\x18', 300, '\x03', "\n\n\n\n\n\n", 11u },
+  { "masshast", '\x03', '\x0E', '\x18', 950, '\n', "\n\n\n\n\n\n", 11u },
+  { "slow", '\x01', '\x01', '\x02', 350, '\x03', "\n\n\n\n\n\n", 11u },
+  { "massslow", '\x04', '\x01', '\x02', 1000, '\x0F', "\n\n\n\n\n\n", 11u },
+  { "blind", '\x02', '\x15', '\x1C', 500, '\x06', "\n\n\n\n\n\n", 11u },
+  { "bless", '\x01', '\a', '\x15', 200, '\x03', "\n\n\n\n\n\n", 11u },
+  { "massbles", '\x03', '\a', '\x15', 650, '\f', "\n\n\n\n\n\n", 11u },
+  { "stonskin", '\x01', '\x1F', '\x1E', 300, '\x03', "\n\n\n\n\n\n", 11u },
+  { "stelskin", '\x02', '\x1E', '\x1F', 575, '\x06', "\n\n\n\n\n\n", 11u },
+  { "curse", '\x01', '\x03', '\x1D', 200, '\x03', "\n\n\n\n\n\n", 11u },
+  { "masscurs", '\x03', '\x03', '\x1D', 500, '\f', "\n\n\n\n\n\n", 11u },
+  { "masscurs", '\x03', '\x16', '\b', 300, '\t', "\n\n\n\n\n", 3u },
+  { "masscurs", '\x04', '\x17', '\b', 450, '\f', "\n\n\n\n\n", 3u },
+  { "antimagk", '\x03', '\x11', '\x06', 100, '\a', "\n\n\n\n\n\n", 11u },
+  { "dipmagk", '\x01', '\x12', '\a', 275, '\x05', "\n\n\n\n\n\n", 2u },
+  { "dipmagk", '\x03', '\x12', '\a', 450, '\f', "\n\n\n\n\n\n", 2u },
+  { "magcarow", '\x01', '&', '\0', 200, '\x03', "\n\n\n\n\n\n", 3u },
+  { "berzerk", '\x04', '\x13', '\x16', 1000, '\f', "\n\n\n\n\n\n", 11u },
+  { "armgedn", '\x05', '\x10', '\0', 2000, '\x14', "\n\n\n\n\n\n", 3u },
+  { "storm", '\x04', '\v', '\0', 1300, '\x0F', "\n\n\n\n\n\n", 3u },
+  { "meteor~1", '\x04', '\x18', '\0', 1000, '\x0F', "\n\n\n\n\n\n", 3u },
+  { "paralize", '\x03', '\x14', '\x19', 700, '\t', "\n\n\n\n\n\n", 11u },
+  { "hypnotiz", '\x05', '%', '\x1A', 1300, '\x0F', "\n\n\n\n\n\n", 11u },
+  { "coldray", '\x02', '$', '\x13', 375, '\x06', "\n\n\n\n\n\n", 3u },
+  { "coldring", '\x03', '#', '\0', 500, '\t', "\n\n\n\n\n\n", 3u },
+  { "disruptr", '\x02', '\"', '\0', 500, '\a', "\n\n\n\n\n\n", 3u },
+  { "mnrdeath", '\x02', '\x1D', '\r', 300, '\x06', "\n", 3u },
+  { "mnrdeath", '\x03', '\x1C', '\r', 450, '\n', "\n", 3u },
+  { "drgnslay", '\x02', ' ', '\x1B', 100, '\x06', "\n\n\n\n\n\n", 11u },
+  { "bloodlus", '\x01', '\x1B', '\0', 300, '\x03', "\n\n\n\n\n\n", 11u },
+  { "resurect", '\x03', '\x19', '\x06', 400, '\n', "\n\n\n\n\n\n", 3u },
+  { "mirrorim", '\x05', '\x1A', '\0', 800, '\x19', "\n\n\n\n\n\n", 11u },
+  { "shield", '\x01', '\x0F', '\x17', 150, '\x03', "\n\n\n\n\n\n", 11u },
+  { "shield", '\x04', '\x0F', '\x17', 375, '\a', "\n\n\n\n\n\n", 11u },
+  { "sumnelm", '\x05', '8', '\0', 1000, '\x1E', "", 3u },
+  { "sumnelm", '\x05', '9', '\0', 1000, '\x1E', "", 3u },
+  { "sumnelm", '\x05', ':', '\0', 1000, '\x1E', "", 3u },
+  { "sumnelm", '\x05', ';', '\0', 1000, '\x1E', "", 3u },
+  { "erthquak", '\x03', '!', '\0', 300, '\x0F', "\n\n\n\n\n\n", 3u }
 };
 const char *cArmyFrameFileNames[66] =
 {
@@ -9242,27 +9221,40 @@ char *gTownObjNames[32] =
   "up5b",
   "ext3"
 }; // weak
-char gDwellingType[6][12] =
+CREATURES gDwellingType[6][12] =
 {
   {
-    '\0',
-    '\x01',
-    '\x03',
-    '\x05',
-    '\a',
-    '\t',
-    '\x02',
-    '\x04',
-    '\x06',
-    '\b',
-    '\n',
-    '\xFF'
+    84082944,
+    67242247,
+    4278847494,
+    252578827,
+    4279046929,
+    4294906384,
+    420943124,
+    404102171,
+    4294967066,
+    538910237,
+    4294910754,
+    623181601
   },
-  "\v\f\x0E\x0F\x11\x13\r\xFF\x10\x12\xFF\xFF",
-  "\x14\x15\x17\x19\x1B\x1C\x16\x18\x1A\xFF\xFF\xFF",
-  "\x1D\x1E\x1F \"#\xFF\xFF!\xFF$%",
-  "&'(*+-\xFF)\xFF,.\xFF",
-  "/024681357\xFF\xFF"
+  {
+    707274534,
+    704589099,
+    4281216255,
+    875704367,
+    858863670,
+    4294915893,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  },
+  { 0, 5, 0, 5, 0, 0, 0, 2000, 5, 4, 5, 4 },
+  { 4, 4, 1000, 5, 6, 5, 6, 6, 6, 1000, 5, 8 },
+  { 5, 8, 8, 8, 1000, 5, 10, 5, 10, 10, 10, 1000 },
+  { 5, 0, 15, 0, 0, 0, 1500, 10, 0, 10, 0, 0 }
 };
 _DWORD gMageBuildingCosts[7] = { 0, 0, 0, 0, 0, 0, 0 }; // idb
 void gSpecialBuildingCosts; // idb
@@ -11284,7 +11276,7 @@ int iSandAnim = 0; // weak
 int giLastHourGlassUpdateTime = 0; // weak
 int TrigX = 0; // idb
 int iCurBottomView = 0; // weak
-int giBottomViewPlayer = 4294967295; // weak
+int dword_50EAA4 = 4294967295; // weak
 __int64 iCurHourGlassPhase = 4294967296i64; // weak
 int gbForceUpdate = 0; // weak
 __int16 word_50EC80 = 296; // weak
@@ -12315,13 +12307,13 @@ char byte_522DB5[451]; // idb
 int viewArmyFacingWIPXMod; // weak
 int iViewArmyUpgradeToType; // weak
 int gbAllowUpgrade; // weak
-__int16 giUARadius; // weak
+__int16 giUltimateArtifactRadius; // weak
 __int16 viewArmyBaseY; // idb
 __int16 viewArmyBaseX; // idb
-__int16 word_522FA0[]; // weak
+__int16 relatedToMinesOrResources[]; // weak
 hero *viewSpellsHero; // idb
-__int16 giUABaseX; // weak
-__int16 giUABaseY; // weak
+__int16 giUltimateArtifactBaseX; // weak
+__int16 giUltimateArtifactBaseY; // weak
 int iViewArmyFrame; // weak
 int gbDismissArmy; // weak
 int iViewArmyType; // weak
@@ -12383,7 +12375,7 @@ int bSpecialHideCursor; // weak
 int giWeekTypeExtra;
 int giThisNetPos; // idb
 resourceManager *gpResourceManager;
-int gbInNewGameSetup; // weak
+int gbInNewGameSetup;
 int gpPhilAI; // idb
 int gbNoSound; // weak
 char gbSetupGamePosToRealGamePos[]; // weak
@@ -12461,7 +12453,7 @@ int gbHumanPlayer[6];
 char gcTCPName[]; // idb
 BYTE gConfig;
 BYTE walkSpeed;
-BYTE Data;
+BYTE giMusicVolume;
 BYTE soundVolume;
 BYTE shouldAutosave;
 BYTE showRoute;
@@ -12549,18 +12541,18 @@ int iLastAnimFrame; // weak
 int giFrameStep; // weak
 int dword_524CD4; // weak
 int dword_524CDC; // weak
-int dword_524CE0; // weak
+int adjacentMonsterUpperBoundY; // weak
 int dword_524CE4; // weak
 int spriteIdx; // idb
 int idx; // idb
-int dword_524CF0; // weak
+int adjacentMonsterX; // weak
 int y; // idb
 int dword_524CF8; // weak
-int dword_524CFC; // weak
+int adjacentMonsterUpperBoundX; // weak
 mapCell *currentlyDrawnMapTile;
 int dword_524D04; // weak
 int dword_524D08; // weak
-int dword_524D0C; // weak
+int adjacentMonsterY; // weak
 int dword_524D10; // idb
 int dword_524D14; // weak
 int giLimitUpdMaxX; // weak
@@ -12577,14 +12569,14 @@ char byte_524DB3; // weak
 char byte_524DC5; // weak
 int dword_524E74; // weak
 int giLimitUpdMinY; // idb
-int dword_524E7C; // weak
+int adjacentMonsterLowerBoundX; // weak
 heroWindow *cPanel; // idb
 int dword_524EA0; // weak
 heroWindow *townPortalWin; // idb
 int dword_524EA8; // weak
 mapCellExtra *currentlyDrawingMapCellExtra;
 char cArmySizeName[]; // idb
-int dword_524EBC; // weak
+int adjacentMonsterLowerBoundY; // weak
 char bSmackNum; // weak
 int gbPlayedThrough; // weak
 char smksum[8]; // idb
@@ -12814,12 +12806,6 @@ int lPaintStart; // weak
 signed int errorCode; // idb
 bool xIsExpansionMap;
 void xCampaign; // idb
-int dword_530454; // weak
-char byte_53045C[]; // idb
-char byte_530464[]; // idb
-char byte_530487[]; // idb
-int dword_530493; // weak
-heroWindow *dword_530497; // idb
 int dword_53049B; // weak
 char xIsPlayingExpansionCampaign; // weak
 int xPasswordStringsIndex[]; // idb
@@ -13735,7 +13721,7 @@ void __thiscall soundManager::CDPlay(soundManager *this, int a2, signed int a3, 
   unsigned __int32 startmsec; // [sp+10h] [bp-18h]@14
 
   thisa = this;
-  if ( !gbNoSound && this->field_69E && *(_DWORD *)&Data )
+  if ( !gbNoSound && this->field_69E && *(_DWORD *)&giMusicVolume )
   {
     if ( a2 == -1 )
     {
@@ -13794,7 +13780,7 @@ void __thiscall soundManager::CDPoll(int ecx0)
   this = ecx0;
   if ( !gbNoSound
     && *(_DWORD *)(ecx0 + 1694)
-    && *(_DWORD *)&Data
+    && *(_DWORD *)&giMusicVolume
     && CDPlaying
     && (signed int)*(_BYTE *)(ecx0 + 1404) >= 0
     && bMusicIsLooping[*(_BYTE *)(ecx0 + 1404)]
@@ -13816,11 +13802,11 @@ int __stdcall soundManager::ConvertVolume(int weight, int ifForMusicThen101)
   res = 0;
   if ( ifForMusicThen101 == 101 )
   {
-    if ( *(_DWORD *)&Data >= 1 )
+    if ( *(_DWORD *)&giMusicVolume >= 1 )
     {
-      if ( *(_DWORD *)&Data <= 10 )
+      if ( *(_DWORD *)&giMusicVolume <= 10 )
       {
-        res = weight * (11 - *(_DWORD *)&Data) / 10;
+        res = weight * (11 - *(_DWORD *)&giMusicVolume) / 10;
         if ( res < 1 )
           res = 1;
       }
@@ -14050,7 +14036,7 @@ int __thiscall soundManager::Open(soundManager *this, int a2)
         }
         else
         {
-          *(_DWORD *)&Data = 0;
+          *(_DWORD *)&giMusicVolume = 0;
           WritePrefs();
         }
       }
@@ -14068,7 +14054,7 @@ int __thiscall soundManager::Open(soundManager *this, int a2)
         }
         else
         {
-          *(_DWORD *)&Data = 0;
+          *(_DWORD *)&giMusicVolume = 0;
           WritePrefs();
         }
       }
@@ -14352,7 +14338,7 @@ void __thiscall soundManager::AdjustMusicVolumes(int this)
 {
   if ( !gbNoSound && *(_DWORD *)(this + 1672) && (signed int)*(_BYTE *)(this + 1404) >= 0 )
   {
-    if ( *(_DWORD *)&Data )
+    if ( *(_DWORD *)&giMusicVolume )
     {
       if ( *(_DWORD *)&useCDMusic )
         soundManager::CDSetVolume((soundManager *)this, -1, 0);
@@ -14395,7 +14381,7 @@ char __thiscall soundManager::SetMusicQuality(int this, int a2)
     result = this;
     if ( *(_DWORD *)(this + 66) )
     {
-      if ( *(_DWORD *)&Data )
+      if ( *(_DWORD *)&giMusicVolume )
       {
         result = this;
         if ( *(_DWORD *)(this + 1694) )
@@ -14440,7 +14426,7 @@ char __thiscall soundManager::PlayAmbientMusic(int this, int track, signed int a
         v4 = *(_BYTE *)(this + offsetof(soundManager, currentTrack));
         if ( v4 != track )
         {
-          if ( *(_DWORD *)&Data )
+          if ( *(_DWORD *)&giMusicVolume )
           {
             if ( *(_DWORD *)&useCDMusic )
               soundManager::CDPlay((soundManager *)this, track, a3, -1, 0);
@@ -14474,7 +14460,7 @@ void __thiscall soundManager::PollSound(soundManager *this)
   {
     if ( *(_DWORD *)&useCDMusic )
       soundManager::CDPoll((int)this);
-    if ( (thisa->_4[0] || thisa->volRelated) && *(_DWORD *)&Data )
+    if ( (thisa->_4[0] || thisa->volRelated) && *(_DWORD *)&giMusicVolume )
     {
       if ( thisa->volRelated > 0 )
       {
@@ -14518,7 +14504,7 @@ void __thiscall soundManager::PollSound(soundManager *this)
           a2 = 0;
         if ( *(_DWORD *)&useCDMusic )
         {
-          a2a = 127 * a2 * (11 - *(_DWORD *)&Data) / 640;
+          a2a = 127 * a2 * (11 - *(_DWORD *)&giMusicVolume) / 640;
           if ( a2a > 127 )
             a2a = 127;
           if ( a2a < 0 )
@@ -14543,7 +14529,7 @@ void __thiscall soundManager::SwitchAmbientMusic(soundManager *this, int track)
 {
   if ( !gbNoSound && this->aiMusicOff )
   {
-    if ( *(_DWORD *)&Data )
+    if ( *(_DWORD *)&giMusicVolume )
     {
       if ( soundManager::MusicPlaying(this) )
       {
@@ -16841,7 +16827,7 @@ recruitUnit *__thiscall recruitUnit::recruitUnit(recruitUnit *this, int a2, int 
   thisa->field_4E = a4;
   thisa->field_36 = 35;
   thisa->army = (armyGroup *)(a2 + 8);
-  thisa->creatureType = gDwellingType[*(_BYTE *)(a2 + 3)][a3];
+  thisa->creatureType = *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(a2 + 3)] + a3);
   thisa->available = a2 + 2 * a3 + 30;
   GetMonsterCost(thisa->creatureType, arr);
   thisa->field_42 = v8;
@@ -16874,7 +16860,7 @@ void __fastcall QuickViewRecruit(town *castle, int dwellingIdx)
   int specialResource; // [sp+48h] [bp-8h]@6
   int creatureType; // [sp+4Ch] [bp-4h]@1
 
-  creatureType = gDwellingType[castle->factionID][dwellingIdx];
+  creatureType = *((_BYTE *)&gDwellingType[0][3 * castle->factionID] + dwellingIdx);
   avail = castle->numCreaturesInDwelling[dwellingIdx];
   GetMonsterCost(creatureType, costs);
   goldCost = costs[6];
@@ -21008,10 +20994,12 @@ signed int __thiscall townManager::Main(int ecx0, GUIMessage *evt)
           {
             *(_DWORD *)(this + 54) = (char *)gpGame
                                    + 100
-                                   * gpCurPlayer->castlesOwned[(getCastleOwnedIdx(gpCurPlayer, **(_BYTE **)(this + 54))
-                                                              + gpCurPlayer->numCastles
-                                                              + ((unsigned int)(evt->fieldID - 903) < 1 ? -1 : 1))
-                                                             % gpCurPlayer->numCastles]
+                                   * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                     + (getCastleOwnedIdx(gpCurPlayer, **(_BYTE **)(this + 54))
+                                      + gpCurPlayer->numCastles
+                                      + ((unsigned int)(evt->fieldID - 903) < 1 ? -1 : 1))
+                                     % gpCurPlayer->numCastles
+                                     + 2)
                                    + 2899;
             townManager::ChangeTown((townManager *)this);
           }
@@ -21361,7 +21349,9 @@ LABEL_124:
             v30 = 0;
             for ( buildingCode = 0; gpCurPlayer->numCastles > buildingCode; ++buildingCode )
             {
-              if ( BYTE1(gpGame->castles[gpCurPlayer->castlesOwned[buildingCode]].buildingsBuiltFlags) & 4 )
+              if ( BYTE1(gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                         + buildingCode
+                                         + 2)].buildingsBuiltFlags) & 4 )
                 ++v30;
             }
             if ( v30 > 10 )
@@ -22530,7 +22520,7 @@ bool __thiscall townManager::RecruitHero(townManager *this, int a2, int a3)
     this->heroBeingRecruited->y = y;
     v5 = this->heroBeingRecruited->flags;
     this->heroBeingRecruited->flags = v5 & 0x600000;
-    HIBYTE(this->heroBeingRecruited->field_2B) = 2;
+    HIBYTE(this->heroBeingRecruited->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = 2;
     this->heroBeingRecruited->remainingMobility = hero::CalcMobility(this->heroBeingRecruited);
     this->heroBeingRecruited->mobility = this->heroBeingRecruited->remainingMobility;
     this->heroBeingRecruited->occupiedObjType = *(&gpGame->map.tiles[x].objType + 12 * y * gpGame->map.width);
@@ -22771,7 +22761,10 @@ void __thiscall townManager::SetupWell(townManager *this, heroWindow *window)
     evt.fieldID = i + 1;
     evt.payload = (void *)((unsigned __int8)dwellingOffsetsForTier[i] + 19);
     heroWindow::BroadcastMessage(window, (tag_message *)&evt);
-    sprintf(gText, "monh%04d.icn", gDwellingType[thisa->castle->factionID][(unsigned __int8)dwellingOffsetsForTier[i]]);
+    sprintf(
+      gText,
+      "monh%04d.icn",
+      *((_BYTE *)&gDwellingType[0][3 * thisa->castle->factionID] + (unsigned __int8)dwellingOffsetsForTier[i]));
     evt.messageType = 9;
     evt.fieldID = i + 13;
     evt.payload = gText;
@@ -22799,14 +22792,18 @@ void __thiscall townManager::SetupWell(townManager *this, heroWindow *window)
       heroWindow::BroadcastMessage(window, (tag_message *)&evt);
     }
     evt.fieldID = i + 19;
-    strcpy(gText, gArmyNamesPlural[gDwellingType[thisa->castle->factionID][(unsigned __int8)dwellingOffsetsForTier[i]]]);
+    strcpy(
+      gText,
+      gArmyNamesPlural[*((_BYTE *)&gDwellingType[0][3 * thisa->castle->factionID]
+                       + (unsigned __int8)dwellingOffsetsForTier[i])]);
     gText[0] -= 32;
     evt.payload = gText;
     heroWindow::BroadcastMessage(window, (tag_message *)&evt);
   }
   for ( i = 0; i < 6; ++i )
   {
-    v3 = &gMonsterDatabase[gDwellingType[thisa->castle->factionID][(unsigned __int8)dwellingOffsetsForTier[i]]];
+    v3 = &gMonsterDatabase[*((_BYTE *)&gDwellingType[0][3 * thisa->castle->factionID]
+                           + (unsigned __int8)dwellingOffsetsForTier[i])];
     memcpy(&v6, v3, 0x18u);
     v6._ = v3->_;
     strcpy(gText, byte_4EF150);
@@ -22827,10 +22824,12 @@ void __thiscall townManager::SetupWell(townManager *this, heroWindow *window)
     strcat(gText, &a2);
     if ( (1 << (dwellingOffsetsForTier[i] + 19)) & thisa->castle->buildingsBuiltFlags )
     {
-      v5 = gMonsterDatabase[gDwellingType[thisa->castle->factionID][(unsigned __int8)dwellingOffsetsForTier[i]]].growth
+      v5 = gMonsterDatabase[*((_BYTE *)&gDwellingType[0][3 * thisa->castle->factionID]
+                            + (unsigned __int8)dwellingOffsetsForTier[i])].growth
          + 2;
       if ( !i && BYTE1(thisa->castle->buildingsBuiltFlags) & 8 )
-        v5 = gMonsterDatabase[gDwellingType[thisa->castle->factionID][(unsigned __int8)dwellingOffsetsForTier[i]]].growth
+        v5 = gMonsterDatabase[*((_BYTE *)&gDwellingType[0][3 * thisa->castle->factionID]
+                              + (unsigned __int8)dwellingOffsetsForTier[i])].growth
            + 10;
       sprintf(&a2, off_4F6528, v5);
       strcat(gText, &a2);
@@ -23109,7 +23108,9 @@ int __stdcall townManager::SetupThievesGuild(heroWindow *window, int strength)
             v41 = 0;
             for ( skill = 0; gpGame->players[j].numCastles > (signed int)skill; ++skill )
             {
-              v51 = &gpGame->castles[gpGame->players[j].castlesOwned[skill]];
+              v51 = &gpGame->castles[*((_BYTE *)&gpGame->players[j].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                     + skill
+                                     + 2)];
               for ( k = 0; k < 5; ++k )
               {
                 if ( v51->garrison.creatureTypes[k] != -1
@@ -23263,8 +23264,16 @@ void __fastcall GetCategoryStats(int row, int *playerStats, char *playerIndices)
                     0);
           for ( n = 0; gpGame->players[playerIdx].numCastles > n; ++n )
           {
-            this = &gpGame->castles[*(&gpGame->players[0].castlesOwned[284 * playerIdx] + n - playerIdx)];
-            if ( town::HasGarrison(&gpGame->castles[*(&gpGame->players[0].castlesOwned[284 * playerIdx] + n - playerIdx)]) )
+            this = &gpGame->castles[*((_BYTE *)&gpGame->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                    + 284 * playerIdx
+                                    + n
+                                    - playerIdx
+                                    + 2)];
+            if ( town::HasGarrison(&gpGame->castles[*((_BYTE *)&gpGame->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                                    + 284 * playerIdx
+                                                    + n
+                                                    - playerIdx
+                                                    + 2)]) )
               v6 += philAI::FightValueOfStack(&this->garrison, 0, 0, 0, 0, 0);
           }
           playerAmt[playerIdx] = v6;
@@ -23317,7 +23326,7 @@ signed int __thiscall playerData::Write(playerData *this, int fd)
   _write(fd, this, 1);
   _write(fd, &this->numHeroes, 1);
   _write(fd, &this->curHeroIdx, 1);
-  _write(fd, &this->field_3, 1);
+  _write(fd, &this->relatedToSomeSortOfHeroCountOrIdx, 1);
   _write(fd, this->heroesOwned, 8);
   _write(fd, this->heroesForPurchase, 2);
   memset(&v4, 0, 0x30u);
@@ -23325,16 +23334,16 @@ signed int __thiscall playerData::Write(playerData *this, int fd)
   _write(fd, &gpGame->_B[1], 1);
   _write(fd, this->_3, 1);
   _write(fd, &this->personality, 4);
-  _write(fd, &this->_2, 1);
-  _write(fd, &this->_4_1, 1);
+  _write(fd, &this->relatedToMaxOrNumHeroes, 1);
+  _write(fd, &this->hasEvilFaction, 1);
   _write(fd, &this->field_40, 1);
   _write(fd, &this->field_41, 1);
   _write(fd, (char *)&this->field_41 + 1, 1);
-  _write(fd, &this->field_43, 1);
+  _write(fd, &this->daysLeftWithoutCastle, 1);
   _write(fd, &this->numCastles, 1);
-  _write(fd, &this->field_45, 1);
-  _write(fd, (char *)&this->field_45 + 1, 1);
-  _write(fd, this->castlesOwned, 72);
+  _write(fd, &this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx, 1);
+  _write(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 1, 1);
+  _write(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 2, 72);
   _write(fd, this->resources, 28);
   _write(fd, this->field_E7, 28);
   _write(fd, &this->barrierTentsVisited, 1);
@@ -23350,23 +23359,23 @@ signed int __thiscall playerData::Read(playerData *this, int fd)
   _read(fd, this, 1u);
   _read(fd, &this->numHeroes, 1u);
   _read(fd, &this->curHeroIdx, 1u);
-  _read(fd, &this->field_3, 1u);
+  _read(fd, &this->relatedToSomeSortOfHeroCountOrIdx, 1u);
   _read(fd, this->heroesOwned, 8u);
   _read(fd, this->heroesForPurchase, 2u);
   _read(fd, &v4, 0x2Au);
   _read(fd, &gpGame->_B[1], 1u);
   _read(fd, this->_3, 1u);
   _read(fd, &this->personality, 4u);
-  _read(fd, &this->_2, 1u);
-  _read(fd, &this->_4_1, 1u);
+  _read(fd, &this->relatedToMaxOrNumHeroes, 1u);
+  _read(fd, &this->hasEvilFaction, 1u);
   _read(fd, &this->field_40, 1u);
   _read(fd, &this->field_41, 1u);
   _read(fd, (char *)&this->field_41 + 1, 1u);
-  _read(fd, &this->field_43, 1u);
+  _read(fd, &this->daysLeftWithoutCastle, 1u);
   _read(fd, &this->numCastles, 1u);
-  _read(fd, &this->field_45, 1u);
-  _read(fd, (char *)&this->field_45 + 1, 1u);
-  _read(fd, this->castlesOwned, 0x48u);
+  _read(fd, &this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx, 1u);
+  _read(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 1, 1u);
+  _read(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 2, 0x48u);
   _read(fd, this->resources, 0x1Cu);
   _read(fd, this->field_E7, 0x1Cu);
   _read(fd, &this->barrierTentsVisited, 1u);
@@ -23516,7 +23525,7 @@ char __fastcall ComputeUALoc(int a1)
 
   playerNo = a1;
   v13 = game::SetupPuzzlePieces(gpGame, a1, 1);
-  if ( v13 >= 8 && gpGame->field_6397 != -1 )
+  if ( v13 >= 8 && gpGame->ultimateArtifactIdx != -1 )
   {
     v12 = 4 * v13 - 32;
     if ( v12 > 100 )
@@ -23544,17 +23553,17 @@ char __fastcall ComputeUALoc(int a1)
           v2 = 3 - Random(0, 2);
           v3 = v2 - Random(0, 2);
         }
-        v8 = i + gpGame->field_6395;
+        v8 = i + gpGame->utimateArtifactLocX;
         for ( j = 0; !j; j = v5 - Random(0, 2) )
         {
           v4 = 3 - Random(0, 2);
           v5 = v4 - Random(0, 2);
         }
-        v7 = j + gpGame->field_6396;
+        v7 = j + gpGame->utimateArtifactLocY;
         if ( v9 >= 200 )
         {
-          LOBYTE(v8) = gpGame->field_6395;
-          LOBYTE(v7) = gpGame->field_6396;
+          LOBYTE(v8) = gpGame->utimateArtifactLocX;
+          LOBYTE(v7) = gpGame->utimateArtifactLocY;
           break;
         }
       }
@@ -23564,8 +23573,8 @@ char __fastcall ComputeUALoc(int a1)
     }
     else
     {
-      LOBYTE(gpGame->players[playerNo].field_41) = gpGame->field_6395;
-      result = gpGame->field_6396;
+      LOBYTE(gpGame->players[playerNo].field_41) = gpGame->utimateArtifactLocX;
+      result = gpGame->utimateArtifactLocY;
       HIBYTE(gpGame->players[playerNo].field_41) = result;
     }
   }
@@ -23615,7 +23624,7 @@ int __thiscall game::SetupPuzzlePieces(game *this, int playerNo, int isAi)
   else
   {
     memset(&puzzlePiecesRemoved, 0, 6u);
-    SRand(3 * this->players[playerNo]._4_1 + this->players[playerNo].color);
+    SRand(3 * this->players[playerNo].hasEvilFaction + this->players[playerNo].color);
     for ( j = 0; j < numToReveala; ++j )
     {
       for ( l = 0; (signed int)l < 48 && BitTest((char *)&puzzlePiecesRemoved, l); l += SRandom(1, 5) )
@@ -23723,22 +23732,22 @@ signed int __thiscall game::Scan(game *this, signed __int8 *a1, int start, int l
 }
 
 //----- (004199F0) --------------------------------------------------------
-signed int __stdcall game::RandomScan(int a1, int a2, int a3, int a4, char a5)
+signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, char a5)
 {
   signed int i; // [sp+10h] [bp-8h]@1
-  int v7; // [sp+14h] [bp-4h]@3
+  int randomVal; // [sp+14h] [bp-4h]@3
 
   for ( i = 0; i < 10000; ++i )
   {
-    v7 = Random(0, a3 - 1) + a2;
-    if ( *(_BYTE *)(v7 + a1) == a5 )
-      return v7;
+    randomVal = Random(0, maxIndex - 1) + minVal;
+    if ( *(_BYTE *)(randomVal + a1) == a5 )
+      return randomVal;
   }
   return -1;
 }
 
 //----- (00419A70) --------------------------------------------------------
-int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero) // Check this function
+int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero)
 {
   signed int tries; // [sp+14h] [bp-10h]@1
   int heroIdx; // [sp+20h] [bp-4h]@1
@@ -23752,7 +23761,7 @@ int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction,
     if ( this->relatedToHeroForHireStatus[heroIdx] == -1 || this->relatedToHeroForHireStatus[heroIdx] == 64 )
     {
       if ( (this->relatedToHeroForHireStatus[heroIdx] != 64 || tries >= 1500)
-        && (faction < 0 || faction > 5 || tries >= 100 || this->heroes[heroIdx].factionID == faction) // Constant here (for faction)
+        && (faction < 0 || faction > 5 || tries >= 100 || this->heroes[heroIdx].factionID == faction)// Constant here
         && (!getPowerfulHero
          || tries >= 40
          || this->heroes[heroIdx].experience >= 1000
@@ -23897,7 +23906,7 @@ signed int __thiscall game::SaveGame(game *ecx0, const char *saveFile, int autos
   _write(fd, &ecx0->map.width, 4);
   _write(fd, &ecx0->map.height, 4);
   _write(fd, &ecx0->mapHeader, 420);
-  _write(fd, &ecx0->field_44D, 65);
+  _write(fd, ecx0->relatedToPlayerPosAndColor, 65);
   _write(fd, &gbIAmGreatest, 1);
   _write(fd, ecx0, 2);
   _write(fd, &giMonthType, 1);
@@ -23917,7 +23926,7 @@ signed int __thiscall game::SaveGame(game *ecx0, const char *saveFile, int autos
   {
     _write(fd, &gbInCampaign, 4);
     if ( gbInCampaign )
-      _write(fd, &ecx0->field_2, 327);
+      _write(fd, &ecx0->relatedToCurViewSideOrCampaign, 327);
   }
   if ( !baseGame )
     _write(fd, &xIsExpansionMap, 1);
@@ -23958,9 +23967,9 @@ signed int __thiscall game::SaveGame(game *ecx0, const char *saveFile, int autos
   _write(fd, ecx0->boats, 384);
   _write(fd, ecx0->boatBuilt, 48);
   _write(fd, ecx0->obeliskVisitedMasks, 48);
-  _write(fd, &ecx0->field_6395, 1);
-  _write(fd, &ecx0->field_6396, 1);
-  _write(fd, &ecx0->field_6397, 1);
+  _write(fd, &ecx0->utimateArtifactLocX, 1);
+  _write(fd, &ecx0->utimateArtifactLocY, 1);
+  _write(fd, &ecx0->ultimateArtifactIdx, 1);
   _write(fd, ecx0->currentRumor, 301);
   _write(fd, ecx0->field_637D, 24);
   _write(fd, &ecx0->numRumors, 4);
@@ -24047,11 +24056,11 @@ int __thiscall game::SetupOrigData(game *this)
     this->players[i].color = i;
     this->players[i].numHeroes = 0;
     this->players[i].numCastles = 0;
-    this->players[i].field_43 = -1;
+    this->players[i].daysLeftWithoutCastle = -1;
     this->players[i]._3[0] = 0;
     memset(this->players[i].heroesForPurchase, 0xFFu, 2u);
     memset(this->players[i].heroesOwned, 0xFFu, 8u);
-    memset(this->players[i].castlesOwned, 0xFFu, 0x48u);
+    memset((char *)&this->players[i].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 2, 0xFFu, 0x48u);
   }
   this->numObelisks = 0;
   gpAdvManager->heroMobilized = 0;
@@ -24061,12 +24070,12 @@ int __thiscall game::SetupOrigData(game *this)
     memset(&this->heroes[j], 0, 0xFAu);
     memset(this->heroes[j].spellsLearned, 0, 0x41u);
     memset(this->heroes[j].artifacts, 0xFFu, 0xEu);
-    HIBYTE(this->heroes[j].field_29) = -1;
-    LOBYTE(this->heroes[j].field_29) = HIBYTE(this->heroes[j].field_29);
+    HIBYTE(this->heroes[j].relatedTo_HIBYTE_y_LOBYTE_x) = -1;
+    LOBYTE(this->heroes[j].relatedTo_HIBYTE_y_LOBYTE_x) = HIBYTE(this->heroes[j].relatedTo_HIBYTE_y_LOBYTE_x);
     this->heroes[j].idx = j;
     this->heroes[j].heroID = j;
     this->heroes[j].ownerIdx = -1;
-    HIBYTE(this->heroes[j].field_2B) = 2;
+    HIBYTE(this->heroes[j].relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = 2;
     strcpy(this->heroes[j].name, (&gHeroDefaultNames)[4 * j]);
     this->heroes[j].factionID = j / 9;
     for ( k = 0; k < 5; ++k )
@@ -24137,8 +24146,8 @@ int __thiscall game::SetupOrigData(game *this)
   }
   memset(this->field_27BB, 0, 9u);
   memset(this->boatBuilt, 0xFFu, 0x30u);
-  this->field_6396 = -1;
-  this->field_6395 = this->field_6396;
+  this->utimateArtifactLocY = -1;
+  this->utimateArtifactLocX = this->utimateArtifactLocY;
   memset(this->obeliskVisitedMasks, 0, 0x30u);
   strcpy(gpGame->lastSaveFile, "NEWGAME");
   giCurPlayer = 0;
@@ -24207,7 +24216,7 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
     _read(fd, &buf, 4u);
     game::SetMapSize(ecx0, firstByte, buf);
     _read(fd, &ecx0->mapHeader, sizeof(SMapHeader));
-    _read(fd, &ecx0->field_44D, 65u);
+    _read(fd, ecx0->relatedToPlayerPosAndColor, 65u);
     _read(fd, &gbIAmGreatest, 1u);
     _read(fd, ecx0, 2u);
     _read(fd, &giMonthType, 1u);
@@ -24219,7 +24228,7 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
     _read(fd, &gbInCampaign, 4u);
     if ( gbInCampaign == 1 )
     {
-      _read(fd, &ecx0->field_2, 0x147u);
+      _read(fd, &ecx0->relatedToCurViewSideOrCampaign, 0x147u);
     }
     else if ( gbInCampaign == 2 )
     {
@@ -24281,9 +24290,9 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
     _read(fd, ecx0->boats, 0x180u);
     _read(fd, ecx0->boatBuilt, 0x30u);
     _read(fd, ecx0->obeliskVisitedMasks, 0x30u);
-    _read(fd, &ecx0->field_6395, 1u);
-    _read(fd, &ecx0->field_6396, 1u);
-    _read(fd, &ecx0->field_6397, 1u);
+    _read(fd, &ecx0->utimateArtifactLocX, 1u);
+    _read(fd, &ecx0->utimateArtifactLocY, 1u);
+    _read(fd, &ecx0->ultimateArtifactIdx, 1u);
     _read(fd, ecx0->currentRumor, 301u);
     _read(fd, ecx0->field_637D, 0x18u);
     _read(fd, &ecx0->numRumors, 4u);
@@ -24342,55 +24351,56 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
 // 41B5F0: using guessed type char hasPlayer[12];
 
 //----- (0041C0E0) --------------------------------------------------------
-void __thiscall game::GiveTroopsToNeutralTown(game *this, int castleIdx) // Check this function
+// Check this function (design question)
+void __thiscall game::GiveTroopsToNeutralTown(game *this, int castleIdx)
 {
   int randomQuantity; // [sp+18h] [bp-14h]@7
   int quantity; // [sp+18h] [bp-14h]@15
-  signed int factionOffset; // [sp+1Ch] [bp-10h]@7
+  signed int creatureTier; // [sp+1Ch] [bp-10h]@7
   int creatureType; // [sp+24h] [bp-8h]@0
-  int v7; // [sp+28h] [bp-4h]@4
+  int creatureQtyAndIdxRandomizer; // [sp+28h] [bp-4h]@4
 
   if ( (this->castles[castleIdx].x > 0 || this->castles[castleIdx].y > 0) && this->castles[castleIdx].ownerIdx < 0 )
   {
-    v7 = Random(1, 15);
+    creatureQtyAndIdxRandomizer = Random(1, 15);
     if ( giCurTurn / 10 )
-      v7 += Random(0, giCurTurn / 10);
-    if ( v7 > 5 )
+      creatureQtyAndIdxRandomizer += Random(0, giCurTurn / 10);// As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
+    if ( creatureQtyAndIdxRandomizer > 5 )
     {
-      if ( v7 > 10 )
+      if ( creatureQtyAndIdxRandomizer > 10 )
       {
-        if ( v7 > 13 )
+        if ( creatureQtyAndIdxRandomizer > 13 )
         {
-          if ( v7 > 15 )
+          if ( creatureQtyAndIdxRandomizer > 15 )
           {
-            factionOffset = 50;
+            creatureTier = 50;
             randomQuantity = 1;
           }
           else
           {
-            factionOffset = 40;
+            creatureTier = 40;
             randomQuantity = Random(1, 3);
           }
         }
         else
         {
-          factionOffset = 30;
+          creatureTier = 30;
           randomQuantity = Random(3, 5);
         }
       }
       else
       {
-        factionOffset = 20;
+        creatureTier = 20;
         randomQuantity = Random(5, 7);
       }
     }
     else
     {
-      factionOffset = 10;
+      creatureTier = 10;
       randomQuantity = Random(8, 15);
     }
     quantity = giCurTurn / 20 + randomQuantity;
-    switch ( factionOffset + this->castles[castleIdx].factionID )
+    switch ( creatureTier + this->castles[castleIdx].factionID )// Constant here (Lots of faction-specific stuff here; design question); new creatures would need to be hardcoded or have a default case added; new factions would need more logic accounting for them as well; this entire thing should be a design question
     {
       case 10:
         creatureType = CREATURE_PEASANT;
@@ -24526,38 +24536,38 @@ void __thiscall game::GiveTroopsToNeutralTowns(game *this)
 }
 
 //----- (0041C580) --------------------------------------------------------
-void __thiscall game::NewMap(game *this, char *name) // Check this function
+void __thiscall game::NewMap(game *this, char *name)
 {
-  int v2; // eax@105
-  int v3; // ST74_4@110
-  int v4; // ST6C_4@110
-  mapCell *v5; // ST34_4@110
-  int v6; // ebx@116
-  int v7; // ebx@116
-  int v8; // ebx@126
-  int v9; // ebx@137
-  int v10; // ebx@137
-  int v11; // ecx@158
-  int v12; // ecx@164
-  double v14; // [sp+14h] [bp-68h]@151
-  int v15; // [sp+1Ch] [bp-60h]@133
-  int v16; // [sp+20h] [bp-5Ch]@130
-  int v17; // [sp+2Ch] [bp-50h]@171
-  char *a2; // [sp+30h] [bp-4Ch]@0
-  char v19; // [sp+34h] [bp-48h]@0
-  signed int v20; // [sp+38h] [bp-44h]@76
-  signed int v21; // [sp+38h] [bp-44h]@90
-  signed int j; // [sp+3Ch] [bp-40h]@78
-  signed int k; // [sp+3Ch] [bp-40h]@95
-  signed int v24; // [sp+44h] [bp-38h]@53
-  int v25; // [sp+4Ch] [bp-30h]@7
+  int mightBeOffsetForNextFaction; // eax@105
+  int heroLocationX; // ST74_4@110
+  int heroLocationY; // ST6C_4@110
+  mapCell *heroCell; // ST34_4@110
+  int randomVal1; // ebx@116
+  int randomVal2; // ebx@116
+  int distanceYBetweenUltimateArtifactAndHero; // ebx@126
+  int randomVal4; // ebx@137
+  int randomVal5; // ebx@137
+  int lossConditionArgumentLocX; // ecx@158
+  int relatedToWinConditionLocX; // ecx@164
+  double resourceMultiplierFromHandicap; // [sp+14h] [bp-68h]@151
+  int ultimateArtifactLocYRadiusOffset; // [sp+1Ch] [bp-60h]@133
+  int ultimateArtifactLocXRadiusOffset; // [sp+20h] [bp-5Ch]@130
+  int playerIdxnFaction; // [sp+2Ch] [bp-50h]@171
+  char *expansionCampaignHeroName; // [sp+30h] [bp-4Ch]@0
+  char expansionCampaignHeroID; // [sp+34h] [bp-48h]@0
+  FACTION factionSorceressOrNecromancer; // [sp+38h] [bp-44h]@76
+  signed int probablyFaction; // [sp+38h] [bp-44h]@90
+  signed int heroIdxA; // [sp+3Ch] [bp-40h]@78
+  signed int heroIdxB; // [sp+3Ch] [bp-40h]@95
+  signed int someSortOfCastleIdxOrRelatedToCastles; // [sp+44h] [bp-38h]@53
+  int relatedToLastMsgNumHumanPlayers; // [sp+4Ch] [bp-30h]@7
   signed int faction; // [sp+50h] [bp-2Ch]@87
   int numPlayers; // [sp+54h] [bp-28h]@42
   signed int numPlayersa; // [sp+54h] [bp-28h]@57
   signed int numPlayersb; // [sp+54h] [bp-28h]@108
-  int numPlayersc; // [sp+54h] [bp-28h]@116
-  signed int numPlayersd; // [sp+54h] [bp-28h]@148
-  signed int numPlayerse; // [sp+54h] [bp-28h]@188
+  int ultimateArtifactLocY; // [sp+54h] [bp-28h]@116
+  RESOURCE_CONSTANTS resourceType; // [sp+54h] [bp-28h]@148
+  signed int castlesOwnedIdx; // [sp+54h] [bp-28h]@188
   signed int playerIdx; // [sp+58h] [bp-24h]@7
   signed int playerIdxa; // [sp+58h] [bp-24h]@15
   signed int playerIdxb; // [sp+58h] [bp-24h]@20
@@ -24570,19 +24580,19 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
   signed int playerIdxi; // [sp+58h] [bp-24h]@51
   int playerIdxj; // [sp+58h] [bp-24h]@69
   signed int playerIdxk; // [sp+58h] [bp-24h]@106
-  int playerIdxl; // [sp+58h] [bp-24h]@116
+  int ultimateArtifactLocX; // [sp+58h] [bp-24h]@116
   signed int playerIdxm; // [sp+58h] [bp-24h]@144
   signed int playerIdxn; // [sp+58h] [bp-24h]@169
-  int v48; // [sp+5Ch] [bp-20h]@158
-  int v49; // [sp+5Ch] [bp-20h]@164
-  signed int v50; // [sp+60h] [bp-1Ch]@116
-  int v51; // [sp+68h] [bp-14h]@7
-  int v52; // [sp+6Ch] [bp-10h]@1
-  signed int i; // [sp+74h] [bp-8h]@55
-  int v54; // [sp+78h] [bp-4h]@116
+  int lossConditionArgumentLocY; // [sp+5Ch] [bp-20h]@158
+  int relatedToWinConditionLocY; // [sp+5Ch] [bp-20h]@164
+  signed int someSortOfLoopCount; // [sp+60h] [bp-1Ch]@116
+  int relatedToPlayerColor; // [sp+68h] [bp-14h]@7
+  int lastToken; // [sp+6Ch] [bp-10h]@1
+  signed int goesFrom0To1; // [sp+74h] [bp-8h]@55
+  int randomVal3; // [sp+78h] [bp-4h]@116
 
-  v52 = FindLastToken(gMapName, 46);
-  if ( v52 && StrEqNoCase((int *)(v52 + 1), (int *)"MX2") )
+  lastToken = FindLastToken(gMapName, 46);
+  if ( lastToken && StrEqNoCase((int *)(lastToken + 1), (int *)"MX2") )
     LOBYTE(xIsExpansionMap) = 1;
   if ( xIsExpansionMap )
     gTownEligibleBuildMask[5] |= 4u;
@@ -24594,14 +24604,14 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
   giCurPlayerBit = 1;
   giCurWatchPlayerBit = 1;
   giCurWatchPlayer = 0;
-  v51 = Random(0, 5); // Constant here (related to player colors)
-  v25 = iLastMsgNumHumanPlayers;
+  relatedToPlayerColor = Random(0, 5);          // Constant here (related to player colors)
+  relatedToLastMsgNumHumanPlayers = iLastMsgNumHumanPlayers;
   for ( playerIdx = 0; playerIdx < 6; ++playerIdx )
   {
     if ( gpGame->mapHeader.numPlayers > playerIdx )
     {
       if ( this->somePlayerCodeOr10IfMayBeHuman[playerIdx] == 10 )
-        gbSetupGamePosToRealGamePos[playerIdx] = v25++;
+        gbSetupGamePosToRealGamePos[playerIdx] = relatedToLastMsgNumHumanPlayers++;
       else
         gbSetupGamePosToRealGamePos[playerIdx] = this->somePlayerCodeOr10IfMayBeHuman[playerIdx];
     }
@@ -24615,44 +24625,44 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
     this->players[playerIdxa].color = -1;
     gcColorToPlayerPos[playerIdxa] = -1;
     gcColorToSetupPos[playerIdxa] = -1;
-    if ( gpGame->field_459[playerIdxa] == 7 )
-      gpGame->field_459[playerIdxa] = v51;
-    v51 = (v51 + 1) % 6; // Constant here (related to player colors)
+    if ( gpGame->relatedToColorOfPlayerOrFaction[playerIdxa] == 7 )// gpGame->field_459 changed to relatedToColorOfPlayerOrFaction
+      gpGame->relatedToColorOfPlayerOrFaction[playerIdxa] = relatedToPlayerColor;
+    relatedToPlayerColor = (relatedToPlayerColor + 1) % 6;// Constant here (related to next player color)
   }
   for ( playerIdxb = 0; this->numPlayers > playerIdxb; ++playerIdxb )
-    gcColorToSetupPos[*((_BYTE *)&this->field_44D + playerIdxb)] = playerIdxb;
+    gcColorToSetupPos[this->relatedToPlayerPosAndColor[playerIdxb]] = playerIdxb;// field_44D changed to relatedToPlayerPosAndColor
   for ( playerIdxc = 0; this->numPlayers > playerIdxc; ++playerIdxc )
-    this->players[gbSetupGamePosToRealGamePos[playerIdxc]].color = *((_BYTE *)&this->field_44D + playerIdxc);
+    this->players[gbSetupGamePosToRealGamePos[playerIdxc]].color = this->relatedToPlayerPosAndColor[playerIdxc];
   for ( playerIdxd = 0; this->numPlayers > playerIdxd; ++playerIdxd )
     gcColorToPlayerPos[this->players[playerIdxd].color] = playerIdxd;
   for ( playerIdxe = 0; this->numPlayers > playerIdxe; ++playerIdxe )
   {
     this->players[playerIdxe].numCastles = 0;
-    HIBYTE(this->players[playerIdxe].field_45) = 0;
-    LOBYTE(this->players[playerIdxe].field_45) = -1;
+    BYTE1(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = 0;// playerData->field_45 changed to relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+    LOBYTE(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = -1;// Consider splitting this into multiple variables
     this->players[playerIdxe].numHeroes = 0;
-    this->players[playerIdxe].field_3 = 0;
+    this->players[playerIdxe].relatedToSomeSortOfHeroCountOrIdx = 0;// field_3 changed to relatedToSomeSortOfHeroCountOrIdx
     this->players[playerIdxe].curHeroIdx = -1;
   }
-  game::RandomizeHeroPool(this); // Check this function
+  game::RandomizeHeroPool(this);                // Check this function (design question; hardcoded, faction-specific data; SetupRandomHeroArmies does this as well)
   strcpy(gMapName, name);
   game::LoadMap(this, gMapName);
   game::InitRandomArtifacts(this);
-  game::ProcessRandomObjects(this); // Check this function
-  game::ProcessMapExtra(this); // Check this function (less likely)
-  game::SetupTowns(this); // Check this function
+  game::ProcessRandomObjects(this);             // Check this function (Creature limit constants; within RandomizeTown: faction limit constants)
+  game::ProcessMapExtra(this);
+  game::SetupTowns(this);                       // Check this function (design question; as the faction Idx increases, the chances of getting certain spells increases; this happens because faction ordering represents their aptitudes for magic)
   game::InitializePasswords();
   for ( playerIdxf = 0; playerIdxf < 6; ++playerIdxf )
     this->players[playerIdxf].barrierTentsVisited = 0;
   game::RandomizeEvents(this);
-  game::ProcessOnMapHeroes(this); // Check this function
+  game::ProcessOnMapHeroes(this);               // Check this function (design question; the game depends on the mathematical relationships between the number of heroes and factions in order to properly execute logic here; there is also no default case to be generalized)
   this->couldBeNumDefeatedPlayers = 0;
   for ( playerIdxg = this->numPlayers; playerIdxg < 6; ++playerIdxg )
     this->playerDead[playerIdxg] = 1;
   if ( this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
     || this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_HERO )
   {
-    this->mapHeader.field_1E = 1;
+    this->mapHeader.relatedToWinConditionType = 1;
     this->mapHeader.allowDefeatAllVictory = 0;
   }
   if ( this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR )
@@ -24662,46 +24672,53 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
     {
       if ( this->mapHeader.hasPlayer[playerIdxh] )
         ++numPlayers;
-      if ( this->mapHeader.winConditionArgument + 1 == numPlayers )
+      if ( this->mapHeader.winConditionArgumentOrLocX + 1 == numPlayers )
       {
-        HIWORD(this->mapHeader.field_2E) = playerIdxh;
+        HIWORD(this->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) = playerIdxh;
         playerIdxh = 99;
       }
     }
   }
-  if ( this->mapHeader.winConditionType == 3 )
-    this->mapHeader.field_1E = 1;
+  if ( this->mapHeader.winConditionType == WIN_CONDITION_FIND_ARTIFACT )
+    this->mapHeader.relatedToWinConditionType = 1;// field_1E changed to relatedToWinConditionType
   for ( playerIdxi = 0; this->numPlayers > playerIdxi; ++playerIdxi )
   {
     this->players[playerIdxi].field_40 = 0;
     LOBYTE(this->players[playerIdxi].field_41) = -1;
-    HIBYTE(this->players[playerIdxi].field_41) = -1;
-    v24 = -1;
+    HIBYTE(this->players[playerIdxi].field_41) = -1;// Consider splitting this into multiple variables
+    someSortOfCastleIdxOrRelatedToCastles = -1;
     if ( !this->mapHeader.noStartingHeroInCastle && this->players[playerIdxi].numCastles > 0 )
     {
-      for ( i = 0; i < 2; ++i )
+      for ( goesFrom0To1 = 0; goesFrom0To1 < 2; ++goesFrom0To1 )
       {
         for ( numPlayersa = 0; this->players[playerIdxi].numCastles > numPlayersa; ++numPlayersa )
         {
-          if ( v24 == -1
-            && this->castles[this->players[playerIdxi].castlesOwned[numPlayersa]].visitingHeroIdx == -1
-            && (this->castles[this->players[playerIdxi].castlesOwned[numPlayersa]].buildingsBuiltFlags & 0x40 || i == 1) )
-            v24 = numPlayersa;
+          if ( someSortOfCastleIdxOrRelatedToCastles == -1
+            && this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                             + numPlayersa
+                             + 2)].visitingHeroIdx == -1
+            && (this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                              + numPlayersa
+                              + 2)].buildingsBuiltFlags & 0x40
+             || goesFrom0To1 == 1) )
+            someSortOfCastleIdxOrRelatedToCastles = numPlayersa;
         }
       }
     }
-    if ( v24 != -1 )
+    if ( someSortOfCastleIdxOrRelatedToCastles != -1 )
     {
-      *(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi) = game::GetNewHeroId(this, playerIdxi, this->castles[this->players[playerIdxi].castlesOwned[v24]].factionID, 0); // Check this function
+      *(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi) = game::GetNewHeroId(this, playerIdxi, this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].factionID, 0);// Constant here (within GetNewHeroId)
       this->relatedToHeroForHireStatus[*(&this->players[0].heroesOwned[284 * playerIdxi]
                                        + this->players[playerIdxi].numHeroes
-                                       - playerIdxi)] = playerIdxi;
+                                       - playerIdxi)] = playerIdxi;// 283 is playerData object size; players[6] is array of playerData. There is lots of unnecessary pointer arithmetic here that could just be replaced by using the indices for the elements in the array within the array brackets.
       this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].ownerIdx = playerIdxi;
-      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].x = this->castles[this->players[playerIdxi].castlesOwned[v24]].x;
-      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].y = this->castles[this->players[playerIdxi].castlesOwned[v24]].y;
-      this->castles[this->players[playerIdxi].castlesOwned[v24]].visitingHeroIdx = *(&this->players[0].heroesOwned[284 * playerIdxi]
-                                                                                   + this->players[playerIdxi].numHeroes
-                                                                                   - playerIdxi);
+      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].x = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].x;
+      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].y = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].y;
+      this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                    + someSortOfCastleIdxOrRelatedToCastles
+                    + 2)].visitingHeroIdx = *(&this->players[0].heroesOwned[284 * playerIdxi]
+                                            + this->players[playerIdxi].numHeroes
+                                            - playerIdxi);
       game::SetVisibility(
         this,
         this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes
@@ -24715,129 +24732,143 @@ void __thiscall game::NewMap(game *this, char *name) // Check this function
   }
   for ( playerIdxj = 0; this->numPlayers > playerIdxj; ++playerIdxj )
   {
-    if ( playerIdxj || !gbInCampaign || !this->field_7F && !this->field_84 )
+    if ( playerIdxj || !gbInCampaign || !this->maybeIsGoodCampaign && !this->field_84 )// this->field_7F changed to maybeIsGoodCampaign
       goto LABEL_195;
-    v20 = this->field_7F ? 2 : 5;
-    for ( j = 0; j < 54 && (this->heroes[j].factionID != v20 || this->relatedToHeroForHireStatus[j] != -1); ++j )
+    factionSorceressOrNecromancer = this->maybeIsGoodCampaign ? FACTION_SORCERESS : FACTION_NECROMANCER;
+    for ( heroIdxA = 0;
+          heroIdxA < 54
+       && (this->heroes[heroIdxA].factionID != factionSorceressOrNecromancer
+        || this->relatedToHeroForHireStatus[heroIdxA] != -1);
+          ++heroIdxA )
       ;
-    if ( j < 54 )
+    if ( heroIdxA < 54 )
     {
-      if ( this->field_7F )
+      if ( this->maybeIsGoodCampaign )
       {
-        this->heroes[j].experience += 5000;
-        hero::CheckLevel(&this->heroes[j]);
-        strcpy(this->heroes[j].name, "Sister Eliza");
-        this->heroes[j].heroID = 56;
+        this->heroes[heroIdxA].experience += 5000;
+        hero::CheckLevel(&this->heroes[heroIdxA]);
+        strcpy(this->heroes[heroIdxA].name, "Sister Eliza");
+        this->heroes[heroIdxA].heroID = 56;
       }
       else
       {
-        this->heroes[j].experience += 5000;
-        hero::CheckLevel(&this->heroes[j]);
-        strcpy(this->heroes[j].name, "Brother Brax");
-        this->heroes[j].heroID = 59;
+        this->heroes[heroIdxA].experience += 5000;
+        hero::CheckLevel(&this->heroes[heroIdxA]);
+        strcpy(this->heroes[heroIdxA].name, "Brother Brax");
+        this->heroes[heroIdxA].heroID = 59;
       }
-      this->players[0].heroesForPurchase[0] = j;
+      this->players[0].heroesForPurchase[0] = heroIdxA;
       this->relatedToHeroForHireStatus[this->players[0].heroesForPurchase[0]] = 64;
-      faction = this->heroes[j].factionID;
+      faction = this->heroes[heroIdxA].factionID;
     }
     else
     {
 LABEL_195:
       if ( !xIsPlayingExpansionCampaign || playerIdxj )
         goto LABEL_196;
-      v21 = -1; // Constant here
+      probablyFaction = -1;                     // Constant here
       if ( ExpCampaign::HasAward(&xCampaign, 6) )
       {
-        v21 = 4;  // Constant here
-        a2 = ExpCampaign::JosephName((int)&xCampaign);
-        v19 = 64;
+        probablyFaction = FACTION_WIZARD;       // Constant here
+        expansionCampaignHeroName = ExpCampaign::JosephName((int)&xCampaign);
+        expansionCampaignHeroID = 64;
       }
       else if ( ExpCampaign::HasAward(&xCampaign, 7) )
       {
-        v21 = 1;  // Constant here
-        a2 = ExpCampaign::IvanName((int)&xCampaign);
-        v19 = 63;
+        probablyFaction = FACTION_BARBARIAN;    // Constant here
+        expansionCampaignHeroName = ExpCampaign::IvanName((int)&xCampaign);
+        expansionCampaignHeroID = 63;
       }
-      if ( v21 == -1 )  // Constant here
+      if ( probablyFaction == -1 )              // Constant here
         goto LABEL_196;
-      for ( k = 0; k < 54 && (this->heroes[k].factionID != v21 || this->relatedToHeroForHireStatus[k] != -1); ++k )
+      for ( heroIdxB = 0;
+            heroIdxB < 54
+         && (this->heroes[heroIdxB].factionID != probablyFaction || this->relatedToHeroForHireStatus[heroIdxB] != -1);
+            ++heroIdxB )
         ;
-      if ( k >= 54 )
+      if ( heroIdxB >= 54 )
       {
 LABEL_196:
-        faction = Random(0, 5); // Constant here
-        if ( this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]] < 6 )
-          faction = this->field_459[gcColorToSetupPos[this->players[playerIdxj].color]];
+        faction = Random(0, 5);                 // Constant here
+        if ( this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[this->players[playerIdxj].color]] < 6 )
+          faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[this->players[playerIdxj].color]];// May need to redefine these tables; unsure
         this->players[playerIdxj].heroesForPurchase[0] = game::GetNewHeroId(this, playerIdxj, faction, 0);
         this->relatedToHeroForHireStatus[this->players[playerIdxj].heroesForPurchase[0]] = 64;
       }
       else
       {
-        this->heroes[k].experience = 5000;
-        hero::CheckLevel(&this->heroes[k]);
-        strcpy(this->heroes[k].name, a2);
-        this->heroes[k].heroID = v19;
-        this->players[0].heroesForPurchase[0] = k;
+        this->heroes[heroIdxB].experience = 5000;
+        hero::CheckLevel(&this->heroes[heroIdxB]);// Check this function
+        strcpy(this->heroes[heroIdxB].name, expansionCampaignHeroName);
+        this->heroes[heroIdxB].heroID = expansionCampaignHeroID;
+        this->players[0].heroesForPurchase[0] = heroIdxB;
         this->relatedToHeroForHireStatus[this->players[0].heroesForPurchase[0]] = 64;
-        faction = this->heroes[k].factionID;
+        faction = this->heroes[heroIdxB].factionID;
       }
     }
-    v2 = Random(1, 5);
-    this->players[playerIdxj].heroesForPurchase[1] = game::GetNewHeroId(this, playerIdxj, (faction + v2) % 6, 0);
+    mightBeOffsetForNextFaction = Random(1, 5); // Constant here
+    this->players[playerIdxj].heroesForPurchase[1] = game::GetNewHeroId(
+                                                       this,
+                                                       playerIdxj,
+                                                       (faction + mightBeOffsetForNextFaction) % 6,
+                                                       0);
     this->relatedToHeroForHireStatus[this->players[playerIdxj].heroesForPurchase[1]] = 64;
   }
   for ( playerIdxk = 0; this->numPlayers > playerIdxk; ++playerIdxk )
   {
     for ( numPlayersb = 0; this->players[playerIdxk].numHeroes > numPlayersb; ++numPlayersb )
     {
-      v3 = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].x;
-      v4 = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].y;
-      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjType = *(&this->map.tiles[v3].objType
-                                                                                         + 12 * v4 * this->map.width);
-      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v3].field_4_1_1_isShadow_1_13_extraInfo + 6 * v4 * this->map.width) >> 8) >> -5);
-      *(&this->map.tiles[v3].objType + 12 * v4 * this->map.width) = -86;
-      v5 = &this->map.tiles[v4 * this->map.width] + v3;
-      v5->field_4_1_1_isShadow_1_13_extraInfo = v5->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                            * this->players[playerIdxk].heroesOwned[numPlayersb];
+      heroLocationX = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].x;
+      heroLocationY = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].y;
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjType = *(&this->map.tiles[heroLocationX].objType
+                                                                                         + 12
+                                                                                         * heroLocationY
+                                                                                         * this->map.width);// The pointer arithmetic can be replaced by taking the offsets and adding them to the index value within the tiles[] array brackets. The "12" should be removed since that is just to account for the 12-byte size of the mapCell type, which tiles[] is an array of
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[heroLocationX].field_4_1_1_isShadow_1_13_extraInfo + 6 * heroLocationY * this->map.width) >> 8) >> -5);// A doubly-bad decompilation error
+      *(&this->map.tiles[heroLocationX].objType + 12 * heroLocationY * this->map.width) = -86;
+      heroCell = &this->map.tiles[heroLocationY * this->map.width] + heroLocationX;
+      heroCell->field_4_1_1_isShadow_1_13_extraInfo = heroCell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * this->players[playerIdxk].heroesOwned[numPlayersb];
     }
     if ( this->players[playerIdxk].numHeroes <= 0 )
     {
       if ( this->players[playerIdxk].numCastles > 0 )
-        LOBYTE(this->players[playerIdxk].field_45) = this->players[playerIdxk].castlesOwned[0];
+        LOBYTE(this->players[playerIdxk].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = BYTE2(this->players[playerIdxk].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
     }
     else
     {
       this->players[playerIdxk].curHeroIdx = this->players[playerIdxk].heroesOwned[0];
     }
   }
-  playerIdxl = -1;
-  numPlayersc = -1;
-  v50 = 0;
-  v6 = Random(1, 30);
-  v7 = Random(1, 20) + v6;
-  v54 = Random(1, 20) + v7;
+  ultimateArtifactLocX = -1;
+  ultimateArtifactLocY = -1;
+  someSortOfLoopCount = 0;
+  randomVal1 = Random(1, 30);
+  randomVal2 = Random(1, 20) + randomVal1;
+  randomVal3 = Random(1, 20) + randomVal2;
   while ( 1 )
   {
-    if ( playerIdxl >= 9 )
+    if ( ultimateArtifactLocX >= 9 )
     {
-      if ( numPlayersc >= 9 )
+      if ( ultimateArtifactLocY >= 9 )
       {
-        if ( MAP_WIDTH - 10 >= playerIdxl )
+        if ( MAP_WIDTH - 10 >= ultimateArtifactLocX )
         {
-          if ( MAP_HEIGHT - 10 >= numPlayersc )
+          if ( MAP_HEIGHT - 10 >= ultimateArtifactLocY )
           {
-            if ( *(&this->map.tiles[playerIdxl].objectIndex + 12 * numPlayersc * this->map.width) == 255 )
+            if ( *(&this->map.tiles[ultimateArtifactLocX].objectIndex + 12 * ultimateArtifactLocY * this->map.width) == 255 )
             {
-              if ( *(&this->map.tiles[playerIdxl].overlayIndex + 12 * numPlayersc * this->map.width) == 255 )
+              if ( *(&this->map.tiles[ultimateArtifactLocX].overlayIndex + 12 * ultimateArtifactLocY * this->map.width) == 255 )
               {
-                if ( giGroundToTerrain[*(&this->map.tiles[numPlayersc * this->map.width].groundIndex + 6 * playerIdxl)] )
+                if ( giGroundToTerrain[*(&this->map.tiles[ultimateArtifactLocY * this->map.width].groundIndex
+                                       + 6 * ultimateArtifactLocX)] )
                 {
                   if ( iLastMsgNumHumanPlayers != 1 )
                     break;
-                  if ( v50 >= 200 )
+                  if ( someSortOfLoopCount >= 200 )
                     break;
-                  v8 = abs(numPlayersc - this->heroes[this->players[0].heroesOwned[0]].y);
-                  if ( abs(playerIdxl - this->heroes[this->players[0].heroesOwned[0]].x) + v8 > v54 )
+                  distanceYBetweenUltimateArtifactAndHero = abs(ultimateArtifactLocY - this->heroes[this->players[0].heroesOwned[0]].y);
+                  if ( abs(ultimateArtifactLocX - this->heroes[this->players[0].heroesOwned[0]].x)
+                     + distanceYBetweenUltimateArtifactAndHero > randomVal3 )
                     break;
                 }
               }
@@ -24846,93 +24877,98 @@ LABEL_196:
         }
       }
     }
-    if ( v50 >= 400 || giUABaseX <= 0 )
+    if ( someSortOfLoopCount >= 400 || giUltimateArtifactBaseX <= 0 )// giUABaseX changed to giUltimateArtifactBaseX
     {
-      playerIdxl = Random(9, MAP_WIDTH - 10);
-      numPlayersc = Random(9, MAP_HEIGHT - 10);
+      ultimateArtifactLocX = Random(9, MAP_WIDTH - 10);
+      ultimateArtifactLocY = Random(9, MAP_HEIGHT - 10);
     }
     else
     {
-      if ( giUARadius )
-        v16 = Random(-giUARadius, giUARadius);
+      if ( giUltimateArtifactRadius )           // giUARadius changed to giUltimateArtifactRadius
+        ultimateArtifactLocXRadiusOffset = Random(-giUltimateArtifactRadius, giUltimateArtifactRadius);
       else
-        v16 = 0;
-      playerIdxl = v16 + giUABaseX;
-      if ( giUARadius )
-        v15 = Random(-giUARadius, giUARadius);
+        ultimateArtifactLocXRadiusOffset = 0;
+      ultimateArtifactLocX = ultimateArtifactLocXRadiusOffset + giUltimateArtifactBaseX;
+      if ( giUltimateArtifactRadius )
+        ultimateArtifactLocYRadiusOffset = Random(-giUltimateArtifactRadius, giUltimateArtifactRadius);
       else
-        v15 = 0;
-      numPlayersc = v15 + giUABaseY;
+        ultimateArtifactLocYRadiusOffset = 0;
+      ultimateArtifactLocY = ultimateArtifactLocYRadiusOffset + giUltimateArtifactBaseY;// giUABaseY changed to giUltimateArtifactBaseY
     }
-    v9 = Random(1, 30);
-    v10 = Random(1, 20) + v9;
-    v54 = Random(1, 20) + v10;
-    ++v50;
+    randomVal4 = Random(1, 30);
+    randomVal5 = Random(1, 20) + randomVal4;
+    randomVal3 = Random(1, 20) + randomVal5;
+    ++someSortOfLoopCount;
   }
-  this->field_6395 = playerIdxl;
-  this->field_6396 = numPlayersc;
-  this->field_6397 = Random(0, 7);
-  if ( gbInCampaign && (!this->field_2 && this->field_4 == 7 || this->field_2 == 1 && this->field_4 == 8) )
-    this->field_6397 = 6;
+  this->utimateArtifactLocX = ultimateArtifactLocX;// this->field_6395 changed to ultimateArtifactLocX
+  this->utimateArtifactLocY = ultimateArtifactLocY;// this->field_6396 changed to ultimateArtifactLocY
+  this->ultimateArtifactIdx = Random(0, 7);     // this->field_6397 changed to ultimateArtifactIdx
+  if ( gbInCampaign
+    && (!this->relatedToCurViewSideOrCampaign && this->relatedToCampaignMap == 7// this->field_4 changed to relatedToCampaignMap
+     || this->relatedToCurViewSideOrCampaign == 1 && this->relatedToCampaignMap == 8) )// this->field_2 changed to relatedToCurViewSide
+    this->ultimateArtifactIdx = 6;
   for ( playerIdxm = 0; this->numPlayers > playerIdxm; ++playerIdxm )
   {
     if ( gbHumanPlayer[playerIdxm] )
     {
       this->players[playerIdxm].personality = 3;
-      memcpy(this->players[playerIdxm].resources, (char *)&unk_4F1E00 + 28 * this->difficulty, 0x1Cu);
+      memcpy(this->players[playerIdxm].resources, playerHumanInitialResources[this->difficulty], 28u);// unk_4F1E00 changed to playerHumanInitialResources
       if ( this->playerHandicap[playerIdxm] )
       {
-        for ( numPlayersd = 0; numPlayersd < 7; ++numPlayersd )
+        for ( resourceType = 0; resourceType < NUM_RESOURCES; ++resourceType )
         {
           if ( this->playerHandicap[playerIdxm] == 1 )
-            v14 = 0.85;
+            resourceMultiplierFromHandicap = 0.85;
           else
-            v14 = 0.7;
-          this->players[playerIdxm].resources[numPlayersd] = (signed __int64)((double)this->players[playerIdxm].resources[numPlayersd]
-                                                                            * v14);
+            resourceMultiplierFromHandicap = 0.7;
+          this->players[playerIdxm].resources[resourceType] = (signed __int64)((double)this->players[playerIdxm].resources[resourceType]
+                                                                             * resourceMultiplierFromHandicap);
         }
       }
     }
     else
     {
       this->players[playerIdxm].personality = Random(0, 2);
-      memcpy(this->players[playerIdxm].resources, (char *)&unk_4F1E90 + 28 * this->difficulty, 0x1Cu);
+      memcpy(this->players[playerIdxm].resources, playerAIInitialResources[this->difficulty], 28u);// unk_4F1E90 changed to playerAIInitialResources
     }
   }
   game::SetupAdjacentMons(this);
-  if ( this->mapHeader.field_22 == 2 )
+  if ( this->mapHeader.lossConditionType == 2 ) // field_22 changed to lossConditionType
   {
-    v11 = *(_WORD *)&this->mapHeader.field_23;
-    v48 = LOWORD(this->mapHeader.field_2E);
-    *(_WORD *)&this->mapHeader.field_23 = 0;
-    if ( *(&this->map.tiles[v11].objType + 12 * v48 * this->map.width) == 170 )
+    lossConditionArgumentLocX = *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX;// field_23 changed to lossConditionArgumentOrLocX
+    lossConditionArgumentLocY = LOWORD(this->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY);// field_2E changed to relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY
+    *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = 0;
+    if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * lossConditionArgumentLocY * this->map.width) == 170 )
     {
-      *(_WORD *)&this->mapHeader.field_23 = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v11].field_4_1_1_isShadow_1_13_extraInfo + 6 * v48 * this->map.width) >> 8) >> -5);
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * lossConditionArgumentLocY * this->map.width) >> 8) >> -5);
     }
-    else if ( *(&this->map.tiles[v11].objType + 12 * (v48 - 1) * this->map.width) == 170 )
+    else if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * (lossConditionArgumentLocY - 1) * this->map.width) == 170 )
     {
-      *(_WORD *)&this->mapHeader.field_23 = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v11].field_4_1_1_isShadow_1_13_extraInfo
-                                                                                + 6 * (v48 - 1) * this->map.width) >> 8) >> -5);
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * (lossConditionArgumentLocY - 1) * this->map.width) >> 8) >> -5);
     }
     else
     {
-      this->mapHeader.field_22 = 0;
+      this->mapHeader.lossConditionType = 0;
     }
   }
-  if ( this->mapHeader.winConditionType == 2 )
+  if ( this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_HERO )
   {
-    v12 = this->mapHeader.winConditionArgument;
-    v49 = this->mapHeader.field_2C;
-    this->mapHeader.winConditionArgument = 0;
-    if ( *(&this->map.tiles[v12].objType + 12 * v49 * this->map.width) == 170 )
+    relatedToWinConditionLocX = this->mapHeader.winConditionArgumentOrLocX;// winConditionArgument changed to winConditionArgumentOrLocX
+    relatedToWinConditionLocY = this->mapHeader.winConditionArgumentOrLocY;// field_2C changed to winConditionArgumentOrLocY
+    this->mapHeader.winConditionArgumentOrLocX = 0;
+    if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * relatedToWinConditionLocY * this->map.width) == 170 )
     {
-      this->mapHeader.winConditionArgument = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v12].field_4_1_1_isShadow_1_13_extraInfo
-                                                                                 + 6 * v49 * this->map.width) >> 8) >> -5);
+      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
+                                                                                       + 6
+                                                                                       * relatedToWinConditionLocY
+                                                                                       * this->map.width) >> 8) >> -5);
     }
-    else if ( *(&this->map.tiles[v12].objType + 12 * (v49 - 1) * this->map.width) == 170 )
+    else if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * (relatedToWinConditionLocY - 1) * this->map.width) == 170 )
     {
-      this->mapHeader.winConditionArgument = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[v12].field_4_1_1_isShadow_1_13_extraInfo
-                                                                                 + 6 * (v49 - 1) * this->map.width) >> 8) >> -5);
+      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
+                                                                                       + 6
+                                                                                       * (relatedToWinConditionLocY - 1)
+                                                                                       * this->map.width) >> 8) >> -5);
     }
     else
     {
@@ -24941,29 +24977,35 @@ LABEL_196:
   }
   for ( playerIdxn = 0; this->numPlayers > playerIdxn; ++playerIdxn )
   {
-    v17 = 0;
-    if ( this->field_459[gcColorToSetupPos[this->players[playerIdxn].color]] < 0
-      || this->field_459[gcColorToSetupPos[this->players[playerIdxn].color]] >= 6 )
+    playerIdxnFaction = 0;
+    if ( this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[this->players[playerIdxn].color]] < 0
+      || this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[this->players[playerIdxn].color]] >= 6 )// Constant here (may be related to factions)
     {
       if ( this->players[playerIdxn].numCastles )
       {
-        v17 = gpGame->castles[this->players[playerIdxn].castlesOwned[0]].factionID;
+        playerIdxnFaction = gpGame->castles[BYTE2(this->players[playerIdxn].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].factionID;
       }
       else if ( this->players[playerIdxn].numHeroes )
       {
-        v17 = gpGame->heroes[this->players[playerIdxn].heroesOwned[0]].factionID;
+        playerIdxnFaction = gpGame->heroes[this->players[playerIdxn].heroesOwned[0]].factionID;
       }
     }
     else
     {
-      v17 = this->field_459[gcColorToSetupPos[this->players[playerIdxn].color]];
+      playerIdxnFaction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[this->players[playerIdxn].color]];
     }
-    this->players[playerIdxn]._4_1 = v17 == 1 || v17 == 3 || v17 == 5;
-    if ( gbInCampaign && !playerIdxn )
-      this->players[0]._4_1 = this->field_2 == 1;
-    for ( numPlayerse = 0; gpGame->players[playerIdxn].numCastles > numPlayerse; ++numPlayerse )
-      town::GiveSpells(&gpGame->castles[gpGame->players[playerIdxn].castlesOwned[numPlayerse]], 0);
-    gpGame->players[playerIdxn]._2 = gpGame->players[playerIdxn].numHeroes;
+    this->players[playerIdxn].hasEvilFaction = playerIdxnFaction == FACTION_BARBARIAN
+                                            || playerIdxnFaction == FACTION_WARLOCK
+                                            || playerIdxnFaction == FACTION_NECROMANCER;// playerData->_4_1 changed to hasEvilFaction
+    if ( gbInCampaign && !playerIdxn )          // constants for factions above
+      this->players[0].hasEvilFaction = this->relatedToCurViewSideOrCampaign == 1;// field_2 changed to relatedToCurViewSideOrCampaign
+    for ( castlesOwnedIdx = 0; gpGame->players[playerIdxn].numCastles > castlesOwnedIdx; ++castlesOwnedIdx )
+      town::GiveSpells(
+        &gpGame->castles[*((_BYTE *)&gpGame->players[playerIdxn].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                         + castlesOwnedIdx
+                         + 2)],
+        0);
+    gpGame->players[playerIdxn].relatedToMaxOrNumHeroes = gpGame->players[playerIdxn].numHeroes;// playerData->_2 renamed to relatedToMaxOrNumHeroes
   }
   philAI::GetGameAIVars(gpPhilAI);
   gbInNewGameSetup = 0;
@@ -24972,18 +25014,17 @@ LABEL_196:
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
-// 522F90: using guessed type __int16 giUARadius;
-// 522FB4: using guessed type __int16 giUABaseX;
-// 522FB8: using guessed type __int16 giUABaseY;
+// 522F90: using guessed type __int16 giUltimateArtifactRadius;
+// 522FB4: using guessed type __int16 giUltimateArtifactBaseX;
+// 522FB8: using guessed type __int16 giUltimateArtifactBaseY;
 // 5235D4: using guessed type int iLastMsgNumHumanPlayers;
 // 523EDC: using guessed type int giCurWatchPlayer;
-// 523F1C: using guessed type int gbInNewGameSetup;
 // 5304A0: using guessed type char xIsPlayingExpansionCampaign;
 // 5306F0: using guessed type char giCurWatchPlayerBit;
 // 532C5C: using guessed type char giCurPlayerBit;
 
 //----- (0041E350) --------------------------------------------------------
-int __thiscall game::RandomizeEvents(game *this) // Check this function (for random troops function)
+int __thiscall game::RandomizeEvents(game *this)
 {
   unsigned __int16 v1; // ax@7
   unsigned __int16 v2; // ax@35
@@ -25012,7 +25053,7 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
   unsigned __int16 v25; // ax@86
   unsigned __int16 v26; // ax@88
   unsigned __int16 v27; // ax@89
-  __int16 v28; // STB0_2@93
+  __int16 numTroops; // STB0_2@93
   unsigned __int16 v29; // ax@143
   unsigned __int16 v30; // ax@145
   unsigned __int16 v31; // ax@146
@@ -25030,12 +25071,12 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
   int v44; // [sp+140h] [bp-A4h]@227
   int v45; // [sp+144h] [bp-A0h]@227
   int v46[5]; // [sp+148h] [bp-9Ch]@250
-  mapCell *v47; // [sp+15Ch] [bp-88h]@171
+  mapCell *townCell; // [sp+15Ch] [bp-88h]@171
   int v48[10]; // [sp+160h] [bp-84h]@156
-  town *v49; // [sp+188h] [bp-5Ch]@170
+  town *someSortOfTownPointer; // [sp+188h] [bp-5Ch]@170
   void *v50; // [sp+18Ch] [bp-58h]@18
   void *v51; // [sp+190h] [bp-54h]@13
-  int v52; // [sp+194h] [bp-50h]@162
+  int townID; // [sp+194h] [bp-50h]@162
   int v53; // [sp+198h] [bp-4Ch]@1
   int nWithDoctorHut; // [sp+19Ch] [bp-48h]@1
   int v55; // [sp+1A0h] [bp-44h]@1
@@ -25044,11 +25085,11 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
   int v58; // [sp+1ACh] [bp-38h]@1
   int m; // [sp+1B0h] [bp-34h]@265
   mapCell *cell; // [sp+1B4h] [bp-30h]@6
-  int y; // [sp+1B8h] [bp-2Ch]@1
+  int cellYCoord; // [sp+1B8h] [bp-2Ch]@1
   int l; // [sp+1BCh] [bp-28h]@38
   int j; // [sp+1C0h] [bp-24h]@164
   mapCellExtra *extra; // [sp+1C4h] [bp-20h]@207
-  int x; // [sp+1C8h] [bp-1Ch]@3
+  int cellXCoord; // [sp+1C8h] [bp-1Ch]@3
   int artId; // [sp+1CCh] [bp-18h]@140
   int v67; // [sp+1D0h] [bp-14h]@1
   int v68; // [sp+1D4h] [bp-10h]@205
@@ -25066,19 +25107,19 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
   nXanadu = 1;
   this->numMapEvents = 0;
   memset(this->mapEventIndices, 0, 0x64u);
-  for ( y = 0; y < MAP_HEIGHT; ++y )
+  for ( cellYCoord = 0; cellYCoord < MAP_HEIGHT; ++cellYCoord )
   {
-    for ( x = 0; MAP_WIDTH > x; ++x )
+    for ( cellXCoord = 0; MAP_WIDTH > cellXCoord; ++cellXCoord )
     {
-      cell = &this->map.tiles[y * this->map.width] + x;
+      cell = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
       switch ( cell->objType )
       {
         case TILE_HAS_EVENT|LOCATION_WITCH_HUT:
           v1 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v1) = v1 | 0x60;
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = v1;
-                ((cell->field_4 >> 3) & 0x1FFF) == 12
-             || ((cell->field_4 >> 3) & 0x1FFF) == 6;
+                (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 12
+             || (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 6;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(0, 13) )
             ;
           break;
@@ -25087,17 +25128,17 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           cell->objectIndex = -1;
           cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
           cell->objType = 0;
-          game::CreateBoat(this, x, y, 1);
+          game::CreateBoat(this, cellXCoord, cellYCoord, 1);
           break;
         case TILE_HAS_EVENT|LOCATION_SPHINX:
-          v51 = ppMapExtra[((cell->field_4 >> 3) & 0x1FFF)];
+          v51 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
           *(_BYTE *)v51 = strlen((char *)v51 + 136) > 1 && (signed int)*((_BYTE *)v51 + 31) >= 1;
           break;
         case TILE_HAS_EVENT|LOCATION_EVENT:
-          this->mapEventIndices[this->numMapEvents] = ((cell->field_4 >> 3) & 0x1FFF);
-          v50 = ppMapExtra[((cell->field_4 >> 3) & 0x1FFF)];
-          *((_WORD *)v50 + 19) = x;
-          *((_WORD *)v50 + 20) = y;
+          this->mapEventIndices[this->numMapEvents] = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          v50 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          *((_WORD *)v50 + 19) = cellXCoord;
+          *((_WORD *)v50 + 20) = cellYCoord;
           *((_BYTE *)v50 + 37) = 1;
           cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
           cell->objType = 0;
@@ -25118,10 +25159,11 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v55++ | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
           break;
         case TILE_HAS_EVENT|LOCATION_STANDING_STONES:
-          if ( x <= 0 || *(&this->map.tiles[y * this->map.width].objType + 4 * (3 * x - 3)) != 194 )
+          if ( cellXCoord <= 0
+            || *(&this->map.tiles[cellYCoord * this->map.width].objType + 4 * (3 * cellXCoord - 3)) != 194 )
             cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v71++ | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
           else
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (*(&this->map.tiles[y * this->map.width].field_4_1_1_isShadow_1_13_extraInfo + 2 * (3 * x - 3)) >> 3);
+            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (*(&this->map.tiles[cellYCoord * this->map.width].field_4_1_1_isShadow_1_13_extraInfo + 2 * (3 * cellXCoord - 3)) >> 3);
           break;
         case TILE_HAS_EVENT|LOCATION_XANADU:
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * nXanadu++;
@@ -25136,7 +25178,7 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(0, 3);
           break;
         case TILE_HAS_EVENT|LOCATION_SKELETON:
-          if ( game::HasObjectTilesetIndex(this, x, y, 55, 84) )
+          if ( game::HasObjectTilesetIndex(this, cellXCoord, cellYCoord, 55, 84) )
           {
             if ( Random(0, 9) <= 2 )
             {
@@ -25272,7 +25314,7 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           break;
         case TILE_HAS_EVENT|LOCATION_CAMPFIRE:
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | ((unsigned __int16)Random(4, 6) << 7);
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 5) | ((cell->field_4 >> 3) & 0x1FFF));
+          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 5) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
           break;
         case TILE_HAS_EVENT|LOCATION_ANCIENT_LAMP:
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 2) + 2);
@@ -25376,10 +25418,10 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v67++ | (unsigned __int16)((unsigned __int16)Random(1, 3) << 6));
           break;
         case TILE_HAS_EVENT|LOCATION_ARMY_CAMP:
-          if ( !((cell->field_4 >> 3) & 0x1FFF) )
+          if ( !((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
           {
-            v28 = game::GetRandomNumTroops(this, cell->objectIndex); // Check this function (design question)
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v28;
+            numTroops = game::GetRandomNumTroops(this, cell->objectIndex);
+            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * numTroops;
             if ( cell->objectIndex != CREATURE_GHOST )
             {
               if ( cell->objectIndex != CREATURE_EARTH_ELEMENTAL
@@ -25387,14 +25429,14 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
                 && cell->objectIndex != CREATURE_FIRE_ELEMENTAL
                 && cell->objectIndex != CREATURE_WATER_ELEMENTAL
                 && Random(0, 100) < 20 )
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((cell->field_4 >> 3) & 0x1FFF) | 0x1000);
+                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x1000);
             }
           }
           break;
         case TILE_HAS_EVENT|LOCATION_RESOURCE:
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (cell->objectIndex >> 1);
-          v38 = ((cell->field_4 >> 3) & 0x1FFF);
-          if ( ((cell->field_4 >> 3) & 0x1FFF) && v38 != 2 )
+          v38 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 && v38 != 2 )
           {
             if ( v38 == 6 )
               cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
@@ -25408,28 +25450,28 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_FIRST:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 1;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_SECOND_ORDER:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 2;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_THIRD_ORDER:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 3;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_PYRAMID:
           for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF)
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 5;
                 cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
@@ -25471,7 +25513,7 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 20);
           break;
         case TILE_HAS_EVENT|LOCATION_WAGON_CAMP:
-          if ( game::HasObjectTilesetIndex(this, x, y, 41, 129) )
+          if ( game::HasObjectTilesetIndex(this, cellXCoord, cellYCoord, 41, 129) )
             cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(30, 50);
           else
             cell->objType &= 0x7Fu;
@@ -25500,15 +25542,15 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
                 cell->field_4_1_1_isShadow_1_13_extraInfo = v33;
                 if ( gArtifactLevel[artId] == 8 )
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((cell->field_4 >> 3) & 0x1FFF) | 0x39);
+                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x39);
                 }
                 else if ( gArtifactLevel[artId] == 4 )
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 3)]) | ((cell->field_4 >> 3) & 0x1FFF));
+                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 3)]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
                 }
                 else
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 5) + 4]) | ((cell->field_4 >> 3) & 0x1FFF));
+                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 5) + 4]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
                 }
               }
               else
@@ -25550,66 +25592,66 @@ int __thiscall game::RandomizeEvents(game *this) // Check this function (for ran
           }
           break;
         case TILE_HAS_EVENT|LOCATION_TOWN:
-          v52 = game::GetTownId(this, x, y);
-          for ( i = y - 3; y + 1 >= i; ++i )
+          townID = game::GetTownId(this, cellXCoord, cellYCoord);
+          for ( i = cellYCoord - 3; cellYCoord + 1 >= i; ++i )
           {
-            for ( j = x - 2; x + 2 >= j; ++j )
+            for ( j = cellXCoord - 2; cellXCoord + 2 >= j; ++j )
             {
               if ( !((unsigned __int8)(*(&this->map.tiles[j].field_4_1_1_isShadow_1_13_extraInfo
                                        + 6 * i * this->map.width) >> 8) >> -5) )
               {
                 v34 = &this->map.tiles[i * this->map.width] + j;
-                v34->field_4_1_1_isShadow_1_13_extraInfo = v34->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v52;
+                v34->field_4_1_1_isShadow_1_13_extraInfo = v34->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * townID;
               }
             }
           }
-          v49 = &this->castles[v52];
-          this->castles[v52].field_7 = -1;
-          v49->buildDockRelated = v49->field_7;
-          if ( MAP_HEIGHT - 3 >= y )
+          someSortOfTownPointer = &this->castles[townID];
+          this->castles[townID].field_7 = -1;
+          someSortOfTownPointer->buildDockRelated = someSortOfTownPointer->field_7;// This is just an assignment of "-1" to buildDockRelated via the above line
+          if ( MAP_HEIGHT - 3 >= cellYCoord )
           {
-            v47 = advManager::GetCell(gpAdvManager, x - 1, y + 2);
-            if ( giGroundToTerrain[v47->groundIndex] )
+            townCell = advManager::GetCell(gpAdvManager, cellXCoord - 1, cellYCoord + 2);
+            if ( giGroundToTerrain[townCell->groundIndex] )
             {
-              v47 = advManager::GetCell(gpAdvManager, x + 1, y + 2);
-              if ( !giGroundToTerrain[v47->groundIndex] )
+              townCell = advManager::GetCell(gpAdvManager, cellXCoord + 1, cellYCoord + 2);
+              if ( !giGroundToTerrain[townCell->groundIndex] )
               {
-                v49->buildDockRelated = x + 1;
-                v49->field_7 = y + 2;
+                someSortOfTownPointer->buildDockRelated = cellXCoord + 1;
+                someSortOfTownPointer->field_7 = cellYCoord + 2;
               }
             }
             else
             {
-              v49->buildDockRelated = x - 1;
-              v49->field_7 = y + 2;
+              someSortOfTownPointer->buildDockRelated = cellXCoord - 1;
+              someSortOfTownPointer->field_7 = cellYCoord + 2;
             }
           }
           break;
         case TILE_HAS_EVENT|LOCATION_LIGHTHOUSE:
-          v35 = &this->map.tiles[y * this->map.width] + x;
-          v35->field_4_1_1_isShadow_1_13_extraInfo = v35->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * game::GetMineId(this, x, y);
+          v35 = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
+          v35->field_4_1_1_isShadow_1_13_extraInfo = v35->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * game::GetMineId(this, cellXCoord, cellYCoord);
           break;
         case TILE_HAS_EVENT|LOCATION_ABANDONED_MINE:
-          v52 = game::GetMineId(this, x, y);
-          this->mines[v52].guardianType = 59;
-          this->mines[v52].guadianQty = Random(30, 60);
+          townID = game::GetMineId(this, cellXCoord, cellYCoord);
+          this->mines[townID].guardianType = 59;
+          this->mines[townID].guadianQty = Random(30, 60);
           goto LABEL_178;
         case TILE_HAS_EVENT|LOCATION_ALCHEMIST_LAB:
         case TILE_HAS_EVENT|LOCATION_MINE:
         case TILE_HAS_EVENT|LOCATION_SAWMILL:
 LABEL_178:
-          v52 = game::GetMineId(this, x, y);
-          for ( i = y - 1; y >= i; ++i )
+          townID = game::GetMineId(this, cellXCoord, cellYCoord);
+          for ( i = cellYCoord - 1; cellYCoord >= i; ++i )
           {
-            for ( j = x - 2; x + 1 >= j; ++j )
+            for ( j = cellXCoord - 2; cellXCoord + 1 >= j; ++j )
             {
-              if ( (x - 2 != j || cell->objType == 129)
+              if ( (cellXCoord - 2 != j || cell->objType == 129)
                 && (!((unsigned __int8)(*(&this->map.tiles[j].field_4_1_1_isShadow_1_13_extraInfo
                                         + 6 * i * this->map.width) >> 8) >> -5)
                  || !((cell->objType & 0x7F ^ *(&this->map.tiles[j].objType + 12 * i * this->map.width)) & 0x7F)) )
               {
                 v36 = &this->map.tiles[i * this->map.width] + j;
-                v36->field_4_1_1_isShadow_1_13_extraInfo = v36->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v52;
+                v36->field_4_1_1_isShadow_1_13_extraInfo = v36->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * townID;
               }
             }
           }
@@ -25634,11 +25676,11 @@ LABEL_178:
       }
     }
   }
-  for ( y = 0; y < MAP_HEIGHT; ++y )
+  for ( cellYCoord = 0; cellYCoord < MAP_HEIGHT; ++cellYCoord )
   {
-    for ( x = 0; MAP_WIDTH > x; ++x )
+    for ( cellXCoord = 0; MAP_WIDTH > cellXCoord; ++cellXCoord )
     {
-      cell = &this->map.tiles[y * this->map.width] + x;
+      cell = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
       if ( cell->objectIndex != 255 && (cell->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1 )
       {
         v68 = 1;
@@ -25653,14 +25695,14 @@ LABEL_178:
       }
     }
   }
-  for ( y = 0; ; ++y )
+  for ( cellYCoord = 0; ; ++cellYCoord )
   {
     result = MAP_HEIGHT;
-    if ( y >= MAP_HEIGHT )
+    if ( cellYCoord >= MAP_HEIGHT )
       break;
-    for ( x = 0; MAP_WIDTH > x; ++x )
+    for ( cellXCoord = 0; MAP_WIDTH > cellXCoord; ++cellXCoord )
     {
-      cell = &this->map.tiles[y * this->map.width] + x;
+      cell = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
       if ( (cell->objType & 0x7F) == LOCATION_ROCK
         && (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 62 )
         cell->displayFlags |= 8u;
@@ -25672,13 +25714,13 @@ LABEL_178:
       v45 = 0;
       v44 = 0;
       if ( !(cell->displayFlags & 8)
-        && MAP_HEIGHT - 1 > y
+        && MAP_HEIGHT - 1 > cellYCoord
         && cell->objectIndex != 255
         && !(cell->objType & 0x80)
         && !(cell->displayFlags & 0x80)
-        && *(&this->map.tiles[x].objectIndex + 12 * (y + 1) * this->map.width) != 255
-        && !(*(&this->map.tiles[x].objType + 12 * (y + 1) * this->map.width) & 0x80)
-        && !(*(&this->map.tiles[x].displayFlags + 12 * (y + 1) * this->map.width) & 0x80) )
+        && *(&this->map.tiles[cellXCoord].objectIndex + 12 * (cellYCoord + 1) * this->map.width) != 255
+        && !(*(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) & 0x80)
+        && !(*(&this->map.tiles[cellXCoord].displayFlags + 12 * (cellYCoord + 1) * this->map.width) & 0x80) )
       {
         if ( !((cell->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
         {
@@ -25701,7 +25743,7 @@ LABEL_178:
           else
             extra = 0;
         }
-        v40 = &this->map.tiles[(y + 1) * this->map.width] + x;
+        v40 = &this->map.tiles[(cellYCoord + 1) * this->map.width] + cellXCoord;
         if ( !((v40->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
         {
           v46[v44] = ((unsigned __int8)v40->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F;
@@ -25732,15 +25774,16 @@ LABEL_178:
           }
         }
       }
-      if ( MAP_HEIGHT - 1 > y
-        && (*(&this->map.tiles[x].objType + 12 * (y + 1) * this->map.width) == 163
-         || *(&this->map.tiles[x].objType + 12 * (y + 1) * this->map.width) == 176
-         || *(&this->map.tiles[x].objType + 12 * (y + 1) * this->map.width) == 177) )
+      if ( MAP_HEIGHT - 1 > cellYCoord
+        && (*(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) == 163
+         || *(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) == 176
+         || *(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) == 177) )
         cell->displayFlags |= 8u;
       if ( cell->objectIndex != 255
         && !(cell->objType & 0x80)
         && !(cell->displayFlags & 0x80)
-        && (MAP_HEIGHT - 1 == y || *(&this->map.tiles[x].displayFlags + 12 * (y + 1) * this->map.width) & 4) )
+        && (MAP_HEIGHT - 1 == cellYCoord
+         || *(&this->map.tiles[cellXCoord].displayFlags + 12 * (cellYCoord + 1) * this->map.width) & 4) )
         cell->displayFlags |= 8u;
     }
   }
@@ -25781,7 +25824,7 @@ void __thiscall game::RandomizeBarrier(game *this, mapCell *cell)
 {
   int v2; // ST10_4@1
 
-  v2 = ((cell->field_4 >> 3) & 0x1FFF) & 7;
+  v2 = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
   cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
                                                                                             * (v2 | (unsigned __int16)(8 * xPasswordStringsIndex[v2]));
 }
@@ -25825,7 +25868,7 @@ int __thiscall game::LoadMap(game *ecx0, char *nam)
       ecx0->castles[i].exists = 1;
       ecx0->castles[i].x = x;
       ecx0->castles[i].y = y;
-      ecx0->castles[i].factionID = alignmentAndCastle & 0x7F; // Masks out the most significant bit, (& 0111 1111)
+      ecx0->castles[i].factionID = alignmentAndCastle & 0x7F;
       if ( alignmentAndCastle >= 0 )
         ecx0->castles[i].buildingsBuiltFlags |= BUILDING_SPECIAL_DEFENSE_BUILT;
       else
@@ -25880,7 +25923,7 @@ int __thiscall game::LoadMap(game *ecx0, char *nam)
 //----- (00420F30) --------------------------------------------------------
 void __thiscall game::ClaimTown(game *this, int castleIdx, int playerIdx, int a4)
 {
-  signed int i; // [sp+14h] [bp-8h]@6
+  signed int garrisonSlots; // [sp+14h] [bp-8h]@6
   town *castle; // [sp+18h] [bp-4h]@3
 
   if ( !gbInNewGameSetup )
@@ -25891,10 +25934,10 @@ void __thiscall game::ClaimTown(game *this, int castleIdx, int playerIdx, int a4
     this->castles[castleIdx].field_38 = 0;
     if ( this->field_2773[castleIdx] != -1 )
       town::Deallocate(&gpGame->castles[castleIdx]);
-    for ( i = 0; i < 5; ++i )
+    for ( garrisonSlots = 0; garrisonSlots < 5; ++garrisonSlots )
     {
-      castle->garrison.creatureTypes[i] = -1;
-      castle->garrison.quantities[i] = 0;
+      castle->garrison.creatureTypes[garrisonSlots] = -1;
+      castle->garrison.quantities[garrisonSlots] = 0;
     }
     if ( this->castles[castleIdx].ownerIdx == -1 )
       this->castles[castleIdx].field_55 = 2;
@@ -25902,7 +25945,11 @@ void __thiscall game::ClaimTown(game *this, int castleIdx, int playerIdx, int a4
       this->castles[castleIdx].field_55 = 0;
     this->castles[castleIdx].ownerIdx = playerIdx;
     this->field_2773[castleIdx] = playerIdx;
-    *(&this->players[0].castlesOwned[284 * playerIdx] + this->players[playerIdx].numCastles++ - playerIdx) = castleIdx;
+    *((_BYTE *)&this->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+    + 284 * playerIdx
+    + this->players[playerIdx].numCastles++
+    - playerIdx
+    + 2) = castleIdx;
     fullMap::ChangeTilesetIndex(
       &this->map,
       (mapCell *)((char *)&this->map.tiles[this->map.width * this->castles[castleIdx].y]
@@ -25931,7 +25978,6 @@ void __thiscall game::ClaimTown(game *this, int castleIdx, int playerIdx, int a4
   }
 }
 // 4F21F4: using guessed type char byte_4F21F4;
-// 523F1C: using guessed type int gbInNewGameSetup;
 
 //----- (004212E0) --------------------------------------------------------
 void __thiscall game::ClaimMine(game *this, int idx, int color)
@@ -26900,7 +26946,7 @@ LABEL_30:
 // 522FD8: using guessed type int iViewArmyType;
 
 //----- (00423760) --------------------------------------------------------
-int __thiscall game::GetRandomNumTroops(game *this, int creat) // Check this function (design question)
+int __thiscall game::GetRandomNumTroops(game *this, int creat)
 {
   int result; // eax@2
 
@@ -27152,8 +27198,8 @@ void __thiscall game::NextPlayer(game *this)
     game::SaveGame(this, "AUTOSAVE", 1, 0);
   }
   gpAdvManager->identifyCast = 0;
-  if ( gpGame->players[giCurPlayer].field_43 > 0 )
-    --gpGame->players[giCurPlayer].field_43;
+  if ( gpGame->players[giCurPlayer].daysLeftWithoutCastle > 0 )
+    --gpGame->players[giCurPlayer].daysLeftWithoutCastle;
   CheckEndGame(0, 0);
   advManager::DeactivateCurrTown();
   advManager::DeactivateCurrHero(gpAdvManager);
@@ -27407,11 +27453,11 @@ void __thiscall game::PerDay(game *this)
         ++this->players[playerIdxd].resources[2];
       }
       if ( gpGame->difficulty >= 3 && this->day >= 1 && this->day <= 6 )
-        ++*(_DWORD *)&this->players[playerIdxd].castlesOwned[4 * this->day + 68];
+        ++*(_DWORD *)&this->players[playerIdxd].gap_49[4 * this->day + 66];
       if ( gpGame->difficulty >= 4 && this->day >= 1 && this->day <= 6 )
-        ++*(_DWORD *)&this->players[playerIdxd].castlesOwned[4 * this->day + 68];
+        ++*(_DWORD *)&this->players[playerIdxd].gap_49[4 * this->day + 66];
       if ( gpGame->players[playerIdxd].personality == 1 && this->day >= 1 && this->day <= 6 )
-        ++*(_DWORD *)&this->players[playerIdxd].castlesOwned[4 * this->day + 68];
+        ++*(_DWORD *)&this->players[playerIdxd].gap_49[4 * this->day + 66];
     }
   }
   ++this->day;
@@ -27582,8 +27628,8 @@ void __thiscall game::PerWeek(game *this)
         v44 = this->heroes[gpGame->players[playerIdxa].heroesForPurchase[0]].factionID;
       v44 = (v44 + Random(1, 5)) % 6;
       faction = v44;
-      if ( !j && this->field_459[gcColorToSetupPos[this->players[playerIdxa].color]] < 6 )
-        faction = this->field_459[gcColorToSetupPos[this->players[playerIdxa].color]];
+      if ( !j && this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[this->players[playerIdxa].color]] < 6 )
+        faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[this->players[playerIdxa].color]];
       if ( gpGame->relatedToHeroForHireStatus[*(&gpGame->players[0].heroesForPurchase[284 * playerIdxa] + j - playerIdxa)] != 64
         || !(BYTE2(gpGame->heroes[*(&gpGame->players[0].heroesForPurchase[284 * playerIdxa] + j - playerIdxa)].flags) & 1) )
       {
@@ -28131,196 +28177,198 @@ void __thiscall game::ConvertObject(game *this, int x1, int y1, int x2, int y2, 
 // 4F0A04: using guessed type int MAP_HEIGHT;
 
 //----- (00427520) --------------------------------------------------------
-int __thiscall game::RandomizeTown(void *this, int a2, int a3, int a4) // Check this function (for faction randomization)
+int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUseless)
 {
   int result; // eax@4
-  void *thisa; // [sp+Ch] [bp-1Ch]@1
-  signed int v6; // [sp+10h] [bp-18h]@1
-  void *v7; // [sp+14h] [bp-14h]@1
-  char v8; // [sp+24h] [bp-4h]@2
+  game *thisa; // [sp+Ch] [bp-1Ch]@1
+  signed int townID; // [sp+10h] [bp-18h]@1
+  TownExtra *probablyRandomTown; // [sp+14h] [bp-14h]@1
+  char faction; // [sp+24h] [bp-4h]@2
 
   thisa = this;
-  v6 = game::GetTownId((game *)this, a2, a3);
-  v7 = ppMapExtra[(unsigned __int8)((unsigned __int8)(*(_WORD *)(*(_DWORD *)((char *)thisa + 2878)
-                                                               + 12 * a3 * *(_DWORD *)((char *)thisa + 2886)
-                                                               + 12 * a2
-                                                               + 4) >> 8) >> -5)];
-  if ( *(_BYTE *)v7 == -1 )
-    v8 = Random(0, 5); // Constant here (could be related to faction)
+  townID = game::GetTownId(this, argX, argY);
+  probablyRandomTown = (TownExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(*(&thisa->map.tiles[argX].field_4_1_1_isShadow_1_13_extraInfo
+                                                                                   + 6 * argY * thisa->map.width) >> 8) >> -5)];
+  if ( probablyRandomTown->color == -1 )
+    faction = Random(0, 5);                     // Constant here (faction bounds need to be generalized)
   else
-    v8 = *((_BYTE *)thisa + gcColorToSetupPos[*(_BYTE *)v7] + 1113);
-  *((_WORD *)thisa + 50 * v6 + 1492) = 10;
-  game::ConvertObject((game *)thisa, a2 - 5, a3 - 3, a2 + 2, a3 + 1, 38, 0, 31, 35, 32 * v8, 48, 35);
-  game::ConvertObject((game *)thisa, a2 - 5, a3 - 3, a2 + 2, a3 + 1, 38, 32, 255, 37, 32 * v8, 48, 35);
-  game::ConvertObject((game *)thisa, a2 - 5, a3 - 3, a2 + 2, a3 + 1, 38, 0, 31, 35, 32 * v8, 49, 35);
-  game::ConvertObject((game *)thisa, a2 - 5, a3 - 3, a2 + 2, a3 + 1, 38, 32, 255, 37, 32 * v8, 49, 35);
-  LOBYTE(result) = v8;
-  *((_BYTE *)thisa + 100 * v6 + 2902) = v8;
+    faction = thisa->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[probablyRandomTown->color]];
+  thisa->castles[townID].field_55 = 10;
+  game::ConvertObject(thisa, argX - 5, argY - 3, argX + 2, argY + 1, 38, 0, 31, 35, 32 * faction, 48, 35);
+  game::ConvertObject(thisa, argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 48, 35);
+  game::ConvertObject(thisa, argX - 5, argY - 3, argX + 2, argY + 1, 38, 0, 31, 35, 32 * faction, 49, 35);
+  game::ConvertObject(thisa, argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 49, 35);
+  LOBYTE(result) = faction;
+  thisa->castles[townID].factionID = faction;
   return result;
 }
 
 //----- (004276F0) --------------------------------------------------------
-int __thiscall game::RandomizeMine(int this, int a2, int a3) // Check this function (not likely)
+mapCell *__thiscall game::RandomizeMine(game *this, int coordX, int coordY)
 {
-  int v3; // ecx@47
-  int v4; // ST4C_4@57
-  int result; // eax@60
-  int thisa; // [sp+24h] [bp-48h]@1
-  char v7; // [sp+48h] [bp-24h]@28
-  signed int v8; // [sp+4Ch] [bp-20h]@51
-  signed int j; // [sp+50h] [bp-1Ch]@51
+  char *v3; // ecx@47
+  mapCell *v4; // ST4C_4@57
+  mapCell *result; // eax@60
+  game *thisa; // [sp+24h] [bp-48h]@1
+  char relatedToMineIdx; // [sp+48h] [bp-24h]@28
+  signed int mineID; // [sp+4Ch] [bp-20h]@51
+  signed int relatedToYCoord; // [sp+50h] [bp-1Ch]@51
   signed int i; // [sp+54h] [bp-18h]@1
-  signed int k; // [sp+58h] [bp-14h]@53
-  char v12; // [sp+5Ch] [bp-10h]@47
-  int v13; // [sp+60h] [bp-Ch]@0
-  int v14; // [sp+64h] [bp-8h]@1
-  char v15; // [sp+68h] [bp-4h]@16
+  signed int relatedToXCoord; // [sp+58h] [bp-14h]@53
+  char relatedToMineType; // [sp+5Ch] [bp-10h]@47
+  int mineType; // [sp+60h] [bp-Ch]@0
+  int mightBeTerrainIdx; // [sp+64h] [bp-8h]@1
+  char relatedToMineOverlayIndex; // [sp+68h] [bp-4h]@16
 
   thisa = this;
-  v14 = (unsigned __int8)giGroundToTerrain[*(_WORD *)(*(_DWORD *)(thisa + 2878)
-                                                    + 12 * a3 * *(_DWORD *)(thisa + 2886)
-                                                    + 12 * a2)];
+  mightBeTerrainIdx = (unsigned __int8)giGroundToTerrain[*(&thisa->map.tiles[coordY * thisa->map.width].groundIndex
+                                                         + 6 * coordX)];
   for ( i = 0; i < 30; ++i )
   {
-    switch ( v14 )
+    switch ( mightBeTerrainIdx )
     {
-      case 1:
-      case 6:
-        v13 = Random(1, 6);
-        if ( v13 == 1 )
-          v13 = 0;
+      case TERRAIN_IDX_GRASS:
+      case TERRAIN_IDX_DIRT:
+        mineType = Random(RESOURCE_MERCURY, RESOURCE_GOLD);
+        if ( mineType == RESOURCE_MERCURY )
+          mineType = RESOURCE_WOOD;
         break;
-      case 2:
-        v13 = Random(2, 6);
+      case TERRAIN_IDX_SNOW:
+        mineType = Random(RESOURCE_ORE, RESOURCE_GOLD);
         break;
-      case 3:
-        v13 = Random(0, 6);
+      case TERRAIN_IDX_SNOW|TERRAIN_IDX_GRASS:
+        mineType = Random(RESOURCE_WOOD, RESOURCE_GOLD);
         break;
       case 4:
-        v13 = 1;
+        mineType = RESOURCE_MERCURY;
         break;
       default:
-        v13 = Random(1, 6);
+        mineType = Random(RESOURCE_MERCURY, RESOURCE_GOLD);
         break;
     }
-    if ( !word_522FA0[v13] )
+    if ( !relatedToMinesOrResources[mineType] )
       i = 30;
   }
-  ++word_522FA0[v13];
-  if ( v13 )
+  ++relatedToMinesOrResources[mineType];
+  if ( mineType )
   {
-    if ( v13 == 1 )
+    if ( mineType == RESOURCE_MERCURY )
     {
-      v15 = 25;
+      relatedToMineOverlayIndex = 25;
     }
-    else if ( v14 == 1 )
+    else if ( mightBeTerrainIdx == TERRAIN_IDX_GRASS )
     {
-      v15 = 15;
+      relatedToMineOverlayIndex = 15;
     }
-    else if ( v14 == 2 )
+    else if ( mightBeTerrainIdx == TERRAIN_IDX_SNOW )
     {
-      v15 = 19;
+      relatedToMineOverlayIndex = 19;
     }
     else
     {
-      v15 = 9;
+      relatedToMineOverlayIndex = 9;
     }
   }
   else
   {
-    v15 = 5;
+    relatedToMineOverlayIndex = 5;
   }
-  if ( v13 )
+  if ( mineType )
   {
-    if ( v13 == 1 )
+    if ( mineType == RESOURCE_MERCURY )
     {
-      if ( v14 == 3 )
+      if ( mightBeTerrainIdx == 3 )
       {
-        v7 = 43;
+        relatedToMineIdx = 43;
       }
-      else if ( v14 == 4 )
+      else if ( mightBeTerrainIdx == 4 )
       {
-        v7 = 35;
+        relatedToMineIdx = 35;
       }
       else
       {
-        v7 = 27;
+        relatedToMineIdx = 27;
       }
     }
     else
     {
-      switch ( v14 )
+      switch ( mightBeTerrainIdx )
       {
-        case 1:
-          v7 = 17;
+        case TERRAIN_IDX_GRASS:
+          relatedToMineIdx = 17;
           break;
-        case 2:
-          v7 = 21;
+        case TERRAIN_IDX_SNOW:
+          relatedToMineIdx = 21;
           break;
-        case 3:
-          v7 = 23;
+        case TERRAIN_IDX_SNOW|TERRAIN_IDX_GRASS:
+          relatedToMineIdx = 23;
           break;
         case 5:
-          v7 = 13;
+          relatedToMineIdx = 13;
           break;
         default:
-          v7 = 11;
+          relatedToMineIdx = 11;
           break;
       }
     }
   }
   else
   {
-    v7 = 7;
+    relatedToMineIdx = 7;
   }
-  *(_BYTE *)(*(_DWORD *)(thisa + 2878) + 12 * a3 * *(_DWORD *)(thisa + 2886) + 12 * a2 + 3) = v7;
-  *(_BYTE *)(*(_DWORD *)(thisa + 2878) + 12 * a3 * *(_DWORD *)(thisa + 2886) + 4 * (3 * a2 + 3) + 3) = v7 + 1;
-  *(_BYTE *)(*(_DWORD *)(thisa + 2878) + 12 * (a3 - 1) * *(_DWORD *)(thisa + 2886) + 12 * a2 + 7) = v15;
-  *(_BYTE *)(*(_DWORD *)(thisa + 2878) + 12 * (a3 - 1) * *(_DWORD *)(thisa + 2886) + 4 * (3 * a2 + 3) + 7) = v15 + 1;
-  if ( v13 == 1 )
+  *(&thisa->map.tiles[coordX].objectIndex + 12 * coordY * thisa->map.width) = relatedToMineIdx;
+  *(&thisa->map.tiles[coordY * thisa->map.width].objectIndex + 4 * (3 * coordX + 3)) = relatedToMineIdx + 1;
+  *(&thisa->map.tiles[coordX].overlayIndex + 12 * (coordY - 1) * thisa->map.width) = relatedToMineOverlayIndex;
+  *(&thisa->map.tiles[(coordY - 1) * thisa->map.width].overlayIndex + 4 * (3 * coordX + 3)) = relatedToMineOverlayIndex
+                                                                                            + 1;
+  if ( mineType == RESOURCE_MERCURY )
   {
-    v3 = *(_DWORD *)(thisa + 2878) + 12 * a3 * *(_DWORD *)(thisa + 2886) + 4 * (3 * a2 + 3);
-    *(_BYTE *)(v3 + 2) |= 1u;
-    v12 = 1;
+    v3 = (char *)&thisa->map.tiles[coordY * thisa->map.width] + 4 * (3 * coordX + 3);
+    v3[2] |= 1u;
+    relatedToMineType = 1;
   }
-  else if ( v13 )
+  else if ( mineType )
   {
     fullMap::ChangeTilesetIndex(
-      (fullMap *)(thisa + 2878),
-      (mapCell *)(*(_DWORD *)(thisa + 2878) + 12 * a3 * *(_DWORD *)(thisa + 2886) + 4 * (3 * a2 + 3)),
-      a2 + 1,
-      a3,
+      &thisa->map,
+      (mapCell *)((char *)&thisa->map.tiles[coordY * thisa->map.width] + 4 * (3 * coordX + 3)),
+      coordX + 1,
+      coordY,
       29,
-      v13 - 2,
+      mineType - 2,
       0,
       -1);
-    v12 = 23;
+    relatedToMineType = 23;
   }
   else
   {
-    v12 = 29;
+    relatedToMineType = 29;
   }
-  v8 = game::GetMineId((game *)thisa, a2, a3);
-  for ( j = 0; j < 2; ++j )
+  mineID = game::GetMineId(thisa, coordX, coordY);
+  for ( relatedToYCoord = 0; relatedToYCoord < 2; ++relatedToYCoord )
   {
-    for ( k = 0; k < 2; ++k )
+    for ( relatedToXCoord = 0; relatedToXCoord < 2; ++relatedToXCoord )
     {
-      if ( (*(_BYTE *)(12 * (a2 + k) + 12 * (a3 - j) * *(_DWORD *)(thisa + 2886) + *(_DWORD *)(thisa + 2878) + 9) & 0x7F) <= 0
-        || (*(_BYTE *)(12 * (a2 + k) + 12 * (a3 - j) * *(_DWORD *)(thisa + 2886) + *(_DWORD *)(thisa + 2878) + 9) & 0x7Fu) > 0x30 )
+      if ( (*(&thisa->map.tiles[(coordY - relatedToYCoord) * thisa->map.width].objType
+            + 12 * coordX
+            + 12 * relatedToXCoord) & 0x7F) <= 0
+        || (*(&thisa->map.tiles[(coordY - relatedToYCoord) * thisa->map.width].objType
+            + 12 * coordX
+            + 12 * relatedToXCoord) & 0x7Fu) > 0x30 )
       {
-        v4 = *(_DWORD *)(thisa + 2878) + 12 * (a2 + k) + 12 * (a3 - j) * *(_DWORD *)(thisa + 2886);
-        *(_WORD *)(v4 + 4) = *(_WORD *)(v4 + 4) & 7 | 8 * v8;
-        *(_BYTE *)(*(_DWORD *)(thisa + 2878) + 12 * (a2 + k) + 12 * (a3 - j) * *(_DWORD *)(thisa + 2886) + 9) = v12;
+        v4 = &thisa->map.tiles[coordX + relatedToXCoord] + (coordY - relatedToYCoord) * thisa->map.width;
+        v4->field_4_1_1_isShadow_1_13_extraInfo = v4->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * mineID;
+        *(&thisa->map.tiles[(coordY - relatedToYCoord) * thisa->map.width].objType + 12 * coordX + 12 * relatedToXCoord) = relatedToMineType;
       }
     }
   }
-  result = *(_DWORD *)(thisa + 2878) + 12 * a3 * *(_DWORD *)(thisa + 2886) + 12 * a2;
-  *(_BYTE *)(result + 9) |= 0x80u;
-  LOBYTE(result) = v13;
-  *(_BYTE *)(7 * v8 + thisa + 23736) = v13;
+  result = &thisa->map.tiles[coordY * thisa->map.width] + coordX;
+  result->objType |= 0x80u;
+  LOBYTE(result) = mineType;
+  thisa->mines[mineID].type = mineType;
   return result;
 }
-// 522FA0: using guessed type __int16 word_522FA0[];
+// 522FA0: using guessed type __int16 relatedToMinesOrResources[];
 
 //----- (00427D10) --------------------------------------------------------
 int __thiscall game::InitRandomArtifacts(game *this)
@@ -28380,7 +28428,7 @@ int __thiscall game::GetRandomArtifactId(game *this, char allowedLevels, int all
       {
         if ( (!IsCursedItem(randArtifact) || allowNegatives && Random(0, 100) >= 30)
           && (this->mapHeader.winConditionType != WIN_CONDITION_FIND_ARTIFACT
-           || this->mapHeader.winConditionArgument - 1 != randArtifact) )
+           || this->mapHeader.winConditionArgumentOrLocX - 1 != randArtifact) )
           break;
       }
     }
@@ -28403,298 +28451,274 @@ bool __fastcall IsCursedItem(int art)
 }
 
 //----- (00427FF0) --------------------------------------------------------
-void __thiscall game::RandomizeHeroPool(game *this) // Check this function
+// Check this function
+void __thiscall game::RandomizeHeroPool(game *this)
 {
-  signed int idx; // [sp+10h] [bp-4h]@1
+  signed int heroIdx; // [sp+10h] [bp-4h]@1
 
-  for ( idx = 0; idx < 54; ++idx )
+  for ( heroIdx = 0; heroIdx < 54; ++heroIdx )
   {
-    this->heroes[idx].experience = Random(0, 50) + 40;
-    game::SetRandomHeroArmies(this, idx, 0); // Check this function
-    this->heroes[idx].remainingMobility = hero::CalcMobility(&this->heroes[idx]);
-    this->heroes[idx].mobility = this->heroes[idx].remainingMobility;
-    this->heroes[idx].randomSeed = Random(1, 255);
-    this->heroes[idx].wisdomLastOffered = 1;
-    switch ( this->heroes[idx].factionID ) // Constant here (faction-specific actions)
+    this->heroes[heroIdx].experience = Random(0, 50) + 40;
+    game::SetRandomHeroArmies(this, heroIdx, 0);// Check this function (It uses hardcoded, faction-specific data)
+    this->heroes[heroIdx].remainingMobility = hero::CalcMobility(&this->heroes[heroIdx]);
+    this->heroes[heroIdx].mobility = this->heroes[heroIdx].remainingMobility;
+    this->heroes[heroIdx].randomSeed = Random(1, 255);
+    this->heroes[heroIdx].wisdomLastOffered = 1;
+    switch ( this->heroes[heroIdx].factionID )
     {
       case FACTION_SORCERESS:
-        this->heroes[idx].spellsLearned[14] = 1;
+        this->heroes[heroIdx].spellsLearned[14] = 1;
         break;
       case FACTION_WARLOCK:
-        this->heroes[idx].spellsLearned[18] = 1;
+        this->heroes[heroIdx].spellsLearned[18] = 1;
         break;
       case FACTION_NECROMANCER:
-        this->heroes[idx].spellsLearned[9] = 1;
+        this->heroes[heroIdx].spellsLearned[9] = 1;
         break;
       case FACTION_WIZARD:
-        this->heroes[idx].spellsLearned[16] = 1;
+        this->heroes[heroIdx].spellsLearned[16] = 1;
         break;
     }
   }
 }
 
 //----- (004281E0) --------------------------------------------------------
-int __thiscall game::SetRandomHeroArmies(void *this, _DWORD a2, unsigned int a3)
+// Check this function (Design question on how to handle new factions, since they will break this logic)
+int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int arg3)
 {
-  int result; // eax@1
-  void *v4; // [sp+Ch] [bp-90h]@1
-  _DWORD v5; // [sp+10h] [bp-8Ch]@1
-  int v6; // [sp+14h] [bp-88h]@9
-  signed int i; // [sp+18h] [bp-84h]@3
-  signed int j; // [sp+18h] [bp-84h]@6
-  int v9; // [sp+1Ch] [bp-80h]@9
-  __int16 v10; // [sp+20h] [bp-7Ch]@1
-  __int16 v11; // [sp+22h] [bp-7Ah]@1
-  __int16 v12; // [sp+24h] [bp-78h]@1
-  __int16 v13; // [sp+26h] [bp-76h]@1
-  __int16 v14; // [sp+28h] [bp-74h]@1
-  __int16 v15; // [sp+2Ah] [bp-72h]@1
-  __int16 v16; // [sp+2Ch] [bp-70h]@1
-  __int16 v17; // [sp+2Eh] [bp-6Eh]@1
-  __int16 v18; // [sp+30h] [bp-6Ch]@1
-  __int16 v19; // [sp+32h] [bp-6Ah]@1
-  __int16 v20; // [sp+34h] [bp-68h]@1
-  __int16 v21; // [sp+36h] [bp-66h]@1
-  __int16 v22; // [sp+38h] [bp-64h]@1
-  __int16 v23; // [sp+3Ah] [bp-62h]@1
-  __int16 v24; // [sp+3Ch] [bp-60h]@1
-  __int16 v25; // [sp+3Eh] [bp-5Eh]@1
-  __int16 v26; // [sp+40h] [bp-5Ch]@1
-  __int16 v27; // [sp+42h] [bp-5Ah]@1
-  __int16 v28; // [sp+44h] [bp-58h]@1
-  __int16 v29; // [sp+46h] [bp-56h]@1
-  __int16 v30; // [sp+48h] [bp-54h]@1
-  __int16 v31; // [sp+4Ah] [bp-52h]@1
-  __int16 v32; // [sp+4Ch] [bp-50h]@1
-  __int16 v33; // [sp+4Eh] [bp-4Eh]@1
-  __int16 v34; // [sp+50h] [bp-4Ch]@1
-  __int16 v35; // [sp+52h] [bp-4Ah]@1
-  __int16 v36; // [sp+54h] [bp-48h]@1
-  __int16 v37; // [sp+56h] [bp-46h]@1
-  __int16 v38; // [sp+58h] [bp-44h]@1
-  __int16 v39; // [sp+5Ah] [bp-42h]@1
-  __int16 v40; // [sp+5Ch] [bp-40h]@1
-  __int16 v41; // [sp+5Eh] [bp-3Eh]@1
-  __int16 v42; // [sp+60h] [bp-3Ch]@1
-  __int16 v43; // [sp+62h] [bp-3Ah]@1
-  __int16 v44; // [sp+64h] [bp-38h]@1
-  __int16 v45; // [sp+66h] [bp-36h]@1
-  __int16 v46; // [sp+68h] [bp-34h]@1
-  __int16 v47; // [sp+6Ah] [bp-32h]@1
-  __int16 v48; // [sp+6Ch] [bp-30h]@1
-  __int16 v49; // [sp+6Eh] [bp-2Eh]@1
-  __int16 v50; // [sp+70h] [bp-2Ch]@1
-  __int16 v51; // [sp+72h] [bp-2Ah]@1
-  __int16 v52; // [sp+74h] [bp-28h]@1
-  __int16 v53; // [sp+76h] [bp-26h]@1
-  __int16 v54; // [sp+78h] [bp-24h]@1
-  __int16 v55; // [sp+7Ah] [bp-22h]@1
-  __int16 v56; // [sp+7Ch] [bp-20h]@1
-  __int16 v57; // [sp+7Eh] [bp-1Eh]@1
-  __int16 v58; // [sp+80h] [bp-1Ch]@1
-  __int16 v59; // [sp+82h] [bp-1Ah]@1
-  __int16 v60; // [sp+84h] [bp-18h]@1
-  __int16 v61; // [sp+86h] [bp-16h]@1
-  __int16 v62; // [sp+88h] [bp-14h]@1
-  __int16 v63; // [sp+8Ah] [bp-12h]@1
-  char *v64; // [sp+8Ch] [bp-10h]@1
-  int v65; // [sp+90h] [bp-Ch]@1
-  bool v66; // [sp+94h] [bp-8h]@1
-  bool v67; // [sp+98h] [bp-4h]@1
+  int randomizedValue; // eax@1
+  game *pointerToGame; // [sp+Ch] [bp-90h]@1
+  int alsoGoesFrom0To1; // [sp+10h] [bp-8Ch]@1
+  int randomUpperBound; // [sp+14h] [bp-88h]@9
+  signed int armySlotIdx; // [sp+18h] [bp-84h]@3
+  signed int goesFrom0To1; // [sp+18h] [bp-84h]@6
+  int randomLowerBound; // [sp+1Ch] [bp-80h]@9
+  __int16 randomCreatureTypesAndQuantities[54]; // [sp+20h] [bp-7Ch]@1
+  armyGroup *pointerToArmyOfHeroIdx; // [sp+8Ch] [bp-10h]@1
+  bool mightBeBool[3]; // [sp+90h] [bp-Ch]@1
 
-  v4 = this;
-  v64 = (char *)this + 250 * a2 + 10281;
-  v5 = 0;
-  v10 = 0;
-  v11 = 30;
-  v12 = 50;
-  v13 = 1;
-  v14 = 3;
-  v15 = 5;
-  v16 = 3;
-  v17 = 2;
-  v18 = 4;
-  v19 = 11;
-  v20 = 15;
-  v21 = 25;
-  v22 = 12;
-  v23 = 3;
-  v24 = 5;
-  v25 = 14;
-  v26 = 2;
-  v27 = 3;
-  v28 = 20;
-  v29 = 10;
-  v30 = 20;
-  v31 = 21;
-  v32 = 2;
-  v33 = 4;
-  v34 = 23;
-  v35 = 1;
-  v36 = 2;
-  v37 = 29;
-  v38 = 6;
-  v39 = 10;
-  v40 = 30;
-  v41 = 2;
-  v42 = 4;
-  v43 = 31;
-  v44 = 1;
-  v45 = 2;
-  v46 = 38;
-  v47 = 6;
-  v48 = 10;
-  v49 = 39;
-  v50 = 2;
-  v51 = 4;
-  v52 = 40;
-  v53 = 1;
-  v54 = 2;
-  v55 = 47;
-  v56 = 6;
-  v57 = 10;
-  v58 = 48;
-  v59 = 2;
-  v60 = 4;
-  v61 = 50;
-  v62 = 1;
-  v63 = 2;
-  v65 = 1;
-  v66 = Random(0, 99) < (a3 < 1 ? 50 : 80);
-  result = Random(0, 99);
-  v67 = (a3 < 1 ? 25 : 65) > result;
-  if ( (a3 < 1 ? 25 : 65) <= result )
-    v66 = 1;
-  for ( i = 0; i < 5; ++i )
+  pointerToGame = this;
+  pointerToArmyOfHeroIdx = &this->heroes[heroIdx].army;
+  alsoGoesFrom0To1 = 0;
+  randomCreatureTypesAndQuantities[0] = CREATURE_PEASANT;
+  randomCreatureTypesAndQuantities[1] = 30;
+  randomCreatureTypesAndQuantities[2] = 50;
+  randomCreatureTypesAndQuantities[3] = 1;
+  randomCreatureTypesAndQuantities[4] = 3;
+  randomCreatureTypesAndQuantities[5] = 5;
+  randomCreatureTypesAndQuantities[6] = CREATURE_PIKEMAN;
+  randomCreatureTypesAndQuantities[7] = 2;
+  randomCreatureTypesAndQuantities[8] = 4;
+  randomCreatureTypesAndQuantities[9] = CREATURE_GOBLIN;
+  randomCreatureTypesAndQuantities[10] = 15;
+  randomCreatureTypesAndQuantities[11] = 25;
+  randomCreatureTypesAndQuantities[12] = 12;
+  randomCreatureTypesAndQuantities[13] = 3;
+  randomCreatureTypesAndQuantities[14] = 5;
+  randomCreatureTypesAndQuantities[15] = CREATURE_WOLF;
+  randomCreatureTypesAndQuantities[16] = 2;
+  randomCreatureTypesAndQuantities[17] = 3;
+  randomCreatureTypesAndQuantities[18] = CREATURE_SPRITE;
+  randomCreatureTypesAndQuantities[19] = 10;
+  randomCreatureTypesAndQuantities[20] = 20;
+  randomCreatureTypesAndQuantities[21] = 21;
+  randomCreatureTypesAndQuantities[22] = 2;
+  randomCreatureTypesAndQuantities[23] = 4;
+  randomCreatureTypesAndQuantities[24] = CREATURE_ELF;
+  randomCreatureTypesAndQuantities[25] = 1;
+  randomCreatureTypesAndQuantities[26] = 2;
+  randomCreatureTypesAndQuantities[27] = CREATURE_CENTAUR;
+  randomCreatureTypesAndQuantities[28] = 6;
+  randomCreatureTypesAndQuantities[29] = 10;
+  randomCreatureTypesAndQuantities[30] = 30;
+  randomCreatureTypesAndQuantities[31] = 2;
+  randomCreatureTypesAndQuantities[32] = 4;
+  randomCreatureTypesAndQuantities[33] = CREATURE_GRIFFIN;
+  randomCreatureTypesAndQuantities[34] = 1;
+  randomCreatureTypesAndQuantities[35] = 2;
+  randomCreatureTypesAndQuantities[36] = CREATURE_HALFLING;
+  randomCreatureTypesAndQuantities[37] = 6;
+  randomCreatureTypesAndQuantities[38] = 10;
+  randomCreatureTypesAndQuantities[39] = 39;
+  randomCreatureTypesAndQuantities[40] = 2;
+  randomCreatureTypesAndQuantities[41] = 4;
+  randomCreatureTypesAndQuantities[42] = CREATURE_IRON_GOLEM;
+  randomCreatureTypesAndQuantities[43] = 1;
+  randomCreatureTypesAndQuantities[44] = 2;
+  randomCreatureTypesAndQuantities[45] = CREATURE_SKELETON;
+  randomCreatureTypesAndQuantities[46] = 6;
+  randomCreatureTypesAndQuantities[47] = 10;
+  randomCreatureTypesAndQuantities[48] = 48;
+  randomCreatureTypesAndQuantities[49] = 2;
+  randomCreatureTypesAndQuantities[50] = 4;
+  randomCreatureTypesAndQuantities[51] = CREATURE_MUMMY;
+  randomCreatureTypesAndQuantities[52] = 1;
+  randomCreatureTypesAndQuantities[53] = 2;
+  mightBeBool[0] = 1;
+  mightBeBool[1] = Random(0, 99) < (arg3 < 1 ? 50 : 80);// If arg3 < 1, there is a ~50% chance that this line will assign a "true" value; if not, then a ~20% chance
+  randomizedValue = Random(0, 99);
+  mightBeBool[2] = (arg3 < 1 ? 25 : 65) > randomizedValue;// If arg3 < 1, there is a ~25% chance that this line will assign a "true" value; if not, then a ~65% chance
+  if ( (arg3 < 1 ? 25 : 65) <= randomizedValue )// If arg3 < 1, there is a ~75% chance that this line will be "true"; if not, then a ~35% chance
+    mightBeBool[1] = 1;
+  for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx )
   {
-    v64[i] = -1;
-    result = i;
-    *(_WORD *)&v64[2 * i + 5] = -1;
+    pointerToArmyOfHeroIdx->creatureTypes[armySlotIdx] = -1;
+    randomizedValue = armySlotIdx;
+    pointerToArmyOfHeroIdx->quantities[armySlotIdx] = -1;
   }
-  for ( j = 0; j < 2; ++j )
+  for ( goesFrom0To1 = 0; goesFrom0To1 < 2; ++goesFrom0To1 )// "goesFrom0To1" is only a multiplier to the creature/quantity offsets on the second pass of the for loop, assuming that the IF statement condition is "true" on the second pass
   {
-    result = j;
-    if ( *(&v65 + j) )
+    randomizedValue = goesFrom0To1;
+    if ( mightBeBool[goesFrom0To1] )
     {
-      v64[v5] = *((_BYTE *)&v10 + 18 * *((_BYTE *)v4 + 250 * a2 + 10203) + 6 * j);
-      v9 = 10 * *(&v11 + 9 * *((_BYTE *)v4 + 250 * a2 + 10203) + 3 * j);
-      v6 = 10 * *(&v12 + 9 * *((_BYTE *)v4 + 250 * a2 + 10203) + 3 * j) + 9;
-      if ( a3 )
-        v9 = (v6 + v9) / 2;
-      result = Random(v9, v6) / 10;
-      *(_WORD *)&v64[2 * v5++ + 5] = result;
+      pointerToArmyOfHeroIdx->creatureTypes[alsoGoesFrom0To1] = *((_BYTE *)&randomCreatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID]
+                                                                + 6 * goesFrom0To1);
+      randomLowerBound = 10
+                       * *(&randomCreatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID + 1]
+                         + 3 * goesFrom0To1);
+      randomUpperBound = 10
+                       * *(&randomCreatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID + 2]
+                         + 3 * goesFrom0To1)
+                       + 9;
+      if ( arg3 )                               //  If arg3, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
+        randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
+      randomizedValue = Random(randomLowerBound, randomUpperBound) / 10;
+      pointerToArmyOfHeroIdx->quantities[alsoGoesFrom0To1++] = randomizedValue;
     }
   }
-  return result;
+  return randomizedValue;
 }
-// 4281E0: too many cbuild loops
 
 //----- (00428580) --------------------------------------------------------
-int __thiscall game::ProcessRandomObjects(game *this) // Check this function
+int __thiscall game::ProcessRandomObjects(game *this)
 {
   int result; // eax@5
-  char v2; // ST70_1@40
-  char v3; // ST70_1@41
-  char v4; // ST70_1@42
-  char v5; // ST70_1@43
-  int v7; // [sp+2Ch] [bp-20h]@32
+  char randomArtifactID; // ST70_1@40
+  char randomArtifactIDTreasure; // ST70_1@41
+  char randomArtifactIDMinor; // ST70_1@42
+  char randomArtifactIDMajor; // ST70_1@43
+  int randomResource; // [sp+2Ch] [bp-20h]@32
   mapCell *cell; // [sp+30h] [bp-1Ch]@9
-  int v9; // [sp+34h] [bp-18h]@13
-  int y2; // [sp+38h] [bp-14h]@4
-  signed int i; // [sp+3Ch] [bp-10h]@1
-  int x2; // [sp+40h] [bp-Ch]@6
-  int v13; // [sp+48h] [bp-4h]@13
+  int maxFightValue; // [sp+34h] [bp-18h]@13
+  int cellYCoord; // [sp+38h] [bp-14h]@4
+  signed int resourceIdx; // [sp+3Ch] [bp-10h]@1
+  int cellXCoord; // [sp+40h] [bp-Ch]@6
+  int minFightValue; // [sp+48h] [bp-4h]@13
 
-  giUABaseX = -1;
-  giUABaseY = -1;
-  giUARadius = 0;
-  for ( i = 0; i < 7; ++i )
-    word_522FA0[i] = 0;
-  for ( y2 = 0; ; ++y2 )
+  giUltimateArtifactBaseX = -1;
+  giUltimateArtifactBaseY = -1;
+  giUltimateArtifactRadius = 0;
+  for ( resourceIdx = 0; resourceIdx < 7; ++resourceIdx )
+    relatedToMinesOrResources[resourceIdx] = 0;
+  for ( cellYCoord = 0; ; ++cellYCoord )
   {
     result = MAP_HEIGHT;
-    if ( y2 >= MAP_HEIGHT )
+    if ( cellYCoord >= MAP_HEIGHT )
       break;
-    for ( x2 = 0; x2 < MAP_WIDTH; ++x2 )
+    for ( cellXCoord = 0; cellXCoord < MAP_WIDTH; ++cellXCoord )
     {
-      cell = &this->map.tiles[y2 * this->map.width] + x2;
+      cell = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
       switch ( cell->objType )
       {
         case TILE_HAS_EVENT|LOCATION_WINDMILL|LOCATION_SKELETON:
-          giUABaseX = x2;
-          giUABaseY = y2;
-          giUARadius = ((cell->field_4 >> 3) & 0x1FFF);
+          giUltimateArtifactBaseX = cellXCoord;
+          giUltimateArtifactBaseY = cellYCoord;
+          giUltimateArtifactRadius = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
           cell->objType = 0;
           cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
           cell->objectIndex = -1;
           continue;
         case TILE_HAS_EVENT|LOCATION_RANDOM_TOWN:
-          game::RandomizeTown(this, x2, y2, 0); // Check this function
+          game::RandomizeTown(this, cellXCoord, cellYCoord, 0);// Check this function (Constant here; inside function)
           continue;
         case TILE_HAS_EVENT|LOCATION_RANDOM_CASTLE:
-          game::RandomizeTown(this, x2, y2, 1); // Check this function
+          game::RandomizeTown(this, cellXCoord, cellYCoord, 1);
           continue;
-        case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER: // Constant here (check this and below for creature constants)
-          v13 = 80;
-          v9 = 2000;
+        case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER:
+          minFightValue = 80;
+          maxFightValue = 2000;
           goto LABEL_18;
         case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER_WEAK:
-          v13 = 0;
-          v9 = 400;
+          minFightValue = 0;
+          maxFightValue = 400;
           goto LABEL_18;
         case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER_MEDIUM:
-          v13 = 400;
-          v9 = 1000;
+          minFightValue = 400;
+          maxFightValue = 1000;
           goto LABEL_18;
         case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER_STRONG:
-          v13 = 1000;
-          v9 = 2500;
+          minFightValue = 1000;
+          maxFightValue = 2500;
           goto LABEL_18;
         case TILE_HAS_EVENT|LOCATION_RANDOM_MONSTER_VERY_STRONG:
-          v13 = 2500;
-          v9 = 100000;
+          minFightValue = 2500;
+          maxFightValue = 100000;
 LABEL_18:
           if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 12
             && cell->objectIndex >= 67
             && cell->objectIndex <= 70 )
           {
-            switch ( cell->objectIndex ) // Constant here (related to creatures)
+            switch ( cell->objectIndex )
             {
-              case 0x43:
-                v13 = 0;
-                v9 = 400;
+              case 67:
+                minFightValue = 0;
+                maxFightValue = 400;
                 break;
-              case 0x44:
-                v13 = 400;
-                v9 = 1000;
+              case 68:
+                minFightValue = 400;
+                maxFightValue = 1000;
                 break;
-              case 0x45:
-                v13 = 1000;
-                v9 = 2500;
+              case 69:
+                minFightValue = 1000;
+                maxFightValue = 2500;
                 break;
-              case 0x46:
-                v13 = 2500;
-                v9 = 100000;
+              case 70:
+                minFightValue = 2500;
+                maxFightValue = 100000;
                 break;
               default:
                 break;
             }
           }
           cell->objType = -104;
-          for ( cell->objectIndex = Random(0, 65); // Constant here (creatues)
-                gMonsterDatabase[cell->objectIndex].fight_value <= v13
-             || gMonsterDatabase[cell->objectIndex].fight_value >= v9;
-                cell->objectIndex = Random(0, 65) ) // Constant here (creatures)
-            ;
+          for ( cell->objectIndex = Random(0, 65);// Constant here
+                gMonsterDatabase[cell->objectIndex].fight_value <= minFightValue
+             || gMonsterDatabase[cell->objectIndex].fight_value >= maxFightValue;
+                cell->objectIndex = Random(0, 65) )// It uses the fight value ranges to pick a random creature whose fight value satisfies the range
+            ;                                   // If a new creature doesn't satisfy any of these fight value ranges, it will never be selected for a random monster object
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_RESOURCE:
           cell->objType = -101;
-          v7 = Random(0, 6);
-          game::ConvertObject(this, x2 - 1, y2, x2 - 1, y2, 46, 16, 16, 46, 2 * v7, -1, -1);
-          game::ConvertObject(this, x2, y2, x2, y2, 46, 17, 17, 46, 2 * v7 + 1, -1, -1);
-          if ( v7 && v7 != 2 )
+          randomResource = Random(0, 6);
+          game::ConvertObject(
+            this,
+            cellXCoord - 1,
+            cellYCoord,
+            cellXCoord - 1,
+            cellYCoord,
+            46,
+            16,
+            16,
+            46,
+            2 * randomResource,
+            -1,
+            -1);
+          game::ConvertObject(
+            this,
+            cellXCoord,
+            cellYCoord,
+            cellXCoord,
+            cellYCoord,
+            46,
+            17,
+            17,
+            46,
+            2 * randomResource + 1,
+            -1,
+            -1);
+          if ( randomResource && randomResource != 2 )// RESOURCE_ORE
           {
-            if ( v7 == 6 )
+            if ( randomResource == 6 )          // RESOURCE_GOLD
               cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
             else
               cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(3, 7);
@@ -28705,31 +28729,127 @@ LABEL_18:
           }
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_ARTIFACT:
-          v2 = game::GetRandomArtifactId(this, 14, 0);
+          randomArtifactID = game::GetRandomArtifactId(this, 14, 0);
           cell->objType = -87;
-          game::ConvertObject(this, x2 - 1, y2, x2 - 1, y2, 11, 162, 162, 11, 2 * v2, -1, -1);
-          game::ConvertObject(this, x2, y2, x2, y2, 11, 163, 163, 11, 2 * v2 + 1, -1, -1);
+          game::ConvertObject(
+            this,
+            cellXCoord - 1,
+            cellYCoord,
+            cellXCoord - 1,
+            cellYCoord,
+            11,
+            162,
+            162,
+            11,
+            2 * randomArtifactID,
+            -1,
+            -1);
+          game::ConvertObject(
+            this,
+            cellXCoord,
+            cellYCoord,
+            cellXCoord,
+            cellYCoord,
+            11,
+            163,
+            163,
+            11,
+            2 * randomArtifactID + 1,
+            -1,
+            -1);
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_ARTIFACT_TREASURE:
-          v3 = game::GetRandomArtifactId(this, 8, 0);
+          randomArtifactIDTreasure = game::GetRandomArtifactId(this, 8, 0);
           cell->objType = -87;
-          game::ConvertObject(this, x2 - 1, y2, x2 - 1, y2, 11, 166, 166, 11, 2 * v3, -1, -1);
-          game::ConvertObject(this, x2, y2, x2, y2, 11, 167, 167, 11, 2 * v3 + 1, -1, -1);
+          game::ConvertObject(
+            this,
+            cellXCoord - 1,
+            cellYCoord,
+            cellXCoord - 1,
+            cellYCoord,
+            11,
+            166,
+            166,
+            11,
+            2 * randomArtifactIDTreasure,
+            -1,
+            -1);
+          game::ConvertObject(
+            this,
+            cellXCoord,
+            cellYCoord,
+            cellXCoord,
+            cellYCoord,
+            11,
+            167,
+            167,
+            11,
+            2 * randomArtifactIDTreasure + 1,
+            -1,
+            -1);
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_ARTIFACT_MINOR:
-          v4 = game::GetRandomArtifactId(this, 4, 0);
+          randomArtifactIDMinor = game::GetRandomArtifactId(this, 4, 0);
           cell->objType = -87;
-          game::ConvertObject(this, x2 - 1, y2, x2 - 1, y2, 11, 168, 168, 11, 2 * v4, -1, -1);
-          game::ConvertObject(this, x2, y2, x2, y2, 11, 169, 169, 11, 2 * v4 + 1, -1, -1);
+          game::ConvertObject(
+            this,
+            cellXCoord - 1,
+            cellYCoord,
+            cellXCoord - 1,
+            cellYCoord,
+            11,
+            168,
+            168,
+            11,
+            2 * randomArtifactIDMinor,
+            -1,
+            -1);
+          game::ConvertObject(
+            this,
+            cellXCoord,
+            cellYCoord,
+            cellXCoord,
+            cellYCoord,
+            11,
+            169,
+            169,
+            11,
+            2 * randomArtifactIDMinor + 1,
+            -1,
+            -1);
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_ARTIFACT_MAJOR:
-          v5 = game::GetRandomArtifactId(this, 2, 0);
+          randomArtifactIDMajor = game::GetRandomArtifactId(this, 2, 0);
           cell->objType = -87;
-          game::ConvertObject(this, x2 - 1, y2, x2 - 1, y2, 11, 170, 170, 11, 2 * v5, -1, -1);
-          game::ConvertObject(this, x2, y2, x2, y2, 11, 171, 171, 11, 2 * v5 + 1, -1, -1);
+          game::ConvertObject(
+            this,
+            cellXCoord - 1,
+            cellYCoord,
+            cellXCoord - 1,
+            cellYCoord,
+            11,
+            170,
+            170,
+            11,
+            2 * randomArtifactIDMajor,
+            -1,
+            -1);
+          game::ConvertObject(
+            this,
+            cellXCoord,
+            cellYCoord,
+            cellXCoord,
+            cellYCoord,
+            11,
+            171,
+            171,
+            11,
+            2 * randomArtifactIDMajor + 1,
+            -1,
+            -1);
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_TOWN|LOCATION_SIGN:
-          game::RandomizeMine((int)this, x2, y2); // Check this function (not likely)
+          game::RandomizeMine(this, cellXCoord, cellYCoord);
           break;
         default:
           continue;
@@ -28740,21 +28860,20 @@ LABEL_18:
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
-// 522F90: using guessed type __int16 giUARadius;
-// 522FA0: using guessed type __int16 word_522FA0[];
-// 522FB4: using guessed type __int16 giUABaseX;
-// 522FB8: using guessed type __int16 giUABaseY;
+// 522F90: using guessed type __int16 giUltimateArtifactRadius;
+// 522FA0: using guessed type __int16 relatedToMinesOrResources[];
+// 522FB4: using guessed type __int16 giUltimateArtifactBaseX;
+// 522FB8: using guessed type __int16 giUltimateArtifactBaseY;
 
 //----- (00428CD0) --------------------------------------------------------
-int __thiscall game::SetVisibility(game *this, int x, int y, int playerIdx, signed int radius)
+void __thiscall game::SetVisibility(game *this, int x, int y, int playerIdx, signed int radius)
 {
-  int result; // eax@12
-  int v6; // ebx@24
+  int v5; // ebx@24
   char playerBit; // [sp+1Ch] [bp-18h]@1
   int i; // [sp+20h] [bp-14h]@11
   int point[2]; // [sp+20h] [bp-14h]@20
   int j; // [sp+24h] [bp-10h]@13
-  int v11; // [sp+30h] [bp-4h]@8
+  int v10; // [sp+30h] [bp-4h]@8
 
   playerBit = 1 << playerIdx;
   if ( !gbHumanPlayer[playerIdx] )
@@ -28772,31 +28891,25 @@ int __thiscall game::SetVisibility(game *this, int x, int y, int playerIdx, sign
     }
   }
   if ( radius < 5 )
-    v11 = 2;
+    v10 = 2;
   else
-    v11 = 3;
+    v10 = 3;
   if ( radius < 10 )
   {
-    for ( point[0] = y - radius; ; ++point[0] )
+    for ( point[0] = y - radius; y + radius >= point[0]; ++point[0] )
     {
-      result = y + radius;
-      if ( y + radius < point[0] )
-        break;
       for ( point[1] = x - radius; radius + x >= point[1]; ++point[1] )
       {
-        v6 = radius + radius - abs(y - point[0]);
-        if ( v11 <= v6 - abs(x - point[1]) && *(_QWORD *)point >= 0i64 && MAP_WIDTH > point[1] && point[0] < MAP_HEIGHT )
+        v5 = radius + radius - abs(y - point[0]);
+        if ( v10 <= v5 - abs(x - point[1]) && *(_QWORD *)point >= 0i64 && MAP_WIDTH > point[1] && point[0] < MAP_HEIGHT )
           *(&mapRevealed[point[1]] + point[0] * MAP_WIDTH) |= playerBit;
       }
     }
   }
   else
   {
-    for ( i = 0; ; ++i )
+    for ( i = 0; i < MAP_HEIGHT; ++i )
     {
-      result = MAP_HEIGHT;
-      if ( i >= MAP_HEIGHT )
-        break;
       for ( j = 0; MAP_WIDTH > j; ++j )
       {
         if ( (signed int)(signed __int64)sqrt((double)((y - i) * (y - i) + (x - j) * (x - j))) < radius )
@@ -28804,7 +28917,6 @@ int __thiscall game::SetVisibility(game *this, int x, int y, int playerIdx, sign
       }
     }
   }
-  return result;
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
@@ -28918,23 +29030,23 @@ int __stdcall game::GetLuck(hero *hro, army *stack, town *castle)
 }
 
 //----- (004292B0) --------------------------------------------------------
-void __thiscall game::SetupAdjacentMons(game *this) // Check this function
+void __thiscall game::SetupAdjacentMons(game *this)
 {
-  int a4; // [sp+10h] [bp-14h]@5
-  int a3; // [sp+14h] [bp-10h]@5
-  unsigned __int8 v3; // [sp+18h] [bp-Ch]@1
-  int j; // [sp+1Ch] [bp-8h]@3
-  int i; // [sp+20h] [bp-4h]@1
+  int monsterCoordY; // [sp+10h] [bp-14h]@5
+  int monsterCoordX; // [sp+14h] [bp-10h]@5
+  unsigned __int8 bitMask; // [sp+18h] [bp-Ch]@1
+  int y; // [sp+1Ch] [bp-8h]@3
+  int x; // [sp+20h] [bp-4h]@1
 
-  v3 = 0x7Fu;
-  for ( i = 0; MAP_WIDTH > i; ++i )
+  bitMask = 0x7Fu;
+  for ( x = 0; MAP_WIDTH > x; ++x )
   {
-    for ( j = 0; j < MAP_HEIGHT; ++j )
+    for ( y = 0; y < MAP_HEIGHT; ++y )
     {
-      if ( advManager::FindAdjacentMonster(gpAdvManager, i, j, (int)&a3, (int)&a4, -1, -1) ) // Check this function
-        *(&mapRevealed[i] + MAP_WIDTH * j) |= 0x80u;
+      if ( advManager::FindAdjacentMonster(gpAdvManager, x, y, &monsterCoordX, &monsterCoordY, -1, -1) )
+        *(&mapRevealed[x] + MAP_WIDTH * y) |= 0x80u;
       else
-        *(&mapRevealed[i] + MAP_WIDTH * j) &= v3;
+        *(&mapRevealed[x] + MAP_WIDTH * y) &= bitMask;
     }
   }
 }
@@ -29139,195 +29251,197 @@ void __thiscall game::ConvertAllToLateOverlay(game *this, int x, int y)
 }
 
 //----- (00429B90) --------------------------------------------------------
-int __thiscall game::ProcessMapExtra(game *this) // Check this function (less likely)
+int __thiscall game::ProcessMapExtra(game *this)
 {
-  signed int v1; // ST20_4@6
-  int result; // eax@28
-  signed int v3; // [sp+Ch] [bp-20h]@5
-  mapCell *cell; // [sp+14h] [bp-18h]@5
-  mapCell *cella; // [sp+14h] [bp-18h]@16
-  int y; // [sp+1Ch] [bp-10h]@1
-  int ya; // [sp+1Ch] [bp-10h]@12
-  int yb; // [sp+1Ch] [bp-10h]@27
-  int x; // [sp+20h] [bp-Ch]@3
-  int xa; // [sp+20h] [bp-Ch]@14
-  int xb; // [sp+20h] [bp-Ch]@29
+  signed int townID; // ST20_4@6
+  int probablyMapHeight; // eax@28
+  signed int objType; // [sp+Ch] [bp-20h]@5
+  mapCell *townCell; // [sp+14h] [bp-18h]@5
+  mapCell *objCell; // [sp+14h] [bp-18h]@16
+  int townYCoord; // [sp+1Ch] [bp-10h]@1
+  int objYCoord; // [sp+1Ch] [bp-10h]@12
+  int coordY; // [sp+1Ch] [bp-10h]@27
+  int townXCoord; // [sp+20h] [bp-Ch]@3
+  int objXCoord; // [sp+20h] [bp-Ch]@14
+  int coordX; // [sp+20h] [bp-Ch]@29
 
-  for ( y = 0; MAP_HEIGHT > y; ++y )
+  for ( townYCoord = 0; MAP_HEIGHT > townYCoord; ++townYCoord )
   {
-    for ( x = 0; x < MAP_WIDTH; ++x )
+    for ( townXCoord = 0; townXCoord < MAP_WIDTH; ++townXCoord )
     {
-      cell = &this->map.tiles[y * this->map.width] + x;
-      v3 = cell->objType;
-      if ( v3 == 163 || v3 >= 176 && v3 <= 177 )
+      townCell = &this->map.tiles[townYCoord * this->map.width] + townXCoord;
+      objType = townCell->objType;
+      if ( objType == 163 || objType >= 176 && objType <= 177 )
       {
-        v1 = game::GetTownId(this, x, y);
-        this->castles[v1].extraIdx = ((cell->field_4 >> 3) & 0x1FFF);
-        cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v1 | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+        townID = game::GetTownId(this, townXCoord, townYCoord);
+        this->castles[townID].extraIdx = (unsigned __int8)((unsigned __int8)(townCell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        townCell->field_4_1_1_isShadow_1_13_extraInfo = 8 * townID | townCell->field_4_1_1_isShadow_1_13_extraInfo & 7;
       }
     }
   }
-  for ( ya = 0; MAP_HEIGHT > ya; ++ya )
+  for ( objYCoord = 0; MAP_HEIGHT > objYCoord; ++objYCoord )
   {
-    for ( xa = 0; xa < MAP_WIDTH; ++xa )
+    for ( objXCoord = 0; objXCoord < MAP_WIDTH; ++objXCoord )
     {
-      cella = &this->map.tiles[ya * this->map.width] + xa;
-      if ( cella->objType == 151 && ya > 0 && game::HasLateOverlay(this, xa, ya - 1) )
-        game::ConvertFlagToLateOverlay(this, xa, ya);
-      if ( cella->objType == 129 )
+      objCell = &this->map.tiles[objYCoord * this->map.width] + objXCoord;
+      if ( objCell->objType == 151 && objYCoord > 0 && game::HasLateOverlay(this, objXCoord, objYCoord - 1) )
+        game::ConvertFlagToLateOverlay(this, objXCoord, objYCoord);
+      if ( objCell->objType == 129 )
       {
-        if ( ya > 0 )
-          game::ConvertFlagToLateOverlay(this, xa, ya - 1);
-        if ( ya > 1 )
-          game::ConvertFlagToLateOverlay(this, xa, ya - 2);
+        if ( objYCoord > 0 )
+          game::ConvertFlagToLateOverlay(this, objXCoord, objYCoord - 1);
+        if ( objYCoord > 1 )
+          game::ConvertFlagToLateOverlay(this, objXCoord, objYCoord - 2);
       }
     }
   }
-  for ( yb = 0; ; ++yb )
+  for ( coordY = 0; ; ++coordY )
   {
-    result = yb;
-    if ( MAP_HEIGHT <= yb )
+    probablyMapHeight = coordY;
+    if ( MAP_HEIGHT <= coordY )
       break;
-    for ( xb = 0; xb < MAP_WIDTH; ++xb )
+    for ( coordX = 0; coordX < MAP_WIDTH; ++coordX )
     {
-      if ( game::HasLateOverlay(this, xb, yb) )
-        game::ConvertAllToLateOverlay(this, xb, yb);
+      if ( game::HasLateOverlay(this, coordX, coordY) )
+        game::ConvertAllToLateOverlay(this, coordX, coordY);
     }
   }
-  return result;
+  return probablyMapHeight;
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
 
 //----- (00429E30) --------------------------------------------------------
-void __thiscall game::SetupTowns(game *this) // Check this function
+// Check this function (design question) and decompiler errors
+void __thiscall game::SetupTowns(game *this)
 {
-  char v3[10]; // [sp+14h] [bp-A0h]@22
-  int v4; // [sp+20h] [bp-94h]@22
-  int v5; // [sp+24h] [bp-90h]@92
+  char probablyNumDwellingsRandomizer[10]; // [sp+14h] [bp-A0h]@22
+  int probablyNumDwellings; // [sp+20h] [bp-94h]@22
+  int relatedToSpellAppearingChance; // [sp+24h] [bp-90h]@92
   int numSpellsOfLevel[5]; // [sp+28h] [bp-8Ch]@52
-  int k; // [sp+3Ch] [bp-78h]@52
-  int j; // [sp+40h] [bp-74h]@50
+  int spellIdx; // [sp+3Ch] [bp-78h]@52
+  int levelIdx; // [sp+40h] [bp-74h]@50
   int spell; // [sp+44h] [bp-70h]@87
   int randNum; // [sp+48h] [bp-6Ch]@63
   bool hasAdventureSpellAtLevel; // [sp+4Ch] [bp-68h]@81
   int playerPos; // [sp+50h] [bp-64h]@6
   char spellPresent[68]; // [sp+54h] [bp-60h]@50
   int tries; // [sp+98h] [bp-1Ch]@86 MAPDST
-  TownExtra *twn; // [sp+9Ch] [bp-18h]@5
-  int i; // [sp+A4h] [bp-10h]@9
+  TownExtra *pTown; // [sp+9Ch] [bp-18h]@5
+  int overusedIdx; // [sp+A4h] [bp-10h]@9
   int castleIdx; // [sp+A8h] [bp-Ch]@1
   town *castle; // [sp+ACh] [bp-8h]@5
-  int v19; // [sp+B0h] [bp-4h]@5
+  int someSortOfSpecialTownIdx; // [sp+B0h] [bp-4h]@5
 
   for ( castleIdx = 0; castleIdx < 72; ++castleIdx )
   {
     if ( this->castles[castleIdx].exists )
     {
       castle = &this->castles[castleIdx];
-      v19 = this->castles[castleIdx].extraIdx;
-      twn = (TownExtra *)ppMapExtra[v19];
-      if ( twn->color == -1 )
+      someSortOfSpecialTownIdx = this->castles[castleIdx].extraIdx;
+      pTown = (TownExtra *)ppMapExtra[someSortOfSpecialTownIdx];
+      if ( pTown->color == -1 )
         playerPos = -1;
       else
-        playerPos = gcColorToPlayerPos[twn->color];
+        playerPos = gcColorToPlayerPos[pTown->color];
       game::ClaimTown(this, castleIdx, playerPos, 0);
       castle->playerPos = playerPos;
-      if ( twn->customGarrison )
+      if ( pTown->customGarrison )
       {
-        for ( i = 0; i < 5; ++i )
+        for ( overusedIdx = 0; overusedIdx < 5; ++overusedIdx )// Here, the Idx is used to represent garrisonIdx
         {
-          castle->garrison.quantities[i] = twn->garrison.quantities[i];
-          if ( castle->garrison.quantities[i] <= 0 )
-            castle->garrison.creatureTypes[i] = -1; // Constant here (relates to creatures somehow?)
+          castle->garrison.quantities[overusedIdx] = pTown->garrison.quantities[overusedIdx];
+          if ( castle->garrison.quantities[overusedIdx] <= 0 )
+            castle->garrison.creatureTypes[overusedIdx] = -1;
           else
-            castle->garrison.creatureTypes[i] = twn->garrison.creatureTypes[i]; // Constant here (relates to creatures somehow?)
+            castle->garrison.creatureTypes[overusedIdx] = pTown->garrison.creatureTypes[overusedIdx];
         }
       }
       else
       {
-        for ( i = 0; i < 5; ++i )
+        for ( overusedIdx = 0; overusedIdx < 5; ++overusedIdx )// Here, the Idx is used to represent garrisonIdx
         {
-          castle->garrison.quantities[i] = 0;
-          castle->garrison.creatureTypes[i] = -1; // Constant here (relates to creatures somehow?)
+          castle->garrison.quantities[overusedIdx] = 0;
+          castle->garrison.creatureTypes[overusedIdx] = -1;
         }
-        game::GiveTroopsToNeutralTown(this, castleIdx); // Check this function
+        game::GiveTroopsToNeutralTown(this, castleIdx);// Check this function (design question for faction-specific creature assignments; new cases will need to be added for the new factions/creatures)
         game::GiveTroopsToNeutralTown(this, castleIdx);
         game::GiveTroopsToNeutralTown(this, castleIdx);
         game::GiveTroopsToNeutralTown(this, castleIdx);
       }
-      if ( twn->customBuildings )
+      if ( pTown->customBuildings )
       {
-        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | twn->buildingsBuilt & gTownEligibleBuildMask[castle->factionID]; // Constant here (figure out what this mask is for)
-        castle->mageGuildLevel = twn->mageGuildLevel;
+        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | pTown->buildingsBuilt & gTownEligibleBuildMask[castle->factionID];
+        castle->mageGuildLevel = pTown->mageGuildLevel;
       }
       else
       {
-        v3[0] = 1;
-        v3[1] = 1;
-        v3[2] = 1;
-        v3[3] = 2;
-        v3[4] = 1;
-        v3[5] = 1;
-        v3[6] = 1;
-        v3[7] = 2;
-        v3[8] = 1;
-        v3[9] = 2;
-        v4 = v3[Random(0, 99) / 10];
+        probablyNumDwellingsRandomizer[0] = 1;
+        probablyNumDwellingsRandomizer[1] = 1;
+        probablyNumDwellingsRandomizer[2] = 1;
+        probablyNumDwellingsRandomizer[3] = 2;
+        probablyNumDwellingsRandomizer[4] = 1;
+        probablyNumDwellingsRandomizer[5] = 1;
+        probablyNumDwellingsRandomizer[6] = 1;
+        probablyNumDwellingsRandomizer[7] = 2;
+        probablyNumDwellingsRandomizer[8] = 1;
+        probablyNumDwellingsRandomizer[9] = 2;
+        probablyNumDwellings = probablyNumDwellingsRandomizer[Random(0, 99) / 10];
         castle->buildingsBuiltFlags |= 0x80000u;// Dwelling 1
-        if ( !gbHumanPlayer[castle->ownerIdx] && v4 == 1 && Random(1, 10) < 4 )
-          ++v4;
-        --v4;
-        if ( v4 )
+        if ( !gbHumanPlayer[castle->ownerIdx] && probablyNumDwellings == 1 && Random(1, 10) < 4 )
+          ++probablyNumDwellings;
+        --probablyNumDwellings;
+        if ( probablyNumDwellings )
         {
           castle->buildingsBuiltFlags |= 0x100000u;// Dwelling 2
-          --v4;
+          --probablyNumDwellings;
         }
         castle->mageGuildLevel = 0;
       }
-      for ( i = 25; i <= 30; ++i )
+      for ( overusedIdx = BUILDING_UPGRADE_1; overusedIdx <= BUILDING_UPGRADE_5B; ++overusedIdx )// Here, the Idx is used as an auxilary variable and steps through each bit and performs a mask each time (except the last pass of the FOR loop)
       {                                         // If upgrade built, non-upg not built
-        if ( (1 << i) & castle->buildingsBuiltFlags )
+        if ( (1 << overusedIdx) & castle->buildingsBuiltFlags )
         {
-          if ( i == 30 )
+          if ( overusedIdx == BUILDING_UPGRADE_5B )
             castle->buildingsBuiltFlags &= 0xDEFFFFFFu;
           else
-            castle->buildingsBuiltFlags &= -1 - (1 << (i - 5));
+            castle->buildingsBuiltFlags &= 0xFFFFFFFF - (1 << (overusedIdx - 5));
         }
       }
-      for ( i = 19; i <= 30; ++i )
+      for ( overusedIdx = BUILDING_DWELLING_1; overusedIdx <= BUILDING_UPGRADE_5B; ++overusedIdx )
       {
-        if ( (1 << i) & castle->buildingsBuiltFlags )
-          *(_WORD *)&castle[-1].name[2 * i + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * castle->factionID + 27])[i + 1])].growth; // Constant here (maybe; strange math)
+        if ( (1 << overusedIdx) & castle->buildingsBuiltFlags )
+          *(_WORD *)&castle[-1].name[2 * overusedIdx + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * castle->factionID + 27])[overusedIdx + 1])].growth;// Right value ends up amongst gDwellingType values
       }
       if ( castle->buildingsBuiltFlags & 1 )
       {
-        for ( i = 1; castle->mageGuildLevel >= i; ++i )
+        for ( overusedIdx = 1; castle->mageGuildLevel >= overusedIdx; ++overusedIdx )
         {
-          castle->mageGuildSpells[4][i + 3] = byte_4F29FF[i];
-          if ( castle->factionID == 4 && BYTE1(castle->buildingsBuiltFlags) & 0x20 ) // Constant here
-            ++castle->mageGuildSpells[4][i + 3];
+          castle->mageGuildSpells[4][overusedIdx + 3] = beforeGSpellLimits[overusedIdx];// byte_4F29FF changed to beforeGSpellLimits
+          if ( castle->factionID == FACTION_WIZARD
+            && BYTE1(castle->buildingsBuiltFlags) & BUILDING_SPECIAL_DEFENSE_BUILT )
+            ++castle->mageGuildSpells[4][overusedIdx + 3];
         }
       }
-      if ( twn->hasCaptain )
+      if ( pTown->hasCaptain )
         castle->buildingsBuiltFlags |= 0x8000u; // Captain
-      castle->mayNotBeUpgradedToCastle = twn->mayNotBeUpgraded;
-      strcpy(castle->name, twn->name);
-      memset(spellPresent, 0, 0x41u);
-      for ( j = 0; j < 5; ++j )
+      castle->mayNotBeUpgradedToCastle = pTown->mayNotBeUpgraded;
+      strcpy(castle->name, pTown->name);
+      memset(spellPresent, 0, 65u);
+      for ( levelIdx = 0; levelIdx < 5; ++levelIdx )
       {
-        numSpellsOfLevel[j] = 0;
-        for ( k = 0; k < 4; ++k )
-          castle->mageGuildSpells[j][k] = -1;
+        numSpellsOfLevel[levelIdx] = 0;
+        for ( spellIdx = 0; spellIdx < 4; ++spellIdx )
+          castle->mageGuildSpells[levelIdx][spellIdx] = -1;
       }
-      if ( castle->factionID == FACTION_NECROMANCER && castle->ownerIdx != -1 && !gbHumanPlayer[castle->ownerIdx] ) // Constant here (faction-specific action)
+      if ( castle->factionID == FACTION_NECROMANCER && castle->ownerIdx != -1 && !gbHumanPlayer[castle->ownerIdx] )
       {
         if ( Random(0, 100) >= 50 )
-          k = SPELL_DEATH_WAVE;
+          spellIdx = SPELL_DEATH_WAVE;
         else
-          k = SPELL_DEATH_RIPPLE;
-        j = gsSpellInfo[k].level - 1;
-        castle->mageGuildSpells[j][numSpellsOfLevel[j]++] = k;
+          spellIdx = SPELL_DEATH_RIPPLE;
+        levelIdx = gsSpellInfo[spellIdx].level - 1;
+        castle->mageGuildSpells[levelIdx][numSpellsOfLevel[levelIdx]++] = spellIdx;
       }
       randNum = Random(0, 100);
       if ( randNum >= 25 )
@@ -29335,21 +29449,21 @@ void __thiscall game::SetupTowns(game *this) // Check this function
         if ( randNum >= 50 )
         {
           if ( randNum >= 75 )
-            k = SPELL_CURE;
+            spellIdx = SPELL_CURE;
           else
-            k = SPELL_ANTI_MAGIC;
+            spellIdx = SPELL_ANTI_MAGIC;
         }
         else
         {
-          k = SPELL_MASS_DISPEL;
+          spellIdx = SPELL_MASS_DISPEL;
         }
       }
       else
       {
-        k = SPELL_DISPEL_MAGIC;
+        spellIdx = SPELL_DISPEL_MAGIC;
       }
-      j = gsSpellInfo[k].level - 1;
-      castle->mageGuildSpells[j][numSpellsOfLevel[j]++] = k;
+      levelIdx = gsSpellInfo[spellIdx].level - 1;
+      castle->mageGuildSpells[levelIdx][numSpellsOfLevel[levelIdx]++] = spellIdx;
       randNum = Random(0, 100);
       if ( randNum >= 20 )
       {
@@ -29358,54 +29472,54 @@ void __thiscall game::SetupTowns(game *this) // Check this function
           if ( randNum >= 60 )
           {
             if ( randNum >= 80 )
-              k = SPELL_COLD_RING;
+              spellIdx = SPELL_COLD_RING;
             else
-              k = SPELL_COLD_RAY;
+              spellIdx = SPELL_COLD_RAY;
           }
           else
           {
-            k = SPELL_FIREBALL;
+            spellIdx = SPELL_FIREBALL;
           }
         }
         else
         {
-          k = SPELL_LIGHTNING_BOLT;
+          spellIdx = SPELL_LIGHTNING_BOLT;
         }
       }
       else
       {
-        k = SPELL_MAGIC_ARROW;
+        spellIdx = SPELL_MAGIC_ARROW;
       }
-      j = gsSpellInfo[k].level - 1;
-      castle->mageGuildSpells[j][numSpellsOfLevel[j]++] = k;
-      for ( j = 0; j < 5; ++j )
+      levelIdx = gsSpellInfo[spellIdx].level - 1;
+      castle->mageGuildSpells[levelIdx][numSpellsOfLevel[levelIdx]++] = spellIdx;
+      for ( levelIdx = 0; levelIdx < 5; ++levelIdx )
       {
         hasAdventureSpellAtLevel = 0;
-        for ( k = 0; k < 4; ++k )
+        for ( spellIdx = 0; spellIdx < 4; ++spellIdx )
         {
-          if ( castle->mageGuildSpells[j][k] == -1 )
+          if ( castle->mageGuildSpells[levelIdx][spellIdx] == -1 )
           {
             tries = 0;
             while ( 1 )
             {
-              for ( spell = Random(0, 64); gsSpellInfo[spell].level - 1 != j; spell = Random(0, 64) )
+              for ( spell = Random(0, 64); gsSpellInfo[spell].level - 1 != levelIdx; spell = Random(0, 64) )
                 ;
               if ( castle->ownerIdx == -1 || gbHumanPlayer[castle->ownerIdx] )
-                v5 = 1500;
+                relatedToSpellAppearingChance = 1500;
               else
-                v5 = gsSpellInfo[spell].appearingChance
-                   * ((unsigned __int8)(gsSpellInfo[spell].attributes & ATTR_COMMON_SPELL) < 1u ? 1 : 4)
-                   + 50;
+                relatedToSpellAppearingChance = gsSpellInfo[spell].appearingChance
+                                              * ((unsigned __int8)(gsSpellInfo[spell].attributes & ATTR_COMMON_SPELL) < 1u ? 1 : 4)
+                                              + 50;
               if ( spell == SPELL_DIMENSION_DOOR )
-                v5 = 1500;
+                relatedToSpellAppearingChance = 1500;
               if ( hasAdventureSpellAtLevel != 1 || !(gsSpellInfo[spell].attributes & ATTR_ADVENTURE_SPELL) )
               {
-                if ( *(&gsSpellInfo[spell].nonMagicFactionAppearanceChance + castle->factionID) >= Random(0, 10) ) // Constant here (relevant to particular factions)
+                if ( gsSpellInfo[spell].nonMagicFactionAppearanceChance[castle->factionID] >= Random(0, 10) )
                 {
                   ++tries;
                   if ( tries <= 500 )
                   {
-                    if ( !spellPresent[spell] && Random(1, 1500) <= v5 )
+                    if ( !spellPresent[spell] && Random(1, 1500) <= relatedToSpellAppearingChance )
                       break;
                   }
                 }
@@ -29413,17 +29527,17 @@ void __thiscall game::SetupTowns(game *this) // Check this function
             }
             if ( gsSpellInfo[spell].attributes & ATTR_ADVENTURE_SPELL )
               ++hasAdventureSpellAtLevel;
-            castle->mageGuildSpells[j][k] = spell;
+            castle->mageGuildSpells[levelIdx][spellIdx] = spell;
             spellPresent[spell] = 1;
           }
           else
           {
-            spellPresent[castle->mageGuildSpells[j][k]] = 1;
+            spellPresent[castle->mageGuildSpells[levelIdx][spellIdx]] = 1;
           }
         }
       }
-      BaseFree(ppMapExtra[v19], (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF67C + 238);
-      ppMapExtra[v19] = 0;
+      BaseFree(ppMapExtra[someSortOfSpecialTownIdx], (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF67C + 238);
+      ppMapExtra[someSortOfSpecialTownIdx] = 0;
     }
   }
 }
@@ -29433,176 +29547,183 @@ void __thiscall game::SetupTowns(game *this) // Check this function
 // 429E30: using guessed type int numSpellsOfLevel[5];
 
 //----- (0042A730) --------------------------------------------------------
-void *__thiscall game::ProcessOnMapHeroes(game *this) // Check this function
+void *__thiscall game::ProcessOnMapHeroes(game *this)
 {
   void *result; // eax@1
-  int v3; // [sp+18h] [bp-70h]@20
-  signed int v4; // [sp+24h] [bp-64h]@25
-  signed int k; // [sp+28h] [bp-60h]@36
-  mapCell *cell; // [sp+2Ch] [bp-5Ch]@7
-  int j; // [sp+30h] [bp-58h]@3
-  signed int l; // [sp+34h] [bp-54h]@42
-  signed int m; // [sp+34h] [bp-54h]@60
-  signed int n; // [sp+34h] [bp-54h]@63
-  int x; // [sp+38h] [bp-50h]@5
-  char *thisa; // [sp+3Ch] [bp-4Ch]@32
-  char v13[56]; // [sp+40h] [bp-48h]@1
-  int v14; // [sp+78h] [bp-10h]@9
-  heroMapExtra *mapExtra; // [sp+7Ch] [bp-Ch]@9
-  char v16; // [sp+80h] [bp-8h]@9
+  int faction; // [sp+18h] [bp-70h]@20
+  signed int randomHeroIdx; // [sp+24h] [bp-64h]@25
+  signed int armySlotIdx; // [sp+28h] [bp-60h]@36
+  mapCell *loc; // [sp+2Ch] [bp-5Ch]@7
+  int coordYForRandomHero; // [sp+30h] [bp-58h]@3
+  signed int artifactIdx; // [sp+34h] [bp-54h]@42
+  signed int secondarySkillIdxA; // [sp+34h] [bp-54h]@60
+  signed int secondarySkillIdxB; // [sp+34h] [bp-54h]@63
+  int coordXForRandomHero; // [sp+38h] [bp-50h]@5
+  hero *randomHero; // [sp+3Ch] [bp-4Ch]@32
+  char mightBeHeroAlreadyExists[56]; // [sp+40h] [bp-48h]@1
+  int someSortOfMapExtraIdx; // [sp+78h] [bp-10h]@9
+  heroMapExtra *mapExtraHero; // [sp+7Ch] [bp-Ch]@9
+  char isJail; // [sp+80h] [bp-8h]@9
   int i; // [sp+84h] [bp-4h]@1
 
-  result = memset(v13, 0, 0x36u);
+  result = memset(mightBeHeroAlreadyExists, 0, 54u);// Only 54 out of 56 bytes set to zero???
   for ( i = 0; i < 3; ++i )
   {
-    for ( j = 0; ; ++j )
+    for ( coordYForRandomHero = 0; ; ++coordYForRandomHero )
     {
       result = (void *)MAP_HEIGHT;
-      if ( j >= MAP_HEIGHT )
+      if ( coordYForRandomHero >= MAP_HEIGHT )
         break;
-      for ( x = 0; x < MAP_WIDTH; ++x )
+      for ( coordXForRandomHero = 0; coordXForRandomHero < MAP_WIDTH; ++coordXForRandomHero )
       {
-        cell = &this->map.tiles[j * this->map.width] + x;
-        if ( (cell->objType & 0x7F) == 55 || cell->objType == 251 )
+        loc = &this->map.tiles[coordYForRandomHero * this->map.width] + coordXForRandomHero;
+        if ( (loc->objType & 0x7F) == 55 || loc->objType == 251 )
         {
-          v16 = (cell->objType & 0x7F) == LOCATION_JAIL;
-          v14 = ((cell->field_4 >> 3) & 0x1FFF);
-          mapExtra = (heroMapExtra *)ppMapExtra[v14];
-          if ( !i )
+          isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
+          someSortOfMapExtraIdx = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          mapExtraHero = (heroMapExtra *)ppMapExtra[someSortOfMapExtraIdx];
+          if ( !i )                             // 1st iteration
           {
-            if ( !mapExtra->field_11 || mapExtra->field_12 >= 54 || v13[mapExtra->field_12] )
+            if ( !mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID] )// field_12 changed to heroID
             {
-              mapExtra->field_3D = 0;
+              mapExtraHero->couldBeHasFaction = 0;
             }
             else
             {
-              v13[mapExtra->field_12] = 1;
-              mapExtra->field_3D = 1;
+              mightBeHeroAlreadyExists[mapExtraHero->heroID] = 1;
+              mapExtraHero->couldBeHasFaction = 1;
             }
-            if ( v16 )
+            if ( isJail )
             {
-              mapExtra->owner = -1;
+              mapExtraHero->owner = -1;
             }
             else
             {
-              mapExtra->owner = cell->objectIndex / 7;
-              mapExtra->owner = gcColorToPlayerPos[mapExtra->owner];
+              mapExtraHero->owner = loc->objectIndex / 7;
+              mapExtraHero->owner = gcColorToPlayerPos[mapExtraHero->owner];
             }
           }
-          if ( i == 1 )
+          if ( i == 1 )                         // 2nd iteration
           {
-            if ( v16 )
+            if ( isJail )
             {
-              v3 = mapExtra->field_3C; // Constant here (through stored value)
+              faction = mapExtraHero->factionID;// field_3C changed to factionID
             }
             else
             {
-              v3 = cell->objectIndex % 7; // Constant here (also might be through stored value)
-              if ( v3 == 6 ) // Constant here
-                v3 = this->field_459[gcColorToSetupPos[gpGame->players[mapExtra->owner].color]]; // Constant here
+              faction = loc->objectIndex % 7;
+              if ( faction == FACTION_MULTIPLE )// Constant here (faction related)
+                faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];
             }
-            if ( mapExtra->field_3D )
+            if ( mapExtraHero->couldBeHasFaction )// field_3D changed to couldBeHasFaction
             {
-              this->heroes[mapExtra->field_12].factionID = v3;
+              this->heroes[mapExtraHero->heroID].factionID = faction;
             }
             else
             {
-              v4 = game::RandomScan((int)v13, 9 * v3, 9, 1000, 0); // Constant here (this could be related)
-              if ( v4 == -1 )
+              randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
+              if ( randomHeroIdx == -1 )
               {
-                v4 = game::RandomScan((int)v13, 0, 54, 10000, 0); // Constant here (this could be related)
-                v3 = v4 / 9; // Constant here
+                randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
+                faction = randomHeroIdx / 9;
               }
-              v13[v4] = 1;
-              this->heroes[v4].factionID = v3;
-              if ( mapExtra->field_11 && mapExtra->field_12 >= 54 )
-                this->heroes[v4].heroID = mapExtra->field_12;
-              mapExtra->field_12 = v4;
+              mightBeHeroAlreadyExists[randomHeroIdx] = 1;
+              this->heroes[randomHeroIdx].factionID = faction;
+              if ( mapExtraHero->field_11 && mapExtraHero->heroID >= 54 )
+                this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
+              mapExtraHero->heroID = randomHeroIdx;
             }
           }
-          if ( i == 2 )
+          if ( i == 2 )                         // 3rd iteration
           {
-            thisa = (char *)&this->heroes[mapExtra->field_12];
-            if ( !v16 && mapExtra->field_28[19] )
+            randomHero = &this->heroes[mapExtraHero->heroID];
+            if ( !isJail && mapExtraHero->relatedToName[19] )// field_28 changed to relatedToName
             {
-              LOBYTE(this->heroes[mapExtra->field_12].field_29) = x;
-              thisa[42] = j;
-              thisa[43] = mapExtra->field_3C;
+              LOBYTE(this->heroes[mapExtraHero->heroID].relatedTo_HIBYTE_y_LOBYTE_x) = coordXForRandomHero;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
+              HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x) = coordYForRandomHero;
+              LOBYTE(randomHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
             }
-            if ( mapExtra->field_1 )
+            if ( mapExtraHero->couldBeHasArmy ) // field_1 changed to couldBeHasArmy
             {
-              for ( k = 0; k < 5; ++k ) // Constant here (related to creatures); used below
+              for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx )
               {
-                *(_WORD *)&thisa[2 * k + 106] = mapExtra->army.quantities[k];
-                if ( (signed int)*(_WORD *)&thisa[2 * k + 106] <= 0 )
-                  thisa[k + 101] = -1;
+                randomHero->army.quantities[armySlotIdx] = mapExtraHero->army.quantities[armySlotIdx];
+                if ( randomHero->army.quantities[armySlotIdx] <= 0 )
+                  randomHero->army.creatureTypes[armySlotIdx] = -1;
                 else
-                  thisa[k + 101] = mapExtra->army.creatureTypes[k]; // Constant here (used here)
+                  randomHero->army.creatureTypes[armySlotIdx] = mapExtraHero->army.creatureTypes[armySlotIdx];
               }
             }
-            for ( l = 0; l < 3; ++l )
+            for ( artifactIdx = 0; artifactIdx < 3; ++artifactIdx )
             {
-              if ( mapExtra->artifacts[l] >= 0 )
-                GiveArtifact((hero *)thisa, (ARTIFACT)mapExtra->artifacts[l], 1, -1);
+              if ( mapExtraHero->artifacts[artifactIdx] >= 0 )
+                GiveArtifact(randomHero, (ARTIFACT)mapExtraHero->artifacts[artifactIdx], 1, -1);
             }
-            if ( mapExtra->field_28[5] )
-              strcpy(thisa + 10, &mapExtra->field_28[6]);
-            *(_DWORD *)(thisa + 57) = 0;
-            advManager::GiveExperience((hero *)thisa, *(_DWORD *)&mapExtra->field_17, 1);
-            hero::CheckLevel((hero *)thisa);
-            *(_DWORD *)(thisa + 25) = x;
-            *(_DWORD *)(thisa + 29) = j;
-            if ( v16 )
+            if ( mapExtraHero->relatedToName[5] )
+              strcpy(randomHero->name, &mapExtraHero->relatedToName[6]);
+            randomHero->experience = 0;
+            advManager::GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
+            hero::CheckLevel(randomHero);       // Check this function (design question based on generalizing hardcoded, faction-specific data structure information related to skills)
+            randomHero->x = coordXForRandomHero;
+            randomHero->y = coordYForRandomHero;
+            if ( isJail )
             {
-              thisa[3] = -1;
-              this->relatedToHeroForHireStatus[mapExtra->field_12] = 65;
+              randomHero->ownerIdx = -1;
+              this->relatedToHeroForHireStatus[mapExtraHero->heroID] = 65;
             }
             else
             {
-              thisa[3] = mapExtra->owner;
-              this->relatedToHeroForHireStatus[mapExtra->field_12] = thisa[3];
-              *(&this->players[0].heroesOwned[284 * thisa[3]] + this->players[thisa[3]].numHeroes++ - thisa[3]) = thisa[2];
+              randomHero->ownerIdx = mapExtraHero->owner;
+              this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
+              *(&this->players[0].heroesOwned[284 * randomHero->ownerIdx]
+              + this->players[randomHero->ownerIdx].numHeroes++
+              - randomHero->ownerIdx) = randomHero->idx;
             }
-            if ( !v16 && j > 0 && *(&this->map.tiles[x].objType + 12 * (j - 1) * this->map.width) == 163 )
+            if ( !isJail
+              && coordYForRandomHero > 0
+              && *(&this->map.tiles[coordXForRandomHero].objType + 12 * (coordYForRandomHero - 1) * this->map.width) == 163 )
             {
-              --thisa[42];
-              --*(_DWORD *)(thisa + 29);
-              this->castles[game::GetTownId(this, x, j - 1)].visitingHeroIdx = thisa[2];
+              --HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x);
+              --randomHero->y;
+              this->castles[game::GetTownId(this, coordXForRandomHero, coordYForRandomHero - 1)].visitingHeroIdx = randomHero->idx;
             }
-            if ( v16 )
+            if ( isJail )
             {
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * mapExtra->field_12;
+              loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * mapExtraHero->heroID;
             }
             else
             {
-              cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
-              cell->objectIndex = -1;
-              cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
-              cell->objType = 0;
+              loc->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
+              loc->objectIndex = -1;
+              loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+              loc->objType = 0;
             }
-            if ( mapExtra->field_1B )
+            if ( mapExtraHero->couldBeHasSecondarySkills )// field_1B changed to couldBeHasSecondarySkills
             {
-              *((_DWORD *)thisa + 36) = 0;
-              for ( m = 0; m < 14; ++m )
+              randomHero->numSecSkillsKnown = 0;
+              for ( secondarySkillIdxA = 0; secondarySkillIdxA < 14; ++secondarySkillIdxA )
               {
-                thisa[m + 116] = 0;
-                thisa[m + 130] = 0;
+                randomHero->secondarySkillLevel[secondarySkillIdxA] = 0;
+                randomHero->skillIndex[secondarySkillIdxA] = 0;
               }
-              for ( n = 0; n < 8; ++n )
+              for ( secondarySkillIdxB = 0; secondarySkillIdxB < 8; ++secondarySkillIdxB )
               {
-                if ( mapExtra->secondarySkills[n] != -1 )
-                  hero::GiveSS((hero *)thisa, mapExtra->secondarySkills[n], *(&mapExtra->firstSecondarySkillLevel + n));
+                if ( mapExtraHero->secondarySkills[secondarySkillIdxB] != -1 )
+                  hero::GiveSS(
+                    randomHero,
+                    mapExtraHero->secondarySkills[secondarySkillIdxB],
+                    *(&mapExtraHero->firstSecondarySkillLevel + secondarySkillIdxB));
               }
             }
-            if ( !v16 )
+            if ( !isJail )
               game::SetVisibility(
                 this,
-                *(_DWORD *)(thisa + 25),
-                *(_DWORD *)(thisa + 29),
-                thisa[3],
-                giVisRange[thisa[119]]);
-            BaseFree(ppMapExtra[v14], (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF69C + 221);
-            ppMapExtra[v14] = 0;
+                randomHero->x,
+                randomHero->y,
+                randomHero->ownerIdx,
+                giVisRange[randomHero->secondarySkillLevel[3]]);
+            BaseFree(ppMapExtra[someSortOfMapExtraIdx], (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF69C + 221);
+            ppMapExtra[someSortOfMapExtraIdx] = 0;
           }
         }
       }
@@ -29613,7 +29734,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this) // Check this function
 // 4EF69C: using guessed type __int16 word_4EF69C;
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
-// 42A730: using guessed type char var_48[56];
+// 42A730: using guessed type char mightBeHeroAlreadyExists[56];
 
 //----- (0042AEB0) --------------------------------------------------------
 void __thiscall game::CheckHeroConsistency(game *this)
@@ -30046,18 +30167,20 @@ void __thiscall game::DoNewTurn(game *this)
     advManager::CompleteDraw(gpAdvManager, 0);
     advManager::UpdateScreen(gpAdvManager, 0, 0);
     CheckEndGame(0, 0);
-    if ( gpCurPlayer->field_43 >= 0 )
+    if ( gpCurPlayer->daysLeftWithoutCastle >= 0 )
     {
-      if ( gpCurPlayer->field_43 == 1 )
+      if ( gpCurPlayer->daysLeftWithoutCastle == 1 )
         sprintf(gText, off_4F6544, cPlayerNames[giCurPlayer]);
       else
-        sprintf(gText, cNewTurn, cPlayerNames[giCurPlayer], gpCurPlayer->field_43);
+        sprintf(gText, cNewTurn, cPlayerNames[giCurPlayer], gpCurPlayer->daysLeftWithoutCastle);
       NormalDialog(gText, 1, -1, -1, 9, gpGame->players[(char)giCurPlayer].color, -1, 0, -1, 0);
     }
     if ( gpCurPlayer->numHeroes <= 0 )
     {
       if ( gpCurPlayer->numCastles > 0 )
-        advManager::SetTownContext(gpAdvManager, gpCurPlayer->castlesOwned[0]);
+        advManager::SetTownContext(
+          gpAdvManager,
+          BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx));
     }
     else
     {
@@ -30156,7 +30279,11 @@ int __thiscall game::getNumberOfThievesGuilds(game *this, int playerIdx)
   v3 = 0;
   for ( i = 0; this->players[playerIdx].numCastles > i; ++i )
   {
-    if ( gpGame->castles[*(&this->players[0].castlesOwned[284 * playerIdx] + i - playerIdx)].buildingsBuiltFlags & 2 )
+    if ( gpGame->castles[*((_BYTE *)&this->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                         + 284 * playerIdx
+                         + i
+                         - playerIdx
+                         + 2)].buildingsBuiltFlags & 2 )
       ++v3;
   }
   return v3;
@@ -30605,7 +30732,7 @@ signed int __stdcall getCastleOwnedIdx(playerData *player, int castleIdx)
 
   for ( i = 0; player->numCastles > i; ++i )
   {
-    if ( player->castlesOwned[i] == castleIdx )
+    if ( *((_BYTE *)&player->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2) == castleIdx )
       return i;
   }
   return -1;
@@ -30688,17 +30815,20 @@ void __thiscall game::SetupNewRumour(game *this)
     {
       if ( row >= 66 )
       {
-        if ( this->field_6397 == -1 )
+        if ( this->ultimateArtifactIdx == -1 )
           strcpy(
             this->currentRumor,
             cRandomTavernText[((unsigned int)((unsigned __int64)(giCurTurn / 7) >> 32) ^ abs(giCurTurn / 7) & 7)
                             - ((unsigned __int64)(giCurTurn / 7) >> 32)]);
         else
-          sprintf(this->currentRumor, "The ultimate artifact is really the %s.", gArtifactNames[this->field_6397]);
+          sprintf(
+            this->currentRumor,
+            "The ultimate artifact is really the %s.",
+            gArtifactNames[this->ultimateArtifactIdx]);
       }
       else
       {
-        v3 = advManager::GetCell(gpAdvManager, this->field_6395, this->field_6396)->groundIndex;
+        v3 = advManager::GetCell(gpAdvManager, this->utimateArtifactLocX, this->utimateArtifactLocY)->groundIndex;
         sprintf(
           this->currentRumor,
           "The ultimate artifact may be found %s.",
@@ -30707,25 +30837,25 @@ void __thiscall game::SetupNewRumour(game *this)
     }
     else
     {
-      if ( (double)this->field_6395 >= (double)this->mapHeader.width * 0.33
-        || (double)this->field_6395 >= (double)this->mapHeader.height * 0.33 )
+      if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.width * 0.33
+        || (double)this->utimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
       {
-        if ( (double)this->field_6395 >= (double)this->mapHeader.width * 0.33
-          || (double)this->field_6395 <= (double)this->mapHeader.height * 0.66 )
+        if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.width * 0.33
+          || (double)this->utimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
         {
-          if ( (double)this->field_6395 >= (double)this->mapHeader.width * 0.33 )
+          if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.width * 0.33 )
           {
-            if ( (double)this->field_6395 <= (double)this->mapHeader.width * 0.66
-              || (double)this->field_6395 >= (double)this->mapHeader.height * 0.33 )
+            if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.width * 0.66
+              || (double)this->utimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
             {
-              if ( (double)this->field_6395 <= (double)this->mapHeader.width * 0.66
-                || (double)this->field_6395 <= (double)this->mapHeader.height * 0.66 )
+              if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.width * 0.66
+                || (double)this->utimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
               {
-                if ( (double)this->field_6395 <= (double)this->mapHeader.width * 0.66 )
+                if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.width * 0.66 )
                 {
-                  if ( (double)this->field_6395 >= (double)this->mapHeader.height * 0.33 )
+                  if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
                   {
-                    if ( (double)this->field_6395 <= (double)this->mapHeader.height * 0.66 )
+                    if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
                       v5 = 8;
                     else
                       v5 = 4;
@@ -31021,12 +31151,12 @@ int __thiscall game::CountShrines(game *this, int a2)
         v7 = 0;
         if ( cell->objType == 163 )
         {
-          v7 = &gpGame->castles[((cell->field_4 >> 3) & 0x1FFF)];
+          v7 = &gpGame->castles[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         }
         else if ( cell->objType == 170
-  && gpGame->heroes[((cell->field_4 >> 3) & 0x1FFF)].occupiedObjType == 163 )
+  && gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163 )
         {
-          v7 = &gpGame->castles[gpGame->heroes[((cell->field_4 >> 3) & 0x1FFF)].occupiedObjVal];
+          v7 = &gpGame->castles[gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
         }
         if ( v7 && v7->ownerIdx == a2 && v7->buildingsBuiltFlags & 4 )
         {
@@ -31763,8 +31893,11 @@ LABEL_177:
                 if ( gbInCampaign )
                 {
                   v8 = game::HandleCampaignWin(gpGame);
-                  if ( gpGame->field_4 == 10 && gpGame->_1[12 * gpGame->field_2 + 10]
-                    || gpGame->field_4 == 9 && !gpGame->field_2 && gpGame->_1[12 * gpGame->field_2 + 9] )
+                  if ( gpGame->relatedToCampaignMap == 10
+                    && gpGame->_1[12 * gpGame->relatedToCurViewSideOrCampaign + 10]
+                    || gpGame->relatedToCampaignMap == 9
+                    && !gpGame->relatedToCurViewSideOrCampaign
+                    && gpGame->_1[12 * gpGame->relatedToCurViewSideOrCampaign + 9] )
                   {
                     gbShowHighScore = 1;
                     ShowCongrats(0);
@@ -31773,7 +31906,7 @@ LABEL_177:
                       *(_WORD *)&gpGame->_11[49],
                       0,
                       0,
-                      &aArchibald[("Roland" - "Archibald") & ((gpGame->field_2 == 1) - 1)]);
+                      &aArchibald[("Roland" - "Archibald") & ((gpGame->relatedToCurViewSideOrCampaign == 1) - 1)]);
                   }
                   if ( !v8 )
                     goto LABEL_208;
@@ -32455,7 +32588,7 @@ char *__fastcall GetBuildingInfo(int faction, signed int building, int withTitle
   {
     if ( building == BUILDING_SPECIAL_GROWTH )
     {
-      v3 = gArmyNamesPlural[gDwellingType[faction][0]];
+      v3 = gArmyNamesPlural[LOBYTE(gDwellingType[0][3 * faction])];
       hordeDesc = GetBuildingName(faction, BUILDING_SPECIAL_GROWTH);
       sprintf(buf, "The %s increases production of %s by 8 per week.", hordeDesc, v3);
     }
@@ -33094,9 +33227,9 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           if ( player->numCastles )
           {
-            player->field_43 = -1;
+            player->daysLeftWithoutCastle = -1;
           }
-          else if ( player->field_43 == -1 )
+          else if ( player->daysLeftWithoutCastle == -1 )
           {
             if ( gbThisNetHumanPlayer[playerNo] && playerNo == giCurPlayer )
             {
@@ -33106,9 +33239,9 @@ void __fastcall CheckEndGame(int a1, int a2)
                 cPlayerNames[playerNo]);
               NormalDialog(gText, 1, -1, -1, 9, gpGame->players[(char)playerNo].color, -1, 0, -1, 0);
             }
-            player->field_43 = 7;
+            player->daysLeftWithoutCastle = 7;
           }
-          else if ( !player->field_43 )
+          else if ( !player->daysLeftWithoutCastle )
           {
             PlayerDead(playerNo);
             if ( gbThisNetHumanPlayer[playerNo] && playerNo == giCurPlayer )
@@ -33173,11 +33306,11 @@ void __fastcall CheckEndGame(int a1, int a2)
     v38 = 0;
     v34 = 1;
     if ( gpGame->mapHeader.winConditionType && !gpGame->mapHeader.allowDefeatAllVictory
-      || gbInCampaign && gpGame->field_2 == 1 && gpGame->field_4 == 6 )
+      || gbInCampaign && gpGame->relatedToCurViewSideOrCampaign == 1 && gpGame->relatedToCampaignMap == 6 )
       v34 = 0;
     if ( gpGame->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
-      && gpGame->mapHeader.winConditionArgument != 99
-      && (!gbInCampaign || gpGame->field_2 != 1 || gpGame->field_4 != 6) )
+      && gpGame->mapHeader.winConditionArgumentOrLocX != 99
+      && (!gbInCampaign || gpGame->relatedToCurViewSideOrCampaign != 1 || gpGame->relatedToCampaignMap != 6) )
     {
       v24 = 0;
       v25 = 0;
@@ -33185,7 +33318,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       {
         if ( !gpGame->playerDead[playerNo] )
         {
-          if ( gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.field_2E) )
+          if ( gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) )
             ++v25;
           else
             ++v24;
@@ -33199,7 +33332,7 @@ void __fastcall CheckEndGame(int a1, int a2)
           {
             if ( gbThisNetHumanPlayer[playerNo]
               && !gpGame->playerDead[playerNo]
-              && gpGame->players[playerNo].color < (signed int)HIWORD(gpGame->mapHeader.field_2E) )
+              && gpGame->players[playerNo].color < (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) )
               v30 = 1;
           }
         }
@@ -33210,7 +33343,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           if ( gbThisNetHumanPlayer[playerNo]
             && !gpGame->playerDead[playerNo]
-            && gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.field_2E) )
+            && gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) )
             v30 = 1;
         }
       }
@@ -33228,11 +33361,14 @@ void __fastcall CheckEndGame(int a1, int a2)
     }
     if ( gpGame->mapHeader.winConditionType == WIN_CONDITION_CAPTURE_CASTLE )
     {
-      v2 = game::GetTownId(gpGame, gpGame->mapHeader.winConditionArgument, gpGame->mapHeader.field_2C);
+      v2 = game::GetTownId(
+             gpGame,
+             gpGame->mapHeader.winConditionArgumentOrLocX,
+             gpGame->mapHeader.winConditionArgumentOrLocY);
       v23 = &gpGame->castles[v2];
       if ( gpGame->castles[v2].ownerIdx != -1 )
       {
-        if ( gbHumanPlayer[v23->ownerIdx] || gpGame->mapHeader.field_1E )
+        if ( gbHumanPlayer[v23->ownerIdx] || gpGame->mapHeader.relatedToWinConditionType )
         {
           if ( gbThisNetHumanPlayer[v23->ownerIdx] )
             v30 = 1;
@@ -33250,9 +33386,12 @@ void __fastcall CheckEndGame(int a1, int a2)
         }
       }
     }
-    if ( gpGame->mapHeader.field_22 == 1 )
+    if ( gpGame->mapHeader.lossConditionType == 1 )
     {
-      v3 = game::GetTownId(gpGame, *(_WORD *)&gpGame->mapHeader.field_23, LOWORD(gpGame->mapHeader.field_2E));
+      v3 = game::GetTownId(
+             gpGame,
+             *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX,
+             LOWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY));
       v22 = &gpGame->castles[v3];
       if ( gpGame->castles[v3].ownerIdx == -1 || !gbHumanPlayer[v22->ownerIdx] )
       {
@@ -33271,8 +33410,8 @@ void __fastcall CheckEndGame(int a1, int a2)
       v20 = -1;
       for ( playerNo = 0; gpGame->numPlayers > playerNo; ++playerNo )
       {
-        if ( (gbHumanPlayer[playerNo] || gpGame->mapHeader.field_1E)
-          && gpGame->players[playerNo].resources[6] >= 1000 * gpGame->mapHeader.winConditionArgument
+        if ( (gbHumanPlayer[playerNo] || gpGame->mapHeader.relatedToWinConditionType)
+          && gpGame->players[playerNo].resources[6] >= 1000 * gpGame->mapHeader.winConditionArgumentOrLocX
           && gpGame->players[playerNo].resources[6] >= goldAmt )
         {
           goldAmt = gpGame->players[playerNo].resources[6];
@@ -33304,7 +33443,7 @@ void __fastcall CheckEndGame(int a1, int a2)
     }
     if ( gpGame->mapHeader.winConditionType == 2 )
     {
-      v4 = gpGame->mapHeader.winConditionArgument;
+      v4 = gpGame->mapHeader.winConditionArgumentOrLocX;
       v19 = &gpGame->heroes[v4];
       if ( gpGame->heroes[v4].ownerIdx < 0 || v19->ownerIdx >= 6 || gbHumanPlayer[v19->ownerIdx] )
       {
@@ -33317,9 +33456,9 @@ void __fastcall CheckEndGame(int a1, int a2)
         }
       }
     }
-    if ( gpGame->mapHeader.field_22 == 2 )
+    if ( gpGame->mapHeader.lossConditionType == 2 )
     {
-      v5 = *(_WORD *)&gpGame->mapHeader.field_23;
+      v5 = *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX;
       v18 = &gpGame->heroes[v5];
       if ( gpGame->heroes[v5].ownerIdx < 0 || v18->ownerIdx >= 6 || !gbHumanPlayer[v18->ownerIdx] )
       {
@@ -33332,9 +33471,9 @@ void __fastcall CheckEndGame(int a1, int a2)
         }
       }
     }
-    if ( gpGame->mapHeader.field_22 == 3 )
+    if ( gpGame->mapHeader.lossConditionType == 3 )
     {
-      if ( gpGame->day + 7 * (gpGame->week - 1) + 28 * (gpGame->month - 1) > *(_WORD *)&gpGame->mapHeader.field_23 )
+      if ( gpGame->day + 7 * (gpGame->week - 1) + 28 * (gpGame->month - 1) > *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX )
       {
         v38 = 1;
         if ( !v27 )
@@ -33355,7 +33494,7 @@ void __fastcall CheckEndGame(int a1, int a2)
           for ( i = 0; gpGame->players[playerNo].numHeroes > i; ++i )
           {
             this = &gpGame->heroes[gpGame->players[playerNo].heroesOwned[i]];
-            if ( gpGame->mapHeader.winConditionArgument <= 0 )
+            if ( gpGame->mapHeader.winConditionArgumentOrLocX <= 0 )
             {
               if ( hero::HasArtifact(this, 0)
                 || hero::HasArtifact(this, 1)
@@ -33367,7 +33506,7 @@ void __fastcall CheckEndGame(int a1, int a2)
                 || hero::HasArtifact(this, 7) )
                 v16 = playerNo;
             }
-            else if ( hero::HasArtifact(this, gpGame->mapHeader.winConditionArgument - 1) )
+            else if ( hero::HasArtifact(this, gpGame->mapHeader.winConditionArgumentOrLocX - 1) )
             {
               v16 = playerNo;
             }
@@ -33383,8 +33522,8 @@ void __fastcall CheckEndGame(int a1, int a2)
         if ( !v27 )
         {
           v27 = 1;
-          if ( gpGame->mapHeader.winConditionArgument )
-            sprintf(&v15, dword_4F55F4[gpGame->mapHeader.winConditionArgument]);
+          if ( gpGame->mapHeader.winConditionArgumentOrLocX )
+            sprintf(&v15, dword_4F55F4[gpGame->mapHeader.winConditionArgumentOrLocX]);
           else
             sprintf(&v15, "Ultimate Artifact");
           if ( v30 )
@@ -33395,12 +33534,14 @@ void __fastcall CheckEndGame(int a1, int a2)
         }
       }
     }
-    if ( gbInCampaign && !gpGame->field_2 && gpGame->field_4 == 2 )
+    if ( gbInCampaign && !gpGame->relatedToCurViewSideOrCampaign && gpGame->relatedToCampaignMap == 2 )
     {
       hasDwarfTown = 0;
       for ( playerNo = 0; gpGame->players[0].numCastles > playerNo; ++playerNo )
       {
-        if ( gpGame->castles[gpGame->players[0].castlesOwned[playerNo]].factionID == FACTION_SORCERESS )
+        if ( gpGame->castles[*((_BYTE *)&gpGame->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                             + playerNo
+                             + 2)].factionID == FACTION_SORCERESS )
           hasDwarfTown = 1;
       }
       if ( !hasDwarfTown )
@@ -33416,9 +33557,9 @@ void __fastcall CheckEndGame(int a1, int a2)
     }
     if ( gbInCampaign )
     {
-      if ( gpGame->field_2 == 1 )
+      if ( gpGame->relatedToCurViewSideOrCampaign == 1 )
       {
-        if ( gpGame->field_4 == 6 )
+        if ( gpGame->relatedToCampaignMap == 6 )
         {
           if ( a2a )
           {
@@ -33433,7 +33574,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         }
       }
     }
-    if ( gbInCampaign && !gpGame->field_2 && gpGame->field_4 == 8 )
+    if ( gbInCampaign && !gpGame->relatedToCurViewSideOrCampaign && gpGame->relatedToCampaignMap == 8 )
     {
       v13 = 0;
       for ( playerNo = 0; playerNo < 54; ++playerNo )
@@ -33454,7 +33595,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         }
       }
     }
-    if ( gbInCampaign && !gpGame->field_2 && gpGame->field_4 == 8 )
+    if ( gbInCampaign && !gpGame->relatedToCurViewSideOrCampaign && gpGame->relatedToCampaignMap == 8 )
     {
       v12 = 0;
       for ( playerNo = 0; gpGame->numPlayers > playerNo; ++playerNo )
@@ -33527,14 +33668,16 @@ void __fastcall CheckEndGame(int a1, int a2)
     {
       v11 = gpGame->day + 7 * (gpGame->week - 1) + 28 * (gpGame->month - 1);
       gpGame->_11[71] = 1;
-      *(&gpGame->_1[12 * gpGame->field_2] + gpGame->field_4) = 1;
-      *((_WORD *)&gpGame->_1[24 * gpGame->field_2 + 72] + gpGame->field_4) = v11;
-      *(_WORD *)&gpGame->_11[49] = *((_WORD *)&gpGame->_1[24 * gpGame->field_2 + 24] + gpGame->field_4)
-                                 + *((_WORD *)&gpGame->_1[24 * gpGame->field_2 + 72] + gpGame->field_4);
+      *(&gpGame->_1[12 * gpGame->relatedToCurViewSideOrCampaign] + gpGame->relatedToCampaignMap) = 1;
+      *((_WORD *)&gpGame->_1[24 * gpGame->relatedToCurViewSideOrCampaign + 72] + gpGame->relatedToCampaignMap) = v11;
+      *(_WORD *)&gpGame->_11[49] = *((_WORD *)&gpGame->_1[24 * gpGame->relatedToCurViewSideOrCampaign + 24]
+                                   + gpGame->relatedToCampaignMap)
+                                 + *((_WORD *)&gpGame->_1[24 * gpGame->relatedToCurViewSideOrCampaign + 72]
+                                   + gpGame->relatedToCampaignMap);
       v10 = -1;
-      if ( !gpGame->field_2 && gpGame->field_4 == 6 )
+      if ( !gpGame->relatedToCurViewSideOrCampaign && gpGame->relatedToCampaignMap == 6 )
         v10 = 99;
-      if ( gpGame->field_2 == 1 && gpGame->field_4 == 9 )
+      if ( gpGame->relatedToCurViewSideOrCampaign == 1 && gpGame->relatedToCampaignMap == 9 )
         v10 = 99;
       if ( v10 != -1 )
       {
@@ -33563,9 +33706,15 @@ void __fastcall CheckEndGame(int a1, int a2)
           }
         }
       }
-      if ( gpGame->field_4 != 10 && (gpGame->field_4 != 9 || gpGame->field_2) )
+      if ( gpGame->relatedToCampaignMap != 10
+        && (gpGame->relatedToCampaignMap != 9 || gpGame->relatedToCurViewSideOrCampaign) )
       {
-        sprintf(&saveFile, "%s%c_%02d", "WIN_", (unsigned int)gpGame->field_2 < 1 ? 71 : 69, gpGame->field_4 + 1);
+        sprintf(
+          &saveFile,
+          "%s%c_%02d",
+          "WIN_",
+          (unsigned int)gpGame->relatedToCurViewSideOrCampaign < 1 ? 71 : 69,
+          gpGame->relatedToCampaignMap + 1);
         game::SaveGame(gpGame, &saveFile, 1, 0);
       }
     }
@@ -33581,7 +33730,6 @@ void __fastcall CheckEndGame(int a1, int a2)
 // 50D2C0: using guessed type int dword_50D2C0;
 // 522FF8: using guessed type int giEndSequence;
 // 523ED4: using guessed type int gbThisNetGotAdventureControl;
-// 523F1C: using guessed type int gbInNewGameSetup;
 // 524730: using guessed type int giThisGamePos;
 // 5304A0: using guessed type char xIsPlayingExpansionCampaign;
 
@@ -33652,7 +33800,6 @@ void __cdecl InitVars()
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
 // 523408: using guessed type int gGameCommand;
 // 523450: using guessed type char gbCombatSurrender;
-// 523F1C: using guessed type int gbInNewGameSetup;
 // 524C40: using guessed type char cNetBoxColor;
 // 524C41: using guessed type char byte_524C41;
 // 524C42: using guessed type char byte_524C42;
@@ -34660,13 +34807,13 @@ __int64 __thiscall LoadPlaySample(const char *this)
 //----- (00437540) --------------------------------------------------------
 void __thiscall WaitEndSample(void *this, resource *res, HSAMPLE samp)
 {
-  void *delaya; // [sp+Ch] [bp-8h]@1
+  signed int delaya; // [sp+Ch] [bp-8h]@1
   int v4; // [sp+10h] [bp-4h]@3
 
-  delaya = this;
+  delaya = (signed int)this;
   if ( (signed int)this < 0 )
-    delaya = (void *)4000;
-  v4 = (int)((char *)delaya + KBTickCount());
+    delaya = 4000;
+  v4 = KBTickCount() + delaya;
   if ( samp )
   {
     while ( soundManager::DigitalReport((soundManager *)gpSoundManager, samp, 4) && KBTickCount() < v4 )
@@ -34785,37 +34932,37 @@ LABEL_7:
       PostMessageA(hwndApp, 0x10u, 0, 0);
       goto LABEL_100;
     case 40016:
-      *(_DWORD *)&Data = 0;
+      *(_DWORD *)&giMusicVolume = 0;
       goto LABEL_23;
     case 40017:
-      *(_DWORD *)&Data = 1;
+      *(_DWORD *)&giMusicVolume = 1;
       goto LABEL_23;
     case 40018:
-      *(_DWORD *)&Data = 2;
+      *(_DWORD *)&giMusicVolume = 2;
       goto LABEL_23;
     case 40019:
-      *(_DWORD *)&Data = 3;
+      *(_DWORD *)&giMusicVolume = 3;
       goto LABEL_23;
     case 40020:
-      *(_DWORD *)&Data = 4;
+      *(_DWORD *)&giMusicVolume = 4;
       goto LABEL_23;
     case 40021:
-      *(_DWORD *)&Data = 5;
+      *(_DWORD *)&giMusicVolume = 5;
       goto LABEL_23;
     case 40022:
-      *(_DWORD *)&Data = 6;
+      *(_DWORD *)&giMusicVolume = 6;
       goto LABEL_23;
     case 40023:
-      *(_DWORD *)&Data = 7;
+      *(_DWORD *)&giMusicVolume = 7;
       goto LABEL_23;
     case 40024:
-      *(_DWORD *)&Data = 8;
+      *(_DWORD *)&giMusicVolume = 8;
       goto LABEL_23;
     case 40025:
-      *(_DWORD *)&Data = 9;
+      *(_DWORD *)&giMusicVolume = 9;
       goto LABEL_23;
     case 40026:
-      *(_DWORD *)&Data = 10;
+      *(_DWORD *)&giMusicVolume = 10;
 LABEL_23:
       soundManager::AdjustMusicVolumes(gpSoundManager);
       v6 = 1;
@@ -34991,7 +35138,7 @@ void __cdecl UpdateSystemOptionsMenu()
   {
     for ( uIDCheckItem = 40016; (signed int)uIDCheckItem <= 40026; ++uIDCheckItem )
       CheckMenuItem(hmnuApp, uIDCheckItem, 0);
-    switch ( *(_DWORD *)&Data )
+    switch ( *(_DWORD *)&giMusicVolume )
     {
       case 1:
         v3 = 40017;
@@ -40060,9 +40207,9 @@ LABEL_34:
       mouseManager::SetPointer(gpMouseManager, 0);
       loc = advManager::GetCell(
               this,
-              gpGame->castles[LOBYTE(gpCurPlayer->field_45)].x,
-              gpGame->castles[LOBYTE(gpCurPlayer->field_45)].y);
-      town::View(&gpGame->castles[LOBYTE(gpCurPlayer->field_45)], 0);
+              gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x,
+              gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].y);
+      town::View(&gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)], 0);
       loc = 0;
       break;
     case 3:
@@ -40107,10 +40254,10 @@ LABEL_34:
 // 5240A8: using guessed type int gpSoundManager;
 
 //----- (00444550) --------------------------------------------------------
-void __thiscall advManager::CheckSetEvilInterface(void *this, int a2, int a3)
+void __thiscall advManager::CheckSetEvilInterface(advManager *this, int a2, int a3)
 {
   int v3; // ST18_4@17
-  void *thisa; // [sp+Ch] [bp-2Ch]@1
+  advManager *thisa; // [sp+Ch] [bp-2Ch]@1
   signed int v5; // [sp+14h] [bp-24h]@3
   int evt; // [sp+18h] [bp-20h]@14
   int v7; // [sp+1Ch] [bp-1Ch]@14
@@ -40128,7 +40275,7 @@ void __thiscall advManager::CheckSetEvilInterface(void *this, int a2, int a3)
     {
       v5 = 1;
     }
-    else if ( !*(_DWORD *)&evilInterfaceUsage && gpGame->players[a3]._4_1 != gbUseEvilInterface )
+    else if ( !*(_DWORD *)&evilInterfaceUsage && gpGame->players[a3].hasEvilFaction != gbUseEvilInterface )
     {
       v5 = 1;
     }
@@ -40148,11 +40295,11 @@ void __thiscall advManager::CheckSetEvilInterface(void *this, int a2, int a3)
       {
         v8 = resourceManager::MakeId(gpResourceManager, cEvilTranslate[i][1 - gbUseEvilInterface], 0);
         v9 = resourceManager::MakeId(gpResourceManager, cEvilTranslate[i][gbUseEvilInterface], 0);
-        heroWindow::BroadcastMessage(*(heroWindow **)((char *)thisa + 154), (tag_message *)&evt);
+        heroWindow::BroadcastMessage(thisa->adventureScreen, (tag_message *)&evt);
       }
       v3 = bShowIt;
       bShowIt = 1;
-      advManager::RedrawAdvScreen((advManager *)thisa, 1, 1);
+      advManager::RedrawAdvScreen(thisa, 1, 1);
       bShowIt = v3;
     }
   }
@@ -40202,7 +40349,7 @@ signed int __thiscall advManager::Main(advManager *this, tag_message *evt)
   }
   if ( giScreenScroll && gbForegroundApp )
     advManager::CheckScreenScroll(this);
-  if ( !gbNoSound && *(_DWORD *)&Data && giForceSwitchMusic > 0 && KBTickCount() - giForceSwitchMusic > 6000 )
+  if ( !gbNoSound && *(_DWORD *)&giMusicVolume && giForceSwitchMusic > 0 && KBTickCount() - giForceSwitchMusic > 6000 )
   {
     giForceSwitchMusic = -1;
     if ( *(_BYTE *)(gpSoundManager + 1404) == 21 )
@@ -40449,21 +40596,21 @@ LABEL_143:
           case 20:
             if ( gpCurPlayer->numCastles >= 0 )
             {
-              if ( LOBYTE(gpCurPlayer->field_45) == -1 )
+              if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == -1 )
               {
-                v17 = gpCurPlayer->castlesOwned[0];
+                v17 = BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
               }
               else
               {
                 v17 = 0;
                 for ( i = 0; gpCurPlayer->numCastles > i; ++i )
                 {
-                  if ( gpCurPlayer->castlesOwned[i] == LOBYTE(gpCurPlayer->field_45) )
+                  if ( *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2) == LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) )
                   {
                     if ( gpCurPlayer->numCastles - 1 == i )
-                      v17 = gpCurPlayer->castlesOwned[0];
+                      v17 = BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
                     else
-                      v17 = gpCurPlayer->castlesOwned[i + 1];
+                      v17 = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 3);
                   }
                 }
               }
@@ -40475,7 +40622,7 @@ LABEL_143:
             advManager::SetHeroContext(this, v5, 0);
             break;
           case 28:
-            if ( LOBYTE(gpCurPlayer->field_45) == -1 )
+            if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == -1 )
             {
               if ( gpCurPlayer->curHeroIdx != -1 )
               {
@@ -40646,7 +40793,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
       v20 = (evt->yCoordOrFieldID - 105) / 7;
       if ( gpCurPlayer->numHeroes > v20 )
       {
-        objOrHeroIdx = *(&gpCurPlayer->heroesOwned[v20] + gpCurPlayer->field_3);
+        objOrHeroIdx = *(&gpCurPlayer->heroesOwned[v20] + gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx);
         if ( BYTE1(evt->inputTypeBitmask) & 2 )
         {
           advManager::HeroQuickView((advManager *)this, objOrHeroIdx, v20, -1, -1);
@@ -40667,7 +40814,8 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
     case 0x11:
     case 0x12:
     case 0x13:
-      objOrHeroIdx = *(&gpCurPlayer->_3[evt->yCoordOrFieldID + 36] + HIBYTE(gpCurPlayer->field_45));
+      objOrHeroIdx = *(&gpCurPlayer->_3[evt->yCoordOrFieldID + 36]
+                     + BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx));
       if ( BYTE1(evt->inputTypeBitmask) & 2 )
       {
         advManager::TownQuickView((void *)this, objOrHeroIdx, evt->yCoordOrFieldID - 16, -1, -1);
@@ -40675,7 +40823,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
       else
       {
         advManager::HideRoute((advManager *)this, 1, 0, 1);
-        if ( LOBYTE(gpCurPlayer->field_45) == objOrHeroIdx )
+        if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == objOrHeroIdx )
         {
           thisa->field_36 = 3;
           *(_DWORD *)a3 = advManager::DoAdvCommand(thisa);
@@ -40687,7 +40835,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
       }
       break;
     case 0x1A:
-      advManager::DoHeroKnob((void *)this);
+      advManager::DoHeroKnob((advManager *)this);
       break;
     case 0x16:
       quickViewY -= 194;
@@ -40701,7 +40849,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
         if ( gpCurPlayer->numHeroes - 4 < v20 )
           v20 = gpCurPlayer->numHeroes - 4;
       }
-      gpCurPlayer->field_3 = v20;
+      gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx = v20;
       advManager::UpdateHeroLocators((advManager *)this, 1, 1);
       break;
     case 0x1B:
@@ -40719,8 +40867,8 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
         if ( gpCurPlayer->numCastles - 4 < v20 )
           v20 = gpCurPlayer->numCastles - 4;
       }
-      HIBYTE(gpCurPlayer->field_45) = v20;
-      advManager::UpdateTownLocators((void *)this, 1, 1);
+      BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v20;
+      advManager::UpdateTownLocators((advManager *)this, 1, 1);
       break;
     case 0xA:
       if ( !(unsigned __int8)(*(&mapRevealed[*(_DWORD *)(this + 470)]
@@ -40743,7 +40891,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
           else
           {
             objOrHeroIdx = cell->objType & 0x7F;
-            v18 = ((cell->field_4 >> 3) & 0x1FFF);
+            v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
           }
           if ( objOrHeroIdx == LOCATION_TOWN )
           {
@@ -40817,7 +40965,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
         else
         {
           objOrHeroIdx = cell->objType & 0x7F;
-          v18 = ((cell->field_4 >> 3) & 0x1FFF);
+          v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
           if ( objOrHeroIdx == 42 )
           {
             if ( gpCurPlayer->curHeroIdx == v18 )
@@ -40832,7 +40980,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
           }
           if ( objOrHeroIdx == 35 )
           {
-            if ( LOBYTE(gpCurPlayer->field_45) == v18 )
+            if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == v18 )
             {
               thisa->field_36 = 3;
               *(_DWORD *)a3 = advManager::DoAdvCommand(thisa);
@@ -41071,30 +41219,30 @@ signed int __thiscall advManager::ProcessDeSelect(advManager *this, GUIMessage *
   switch ( evt->fieldID )
   {
     case 0x17:
-      if ( (signed int)HIBYTE(gpCurPlayer->field_45) > 0 )
+      if ( (signed int)BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) > 0 )
       {
-        --HIBYTE(gpCurPlayer->field_45);
+        --BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
         advManager::UpdateTownLocators(this, 1, 1);
       }
       break;
     case 0x18:
-      if ( HIBYTE(gpCurPlayer->field_45) + 4 < gpCurPlayer->numCastles )
+      if ( BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) + 4 < gpCurPlayer->numCastles )
       {
-        ++HIBYTE(gpCurPlayer->field_45);
+        ++BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
         advManager::UpdateTownLocators(this, 1, 1);
       }
       break;
     case 0x14:
-      if ( gpCurPlayer->field_3 > 0 )
+      if ( gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx > 0 )
       {
-        --gpCurPlayer->field_3;
+        --gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx;
         advManager::UpdateHeroLocators(this, 1, 1);
       }
       break;
     case 0x15:
-      if ( gpCurPlayer->field_3 + 4 < gpCurPlayer->numHeroes )
+      if ( gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx + 4 < gpCurPlayer->numHeroes )
       {
-        ++gpCurPlayer->field_3;
+        ++gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx;
         advManager::UpdateHeroLocators(this, 1, 1);
       }
       break;
@@ -41286,7 +41434,9 @@ LABEL_52:
   }
   advManager::CompleteDraw(this, 0);
   advManager::UpdateScreen(this, 0, 0);
-  if ( gpGame->field_6395 != (_DWORD)a2 || gpGame->field_6396 != HIDWORD(a2) || gpGame->field_6397 == -1 )
+  if ( gpGame->utimateArtifactLocX != (_DWORD)a2
+    || gpGame->utimateArtifactLocY != HIDWORD(a2)
+    || gpGame->ultimateArtifactIdx == -1 )
   {
     if ( gbHumanPlayer[giCurPlayer] )
       NormalDialog("Nothing here.\nWhere could it be?", 1, -1, -1, -1, 0, -1, 0, -1, 0);
@@ -41310,12 +41460,12 @@ LABEL_52:
           gText,
           "%s%s",
           "Congratulations! After spending many hours digging here, you have uncovered the ",
-          gArtifactNames[gpGame->field_6397]);
+          gArtifactNames[gpGame->ultimateArtifactIdx]);
       NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( v6 )
         hero::ViewArtifact(98, 0, -1);
       else
-        hero::ViewArtifact(gpGame->field_6397, 0, -1);
+        hero::ViewArtifact(gpGame->ultimateArtifactIdx, 0, -1);
       soundManager::SwitchAmbientMusic(
         (soundManager *)gpSoundManager,
         (unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
@@ -41323,8 +41473,8 @@ LABEL_52:
     if ( v6 )
       GiveArtifact((hero *)hro, ARTIFACT_SPHERE_OF_NEGATION, 1, -1);
     else
-      GiveArtifact((hero *)hro, (ARTIFACT)gpGame->field_6397, 1, -1);
-    gpGame->field_6397 = -1;
+      GiveArtifact((hero *)hro, (ARTIFACT)gpGame->ultimateArtifactIdx, 1, -1);
+    gpGame->ultimateArtifactIdx = -1;
   }
   else if ( gbHumanPlayer[giCurPlayer] )
   {
@@ -43681,7 +43831,7 @@ void __thiscall advManager::UpdateHeroLocator(advManager *this, int a2, int a3, 
     {
       for ( i = 0; i < 4; ++i )
       {
-        if ( *(&gpCurPlayer->heroesOwned[i] + gpCurPlayer->field_3) == v8 )
+        if ( *(&gpCurPlayer->heroesOwned[i] + gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx) == v8 )
           a2 = i;
       }
       if ( a2 != -1 )
@@ -43689,7 +43839,7 @@ void __thiscall advManager::UpdateHeroLocator(advManager *this, int a2, int a3, 
 LABEL_30:
         lowID = 7 * a2 + 100;
         evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-        v11 = *(&gpCurPlayer->heroesOwned[a2] + gpCurPlayer->field_3);
+        v11 = *(&gpCurPlayer->heroesOwned[a2] + gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx);
         evt.messageType = 8;
         evt.fieldID = 7 * a2 + 106;
         if ( gpCurPlayer->curHeroIdx != v11 || gpCurPlayer->curHeroIdx == -1 || gbAllBlack )
@@ -43755,14 +43905,14 @@ LABEL_30:
 //----- (0044D080) --------------------------------------------------------
 void __thiscall advManager::UpdateHeroLocators(advManager *this, int a2, int a3)
 {
-  int a2a; // [sp+20h] [bp-4h]@2
+  int recursiveArgument; // [sp+20h] [bp-4h]@2
 
   if ( gbThisNetHumanPlayer[giCurPlayer] )
   {
-    for ( a2a = 0; a2a < 4; ++a2a )
-      advManager::UpdateHeroLocator(this, a2a, 0, 0);
+    for ( recursiveArgument = 0; recursiveArgument < 4; ++recursiveArgument )
+      advManager::UpdateHeroLocator(this, recursiveArgument, 0, 0);
     if ( gpCurPlayer->numHeroes >= 5 )
-      this->heroScrollbarKnob->offsetY = (signed __int64)((double)gpCurPlayer->field_3
+      this->heroScrollbarKnob->offsetY = (signed __int64)((double)gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx
                                                         * (73.0
                                                          / (double)((signed int)gpCurPlayer->numHeroes - 4))
                                                         + 195.0);
@@ -43774,9 +43924,9 @@ void __thiscall advManager::UpdateHeroLocators(advManager *this, int a2, int a3)
 }
 
 //----- (0044D170) --------------------------------------------------------
-void __thiscall advManager::UpdateTownLocators(void *this, int a2, int a3)
+void __thiscall advManager::UpdateTownLocators(advManager *this, int a2, int a3)
 {
-  void *v3; // [sp+14h] [bp-30h]@1
+  heroWindow **v3; // [sp+14h] [bp-30h]@1
   int evt; // [sp+20h] [bp-24h]@2
   int v5; // [sp+24h] [bp-20h]@4
   int v6; // [sp+28h] [bp-1Ch]@4
@@ -43784,16 +43934,21 @@ void __thiscall advManager::UpdateTownLocators(void *this, int a2, int a3)
   unsigned int i; // [sp+3Ch] [bp-8h]@4
   int j; // [sp+40h] [bp-4h]@2
 
-  v3 = this;
+  v3 = (heroWindow **)this;
   if ( gbThisNetHumanPlayer[giCurPlayer] )
   {
     evt = 512;
     for ( j = 0; j < 4; ++j )
     {
-      i = *(&gpCurPlayer->castlesOwned[j] + HIBYTE(gpCurPlayer->field_45));
+      i = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+          + j
+          + BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)
+          + 2);
       v5 = 8;
       v6 = j + 32;
-      if ( LOBYTE(gpCurPlayer->field_45) == -1 || LOBYTE(gpCurPlayer->field_45) != i || gbAllBlack )
+      if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == -1
+        || LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) != i
+        || gbAllBlack )
         v7 = 36;
       else
         v7 = 153;
@@ -43831,7 +43986,7 @@ void __thiscall advManager::UpdateTownLocators(void *this, int a2, int a3)
         heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 154), (tag_message *)&evt);
       }
     }
-    *(_WORD *)(*(_DWORD *)((char *)v3 + 182) + 26) = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)HIBYTE(gpCurPlayer->field_45) * (74.0 / (double)((signed int)gpCurPlayer->numCastles - 4)) + 195.0) : 232;
+    *(_WORD *)&(*(heroWindow **)((char *)v3 + 182))->filename[14] = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) * (74.0 / (double)((signed int)gpCurPlayer->numCastles - 4)) + 195.0) : 232;
     if ( a2 )
       heroWindow::DrawWindow(*(heroWindow **)((char *)v3 + 154), a3);
   }
@@ -43924,14 +44079,14 @@ signed int __thiscall advManager::ClearBottomView(advManager *this)
       result = i;
       this->someComponents[1][i] = 0;
     }
-    giBottomViewPlayer = -1;
+    dword_50EAA4 = -1;
     iCurBottomView = 0;
     iLastAnimFrame = -1;
   }
   return result;
 }
 // 50EAA0: using guessed type int iCurBottomView;
-// 50EAA4: using guessed type int giBottomViewPlayer;
+// 50EAA4: using guessed type int dword_50EAA4;
 // 524CB0: using guessed type int iLastAnimFrame;
 
 //----- (0044D750) --------------------------------------------------------
@@ -44017,10 +44172,10 @@ int __thiscall advManager::UpdBottomViewEnemyTurn(void *this)
       }
     }
   }
-  if ( gbForceUpdate || giBottomViewPlayer != giCurPlayer )
+  if ( gbForceUpdate || dword_50EAA4 != giCurPlayer )
   {
     v12 = 1;
-    giBottomViewPlayer = giCurPlayer;
+    dword_50EAA4 = giCurPlayer;
     if ( giCurPlayer != giCurPlayer )
       LODWORD(iCurHourGlassPhase) = 0;
     if ( *(_DWORD *)((char *)v2 + 66) )
@@ -44096,7 +44251,7 @@ int __thiscall advManager::UpdBottomViewEnemyTurn(void *this)
 // 50EA90: using guessed type int iSandAnim;
 // 50EA94: using guessed type int giLastHourGlassUpdateTime;
 // 50EAA0: using guessed type int iCurBottomView;
-// 50EAA4: using guessed type int giBottomViewPlayer;
+// 50EAA4: using guessed type int dword_50EAA4;
 // 50EAA8: using guessed type __int64 iCurHourGlassPhase;
 // 50EAB0: using guessed type int gbForceUpdate;
 // 50F3D0: using guessed type int iLastSandAnimTime;
@@ -44439,7 +44594,7 @@ signed int __thiscall advManager::UpdBottomViewKingdom(advManager *this)
     heroWindow::AddWidget(this->adventureScreen, this->someComponents[0][1], -1);
     for ( i = 0; gpCurPlayer->numCastles > i; ++i )
     {
-      if ( gpGame->castles[gpCurPlayer->castlesOwned[i]].buildingsBuiltFlags & 0x40 )
+      if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].buildingsBuiltFlags & 0x40 )
         ++v27;
       else
         ++v6;
@@ -45522,7 +45677,7 @@ playerData *__cdecl advManager::DeactivateCurrTown()
   playerData *result; // eax@1
 
   result = gpCurPlayer;
-  LOBYTE(gpCurPlayer->field_45) = -1;
+  LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = -1;
   return result;
 }
 
@@ -45561,7 +45716,7 @@ void __thiscall advManager::DemobilizeCurrHero(advManager *thisa)
     tile = advManager::GetCell(thisa, hro->x, hro->y);
     hro->occupiedObjType = tile->objType;
     hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-    HIBYTE(hro->field_2B) = LOBYTE(thisa->field_27E);
+    HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = LOBYTE(thisa->field_27E);
     if ( thisa->field_27A == 6 )
       hro->flags |= 0x80u;
     tile->objType = 170;
@@ -45583,24 +45738,24 @@ advManager *__thiscall advManager::SetTownContext(advManager *this, int a2)
   char *v7; // [sp+18h] [bp-4h]@1
 
   advManager::DeactivateCurrHero(this);
-  LOBYTE(gpCurPlayer->field_45) = a2;
-  v7 = (char *)&gpGame->castles[LOBYTE(gpCurPlayer->field_45)];
-  this->viewX = gpGame->castles[LOBYTE(gpCurPlayer->field_45)].x - 7;
+  LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = a2;
+  v7 = (char *)&gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
+  this->viewX = gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - 7;
   this->viewY = (unsigned __int8)v7[5] - 7;
   v4 = 0;
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    if ( gpCurPlayer->castlesOwned[i] == a2 )
+    if ( *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2) == a2 )
       v4 = i;
   }
-  if ( SHIBYTE(gpCurPlayer->field_45) <= v4 )
+  if ( SBYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) <= v4 )
   {
-    if ( HIBYTE(gpCurPlayer->field_45) + 3 < v4 )
-      HIBYTE(gpCurPlayer->field_45) = v4 - 3;
+    if ( BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) + 3 < v4 )
+      BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v4 - 3;
   }
   else
   {
-    HIBYTE(gpCurPlayer->field_45) = v4;
+    BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v4;
   }
   advManager::UpdateHeroLocators(this, 1, 1);
   advManager::UpdateTownLocators(this, 1, 1);
@@ -45652,7 +45807,7 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
       this->field_27A = 6;
     else
       this->field_27A = hro->factionID;
-    this->field_27E = HIBYTE(hro->field_2B);
+    this->field_27E = HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID);
     this->field_282 = advManager::GetCursorBaseFrame(this->field_27E);
     v4 = advManager::GetCell(this, hro->x, hro->y);
     v4->displayFlags |= 0x40u;
@@ -45663,14 +45818,14 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
       if ( gpCurPlayer->heroesOwned[i] == heroIdx )
         heroOwnedIdx = i;
     }
-    if ( gpCurPlayer->field_3 <= heroOwnedIdx )
+    if ( gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx <= heroOwnedIdx )
     {
-      if ( gpCurPlayer->field_3 + 3 < heroOwnedIdx )
-        gpCurPlayer->field_3 = heroOwnedIdx - 3;
+      if ( gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx + 3 < heroOwnedIdx )
+        gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx = heroOwnedIdx - 3;
     }
     else
     {
-      gpCurPlayer->field_3 = heroOwnedIdx;
+      gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx = heroOwnedIdx;
     }
     advManager::UpdateHeroLocators(this, 1, 1);
     advManager::UpdateTownLocators(this, 1, 1);
@@ -45705,60 +45860,60 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
 // 5240A8: using guessed type int gpSoundManager;
 
 //----- (00450FB0) --------------------------------------------------------
-void __thiscall advManager::DoHeroKnob(void *this)
+void __thiscall advManager::DoHeroKnob(advManager *this)
 {
-  void *thisa; // [sp+14h] [bp-78h]@1
+  advManager *thisa; // [sp+14h] [bp-78h]@1
   char v2; // [sp+18h] [bp-74h]@14
-  tag_message a2; // [sp+34h] [bp-58h]@1
+  tag_message mightBeDialogData; // [sp+34h] [bp-58h]@1
   int v4; // [sp+50h] [bp-3Ch]@10
-  int y; // [sp+54h] [bp-38h]@1
-  int v6; // [sp+58h] [bp-34h]@1
+  int MouseCoordY; // [sp+54h] [bp-38h]@1
+  int mightBeEvent; // [sp+58h] [bp-34h]@1
   int v7; // [sp+60h] [bp-2Ch]@5
-  int x; // [sp+74h] [bp-18h]@1
-  int v9; // [sp+78h] [bp-14h]@1
-  int v10; // [sp+7Ch] [bp-10h]@1
+  int MouseCoordX; // [sp+74h] [bp-18h]@1
+  int mouseCoordYAndHeroScrollbarKnobOffsetDifference; // [sp+78h] [bp-14h]@1
+  int curPlayerNumHeroes; // [sp+7Ch] [bp-10h]@1
   int v11; // [sp+80h] [bp-Ch]@1
   double v12; // [sp+84h] [bp-8h]@1
 
   thisa = this;
-  v11 = gpCurPlayer->field_3;
-  v10 = gpCurPlayer->numHeroes;
-  v12 = 73.0 / (double)(v10 - 4);
-  mouseManager::MouseCoords(&x, &y);
-  v9 = y - *(_WORD *)(*(_DWORD *)((char *)thisa + 178) + 26);
+  v11 = gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx;
+  curPlayerNumHeroes = gpCurPlayer->numHeroes;
+  v12 = 73.0 / (double)(curPlayerNumHeroes - 4);
+  mouseManager::MouseCoords(&MouseCoordX, &MouseCoordY);
+  mouseCoordYAndHeroScrollbarKnobOffsetDifference = MouseCoordY - thisa->heroScrollbarKnob->offsetY;
   inputManager::Flush(gpInputManager);
-  memcpy(&v6, inputManager::GetEvent((tag_message *)gpInputManager, (inputManager *)&a2), 0x1Cu);
-  while ( v6 != 16 && v6 != 64 )
+  memcpy(&mightBeEvent, inputManager::GetEvent((tag_message *)gpInputManager, (inputManager *)&mightBeDialogData), 28u);
+  while ( mightBeEvent != 16 && mightBeEvent != 64 )
   {
-    if ( v6 == 4 )
+    if ( mightBeEvent == 4 )
     {
-      if ( v9 + 195 > v7 )
-        v7 = v9 + 195;
-      if ( v9 + 268 < v7 )
-        v7 = v9 + 268;
+      if ( mouseCoordYAndHeroScrollbarKnobOffsetDifference + 195 > v7 )
+        v7 = mouseCoordYAndHeroScrollbarKnobOffsetDifference + 195;
+      if ( mouseCoordYAndHeroScrollbarKnobOffsetDifference + 268 < v7 )
+        v7 = mouseCoordYAndHeroScrollbarKnobOffsetDifference + 268;
       (*(void (__thiscall **)(mouseManager *))(LODWORD(gpMouseManager->vtable) + 8))(gpMouseManager);
-      *(_WORD *)(*(_DWORD *)((char *)thisa + 178) + 26) = v7 - v9;
-      heroWindow::DrawWindow(*(heroWindow **)((char *)thisa + 154));
-      if ( v10 > 4 )
+      thisa->heroScrollbarKnob->offsetY = v7 - mouseCoordYAndHeroScrollbarKnobOffsetDifference;
+      heroWindow::DrawWindow(thisa->adventureScreen);
+      if ( curPlayerNumHeroes > 4 )
       {
-        v4 = (signed __int64)((double)((signed int)*(_WORD *)(*(_DWORD *)((char *)thisa + 178) + 26) - 195) / v12);
+        v4 = (signed __int64)((double)((signed int)thisa->heroScrollbarKnob->offsetY - 195) / v12);
         if ( v4 != v11 )
         {
-          gpCurPlayer->field_3 = v4;
-          if ( v10 - 3 < v4 )
-            v4 = v10 - 3;
-          advManager::UpdateHeroLocators((advManager *)thisa, 0, 1);
-          *(_WORD *)(*(_DWORD *)((char *)thisa + 178) + 26) = v7 - v9;
-          heroWindow::DrawWindow(*(heroWindow **)((char *)thisa + 154));
+          gpCurPlayer->relatedToSomeSortOfHeroCountOrIdx = v4;
+          if ( curPlayerNumHeroes - 3 < v4 )
+            v4 = curPlayerNumHeroes - 3;
+          advManager::UpdateHeroLocators(thisa, 0, 1);
+          thisa->heroScrollbarKnob->offsetY = v7 - mouseCoordYAndHeroScrollbarKnobOffsetDifference;
+          heroWindow::DrawWindow(thisa->adventureScreen);
           v11 = v4;
         }
       }
     }
     Process1WindowsMessage();
-    memcpy(&v6, inputManager::GetEvent((tag_message *)gpInputManager, (inputManager *)&v2), 0x1Cu);
+    memcpy(&mightBeEvent, inputManager::GetEvent((tag_message *)gpInputManager, (inputManager *)&v2), 0x1Cu);
   }
-  *(_WORD *)(*(_DWORD *)((char *)thisa + 178) + 22) &= 0xFFFEu;
-  advManager::UpdateHeroLocators((advManager *)thisa, 1, 1);
+  thisa->heroScrollbarKnob->field_16 &= 0xFFFEu;
+  advManager::UpdateHeroLocators(thisa, 1, 1);
 }
 
 //----- (004511B0) --------------------------------------------------------
@@ -45778,7 +45933,7 @@ void __thiscall advManager::DoTownKnob(void *this)
   double v12; // [sp+84h] [bp-8h]@1
 
   v1 = this;
-  v11 = HIBYTE(gpCurPlayer->field_45);
+  v11 = BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
   v10 = gpCurPlayer->numCastles;
   v12 = 73.0 / (double)(v10 - 4);
   mouseManager::MouseCoords(&x, &y);
@@ -45801,10 +45956,10 @@ void __thiscall advManager::DoTownKnob(void *this)
         v4 = (signed __int64)((double)((signed int)*(_WORD *)(*(_DWORD *)((char *)v1 + 182) + 26) - 195) / v12);
         if ( v4 != v11 )
         {
-          HIBYTE(gpCurPlayer->field_45) = v4;
+          BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v4;
           if ( v10 - 3 < v4 )
             v4 = v10 - 3;
-          advManager::UpdateTownLocators(v1, 0, 1);
+          advManager::UpdateTownLocators((advManager *)v1, 0, 1);
           *(_WORD *)(*(_DWORD *)((char *)v1 + 182) + 26) = v7 - v9;
           heroWindow::DrawWindow(*(heroWindow **)((char *)v1 + 154));
           v11 = v4;
@@ -45815,7 +45970,7 @@ void __thiscall advManager::DoTownKnob(void *this)
     memcpy(&v6, inputManager::GetEvent((tag_message *)gpInputManager, (inputManager *)&v2), 0x1Cu);
   }
   *(_WORD *)(*(_DWORD *)((char *)v1 + 182) + 22) &= 0xFFFEu;
-  advManager::UpdateTownLocators(v1, 1, 1);
+  advManager::UpdateTownLocators((advManager *)v1, 1, 1);
 }
 
 //----- (004513B0) --------------------------------------------------------
@@ -47011,8 +47166,9 @@ void __thiscall advManager::TownGate(advManager *ecx0, int spell)
   {
     for ( i = 0; gpCurPlayer->numCastles > i; ++i )
     {
-      xdist = abs(gpGame->castles[gpCurPlayer->castlesOwned[i]].x - hro->x);
-      dist = abs(gpGame->castles[gpCurPlayer->castlesOwned[i]].y - hro->y) + xdist;
+      xdist = abs(gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].x - hro->x);
+      dist = abs(gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].y - hro->y)
+           + xdist;
       if ( dist < smallestDist )
       {
         smallestDist = dist;
@@ -47034,7 +47190,9 @@ void __thiscall advManager::TownGate(advManager *ecx0, int spell)
   heroWindow::BroadcastMessage(townPortalWin, &evt);
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    sprintf(gText, gpGame->castles[gpCurPlayer->castlesOwned[i]].name);
+    sprintf(
+      gText,
+      gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].name);
     evt.eventCode = INPUT_GUI_MESSAGE_CODE;
     evt.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
     evt.yCoordOrFieldID = 100;
@@ -47050,21 +47208,25 @@ void __thiscall advManager::TownGate(advManager *ecx0, int spell)
   if ( gpWindowManager->buttonPressedCode != BUTTON_CANCEL )
   {
 LABEL_19:
-    if ( gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].visitingHeroIdx == -1 )
+    if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].visitingHeroIdx == -1 )
     {
       soundManager::SwitchAmbientMusic((soundManager *)gpSoundManager, 1);
       advManager::TeleportTo(
         ecx0,
         hro,
-        gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].x,
-        gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].y,
+        gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].x,
+        gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].y,
         0,
         0);
       hero::UseSpell(hro, spell);
-      gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].visitingHeroIdx = hro->idx;
-      town::GiveSpells(&gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]], 0);
+      gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].visitingHeroIdx = hro->idx;
+      town::GiveSpells(
+        &gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)],
+        0);
       hro->occupiedObjType = 163;
-      hro->occupiedObjVal = gpCurPlayer->castlesOwned[targetCastle];
+      hro->occupiedObjVal = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                            + targetCastle
+                            + 2);
       soundManager::SwitchAmbientMusic(
         (soundManager *)gpSoundManager,
         (unsigned __int8)giTerrainToMusicTrack[ecx0->currentTerrain]);
@@ -47661,10 +47823,11 @@ int __thiscall advManager::SetInitialMapOrigin(advManager *this)
   this->xOff = this->yOff;
   this->field_272 = 0;
   gbHeroMoving = 0;
-  if ( gbThisNetHumanPlayer[giCurPlayer] && LOBYTE(gpCurPlayer->field_45) != -1 )
+  if ( gbThisNetHumanPlayer[giCurPlayer]
+    && LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) != -1 )
   {
-    v1 = (char *)&gpGame->castles[LOBYTE(gpCurPlayer->field_45)];
-    this->viewX = gpGame->castles[LOBYTE(gpCurPlayer->field_45)].x - 7;
+    v1 = (char *)&gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
+    this->viewX = gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - 7;
     this->viewY = (unsigned __int8)v1[5] - 7;
   }
   else if ( gbThisNetHumanPlayer[giCurPlayer] && gpCurPlayer->curHeroIdx != -1 )
@@ -47686,8 +47849,8 @@ int __thiscall advManager::SetInitialMapOrigin(advManager *this)
       }
       else
       {
-        v3 = (char *)&gpGame->castles[v6->castlesOwned[0]];
-        this->viewX = gpGame->castles[v6->castlesOwned[0]].x - 7;
+        v3 = (char *)&gpGame->castles[BYTE2(v6->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
+        this->viewX = gpGame->castles[BYTE2(v6->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - 7;
         this->viewY = (unsigned __int8)v3[5] - 7;
       }
     }
@@ -47737,7 +47900,7 @@ heroWindow *__thiscall advManager::LoadRemote(void *this)
   }
   game::DoNewTurn(gpGame);
   advManager::UpdateHeroLocators((advManager *)thisa, 1, 1);
-  advManager::UpdateTownLocators(thisa, 1, 1);
+  advManager::UpdateTownLocators((advManager *)thisa, 1, 1);
   advManager::UpdateRadar((advManager *)thisa, 1, 0);
   advManager::UpdBottomView((advManager *)thisa, 1, 1, 1);
   advManager::ForceNewHover(gpAdvManager);
@@ -48072,33 +48235,30 @@ void *__fastcall advManager::DrawAdventureBorder(int this, int a2)
 // 4F2E80: using guessed type int dword_4F2E80;
 
 //----- (00456630) --------------------------------------------------------
-signed int __thiscall advManager::FindAdjacentMonster(void *this, int a2, int _1C, int a3, int a4, int a5, int a6) // Check this function
+signed int __thiscall advManager::FindAdjacentMonster(advManager *this, int argX, int argY, int *pCoordX, int *pCoordY, int unwantedCoordX, int unwantedCoordY)
 {
-  void *thisa; // [sp+Ch] [bp-4h]@1
+  advManager *thisa; // [sp+Ch] [bp-4h]@1
 
   thisa = this;
-  dword_524CFC = a2 + 2;
-  dword_524CE0 = _1C + 2;
-  if ( a2 > 0 && _1C > 0 && MAP_WIDTH - 1 > a2 && MAP_HEIGHT - 1 > _1C )
+  adjacentMonsterUpperBoundX = argX + 2;        // dword_524CFC changed to adjacentMonsterUpperBoundX
+  adjacentMonsterUpperBoundY = argY + 2;        // dword_524CE0 changed to adjacentMonsterUpperBoundY
+  if ( argX > 0 && argY > 0 && MAP_WIDTH - 1 > argX && MAP_HEIGHT - 1 > argY )
   {
-    for ( dword_524CF0 = a2 - 1; dword_524CFC > dword_524CF0; ++dword_524CF0 )
+    for ( adjacentMonsterX = argX - 1; adjacentMonsterUpperBoundX > adjacentMonsterX; ++adjacentMonsterX )// dword_524CF0 changed to adjacentMonsterX
     {
-      for ( dword_524D0C = _1C - 1; dword_524D0C < dword_524CE0; ++dword_524D0C )
+      for ( adjacentMonsterY = argY - 1; adjacentMonsterY < adjacentMonsterUpperBoundY; ++adjacentMonsterY )// dword_524D0C changed to adjacentMonsterY
       {
-        if ( *(_BYTE *)(**(_DWORD **)((char *)thisa + 174)
-                      + 12 * dword_524D0C * *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 8)
-                      + 12 * dword_524CF0
-                      + 9) == 152 )
+        if ( *(&thisa->map->tiles[adjacentMonsterX].objType + 12 * adjacentMonsterY * thisa->map->width) == 152 )
         {
-          if ( _1C <= dword_524D0C )
+          if ( argY <= adjacentMonsterY )
           {
-            if ( dword_524CF0 != a5 || dword_524D0C != a6 )
+            if ( adjacentMonsterX != unwantedCoordX || adjacentMonsterY != unwantedCoordY )
               goto LABEL_53;
           }
-          else if ( (advManager::GetCell((advManager *)thisa, a2, _1C)->objectIndex == 255
-   || (((unsigned __int8)advManager::GetCell((advManager *)thisa, a2, _1C)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47
-   || advManager::GetCell((advManager *)thisa, a2, _1C)->displayFlags & 0x80)
-  && (dword_524CF0 != a5 || dword_524D0C != a6) )
+          else if ( (advManager::GetCell(thisa, argX, argY)->objectIndex == 255
+   || (((unsigned __int8)advManager::GetCell(thisa, argX, argY)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47
+   || advManager::GetCell(thisa, argX, argY)->displayFlags & 0x80)
+  && (adjacentMonsterX != unwantedCoordX || adjacentMonsterY != unwantedCoordY) )
           {
             goto LABEL_53;
           }
@@ -48107,59 +48267,56 @@ signed int __thiscall advManager::FindAdjacentMonster(void *this, int a2, int _1
     }
     return 0;
   }
-  if ( MAP_WIDTH - 1 == a2 )
-    dword_524CFC = a2 + 1;
-  if ( MAP_HEIGHT - 1 == _1C )
-    dword_524CE0 = _1C + 1;
-  if ( a2 )
-    dword_524E7C = a2 - 1;
+  if ( MAP_WIDTH - 1 == argX )
+    adjacentMonsterUpperBoundX = argX + 1;
+  if ( MAP_HEIGHT - 1 == argY )
+    adjacentMonsterUpperBoundY = argY + 1;
+  if ( argX )
+    adjacentMonsterLowerBoundX = argX - 1;      // dword_524E7C changed to adjacentMonsterLowerBoundX
   else
-    dword_524E7C = 0;
-  if ( _1C )
-    dword_524EBC = _1C - 1;
+    adjacentMonsterLowerBoundX = 0;
+  if ( argY )
+    adjacentMonsterLowerBoundY = argY - 1;      // dword_524EBC changed to adjacentMonsterLowerBoundY
   else
-    dword_524EBC = 0;
-  dword_524CF0 = dword_524E7C;
+    adjacentMonsterLowerBoundY = 0;
+  adjacentMonsterX = adjacentMonsterLowerBoundX;
 LABEL_35:
-  if ( dword_524CFC <= dword_524CF0 )
+  if ( adjacentMonsterUpperBoundX <= adjacentMonsterX )
     return 0;
-  for ( dword_524D0C = dword_524EBC; ; ++dword_524D0C )
+  for ( adjacentMonsterY = adjacentMonsterLowerBoundY; ; ++adjacentMonsterY )
   {
-    if ( dword_524D0C >= dword_524CE0 )
+    if ( adjacentMonsterY >= adjacentMonsterUpperBoundY )
     {
-      ++dword_524CF0;
+      ++adjacentMonsterX;
       goto LABEL_35;
     }
-    if ( *(_BYTE *)(**(_DWORD **)((char *)thisa + 174)
-                  + 12 * dword_524D0C * *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 8)
-                  + 12 * dword_524CF0
-                  + 9) != 152 )
+    if ( *(&thisa->map->tiles[adjacentMonsterX].objType + 12 * adjacentMonsterY * thisa->map->width) != 152 )
       continue;
-    if ( _1C > dword_524D0C )
+    if ( argY > adjacentMonsterY )
       break;
-    if ( dword_524CF0 != a5 || dword_524D0C != a6 )
+    if ( adjacentMonsterX != unwantedCoordX || adjacentMonsterY != unwantedCoordY )
       goto LABEL_53;
 LABEL_50:
     ;
   }
-  if ( advManager::GetCell((advManager *)thisa, a2, _1C)->objectIndex != 255
-    && (((unsigned __int8)advManager::GetCell((advManager *)thisa, a2, _1C)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 47
-    && !(advManager::GetCell((advManager *)thisa, a2, _1C)->displayFlags & 0x80)
-    || dword_524CF0 == a5 && dword_524D0C == a6 )
+  if ( advManager::GetCell(thisa, argX, argY)->objectIndex != 255
+    && (((unsigned __int8)advManager::GetCell(thisa, argX, argY)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 47
+    && !(advManager::GetCell(thisa, argX, argY)->displayFlags & 0x80)
+    || adjacentMonsterX == unwantedCoordX && adjacentMonsterY == unwantedCoordY )
     goto LABEL_50;
 LABEL_53:
-  *(_DWORD *)a3 = dword_524CF0;
-  *(_DWORD *)a4 = dword_524D0C;
+  *pCoordX = adjacentMonsterX;
+  *pCoordY = adjacentMonsterY;
   return 1;
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
-// 524CE0: using guessed type int dword_524CE0;
-// 524CF0: using guessed type int dword_524CF0;
-// 524CFC: using guessed type int dword_524CFC;
-// 524D0C: using guessed type int dword_524D0C;
-// 524E7C: using guessed type int dword_524E7C;
-// 524EBC: using guessed type int dword_524EBC;
+// 524CE0: using guessed type int adjacentMonsterUpperBoundY;
+// 524CF0: using guessed type int adjacentMonsterX;
+// 524CFC: using guessed type int adjacentMonsterUpperBoundX;
+// 524D0C: using guessed type int adjacentMonsterY;
+// 524E7C: using guessed type int adjacentMonsterLowerBoundX;
+// 524EBC: using guessed type int adjacentMonsterLowerBoundY;
 
 //----- (00456A10) --------------------------------------------------------
 int __cdecl ComputeAdvNetControl()
@@ -48365,13 +48522,13 @@ void __thiscall advManager::ViewPuzzle(advManager *this)
   if ( !a2 )
     MemError();
   heroWindowManager::AddWindow(gpWindowManager, a2, -1, 1);
-  v57 = gpGame->field_6395 - 7;
-  a3 = gpGame->field_6396 - 7;
+  v57 = gpGame->utimateArtifactLocX - 7;
+  a3 = gpGame->utimateArtifactLocY - 7;
   v62 = 0;
   v61 = 0;
-  v62 = (gpGame->field_6396 + gpGame->field_6395) % 3 - 1;
-  v61 = (5 * gpGame->field_6396 + 2 * gpGame->field_6395) % 3 - 1;
-  if ( (gpGame->field_6396 + gpGame->field_6395) % 3 == 1 )
+  v62 = (gpGame->utimateArtifactLocY + gpGame->utimateArtifactLocX) % 3 - 1;
+  v61 = (5 * gpGame->utimateArtifactLocY + 2 * gpGame->utimateArtifactLocX) % 3 - 1;
+  if ( (gpGame->utimateArtifactLocY + gpGame->utimateArtifactLocX) % 3 == 1 )
   {
     if ( v62 <= 0 )
     {
@@ -48385,7 +48542,7 @@ void __thiscall advManager::ViewPuzzle(advManager *this)
   }
   else
   {
-    v1 = (signed int)gpGame->field_6396 + (signed int)gpGame->field_6395;
+    v1 = (signed int)gpGame->utimateArtifactLocY + (signed int)gpGame->utimateArtifactLocX;
     if ( (HIDWORD(v1) ^ ((BYTE4(v1) ^ (unsigned __int8)v1) - BYTE4(v1)) & 1) - HIDWORD(v1) == 1 )
     {
       if ( v61 <= 0 )
@@ -48401,7 +48558,7 @@ void __thiscall advManager::ViewPuzzle(advManager *this)
   }
   v57 += v62;
   a3 += v61;
-  advManager::PuzzleDraw(this, v57, a3, gpGame->field_6395, gpGame->field_6396);
+  advManager::PuzzleDraw(this, v57, a3, gpGame->utimateArtifactLocX, gpGame->utimateArtifactLocY);
   for ( j = 16; j < 464; ++j )
   {
     v59 = (unsigned int)&gpWindowManager->screenBuffer->contents[640 * j + 16];
@@ -48850,7 +49007,7 @@ void __thiscall advManager::SystemOptions(void *this)
   if ( bPrefsChanged )
     WritePrefs();
   if ( *(_DWORD *)&evilInterfaceUsage != v6 )
-    advManager::CheckSetEvilInterface(thisa, 1, -1);
+    advManager::CheckSetEvilInterface((advManager *)thisa, 1, -1);
   if ( v4 )
     advManager::MobilizeCurrHero((advManager *)thisa, 0);
 }
@@ -48870,7 +49027,7 @@ void __thiscall UpdateSystemOptions(void *this)
   evt = 512;
   v3 = 4;
   v4 = 10;
-  v5 = *(_DWORD *)&Data != 0;
+  v5 = *(_DWORD *)&giMusicVolume != 0;
   heroWindow::BroadcastMessage(cPanel, (tag_message *)&evt);
   v4 = 11;
   if ( *(_DWORD *)&soundVolume )
@@ -48915,7 +49072,7 @@ void __thiscall UpdateSystemOptions(void *this)
   heroWindow::BroadcastMessage(cPanel, (tag_message *)&evt);
   v3 = 3;
   v4 = 20;
-  v5 = (bool)onOffText[*(_DWORD *)&Data];
+  v5 = (bool)onOffText[*(_DWORD *)&giMusicVolume];
   heroWindow::BroadcastMessage(cPanel, (tag_message *)&evt);
   v4 = 21;
   v5 = (bool)onOffText[*(_DWORD *)&soundVolume];
@@ -49030,9 +49187,9 @@ signed int __thiscall SystemOptionsHandler(void *this)
         switch ( *((_DWORD *)this + 2) )
         {
           case 0xA:
-            if ( *(_DWORD *)&Data || *(_DWORD *)(gpSoundManager + 1694) || *(_DWORD *)(gpSoundManager + 1698) )
+            if ( *(_DWORD *)&giMusicVolume || *(_DWORD *)(gpSoundManager + 1694) || *(_DWORD *)(gpSoundManager + 1698) )
             {
-              *(_DWORD *)&Data = (*(_DWORD *)&Data + 1) % 11;
+              *(_DWORD *)&giMusicVolume = (*(_DWORD *)&giMusicVolume + 1) % 11;
               soundManager::AdjustMusicVolumes(gpSoundManager);
               v6 = 1;
               bPrefsChanged = 1;
@@ -50183,7 +50340,7 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
     {
       if ( this->somePlayerCodeOr10IfMayBeHuman[i] == 10
         || this->somePlayerCodeOr10IfMayBeHuman[i] >= iLastMsgNumHumanPlayers )
-        this->field_459[i] = this->mapHeader.playerFactions[*((_BYTE *)&this->field_44D + i)];
+        this->relatedToColorOfPlayerOrFaction[i] = this->mapHeader.playerFactions[this->relatedToPlayerPosAndColor[i]];
     }
   }
   else
@@ -50196,14 +50353,14 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
     for ( j = 0; j < 6; ++j )
     {
       if ( this->mapHeader.hasPlayer[j] )
-        *((_BYTE *)&this->field_44D + v5++) = j;
+        this->relatedToPlayerPosAndColor[v5++] = j;
     }
     for ( k = 0; k < 6; ++k )
     {
       if ( this->mapHeader.numPlayers > k )
       {
         this->playerHandicap[k] = 0;
-        this->field_459[k] = this->mapHeader.playerFactions[*((_BYTE *)&this->field_44D + k)];
+        this->relatedToColorOfPlayerOrFaction[k] = this->mapHeader.playerFactions[this->relatedToPlayerPosAndColor[k]];
         this->somePlayerCodeOr10IfMayBeHuman[k] = -1;
         this->mapFilename[k + 13] = -1;
       }
@@ -50211,17 +50368,17 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
       {
         this->mapFilename[k + 13] = -1;
         this->somePlayerCodeOr10IfMayBeHuman[k] = this->mapFilename[k + 13];
-        this->field_459[k] = this->somePlayerCodeOr10IfMayBeHuman[k];
-        this->playerHandicap[k] = this->field_459[k];
+        this->relatedToColorOfPlayerOrFaction[k] = this->somePlayerCodeOr10IfMayBeHuman[k];
+        this->playerHandicap[k] = this->relatedToColorOfPlayerOrFaction[k];
       }
     }
     for ( l = 0; this->mapHeader.numPlayers > l; ++l )
     {
-      if ( !this->mapHeader.playerMayBeHuman[*((_BYTE *)&this->field_44D + l)]
-        || this->mapHeader.playerMayBeComp[*((_BYTE *)&this->field_44D + l)] )
+      if ( !this->mapHeader.playerMayBeHuman[this->relatedToPlayerPosAndColor[l]]
+        || this->mapHeader.playerMayBeComp[this->relatedToPlayerPosAndColor[l]] )
       {
-        if ( !this->mapHeader.playerMayBeHuman[*((_BYTE *)&this->field_44D + l)]
-          && this->mapHeader.playerMayBeComp[*((_BYTE *)&this->field_44D + l)] )
+        if ( !this->mapHeader.playerMayBeHuman[this->relatedToPlayerPosAndColor[l]]
+          && this->mapHeader.playerMayBeComp[this->relatedToPlayerPosAndColor[l]] )
         {
           this->somePlayerCodeOr10IfMayBeHuman[l] = 10;
           this->mapFilename[l + 13] = 0;
@@ -50244,7 +50401,7 @@ game *__thiscall game::InitNewGame(game *this, const void *a2)
     {
       if ( this->somePlayerCodeOr10IfMayBeHuman[n] == -1 )
       {
-        if ( v12 < iLastMsgNumHumanPlayers && this->mapHeader.playerMayBeHuman[*((_BYTE *)&this->field_44D + n)] )
+        if ( v12 < iLastMsgNumHumanPlayers && this->mapHeader.playerMayBeHuman[this->relatedToPlayerPosAndColor[n]] )
           this->somePlayerCodeOr10IfMayBeHuman[n] = v12++;
         else
           this->somePlayerCodeOr10IfMayBeHuman[n] = 10;
@@ -51000,7 +51157,7 @@ signed int __fastcall NewGameHandler(void *this, game *a2)
         case 51:
           if ( !strcmp((int)((char *)v18 + 9), (int)gpGame->mapHeader.name) )
           {
-            memcpy(&gpGame->field_44D, (char *)v18 + 69, 0x41u);
+            memcpy(gpGame->relatedToPlayerPosAndColor, (char *)v18 + 69, 0x41u);
             v23 = 1;
           }
           break;
@@ -51229,19 +51386,19 @@ LABEL_98:
       case 0x23:
         i = *(_DWORD *)(v6 + 8) - 30;
 LABEL_125:
-        if ( gpGame->mapHeader.playerFactions[*((_BYTE *)&gpGame->field_44D + i)] == 7 )
+        if ( gpGame->mapHeader.playerFactions[gpGame->relatedToPlayerPosAndColor[i]] == 7 )
         {
-          if ( gpGame->field_459[i] == 7 )
+          if ( gpGame->relatedToColorOfPlayerOrFaction[i] == 7 )
           {
-            gpGame->field_459[i] = 0;
+            gpGame->relatedToColorOfPlayerOrFaction[i] = 0;
           }
-          else if ( gpGame->field_459[i] == 5 )
+          else if ( gpGame->relatedToColorOfPlayerOrFaction[i] == 5 )
           {
-            gpGame->field_459[i] = 7;
+            gpGame->relatedToColorOfPlayerOrFaction[i] = 7;
           }
           else
           {
-            ++gpGame->field_459[i];
+            ++gpGame->relatedToColorOfPlayerOrFaction[i];
           }
           v28 = 1;
           v23 = 1;
@@ -51266,7 +51423,7 @@ LABEL_142:
     if ( v28 && gbRemoteOn )
     {
       memcpy(&v7, gpGame->mapHeader.name, 0x3Cu);
-      memcpy(&v8, &gpGame->field_44D, 0x41u);
+      memcpy(&v8, gpGame->relatedToPlayerPosAndColor, 0x41u);
       v27 = TransmitRemoteData(&v7, 127, 0x7Du, 51, 1, 1, -1);
       if ( !v27 )
         ShutDown(0);
@@ -51850,14 +52007,17 @@ char *__thiscall game::GetLossConditionText(game *this, char *a2)
   signed int v3; // ST28_4@3
   int v4; // [sp+Ch] [bp-20h]@2
 
-  if ( this->mapHeader.field_22 )
+  if ( this->mapHeader.lossConditionType )
   {
     result = (char *)this;
-    v4 = this->mapHeader.field_22;
+    v4 = this->mapHeader.lossConditionType;
     switch ( v4 )
     {
       case 1:
-        v3 = game::GetTownId(this, *(_WORD *)&this->mapHeader.field_23, LOWORD(this->mapHeader.field_2E));
+        v3 = game::GetTownId(
+               this,
+               *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX,
+               LOWORD(this->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY));
         result = (char *)sprintf(
                            a2,
                            "Lose the %s '%s'.",
@@ -51865,19 +52025,22 @@ char *__thiscall game::GetLossConditionText(game *this, char *a2)
                            this->castles[v3].name);
         break;
       case 2:
-        result = (char *)sprintf(a2, "Lose the hero '%s'.", this->heroes[*(_WORD *)&this->mapHeader.field_23].name);
+        result = (char *)sprintf(
+                           a2,
+                           "Lose the hero '%s'.",
+                           this->heroes[*(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX].name);
         break;
       case 3:
         result = (char *)sprintf(
                            a2,
                            "Fail to win by the end of month %d, week %d, day %d.",
-                           (*(_WORD *)&gpGame->mapHeader.field_23 - 1) / 28 + 1,
-                           (*(_WORD *)&gpGame->mapHeader.field_23
-                          - 28 * ((*(_WORD *)&gpGame->mapHeader.field_23 - 1) / 28)
+                           (*(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX - 1) / 28 + 1,
+                           (*(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX
+                          - 28 * ((*(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX - 1) / 28)
                           - 1)
                          / 7
                          + 1,
-                           (*(_WORD *)&gpGame->mapHeader.field_23 - 1) % 7 + 1);
+                           (*(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX - 1) % 7 + 1);
         break;
     }
   }
@@ -51902,7 +52065,10 @@ void __thiscall game::GetVictoryConditionText(game *thisa, char *buf)
     switch ( thisa->mapHeader.winConditionType )
     {
       case WIN_CONDITION_CAPTURE_CASTLE:
-        townId = game::GetTownId(thisa, thisa->mapHeader.winConditionArgument, thisa->mapHeader.field_2C);
+        townId = game::GetTownId(
+                   thisa,
+                   thisa->mapHeader.winConditionArgumentOrLocX,
+                   thisa->mapHeader.winConditionArgumentOrLocY);
         twn = &thisa->castles[townId];
         sprintf(
           buf,
@@ -51911,20 +52077,24 @@ void __thiscall game::GetVictoryConditionText(game *thisa, char *buf)
           thisa->castles[townId].name);
         break;
       case WIN_CONDITION_DEFEAT_HERO:
-        sprintf(buf, "Defeat the hero '%s'", thisa->heroes[thisa->mapHeader.winConditionArgument].name);
+        sprintf(buf, "Defeat the hero '%s'", thisa->heroes[thisa->mapHeader.winConditionArgumentOrLocX].name);
         break;
       case WIN_CONDITION_FIND_ARTIFACT:
-        if ( thisa->mapHeader.winConditionArgument )
-          sprintf(buf, "Find the %s", dword_4F55F4[thisa->mapHeader.winConditionArgument]);
+        if ( thisa->mapHeader.winConditionArgumentOrLocX )
+          sprintf(buf, "Find the %s", dword_4F55F4[thisa->mapHeader.winConditionArgumentOrLocX]);
         else
           sprintf(buf, "Find the ultimate artifact");
         break;
       case WIN_CONDITION_ACCUMULATE_GOLD:
-        sprintf(buf, "Accumulate %d gold", 1000 * thisa->mapHeader.winConditionArgument);
+        sprintf(buf, "Accumulate %d gold", 1000 * thisa->mapHeader.winConditionArgumentOrLocX);
         break;
       case WIN_CONDITION_DEFEAT_COLOR:
-        v7 = game::GetSideDesc(thisa, side1Desc, 0, thisa->mapHeader.winConditionArgument - 1);
-        game::GetSideDesc(thisa, side2Desc, thisa->mapHeader.winConditionArgument, thisa->mapHeader.numPlayers - 1);
+        v7 = game::GetSideDesc(thisa, side1Desc, 0, thisa->mapHeader.winConditionArgumentOrLocX - 1);
+        game::GetSideDesc(
+          thisa,
+          side2Desc,
+          thisa->mapHeader.winConditionArgumentOrLocX,
+          thisa->mapHeader.numPlayers - 1);
         if ( v7 )
           sprintf(buf, "%s must defeat %s", side1Desc, side2Desc);
         else
@@ -51978,7 +52148,7 @@ bool __thiscall game::GetSideDesc(game *this, char *a1, int sideStart, int sideE
         if ( myPlayerNum != i )
         {
           ++v12;
-          sprintf(&a2a, (&gColors)[4 * *((_BYTE *)&this->field_44D + i)]);
+          sprintf(&a2a, (&gColors)[4 * this->relatedToPlayerPosAndColor[i]]);
           a2a -= 32;
           strcat(a1, &a2a);
           if ( v10 - 1 <= v12 )
@@ -52008,7 +52178,7 @@ bool __thiscall game::GetSideDesc(game *this, char *a1, int sideStart, int sideE
     for ( i = sideStart; i <= sideEnd; ++i )
     {
       ++v12;
-      sprintf(&a2a, (&gColors)[4 * *((_BYTE *)&this->field_44D + i)]);
+      sprintf(&a2a, (&gColors)[4 * this->relatedToPlayerPosAndColor[i]]);
       a2a -= 32;
       strcat(a1, &a2a);
       if ( v10 - 1 <= v12 )
@@ -52691,9 +52861,20 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
       heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j), -1);
       if ( giOverviewType == 1 )
       {
-        v54 = (int)((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2899);
+        v54 = (int)((char *)v13
+                  + 100
+                  * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                    + j
+                    + giOverviewTop[giOverviewType]
+                    + 2)
+                  + 2899);
         v5 = word_511E74 + 79;
-        v6 = strlen((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2986);
+        v6 = strlen((char *)v13 + 100
+                                * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                  + j
+                                  + giOverviewTop[giOverviewType]
+                                  + 2)
+                                + 2986);
         content = (char *)BaseAlloc(v6 + 1, "F:\\h2xsrc\\Source\\Overview.cpp", v5);
         strcpy(content, (char *)(v54 + 87));
         v40 = (textWidget *)operator new(43);
@@ -52983,7 +53164,8 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
                                                                 42,
                                                                 40,
                                                                 "mons32.icn",
-                                                                gDwellingType[*(_BYTE *)(v54 + 3)][v59],
+                                                                *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(v54 + 3)]
+                                                                + v59),
                                                                 0,
                                                                 v85 + (_WORD)v59 + 15,
                                                                 17,
@@ -53880,16 +54062,31 @@ signed int __thiscall game::ProcessIconSelect(void *this, signed int a2, unsigne
     }
     if ( giOverviewType == 1 )
     {
-      castle = (int)((char *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2899);
+      castle = (int)((char *)v6
+                   + 100
+                   * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                     + v9
+                     + giOverviewTop[giOverviewType]
+                     + 2)
+                   + 2899);
       if ( v14 == 4 )
       {
         giOverviewReturnAction = 2;
-        giOverviewReturnActionExtra = *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]);
+        giOverviewReturnActionExtra = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                      + v9
+                                      + giOverviewTop[giOverviewType]
+                                      + 2);
         return 1;
       }
       if ( v14 >= 39
         && v14 <= 43
-        && *((_BYTE *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2922) != -1 )
+        && *((_BYTE *)v6
+           + 100
+           * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+             + v9
+             + giOverviewTop[giOverviewType]
+             + 2)
+           + 2922) != -1 )
       {
         giOverviewReturnAction = 1;
         giOverviewReturnActionExtra = *(_BYTE *)(castle + 23);
@@ -53906,17 +54103,41 @@ signed int __thiscall game::ProcessIconSelect(void *this, signed int a2, unsigne
             119,
             20,
             (CREATURES)*((_BYTE *)v6
-                       + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType])
+                       + 100
+                       * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                         + v9
+                         + giOverviewTop[giOverviewType]
+                         + 2)
                        + v14
                        + 2902),
-            *((_WORD *)v6 + 50 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + v14 - 5 + 1456),
-            (int)((char *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2899),
+            *((_WORD *)v6
+            + 50
+            * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+              + v9
+              + giOverviewTop[giOverviewType]
+              + 2)
+            + v14
+            - 5
+            + 1456),
+            (int)((char *)v6
+                + 100
+                * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                  + v9
+                  + giOverviewTop[giOverviewType]
+                  + 2)
+                + 2899),
             0,
             1u,
             a3,
             0,
             0,
-            (armyGroup *)((char *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2907),
+            (armyGroup *)((char *)v6
+                        + 100
+                        * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                          + v9
+                          + giOverviewTop[giOverviewType]
+                          + 2)
+                        + 2907),
             v14 - 5);
           if ( !a3 )
             game::SetupDynamicStuff(v6, 1, 1, 1);
@@ -57056,8 +57277,8 @@ LABEL_22:
                  gpAdvManager,
                  (unsigned __int8)byte_526C58,
                  (unsigned __int8)byte_526C59,
-                 (int)dword_526C94,
-                 (int)dword_526CAC,
+                 (int *)dword_526C94,
+                 (int *)dword_526CAC,
                  -1,
                  -1) )
             dword_526C2C = 1;
@@ -57095,8 +57316,8 @@ LABEL_55:
                       gpAdvManager,
                       dword_526C38,
                       dword_526C6C,
-                      (int)dword_526C94,
-                      (int)dword_526CAC,
+                      (int *)dword_526C94,
+                      (int *)dword_526CAC,
                       -1,
                       -1)
                 || *(_BYTE *)(dword_526CA4 + 5) != *(_DWORD *)dword_526C94
@@ -57518,7 +57739,7 @@ bool __thiscall combatManager::AICheckRetreat(int ecx0)
       result = 0;
     }
     else if ( gpGame->mapHeader.winConditionType != 2
-  || *(_BYTE *)(*(_DWORD *)(ecx0 + 4 * *(_DWORD *)(ecx0 + 62127) + 12935) + 2) != gpGame->mapHeader.winConditionArgument )
+  || *(_BYTE *)(*(_DWORD *)(ecx0 + 4 * *(_DWORD *)(ecx0 + 62127) + 12935) + 2) != gpGame->mapHeader.winConditionArgumentOrLocX )
     {
       if ( gpGame->players[*(_BYTE *)(*(_DWORD *)(ecx0 + 4 * *(_DWORD *)(ecx0 + 62127) + 12935) + 3)].numCastles
         || gpGame->players[*(_BYTE *)(*(_DWORD *)(ecx0 + 4 * *(_DWORD *)(ecx0 + 62127) + 12935) + 3)].numHeroes != 1 )
@@ -60259,7 +60480,7 @@ void __thiscall ExpCampaign::InitMap(int this)
      + 120 * *(_DWORD *)this
      + 15 * *(_DWORD *)(this + 4)
      + 5 * *(_BYTE *)(*(_DWORD *)(this + 4) + this + 55);
-  memset(&gpGame->field_44D, 0, 0x41u);
+  memset(gpGame->relatedToPlayerPosAndColor, 0, 0x41u);
   sprintf(gpGame->mapFilename, "CAMP%d_%02d.HXC", *(_DWORD *)this + 1, *(_DWORD *)(this + 4) + 1);
   gpGame->mapFilename[20] = 0;
   if ( !*(_DWORD *)(this + 4) )
@@ -60399,7 +60620,6 @@ void __thiscall ExpCampaign::InitMap(int this)
   }
   gbRetreatWin = 1;
 }
-// 523F1C: using guessed type int gbInNewGameSetup;
 // 524210: using guessed type char gbRetreatWin;
 
 //----- (00470DF0) --------------------------------------------------------
@@ -61198,7 +61418,7 @@ signed int __thiscall ExpCampaign::MessageHandler(void *this)
         return 1;
       if ( !dword_53049B )
       {
-        if ( !byte_53045C[dword_530493] )
+        if ( !*((_BYTE *)&xCampaign + *(_DWORD *)((char *)&xCampaign + 67) + 12) )
         {
           NormalDialog(
             "The currently selected map is not a valid choice for your next scenario.",
@@ -61213,7 +61433,7 @@ signed int __thiscall ExpCampaign::MessageHandler(void *this)
             0);
           return 1;
         }
-        dword_530454 = dword_530493;
+        *((_DWORD *)&xCampaign + 1) = *(_DWORD *)((char *)&xCampaign + 67);
       }
     }
     else if ( v2 != 30721 && v2 != 901 )
@@ -61221,7 +61441,7 @@ signed int __thiscall ExpCampaign::MessageHandler(void *this)
       if ( v2 == 902 )
       {
         ExpCampaign::ReplaySmacker(&xCampaign);
-        heroWindow::DrawWindow(dword_530497);
+        heroWindow::DrawWindow(*(heroWindow **)((char *)&xCampaign + 71));
       }
       return 1;
     }
@@ -61249,18 +61469,18 @@ LABEL_41:
       case 0x35C:
       case 0x35D:
         v5 = *((_DWORD *)v4 + 2) - 850;
-        if ( giDebugLevel >= 1 || byte_53045C[v5] || byte_530464[v5] )
+        if ( giDebugLevel >= 1 || *((_BYTE *)&xCampaign + v5 + 12) || *((_BYTE *)&xCampaign + v5 + 20) )
         {
-          dword_530493 = *((_DWORD *)v4 + 2) - 850;
+          *(_DWORD *)((char *)&xCampaign + 67) = *((_DWORD *)v4 + 2) - 850;
           ExpCampaign::UpdateInfo(&xCampaign, 1);
         }
         break;
       case 0x32A:
       case 0x32B:
       case 0x32C:
-        if ( !dword_53049B && byte_53045C[dword_530493] )
+        if ( !dword_53049B && *((_BYTE *)&xCampaign + *(_DWORD *)((char *)&xCampaign + 67) + 12) )
         {
-          byte_530487[dword_530493] = *((_DWORD *)v4 + 2) - 42;
+          *((_BYTE *)&xCampaign + *(_DWORD *)((char *)&xCampaign + 67) + 55) = *((_DWORD *)v4 + 2) - 42;
           ExpCampaign::UpdateInfo(&xCampaign, 1);
         }
         break;
@@ -61273,8 +61493,6 @@ LABEL_41:
 // 4F1CB4: using guessed type int giDialogTimeout;
 // 4F21F0: using guessed type int giDebugLevel;
 // 5240A8: using guessed type int gpSoundManager;
-// 530454: using guessed type int dword_530454;
-// 530493: using guessed type int dword_530493;
 // 53049B: using guessed type int dword_53049B;
 
 //----- (004727B0) --------------------------------------------------------
@@ -69098,32 +69316,32 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       DoTradingPost(0, 1045220557);
       goto LABEL_511;
     case LOCATION_MAGIC_GARDEN:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
           1,
           "{Magic Garden}\n\nYou catch a leprechaun foolishly sleeping amidst a cluster of magic mushrooms.  In exchange for his freedom, he guides you to a small pot filled with precious things.",
-          ((loc->field_4 >> 3) & 0x1FFF) - 1,
-          (unsigned int)((loc->field_4 >> 3) & 0x1FFF) - 7 < 1 ? 500 : 5,
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5,
           -1,
           0,
           -1);
         advManager::GiveResource(
           this,
           hero,
-          ((loc->field_4 >> 3) & 0x1FFF) - 1,
-          (unsigned int)((loc->field_4 >> 3) & 0x1FFF) - 7 < 1 ? 500 : 5);
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5);
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       else
@@ -69143,9 +69361,9 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
-      sphinxMapExtra = (sphinxMapExtra *)ppMapExtra[((loc->field_4 >> 3) & 0x1FFF)];
+      sphinxMapExtra = (sphinxMapExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       if ( sphinxMapExtra->unclaimed )
       {
         sprintf(
@@ -69244,7 +69462,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       NormalDialog(
         "{Observation Tower}\n\nFrom the observation tower, you are able to see distant lands.",
@@ -69306,7 +69524,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero::UpgradeCreatures(hero, CREATURE_OGRE, CREATURE_OGRE_LORD);
         hero::UpgradeCreatures(hero, CREATURE_ORC, CREATURE_ORC_CHIEF);
@@ -69388,7 +69606,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero::UpgradeCreatures(hero, 3, 4);
         hero::UpgradeCreatures(hero, 5, 6);
@@ -69439,7 +69657,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         GiveArtifact(hero, (ARTIFACT)(unsigned __int8)v6, 1, -1);
         advManager::GiveResource(this, hero, 6, 1000);
       }
-      else if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      else if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         NormalDialog(
           "{Chest}\n\nAfter spending hours trying to fish the chest out of the sea, you open it and find 1500 gold pieces.",
@@ -69472,7 +69690,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       shouldDelete = 1;
       goto LABEL_511;
     case LOCATION_FLOTSAM:
-      switch ( ((loc->field_4 >> 3) & 0x1FFF) )
+      switch ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         case 0u:
           NormalDialog("{Flotsam}\n\nYou search through the flotsam, but find nothing.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
@@ -69547,21 +69765,21 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         sprintf(
           gText,
           "{Shipwreck Survivor}\n\nYou've pulled a shipwreck survivor from certain death in an unforgiving ocean.  Grateful, he rewards you for your act of kindness by giving you the %s.",
-          gArtifactNames[((loc->field_4 >> 3) & 0x1FFF)]);
+          gArtifactNames[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
         NormalDialog(
           gText,
           1,
           -1,
           -1,
           7,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           -1,
           0,
           -1,
           0);
         GiveArtifact(
           hero,
-          (ARTIFACT)((loc->field_4 >> 3) & 0x1FFF),
+          (ARTIFACT)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           1,
           -1);
       }
@@ -69574,7 +69792,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Magellan's Maps}\n\nA retired captain living on this refurbished fishing platform offers to sell you maps of the sea he made in his younger days for 1,000 gold.  Do you wish to buy the maps?",
@@ -69611,12 +69829,12 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       }
       goto LABEL_511;
     case LOCATION_WITCH_HUT:
-      if ( hero->secondarySkillLevel[((loc->field_4 >> 3) & 0x1FFF)] )
+      if ( hero->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
       {
         sprintf(
           gText,
           "{Witch's Hut}\n\nYou approach the hut and observe a witch inside studying an ancient tome on %s.  As you approach, she turns and speaks.  \"You already know that which I would teach you. I can help you no further.\"",
-          gSecondarySkills[((loc->field_4 >> 3) & 0x1FFF)]);
+          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
         NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       else if ( hero->numSecSkillsKnown < 8 )
@@ -69624,39 +69842,39 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         sprintf(
           gText,
           "{Witch's Hut}\n\nAn ancient and immortal witch living in a hut with bird's legs for stilts teaches you %s for her own inscrutable purposes.",
-          gSecondarySkills[((loc->field_4 >> 3) & 0x1FFF)]);
+          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
         advManager::EventWindow(
           -1,
           1,
           gText,
           17,
-          3 * ((loc->field_4 >> 3) & 0x1FFF),
+          3 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           -1,
           0,
           -1);
-        hero::GiveSS(hero, ((loc->field_4 >> 3) & 0x1FFF), 1);
+        hero::GiveSS(hero, (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5), 1);
       }
       else
       {
         sprintf(
           gText,
           "{Witch's Hut}\n\nYou approach the hut and observe a witch inside studying an ancient tome on %s.  As you approach, she turns and focuses her one glass eye on you.  \"You already know everything you deserve to learn!\" the witch screeches. \"NOW GET OUT OF MY HOUSE!\"",
-          gSecondarySkills[((loc->field_4 >> 3) & 0x1FFF)]);
+          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
         NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       goto LABEL_511;
     case LOCATION_ARTESIAN_SPRING:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
         v7 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
@@ -69726,7 +69944,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
         maxSP = 10 * hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
@@ -69767,7 +69985,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         hero->flags &= 0xFFFFFF7Fu;
         hero->remainingMobility = 0;
-        HIBYTE(hero->field_2B) = LOBYTE(this->field_27E);
+        HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = LOBYTE(this->field_27E);
         this->field_27A = hero->factionID;
         this->field_282 = advManager::GetCursorBaseFrame(this->field_27E);
         this->field_272 = 1;
@@ -69780,7 +69998,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       }
       goto LABEL_511;
     case LOCATION_BOAT:
-      v69 = &gpGame->boats[((loc->field_4 >> 3) & 0x1FFF)];
+      v69 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       game::RestoreCell(-1, -1, v69->underlyingObjType, v69->underlyingObjExtra, (int)loc, 2);
       hero->flags |= HERO_AT_SEA;
       hero->remainingMobility = 0;
@@ -69794,15 +70012,15 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::UpdateScreen(this, 0, 0);
       goto LABEL_511;
     case LOCATION_MINE:
-      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] == giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
         goto LABEL_511;
-      if ( gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType == -1 )
+      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
         goto LABEL_126;
       v60 = advManager::CombatMonsterEvent(
               this,
               hero,
-              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType,
-              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guadianQty,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
               loc,
               locX,
               locY,
@@ -69817,19 +70035,19 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
               0);
       if ( !v60 )
       {
-        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType = -1;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
         hero::CheckLevel(hero);
 LABEL_126:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        if ( gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type == 6 )
+        if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 6 )
         {
           v82 = 1000;
         }
-        else if ( gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type == 2 )
+        else if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 2 )
         {
           v82 = 2;
         }
@@ -69838,11 +70056,11 @@ LABEL_126:
           v82 = 1;
         }
         advManager::EventWindow(
-          gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type
         + 59,
           1,
           byte_514A64,
-          gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type,
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type,
           -v82,
           -1,
           0,
@@ -69851,42 +70069,42 @@ LABEL_126:
       }
       goto LABEL_511;
     case LOCATION_ALCHEMIST_LAB:
-      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] == giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
         goto LABEL_511;
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(0, 1, byte_514A68, 1, -1, -1, 0, -1);
       goto LABEL_136;
     case LOCATION_SAWMILL:
-      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] != giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(73, 1, byte_514A6C, 0, -2, -1, 0, -1);
 LABEL_136:
         game::ClaimMine(
           gpGame,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
       }
       goto LABEL_511;
     case LOCATION_LIGHTHOUSE:
-      if ( gpGame->field_60A6[((loc->field_4 >> 3) & 0x1FFF)] != giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         game::ClaimMine(
           gpGame,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
         advManager::EventWindow(58, 1, byte_514A70, -1, 0, -1, 0, -1);
       }
@@ -69917,20 +70135,20 @@ LABEL_143:
           2,
           "{Chest}\n\nAfter scouring the area, you fall upon a hidden treasure cache.  You may take the gold or distribute the gold to the peasants for experience.  Do you wish to keep the gold?",
           6,
-          500 * ((loc->field_4 >> 3) & 0x1FFF),
+          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           14,
-          125 * (4 * ((loc->field_4 >> 3) & 0x1FFF) - 4),
+          125 * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
           1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
           advManager::GiveResource(
             this,
             hero,
             6,
-            500 * ((loc->field_4 >> 3) & 0x1FFF));
+            500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
         else
           advManager::GiveExperience(
             hero,
-            125 * (4 * ((loc->field_4 >> 3) & 0x1FFF) - 4),
+            125 * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
             0);
       }
       shouldDelete = 1;
@@ -69947,7 +70165,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 2u;
         ++hero->tempMoraleBonuses;
@@ -69964,7 +70182,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x10u;
         ++hero->tempLuckBonuses;
@@ -69989,7 +70207,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x2000u;
         ++hero->tempLuckBonuses;
@@ -70014,7 +70232,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 4u;
         ++hero->tempLuckBonuses;
@@ -70039,7 +70257,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x200u;
         ++hero->tempMoraleBonuses;
@@ -70074,7 +70292,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 8u;
         ++hero->tempMoraleBonuses;
@@ -70111,7 +70329,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x100u;
         hero->tempMoraleBonuses += 2;
@@ -70129,12 +70347,12 @@ LABEL_143:
       }
       goto LABEL_511;
     case LOCATION_LEAN_TO:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         v12 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
         v13 = (v12 & 0xF0u) >> 4;
@@ -70172,7 +70390,7 @@ LABEL_143:
       }
       goto LABEL_511;
     case LOCATION_WAGON:
-      if ( !((loc->field_4 >> 3) & 0x1FFF) )
+      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
         goto LABEL_180;
       if ( (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
       {
@@ -70195,7 +70413,7 @@ LABEL_180:
           advManager::EventSound(
             this,
             locType,
-            ((loc->field_4 >> 3) & 0x1FFF),
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
             &res2);
           v18 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
           a2 = v18 & 0x7F;
@@ -70213,7 +70431,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         v19 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
         v20 = (v19 & 0xF0u) >> 4;
@@ -70235,7 +70453,7 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_SKELETON:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
+      if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
       {
         advManager::EventWindow(93, 1, byte_515240, -1, 0, -1, 0, -1);
       }
@@ -70244,7 +70462,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         if ( hero::NumArtifacts(hero) == 14 )
         {
@@ -70254,7 +70472,7 @@ LABEL_180:
         }
         else
         {
-          a2 = ((loc->field_4 >> 3) & 0x1FFF) - 2;
+          a2 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 2;
           sprintf(gText, "%s %s", gEventText[94], gArtifactNames[a2]);
           GiveArtifact(hero, (ARTIFACT)a2, 1, -1);
           advManager::EventWindow(-1, 1, gText, 7, a2, -1, 0, -1);
@@ -70272,22 +70490,22 @@ LABEL_180:
         byte_51525C,
         6,
         100
-      * ((signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4),
+      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4),
         v26 & 0xF,
-        (signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4,
+        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4,
         -1);
       advManager::GiveResource(
         this,
         hero,
         6,
         100
-      * ((signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4));
+      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
       v27 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
       advManager::GiveResource(
         this,
         hero,
         v27 & 0xF,
-        (signed int)((loc->field_4 >> 3) & 0x1FFF) >> 4);
+        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
       shouldDelete = 1;
       v90 = 1;
       advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 1);
@@ -70326,7 +70544,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Xanadu}\n\nThe butler admits you to see the master of the house.  He trains you in the four skills a hero should know.",
@@ -70366,7 +70584,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Fort}\n\n The soldiers living in the fort teach you a few new defensive tricks.",
@@ -70403,7 +70621,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Standing Stones}\n\nYou've found a group of Druids worshipping at one of their strange stone edifices.  Silently, they teach you new ways to cast spells.",
@@ -70440,7 +70658,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Witch Doctor's Hut}\n\nAn Orcish witch doctor living in the hut deepens your knowledge of magic by showing you how to cast stones, read portents, and decipher the intricacies of chicken entrails.",
@@ -70477,7 +70695,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Mercenary Camp}\n\nYou've come upon a mercenary camp practicing their tactics.  The mercenaries welcome you and your troops and invite you to train with them.",
@@ -70504,7 +70722,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(18, 1, byte_515898, 14, 1000, -1, 0, -1);
         advManager::GiveExperience(hero, 1000, 0);
@@ -70513,19 +70731,19 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_WATERWHEEL:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           60,
           1,
           byte_5158A0,
           6,
-          500 * ((loc->field_4 >> 3) & 0x1FFF),
+          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           -1,
           0,
           -1);
@@ -70533,7 +70751,7 @@ LABEL_180:
           this,
           hero,
           6,
-          500 * ((loc->field_4 >> 3) & 0x1FFF));
+          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
         loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       else
@@ -70544,23 +70762,23 @@ LABEL_180:
     case LOCATION_RESOURCE:
       type = loc->objectIndex >> 1;
       if ( type == 6 )
-        amt = 100 * ((loc->field_4 >> 3) & 0x1FFF);
+        amt = 100 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
       else
-        amt = ((loc->field_4 >> 3) & 0x1FFF);
+        amt = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
       advManager::GiveResource(this, hero, type, amt);
       strcpy(&a1, gResourceNames[type]);
       a1 += 32;
       sprintf(gText, gEventText[72], &a1);
       if ( type == 6 )
-        v50 = 100 * ((loc->field_4 >> 3) & 0x1FFF);
+        v50 = 100 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
       else
-        v50 = ((loc->field_4 >> 3) & 0x1FFF);
+        v50 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
       BVResMsg(gText, type, v50);
       shouldDelete = 1;
       v90 = 1;
       goto LABEL_511;
     case LOCATION_WINDMILL:
-      if ( (signed int)((loc->field_4 >> 3) & 0x1FFF) > 6 )
+      if ( (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) > 6 )
       {
         advManager::EventWindow(86, 1, byte_5158A8, -1, 0, -1, 0, -1);
       }
@@ -70569,13 +70787,13 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           87,
           1,
           byte_5158A4,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           2,
           -1,
           0,
@@ -70583,7 +70801,7 @@ LABEL_180:
         advManager::GiveResource(
           this,
           hero,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           2);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 0x318;
       }
@@ -70592,13 +70810,13 @@ LABEL_180:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(19, 2, byte_5158AC, -1, 0, -1, 0, -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
         advManager::RecruitEvent(this, hero, 60, loc);
-        if ( !((loc->field_4 >> 3) & 0x1FFF) )
+        if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
         {
           shouldDelete = 1;
           v90 = 1;
@@ -70606,12 +70824,12 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_TREE_CITY:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70639,12 +70857,12 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_RUINS:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70672,7 +70890,7 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_TROLL_BRIDGE:
-      if ( !((loc->field_4 >> 3) & 0x1FFF) )
+      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         advManager::EventWindow(
           -1,
@@ -70702,12 +70920,12 @@ LABEL_180:
           goto LABEL_511;
         hero::CheckLevel(hero);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                                * (((loc->field_4 >> 3) & 0x1FFF)
+                                                                                                * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                                                                                                  - 256);
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70726,7 +70944,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70743,7 +70961,7 @@ LABEL_180:
       advManager::RecruitEvent(this, hero, 17, loc);
       goto LABEL_511;
     case LOCATION_CITY_OF_DEAD:
-      if ( !((loc->field_4 >> 3) & 0x1FFF) )
+      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         advManager::EventWindow(
           -1,
@@ -70773,12 +70991,12 @@ LABEL_180:
           goto LABEL_511;
         hero::CheckLevel(hero);
         loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                                * (((loc->field_4 >> 3) & 0x1FFF)
+                                                                                                * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                                                                                                  - 256);
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70797,7 +71015,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70814,7 +71032,7 @@ LABEL_180:
       advManager::RecruitEvent(this, hero, 55, loc);
       goto LABEL_511;
     case LOCATION_DRAGON_CITY:
-      if ( !((loc->field_4 >> 3) & 0x1FFF) )
+      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         advManager::EventWindow(
           -1,
@@ -70832,7 +71050,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70859,7 +71077,7 @@ LABEL_180:
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
         a13 = 1;
-        if ( gbInCampaign && gpGame->field_2 == 1 && gpGame->field_4 == 6 )
+        if ( gbInCampaign && gpGame->relatedToCurViewSideOrCampaign == 1 && gpGame->relatedToCampaignMap == 6 )
           a13 = 2;
         if ( !advManager::CombatMonsterEvent(
                 this,
@@ -70883,11 +71101,11 @@ LABEL_180:
           if ( !gbGameOver )
           {
             hero::CheckLevel(hero);
-            loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((loc->field_4 >> 3) & 0x1FFF) - 256);
+            loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 256);
             advManager::EventSound(
               this,
               locType,
-              ((loc->field_4 >> 3) & 0x1FFF),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             advManager::EventWindow(
               -1,
@@ -70929,12 +71147,12 @@ LABEL_511:
       CheckEndGame(0, 0);
       return;
     case LOCATION_WAGON_CAMP:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(84, 2, byte_516138, -1, 0, -1, 0, -1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
@@ -70946,12 +71164,12 @@ LABEL_511:
       }
       goto LABEL_511;
     case LOCATION_DESRT_TENT:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(82, 2, byte_516140, -1, 0, -1, 0, -1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
@@ -70973,11 +71191,11 @@ LABEL_511:
     case LOCATION_HALFLING_HOLE:
     case LOCATION_EXCAVATION:
     case LOCATION_CAVE:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
       advManager::HouseEvent((int)hero, (int)loc);
       goto LABEL_511;
@@ -70993,7 +71211,7 @@ LABEL_511:
         __PAIR__(locY, locX));
       goto LABEL_511;
     case LOCATION_OBELISK:
-      if ( gpGame->boatBuilt[((loc->field_4 >> 3) & 0x1FFF)
+      if ( gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                            + 47] & (1 << hero->ownerIdx) )
       {
         advManager::EventWindow(69, 1, byte_516148, -1, 0, -1, 0, -1);
@@ -71003,9 +71221,9 @@ LABEL_511:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        gpGame->boatBuilt[((loc->field_4 >> 3) & 0x1FFF) + 47] |= 1 << hero->ownerIdx;
+        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + 47] |= 1 << hero->ownerIdx;
         advManager::EventWindow(68, 1, byte_516144, -1, 0, -1, 0, -1);
         advManager::ViewPuzzle(this);
       }
@@ -71030,12 +71248,12 @@ LABEL_511:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         level = hero::GetLevel(hero->experience);
         v28 = hero::GetExperience(level + 1);
         xp = v28 - hero::GetExperience(level);
-        v48 = (signed int)((loc->field_4 >> 3) & 0x1FFF) >> 6;
+        v48 = (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
         switch ( v48 )
         {
           case 1:
@@ -71051,7 +71269,7 @@ LABEL_511:
               -1,
               0);
             advManager::GiveExperience(hero, xp, 0);
-            hero->treesOfKnowledgeVisited |= 1 << (((loc->field_4 >> 3) & 0x1FFF) & 0x1F);
+            hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
             break;
           case 2:
             if ( gpCurPlayer->resources[6] < 2000 )
@@ -71085,7 +71303,7 @@ LABEL_511:
               {
                 gpCurPlayer->resources[6] -= 2000;
                 advManager::GiveExperience(hero, xp, 0);
-                hero->treesOfKnowledgeVisited |= 1 << (((loc->field_4 >> 3) & 0x1FFF) & 0x1F);
+                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
               }
             }
             break;
@@ -71121,7 +71339,7 @@ LABEL_511:
               {
                 gpCurPlayer->resources[5] -= 10;
                 advManager::GiveExperience(hero, xp, 0);
-                hero->treesOfKnowledgeVisited |= 1 << (((loc->field_4 >> 3) & 0x1FFF) & 0x1F);
+                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
               }
             }
             break;
@@ -71133,7 +71351,7 @@ LABEL_511:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(74, 1, byte_516540, -1, 0, -1, 0, -1);
       thisb = (heroWindow *)operator new(68);
@@ -71160,25 +71378,25 @@ LABEL_511:
         gText,
         "%s'%s'.  ",
         "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ",
-        dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
+        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
       goto LABEL_333;
     case LOCATION_SHRINE_SECOND_ORDER:
       sprintf(
         gText,
         "%s'%s'.  ",
         "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ",
-        dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
+        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
       goto LABEL_333;
     case LOCATION_SHRINE_THIRD_ORDER:
       sprintf(
         gText,
         "%s'%s'.  ",
         "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ",
-        dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
+        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
 LABEL_333:
       if ( hero::HasArtifact(hero, 81) )
       {
-        if ( gsSpellInfo[((loc->field_4 >> 3) & 0x1FFF) - 1].level > hero->secondarySkillLevel[7] + 2 )
+        if ( gsSpellInfo[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1].level > hero->secondarySkillLevel[7] + 2 )
         {
           strcat(
             gText,
@@ -71190,19 +71408,19 @@ LABEL_333:
           advManager::EventSound(
             this,
             locType,
-            ((loc->field_4 >> 3) & 0x1FFF),
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
             &res2);
           v29 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
           hero::AddSpell(
             hero,
-            ((loc->field_4 >> 3) & 0x1FFF) - 1,
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
             v29);
           advManager::EventWindow(
             -1,
             1,
             gText,
             8,
-            ((loc->field_4 >> 3) & 0x1FFF) - 1,
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
             -1,
             0,
             -1);
@@ -71221,7 +71439,7 @@ LABEL_333:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::DoWhirlpool(this, hero);
       goto LABEL_343;
@@ -71229,7 +71447,7 @@ LABEL_333:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
 LABEL_343:
       v70 = 0;
@@ -71296,13 +71514,13 @@ LABEL_357:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         strcpy(
           gText,
           "The fabled golden bow of the elves lies here in the dust.  You take it and journey back to the elven towns.  They shower you with their graciousness and the king promises that his people will aid you whenever you seek help.");
         advManager::EventWindow(-1, 1, gText, 7, a5, -1, 0, -1);
-        GiveArtifact(hero, (ARTIFACT)a5, 1, ((loc->field_4 >> 3) & 0x1FFF));
+        GiveArtifact(hero, (ARTIFACT)a5, 1, (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
         shouldDelete = 1;
         v90 = 1;
         goto LABEL_511;
@@ -71310,13 +71528,13 @@ LABEL_357:
       if ( a5 == ARTIFACT_SPELL_SCROLL )
       {
         advManager::EventSound(this, locType, 1, &res2);
-        xTheSpell = ((loc->field_4 >> 3) & 0x1FFF);
+        xTheSpell = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
         advManager::EventWindow(-1, 1, *(&gArtifactEvents + 86), 7, ARTIFACT_SPELL_SCROLL, -1, 0, -1);
         GiveArtifact(
           hero,
           ARTIFACT_SPELL_SCROLL,
           1,
-          ((loc->field_4 >> 3) & 0x1FFF));
+          (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
         shouldDelete = 1;
         v90 = 1;
         goto LABEL_511;
@@ -71326,7 +71544,7 @@ LABEL_357:
         advManager::EventSound(
           this,
           locType,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         if ( creat == 57 )
         {
@@ -71406,7 +71624,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              ((loc->field_4 >> 3) & 0x1FFF),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             advManager::EventWindow(-1, 1, (&gArtifactEvents)[4 * a5], 7, a5, -1, 0, -1);
             goto LABEL_392;
@@ -71414,7 +71632,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              ((loc->field_4 >> 3) & 0x1FFF),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             sprintf(
               gText,
@@ -71459,7 +71677,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              ((loc->field_4 >> 3) & 0x1FFF),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             sprintf(&a1, gResourceNames[v77]);
             a1 += 32;
@@ -71510,7 +71728,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              ((loc->field_4 >> 3) & 0x1FFF),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             sprintf(&a1, gResourceNames[v77]);
             a1 += 32;
@@ -71565,7 +71783,7 @@ LABEL_391:
       goto LABEL_511;
     case LOCATION_HERO:
       advManager::DemobilizeCurrHero(this);
-      v79 = &gpGame->heroes[((loc->field_4 >> 3) & 0x1FFF)];
+      v79 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       if ( v79->ownerIdx == giCurPlayer )
       {
         advManager::HeroSwap(this, (int)hero, (int)v79);
@@ -71595,9 +71813,9 @@ LABEL_391:
       }
       goto LABEL_511;
     case LOCATION_BOTTLE:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        signExtra = (SignExtra *)ppMapExtra[((loc->field_4 >> 3) & 0x1FFF)];
+        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         if ( strlen(signExtra->name) <= 1 )
           advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
@@ -71607,9 +71825,9 @@ LABEL_391:
       shouldDelete = 1;
       goto LABEL_511;
     case LOCATION_SIGN:
-      if ( ((loc->field_4 >> 3) & 0x1FFF) )
+      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        signExtra = (SignExtra *)ppMapExtra[((loc->field_4 >> 3) & 0x1FFF)];
+        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         if ( strlen(signExtra->name) <= 1 )
           advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
@@ -71620,7 +71838,7 @@ LABEL_391:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71633,7 +71851,7 @@ LABEL_391:
         -1);
       if ( gpWindowManager->buttonPressedCode != 30726 )
       {
-        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71778,7 +71996,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71791,7 +72009,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71825,12 +72043,12 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(20, 2, byte_517684, -1, 0, -1, 0, -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(21, 1, byte_517688, 13, 0, -1, 0, -1);
           if ( !(hero->flags & 0x20) )
@@ -71843,8 +72061,8 @@ LABEL_445:
         {
           a3 = (int)advManager::GetCell(
                       this,
-                      locX - normalDirTable[4 * HIBYTE(hero->field_2B)],
-                      locY - byte_4F1DC1[4 * HIBYTE(hero->field_2B)]);
+                      locX - normalDirTable[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)],
+                      locY - byte_4F1DC1[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)]);
           if ( advManager::ZombieEvent(this, hero, (mapCell *)a3, gEventText[22], locX, locY) )
           {
             v45 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
@@ -71858,7 +72076,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71871,7 +72089,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( ((loc->field_4 >> 3) & 0x1FFF) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71892,8 +72110,8 @@ LABEL_445:
         {
           v54 = (int)advManager::GetCell(
                        this,
-                       locX - normalDirTable[4 * HIBYTE(hero->field_2B)],
-                       locY - byte_4F1DC1[4 * HIBYTE(hero->field_2B)]);
+                       locX - normalDirTable[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)],
+                       locY - byte_4F1DC1[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)]);
           if ( advManager::SkeletonEvent(
                  (int)this,
                  (int)hero,
@@ -71912,7 +72130,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71925,7 +72143,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( ((loc->field_4 >> 3) & 0x1FFF) )
+        if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
         {
           if ( !advManager::CombatMonsterEvent(this, hero, 51, 30, loc, locX, locY, 0, locX, locY, 53, 20, 2, -1, 0, 0) )
           {
@@ -71934,7 +72152,7 @@ LABEL_445:
               msg,
               "%s'%s'.  ",
               "Upon defeating the monsters, you decipher an ancient glyph on the wall, telling the secret of the spell - ",
-              dword_4F6ABC[((loc->field_4 >> 3) & 0x1FFF)]);
+              dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
             if ( hero::HasArtifact(hero, 81) )
             {
               if ( hero->secondarySkillLevel[7] < 3 )
@@ -71949,14 +72167,14 @@ LABEL_445:
                 v47 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
                 hero::AddSpell(
                   hero,
-                  ((loc->field_4 >> 3) & 0x1FFF) - 1,
+                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
                   v47);
                 advManager::EventWindow(
                   -1,
                   1,
                   msg,
                   8,
-                  ((loc->field_4 >> 3) & 0x1FFF) - 1,
+                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
                   -1,
                   0,
                   -1);
@@ -71995,7 +72213,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        ((loc->field_4 >> 3) & 0x1FFF),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -72010,8 +72228,8 @@ LABEL_445:
         && !advManager::CombatMonsterEvent(
               this,
               hero,
-              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType,
-              gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guadianQty,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
               loc,
               locX,
               locY,
@@ -72040,12 +72258,12 @@ LABEL_445:
         game::ConvertObject(gpGame, locX - 2, locY - 1, locX + 1, locY - 1, 51, 0, 3, 32, 75, 64, 23);
         game::ConvertObject(gpGame, locX - 2, locY, locX + 1, locY, 51, 4, 7, 32, 80, 64, 23);
         game::ConvertObject(gpGame, locX, locY, locX, locY, 29, 5, 5, 29, 4, 64, 23);
-        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].type = 6;
-        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guardianType = -1;
-        gpGame->mines[((loc->field_4 >> 3) & 0x1FFF)].guadianQty = 0;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
         game::ClaimMine(
           gpGame,
-          ((loc->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
       }
       goto LABEL_511;
@@ -72363,8 +72581,8 @@ signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, 
   int v8; // [sp+2Ch] [bp-4h]@1
 
   res = NULL_SAMPLE2;
-  barrierColor = ((cell->field_4 >> 3) & 0x1FFF) & 7;
-  v8 = (signed int)((cell->field_4 >> 3) & 0x1FFF) >> 3;
+  barrierColor = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
+  v8 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 3;
   sprintf(
     gText,
     "A magical %s barrier stands tall before you, blocking your way.  Runes on the arch read, \"Speak the key and you may pass.\"",
@@ -72470,8 +72688,8 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
   v3 = ecx0;
   v15 = 0;
   *(_QWORD *)a3 = NULL_SAMPLE2;
-  a2 = ((cell->field_4 >> 3) & 0x1FFF) & 0x3F;
-  switch ( ((cell->field_4 >> 3) & 0x1FFF) & 0x3F )
+  a2 = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F;
+  switch ( ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F )
   {
     case 0:
       for ( i = 0; i < 14; ++i )
@@ -72888,7 +73106,7 @@ void __thiscall advManager::TownEvent(int this, int a2, __int64 a3)
       return;
     advManager::UpdateRadar((advManager *)thisa, 1, 0);
     advManager::UpdateHeroLocators((advManager *)thisa, 1, 1);
-    advManager::UpdateTownLocators((void *)thisa, 1, 1);
+    advManager::UpdateTownLocators((advManager *)thisa, 1, 1);
     castle->visitingHeroIdx = gpCurPlayer->curHeroIdx;
     town::View(castle, 0);
   }
@@ -73181,7 +73399,7 @@ void __thiscall advManager::RecruitEvent(advManager *this, hero *hro, int creatu
   int quantityAvailable; // [sp+38h] [bp-Ch]@1
   recruitUnit *a2a; // [sp+40h] [bp-4h]@2
 
-  LOWORD(quantityAvailable) = ((loc->field_4 >> 3) & 0x1FFF);
+  LOWORD(quantityAvailable) = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
   thisa = (recruitUnit *)operator new(sizeof(recruitUnit));
   if ( thisa )
     a2a = recruitUnit::recruitUnit(thisa, &hro->army, creature, (int)&quantityAvailable);
@@ -74204,7 +74422,7 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
       {
         hro->flags &= 0xFFFFFF7Fu;
         hro->remainingMobility = 0;
-        HIBYTE(hro->field_2B) = *(_BYTE *)(this + 638);
+        HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = *(_BYTE *)(this + 638);
         *(_DWORD *)(this + 634) = hro->factionID;
         *(_DWORD *)(this + 642) = advManager::GetCursorBaseFrame(*(_DWORD *)(this + 638));
         *(_DWORD *)(thisa + 626) = 1;
@@ -74212,7 +74430,7 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
       }
       goto LABEL_308;
     case 43:
-      v43 = &gpGame->boats[((cell->field_4 >> 3) & 0x1FFF)];
+      v43 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       game::RestoreCell(-1, -1, v43->underlyingObjType, v43->underlyingObjExtra, (int)cell, 3);
       hro->flags |= 0x80u;
       hro->remainingMobility = 0;
@@ -74226,25 +74444,25 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
     case 1:
     case 23:
     case 29:
-      if ( gpGame->field_60A6[((cell->field_4 >> 3) & 0x1FFF)] == giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
         goto LABEL_308;
-      if ( gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType == -1 )
+      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
         goto LABEL_12;
-      spell = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty;
+      spell = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty;
       v73 = philAI::CombatMonsterEvent(
               (int)hro,
-              gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
               (int)&spell,
               (int)cell);
       if ( v73 )
       {
-        gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType = -1;
-        gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = 0;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
         hero::CheckLevel(hro);
 LABEL_12:
         game::ClaimMine(
           gpGame,
-          ((cell->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
         if ( v57 == 23 )
         {
@@ -74253,11 +74471,11 @@ LABEL_12:
             if ( hero::HasSpell(hro, spell) && GetManaCost(spell, hro) < hro->spellpoints )
             {
               hro->spellpoints -= GetManaCost(spell, hro);
-              gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType = spell + 1;
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = spell + 1;
               v40 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER);
               if ( v40 > 51 )
                 v40 = 51;
-              gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = 5 * v40;
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 5 * v40;
               spell = 999;
             }
           }
@@ -74265,10 +74483,10 @@ LABEL_12:
       }
       goto LABEL_308;
     case 21:
-      if ( gpGame->field_60A6[((cell->field_4 >> 3) & 0x1FFF)] != giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
         game::ClaimMine(
           gpGame,
-          ((cell->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
       goto LABEL_308;
     case 6:
@@ -74286,21 +74504,21 @@ LABEL_12:
         cell->field_4_1_1_isShadow_1_13_extraInfo = v4;
 LABEL_28:
         if ( philAI::ChooseGoldOrExperience(
-               500 * ((cell->field_4 >> 3) & 0x1FFF),
+               500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
                125
-             * (4 * ((cell->field_4 >> 3) & 0x1FFF) - 4)) )
+             * (4 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4)) )
         {
           advManager::GiveResource(
             (advManager *)thisa,
             hro,
             6,
-            500 * ((cell->field_4 >> 3) & 0x1FFF));
+            500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
         }
         else
         {
           advManager::GiveExperience(
             hro,
-            125 * (4 * ((cell->field_4 >> 3) & 0x1FFF) - 4),
+            125 * (4 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
             1);
           hero::CheckLevel(hro);
         }
@@ -74361,11 +74579,11 @@ LABEL_28:
       }
       goto LABEL_308;
     case 4:
-      if ( ((cell->field_4 >> 3) & 0x1FFF) != 1 )
+      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) != 1 )
       {
         GiveArtifact(
           hro,
-          (ARTIFACT)(((cell->field_4 >> 3) & 0x1FFF) - 2),
+          (ARTIFACT)((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 2),
           1,
           -1);
         v6 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
@@ -74374,18 +74592,18 @@ LABEL_28:
       }
       goto LABEL_308;
     case 95:
-      if ( (cell->field_4 >> 3) & 0x1FFF )
+      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
-          ((cell->field_4 >> 3) & 0x1FFF) - 1,
-          (unsigned int)((cell->field_4 >> 3) & 0x1FFF) - 7 < 1 ? 500 : 5);
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          (unsigned int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5);
         cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_308;
     case 88:
-      if ( (cell->field_4 >> 3) & 0x1FFF )
+      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         v7 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
         v8 = (v7 & 0xF0u) >> 4;
@@ -74395,7 +74613,7 @@ LABEL_28:
       }
       goto LABEL_308;
     case 80:
-      if ( (cell->field_4 >> 3) & 0x1FFF )
+      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         if ( (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
         {
@@ -74424,14 +74642,14 @@ LABEL_28:
         GiveArtifact(hro, (ARTIFACT)(unsigned __int8)v14, 1, -1);
         advManager::GiveResource((advManager *)thisa, hro, 6, 1000);
       }
-      else if ( (cell->field_4 >> 3) & 0x1FFF )
+      else if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::GiveResource((advManager *)thisa, hro, 6, 1500);
       }
       v58 = 1;
       goto LABEL_308;
     case 90:
-      switch ( ((cell->field_4 >> 3) & 0x1FFF) )
+      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         case 1u:
           advManager::GiveResource((advManager *)this, hro, 0, 5);
@@ -74455,13 +74673,13 @@ LABEL_28:
         hro,
         6,
         100
-      * ((signed int)((cell->field_4 >> 3) & 0x1FFF) >> 4));
+      * ((signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
       v15 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
       advManager::GiveResource(
         (advManager *)thisa,
         hro,
         v15 & 0xF,
-        (signed int)((cell->field_4 >> 3) & 0x1FFF) >> 4);
+        (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
       v58 = 1;
       goto LABEL_308;
     case 62:
@@ -74512,32 +74730,32 @@ LABEL_28:
       }
       goto LABEL_308;
     case 22:
-      if ( (cell->field_4 >> 3) & 0x1FFF )
+      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
           6,
-          500 * ((cell->field_4 >> 3) & 0x1FFF));
+          500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
         cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_308;
     case 27:
       type = cell->objectIndex >> 1;
       if ( type == 6 )
-        amt = 100 * ((cell->field_4 >> 3) & 0x1FFF);
+        amt = 100 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
       else
-        amt = ((cell->field_4 >> 3) & 0x1FFF);
+        amt = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
       advManager::GiveResource((advManager *)this, hro, type, amt);
       v58 = 1;
       goto LABEL_308;
     case 40:
-      if ( ((cell->field_4 >> 3) & 0x1FFF) != 99 )
+      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) != 99 )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
-          ((cell->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           2);
         cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 0x318;
       }
@@ -74627,11 +74845,11 @@ LABEL_28:
       mon = 47;
       v60 = 1;
 LABEL_132:
-      if ( (cell->field_4 >> 3) & 0x1FFF )
+      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         philAI::EvaluateOneTimeCreaturePurchase(
           mon,
-          ((cell->field_4 >> 3) & 0x1FFF),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           v60,
           (int)&a3a,
           (int)&v62,
@@ -74639,7 +74857,7 @@ LABEL_132:
         if ( a3a > 0 )
         {
           game::GiveArmy(&hro->army, mon, a3a, slot);
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (((cell->field_4 >> 3) & 0x1FFF) - (_WORD)a3a);
+          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - (_WORD)a3a);
           if ( !v60 )
           {
             GetMonsterCost(mon, arr);
@@ -74648,7 +74866,7 @@ LABEL_132:
           }
         }
       }
-      if ( !((cell->field_4 >> 3) & 0x1FFF) && v57 == 11 )
+      if ( !((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) && v57 == 11 )
         v58 = 1;
       goto LABEL_308;
     case 24:
@@ -74660,11 +74878,11 @@ LABEL_132:
         level = hero::GetLevel(hro->experience);
         v16 = hero::GetExperience(level + 1);
         xp = v16 - hero::GetExperience(level);
-        v29 = (signed int)((cell->field_4 >> 3) & 0x1FFF) >> 6;
+        v29 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
         if ( v29 == 1 )
         {
           advManager::GiveExperience(hro, xp, 1);
-          hro->treesOfKnowledgeVisited |= 1 << (((cell->field_4 >> 3) & 0x1FFF) & 0x1F);
+          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
           hero::CheckLevel(hro);
         }
         else if ( v29 == 2 )
@@ -74673,7 +74891,7 @@ LABEL_132:
           {
             gpCurPlayer->resources[6] -= 2000;
             advManager::GiveExperience(hro, xp, 1);
-            hro->treesOfKnowledgeVisited |= 1 << (((cell->field_4 >> 3) & 0x1FFF) & 0x1F);
+            hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
             hero::CheckLevel(hro);
           }
         }
@@ -74681,16 +74899,16 @@ LABEL_132:
         {
           gpCurPlayer->resources[5] -= 10;
           advManager::GiveExperience(hro, xp, 1);
-          hro->treesOfKnowledgeVisited |= 1 << (((cell->field_4 >> 3) & 0x1FFF) & 0x1F);
+          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
           hero::CheckLevel(hro);
         }
       }
       goto LABEL_308;
     case 25:
-      if ( !(gpGame->boatBuilt[((cell->field_4 >> 3) & 0x1FFF)
+      if ( !(gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                              + 47] & (unsigned __int8)giCurPlayerBit) )
       {
-        gpGame->boatBuilt[((cell->field_4 >> 3) & 0x1FFF)
+        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
                         + 47] |= giCurPlayerBit;
         ComputeUALoc(giCurPlayer);
       }
@@ -74699,17 +74917,17 @@ LABEL_132:
     case 74:
     case 75:
       if ( hero::HasArtifact(hro, 81)
-        && gsSpellInfo[((cell->field_4 >> 3) & 0x1FFF) - 1].level <= hro->secondarySkillLevel[7] + 2 )
+        && gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1].level <= hro->secondarySkillLevel[7] + 2 )
       {
         v17 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
         hero::AddSpell(
           hro,
-          ((cell->field_4 >> 3) & 0x1FFF) - 1,
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
           v17);
       }
       goto LABEL_308;
     case 35:
-      philAI::TownEvent((int)cell, (int)hro, x);
+      philAI::TownEvent((void *)gpPhilAI, (int)cell, (int)hro, x);
       goto LABEL_308;
     case 39:
       advManager::DoWhirlpool((advManager *)this, hro);
@@ -74779,7 +74997,7 @@ LABEL_179:
           hro,
           ARTIFACT_SPELL_SCROLL,
           1,
-          ((cell->field_4 >> 3) & 0x1FFF);
+          (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
         v58 = 1;
         goto LABEL_308;
       }
@@ -74847,11 +75065,11 @@ LABEL_204:
       }
       goto LABEL_308;
     case 42:
-      v51 = &gpGame->heroes[((cell->field_4 >> 3) & 0x1FFF)];
+      v51 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       v42 = bShowIt;
       if ( *((_BYTE *)v51 + 3) == giCurPlayer )
       {
-        philAI::HeroInteractionAtHero((int)hro, (int)v51, 0, (int)&v53);
+        philAI::HeroInteractionAtHero((void *)gpPhilAI, (int)hro, (int)v51, 0, (int)&v53);
       }
       else
       {
@@ -74906,7 +75124,7 @@ LABEL_308:
       v58 = 1;
       goto LABEL_308;
     case 5:
-      switch ( ((cell->field_4 >> 3) & 0x1FFF) )
+      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         case 2u:
           advManager::GiveExperience(hro, 1000, 1);
@@ -74941,17 +75159,17 @@ LABEL_308:
       cell->field_4_1_1_isShadow_1_13_extraInfo = v26;
       goto LABEL_308;
     case 76:
-      if ( (cell->field_4 >> 3) & 0x1FFF
+      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5
         && !hero::HasSpell(
               hro,
-              ((cell->field_4 >> 3) & 0x1FFF) - 1) )
+              (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1) )
       {
         for ( spell = 0; (signed int)spell < 5; ++spell )
         {
           gpMonGroup->creatureTypes[spell] = 51;
           gpMonGroup->quantities[spell] = 10;
         }
-        spell = ((cell->field_4 >> 3) & 0x1FFF) - 1;
+        spell = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1;
         if ( gsSpellInfo[spell].attributes & 1 )
         {
           v31 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER) <= 40 ? gfBattleStat[hero::Stats(
@@ -74982,7 +75200,7 @@ LABEL_308:
             v27 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
             hero::AddSpell(
               hro,
-              ((cell->field_4 >> 3) & 0x1FFF) - 1,
+              (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
               v27);
             cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
           }
@@ -74997,8 +75215,8 @@ LABEL_308:
     case 64:
       for ( spell = 0; (signed int)spell < 5; ++spell )
       {
-        gpMonGroup->creatureTypes[spell] = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType;
-        gpMonGroup->quantities[spell] = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty
+        gpMonGroup->creatureTypes[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType;
+        gpMonGroup->quantities[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty
                                       / 5;
       }
       v70 = (signed __int64)((double)*((_BYTE *)gaiTurnValueOfMine + x + HIDWORD(x) * MAP_WIDTH)
@@ -75007,15 +75225,15 @@ LABEL_308:
       philAI::ChooseEvaluateBattle((int)&hro->army, (int)hro, (unsigned int)gpMonGroup, 0, 0, v70, (int)&v63, (int)&v59);
       if ( v63 )
       {
-        v55 = gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty;
+        v55 = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty;
         v73 = philAI::CombatMonsterEvent(
                 (int)hro,
-                gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType,
+                gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
                 (int)&v55,
                 (int)cell);
         if ( v55 > 255 )
           v55 = 255;
-        gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = v55;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = v55;
         if ( v73 )
         {
           hero::CheckLevel(hro);
@@ -75024,12 +75242,12 @@ LABEL_308:
           game::ConvertObject(gpGame, x - 2, HIDWORD(x) - 1, x + 1, HIDWORD(x) - 1, 51, 0, 3, 32, 75, 64, 23);
           game::ConvertObject(gpGame, x - 2, SHIDWORD(x), x + 1, SHIDWORD(x), 51, 4, 7, 32, 80, 64, 23);
           game::ConvertObject(gpGame, x, SHIDWORD(x), x, SHIDWORD(x), 29, 5, 5, 29, 4, 64, 23);
-          gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].type = 6;
-          gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guardianType = -1;
-          gpGame->mines[((cell->field_4 >> 3) & 0x1FFF)].guadianQty = 0;
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
           game::ClaimMine(
             gpGame,
-            ((cell->field_4 >> 3) & 0x1FFF),
+            (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
             giCurPlayer);
         }
       }
@@ -75041,13 +75259,13 @@ LABEL_308:
       if ( hero::NumArtifacts(hro) < 14 )
         GiveArtifact(
           hro,
-          (ARTIFACT)((cell->field_4 >> 3) & 0x1FFF),
+          (ARTIFACT)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
           1,
           -1);
       v58 = 1;
       goto LABEL_308;
     case 82:
-      if ( (cell->field_4 >> 3) & 0x1FFF )
+      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
         v28 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
@@ -75068,11 +75286,11 @@ LABEL_308:
       }
       goto LABEL_308;
     case 85:
-      if ( !hro->secondarySkillLevel[((cell->field_4 >> 3) & 0x1FFF)] )
-        hero::GiveSS(hro, ((cell->field_4 >> 3) & 0x1FFF), 1);
+      if ( !hro->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
+        hero::GiveSS(hro, (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5), 1);
       goto LABEL_308;
     case 79:
-      v56 = ppMapExtra[((cell->field_4 >> 3) & 0x1FFF)];
+      v56 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       if ( *(_BYTE *)v56 )
       {
         if ( Random(0, 100) >= 40 )
@@ -75400,8 +75618,8 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
   thisa = this;
   mouseManager::ShowColorPointer(gpMouseManager);
   creat = cell->objectIndex;
-  willJoin = ((cell->field_4 >> 3) & 0x1FFF) & 0;
-  qty = ((cell->field_4 >> 3) & 0x1FFF);
+  willJoin = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0;
+  qty = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
   v14 = (double)philAI::FightValueOfStack(&a2->army, a2, 0, 0, 0, 0)
       / (double)(qty * gMonsterDatabase[creat].fight_value);
   if ( gbInCampaign
@@ -76802,7 +77020,7 @@ void __thiscall hero::Deallocate(hero *this, int a2)
   }
   for ( idxc = v6; player->numHeroes - 1 > idxc; ++idxc )
     player->heroesOwned[idxc] = player->heroesOwned[idxc + 1];
-  *(&player->field_3 + player->numHeroes) = -1;
+  *(&player->relatedToSomeSortOfHeroCountOrIdx + player->numHeroes) = -1;
   if ( player->curHeroIdx == this->idx )
   {
     player->curHeroIdx = -1;
@@ -76816,7 +77034,7 @@ void __thiscall hero::Deallocate(hero *this, int a2)
       gpAdvManager->heroMobilized = 0;
   }
   --player->numHeroes;
-  player->field_3 = 0;
+  player->relatedToSomeSortOfHeroCountOrIdx = 0;
   gpGame->relatedToHeroForHireStatus[this->idx] = -1;
   if ( gbRetreatWin )
   {
@@ -76837,8 +77055,8 @@ void __thiscall hero::Deallocate(hero *this, int a2)
     game::SetRandomHeroArmies(gpGame, this->idx, 0);
   if ( gbInCampaign
     && this->heroID == 55
-    && !gpGame->field_2
-    && gpGame->field_4 == 8
+    && !gpGame->relatedToCurViewSideOrCampaign
+    && gpGame->relatedToCampaignMap == 8
     && !gbRetreatWin
     && !gbCombatSurrender )
     gpGame->field_82 = 1;
@@ -76981,6 +77199,7 @@ int __thiscall hero::ApplyBattleLossTemps(hero *this)
 }
 
 //----- (00495F40) --------------------------------------------------------
+// Check this function (the data structures accessed in here are the only thing that need to be generalized within this function; they contain hardcoded, faction-specific data; this is a design question)
 void __thiscall hero::CheckLevel(hero *this)
 {
   int nextSkill; // [sp+18h] [bp-10Ch]@25
@@ -77015,7 +77234,7 @@ void __thiscall hero::CheckLevel(hero *this)
       lvl10Plus = i > 9;
       SRand(30 * i + this->randomSeed);
       randNum = SRandom(1, 100);
-      if ( gHeroSkillBonus[this->factionID][lvl10Plus][0] <= randNum )
+      if ( gHeroSkillBonus[this->factionID][lvl10Plus][0] <= randNum )// gHeroSkillBonus needs to be generalized for new factions (Constant here; global data)
       {
         randNuma = randNum - gHeroSkillBonus[this->factionID][lvl10Plus][0];
         if ( gHeroSkillBonus[this->factionID][lvl10Plus][1] <= randNuma )
@@ -77048,7 +77267,7 @@ void __thiscall hero::CheckLevel(hero *this)
       {
         secSkillOptions[j] = -1;
         if ( j
-          || this->factionID == 1
+          || this->factionID == FACTION_BARBARIAN
           || !this->factionID
           || this->secondarySkillLevel[7] >= 3
           || i - this->wisdomLastOffered < 3 )
@@ -77060,10 +77279,11 @@ void __thiscall hero::CheckLevel(hero *this)
           {
             ++tries;
             if ( (!j || secSkillOptions[0] != nextSkill)
-              && (this->secondarySkillLevel[nextSkill] && this->secondarySkillLevel[nextSkill] < 3
-               || !this->secondarySkillLevel[nextSkill] && this->numSecSkillsKnown < 8) )
+              && (this->secondarySkillLevel[nextSkill]
+               && this->secondarySkillLevel[nextSkill] < (signed int)MAX_SECONDARY_SKILL_LEVELS
+               || !this->secondarySkillLevel[nextSkill] && this->numSecSkillsKnown < MAX_KNOWABLE_SECONDARY_SKILLS) )
             {
-              v6 -= iGetSSByAlignment[nextSkill].skill_chances[this->factionID];
+              v6 -= iGetSSByAlignment[nextSkill].skill_chances[this->factionID];// iGetSSByAlignment needs to be generalized for new factions (Constant here; global data)
               if ( v6 <= 0 )
               {
                 secSkillOptions[j] = nextSkill;
@@ -77160,7 +77380,6 @@ void __thiscall hero::CheckLevel(hero *this)
 }
 // 4F6BD8: using guessed type char *gSecondarySkills[25];
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
-// 523F1C: using guessed type int gbInNewGameSetup;
 
 //----- (00496670) --------------------------------------------------------
 int __thiscall hero::NumArtifacts(hero *this)
@@ -77727,7 +77946,7 @@ signed int __fastcall HeroView(int heroIdx, int noDismiss, int dontFade)
     if ( cell->objType != 170 )
     {
       gpHVHero->occupiedObjType = cell->objType;
-      gpHVHero->occupiedObjVal = ((cell->field_4 >> 3) & 0x1FFF);
+      gpHVHero->occupiedObjVal = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
     }
   }
   SetupHeroView();
@@ -78156,7 +78375,7 @@ int __thiscall hero::GiveSS(hero *this, int skill, int levels)
   {
     this->secondarySkillLevel[skill] += levels;
   }
-  else if ( this->numSecSkillsKnown < MAX_KNOWABLE_SECONDARY_SPILLS )
+  else if ( this->numSecSkillsKnown < MAX_KNOWABLE_SECONDARY_SKILLS )
   {
     this->secondarySkillLevel[skill] = levels;
     ++this->numSecSkillsKnown;
@@ -83910,9 +84129,9 @@ signed int __thiscall game::HandleCampaignWin(game *this)
   signed int j; // [sp+20h] [bp-4h]@41
 
   memset(&this->_11[25], 0, 0x18u);
-  if ( this->field_2 )
+  if ( this->relatedToCurViewSideOrCampaign )
   {
-    switch ( this->field_4 + 1 )
+    switch ( this->relatedToCampaignMap + 1 )
     {
       case 0:
         PlaySmacker(19);
@@ -83985,7 +84204,7 @@ signed int __thiscall game::HandleCampaignWin(game *this)
   }
   else
   {
-    switch ( this->field_4 + 1 )
+    switch ( this->relatedToCampaignMap + 1 )
     {
       case 0:
         PlaySmacker(5);
@@ -84021,7 +84240,7 @@ signed int __thiscall game::HandleCampaignWin(game *this)
         PlaySmacker(13);
         this->_11[31] = 1;
         this->_11[32] = 1;
-        this->field_7F = 1;
+        this->maybeIsGoodCampaign = 1;
         break;
       case 7:
         PlaySmacker(15);
@@ -84044,9 +84263,9 @@ signed int __thiscall game::HandleCampaignWin(game *this)
         break;
     }
   }
-  if ( this->field_4 != 10 && (gpGame->field_4 != 9 || gpGame->field_2) )
+  if ( this->relatedToCampaignMap != 10 && (gpGame->relatedToCampaignMap != 9 || gpGame->relatedToCurViewSideOrCampaign) )
   {
-    this->field_4 = -1;
+    this->relatedToCampaignMap = -1;
     for ( i = 0; i < 2; ++i )
     {
       for ( j = 0; j < 11; ++j )
@@ -84054,10 +84273,10 @@ signed int __thiscall game::HandleCampaignWin(game *this)
         if ( *(&this->_11[12 * i + 25] + j) )
         {
           *((_WORD *)&gpGame->_1[24 * i + 24] + j) = *(_WORD *)&this->_11[49];
-          if ( this->field_4 == -1 )
+          if ( this->relatedToCampaignMap == -1 )
           {
-            this->field_2 = i;
-            this->field_4 = j;
+            this->relatedToCurViewSideOrCampaign = i;
+            this->relatedToCampaignMap = j;
           }
         }
       }
@@ -84629,18 +84848,18 @@ signed int __thiscall CampaignHandler(void *this)
         }
         if ( iCurViewMap == 11 )
         {
-          gpGame->field_4 = 4;
-          gpGame->field_2 = 1 - gpGame->field_2;
-          *(&gpGame->_11[12 * gpGame->field_4 + 25] + gpGame->field_2) = 1;
-          *((_WORD *)&gpGame->_1[24 * gpGame->field_2 + 24] + gpGame->field_4) = *(_WORD *)&gpGame->_11[49];
-          *(&gpGame->_11[12 * gpGame->field_2 + 1] + gpGame->field_4) = gpGame->_11[12 * (1 - gpGame->field_2) + 12];
+          gpGame->relatedToCampaignMap = 4;
+          gpGame->relatedToCurViewSideOrCampaign = 1 - gpGame->relatedToCurViewSideOrCampaign;
+          *(&gpGame->_11[12 * gpGame->relatedToCampaignMap + 25] + gpGame->relatedToCurViewSideOrCampaign) = 1;
+          *((_WORD *)&gpGame->_1[24 * gpGame->relatedToCurViewSideOrCampaign + 24] + gpGame->relatedToCampaignMap) = *(_WORD *)&gpGame->_11[49];
+          *(&gpGame->_11[12 * gpGame->relatedToCurViewSideOrCampaign + 1] + gpGame->relatedToCampaignMap) = gpGame->_11[12 * (1 - gpGame->relatedToCurViewSideOrCampaign) + 12];
           for ( i = 0; i < 12; ++i )
             *(&gpGame->hasDwarfAlliance + i) = 0;
         }
         else
         {
-          gpGame->field_4 = iCurViewMap;
-          gpGame->field_2 = iCurViewSide;
+          gpGame->relatedToCampaignMap = iCurViewMap;
+          gpGame->relatedToCurViewSideOrCampaign = iCurViewSide;
         }
       }
     }
@@ -84664,36 +84883,37 @@ signed int __thiscall CampaignHandler(void *this)
 LABEL_54:
     switch ( *((_DWORD *)v4 + 2) )
     {
-      case 0x352:
-      case 0x353:
-      case 0x354:
-      case 0x355:
-      case 0x356:
-      case 0x357:
-      case 0x358:
-      case 0x359:
-      case 0x35A:
-      case 0x35B:
-      case 0x35C:
-      case 0x35D:
+      case 850:
+      case 851:
+      case 852:
+      case 853:
+      case 854:
+      case 855:
+      case 856:
+      case 857:
+      case 858:
+      case 859:
+      case 860:
+      case 861:
         v7 = *((_DWORD *)v4 + 2) - 850;
         if ( giDebugLevel >= 1
           || *(&gpGame->_11[12 * iCurViewSide + 25] + v7)
           || v7 < 11
-          && (v7 < 4 ? (v6 = gpGame->field_3) : (v6 = gpGame->field_2), *(&gpGame->_1[12 * (unsigned __int8)v6] + v7)) )
+          && (v7 < 4 ? (v6 = gpGame->field_3) : (v6 = gpGame->relatedToCurViewSideOrCampaign),
+              *(&gpGame->_1[12 * (unsigned __int8)v6] + v7)) )
         {
           iCurViewMap = *((_DWORD *)v4 + 2) - 850;
           if ( v7 < 4 )
             v5 = gpGame->field_3;
           else
-            v5 = gpGame->field_2;
+            v5 = gpGame->relatedToCurViewSideOrCampaign;
           iCurViewSide = (unsigned __int8)v5;
           game::CampaignInfoUpdate(gpGame, 1);
         }
         break;
-      case 0x32A:
-      case 0x32B:
-      case 0x32C:
+      case 810:
+      case 811:
+      case 812:
         if ( !bCampaignViewOnly && *(&gpGame->_11[12 * iCurViewSide + 25] + iCurViewMap) )
         {
           *(&gpGame->_11[12 * iCurViewSide + 1] + iCurViewMap) = *((_BYTE *)v4 + 8) - 42;
@@ -84716,10 +84936,10 @@ LABEL_54:
 //----- (004A9500) --------------------------------------------------------
 void __thiscall game::InitEntireCampaign(game *this, char a2)
 {
-  memset(&this->field_2, 0, 0x147u);
-  this->field_2 = a2;
+  memset(&this->relatedToCurViewSideOrCampaign, 0, 0x147u);
+  this->relatedToCurViewSideOrCampaign = a2;
   this->field_3 = a2;
-  this->field_4 = -1;
+  this->relatedToCampaignMap = -1;
 }
 
 //----- (004A9550) --------------------------------------------------------
@@ -84751,18 +84971,29 @@ game *__thiscall game::InitCampaignMap(game *this)
   char *v25; // [sp+64h] [bp-4h]@23
 
   v17 = *(&this->_11[12 * iCurViewSide + 1] + iCurViewMap);
-  if ( this->field_2 == this->field_3 || iCurViewMap != 4 )
-    v14 = (char *)&campaignChoices + 180 * this->field_2 + 15 * this->field_4 + 5 * v17;
+  if ( this->relatedToCurViewSideOrCampaign == this->field_3 || iCurViewMap != 4 )
+    v14 = (char *)&campaignChoices
+        + 180 * this->relatedToCurViewSideOrCampaign
+        + 15 * this->relatedToCampaignMap
+        + 5 * v17;
   else
     v14 = (char *)&campaignChoices + 180 * iCurViewSide + 5 * v17 + 165;
   gpGame->_11[71] = 0;
-  memset(&this->field_44D, 0, 0x41u);
-  if ( this->field_4 != 4 || this->field_3 == this->field_2 )
-    sprintf(this->mapFilename, "CAMP%c%02d.H2C", (unsigned int)this->field_2 < 1 ? 71 : 69, this->field_4 + 1);
+  memset(this->relatedToPlayerPosAndColor, 0, 0x41u);
+  if ( this->relatedToCampaignMap != 4 || this->field_3 == this->relatedToCurViewSideOrCampaign )
+    sprintf(
+      this->mapFilename,
+      "CAMP%c%02d.H2C",
+      (unsigned int)this->relatedToCurViewSideOrCampaign < 1 ? 71 : 69,
+      this->relatedToCampaignMap + 1);
   else
-    sprintf(this->mapFilename, "CAMP%c%02dB.H2C", (unsigned int)this->field_2 < 1 ? 69 : 71, this->field_4 + 1);
+    sprintf(
+      this->mapFilename,
+      "CAMP%c%02dB.H2C",
+      (unsigned int)this->relatedToCurViewSideOrCampaign < 1 ? 69 : 71,
+      this->relatedToCampaignMap + 1);
   this->mapFilename[20] = 0;
-  if ( !this->field_4 )
+  if ( !this->relatedToCampaignMap )
     *(_WORD *)&this->_11[49] = 0;
   strcpy(gMapName, this->mapFilename);
   GetMapHeader(this->mapFilename, &this->mapHeader);
@@ -84771,18 +85002,18 @@ game *__thiscall game::InitCampaignMap(game *this)
   if ( (unsigned __int8)*v14 == 8 )
   {
     v13 = 0;
-    if ( this->field_2 == 1 )
+    if ( this->relatedToCurViewSideOrCampaign == 1 )
     {
       if ( this->mapHeader.hasPlayer[0] )
         v13 = 1;
       if ( this->mapHeader.hasPlayer[1] )
         ++v13;
     }
-    this->field_459[v13] = v14[1];
+    this->relatedToColorOfPlayerOrFaction[v13] = v14[1];
   }
-  if ( this->field_4 + 1 > 2 )
+  if ( this->relatedToCampaignMap + 1 > 2 )
   {
-    if ( this->field_4 + 1 > 5 )
+    if ( this->relatedToCampaignMap + 1 > 5 )
       gpGame->difficulty = 2;
     else
       gpGame->difficulty = 1;
@@ -84839,7 +85070,7 @@ game *__thiscall game::InitCampaignMap(game *this)
       if ( this->players[0].numHeroes > 0 )
       {
         v11 = 0;
-        if ( !this->field_2 && this->field_4 == 5 && this->players[0].numHeroes > 1 )
+        if ( !this->relatedToCurViewSideOrCampaign && this->relatedToCampaignMap == 5 && this->players[0].numHeroes > 1 )
           v11 = 1;
         gpGame->heroes[this->players[0].heroesOwned[v11]].spellsLearned[*(_WORD *)(v14 + 1)] = 1;
       }
@@ -84873,7 +85104,7 @@ game *__thiscall game::InitCampaignMap(game *this)
     case 7:
       break;
   }
-  if ( (this->field_88 || this->field_83 && this->field_4 == 9) && this->players[0].numHeroes > 0 )
+  if ( (this->field_88 || this->field_83 && this->relatedToCampaignMap == 9) && this->players[0].numHeroes > 0 )
     GiveArtifact(&gpGame->heroes[this->players[0].heroesOwned[0]], ARTIFACT_ULTIMATE_CROWN, 0, -1);
   gbRetreatWin = 1;
   if ( this->field_82 )
@@ -84893,7 +85124,7 @@ game *__thiscall game::InitCampaignMap(game *this)
         *(_WORD *)&v10[2 * l + 106] *= 3;
     }
   }
-  if ( this->field_4 == 6 && this->field_2 == 1 )
+  if ( this->relatedToCampaignMap == 6 && this->relatedToCurViewSideOrCampaign == 1 )
   {
     v8 = gbInNewGameSetup;
     gbInNewGameSetup = 1;
@@ -84927,7 +85158,7 @@ game *__thiscall game::InitCampaignMap(game *this)
     hero::CheckLevel(&gpGame->heroes[this->players[0].heroesOwned[0]]);
     gbInNewGameSetup = v8;
   }
-  if ( this->field_81 && this->field_4 == 9 || this->_11[0] )
+  if ( this->field_81 && this->relatedToCampaignMap == 9 || this->_11[0] )
   {
     v7 = (char *)&gpGame->heroes[this->players[0].heroesOwned[0]];
     for ( n = 0; n < 5; ++n )
@@ -84936,30 +85167,29 @@ game *__thiscall game::InitCampaignMap(game *this)
       *(_WORD *)&v7[2 * n + 106] = *(_WORD *)&this->_11[2 * n + 61] * ((unsigned int)this->field_80 < 1 ? 1 : 3);
     }
   }
-  if ( this->field_2 == 1 && this->field_4 == 5 )
+  if ( this->relatedToCurViewSideOrCampaign == 1 && this->relatedToCampaignMap == 5 )
   {
     gpGame->mapHeader.winConditionType = 4;
-    gpGame->mapHeader.winConditionArgument = 99;
+    gpGame->mapHeader.winConditionArgumentOrLocX = 99;
     gpGame->mapHeader.allowDefeatAllVictory = 1;
   }
-  if ( !this->field_2 && this->field_4 == 8 )
+  if ( !this->relatedToCurViewSideOrCampaign && this->relatedToCampaignMap == 8 )
   {
-    gpGame->mapHeader.field_22 = 0;
-    *(_WORD *)&gpGame->mapHeader.field_23 = 0;
+    gpGame->mapHeader.lossConditionType = 0;
+    *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX = 0;
   }
   result = this;
-  if ( !this->field_2 )
+  if ( !this->relatedToCurViewSideOrCampaign )
   {
-    result = (game *)(this->field_4 + 1);
+    result = (game *)(this->relatedToCampaignMap + 1);
     if ( result == (game *)7 )
     {
       result = gpGame;
-      *(_WORD *)&gpGame->mapHeader.field_23 = 90;
+      *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX = 90;
     }
   }
   return result;
 }
-// 523F1C: using guessed type int gbInNewGameSetup;
 // 524210: using guessed type char gbRetreatWin;
 // 5304D8: using guessed type int iCurViewSide;
 // 5304DC: using guessed type int iCurViewMap;
@@ -85240,17 +85470,21 @@ int __thiscall philAI::DoAllHeroInteractions(int this)
 {
   int result; // eax@2
   signed int v2; // ST20_4@4
+  int v3; // [sp+Ch] [bp-Ch]@1
   int i; // [sp+14h] [bp-4h]@1
 
+  v3 = this;
   for ( i = 0; ; ++i )
   {
     result = gpCurPlayer->numCastles;
     if ( result <= i )
       break;
-    if ( gpGame->castles[gpCurPlayer->castlesOwned[i]].visitingHeroIdx != -1 )
+    if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].visitingHeroIdx != -1 )
     {
-      v2 = (signed int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
-      philAI::HeroInteractionAtTown((int)&gpGame->heroes[*(_BYTE *)(v2 + 23)], v2, 0, (int)&unk_5305C8);
+      v2 = (signed int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+                                        + i
+                                        + 2)];
+      philAI::HeroInteractionAtTown((void *)v3, (int)&gpGame->heroes[*(_BYTE *)(v2 + 23)], v2, 0, (int)&unk_5305C8);
     }
   }
   return result;
@@ -85279,7 +85513,7 @@ LABEL_2:
   result = gpCurPlayer->numCastles;
   if ( result > v9 )
   {
-    v4 = (char *)&gpGame->castles[gpCurPlayer->castlesOwned[v9]];
+    v4 = (char *)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + v9 + 2)];
     for ( i = 0; ; ++i )
     {
       if ( i >= 2 )
@@ -85450,7 +85684,7 @@ void __thiscall philAI::CheckBuyStuff(void *this)
         {
           if ( v3 == 1 )
           {
-            philAI::BuildHero(v2, v4);
+            philAI::BuildHero(thisa, v2, v4);
           }
           else if ( v3 == 2 )
           {
@@ -85590,7 +85824,7 @@ void __cdecl philAI::CheckReload()
     gpSearchArray,
     gpCurAIHero->x,
     gpCurAIHero->y,
-    HIBYTE(gpCurAIHero->field_2B),
+    HIBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID),
     4 * gpCurAIHero->mobility,
     gpCurAIHero->flags & 0x80,
     0,
@@ -85842,7 +86076,7 @@ signed int __thiscall philAI::DoAnywhereDDoorTownGate(void *this, signed int a1)
                       {
                         if ( MAP_HEIGHT - 1 >= v12 )
                         {
-                          if ( !advManager::FindAdjacentMonster(gpAdvManager, a2, v12, (int)&a3, (int)&a4, -1, -1) )
+                          if ( !advManager::FindAdjacentMonster(gpAdvManager, a2, v12, &a3, &a4, -1, -1) )
                           {
                             v7 = advManager::GetCell(gpAdvManager, a2, v12);
                             if ( giGroundToTerrain[v7->groundIndex] )
@@ -86046,7 +86280,8 @@ mouseManager *__thiscall philAI::DoAI(void *this, int a2)
         break;
       ValidateHero(thisa);
       gpCurAIHero = thisa;
-      if ( LOBYTE(thisa->field_29) == 255 || LOBYTE(gpCurAIHero->field_2B) )
+      if ( LOBYTE(thisa->relatedTo_HIBYTE_y_LOBYTE_x) == 255
+        || LOBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) )
       {
         giCurAIHeroMorale = armyGroup::GetMorale(&gpCurAIHero->army, gpCurAIHero, 0, 0);
         giCurAIHeroLuck = game::GetLuck(gpCurAIHero, 0, 0);
@@ -86382,7 +86617,7 @@ playerData *__stdcall philAI::GetTurnAIVars(int a1)
     dword_51D58C = 0;
     for ( i = 0; gpCurPlayer->numCastles > i; ++i )
     {
-      v34 = &gpGame->castles[gpCurPlayer->castlesOwned[i]];
+      v34 = &gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
       for ( j = 0; j < 54; ++j )
       {
         hro = &gpGame->heroes[j];
@@ -86415,7 +86650,7 @@ LABEL_17:
   }
   for ( k = 0; gpCurPlayer->numCastles > k; ++k )
   {
-    v34 = &gpGame->castles[gpCurPlayer->castlesOwned[k]];
+    v34 = &gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + k + 2)];
     v32 = (double)philAI::FightValueOfStack(&v34->garrison, 0, 0, 0, 0, 0);
     v37 = (signed __int64)((double)v37 + v32);
   }
@@ -86432,7 +86667,7 @@ LABEL_17:
   for ( k = 0; k < 72; ++k )
     gpGame->castles[k].alignment = 0;
   for ( k = 0; gpCurPlayer->numCastles > k; ++k )
-    gpGame->castles[gpCurPlayer->castlesOwned[k]].alignment = 0;
+    gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + k + 2)].alignment = 0;
   memset(gaiEnemyHeroReachable, 0, MAP_HEIGHT * MAP_WIDTH);
   for ( l = 0; gpGame->numPlayers > l; ++l )
   {
@@ -86564,7 +86799,7 @@ LABEL_17:
   v17 = 0.1;
   for ( k = 0; gpCurPlayer->numCastles > k; ++k )
   {
-    if ( gpGame->castles[gpCurPlayer->castlesOwned[k]].buildingsBuiltFlags & 0x40 )
+    if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + k + 2)].buildingsBuiltFlags & 0x40 )
       v17 = v17 + 1.0;
     else
       v17 = v17 + 0.5;
@@ -86597,8 +86832,8 @@ LABEL_17:
       if ( gpCurPlayer->numHeroes == 1 )
       {
         v6 = (char *)&gpGame->heroes[gpCurPlayer->heroesOwned[0]];
-        v7 = (char *)&gpGame->castles[gpCurPlayer->castlesOwned[0]];
-        v8 = abs(gpGame->castles[gpCurPlayer->castlesOwned[0]].x - gpGame->heroes[gpCurPlayer->heroesOwned[0]].x);
+        v7 = (char *)&gpGame->castles[BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
+        v8 = abs(gpGame->castles[BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - gpGame->heroes[gpCurPlayer->heroesOwned[0]].x);
         if ( abs((unsigned __int8)v7[5] - *(_DWORD *)(v6 + 29)) + v8 < 18 )
           giMaxHeroesForThisPlayer = 1;
       }
@@ -86611,10 +86846,10 @@ LABEL_17:
   if ( v36 + 1 < giMaxHeroesForThisPlayer )
     giMaxHeroesForThisPlayer = v36 + 1;
   result = gpCurPlayer;
-  if ( gpCurPlayer->_2 > giMaxHeroesForThisPlayer )
+  if ( gpCurPlayer->relatedToMaxOrNumHeroes > giMaxHeroesForThisPlayer )
   {
     result = gpCurPlayer;
-    giMaxHeroesForThisPlayer = gpCurPlayer->_2;
+    giMaxHeroesForThisPlayer = gpCurPlayer->relatedToMaxOrNumHeroes;
   }
   return result;
 }
@@ -86657,7 +86892,7 @@ void __thiscall philAI::GetBestBHC(void *this, int a2, int a3)
   v19 = 0;
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    v12 = (int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
+    v12 = (int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
     v3 = philAI::FightValueOfStack((armyGroup *)(v12 + 8), 0, 0, 0, 0, 0);
     v8[i] = v3 + 400;
     v18 += v8[i];
@@ -86671,12 +86906,12 @@ void __thiscall philAI::GetBestBHC(void *this, int a2, int a3)
   v11 = v18 / v19;
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    v12 = (int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
+    v12 = (int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
     v13[i] = v11 * ((*(_DWORD *)(v12 + 24) & 0x40u) < 1 ? 7 : 10) + 400;
   }
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    v12 = (int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
+    v12 = (int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
     LogInt((int)"Turns Owned", *(_WORD *)(v12 + 85), -999, -999, -999, -999, -999, -999);
     if ( giCurTurn <= 3 || (signed int)*(_WORD *)(v12 + 85) >= 3 )
     {
@@ -86868,7 +87103,7 @@ signed int __thiscall philAI::DetermineTargetPosition(void *this, int *a2, int *
       gpSearchArray,
       gpCurAIHero->x,
       gpCurAIHero->y,
-      HIBYTE(gpCurAIHero->field_2B),
+      HIBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID),
       2 * a4,
       gpCurAIHero->flags & 0x80,
       1,
@@ -86950,11 +87185,11 @@ signed int __thiscall philAI::DetermineTargetPosition(void *this, int *a2, int *
                 }
                 if ( v32 )
                 {
-                  if ( LOBYTE(gpCurAIHero->field_29) != 255 )
+                  if ( LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x) != 255 )
                   {
-                    v8 = abs(row - HIBYTE(gpCurAIHero->field_29));
-                    v20 = abs(col - LOBYTE(gpCurAIHero->field_29)) + v8;
-                    if ( SLOBYTE(gpCurAIHero->field_2B) < v20 )
+                    v8 = abs(row - HIBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x));
+                    v20 = abs(col - LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x)) + v8;
+                    if ( SLOBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) < v20 )
                       v32 = 0;
                   }
                 }
@@ -87052,10 +87287,10 @@ LABEL_107:
     }
     *a2 = v27;
     *a3 = v24;
-    if ( LOBYTE(gpCurAIHero->field_29) != 255 && v14 <= 0 )
+    if ( LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x) != 255 && v14 <= 0 )
     {
-      *a2 = LOBYTE(gpCurAIHero->field_29);
-      *a3 = HIBYTE(gpCurAIHero->field_29);
+      *a2 = LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x);
+      *a3 = HIBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x);
     }
     LogInt(
       (int)"Hero, Best RV target XY  current XY",
@@ -87189,7 +87424,7 @@ void __stdcall philAI::ProbableOutcomeOfBattle(int a1, int a2, __int64 a3, int a
           v22 += gArtifactBaseRV[*(_BYTE *)(a2 + i + 213)];
       }
     }
-    if ( gpGame->mapHeader.winConditionType == 2 && *(_BYTE *)(a2 + 2) == gpGame->mapHeader.winConditionArgument )
+    if ( gpGame->mapHeader.winConditionType == 2 && *(_BYTE *)(a2 + 2) == gpGame->mapHeader.winConditionArgumentOrLocX )
       v22 += 50000;
     *a13 = (signed __int64)((double)*a13 - (1.0 - *(float *)a8) * (double)(v22 + 1400));
     *a13 = (signed __int64)((double)game::ExperienceValueOfStack(a3, SHIDWORD(a3))
@@ -87205,7 +87440,8 @@ void __stdcall philAI::ProbableOutcomeOfBattle(int a1, int a2, __int64 a3, int a
       if ( (signed int)*(_BYTE *)(j + HIDWORD(a3) + 213) >= 0 && (signed int)*(_BYTE *)(j + HIDWORD(a3) + 213) < 37 )
         v25 += gArtifactBaseRV[*(_BYTE *)(HIDWORD(a3) + j + 213)];
     }
-    if ( gpGame->mapHeader.field_22 == 2 && *(_BYTE *)(HIDWORD(a3) + 2) == *(_WORD *)&gpGame->mapHeader.field_23 )
+    if ( gpGame->mapHeader.lossConditionType == 2
+      && *(_BYTE *)(HIDWORD(a3) + 2) == *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX )
       v25 += 50000;
     if ( gbHumanPlayer[*(_BYTE *)(HIDWORD(a3) + 3)] )
       v14 = *(float *)&gfAttackHumanBonus;
@@ -87425,7 +87661,7 @@ LABEL_63:
   }
   while ( v35 < 12 )
   {
-    v24 = gDwellingType[*(_BYTE *)(a1 + 3)][v35];
+    v24 = *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(a1 + 3)] + v35);
     if ( (1 << (v35 + 19)) & *(_DWORD *)(a1 + 24)
       && (signed int)*(_WORD *)(a1 + 2 * v35 + 30) > 0
       && (double)gMonsterDatabase[LOBYTE((&gTownObjNames[3 * *(_BYTE *)(a1 + 3) + 27])[a2 + 1])].fight_value_aux < (double)gMonsterDatabase[v24].fight_value_aux * 1.2 )
@@ -87642,7 +87878,7 @@ int __thiscall philAI::GetBestCreature(void *this, int a1, int a2, int a3)
   v14 = -99.0;
   for ( i = 0; i < 12; ++i )
   {
-    creature = gDwellingType[*(_BYTE *)(a1 + 3)][i];
+    creature = *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(a1 + 3)] + i);
     v11 = 999999;
     if ( (1 << (i + 19)) & *(_DWORD *)(a1 + 24) && (signed int)*(_WORD *)(a1 + 2 * i + 30) > 0 )
     {
@@ -87715,7 +87951,7 @@ int __thiscall philAI::GetBestCreature(void *this, int a1, int a2, int a3)
 //----- (004B0BA0) --------------------------------------------------------
 int __thiscall philAI::CreaturesToBuy(int this, town *a2, int a3)
 {
-  return philAI::CreaturesToBuy(gDwellingType[a2->factionID][a3], a2->numCreaturesInDwelling[a3]);
+  return philAI::CreaturesToBuy(*((_BYTE *)&gDwellingType[0][3 * a2->factionID] + a3), a2->numCreaturesInDwelling[a3]);
 }
 
 //----- (004B0BF0) --------------------------------------------------------
@@ -88059,7 +88295,7 @@ int __thiscall philAI::RVOfPosition(int col, int a2, int col_4, int arg8, int a5
     if ( v24 < 0 )
       v27 += v24;
   }
-  if ( advManager::FindAdjacentMonster(gpAdvManager, a2, col_4, (int)&a3, (int)&a4, -1, -1) )
+  if ( advManager::FindAdjacentMonster(gpAdvManager, a2, col_4, &a3, &a4, -1, -1) )
   {
     v12 = (int)advManager::GetCell(gpAdvManager, a2, col_4);
     if ( StopOnTrigger(v12) )
@@ -88404,13 +88640,13 @@ int __stdcall philAI::ValueOfTown(town *twn)
       v3 += GetBuildingBaseResourceValue(twn->factionID, i, twn->mageGuildLevel);
   }
   v4 = (unsigned __int64)(signed __int64)(flt_530730 * 1250.0 * 1.5 + (double)v3) + 750;
-  if ( gpGame->mapHeader.field_22 == 1
-    && twn->x == *(_WORD *)&gpGame->mapHeader.field_23
-    && LOWORD(gpGame->mapHeader.field_2E) == twn->y )
+  if ( gpGame->mapHeader.lossConditionType == 1
+    && twn->x == *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX
+    && LOWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) == twn->y )
     v4 += 50000;
   if ( gpGame->mapHeader.winConditionType == 1
-    && gpGame->mapHeader.winConditionArgument == twn->x
-    && gpGame->mapHeader.field_2C == twn->y )
+    && gpGame->mapHeader.winConditionArgumentOrLocX == twn->x
+    && gpGame->mapHeader.winConditionArgumentOrLocY == twn->y )
     v4 += 50000;
   return v4;
 }
@@ -88458,10 +88694,10 @@ double __stdcall philAI::TurnValueOfObelisk(int a1)
   char *v4; // [sp+2Ch] [bp-4h]@1
 
   v4 = &gpGame->players[a1]._4_2[6];
-  v3 = gArtifactBaseRV[gpGame->field_6397];
+  v3 = gArtifactBaseRV[gpGame->ultimateArtifactIdx];
   if ( gpGame->mapHeader.winConditionType == 3 )
     v3 *= 2;
-  if ( gpGame->field_6397 == -1 )
+  if ( gpGame->ultimateArtifactIdx == -1 )
   {
     result = 0.0;
   }
@@ -89093,27 +89329,29 @@ int __stdcall philAI::QuickCombat(int a1, int a2, __int64 a3, int a4, int a5, fl
 // 524210: using guessed type char gbRetreatWin;
 
 //----- (004B3FE0) --------------------------------------------------------
-void __stdcall philAI::HeroInteractionAtHero(int a1, int a2, int a3, int a4)
+void __thiscall philAI::HeroInteractionAtHero(void *ecx0, int a1, int a2, int a3, int a4)
 {
-  double v4; // st7@32
-  float v5; // [sp+30h] [bp-44h]@33
+  double v5; // st7@32
+  int v6; // [sp+2Ch] [bp-48h]@1
+  float v7; // [sp+30h] [bp-44h]@33
   int this; // [sp+3Ch] [bp-38h]@9
-  signed int v7; // [sp+40h] [bp-34h]@36
+  signed int v9; // [sp+40h] [bp-34h]@36
   PRIMARY_SKILL skill; // [sp+44h] [bp-30h]@11
   signed int skilla; // [sp+44h] [bp-30h]@17
   signed int skillb; // [sp+44h] [bp-30h]@37
-  int v11; // [sp+48h] [bp-2Ch]@26
+  int v13; // [sp+48h] [bp-2Ch]@26
   signed int i; // [sp+4Ch] [bp-28h]@6
-  float v13; // [sp+50h] [bp-24h]@32
-  int v14; // [sp+54h] [bp-20h]@11
-  int v15; // [sp+58h] [bp-1Ch]@25
-  int v16; // [sp+5Ch] [bp-18h]@39
-  float v17; // [sp+60h] [bp-14h]@25
-  int v18; // [sp+64h] [bp-10h]@26
-  int v19; // [sp+68h] [bp-Ch]@32
-  int v20; // [sp+6Ch] [bp-8h]@32
-  float v21; // [sp+70h] [bp-4h]@35
+  float v15; // [sp+50h] [bp-24h]@32
+  int v16; // [sp+54h] [bp-20h]@11
+  int v17; // [sp+58h] [bp-1Ch]@25
+  int v18; // [sp+5Ch] [bp-18h]@39
+  float v19; // [sp+60h] [bp-14h]@25
+  int v20; // [sp+64h] [bp-10h]@26
+  int a5; // [sp+68h] [bp-Ch]@32
+  int a6; // [sp+6Ch] [bp-8h]@32
+  float v23; // [sp+70h] [bp-4h]@35
 
+  v6 = (int)ecx0;
   *(_DWORD *)a4 = 0;
   if ( !a3 || *(_BYTE *)(a1 + 2) == iAlphaMale || *(_BYTE *)(a2 + 2) == iAlphaMale )
   {
@@ -89130,77 +89368,79 @@ void __stdcall philAI::HeroInteractionAtHero(int a1, int a2, int a3, int a4)
         this = a2;
       else
         this = a1;
-      *(&v14 + i) = 0;
+      *(&v16 + i) = 0;
       for ( skill = 0; (signed int)skill < 4; ++skill )
       {
         if ( (signed int)skill < 2 || hero::HasArtifact((hero *)this, 81) )
-          *(&v14 + i) += 800 * hero::Stats((hero *)this, skill);
+          *(&v16 + i) += 800 * hero::Stats((hero *)this, skill);
       }
       for ( skilla = 0; skilla < 14; ++skilla )
       {
         if ( skilla != 13 && *(_BYTE *)(skilla + this + 116) )
-          *(&v14 + i) += *(&dword_4F1F3C[3 * skilla] + *(_BYTE *)(this + skilla + 116));
+          *(&v16 + i) += *(&dword_4F1F3C[3 * skilla] + *(_BYTE *)(this + skilla + 116));
       }
     }
-    v17 = (double)v14 / (double)(v14 + v15);
-    if ( v15 >= v14 )
+    v19 = (double)v16 / (double)(v16 + v17);
+    if ( v17 >= v16 )
     {
-      v18 = a2;
-      v11 = a1;
-      v17 = 1.0 - v17;
+      v20 = a2;
+      v13 = a1;
+      v19 = 1.0 - v19;
     }
     else
     {
-      v18 = a1;
-      v11 = a2;
+      v20 = a1;
+      v13 = a2;
     }
-    if ( a3 && *(_BYTE *)(v11 + 2) == iAlphaMale && v17 < 0.6 )
-      v11 = v18;
-    v19 = philAI::FightValueOfStack((armyGroup *)(v18 + 101), 0, 0, 0, 0, 0);
-    v20 = philAI::FightValueOfStack((armyGroup *)(v11 + 101), 0, 0, 0, 0, 0);
-    v4 = (double)v19 / (double)(v20 + v19);
-    v13 = v4;
-    if ( v4 > 0.69999999 )
-      v5 = v13 - 0.69999999;
+    if ( a3 && *(_BYTE *)(v13 + 2) == iAlphaMale && v19 < 0.6 )
+      v13 = v20;
+    a5 = philAI::FightValueOfStack((armyGroup *)(v20 + 101), 0, 0, 0, 0, 0);
+    a6 = philAI::FightValueOfStack((armyGroup *)(v13 + 101), 0, 0, 0, 0, 0);
+    v5 = (double)a5 / (double)(a6 + a5);
+    v15 = v5;
+    if ( v5 > 0.69999999 )
+      v7 = v15 - 0.69999999;
     else
-      v5 = 0.69999999 - v13;
-    v21 = v5;
-    if ( v5 >= 0.15 )
+      v7 = 0.69999999 - v15;
+    v23 = v7;
+    if ( v7 >= 0.15 )
     {
-      v7 = (signed __int64)((double)(v20 + v19) * v21 * gpCurPlayer->field_10F);
+      v9 = (signed __int64)((double)(a6 + a5) * v23 * gpCurPlayer->field_10F);
       if ( a3 )
       {
         for ( skillb = 0; skillb < 14; ++skillb )
         {
-          v16 = *(_BYTE *)(skillb + v11 + 213);
-          if ( v16 != -1 && v16 != 81 )
-            v7 += gArtifactBaseRV[v16];
+          v18 = *(_BYTE *)(skillb + v13 + 213);
+          if ( v18 != -1 && v18 != 81 )
+            v9 += gArtifactBaseRV[v18];
         }
       }
       else
       {
-        advManager::TransferArtifacts(v11, v18);
-        if ( v13 <= 0.69999999 )
+        advManager::TransferArtifacts(v13, v20);
+        if ( v15 <= 0.69999999 )
           philAI::RedistributeTroops(
-            v11 + 101,
-            (void *)(v18 + 101),
+            v6,
+            (armyGroup *)(v13 + 101),
+            (armyGroup *)(v20 + 101),
             1,
             1,
-            v20,
-            v19,
-            (signed __int64)((double)(v20 + v19) * v21));
+            a6,
+            a5,
+            (signed __int64)((double)(a6 + a5) * v23));
         else
           philAI::RedistributeTroops(
-            v18 + 101,
-            (void *)(v11 + 101),
+            v6,
+            (armyGroup *)(v20 + 101),
+            (armyGroup *)(v13 + 101),
             1,
             1,
-            v19,
-            v20,
-            (signed __int64)((double)(v20 + v19) * v21));
+            a5,
+            a6,
+            (signed __int64)((double)(a6 + a5) * v23));
         philAI::SetupRelativeHeroStrengths();
       }
-      *(_DWORD *)a4 = (signed __int64)((double)v7 * 0.1);
+      *(_DWORD *)a4 = (signed __int64)((double)v9 * 0.1);
     }
   }
 }
@@ -89209,56 +89449,58 @@ void __stdcall philAI::HeroInteractionAtHero(int a1, int a2, int a3, int a4)
 // 532C54: using guessed type int giCurTurn;
 
 //----- (004B43E0) --------------------------------------------------------
-void __stdcall philAI::HeroInteractionAtTown(int a1, signed int a2, int a3, int a4)
+void __thiscall philAI::HeroInteractionAtTown(void *this, int a1, signed int a2, int a3, int a4)
 {
-  int v4; // ebx@4
-  int v5; // ebx@14
-  int v6; // ebx@44
-  double v7; // st7@73
-  float v8; // ST54_4@73
-  float v9; // [sp+28h] [bp-5Ch]@62
-  signed int v10; // [sp+2Ch] [bp-58h]@39
-  signed int v11; // [sp+30h] [bp-54h]@75
-  float v12; // [sp+34h] [bp-50h]@71
-  int v13; // [sp+3Ch] [bp-48h]@73
-  int v14; // [sp+40h] [bp-44h]@111
-  float v15; // [sp+44h] [bp-40h]@44
+  int v5; // ebx@4
+  int v6; // ebx@14
+  int v7; // ebx@44
+  double v8; // st7@73
+  float v9; // ST54_4@73
+  int v10; // [sp+24h] [bp-60h]@1
+  float v11; // [sp+28h] [bp-5Ch]@62
+  signed int v12; // [sp+2Ch] [bp-58h]@39
+  signed int v13; // [sp+30h] [bp-54h]@75
+  float v14; // [sp+34h] [bp-50h]@71
+  int v15; // [sp+3Ch] [bp-48h]@73
+  int a6; // [sp+40h] [bp-44h]@111
+  float v17; // [sp+44h] [bp-40h]@44
   signed int j; // [sp+48h] [bp-3Ch]@35
-  int v17; // [sp+4Ch] [bp-38h]@108
+  int a2a; // [sp+4Ch] [bp-38h]@108
   signed int n; // [sp+50h] [bp-34h]@90
-  float v19; // [sp+54h] [bp-30h]@47
-  int v20; // [sp+58h] [bp-2Ch]@4
-  int v21; // [sp+58h] [bp-2Ch]@14
+  float v21; // [sp+54h] [bp-30h]@47
+  int v22; // [sp+58h] [bp-2Ch]@4
+  int v23; // [sp+58h] [bp-2Ch]@14
   signed int k; // [sp+58h] [bp-2Ch]@76
   signed int l; // [sp+58h] [bp-2Ch]@82
   signed int m; // [sp+58h] [bp-2Ch]@88
   int i; // [sp+5Ch] [bp-28h]@33
-  int v26; // [sp+60h] [bp-24h]@44
-  float v27; // [sp+64h] [bp-20h]@64
-  int v28; // [sp+68h] [bp-1Ch]@44
-  int v29; // [sp+70h] [bp-14h]@67
-  int v30; // [sp+74h] [bp-10h]@111
-  int v31; // [sp+7Ch] [bp-8h]@105
-  signed int v32; // [sp+80h] [bp-4h]@44
+  int v28; // [sp+60h] [bp-24h]@44
+  float v29; // [sp+64h] [bp-20h]@64
+  int v30; // [sp+68h] [bp-1Ch]@44
+  int a4a; // [sp+70h] [bp-14h]@67
+  int a5; // [sp+74h] [bp-10h]@111
+  int a1a; // [sp+7Ch] [bp-8h]@105
+  signed int v34; // [sp+80h] [bp-4h]@44
 
+  v10 = (int)this;
   *(_DWORD *)a4 = 0;
   if ( a3 )
   {
     if ( *(_BYTE *)(a2 + 24) & 8 && *(_BYTE *)a2 != dword_5305CC )
     {
-      v4 = abs(*(_BYTE *)(a2 + 4) - *(_DWORD *)(a1 + 25));
-      v20 = abs(*(_BYTE *)(a2 + 5) - *(_DWORD *)(a1 + 29)) + v4;
+      v5 = abs(*(_BYTE *)(a2 + 4) - *(_DWORD *)(a1 + 25));
+      v22 = abs(*(_BYTE *)(a2 + 5) - *(_DWORD *)(a1 + 29)) + v5;
       if ( dword_532CE8 )
       {
-        if ( v20 < dword_5304E0 )
+        if ( v22 < dword_5304E0 )
         {
-          dword_5304E0 = v20;
+          dword_5304E0 = v22;
           dword_5305CC = *(_BYTE *)a2;
         }
       }
       else
       {
-        dword_5304E0 = v20;
+        dword_5304E0 = v22;
         dword_5305CC = *(_BYTE *)a2;
       }
       dword_5306E0 = 1;
@@ -89269,19 +89511,19 @@ void __stdcall philAI::HeroInteractionAtTown(int a1, signed int a2, int a3, int 
   && !dword_532CE8
   && *(_BYTE *)a2 != dword_5305CC )
     {
-      v5 = abs(*(_BYTE *)(a2 + 4) - *(_DWORD *)(a1 + 25));
-      v21 = abs(*(_BYTE *)(a2 + 5) - *(_DWORD *)(a1 + 29)) + v5;
+      v6 = abs(*(_BYTE *)(a2 + 4) - *(_DWORD *)(a1 + 25));
+      v23 = abs(*(_BYTE *)(a2 + 5) - *(_DWORD *)(a1 + 29)) + v6;
       if ( dword_5306E0 )
       {
-        if ( v21 < dword_5304E0 )
+        if ( v23 < dword_5304E0 )
         {
-          dword_5304E0 = v21;
+          dword_5304E0 = v23;
           dword_5305CC = *(_BYTE *)a2;
         }
       }
       else
       {
-        dword_5304E0 = v21;
+        dword_5304E0 = v23;
         dword_5305CC = *(_BYTE *)a2;
       }
       dword_5306E0 = 1;
@@ -89318,75 +89560,75 @@ void __stdcall philAI::HeroInteractionAtTown(int a1, signed int a2, int a3, int 
         if ( !hero::HasSpell((hero *)a1, *(_BYTE *)(j + 4 * i - 4 + a2 + 60)) )
         {
           if ( gsSpellInfo[*(_BYTE *)(j + 4 * i - 4 + a2 + 60)].attributes & 1 )
-            v10 = hero::Stats((hero *)a1, PRIMARY_SKILL_KNOWLEDGE);
+            v12 = hero::Stats((hero *)a1, PRIMARY_SKILL_KNOWLEDGE);
           else
-            v10 = 1;
-          *(_DWORD *)a4 += v10 * gsSpellInfo[*(_BYTE *)(j + 4 * i - 4 + a2 + 60)].appearingChance;
+            v12 = 1;
+          *(_DWORD *)a4 += v12 * gsSpellInfo[*(_BYTE *)(j + 4 * i - 4 + a2 + 60)].appearingChance;
         }
       }
     }
   }
-  v28 = philAI::FightValueOfStack((armyGroup *)(a1 + 101), 0, 0, 0, 0, 0);
-  v32 = philAI::FightValueOfStack((armyGroup *)(a2 + 8), 0, 0, 0, 0, 0);
-  v15 = (double)v32 / (double)(v32 + v28);
-  v6 = hero::Stats((hero *)a1, 0);
-  v26 = hero::Stats((hero *)a1, PRIMARY_SKILL_DEFENSE) + v6;
-  if ( v26 > 10 )
-    v26 = 10;
+  v30 = philAI::FightValueOfStack((armyGroup *)(a1 + 101), 0, 0, 0, 0, 0);
+  v34 = philAI::FightValueOfStack((armyGroup *)(a2 + 8), 0, 0, 0, 0, 0);
+  v17 = (double)v34 / (double)(v34 + v30);
+  v7 = hero::Stats((hero *)a1, 0);
+  v28 = hero::Stats((hero *)a1, PRIMARY_SKILL_DEFENSE) + v7;
+  if ( v28 > 10 )
+    v28 = 10;
   if ( *(_BYTE *)(a2 + 24) & 0x40 )
-    v19 = 0.54 - (double)v26 * 0.02;
+    v21 = 0.54 - (double)v28 * 0.02;
   else
-    v19 = 0.33 - (double)v26 * 0.01;
+    v21 = 0.33 - (double)v28 * 0.01;
   if ( giCurTurn > 7 )
   {
     if ( giCurTurn > 14 )
     {
       if ( giCurTurn <= 21 )
-        v19 = v19 * 0.8;
+        v21 = v21 * 0.8;
     }
     else
     {
-      v19 = v19 * 0.5;
+      v21 = v21 * 0.5;
     }
   }
   else
   {
-    v19 = *(float *)&dword_51D58C;
+    v21 = *(float *)&dword_51D58C;
   }
   if ( *(_BYTE *)(a1 + 2) == iAlphaMale )
-    v19 = v19 * 0.5;
+    v21 = v21 * 0.5;
   if ( gpGame->mapHeader.winConditionType == 1
-    && gpGame->mapHeader.winConditionArgument == *(_BYTE *)(a2 + 4)
-    && gpGame->mapHeader.field_2C == *(_BYTE *)(a2 + 5) )
-    v19 = 0.80000001;
-  if ( v19 < (double)v15 )
-    v9 = v15 - v19;
+    && gpGame->mapHeader.winConditionArgumentOrLocX == *(_BYTE *)(a2 + 4)
+    && gpGame->mapHeader.winConditionArgumentOrLocY == *(_BYTE *)(a2 + 5) )
+    v21 = 0.80000001;
+  if ( v21 < (double)v17 )
+    v11 = v17 - v21;
   else
-    v9 = v19 - v15;
-  v27 = v9;
-  if ( v19 * 0.15 <= v9 && v9 >= 0.08 )
+    v11 = v21 - v17;
+  v29 = v11;
+  if ( v21 * 0.15 <= v11 && v11 >= 0.08 )
   {
-    v29 = 0;
-    if ( v19 < (double)v15 )
-      v29 = 1;
+    a4a = 0;
+    if ( v21 < (double)v17 )
+      a4a = 1;
     if ( a3 )
     {
-      if ( v28 >= v32 )
-        v12 = 0.13;
+      if ( v30 >= v34 )
+        v14 = 0.13;
       else
-        v12 = 0.25;
-      v7 = v9 + 1.0 - 0.22;
-      v8 = v7;
-      v13 = (signed __int64)((v7 * v8 - 1.0) * gpCurPlayer->field_10F * (double)(v32 + v28) * v12);
-      if ( v13 < 0 )
-        v13 = 0;
-      v11 = 0;
-      if ( v29 )
+        v14 = 0.25;
+      v8 = v11 + 1.0 - 0.22;
+      v9 = v8;
+      v15 = (signed __int64)((v8 * v9 - 1.0) * gpCurPlayer->field_10F * (double)(v34 + v30) * v14);
+      if ( v15 < 0 )
+        v15 = 0;
+      v13 = 0;
+      if ( a4a )
       {
         for ( k = 0; k < 5; ++k )
         {
           if ( (signed int)*(_WORD *)(a1 + 2 * k + 106) <= 0 )
-            v11 = 1;
+            v13 = 1;
         }
       }
       else
@@ -89394,10 +89636,10 @@ void __stdcall philAI::HeroInteractionAtTown(int a1, signed int a2, int a3, int 
         for ( l = 0; l < 5; ++l )
         {
           if ( (signed int)*(_WORD *)(a2 + 2 * l + 13) <= 0 )
-            v11 = 1;
+            v13 = 1;
         }
       }
-      if ( !v11 )
+      if ( !v13 )
       {
         for ( m = 0; m < 5; ++m )
         {
@@ -89405,49 +89647,50 @@ void __stdcall philAI::HeroInteractionAtTown(int a1, signed int a2, int a3, int 
           {
             if ( *(_BYTE *)(n + a1 + 101) == *(_BYTE *)(m + a2 + 8) )
             {
-              v11 = 1;
+              v13 = 1;
               break;
             }
           }
         }
       }
-      if ( !v11 )
-        v13 = 0;
-      *(_DWORD *)a4 += v13;
+      if ( !v13 )
+        v15 = 0;
+      *(_DWORD *)a4 += v15;
       if ( *(_BYTE *)(a2 + 2) && *(_BYTE *)(a2 + 23) == -1 )
         *(_DWORD *)a4 += 500;
     }
     else
     {
       town::GiveSpells((town *)a2, 0);
-      if ( v29 )
-        v27 = v9 + 0.04;
-      if ( v29 )
-        v31 = a2 + 8;
+      if ( a4a )
+        v29 = v11 + 0.04;
+      if ( a4a )
+        a1a = a2 + 8;
       else
-        v31 = a1 + 101;
-      if ( v29 )
-        v17 = a1 + 101;
+        a1a = a1 + 101;
+      if ( a4a )
+        a2a = a1 + 101;
       else
-        v17 = a2 + 8;
-      if ( v29 )
+        a2a = a2 + 8;
+      if ( a4a )
       {
-        v30 = v32;
-        v14 = v28;
+        a5 = v34;
+        a6 = v30;
       }
       else
       {
-        v30 = v28;
-        v14 = v32;
+        a5 = v30;
+        a6 = v34;
       }
       philAI::RedistributeTroops(
-        v31,
-        (void *)v17,
-        (unsigned int)v29 < 1,
-        v29,
-        v30,
-        v14,
-        (signed __int64)((double)(v32 + v28) * v27));
+        v10,
+        (armyGroup *)a1a,
+        (armyGroup *)a2a,
+        (unsigned int)a4a < 1,
+        a4a,
+        a5,
+        a6,
+        (signed __int64)((double)(v34 + v30) * v29));
       if ( *(_BYTE *)a2 == dword_5305C4 && *(_DWORD *)(a1 + 53) <= 20 )
         *(_DWORD *)(a1 + 53) = 0;
     }
@@ -89463,123 +89706,122 @@ void __stdcall philAI::HeroInteractionAtTown(int a1, signed int a2, int a3, int 
 // 532CE8: using guessed type int dword_532CE8;
 
 //----- (004B4C50) --------------------------------------------------------
-void __stdcall philAI::RedistributeTroops(int a1, void *a2, int a3, int a4, int a5, int a6, signed int a7)
+void __thiscall philAI::RedistributeTroops(int this, armyGroup *army1, armyGroup *army2, int a3, int a4, int a5, int a6, signed int a7)
 {
   int quantity; // [sp+30h] [bp-24h]@39
-  signed int v8; // [sp+34h] [bp-20h]@21
-  signed int v9; // [sp+3Ch] [bp-18h]@22
-  signed int v10; // [sp+40h] [bp-14h]@10
+  signed int v9; // [sp+34h] [bp-20h]@21
+  signed int v10; // [sp+3Ch] [bp-18h]@22
+  signed int v11; // [sp+40h] [bp-14h]@10
   signed int k; // [sp+44h] [bp-10h]@13
   signed int i; // [sp+48h] [bp-Ch]@4
   signed int j; // [sp+48h] [bp-Ch]@10
   signed int l; // [sp+48h] [bp-Ch]@24
-  signed int v15; // [sp+4Ch] [bp-8h]@1
-  signed int v16; // [sp+50h] [bp-4h]@0
+  signed int v16; // [sp+4Ch] [bp-8h]@1
+  signed int v17; // [sp+50h] [bp-4h]@0
 
-  v15 = 1;
+  v16 = 1;
   gbTroopReload = 0;
-  while ( v15 )
+  while ( v16 )
   {
     if ( a3 )
     {
-      v16 = 0;
+      v17 = 0;
       for ( i = 0; i < 5; ++i )
       {
-        if ( *(_BYTE *)(i + a1) != -1 )
-          v16 += *(_WORD *)(a1 + 2 * i + 5);
+        if ( army1->creatureTypes[i] != -1 )
+          v17 += army1->quantities[i];
       }
-      if ( v16 <= 1 )
+      if ( v17 <= 1 )
         break;
     }
-    v10 = -1;
+    v11 = -1;
     for ( j = 0; j < 5; ++j )
     {
-      if ( v10 == -1 )
+      if ( v11 == -1 )
       {
         for ( k = 0; k < 5; ++k )
         {
-          if ( *(_BYTE *)(j + a1) != -1 && *((_BYTE *)a2 + k) == *(_BYTE *)(j + a1) )
+          if ( army1->creatureTypes[j] != -1 && army2->creatureTypes[k] == army1->creatureTypes[j] )
           {
-            v10 = j;
+            v11 = j;
             break;
           }
         }
       }
     }
-    if ( v10 == -1 )
+    if ( v11 == -1 )
     {
-      v8 = -9999;
+      v9 = -9999;
       if ( a4 )
-        v9 = 1;
+        v10 = 1;
       else
-        v9 = 9;
+        v10 = 9;
       for ( l = 0; l < 5; ++l )
       {
-        if ( *(_BYTE *)(l + a1) != -1 )
+        if ( army1->creatureTypes[l] != -1 )
         {
-          if ( (!a4 || gMonsterDatabase[*(_BYTE *)(l + a1)].speed <= v9)
-            && (a4 || gMonsterDatabase[*(_BYTE *)(l + a1)].speed >= v9) )
+          if ( (!a4 || gMonsterDatabase[army1->creatureTypes[l]].speed <= v10)
+            && (a4 || gMonsterDatabase[army1->creatureTypes[l]].speed >= v10) )
           {
-            if ( gMonsterDatabase[*(_BYTE *)(l + a1)].speed == v9
-              && *(_WORD *)(a1 + 2 * l + 5) * gMonsterDatabase[*(_BYTE *)(l + a1)].fight_value > v8 )
+            if ( gMonsterDatabase[army1->creatureTypes[l]].speed == v10
+              && army1->quantities[l] * gMonsterDatabase[army1->creatureTypes[l]].fight_value > v9 )
             {
-              v8 = *(_WORD *)(a1 + 2 * l + 5) * gMonsterDatabase[*(_BYTE *)(l + a1)].fight_value;
-              v10 = l;
+              v9 = army1->quantities[l] * gMonsterDatabase[army1->creatureTypes[l]].fight_value;
+              v11 = l;
             }
           }
           else
           {
-            v9 = gMonsterDatabase[*(_BYTE *)(l + a1)].speed;
-            v8 = *(_WORD *)(a1 + 2 * l + 5) * gMonsterDatabase[*(_BYTE *)(l + a1)].fight_value;
-            v10 = l;
+            v10 = gMonsterDatabase[army1->creatureTypes[l]].speed;
+            v9 = army1->quantities[l] * gMonsterDatabase[army1->creatureTypes[l]].fight_value;
+            v11 = l;
           }
         }
       }
     }
-    if ( v10 == -1 )
+    if ( v11 == -1 )
     {
-      v15 = 0;
+      v16 = 0;
     }
-    else if ( armyGroup::CanJoin((armyGroup *)a2, *(_BYTE *)(v10 + a1)) )
+    else if ( armyGroup::CanJoin(army2, army1->creatureTypes[v11]) )
     {
-      quantity = (signed __int64)((double)a7 / (double)gMonsterDatabase[*(_BYTE *)(v10 + a1)].fight_value + 0.5);
+      quantity = (signed __int64)((double)a7 / (double)gMonsterDatabase[army1->creatureTypes[v11]].fight_value + 0.5);
       if ( quantity <= 0 )
       {
-        v15 = 0;
+        v16 = 0;
       }
       else
       {
-        if ( *(_WORD *)(a1 + 2 * v10 + 5) >= quantity )
+        if ( army1->quantities[v11] >= quantity )
         {
-          v15 = 0;
-          if ( ((double)quantity >= (double)*(_WORD *)(a1 + 2 * v10 + 5) * 0.65
-             || *(_WORD *)(a1 + 2 * v10 + 5) - 1 <= quantity)
-            && (double)(((signed int)*(_WORD *)(a1 + 2 * v10 + 5) - quantity)
-                      * gMonsterDatabase[*(_BYTE *)(v10 + a1)].fight_value) < (double)(a5 - a7) * 0.2 )
-            quantity = *(_WORD *)(a1 + 2 * v10 + 5);
+          v16 = 0;
+          if ( ((double)quantity >= (double)army1->quantities[v11] * 0.65 || army1->quantities[v11] - 1 <= quantity)
+            && (double)(((signed int)army1->quantities[v11] - quantity)
+                      * gMonsterDatabase[army1->creatureTypes[v11]].fight_value) < (double)(a5 - a7) * 0.2 )
+            quantity = army1->quantities[v11];
         }
         else
         {
-          quantity = *(_WORD *)(a1 + 2 * v10 + 5);
+          quantity = army1->quantities[v11];
         }
-        if ( a3 && v16 <= quantity )
+        if ( a3 && v17 <= quantity )
         {
-          quantity = v16 - 1;
-          v15 = 0;
+          quantity = v17 - 1;
+          v16 = 0;
         }
-        if ( (double)a7 >= (double)(quantity * gMonsterDatabase[*(_BYTE *)(v10 + a1)].fight_value) * 1.2 )
-          a7 -= quantity * gMonsterDatabase[*(_BYTE *)(a1 + v10)].fight_value;
+        if ( (double)a7 >= (double)(quantity * gMonsterDatabase[army1->creatureTypes[v11]].fight_value) * 1.2 )
+          a7 -= quantity * gMonsterDatabase[army1->creatureTypes[v11]].fight_value;
         else
-          v15 = 0;
-        armyGroup::Add((armyGroup *)a2, *(_BYTE *)(v10 + a1), quantity, -1);
-        *(_WORD *)(a1 + 2 * v10 + 5) -= quantity;
-        if ( !*(_WORD *)(a1 + 2 * v10 + 5) )
-          *(_BYTE *)(v10 + a1) = -1;
+          v16 = 0;
+        armyGroup::Add(army2, army1->creatureTypes[v11], quantity, -1);
+        army1->quantities[v11] -= quantity;
+        if ( !army1->quantities[v11] )
+          army1->creatureTypes[v11] = -1;
       }
     }
     else
     {
-      v15 = 0;
+      v16 = 0;
     }
   }
 }
@@ -89720,14 +89962,16 @@ void __stdcall philAI::BuildBuilding(signed int a1, signed int a2)
 // 4B5390: using guessed type int var_1C[7];
 
 //----- (004B5470) --------------------------------------------------------
-void __stdcall philAI::BuildHero(signed int a1, int a2)
+void __thiscall philAI::BuildHero(void *this, signed int a1, int a2)
 {
-  int v2; // ST30_4@3
-  int v3; // ST2C_4@3
-  int v4; // ST34_4@3
-  mapCell *v5; // ST24_4@3
-  char v6; // al@3
+  int v3; // ST30_4@3
+  int v4; // ST2C_4@3
+  int v5; // ST34_4@3
+  mapCell *v6; // ST24_4@3
+  char v7; // al@3
+  void *v8; // [sp+Ch] [bp-18h]@1
 
+  v8 = this;
   sprintf(gText, "Player %d built hero in town %d.\n", giCurPlayer, *(_BYTE *)a1);
   LogStr(gText);
   if ( giDebugLevel >= 3 )
@@ -89737,36 +89981,36 @@ void __stdcall philAI::BuildHero(signed int a1, int a2)
   }
   gpCurPlayer->resources[6] -= gHeroGoldCost;
   gpCurPlayer->heroesOwned[gpCurPlayer->numHeroes++] = gpCurPlayer->heroesForPurchase[a2];
-  v2 = *(_BYTE *)(a1 + 4);
-  v3 = *(_BYTE *)(a1 + 5);
-  v4 = (int)&gpGame->heroes[gpCurPlayer->heroesForPurchase[a2]];
+  v3 = *(_BYTE *)(a1 + 4);
+  v4 = *(_BYTE *)(a1 + 5);
+  v5 = (int)&gpGame->heroes[gpCurPlayer->heroesForPurchase[a2]];
   game::SetRandomHeroArmies(gpGame, gpGame->heroes[gpCurPlayer->heroesForPurchase[a2]].idx, 1u);
-  *(_WORD *)(v4 + 4) = -99;
-  *(_WORD *)(v4 + 7) = -99;
-  *(_BYTE *)(v4 + 3) = giCurPlayer;
-  *(_DWORD *)(v4 + 25) = v2;
-  *(_DWORD *)(v4 + 29) = v3;
-  *(_DWORD *)(v4 + 227) = 0;
-  *(_BYTE *)(v4 + 44) = 2;
-  *(_DWORD *)(v4 + 53) = hero::CalcMobility((hero *)v4);
-  *(_DWORD *)(v4 + 49) = *(_DWORD *)(v4 + 53);
-  *(_WORD *)(v4 + 45) = *(&gpGame->map.tiles[v2].objType + 12 * v3 * gpGame->map.width);
-  *(_WORD *)(v4 + 47) = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[v2].field_4_1_1_isShadow_1_13_extraInfo
-                                                            + 6 * v3 * gpGame->map.width) >> 8) >> -5);
-  *(&gpGame->map.tiles[v2].objType + 12 * v3 * gpGame->map.width) = -86;
-  v5 = &gpGame->map.tiles[v3 * gpGame->map.width] + v2;
-  v5->field_4_1_1_isShadow_1_13_extraInfo = v5->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
+  *(_WORD *)(v5 + 4) = -99;
+  *(_WORD *)(v5 + 7) = -99;
+  *(_BYTE *)(v5 + 3) = giCurPlayer;
+  *(_DWORD *)(v5 + 25) = v3;
+  *(_DWORD *)(v5 + 29) = v4;
+  *(_DWORD *)(v5 + 227) = 0;
+  *(_BYTE *)(v5 + 44) = 2;
+  *(_DWORD *)(v5 + 53) = hero::CalcMobility((hero *)v5);
+  *(_DWORD *)(v5 + 49) = *(_DWORD *)(v5 + 53);
+  *(_WORD *)(v5 + 45) = *(&gpGame->map.tiles[v3].objType + 12 * v4 * gpGame->map.width);
+  *(_WORD *)(v5 + 47) = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[v3].field_4_1_1_isShadow_1_13_extraInfo
+                                                            + 6 * v4 * gpGame->map.width) >> 8) >> -5);
+  *(&gpGame->map.tiles[v3].objType + 12 * v4 * gpGame->map.width) = -86;
+  v6 = &gpGame->map.tiles[v4 * gpGame->map.width] + v3;
+  v6->field_4_1_1_isShadow_1_13_extraInfo = v6->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
                                                                                         * gpCurPlayer->heroesForPurchase[a2];
-  gpGame->relatedToHeroForHireStatus[*(_BYTE *)(v4 + 2)] = *(_BYTE *)(a1 + 1);
+  gpGame->relatedToHeroForHireStatus[*(_BYTE *)(v5 + 2)] = *(_BYTE *)(a1 + 1);
   CheckValidAvailableHeroes();
-  SendMapChange(3, *(_BYTE *)(v4 + 2), *(_DWORD *)(v4 + 25), *(_DWORD *)(v4 + 29), -999, 0, 0);
-  *(_BYTE *)(a1 + 23) = *(_BYTE *)(v4 + 2);
+  SendMapChange(3, *(_BYTE *)(v5 + 2), *(_DWORD *)(v5 + 25), *(_DWORD *)(v5 + 29), -999, 0, 0);
+  *(_BYTE *)(a1 + 23) = *(_BYTE *)(v5 + 2);
   town::GiveSpells((town *)a1, 0);
-  v6 = game::GetNewHeroId(gpGame, giCurPlayer, -1, 1);
-  gpCurPlayer->heroesForPurchase[a2] = v6;
+  v7 = game::GetNewHeroId(gpGame, giCurPlayer, -1, 1);
+  gpCurPlayer->heroesForPurchase[a2] = v7;
   gpGame->relatedToHeroForHireStatus[gpCurPlayer->heroesForPurchase[a2]] = 64;
   bHeroBuiltThisTurn = 1;
-  philAI::HeroInteractionAtTown(v4, a1, 0, (int)&unk_5305C8);
+  philAI::HeroInteractionAtTown(v8, v5, a1, 0, (int)&unk_5305C8);
   ShowStatus();
 }
 // 4F1DA8: using guessed type int gHeroGoldCost;
@@ -89791,7 +90035,7 @@ void __stdcall philAI::BuildCreature(int a1, int a2, int a3)
   float v15; // [sp+48h] [bp-4h]@9
 
   v3 = *(_BYTE *)a1;
-  v4 = GetMonsterName(gDwellingType[*(_BYTE *)(a1 + 3)][a2]);
+  v4 = GetMonsterName(*((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(a1 + 3)] + a2));
   sprintf(gText, "Player %d built %d %s in town %d.\n", giCurPlayer, a3, v4, v3);
   LogStr(gText);
   if ( giDebugLevel >= 3 )
@@ -89799,7 +90043,7 @@ void __stdcall philAI::BuildCreature(int a1, int a2, int a3)
     AiPrint(gText);
     DelayMilli(1500);
   }
-  creatureType = gDwellingType[*(_BYTE *)(a1 + 3)][a2];
+  creatureType = *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(a1 + 3)] + a2);
   v7 = 0;
   for ( i = 0; i < 5; ++i )
   {
@@ -89864,7 +90108,7 @@ signed int __stdcall philAI::CanBuyBHC(int a1)
     return 0;
   if ( (signed int)*(_WORD *)(*(_DWORD *)a1 + 2 * *(_DWORD *)(a1 + 8) + 30) >= *(_DWORD *)(a1 + 12) )
   {
-    GetMonsterCost(gDwellingType[*(_BYTE *)(*(_DWORD *)a1 + 3)][*(_DWORD *)(a1 + 8)], arr);
+    GetMonsterCost(*((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(*(_DWORD *)a1 + 3)] + *(_DWORD *)(a1 + 8)), arr);
     for ( i = 0; i < 7; ++i )
     {
       if ( *(_DWORD *)(a1 + 12) * arr[i] > gpCurPlayer->resources[i] )
@@ -90189,14 +90433,16 @@ playerData *__cdecl philAI::IncrementHourGlass()
 // 532C58: using guessed type int bHeroBuiltThisTurn;
 
 //----- (004B6560) --------------------------------------------------------
-void __stdcall philAI::TownEvent(int a1, int a2, __int64 a3)
+void __thiscall philAI::TownEvent(void *ecx0, int a1, int a2, __int64 a3)
 {
-  int v3; // [sp+10h] [bp-1Ch]@7
-  char v4; // [sp+1Ch] [bp-10h]@5
-  char v5; // [sp+20h] [bp-Ch]@5
+  void *v4; // [sp+Ch] [bp-20h]@1
+  int v5; // [sp+10h] [bp-1Ch]@7
+  char v6; // [sp+1Ch] [bp-10h]@5
+  char v7; // [sp+20h] [bp-Ch]@5
   void *this; // [sp+24h] [bp-8h]@1
-  int v7; // [sp+28h] [bp-4h]@5
+  int v9; // [sp+28h] [bp-4h]@5
 
+  v4 = ecx0;
   this = &gpGame->castles[(unsigned __int8)((unsigned __int8)(*(_WORD *)(a1 + 4) >> 8) >> -5)];
   advManager::DemobilizeCurrHero(gpAdvManager);
   if ( *((_BYTE *)this + 1) != giCurPlayer )
@@ -90206,16 +90452,16 @@ void __stdcall philAI::TownEvent(int a1, int a2, __int64 a3)
       if ( (signed int)*((_BYTE *)this + 1) >= 0 && gbHumanPlayer[*((_BYTE *)this + 1)] )
       {
         if ( *((_BYTE *)this + 23) == -1 )
-          v3 = 0;
+          v5 = 0;
         else
-          v3 = (int)&gpGame->heroes[*((_BYTE *)this + 23)];
+          v5 = (int)&gpGame->heroes[*((_BYTE *)this + 23)];
         if ( !advManager::DoCombat(
                 gpAdvManager,
                 a3,
                 a2,
                 (const void *)(a2 + 101),
                 (int)this,
-                v3,
+                v5,
                 (char *)this + 8,
                 a3,
                 SBYTE4(a3),
@@ -90228,14 +90474,14 @@ void __stdcall philAI::TownEvent(int a1, int a2, __int64 a3)
       }
       else
       {
-        v7 = philAI::QuickCombat(
+        v9 = philAI::QuickCombat(
                a2 + 101,
                a2,
                (unsigned int)((char *)this + 8),
                1,
                *(_BYTE *)this,
-               (float *)&v5,
-               (float *)&v4);
+               (float *)&v7,
+               (float *)&v6);
       }
     }
     else
@@ -90248,7 +90494,7 @@ void __stdcall philAI::TownEvent(int a1, int a2, __int64 a3)
     *((_BYTE *)this + 23) = gpCurPlayer->curHeroIdx;
     *(_WORD *)(a2 + 45) = 163;
     *(_WORD *)(a2 + 47) = *(_BYTE *)this;
-    philAI::HeroInteractionAtTown(a2, (signed int)this, 0, (int)&unk_5305C8);
+    philAI::HeroInteractionAtTown(v4, a2, (signed int)this, 0, (int)&unk_5305C8);
   }
   advManager::MobilizeCurrHero(gpAdvManager, 0);
   town::GiveSpells((town *)this, 0);
@@ -90379,7 +90625,7 @@ int __thiscall philAI::ValueOfEventAtPosition(void *this, __int64 a1, int a2, in
   signed int v12; // ebx@216
   int v13; // ebx@216
   signed int v14; // [sp+44h] [bp-E4h]@69
-  int v15; // [sp+50h] [bp-D8h]@1
+  void *v15; // [sp+50h] [bp-D8h]@1
   float v16; // [sp+54h] [bp-D4h]@144
   float v17; // [sp+58h] [bp-D0h]@146
   float v18; // [sp+5Ch] [bp-CCh]@58
@@ -90405,7 +90651,7 @@ int __thiscall philAI::ValueOfEventAtPosition(void *this, __int64 a1, int a2, in
   int v38; // [sp+114h] [bp-14h]@148
   unsigned int v39; // [sp+124h] [bp-4h]@106
 
-  v15 = (int)this;
+  v15 = this;
   if ( a2 || *((_WORD *)gaiHeroEventStratRVOfPos + a1 + HIDWORD(a1) * MAP_WIDTH) == -32001 )
   {
     gbReduceByReload = 1;
@@ -90441,6 +90687,7 @@ int __thiscall philAI::ValueOfEventAtPosition(void *this, __int64 a1, int a2, in
             break;
           case LOCATION_HERO:
             v33 = philAI::EvaluateHeroEvent(
+                    v15,
                     (unsigned __int8)((unsigned __int8)(*(_WORD *)(v34 + 4) >> 8) >> -5),
                     a1,
                     SHIDWORD(a1),
@@ -90449,6 +90696,7 @@ int __thiscall philAI::ValueOfEventAtPosition(void *this, __int64 a1, int a2, in
             break;
           case LOCATION_TOWN:
             v33 = philAI::EvaluateTownEvent(
+                    v15,
                     (unsigned __int8)((unsigned __int8)(*(_WORD *)(v34 + 4) >> 8) >> -5),
                     a1,
                     SHIDWORD(a1),
@@ -90844,7 +91092,14 @@ LABEL_131:
                       v9 = abs(a1 - j);
                       if ( abs(HIDWORD(a1) - row) + v9 > 3 )
                       {
-                        v26 = (signed __int64)((double)philAI::StrategicValueOfPosition(v15, j, row, 0, 0, &v21, 700)
+                        v26 = (signed __int64)((double)philAI::StrategicValueOfPosition(
+                                                         (int)v15,
+                                                         j,
+                                                         row,
+                                                         0,
+                                                         0,
+                                                         &v21,
+                                                         700)
                                              * 0.85);
                         if ( v26 > v22 )
                         {
@@ -90857,7 +91112,7 @@ LABEL_131:
                   }
                 }
               }
-              v20 = philAI::StrategicValueOfPosition(v15, gpCurAIHero->x, gpCurAIHero->y, 0, 0, &v21, 500);
+              v20 = philAI::StrategicValueOfPosition((int)v15, gpCurAIHero->x, gpCurAIHero->y, 0, 0, &v21, 500);
               if ( v20 + 200 >= v22 )
               {
                 if ( a2 )
@@ -91237,18 +91492,18 @@ bool __fastcall OnMySide(int a1)
 {
   return a1 != -1
       && (giCurPlayer == a1
-       || gbInCampaign && !gpGame->field_2 && gpGame->field_4 == 9 && a1
-       || gbInCampaign && gpGame->field_2 == 1 && gpGame->field_4 == 10 && a1
+       || gbInCampaign && !gpGame->relatedToCurViewSideOrCampaign && gpGame->relatedToCampaignMap == 9 && a1
+       || gbInCampaign && gpGame->relatedToCurViewSideOrCampaign == 1 && gpGame->relatedToCampaignMap == 10 && a1
        || gpGame->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
-       && (gpGame->mapHeader.winConditionArgument == 99 && a1
-        || gpGame->mapHeader.winConditionArgument != 99
-        && (gpGame->players[giCurPlayer].color < (signed int)HIWORD(gpGame->mapHeader.field_2E)
-         && gpGame->players[a1].color < (signed int)HIWORD(gpGame->mapHeader.field_2E)
-         || gpGame->players[giCurPlayer].color >= (signed int)HIWORD(gpGame->mapHeader.field_2E)
-         && gpGame->players[a1].color >= (signed int)HIWORD(gpGame->mapHeader.field_2E)))
+       && (gpGame->mapHeader.winConditionArgumentOrLocX == 99 && a1
+        || gpGame->mapHeader.winConditionArgumentOrLocX != 99
+        && (gpGame->players[giCurPlayer].color < (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)
+         && gpGame->players[a1].color < (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)
+         || gpGame->players[giCurPlayer].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)
+         && gpGame->players[a1].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)))
        || gbInCampaign
-       && !gpGame->field_2
-       && gpGame->field_4 == 8
+       && !gpGame->relatedToCurViewSideOrCampaign
+       && gpGame->relatedToCampaignMap == 8
        && gpGame->players[a1].color
        && gpGame->players[a1].color != 3);
 }
@@ -91539,37 +91794,37 @@ int __stdcall philAI::EvaluateMonsterEvent(int creat, __int16 a2, int a3)
 // 532CD4: using guessed type int gbReduceByReload;
 
 //----- (004B9820) --------------------------------------------------------
-int __stdcall philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int a5)
+int __thiscall philAI::EvaluateHeroEvent(void *this, int a1, int a2, int a3, int a4, int a5)
 {
-  __int64 v5; // ST08_8@29
-  float v7; // [sp+2Ch] [bp-34h]@24
-  int v8; // [sp+30h] [bp-30h]@22
-  int v9; // [sp+34h] [bp-2Ch]@21
-  char *v10; // [sp+38h] [bp-28h]@21
+  __int64 v6; // ST08_8@29
+  float v8; // [sp+2Ch] [bp-34h]@24
+  int v9; // [sp+30h] [bp-30h]@22
+  int v10; // [sp+34h] [bp-2Ch]@21
+  char *v11; // [sp+38h] [bp-28h]@21
   char *twn; // [sp+3Ch] [bp-24h]@22
-  signed int v12; // [sp+40h] [bp-20h]@21
-  char v13; // [sp+44h] [bp-1Ch]@29
-  char v14; // [sp+48h] [bp-18h]@29
-  char v15; // [sp+4Ch] [bp-14h]@29
-  char v16; // [sp+50h] [bp-10h]@29
-  float v17; // [sp+54h] [bp-Ch]@29
-  int v18; // [sp+58h] [bp-8h]@3
+  signed int v13; // [sp+40h] [bp-20h]@21
+  char v14; // [sp+44h] [bp-1Ch]@29
+  char v15; // [sp+48h] [bp-18h]@29
+  char v16; // [sp+4Ch] [bp-14h]@29
+  char v17; // [sp+50h] [bp-10h]@29
+  float v18; // [sp+54h] [bp-Ch]@29
+  int v19; // [sp+58h] [bp-8h]@3
 
   if ( gpGame->relatedToHeroForHireStatus[a1] == gpCurAIHero->ownerIdx )
   {
     if ( a4 )
     {
       if ( a4 == 1 )
-        v18 = -20000;
+        v19 = -20000;
       else
-        v18 = -500;
+        v19 = -500;
     }
     else
     {
-      v18 = 0;
+      v19 = 0;
     }
     if ( giCurTurn - *(_WORD *)&gpCurAIHero->field_4 >= 4 || gpGame->heroes[a1].idx != gpCurAIHero->field_6 )
-      philAI::HeroInteractionAtHero((int)gpCurAIHero, (int)&gpGame->heroes[a1], 1, (int)&v18);
+      philAI::HeroInteractionAtHero(this, (int)gpCurAIHero, (int)&gpGame->heroes[a1], 1, (int)&v19);
     gaiHeroLiveChance[a1] = 100;
   }
   else if ( OnMySide(gpGame->relatedToHeroForHireStatus[a1]) )
@@ -91577,92 +91832,92 @@ int __stdcall philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int a5)
     if ( a4 )
     {
       if ( a4 == 1 )
-        v18 = -20000;
+        v19 = -20000;
       else
-        v18 = -1500;
+        v19 = -1500;
     }
     else
     {
-      v18 = 0;
+      v19 = 0;
     }
   }
   else if ( !*(_DWORD *)&gbIAmGreatest || gbHumanPlayer[gpGame->relatedToHeroForHireStatus[a1]] )
   {
-    v18 = 0;
-    v12 = 0;
-    v9 = 0;
-    v10 = (char *)&gpGame->heroes[a1];
+    v19 = 0;
+    v13 = 0;
+    v10 = 0;
+    v11 = (char *)&gpGame->heroes[a1];
     if ( gpGame->heroes[a1].occupiedObjType == 163 )
     {
       twn = (char *)&gpGame->castles[gpGame->heroes[a1].occupiedObjVal];
-      v9 = (int)&gpGame->castles[gpGame->heroes[a1].occupiedObjVal].garrison;
-      v12 = philAI::ValueOfTown(&gpGame->castles[gpGame->heroes[a1].occupiedObjVal]);
-      v8 = *twn;
+      v10 = (int)&gpGame->castles[gpGame->heroes[a1].occupiedObjVal].garrison;
+      v13 = philAI::ValueOfTown(&gpGame->castles[gpGame->heroes[a1].occupiedObjVal]);
+      v9 = *twn;
       if ( twn[1] >= 0 )
       {
         if ( gbHumanPlayer[twn[1]] )
-          v7 = *(float *)&gfAttackHumanBonus;
+          v8 = *(float *)&gfAttackHumanBonus;
         else
-          v7 = *(float *)&gfAttackComputerBonus;
-        v12 = (signed __int64)(((double)(5 - (signed int)gpGame->numPlayers) * 0.25 * v7 + 1.0) * (double)v12);
+          v8 = *(float *)&gfAttackComputerBonus;
+        v13 = (signed __int64)(((double)(5 - (signed int)gpGame->numPlayers) * 0.25 * v8 + 1.0) * (double)v13);
       }
     }
     else
     {
-      v8 = -1;
+      v9 = -1;
     }
-    HIDWORD(v5) = v10;
-    LODWORD(v5) = v10 + 101;
+    HIDWORD(v6) = v11;
+    LODWORD(v6) = v11 + 101;
     philAI::ProbableOutcomeOfBattle(
       (int)&gpCurAIHero->army,
       (int)gpCurAIHero,
-      v5,
+      v6,
+      v10,
+      (unsigned int)v10 >= 1,
       v9,
-      (unsigned int)v9 >= 1,
-      v8,
-      v10[3],
+      v11[3],
+      (int)&v18,
       (int)&v17,
-      (int)&v16,
+      (int *)&v16,
       (int *)&v15,
       (int *)&v14,
-      (int *)&v13,
-      &v18);
-    *(_DWORD *)a5 = (signed __int64)(v17 * 100.0);
-    if ( v12 > 0 )
-      v18 = (signed __int64)((double)v12 * v17 + (double)v18);
-    if ( gbHumanPlayer[v10[3]] && v18 > 200 )
+      &v19);
+    *(_DWORD *)a5 = (signed __int64)(v18 * 100.0);
+    if ( v13 > 0 )
+      v19 = (signed __int64)((double)v13 * v18 + (double)v19);
+    if ( gbHumanPlayer[v11[3]] && v19 > 200 )
     {
       if ( gpCurPlayer->personality )
-        v18 = (signed __int64)((double)v18 * 1.5);
+        v19 = (signed __int64)((double)v19 * 1.5);
       else
-        v18 *= 2;
+        v19 *= 2;
     }
-    if ( v17 <= 0.75 )
+    if ( v18 <= 0.75 )
     {
-      if ( v17 <= 0.5 )
+      if ( v18 <= 0.5 )
       {
-        if ( v17 <= 0.4 )
+        if ( v18 <= 0.4 )
         {
-          if ( v17 <= 0.3 )
+          if ( v18 <= 0.3 )
           {
-            if ( v17 <= 0.2 )
-              gaiHeroLiveChance[a1] = (signed __int64)(v17 * 100.0);
+            if ( v18 <= 0.2 )
+              gaiHeroLiveChance[a1] = (signed __int64)(v18 * 100.0);
             else
-              gaiHeroLiveChance[a1] = (signed __int64)(v17 * 113.0);
+              gaiHeroLiveChance[a1] = (signed __int64)(v18 * 113.0);
           }
           else
           {
-            gaiHeroLiveChance[a1] = (signed __int64)(v17 * 125.0);
+            gaiHeroLiveChance[a1] = (signed __int64)(v18 * 125.0);
           }
         }
         else
         {
-          gaiHeroLiveChance[a1] = (signed __int64)(v17 * 130.0);
+          gaiHeroLiveChance[a1] = (signed __int64)(v18 * 130.0);
         }
       }
       else
       {
-        gaiHeroLiveChance[a1] = (signed __int64)(v17 * 136.0);
+        gaiHeroLiveChance[a1] = (signed __int64)(v18 * 136.0);
       }
     }
     else
@@ -91671,24 +91926,24 @@ int __stdcall philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int a5)
     }
     if ( gaiHeroLiveChance[a1] > 100 )
       gaiHeroLiveChance[a1] = 100;
-    if ( !a4 && v17 < 0.4 )
-      v18 = (signed __int64)((3.0 - v17 * 2.0) * (double)v18);
-    if ( !a4 && v17 < 0.2 )
-      v18 = (signed __int64)((2.0 - v17 * 2.0) * (double)v18);
-    if ( v18 < 0 )
+    if ( !a4 && v18 < 0.4 )
+      v19 = (signed __int64)((3.0 - v18 * 2.0) * (double)v19);
+    if ( !a4 && v18 < 0.2 )
+      v19 = (signed __int64)((2.0 - v18 * 2.0) * (double)v19);
+    if ( v19 < 0 )
       gbReduceByReload = 0;
     gbReduceByBerserk = 0;
-    if ( v18 > 0
+    if ( v19 > 0
       && 70 - 5 * gpGame->difficulty > giCurTurn
       && !(unsigned __int8)(*(&mapRevealed[a2] + a3 * MAP_WIDTH) & giCurPlayerBit) )
-      v18 = 0;
+      v19 = 0;
   }
   else
   {
-    v18 = 0;
+    v19 = 0;
     *(_DWORD *)a5 = 100;
   }
-  return v18;
+  return v19;
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 51D5C0: using guessed type int gfAttackHumanBonus;
@@ -91700,49 +91955,49 @@ int __stdcall philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int a5)
 // 532CD4: using guessed type int gbReduceByReload;
 
 //----- (004B9DD0) --------------------------------------------------------
-int __stdcall philAI::EvaluateTownEvent(int a1, int a2, int a3, int a4, int a5)
+int __thiscall philAI::EvaluateTownEvent(void *ecx0, int a1, int a2, int a3, int a4, int a5)
 {
-  __int64 v5; // ST08_8@25
-  float v7; // [sp+2Ch] [bp-28h]@31
-  signed int v8; // [sp+30h] [bp-24h]@24
-  char v9; // [sp+34h] [bp-20h]@25
-  char v10; // [sp+38h] [bp-1Ch]@25
-  char v11; // [sp+3Ch] [bp-18h]@25
-  char v12; // [sp+40h] [bp-14h]@25
-  float v13; // [sp+44h] [bp-10h]@25
-  int v14; // [sp+48h] [bp-Ch]@1
+  __int64 v6; // ST08_8@25
+  float v8; // [sp+2Ch] [bp-28h]@31
+  signed int v9; // [sp+30h] [bp-24h]@24
+  char v10; // [sp+34h] [bp-20h]@25
+  char v11; // [sp+38h] [bp-1Ch]@25
+  char v12; // [sp+3Ch] [bp-18h]@25
+  char v13; // [sp+40h] [bp-14h]@25
+  float v14; // [sp+44h] [bp-10h]@25
+  int v15; // [sp+48h] [bp-Ch]@1
   town *this; // [sp+4Ch] [bp-8h]@1
-  int v16; // [sp+50h] [bp-4h]@25
+  int v17; // [sp+50h] [bp-4h]@25
 
-  v14 = 0;
+  v15 = 0;
   this = &gpGame->castles[a1];
   if ( gpGame->field_2773[a1] == gpCurAIHero->ownerIdx )
   {
     if ( this->visitingHeroIdx == -1 )
     {
-      v14 = 0;
+      v15 = 0;
       if ( giCurTurn - *(_WORD *)&gpCurAIHero->field_7 >= 4 || gpCurAIHero->field_9 != this->idx )
       {
-        philAI::HeroInteractionAtTown((int)gpCurAIHero, (signed int)this, 1, (int)&v14);
-        v14 = (signed __int64)((double)v14 * *(float *)&dword_5304E8[gpCurAIHero->idx]);
+        philAI::HeroInteractionAtTown(ecx0, (int)gpCurAIHero, (signed int)this, 1, (int)&v15);
+        v15 = (signed __int64)((double)v15 * *(float *)&dword_5304E8[gpCurAIHero->idx]);
       }
     }
     else if ( a4 )
     {
-      v14 = -500;
+      v15 = -500;
     }
     else
     {
-      v14 = 0;
+      v15 = 0;
     }
     gbReduceByReload = 0;
   }
   else if ( OnMySide(gpGame->field_2773[a1]) )
   {
     if ( a4 )
-      v14 = -1500;
+      v15 = -1500;
     else
-      v14 = 0;
+      v15 = 0;
   }
   else if ( !*(_DWORD *)&gbIAmGreatest || gpGame->field_2773[a1] < 0 || gbHumanPlayer[gpGame->field_2773[a1]] )
   {
@@ -91750,7 +92005,7 @@ int __stdcall philAI::EvaluateTownEvent(int a1, int a2, int a3, int a4, int a5)
       || 40 - 8 * gpGame->difficulty <= giCurTurn
       || (unsigned __int8)(*(&mapRevealed[a2] + a3 * MAP_WIDTH) & giCurPlayerBit) )
     {
-      v8 = philAI::ValueOfTown(this);
+      v9 = philAI::ValueOfTown(this);
       if ( gpGame->castles[a1].visitingHeroIdx == -1 )
       {
         if ( town::HasGarrison(this) )
@@ -91763,68 +92018,68 @@ int __stdcall philAI::EvaluateTownEvent(int a1, int a2, int a3, int a4, int a5)
             1,
             a1,
             this->ownerIdx,
+            (int)&v14,
             (int)&v13,
-            (int)&v12,
+            (int *)&v12,
             (int *)&v11,
             (int *)&v10,
-            (int *)&v9,
-            &v16);
+            &v17);
         }
         else
         {
-          v13 = 1.0;
-          v16 = 0;
+          v14 = 1.0;
+          v17 = 0;
         }
       }
       else
       {
-        HIDWORD(v5) = (char *)gpGame + 250 * this->visitingHeroIdx + 10180;
-        LODWORD(v5) = (char *)gpGame + 250 * this->visitingHeroIdx + 10281;
+        HIDWORD(v6) = (char *)gpGame + 250 * this->visitingHeroIdx + 10180;
+        LODWORD(v6) = (char *)gpGame + 250 * this->visitingHeroIdx + 10281;
         philAI::ProbableOutcomeOfBattle(
           (int)&gpCurAIHero->army,
           (int)gpCurAIHero,
-          v5,
+          v6,
           (int)&this->garrison,
           1,
           a1,
           this->ownerIdx,
+          (int)&v14,
           (int)&v13,
-          (int)&v12,
+          (int *)&v12,
           (int *)&v11,
           (int *)&v10,
-          (int *)&v9,
-          &v16);
+          &v17);
       }
-      *(_DWORD *)a5 = (signed __int64)(v13 * 100.0);
+      *(_DWORD *)a5 = (signed __int64)(v14 * 100.0);
       if ( this->ownerIdx >= 0 )
       {
         if ( gbHumanPlayer[this->ownerIdx] )
-          v7 = *(float *)&gfAttackHumanBonus;
+          v8 = *(float *)&gfAttackHumanBonus;
         else
-          v7 = *(float *)&gfAttackComputerBonus;
-        v8 = (signed __int64)(((double)(5 - (signed int)gpGame->numPlayers) * 0.25 + 0.9) * v7 * (double)v8);
+          v8 = *(float *)&gfAttackComputerBonus;
+        v9 = (signed __int64)(((double)(5 - (signed int)gpGame->numPlayers) * 0.25 + 0.9) * v8 * (double)v9);
       }
-      v14 = (signed __int64)((double)v8 * v13 + (double)v16);
+      v15 = (signed __int64)((double)v9 * v14 + (double)v17);
       if ( gpGame->field_2773[a1] != -1 )
         gbReduceByBerserk = 0;
     }
     else
     {
-      v14 = 0;
+      v15 = 0;
     }
   }
   else
   {
-    v14 = 0;
+    v15 = 0;
   }
-  if ( this->ownerIdx != -1 && gbHumanPlayer[this->ownerIdx] && v14 > 200 )
+  if ( this->ownerIdx != -1 && gbHumanPlayer[this->ownerIdx] && v15 > 200 )
   {
     if ( gpCurPlayer->personality )
-      v14 = (signed __int64)((double)v14 * 1.3);
+      v15 = (signed __int64)((double)v15 * 1.3);
     else
-      v14 = (signed __int64)((double)v14 * 1.6);
+      v15 = (signed __int64)((double)v15 * 1.6);
   }
-  return v14;
+  return v15;
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 51D5C0: using guessed type int gfAttackHumanBonus;
@@ -95330,7 +95585,7 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6
   *trigY = deltaY + hro->y;
   if ( this->field_27E != a7 )
     advManager::TurnTo((int)this, a7);
-  HIBYTE(hro->field_2B) = a7;
+  HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = a7;
   if ( hro->flags & 0x80 && toCell->objType == 28 )
   {
     for ( i = 0; i < 48 && gpGame->boats[i].field_6 != hro->idx; ++i )
@@ -95687,11 +95942,11 @@ signed int __thiscall advManager::CheckAdjacentMon(void *this, signed int a2)
   a4 = (int)(v2 + 10180);
   a5 = 0;
   result = advManager::FindAdjacentMonster(
-             this,
+             (advManager *)this,
              *(_DWORD *)(v2 + 10205),
              *(_DWORD *)(v2 + 10209),
-             (int)&a8,
-             (int)&row,
+             &a8,
+             &row,
              -1,
              -1);
   if ( result )
@@ -96024,7 +96279,7 @@ void __thiscall advManager::ProcessMapChange(void *ecx0, unsigned int arg0, __in
       gpGame->heroes[SBYTE1(arg0)].x = BYTE2(arg0);
       hro->y = BYTE3(arg0);
       hro->flags = 0;
-      HIBYTE(hro->field_2B) = 2;
+      HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = 2;
       hro->occupiedObjType = *(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].objType + 12 * BYTE2(arg0));
       hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].field_4_1_1_isShadow_1_13_extraInfo
                                                                 + 6 * BYTE2(arg0)) >> 8) >> -5);
@@ -96327,7 +96582,7 @@ void __thiscall combatManager::CheckUpdateCombatMessages(combatManager *this)
 }
 
 //----- (004C3440) --------------------------------------------------------
-void __thiscall combatManager::CombatMessage(combatManager *this, char *message, int a3, int a4, int a5)
+void __thiscall combatManager::CombatMessage(combatManager *this, char *message, int doUpdate, int keepPrevMessage, int a5)
 {
   combatManager *thisa; // [sp+Ch] [bp-1BCh]@1
   char buf[400]; // [sp+10h] [bp-1B8h]@17
@@ -96339,7 +96594,7 @@ void __thiscall combatManager::CombatMessage(combatManager *this, char *message,
   thisa = this;
   if ( gbNoShowCombat )
   {
-    if ( a4 )
+    if ( keepPrevMessage )
       combatManager::NoShowCombatLog(message);
   }
   else if ( this->field_F42F && !this->field_F357 )
@@ -96354,7 +96609,7 @@ void __thiscall combatManager::CombatMessage(combatManager *this, char *message,
     }
     else
     {
-      if ( a4 )
+      if ( keepPrevMessage )
       {
         if ( this->combatMessageRelatedTime )
           strcpy(this->combatMessageRow1, this->combatMessageRow2);
@@ -96411,7 +96666,7 @@ void __thiscall combatManager::CombatMessage(combatManager *this, char *message,
     gbComputeExtent = 0;
     heroWindow::DrawWindow(thisa->window, 0, 10, 13);
     combatManager::SaveCombatBorder();
-    if ( a3 )
+    if ( doUpdate )
       heroWindowManager::UpdateScreenRegion(gpWindowManager, 83, 446, 0x1DAu, 33);
     gbComputeExtent = v9;
     gbLimitToExtent = v10;
@@ -99390,7 +99645,7 @@ int __cdecl SetGameDefaults()
   signed __int64 v11; // qt2@6
 
   v0 = &bMenu + 5;
-  *(_DWORD *)&Data = 1;
+  *(_DWORD *)&giMusicVolume = 1;
   *(_DWORD *)&soundVolume = 1;
   *(_DWORD *)&shouldAutosave = 1;
   *(_DWORD *)&showRoute = 1;
@@ -99472,7 +99727,7 @@ void __cdecl ReadPrefsFromRegistry()
   if ( !RegCreateKeyA(HKEY_LOCAL_MACHINE, &SubKey, &hKey) )
   {
     cbData = 4;
-    if ( RegQueryValueExA(hKey, "Music Volume", 0, &Type, &Data, &cbData) )
+    if ( RegQueryValueExA(hKey, "Music Volume", 0, &Type, &giMusicVolume, &cbData) )
     {
       *(&gConfig + 412) = 0;
       memset(&gConfig, 0, 0x19Cu);
@@ -99487,7 +99742,7 @@ void __cdecl ReadPrefsFromRegistry()
     }
     else
     {
-      RegQueryValueExA(hKey, "Music Volume", 0, &Type, &Data, &cbData);
+      RegQueryValueExA(hKey, "Music Volume", 0, &Type, &giMusicVolume, &cbData);
       RegQueryValueExA(hKey, "Sound Volume", 0, &Type, &soundVolume, &cbData);
       RegQueryValueExA(hKey, "Walk Speed", 0, &Type, &walkSpeed, &cbData);
       RegQueryValueExA(hKey, "Computer Walk Speed", 0, &Type, &gConfig, &cbData);
@@ -99588,7 +99843,7 @@ void __cdecl WritePrefsToRegistry()
   hKey = 0;
   if ( !RegOpenKeyExA(HKEY_LOCAL_MACHINE, &SubKey, 0, 0xF003Fu, &hKey) )
   {
-    RegSetValueExA(hKey, "Music Volume", 0, REG_DWORD, &Data, 4u);
+    RegSetValueExA(hKey, "Music Volume", 0, REG_DWORD, &giMusicVolume, 4u);
     RegSetValueExA(hKey, "Sound Volume", 0, REG_DWORD, &soundVolume, 4u);
     RegSetValueExA(hKey, "Walk Speed", 0, REG_DWORD, &walkSpeed, 4u);
     RegSetValueExA(hKey, "Computer Walk Speed", 0, REG_DWORD, &gConfig, 4u);
@@ -100406,7 +100661,7 @@ void __thiscall soundManager::MIDIShutdown(soundManager *this)
       {
         if ( !gbNoSound )
         {
-          if ( *(_DWORD *)&Data )
+          if ( *(_DWORD *)&giMusicVolume )
           {
             if ( v2 )
             {
@@ -100495,7 +100750,7 @@ void __thiscall soundManager::MIDIPlay(soundManager *this, signed int track)
   char buf[1]; // [sp+Ch] [bp-10h]@40
 
   thisa = this;
-  if ( gbNoSound || !this->usingRedbookRelated || !*(_DWORD *)&Data )
+  if ( gbNoSound || !this->usingRedbookRelated || !*(_DWORD *)&giMusicVolume )
     return;
   LogStr("MP1a");
   seqIdx = track;
@@ -100512,7 +100767,7 @@ void __thiscall soundManager::MIDIPlay(soundManager *this, signed int track)
         {
           if ( !gbNoSound )
           {
-            if ( *(_DWORD *)&Data )
+            if ( *(_DWORD *)&giMusicVolume )
             {
               if ( v4 )
               {
@@ -100561,7 +100816,7 @@ void __thiscall soundManager::MIDIPlay(soundManager *this, signed int track)
       {
         if ( !gbNoSound )
         {
-          if ( *(_DWORD *)&Data )
+          if ( *(_DWORD *)&giMusicVolume )
           {
             if ( v8 )
             {
@@ -100668,7 +100923,7 @@ signed int __thiscall soundManager::MIDIStop(int this)
       {
         if ( !gbNoSound )
         {
-          if ( *(_DWORD *)&Data )
+          if ( *(_DWORD *)&giMusicVolume )
           {
             if ( result )
             {
@@ -100718,7 +100973,7 @@ bool __thiscall soundManager::MIDIIsPlaying(soundManager *this)
   bool result; // eax@6
 
   if ( !gbNoSound
-    && *(_DWORD *)&Data
+    && *(_DWORD *)&giMusicVolume
     && this->usingRedbookRelated
     && CurrentMidiFile != -1
     && (v1 = *(&hSequence + CurrentMidiFile)) != 0 )
