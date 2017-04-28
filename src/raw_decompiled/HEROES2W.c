@@ -29643,7 +29643,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
               HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x) = coordYForRandomHero;
               LOBYTE(randomHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
             }
-            if ( mapExtraHero->couldBeHasArmy ) // field_1 changed to couldBeHasArmy
+            if ( mapExtraHero->couldBeHasArmy )
             {
               for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx )
               {
