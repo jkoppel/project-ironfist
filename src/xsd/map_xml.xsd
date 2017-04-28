@@ -314,7 +314,7 @@
       <xs:element name="color" type="xs:int"/>
       <xs:element name="numHeroes" type="xs:int"/>
       <xs:element name="curHeroIdx" type="xs:int"/>
-      <xs:element name="field_3" type="xs:int"/>
+      <xs:element name="relatedToSomeSortOfHeroCountOrIdx" type="xs:int"/>
       <xs:element name="game_B" type="xs:int"/>
       <xs:element name="_3" type="xs:int"/>
       <xs:element name="personality" type="xs:int"/>

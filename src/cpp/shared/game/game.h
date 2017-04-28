@@ -28,7 +28,7 @@ public:
 	char color;
 	char numHeroes;
 	char curHeroIdx;
-	char field_3;
+	char relatedToSomeSortOfHeroCountOrIdx;
 	char heroesOwned[8];
 	char heroesForPurchase[2];
 	char _2;
