@@ -24641,7 +24641,7 @@ void __thiscall game::NewMap(game *this, char *name)
     BYTE1(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = 0;// playerData->field_45 changed to relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
     LOBYTE(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = -1;// Consider splitting this into multiple variables
     this->players[playerIdxe].numHeroes = 0;
-    this->players[playerIdxe].relatedToSomeSortOfHeroCountOrIdx = 0;// field_3 changed to relatedToSomeSortOfHeroCountOrIdx
+    this->players[playerIdxe].relatedToSomeSortOfHeroCountOrIdx = 0;
     this->players[playerIdxe].curHeroIdx = -1;
   }
   game::RandomizeHeroPool(this);                // Check this function (design question; hardcoded, faction-specific data; SetupRandomHeroArmies does this as well)
@@ -29584,7 +29584,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
           mapExtraHero = (heroMapExtra *)ppMapExtra[someSortOfMapExtraIdx];
           if ( !i )                             // 1st iteration
           {
-            if ( !mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID] )// field_12 changed to heroID
+            if ( !mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID] )
             {
               mapExtraHero->couldBeHasFaction = 0;
             }

@@ -236,7 +236,7 @@ public:
   char field_26;
   char field_27;
   char field_28[20];
-  char field_3C;
+  char factionID;
   char field_3D;
   char field_3E;
   char field_3F;
