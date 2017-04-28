@@ -24625,7 +24625,7 @@ void __thiscall game::NewMap(game *this, char *name)
     this->players[playerIdxa].color = -1;
     gcColorToPlayerPos[playerIdxa] = -1;
     gcColorToSetupPos[playerIdxa] = -1;
-    if ( gpGame->relatedToColorOfPlayerOrFaction[playerIdxa] == 7 )// gpGame->field_459 changed to relatedToColorOfPlayerOrFaction
+    if ( gpGame->relatedToColorOfPlayerOrFaction[playerIdxa] == 7 )
       gpGame->relatedToColorOfPlayerOrFaction[playerIdxa] = relatedToPlayerColor;
     relatedToPlayerColor = (relatedToPlayerColor + 1) % 6;// Constant here (related to next player color)
   }
