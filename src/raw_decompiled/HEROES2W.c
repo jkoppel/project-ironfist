@@ -24662,7 +24662,7 @@ void __thiscall game::NewMap(game *this, char *name)
   if ( this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
     || this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_HERO )
   {
-    this->mapHeader.relatedToWinConditionType = 1;
+    this->mapHeader.winConditionType = 1;
     this->mapHeader.allowDefeatAllVictory = 0;
   }
   if ( this->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR )
@@ -24680,7 +24680,7 @@ void __thiscall game::NewMap(game *this, char *name)
     }
   }
   if ( this->mapHeader.winConditionType == WIN_CONDITION_FIND_ARTIFACT )
-    this->mapHeader.relatedToWinConditionType = 1;// field_1E changed to relatedToWinConditionType
+    this->mapHeader.winConditionType = 1;// field_1E changed to winConditionType
   for ( playerIdxi = 0; this->numPlayers > playerIdxi; ++playerIdxi )
   {
     this->players[playerIdxi].field_40 = 0;
@@ -33368,7 +33368,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       v23 = &gpGame->castles[v2];
       if ( gpGame->castles[v2].ownerIdx != -1 )
       {
-        if ( gbHumanPlayer[v23->ownerIdx] || gpGame->mapHeader.relatedToWinConditionType )
+        if ( gbHumanPlayer[v23->ownerIdx] || gpGame->mapHeader.winConditionType )
         {
           if ( gbThisNetHumanPlayer[v23->ownerIdx] )
             v30 = 1;
@@ -33410,7 +33410,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       v20 = -1;
       for ( playerNo = 0; gpGame->numPlayers > playerNo; ++playerNo )
       {
-        if ( (gbHumanPlayer[playerNo] || gpGame->mapHeader.relatedToWinConditionType)
+        if ( (gbHumanPlayer[playerNo] || gpGame->mapHeader.winConditionType)
           && gpGame->players[playerNo].resources[6] >= 1000 * gpGame->mapHeader.winConditionArgumentOrLocX
           && gpGame->players[playerNo].resources[6] >= goldAmt )
         {

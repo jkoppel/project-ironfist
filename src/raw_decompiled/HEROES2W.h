@@ -2840,7 +2840,7 @@ struct SMapHeader
   char minHumans;
   char maxHumans;
   char winConditionType;
-  char relatedToWinConditionType;
+  char winConditionType;
   char allowDefeatAllVictory;
   __int16 winConditionArgumentOrLocX;
   char lossConditionType;
