@@ -29607,7 +29607,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
           {
             if ( isJail )
             {
-              faction = mapExtraHero->factionID;// field_3C changed to factionID
+              faction = mapExtraHero->factionID;
             }
             else
             {
@@ -29615,7 +29615,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
               if ( faction == FACTION_MULTIPLE )// Constant here (faction related)
                 faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];
             }
-            if ( mapExtraHero->couldBeHasFaction )// field_3D changed to couldBeHasFaction
+            if ( mapExtraHero->couldBeHasFaction )
             {
               this->heroes[mapExtraHero->heroID].factionID = faction;
             }
