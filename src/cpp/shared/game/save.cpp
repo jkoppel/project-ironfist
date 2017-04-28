@@ -98,7 +98,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ReadArrayFromXML(mh->playerMayBeComp, mh_xml->playerMayBeComp());
   ReadArrayFromXML(mh->playerFactions, mh_xml->playerFactions());
 
-  gam->field_44D = gs.field_44D();
+  gam->relatedToPlayerPosAndColor = gs.relatedToPlayerPosAndColor();
   gam->field_451 = gs.field_451();
 
   ReadArrayFromXML(gam->playerHandicap, gs.playerHandicap());
@@ -351,7 +351,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     (int)gam->numEvents,
     (int)gam->field_657B,
     iMaxMapExtra,
-    gam->field_44D,
+    gam->relatedToPlayerPosAndColor,
     gam->field_451,
     gam->difficulty,
     gam->mapFilename

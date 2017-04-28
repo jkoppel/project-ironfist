@@ -1851,22 +1851,22 @@ namespace ironfist_save
     this->heroHireStatus_ = s;
   }
 
-  const gamestate_t::field_44D_type& gamestate_t::
-  field_44D () const
+  const gamestate_t::relatedToPlayerPosAndColor_type& gamestate_t::
+  relatedToPlayerPosAndColor () const
   {
-    return this->field_44D_.get ();
+    return this->relatedToPlayerPosAndColor_.get ();
   }
 
-  gamestate_t::field_44D_type& gamestate_t::
-  field_44D ()
+  gamestate_t::relatedToPlayerPosAndColor_type& gamestate_t::
+  relatedToPlayerPosAndColor ()
   {
-    return this->field_44D_.get ();
+    return this->relatedToPlayerPosAndColor_.get ();
   }
 
   void gamestate_t::
-  field_44D (const field_44D_type& x)
+  relatedToPlayerPosAndColor (const relatedToPlayerPosAndColor_type& x)
   {
-    this->field_44D_.set (x);
+    this->relatedToPlayerPosAndColor_.set (x);
   }
 
   const gamestate_t::field_451_type& gamestate_t::
@@ -6815,7 +6815,7 @@ namespace ironfist_save
                const numEvents_type& numEvents,
                const field_657B_type& field_657B,
                const maxMapExtra_type& maxMapExtra,
-               const field_44D_type& field_44D,
+               const relatedToPlayerPosAndColor_type& relatedToPlayerPosAndColor,
                const field_451_type& field_451,
                const difficulty_type& difficulty,
                const mapFilename_type& mapFilename)
@@ -6848,7 +6848,7 @@ namespace ironfist_save
     deadPlayers_ (::xml_schema::flags (), this),
     alivePlayers_ (::xml_schema::flags (), this),
     heroHireStatus_ (::xml_schema::flags (), this),
-    field_44D_ (field_44D, ::xml_schema::flags (), this),
+    relatedToPlayerPosAndColor_ (relatedToPlayerPosAndColor, ::xml_schema::flags (), this),
     field_451_ (field_451, ::xml_schema::flags (), this),
     playerHandicap_ (::xml_schema::flags (), this),
     relatedToColorOfPlayerOrFaction_ (::xml_schema::flags (), this),
@@ -6909,7 +6909,7 @@ namespace ironfist_save
     deadPlayers_ (x.deadPlayers_, f, this),
     alivePlayers_ (x.alivePlayers_, f, this),
     heroHireStatus_ (x.heroHireStatus_, f, this),
-    field_44D_ (x.field_44D_, f, this),
+    relatedToPlayerPosAndColor_ (x.relatedToPlayerPosAndColor_, f, this),
     field_451_ (x.field_451_, f, this),
     playerHandicap_ (x.playerHandicap_, f, this),
     relatedToColorOfPlayerOrFaction_ (x.relatedToColorOfPlayerOrFaction_, f, this),
@@ -6970,7 +6970,7 @@ namespace ironfist_save
     deadPlayers_ (f, this),
     alivePlayers_ (f, this),
     heroHireStatus_ (f, this),
-    field_44D_ (f, this),
+    relatedToPlayerPosAndColor_ (f, this),
     field_451_ (f, this),
     playerHandicap_ (f, this),
     relatedToColorOfPlayerOrFaction_ (f, this),
@@ -7324,13 +7324,13 @@ namespace ironfist_save
         continue;
       }
 
-      // field_44D
+      // relatedToPlayerPosAndColor
       //
-      if (n.name () == "field_44D" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToPlayerPosAndColor" && n.namespace_ ().empty ())
       {
-        if (!field_44D_.present ())
+        if (!relatedToPlayerPosAndColor_.present ())
         {
-          this->field_44D_.set (field_44D_traits::create (i, f, this));
+          this->relatedToPlayerPosAndColor_.set (relatedToPlayerPosAndColor_traits::create (i, f, this));
           continue;
         }
       }
@@ -7773,10 +7773,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_44D_.present ())
+    if (!relatedToPlayerPosAndColor_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_44D",
+        "relatedToPlayerPosAndColor",
         "");
     }
 
@@ -14538,15 +14538,15 @@ namespace ironfist_save
       s << *b;
     }
 
-    // field_44D
+    // relatedToPlayerPosAndColor
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_44D",
+          "relatedToPlayerPosAndColor",
           e));
 
-      s << i.field_44D ();
+      s << i.relatedToPlayerPosAndColor ();
     }
 
     // field_451

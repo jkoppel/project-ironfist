@@ -451,7 +451,7 @@ struct game
   char lastSaveFile[251];
   char _12[100];
   SMapHeader mapHeader;
-  _BYTE relatedToPlayerPosAndColor[6];
+  __int8 relatedToPlayerPosAndColor[6];
   char playerHandicap[6];
   char relatedToColorOfPlayerOrFaction[6];
   char somePlayerCodeOr10IfMayBeHuman[6];

@@ -2030,19 +2030,19 @@ namespace ironfist_save
     void
     heroHireStatus (const heroHireStatus_sequence& s);
 
-    // field_44D
+    // relatedToPlayerPosAndColor
     // 
-    typedef ::xml_schema::int_ field_44D_type;
-    typedef ::xsd::cxx::tree::traits< field_44D_type, char > field_44D_traits;
+    typedef ::xml_schema::int_ relatedToPlayerPosAndColor_type;
+    typedef ::xsd::cxx::tree::traits< relatedToPlayerPosAndColor_type, char > relatedToPlayerPosAndColor_traits;
 
-    const field_44D_type&
-    field_44D () const;
+    const relatedToPlayerPosAndColor_type&
+    relatedToPlayerPosAndColor () const;
 
-    field_44D_type&
-    field_44D ();
+    relatedToPlayerPosAndColor_type&
+    relatedToPlayerPosAndColor ();
 
     void
-    field_44D (const field_44D_type& x);
+    relatedToPlayerPosAndColor (const relatedToPlayerPosAndColor_type& x);
 
     // field_451
     // 
@@ -2472,7 +2472,7 @@ namespace ironfist_save
                  const numEvents_type&,
                  const field_657B_type&,
                  const maxMapExtra_type&,
-                 const field_44D_type&,
+                 const relatedToPlayerPosAndColor_type&,
                  const field_451_type&,
                  const difficulty_type&,
                  const mapFilename_type&);
@@ -2528,7 +2528,7 @@ namespace ironfist_save
     deadPlayers_sequence deadPlayers_;
     alivePlayers_sequence alivePlayers_;
     heroHireStatus_sequence heroHireStatus_;
-    ::xsd::cxx::tree::one< field_44D_type > field_44D_;
+    ::xsd::cxx::tree::one< relatedToPlayerPosAndColor_type > relatedToPlayerPosAndColor_;
     ::xsd::cxx::tree::one< field_451_type > field_451_;
     playerHandicap_sequence playerHandicap_;
     relatedToColorOfPlayerOrFaction_sequence relatedToColorOfPlayerOrFaction_;

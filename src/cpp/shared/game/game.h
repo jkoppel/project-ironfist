@@ -103,7 +103,7 @@ public:
 	char lastSaveFile[251];
 	char _12[100];
 	SMapHeader mapHeader;
-	int field_44D;
+	__int8 relatedToPlayerPosAndColor[6];
 	__int16 field_451;
 	char playerHandicap[6];
 	char relatedToColorOfPlayerOrFaction[6];

@@ -24630,7 +24630,7 @@ void __thiscall game::NewMap(game *this, char *name)
     relatedToPlayerColor = (relatedToPlayerColor + 1) % 6;// Constant here (related to next player color)
   }
   for ( playerIdxb = 0; this->numPlayers > playerIdxb; ++playerIdxb )
-    gcColorToSetupPos[this->relatedToPlayerPosAndColor[playerIdxb]] = playerIdxb;// field_44D changed to relatedToPlayerPosAndColor
+    gcColorToSetupPos[this->relatedToPlayerPosAndColor[playerIdxb]] = playerIdxb;
   for ( playerIdxc = 0; this->numPlayers > playerIdxc; ++playerIdxc )
     this->players[gbSetupGamePosToRealGamePos[playerIdxc]].color = this->relatedToPlayerPosAndColor[playerIdxc];
   for ( playerIdxd = 0; this->numPlayers > playerIdxd; ++playerIdxd )
