@@ -1,3 +1,5 @@
+niftysnippets = require("scripts.modules.niftysnippets_1")
+
 shrineVisited = {false, false, false, false, false};
 shrineVisited2 = {false, false, false, false, false};
 shrineVisited3 = {false, false, false, false, false};
@@ -560,15 +562,6 @@ function OnBattleStart()
 	if BattleHasHero(0) and BattleHasHero(1) and GetHeroName(BattleGetHero(1)) == "Lord Varuun" then
 		lord = GetHero(GetPlayer(1), 0);
 		phero = GetCurrentHero();
-		SetPrimarySkill(lord, PRIMARY_SKILL_ATTACK, GetPrimarySkill(phero, PRIMARY_SKILL_ATTACK));
-		SetPrimarySkill(lord, PRIMARY_SKILL_DEFENSE, GetPrimarySkill(phero, PRIMARY_SKILL_DEFENSE));
-		SetPrimarySkill(lord, PRIMARY_SKILL_SPELLPOWER, GetPrimarySkill(phero, PRIMARY_SKILL_SPELLPOWER));
-		SetPrimarySkill(lord, PRIMARY_SKILL_KNOWLEDGE, GetPrimarySkill(phero, PRIMARY_SKILL_KNOWLEDGE));
-		
-		SetSecondarySkill(lord, SECONDARY_SKILL_ARCHERY, GetSecondarySkill(phero, SECONDARY_SKILL_ARCHERY));
-		SetSecondarySkill(lord, SECONDARY_SKILL_LEADERSHIP, GetSecondarySkill(phero, SECONDARY_SKILL_LEADERSHIP));
-		SetSecondarySkill(lord, SECONDARY_SKILL_WISDOM, GetSecondarySkill(phero, SECONDARY_SKILL_WISDOM));
-		SetSecondarySkill(lord, SECONDARY_SKILL_LUCK, GetSecondarySkill(phero, SECONDARY_SKILL_LUCK));
-		SetSpellpoints(lord, GetSpellpoints(phero));
+		niftysnippets.CloneHeroSkills(phero, lord);
 	end
 end;
