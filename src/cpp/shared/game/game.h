@@ -41,9 +41,9 @@ public:
 	__int16 field_45;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-    char _4_1;
-    char barrierTentsVisited;
-    char _4_2[58];
+  char hasEvilFaction;
+  char barrierTentsVisited;
+  char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -106,7 +106,7 @@ public:
 	__int8 relatedToPlayerPosAndColor[6];
 	__int16 field_451;
 	char playerHandicap[6];
-	char relatedToColorOfPlayerOrFaction[6];
+	__int8 relatedToColorOfPlayerOrFaction[6];
 	char field_45F[6];
 	char difficulty;
 	char mapFilename[40];

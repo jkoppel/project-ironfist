@@ -2032,17 +2032,20 @@ namespace ironfist_save
 
     // relatedToPlayerPosAndColor
     // 
-    typedef ::xml_schema::int_ relatedToPlayerPosAndColor_type;
+    typedef ::ironfist_save::arrayInt_t relatedToPlayerPosAndColor_type;
+    typedef ::xsd::cxx::tree::sequence< relatedToPlayerPosAndColor_type > relatedToPlayerPosAndColor_sequence;
+    typedef relatedToPlayerPosAndColor_sequence::iterator relatedToPlayerPosAndColor_iterator;
+    typedef relatedToPlayerPosAndColor_sequence::const_iterator relatedToPlayerPosAndColor_const_iterator;
     typedef ::xsd::cxx::tree::traits< relatedToPlayerPosAndColor_type, char > relatedToPlayerPosAndColor_traits;
 
-    const relatedToPlayerPosAndColor_type&
+    const relatedToPlayerPosAndColor_sequence&
     relatedToPlayerPosAndColor () const;
 
-    relatedToPlayerPosAndColor_type&
+    relatedToPlayerPosAndColor_sequence&
     relatedToPlayerPosAndColor ();
 
     void
-    relatedToPlayerPosAndColor (const relatedToPlayerPosAndColor_type& x);
+    relatedToPlayerPosAndColor (const relatedToPlayerPosAndColor_sequence& s);
 
     // field_451
     // 
@@ -2472,7 +2475,6 @@ namespace ironfist_save
                  const numEvents_type&,
                  const field_657B_type&,
                  const maxMapExtra_type&,
-                 const relatedToPlayerPosAndColor_type&,
                  const field_451_type&,
                  const difficulty_type&,
                  const mapFilename_type&);
@@ -2528,7 +2530,7 @@ namespace ironfist_save
     deadPlayers_sequence deadPlayers_;
     alivePlayers_sequence alivePlayers_;
     heroHireStatus_sequence heroHireStatus_;
-    ::xsd::cxx::tree::one< relatedToPlayerPosAndColor_type > relatedToPlayerPosAndColor_;
+    relatedToPlayerPosAndColor_sequence relatedToPlayerPosAndColor_;
     ::xsd::cxx::tree::one< field_451_type > field_451_;
     playerHandicap_sequence playerHandicap_;
     relatedToColorOfPlayerOrFaction_sequence relatedToColorOfPlayerOrFaction_;
@@ -4560,19 +4562,19 @@ namespace ironfist_save
     void
     curHeroIdx (const curHeroIdx_type& x);
 
-    // field_3
+    // relatedToSomeSortOfHeroCountOrIdx
     // 
-    typedef ::xml_schema::int_ field_3_type;
-    typedef ::xsd::cxx::tree::traits< field_3_type, char > field_3_traits;
+    typedef ::xml_schema::int_ relatedToSomeSortOfHeroCountOrIdx_type;
+    typedef ::xsd::cxx::tree::traits< relatedToSomeSortOfHeroCountOrIdx_type, char > relatedToSomeSortOfHeroCountOrIdx_traits;
 
-    const field_3_type&
-    field_3 () const;
+    const relatedToSomeSortOfHeroCountOrIdx_type&
+    relatedToSomeSortOfHeroCountOrIdx () const;
 
-    field_3_type&
-    field_3 ();
+    relatedToSomeSortOfHeroCountOrIdx_type&
+    relatedToSomeSortOfHeroCountOrIdx ();
 
     void
-    field_3 (const field_3_type& x);
+    relatedToSomeSortOfHeroCountOrIdx (const relatedToSomeSortOfHeroCountOrIdx_type& x);
 
     // game_B
     // 
@@ -4630,19 +4632,19 @@ namespace ironfist_save
     void
     _2 (const _2_type& x);
 
-    // _4_1
+    // hasEvilFaction
     // 
-    typedef ::xml_schema::int_ _4_1_type;
-    typedef ::xsd::cxx::tree::traits< _4_1_type, char > _4_1_traits;
+    typedef ::xml_schema::int_ hasEvilFaction_type;
+    typedef ::xsd::cxx::tree::traits< hasEvilFaction_type, char > hasEvilFaction_traits;
 
-    const _4_1_type&
-    _4_1 () const;
+    const hasEvilFaction_type&
+    hasEvilFaction () const;
 
-    _4_1_type&
-    _4_1 ();
+    hasEvilFaction_type&
+    hasEvilFaction ();
 
     void
-    _4_1 (const _4_1_type& x);
+    hasEvilFaction (const hasEvilFaction_type& x);
 
     // field_40
     // 
@@ -4835,12 +4837,12 @@ namespace ironfist_save
     playerData_t (const color_type&,
                   const numHeroes_type&,
                   const curHeroIdx_type&,
-                  const field_3_type&,
+                  const relatedToSomeSortOfHeroCountOrIdx_type&,
                   const game_B_type&,
                   const _3_type&,
                   const personality_type&,
                   const _2_type&,
-                  const _4_1_type&,
+                  const hasEvilFaction_type&,
                   const field_40_type&,
                   const field_41_type&,
                   const daysLeftWithoutCastle_type&,
@@ -4874,12 +4876,12 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< color_type > color_;
     ::xsd::cxx::tree::one< numHeroes_type > numHeroes_;
     ::xsd::cxx::tree::one< curHeroIdx_type > curHeroIdx_;
-    ::xsd::cxx::tree::one< field_3_type > field_3_;
+    ::xsd::cxx::tree::one< relatedToSomeSortOfHeroCountOrIdx_type > relatedToSomeSortOfHeroCountOrIdx_;
     ::xsd::cxx::tree::one< game_B_type > game_B_;
     ::xsd::cxx::tree::one< _3_type > _3_;
     ::xsd::cxx::tree::one< personality_type > personality_;
     ::xsd::cxx::tree::one< _2_type > _2_;
-    ::xsd::cxx::tree::one< _4_1_type > _4_1_;
+    ::xsd::cxx::tree::one< hasEvilFaction_type > hasEvilFaction_;
     ::xsd::cxx::tree::one< field_40_type > field_40_;
     ::xsd::cxx::tree::one< field_41_type > field_41_;
     ::xsd::cxx::tree::one< daysLeftWithoutCastle_type > daysLeftWithoutCastle_;
