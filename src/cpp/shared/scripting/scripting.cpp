@@ -599,7 +599,7 @@ int l_gettownidfrompos(lua_State *L) {
 
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
-  lua_register(L, "NormalDialog", l_AdvancedMessageBox);
+  lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
   lua_register(L, "GetDay", l_getday);
   lua_register(L, "GetWeek", l_getweek);
   lua_register(L, "GetMonth", l_getmonth);
