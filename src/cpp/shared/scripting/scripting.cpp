@@ -44,7 +44,7 @@ int l_msgbox(lua_State *L) {
   return 0;
 }
 
-int l_normaldialog(lua_State *L) {
+int l_AdvancedMessageBox(lua_State *L) {
 	const char* msg = luaL_checkstring(L, 1);
 	const int yesno = luaL_checkinteger(L, 2);
 	const int horizontal = luaL_checkinteger(L, 3);
@@ -599,7 +599,7 @@ int l_gettownidfrompos(lua_State *L) {
 
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
-  lua_register(L, "NormalDialog", l_normaldialog);
+  lua_register(L, "NormalDialog", l_AdvancedMessageBox);
   lua_register(L, "GetDay", l_getday);
   lua_register(L, "GetWeek", l_getweek);
   lua_register(L, "GetMonth", l_getmonth);
