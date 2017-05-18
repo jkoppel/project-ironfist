@@ -219,7 +219,7 @@ public:
     }
 
   char owner;
-  char field_1;
+  char couldBeHasArmy;
   armyGroup army;
   char field_11;
   char field_12;
