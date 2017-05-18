@@ -225,7 +225,7 @@ public:
   char field_12;
   char artifacts[3];
   char field_16;
-  char field_17;
+  char experience;
   char field_18;
   char field_19;
   char field_1A;
