@@ -254,7 +254,7 @@ extern int adjacentMonsterUpperBoundY;
 extern int adjacentMonsterX;
 extern int adjacentMonsterY;
 extern int adjacentMonsterLowerBoundX;
-
+extern int adjacentMonsterLowerBoundY;
 
 hero* GetCurrentHero();
 
