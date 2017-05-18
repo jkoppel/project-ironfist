@@ -251,6 +251,7 @@ extern int giHeroScreenSrcIndex;
 
 extern int adjacentMonsterUpperBoundX;
 extern int adjacentMonsterUpperBoundY;
+extern int adjacentMonsterX;
 
 hero* GetCurrentHero();
 
