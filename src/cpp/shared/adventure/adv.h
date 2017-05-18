@@ -249,6 +249,8 @@ extern int giMapChangeCtr;
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;
 
+extern int adjacentMonsterUpperBoundX;
+
 hero* GetCurrentHero();
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
