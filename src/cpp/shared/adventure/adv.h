@@ -250,6 +250,7 @@ extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;
 
 extern int adjacentMonsterUpperBoundX;
+extern int adjacentMonsterUpperBoundY;
 
 hero* GetCurrentHero();
 
