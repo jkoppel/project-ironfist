@@ -229,7 +229,7 @@ public:
   char field_18;
   char field_19;
   char field_1A;
-  char field_1B;
+  char couldBeHasSecondarySkills;
   char secondarySkills[8];
   char firstSecondarySkillLevel;
   char secondSecondarySkillLevel;
