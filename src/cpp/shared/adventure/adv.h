@@ -251,8 +251,8 @@ extern int giHeroScreenSrcIndex;
 
 extern int giAdjacentMonsterUpperBoundX;
 extern int giAdjacentMonsterUpperBoundY;
-extern int adjacentMonsterX;
-extern int adjacentMonsterY;
+extern int giAdjacentMonsterX;
+extern int giAdjacentMonsterY;
 extern int adjacentMonsterLowerBoundX;
 extern int adjacentMonsterLowerBoundY;
 
