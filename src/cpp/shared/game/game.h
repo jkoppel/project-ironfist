@@ -222,6 +222,7 @@ extern int gbInCampaign;
 extern int gbGameOver;
 
 extern __int16 giUltimateArtifactBaseX;
+extern __int16 giUltimateArtifactBaseY;
 
 #pragma pack(pop)
 
