@@ -223,6 +223,7 @@ extern int gbGameOver;
 
 extern __int16 giUltimateArtifactBaseX;
 extern __int16 giUltimateArtifactBaseY;
+extern __int16 giUltimateArtifactRadius;
 
 #pragma pack(pop)
 
