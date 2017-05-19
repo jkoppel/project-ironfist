@@ -40,9 +40,9 @@ public:
 	__int16 field_45;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-    char _4_1;
-    char barrierTentsVisited;
-    char _4_2[58];
+  char _4_1;
+  char barrierTentsVisited;
+  char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -147,8 +147,8 @@ public:
 	char field_660D;
 	char field_660E;
 
-    // New state
-    bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+  // New state
+  bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
   // Used for OnMapStart
@@ -174,25 +174,25 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
-    void SetVisibility_orig(int, int, int, int);
+  void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
-    int GetTownId(int,int);
-
+  int GetTownId(int,int);
+  
 	void NextPlayer();
 	void NextPlayer_orig();
 
 	void PerDay();
 	void PerDay_orig();
 
-    void ResetIronfistGameState();
-    void ShareVision(int sourcePlayer, int destPlayer);
+  void ResetIronfistGameState();
+  void ShareVision(int sourcePlayer, int destPlayer);
 
-    void MakeAllWaterVisible(int player);
-    void MakeAllWaterVisible_orig(int player);
+  void MakeAllWaterVisible(int player);
+  void MakeAllWaterVisible_orig(int player);
 
 private:
-    void PropagateVision();
+  void PropagateVision();
 };
 
 enum GAME_DIFFICULTY {
@@ -204,10 +204,10 @@ enum GAME_DIFFICULTY {
 };
 
 enum PERSONALITY_TYPE {
-   PERSONALITY_WARRIOR = 0,
-   PERSONALITY_BUILDER = 1,
-   PERSONALITY_EXPLORER = 2,
-   PERSONALITY_HUMAN = 3,
+  PERSONALITY_WARRIOR = 0,
+  PERSONALITY_BUILDER = 1,
+  PERSONALITY_EXPLORER = 2,
+  PERSONALITY_HUMAN = 3,
 };
 
 extern void __fastcall CheckEndGame_orig(int a, int b);
