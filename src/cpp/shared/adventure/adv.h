@@ -249,8 +249,8 @@ extern int giMapChangeCtr;
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;
 
-extern int adjacentMonsterUpperBoundX;
-extern int adjacentMonsterUpperBoundY;
+extern int giAdjacentMonsterUpperBoundX;
+extern int giAdjacentMonsterUpperBoundY;
 extern int adjacentMonsterX;
 extern int adjacentMonsterY;
 extern int adjacentMonsterLowerBoundX;
