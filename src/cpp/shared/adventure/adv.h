@@ -253,8 +253,8 @@ extern int giAdjacentMonsterUpperBoundX;
 extern int giAdjacentMonsterUpperBoundY;
 extern int giAdjacentMonsterX;
 extern int giAdjacentMonsterY;
-extern int adjacentMonsterLowerBoundX;
-extern int adjacentMonsterLowerBoundY;
+extern int giAdjacentMonsterLowerBoundX;
+extern int giAdjacentMonsterLowerBoundY;
 
 hero* GetCurrentHero();
 
