@@ -225,6 +225,8 @@ extern __int16 giUltimateArtifactBaseX;
 extern __int16 giUltimateArtifactBaseY;
 extern __int16 giUltimateArtifactRadius;
 
+extern char gpcBeforeGSpellLimits[];
+
 #pragma pack(pop)
 
 #endif
