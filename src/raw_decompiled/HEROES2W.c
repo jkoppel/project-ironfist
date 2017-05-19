@@ -7366,7 +7366,7 @@ int gHeroGoldCost = 2500; // weak
 char normalDirTable[] = { '\0' }; // weak
 char byte_4F1DC1[] = { '\xFF' }; // weak
 int dword_4F1DE0[] = { 200 }; // weak
-int playerHumanInitialResources[5][7] =
+int gaiPlayerInitialResourcesHuman[5][7] =
 {
   { 30, 10, 30, 10, 10, 10, 10000 },
   { 20, 5, 20, 5, 5, 5, 7500 },
@@ -7374,7 +7374,7 @@ int playerHumanInitialResources[5][7] =
   { 5, 0, 5, 0, 0, 0, 2500 },
   { 0, 0, 0, 0, 0, 0, 0 }
 };
-int playerAIInitialResources[5][7] =
+int gaiPlayerInitialResourcesAI[5][7] =
 {
   { 20, 5, 20, 5, 5, 5, 7500 },
   { 20, 5, 20, 5, 5, 5, 7500 },
@@ -8817,7 +8817,7 @@ float gfBattleStat[] =
    2.9000001,
    3.0
 };
-char beforeGSpellLimits[] = { '\0' }; // idb
+char gpcBeforeGSpellLimits[] = { '\0' }; // idb
 char gSpellLimits[] = { '\x03', '\x03', '\x02', '\x02', '\x01' }; // idb
 float gfSpellCastableCombatMod[] =
 {
@@ -12541,18 +12541,18 @@ int iLastAnimFrame; // weak
 int giFrameStep; // weak
 int dword_524CD4; // weak
 int dword_524CDC; // weak
-int adjacentMonsterUpperBoundY; // weak
+int giAdjacentMonsterUpperBoundY; // weak
 int dword_524CE4; // weak
 int spriteIdx; // idb
 int idx; // idb
-int adjacentMonsterX; // weak
+int giAdjacentMonsterX; // weak
 int y; // idb
 int dword_524CF8; // weak
-int adjacentMonsterUpperBoundX; // weak
+int giAdjacentMonsterUpperBoundX; // weak
 mapCell *currentlyDrawnMapTile;
 int dword_524D04; // weak
 int dword_524D08; // weak
-int adjacentMonsterY; // weak
+int giAdjacentMonsterY; // weak
 int dword_524D10; // idb
 int dword_524D14; // weak
 int giLimitUpdMaxX; // weak
@@ -12569,14 +12569,14 @@ char byte_524DB3; // weak
 char byte_524DC5; // weak
 int dword_524E74; // weak
 int giLimitUpdMinY; // idb
-int adjacentMonsterLowerBoundX; // weak
+int giAdjacentMonsterLowerBoundX; // weak
 heroWindow *cPanel; // idb
 int dword_524EA0; // weak
 heroWindow *townPortalWin; // idb
 int dword_524EA8; // weak
 mapCellExtra *currentlyDrawingMapCellExtra;
 char cArmySizeName[]; // idb
-int adjacentMonsterLowerBoundY; // weak
+int giAdjacentMonsterLowerBoundY; // weak
 char bSmackNum; // weak
 int gbPlayedThrough; // weak
 char smksum[8]; // idb
@@ -24641,7 +24641,7 @@ void __thiscall game::NewMap(game *this, char *name)
     BYTE1(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = 0;// playerData->field_45 changed to relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
     LOBYTE(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = -1;// Consider splitting this into multiple variables
     this->players[playerIdxe].numHeroes = 0;
-    this->players[playerIdxe].relatedToSomeSortOfHeroCountOrIdx = 0;// field_3 changed to relatedToSomeSortOfHeroCountOrIdx
+    this->players[playerIdxe].relatedToSomeSortOfHeroCountOrIdx = 0;
     this->players[playerIdxe].curHeroIdx = -1;
   }
   game::RandomizeHeroPool(this);                // Check this function (design question; hardcoded, faction-specific data; SetupRandomHeroArmies does this as well)
@@ -24674,7 +24674,7 @@ void __thiscall game::NewMap(game *this, char *name)
         ++numPlayers;
       if ( this->mapHeader.winConditionArgumentOrLocX + 1 == numPlayers )
       {
-        HIWORD(this->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) = playerIdxh;
+        HIWORD(this->mapHeader.lossConditionArgumentOrLocY) = playerIdxh;
         playerIdxh = 99;
       }
     }
@@ -24912,7 +24912,7 @@ LABEL_196:
     if ( gbHumanPlayer[playerIdxm] )
     {
       this->players[playerIdxm].personality = 3;
-      memcpy(this->players[playerIdxm].resources, playerHumanInitialResources[this->difficulty], 28u);// unk_4F1E00 changed to playerHumanInitialResources
+      memcpy(this->players[playerIdxm].resources, gaiPlayerInitialResourcesHuman[this->difficulty], 28u);// unk_4F1E00 changed to gaiPlayerInitialResourcesHuman
       if ( this->playerHandicap[playerIdxm] )
       {
         for ( resourceType = 0; resourceType < NUM_RESOURCES; ++resourceType )
@@ -24929,14 +24929,14 @@ LABEL_196:
     else
     {
       this->players[playerIdxm].personality = Random(0, 2);
-      memcpy(this->players[playerIdxm].resources, playerAIInitialResources[this->difficulty], 28u);// unk_4F1E90 changed to playerAIInitialResources
+      memcpy(this->players[playerIdxm].resources, gaiPlayerInitialResourcesAI[this->difficulty], 28u);// unk_4F1E90 changed to gaiPlayerInitialResourcesAI
     }
   }
   game::SetupAdjacentMons(this);
   if ( this->mapHeader.lossConditionType == 2 ) // field_22 changed to lossConditionType
   {
     lossConditionArgumentLocX = *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX;// field_23 changed to lossConditionArgumentOrLocX
-    lossConditionArgumentLocY = LOWORD(this->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY);// field_2E changed to relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY
+    lossConditionArgumentLocY = LOWORD(this->mapHeader.lossConditionArgumentOrLocY);// field_2E changed to relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY
     *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = 0;
     if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * lossConditionArgumentLocY * this->map.width) == 170 )
     {
@@ -29417,7 +29417,7 @@ void __thiscall game::SetupTowns(game *this)
       {
         for ( overusedIdx = 1; castle->mageGuildLevel >= overusedIdx; ++overusedIdx )
         {
-          castle->mageGuildSpells[4][overusedIdx + 3] = beforeGSpellLimits[overusedIdx];// byte_4F29FF changed to beforeGSpellLimits
+          castle->mageGuildSpells[4][overusedIdx + 3] = gpcBeforeGSpellLimits[overusedIdx];// byte_4F29FF changed to beforeGSpellLimits
           if ( castle->factionID == FACTION_WIZARD
             && BYTE1(castle->buildingsBuiltFlags) & BUILDING_SPECIAL_DEFENSE_BUILT )
             ++castle->mageGuildSpells[4][overusedIdx + 3];
@@ -29584,7 +29584,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
           mapExtraHero = (heroMapExtra *)ppMapExtra[someSortOfMapExtraIdx];
           if ( !i )                             // 1st iteration
           {
-            if ( !mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID] )// field_12 changed to heroID
+            if ( !mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID] )
             {
               mapExtraHero->couldBeHasFaction = 0;
             }
@@ -29607,7 +29607,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
           {
             if ( isJail )
             {
-              faction = mapExtraHero->factionID;// field_3C changed to factionID
+              faction = mapExtraHero->factionID;
             }
             else
             {
@@ -33318,7 +33318,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       {
         if ( !gpGame->playerDead[playerNo] )
         {
-          if ( gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) )
+          if ( gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) )
             ++v25;
           else
             ++v24;
@@ -33332,7 +33332,7 @@ void __fastcall CheckEndGame(int a1, int a2)
           {
             if ( gbThisNetHumanPlayer[playerNo]
               && !gpGame->playerDead[playerNo]
-              && gpGame->players[playerNo].color < (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) )
+              && gpGame->players[playerNo].color < (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) )
               v30 = 1;
           }
         }
@@ -33343,7 +33343,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           if ( gbThisNetHumanPlayer[playerNo]
             && !gpGame->playerDead[playerNo]
-            && gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) )
+            && gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) )
             v30 = 1;
         }
       }
@@ -33391,7 +33391,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       v3 = game::GetTownId(
              gpGame,
              *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX,
-             LOWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY));
+             LOWORD(gpGame->mapHeader.lossConditionArgumentOrLocY));
       v22 = &gpGame->castles[v3];
       if ( gpGame->castles[v3].ownerIdx == -1 || !gbHumanPlayer[v22->ownerIdx] )
       {
@@ -48240,25 +48240,25 @@ signed int __thiscall advManager::FindAdjacentMonster(advManager *this, int argX
   advManager *thisa; // [sp+Ch] [bp-4h]@1
 
   thisa = this;
-  adjacentMonsterUpperBoundX = argX + 2;        // dword_524CFC changed to adjacentMonsterUpperBoundX
-  adjacentMonsterUpperBoundY = argY + 2;        // dword_524CE0 changed to adjacentMonsterUpperBoundY
+  giAdjacentMonsterUpperBoundX = argX + 2;      // dword_524CFC changed to giAdjacentMonsterUpperBoundX
+  giAdjacentMonsterUpperBoundY = argY + 2;      // dword_524CE0 changed to giAdjacentMonsterUpperBoundY
   if ( argX > 0 && argY > 0 && MAP_WIDTH - 1 > argX && MAP_HEIGHT - 1 > argY )
   {
-    for ( adjacentMonsterX = argX - 1; adjacentMonsterUpperBoundX > adjacentMonsterX; ++adjacentMonsterX )// dword_524CF0 changed to adjacentMonsterX
+    for ( giAdjacentMonsterX = argX - 1; giAdjacentMonsterUpperBoundX > giAdjacentMonsterX; ++giAdjacentMonsterX )// dword_524CF0 changed to giAdjacentMonsterX
     {
-      for ( adjacentMonsterY = argY - 1; adjacentMonsterY < adjacentMonsterUpperBoundY; ++adjacentMonsterY )// dword_524D0C changed to adjacentMonsterY
+      for ( giAdjacentMonsterY = argY - 1; giAdjacentMonsterY < giAdjacentMonsterUpperBoundY; ++giAdjacentMonsterY )// dword_524D0C changed to giAdjacentMonsterY
       {
-        if ( *(&thisa->map->tiles[adjacentMonsterX].objType + 12 * adjacentMonsterY * thisa->map->width) == 152 )
+        if ( *(&thisa->map->tiles[giAdjacentMonsterX].objType + 12 * giAdjacentMonsterY * thisa->map->width) == 152 )
         {
-          if ( argY <= adjacentMonsterY )
+          if ( argY <= giAdjacentMonsterY )
           {
-            if ( adjacentMonsterX != unwantedCoordX || adjacentMonsterY != unwantedCoordY )
+            if ( giAdjacentMonsterX != unwantedCoordX || giAdjacentMonsterY != unwantedCoordY )
               goto LABEL_53;
           }
           else if ( (advManager::GetCell(thisa, argX, argY)->objectIndex == 255
    || (((unsigned __int8)advManager::GetCell(thisa, argX, argY)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47
    || advManager::GetCell(thisa, argX, argY)->displayFlags & 0x80)
-  && (adjacentMonsterX != unwantedCoordX || adjacentMonsterY != unwantedCoordY) )
+  && (giAdjacentMonsterX != unwantedCoordX || giAdjacentMonsterY != unwantedCoordY) )
           {
             goto LABEL_53;
           }
@@ -48268,33 +48268,33 @@ signed int __thiscall advManager::FindAdjacentMonster(advManager *this, int argX
     return 0;
   }
   if ( MAP_WIDTH - 1 == argX )
-    adjacentMonsterUpperBoundX = argX + 1;
+    giAdjacentMonsterUpperBoundX = argX + 1;
   if ( MAP_HEIGHT - 1 == argY )
-    adjacentMonsterUpperBoundY = argY + 1;
+    giAdjacentMonsterUpperBoundY = argY + 1;
   if ( argX )
-    adjacentMonsterLowerBoundX = argX - 1;      // dword_524E7C changed to adjacentMonsterLowerBoundX
+    giAdjacentMonsterLowerBoundX = argX - 1;    // dword_524E7C changed to adjacentMonsterLowerBoundX
   else
-    adjacentMonsterLowerBoundX = 0;
+    giAdjacentMonsterLowerBoundX = 0;
   if ( argY )
-    adjacentMonsterLowerBoundY = argY - 1;      // dword_524EBC changed to adjacentMonsterLowerBoundY
+    giAdjacentMonsterLowerBoundY = argY - 1;    // dword_524EBC changed to adjacentMonsterLowerBoundY
   else
-    adjacentMonsterLowerBoundY = 0;
-  adjacentMonsterX = adjacentMonsterLowerBoundX;
+    giAdjacentMonsterLowerBoundY = 0;
+  giAdjacentMonsterX = giAdjacentMonsterLowerBoundX;
 LABEL_35:
-  if ( adjacentMonsterUpperBoundX <= adjacentMonsterX )
+  if ( giAdjacentMonsterUpperBoundX <= giAdjacentMonsterX )
     return 0;
-  for ( adjacentMonsterY = adjacentMonsterLowerBoundY; ; ++adjacentMonsterY )
+  for ( giAdjacentMonsterY = giAdjacentMonsterLowerBoundY; ; ++giAdjacentMonsterY )
   {
-    if ( adjacentMonsterY >= adjacentMonsterUpperBoundY )
+    if ( giAdjacentMonsterY >= giAdjacentMonsterUpperBoundY )
     {
-      ++adjacentMonsterX;
+      ++giAdjacentMonsterX;
       goto LABEL_35;
     }
-    if ( *(&thisa->map->tiles[adjacentMonsterX].objType + 12 * adjacentMonsterY * thisa->map->width) != 152 )
+    if ( *(&thisa->map->tiles[giAdjacentMonsterX].objType + 12 * giAdjacentMonsterY * thisa->map->width) != 152 )
       continue;
-    if ( argY > adjacentMonsterY )
+    if ( argY > giAdjacentMonsterY )
       break;
-    if ( adjacentMonsterX != unwantedCoordX || adjacentMonsterY != unwantedCoordY )
+    if ( giAdjacentMonsterX != unwantedCoordX || giAdjacentMonsterY != unwantedCoordY )
       goto LABEL_53;
 LABEL_50:
     ;
@@ -48302,21 +48302,21 @@ LABEL_50:
   if ( advManager::GetCell(thisa, argX, argY)->objectIndex != 255
     && (((unsigned __int8)advManager::GetCell(thisa, argX, argY)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 47
     && !(advManager::GetCell(thisa, argX, argY)->displayFlags & 0x80)
-    || adjacentMonsterX == unwantedCoordX && adjacentMonsterY == unwantedCoordY )
+    || giAdjacentMonsterX == unwantedCoordX && giAdjacentMonsterY == unwantedCoordY )
     goto LABEL_50;
 LABEL_53:
-  *pCoordX = adjacentMonsterX;
-  *pCoordY = adjacentMonsterY;
+  *pCoordX = giAdjacentMonsterX;
+  *pCoordY = giAdjacentMonsterY;
   return 1;
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
-// 524CE0: using guessed type int adjacentMonsterUpperBoundY;
-// 524CF0: using guessed type int adjacentMonsterX;
-// 524CFC: using guessed type int adjacentMonsterUpperBoundX;
-// 524D0C: using guessed type int adjacentMonsterY;
-// 524E7C: using guessed type int adjacentMonsterLowerBoundX;
-// 524EBC: using guessed type int adjacentMonsterLowerBoundY;
+// 524CE0: using guessed type int giAdjacentMonsterUpperBoundY;
+// 524CF0: using guessed type int giAdjacentMonsterX;
+// 524CFC: using guessed type int giAdjacentMonsterUpperBoundX;
+// 524D0C: using guessed type int giAdjacentMonsterY;
+// 524E7C: using guessed type int giAdjacentMonsterLowerBoundX;
+// 524EBC: using guessed type int giAdjacentMonsterLowerBoundY;
 
 //----- (00456A10) --------------------------------------------------------
 int __cdecl ComputeAdvNetControl()
@@ -52017,7 +52017,7 @@ char *__thiscall game::GetLossConditionText(game *this, char *a2)
         v3 = game::GetTownId(
                this,
                *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX,
-               LOWORD(this->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY));
+               LOWORD(this->mapHeader.lossConditionArgumentOrLocY));
         result = (char *)sprintf(
                            a2,
                            "Lose the %s '%s'.",
@@ -88642,7 +88642,7 @@ int __stdcall philAI::ValueOfTown(town *twn)
   v4 = (unsigned __int64)(signed __int64)(flt_530730 * 1250.0 * 1.5 + (double)v3) + 750;
   if ( gpGame->mapHeader.lossConditionType == 1
     && twn->x == *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX
-    && LOWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY) == twn->y )
+    && LOWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) == twn->y )
     v4 += 50000;
   if ( gpGame->mapHeader.winConditionType == 1
     && gpGame->mapHeader.winConditionArgumentOrLocX == twn->x
@@ -91497,10 +91497,10 @@ bool __fastcall OnMySide(int a1)
        || gpGame->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
        && (gpGame->mapHeader.winConditionArgumentOrLocX == 99 && a1
         || gpGame->mapHeader.winConditionArgumentOrLocX != 99
-        && (gpGame->players[giCurPlayer].color < (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)
-         && gpGame->players[a1].color < (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)
-         || gpGame->players[giCurPlayer].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)
-         && gpGame->players[a1].color >= (signed int)HIWORD(gpGame->mapHeader.relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY)))
+        && (gpGame->players[giCurPlayer].color < (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)
+         && gpGame->players[a1].color < (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)
+         || gpGame->players[giCurPlayer].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)
+         && gpGame->players[a1].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)))
        || gbInCampaign
        && !gpGame->relatedToCurViewSideOrCampaign
        && gpGame->relatedToCampaignMap == 8

@@ -451,7 +451,7 @@ struct game
   char lastSaveFile[251];
   char _12[100];
   SMapHeader mapHeader;
-  _BYTE relatedToPlayerPosAndColor[6];
+  char relatedToPlayerPosAndColor[6];
   char playerHandicap[6];
   char relatedToColorOfPlayerOrFaction[6];
   char somePlayerCodeOr10IfMayBeHuman[6];
@@ -2849,7 +2849,7 @@ struct SMapHeader
   char noStartingHeroInCastle;
   char playerFactions[6];
   __int16 winConditionArgumentOrLocY;
-  int relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY;
+  int lossConditionArgumentOrLocY;
   int field_32;
   char field_36;
   char field_37;
