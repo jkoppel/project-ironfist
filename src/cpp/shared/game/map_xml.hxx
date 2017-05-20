@@ -4560,19 +4560,19 @@ namespace ironfist_save
     void
     curHeroIdx (const curHeroIdx_type& x);
 
-    // field_3
+    // relatedToSomeSortOfHeroCountOrIdx
     // 
-    typedef ::xml_schema::int_ field_3_type;
-    typedef ::xsd::cxx::tree::traits< field_3_type, char > field_3_traits;
+    typedef ::xml_schema::int_ relatedToSomeSortOfHeroCountOrIdx_type;
+    typedef ::xsd::cxx::tree::traits< relatedToSomeSortOfHeroCountOrIdx_type, char > relatedToSomeSortOfHeroCountOrIdx_traits;
 
-    const field_3_type&
-    field_3 () const;
+    const relatedToSomeSortOfHeroCountOrIdx_type&
+    relatedToSomeSortOfHeroCountOrIdx () const;
 
-    field_3_type&
-    field_3 ();
+    relatedToSomeSortOfHeroCountOrIdx_type&
+    relatedToSomeSortOfHeroCountOrIdx ();
 
     void
-    field_3 (const field_3_type& x);
+    relatedToSomeSortOfHeroCountOrIdx (const relatedToSomeSortOfHeroCountOrIdx_type& x);
 
     // game_B
     // 
@@ -4835,7 +4835,7 @@ namespace ironfist_save
     playerData_t (const color_type&,
                   const numHeroes_type&,
                   const curHeroIdx_type&,
-                  const field_3_type&,
+                  const relatedToSomeSortOfHeroCountOrIdx_type&,
                   const game_B_type&,
                   const _3_type&,
                   const personality_type&,
@@ -4874,7 +4874,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< color_type > color_;
     ::xsd::cxx::tree::one< numHeroes_type > numHeroes_;
     ::xsd::cxx::tree::one< curHeroIdx_type > curHeroIdx_;
-    ::xsd::cxx::tree::one< field_3_type > field_3_;
+    ::xsd::cxx::tree::one< relatedToSomeSortOfHeroCountOrIdx_type > relatedToSomeSortOfHeroCountOrIdx_;
     ::xsd::cxx::tree::one< game_B_type > game_B_;
     ::xsd::cxx::tree::one< _3_type > _3_;
     ::xsd::cxx::tree::one< personality_type > personality_;

@@ -152,7 +152,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     pdata->color = pdata_xml->color();
     pdata->numHeroes = pdata_xml->numHeroes();
     pdata->curHeroIdx = pdata_xml->curHeroIdx();
-    pdata->field_3 = pdata_xml->field_3();
+    pdata->relatedToSomeSortOfHeroCountOrIdx = pdata_xml->relatedToSomeSortOfHeroCountOrIdx();
 
     ReadArrayFromXML(pdata->heroesForPurchase, pdata_xml->heroesForPurchase());
     ReadArrayFromXML(pdata->heroesOwned, pdata_xml->heroesOwned());
@@ -449,7 +449,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       player.color,
       player.numHeroes,
       player.curHeroIdx,
-      player.field_3,
+      player.relatedToSomeSortOfHeroCountOrIdx,
       gam->_B[1],
       player._3[0],
       player.personality,

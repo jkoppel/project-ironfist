@@ -4305,22 +4305,22 @@ namespace ironfist_save
     this->curHeroIdx_.set (x);
   }
 
-  const playerData_t::field_3_type& playerData_t::
-  field_3 () const
+  const playerData_t::relatedToSomeSortOfHeroCountOrIdx_type& playerData_t::
+  relatedToSomeSortOfHeroCountOrIdx () const
   {
-    return this->field_3_.get ();
+    return this->relatedToSomeSortOfHeroCountOrIdx_.get ();
   }
 
-  playerData_t::field_3_type& playerData_t::
-  field_3 ()
+  playerData_t::relatedToSomeSortOfHeroCountOrIdx_type& playerData_t::
+  relatedToSomeSortOfHeroCountOrIdx ()
   {
-    return this->field_3_.get ();
+    return this->relatedToSomeSortOfHeroCountOrIdx_.get ();
   }
 
   void playerData_t::
-  field_3 (const field_3_type& x)
+  relatedToSomeSortOfHeroCountOrIdx (const relatedToSomeSortOfHeroCountOrIdx_type& x)
   {
-    this->field_3_.set (x);
+    this->relatedToSomeSortOfHeroCountOrIdx_.set (x);
   }
 
   const playerData_t::game_B_type& playerData_t::
@@ -10270,7 +10270,7 @@ namespace ironfist_save
   playerData_t (const color_type& color,
                 const numHeroes_type& numHeroes,
                 const curHeroIdx_type& curHeroIdx,
-                const field_3_type& field_3,
+                const relatedToSomeSortOfHeroCountOrIdx_type& relatedToSomeSortOfHeroCountOrIdx,
                 const game_B_type& game_B,
                 const _3_type& _3,
                 const personality_type& personality,
@@ -10286,7 +10286,7 @@ namespace ironfist_save
     color_ (color, ::xml_schema::flags (), this),
     numHeroes_ (numHeroes, ::xml_schema::flags (), this),
     curHeroIdx_ (curHeroIdx, ::xml_schema::flags (), this),
-    field_3_ (field_3, ::xml_schema::flags (), this),
+    relatedToSomeSortOfHeroCountOrIdx_ (relatedToSomeSortOfHeroCountOrIdx, ::xml_schema::flags (), this),
     game_B_ (game_B, ::xml_schema::flags (), this),
     _3_ (_3, ::xml_schema::flags (), this),
     personality_ (personality, ::xml_schema::flags (), this),
@@ -10315,7 +10315,7 @@ namespace ironfist_save
     color_ (x.color_, f, this),
     numHeroes_ (x.numHeroes_, f, this),
     curHeroIdx_ (x.curHeroIdx_, f, this),
-    field_3_ (x.field_3_, f, this),
+    relatedToSomeSortOfHeroCountOrIdx_ (x.relatedToSomeSortOfHeroCountOrIdx_, f, this),
     game_B_ (x.game_B_, f, this),
     _3_ (x._3_, f, this),
     personality_ (x.personality_, f, this),
@@ -10344,7 +10344,7 @@ namespace ironfist_save
     color_ (f, this),
     numHeroes_ (f, this),
     curHeroIdx_ (f, this),
-    field_3_ (f, this),
+    relatedToSomeSortOfHeroCountOrIdx_ (f, this),
     game_B_ (f, this),
     _3_ (f, this),
     personality_ (f, this),
@@ -10413,13 +10413,13 @@ namespace ironfist_save
         }
       }
 
-      // field_3
+      // relatedToSomeSortOfHeroCountOrIdx
       //
-      if (n.name () == "field_3" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToSomeSortOfHeroCountOrIdx" && n.namespace_ ().empty ())
       {
-        if (!field_3_.present ())
+        if (!relatedToSomeSortOfHeroCountOrIdx_.present ())
         {
-          this->field_3_.set (field_3_traits::create (i, f, this));
+          this->relatedToSomeSortOfHeroCountOrIdx_.set (relatedToSomeSortOfHeroCountOrIdx_traits::create (i, f, this));
           continue;
         }
       }
@@ -10635,10 +10635,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_3_.present ())
+    if (!relatedToSomeSortOfHeroCountOrIdx_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_3",
+        "relatedToSomeSortOfHeroCountOrIdx",
         "");
     }
 
@@ -16151,15 +16151,15 @@ namespace ironfist_save
       s << i.curHeroIdx ();
     }
 
-    // field_3
+    // relatedToSomeSortOfHeroCountOrIdx
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_3",
+          "relatedToSomeSortOfHeroCountOrIdx",
           e));
 
-      s << i.field_3 ();
+      s << i.relatedToSomeSortOfHeroCountOrIdx ();
     }
 
     // game_B
