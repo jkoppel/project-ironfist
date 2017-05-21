@@ -2698,19 +2698,19 @@ namespace ironfist_save
     void
     allowDefeatAllVictory (const allowDefeatAllVictory_type& x);
 
-    // winConditionArgument
+    // winConditionArgumentOrLocX
     // 
-    typedef ::xml_schema::int_ winConditionArgument_type;
-    typedef ::xsd::cxx::tree::traits< winConditionArgument_type, char > winConditionArgument_traits;
+    typedef ::xml_schema::int_ winConditionArgumentOrLocX_type;
+    typedef ::xsd::cxx::tree::traits< winConditionArgumentOrLocX_type, char > winConditionArgumentOrLocX_traits;
 
-    const winConditionArgument_type&
-    winConditionArgument () const;
+    const winConditionArgumentOrLocX_type&
+    winConditionArgumentOrLocX () const;
 
-    winConditionArgument_type&
-    winConditionArgument ();
+    winConditionArgumentOrLocX_type&
+    winConditionArgumentOrLocX ();
 
     void
-    winConditionArgument (const winConditionArgument_type& x);
+    winConditionArgumentOrLocX (const winConditionArgumentOrLocX_type& x);
 
     // lossConditionType
     // 
@@ -3036,7 +3036,7 @@ namespace ironfist_save
                  const winConditionType_type&,
                  const relatedToWinConditionType_type&,
                  const allowDefeatAllVictory_type&,
-                 const winConditionArgument_type&,
+                 const winConditionArgumentOrLocX_type&,
                  const lossConditionType_type&,
                  const lossConditionArgumentOrLocX_type&,
                  const field_24_type&,
@@ -3088,7 +3088,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< winConditionType_type > winConditionType_;
     ::xsd::cxx::tree::one< relatedToWinConditionType_type > relatedToWinConditionType_;
     ::xsd::cxx::tree::one< allowDefeatAllVictory_type > allowDefeatAllVictory_;
-    ::xsd::cxx::tree::one< winConditionArgument_type > winConditionArgument_;
+    ::xsd::cxx::tree::one< winConditionArgumentOrLocX_type > winConditionArgumentOrLocX_;
     ::xsd::cxx::tree::one< lossConditionType_type > lossConditionType_;
     ::xsd::cxx::tree::one< lossConditionArgumentOrLocX_type > lossConditionArgumentOrLocX_;
     ::xsd::cxx::tree::one< field_24_type > field_24_;

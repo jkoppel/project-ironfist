@@ -2491,22 +2491,22 @@ namespace ironfist_save
     this->allowDefeatAllVictory_.set (x);
   }
 
-  const mapHeader_t::winConditionArgument_type& mapHeader_t::
-  winConditionArgument () const
+  const mapHeader_t::winConditionArgumentOrLocX_type& mapHeader_t::
+  winConditionArgumentOrLocX () const
   {
-    return this->winConditionArgument_.get ();
+    return this->winConditionArgumentOrLocX_.get ();
   }
 
-  mapHeader_t::winConditionArgument_type& mapHeader_t::
-  winConditionArgument ()
+  mapHeader_t::winConditionArgumentOrLocX_type& mapHeader_t::
+  winConditionArgumentOrLocX ()
   {
-    return this->winConditionArgument_.get ();
+    return this->winConditionArgumentOrLocX_.get ();
   }
 
   void mapHeader_t::
-  winConditionArgument (const winConditionArgument_type& x)
+  winConditionArgumentOrLocX (const winConditionArgumentOrLocX_type& x)
   {
-    this->winConditionArgument_.set (x);
+    this->winConditionArgumentOrLocX_.set (x);
   }
 
   const mapHeader_t::lossConditionType_type& mapHeader_t::
@@ -7828,7 +7828,7 @@ namespace ironfist_save
                const winConditionType_type& winConditionType,
                const relatedToWinConditionType_type& relatedToWinConditionType,
                const allowDefeatAllVictory_type& allowDefeatAllVictory,
-               const winConditionArgument_type& winConditionArgument,
+               const winConditionArgumentOrLocX_type& winConditionArgumentOrLocX,
                const lossConditionType_type& lossConditionType,
                const lossConditionArgumentOrLocX_type& lossConditionArgumentOrLocX,
                const field_24_type& field_24,
@@ -7857,7 +7857,7 @@ namespace ironfist_save
     winConditionType_ (winConditionType, ::xml_schema::flags (), this),
     relatedToWinConditionType_ (relatedToWinConditionType, ::xml_schema::flags (), this),
     allowDefeatAllVictory_ (allowDefeatAllVictory, ::xml_schema::flags (), this),
-    winConditionArgument_ (winConditionArgument, ::xml_schema::flags (), this),
+    winConditionArgumentOrLocX_ (winConditionArgumentOrLocX, ::xml_schema::flags (), this),
     lossConditionType_ (lossConditionType, ::xml_schema::flags (), this),
     lossConditionArgumentOrLocX_ (lossConditionArgumentOrLocX, ::xml_schema::flags (), this),
     field_24_ (field_24, ::xml_schema::flags (), this),
@@ -7897,7 +7897,7 @@ namespace ironfist_save
     winConditionType_ (x.winConditionType_, f, this),
     relatedToWinConditionType_ (x.relatedToWinConditionType_, f, this),
     allowDefeatAllVictory_ (x.allowDefeatAllVictory_, f, this),
-    winConditionArgument_ (x.winConditionArgument_, f, this),
+    winConditionArgumentOrLocX_ (x.winConditionArgumentOrLocX_, f, this),
     lossConditionType_ (x.lossConditionType_, f, this),
     lossConditionArgumentOrLocX_ (x.lossConditionArgumentOrLocX_, f, this),
     field_24_ (x.field_24_, f, this),
@@ -7937,7 +7937,7 @@ namespace ironfist_save
     winConditionType_ (f, this),
     relatedToWinConditionType_ (f, this),
     allowDefeatAllVictory_ (f, this),
-    winConditionArgument_ (f, this),
+    winConditionArgumentOrLocX_ (f, this),
     lossConditionType_ (f, this),
     lossConditionArgumentOrLocX_ (f, this),
     field_24_ (f, this),
@@ -8087,13 +8087,13 @@ namespace ironfist_save
         }
       }
 
-      // winConditionArgument
+      // winConditionArgumentOrLocX
       //
-      if (n.name () == "winConditionArgument" && n.namespace_ ().empty ())
+      if (n.name () == "winConditionArgumentOrLocX" && n.namespace_ ().empty ())
       {
-        if (!winConditionArgument_.present ())
+        if (!winConditionArgumentOrLocX_.present ())
         {
-          this->winConditionArgument_.set (winConditionArgument_traits::create (i, f, this));
+          this->winConditionArgumentOrLocX_.set (winConditionArgumentOrLocX_traits::create (i, f, this));
           continue;
         }
       }
@@ -8408,10 +8408,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!winConditionArgument_.present ())
+    if (!winConditionArgumentOrLocX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "winConditionArgument",
+        "winConditionArgumentOrLocX",
         "");
     }
 
@@ -14992,15 +14992,15 @@ namespace ironfist_save
       s << i.allowDefeatAllVictory ();
     }
 
-    // winConditionArgument
+    // winConditionArgumentOrLocX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "winConditionArgument",
+          "winConditionArgumentOrLocX",
           e));
 
-      s << i.winConditionArgument ();
+      s << i.winConditionArgumentOrLocX ();
     }
 
     // lossConditionType

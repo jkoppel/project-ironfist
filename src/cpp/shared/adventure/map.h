@@ -90,7 +90,7 @@ struct SMapHeader {
 	char winConditionType;
 	char relatedToWinConditionType;
 	char allowDefeatAllVictory;
-	__int16 winConditionArgument;
+	__int16 winConditionArgumentOrLocX;
 	char lossConditionType;
 	char lossConditionArgumentOrLocX;
 	char field_24;
