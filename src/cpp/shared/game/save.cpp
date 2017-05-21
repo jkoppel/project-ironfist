@@ -161,7 +161,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     pdata->_3[0] = pdata_xml->_3();
     pdata->personality = pdata_xml->personality();
     pdata->_2 = pdata_xml->_2();
-    pdata->_4_1 = pdata_xml->_4_1();
+    pdata->hasEvilFaction = pdata_xml->hasEvilFaction();
     pdata->field_40 = pdata_xml->field_40();
     pdata->field_41 = pdata_xml->field_41();
     pdata->daysLeftWithoutCastle = pdata_xml->daysLeftWithoutCastle();
@@ -454,7 +454,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       player._3[0],
       player.personality,
       player._2,
-      player._4_1,
+      player.hasEvilFaction,
       player.field_40,
       player.field_41,
       player.daysLeftWithoutCastle,

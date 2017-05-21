@@ -4630,19 +4630,19 @@ namespace ironfist_save
     void
     _2 (const _2_type& x);
 
-    // _4_1
+    // hasEvilFaction
     // 
-    typedef ::xml_schema::int_ _4_1_type;
-    typedef ::xsd::cxx::tree::traits< _4_1_type, char > _4_1_traits;
+    typedef ::xml_schema::int_ hasEvilFaction_type;
+    typedef ::xsd::cxx::tree::traits< hasEvilFaction_type, char > hasEvilFaction_traits;
 
-    const _4_1_type&
-    _4_1 () const;
+    const hasEvilFaction_type&
+    hasEvilFaction () const;
 
-    _4_1_type&
-    _4_1 ();
+    hasEvilFaction_type&
+    hasEvilFaction ();
 
     void
-    _4_1 (const _4_1_type& x);
+    hasEvilFaction (const hasEvilFaction_type& x);
 
     // field_40
     // 
@@ -4840,7 +4840,7 @@ namespace ironfist_save
                   const _3_type&,
                   const personality_type&,
                   const _2_type&,
-                  const _4_1_type&,
+                  const hasEvilFaction_type&,
                   const field_40_type&,
                   const field_41_type&,
                   const daysLeftWithoutCastle_type&,
@@ -4879,7 +4879,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< _3_type > _3_;
     ::xsd::cxx::tree::one< personality_type > personality_;
     ::xsd::cxx::tree::one< _2_type > _2_;
-    ::xsd::cxx::tree::one< _4_1_type > _4_1_;
+    ::xsd::cxx::tree::one< hasEvilFaction_type > hasEvilFaction_;
     ::xsd::cxx::tree::one< field_40_type > field_40_;
     ::xsd::cxx::tree::one< field_41_type > field_41_;
     ::xsd::cxx::tree::one< daysLeftWithoutCastle_type > daysLeftWithoutCastle_;

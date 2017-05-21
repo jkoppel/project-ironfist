@@ -319,7 +319,7 @@
       <xs:element name="_3" type="xs:int"/>
       <xs:element name="personality" type="xs:int"/>
       <xs:element name="_2" type="xs:int"/>
-      <xs:element name="_4_1" type="xs:int"/>
+      <xs:element name="hasEvilFaction" type="xs:int"/>
       <xs:element name="field_40" type="xs:int"/>
       <xs:element name="field_41" type="xs:int"/>
       <xs:element name="daysLeftWithoutCastle" type="xs:int"/>

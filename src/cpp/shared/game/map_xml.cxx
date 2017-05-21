@@ -4395,22 +4395,22 @@ namespace ironfist_save
     this->_2_.set (x);
   }
 
-  const playerData_t::_4_1_type& playerData_t::
-  _4_1 () const
+  const playerData_t::hasEvilFaction_type& playerData_t::
+  hasEvilFaction () const
   {
-    return this->_4_1_.get ();
+    return this->hasEvilFaction_.get ();
   }
 
-  playerData_t::_4_1_type& playerData_t::
-  _4_1 ()
+  playerData_t::hasEvilFaction_type& playerData_t::
+  hasEvilFaction ()
   {
-    return this->_4_1_.get ();
+    return this->hasEvilFaction_.get ();
   }
 
   void playerData_t::
-  _4_1 (const _4_1_type& x)
+  hasEvilFaction (const hasEvilFaction_type& x)
   {
-    this->_4_1_.set (x);
+    this->hasEvilFaction_.set (x);
   }
 
   const playerData_t::field_40_type& playerData_t::
@@ -10275,7 +10275,7 @@ namespace ironfist_save
                 const _3_type& _3,
                 const personality_type& personality,
                 const _2_type& _2,
-                const _4_1_type& _4_1,
+                const hasEvilFaction_type& hasEvilFaction,
                 const field_40_type& field_40,
                 const field_41_type& field_41,
                 const daysLeftWithoutCastle_type& daysLeftWithoutCastle,
@@ -10291,7 +10291,7 @@ namespace ironfist_save
     _3_ (_3, ::xml_schema::flags (), this),
     personality_ (personality, ::xml_schema::flags (), this),
     _2_ (_2, ::xml_schema::flags (), this),
-    _4_1_ (_4_1, ::xml_schema::flags (), this),
+    hasEvilFaction_ (hasEvilFaction, ::xml_schema::flags (), this),
     field_40_ (field_40, ::xml_schema::flags (), this),
     field_41_ (field_41, ::xml_schema::flags (), this),
     daysLeftWithoutCastle_ (daysLeftWithoutCastle, ::xml_schema::flags (), this),
@@ -10320,7 +10320,7 @@ namespace ironfist_save
     _3_ (x._3_, f, this),
     personality_ (x.personality_, f, this),
     _2_ (x._2_, f, this),
-    _4_1_ (x._4_1_, f, this),
+    hasEvilFaction_ (x.hasEvilFaction_, f, this),
     field_40_ (x.field_40_, f, this),
     field_41_ (x.field_41_, f, this),
     daysLeftWithoutCastle_ (x.daysLeftWithoutCastle_, f, this),
@@ -10349,7 +10349,7 @@ namespace ironfist_save
     _3_ (f, this),
     personality_ (f, this),
     _2_ (f, this),
-    _4_1_ (f, this),
+    hasEvilFaction_ (f, this),
     field_40_ (f, this),
     field_41_ (f, this),
     daysLeftWithoutCastle_ (f, this),
@@ -10468,13 +10468,13 @@ namespace ironfist_save
         }
       }
 
-      // _4_1
+      // hasEvilFaction
       //
-      if (n.name () == "_4_1" && n.namespace_ ().empty ())
+      if (n.name () == "hasEvilFaction" && n.namespace_ ().empty ())
       {
-        if (!_4_1_.present ())
+        if (!hasEvilFaction_.present ())
         {
-          this->_4_1_.set (_4_1_traits::create (i, f, this));
+          this->hasEvilFaction_.set (hasEvilFaction_traits::create (i, f, this));
           continue;
         }
       }
@@ -10670,10 +10670,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!_4_1_.present ())
+    if (!hasEvilFaction_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "_4_1",
+        "hasEvilFaction",
         "");
     }
 
@@ -16206,15 +16206,15 @@ namespace ironfist_save
       s << i._2 ();
     }
 
-    // _4_1
+    // hasEvilFaction
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_4_1",
+          "hasEvilFaction",
           e));
 
-      s << i._4_1 ();
+      s << i.hasEvilFaction ();
     }
 
     // field_40
