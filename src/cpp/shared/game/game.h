@@ -131,7 +131,7 @@ public:
 	char boatBuilt[48];
 	char obeliskVisitedMasks[48];
 	char field_637D[24];
-	char field_6395;
+	char ultimateArtifactLocX;
 	char field_6396;
 	char field_6397;
 	int field_6398;

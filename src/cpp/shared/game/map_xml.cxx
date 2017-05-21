@@ -1629,22 +1629,22 @@ namespace ironfist_save
     this->numObelisks_.set (x);
   }
 
-  const gamestate_t::field_6395_type& gamestate_t::
-  field_6395 () const
+  const gamestate_t::ultimateArtifactLocX_type& gamestate_t::
+  ultimateArtifactLocX () const
   {
-    return this->field_6395_.get ();
+    return this->ultimateArtifactLocX_.get ();
   }
 
-  gamestate_t::field_6395_type& gamestate_t::
-  field_6395 ()
+  gamestate_t::ultimateArtifactLocX_type& gamestate_t::
+  ultimateArtifactLocX ()
   {
-    return this->field_6395_.get ();
+    return this->ultimateArtifactLocX_.get ();
   }
 
   void gamestate_t::
-  field_6395 (const field_6395_type& x)
+  ultimateArtifactLocX (const ultimateArtifactLocX_type& x)
   {
-    this->field_6395_.set (x);
+    this->ultimateArtifactLocX_.set (x);
   }
 
   const gamestate_t::field_6396_type& gamestate_t::
@@ -6807,7 +6807,7 @@ namespace ironfist_save
                const week_type& week,
                const month_type& month,
                const numObelisks_type& numObelisks,
-               const field_6395_type& field_6395,
+               const ultimateArtifactLocX_type& ultimateArtifactLocX,
                const field_6396_type& field_6396,
                const field_6397_type& field_6397,
                const currentRumor_type& currentRumor,
@@ -6836,7 +6836,7 @@ namespace ironfist_save
     week_ (week, ::xml_schema::flags (), this),
     month_ (month, ::xml_schema::flags (), this),
     numObelisks_ (numObelisks, ::xml_schema::flags (), this),
-    field_6395_ (field_6395, ::xml_schema::flags (), this),
+    ultimateArtifactLocX_ (ultimateArtifactLocX, ::xml_schema::flags (), this),
     field_6396_ (field_6396, ::xml_schema::flags (), this),
     field_6397_ (field_6397, ::xml_schema::flags (), this),
     currentRumor_ (currentRumor, ::xml_schema::flags (), this),
@@ -6897,7 +6897,7 @@ namespace ironfist_save
     week_ (x.week_, f, this),
     month_ (x.month_, f, this),
     numObelisks_ (x.numObelisks_, f, this),
-    field_6395_ (x.field_6395_, f, this),
+    ultimateArtifactLocX_ (x.ultimateArtifactLocX_, f, this),
     field_6396_ (x.field_6396_, f, this),
     field_6397_ (x.field_6397_, f, this),
     currentRumor_ (x.currentRumor_, f, this),
@@ -6958,7 +6958,7 @@ namespace ironfist_save
     week_ (f, this),
     month_ (f, this),
     numObelisks_ (f, this),
-    field_6395_ (f, this),
+    ultimateArtifactLocX_ (f, this),
     field_6396_ (f, this),
     field_6397_ (f, this),
     currentRumor_ (f, this),
@@ -7189,13 +7189,13 @@ namespace ironfist_save
         }
       }
 
-      // field_6395
+      // ultimateArtifactLocX
       //
-      if (n.name () == "field_6395" && n.namespace_ ().empty ())
+      if (n.name () == "ultimateArtifactLocX" && n.namespace_ ().empty ())
       {
-        if (!field_6395_.present ())
+        if (!ultimateArtifactLocX_.present ())
         {
-          this->field_6395_.set (field_6395_traits::create (i, f, this));
+          this->ultimateArtifactLocX_.set (ultimateArtifactLocX_traits::create (i, f, this));
           continue;
         }
       }
@@ -7717,10 +7717,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_6395_.present ())
+    if (!ultimateArtifactLocX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_6395",
+        "ultimateArtifactLocX",
         "");
     }
 
@@ -14394,15 +14394,15 @@ namespace ironfist_save
       s << i.numObelisks ();
     }
 
-    // field_6395
+    // ultimateArtifactLocX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_6395",
+          "ultimateArtifactLocX",
           e));
 
-      s << i.field_6395 ();
+      s << i.ultimateArtifactLocX ();
     }
 
     // field_6396
