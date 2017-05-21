@@ -227,6 +227,7 @@ extern __int16 giUltimateArtifactBaseY;
 extern __int16 giUltimateArtifactRadius;
 
 extern char gpcBeforeGSpellLimits[];
+extern int giPlayerInitialResourcesHuman[NUM_DIFFICULTIES][NUM_RESOURCES];
 
 #pragma pack(pop)
 
