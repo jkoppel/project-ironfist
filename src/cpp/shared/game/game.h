@@ -132,7 +132,7 @@ public:
 	char obeliskVisitedMasks[48];
 	char field_637D[24];
 	char ultimateArtifactLocX;
-	char field_6396;
+	char ultimateArtifactLocY;
 	char field_6397;
 	int field_6398;
 	char _B[14];

@@ -122,7 +122,7 @@
       <xs:element name="month" type="xs:int"/>
       <xs:element name="numObelisks" type="xs:int"/>
       <xs:element name="ultimateArtifactLocX" type="xs:int"/>
-      <xs:element name="field_6396" type="xs:int"/>
+      <xs:element name="ultimateArtifactLocY" type="xs:int"/>
       <xs:element name="field_6397" type="xs:int"/>
       <xs:element name="currentRumor" type="xs:string"/>
       <xs:element name="numRumors" type="xs:int"/>

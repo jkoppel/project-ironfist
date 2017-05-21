@@ -1861,19 +1861,19 @@ namespace ironfist_save
     void
     ultimateArtifactLocX (const ultimateArtifactLocX_type& x);
 
-    // field_6396
+    // ultimateArtifactLocY
     // 
-    typedef ::xml_schema::int_ field_6396_type;
-    typedef ::xsd::cxx::tree::traits< field_6396_type, char > field_6396_traits;
+    typedef ::xml_schema::int_ ultimateArtifactLocY_type;
+    typedef ::xsd::cxx::tree::traits< ultimateArtifactLocY_type, char > ultimateArtifactLocY_traits;
 
-    const field_6396_type&
-    field_6396 () const;
+    const ultimateArtifactLocY_type&
+    ultimateArtifactLocY () const;
 
-    field_6396_type&
-    field_6396 ();
+    ultimateArtifactLocY_type&
+    ultimateArtifactLocY ();
 
     void
-    field_6396 (const field_6396_type& x);
+    ultimateArtifactLocY (const ultimateArtifactLocY_type& x);
 
     // field_6397
     // 
@@ -2465,7 +2465,7 @@ namespace ironfist_save
                  const month_type&,
                  const numObelisks_type&,
                  const ultimateArtifactLocX_type&,
-                 const field_6396_type&,
+                 const ultimateArtifactLocY_type&,
                  const field_6397_type&,
                  const currentRumor_type&,
                  const numRumors_type&,
@@ -2517,7 +2517,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< month_type > month_;
     ::xsd::cxx::tree::one< numObelisks_type > numObelisks_;
     ::xsd::cxx::tree::one< ultimateArtifactLocX_type > ultimateArtifactLocX_;
-    ::xsd::cxx::tree::one< field_6396_type > field_6396_;
+    ::xsd::cxx::tree::one< ultimateArtifactLocY_type > ultimateArtifactLocY_;
     ::xsd::cxx::tree::one< field_6397_type > field_6397_;
     ::xsd::cxx::tree::one< currentRumor_type > currentRumor_;
     ::xsd::cxx::tree::one< numRumors_type > numRumors_;

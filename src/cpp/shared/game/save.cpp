@@ -249,7 +249,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ReadArrayFromXML(gam->obeliskVisitedMasks, gs.obeliskVisitedMasks());
 
   gam->ultimateArtifactLocX = gs.ultimateArtifactLocX();
-  gam->field_6396 = gs.field_6396();
+  gam->ultimateArtifactLocY = gs.ultimateArtifactLocY();
   gam->field_6397 = gs.field_6397();
   strcpy(gam->currentRumor, gs.currentRumor().c_str());
 
@@ -344,7 +344,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     (int)gam->month,
     (int)gam->numObelisks,
     (int)gam->ultimateArtifactLocX,
-    (int)gam->field_6396,
+    (int)gam->ultimateArtifactLocY,
     (int)gam->field_6397,
     gam->currentRumor,
     (int)gam->numRumors,
