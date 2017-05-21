@@ -177,7 +177,7 @@
       <xs:element name="minHumans" type="xs:int"/>
       <xs:element name="maxHumans" type="xs:int"/>
       <xs:element name="winConditionType" type="xs:int"/>
-      <xs:element name="field_1E" type="xs:int"/>
+      <xs:element name="relatedToWinConditionType" type="xs:int"/>
       <xs:element name="allowDefeatAllVictory" type="xs:int"/>
       <xs:element name="winConditionArgument" type="xs:int"/>
       <xs:element name="lossConditionType" type="xs:int"/>

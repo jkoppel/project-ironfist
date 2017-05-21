@@ -88,7 +88,7 @@ struct SMapHeader {
 	char minHumans;
 	char maxHumans;
 	char winConditionType;
-	char field_1E;
+	char relatedToWinConditionType;
 	char allowDefeatAllVictory;
 	__int16 winConditionArgument;
 	char lossConditionType;

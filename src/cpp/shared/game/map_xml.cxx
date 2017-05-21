@@ -2455,22 +2455,22 @@ namespace ironfist_save
     this->winConditionType_.set (x);
   }
 
-  const mapHeader_t::field_1E_type& mapHeader_t::
-  field_1E () const
+  const mapHeader_t::relatedToWinConditionType_type& mapHeader_t::
+  relatedToWinConditionType () const
   {
-    return this->field_1E_.get ();
+    return this->relatedToWinConditionType_.get ();
   }
 
-  mapHeader_t::field_1E_type& mapHeader_t::
-  field_1E ()
+  mapHeader_t::relatedToWinConditionType_type& mapHeader_t::
+  relatedToWinConditionType ()
   {
-    return this->field_1E_.get ();
+    return this->relatedToWinConditionType_.get ();
   }
 
   void mapHeader_t::
-  field_1E (const field_1E_type& x)
+  relatedToWinConditionType (const relatedToWinConditionType_type& x)
   {
-    this->field_1E_.set (x);
+    this->relatedToWinConditionType_.set (x);
   }
 
   const mapHeader_t::allowDefeatAllVictory_type& mapHeader_t::
@@ -7826,7 +7826,7 @@ namespace ironfist_save
                const minHumans_type& minHumans,
                const maxHumans_type& maxHumans,
                const winConditionType_type& winConditionType,
-               const field_1E_type& field_1E,
+               const relatedToWinConditionType_type& relatedToWinConditionType,
                const allowDefeatAllVictory_type& allowDefeatAllVictory,
                const winConditionArgument_type& winConditionArgument,
                const lossConditionType_type& lossConditionType,
@@ -7855,7 +7855,7 @@ namespace ironfist_save
     minHumans_ (minHumans, ::xml_schema::flags (), this),
     maxHumans_ (maxHumans, ::xml_schema::flags (), this),
     winConditionType_ (winConditionType, ::xml_schema::flags (), this),
-    field_1E_ (field_1E, ::xml_schema::flags (), this),
+    relatedToWinConditionType_ (relatedToWinConditionType, ::xml_schema::flags (), this),
     allowDefeatAllVictory_ (allowDefeatAllVictory, ::xml_schema::flags (), this),
     winConditionArgument_ (winConditionArgument, ::xml_schema::flags (), this),
     lossConditionType_ (lossConditionType, ::xml_schema::flags (), this),
@@ -7895,7 +7895,7 @@ namespace ironfist_save
     minHumans_ (x.minHumans_, f, this),
     maxHumans_ (x.maxHumans_, f, this),
     winConditionType_ (x.winConditionType_, f, this),
-    field_1E_ (x.field_1E_, f, this),
+    relatedToWinConditionType_ (x.relatedToWinConditionType_, f, this),
     allowDefeatAllVictory_ (x.allowDefeatAllVictory_, f, this),
     winConditionArgument_ (x.winConditionArgument_, f, this),
     lossConditionType_ (x.lossConditionType_, f, this),
@@ -7935,7 +7935,7 @@ namespace ironfist_save
     minHumans_ (f, this),
     maxHumans_ (f, this),
     winConditionType_ (f, this),
-    field_1E_ (f, this),
+    relatedToWinConditionType_ (f, this),
     allowDefeatAllVictory_ (f, this),
     winConditionArgument_ (f, this),
     lossConditionType_ (f, this),
@@ -8065,13 +8065,13 @@ namespace ironfist_save
         }
       }
 
-      // field_1E
+      // relatedToWinConditionType
       //
-      if (n.name () == "field_1E" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToWinConditionType" && n.namespace_ ().empty ())
       {
-        if (!field_1E_.present ())
+        if (!relatedToWinConditionType_.present ())
         {
-          this->field_1E_.set (field_1E_traits::create (i, f, this));
+          this->relatedToWinConditionType_.set (relatedToWinConditionType_traits::create (i, f, this));
           continue;
         }
       }
@@ -8394,10 +8394,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_1E_.present ())
+    if (!relatedToWinConditionType_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_1E",
+        "relatedToWinConditionType",
         "");
     }
 
@@ -14970,15 +14970,15 @@ namespace ironfist_save
       s << i.winConditionType ();
     }
 
-    // field_1E
+    // relatedToWinConditionType
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_1E",
+          "relatedToWinConditionType",
           e));
 
-      s << i.field_1E ();
+      s << i.relatedToWinConditionType ();
     }
 
     // allowDefeatAllVictory

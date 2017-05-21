@@ -72,7 +72,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   mh->minHumans = mh_xml->minHumans();
   mh->maxHumans = mh_xml->maxHumans();
   mh->winConditionType = mh_xml->winConditionType();
-  mh->field_1E = mh_xml->field_1E();
+  mh->relatedToWinConditionType = mh_xml->relatedToWinConditionType();
   mh->allowDefeatAllVictory = mh_xml->allowDefeatAllVictory();
   mh->winConditionArgument = mh_xml->winConditionArgument();
   mh->lossConditionType = mh_xml->lossConditionType();
@@ -367,7 +367,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     mh->minHumans,
     mh->maxHumans,
     mh->winConditionType,
-    mh->field_1E,
+    mh->relatedToWinConditionType,
     mh->allowDefeatAllVictory,
     mh->winConditionArgument,
     mh->lossConditionType,

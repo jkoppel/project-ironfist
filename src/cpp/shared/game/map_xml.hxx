@@ -2670,19 +2670,19 @@ namespace ironfist_save
     void
     winConditionType (const winConditionType_type& x);
 
-    // field_1E
+    // relatedToWinConditionType
     // 
-    typedef ::xml_schema::int_ field_1E_type;
-    typedef ::xsd::cxx::tree::traits< field_1E_type, char > field_1E_traits;
+    typedef ::xml_schema::int_ relatedToWinConditionType_type;
+    typedef ::xsd::cxx::tree::traits< relatedToWinConditionType_type, char > relatedToWinConditionType_traits;
 
-    const field_1E_type&
-    field_1E () const;
+    const relatedToWinConditionType_type&
+    relatedToWinConditionType () const;
 
-    field_1E_type&
-    field_1E ();
+    relatedToWinConditionType_type&
+    relatedToWinConditionType ();
 
     void
-    field_1E (const field_1E_type& x);
+    relatedToWinConditionType (const relatedToWinConditionType_type& x);
 
     // allowDefeatAllVictory
     // 
@@ -3034,7 +3034,7 @@ namespace ironfist_save
                  const minHumans_type&,
                  const maxHumans_type&,
                  const winConditionType_type&,
-                 const field_1E_type&,
+                 const relatedToWinConditionType_type&,
                  const allowDefeatAllVictory_type&,
                  const winConditionArgument_type&,
                  const lossConditionType_type&,
@@ -3086,7 +3086,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< minHumans_type > minHumans_;
     ::xsd::cxx::tree::one< maxHumans_type > maxHumans_;
     ::xsd::cxx::tree::one< winConditionType_type > winConditionType_;
-    ::xsd::cxx::tree::one< field_1E_type > field_1E_;
+    ::xsd::cxx::tree::one< relatedToWinConditionType_type > relatedToWinConditionType_;
     ::xsd::cxx::tree::one< allowDefeatAllVictory_type > allowDefeatAllVictory_;
     ::xsd::cxx::tree::one< winConditionArgument_type > winConditionArgument_;
     ::xsd::cxx::tree::one< lossConditionType_type > lossConditionType_;
