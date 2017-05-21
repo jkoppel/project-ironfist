@@ -1665,22 +1665,22 @@ namespace ironfist_save
     this->ultimateArtifactLocY_.set (x);
   }
 
-  const gamestate_t::field_6397_type& gamestate_t::
-  field_6397 () const
+  const gamestate_t::ultimateArtifactIdx_type& gamestate_t::
+  ultimateArtifactIdx () const
   {
-    return this->field_6397_.get ();
+    return this->ultimateArtifactIdx_.get ();
   }
 
-  gamestate_t::field_6397_type& gamestate_t::
-  field_6397 ()
+  gamestate_t::ultimateArtifactIdx_type& gamestate_t::
+  ultimateArtifactIdx ()
   {
-    return this->field_6397_.get ();
+    return this->ultimateArtifactIdx_.get ();
   }
 
   void gamestate_t::
-  field_6397 (const field_6397_type& x)
+  ultimateArtifactIdx (const ultimateArtifactIdx_type& x)
   {
-    this->field_6397_.set (x);
+    this->ultimateArtifactIdx_.set (x);
   }
 
   const gamestate_t::currentRumor_type& gamestate_t::
@@ -6809,7 +6809,7 @@ namespace ironfist_save
                const numObelisks_type& numObelisks,
                const ultimateArtifactLocX_type& ultimateArtifactLocX,
                const ultimateArtifactLocY_type& ultimateArtifactLocY,
-               const field_6397_type& field_6397,
+               const ultimateArtifactIdx_type& ultimateArtifactIdx,
                const currentRumor_type& currentRumor,
                const numRumors_type& numRumors,
                const numEvents_type& numEvents,
@@ -6838,7 +6838,7 @@ namespace ironfist_save
     numObelisks_ (numObelisks, ::xml_schema::flags (), this),
     ultimateArtifactLocX_ (ultimateArtifactLocX, ::xml_schema::flags (), this),
     ultimateArtifactLocY_ (ultimateArtifactLocY, ::xml_schema::flags (), this),
-    field_6397_ (field_6397, ::xml_schema::flags (), this),
+    ultimateArtifactIdx_ (ultimateArtifactIdx, ::xml_schema::flags (), this),
     currentRumor_ (currentRumor, ::xml_schema::flags (), this),
     numRumors_ (numRumors, ::xml_schema::flags (), this),
     numEvents_ (numEvents, ::xml_schema::flags (), this),
@@ -6899,7 +6899,7 @@ namespace ironfist_save
     numObelisks_ (x.numObelisks_, f, this),
     ultimateArtifactLocX_ (x.ultimateArtifactLocX_, f, this),
     ultimateArtifactLocY_ (x.ultimateArtifactLocY_, f, this),
-    field_6397_ (x.field_6397_, f, this),
+    ultimateArtifactIdx_ (x.ultimateArtifactIdx_, f, this),
     currentRumor_ (x.currentRumor_, f, this),
     numRumors_ (x.numRumors_, f, this),
     numEvents_ (x.numEvents_, f, this),
@@ -6960,7 +6960,7 @@ namespace ironfist_save
     numObelisks_ (f, this),
     ultimateArtifactLocX_ (f, this),
     ultimateArtifactLocY_ (f, this),
-    field_6397_ (f, this),
+    ultimateArtifactIdx_ (f, this),
     currentRumor_ (f, this),
     numRumors_ (f, this),
     numEvents_ (f, this),
@@ -7211,13 +7211,13 @@ namespace ironfist_save
         }
       }
 
-      // field_6397
+      // ultimateArtifactIdx
       //
-      if (n.name () == "field_6397" && n.namespace_ ().empty ())
+      if (n.name () == "ultimateArtifactIdx" && n.namespace_ ().empty ())
       {
-        if (!field_6397_.present ())
+        if (!ultimateArtifactIdx_.present ())
         {
-          this->field_6397_.set (field_6397_traits::create (i, f, this));
+          this->ultimateArtifactIdx_.set (ultimateArtifactIdx_traits::create (i, f, this));
           continue;
         }
       }
@@ -7731,10 +7731,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_6397_.present ())
+    if (!ultimateArtifactIdx_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_6397",
+        "ultimateArtifactIdx",
         "");
     }
 
@@ -14416,15 +14416,15 @@ namespace ironfist_save
       s << i.ultimateArtifactLocY ();
     }
 
-    // field_6397
+    // ultimateArtifactIdx
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_6397",
+          "ultimateArtifactIdx",
           e));
 
-      s << i.field_6397 ();
+      s << i.ultimateArtifactIdx ();
     }
 
     // currentRumor

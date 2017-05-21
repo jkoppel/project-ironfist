@@ -250,7 +250,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
 
   gam->ultimateArtifactLocX = gs.ultimateArtifactLocX();
   gam->ultimateArtifactLocY = gs.ultimateArtifactLocY();
-  gam->field_6397 = gs.field_6397();
+  gam->ultimateArtifactIdx = gs.ultimateArtifactIdx();
   strcpy(gam->currentRumor, gs.currentRumor().c_str());
 
   ReadArrayFromXML(gam->field_637D, gs.field_637D());
@@ -345,7 +345,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     (int)gam->numObelisks,
     (int)gam->ultimateArtifactLocX,
     (int)gam->ultimateArtifactLocY,
-    (int)gam->field_6397,
+    (int)gam->ultimateArtifactIdx,
     gam->currentRumor,
     (int)gam->numRumors,
     (int)gam->numEvents,
