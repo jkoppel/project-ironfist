@@ -181,7 +181,7 @@
       <xs:element name="allowDefeatAllVictory" type="xs:int"/>
       <xs:element name="winConditionArgument" type="xs:int"/>
       <xs:element name="lossConditionType" type="xs:int"/>
-      <xs:element name="field_23" type="xs:int"/>
+      <xs:element name="lossConditionArgumentOrLocX" type="xs:int"/>
       <xs:element name="field_24" type="xs:int"/>
       <xs:element name="noStartingHeroInCastle" type="xs:int"/>
       <xs:element name="field_2C" type="xs:int"/>

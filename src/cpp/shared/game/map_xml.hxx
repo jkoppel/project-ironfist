@@ -2726,19 +2726,19 @@ namespace ironfist_save
     void
     lossConditionType (const lossConditionType_type& x);
 
-    // field_23
+    // lossConditionArgumentOrLocX
     // 
-    typedef ::xml_schema::int_ field_23_type;
-    typedef ::xsd::cxx::tree::traits< field_23_type, char > field_23_traits;
+    typedef ::xml_schema::int_ lossConditionArgumentOrLocX_type;
+    typedef ::xsd::cxx::tree::traits< lossConditionArgumentOrLocX_type, char > lossConditionArgumentOrLocX_traits;
 
-    const field_23_type&
-    field_23 () const;
+    const lossConditionArgumentOrLocX_type&
+    lossConditionArgumentOrLocX () const;
 
-    field_23_type&
-    field_23 ();
+    lossConditionArgumentOrLocX_type&
+    lossConditionArgumentOrLocX ();
 
     void
-    field_23 (const field_23_type& x);
+    lossConditionArgumentOrLocX (const lossConditionArgumentOrLocX_type& x);
 
     // field_24
     // 
@@ -3038,7 +3038,7 @@ namespace ironfist_save
                  const allowDefeatAllVictory_type&,
                  const winConditionArgument_type&,
                  const lossConditionType_type&,
-                 const field_23_type&,
+                 const lossConditionArgumentOrLocX_type&,
                  const field_24_type&,
                  const noStartingHeroInCastle_type&,
                  const field_2C_type&,
@@ -3090,7 +3090,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< allowDefeatAllVictory_type > allowDefeatAllVictory_;
     ::xsd::cxx::tree::one< winConditionArgument_type > winConditionArgument_;
     ::xsd::cxx::tree::one< lossConditionType_type > lossConditionType_;
-    ::xsd::cxx::tree::one< field_23_type > field_23_;
+    ::xsd::cxx::tree::one< lossConditionArgumentOrLocX_type > lossConditionArgumentOrLocX_;
     ::xsd::cxx::tree::one< field_24_type > field_24_;
     ::xsd::cxx::tree::one< noStartingHeroInCastle_type > noStartingHeroInCastle_;
     ::xsd::cxx::tree::one< field_2C_type > field_2C_;

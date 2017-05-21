@@ -2527,22 +2527,22 @@ namespace ironfist_save
     this->lossConditionType_.set (x);
   }
 
-  const mapHeader_t::field_23_type& mapHeader_t::
-  field_23 () const
+  const mapHeader_t::lossConditionArgumentOrLocX_type& mapHeader_t::
+  lossConditionArgumentOrLocX () const
   {
-    return this->field_23_.get ();
+    return this->lossConditionArgumentOrLocX_.get ();
   }
 
-  mapHeader_t::field_23_type& mapHeader_t::
-  field_23 ()
+  mapHeader_t::lossConditionArgumentOrLocX_type& mapHeader_t::
+  lossConditionArgumentOrLocX ()
   {
-    return this->field_23_.get ();
+    return this->lossConditionArgumentOrLocX_.get ();
   }
 
   void mapHeader_t::
-  field_23 (const field_23_type& x)
+  lossConditionArgumentOrLocX (const lossConditionArgumentOrLocX_type& x)
   {
-    this->field_23_.set (x);
+    this->lossConditionArgumentOrLocX_.set (x);
   }
 
   const mapHeader_t::field_24_type& mapHeader_t::
@@ -7830,7 +7830,7 @@ namespace ironfist_save
                const allowDefeatAllVictory_type& allowDefeatAllVictory,
                const winConditionArgument_type& winConditionArgument,
                const lossConditionType_type& lossConditionType,
-               const field_23_type& field_23,
+               const lossConditionArgumentOrLocX_type& lossConditionArgumentOrLocX,
                const field_24_type& field_24,
                const noStartingHeroInCastle_type& noStartingHeroInCastle,
                const field_2C_type& field_2C,
@@ -7859,7 +7859,7 @@ namespace ironfist_save
     allowDefeatAllVictory_ (allowDefeatAllVictory, ::xml_schema::flags (), this),
     winConditionArgument_ (winConditionArgument, ::xml_schema::flags (), this),
     lossConditionType_ (lossConditionType, ::xml_schema::flags (), this),
-    field_23_ (field_23, ::xml_schema::flags (), this),
+    lossConditionArgumentOrLocX_ (lossConditionArgumentOrLocX, ::xml_schema::flags (), this),
     field_24_ (field_24, ::xml_schema::flags (), this),
     noStartingHeroInCastle_ (noStartingHeroInCastle, ::xml_schema::flags (), this),
     field_2C_ (field_2C, ::xml_schema::flags (), this),
@@ -7899,7 +7899,7 @@ namespace ironfist_save
     allowDefeatAllVictory_ (x.allowDefeatAllVictory_, f, this),
     winConditionArgument_ (x.winConditionArgument_, f, this),
     lossConditionType_ (x.lossConditionType_, f, this),
-    field_23_ (x.field_23_, f, this),
+    lossConditionArgumentOrLocX_ (x.lossConditionArgumentOrLocX_, f, this),
     field_24_ (x.field_24_, f, this),
     noStartingHeroInCastle_ (x.noStartingHeroInCastle_, f, this),
     field_2C_ (x.field_2C_, f, this),
@@ -7939,7 +7939,7 @@ namespace ironfist_save
     allowDefeatAllVictory_ (f, this),
     winConditionArgument_ (f, this),
     lossConditionType_ (f, this),
-    field_23_ (f, this),
+    lossConditionArgumentOrLocX_ (f, this),
     field_24_ (f, this),
     noStartingHeroInCastle_ (f, this),
     field_2C_ (f, this),
@@ -8109,13 +8109,13 @@ namespace ironfist_save
         }
       }
 
-      // field_23
+      // lossConditionArgumentOrLocX
       //
-      if (n.name () == "field_23" && n.namespace_ ().empty ())
+      if (n.name () == "lossConditionArgumentOrLocX" && n.namespace_ ().empty ())
       {
-        if (!field_23_.present ())
+        if (!lossConditionArgumentOrLocX_.present ())
         {
-          this->field_23_.set (field_23_traits::create (i, f, this));
+          this->lossConditionArgumentOrLocX_.set (lossConditionArgumentOrLocX_traits::create (i, f, this));
           continue;
         }
       }
@@ -8422,10 +8422,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_23_.present ())
+    if (!lossConditionArgumentOrLocX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_23",
+        "lossConditionArgumentOrLocX",
         "");
     }
 
@@ -15014,15 +15014,15 @@ namespace ironfist_save
       s << i.lossConditionType ();
     }
 
-    // field_23
+    // lossConditionArgumentOrLocX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_23",
+          "lossConditionArgumentOrLocX",
           e));
 
-      s << i.field_23 ();
+      s << i.lossConditionArgumentOrLocX ();
     }
 
     // field_24

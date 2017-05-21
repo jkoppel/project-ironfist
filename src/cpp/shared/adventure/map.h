@@ -92,7 +92,7 @@ struct SMapHeader {
 	char allowDefeatAllVictory;
 	__int16 winConditionArgument;
 	char lossConditionType;
-	char field_23;
+	char lossConditionArgumentOrLocX;
 	char field_24;
 	char noStartingHeroInCastle;
 	char playerFactions[6];
