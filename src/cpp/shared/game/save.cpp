@@ -75,7 +75,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   mh->field_1E = mh_xml->field_1E();
   mh->allowDefeatAllVictory = mh_xml->allowDefeatAllVictory();
   mh->winConditionArgument = mh_xml->winConditionArgument();
-  mh->field_22 = mh_xml->field_22();
+  mh->lossConditionType = mh_xml->lossConditionType();
   mh->field_23 = mh_xml->field_23();
   mh->field_24 = mh_xml->field_24();
   mh->noStartingHeroInCastle = mh_xml->noStartingHeroInCastle();
@@ -370,7 +370,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     mh->field_1E,
     mh->allowDefeatAllVictory,
     mh->winConditionArgument,
-    mh->field_22,
+    mh->lossConditionType,
     mh->field_23,
     mh->field_24,
     mh->noStartingHeroInCastle,

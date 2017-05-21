@@ -2509,22 +2509,22 @@ namespace ironfist_save
     this->winConditionArgument_.set (x);
   }
 
-  const mapHeader_t::field_22_type& mapHeader_t::
-  field_22 () const
+  const mapHeader_t::lossConditionType_type& mapHeader_t::
+  lossConditionType () const
   {
-    return this->field_22_.get ();
+    return this->lossConditionType_.get ();
   }
 
-  mapHeader_t::field_22_type& mapHeader_t::
-  field_22 ()
+  mapHeader_t::lossConditionType_type& mapHeader_t::
+  lossConditionType ()
   {
-    return this->field_22_.get ();
+    return this->lossConditionType_.get ();
   }
 
   void mapHeader_t::
-  field_22 (const field_22_type& x)
+  lossConditionType (const lossConditionType_type& x)
   {
-    this->field_22_.set (x);
+    this->lossConditionType_.set (x);
   }
 
   const mapHeader_t::field_23_type& mapHeader_t::
@@ -7829,7 +7829,7 @@ namespace ironfist_save
                const field_1E_type& field_1E,
                const allowDefeatAllVictory_type& allowDefeatAllVictory,
                const winConditionArgument_type& winConditionArgument,
-               const field_22_type& field_22,
+               const lossConditionType_type& lossConditionType,
                const field_23_type& field_23,
                const field_24_type& field_24,
                const noStartingHeroInCastle_type& noStartingHeroInCastle,
@@ -7858,7 +7858,7 @@ namespace ironfist_save
     field_1E_ (field_1E, ::xml_schema::flags (), this),
     allowDefeatAllVictory_ (allowDefeatAllVictory, ::xml_schema::flags (), this),
     winConditionArgument_ (winConditionArgument, ::xml_schema::flags (), this),
-    field_22_ (field_22, ::xml_schema::flags (), this),
+    lossConditionType_ (lossConditionType, ::xml_schema::flags (), this),
     field_23_ (field_23, ::xml_schema::flags (), this),
     field_24_ (field_24, ::xml_schema::flags (), this),
     noStartingHeroInCastle_ (noStartingHeroInCastle, ::xml_schema::flags (), this),
@@ -7898,7 +7898,7 @@ namespace ironfist_save
     field_1E_ (x.field_1E_, f, this),
     allowDefeatAllVictory_ (x.allowDefeatAllVictory_, f, this),
     winConditionArgument_ (x.winConditionArgument_, f, this),
-    field_22_ (x.field_22_, f, this),
+    lossConditionType_ (x.lossConditionType_, f, this),
     field_23_ (x.field_23_, f, this),
     field_24_ (x.field_24_, f, this),
     noStartingHeroInCastle_ (x.noStartingHeroInCastle_, f, this),
@@ -7938,7 +7938,7 @@ namespace ironfist_save
     field_1E_ (f, this),
     allowDefeatAllVictory_ (f, this),
     winConditionArgument_ (f, this),
-    field_22_ (f, this),
+    lossConditionType_ (f, this),
     field_23_ (f, this),
     field_24_ (f, this),
     noStartingHeroInCastle_ (f, this),
@@ -8098,13 +8098,13 @@ namespace ironfist_save
         }
       }
 
-      // field_22
+      // lossConditionType
       //
-      if (n.name () == "field_22" && n.namespace_ ().empty ())
+      if (n.name () == "lossConditionType" && n.namespace_ ().empty ())
       {
-        if (!field_22_.present ())
+        if (!lossConditionType_.present ())
         {
-          this->field_22_.set (field_22_traits::create (i, f, this));
+          this->lossConditionType_.set (lossConditionType_traits::create (i, f, this));
           continue;
         }
       }
@@ -8415,10 +8415,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_22_.present ())
+    if (!lossConditionType_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_22",
+        "lossConditionType",
         "");
     }
 
@@ -15003,15 +15003,15 @@ namespace ironfist_save
       s << i.winConditionArgument ();
     }
 
-    // field_22
+    // lossConditionType
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_22",
+          "lossConditionType",
           e));
 
-      s << i.field_22 ();
+      s << i.lossConditionType ();
     }
 
     // field_23

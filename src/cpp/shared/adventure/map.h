@@ -91,7 +91,7 @@ struct SMapHeader {
 	char field_1E;
 	char allowDefeatAllVictory;
 	__int16 winConditionArgument;
-	char field_22;
+	char lossConditionType;
 	char field_23;
 	char field_24;
 	char noStartingHeroInCastle;
