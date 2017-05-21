@@ -96,7 +96,7 @@ struct SMapHeader {
 	char field_24;
 	char noStartingHeroInCastle;
 	char playerFactions[6];
-	__int16 field_2C;
+	__int16 winConditionArgumentOrLocY;
 	int field_2E;
 	int field_32;
 	char field_36;

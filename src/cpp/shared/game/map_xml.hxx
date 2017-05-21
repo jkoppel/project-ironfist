@@ -2768,19 +2768,19 @@ namespace ironfist_save
     void
     noStartingHeroInCastle (const noStartingHeroInCastle_type& x);
 
-    // field_2C
+    // winConditionArgumentOrLocY
     // 
-    typedef ::xml_schema::int_ field_2C_type;
-    typedef ::xsd::cxx::tree::traits< field_2C_type, char > field_2C_traits;
+    typedef ::xml_schema::int_ winConditionArgumentOrLocY_type;
+    typedef ::xsd::cxx::tree::traits< winConditionArgumentOrLocY_type, char > winConditionArgumentOrLocY_traits;
 
-    const field_2C_type&
-    field_2C () const;
+    const winConditionArgumentOrLocY_type&
+    winConditionArgumentOrLocY () const;
 
-    field_2C_type&
-    field_2C ();
+    winConditionArgumentOrLocY_type&
+    winConditionArgumentOrLocY ();
 
     void
-    field_2C (const field_2C_type& x);
+    winConditionArgumentOrLocY (const winConditionArgumentOrLocY_type& x);
 
     // field_2E
     // 
@@ -3041,7 +3041,7 @@ namespace ironfist_save
                  const lossConditionArgumentOrLocX_type&,
                  const field_24_type&,
                  const noStartingHeroInCastle_type&,
-                 const field_2C_type&,
+                 const winConditionArgumentOrLocY_type&,
                  const field_2E_type&,
                  const field_32_type&,
                  const field_36_type&,
@@ -3093,7 +3093,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< lossConditionArgumentOrLocX_type > lossConditionArgumentOrLocX_;
     ::xsd::cxx::tree::one< field_24_type > field_24_;
     ::xsd::cxx::tree::one< noStartingHeroInCastle_type > noStartingHeroInCastle_;
-    ::xsd::cxx::tree::one< field_2C_type > field_2C_;
+    ::xsd::cxx::tree::one< winConditionArgumentOrLocY_type > winConditionArgumentOrLocY_;
     ::xsd::cxx::tree::one< field_2E_type > field_2E_;
     ::xsd::cxx::tree::one< field_32_type > field_32_;
     ::xsd::cxx::tree::one< field_36_type > field_36_;

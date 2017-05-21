@@ -2581,22 +2581,22 @@ namespace ironfist_save
     this->noStartingHeroInCastle_.set (x);
   }
 
-  const mapHeader_t::field_2C_type& mapHeader_t::
-  field_2C () const
+  const mapHeader_t::winConditionArgumentOrLocY_type& mapHeader_t::
+  winConditionArgumentOrLocY () const
   {
-    return this->field_2C_.get ();
+    return this->winConditionArgumentOrLocY_.get ();
   }
 
-  mapHeader_t::field_2C_type& mapHeader_t::
-  field_2C ()
+  mapHeader_t::winConditionArgumentOrLocY_type& mapHeader_t::
+  winConditionArgumentOrLocY ()
   {
-    return this->field_2C_.get ();
+    return this->winConditionArgumentOrLocY_.get ();
   }
 
   void mapHeader_t::
-  field_2C (const field_2C_type& x)
+  winConditionArgumentOrLocY (const winConditionArgumentOrLocY_type& x)
   {
-    this->field_2C_.set (x);
+    this->winConditionArgumentOrLocY_.set (x);
   }
 
   const mapHeader_t::field_2E_type& mapHeader_t::
@@ -7833,7 +7833,7 @@ namespace ironfist_save
                const lossConditionArgumentOrLocX_type& lossConditionArgumentOrLocX,
                const field_24_type& field_24,
                const noStartingHeroInCastle_type& noStartingHeroInCastle,
-               const field_2C_type& field_2C,
+               const winConditionArgumentOrLocY_type& winConditionArgumentOrLocY,
                const field_2E_type& field_2E,
                const field_32_type& field_32,
                const field_36_type& field_36,
@@ -7862,7 +7862,7 @@ namespace ironfist_save
     lossConditionArgumentOrLocX_ (lossConditionArgumentOrLocX, ::xml_schema::flags (), this),
     field_24_ (field_24, ::xml_schema::flags (), this),
     noStartingHeroInCastle_ (noStartingHeroInCastle, ::xml_schema::flags (), this),
-    field_2C_ (field_2C, ::xml_schema::flags (), this),
+    winConditionArgumentOrLocY_ (winConditionArgumentOrLocY, ::xml_schema::flags (), this),
     field_2E_ (field_2E, ::xml_schema::flags (), this),
     field_32_ (field_32, ::xml_schema::flags (), this),
     field_36_ (field_36, ::xml_schema::flags (), this),
@@ -7902,7 +7902,7 @@ namespace ironfist_save
     lossConditionArgumentOrLocX_ (x.lossConditionArgumentOrLocX_, f, this),
     field_24_ (x.field_24_, f, this),
     noStartingHeroInCastle_ (x.noStartingHeroInCastle_, f, this),
-    field_2C_ (x.field_2C_, f, this),
+    winConditionArgumentOrLocY_ (x.winConditionArgumentOrLocY_, f, this),
     field_2E_ (x.field_2E_, f, this),
     field_32_ (x.field_32_, f, this),
     field_36_ (x.field_36_, f, this),
@@ -7942,7 +7942,7 @@ namespace ironfist_save
     lossConditionArgumentOrLocX_ (f, this),
     field_24_ (f, this),
     noStartingHeroInCastle_ (f, this),
-    field_2C_ (f, this),
+    winConditionArgumentOrLocY_ (f, this),
     field_2E_ (f, this),
     field_32_ (f, this),
     field_36_ (f, this),
@@ -8142,13 +8142,13 @@ namespace ironfist_save
         }
       }
 
-      // field_2C
+      // winConditionArgumentOrLocY
       //
-      if (n.name () == "field_2C" && n.namespace_ ().empty ())
+      if (n.name () == "winConditionArgumentOrLocY" && n.namespace_ ().empty ())
       {
-        if (!field_2C_.present ())
+        if (!winConditionArgumentOrLocY_.present ())
         {
-          this->field_2C_.set (field_2C_traits::create (i, f, this));
+          this->winConditionArgumentOrLocY_.set (winConditionArgumentOrLocY_traits::create (i, f, this));
           continue;
         }
       }
@@ -8443,10 +8443,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_2C_.present ())
+    if (!winConditionArgumentOrLocY_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_2C",
+        "winConditionArgumentOrLocY",
         "");
     }
 
@@ -15047,15 +15047,15 @@ namespace ironfist_save
       s << i.noStartingHeroInCastle ();
     }
 
-    // field_2C
+    // winConditionArgumentOrLocY
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_2C",
+          "winConditionArgumentOrLocY",
           e));
 
-      s << i.field_2C ();
+      s << i.winConditionArgumentOrLocY ();
     }
 
     // field_2E

@@ -184,7 +184,7 @@
       <xs:element name="lossConditionArgumentOrLocX" type="xs:int"/>
       <xs:element name="field_24" type="xs:int"/>
       <xs:element name="noStartingHeroInCastle" type="xs:int"/>
-      <xs:element name="field_2C" type="xs:int"/>
+      <xs:element name="winConditionArgumentOrLocY" type="xs:int"/>
       <xs:element name="field_2E" type="xs:int"/>
       <xs:element name="field_32" type="xs:int"/>
       <xs:element name="field_36" type="xs:int"/>
