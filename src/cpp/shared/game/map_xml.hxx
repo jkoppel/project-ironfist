@@ -2075,22 +2075,22 @@ namespace ironfist_save
     void
     playerHandicap (const playerHandicap_sequence& s);
 
-    // field_459
+    // relatedToColorOfPlayerOrFaction
     // 
-    typedef ::ironfist_save::arrayInt_t field_459_type;
-    typedef ::xsd::cxx::tree::sequence< field_459_type > field_459_sequence;
-    typedef field_459_sequence::iterator field_459_iterator;
-    typedef field_459_sequence::const_iterator field_459_const_iterator;
-    typedef ::xsd::cxx::tree::traits< field_459_type, char > field_459_traits;
+    typedef ::ironfist_save::arrayInt_t relatedToColorOfPlayerOrFaction_type;
+    typedef ::xsd::cxx::tree::sequence< relatedToColorOfPlayerOrFaction_type > relatedToColorOfPlayerOrFaction_sequence;
+    typedef relatedToColorOfPlayerOrFaction_sequence::iterator relatedToColorOfPlayerOrFaction_iterator;
+    typedef relatedToColorOfPlayerOrFaction_sequence::const_iterator relatedToColorOfPlayerOrFaction_const_iterator;
+    typedef ::xsd::cxx::tree::traits< relatedToColorOfPlayerOrFaction_type, char > relatedToColorOfPlayerOrFaction_traits;
 
-    const field_459_sequence&
-    field_459 () const;
+    const relatedToColorOfPlayerOrFaction_sequence&
+    relatedToColorOfPlayerOrFaction () const;
 
-    field_459_sequence&
-    field_459 ();
+    relatedToColorOfPlayerOrFaction_sequence&
+    relatedToColorOfPlayerOrFaction ();
 
     void
-    field_459 (const field_459_sequence& s);
+    relatedToColorOfPlayerOrFaction (const relatedToColorOfPlayerOrFaction_sequence& s);
 
     // field_45F
     // 
@@ -2531,7 +2531,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< field_44D_type > field_44D_;
     ::xsd::cxx::tree::one< field_451_type > field_451_;
     playerHandicap_sequence playerHandicap_;
-    field_459_sequence field_459_;
+    relatedToColorOfPlayerOrFaction_sequence relatedToColorOfPlayerOrFaction_;
     field_45F_sequence field_45F_;
     ::xsd::cxx::tree::one< difficulty_type > difficulty_;
     ::xsd::cxx::tree::one< mapFilename_type > mapFilename_;

@@ -1905,22 +1905,22 @@ namespace ironfist_save
     this->playerHandicap_ = s;
   }
 
-  const gamestate_t::field_459_sequence& gamestate_t::
-  field_459 () const
+  const gamestate_t::relatedToColorOfPlayerOrFaction_sequence& gamestate_t::
+  relatedToColorOfPlayerOrFaction () const
   {
-    return this->field_459_;
+    return this->relatedToColorOfPlayerOrFaction_;
   }
 
-  gamestate_t::field_459_sequence& gamestate_t::
-  field_459 ()
+  gamestate_t::relatedToColorOfPlayerOrFaction_sequence& gamestate_t::
+  relatedToColorOfPlayerOrFaction ()
   {
-    return this->field_459_;
+    return this->relatedToColorOfPlayerOrFaction_;
   }
 
   void gamestate_t::
-  field_459 (const field_459_sequence& s)
+  relatedToColorOfPlayerOrFaction (const relatedToColorOfPlayerOrFaction_sequence& s)
   {
-    this->field_459_ = s;
+    this->relatedToColorOfPlayerOrFaction_ = s;
   }
 
   const gamestate_t::field_45F_sequence& gamestate_t::
@@ -6851,7 +6851,7 @@ namespace ironfist_save
     field_44D_ (field_44D, ::xml_schema::flags (), this),
     field_451_ (field_451, ::xml_schema::flags (), this),
     playerHandicap_ (::xml_schema::flags (), this),
-    field_459_ (::xml_schema::flags (), this),
+    relatedToColorOfPlayerOrFaction_ (::xml_schema::flags (), this),
     field_45F_ (::xml_schema::flags (), this),
     difficulty_ (difficulty, ::xml_schema::flags (), this),
     mapFilename_ (mapFilename, ::xml_schema::flags (), this),
@@ -6912,7 +6912,7 @@ namespace ironfist_save
     field_44D_ (x.field_44D_, f, this),
     field_451_ (x.field_451_, f, this),
     playerHandicap_ (x.playerHandicap_, f, this),
-    field_459_ (x.field_459_, f, this),
+    relatedToColorOfPlayerOrFaction_ (x.relatedToColorOfPlayerOrFaction_, f, this),
     field_45F_ (x.field_45F_, f, this),
     difficulty_ (x.difficulty_, f, this),
     mapFilename_ (x.mapFilename_, f, this),
@@ -6973,7 +6973,7 @@ namespace ironfist_save
     field_44D_ (f, this),
     field_451_ (f, this),
     playerHandicap_ (f, this),
-    field_459_ (f, this),
+    relatedToColorOfPlayerOrFaction_ (f, this),
     field_45F_ (f, this),
     difficulty_ (f, this),
     mapFilename_ (f, this),
@@ -7357,14 +7357,14 @@ namespace ironfist_save
         continue;
       }
 
-      // field_459
+      // relatedToColorOfPlayerOrFaction
       //
-      if (n.name () == "field_459" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToColorOfPlayerOrFaction" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< field_459_type > r (
-          field_459_traits::create (i, f, this));
+        ::std::auto_ptr< relatedToColorOfPlayerOrFaction_type > r (
+          relatedToColorOfPlayerOrFaction_traits::create (i, f, this));
 
-        this->field_459_.push_back (r);
+        this->relatedToColorOfPlayerOrFaction_.push_back (r);
         continue;
       }
 
@@ -14574,15 +14574,15 @@ namespace ironfist_save
       s << *b;
     }
 
-    // field_459
+    // relatedToColorOfPlayerOrFaction
     //
-    for (gamestate_t::field_459_const_iterator
-         b (i.field_459 ().begin ()), n (i.field_459 ().end ());
+    for (gamestate_t::relatedToColorOfPlayerOrFaction_const_iterator
+         b (i.relatedToColorOfPlayerOrFaction ().begin ()), n (i.relatedToColorOfPlayerOrFaction ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_459",
+          "relatedToColorOfPlayerOrFaction",
           e));
 
       s << *b;
