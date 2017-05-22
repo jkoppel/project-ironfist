@@ -87,7 +87,13 @@ int l_getmonth(lua_State *L) {
 }
 
 int l_getcurrenthero(lua_State *L) {
-  lua_pushlightuserdata(L, GetCurrentHero());
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)GetCurrentHero());
+  lua_settable(L, -3);
+
+  lua_getglobal(L, "hero_mt");
+  lua_setmetatable(L,-2);
   return 1;
 }
 
@@ -194,13 +200,20 @@ int l_teleportHero(lua_State *L) {
 }
 
 int l_getHeroName(lua_State *L) {
-  hero *hro = (hero*)lua_touserdata(L, 1);
+  lua_pushstring(L, "ptr");
+  lua_gettable(L, -2);
+  hero *hro = (hero*)(int)lua_tonumber(L, -1);
+  lua_pop(L, 1);
   lua_pushstring(L, hro->name);
   return 1;
 }
 
 int l_setHeroName(lua_State *L) {
-  hero *hro = (hero*)lua_touserdata(L, 1);
+  lua_pushstring(L, "ptr");
+  lua_gettable(L, -3);
+  hero *hro = (hero*)(int)lua_tonumber(L, -1);
+  lua_pop(L, 1);
+  lua_pushstring(L, hro->name);
   strncpy(hro->name, luaL_checkstring(L, 2), ELEMENTS_IN(hro->name));
   return 0;
 }
@@ -253,12 +266,21 @@ int l_mapPutArmy(lua_State *L) {
 
 int l_getheroinpool(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
-  lua_pushlightuserdata(L, &gpGame->heroes[n]);
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)&gpGame->heroes[n]);
+  lua_settable(L, -3);
+
+  lua_getglobal(L, "hero_mt");
+  lua_setmetatable(L,-2);
   return 1;
 }
 
 int l_getheroowner(lua_State *L) {
-  hero *hro = (hero*)lua_touserdata(L, 1);
+  lua_pushstring(L, "ptr");
+  lua_gettable(L, -2);
+  hero *hro = (hero*)(int)lua_tonumber(L, -1);
+  lua_pop(L, 1);
   lua_pushinteger(L, hro->ownerIdx);
   return 1;
 }
@@ -686,6 +708,9 @@ void RunScript(string& script_filename) {
   LoadScriptContents(script_filename);
 
   if (luaL_dofile(map_lua, script_filename.c_str())) {
+    DisplayLuaError();
+  }
+  if (luaL_dofile(map_lua, ".\\SCRIPTS\\MODULES\\binding.lua")) {
     DisplayLuaError();
   }
 }
