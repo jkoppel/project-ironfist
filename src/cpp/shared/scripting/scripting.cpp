@@ -38,6 +38,15 @@ static void DisplayLuaError() {
 	DisplayError(msg, "Script Error");
 }
 
+void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)ptrAddr);
+  lua_settable(L, -3);
+  lua_getglobal(L, "hero_mt");
+  lua_setmetatable(L,-2);
+}
+
 int l_msgbox(lua_State *L) {
   const char* msg = luaL_checkstring(L, 1);
   H2MessageBox((char*)msg);
@@ -87,13 +96,7 @@ int l_getmonth(lua_State *L) {
 }
 
 int l_getcurrenthero(lua_State *L) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)GetCurrentHero());
-  lua_settable(L, -3);
-
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L,-2);
+  MakeLuaHeroTable(L, GetCurrentHero());
   return 1;
 }
 
@@ -180,28 +183,14 @@ int l_getnumheroes(lua_State *L) {
 int l_gethero(lua_State *L) {
   playerData* p = (playerData*)lua_touserdata(L, 1);
   int n = (int)luaL_checknumber(L, 2);
-
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)&gpGame->heroes[p->heroesOwned[n]]);
-  lua_settable(L, -3);
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L,-2);
-
+  MakeLuaHeroTable(L, &gpGame->heroes[p->heroesOwned[n]]);
   return 1;
 }
 
 int l_getheroforhire(lua_State *L) {
   playerData* p = (playerData*)lua_touserdata(L, 1);
   int n = (int)luaL_checknumber(L, 2);
-
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)&gpGame->heroes[p->heroesForPurchase[n]]);
-  lua_settable(L, -3);
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L,-2);
-
+  MakeLuaHeroTable(L, &gpGame->heroes[p->heroesForPurchase[n]]);
   return 1;
 }
 
@@ -280,13 +269,7 @@ int l_mapPutArmy(lua_State *L) {
 
 int l_getheroinpool(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)&gpGame->heroes[n]);
-  lua_settable(L, -3);
-
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L,-2);
+  MakeLuaHeroTable(L, &gpGame->heroes[n]);
   return 1;
 }
 
@@ -397,13 +380,7 @@ int l_hasvisitinghero(lua_State *L) {
 
 int l_getvisitinghero(lua_State *L) {
   town* twn = (town*)lua_touserdata(L, 1);
-
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)&gpGame->heroes[twn->visitingHeroIdx]);
-  lua_settable(L, -3);
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L, -2);
+  MakeLuaHeroTable(L, &gpGame->heroes[twn->visitingHeroIdx]);
   return 1;
 }
 
