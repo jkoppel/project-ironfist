@@ -180,14 +180,28 @@ int l_getnumheroes(lua_State *L) {
 int l_gethero(lua_State *L) {
   playerData* p = (playerData*)lua_touserdata(L, 1);
   int n = (int)luaL_checknumber(L, 2);
-  lua_pushlightuserdata(L, &gpGame->heroes[p->heroesOwned[n]]);
+
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)&gpGame->heroes[p->heroesOwned[n]]);
+  lua_settable(L, -3);
+  lua_getglobal(L, "hero_mt");
+  lua_setmetatable(L,-2);
+
   return 1;
 }
 
 int l_getheroforhire(lua_State *L) {
   playerData* p = (playerData*)lua_touserdata(L, 1);
   int n = (int)luaL_checknumber(L, 2);
-  lua_pushlightuserdata(L, &gpGame->heroes[p->heroesForPurchase[n]]);
+
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)&gpGame->heroes[p->heroesForPurchase[n]]);
+  lua_settable(L, -3);
+  lua_getglobal(L, "hero_mt");
+  lua_setmetatable(L,-2);
+
   return 1;
 }
 
@@ -383,7 +397,13 @@ int l_hasvisitinghero(lua_State *L) {
 
 int l_getvisitinghero(lua_State *L) {
   town* twn = (town*)lua_touserdata(L, 1);
-  lua_pushlightuserdata(L, &gpGame->heroes[twn->visitingHeroIdx]);
+
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)&gpGame->heroes[twn->visitingHeroIdx]);
+  lua_settable(L, -3);
+  lua_getglobal(L, "hero_mt");
+  lua_setmetatable(L, -2);
   return 1;
 }
 
