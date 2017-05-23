@@ -47,6 +47,14 @@ void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L,-2);
 }
 
+void* GetPointerFromLuaClassTable(lua_State *L, int argNum) {
+  lua_pushstring(L, "ptr");
+  lua_gettable(L, -2);
+  void* ret = (void*)(int)lua_tonumber(L, -argNum);
+  lua_pop(L, 1);
+  return ret;
+}
+
 int l_msgbox(lua_State *L) {
   const char* msg = luaL_checkstring(L, 1);
   H2MessageBox((char*)msg);
@@ -203,10 +211,7 @@ int l_teleportHero(lua_State *L) {
 }
 
 int l_getHeroName(lua_State *L) {
-  lua_pushstring(L, "ptr");
-  lua_gettable(L, -2);
-  hero *hro = (hero*)(int)lua_tonumber(L, -1);
-  lua_pop(L, 1);
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, 1);
   lua_pushstring(L, hro->name);
   return 1;
 }
@@ -274,10 +279,7 @@ int l_getheroinpool(lua_State *L) {
 }
 
 int l_getheroowner(lua_State *L) {
-  lua_pushstring(L, "ptr");
-  lua_gettable(L, -2);
-  hero *hro = (hero*)(int)lua_tonumber(L, -1);
-  lua_pop(L, 1);
+  hero *hro = (hero*)GetPointerFromLuaClassTable(L, 1);
   lua_pushinteger(L, hro->ownerIdx);
   return 1;
 }
@@ -338,7 +340,7 @@ int l_setspellpoints(lua_State *L) {
 }
 
 int l_getSpellpoints(lua_State *L) {
-  hero *hro = (hero*)lua_touserdata(L, 1);
+  hero *hro = (hero*)GetPointerFromLuaClassTable(L, 1);
   lua_pushinteger(L, hro->spellpoints);
   return 1;
 }
@@ -565,8 +567,8 @@ int l_setDaysAfterTownLost(lua_State *L)
 }
 
 int l_getherolevel(lua_State *L) {
-	hero* hro = (hero*)lua_touserdata(L, 1);
-	lua_pushinteger(L, hro->GetLevel());
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, 1);
+  lua_pushinteger(L, hro->GetLevel());
 	return 1;
 }
 
