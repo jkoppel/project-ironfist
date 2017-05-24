@@ -4,8 +4,13 @@ hero_mt = {
 			MessageBox("name set")
 			SetHeroName(table, value)
 		elseif key == "owner" then
-			MessageBox("owner set")
+			MessageBox("Changing hero owner is not implemented yet")
 			SetHeroOwner(table, value)
+		elseif key == "spellpoints" then
+			MessageBox("spellpoints set")
+			SetSpellpoints(table, value)
+		elseif key == "level" then
+			MessageBox("Changing hero level is not implemented yet")
 		end
 	end,
 	__index = function (t, k)
@@ -15,6 +20,12 @@ hero_mt = {
 		elseif k == "owner" then
 			MessageBox("owner return")
 			return GetHeroOwner(t)
+		elseif k == "spellpoints" then
+			MessageBox("spellpoints return")
+			return GetSpellpoints(t)
+		elseif k == "level" then
+			MessageBox("level return")
+			return GetHeroLevel(t)
 		end
 	end
 }
