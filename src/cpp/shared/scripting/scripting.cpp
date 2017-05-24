@@ -46,15 +46,15 @@ int l_msgbox(lua_State *L) {
 
 int l_AdvancedMessageBox(lua_State *L) {
 	const char* msg = luaL_checkstring(L, 1);
-	const int yesno = luaL_checkinteger(L, 2);
-	const int horizontal = luaL_checkinteger(L, 3);
-	const int vertical = luaL_checknumber(L, 4);
-	const int img1type = luaL_checknumber(L, 5);
-	const int img1arg = luaL_checknumber(L, 6);
-	const int img2type = luaL_checknumber(L, 7);
-	const int img2arg = luaL_checknumber(L, 8);
-	const int writeOr = luaL_checknumber(L, 9);
-	const int a10 = luaL_checknumber(L, 10);
+	int yesno = luaL_checkinteger(L, 2);
+	int horizontal = luaL_checkinteger(L, 3);
+	int vertical = luaL_checknumber(L, 4);
+	int img1type = luaL_checknumber(L, 5);
+	int img1arg = luaL_checknumber(L, 6);
+	int img2type = luaL_checknumber(L, 7);
+	int img2arg = luaL_checknumber(L, 8);
+	int writeOr = luaL_checknumber(L, 9);
+	int a10 = luaL_checknumber(L, 10);
 	NormalDialog((char*)msg, (int)yesno, (int)horizontal, (int)vertical, (int)img1type, (int)img1arg, (int)img2type, (int)img2arg,(int)writeOr, (int)a10);
 	return 0; 
 }

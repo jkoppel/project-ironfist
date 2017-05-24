@@ -11,6 +11,7 @@ extern "C" {
 #include "spell/spells.h"
 #include "scripting/register.h"
 #include "town/town.h"
+#include "gui/dialog.h"
 
 void set_spell_consts(lua_State *L) {
   lua_setconst(L, "SPELL_FIREBALL", SPELL_FIREBALL);
@@ -182,6 +183,13 @@ void set_artifact_consts(lua_State* L) {
   lua_setconst(L, "ARTIFACT_SPADE_OF_NECROMANCY", ARTIFACT_SPADE_OF_NECROMANCY);
   lua_setconst(L, "ARTIFACT_PANDORA_BOX", ARTIFACT_PANDORA_BOX);
 }
+
+void set_luck(lua_State *L) {
+	lua_setconst(L, "IMAGE_LUCK", IMAGE_LUCK);
+	lua_setconst(L, "IMAGE_BADLUCK", IMAGE_BADLUCK);
+
+}
+
 
 void set_town_consts(lua_State* L) {
   lua_setconst(L, "BUILDING_MAGE_GUILD", BUILDING_MAGE_GUILD);
