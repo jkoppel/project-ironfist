@@ -47,6 +47,15 @@ void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L,-2);
 }
 
+void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)ptrAddr);
+  lua_settable(L, -3);
+  lua_getglobal(L, "town_mt");
+  lua_setmetatable(L,-2);
+}
+
 void* GetPointerFromLuaClassTable(lua_State *L, int argNumber, int numArgs) {
   lua_pushstring(L, "ptr");
   lua_gettable(L, -numArgs-1);
@@ -366,19 +375,19 @@ int l_grantarmy(lua_State *L) {
 }
 
 int l_getcurrenttown(lua_State *L) {
-  lua_pushlightuserdata(L, gpTownManager->castle);
+  MakeLuaTownTable(L, gpTownManager->castle);
   return 1;
 }
 
 
 int l_hasvisitinghero(lua_State *L) {
-  town* twn = (town*)lua_touserdata(L, 1);
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 1);
   lua_pushboolean(L, twn->visitingHeroIdx >= 0);
   return 1;
 }
 
 int l_getvisitinghero(lua_State *L) {
-  town* twn = (town*)lua_touserdata(L, 1);
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 1);
   MakeLuaHeroTable(L, &gpGame->heroes[twn->visitingHeroIdx]);
   return 1;
 }
@@ -392,8 +401,20 @@ int l_buildincurrenttown(lua_State *L) {
 int l_getTown(lua_State *L) {
   int index = (int)luaL_checknumber(L, 1);
   if (index < MAX_TOWNS) {
-    lua_pushlightuserdata(L, &gpGame->castles[index]);
+    MakeLuaTownTable(L, &gpGame->castles[index]);
   }
+  return 1;
+}
+
+int l_getTownName(lua_State *L) {
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 1);
+  lua_pushstring(L, twn->name);
+  return 1;
+}
+
+int l_setTownName(lua_State *L) {
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 1);
+  strcpy(twn->name, luaL_checkstring(L, 2));
   return 1;
 }
 
@@ -401,7 +422,7 @@ int l_getTownByName(lua_State *L) {
   char *name = (char*)luaL_checkstring(L, 1);
   for (int i = 0; i < MAX_TOWNS; i++) {
     if (strcmp(gpGame->castles[i].name, name) == 0) {
-      lua_pushlightuserdata(L, &gpGame->castles[i]);
+      MakeLuaTownTable(L, &gpGame->castles[i]);
       return 1;
     }
   }
@@ -414,27 +435,26 @@ int l_getPlayerTown(lua_State *L) {
   int index = (int)luaL_checknumber(L, 2);
 
   if (index < MAX_TOWNS) {
-    lua_pushlightuserdata(L, &gpGame->castles[player->castlesOwned[index]]);
+    MakeLuaTownTable(L, &gpGame->castles[player->castlesOwned[index]]);
   }
-
   return 1;
 }
 
 int l_buildInTown(lua_State *L) {
-  town *twn = (town*)lua_touserdata(L, 1);
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 2);
   int building = (int)luaL_checknumber(L, 2);
   twn->BuildBuilding(building);
   return 0;
 }
 
 int l_getTownFaction(lua_State *L) {
-  town *twn = (town*)lua_touserdata(L, 1);
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 1);
   lua_pushinteger(L, twn->factionID);
   return 1;
 }
 
 int l_setTownFaction(lua_State *L) {
-  town *twn = (town*)lua_touserdata(L, 1);
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 2);
   int faction = (int)luaL_checknumber(L, 2);
   twn->factionID = (char)faction;
   return 0;
@@ -442,7 +462,7 @@ int l_setTownFaction(lua_State *L) {
 
 
 int l_setnumguildspells(lua_State *L) {
-  town* twn = (town*)lua_touserdata(L, 1);
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 3);
   int l = (int)luaL_checknumber(L, 2);
   int n = (int)luaL_checknumber(L, 3);
   twn->SetNumSpellsOfLevel(l, n);
@@ -451,7 +471,7 @@ int l_setnumguildspells(lua_State *L) {
 }
 
 int l_setguildspell(lua_State *L) {
-  town* twn = (town*)lua_touserdata(L, 1);
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 4);
   int l = (int)luaL_checknumber(L, 2);
   int n = (int)luaL_checknumber(L, 3);
   int s = (int)luaL_checknumber(L, 4);
@@ -585,14 +605,20 @@ int l_toggleAIArmySharing(lua_State *L) {
 	return 0;
 }
 
-int l_settownowner(lua_State *L) {
+int l_getTownOwner(lua_State *L) {
+  town* twn = (town*)GetPointerFromLuaClassTable(L, 1, 1);
+  lua_pushinteger(L, twn->ownerIdx);
+  return 1;
+}
+
+int l_setTownOwner(lua_State *L) {
   int townIdx = (int)luaL_checknumber(L, 1);
   int playerIdx = (int)luaL_checknumber(L, 2);
   gpGame->ClaimTown(townIdx, playerIdx, 0);
   return 0;
 }
 
-int l_gettownidfrompos(lua_State *L) {
+int l_getTownIDFromPos(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
   lua_pushinteger(L, gpGame->GetTownId(x, y));
@@ -656,6 +682,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetStackHex", l_getStackHex);
 
   lua_register(L, "GetTown", l_getTown);
+  lua_register(L, "GetTownName", l_getTownName);
+  lua_register(L, "SetTownName", l_setTownName);
   lua_register(L, "GetTownByName", l_getTownByName);
   lua_register(L, "GetPlayerTown", l_getPlayerTown);
   lua_register(L, "BuildInTown", l_buildInTown);
@@ -679,8 +707,9 @@ void set_lua_globals(lua_State *L) {
 
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 
-  lua_register(L, "SetTownOwner", l_settownowner);
-  lua_register(L, "GetTownIdFromPos", l_gettownidfrompos);
+  lua_register(L, "GetTownOwner", l_getTownOwner);
+  lua_register(L, "SetTownOwner", l_setTownOwner);
+  lua_register(L, "GetTownIdFromPos", l_getTownIDFromPos);
 
   set_scripting_consts(L);
 }
