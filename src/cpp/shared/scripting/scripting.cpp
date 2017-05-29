@@ -56,6 +56,15 @@ void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L,-2);
 }
 
+void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)ptrAddr);
+  lua_settable(L, -3);
+  lua_getglobal(L, "player_mt");
+  lua_setmetatable(L,-2);
+}
+
 void* GetPointerFromLuaClassTable(lua_State *L, int argNumber, int numArgs) {
   lua_pushstring(L, "ptr");
   lua_gettable(L, -numArgs-1);
@@ -182,30 +191,30 @@ int l_takeTroop(lua_State *L) {
 
 int l_getplayer(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
-  lua_pushlightuserdata(L, &gpGame->players[n]);
+  MakeLuaPlayerTable(L, &gpGame->players[n]);
   return 1;
 }
 
 int l_getCurrentPlayer(lua_State *L) {
-  lua_pushlightuserdata(L, gpCurPlayer);
+  MakeLuaPlayerTable(L, gpCurPlayer);
   return 1;
 }
 
 int l_getnumheroes(lua_State *L) {
-  playerData* p = (playerData*)lua_touserdata(L, 1);
+  playerData* p = (playerData*)GetPointerFromLuaClassTable(L, 1, 1);
   lua_pushinteger(L, p->numHeroes);
   return 1;
 }
 
 int l_gethero(lua_State *L) {
-  playerData* p = (playerData*)lua_touserdata(L, 1);
+  playerData* p = (playerData*)GetPointerFromLuaClassTable(L, 1, 2);
   int n = (int)luaL_checknumber(L, 2);
   MakeLuaHeroTable(L, &gpGame->heroes[p->heroesOwned[n]]);
   return 1;
 }
 
 int l_getheroforhire(lua_State *L) {
-  playerData* p = (playerData*)lua_touserdata(L, 1);
+  playerData* p = (playerData*)GetPointerFromLuaClassTable(L, 1, 2);
   int n = (int)luaL_checknumber(L, 2);
   MakeLuaHeroTable(L, &gpGame->heroes[p->heroesForPurchase[n]]);
   return 1;
@@ -233,7 +242,7 @@ int l_setHeroName(lua_State *L) {
 }
 
 int l_giveResource(lua_State *L) {
-  playerData *player = (playerData*)lua_touserdata(L, 1);
+  playerData *player = (playerData*)GetPointerFromLuaClassTable(L, 1, 3);
   int res = (int)luaL_checknumber(L, 2);
   int val = (int)luaL_checknumber(L, 3);
   player->resources[res] += val;
@@ -241,7 +250,7 @@ int l_giveResource(lua_State *L) {
 }
 
 int l_setResource(lua_State *L) {
-  playerData *player = (playerData*)lua_touserdata(L, 1);
+  playerData *player = (playerData*)GetPointerFromLuaClassTable(L, 1, 3);
   int res = (int)luaL_checknumber(L, 2);
   int val = (int)luaL_checknumber(L, 3);
   player->resources[res] = val;
@@ -249,7 +258,7 @@ int l_setResource(lua_State *L) {
 }
 
 int l_getResource(lua_State *L) {
-  playerData *player = (playerData*)lua_touserdata(L, 1);
+  playerData *player = (playerData*)GetPointerFromLuaClassTable(L, 1, 2);
   int res = (int)luaL_checknumber(L, 2);
   lua_pushinteger(L, player->resources[res]);
   return 1;
@@ -431,7 +440,7 @@ int l_getTownByName(lua_State *L) {
 }
 
 int l_getPlayerTown(lua_State *L) {
-  playerData *player = (playerData*)lua_touserdata(L, 1);
+  playerData *player = (playerData*)GetPointerFromLuaClassTable(L, 1, 2);
   int index = (int)luaL_checknumber(L, 2);
 
   if (index < MAX_TOWNS) {
@@ -576,7 +585,7 @@ int l_sharevision(lua_State *L) {
 }
 
 int l_setDaysAfterTownLost(lua_State *L) {
-  playerData *player = (playerData*)lua_touserdata(L, 1);
+  playerData *player = (playerData*)GetPointerFromLuaClassTable(L, 1, 2);
   int days = (int)luaL_checknumber(L, 2);
   player->daysLeftWithoutCastle = days;
   return 0;
