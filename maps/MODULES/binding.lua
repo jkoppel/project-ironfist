@@ -52,4 +52,28 @@ player_mt = {
 		
 	end
 }
+
+battleStack_mt = {
+	__newindex = function (table, key, value)
+		if key == "side" then
+			MessageBox("Changing stack side is not implemented yet")
+		elseif key == "type" then
+			MessageBox("Changing stack type is not implemented yet")
+		elseif key == "quantity" then
+			MessageBox("Changing stack quantity is not implemented yet")
+		elseif key == "hex" then
+			MessageBox("Changing stack hex is not implemented yet")
+		end
+	end,
+	__index = function (t, k)
+		if k == "side" then
+			return GetStackSide(t)
+		elseif k == "type" then
+			return GetStackType(t)
+		elseif k == "quantity" then
+			return GetStackQuantity(t)
+		elseif k == "hex" then
+			return GetStackHex(t)
+		end
+	end
 }

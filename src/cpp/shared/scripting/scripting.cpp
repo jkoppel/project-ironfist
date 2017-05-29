@@ -65,6 +65,15 @@ void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L,-2);
 }
 
+void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr) {
+  lua_newtable(L);
+  lua_pushstring(L, "ptr");
+  lua_pushinteger(L, (int)ptrAddr);
+  lua_settable(L, -3);
+  lua_getglobal(L, "battleStack_mt");
+  lua_setmetatable(L,-2);
+}
+
 void* GetPointerFromLuaClassTable(lua_State *L, int argNumber, int numArgs) {
   lua_pushstring(L, "ptr");
   lua_gettable(L, -numArgs-1);
@@ -549,30 +558,30 @@ int l_battleGetNumStacks(lua_State *L) {
 int l_battleGetStack(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   int idx = (int)luaL_checknumber(L, 2);
-  lua_pushlightuserdata(L, &gpCombatManager->creatures[side][idx]);
+  MakeLuaBattleStackTable(L, &gpCombatManager->creatures[side][idx]);
   return 1;
 }
 
 int l_getStackSide(lua_State *L) {
-  army *creat = (army*)lua_touserdata(L, 1);
+  army *creat = (army*)GetPointerFromLuaClassTable(L, 1, 1);
   lua_pushinteger(L, creat->owningSide);
   return 1;
 }
 
 int l_getStackType(lua_State *L) {
-  army *creat = (army*)lua_touserdata(L, 1);
+  army *creat = (army*)GetPointerFromLuaClassTable(L, 1, 1);
   lua_pushinteger(L, creat->creatureIdx);
   return 1;
 }
 
 int l_getStackQuantity(lua_State *L) {
-  army *creat = (army*)lua_touserdata(L, 1);
+  army *creat = (army*)GetPointerFromLuaClassTable(L, 1, 1);
   lua_pushinteger(L, creat->quantity);
   return 1;
 }
 
 int l_getStackHex(lua_State *L) {
-  army *creat = (army*)lua_touserdata(L, 1);
+  army *creat = (army*)GetPointerFromLuaClassTable(L, 1, 1);
   lua_pushinteger(L, creat->occupiedHex);
   return 1;
 }
