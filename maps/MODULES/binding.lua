@@ -43,3 +43,13 @@ town_mt = {
 		end
 	end
 }
+
+player_mt = {
+	__newindex = function (table, key, value)
+		
+	end,
+	__index = function (t, k)
+		
+	end
+}
+}
