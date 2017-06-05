@@ -76,8 +76,8 @@ void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr) {
 
 void* GetPointerFromLuaClassTable(lua_State *L, int argNumber, int numArgs) {
   lua_pushstring(L, "ptr");
-  lua_gettable(L, -numArgs-1);
-  void* ret = (void*)(int)lua_tonumber(L, -argNumber);
+  lua_gettable(L, -(numArgs - (argNumber - 1))-1);
+  void* ret = (void*)(int)lua_tonumber(L, -1);
   lua_pop(L, 1);
   return ret;
 }
