@@ -8,6 +8,8 @@ hero_mt = {
 			SetSpellpoints(table, value)
 		elseif key == "level" then
 			MessageBox("Changing hero level is not implemented yet")
+		else
+			MessageBox("This field is not supported")
 		end
 	end,
 	__index = function (t, k)
@@ -19,6 +21,8 @@ hero_mt = {
 			return GetSpellpoints(t)
 		elseif k == "level" then
 			return GetHeroLevel(t)
+		else
+			MessageBox("This field is not supported")
 		end
 	end
 }
@@ -31,6 +35,8 @@ town_mt = {
 			SetTownOwner(table, value)
 		elseif key == "faction" then
 			SetTownFaction(table, value)
+		else
+			MessageBox("This field is not supported")
 		end
 	end,
 	__index = function (t, k)
@@ -40,6 +46,8 @@ town_mt = {
 			return GetTownOwner(t)
 		elseif k == "faction" then
 			return GetTownFaction(t)
+		else
+			MessageBox("This field is not supported")
 		end
 	end
 }
@@ -63,6 +71,8 @@ battleStack_mt = {
 			MessageBox("Changing stack quantity is not implemented yet")
 		elseif key == "hex" then
 			MessageBox("Changing stack hex is not implemented yet")
+		else
+			MessageBox("This field is not supported")
 		end
 	end,
 	__index = function (t, k)
@@ -74,6 +84,8 @@ battleStack_mt = {
 			return GetStackQuantity(t)
 		elseif k == "hex" then
 			return GetStackHex(t)
+		else
+			MessageBox("This field is not supported")
 		end
 	end
 }
