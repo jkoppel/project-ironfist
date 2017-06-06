@@ -747,12 +747,13 @@ void RunScript(string& script_filename) {
 
   set_lua_globals(map_lua);
 
+  if (luaL_dofile(map_lua, ".\\SCRIPTS\\MODULES\\binding.lua")) {
+    DisplayLuaError();
+  }
+
   LoadScriptContents(script_filename);
 
   if (luaL_dofile(map_lua, script_filename.c_str())) {
-    DisplayLuaError();
-  }
-  if (luaL_dofile(map_lua, ".\\SCRIPTS\\MODULES\\binding.lua")) {
     DisplayLuaError();
   }
 }
