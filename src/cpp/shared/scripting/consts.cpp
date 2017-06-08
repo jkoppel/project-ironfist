@@ -13,6 +13,37 @@ extern "C" {
 #include "town/town.h"
 #include "gui/dialog.h"
 
+void set_dialog_consts(lua_State *L) {
+	lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
+	lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
+	lua_setconst(L, "DIALOG_OR", DIALOG_OR);
+	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
+
+}
+
+void set_messagebox_images(lua_State *L) {
+	lua_setconst(L, "IMAGE_EMPTY", IMAGE_EMPTY);
+	lua_setconst(L, "IMAGE_WOOD", IMAGE_WOOD);
+	lua_setconst(L, "IMAGE_MERCURY", IMAGE_MERCURY);
+	lua_setconst(L, "IMAGE_ORE", IMAGE_ORE);
+	lua_setconst(L, "IMAGE_SULFUR", IMAGE_SULFUR);
+	lua_setconst(L, "IMAGE_CRYSTALS", IMAGE_CRYSTALS);
+	lua_setconst(L, "IMAGE_GEMS", IMAGE_GEMS);
+	lua_setconst(L, "IMAGE_GOLD", IMAGE_GOLD);
+	lua_setconst(L, "IMAGE_ARTIFACT", IMAGE_ARTIFACT);
+	lua_setconst(L, "IMAGE_SPELLS", IMAGE_SPELLS);
+	lua_setconst(L, "IMAGE_PLAYERS", IMAGE_PLAYERS);
+	lua_setconst(L, "IMAGE_LUCK", IMAGE_LUCK);
+	lua_setconst(L, "IMAGE_BADLUCK", IMAGE_BADLUCK);
+	lua_setconst(L, "IMAGE_HIGH_MORALE", IMAGE_HIGH_MORALE);
+	lua_setconst(L, "IMAGE_LOW_MORALE", IMAGE_LOW_MORALE);
+	lua_setconst(L, "IMAGE_EXP", IMAGE_EXP);
+	lua_setconst(L, "IMAGE_HERO", IMAGE_HERO);
+	lua_setconst(L, "IMAGE_SECONDARY_SKILLS", IMAGE_SECONDARY_SKILLS);
+	lua_setconst(L, "IMAGE_UNIT", IMAGE_UNIT);
+	lua_setconst(L, "IMAGE_PRIMARY_SKILLS", IMAGE_PRIMARY_SKILLS);
+}
+
 void set_spell_consts(lua_State *L) {
   lua_setconst(L, "SPELL_FIREBALL", SPELL_FIREBALL);
   lua_setconst(L, "SPELL_FIREBLAST", SPELL_FIREBLAST);
