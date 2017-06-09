@@ -44,6 +44,21 @@ int l_msgbox(lua_State *L) {
   return 0;
 }
 
+int l_AdvancedMessageBox(lua_State *L) {
+	const char* msg = luaL_checkstring(L, 1);
+	int yesno = luaL_checkinteger(L, 2);
+	int horizontal = luaL_checkinteger(L, 3);
+	int vertical = luaL_checknumber(L, 4);
+	int img1type = luaL_checknumber(L, 5);
+	int img1arg = luaL_checknumber(L, 6);
+	int img2type = luaL_checknumber(L, 7);
+	int img2arg = luaL_checknumber(L, 8);
+	int writeOr = luaL_checknumber(L, 9);
+	int a10 = luaL_checknumber(L, 10);
+	NormalDialog((char*)msg, (int)yesno, (int)horizontal, (int)vertical, (int)img1type, (int)img1arg, (int)img2type, (int)img2arg,(int)writeOr, (int)a10);
+	return 0; 
+}
+
 int l_questionBox(lua_State *L) {
   char* qst = (char*)luaL_checkstring(L, 1);
   lua_pushboolean(L, H2QuestionBox(qst));
@@ -584,6 +599,7 @@ int l_gettownidfrompos(lua_State *L) {
 
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
+  lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
   lua_register(L, "GetDay", l_getday);
   lua_register(L, "GetWeek", l_getweek);
   lua_register(L, "GetMonth", l_getmonth);

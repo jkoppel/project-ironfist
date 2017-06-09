@@ -11,6 +11,38 @@ extern "C" {
 #include "spell/spells.h"
 #include "scripting/register.h"
 #include "town/town.h"
+#include "gui/dialog.h"
+
+void set_dialog_consts(lua_State *L) {
+	lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
+	lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
+	lua_setconst(L, "DIALOG_OR", DIALOG_OR);
+	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
+
+}
+
+void set_messageboxgroups_const(lua_State *L) {
+	lua_setconst(L, "IMAGE_EMPTY", IMAGE_EMPTY);
+	lua_setconst(L, "IMAGE_WOOD", IMAGE_WOOD);
+	lua_setconst(L, "IMAGE_MERCURY", IMAGE_MERCURY);
+	lua_setconst(L, "IMAGE_ORE", IMAGE_ORE);
+	lua_setconst(L, "IMAGE_SULFUR", IMAGE_SULFUR);
+	lua_setconst(L, "IMAGE_CRYSTALS", IMAGE_CRYSTALS);
+	lua_setconst(L, "IMAGE_GEMS", IMAGE_GEMS);
+	lua_setconst(L, "IMAGE_GOLD", IMAGE_GOLD);
+	lua_setconst(L, "IMAGE_GROUP_ARTIFACTS", IMAGE_GROUP_ARTIFACTS);
+	lua_setconst(L, "IMAGE_GROUP_SPELLS", IMAGE_GROUP_SPELLS);
+	lua_setconst(L, "IMAGE_GROUP_PLAYERS", IMAGE_GROUP_PLAYERS);
+	lua_setconst(L, "IMAGE_LUCK", IMAGE_LUCK);
+	lua_setconst(L, "IMAGE_BADLUCK", IMAGE_BADLUCK);
+	lua_setconst(L, "IMAGE_GOOD_MORALE", IMAGE_GOOD_MORALE);
+	lua_setconst(L, "IMAGE_BAD_MORALE", IMAGE_BAD_MORALE);
+	lua_setconst(L, "IMAGE_EXP", IMAGE_EXP);
+	lua_setconst(L, "IMAGE_GROUP_HERO", IMAGE_GROUP_HERO);
+	lua_setconst(L, "IMAGE_GROUP_SECONDARY_SKILLS", IMAGE_GROUP_SECONDARY_SKILLS);
+	lua_setconst(L, "IMAGE_GROUP_UNIT", IMAGE_GROUP_UNIT);
+	lua_setconst(L, "IMAGE_GROUP_PRIMARY_SKILLS", IMAGE_GROUP_PRIMARY_SKILLS);
+}
 
 void set_spell_consts(lua_State *L) {
   lua_setconst(L, "SPELL_FIREBALL", SPELL_FIREBALL);
@@ -182,6 +214,13 @@ void set_artifact_consts(lua_State* L) {
   lua_setconst(L, "ARTIFACT_SPADE_OF_NECROMANCY", ARTIFACT_SPADE_OF_NECROMANCY);
   lua_setconst(L, "ARTIFACT_PANDORA_BOX", ARTIFACT_PANDORA_BOX);
 }
+
+void set_luck_consts(lua_State *L) {
+	lua_setconst(L, "IMAGE_LUCK", IMAGE_LUCK);
+	lua_setconst(L, "IMAGE_BADLUCK", IMAGE_BADLUCK);
+
+}
+
 
 void set_town_consts(lua_State* L) {
   lua_setconst(L, "BUILDING_MAGE_GUILD", BUILDING_MAGE_GUILD);
@@ -459,6 +498,8 @@ void set_location_consts(lua_State *L) {
 }
 
 void set_scripting_consts(lua_State* L) {
+  set_dialog_consts(L);
+  set_messageboxgroups_const(L);
   set_spell_consts(L);
   set_artifact_consts(L);
   set_town_consts(L);
@@ -466,5 +507,6 @@ void set_scripting_consts(lua_State* L) {
   set_skill_consts(L);
   set_creature_consts(L);
   set_resources_consts(L);
-  set_location_consts(L);
+  set_location_consts(L);  
+  
 }

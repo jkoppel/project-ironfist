@@ -66,6 +66,7 @@ Section
 	SetOutPath $INSTDIR\SCRIPTS\MODULES
 	
 	File ..\maps\modules\niftysnippets_1.lua
+	File ..\maps\modules\AdvMessageBox.lua
 	
 	SetOutPath $INSTDIR
 	WriteUninstaller "$INSTDIR\uninstall-ironfist.exe"

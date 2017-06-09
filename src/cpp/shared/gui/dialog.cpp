@@ -18,6 +18,8 @@ bool H2QuestionBox(char* msg) {
   return gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL;
 }
 
+
+
 char* H2InputBox(char* msg, int len) {
   char* res = (char*) ALLOC(len+1);
   GetDataEntry(msg, res, len + 1, 0, 0, 1);
