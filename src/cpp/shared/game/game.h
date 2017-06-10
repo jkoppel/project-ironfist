@@ -107,7 +107,7 @@ public:
 	__int16 field_451;
 	char playerHandicap[6];
 	char relatedToColorOfPlayerOrFaction[6];
-	char field_45F[6];
+	char somePlayerCodeOr10IfMayBeHuman[6];
 	char difficulty;
 	char mapFilename[40];
 	char numPlayers;

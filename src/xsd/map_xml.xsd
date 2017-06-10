@@ -137,7 +137,7 @@
       <xs:element name="field_451" type="xs:int"/>
       <xs:element name="playerHandicap" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="relatedToColorOfPlayerOrFaction" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
-      <xs:element name="field_45F" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="somePlayerCodeOr10IfMayBeHuman" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="difficulty" type="xs:int"/>
       <xs:element name="mapFilename" type="xs:string"/>
       <xs:element name="field_2773" type="arrayInt_t" minOccurs="72" maxOccurs="unbounded"/>

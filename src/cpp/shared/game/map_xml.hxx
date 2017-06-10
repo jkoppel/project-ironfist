@@ -2092,22 +2092,22 @@ namespace ironfist_save
     void
     relatedToColorOfPlayerOrFaction (const relatedToColorOfPlayerOrFaction_sequence& s);
 
-    // field_45F
+    // somePlayerCodeOr10IfMayBeHuman
     // 
-    typedef ::ironfist_save::arrayInt_t field_45F_type;
-    typedef ::xsd::cxx::tree::sequence< field_45F_type > field_45F_sequence;
-    typedef field_45F_sequence::iterator field_45F_iterator;
-    typedef field_45F_sequence::const_iterator field_45F_const_iterator;
-    typedef ::xsd::cxx::tree::traits< field_45F_type, char > field_45F_traits;
+    typedef ::ironfist_save::arrayInt_t somePlayerCodeOr10IfMayBeHuman_type;
+    typedef ::xsd::cxx::tree::sequence< somePlayerCodeOr10IfMayBeHuman_type > somePlayerCodeOr10IfMayBeHuman_sequence;
+    typedef somePlayerCodeOr10IfMayBeHuman_sequence::iterator somePlayerCodeOr10IfMayBeHuman_iterator;
+    typedef somePlayerCodeOr10IfMayBeHuman_sequence::const_iterator somePlayerCodeOr10IfMayBeHuman_const_iterator;
+    typedef ::xsd::cxx::tree::traits< somePlayerCodeOr10IfMayBeHuman_type, char > somePlayerCodeOr10IfMayBeHuman_traits;
 
-    const field_45F_sequence&
-    field_45F () const;
+    const somePlayerCodeOr10IfMayBeHuman_sequence&
+    somePlayerCodeOr10IfMayBeHuman () const;
 
-    field_45F_sequence&
-    field_45F ();
+    somePlayerCodeOr10IfMayBeHuman_sequence&
+    somePlayerCodeOr10IfMayBeHuman ();
 
     void
-    field_45F (const field_45F_sequence& s);
+    somePlayerCodeOr10IfMayBeHuman (const somePlayerCodeOr10IfMayBeHuman_sequence& s);
 
     // difficulty
     // 
@@ -2532,7 +2532,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< field_451_type > field_451_;
     playerHandicap_sequence playerHandicap_;
     relatedToColorOfPlayerOrFaction_sequence relatedToColorOfPlayerOrFaction_;
-    field_45F_sequence field_45F_;
+    somePlayerCodeOr10IfMayBeHuman_sequence somePlayerCodeOr10IfMayBeHuman_;
     ::xsd::cxx::tree::one< difficulty_type > difficulty_;
     ::xsd::cxx::tree::one< mapFilename_type > mapFilename_;
     field_2773_sequence field_2773_;
