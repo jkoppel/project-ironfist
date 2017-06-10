@@ -133,8 +133,7 @@
       <xs:element name="deadPlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="alivePlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="heroHireStatus" type="arrayInt_t" minOccurs="54" maxOccurs="unbounded"/>
-      <xs:element name="field_44D" type="xs:int"/>
-      <xs:element name="field_451" type="xs:int"/>
+      <xs:element name="relatedToPlayerPosAndColor" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="playerHandicap" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="relatedToColorOfPlayerOrFaction" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="somePlayerCodeOr10IfMayBeHuman" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>

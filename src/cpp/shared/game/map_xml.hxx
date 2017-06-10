@@ -2030,33 +2030,22 @@ namespace ironfist_save
     void
     heroHireStatus (const heroHireStatus_sequence& s);
 
-    // field_44D
+    // relatedToPlayerPosAndColor
     // 
-    typedef ::xml_schema::int_ field_44D_type;
-    typedef ::xsd::cxx::tree::traits< field_44D_type, char > field_44D_traits;
+    typedef ::ironfist_save::arrayInt_t relatedToPlayerPosAndColor_type;
+    typedef ::xsd::cxx::tree::sequence< relatedToPlayerPosAndColor_type > relatedToPlayerPosAndColor_sequence;
+    typedef relatedToPlayerPosAndColor_sequence::iterator relatedToPlayerPosAndColor_iterator;
+    typedef relatedToPlayerPosAndColor_sequence::const_iterator relatedToPlayerPosAndColor_const_iterator;
+    typedef ::xsd::cxx::tree::traits< relatedToPlayerPosAndColor_type, char > relatedToPlayerPosAndColor_traits;
 
-    const field_44D_type&
-    field_44D () const;
+    const relatedToPlayerPosAndColor_sequence&
+    relatedToPlayerPosAndColor () const;
 
-    field_44D_type&
-    field_44D ();
+    relatedToPlayerPosAndColor_sequence&
+    relatedToPlayerPosAndColor ();
 
     void
-    field_44D (const field_44D_type& x);
-
-    // field_451
-    // 
-    typedef ::xml_schema::int_ field_451_type;
-    typedef ::xsd::cxx::tree::traits< field_451_type, char > field_451_traits;
-
-    const field_451_type&
-    field_451 () const;
-
-    field_451_type&
-    field_451 ();
-
-    void
-    field_451 (const field_451_type& x);
+    relatedToPlayerPosAndColor (const relatedToPlayerPosAndColor_sequence& s);
 
     // playerHandicap
     // 
@@ -2472,8 +2461,6 @@ namespace ironfist_save
                  const numEvents_type&,
                  const field_657B_type&,
                  const maxMapExtra_type&,
-                 const field_44D_type&,
-                 const field_451_type&,
                  const difficulty_type&,
                  const mapFilename_type&);
 
@@ -2528,8 +2515,7 @@ namespace ironfist_save
     deadPlayers_sequence deadPlayers_;
     alivePlayers_sequence alivePlayers_;
     heroHireStatus_sequence heroHireStatus_;
-    ::xsd::cxx::tree::one< field_44D_type > field_44D_;
-    ::xsd::cxx::tree::one< field_451_type > field_451_;
+    relatedToPlayerPosAndColor_sequence relatedToPlayerPosAndColor_;
     playerHandicap_sequence playerHandicap_;
     relatedToColorOfPlayerOrFaction_sequence relatedToColorOfPlayerOrFaction_;
     somePlayerCodeOr10IfMayBeHuman_sequence somePlayerCodeOr10IfMayBeHuman_;

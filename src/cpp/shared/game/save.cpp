@@ -98,9 +98,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ReadArrayFromXML(mh->playerMayBeComp, mh_xml->playerMayBeComp());
   ReadArrayFromXML(mh->playerFactions, mh_xml->playerFactions());
 
-  gam->field_44D = gs.field_44D();
-  gam->field_451 = gs.field_451();
-
+  ReadArrayFromXML(gam->relatedToPlayerPosAndColor, gs.relatedToPlayerPosAndColor());
   ReadArrayFromXML(gam->playerHandicap, gs.playerHandicap());
   ReadArrayFromXML(gam->relatedToColorOfPlayerOrFaction, gs.relatedToColorOfPlayerOrFaction());
   ReadArrayFromXML(gam->somePlayerCodeOr10IfMayBeHuman, gs.somePlayerCodeOr10IfMayBeHuman());
@@ -351,8 +349,6 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     (int)gam->numEvents,
     (int)gam->field_657B,
     iMaxMapExtra,
-    gam->field_44D,
-    gam->field_451,
     gam->difficulty,
     gam->mapFilename
   );
@@ -408,6 +404,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
 
   WriteArrayToXML(gs.alivePlayers(), playerAlive);
   WriteArrayToXML(gs.heroHireStatus(), gam->relatedToHeroForHireStatus);
+  WriteArrayToXML(gs.relatedToPlayerPosAndColor(), gam->relatedToPlayerPosAndColor);
   WriteArrayToXML(gs.playerHandicap(), gam->playerHandicap);
   WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
   WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
