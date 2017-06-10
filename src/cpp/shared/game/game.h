@@ -96,7 +96,7 @@ public:
 	char _1[120];
 	char field_7D;
 	char hasDwarfAlliance;
-	char field_7F;
+	char maybeIsGoodCampaign;
 	char field_80;
 	char field_81;
 	char field_82;
