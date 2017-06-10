@@ -92,7 +92,7 @@ public:
 	__int16 gameDifficulty;
 	char field_2;
 	char field_3;
-	char field_4;
+	char relatedToCampaignMap;
 	char _1[120];
 	char field_7D;
 	char hasDwarfAlliance;
