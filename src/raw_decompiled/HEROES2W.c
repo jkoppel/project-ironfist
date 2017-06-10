@@ -28177,7 +28177,7 @@ void __thiscall game::ConvertObject(game *this, int x1, int y1, int x2, int y2, 
 // 4F0A04: using guessed type int MAP_HEIGHT;
 
 //----- (00427520) --------------------------------------------------------
-int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUseless)
+int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUseless) // Check this function
 {
   int result; // eax@4
   game *thisa; // [sp+Ch] [bp-1Ch]@1
