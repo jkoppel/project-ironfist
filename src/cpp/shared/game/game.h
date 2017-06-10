@@ -90,7 +90,7 @@ struct boat
 class game {
 public:
 	__int16 gameDifficulty;
-	char field_2;
+	char relatedToCurViewSideOrCampaign;
 	char field_3;
 	char relatedToCampaignMap;
 	char _1[120];
