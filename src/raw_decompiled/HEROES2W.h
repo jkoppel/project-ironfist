@@ -478,8 +478,8 @@ struct game
   char boatBuilt[48];
   char obeliskVisitedMasks[48];
   char field_637D[24];
-  char utimateArtifactLocX;
-  char utimateArtifactLocY;
+  char ultimateArtifactLocX;
+  char ultimateArtifactLocY;
   char ultimateArtifactIdx;
   int field_6398;
   char _B[14];

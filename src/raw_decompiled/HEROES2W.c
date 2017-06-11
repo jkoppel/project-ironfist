@@ -23553,17 +23553,17 @@ char __fastcall ComputeUALoc(int a1)
           v2 = 3 - Random(0, 2);
           v3 = v2 - Random(0, 2);
         }
-        v8 = i + gpGame->utimateArtifactLocX;
+        v8 = i + gpGame->ultimateArtifactLocX;
         for ( j = 0; !j; j = v5 - Random(0, 2) )
         {
           v4 = 3 - Random(0, 2);
           v5 = v4 - Random(0, 2);
         }
-        v7 = j + gpGame->utimateArtifactLocY;
+        v7 = j + gpGame->ultimateArtifactLocY;
         if ( v9 >= 200 )
         {
-          LOBYTE(v8) = gpGame->utimateArtifactLocX;
-          LOBYTE(v7) = gpGame->utimateArtifactLocY;
+          LOBYTE(v8) = gpGame->ultimateArtifactLocX;
+          LOBYTE(v7) = gpGame->ultimateArtifactLocY;
           break;
         }
       }
@@ -23573,8 +23573,8 @@ char __fastcall ComputeUALoc(int a1)
     }
     else
     {
-      LOBYTE(gpGame->players[playerNo].field_41) = gpGame->utimateArtifactLocX;
-      result = gpGame->utimateArtifactLocY;
+      LOBYTE(gpGame->players[playerNo].field_41) = gpGame->ultimateArtifactLocX;
+      result = gpGame->ultimateArtifactLocY;
       HIBYTE(gpGame->players[playerNo].field_41) = result;
     }
   }
@@ -23967,8 +23967,8 @@ signed int __thiscall game::SaveGame(game *ecx0, const char *saveFile, int autos
   _write(fd, ecx0->boats, 384);
   _write(fd, ecx0->boatBuilt, 48);
   _write(fd, ecx0->obeliskVisitedMasks, 48);
-  _write(fd, &ecx0->utimateArtifactLocX, 1);
-  _write(fd, &ecx0->utimateArtifactLocY, 1);
+  _write(fd, &ecx0->ultimateArtifactLocX, 1);
+  _write(fd, &ecx0->ultimateArtifactLocY, 1);
   _write(fd, &ecx0->ultimateArtifactIdx, 1);
   _write(fd, ecx0->currentRumor, 301);
   _write(fd, ecx0->field_637D, 24);
@@ -24146,8 +24146,8 @@ int __thiscall game::SetupOrigData(game *this)
   }
   memset(this->field_27BB, 0, 9u);
   memset(this->boatBuilt, 0xFFu, 0x30u);
-  this->utimateArtifactLocY = -1;
-  this->utimateArtifactLocX = this->utimateArtifactLocY;
+  this->ultimateArtifactLocY = -1;
+  this->ultimateArtifactLocX = this->ultimateArtifactLocY;
   memset(this->obeliskVisitedMasks, 0, 0x30u);
   strcpy(gpGame->lastSaveFile, "NEWGAME");
   giCurPlayer = 0;
@@ -24290,8 +24290,8 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
     _read(fd, ecx0->boats, 0x180u);
     _read(fd, ecx0->boatBuilt, 0x30u);
     _read(fd, ecx0->obeliskVisitedMasks, 0x30u);
-    _read(fd, &ecx0->utimateArtifactLocX, 1u);
-    _read(fd, &ecx0->utimateArtifactLocY, 1u);
+    _read(fd, &ecx0->ultimateArtifactLocX, 1u);
+    _read(fd, &ecx0->ultimateArtifactLocY, 1u);
     _read(fd, &ecx0->ultimateArtifactIdx, 1u);
     _read(fd, ecx0->currentRumor, 301u);
     _read(fd, ecx0->field_637D, 0x18u);
@@ -24900,8 +24900,8 @@ LABEL_196:
     randomVal3 = Random(1, 20) + randomVal5;
     ++someSortOfLoopCount;
   }
-  this->utimateArtifactLocX = ultimateArtifactLocX;// this->field_6395 changed to ultimateArtifactLocX
-  this->utimateArtifactLocY = ultimateArtifactLocY;// this->field_6396 changed to ultimateArtifactLocY
+  this->ultimateArtifactLocX = ultimateArtifactLocX;// this->field_6395 changed to ultimateArtifactLocX
+  this->ultimateArtifactLocY = ultimateArtifactLocY;// this->field_6396 changed to ultimateArtifactLocY
   this->ultimateArtifactIdx = Random(0, 7);     // this->field_6397 changed to ultimateArtifactIdx
   if ( gbInCampaign
     && (!this->relatedToCurViewSideOrCampaign && this->relatedToCampaignMap == 7// this->field_4 changed to relatedToCampaignMap
@@ -30828,7 +30828,7 @@ void __thiscall game::SetupNewRumour(game *this)
       }
       else
       {
-        v3 = advManager::GetCell(gpAdvManager, this->utimateArtifactLocX, this->utimateArtifactLocY)->groundIndex;
+        v3 = advManager::GetCell(gpAdvManager, this->ultimateArtifactLocX, this->ultimateArtifactLocY)->groundIndex;
         sprintf(
           this->currentRumor,
           "The ultimate artifact may be found %s.",
@@ -30837,25 +30837,25 @@ void __thiscall game::SetupNewRumour(game *this)
     }
     else
     {
-      if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.width * 0.33
-        || (double)this->utimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
+      if ( (double)this->ultimateArtifactLocX >= (double)this->mapHeader.width * 0.33
+        || (double)this->ultimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
       {
-        if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.width * 0.33
-          || (double)this->utimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
+        if ( (double)this->ultimateArtifactLocX >= (double)this->mapHeader.width * 0.33
+          || (double)this->ultimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
         {
-          if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.width * 0.33 )
+          if ( (double)this->ultimateArtifactLocX >= (double)this->mapHeader.width * 0.33 )
           {
-            if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.width * 0.66
-              || (double)this->utimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
+            if ( (double)this->ultimateArtifactLocX <= (double)this->mapHeader.width * 0.66
+              || (double)this->ultimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
             {
-              if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.width * 0.66
-                || (double)this->utimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
+              if ( (double)this->ultimateArtifactLocX <= (double)this->mapHeader.width * 0.66
+                || (double)this->ultimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
               {
-                if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.width * 0.66 )
+                if ( (double)this->ultimateArtifactLocX <= (double)this->mapHeader.width * 0.66 )
                 {
-                  if ( (double)this->utimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
+                  if ( (double)this->ultimateArtifactLocX >= (double)this->mapHeader.height * 0.33 )
                   {
-                    if ( (double)this->utimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
+                    if ( (double)this->ultimateArtifactLocX <= (double)this->mapHeader.height * 0.66 )
                       v5 = 8;
                     else
                       v5 = 4;
@@ -41434,8 +41434,8 @@ LABEL_52:
   }
   advManager::CompleteDraw(this, 0);
   advManager::UpdateScreen(this, 0, 0);
-  if ( gpGame->utimateArtifactLocX != (_DWORD)a2
-    || gpGame->utimateArtifactLocY != HIDWORD(a2)
+  if ( gpGame->ultimateArtifactLocX != (_DWORD)a2
+    || gpGame->ultimateArtifactLocY != HIDWORD(a2)
     || gpGame->ultimateArtifactIdx == -1 )
   {
     if ( gbHumanPlayer[giCurPlayer] )
@@ -48522,13 +48522,13 @@ void __thiscall advManager::ViewPuzzle(advManager *this)
   if ( !a2 )
     MemError();
   heroWindowManager::AddWindow(gpWindowManager, a2, -1, 1);
-  v57 = gpGame->utimateArtifactLocX - 7;
-  a3 = gpGame->utimateArtifactLocY - 7;
+  v57 = gpGame->ultimateArtifactLocX - 7;
+  a3 = gpGame->ultimateArtifactLocY - 7;
   v62 = 0;
   v61 = 0;
-  v62 = (gpGame->utimateArtifactLocY + gpGame->utimateArtifactLocX) % 3 - 1;
-  v61 = (5 * gpGame->utimateArtifactLocY + 2 * gpGame->utimateArtifactLocX) % 3 - 1;
-  if ( (gpGame->utimateArtifactLocY + gpGame->utimateArtifactLocX) % 3 == 1 )
+  v62 = (gpGame->ultimateArtifactLocY + gpGame->ultimateArtifactLocX) % 3 - 1;
+  v61 = (5 * gpGame->ultimateArtifactLocY + 2 * gpGame->ultimateArtifactLocX) % 3 - 1;
+  if ( (gpGame->ultimateArtifactLocY + gpGame->ultimateArtifactLocX) % 3 == 1 )
   {
     if ( v62 <= 0 )
     {
@@ -48542,7 +48542,7 @@ void __thiscall advManager::ViewPuzzle(advManager *this)
   }
   else
   {
-    v1 = (signed int)gpGame->utimateArtifactLocY + (signed int)gpGame->utimateArtifactLocX;
+    v1 = (signed int)gpGame->ultimateArtifactLocY + (signed int)gpGame->ultimateArtifactLocX;
     if ( (HIDWORD(v1) ^ ((BYTE4(v1) ^ (unsigned __int8)v1) - BYTE4(v1)) & 1) - HIDWORD(v1) == 1 )
     {
       if ( v61 <= 0 )
@@ -48558,7 +48558,7 @@ void __thiscall advManager::ViewPuzzle(advManager *this)
   }
   v57 += v62;
   a3 += v61;
-  advManager::PuzzleDraw(this, v57, a3, gpGame->utimateArtifactLocX, gpGame->utimateArtifactLocY);
+  advManager::PuzzleDraw(this, v57, a3, gpGame->ultimateArtifactLocX, gpGame->ultimateArtifactLocY);
   for ( j = 16; j < 464; ++j )
   {
     v59 = (unsigned int)&gpWindowManager->screenBuffer->contents[640 * j + 16];
