@@ -7366,7 +7366,7 @@ int gHeroGoldCost = 2500; // weak
 char normalDirTable[] = { '\0' }; // weak
 char byte_4F1DC1[] = { '\xFF' }; // weak
 int dword_4F1DE0[] = { 200 }; // weak
-int gaiPlayerInitialResourcesHuman[5][7] =
+int giPlayerInitialResourcesHuman[5][7] =
 {
   { 30, 10, 30, 10, 10, 10, 10000 },
   { 20, 5, 20, 5, 5, 5, 7500 },
@@ -7374,7 +7374,7 @@ int gaiPlayerInitialResourcesHuman[5][7] =
   { 5, 0, 5, 0, 0, 0, 2500 },
   { 0, 0, 0, 0, 0, 0, 0 }
 };
-int gaiPlayerInitialResourcesAI[5][7] =
+int giPlayerInitialResourcesAI[5][7] =
 {
   { 20, 5, 20, 5, 5, 5, 7500 },
   { 20, 5, 20, 5, 5, 5, 7500 },
@@ -24912,7 +24912,7 @@ LABEL_196:
     if ( gbHumanPlayer[playerIdxm] )
     {
       this->players[playerIdxm].personality = 3;
-      memcpy(this->players[playerIdxm].resources, gaiPlayerInitialResourcesHuman[this->difficulty], 28u);// unk_4F1E00 changed to gaiPlayerInitialResourcesHuman
+      memcpy(this->players[playerIdxm].resources, giPlayerInitialResourcesHuman[this->difficulty], 28u);// unk_4F1E00 changed to giPlayerInitialResourcesHuman
       if ( this->playerHandicap[playerIdxm] )
       {
         for ( resourceType = 0; resourceType < NUM_RESOURCES; ++resourceType )
@@ -24929,7 +24929,7 @@ LABEL_196:
     else
     {
       this->players[playerIdxm].personality = Random(0, 2);
-      memcpy(this->players[playerIdxm].resources, gaiPlayerInitialResourcesAI[this->difficulty], 28u);// unk_4F1E90 changed to gaiPlayerInitialResourcesAI
+      memcpy(this->players[playerIdxm].resources, giPlayerInitialResourcesAI[this->difficulty], 28u);// unk_4F1E90 changed to giPlayerInitialResourcesAI
     }
   }
   game::SetupAdjacentMons(this);
