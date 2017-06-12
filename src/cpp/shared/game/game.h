@@ -38,7 +38,7 @@ public:
 	char relatedToSomeSortOfHeroCountOrIdx;
 	char heroesOwned[8];
 	char heroesForPurchase[2];
-	char _2;
+	char relatedToMaxOrNumHeroes;
 	int personality;
 	char _3[45];
 	char field_40;

@@ -25005,7 +25005,7 @@ LABEL_196:
                          + castlesOwnedIdx
                          + 2)],
         0);
-    gpGame->players[playerIdxn].relatedToMaxOrNumHeroes = gpGame->players[playerIdxn].numHeroes;// playerData->_2 renamed to relatedToMaxOrNumHeroes
+    gpGame->players[playerIdxn].relatedToMaxOrNumHeroes = gpGame->players[playerIdxn].numHeroes;// playerData->_2 changed to relatedToMaxOrNumHeroes
   }
   philAI::GetGameAIVars(gpPhilAI);
   gbInNewGameSetup = 0;

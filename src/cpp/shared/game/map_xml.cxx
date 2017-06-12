@@ -4359,22 +4359,22 @@ namespace ironfist_save
     this->personality_.set (x);
   }
 
-  const playerData_t::_2_type& playerData_t::
-  _2 () const
+  const playerData_t::relatedToMaxOrNumHeroes_type& playerData_t::
+  relatedToMaxOrNumHeroes () const
   {
-    return this->_2_.get ();
+    return this->relatedToMaxOrNumHeroes_.get ();
   }
 
-  playerData_t::_2_type& playerData_t::
-  _2 ()
+  playerData_t::relatedToMaxOrNumHeroes_type& playerData_t::
+  relatedToMaxOrNumHeroes ()
   {
-    return this->_2_.get ();
+    return this->relatedToMaxOrNumHeroes_.get ();
   }
 
   void playerData_t::
-  _2 (const _2_type& x)
+  relatedToMaxOrNumHeroes (const relatedToMaxOrNumHeroes_type& x)
   {
-    this->_2_.set (x);
+    this->relatedToMaxOrNumHeroes_.set (x);
   }
 
   const playerData_t::hasEvilFaction_type& playerData_t::
@@ -10226,7 +10226,7 @@ namespace ironfist_save
                 const game_B_type& game_B,
                 const _3_type& _3,
                 const personality_type& personality,
-                const _2_type& _2,
+                const relatedToMaxOrNumHeroes_type& relatedToMaxOrNumHeroes,
                 const hasEvilFaction_type& hasEvilFaction,
                 const field_40_type& field_40,
                 const field_41_type& field_41,
@@ -10242,7 +10242,7 @@ namespace ironfist_save
     game_B_ (game_B, ::xml_schema::flags (), this),
     _3_ (_3, ::xml_schema::flags (), this),
     personality_ (personality, ::xml_schema::flags (), this),
-    _2_ (_2, ::xml_schema::flags (), this),
+    relatedToMaxOrNumHeroes_ (relatedToMaxOrNumHeroes, ::xml_schema::flags (), this),
     hasEvilFaction_ (hasEvilFaction, ::xml_schema::flags (), this),
     field_40_ (field_40, ::xml_schema::flags (), this),
     field_41_ (field_41, ::xml_schema::flags (), this),
@@ -10271,7 +10271,7 @@ namespace ironfist_save
     game_B_ (x.game_B_, f, this),
     _3_ (x._3_, f, this),
     personality_ (x.personality_, f, this),
-    _2_ (x._2_, f, this),
+    relatedToMaxOrNumHeroes_ (x.relatedToMaxOrNumHeroes_, f, this),
     hasEvilFaction_ (x.hasEvilFaction_, f, this),
     field_40_ (x.field_40_, f, this),
     field_41_ (x.field_41_, f, this),
@@ -10300,7 +10300,7 @@ namespace ironfist_save
     game_B_ (f, this),
     _3_ (f, this),
     personality_ (f, this),
-    _2_ (f, this),
+    relatedToMaxOrNumHeroes_ (f, this),
     hasEvilFaction_ (f, this),
     field_40_ (f, this),
     field_41_ (f, this),
@@ -10409,13 +10409,13 @@ namespace ironfist_save
         }
       }
 
-      // _2
+      // relatedToMaxOrNumHeroes
       //
-      if (n.name () == "_2" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToMaxOrNumHeroes" && n.namespace_ ().empty ())
       {
-        if (!_2_.present ())
+        if (!relatedToMaxOrNumHeroes_.present ())
         {
-          this->_2_.set (_2_traits::create (i, f, this));
+          this->relatedToMaxOrNumHeroes_.set (relatedToMaxOrNumHeroes_traits::create (i, f, this));
           continue;
         }
       }
@@ -10615,10 +10615,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!_2_.present ())
+    if (!relatedToMaxOrNumHeroes_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "_2",
+        "relatedToMaxOrNumHeroes",
         "");
     }
 
@@ -16139,15 +16139,15 @@ namespace ironfist_save
       s << i.personality ();
     }
 
-    // _2
+    // relatedToMaxOrNumHeroes
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_2",
+          "relatedToMaxOrNumHeroes",
           e));
 
-      s << i._2 ();
+      s << i.relatedToMaxOrNumHeroes ();
     }
 
     // hasEvilFaction

@@ -4602,19 +4602,19 @@ namespace ironfist_save
     void
     personality (const personality_type& x);
 
-    // _2
+    // relatedToMaxOrNumHeroes
     // 
-    typedef ::xml_schema::int_ _2_type;
-    typedef ::xsd::cxx::tree::traits< _2_type, char > _2_traits;
+    typedef ::xml_schema::int_ relatedToMaxOrNumHeroes_type;
+    typedef ::xsd::cxx::tree::traits< relatedToMaxOrNumHeroes_type, char > relatedToMaxOrNumHeroes_traits;
 
-    const _2_type&
-    _2 () const;
+    const relatedToMaxOrNumHeroes_type&
+    relatedToMaxOrNumHeroes () const;
 
-    _2_type&
-    _2 ();
+    relatedToMaxOrNumHeroes_type&
+    relatedToMaxOrNumHeroes ();
 
     void
-    _2 (const _2_type& x);
+    relatedToMaxOrNumHeroes (const relatedToMaxOrNumHeroes_type& x);
 
     // hasEvilFaction
     // 
@@ -4825,7 +4825,7 @@ namespace ironfist_save
                   const game_B_type&,
                   const _3_type&,
                   const personality_type&,
-                  const _2_type&,
+                  const relatedToMaxOrNumHeroes_type&,
                   const hasEvilFaction_type&,
                   const field_40_type&,
                   const field_41_type&,
@@ -4864,7 +4864,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< game_B_type > game_B_;
     ::xsd::cxx::tree::one< _3_type > _3_;
     ::xsd::cxx::tree::one< personality_type > personality_;
-    ::xsd::cxx::tree::one< _2_type > _2_;
+    ::xsd::cxx::tree::one< relatedToMaxOrNumHeroes_type > relatedToMaxOrNumHeroes_;
     ::xsd::cxx::tree::one< hasEvilFaction_type > hasEvilFaction_;
     ::xsd::cxx::tree::one< field_40_type > field_40_;
     ::xsd::cxx::tree::one< field_41_type > field_41_;
