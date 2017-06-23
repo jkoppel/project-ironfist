@@ -3,9 +3,9 @@
 #include<stdlib.h>
 #include<string.h>
 
-#include "gui.h"
-#include "resource.h"
-#include "inspect.h"
+#include "manager.h"
+#include "resourceManager.h"
+#include "resources.h"
 
 struct tag_message;
 
@@ -28,31 +28,6 @@ public:
 };
 
 struct FileInAGGInfo;
-
-class resourceManager
-{
-public:
-
-  managerVtable *vtable;
-  baseManager *next;
-  baseManager *prev;
-  int type;
-  int idx;
-  char name[30];
-  int ready;
-  resource *loadedFileLinkedList;
-  int numOpenAGGFiles;
-  int curHandleIdx;
-  int fileDescriptors[2];
-  FileInAGGInfo *aggContentInfo[2];
-  int numberOfFilesInAGG[2];
-  int isFreeingAllResources;
-  int field_5E;
-  char resourceToLoad[60];
-  int fileID;
-  palette * GetPalette( char * filename);
-  font * GetFont( char * filename);
-};
 
 class soundManager
 {
@@ -93,12 +68,33 @@ public:
   int someTick;
 };
 
-struct SAMPLE2 { int _[2]; };
-
 extern executive* gpExec;
 extern resourceManager* gpResourceManager;
 extern soundManager* gpSoundManager;
 
+
+// Dummies because it won't assemble if we don't override these
+struct SSpellInfo { int _;};
+SSpellInfo gsSpellInfo[1];
+struct SCmbtHero { int _;};
+SCmbtHero sCmbtHero[1];
+
+/*
+void __fastcall InitMainClasses()
+{
+  gpExec = new executive;
+  gpResourceManager = new resourceManager;
+  gpSoundManager = new soundManager;
+  gpBufferPalette = new palette;
+}
+
+void __fastcall DeleteMainClasses() {
+  delete gpExec;
+  delete gpResourceManager;
+  delete gpSoundManager;
+  delete gpBufferPalette;
+}
+*/
 
 void finish_init() {
   gpExec->InitSystem();

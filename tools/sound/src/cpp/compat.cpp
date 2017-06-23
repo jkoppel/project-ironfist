@@ -21,6 +21,7 @@ extern "C" {
 }
 
 int main() {
+  printf("Starting\n");
        _start_asm();
        return 0;
 }

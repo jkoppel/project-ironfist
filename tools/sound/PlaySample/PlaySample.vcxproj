@@ -74,6 +74,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_MBCS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -122,13 +123,15 @@
   <ItemGroup>
     <ClCompile Include="..\src\cpp\compat.cpp" />
     <ClCompile Include="..\src\cpp\hook.cpp" />
+    <ClCompile Include="..\src\cpp\resourceManager.cpp" />
     <ClCompile Include="..\src\cpp\viewer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src\cpp\baseManager.h" />
-    <ClInclude Include="..\src\cpp\gui.h" />
-    <ClInclude Include="..\src\cpp\inspect.h" />
-    <ClInclude Include="..\src\cpp\resource.h" />
+    <ClInclude Include="..\src\cpp\base.h" />
+    <ClInclude Include="..\src\cpp\manager.h" />
+    <ClInclude Include="..\src\cpp\msg.h" />
+    <ClInclude Include="..\src\cpp\resourceManager.h" />
+    <ClInclude Include="..\src\cpp\resources.h" />
     <ClInclude Include="..\src\cpp\viewer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -137,6 +140,7 @@
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">"$(VCInstallDir)\bin\ml.exe" /c /Cx /coff %(FullPath) </Command>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">%(Filename).obj</Outputs>
     </CustomBuild>
+    <None Include="..\src\asm\mod_heroes2_imports.inc" />
     <None Include="..\src\asm\revitalize_exports.inc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
