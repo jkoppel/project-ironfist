@@ -23732,7 +23732,7 @@ signed int __thiscall game::Scan(game *this, signed __int8 *a1, int start, int l
 }
 
 //----- (004199F0) --------------------------------------------------------
-signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, char a5)
+signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, char a5) // Check this function; it relies on the relationship between the number of factions and the number of heroes
 {
   signed int i; // [sp+10h] [bp-8h]@1
   int randomVal; // [sp+14h] [bp-4h]@3
@@ -23747,7 +23747,7 @@ signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, 
 }
 
 //----- (00419A70) --------------------------------------------------------
-int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero)
+int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero) // Check this function
 {
   signed int tries; // [sp+14h] [bp-10h]@1
   int heroIdx; // [sp+20h] [bp-4h]@1
@@ -23760,7 +23760,7 @@ int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction,
     heroIdx = Random(0, 53);
     if ( this->relatedToHeroForHireStatus[heroIdx] == -1 || this->relatedToHeroForHireStatus[heroIdx] == 64 )
     {
-      if ( (this->relatedToHeroForHireStatus[heroIdx] != 64 || tries >= 1500)
+      if ( (this->relatedToHeroForHireStatus[heroIdx] != 64 || tries >= 1500)// What's so significant about these constants; why are they critical to a certain scenario?
         && (faction < 0 || faction > 5 || tries >= 100 || this->heroes[heroIdx].factionID == faction)// Constant here
         && (!getPowerfulHero
          || tries >= 40
@@ -29371,7 +29371,7 @@ void __thiscall game::SetupTowns(game *this)
       }
       if ( pTown->customBuildings )
       {
-        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | pTown->buildingsBuilt & gTownEligibleBuildMask[castle->factionID];
+        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | pTown->buildingsBuilt & gTownEligibleBuildMask[castle->factionID]; // Generalize Structure gTownEligibleBuildMask
         castle->mageGuildLevel = pTown->mageGuildLevel;
       }
       else
@@ -29411,7 +29411,7 @@ void __thiscall game::SetupTowns(game *this)
       for ( overusedIdx = BUILDING_DWELLING_1; overusedIdx <= BUILDING_UPGRADE_5B; ++overusedIdx )
       {
         if ( (1 << overusedIdx) & castle->buildingsBuiltFlags )
-          *(_WORD *)&castle[-1].name[2 * overusedIdx + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * castle->factionID + 27])[overusedIdx + 1])].growth;// Right value ends up amongst gDwellingType values
+          *(_WORD *)&castle[-1].name[2 * overusedIdx + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * castle->factionID + 27])[overusedIdx + 1])].growth;// Right value ends up amongst gDwellingType values; Generalize Structure Maybe??
       }
       if ( castle->buildingsBuiltFlags & 1 )
       {
@@ -29514,7 +29514,7 @@ void __thiscall game::SetupTowns(game *this)
                 relatedToSpellAppearingChance = 1500;
               if ( hasAdventureSpellAtLevel != 1 || !(gsSpellInfo[spell].attributes & ATTR_ADVENTURE_SPELL) )
               {
-                if ( gsSpellInfo[spell].nonMagicFactionAppearanceChance[castle->factionID] >= Random(0, 10) )
+                if ( gsSpellInfo[spell].nonMagicFactionAppearanceChance[castle->factionID] >= Random(0, 10) )// Generalize Structure nonMagicFactionAppearanceChance (Maybe??)
                 {
                   ++tries;
                   if ( tries <= 500 )
@@ -29566,7 +29566,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
   char isJail; // [sp+80h] [bp-8h]@9
   int i; // [sp+84h] [bp-4h]@1
 
-  result = memset(mightBeHeroAlreadyExists, 0, 54u);// Only 54 out of 56 bytes set to zero???
+  result = memset(mightBeHeroAlreadyExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
   for ( i = 0; i < 3; ++i )
   {
     for ( coordYForRandomHero = 0; ; ++coordYForRandomHero )
@@ -29611,9 +29611,9 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
             }
             else
             {
-              faction = loc->objectIndex % 7;
+              faction = loc->objectIndex % 7; // Constant here (needs to be generalized)
               if ( faction == FACTION_MULTIPLE )// Constant here (faction related)
-                faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];
+                faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];// Constant here (most likely faction related)
             }
             if ( mapExtraHero->couldBeHasFaction )// field_3D changed to couldBeHasFaction
             {
@@ -29622,10 +29622,10 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
             else
             {
               randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-              if ( randomHeroIdx == -1 )
+              if ( randomHeroIdx == -1 ) //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
               {
                 randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-                faction = randomHeroIdx / 9;
+                faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes)
               }
               mightBeHeroAlreadyExists[randomHeroIdx] = 1;
               this->heroes[randomHeroIdx].factionID = faction;
