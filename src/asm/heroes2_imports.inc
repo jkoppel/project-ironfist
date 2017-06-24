@@ -261,6 +261,8 @@ IMPORT_?SpellMessage@combatManager@@QAEXHH@Z = 1
 IMPORT_?ValidSpellTarget@combatManager@@QAEHHH@Z = 1
 
 ;;towns
+IMPORT_?gTownEligibleBuildMask@@3PAKA = 1
+
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
 IMPORT_?RecruitHero@townManager@@QAEHHH@Z = 1
@@ -269,7 +271,6 @@ IMPORT_?GetBuildingName@@YIPADHH@Z = 1
 ?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@recruitUnit@@UAEHH@Z = 1
 ?Open@recruitUnit@@UAEHH@Z_clone EQU ?Open_orig@recruitUnit@@QAEHH@Z
-IMPORT_?gTownEligibleBuildMask@@3PAKA = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1
