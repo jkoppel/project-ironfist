@@ -610,6 +610,108 @@ void army::Walk(signed int dir, int last, int notFirst) {
   }
 }
 
+#pragma pack(push, 1)
+struct PathfindingInfo
+{
+  char field_0;
+  char field_1;
+  __int16 field_2;
+  char field_4;
+  int field_5;
+};
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+struct searchArray
+{
+  int field_0;
+  int field_4;
+  int field_8;
+  char _1[8];
+  PathfindingInfo mainDataStructure[1024];
+  PathfindingInfo *field_2414;
+  int field_2418;
+  int field_241C[63];
+};
+#pragma pack(pop)
+
+extern searchArray *gpSearchArray;
+
+int army::WalkTo(int hex)
+{
+  signed int result; // eax@33
+  signed int onEnemySideOfMoat; // [sp+10h] [bp-14h]@9
+  signed int moatIdx; // [sp+14h] [bp-10h]@3
+  signed int goingToMoat; // [sp+18h] [bp-Ch]@3
+  signed int v7; // [sp+1Ch] [bp-8h]@34
+  signed int i; // [sp+20h] [bp-4h]@3
+  signed int j; // [sp+20h] [bp-4h]@17
+  int hexIdxb; // [sp+20h] [bp-4h]@34
+
+  this->targetStackIdx = -1;
+  this->targetOwner = this->targetStackIdx;
+  if (gpCombatManager->hasMoat && this->creature.creature_flags & TWO_HEXER )
+  {
+    goingToMoat = 0;
+    moatIdx = 0;
+    for ( i = 0; i < 9; ++i )
+    {
+      if ( moatCell[i] == hex )
+      {
+        goingToMoat = 1;
+        moatIdx = i;
+      }
+    }
+    if ( goingToMoat )
+    {
+      onEnemySideOfMoat = 0;
+      if ( moatIdx == 4 && gpCombatManager->drawBridgePosition != 4 )
+        onEnemySideOfMoat = 1;
+      if ( moatIdx > 0 && *(&giWalkingYMod + moatIdx + 3) == this->occupiedHex// moatCell[moatIdx-1]
+        || moatIdx < 8 && moatCell[moatIdx + 1] == this->occupiedHex )
+        onEnemySideOfMoat = 1;
+      for ( j = 0; j < 6; ++j )
+      {
+        if ( moatCell[moatIdx] == army::GetAdjacentCellIndex(this->occupiedHex, j) )
+          onEnemySideOfMoat = 1;
+      }
+      if ( !this->owningSide && moatCell[this->occupiedHex / 13] < this->occupiedHex )
+        onEnemySideOfMoat = 1;
+      if ( this->owningSide == 1 && moatCell[this->occupiedHex / 13] > this->occupiedHex )
+        onEnemySideOfMoat = 1;
+      if ( !onEnemySideOfMoat )
+      {
+        if ( this->facingRight == 1 )
+          --hex;
+        else
+          ++hex;
+      }
+    }
+  }
+  if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0) )
+  {
+    v7 = 0;
+    for ( hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb )
+    {
+      this->Walk(*(&gpSearchArray->field_2418 + hexIdxb), 0, gpSearchArray->field_8 - 1 != hexIdxb);
+      ++v7;
+      if ( this->creature.speed <= v7 )
+        hexIdxb = -1;
+    }
+    this->CancelSpellType(0);
+    this->animationType = ANIMATION_TYPE_STANDING;
+    this->animationFrame = 0;
+    gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+    gpCombatManager->TestRaiseDoor();
+    result = 0;
+  }
+  else
+  {
+    result = 3;
+  }
+  return result;
+}
+
 // ironfist function
 bool army::IsCloseMove(int toHexIdx) {
   for (int j = 0; j < 6; j++) {

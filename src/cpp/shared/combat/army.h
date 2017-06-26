@@ -114,6 +114,7 @@ public:
   void DispelGood();
   void InitClean();
   int CanFit(int hex, int mayShiftTwoHexers, int *rearHex);
+  int FindPath(int, int, int, int, int);
 };
 
 #pragma pack(pop)
