@@ -210,6 +210,9 @@ IMPORT_?CastSpell@combatManager@@QAEXHHHH@Z = 1
 IMPORT_?InitClean@army@@QAEXXZ = 1
 IMPORT_?ShowSpellMessage@combatManager@@QAEXHHPAVarmy@@@Z = 1
 IMPORT_?WalkTo@army@@QAEHH@Z = 1
+IMPORT_?ValidPath@army@@QAEHHH@Z = 1
+IMPORT_?FindPath@army@@QAEHHHHHH@Z = 1
+?FindPath@army@@QAEHHHHHH@Z_clone EQU ?FindPath_orig@army@@QAEHHHHHH@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

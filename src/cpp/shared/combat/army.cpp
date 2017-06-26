@@ -5,6 +5,7 @@
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
+#include <vector>
 
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
@@ -610,6 +611,54 @@ void army::Walk(signed int dir, int last, int notFirst) {
   }
 }
 
+int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
+	gpCombatManager->combatGrid[40].isBlocked = 1;
+	gpCombatManager->combatGrid[41].isBlocked = 1;
+	gpCombatManager->combatGrid[42].isBlocked = 1;
+	gpCombatManager->combatGrid[43].isBlocked = 1;
+	gpCombatManager->combatGrid[44].isBlocked = 1;
+	gpCombatManager->combatGrid[45].isBlocked = 1;
+	gpCombatManager->combatGrid[46].isBlocked = 1;
+
+	int res;
+	std::vector<int> obstacleHexes;
+	
+	if(this->creatureIdx == CREATURE_PIKEMAN)
+	{
+		for(int i = 0; i < 117; i++) {
+			if (gpCombatManager->combatGrid[i].isBlocked != 0) {
+				obstacleHexes.push_back(i);
+				gpCombatManager->combatGrid[i].isBlocked = 0;
+			}
+		}
+	}
+	res = this->FindPath_orig(this->occupiedHex, targHex, this->creature.speed, 0, flag);
+
+	// pretending we don't see obstacles at all
+	// this does nothing for creatures that don't ignore obstacles
+	for (auto i : obstacleHexes)
+		gpCombatManager->combatGrid[i].isBlocked = 1;
+
+	return res;
+}
+
+int army::ValidPath(int hex, int flag)
+{
+  if (ValidHex(hex)) {
+    if ( this->creature.creature_flags & FLYER ) {
+      return this->ValidFlight(hex, flag);
+    }
+	else if(this->FindPath(this->occupiedHex, hex, this->creature.speed, 0, flag)) {
+      this->targetHex = hex;
+      return 1;
+    }
+    else {
+      return 0;
+    }
+  }
+  return 0;
+}
+
 #pragma pack(push, 1)
 struct PathfindingInfo
 {
@@ -621,17 +670,18 @@ struct PathfindingInfo
 };
 #pragma pack(pop)
 
-#pragma pack(push, 1)
-struct searchArray
-{
-  int field_0;
-  int field_4;
-  int field_8;
-  char _1[8];
-  PathfindingInfo mainDataStructure[1024];
-  PathfindingInfo *field_2414;
-  int field_2418;
-  int field_241C[63];
+#pragma pack(push,1)
+class searchArray {
+public:
+	int field_0;
+	int field_4;
+	int field_8;
+	char _1[8];
+	PathfindingInfo mainDataStructure[1024];
+	PathfindingInfo *field_2414;
+	int field_2418;
+	int field_241C[63];
+	searchArray();
 };
 #pragma pack(pop)
 
@@ -688,13 +738,20 @@ int army::WalkTo(int hex)
       }
     }
   }
+
   if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0) )
   {
     v7 = 0;
     for ( hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb )
     {
-      this->Walk(*(&gpSearchArray->field_2418 + hexIdxb), 0, gpSearchArray->field_8 - 1 != hexIdxb);
-      ++v7;
+	  int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
+	  int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+	  if(gpCombatManager->combatGrid[destHex].isBlocked) {
+		//this->JumpOver();
+	  } else {
+		  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+	  }
+	  ++v7;
       if ( this->creature.speed <= v7 )
         hexIdxb = -1;
     }

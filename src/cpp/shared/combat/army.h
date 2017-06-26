@@ -115,6 +115,9 @@ public:
   void InitClean();
   int CanFit(int hex, int mayShiftTwoHexers, int *rearHex);
   int FindPath(int, int, int, int, int);
+  int FindPath_orig(int, int, int, int, int);
+  int ValidPath(int hex, int flag);
+  int FindPathIgnoringObstacles(int knownHex, int targHex, int speed, int flying, int flag);
 };
 
 #pragma pack(pop)
