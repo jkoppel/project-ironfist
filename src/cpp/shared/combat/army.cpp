@@ -742,14 +742,32 @@ int army::WalkTo(int hex)
   if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0) )
   {
     v7 = 0;
+	bool isJumping = false;
     for ( hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb )
     {
 	  int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
 	  int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
 	  if(gpCombatManager->combatGrid[destHex].isBlocked) {
-		//this->JumpOver();
+		  if (!isJumping) {
+			  isJumping = true;
+			  // change to jumpStart anim
+			  // here
+			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+		  } else {
+			 // change to flying anim
+			// here
+			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+		  }
 	  } else {
-		  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+		  if(isJumping) {
+			  isJumping = false;
+			  // change to jumpFinish anim
+			  // here
+			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+			  // revert to usual walk
+		  } else {
+			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+		  }
 	  }
 	  ++v7;
       if ( this->creature.speed <= v7 )
