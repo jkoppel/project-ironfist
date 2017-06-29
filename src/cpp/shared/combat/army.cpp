@@ -623,8 +623,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
 	int res;
 	std::vector<int> obstacleHexes;
 	
-	if(this->creatureIdx == CREATURE_PIKEMAN)
-	{
+	if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
 		for(int i = 0; i < 117; i++) {
 			if (gpCombatManager->combatGrid[i].isBlocked != 0) {
 				obstacleHexes.push_back(i);
@@ -700,8 +699,7 @@ int army::WalkTo(int hex)
 
   this->targetStackIdx = -1;
   this->targetOwner = this->targetStackIdx;
-  if (gpCombatManager->hasMoat && this->creature.creature_flags & TWO_HEXER )
-  {
+  if (gpCombatManager->hasMoat && this->creature.creature_flags & TWO_HEXER ) {
     goingToMoat = 0;
     moatIdx = 0;
     for ( i = 0; i < 9; ++i )
@@ -745,28 +743,53 @@ int army::WalkTo(int hex)
 	bool isJumping = false;
     for ( hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb )
     {
-	  int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
-	  int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-	  if(gpCombatManager->combatGrid[destHex].isBlocked) {
-		  if (!isJumping) {
-			  isJumping = true;
-			  // change to jumpStart anim
-			  // here
-			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
-		  } else {
-			 // change to flying anim
-			// here
-			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
-		  }
-	  } else {
-		  if(isJumping) {
-			  isJumping = false;
-			  // change to jumpFinish anim
-			  // here
-			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
-			  // revert to usual walk
-		  } else {
-			  this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+      int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
+      int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+      if (gpCombatManager->combatGrid[destHex].isBlocked) {
+        if (!isJumping) {
+          isJumping = true;
+          // change to jumpStart anim
+          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+            int animLen = 2;
+            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
+            for (int p = 0; p < animLen; p++) {
+              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 31 + p;
+            }
+          }
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+        } else {
+          // change to flying anim
+          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+            int animLen = 1;
+            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
+            for (int p = 0; p < animLen; p++) {
+              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 32 + p;
+            }
+          }
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+        }
+      } else {
+        if (isJumping) {
+          isJumping = false;
+          // change to jumpFinish anim
+          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+            int animLen = 4;
+            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
+            for (int p = 0; p < animLen; p++) {
+              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 33 + p;
+            }
+          }
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+          // revert to usual walk
+          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+            int animLen = 8;
+            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
+            for (int p = 0; p < animLen; p++) {
+              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 1 + p;
+            }
+          }
+        } else {
+			    this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
 		  }
 	  }
 	  ++v7;
