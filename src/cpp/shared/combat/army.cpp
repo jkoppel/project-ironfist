@@ -612,46 +612,43 @@ void army::Walk(signed int dir, int last, int notFirst) {
 }
 
 int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
-	gpCombatManager->combatGrid[40].isBlocked = 1;
-	gpCombatManager->combatGrid[41].isBlocked = 1;
-	gpCombatManager->combatGrid[42].isBlocked = 1;
-	gpCombatManager->combatGrid[43].isBlocked = 1;
-	gpCombatManager->combatGrid[44].isBlocked = 1;
-	gpCombatManager->combatGrid[45].isBlocked = 1;
-	gpCombatManager->combatGrid[46].isBlocked = 1;
+  gpCombatManager->combatGrid[40].isBlocked = 1;
+  gpCombatManager->combatGrid[41].isBlocked = 1;
+  gpCombatManager->combatGrid[42].isBlocked = 1;
+  gpCombatManager->combatGrid[43].isBlocked = 1;
+  gpCombatManager->combatGrid[44].isBlocked = 1;
+  gpCombatManager->combatGrid[45].isBlocked = 1;
+  gpCombatManager->combatGrid[46].isBlocked = 1;
 
-	int res;
-	std::vector<int> obstacleHexes;
-	
-	if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-		for(int i = 0; i < 117; i++) {
-			if (gpCombatManager->combatGrid[i].isBlocked != 0) {
-				obstacleHexes.push_back(i);
-				gpCombatManager->combatGrid[i].isBlocked = 0;
-			}
-		}
-	}
-	res = this->FindPath_orig(this->occupiedHex, targHex, this->creature.speed, 0, flag);
+  int res;
+  std::vector<int> obstacleHexes;
 
-	// pretending we don't see obstacles at all
-	// this does nothing for creatures that don't ignore obstacles
-	for (auto i : obstacleHexes)
-		gpCombatManager->combatGrid[i].isBlocked = 1;
+  if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+    for (int i = 0; i < 117; i++) {
+      if (gpCombatManager->combatGrid[i].isBlocked != 0) {
+        obstacleHexes.push_back(i);
+        gpCombatManager->combatGrid[i].isBlocked = 0;
+      }
+    }
+  }
+  res = this->FindPath_orig(this->occupiedHex, targHex, this->creature.speed, 0, flag);
 
-	return res;
+  // pretending we don't see obstacles at all
+  // this does nothing for creatures that don't ignore obstacles
+  for (auto i : obstacleHexes)
+    gpCombatManager->combatGrid[i].isBlocked = 1;
+
+  return res;
 }
 
-int army::ValidPath(int hex, int flag)
-{
+int army::ValidPath(int hex, int flag) {
   if (ValidHex(hex)) {
-    if ( this->creature.creature_flags & FLYER ) {
+    if (this->creature.creature_flags & FLYER) {
       return this->ValidFlight(hex, flag);
-    }
-	else if(this->FindPath(this->occupiedHex, hex, this->creature.speed, 0, flag)) {
+    } else if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 0, flag)) {
       this->targetHex = hex;
       return 1;
-    }
-    else {
+    } else {
       return 0;
     }
   }
@@ -659,8 +656,7 @@ int army::ValidPath(int hex, int flag)
 }
 
 #pragma pack(push, 1)
-struct PathfindingInfo
-{
+struct PathfindingInfo {
   char field_0;
   char field_1;
   __int16 field_2;
@@ -686,50 +682,35 @@ public:
 
 extern searchArray *gpSearchArray;
 
-int army::WalkTo(int hex)
-{
-  signed int result; // eax@33
-  signed int onEnemySideOfMoat; // [sp+10h] [bp-14h]@9
-  signed int moatIdx; // [sp+14h] [bp-10h]@3
-  signed int goingToMoat; // [sp+18h] [bp-Ch]@3
-  signed int v7; // [sp+1Ch] [bp-8h]@34
-  signed int i; // [sp+20h] [bp-4h]@3
-  signed int j; // [sp+20h] [bp-4h]@17
-  int hexIdxb; // [sp+20h] [bp-4h]@34
-
+int army::WalkTo(int hex) {
   this->targetStackIdx = -1;
   this->targetOwner = this->targetStackIdx;
-  if (gpCombatManager->hasMoat && this->creature.creature_flags & TWO_HEXER ) {
-    goingToMoat = 0;
-    moatIdx = 0;
-    for ( i = 0; i < 9; ++i )
-    {
-      if ( moatCell[i] == hex )
-      {
-        goingToMoat = 1;
+  if (gpCombatManager->hasMoat && this->creature.creature_flags & TWO_HEXER) {
+    bool goingToMoat = false;
+    int moatIdx = 0;
+    for (int i = 0; i < 9; ++i) {
+      if (moatCell[i] == hex) {
+        goingToMoat = true;
         moatIdx = i;
       }
     }
-    if ( goingToMoat )
-    {
-      onEnemySideOfMoat = 0;
-      if ( moatIdx == 4 && gpCombatManager->drawBridgePosition != 4 )
-        onEnemySideOfMoat = 1;
-      if ( moatIdx > 0 && *(&giWalkingYMod + moatIdx + 3) == this->occupiedHex// moatCell[moatIdx-1]
-        || moatIdx < 8 && moatCell[moatIdx + 1] == this->occupiedHex )
-        onEnemySideOfMoat = 1;
-      for ( j = 0; j < 6; ++j )
-      {
-        if ( moatCell[moatIdx] == army::GetAdjacentCellIndex(this->occupiedHex, j) )
-          onEnemySideOfMoat = 1;
+    if (goingToMoat) {
+      bool onEnemySideOfMoat = false;
+      if (moatIdx == 4 && gpCombatManager->drawBridgePosition != 4)
+        onEnemySideOfMoat = true;
+      if (moatIdx > 0 && *(&giWalkingYMod + moatIdx + 3) == this->occupiedHex// moatCell[moatIdx-1]
+        || moatIdx < 8 && moatCell[moatIdx + 1] == this->occupiedHex)
+        onEnemySideOfMoat = true;
+      for (int j = 0; j < 6; ++j) {
+        if (moatCell[moatIdx] == army::GetAdjacentCellIndex(this->occupiedHex, j))
+          onEnemySideOfMoat = true;
       }
-      if ( !this->owningSide && moatCell[this->occupiedHex / 13] < this->occupiedHex )
-        onEnemySideOfMoat = 1;
-      if ( this->owningSide == 1 && moatCell[this->occupiedHex / 13] > this->occupiedHex )
-        onEnemySideOfMoat = 1;
-      if ( !onEnemySideOfMoat )
-      {
-        if ( this->facingRight == 1 )
+      if (!this->owningSide && moatCell[this->occupiedHex / 13] < this->occupiedHex)
+        onEnemySideOfMoat = true;
+      if (this->owningSide == 1 && moatCell[this->occupiedHex / 13] > this->occupiedHex)
+        onEnemySideOfMoat = true;
+      if (!onEnemySideOfMoat) {
+        if (this->facingRight == 1)
           --hex;
         else
           ++hex;
@@ -737,12 +718,10 @@ int army::WalkTo(int hex)
     }
   }
 
-  if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0) )
-  {
-    v7 = 0;
-	bool isJumping = false;
-    for ( hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb )
-    {
+  if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0)) {
+    int traveledHexes = 0;
+    bool isJumping = false;
+    for (int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
       int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
       int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
       if (gpCombatManager->combatGrid[destHex].isBlocked) {
@@ -750,10 +729,10 @@ int army::WalkTo(int hex)
           isJumping = true;
           // change to jumpStart anim
           if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-            int animLen = 2;
+            int animLen = 8;
             this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
             for (int p = 0; p < animLen; p++) {
-              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 31 + p;
+              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 76 + p;
             }
           }
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
@@ -789,11 +768,11 @@ int army::WalkTo(int hex)
             }
           }
         } else {
-			    this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
-		  }
-	  }
-	  ++v7;
-      if ( this->creature.speed <= v7 )
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+        }
+      }
+      traveledHexes++;
+      if (traveledHexes >= this->creature.speed)
         hexIdxb = -1;
     }
     this->CancelSpellType(0);
@@ -801,13 +780,10 @@ int army::WalkTo(int hex)
     this->animationFrame = 0;
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     gpCombatManager->TestRaiseDoor();
-    result = 0;
+    return 0;
+  } else {
+    return 3;
   }
-  else
-  {
-    result = 3;
-  }
-  return result;
 }
 
 // ironfist function
