@@ -623,7 +623,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
   int res;
   std::vector<int> obstacleHexes;
 
-  if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+  if(CreatureHasAttribute(this->creatureIdx, JUMPER)) {
     for (int i = 0; i < 117; i++) {
       if (gpCombatManager->combatGrid[i].isBlocked != 0) {
         obstacleHexes.push_back(i);

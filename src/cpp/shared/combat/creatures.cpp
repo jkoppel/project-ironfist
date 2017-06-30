@@ -64,7 +64,7 @@ SecondaryResourceNameTableEntry SecondaryResourceNameTable[] = {
 };
 
 
-char* ironfistAttributeNames[] = {STRIKE_AND_RETURN, PLASMA_BLAST, TELEPORTER, ASTRAL_DODGE, SHADOW_MARK};
+char* ironfistAttributeNames[] = {STRIKE_AND_RETURN, PLASMA_BLAST, TELEPORTER, ASTRAL_DODGE, SHADOW_MARK, JUMPER};
 int ironfistAttributeTable[ELEMENTS_IN(ironfistAttributeNames)][MAX_CREATURES];
 
 void ResetCreatureAttributes() {
