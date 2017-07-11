@@ -31,9 +31,6 @@ IMPORT_??2@YAPAXI@Z = 1
 ??3@YAXPAX@Z EQU _op_del
 IMPORT_??3@YAXPAX@Z = 1
 
-;;init
-;IMPORT_?InitMainClasses@@YIXXZ = 1
-;IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 
 ;;;resourceManager

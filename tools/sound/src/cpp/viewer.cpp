@@ -79,23 +79,6 @@ SSpellInfo gsSpellInfo[1];
 struct SCmbtHero { int _;};
 SCmbtHero sCmbtHero[1];
 
-/*
-void __fastcall InitMainClasses()
-{
-  gpExec = new executive;
-  gpResourceManager = new resourceManager;
-  gpSoundManager = new soundManager;
-  gpBufferPalette = new palette;
-}
-
-void __fastcall DeleteMainClasses() {
-  delete gpExec;
-  delete gpResourceManager;
-  delete gpSoundManager;
-  delete gpBufferPalette;
-}
-*/
-
 void finish_init() {
   gpExec->InitSystem();
 
