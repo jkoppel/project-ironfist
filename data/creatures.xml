@@ -393,7 +393,7 @@
         <creature-attribute name="two-hex-attack"/>
         <random-spawn minimum="10" maximum="50"/>
     </creature>
-    <creature id="81" name-singular="cyber indigo panther" name-plural="cyber indigo panthers" icn="cipanther.icn" frm="cipanther.bin" projectile="" cost="2500" fight-value="1690" fight-value-aux="34" growth="4" hp="200" faction="6" speed="10" attack="15" defense="6" shots="0" short-name="lich">
+    <creature id="81" name-singular="cyber indigo panther" name-plural="cyber indigo panthers" icn="cipanther.icn" frm="cipanther.bin" projectile="" cost="2500" fight-value="1690" fight-value-aux="34" growth="4" hp="200" faction="6" speed="10" attack="15" defense="6" shots="0" short-name="cpnt">
         <damage minimum="40" maximum="40"/>
         <creature-attribute name="flies"/>
         <creature-attribute name="teleporter"/>
