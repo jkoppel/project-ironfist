@@ -190,12 +190,12 @@ function OnHeroMove(x, y)
 		if GetHeroOwner(GetCurrentHero()) == 0 and druidCircleVisited == 0 then
 			h = GetCurrentHero();
 			if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
-				MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, knows that you already have the Travelers's Boots of Mobility he wanted to give you. Instead, he gives you 3000 gold.");
+				MessageBox("You stumble upon a druid circle. The old druid there, foretelling your arrival, knows that you already have the Travelers's Boots of Mobility he wanted to give you. Instead, he gives you 3000 gold.");
 				GiveResource(GetPlayer(0), RESOURCE_GOLD, 3000);
 				druidCircleVisited = 1;
 			else
 				GrantArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
-				MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, would like to grant you the Travelers's Boots of Mobility as a gift, to aid you on your journey.");
+				AdvMessageBox("You stumble upon a druid circle. The old druid there, foretelling your arrival, would like to grant you the Travelers's Boots of Mobility as a gift, to aid you on your journey.",DIALOG_YES_NO, IMAGE_GROUP_ARTIFACTS, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY );
 				if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
 					druidCircleVisited = 1;
 				else
@@ -231,7 +231,7 @@ function OnHeroMove(x, y)
 				GiveResource(GetPlayer(0), RESOURCE_GOLD, 1000);
 				witchVisited = 1;
 			else
-				MessageBox("The witch who resides there offers to sell you a necklace, and says it will bring you fortune.");
+				AdvMessageBox("The witch who resides there offers to sell you a necklace, and says it will bring you fortune.",DIALOG_YES_NO, IMAGE_GROUP_ARTIFACTS, ARTIFACT_LUCKY_RABBITS_FOOT);
 							
 				result = QuestionBox("Do you wish to buy the necklace (1000 Gold)?");
 			
@@ -278,7 +278,7 @@ function OnHeroMove(x, y)
 				hermitVisited = 1;
 			else
 				GrantArtifact(h, ARTIFACT_FIRE_CLOAK);
-				MessageBox("You approach a lone house amongst the old swamp trees. An old hermit greets you and invites you in for dinner and rest. After a long philosophical discussion, he offers you a gift for your Journey into the fiery badlands.");
+				AdvMessageBox("You approach a lone house amongst the old swamp trees. An old hermit greets you and invites you in for dinner and rest. After a long philosophical discussion, he offers you a gift for your Journey into the fiery badlands.",  DIALOG_YES_NO, IMAGE_GROUP_ARTIFACTS,ARTIFACT_FIRE_CLOAK );
 				if HasArtifact(h, ARTIFACT_FIRE_CLOAK) then
 					hermitVisited = 1;
 				else
@@ -292,8 +292,8 @@ function OnHeroMove(x, y)
 			h = GetCurrentHero();
 			if HasArtifact(h, ARTIFACT_DRAGON_SWORD_OF_DOMINION) then
 
-				MessageBox("Still in the swamps region, you stumble upon a large wooden house. It seems to have been recently abandoned, but wait! Something is glistening inside. You go in and discover a great sword and what seems to be a pile of gold for an amount of at least 3000 gold - as if they were placed there for you to find.");
-				MessageBox("They are strongly trapped in the ground, and you don't want to waste your time to retrieve both of them, the undeads are waiting for you. So, you have to make a choice, the sword or the gold.");
+				AdvMessageBox("Still in the swamps region, you stumble upon a large wooden house. It seems to have been recently abandoned, but wait! Something is glistening inside. You go in and discover a great sword and what seems to be a pile of gold for an amount of at least 3000 gold - as if they were placed there for you to find.They are strongly trapped in the ground, and you don't want to waste your time to retrieve both of them, the undeads are waiting for you. So, you have to make a choice, the sword or the gold.", IMAGE_GROUP_ARTIFACTS, ARTIFACT_ULTIMATE_SWORD_OF_DOMINION, IMAGE_GROUP_RESSOURCES, RESOURCE_GOLD);
+				
 							
 				result = QuestionBox("Do you wish to free and keep the Dragon Sword of Dominion?");
 				
@@ -313,7 +313,7 @@ function OnHeroMove(x, y)
 				end
 			else
 				GrantArtifact(h, ARTIFACT_DRAGON_SWORD_OF_DOMINION);
-				MessageBox("Still in the swamps region, you stumble upon a large wooden house. It seems to have been recently abandoned, but wait! Something is glistening inside. You go in and discover a great sword - as if it was placed there for you to find.");
+				AdvMessageBox("Still in the swamps region, you stumble upon a large wooden house. It seems to have been recently abandoned, but wait! Something is glistening inside. You go in and discover a great sword - as if it was placed there for you to find." DIALOG_YES_NO, IMAGE_GROUP_ARTIFACTS, ARTIFACT_DRAGON_SWORD_OF_DOMINION);
 				if HasArtifact(h, ARTIFACT_DRAGON_SWORD_OF_DOMINION) then
 					woodHouseVisited = 1;
 				else
@@ -331,7 +331,7 @@ function OnHeroMove(x, y)
 				woodHouse2Visited = 1;
 			else
 				GrantArtifact(h, ARTIFACT_GOLDEN_BOW);
-				MessageBox("An abandoned wooden house in the midst of the swamps. As you approach you spot something glistening inside. It's a magical bow - lying there as if it was waiting for you to discover.");
+				AdvMessageBox("An abandoned wooden house in the midst of the swamps. As you approach you spot something glistening inside. It's a magical bow - lying there as if it was waiting for you to discover." DIALOG_YES_NO, IMAGE_GROUP_ARTIFACTS,ARTIFACT_GOLDEN_BOW );
 				if HasArtifact(h, ARTIFACT_GOLDEN_BOW) then
 					woodHouse2Visited = 1;
 				else
