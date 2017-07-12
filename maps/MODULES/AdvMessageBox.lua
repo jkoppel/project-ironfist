@@ -16,4 +16,11 @@ function AdvMessageBox.DoubleImage(text, dialogtype, img1type, img1arg, img2type
 end;
 
 
+function AdvMessageBox.DoubleImageNoDialog(text, img1type, img1arg, img2type, img2arg)
+
+	AdvancedMessageBox(text, 1, -1, -1, img1type, img1arg, img2type, img2arg, -1, 0)
+
+end;
+
+
 return AdvMessageBox
