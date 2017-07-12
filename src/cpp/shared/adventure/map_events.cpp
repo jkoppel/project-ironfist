@@ -30,6 +30,11 @@ void advManager::PasswordEvent(mapCell *cell, hero *hero) {
     gpCurPlayer->barrierTentsVisited |= 1 << barrierColor;
 }
 
+void playerData::SetBarrierTentsVisited(char x) {
+	gpCurPlayer->barrierTentsVisited += 1;
+	
+}
+ 
 int advManager::BarrierEvent(mapCell *cell, hero *hero) {
     SAMPLE2 res = NULL_SAMPLE2;
     int barrierColor = GetBarrierColor(cell->extraInfo);
@@ -41,7 +46,7 @@ int advManager::BarrierEvent(mapCell *cell, hero *hero) {
     H2MessageBox(gText);
 
     if (gpCurPlayer->barrierTentsVisited & (1 << barrierColor)) {
-        this->EventSound(cell->objType & 0x7F, barrierColor, &res);
+        this->EventSound(cell->objType & 0x7F, barrierColor, &res);		
         sprintf(gText, "As you speak the magic word \"%s\", the glowing barrier dissolves into nothingness.", password);
         H2MessageBox(gText);
         return 1;
@@ -49,4 +54,6 @@ int advManager::BarrierEvent(mapCell *cell, hero *hero) {
         H2MessageBox("You try guessing in vein, but nothing happens.");
         return 0;
     }
+	 
 }
+

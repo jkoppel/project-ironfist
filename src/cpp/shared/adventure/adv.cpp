@@ -123,11 +123,13 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   int locationType = cell->objType & 0x7F;
   SAMPLE2 res2 = NULL_SAMPLE2;
+ 
   ScriptCallback("OnLocationVisit", locationType, locX, locY);
   if (locationType != LOCATION_SHRINE_FIRST && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
     this->DoEvent_orig(cell, locX, locY);
     return;
   }
+  
   this->HandleSpellShrine(cell, locationType, hro, res2, locX, locY);
   this->UpdateRadar(1, 0);
   this->UpdateHeroLocators(1, 1);
@@ -137,6 +139,13 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   gpSoundManager->SwitchAmbientMusic(giTerrainToMusicTrack[this->currentTerrain]);
   WaitEndSample(res2, res2.sample);
   CheckEndGame(0, 0);
+}
+
+void __thiscall game::ClaimTown(int CastleIdx, int PlayerIdx, int a4) {
+
+	this->ClaimTown_orig(CastleIdx, PlayerIdx, a4);
+	ScriptCallback("OnCastleConquered", CastleIdx, PlayerIdx, a4);
+
 }
 
 void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {

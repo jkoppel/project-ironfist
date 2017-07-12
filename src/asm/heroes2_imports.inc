@@ -141,6 +141,9 @@ IMPORT_?Walk@army@@QAEXHHH@Z = 1
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
+IMPORT_?ClaimTown@game@@QAEXHHH@Z = 1
+?ClaimTown@game@@QAEXHHH@Z_clone EQU ?ClaimTown_orig@game@@QAEXHHH@Z
+
 
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z

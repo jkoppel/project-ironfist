@@ -51,6 +51,7 @@ public:
 
 	void Read(int);
 	void Write(int);
+	void SetBarrierTentsVisited(char x);
 };
 
 extern int giCurPlayer;
@@ -177,6 +178,7 @@ public:
     void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
+	void ClaimTown_orig(int, int, int);
     int GetTownId(int,int);
 
 	void NextPlayer();

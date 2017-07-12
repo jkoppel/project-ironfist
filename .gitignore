@@ -39,3 +39,4 @@ ipch/
 
 # Ironfist packed resources
 [Bb]uild/
+src/vcxproj/editor_vs/editor_vs.vcxproj

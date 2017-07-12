@@ -324,6 +324,7 @@ int l_getheroinpool(lua_State *L) {
 int l_getheroowner(lua_State *L) {
   hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->ownerIdx);
+  
   return 1;
 }
 
@@ -359,6 +360,7 @@ int l_countemptycreatureslots(lua_State *L) {
 	lua_pushinteger(L, hro->CountEmptyCreatureSlots());
 	return 1;
 }
+
 
 int l_setprimaryskill(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
@@ -660,6 +662,11 @@ int l_getTownIDFromPos(lua_State *L) {
   int y = (int)luaL_checknumber(L, 2);
   lua_pushinteger(L, gpGame->GetTownId(x, y));
   return 1;
+}
+
+void l_SetBarrierTentsVisited(lua_State *L) {
+
+
 }
 
 void set_lua_globals(lua_State *L) {
