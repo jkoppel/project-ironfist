@@ -34,6 +34,7 @@ Section
 	SetOutPath $INSTDIR
 
 	File ..\build\bin\ironfist.exe
+	File bass.dll
 	File MSS32.DLL
 	File SMACKW32.DLL
 	File xerces-c_3_1.dll
@@ -51,6 +52,7 @@ Section
 	
 	SetOutPath $INSTDIR\MAPS
 	
+	File ..\maps\Behemoth.MX2
 	File ..\maps\SorrowEn.MX2
 	File ..\maps\LastStand.MX2
 
@@ -58,6 +60,7 @@ Section
 	
 	SetOutPath $INSTDIR\SCRIPTS
 	
+	File ..\maps\Behemoth.MX2.lua
 	File ..\maps\SorrowEn.MX2.lua
 	File ..\maps\LastStand.MX2.lua
 
