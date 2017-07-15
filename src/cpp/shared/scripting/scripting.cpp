@@ -228,6 +228,12 @@ int l_getCurrentPlayer(lua_State *L) {
   return 1;
 }
 
+int l_getPlayerColor(lua_State *L) {
+  playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, p->color);
+  return 1;
+}
+
 int l_getnumheroes(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, p->numHeroes);
@@ -732,6 +738,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "MapPutArmy", l_mapPutArmy);
 
   lua_register(L, "GetCurrentPlayer", l_getCurrentPlayer);
+  lua_register(L, "GetPlayerColor", l_getPlayerColor);
   lua_register(L, "TeleportHero", l_teleportHero);
   lua_register(L, "GetHeroName", l_getHeroName);
   lua_register(L, "SetHeroName", l_setHeroName);
