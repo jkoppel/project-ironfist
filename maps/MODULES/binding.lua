@@ -53,11 +53,24 @@ town_mt = {
 }
 
 player_mt = {
+
 	__newindex = function (table, key, value)
-		
+		if key == "daysLeftWithoutCastle" then
+			SetDaysAfterTownLost(table, value);
+		else
+			MessageBox("This field is not supported");
+		end
 	end,
 	__index = function (t, k)
-		
+		if k == "color" then
+			return GetPlayerColor(t);
+		elseif k == "numHeroes" then
+			return GetNumHeroes(t);
+		elseif k == "daysLeftWithoutCastle" then
+			return GetDaysAfterTownLost(t);
+		else
+			MessageBox("This field is not supported");
+		end
 	end
 }
 

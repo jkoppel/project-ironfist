@@ -625,6 +625,12 @@ int l_setDaysAfterTownLost(lua_State *L) {
   return 0;
 }
 
+int l_getDaysAfterTownLost(lua_State *L) {
+  playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, player->daysLeftWithoutCastle);
+  return 1;
+}
+
 int l_getherolevel(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->GetLevel());
@@ -706,6 +712,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "InputBox", l_inputBox);
   lua_register(L, "RecruitBox", l_recruitBox);
   lua_register(L, "SetDaysAfterTownLost", l_setDaysAfterTownLost);
+  lua_register(L, "GetDaysAfterTownLost", l_getDaysAfterTownLost);
 
   lua_register(L, "GiveResource", l_giveResource);
   lua_register(L, "SetResource", l_setResource);
