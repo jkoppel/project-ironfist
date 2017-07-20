@@ -627,7 +627,7 @@ int l_setDaysAfterTownLost(lua_State *L) {
 
 int l_getDaysAfterTownLost(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-  lua_pushinteger(L, player->daysLeftWithoutCastle);
+  lua_pushnumber(L, player->daysLeftWithoutCastle);
   return 1;
 }
 
