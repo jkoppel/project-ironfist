@@ -627,7 +627,7 @@ int l_setDaysAfterTownLost(lua_State *L) {
 
 int l_getDaysAfterTownLost(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-  lua_pushnumber(L, player->daysLeftWithoutCastle);
+  lua_pushinteger(L, player->daysLeftWithoutCastle);
   return 1;
 }
 
@@ -665,6 +665,12 @@ int l_setTownOwner(lua_State *L) {
   int playerIdx = (int)luaL_checknumber(L, 2);
   gpGame->ClaimTown(townIdx, playerIdx, 0);
   return 0;
+}
+
+int l_getTownX(lua_State *L) {
+  town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, twn->x);
+  return 1;
 }
 
 int l_getTownIDFromPos(lua_State *L) {
@@ -761,6 +767,7 @@ void set_lua_globals(lua_State *L) {
 
   lua_register(L, "GetTownOwner", l_getTownOwner);
   lua_register(L, "SetTownOwner", l_setTownOwner);
+  lua_register(L, "GetTownX", l_getTownX);
   lua_register(L, "GetTownIdFromPos", l_getTownIDFromPos);
 
   set_scripting_consts(L);

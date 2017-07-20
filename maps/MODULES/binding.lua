@@ -46,6 +46,8 @@ town_mt = {
 			return GetTownOwner(t)
 		elseif k == "faction" then
 			return GetTownFaction(t)
+		elseif k == "x" then
+			return GetTownX(t)
 		else
 			MessageBox("This field is not supported")
 		end
