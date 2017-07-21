@@ -110,6 +110,8 @@ battleStack_mt = {
 			MessageBox("Changing stack type is not implemented yet")
 		elseif key == "quantity" then
 			SetStackQuantity(table, value)
+		elseif key == "initialQuantity" then
+			SetStackInitialQuantity(table, value)
 		elseif key == "hex" then
 			MessageBox("Changing stack hex is not implemented yet")
 		else
@@ -125,6 +127,8 @@ battleStack_mt = {
 			return GetStackType(t)
 		elseif k == "quantity" then
 			return GetStackQuantity(t)
+		elseif k == "initialQuantity" then
+			return GetStackInitialQuantity(t)
 		elseif k == "hex" then
 			return GetStackHex(t)
 		else

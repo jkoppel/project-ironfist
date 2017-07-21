@@ -612,6 +612,19 @@ int l_setStackQuantity(lua_State *L) {
   return 0;
 }
 
+int l_getStackInitialQuantity(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->initialQuantity);
+  return 1;
+}
+
+int l_setStackInitialQuantity(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int initialQuantity = (int)luaL_checknumber(L, 2);
+  creat->initialQuantity = initialQuantity;
+  return 0;
+}
+
 int l_getStackHex(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->occupiedHex);
@@ -829,6 +842,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetStackSide", l_getStackSide);
   lua_register(L, "GetStackQuantity", l_getStackQuantity);
   lua_register(L, "SetStackQuantity", l_setStackQuantity);
+  lua_register(L, "GetStackInitialQuantity", l_getStackInitialQuantity);
+  lua_register(L, "SetStackInitialQuantity", l_setStackInitialQuantity);
   lua_register(L, "GetStackType", l_getStackType);
   lua_register(L, "GetStackHex", l_getStackHex);
 
