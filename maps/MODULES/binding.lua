@@ -8,6 +8,8 @@ hero_mt = {
 			SetSpellpoints(table, value)
 		elseif key == "level" then
 			MessageBox("Changing hero level is not implemented yet")
+		elseif key == "tempMoraleBonuses" then
+			SetHeroTempMoraleBonuses(table, value)
 		else
 			MessageBox("This field is not supported")
 		end
@@ -21,6 +23,8 @@ hero_mt = {
 			return GetSpellpoints(t)
 		elseif k == "level" then
 			return GetHeroLevel(t)
+		elseif k == "tempMoraleBonuses" then
+			return GetHeroTempMoraleBonuses(t)
 		else
 			MessageBox("This field is not supported")
 		end

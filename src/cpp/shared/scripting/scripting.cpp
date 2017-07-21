@@ -637,6 +637,19 @@ int l_getherolevel(lua_State *L) {
 	return 1;
 }
 
+int l_getHeroTempMoraleBonuses(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, hro->tempMoraleBonuses);
+  return 1;
+}
+
+int l_setHeroTempMoraleBonuses(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int moraleBonus = (int)luaL_checknumber(L, 2);
+  hro->tempMoraleBonuses = moraleBonus;
+  return 0;
+}
+
 int l_startbattle(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
 	int mon1 = (int)luaL_checknumber(L, 2);
@@ -721,6 +734,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetGuildSpell", l_setguildspell);
   lua_register(L, "ShareVision", l_sharevision);
   lua_register(L, "GetHeroLevel", l_getherolevel);
+  lua_register(L, "GetHeroTempMoraleBonuses", l_getHeroTempMoraleBonuses);
+  lua_register(L, "SetHeroTempMoraleBonuses", l_setHeroTempMoraleBonuses);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
   lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
