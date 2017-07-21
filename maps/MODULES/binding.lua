@@ -37,6 +37,10 @@ hero_mt = {
 			return GetHeroMobility(t)
 		elseif k == "remainingMobility" then
 			return GetHeroRemainingMobility(t)
+		elseif k == "x" then
+			return GetHeroX(t)
+		elseif k == "y" then
+			return GetHeroY(t)
 		else
 			MessageBox("This field is not supported")
 		end

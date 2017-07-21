@@ -689,6 +689,18 @@ int l_setHeroRemainingMobility(lua_State *L) {
   return 0;
 }
 
+int l_getHeroX(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, hro->x);
+  return 1;
+}
+
+int l_getHeroY(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, hro->y);
+  return 1;
+}
+
 int l_startbattle(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
 	int mon1 = (int)luaL_checknumber(L, 2);
@@ -781,6 +793,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetHeroMobility", l_setHeroMobility);
   lua_register(L, "GetHeroRemainingMobility", l_getHeroRemainingMobility);
   lua_register(L, "SetHeroRemainingMobility", l_setHeroRemainingMobility);
+  lua_register(L, "GetHeroX", l_getHeroX);
+  lua_register(L, "GetHeroY", l_getHeroY);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
   lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
