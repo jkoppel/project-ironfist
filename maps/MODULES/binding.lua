@@ -121,6 +121,8 @@ battleStack_mt = {
 			return GetStackSide(t)
 		elseif k == "type" then
 			return GetStackType(t)
+		elseif k == "creatureIdx" then
+			return GetStackType(t)
 		elseif k == "quantity" then
 			return GetStackQuantity(t)
 		elseif k == "hex" then
