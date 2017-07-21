@@ -48,6 +48,12 @@ town_mt = {
 			return GetTownFaction(t)
 		elseif k == "x" then
 			return GetTownX(t)
+		elseif k == "y" then
+			return GetTownY(t)
+		elseif k == "visitingHeroIdx" then
+			return GetTownVisitingHeroIdx(t)
+		elseif k == "visitingHero" then
+			return GetVisitingHero(t)
 		else
 			MessageBox("This field is not supported")
 		end
