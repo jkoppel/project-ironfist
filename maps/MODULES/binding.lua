@@ -109,7 +109,7 @@ battleStack_mt = {
 		elseif key == "type" then
 			MessageBox("Changing stack type is not implemented yet")
 		elseif key == "quantity" then
-			MessageBox("Changing stack quantity is not implemented yet")
+			SetStackQuantity(table, value)
 		elseif key == "hex" then
 			MessageBox("Changing stack hex is not implemented yet")
 		else
