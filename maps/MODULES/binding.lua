@@ -114,6 +114,8 @@ battleStack_mt = {
 			SetStackInitialQuantity(table, value)
 		elseif key == "hex" then
 			MessageBox("Changing stack hex is not implemented yet")
+		elseif key == "morale" then
+			SetStackMorale(table, value)
 		else
 			MessageBox("This field is not supported")
 		end
@@ -131,6 +133,8 @@ battleStack_mt = {
 			return GetStackInitialQuantity(t)
 		elseif k == "hex" then
 			return GetStackHex(t)
+		elseif k == "morale" then
+			return GetStackMorale(t)
 		else
 			MessageBox("This field is not supported")
 		end

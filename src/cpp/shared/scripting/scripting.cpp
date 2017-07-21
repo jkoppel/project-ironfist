@@ -631,6 +631,19 @@ int l_getStackHex(lua_State *L) {
   return 1;
 }
 
+int l_getStackMorale(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->morale);
+  return 1;
+}
+
+int l_setStackMorale(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int morale = (int)luaL_checknumber(L, 2);
+  creat->morale = morale;
+  return 0;
+}
+
 int l_sharevision(lua_State *L) {
   int sourcePlayer = (int)luaL_checknumber(L, 1);
   int destPlayer = (int)luaL_checknumber(L, 2);
@@ -846,6 +859,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetStackInitialQuantity", l_setStackInitialQuantity);
   lua_register(L, "GetStackType", l_getStackType);
   lua_register(L, "GetStackHex", l_getStackHex);
+  lua_register(L, "GetStackMorale", l_getStackMorale);
+  lua_register(L, "SetStackMorale", l_setStackMorale);
 
   lua_register(L, "GetTown", l_getTown);
   lua_register(L, "GetTownName", l_getTownName);
