@@ -10,6 +10,8 @@ hero_mt = {
 			MessageBox("Changing hero level is not implemented yet")
 		elseif key == "tempMoraleBonuses" then
 			SetHeroTempMoraleBonuses(table, value)
+		elseif key == "tempLuckBonuses" then
+			SetHeroTempLuckBonuses(table, value)
 		else
 			MessageBox("This field is not supported")
 		end
@@ -25,6 +27,8 @@ hero_mt = {
 			return GetHeroLevel(t)
 		elseif k == "tempMoraleBonuses" then
 			return GetHeroTempMoraleBonuses(t)
+		elseif k == "tempLuckBonuses" then
+			return GetHeroTempLuckBonuses(t)
 		else
 			MessageBox("This field is not supported")
 		end

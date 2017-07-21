@@ -650,6 +650,19 @@ int l_setHeroTempMoraleBonuses(lua_State *L) {
   return 0;
 }
 
+int l_getHeroTempLuckBonuses(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, hro->tempLuckBonuses);
+  return 1;
+}
+
+int l_setHeroTempLuckBonuses(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int LuckBonus = (int)luaL_checknumber(L, 2);
+  hro->tempLuckBonuses = LuckBonus;
+  return 0;
+}
+
 int l_startbattle(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
 	int mon1 = (int)luaL_checknumber(L, 2);
@@ -736,6 +749,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetHeroLevel", l_getherolevel);
   lua_register(L, "GetHeroTempMoraleBonuses", l_getHeroTempMoraleBonuses);
   lua_register(L, "SetHeroTempMoraleBonuses", l_setHeroTempMoraleBonuses);
+  lua_register(L, "GetHeroTempLuckBonuses", l_getHeroTempLuckBonuses);
+  lua_register(L, "SetHeroTempLuckBonuses", l_setHeroTempLuckBonuses);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
   lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
