@@ -12,6 +12,10 @@ hero_mt = {
 			SetHeroTempMoraleBonuses(table, value)
 		elseif key == "tempLuckBonuses" then
 			SetHeroTempLuckBonuses(table, value)
+		elseif key == "mobility" then
+			SetHeroMobility(table, value)
+		elseif key == "remainingMobility" then
+			SetHeroRemainingMobility(table, value)
 		else
 			MessageBox("This field is not supported")
 		end
@@ -29,6 +33,10 @@ hero_mt = {
 			return GetHeroTempMoraleBonuses(t)
 		elseif k == "tempLuckBonuses" then
 			return GetHeroTempLuckBonuses(t)
+		elseif k == "mobility" then
+			return GetHeroMobility(t)
+		elseif k == "remainingMobility" then
+			return GetHeroRemainingMobility(t)
 		else
 			MessageBox("This field is not supported")
 		end
