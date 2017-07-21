@@ -116,6 +116,8 @@ battleStack_mt = {
 			MessageBox("Changing stack hex is not implemented yet")
 		elseif key == "morale" then
 			SetStackMorale(table, value)
+		elseif key == "luck" then
+			SetStackLuck(table, value)
 		else
 			MessageBox("This field is not supported")
 		end
@@ -135,6 +137,8 @@ battleStack_mt = {
 			return GetStackHex(t)
 		elseif k == "morale" then
 			return GetStackMorale(t)
+		elseif k == "luck" then
+			return GetStackLuck(t)
 		else
 			MessageBox("This field is not supported")
 		end
