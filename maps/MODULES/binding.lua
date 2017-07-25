@@ -70,8 +70,6 @@ town_mt = {
 			return GetTownX(t)
 		elseif k == "y" then
 			return GetTownY(t)
-		elseif k == "visitingHeroIdx" then
-			return GetTownVisitingHeroIdx(t)
 		elseif k == "visitingHero" then
 			return GetVisitingHero(t)
 		else
@@ -127,7 +125,7 @@ battleStack_mt = {
 			return GetStackSide(t)
 		elseif k == "type" then
 			return GetStackType(t)
-		elseif k == "creatureIdx" then
+		elseif k == "creatureType" then
 			return GetStackType(t)
 		elseif k == "quantity" then
 			return GetStackQuantity(t)

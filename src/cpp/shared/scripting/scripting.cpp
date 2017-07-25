@@ -789,12 +789,6 @@ int l_getTownY(lua_State *L) {
   return 1;
 }
 
-int l_getTownVisitingHeroIdx(lua_State *L) {
-  town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-  lua_pushinteger(L, twn->visitingHeroIdx);
-  return 1;
-}
-
 int l_getTownIDFromPos(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
@@ -908,7 +902,6 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetTownOwner", l_setTownOwner);
   lua_register(L, "GetTownX", l_getTownX);
   lua_register(L, "GetTownY", l_getTownY);
-  lua_register(L, "GetTownVisitingHeroIdx", l_getTownVisitingHeroIdx);
   lua_register(L, "GetTownIdFromPos", l_getTownIDFromPos);
 
   set_scripting_consts(L);
