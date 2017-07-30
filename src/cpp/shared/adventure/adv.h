@@ -227,7 +227,7 @@ public:
 
   void PasswordEvent(mapCell *tile, hero *hero);
   int BarrierEvent(mapCell *tile, hero *hero);
-  void SetBarrierTentsVisited();
+
 
   void ExpansionRecruitEvent(class hero*, int, short*);
 
