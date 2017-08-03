@@ -374,6 +374,10 @@ void army::DoAttack(int isRetaliation) {
         && gpCombatManager->involvedInBadMorale[1]
         && primaryTarget->creatureIdx == CREATURE_GHOST)
         primaryTarget->quantity += gpCombatManager->ghostAndVampireAbilityStrength[gpCombatManager->combatGrid[primaryTarget->occupiedHex].unitOwner];
+    } else {
+        // lose retaliation even if dodged unretaliated attack
+        if(CreatureHasAttribute(primaryTarget->creatureIdx, ASTRAL_DODGE))
+            primaryTarget->creature.creature_flags |= RETALIATED;
     }
     if ((this->creatureIdx == CREATURE_WOLF
       || this->creatureIdx == CREATURE_PALADIN
