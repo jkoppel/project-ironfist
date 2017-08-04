@@ -124,7 +124,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   int locationType = cell->objType & 0x7F;
   SAMPLE2 res2 = NULL_SAMPLE2;
   ScriptCallback("OnLocationVisit", locationType, locX, locY);
-  if (locationType != LOCATION_SHRINE_FIRST && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
+  if (locationType != LOCATION_SHRINE_FIRST_ORDER && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
     this->DoEvent_orig(cell, locX, locY);
     return;
   }
@@ -141,7 +141,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 
 void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
   switch (locationType) {
-    case LOCATION_SHRINE_FIRST: {
+    case LOCATION_SHRINE_FIRST_ORDER: {
       sprintf(gText, "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
       break;
     }
