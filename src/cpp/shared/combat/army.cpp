@@ -166,7 +166,7 @@ void army::DoAttack(int isRetaliation) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
     primaryTarget = this;
-  ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, isRetaliation);
+  ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, (bool)isRetaliation);
 
   if(isRetaliation)
     gCloseMove = true;
