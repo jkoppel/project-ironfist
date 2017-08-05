@@ -1,7 +1,6 @@
 #include<stdio.h>
 
 #include "base.h"
-
 #include "adventure/adv.h"
 #include "adventure/map.h"
 #include "game/game.h"
@@ -9,6 +8,7 @@
 
 extern char *xBarrierColor[];
 extern char *xPasswordStrings[];
+
 
 int GetBarrierColor(int cellExtraInfo) {
     return cellExtraInfo & 7;
@@ -30,11 +30,11 @@ void advManager::PasswordEvent(mapCell *cell, hero *hero) {
     gpCurPlayer->barrierTentsVisited |= 1 << barrierColor;
 }
 
-void playerData::SetBarrierTentsVisited(mapCell *cell, hero *hero) {
-	int barrierColor = GetBarrierColor(cell->extraInfo);
+void playerData::SetBarrierTentsVisited(int color) {
 	
-	gpCurPlayer->barrierTentsVisited |= 1 << barrierColor;
-		
+	
+	gpCurPlayer->barrierTentsVisited |= 1 << color;
+	
 	
 }
  

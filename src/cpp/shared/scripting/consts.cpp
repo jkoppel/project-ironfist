@@ -13,11 +13,17 @@ extern "C" {
 #include "town/town.h"
 #include "gui/dialog.h"
 
+
 void set_dialog_consts(lua_State *L) {
 	lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
 	lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
 	lua_setconst(L, "DIALOG_OR", DIALOG_OR);
 	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
+
+}
+
+void set_barriercolor_consts(lua_State *L){
+	lua_setconst(L, "AQUA", AQUA_BARRIER);
 
 }
 

@@ -378,6 +378,13 @@ enum ADVENTURE_MAP_LOCATION {
   TILE_HAS_EVENT = 128,
 };
 
+
+enum barriercolors {
+	AQUA_BARRIER = 0,
+
+
+};
+
 enum OBJ_TILESET : __int8 {
 	TILESET_HAUNTED = 10,
 	TILESET_ARTIFACT = 11,
