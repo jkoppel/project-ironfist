@@ -796,6 +796,15 @@ int l_getTownIDFromPos(lua_State *L) {
   return 1;
 }
 
+int l_revealMap(lua_State *L){
+  playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
+  int x = (int)luaL_checknumber(L, 2);
+  int y = (int)luaL_checknumber(L, 3);
+  int radius = (int)luaL_checknumber(L, 4);
+  gpGame->SetVisibility(x, y, p, radius);
+  return 0;
+}
+
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
   lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
@@ -903,6 +912,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetTownX", l_getTownX);
   lua_register(L, "GetTownY", l_getTownY);
   lua_register(L, "GetTownIdFromPos", l_getTownIDFromPos);
+
+  lua_register(L, "RevealMap", l_revealMap);
 
   set_scripting_consts(L);
 }
