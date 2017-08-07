@@ -805,7 +805,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GetCurrentHero", l_getcurrenthero);
   lua_register(L, "GetPlayer", l_getplayer);
   lua_register(L, "GetNumHeroes", l_getnumheroes);
-  lua_register(L, "GetHero", l_gethero);
+
+	lua_register(L, "GetHero", l_gethero);
   lua_register(L, "GetHeroForHire", l_getheroforhire);
   lua_register(L, "GetHeroInPool", l_getheroinpool);
   lua_register(L, "GetHeroOwner", l_getheroowner);
@@ -838,7 +839,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
   lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
-
+  lua_register(L, "GetGuildSpell", l_getguildspell);
+	
   // Tales of Enroth functions
   lua_register(L, "QuestionBox", l_questionBox);
   lua_register(L, "InputBox", l_inputBox);
