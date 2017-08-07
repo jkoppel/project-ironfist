@@ -228,7 +228,6 @@ public:
   void PasswordEvent(mapCell *tile, hero *hero);
   int BarrierEvent(mapCell *tile, hero *hero);
 
-
   void ExpansionRecruitEvent(class hero*, int, short*);
 
   mapCell* MoveHero(int, int, int *, int *, int *, int, int *, int);

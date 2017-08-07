@@ -51,7 +51,7 @@ public:
 
 	void Read(int);
 	void Write(int);
-	void SetBarrierTentsVisited(int);
+	void SetBarrierTentVisited(int);
 };
 
 extern int giCurPlayer;

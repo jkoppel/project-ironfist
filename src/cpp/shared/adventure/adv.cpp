@@ -141,11 +141,9 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   CheckEndGame(0, 0);
 }
 
-void __thiscall game::ClaimTown(int CastleIdx, int PlayerIdx, int a4) {
-
-	this->ClaimTown_orig(CastleIdx, PlayerIdx, a4);
-	ScriptCallback("OnCastleConquered", CastleIdx, PlayerIdx, a4);
-
+void __thiscall game::ClaimTown(int castleidx, int playeridx, int a4) {
+	this->ClaimTown_orig(castleidx, playeridx, a4);
+	ScriptCallback("OnCastleConquered", castleidx , playeridx, a4);
 }
 
 void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {

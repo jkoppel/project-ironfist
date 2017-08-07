@@ -23,8 +23,7 @@ void set_dialog_consts(lua_State *L) {
 }
 
 void set_barriercolor_consts(lua_State *L){
-	lua_setconst(L, "AQUA", AQUA_BARRIER);
-
+	lua_setconst(L, "AQUA_BARRIER", AQUA_BARRIER);
 }
 
 void set_messageboxgroups_const(lua_State *L) {
