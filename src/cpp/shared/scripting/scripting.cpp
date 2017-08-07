@@ -796,13 +796,19 @@ int l_getTownIDFromPos(lua_State *L) {
   return 1;
 }
 
-int l_revealMap(lua_State *L){
-  playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
-  int x = (int)luaL_checknumber(L, 2);
-  int y = (int)luaL_checknumber(L, 3);
-  int radius = (int)luaL_checknumber(L, 4);
-  gpGame->SetVisibility(x, y, p, radius);
-  return 0;
+int l_revealMap(lua_State *L) {
+	playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
+	int x = (int)luaL_checknumber(L, 2);
+	int y = (int)luaL_checknumber(L, 3);
+	int radius = (int)luaL_checknumber(L, 4);
+
+	for (int i = 0; i < gpGame->numPlayers; i++) {
+		if (&gpGame->players[i] == player) {
+			gpGame->SetVisibility(x, y, i, radius);
+			break;
+		}
+	}
+	return 1;
 }
 
 void set_lua_globals(lua_State *L) {
