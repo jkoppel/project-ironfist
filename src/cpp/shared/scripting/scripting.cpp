@@ -662,6 +662,18 @@ int l_getTownIDFromPos(lua_State *L) {
   return 1;
 }
 
+int l_getguildspell(lua_State *L) {	
+	town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
+	int l = (int)luaL_checknumber(L, 2);
+	int n = (int)luaL_checknumber(L, 3);
+	if (twn->mageGuildSpells[l][n] != NULL)
+		{
+		int s = twn->mageGuildSpells[l][n];
+		lua_pushinteger(L, s);
+		}
+	return 0;
+}
+
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
   lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
