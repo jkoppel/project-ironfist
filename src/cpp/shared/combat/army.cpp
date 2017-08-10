@@ -5,6 +5,9 @@
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
+#include "expansions.h"
+
+extern ironfist_expansions ironfist_exp;
 
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
@@ -311,21 +314,22 @@ void army::DoAttack(int isRetaliation) {
       }
     }
 
-    if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
-      if (!(primaryTarget->creature.creature_flags & RETALIATED) && !isRetaliation) {
-        int dodgeAnimLen = 7;
-        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
-        for (int p = 0; p < dodgeAnimLen; p++) {
-          primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
-        }
-      }
+    if(ironfist_exp.combat.stack.abilityNowAnimating[primaryTarget]) {
+        if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+            int dodgeAnimLen = 7;
+            primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+            for (int p = 0; p < dodgeAnimLen; p++) {
+              primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
+            }
 
-      this->PowEffect(-1, 0, -1, -1);
-      
-      // revert to usual animations after the first received attack
-      int winceAnimLen = 1;
-      primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
-      primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
+            this->PowEffect(-1, 0, -1, -1);
+
+            // revert to usual animations after the first received attack
+            int winceAnimLen = 1;
+            primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+            primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
+            ironfist_exp.combat.stack.abilityNowAnimating[primaryTarget] = false;
+        }
     } else {
       this->PowEffect(-1, 0, -1, -1);
     }
@@ -1622,8 +1626,11 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
   if(!isRanged && !isRetaliation) {
-    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && !(targ->creature.creature_flags & RETALIATED))
-      baseDam = -2;
+    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && ironfist_exp.combat.stack.abilityCounter[targ]) {
+        ironfist_exp.combat.stack.abilityNowAnimating[targ] = true;
+        ironfist_exp.combat.stack.abilityCounter[targ] = 0;
+        baseDam = -2;
+    }
   }
   
   *damageDone = baseDam;
@@ -1773,6 +1780,12 @@ void army::CancelIndividualSpell(int effect) {
   }
 }
 
+void army::Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx) {
+    Init_orig(creatureIdx, quantity, owner, stackIdx, startHex, armyIdx);
+    if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
+        ironfist_exp.combat.stack.abilityCounter[this] = 1;
+}
+
 void army::InitClean() {
   for (int i = 0; i < 7; ++i)
     this->combatSounds[i] = 0;
@@ -1790,4 +1803,6 @@ void army::InitClean() {
   this->mirrorIdx = -1;
   this->armyIdx = -1;
   this->previousQuantity = -1;
+  if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
+    ironfist_exp.combat.stack.abilityCounter[this] = 1;
 }
