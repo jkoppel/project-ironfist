@@ -1,17 +1,3 @@
-//#include "adventure/adv.h"
-//#include "analytics.h"
-//#include "base.h"
-//#include "combat/combat.h"
-//#include "game/game.h"
-//#include "gui/dialog.h"
-//#include "gui/gui.h"
-//#include "manager.h"
-//#include "registry_prefs.h"
-//#include "resource/resourceManager.h"
-//#include "resource/resources.h"
-//#include "scripting/callback.h"
-//#include "sound/sound.h"
-//#include "town/town.h"
 #include "expansions.h"
 
 ironfist_expansions ironfist_exp;
