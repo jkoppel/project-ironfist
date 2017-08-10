@@ -1,18 +1,18 @@
 #include <map>
 #include "combat\army.h"
 
-class stack_expansions {
+class stackExtra {
     public:
         std::map<army*, int> abilityCounter;
         std::map<army*, bool> abilityNowAnimating;
 };
 
-class combat_expansions {
+class combatExtra {
     public:
-        stack_expansions stack;
+        stackExtra stack;
 };
 
-class ironfist_expansions {
+class ironfistExtra {
     public:
-        combat_expansions combat;
+        combatExtra combat;
 };

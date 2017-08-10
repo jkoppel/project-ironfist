@@ -14,7 +14,7 @@
 #include "scripting/callback.h"
 #include <string>
 
-extern ironfist_expansions ironfist_exp;
+extern ironfistExtra gIronfistExp;
 
 int squaresAroundCaster[2][3] = {
   {14,27,40},
@@ -432,19 +432,17 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
 
 void combatManager::SetupCombat(int arg0, int arg1, hero *h1, armyGroup *a1, town *t, hero *h2, armyGroup *a2, int arg2, int arg3, int arg4) {
     SetupCombat_orig(arg0, arg1, h1, a1, t, h2, a2, arg2, arg3, arg4);
-    ironfist_exp.combat.stack.abilityCounter.clear();
-    ironfist_exp.combat.stack.abilityNowAnimating.clear();
+    gIronfistExp.combat.stack.abilityCounter.clear();
+    gIronfistExp.combat.stack.abilityNowAnimating.clear();
 }
 
 void combatManager::ResetRound() {
     ResetRound_orig();
     for(int i = 0; i < 2; i++) {
-        for(int j = 0; j < 21; j++) {
+        for(int j = 0; j < MAX_STACKS; j++) {
             army* ptr = &gpCombatManager->creatures[i][j];
-            if (ptr) {
-                if(ptr->creatureIdx >= 0 && CreatureHasAttribute(ptr->creatureIdx, ASTRAL_DODGE))
-                    ironfist_exp.combat.stack.abilityCounter[ptr] = 1;
-            }
+            if(ptr->creatureIdx >= 0 && CreatureHasAttribute(ptr->creatureIdx, ASTRAL_DODGE))
+                gIronfistExp.combat.stack.abilityCounter[ptr] = 1;
         }
     }
 }
