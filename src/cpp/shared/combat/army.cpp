@@ -7,7 +7,7 @@
 #include "spell/spells.h"
 #include "expansions.h"
 
-extern ironfistExtra gIronfistExp;
+extern ironfistExtra gIronfistExtra;
 
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
@@ -314,7 +314,7 @@ void army::DoAttack(int isRetaliation) {
       }
     }
 
-    if(gIronfistExp.combat.stack.abilityNowAnimating[primaryTarget]) {
+    if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget]) {
         if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
             int dodgeAnimLen = 7;
             primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
@@ -328,7 +328,7 @@ void army::DoAttack(int isRetaliation) {
             int winceAnimLen = 1;
             primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
             primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
-            gIronfistExp.combat.stack.abilityNowAnimating[primaryTarget] = false;
+            gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget] = false;
         }
     } else {
       this->PowEffect(-1, 0, -1, -1);
@@ -1626,9 +1626,9 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
   if(!isRanged && !isRetaliation) {
-    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && gIronfistExp.combat.stack.abilityCounter[targ]) {
-        gIronfistExp.combat.stack.abilityNowAnimating[targ] = true;
-        gIronfistExp.combat.stack.abilityCounter[targ] = 0;
+    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && gIronfistExtra.combat.stack.abilityCounter[targ]) {
+        gIronfistExtra.combat.stack.abilityNowAnimating[targ] = true;
+        gIronfistExtra.combat.stack.abilityCounter[targ] = 0;
         baseDam = -2;
     }
   }
@@ -1783,7 +1783,7 @@ void army::CancelIndividualSpell(int effect) {
 void army::Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx) {
     Init_orig(creatureIdx, quantity, owner, stackIdx, startHex, armyIdx);
     if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
-        gIronfistExp.combat.stack.abilityCounter[this] = 1;
+        gIronfistExtra.combat.stack.abilityCounter[this] = 1;
 }
 
 void army::InitClean() {
@@ -1804,5 +1804,5 @@ void army::InitClean() {
   this->armyIdx = -1;
   this->previousQuantity = -1;
   if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
-    gIronfistExp.combat.stack.abilityCounter[this] = 1;
+    gIronfistExtra.combat.stack.abilityCounter[this] = 1;
 }

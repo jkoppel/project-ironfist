@@ -1,3 +1,3 @@
 #include "expansions.h"
 
-ironfistExtra gIronfistExp;
+ironfistExtra gIronfistExtra;
