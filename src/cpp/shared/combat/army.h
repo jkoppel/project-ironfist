@@ -114,6 +114,8 @@ public:
   void DispelGood();
   void InitClean();
   int CanFit(int hex, int mayShiftTwoHexers, int *rearHex);
+  void Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
+  void Init_orig(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
 };
 
 #pragma pack(pop)

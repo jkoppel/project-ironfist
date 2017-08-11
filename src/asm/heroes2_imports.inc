@@ -209,6 +209,12 @@ IMPORT_?CancelIndividualSpell@army@@QAEXH@Z = 1
 IMPORT_?CastSpell@combatManager@@QAEXHHHH@Z = 1
 IMPORT_?InitClean@army@@QAEXXZ = 1
 IMPORT_?ShowSpellMessage@combatManager@@QAEXHHPAVarmy@@@Z = 1
+IMPORT_?SetupCombat@combatManager@@QAEXHHPAVhero@@PAVarmyGroup@@PAVtown@@01HHH@Z = 1
+?SetupCombat@combatManager@@QAEXHHPAVhero@@PAVarmyGroup@@PAVtown@@01HHH@Z_clone EQU ?SetupCombat_orig@combatManager@@QAEXHHPAVhero@@PAVarmyGroup@@PAVtown@@01HHH@Z
+IMPORT_?ResetRound@combatManager@@QAEXXZ = 1
+?ResetRound@combatManager@@QAEXXZ_clone EQU ?ResetRound_orig@combatManager@@QAEXXZ
+IMPORT_?Init@army@@QAEXHHHHHH@Z = 1
+?Init@army@@QAEXHHHHHH@Z_clone EQU ?Init_orig@army@@QAEXHHHHHH@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
