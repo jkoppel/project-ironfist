@@ -16,8 +16,6 @@ class mapCell;
 
 #define CREATURES_IN_ARMY 5
 
-#define NUM_FACTIONS 6
-
 enum PRIMARY_SKILL {
   PRIMARY_SKILL_ATTACK = 0,
   PRIMARY_SKILL_DEFENSE = 1,
@@ -170,9 +168,6 @@ public:
   void SetPrimarySkill(int, int);
   int GetLevel();
   void Clear();
-
-  void CheckLevel();
-
 };
 
 enum HERO_FLAGS {
@@ -247,17 +242,6 @@ public:
   int MapPutArmy(int x, int y, int monIdx, int monQty);
 };
 
-class ExpCampaign {
-public:
-
-  ExpCampaign();
-
-  char HasAward(int a2);
-  char *JosephName();
-  char *IvanName();
-  
-};
-
 extern advManager* gpAdvManager;
 
 extern int giMapChangeCtr;
@@ -271,7 +255,6 @@ extern int giAdjacentMonsterX;
 extern int giAdjacentMonsterY;
 extern int giAdjacentMonsterLowerBoundX;
 extern int giAdjacentMonsterLowerBoundY;
-extern ExpCampaign xCampaign;
 
 hero* GetCurrentHero();
 

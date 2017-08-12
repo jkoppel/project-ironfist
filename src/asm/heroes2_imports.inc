@@ -214,7 +214,6 @@ IMPORT_?ShowSpellMessage@combatManager@@QAEXHHPAVarmy@@@Z = 1
 IMPORT_?cHeroTypeInitial@@3PADA = 1
 IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
 IMPORT_?gAlignmentNames@@3PAPADA = 1
-IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
