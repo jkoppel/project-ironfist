@@ -624,7 +624,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
 
   if(CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this]) {
     for (int i = 0; i < 117; i++) {
-      if (gpCombatManager->combatGrid[i].isBlocked != 0) {
+      if (gpCombatManager->combatGrid[i].isBlocked != 0 && !IsCastleWall(i)) {
         obstacleHexes.push_back(i);
         gpCombatManager->combatGrid[i].isBlocked = 0;
       }
