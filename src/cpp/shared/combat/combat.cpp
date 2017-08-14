@@ -1,6 +1,7 @@
 #include "base.h"
 #include "adventure/adv.h"
 #include "combat/combat.h"
+#include "expansions.h"
 #include "game/game.h"
 #include "resource/resourceManager.h"
 #include "artifacts.h"
@@ -12,6 +13,8 @@
 
 #include "scripting/callback.h"
 #include <string>
+
+extern ironfistExtra gIronfistExtra;
 
 int squaresAroundCaster[2][3] = {
   {14,27,40},
@@ -425,4 +428,21 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
   } else {
     return 0;
   }
+}
+
+void combatManager::SetupCombat(int arg0, int arg1, hero *h1, armyGroup *a1, town *t, hero *h2, armyGroup *a2, int arg2, int arg3, int arg4) {
+    SetupCombat_orig(arg0, arg1, h1, a1, t, h2, a2, arg2, arg3, arg4);
+    gIronfistExtra.combat.stack.abilityCounter.clear();
+    gIronfistExtra.combat.stack.abilityNowAnimating.clear();
+}
+
+void combatManager::ResetRound() {
+    ResetRound_orig();
+    for(int i = 0; i < 2; i++) {
+        for(int j = 0; j < MAX_STACKS; j++) {
+            army* ptr = &gpCombatManager->creatures[i][j];
+            if(ptr->creatureIdx >= 0 && CreatureHasAttribute(ptr->creatureIdx, ASTRAL_DODGE))
+                gIronfistExtra.combat.stack.abilityCounter[ptr] = 1;
+        }
+    }
 }

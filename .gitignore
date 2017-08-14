@@ -39,3 +39,5 @@ ipch/
 
 # Ironfist packed resources
 [Bb]uild/
+
+*.DS_STORE

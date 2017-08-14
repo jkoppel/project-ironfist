@@ -14,6 +14,8 @@
 #include "combat/army.h"
 #include "combat/creatures.h"
 
+#define MAX_STACKS 21
+
 enum BRIDGE_STATUS {
   BRIDGE_OPEN = 0x0,
   BRIDGE_CLOSING_1 = 0x1,
@@ -112,7 +114,7 @@ public:
   int field_353F;
   int field_3543;
   int numCreatures[2];
-  army creatures[2][21];
+  army creatures[2][MAX_STACKS];
   int otherCurrentSideThing; // activeStackOwner
   int someSortOfStackIdx;
   int field_F2AB;
@@ -214,6 +216,10 @@ public:
   void CheckChangeSelector();
   void ShootMissile(int, int, int, int, float *, icon *);
   int ValidSpellTarget(int spell, int hexIdx);
+  void SetupCombat(int arg0, int arg1, hero *h1, armyGroup *a1, town *t, hero *h2, armyGroup *a2, int arg2, int arg3, int arg4);
+  void SetupCombat_orig(int arg0, int arg1, hero *h1, armyGroup *a1, town *t, hero *h2, armyGroup *a2, int arg2, int arg3, int arg4);
+  void ResetRound_orig();
+  void ResetRound();
 };
 
 extern combatManager* gpCombatManager;
