@@ -13,6 +13,7 @@
 
 #include "scripting/callback.h"
 #include <string>
+#include <set>
 
 extern ironfistExtra gIronfistExtra;
 
@@ -445,4 +446,9 @@ void combatManager::ResetRound() {
                 gIronfistExtra.combat.stack.abilityCounter[ptr] = 1;
         }
     }
+}
+
+bool IsCastleWall(int hexIdx) {
+    std::set<int> walls = {9, 22, 34, 47, 59, 73, 86, 100, 113, 92};
+    return walls.find(hexIdx) != walls.end();
 }

@@ -227,6 +227,7 @@ extern combatManager* gpCombatManager;
 extern int gbNoShowCombat;
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
+bool IsCastleWall(int hexIdx);
 
 #pragma pack(pop)
 
