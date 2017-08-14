@@ -862,6 +862,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
   lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
+  lua_register(L, "GetGuildSpell", l_getguildspell);
 	
   // Tales of Enroth functions
   lua_register(L, "QuestionBox", l_questionBox);
