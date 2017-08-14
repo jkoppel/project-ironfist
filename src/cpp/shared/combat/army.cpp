@@ -263,6 +263,9 @@ void army::DoAttack(int isRetaliation) {
 
     DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
 
+    if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation)
+        gIronfistExtra.combat.stack.abilityCounter[this] = 0;
+
     int enemyIncapacitated = 0;
     switch (this->creatureIdx) {
       case CREATURE_CYCLOPS:
@@ -616,18 +619,10 @@ void army::Walk(signed int dir, int last, int notFirst) {
 }
 
 int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
-  gpCombatManager->combatGrid[40].isBlocked = 1;
-  gpCombatManager->combatGrid[41].isBlocked = 1;
-  gpCombatManager->combatGrid[42].isBlocked = 1;
-  gpCombatManager->combatGrid[43].isBlocked = 1;
-  gpCombatManager->combatGrid[44].isBlocked = 1;
-  gpCombatManager->combatGrid[45].isBlocked = 1;
-  gpCombatManager->combatGrid[46].isBlocked = 1;
-
   int res;
   std::vector<int> obstacleHexes;
 
-  if(CreatureHasAttribute(this->creatureIdx, JUMPER)) {
+  if(CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this]) {
     for (int i = 0; i < 117; i++) {
       if (gpCombatManager->combatGrid[i].isBlocked != 0) {
         obstacleHexes.push_back(i);
@@ -1958,7 +1953,7 @@ void army::CancelIndividualSpell(int effect) {
 
 void army::Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx) {
     Init_orig(creatureIdx, quantity, owner, stackIdx, startHex, armyIdx);
-    if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
+    if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE) || CreatureHasAttribute(this->creatureIdx, JUMPER))
         gIronfistExtra.combat.stack.abilityCounter[this] = 1;
 }
 
@@ -1979,6 +1974,6 @@ void army::InitClean() {
   this->mirrorIdx = -1;
   this->armyIdx = -1;
   this->previousQuantity = -1;
-  if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
+  if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE) || CreatureHasAttribute(this->creatureIdx, JUMPER))
     gIronfistExtra.combat.stack.abilityCounter[this] = 1;
 }
