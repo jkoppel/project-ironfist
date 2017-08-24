@@ -679,6 +679,80 @@ public:
 };
 #pragma pack(pop)
 
+void army::ArcJump(int fromHex, int toHex) {
+  bool firingLeft = true;
+  float fromX = gpCombatManager->combatGrid[fromHex].centerX;
+  float fromY = gpCombatManager->combatGrid[fromHex].otherY2;
+  float currentX = fromX;
+  float currentY = fromY;
+  float targX = gpCombatManager->combatGrid[toHex].centerX;
+  float targY = gpCombatManager->combatGrid[toHex].otherY2;
+  if(fromX > targX) {
+    this->facingRight = false;
+    firingLeft = false;
+  } else {
+    this->facingRight = true;
+  }
+  float amplitude = 0.01282;
+  float v33 = (double)((targX + fromX) / 2.);
+  float stepX = (v33 - (double)fromX) / 12.5;
+  float v32 = (double)targY - (double)(targX - fromX) * 0.3 - (double)targY * 0.35;
+  if(firingLeft)
+    v32 = (double)targY - (double)(fromX - targX) * 0.3 - (double)targY * 0.35;
+  float stepY = (v32 - (double)fromY) * amplitude;
+  int oldX = -1;
+  int oldY = -1;
+
+  // remove from battlefield
+  // doesn't always work for now
+  gpCombatManager->combatGrid[fromHex].stackIdx = -1;
+  gpCombatManager->combatGrid[fromHex].unitOwner = -1;
+  gpCombatManager->combatGrid[fromHex].occupiersOtherHexIsToLeft = -1;
+  gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
+
+  // temporarily save the screen so we can clear it from the creature sprite later
+  bitmap *savedscreen = new bitmap(0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+  gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+
+  this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 31;
+  this->animationFrame = 0;
+  this->animationType = ANIMATION_TYPE_MOVE;
+  const int NUM_CYCLES = 24; // equals to the number of frames for the whole arc path
+  for(int i = 0; i <= NUM_CYCLES; i++) {
+    if(i == (NUM_CYCLES / 2)) // reached the peak height
+      stepY = (v32 - (double)targY) * amplitude;
+    if(i == 5) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 32;
+    } else if(i == 20) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 34;
+    }
+
+    savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous creature sprite
+
+    this->DrawToBuffer((int)currentX, (int)currentY, 0);
+
+    gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 0, 1);
+    gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+
+    oldX = (int)currentX;
+    oldY = (int)currentY;
+    currentX += stepX;
+    currentY += (double)((NUM_CYCLES / 2) - i) * stepY;
+
+    glTimers = (signed __int64)((double)KBTickCount() + (double)40 * gfCombatSpeedMod[giCombatSpeed]);
+    DelayTil(&glTimers);
+  }
+  // reverting frame
+  this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 1;
+  delete savedscreen;
+
+  // occupy new hex
+  this->occupiedHex = toHex;
+  gpCombatManager->combatGrid[this->occupiedHex].unitOwner = LOBYTE(this->owningSide);
+  gpCombatManager->combatGrid[this->occupiedHex].stackIdx = LOBYTE(this->stackIdx);
+  gpCombatManager->combatGrid[this->occupiedHex].occupiersOtherHexIsToLeft = -1;
+}
+
 extern searchArray *gpSearchArray;
 
 int army::WalkTo(int hex) {
@@ -717,62 +791,32 @@ int army::WalkTo(int hex) {
     }
   }
 
-  if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0)) {
+  if(this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0)) {
     int traveledHexes = 0;
-    bool isJumping = false;
-    for (int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
+    int initialHex = this->occupiedHex;
+    for(int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
       int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
       int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-      if (gpCombatManager->combatGrid[destHex].isBlocked) {
-        if (!isJumping) {
-          isJumping = true;
-          // change to jumpStart anim
-          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-            int animLen = 8;
-            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
-            for (int p = 0; p < animLen; p++) {
-              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 76 + p;
-            }
+      if(gpCombatManager->combatGrid[destHex].isBlocked && this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+        //finding where to land
+        for(int landHex = hexIdxb - 1; landHex >= 0; --landHex) {
+          dir = *((BYTE *)&gpSearchArray->field_2418 + landHex);
+          this->occupiedHex = destHex;
+          destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+          if(!gpCombatManager->combatGrid[destHex].isBlocked) {
+            traveledHexes += hexIdxb - landHex;
+            hexIdxb = landHex;
+            this->ArcJump(initialHex, destHex);
+            break;
           }
-          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
-        } else {
-          // change to flying anim
-          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-            int animLen = 1;
-            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
-            for (int p = 0; p < animLen; p++) {
-              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 32 + p;
-            }
-          }
-          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
         }
       } else {
-        if (isJumping) {
-          isJumping = false;
-          // change to jumpFinish anim
-          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-            int animLen = 4;
-            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
-            for (int p = 0; p < animLen; p++) {
-              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 33 + p;
-            }
-          }
-          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
-          // revert to usual walk
-          if (this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-            int animLen = 8;
-            this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE] = animLen;
-            for (int p = 0; p < animLen; p++) {
-              this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][p] = 1 + p;
-            }
-          }
-        } else {
-          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
-        }
+        this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
       }
       traveledHexes++;
-      if (traveledHexes >= this->creature.speed)
+      if(traveledHexes >= this->creature.speed)
         hexIdxb = -1;
+      initialHex = this->occupiedHex;
     }
     this->CancelSpellType(0);
     this->animationType = ANIMATION_TYPE_STANDING;

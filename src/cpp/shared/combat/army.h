@@ -120,6 +120,7 @@ public:
   void Init_orig(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
   int ValidPath(int hex, int flag);
   int FindPathIgnoringObstacles(int knownHex, int targHex, int speed, int flying, int flag);
+  void ArcJump(int fromHex, int toHex);
 };
 
 #pragma pack(pop)
