@@ -207,7 +207,10 @@ IMPORT_?DecrementSpellRounds@army@@QAEXXZ = 1
 IMPORT_?SetSpellInfluence@army@@QAEHHH@Z = 1
 IMPORT_?CancelIndividualSpell@army@@QAEXH@Z = 1
 IMPORT_?CastSpell@combatManager@@QAEXHHHH@Z = 1
+
 IMPORT_?InitClean@army@@QAEXXZ = 1
+?InitClean@army@@QAEXXZ_clone EQU ?InitClean_orig@army@@QAEXXZ 
+ 
 IMPORT_?ShowSpellMessage@combatManager@@QAEXHHPAVarmy@@@Z = 1
 
 ;;heroes

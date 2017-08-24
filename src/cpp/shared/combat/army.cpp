@@ -1504,6 +1504,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
     for (int j = 0; gpCombatManager->numCreatures[i] > j; j++) {
       if (gpCombatManager->creatures[i][j].dead)
         gpCombatManager->creatures[i][j].ProcessDeath(0);
+		gpCombatManager->experienceForDefeating[1] += gMonsterDatabase[this->creatureIdx].hp;
     }
   }
   if (gpCombatManager->anyStacksShouldVanish)
@@ -1773,7 +1774,7 @@ void army::CancelIndividualSpell(int effect) {
   }
 }
 
-void army::InitClean() {
+void army::InitClean_orig() {
   for (int i = 0; i < 7; ++i)
     this->combatSounds[i] = 0;
   this->lifespan = -1;
@@ -1790,4 +1791,9 @@ void army::InitClean() {
   this->mirrorIdx = -1;
   this->armyIdx = -1;
   this->previousQuantity = -1;
+}
+
+void army::InitClean() {
+	this->InitClean_orig();
+	gpCombatManager->experienceForDefeating[1] += gMonsterDatabase[this->creatureIdx].hp;
 }

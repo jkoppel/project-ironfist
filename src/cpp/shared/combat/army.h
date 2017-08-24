@@ -113,6 +113,7 @@ public:
   void Cure(int spellpower);
   void DispelGood();
   void InitClean();
+  void InitClean_orig();
   int CanFit(int hex, int mayShiftTwoHexers, int *rearHex);
 };
 

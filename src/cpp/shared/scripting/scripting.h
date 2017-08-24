@@ -5,6 +5,12 @@
 #include<map>
 #include<string>
 
+extern "C" {
+#include "lua/src/lua.h"
+#include "lua/src/lualib.h"
+#include "lua/src/lauxlib.h"
+}
+
 enum MapVarType {
 	MAPVAR_TYPE_STRING,
 	MAPVAR_TYPE_NUMBER,
@@ -36,6 +42,11 @@ struct mapVariable {
 void ScriptingInit(std::string&);
 void ScriptingInitFromString(std::string&);
 void ScriptingShutdown();
+
+void MakeLuaPlayerTable(lua_State *L, void *ptrAddr);
+void MakeLuaHeroTable(lua_State *L, void *ptrAddr);
+void MakeLuaTownTable(lua_State *L, void *ptrAddr);
+void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr);
 
 std::string& GetScriptContents();
 
