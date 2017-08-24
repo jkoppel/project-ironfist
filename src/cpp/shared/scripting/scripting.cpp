@@ -20,7 +20,7 @@ extern "C" {
 #include "game/game.h"
 #include "gui/dialog.h"
 #include "town/town.h"
-
+#include "artifacts.h"
 
 #include "scripting/register.h"
 #include "scripting/scripting.h"
