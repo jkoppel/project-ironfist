@@ -820,6 +820,14 @@ int l_getguildspell(lua_State *L) {
 	return 1;
 }
 
+int l_grantspellscroll(lua_State *L) {
+	hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));	
+	int sp = (int)luaL_checknumber(L, 2);	
+	GiveArtifact(hro, ARTIFACT_SPELL_SCROLL, 1, sp);
+	return 0;
+
+}
+
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
   lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
