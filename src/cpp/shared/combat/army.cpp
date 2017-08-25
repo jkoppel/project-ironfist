@@ -33,7 +33,7 @@ extern float gfBattleStat[];
 extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
-
+bool gMoveAttack; // ironfist var to differentiate between move/move and attack
 char *gCombatFxNames[34] =
 {
   "",
@@ -743,13 +743,19 @@ void army::ArcJump(int fromHex, int toHex) {
   }
   // reverting frame
   this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 1;
-  delete savedscreen;
-
+  
   // occupy new hex
   this->occupiedHex = toHex;
   gpCombatManager->combatGrid[this->occupiedHex].unitOwner = LOBYTE(this->owningSide);
   gpCombatManager->combatGrid[this->occupiedHex].stackIdx = LOBYTE(this->stackIdx);
   gpCombatManager->combatGrid[this->occupiedHex].occupiersOtherHexIsToLeft = -1;
+
+  // reset renderer settings
+  savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous creature sprite
+  gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 0, 1);
+  gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+  giMinExtentY = giMinExtentX = giMaxExtentY = giMaxExtentX = 0;
+  delete savedscreen;
 }
 
 extern searchArray *gpSearchArray;
@@ -796,18 +802,31 @@ int army::WalkTo(int hex) {
     for(int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
       int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
       int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-      if(gpCombatManager->combatGrid[destHex].isBlocked && this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-        //finding where to land
-        for(int landHex = hexIdxb - 1; landHex >= 0; --landHex) {
-          dir = *((BYTE *)&gpSearchArray->field_2418 + landHex);
-          this->occupiedHex = destHex;
-          destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-          if(!gpCombatManager->combatGrid[destHex].isBlocked) {
-            traveledHexes += hexIdxb - landHex;
-            hexIdxb = landHex;
-            this->ArcJump(initialHex, destHex);
-            break;
+      if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+        if(gMoveAttack && hexIdxb < 3) { // less than 3 hexes from enemy
+          // find last hex
+          for(int h = hexIdxb; h >= 0; --h) {
+            dir = *((BYTE *)&gpSearchArray->field_2418 + h);
+            destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+            this->occupiedHex = destHex;
           }
+          this->ArcJump(initialHex, destHex);
+          break;
+        } else if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
+          //finding where to land
+          for(int landHex = hexIdxb - 1; landHex >= 0; --landHex) {
+            dir = *((BYTE *)&gpSearchArray->field_2418 + landHex);
+            this->occupiedHex = destHex;
+            destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+            if(!gpCombatManager->combatGrid[destHex].isBlocked) {
+              traveledHexes += hexIdxb - landHex;
+              hexIdxb = landHex;
+              this->ArcJump(initialHex, destHex);
+              break;
+            }
+          }
+        } else {
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
         }
       } else {
         this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
@@ -1862,6 +1881,9 @@ void army::MoveTo(int hexIdx) {
 }
 
 void army::MoveAttack(int targHex, int x) {
+  gMoveAttack = false;
+  if(this->targetOwner != -1)
+    gMoveAttack = true;
   int startHex = this->occupiedHex;
   this->MoveAttack_orig(targHex, x);
 
