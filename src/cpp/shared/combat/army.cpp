@@ -722,7 +722,7 @@ void army::ArcJump(int fromHex, int toHex) {
       stepY = (v32 - (double)targY) * amplitude;
     if(i == 5) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 32;
-    } else if(i == 20) {
+    } else if(i == 22) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 34;
     }
 
