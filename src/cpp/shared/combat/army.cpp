@@ -704,11 +704,10 @@ void army::ArcJump(int fromHex, int toHex) {
   int oldY = -1;
 
   // remove from battlefield
-  // doesn't always work for now
   gpCombatManager->combatGrid[fromHex].stackIdx = -1;
   gpCombatManager->combatGrid[fromHex].unitOwner = -1;
   gpCombatManager->combatGrid[fromHex].occupiersOtherHexIsToLeft = -1;
-  gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
+  gpCombatManager->DrawFrame(0, 0, 0, 0, 75, 1, 1);
 
   // temporarily save the screen so we can clear it from the creature sprite later
   bitmap *savedscreen = new bitmap(0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
