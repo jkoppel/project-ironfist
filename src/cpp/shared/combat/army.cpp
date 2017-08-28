@@ -1834,6 +1834,11 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (targ->effectStrengths[EFFECT_SHADOW_MARK])
 	  damagePerUnit *= 1.5;
 
+  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation) {
+    gIronfistExtra.combat.stack.abilityCounter[this] = 0;
+    damagePerUnit *= 1.25;
+  }
+
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
     baseDam = (signed __int64)(damagePerUnit * 1.25 + 0.5);
@@ -1861,10 +1866,6 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
         gIronfistExtra.combat.stack.abilityCounter[targ] = 0;
         baseDam = -2;
     }
-  }
-  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation) {
-    gIronfistExtra.combat.stack.abilityCounter[this] = 0;
-    // damage modif
   }
   
   *damageDone = baseDam;
