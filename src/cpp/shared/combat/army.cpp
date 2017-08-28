@@ -263,9 +263,6 @@ void army::DoAttack(int isRetaliation) {
 
     DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
 
-    if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation)
-        gIronfistExtra.combat.stack.abilityCounter[this] = 0;
-
     int enemyIncapacitated = 0;
     switch (this->creatureIdx) {
       case CREATURE_CYCLOPS:
@@ -802,7 +799,7 @@ int army::WalkTo(int hex) {
     for(int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
       int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
       int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-      if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+      if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this]) {
         if(gMoveAttack && hexIdxb < 3) { // less than 3 hexes from enemy
           // find last hex
           for(int h = hexIdxb; h >= 0; --h) {
@@ -1864,6 +1861,10 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
         gIronfistExtra.combat.stack.abilityCounter[targ] = 0;
         baseDam = -2;
     }
+  }
+  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation) {
+    gIronfistExtra.combat.stack.abilityCounter[this] = 0;
+    // damage modif
   }
   
   *damageDone = baseDam;
