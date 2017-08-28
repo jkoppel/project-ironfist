@@ -1836,7 +1836,7 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
 
   if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation) {
     gIronfistExtra.combat.stack.abilityCounter[this] = 0;
-    damagePerUnit *= 1.25;
+    damagePerUnit *= SRandom(125, 150) * 0.01;
   }
 
   int baseDam;
