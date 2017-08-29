@@ -1884,7 +1884,7 @@ void army::MoveTo(int hexIdx) {
 
 void army::MoveAttack(int targHex, int x) {
   gMoveAttack = false;
-  if(this->targetOwner != -1)
+  if(x == 1 || (!x && gpCombatManager->combatGrid[targHex].unitOwner != -1))
     gMoveAttack = true;
   int startHex = this->occupiedHex;
   this->MoveAttack_orig(targHex, x);
