@@ -219,6 +219,8 @@ IMPORT_?ResetRound@combatManager@@QAEXXZ = 1
 ?ResetRound@combatManager@@QAEXXZ_clone EQU ?ResetRound_orig@combatManager@@QAEXXZ
 IMPORT_?Init@army@@QAEXHHHHHH@Z = 1
 ?Init@army@@QAEXHHHHHH@Z_clone EQU ?Init_orig@army@@QAEXHHHHHH@Z
+IMPORT_?AttackTo@army@@QAEHH@Z = 1
+?AttackTo@army@@QAEHH@Z_clone EQU IMPORT_?AttackTo_orig@army@@QAEHH@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

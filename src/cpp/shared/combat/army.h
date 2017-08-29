@@ -121,6 +121,8 @@ public:
   int ValidPath(int hex, int flag);
   int FindPathIgnoringObstacles(int knownHex, int targHex, int speed, int flying, int flag);
   void ArcJump(int fromHex, int toHex);
+  int AttackTo(int targetHex);
+  int AttackTo_orig(int targetHex);
 };
 
 #pragma pack(pop)

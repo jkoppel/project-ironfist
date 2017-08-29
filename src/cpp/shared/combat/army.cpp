@@ -844,6 +844,64 @@ int army::WalkTo(int hex) {
   }
 }
 
+int army::AttackTo(int targetHex) {
+  int result;
+
+  if (this->creature.creature_flags & FLYER) {
+    if (this->occupiedHex != targetHex)
+      this->FlyTo(targetHex);
+    this->DoAttack(0);
+    result = 0;
+  } else if (this->creature.creature_flags & TWO_HEX_ATTACKER && this->occupiedHex == this->targetHex) {
+    this->DoAttack(0);
+    result = 0;
+  } else if (this->FindPath(this->occupiedHex, targetHex, this->creature.speed, 1, 0)) {
+    if (gpSearchArray->field_8 == 1) {
+      this->targetNeighborIdx = LOBYTE(gpSearchArray->field_2418);
+      gpCombatManager->TestRaiseDoor();
+      this->DoAttack(0);
+    } else {
+      int traveledHexes = 0;
+      int initialHex = this->occupiedHex;
+      for (int i = gpSearchArray->field_8 - 1; i; --i) {
+        int dir = *((BYTE *)&gpSearchArray->field_2418 + i);
+        int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+        if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
+          //finding where to land
+          for(int landHex = i - 1; landHex >= 0; --landHex) {
+            dir = *((BYTE *)&gpSearchArray->field_2418 + landHex);
+            this->occupiedHex = destHex;
+            destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+            if(!gpCombatManager->combatGrid[destHex].isBlocked) {
+              traveledHexes += i - landHex;
+              i = landHex;
+              // will land on the enemy if the path doesn't have any hexes other than enemy after the obstacle
+              this->ArcJump(initialHex, destHex);
+              break;
+            }
+          }
+        } else 
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
+
+        ++traveledHexes;
+        int a3 = i == 1 || this->creature.speed <= traveledHexes;
+        //this->Walk(, a3, gpSearchArray->field_8 - 1 != i);
+        if (this->creature.speed <= traveledHexes && i != 1)
+          return 3;
+        initialHex = this->occupiedHex;
+      }
+      this->CancelSpellType(0);
+      this->targetNeighborIdx = LOBYTE(gpSearchArray->field_2418);
+      gpCombatManager->TestRaiseDoor();
+      this->DoAttack(0);
+    }
+    result = 0;
+  } else {
+    result = 3;
+  }
+  return result;
+}
+
 // ironfist function
 bool army::IsCloseMove(int toHexIdx) {
   for (int j = 0; j < 6; j++) {
