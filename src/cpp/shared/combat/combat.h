@@ -228,6 +228,7 @@ extern int gbNoShowCombat;
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 bool IsCastleWall(int hexIdx);
+bool IsAICombatTurn();
 
 #pragma pack(pop)
 

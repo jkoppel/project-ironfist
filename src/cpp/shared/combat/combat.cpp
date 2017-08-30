@@ -452,3 +452,12 @@ bool IsCastleWall(int hexIdx) {
     std::set<int> walls = {9, 22, 34, 47, 59, 73, 86, 100, 113, 92};
     return walls.find(hexIdx) != walls.end();
 }
+
+bool IsAICombatTurn() {
+  int curPlayerID = gpCombatManager->playerID[gpCombatManager->currentActionSide];
+  if(curPlayerID == -1) // AI neutral
+    return 1;
+  else if(!gbHumanPlayer[curPlayerID]) // AI player
+    return 1;
+  return 0;
+}
