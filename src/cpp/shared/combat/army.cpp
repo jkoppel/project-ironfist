@@ -866,21 +866,24 @@ int army::AttackTo(int targetHex) {
       for (int i = gpSearchArray->field_8 - 1; i; --i) {
         int dir = *((BYTE *)&gpSearchArray->field_2418 + i);
         int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-        if(gMoveAttack && i < 4) { // less than 3 hexes from enemy
-          // find last hex
-          for(int h = i; h >= 1; --h) {
-            dir = *((BYTE *)&gpSearchArray->field_2418 + h);
-            destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-            this->occupiedHex = destHex;
+        if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this]) {
+          if(gMoveAttack && i < 4) { // less than 3 hexes from enemy
+            // find last hex
+            for(int h = i; h >= 1; --h) {
+              dir = *((BYTE *)&gpSearchArray->field_2418 + h);
+              destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+              this->occupiedHex = destHex;
+            }
+            this->ArcJump(initialHex, destHex);
+            break;
+          } else {
+            this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
           }
-          this->ArcJump(initialHex, destHex);
-          break;
-        } else 
+        } else { 
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
-
+        }
         ++traveledHexes;
         int a3 = i == 1 || this->creature.speed <= traveledHexes;
-        //this->Walk(, a3, gpSearchArray->field_8 - 1 != i);
         if (this->creature.speed <= traveledHexes && i != 1)
           return 3;
         initialHex = this->occupiedHex;
