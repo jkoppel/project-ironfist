@@ -866,20 +866,15 @@ int army::AttackTo(int targetHex) {
       for (int i = gpSearchArray->field_8 - 1; i; --i) {
         int dir = *((BYTE *)&gpSearchArray->field_2418 + i);
         int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-        if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
-          //finding where to land
-          for(int landHex = i - 1; landHex >= 0; --landHex) {
-            dir = *((BYTE *)&gpSearchArray->field_2418 + landHex);
-            this->occupiedHex = destHex;
+        if(gMoveAttack && i < 4) { // less than 3 hexes from enemy
+          // find last hex
+          for(int h = i; h >= 1; --h) {
+            dir = *((BYTE *)&gpSearchArray->field_2418 + h);
             destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-            if(!gpCombatManager->combatGrid[destHex].isBlocked) {
-              traveledHexes += i - landHex;
-              i = landHex;
-              // will land on the enemy if the path doesn't have any hexes other than enemy after the obstacle
-              this->ArcJump(initialHex, destHex);
-              break;
-            }
+            this->occupiedHex = destHex;
           }
+          this->ArcJump(initialHex, destHex);
+          break;
         } else 
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
 
