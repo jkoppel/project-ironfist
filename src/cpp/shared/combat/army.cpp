@@ -619,7 +619,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
   int res;
   std::vector<int> obstacleHexes;
 
-  if(CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this]) {
+  if(!IsAICombatTurn() && CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this]) {
     for (int i = 0; i < 117; i++) {
       if (gpCombatManager->combatGrid[i].isBlocked != 0 && !IsCastleWall(i)) {
         obstacleHexes.push_back(i);
