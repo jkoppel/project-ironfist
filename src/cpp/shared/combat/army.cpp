@@ -315,25 +315,56 @@ void army::DoAttack(int isRetaliation) {
       }
     }
 
-    if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget]) {
-        if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
-            int dodgeAnimLen = 7;
-            primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
-            for (int p = 0; p < dodgeAnimLen; p++) {
-              primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
-            }
-
-            this->PowEffect(-1, 0, -1, -1);
-
-            // revert to usual animations after the first received attack
-            int winceAnimLen = 1;
-            primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
-            primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
-            gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget] = false;
+    if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+      if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget]) {
+        int dodgeAnimLen = 7;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+        for (int p = 0; p < dodgeAnimLen; p++) {
+          primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
         }
-    } else {
-      this->PowEffect(-1, 0, -1, -1);
+        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget] = false;
+      } else {
+        // revert to usual animations after the first received attack
+        int winceAnimLen = 1;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+        primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;
+      }
     }
+
+    if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+      if(gIronfistExtra.combat.stack.abilityNowAnimating[this]) {
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] =
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN] = 0;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS][0] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][0] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS][0] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0];
+
+        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget] = false;
+      } else {
+        // revert to usual animations after the first received attack
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 4;
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN] = 2;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS][0] = 17;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][0] = 10;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS][0] = 24;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] = 21;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] = 14;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] = 28;
+      }
+    }
+    this->PowEffect(-1, 0, -1, -1);
     
     gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
     if (this->creatureIdx == CREATURE_GHOST)
@@ -1892,6 +1923,7 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
 
   if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation) {
     gIronfistExtra.combat.stack.abilityCounter[this] = 0;
+    gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
     damagePerUnit *= SRandom(125, 150) * 0.01;
   }
 
