@@ -347,7 +347,7 @@ void army::DoAttack(int isRetaliation) {
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0];
 
-        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget] = false;
+        gIronfistExtra.combat.stack.abilityNowAnimating[this] = false;
       } else {
         // revert to usual animations after the first received attack
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 
