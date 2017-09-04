@@ -831,7 +831,7 @@ int army::WalkTo(int hex) {
       int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
       int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
       if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this]) {
-        if(gMoveAttack && hexIdxb < 3) { // less than 3 hexes from enemy
+        if(gMoveAttack && hexIdxb < 4) { // less than 4 hexes from enemy
           // find last hex
           for(int h = hexIdxb; h >= 0; --h) {
             dir = *((BYTE *)&gpSearchArray->field_2418 + h);
@@ -898,7 +898,7 @@ int army::AttackTo(int targetHex) {
         int dir = *((BYTE *)&gpSearchArray->field_2418 + i);
         int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
         if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this]) {
-          if(gMoveAttack && i < 4) { // less than 3 hexes from enemy
+          if(gMoveAttack && i < 5) { // less than 4 hexes from enemy
             // find last hex
             for(int h = i; h >= 1; --h) {
               dir = *((BYTE *)&gpSearchArray->field_2418 + h);
