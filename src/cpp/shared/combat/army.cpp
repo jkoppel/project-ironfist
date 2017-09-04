@@ -342,11 +342,10 @@ void army::DoAttack(int isRetaliation) {
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS][0] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][0] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS][0] = 34;
-
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] = 35;
-		this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 36;
         gIronfistExtra.combat.stack.abilityNowAnimating[this] = false;
@@ -364,7 +363,7 @@ void army::DoAttack(int isRetaliation) {
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] = 21;
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] = 14;
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] = 28;
-		this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] = 22;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] = 22;
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] = 15;
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 29;
       }
@@ -843,9 +842,9 @@ int army::WalkTo(int hex) {
             this->occupiedHex = destHex;
           }
           this->ArcJump(initialHex, destHex);
-		  gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
-		  this->CancelSpellType(0);
-		  return 0;
+		      gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
+		      this->CancelSpellType(0);
+		      return 0;
         } else if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
           //finding where to land
           for(int landHex = hexIdxb - 1; landHex >= 0; --landHex) {
@@ -912,7 +911,7 @@ int army::AttackTo(int targetHex) {
               this->occupiedHex = destHex;
             }
             this->ArcJump(initialHex, destHex);
-			gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
+            gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
             break;
           } else {
             this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
