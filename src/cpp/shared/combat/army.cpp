@@ -335,18 +335,20 @@ void army::DoAttack(int isRetaliation) {
       if(gIronfistExtra.combat.stack.abilityNowAnimating[this]) {
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] =
-        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 1;
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN] = 
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 
-        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN] = 0;
+        this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN] = 2;
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS][0] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][0] =
-        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS][0] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS][0] = 34;
+
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] =
-        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] =
-        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0];
-
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] = 35;
+		this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] =
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 36;
         gIronfistExtra.combat.stack.abilityNowAnimating[this] = false;
       } else {
         // revert to usual animations after the first received attack
@@ -362,6 +364,9 @@ void army::DoAttack(int isRetaliation) {
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] = 21;
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] = 14;
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] = 28;
+		this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] = 22;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] = 15;
+        this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 29;
       }
     }
     this->PowEffect(-1, 0, -1, -1);
@@ -752,8 +757,6 @@ void army::ArcJump(int fromHex, int toHex) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 32;
     } else if(i == 12) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 33;
-    } else if(i == 22) {
-      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 34;
     }
 
     savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous creature sprite
@@ -771,8 +774,6 @@ void army::ArcJump(int fromHex, int toHex) {
     glTimers = (signed __int64)((double)KBTickCount() + (double)40 * gfCombatSpeedMod[giCombatSpeed]);
     DelayTil(&glTimers);
   }
-  // reverting frame
-  this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 1;
   
   // occupy new hex
   this->occupiedHex = toHex;
@@ -782,9 +783,10 @@ void army::ArcJump(int fromHex, int toHex) {
 
   // reset renderer settings
   savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous creature sprite
-  gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 0, 1);
-  gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
   giMinExtentY = giMinExtentX = giMaxExtentY = giMaxExtentX = 0;
+  // reverting frame
+  this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 1;
+
   delete savedscreen;
 }
 
@@ -841,7 +843,9 @@ int army::WalkTo(int hex) {
             this->occupiedHex = destHex;
           }
           this->ArcJump(initialHex, destHex);
-          break;
+		  gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
+		  this->CancelSpellType(0);
+		  return 0;
         } else if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
           //finding where to land
           for(int landHex = hexIdxb - 1; landHex >= 0; --landHex) {
@@ -908,6 +912,7 @@ int army::AttackTo(int targetHex) {
               this->occupiedHex = destHex;
             }
             this->ArcJump(initialHex, destHex);
+			gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
             break;
           } else {
             this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
@@ -1923,9 +1928,8 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (targ->effectStrengths[EFFECT_SHADOW_MARK])
 	  damagePerUnit *= 1.5;
 
-  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation) {
+  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation && gIronfistExtra.combat.stack.abilityCounter[this] && gIronfistExtra.combat.stack.abilityNowAnimating[this]) {
     gIronfistExtra.combat.stack.abilityCounter[this] = 0;
-    gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
     damagePerUnit *= SRandom(125, 150) * 0.01;
   }
 
