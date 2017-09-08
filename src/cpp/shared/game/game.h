@@ -236,6 +236,8 @@ extern char gpcBeforeGSpellLimits[];
 extern int giPlayerInitialResourcesHuman[NUM_DIFFICULTIES][NUM_RESOURCES];
 extern int giPlayerInitialResourcesAI[NUM_DIFFICULTIES][NUM_RESOURCES];
 
+extern __int16 creatureTypesAndQuantities[NUM_FACTIONS][3][3];
+
 extern signed char gHeroSkillBonus[NUM_FACTIONS][2][4];
 
 #pragma pack(pop)
