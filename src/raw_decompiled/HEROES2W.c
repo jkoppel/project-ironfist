@@ -24511,7 +24511,7 @@ void __thiscall game::NewMap(game *this, char *name)
   for ( playerIdxe = 0; this->numPlayers > playerIdxe; ++playerIdxe )
   {
     this->players[playerIdxe].numCastles = 0;
-    BYTE1(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = 0;// playerData->field_45 changed to relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+    HIBYTE(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = 0;// playerData->field_45 changed to relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
     LOBYTE(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = -1;// Consider splitting this into multiple variables
     this->players[playerIdxe].numHeroes = 0;
     this->players[playerIdxe].relatedToSomeSortOfHeroCountOrIdx = 0;
@@ -24567,12 +24567,8 @@ void __thiscall game::NewMap(game *this, char *name)
         for ( numPlayersa = 0; this->players[playerIdxi].numCastles > numPlayersa; ++numPlayersa )
         {
           if ( someSortOfCastleIdxOrRelatedToCastles == -1
-            && this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                             + numPlayersa
-                             + 2)].visitingHeroIdx == -1
-            && (this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                              + numPlayersa
-                              + 2)].buildingsBuiltFlags & 0x40
+            && this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + numPlayersa + 2)].visitingHeroIdx == -1
+            && (this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + numPlayersa + 2)].buildingsBuiltFlags & 0x40
              || goesFrom0To1 == 1) )
             someSortOfCastleIdxOrRelatedToCastles = numPlayersa;
         }
@@ -24580,24 +24576,16 @@ void __thiscall game::NewMap(game *this, char *name)
     }
     if ( someSortOfCastleIdxOrRelatedToCastles != -1 )
     {
-      *(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi) = game::GetNewHeroId(this, playerIdxi, this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].factionID, 0);// Constant here (within GetNewHeroId)
-      this->relatedToHeroForHireStatus[*(&this->players[0].heroesOwned[284 * playerIdxi]
-                                       + this->players[playerIdxi].numHeroes
-                                       - playerIdxi)] = playerIdxi;// 283 is playerData object size; players[6] is array of playerData. There is lots of unnecessary pointer arithmetic here that could just be replaced by using the indices for the elements in the array within the array brackets.
-      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].ownerIdx = playerIdxi;
-      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].x = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].x;
-      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].y = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].y;
-      this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                    + someSortOfCastleIdxOrRelatedToCastles
-                    + 2)].visitingHeroIdx = *(&this->players[0].heroesOwned[284 * playerIdxi]
-                                            + this->players[playerIdxi].numHeroes
-                                            - playerIdxi);
+      this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes] = game::GetNewHeroId(this, playerIdxi, this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].factionID, 0);// Constant here (within GetNewHeroId)
+      this->relatedToHeroForHireStatus[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]] = playerIdxi;// 283 is playerData object size; players[6] is array of playerData. There is lots of unnecessary pointer arithmetic here that could just be replaced by using the indices for the elements in the array within the array brackets.
+      this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].ownerIdx = playerIdxi;
+      this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].x = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].x;
+      this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].y = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].y;
+      this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].visitingHeroIdx = *(&this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]);
       game::SetVisibility(
         this,
-        this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes
-                                                                       - playerIdxi)].x,
-        this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes
-                                                                       - playerIdxi)].y,
+        this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].x,
+        this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].y,
         playerIdxi,
         giVisRange[this->heroes[this->players[playerIdxi].heroesOwned[0]].secondarySkillLevel[3]]);
       ++this->players[playerIdxi].numHeroes;
@@ -24693,13 +24681,10 @@ LABEL_196:
     {
       heroLocationX = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].x;
       heroLocationY = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].y;
-      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjType = *(&this->map.tiles[heroLocationX].objType
-                                                                                         + 12
-                                                                                         * heroLocationY
-                                                                                         * this->map.width);// The pointer arithmetic can be replaced by taking the offsets and adding them to the index value within the tiles[] array brackets. The "12" should be removed since that is just to account for the 12-byte size of the mapCell type, which tiles[] is an array of
-      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[heroLocationX].field_4_1_1_isShadow_1_13_extraInfo + 6 * heroLocationY * this->map.width) >> 8) >> -5);// A doubly-bad decompilation error
-      *(&this->map.tiles[heroLocationX].objType + 12 * heroLocationY * this->map.width) = -86;
-      heroCell = &this->map.tiles[heroLocationY * this->map.width] + heroLocationX;
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjType = this->map.tiles[heroLocationX + heroLocationY * this->map.width].objType;// The pointer arithmetic can be replaced by taking the offsets and adding them to the index value within the tiles[] array brackets. The "12" should be removed since that is just to account for the 12-byte size of the mapCell type, which tiles[] is an array of
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (this->map.tiles[heroLocationX + heroLocationY * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;// A doubly-bad decompilation error
+      this->map.tiles[heroLocationX + heroLocationY * this->map.width].objType = -86;
+      heroCell = this->map.tiles[heroLocationY * this->map.width + heroLocationX];
       heroCell->field_4_1_1_isShadow_1_13_extraInfo = heroCell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * this->players[playerIdxk].heroesOwned[numPlayersb];
     }
     if ( this->players[playerIdxk].numHeroes <= 0 )
@@ -24728,20 +24713,18 @@ LABEL_196:
         {
           if ( MAP_HEIGHT - 10 >= ultimateArtifactLocY )
           {
-            if ( *(&this->map.tiles[ultimateArtifactLocX].objectIndex + 12 * ultimateArtifactLocY * this->map.width) == 255 )
+            if ( this->map.tiles[ultimateArtifactLocX + ultimateArtifactLocY * this->map.width].objectIndex == 255 )
             {
-              if ( *(&this->map.tiles[ultimateArtifactLocX].overlayIndex + 12 * ultimateArtifactLocY * this->map.width) == 255 )
+              if ( *(&this->map.tiles[ultimateArtifactLocX + ultimateArtifactLocY * this->map.width].overlayIndex) == 255 )
               {
-                if ( giGroundToTerrain[*(&this->map.tiles[ultimateArtifactLocY * this->map.width].groundIndex
-                                       + 6 * ultimateArtifactLocX)] )
+                if ( giGroundToTerrain[this->map.tiles[ultimateArtifactLocX + ultimateArtifactLocY * this->map.width].groundIndex] )
                 {
                   if ( iLastMsgNumHumanPlayers != 1 )
                     break;
                   if ( someSortOfLoopCount >= 200 )
                     break;
                   distanceYBetweenUltimateArtifactAndHero = abs(ultimateArtifactLocY - this->heroes[this->players[0].heroesOwned[0]].y);
-                  if ( abs(ultimateArtifactLocX - this->heroes[this->players[0].heroesOwned[0]].x)
-                     + distanceYBetweenUltimateArtifactAndHero > randomVal3 )
+                  if ( abs(ultimateArtifactLocX - this->heroes[this->players[0].heroesOwned[0]].x) + distanceYBetweenUltimateArtifactAndHero > randomVal3 )
                     break;
                 }
               }
@@ -24794,8 +24777,7 @@ LABEL_196:
             resourceMultiplierFromHandicap = 0.85;
           else
             resourceMultiplierFromHandicap = 0.7;
-          this->players[playerIdxm].resources[resourceType] = (signed __int64)((double)this->players[playerIdxm].resources[resourceType]
-                                                                             * resourceMultiplierFromHandicap);
+          this->players[playerIdxm].resources[resourceType] = (signed __int64)((double)this->players[playerIdxm].resources[resourceType] * resourceMultiplierFromHandicap);
         }
       }
     }
@@ -24811,13 +24793,13 @@ LABEL_196:
     lossConditionArgumentLocX = *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX;// field_23 changed to lossConditionArgumentOrLocX
     lossConditionArgumentLocY = LOWORD(this->mapHeader.lossConditionArgumentOrLocY);// field_2E changed to relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY
     *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = 0;
-    if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * lossConditionArgumentLocY * this->map.width) == 170 )
+    if ( *this->map.tiles[lossConditionArgumentLocX + lossConditionArgumentLocY * this->map.width].objType == 170 )
     {
-      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * lossConditionArgumentLocY * this->map.width) >> 8) >> -5);
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (this->map.tiles[lossConditionArgumentLocX + lossConditionArgumentLocY * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
     }
-    else if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * (lossConditionArgumentLocY - 1) * this->map.width) == 170 )
+    else if ( this->map.tiles[lossConditionArgumentLocX + (lossConditionArgumentLocY - 1) * this->map.width].objType == 170 )
     {
-      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * (lossConditionArgumentLocY - 1) * this->map.width) >> 8) >> -5);
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (this->map.tiles[lossConditionArgumentLocX + (lossConditionArgumentLocY - 1) * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
     }
     else
     {
@@ -24829,19 +24811,13 @@ LABEL_196:
     relatedToWinConditionLocX = this->mapHeader.winConditionArgumentOrLocX;// winConditionArgument changed to winConditionArgumentOrLocX
     relatedToWinConditionLocY = this->mapHeader.winConditionArgumentOrLocY;// field_2C changed to winConditionArgumentOrLocY
     this->mapHeader.winConditionArgumentOrLocX = 0;
-    if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * relatedToWinConditionLocY * this->map.width) == 170 )
+    if ( this->map.tiles[relatedToWinConditionLocX + relatedToWinConditionLocY * this->map.width].objType == 170 )
     {
-      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
-                                                                                       + 6
-                                                                                       * relatedToWinConditionLocY
-                                                                                       * this->map.width) >> 8) >> -5);
+      this->mapHeader.winConditionArgumentOrLocX = (this->map.tiles[relatedToWinConditionLocX + relatedToWinConditionLocY * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
     }
-    else if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * (relatedToWinConditionLocY - 1) * this->map.width) == 170 )
+    else if ( this->map.tiles[relatedToWinConditionLocX + (relatedToWinConditionLocY - 1) * this->map.width].objType == 170 )
     {
-      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
-                                                                                       + 6
-                                                                                       * (relatedToWinConditionLocY - 1)
-                                                                                       * this->map.width) >> 8) >> -5);
+      this->mapHeader.winConditionArgumentOrLocX = (this->map.tiles[relatedToWinConditionLocX + (relatedToWinConditionLocY - 1) * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
     }
     else
     {
@@ -28060,8 +28036,7 @@ int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUs
 
   thisa = this;
   townID = game::GetTownId(this, argX, argY);
-  probablyRandomTown = (TownExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(*(&thisa->map.tiles[argX].field_4_1_1_isShadow_1_13_extraInfo
-                                                                                   + 6 * argY * thisa->map.width) >> 8) >> -5)];
+  probablyRandomTown = (TownExtra *)ppMapExtra[(thisa->map.tiles[argX + argY * thisa->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF];
   if ( probablyRandomTown->color == -1 )
     faction = Random(0, 5);                     // Constant here (faction bounds need to be generalized)
   else
@@ -29485,13 +29460,11 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
             {
               randomHero->ownerIdx = mapExtraHero->owner;
               this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
-              *(&this->players[0].heroesOwned[284 * randomHero->ownerIdx]
-              + this->players[randomHero->ownerIdx].numHeroes++
-              - randomHero->ownerIdx) = randomHero->idx;
+              this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
             }
             if ( !isJail
               && coordYForRandomHero > 0
-              && *(&this->map.tiles[coordXForRandomHero].objType + 12 * (coordYForRandomHero - 1) * this->map.width) == 163 )
+              && *(&this->map.tiles[coordXForRandomHero].objType[12 * (coordYForRandomHero - 1) * this->map.width]) == 163 )
             {
               --HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x);
               --randomHero->y;
