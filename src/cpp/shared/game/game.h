@@ -198,6 +198,16 @@ public:
   void MakeAllWaterVisible(int player);
   void MakeAllWaterVisible_orig(int player);
 
+  int InitRandomArtifacts();
+  int LoadMap(char *nam);
+  int ProcessRandomObjects();
+  int ProcessMapExtra();
+  void __cdecl InitializePasswords();
+  int RandomizeEvents();
+  void *ProcessOnMapHeroes();
+  int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
+  void SetupNewRumour();
+
 private:
   void PropagateVision();
 };
@@ -235,6 +245,16 @@ extern __int16 giUltimateArtifactRadius;
 extern char gpcBeforeGSpellLimits[];
 extern int giPlayerInitialResourcesHuman[NUM_DIFFICULTIES][NUM_RESOURCES];
 extern int giPlayerInitialResourcesAI[NUM_DIFFICULTIES][NUM_RESOURCES];
+
+extern int __fastcall FindLastToken(const char *a1, char a2);
+extern char __fastcall StrEqNoCase(int *a1, int *a2);
+
+extern int gbInNewGameSetup;
+extern int iLastMsgNumHumanPlayers;
+extern bool gbSetupGamePosToRealGamePos[];
+extern char gcColorToSetupPos[];
+extern char giVisRange[];
+extern char xIsPlayingExpansionCampaign;
 
 extern __int16 creatureTypesAndQuantities[NUM_FACTIONS][3][3];
 extern int neutralTownCreatureTypes[NUM_FACTIONS][5];
