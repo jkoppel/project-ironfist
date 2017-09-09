@@ -220,7 +220,7 @@ int __thiscall game::InitRandomArtifacts(game *this);
 int __thiscall game::GetRandomArtifactId(game *this, char allowedLevels, int allowNegatives);
 bool __fastcall IsCursedItem(int art);
 void __thiscall game::RandomizeHeroPool(game *this);
-int __thiscall game::SetRandomHeroArmies(game *this, _DWORD heroIdx, unsigned int arg3); // idb
+int __thiscall game::SetRandomHeroArmies(game *this, _DWORD heroIdx, unsigned int isAI); // idb
 int __thiscall game::ProcessRandomObjects(game *this);
 void __thiscall game::SetVisibility(game *, int x, int y, int playerIdx, signed int radius);
 void __thiscall game::MakeAllWaterVisible(game *this, char playerIdx);
@@ -28484,106 +28484,43 @@ void __thiscall game::RandomizeHeroPool(game *this)
 
 //----- (004281E0) --------------------------------------------------------
 // Check this function (Design question on how to handle new factions, since they will break this logic)
-int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int arg3)
+int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int isAI)
 {
   int randomizedValue; // eax@1
-  game *pointerToGame; // [sp+Ch] [bp-90h]@1
-  int alsoGoesFrom0To1; // [sp+10h] [bp-8Ch]@1
+  int randomizedValue2;
+  game *pointerToGame = this; // [sp+Ch] [bp-90h]@1
+  int creatureTier2 = 0; // [sp+10h] [bp-8Ch]@1
   int randomUpperBound; // [sp+14h] [bp-88h]@9
   signed int armySlotIdx; // [sp+18h] [bp-84h]@3
-  signed int goesFrom0To1; // [sp+18h] [bp-84h]@6
+  signed int creatureTier; // [sp+18h] [bp-84h]@6
   int randomLowerBound; // [sp+1Ch] [bp-80h]@9
-  __int16 randomCreatureTypesAndQuantities[54]; // [sp+20h] [bp-7Ch]@1
-  armyGroup *pointerToArmyOfHeroIdx; // [sp+8Ch] [bp-10h]@1
-  bool mightBeBool[3]; // [sp+90h] [bp-Ch]@1
+  //__int16 creatureTypesAndQuantities[54]; // [sp+20h] [bp-7Ch]@1
+  armyGroup *pointerToArmyOfHeroIdx = &this->heroes[heroIdx].army; // [sp+8Ch] [bp-10h]@1
+  bool hasTier[3]; // [sp+90h] [bp-Ch]@1
+  int TIER_ONE = 0;
+  int TIER_TWO = 1;
+  int TIER_THREE = 2;
 
-  pointerToGame = this;
-  pointerToArmyOfHeroIdx = &this->heroes[heroIdx].army;
-  alsoGoesFrom0To1 = 0;
-  randomCreatureTypesAndQuantities[0] = CREATURE_PEASANT;
-  randomCreatureTypesAndQuantities[1] = 30;
-  randomCreatureTypesAndQuantities[2] = 50;
-  randomCreatureTypesAndQuantities[3] = 1;
-  randomCreatureTypesAndQuantities[4] = 3;
-  randomCreatureTypesAndQuantities[5] = 5;
-  randomCreatureTypesAndQuantities[6] = CREATURE_PIKEMAN;
-  randomCreatureTypesAndQuantities[7] = 2;
-  randomCreatureTypesAndQuantities[8] = 4;
-  randomCreatureTypesAndQuantities[9] = CREATURE_GOBLIN;
-  randomCreatureTypesAndQuantities[10] = 15;
-  randomCreatureTypesAndQuantities[11] = 25;
-  randomCreatureTypesAndQuantities[12] = 12;
-  randomCreatureTypesAndQuantities[13] = 3;
-  randomCreatureTypesAndQuantities[14] = 5;
-  randomCreatureTypesAndQuantities[15] = CREATURE_WOLF;
-  randomCreatureTypesAndQuantities[16] = 2;
-  randomCreatureTypesAndQuantities[17] = 3;
-  randomCreatureTypesAndQuantities[18] = CREATURE_SPRITE;
-  randomCreatureTypesAndQuantities[19] = 10;
-  randomCreatureTypesAndQuantities[20] = 20;
-  randomCreatureTypesAndQuantities[21] = 21;
-  randomCreatureTypesAndQuantities[22] = 2;
-  randomCreatureTypesAndQuantities[23] = 4;
-  randomCreatureTypesAndQuantities[24] = CREATURE_ELF;
-  randomCreatureTypesAndQuantities[25] = 1;
-  randomCreatureTypesAndQuantities[26] = 2;
-  randomCreatureTypesAndQuantities[27] = CREATURE_CENTAUR;
-  randomCreatureTypesAndQuantities[28] = 6;
-  randomCreatureTypesAndQuantities[29] = 10;
-  randomCreatureTypesAndQuantities[30] = 30;
-  randomCreatureTypesAndQuantities[31] = 2;
-  randomCreatureTypesAndQuantities[32] = 4;
-  randomCreatureTypesAndQuantities[33] = CREATURE_GRIFFIN;
-  randomCreatureTypesAndQuantities[34] = 1;
-  randomCreatureTypesAndQuantities[35] = 2;
-  randomCreatureTypesAndQuantities[36] = CREATURE_HALFLING;
-  randomCreatureTypesAndQuantities[37] = 6;
-  randomCreatureTypesAndQuantities[38] = 10;
-  randomCreatureTypesAndQuantities[39] = 39;
-  randomCreatureTypesAndQuantities[40] = 2;
-  randomCreatureTypesAndQuantities[41] = 4;
-  randomCreatureTypesAndQuantities[42] = CREATURE_IRON_GOLEM;
-  randomCreatureTypesAndQuantities[43] = 1;
-  randomCreatureTypesAndQuantities[44] = 2;
-  randomCreatureTypesAndQuantities[45] = CREATURE_SKELETON;
-  randomCreatureTypesAndQuantities[46] = 6;
-  randomCreatureTypesAndQuantities[47] = 10;
-  randomCreatureTypesAndQuantities[48] = 48;
-  randomCreatureTypesAndQuantities[49] = 2;
-  randomCreatureTypesAndQuantities[50] = 4;
-  randomCreatureTypesAndQuantities[51] = CREATURE_MUMMY;
-  randomCreatureTypesAndQuantities[52] = 1;
-  randomCreatureTypesAndQuantities[53] = 2;
-  mightBeBool[0] = 1;
-  mightBeBool[1] = Random(0, 99) < (arg3 < 1 ? 50 : 80);// If arg3 < 1, there is a ~50% chance that this line will assign a "true" value; if not, then a ~20% chance
-  randomizedValue = Random(0, 99);
-  mightBeBool[2] = (arg3 < 1 ? 25 : 65) > randomizedValue;// If arg3 < 1, there is a ~25% chance that this line will assign a "true" value; if not, then a ~65% chance
-  if ( (arg3 < 1 ? 25 : 65) <= randomizedValue )// If arg3 < 1, there is a ~75% chance that this line will be "true"; if not, then a ~35% chance
-    mightBeBool[1] = 1;
-  for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx )
-  {
+  hasTier[TIER_ONE] = 1;
+  hasTier[TIER_TWO] = Random(0, 99) < (isAI < 1 ? 50 : 80);// If isAI, there is a ~20% chance that this hero will get Tier 2 creatures; if not, then a ~50% chance
+  randomizedValue2 = Random(0, 99);
+  hasTier[TIER_THREE] = (isAI < 1 ? 25 : 65) > randomizedValue2;// If isAI, there is a ~65% chance that this hero will get Tier 3 creatures; if not, then a ~25% chance
+  if ( (isAI < 1 ? 25 : 65) <= randomizedValue2 )// If isAI, there is a ~35% chance that this hero will get Tier 2 creatures; if not, then a ~75% chance
+    hasTier[TIER_TWO] = 1;
+  for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx ) {
     pointerToArmyOfHeroIdx->creatureTypes[armySlotIdx] = -1;
-    randomizedValue = armySlotIdx;
     pointerToArmyOfHeroIdx->quantities[armySlotIdx] = -1;
   }
-  for ( goesFrom0To1 = 0; goesFrom0To1 < 2; ++goesFrom0To1 )// "goesFrom0To1" is only a multiplier to the creature/quantity offsets on the second pass of the for loop, assuming that the IF statement condition is "true" on the second pass
-  {
-    randomizedValue = goesFrom0To1;
-    if ( mightBeBool[goesFrom0To1] )
-    {
-      pointerToArmyOfHeroIdx->creatureTypes[alsoGoesFrom0To1] = *((_BYTE *)&randomCreatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID]
-                                                                + 6 * goesFrom0To1);
-      randomLowerBound = 10
-                       * *(&randomCreatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID + 1]
-                         + 3 * goesFrom0To1);
-      randomUpperBound = 10
-                       * *(&randomCreatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID + 2]
-                         + 3 * goesFrom0To1)
-                       + 9;
-      if ( arg3 )                               //  If arg3, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
+  for ( creatureTier = 0; creatureTier < 2; ++creatureTier ) {
+    if ( hasTier[creatureTier] ) {
+      pointerToArmyOfHeroIdx->creatureTypes[creatureTier2] = creatureTypesAndQuantities[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
+      randomLowerBound = 10 * creatureTypesAndQuantities[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_TWO];
+      randomUpperBound = 10 * creatureTypesAndQuantities[pointerToGame->heroes[heroIdx].factionID ][creatureTier][TIER_THREE] + 9;
+      if (isAI) {                              //  If isAI, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
+      }
       randomizedValue = Random(randomLowerBound, randomUpperBound) / 10;
-      pointerToArmyOfHeroIdx->quantities[alsoGoesFrom0To1++] = randomizedValue;
+      pointerToArmyOfHeroIdx->quantities[creatureTier2++] = randomizedValue;
     }
   }
   return randomizedValue;
