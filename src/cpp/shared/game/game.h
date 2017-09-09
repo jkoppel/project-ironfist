@@ -70,7 +70,7 @@ struct mine
 	char owner;
 	char type;
 	char guardianType;
-	char guadianQty;
+	char guardianQty;
 	char x;
 	char y;
 };

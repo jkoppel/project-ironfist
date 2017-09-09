@@ -25634,7 +25634,7 @@ int __thiscall game::RandomizeEvents(game *this)
         case TILE_HAS_EVENT|LOCATION_ABANDONED_MINE:
           townID = game::GetMineId(this, cellXCoord, cellYCoord);
           this->mines[townID].guardianType = 59;
-          this->mines[townID].guadianQty = Random(30, 60);
+          this->mines[townID].guardianQty = Random(30, 60);
           goto LABEL_178;
         case TILE_HAS_EVENT|LOCATION_ALCHEMIST_LAB:
         case TILE_HAS_EVENT|LOCATION_MINE:
@@ -43511,7 +43511,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
 LABEL_74:
             v3 = gArmyNamesPlural[gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType];
             v4 = advManager::GetArmySizeName(
-                   gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
+                   gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
                    2);
             sprintf(&a2a, "\n\nguarded by %s %s", v4, v3);
             strcat(gText, &a2a);
@@ -45960,7 +45960,7 @@ LABEL_10:
       v5 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER);
       if ( v5 > 51 )
         LOBYTE(v5) = 51;
-      gpGame->mines[(unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 4 * v5;
+      gpGame->mines[(unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 4 * v5;
       if ( spell == 60 )
         game::ClaimMine(
           gpGame,
@@ -62862,11 +62862,11 @@ combatManager *__thiscall combatManager::Close(combatManager *this)
   }
   if ( *(_BYTE *)(this->field_327B + 9) == 151
     && gpGame->mines[(unsigned __int8)((unsigned __int8)(*(_WORD *)(this->field_327B + 4) >> 8) >> -5)].guardianType != -1 )
-    gpGame->mines[(unsigned __int8)((unsigned __int8)(*(_WORD *)(this->field_327B + 4) >> 8) >> -5)].guadianQty = v9;
+    gpGame->mines[(unsigned __int8)((unsigned __int8)(*(_WORD *)(this->field_327B + 4) >> 8) >> -5)].guardianQty = v9;
   if ( *(_BYTE *)(this->field_327B + 9) == 170
     && gpGame->heroes[(unsigned __int8)((unsigned __int8)(*(_WORD *)(this->field_327B + 4) >> 8) >> -5)].occupiedObjType == 151
     && gpGame->mines[gpGame->heroes[(unsigned __int8)((unsigned __int8)(*(_WORD *)(this->field_327B + 4) >> 8) >> -5)].occupiedObjVal].guardianType != -1 )
-    gpGame->mines[gpGame->heroes[(unsigned __int8)((unsigned __int8)(*(_WORD *)(this->field_327B + 4) >> 8) >> -5)].occupiedObjVal].guadianQty = v9;
+    gpGame->mines[gpGame->heroes[(unsigned __int8)((unsigned __int8)(*(_WORD *)(this->field_327B + 4) >> 8) >> -5)].occupiedObjVal].guardianQty = v9;
   heroWindowManager::RemoveWindow(gpWindowManager, this->window);
   combatManager::FreeArmies(this);
   combatManager::FreeIcons(this);
@@ -69957,7 +69957,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
               this,
               hero,
               gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
               loc,
               locX,
               locY,
@@ -72166,7 +72166,7 @@ LABEL_445:
               this,
               hero,
               gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
               loc,
               locX,
               locY,
@@ -72197,7 +72197,7 @@ LABEL_445:
         game::ConvertObject(gpGame, locX, locY, locX, locY, 29, 5, 5, 29, 4, 64, 23);
         gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
         gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
         game::ClaimMine(
           gpGame,
           (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
@@ -74385,7 +74385,7 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
         goto LABEL_308;
       if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
         goto LABEL_12;
-      spell = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty;
+      spell = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty;
       v73 = philAI::CombatMonsterEvent(
               (int)hro,
               gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
@@ -74394,7 +74394,7 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
       if ( v73 )
       {
         gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
         hero::CheckLevel(hro);
 LABEL_12:
         game::ClaimMine(
@@ -74412,7 +74412,7 @@ LABEL_12:
               v40 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER);
               if ( v40 > 51 )
                 v40 = 51;
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 5 * v40;
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 5 * v40;
               spell = 999;
             }
           }
@@ -75153,7 +75153,7 @@ LABEL_308:
       for ( spell = 0; (signed int)spell < 5; ++spell )
       {
         gpMonGroup->creatureTypes[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType;
-        gpMonGroup->quantities[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty
+        gpMonGroup->quantities[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty
                                       / 5;
       }
       v70 = (signed __int64)((double)*((_BYTE *)gaiTurnValueOfMine + x + HIDWORD(x) * MAP_WIDTH)
@@ -75162,7 +75162,7 @@ LABEL_308:
       philAI::ChooseEvaluateBattle((int)&hro->army, (int)hro, (unsigned int)gpMonGroup, 0, 0, v70, (int)&v63, (int)&v59);
       if ( v63 )
       {
-        v55 = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty;
+        v55 = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty;
         v73 = philAI::CombatMonsterEvent(
                 (int)hro,
                 gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
@@ -75170,7 +75170,7 @@ LABEL_308:
                 (int)cell);
         if ( v55 > 255 )
           v55 = 255;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = v55;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = v55;
         if ( v73 )
         {
           hero::CheckLevel(hro);
@@ -75181,7 +75181,7 @@ LABEL_308:
           game::ConvertObject(gpGame, x, SHIDWORD(x), x, SHIDWORD(x), 29, 5, 5, 29, 4, 64, 23);
           gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
           gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guadianQty = 0;
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
           game::ClaimMine(
             gpGame,
             (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
@@ -90996,7 +90996,7 @@ LABEL_131:
             for ( i = 0; i < 5; ++i )
             {
               gpMonGroup->creatureTypes[i] = gpGame->mines[(unsigned __int8)((unsigned __int8)(*(_WORD *)(v34 + 4) >> 8) >> -5)].guardianType;
-              gpMonGroup->quantities[i] = gpGame->mines[(unsigned __int8)((unsigned __int8)(*(_WORD *)(v34 + 4) >> 8) >> -5)].guadianQty
+              gpMonGroup->quantities[i] = gpGame->mines[(unsigned __int8)((unsigned __int8)(*(_WORD *)(v34 + 4) >> 8) >> -5)].guardianQty
                                         / 5;
             }
             philAI::ChooseEvaluateBattle(
@@ -91579,7 +91579,7 @@ int __stdcall philAI::EvaluateMineEvent(int a1, int a2, int a3, int a4)
   {
     if ( gpGame->mines[a1].guardianType != -1 )
     {
-      v14 = gpGame->mines[a1].guadianQty;
+      v14 = gpGame->mines[a1].guardianQty;
       memset(gpMonGroup, 0xFFu, 5u);
       memset(gpMonGroup->quantities, 0, 0xAu);
       if ( v14 / 5 > 0 )

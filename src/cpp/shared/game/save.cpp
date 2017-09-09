@@ -223,7 +223,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     mn->owner = mn_xml->owner();
     mn->type = mn_xml->type();
     mn->guardianType = mn_xml->guardianType();
-    mn->guadianQty = mn_xml->guardianQty();
+    mn->guardianQty = mn_xml->guardianQty();
     mn->x = mn_xml->x();
     mn->y = mn_xml->y();
   }
@@ -513,7 +513,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
 
   for (int i = 0; i < ELEMENTS_IN(gam->mines); i++) {
     mine *m = &gam->mines[i];
-    gs.mine().push_back(ironfist_save::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guadianQty, m->x, m->y));
+    gs.mine().push_back(ironfist_save::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guardianQty, m->x, m->y));
   }
   for (int i = 0; i < ELEMENTS_IN(gam->boats); i++) {
     boat *b = &gam->boats[i];
