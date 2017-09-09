@@ -24351,166 +24351,39 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
 // 41B5F0: using guessed type char hasPlayer[12];
 
 //----- (0041C0E0) --------------------------------------------------------
-// Check this function (design question)
 void __thiscall game::GiveTroopsToNeutralTown(game *this, int castleIdx)
 {
   int randomQuantity; // [sp+18h] [bp-14h]@7
   int quantity; // [sp+18h] [bp-14h]@15
   signed int creatureTier; // [sp+1Ch] [bp-10h]@7
   int creatureType; // [sp+24h] [bp-8h]@0
-  int creatureQtyAndIdxRandomizer; // [sp+28h] [bp-4h]@4
+  int creatureTierRandomizer; // [sp+28h] [bp-4h]@4
 
   if ( (this->castles[castleIdx].x > 0 || this->castles[castleIdx].y > 0) && this->castles[castleIdx].ownerIdx < 0 )
   {
-    creatureQtyAndIdxRandomizer = Random(1, 15);
-    if ( giCurTurn / 10 )
-      creatureQtyAndIdxRandomizer += Random(0, giCurTurn / 10);// As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
-    if ( creatureQtyAndIdxRandomizer > 5 )
-    {
-      if ( creatureQtyAndIdxRandomizer > 10 )
-      {
-        if ( creatureQtyAndIdxRandomizer > 13 )
-        {
-          if ( creatureQtyAndIdxRandomizer > 15 )
-          {
-            creatureTier = 50;
-            randomQuantity = 1;
-          }
-          else
-          {
-            creatureTier = 40;
-            randomQuantity = Random(1, 3);
-          }
-        }
-        else
-        {
-          creatureTier = 30;
-          randomQuantity = Random(3, 5);
-        }
-      }
-      else
-      {
-        creatureTier = 20;
-        randomQuantity = Random(5, 7);
-      }
+    creatureTierRandomizer = Random(1, 15);
+    if (giCurTurn / 10) { // As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
+      creatureTierRandomizer += Random(0, giCurTurn / 10);
     }
-    else
-    {
+    if (creatureTierRandomizer <= 5) {
       creatureTier = 10;
       randomQuantity = Random(8, 15);
+    } else if (creatureTierRandomizer <= 10) {
+      creatureTier = 20;
+      randomQuantity = Random(5, 7);
+    } else if (creatureTierRandomizer <= 13) {
+      creatureTier = 30;
+      randomQuantity = Random(3, 5);
+    } else if (creatureTierRandomizer <= 15) {
+      creatureTier = 40;
+      randomQuantity = Random(1, 3);
+    } else {
+      creatureTier = 50;
+      randomQuantity = 1;
     }
     quantity = giCurTurn / 20 + randomQuantity;
-    switch ( creatureTier + this->castles[castleIdx].factionID )// Constant here (Lots of faction-specific stuff here; design question); new creatures would need to be hardcoded or have a default case added; new factions would need more logic accounting for them as well; this entire thing should be a design question
-    {
-      case 10:
-        creatureType = CREATURE_PEASANT;
-        break;
-      case 20:
-        creatureType = CREATURE_ARCHER;
-        break;
-      case 30:
-        creatureType = CREATURE_PIKEMAN;
-        break;
-      case 40:
-        creatureType = CREATURE_SWORDSMAN;
-        break;
-      case 50:
-        creatureType = CREATURE_CAVALRY;
-        break;
-      case 11:
-        creatureType = CREATURE_GOBLIN;
-        break;
-      case 21:
-        creatureType = CREATURE_ORC;
-        break;
-      case 31:
-        creatureType = CREATURE_WOLF;
-        break;
-      case 41:
-        creatureType = CREATURE_OGRE;
-        break;
-      case 51:
-        creatureType = CREATURE_TROLL;
-        break;
-      case 12:
-        creatureType = CREATURE_SPRITE;
-        break;
-      case 22:
-        creatureType = CREATURE_DWARF;
-        break;
-      case 32:
-        creatureType = CREATURE_ELF;
-        break;
-      case 42:
-        creatureType = CREATURE_DRUID;
-        break;
-      case 52:
-        creatureType = CREATURE_UNICORN;
-        break;
-      case 13:
-        creatureType = CREATURE_CENTAUR;
-        break;
-      case 23:
-        creatureType = CREATURE_GARGOYLE;
-        break;
-      case 33:
-        creatureType = CREATURE_GRIFFIN;
-        break;
-      case 43:
-        creatureType = CREATURE_MINOTAUR;
-        break;
-      case 53:
-        creatureType = CREATURE_HYDRA;
-        break;
-      case 14:
-        creatureType = CREATURE_HALFLING;
-        break;
-      case 24:
-        creatureType = CREATURE_BOAR;
-        break;
-      case 34:
-        creatureType = CREATURE_IRON_GOLEM;
-        break;
-      case 44:
-        creatureType = CREATURE_ROC;
-        break;
-      case 54:
-        creatureType = CREATURE_MAGE;
-        break;
-      case 15:
-        creatureType = CREATURE_SKELETON;
-        break;
-      case 25:
-        creatureType = CREATURE_ZOMBIE;
-        break;
-      case 35:
-        creatureType = CREATURE_MUMMY;
-        break;
-      case 45:
-        creatureType = CREATURE_VAMPIRE;
-        break;
-      case 55:
-        creatureType = CREATURE_LICH;
-        break;
-      case 16:
-      case 17:
-      case 18:
-      case 19:
-      case 26:
-      case 27:
-      case 28:
-      case 29:
-      case 36:
-      case 37:
-      case 38:
-      case 39:
-      case 46:
-      case 47:
-      case 48:
-      case 49:
-        break;
-    }
-    game::GiveArmy(&this->castles[castleIdx].garrison, creatureType, quantity, -1);
+    creatureType = neutralTownCreatureTypes[this->castles[castleIdx].factionID][creatureTier/10];
+    this->GiveArmy(&this->castles[castleIdx].garrison, creatureType, quantity, -1);
   }
 }
 // 532C54: using guessed type int giCurTurn;
