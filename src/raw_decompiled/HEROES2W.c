@@ -28332,8 +28332,7 @@ void __thiscall game::RandomizeHeroPool(game *this)
 
 //----- (004281E0) --------------------------------------------------------
 // Check this function (Design question on how to handle new factions, since they will break this logic)
-int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int isAI)
-{
+int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int isAI) {
   int randomizedValue; // eax@1
   int randomizedValue2;
   game *pointerToGame = this; // [sp+Ch] [bp-90h]@1

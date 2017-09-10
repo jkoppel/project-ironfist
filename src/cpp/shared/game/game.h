@@ -166,7 +166,6 @@ public:
 	void SetupTowns();
 
 	void RandomizeHeroPool();
-	void SetRandomHeroArmies(int,int);
 
 	int GetRandomNumTroops(int);
 	void GiveTroopsToNeutralTown(int);
@@ -207,6 +206,8 @@ public:
   void *ProcessOnMapHeroes();
   int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
   void SetupNewRumour();
+
+  void SetRandomHeroArmies(int heroIdx, int isAI);
 
 private:
   void PropagateVision();

@@ -144,6 +144,8 @@ IMPORT_?NextPlayer@game@@QAEXXZ = 1
 
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
+IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
+?SetRandomHeroArmies@game@@QAEXHH@Z_clone EQU ?SetRandomHeroArmies_orig@game@@QAEXHH@Z
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
