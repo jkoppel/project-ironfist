@@ -655,7 +655,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
   std::vector<int> obstacleHexes;
 
   if(!IsAICombatTurn() && CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this]) {
-    for (int i = 0; i < 117; i++) {
+    for (int i = 0; i < NUM_HEXES; i++) {
       if (gpCombatManager->combatGrid[i].isBlocked != 0 && !IsCastleWall(i)) {
         obstacleHexes.push_back(i);
         gpCombatManager->combatGrid[i].isBlocked = 0;
@@ -1977,6 +1977,7 @@ void army::MoveTo(int hexIdx) {
 
 void army::MoveAttack(int targHex, int x) {
   gMoveAttack = false;
+  // when "x" is 1 - moveattack, when "x" is 0 - just move. It doesn't apply to AI moves!
   if(x == 1 || (!x && gpCombatManager->combatGrid[targHex].unitOwner != -1))
     gMoveAttack = true;
   int startHex = this->occupiedHex;
