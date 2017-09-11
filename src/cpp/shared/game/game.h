@@ -168,7 +168,6 @@ public:
 	void RandomizeHeroPool();
 
 	int GetRandomNumTroops(int);
-	void GiveTroopsToNeutralTown(int);
 	void InitNewGame(struct SMapHeader *a);
 	void InitNewGame_orig(struct SMapHeader *a);
 	void LoadGame(char*, int, int);
@@ -206,8 +205,10 @@ public:
   void *ProcessOnMapHeroes();
   int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
   void SetupNewRumour();
+  void GiveArmy(class armyGroup *, int, int, int);
 
   void SetRandomHeroArmies(int heroIdx, int isAI);
+  void GiveTroopsToNeutralTown(int castleIdx);
 
 private:
   void PropagateVision();
@@ -256,6 +257,7 @@ extern bool gbSetupGamePosToRealGamePos[];
 extern char gcColorToSetupPos[];
 extern char giVisRange[];
 extern char xIsPlayingExpansionCampaign;
+extern int giCurTurn;
 
 extern __int16 creatureTypesAndQuantities[NUM_FACTIONS][3][3];
 extern int neutralTownCreatureTypes[NUM_FACTIONS][5];

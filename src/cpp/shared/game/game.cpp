@@ -222,3 +222,37 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
     }
   }
 }
+
+void game::GiveTroopsToNeutralTown(int castleIdx) {
+  int randomQuantity; // [sp+18h] [bp-14h]@7
+  int quantity; // [sp+18h] [bp-14h]@15
+  signed int creatureTier; // [sp+1Ch] [bp-10h]@7
+  int creatureType; // [sp+24h] [bp-8h]@0
+  int creatureTierRandomizer; // [sp+28h] [bp-4h]@4
+
+  if ((this->castles[castleIdx].x > 0 || this->castles[castleIdx].y > 0) && this->castles[castleIdx].ownerIdx < 0) {
+    creatureTierRandomizer = Random(1, 15);
+    if (giCurTurn / 10) { // As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
+      creatureTierRandomizer += Random(0, giCurTurn / 10);
+    }
+    if (creatureTierRandomizer <= 5) {
+      creatureTier = 10;
+      randomQuantity = Random(8, 15);
+    } else if (creatureTierRandomizer <= 10) {
+      creatureTier = 20;
+      randomQuantity = Random(5, 7);
+    } else if (creatureTierRandomizer <= 13) {
+      creatureTier = 30;
+      randomQuantity = Random(3, 5);
+    } else if (creatureTierRandomizer <= 15) {
+      creatureTier = 40;
+      randomQuantity = Random(1, 3);
+    } else {
+      creatureTier = 50;
+      randomQuantity = 1;
+    }
+    quantity = giCurTurn / 20 + randomQuantity;
+    creatureType = neutralTownCreatureTypes[this->castles[castleIdx].factionID][creatureTier / 10];
+    this->GiveArmy(&this->castles[castleIdx].garrison, creatureType, quantity, -1);
+  }
+}
