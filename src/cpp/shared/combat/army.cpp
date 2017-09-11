@@ -715,8 +715,6 @@ void army::ArcJump(int fromHex, int toHex) {
   bool firingLeft = true;
   float fromX = gpCombatManager->combatGrid[fromHex].centerX;
   float fromY = gpCombatManager->combatGrid[fromHex].otherY2;
-  float currentX = fromX;
-  float currentY = fromY;
   float targX = gpCombatManager->combatGrid[toHex].centerX;
   float targY = gpCombatManager->combatGrid[toHex].otherY2;
   if(fromX > targX) {
@@ -725,15 +723,6 @@ void army::ArcJump(int fromHex, int toHex) {
   } else {
     this->facingRight = true;
   }
-  float amplitude = 0.01282;
-  float v33 = (double)((targX + fromX) / 2.);
-  float stepX = (v33 - (double)fromX) / 12.5;
-  float v32 = (double)targY - (double)(targX - fromX) * 0.3 - (double)targY * 0.35;
-  if(firingLeft)
-    v32 = (double)targY - (double)(fromX - targX) * 0.3 - (double)targY * 0.35;
-  float stepY = (v32 - (double)fromY) * amplitude;
-  int oldX = -1;
-  int oldY = -1;
 
   // remove from battlefield
   gpCombatManager->combatGrid[fromHex].stackIdx = -1;
@@ -748,28 +737,20 @@ void army::ArcJump(int fromHex, int toHex) {
   this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 31;
   this->animationFrame = 0;
   this->animationType = ANIMATION_TYPE_MOVE;
-  const int NUM_CYCLES = 24; // equals to the number of frames for the whole arc path
-  for(int i = 0; i <= NUM_CYCLES; i++) {
-    if(i == (NUM_CYCLES / 2)) // reached the peak height
-      stepY = (v32 - (double)targY) * amplitude;
+  
+  std::vector<COORD> points;
+  const int NUM_FRAMES = 24; // equals to the number of frames for the whole arc path
+  points = MakeCatapultArc(NUM_FRAMES, firingLeft, fromX, fromY, targX, targY);
+  for(int i = 0; i < (int)points.size(); i++) {
     if(i == 5) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 32;
     } else if(i == 12) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 33;
     }
-
     savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous creature sprite
-
-    this->DrawToBuffer((int)currentX, (int)currentY, 0);
-
+    this->DrawToBuffer(points[i].X, points[i].Y, 0);
     gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 0, 1);
     gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
-
-    oldX = (int)currentX;
-    oldY = (int)currentY;
-    currentX += stepX;
-    currentY += (double)((NUM_CYCLES / 2) - i) * stepY;
-
     glTimers = (signed __int64)((double)KBTickCount() + (double)40 * gfCombatSpeedMod[giCombatSpeed]);
     DelayTil(&glTimers);
   }

@@ -2,6 +2,7 @@
 #define COMBAT_MANAGER_H
 
 #include <string>
+#include <vector>
 
 #include "gui/gui.h"
 #include "graphics.h"
@@ -230,6 +231,7 @@ extern int gbNoShowCombat;
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 bool IsCastleWall(int hexIdx);
 bool IsAICombatTurn();
+std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY);
 
 #pragma pack(pop)
 
