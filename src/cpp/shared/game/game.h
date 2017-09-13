@@ -262,7 +262,7 @@ extern int giCurTurn;
 extern __int16 creatureTypesAndQuantities[NUM_FACTIONS][3][3];
 extern int neutralTownCreatureTypes[NUM_FACTIONS][5];
 
-extern signed char gHeroSkillBonus[NUM_FACTIONS][2][4];
+extern signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4];
 
 #pragma pack(pop)
 

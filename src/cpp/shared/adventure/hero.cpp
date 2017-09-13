@@ -14,7 +14,7 @@ char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
 	                        '\0','\0','\0','\0','\0','\0',
                             'c'};
 
-signed char gHeroSkillBonus[NUM_FACTIONS][2][4] = {
+signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4] = {
   {{'#', '-', '\n', '\n'}, {'\x19', '\x19', '\x19', '\x19'}},
   {{'7', '#', '\x05', '\x05'}, {'\x19','\x19', '\x19', '\x19'}},
   {{'\n', '\n', '\x1E', '2'}, {'\x14', '\x14', '\x1E', '\x1E'}},
