@@ -110,10 +110,10 @@ public:
 	char lastSaveFile[251];
 	char _12[100];
 	SMapHeader mapHeader;
-	char relatedToPlayerPosAndColor[6];
-	char playerHandicap[6];
-	char relatedToColorOfPlayerOrFaction[6];
-	char somePlayerCodeOr10IfMayBeHuman[6];
+	char relatedToPlayerPosAndColor[NUM_PLAYERS];
+	char playerHandicap[NUM_PLAYERS];
+	char relatedToColorOfPlayerOrFaction[NUM_PLAYERS];
+	char somePlayerCodeOr10IfMayBeHuman[NUM_PLAYERS];
 	char difficulty;
 	char mapFilename[40];
 	char numPlayers;
