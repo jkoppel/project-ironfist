@@ -2617,22 +2617,40 @@ namespace ironfist_save
     this->winConditionArgumentOrLocY_.set (x);
   }
 
-  const mapHeader_t::field_2E_type& mapHeader_t::
-  field_2E () const
+  const mapHeader_t::lossConditionArgumentOrLocY_type& mapHeader_t::
+  lossConditionArgumentOrLocY () const
   {
-    return this->field_2E_.get ();
+    return this->lossConditionArgumentOrLocY_.get ();
   }
 
-  mapHeader_t::field_2E_type& mapHeader_t::
-  field_2E ()
+  mapHeader_t::lossConditionArgumentOrLocY_type& mapHeader_t::
+  lossConditionArgumentOrLocY ()
   {
-    return this->field_2E_.get ();
+    return this->lossConditionArgumentOrLocY_.get ();
   }
 
   void mapHeader_t::
-  field_2E (const field_2E_type& x)
+  lossConditionArgumentOrLocY (const lossConditionArgumentOrLocY_type& x)
   {
-    this->field_2E_.set (x);
+    this->lossConditionArgumentOrLocY_.set (x);
+  }
+
+  const mapHeader_t::relatedToPlayerColorOrSide_type& mapHeader_t::
+  relatedToPlayerColorOrSide () const
+  {
+    return this->relatedToPlayerColorOrSide_.get ();
+  }
+
+  mapHeader_t::relatedToPlayerColorOrSide_type& mapHeader_t::
+  relatedToPlayerColorOrSide ()
+  {
+    return this->relatedToPlayerColorOrSide_.get ();
+  }
+
+  void mapHeader_t::
+  relatedToPlayerColorOrSide (const relatedToPlayerColorOrSide_type& x)
+  {
+    this->relatedToPlayerColorOrSide_.set (x);
   }
 
   const mapHeader_t::field_32_type& mapHeader_t::
@@ -7888,7 +7906,8 @@ namespace ironfist_save
                const field_24_type& field_24,
                const noStartingHeroInCastle_type& noStartingHeroInCastle,
                const winConditionArgumentOrLocY_type& winConditionArgumentOrLocY,
-               const field_2E_type& field_2E,
+               const lossConditionArgumentOrLocY_type& lossConditionArgumentOrLocY,
+               const relatedToPlayerColorOrSide_type& relatedToPlayerColorOrSide,
                const field_32_type& field_32,
                const field_36_type& field_36,
                const field_37_type& field_37,
@@ -7917,7 +7936,8 @@ namespace ironfist_save
     field_24_ (field_24, ::xml_schema::flags (), this),
     noStartingHeroInCastle_ (noStartingHeroInCastle, ::xml_schema::flags (), this),
     winConditionArgumentOrLocY_ (winConditionArgumentOrLocY, ::xml_schema::flags (), this),
-    field_2E_ (field_2E, ::xml_schema::flags (), this),
+    lossConditionArgumentOrLocY_ (lossConditionArgumentOrLocY, ::xml_schema::flags (), this),
+    relatedToPlayerColorOrSide_ (relatedToPlayerColorOrSide, ::xml_schema::flags (), this),
     field_32_ (field_32, ::xml_schema::flags (), this),
     field_36_ (field_36, ::xml_schema::flags (), this),
     field_37_ (field_37, ::xml_schema::flags (), this),
@@ -7957,7 +7977,8 @@ namespace ironfist_save
     field_24_ (x.field_24_, f, this),
     noStartingHeroInCastle_ (x.noStartingHeroInCastle_, f, this),
     winConditionArgumentOrLocY_ (x.winConditionArgumentOrLocY_, f, this),
-    field_2E_ (x.field_2E_, f, this),
+    lossConditionArgumentOrLocY_ (x.lossConditionArgumentOrLocY_, f, this),
+    relatedToPlayerColorOrSide_ (x.relatedToPlayerColorOrSide_, f, this),
     field_32_ (x.field_32_, f, this),
     field_36_ (x.field_36_, f, this),
     field_37_ (x.field_37_, f, this),
@@ -7997,7 +8018,8 @@ namespace ironfist_save
     field_24_ (f, this),
     noStartingHeroInCastle_ (f, this),
     winConditionArgumentOrLocY_ (f, this),
-    field_2E_ (f, this),
+    lossConditionArgumentOrLocY_ (f, this),
+    relatedToPlayerColorOrSide_ (f, this),
     field_32_ (f, this),
     field_36_ (f, this),
     field_37_ (f, this),
@@ -8207,13 +8229,24 @@ namespace ironfist_save
         }
       }
 
-      // field_2E
+      // lossConditionArgumentOrLocY
       //
-      if (n.name () == "field_2E" && n.namespace_ ().empty ())
+      if (n.name () == "lossConditionArgumentOrLocY" && n.namespace_ ().empty ())
       {
-        if (!field_2E_.present ())
+        if (!lossConditionArgumentOrLocY_.present ())
         {
-          this->field_2E_.set (field_2E_traits::create (i, f, this));
+          this->lossConditionArgumentOrLocY_.set (lossConditionArgumentOrLocY_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToPlayerColorOrSide
+      //
+      if (n.name () == "relatedToPlayerColorOrSide" && n.namespace_ ().empty ())
+      {
+        if (!relatedToPlayerColorOrSide_.present ())
+        {
+          this->relatedToPlayerColorOrSide_.set (relatedToPlayerColorOrSide_traits::create (i, f, this));
           continue;
         }
       }
@@ -8504,10 +8537,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_2E_.present ())
+    if (!lossConditionArgumentOrLocY_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_2E",
+        "lossConditionArgumentOrLocY",
+        "");
+    }
+
+    if (!relatedToPlayerColorOrSide_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToPlayerColorOrSide",
         "");
     }
 
@@ -15148,15 +15188,26 @@ namespace ironfist_save
       s << i.winConditionArgumentOrLocY ();
     }
 
-    // field_2E
+    // lossConditionArgumentOrLocY
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_2E",
+          "lossConditionArgumentOrLocY",
           e));
 
-      s << i.field_2E ();
+      s << i.lossConditionArgumentOrLocY ();
+    }
+
+    // relatedToPlayerColorOrSide
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToPlayerColorOrSide",
+          e));
+
+      s << i.relatedToPlayerColorOrSide ();
     }
 
     // field_32

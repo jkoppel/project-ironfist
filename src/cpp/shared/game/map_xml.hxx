@@ -2802,19 +2802,33 @@ namespace ironfist_save
     void
     winConditionArgumentOrLocY (const winConditionArgumentOrLocY_type& x);
 
-    // field_2E
+    // lossConditionArgumentOrLocY
     // 
-    typedef ::xml_schema::int_ field_2E_type;
-    typedef ::xsd::cxx::tree::traits< field_2E_type, char > field_2E_traits;
+    typedef ::xml_schema::int_ lossConditionArgumentOrLocY_type;
+    typedef ::xsd::cxx::tree::traits< lossConditionArgumentOrLocY_type, char > lossConditionArgumentOrLocY_traits;
 
-    const field_2E_type&
-    field_2E () const;
+    const lossConditionArgumentOrLocY_type&
+    lossConditionArgumentOrLocY () const;
 
-    field_2E_type&
-    field_2E ();
+    lossConditionArgumentOrLocY_type&
+    lossConditionArgumentOrLocY ();
 
     void
-    field_2E (const field_2E_type& x);
+    lossConditionArgumentOrLocY (const lossConditionArgumentOrLocY_type& x);
+
+    // relatedToPlayerColorOrSide
+    // 
+    typedef ::xml_schema::int_ relatedToPlayerColorOrSide_type;
+    typedef ::xsd::cxx::tree::traits< relatedToPlayerColorOrSide_type, char > relatedToPlayerColorOrSide_traits;
+
+    const relatedToPlayerColorOrSide_type&
+    relatedToPlayerColorOrSide () const;
+
+    relatedToPlayerColorOrSide_type&
+    relatedToPlayerColorOrSide ();
+
+    void
+    relatedToPlayerColorOrSide (const relatedToPlayerColorOrSide_type& x);
 
     // field_32
     // 
@@ -3062,7 +3076,8 @@ namespace ironfist_save
                  const field_24_type&,
                  const noStartingHeroInCastle_type&,
                  const winConditionArgumentOrLocY_type&,
-                 const field_2E_type&,
+                 const lossConditionArgumentOrLocY_type&,
+                 const relatedToPlayerColorOrSide_type&,
                  const field_32_type&,
                  const field_36_type&,
                  const field_37_type&,
@@ -3114,7 +3129,8 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< field_24_type > field_24_;
     ::xsd::cxx::tree::one< noStartingHeroInCastle_type > noStartingHeroInCastle_;
     ::xsd::cxx::tree::one< winConditionArgumentOrLocY_type > winConditionArgumentOrLocY_;
-    ::xsd::cxx::tree::one< field_2E_type > field_2E_;
+    ::xsd::cxx::tree::one< lossConditionArgumentOrLocY_type > lossConditionArgumentOrLocY_;
+    ::xsd::cxx::tree::one< relatedToPlayerColorOrSide_type > relatedToPlayerColorOrSide_;
     ::xsd::cxx::tree::one< field_32_type > field_32_;
     ::xsd::cxx::tree::one< field_36_type > field_36_;
     ::xsd::cxx::tree::one< field_37_type > field_37_;
