@@ -232,7 +232,7 @@ void game::GiveTroopsToNeutralTown(int castleIdx) {
 
   if ((this->castles[castleIdx].x > 0 || this->castles[castleIdx].y > 0) && this->castles[castleIdx].ownerIdx < 0) {
     creatureTierRandomizer = Random(1, 15);
-    if (giCurTurn / 10) { // As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
+    if (giCurTurn / 10 > 0) { // As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
       creatureTierRandomizer += Random(0, giCurTurn / 10);
     }
     if (creatureTierRandomizer <= 5) {
