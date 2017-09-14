@@ -4720,19 +4720,33 @@ namespace ironfist_save
     void
     numCastles (const numCastles_type& x);
 
-    // field_45
+    // mightBeCurCastleIdx
     // 
-    typedef ::xml_schema::int_ field_45_type;
-    typedef ::xsd::cxx::tree::traits< field_45_type, char > field_45_traits;
+    typedef ::xml_schema::int_ mightBeCurCastleIdx_type;
+    typedef ::xsd::cxx::tree::traits< mightBeCurCastleIdx_type, char > mightBeCurCastleIdx_traits;
 
-    const field_45_type&
-    field_45 () const;
+    const mightBeCurCastleIdx_type&
+    mightBeCurCastleIdx () const;
 
-    field_45_type&
-    field_45 ();
+    mightBeCurCastleIdx_type&
+    mightBeCurCastleIdx ();
 
     void
-    field_45 (const field_45_type& x);
+    mightBeCurCastleIdx (const mightBeCurCastleIdx_type& x);
+
+    // relatedToUnknown
+    // 
+    typedef ::xml_schema::int_ relatedToUnknown_type;
+    typedef ::xsd::cxx::tree::traits< relatedToUnknown_type, char > relatedToUnknown_traits;
+
+    const relatedToUnknown_type&
+    relatedToUnknown () const;
+
+    relatedToUnknown_type&
+    relatedToUnknown ();
+
+    void
+    relatedToUnknown (const relatedToUnknown_type& x);
 
     // barrierTentsVisited
     // 
@@ -4865,7 +4879,8 @@ namespace ironfist_save
                   const field_41_type&,
                   const daysLeftWithoutCastle_type&,
                   const numCastles_type&,
-                  const field_45_type&,
+                  const mightBeCurCastleIdx_type&,
+                  const relatedToUnknown_type&,
                   const barrierTentsVisited_type&);
 
     playerData_t (const ::xercesc::DOMElement& e,
@@ -4904,7 +4919,8 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< field_41_type > field_41_;
     ::xsd::cxx::tree::one< daysLeftWithoutCastle_type > daysLeftWithoutCastle_;
     ::xsd::cxx::tree::one< numCastles_type > numCastles_;
-    ::xsd::cxx::tree::one< field_45_type > field_45_;
+    ::xsd::cxx::tree::one< mightBeCurCastleIdx_type > mightBeCurCastleIdx_;
+    ::xsd::cxx::tree::one< relatedToUnknown_type > relatedToUnknown_;
     ::xsd::cxx::tree::one< barrierTentsVisited_type > barrierTentsVisited_;
     heroesOwned_sequence heroesOwned_;
     heroesForPurchase_sequence heroesForPurchase_;

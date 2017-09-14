@@ -4503,22 +4503,40 @@ namespace ironfist_save
     this->numCastles_.set (x);
   }
 
-  const playerData_t::field_45_type& playerData_t::
-  field_45 () const
+  const playerData_t::mightBeCurCastleIdx_type& playerData_t::
+  mightBeCurCastleIdx () const
   {
-    return this->field_45_.get ();
+    return this->mightBeCurCastleIdx_.get ();
   }
 
-  playerData_t::field_45_type& playerData_t::
-  field_45 ()
+  playerData_t::mightBeCurCastleIdx_type& playerData_t::
+  mightBeCurCastleIdx ()
   {
-    return this->field_45_.get ();
+    return this->mightBeCurCastleIdx_.get ();
   }
 
   void playerData_t::
-  field_45 (const field_45_type& x)
+  mightBeCurCastleIdx (const mightBeCurCastleIdx_type& x)
   {
-    this->field_45_.set (x);
+    this->mightBeCurCastleIdx_.set (x);
+  }
+
+  const playerData_t::relatedToUnknown_type& playerData_t::
+  relatedToUnknown () const
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  playerData_t::relatedToUnknown_type& playerData_t::
+  relatedToUnknown ()
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  void playerData_t::
+  relatedToUnknown (const relatedToUnknown_type& x)
+  {
+    this->relatedToUnknown_.set (x);
   }
 
   const playerData_t::barrierTentsVisited_type& playerData_t::
@@ -10316,7 +10334,8 @@ namespace ironfist_save
                 const field_41_type& field_41,
                 const daysLeftWithoutCastle_type& daysLeftWithoutCastle,
                 const numCastles_type& numCastles,
-                const field_45_type& field_45,
+                const mightBeCurCastleIdx_type& mightBeCurCastleIdx,
+                const relatedToUnknown_type& relatedToUnknown,
                 const barrierTentsVisited_type& barrierTentsVisited)
   : ::xml_schema::type (),
     color_ (color, ::xml_schema::flags (), this),
@@ -10332,7 +10351,8 @@ namespace ironfist_save
     field_41_ (field_41, ::xml_schema::flags (), this),
     daysLeftWithoutCastle_ (daysLeftWithoutCastle, ::xml_schema::flags (), this),
     numCastles_ (numCastles, ::xml_schema::flags (), this),
-    field_45_ (field_45, ::xml_schema::flags (), this),
+    mightBeCurCastleIdx_ (mightBeCurCastleIdx, ::xml_schema::flags (), this),
+    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
     barrierTentsVisited_ (barrierTentsVisited, ::xml_schema::flags (), this),
     heroesOwned_ (::xml_schema::flags (), this),
     heroesForPurchase_ (::xml_schema::flags (), this),
@@ -10361,7 +10381,8 @@ namespace ironfist_save
     field_41_ (x.field_41_, f, this),
     daysLeftWithoutCastle_ (x.daysLeftWithoutCastle_, f, this),
     numCastles_ (x.numCastles_, f, this),
-    field_45_ (x.field_45_, f, this),
+    mightBeCurCastleIdx_ (x.mightBeCurCastleIdx_, f, this),
+    relatedToUnknown_ (x.relatedToUnknown_, f, this),
     barrierTentsVisited_ (x.barrierTentsVisited_, f, this),
     heroesOwned_ (x.heroesOwned_, f, this),
     heroesForPurchase_ (x.heroesForPurchase_, f, this),
@@ -10390,7 +10411,8 @@ namespace ironfist_save
     field_41_ (f, this),
     daysLeftWithoutCastle_ (f, this),
     numCastles_ (f, this),
-    field_45_ (f, this),
+    mightBeCurCastleIdx_ (f, this),
+    relatedToUnknown_ (f, this),
     barrierTentsVisited_ (f, this),
     heroesOwned_ (f, this),
     heroesForPurchase_ (f, this),
@@ -10559,13 +10581,24 @@ namespace ironfist_save
         }
       }
 
-      // field_45
+      // mightBeCurCastleIdx
       //
-      if (n.name () == "field_45" && n.namespace_ ().empty ())
+      if (n.name () == "mightBeCurCastleIdx" && n.namespace_ ().empty ())
       {
-        if (!field_45_.present ())
+        if (!mightBeCurCastleIdx_.present ())
         {
-          this->field_45_.set (field_45_traits::create (i, f, this));
+          this->mightBeCurCastleIdx_.set (mightBeCurCastleIdx_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToUnknown
+      //
+      if (n.name () == "relatedToUnknown" && n.namespace_ ().empty ())
+      {
+        if (!relatedToUnknown_.present ())
+        {
+          this->relatedToUnknown_.set (relatedToUnknown_traits::create (i, f, this));
           continue;
         }
       }
@@ -10741,10 +10774,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_45_.present ())
+    if (!mightBeCurCastleIdx_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_45",
+        "mightBeCurCastleIdx",
+        "");
+    }
+
+    if (!relatedToUnknown_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToUnknown",
         "");
     }
 
@@ -16311,15 +16351,26 @@ namespace ironfist_save
       s << i.numCastles ();
     }
 
-    // field_45
+    // mightBeCurCastleIdx
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_45",
+          "mightBeCurCastleIdx",
           e));
 
-      s << i.field_45 ();
+      s << i.mightBeCurCastleIdx ();
+    }
+
+    // relatedToUnknown
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToUnknown",
+          e));
+
+      s << i.relatedToUnknown ();
     }
 
     // barrierTentsVisited

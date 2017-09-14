@@ -325,7 +325,8 @@
       <xs:element name="field_41" type="xs:int"/>
       <xs:element name="daysLeftWithoutCastle" type="xs:int"/>
       <xs:element name="numCastles" type="xs:int"/>
-      <xs:element name="field_45" type="xs:int"/>
+      <xs:element name="mightBeCurCastleIdx" type="xs:int"/>
+      <xs:element name="relatedToUnknown" type="xs:int"/>
       <xs:element name="barrierTentsVisited" type="xs:int"/>
       <xs:element name="heroesOwned" type="arrayInt_t" minOccurs="8" maxOccurs="unbounded"/>
       <xs:element name="heroesForPurchase" type="arrayInt_t" minOccurs="2" maxOccurs="unbounded"/>

@@ -45,7 +45,8 @@ public:
 	__int16 field_41;
 	char daysLeftWithoutCastle;
 	char numCastles;
-	__int16 field_45;
+  __int8 mightBeCurCastleIdx;
+  __int8 relatedToUnknown;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
   char hasEvilFaction;
