@@ -29331,8 +29331,7 @@ void __thiscall game::SetupTowns(game *this)
 // 429E30: using guessed type int numSpellsOfLevel[5];
 
 //----- (0042A730) --------------------------------------------------------
-void *__thiscall game::ProcessOnMapHeroes(game *this)
-{
+void* game::ProcessOnMapHeroes() {
   void *result; // eax@1
   int faction; // [sp+18h] [bp-70h]@20
   signed int randomHeroIdx; // [sp+24h] [bp-64h]@25
@@ -29351,159 +29350,119 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
   int i; // [sp+84h] [bp-4h]@1
 
   result = memset(mightBeHeroAlreadyExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
-  for ( i = 0; i < 3; ++i )
-  {
-    for ( coordYForRandomHero = 0; ; ++coordYForRandomHero )
-    {
+  for (i = 0; i < 3; ++i) {
+    for (coordYForRandomHero = 0; ; ++coordYForRandomHero) {
       result = (void *)MAP_HEIGHT;
-      if ( coordYForRandomHero >= MAP_HEIGHT )
+      if (coordYForRandomHero >= MAP_HEIGHT)
         break;
-      for ( coordXForRandomHero = 0; coordXForRandomHero < MAP_WIDTH; ++coordXForRandomHero )
-      {
+      for (coordXForRandomHero = 0; coordXForRandomHero < MAP_WIDTH; ++coordXForRandomHero) {
         loc = &this->map.tiles[coordYForRandomHero * this->map.width] + coordXForRandomHero;
-        if ( (loc->objType & 0x7F) == 55 || loc->objType == 251 )
-        {
+        if ((loc->objType & 0x7F) == 55 || loc->objType == 251) {
           isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
-          someSortOfMapExtraIdx = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          someSortOfMapExtraIdx = (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
           mapExtraHero = (heroMapExtra *)ppMapExtra[someSortOfMapExtraIdx];
-          if ( !i )                             // 1st iteration
-          {
-            if ( !mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID] )
-            {
+
+          if (!i) {                           // 1st iteration
+            if (!mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID]) {
               mapExtraHero->couldBeHasFaction = 0;
-            }
-            else
-            {
+            } else {
               mightBeHeroAlreadyExists[mapExtraHero->heroID] = 1;
               mapExtraHero->couldBeHasFaction = 1;
             }
-            if ( isJail )
-            {
+            if (isJail) {
               mapExtraHero->owner = -1;
-            }
-            else
-            {
+            } else {
               mapExtraHero->owner = loc->objectIndex / 7;
               mapExtraHero->owner = gcColorToPlayerPos[mapExtraHero->owner];
             }
           }
-          if ( i == 1 )                         // 2nd iteration
-          {
-            if ( isJail )
-            {
+
+          if (i == 1) {                       // 2nd iteration
+            if (isJail) {
               faction = mapExtraHero->factionID;
-            }
-            else
-            {
+            } else {
               faction = loc->objectIndex % 7; // Constant here (needs to be generalized)
-              if ( faction == FACTION_MULTIPLE )// Constant here (faction related)
+              if (faction == FACTION_MULTIPLE)// Constant here (faction related)
                 faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];// Constant here (most likely faction related)
             }
-            if ( mapExtraHero->couldBeHasFaction )// field_3D changed to couldBeHasFaction
-            {
+            if (mapExtraHero->couldBeHasFaction) {
               this->heroes[mapExtraHero->heroID].factionID = faction;
-            }
-            else
-            {
+            } else {
               randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-              if ( randomHeroIdx == -1 ) //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
-              {
+              if (randomHeroIdx == -1) { //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
                 randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
                 faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes)
               }
               mightBeHeroAlreadyExists[randomHeroIdx] = 1;
               this->heroes[randomHeroIdx].factionID = faction;
-              if ( mapExtraHero->field_11 && mapExtraHero->heroID >= 54 )
+              if (mapExtraHero->field_11 && mapExtraHero->heroID >= 54)
                 this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
               mapExtraHero->heroID = randomHeroIdx;
             }
           }
-          if ( i == 2 )                         // 3rd iteration
-          {
+
+          if (i == 2) {                        // 3rd iteration
             randomHero = &this->heroes[mapExtraHero->heroID];
-            if ( !isJail && mapExtraHero->relatedToName[19] )// field_28 changed to relatedToName
-            {
+            if (!isJail && mapExtraHero->relatedToName[19]) {
               LOBYTE(this->heroes[mapExtraHero->heroID].relatedTo_HIBYTE_y_LOBYTE_x) = coordXForRandomHero;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
               HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x) = coordYForRandomHero;
               LOBYTE(randomHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
             }
-            if ( mapExtraHero->couldBeHasArmy ) // field_1 changed to couldBeHasArmy
-            {
-              for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx )
-              {
+            if (mapExtraHero->couldBeHasArmy) {
+              for (armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
                 randomHero->army.quantities[armySlotIdx] = mapExtraHero->army.quantities[armySlotIdx];
-                if ( randomHero->army.quantities[armySlotIdx] <= 0 )
+                if (randomHero->army.quantities[armySlotIdx] <= 0)
                   randomHero->army.creatureTypes[armySlotIdx] = -1;
                 else
                   randomHero->army.creatureTypes[armySlotIdx] = mapExtraHero->army.creatureTypes[armySlotIdx];
               }
             }
-            for ( artifactIdx = 0; artifactIdx < 3; ++artifactIdx )
-            {
-              if ( mapExtraHero->artifacts[artifactIdx] >= 0 )
-                GiveArtifact(randomHero, (ARTIFACT)mapExtraHero->artifacts[artifactIdx], 1, -1);
+            for (artifactIdx = 0; artifactIdx < 3; ++artifactIdx) {
+              if (mapExtraHero->artifacts[artifactIdx] >= 0)
+                GiveArtifact(randomHero, mapExtraHero->artifacts[artifactIdx], 1, -1);
             }
-            if ( mapExtraHero->relatedToName[5] )
+            if (mapExtraHero->relatedToName[5])
               strcpy(randomHero->name, &mapExtraHero->relatedToName[6]);
             randomHero->experience = 0;
-            advManager::GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
-            hero::CheckLevel(randomHero);       // Check this function (design question based on generalizing hardcoded, faction-specific data structure information related to skills)
+            gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
+            randomHero->CheckLevel();       // Check this function (design question based on generalizing hardcoded, faction-specific data structure information related to skills)
             randomHero->x = coordXForRandomHero;
             randomHero->y = coordYForRandomHero;
-            if ( isJail )
-            {
+            if (isJail) {
               randomHero->ownerIdx = -1;
               this->relatedToHeroForHireStatus[mapExtraHero->heroID] = 65;
-            }
-            else
-            {
+            } else {
               randomHero->ownerIdx = mapExtraHero->owner;
               this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
               this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
             }
-            if ( !isJail
-              && coordYForRandomHero > 0
-              && *(&this->map.tiles[coordXForRandomHero].objType[12 * (coordYForRandomHero - 1) * this->map.width]) == 163 )
-            {
+            if (!isJail && coordYForRandomHero > 0 && (this->map.tiles[coordXForRandomHero + ((coordYForRandomHero - 1) * this->map.width)].objType) == 163) {
               --HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x);
               --randomHero->y;
-              this->castles[game::GetTownId(this, coordXForRandomHero, coordYForRandomHero - 1)].visitingHeroIdx = randomHero->idx;
+              this->castles[this->GetTownId(coordXForRandomHero, coordYForRandomHero - 1)].visitingHeroIdx = randomHero->idx;
             }
-            if ( isJail )
-            {
+            if (isJail) {
               loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * mapExtraHero->heroID;
-            }
-            else
-            {
-              loc->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
+            } else {
+              loc->bitfield_1_hasObject_1_isRoad_6_objTileset &= ;
               loc->objectIndex = -1;
               loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
               loc->objType = 0;
             }
-            if ( mapExtraHero->couldBeHasSecondarySkills )// field_1B changed to couldBeHasSecondarySkills
-            {
+            if (mapExtraHero->couldBeHasSecondarySkills) {
               randomHero->numSecSkillsKnown = 0;
-              for ( secondarySkillIdxA = 0; secondarySkillIdxA < 14; ++secondarySkillIdxA )
-              {
+              for (secondarySkillIdxA = 0; secondarySkillIdxA < 14; ++secondarySkillIdxA) {
                 randomHero->secondarySkillLevel[secondarySkillIdxA] = 0;
                 randomHero->skillIndex[secondarySkillIdxA] = 0;
               }
-              for ( secondarySkillIdxB = 0; secondarySkillIdxB < 8; ++secondarySkillIdxB )
-              {
-                if ( mapExtraHero->secondarySkills[secondarySkillIdxB] != -1 )
-                  hero::GiveSS(
-                    randomHero,
-                    mapExtraHero->secondarySkills[secondarySkillIdxB],
-                    *(&mapExtraHero->firstSecondarySkillLevel + secondarySkillIdxB));
+              for (secondarySkillIdxB = 0; secondarySkillIdxB < 8; ++secondarySkillIdxB) {
+                if (mapExtraHero->secondarySkills[secondarySkillIdxB] != -1)
+                  randomHero->GiveSS(mapExtraHero->secondarySkills[secondarySkillIdxB],
+                                     *(&mapExtraHero->firstSecondarySkillLevel + secondarySkillIdxB));
               }
             }
-            if ( !isJail )
-              game::SetVisibility(
-                this,
-                randomHero->x,
-                randomHero->y,
-                randomHero->ownerIdx,
-                giVisRange[randomHero->secondarySkillLevel[3]]);
+            if (!isJail)
+              this->SetVisibility(randomHero->x, randomHero->y, randomHero->ownerIdx, giVisRange[randomHero->secondarySkillLevel[3]]);
             BaseFree(ppMapExtra[someSortOfMapExtraIdx], (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF69C + 221);
             ppMapExtra[someSortOfMapExtraIdx] = 0;
           }
