@@ -185,40 +185,37 @@ void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int 
 }
 
 void game::SetRandomHeroArmies(int heroIdx, int isAI) {
-  int randomizedValue; // eax@1
-  int randomizedValue2;
-  int creatureTier2 = 0; // [sp+10h] [bp-8Ch]@1
-  int randomUpperBound; // [sp+14h] [bp-88h]@9
-  signed int armySlotIdx; // [sp+18h] [bp-84h]@3
-  signed int creatureTier; // [sp+18h] [bp-84h]@6
-  int randomLowerBound; // [sp+1Ch] [bp-80h]@9
-                        //__int16 creatureTypesAndQuantities[54]; // [sp+20h] [bp-7Ch]@1
-  armyGroup *pointerToArmyOfHeroIdx = &gpGame->heroes[heroIdx].army; // [sp+8Ch] [bp-10h]@1
-  bool hasTier[3]; // [sp+90h] [bp-Ch]@1
-  int TIER_ONE = 0;
-  int TIER_TWO = 1;
-  int TIER_THREE = 2;
+  int randomQuantity;
+  int randomUpperBound;
+  signed int armySlotIdx;
+  signed int creatureTier;
+  int randomLowerBound;
+  armyGroup *heroArmy = &gpGame->heroes[heroIdx].army;
+  bool hasTier[2];
+  const int TIER_ONE = 0;
+  const int TIER_TWO = 1;
+  const int LOW_QUANTITY = 1;
+  const int HIGH_QUANTITY = 2;
 
   hasTier[TIER_ONE] = 1;
-  hasTier[TIER_TWO] = Random(0, 99) < (isAI < 1 ? 50 : 80);// If isAI, there is a ~20% chance that this hero will get Tier 2 creatures; if not, then a ~50% chance
-  randomizedValue2 = Random(0, 99);
-  hasTier[TIER_THREE] = (isAI < 1 ? 25 : 65) > randomizedValue2;// If isAI, there is a ~65% chance that this hero will get Tier 3 creatures; if not, then a ~25% chance
-  if ((isAI < 1 ? 25 : 65) <= randomizedValue2)// If isAI, there is a ~35% chance that this hero will get Tier 2 creatures; if not, then a ~75% chance
-    hasTier[TIER_TWO] = 1;
+  hasTier[TIER_TWO] = Random(0, 99) < (isAI < 1 ? 50 : 80); // If isAI, there is a ~20% chance that this hero will get Tier 2 creatures; if not, then a ~50% chance
+  if ((isAI < 1 ? 25 : 65) <= Random(0, 99)) { // This line is only useful if the previous line doesn't assign "true" to hasTier[TIER_TWO].
+    hasTier[TIER_TWO] = 1;                     // If isAI, there is a ~35% chance that this hero will get Tier 2 creatures; if not, then a ~75% chance
+  }
   for (armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
-    pointerToArmyOfHeroIdx->creatureTypes[armySlotIdx] = -1;
-    pointerToArmyOfHeroIdx->quantities[armySlotIdx] = -1;
+    heroArmy->creatureTypes[armySlotIdx] = -1;
+    heroArmy->quantities[armySlotIdx] = -1;
   }
   for (creatureTier = 0; creatureTier < 2; ++creatureTier) {
     if (hasTier[creatureTier]) {
-      pointerToArmyOfHeroIdx->creatureTypes[creatureTier2] = creatureTypesAndQuantities[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
-      randomLowerBound = 10 * creatureTypesAndQuantities[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_TWO];
-      randomUpperBound = 10 * creatureTypesAndQuantities[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_THREE] + 9;
-      if (isAI) {                              //  If isAI, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
+      heroArmy->creatureTypes[creatureTier] = creatureTypesAndQuantities[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
+      randomLowerBound = 10 * creatureTypesAndQuantities[gpGame->heroes[heroIdx].factionID][creatureTier][LOW_QUANTITY];
+      randomUpperBound = 10 * creatureTypesAndQuantities[gpGame->heroes[heroIdx].factionID][creatureTier][HIGH_QUANTITY] + 9;
+      if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
-      randomizedValue = Random(randomLowerBound, randomUpperBound) / 10;
-      pointerToArmyOfHeroIdx->quantities[creatureTier2++] = randomizedValue;
+      randomQuantity = Random(randomLowerBound, randomUpperBound) / 10;
+      heroArmy->quantities[creatureTier] = randomQuantity;
     }
   }
 }
