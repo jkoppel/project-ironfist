@@ -97,7 +97,8 @@ public:
   __int16 field_27;
   __int8 relatedToX;
   __int8 relatedToY;
-  __int16 field_2B;
+  __int8 relatedToFactionID;
+  __int8 relatedToUnknown;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;
   int mobility;

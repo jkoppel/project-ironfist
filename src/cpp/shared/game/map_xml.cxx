@@ -485,22 +485,40 @@ namespace ironfist_save
     this->relatedToY_.set (x);
   }
 
-  const hero_t::field_2B_type& hero_t::
-  field_2B () const
+  const hero_t::relatedToFactionID_type& hero_t::
+  relatedToFactionID () const
   {
-    return this->field_2B_.get ();
+    return this->relatedToFactionID_.get ();
   }
 
-  hero_t::field_2B_type& hero_t::
-  field_2B ()
+  hero_t::relatedToFactionID_type& hero_t::
+  relatedToFactionID ()
   {
-    return this->field_2B_.get ();
+    return this->relatedToFactionID_.get ();
   }
 
   void hero_t::
-  field_2B (const field_2B_type& x)
+  relatedToFactionID (const relatedToFactionID_type& x)
   {
-    this->field_2B_.set (x);
+    this->relatedToFactionID_.set (x);
+  }
+
+  const hero_t::relatedToUnknown_type& hero_t::
+  relatedToUnknown () const
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  hero_t::relatedToUnknown_type& hero_t::
+  relatedToUnknown ()
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  void hero_t::
+  relatedToUnknown (const relatedToUnknown_type& x)
+  {
+    this->relatedToUnknown_.set (x);
   }
 
   const hero_t::occupiedObjType_type& hero_t::
@@ -5250,7 +5268,8 @@ namespace ironfist_save
           const field_27_type& field_27,
           const relatedToX_type& relatedToX,
           const relatedToY_type& relatedToY,
-          const field_2B_type& field_2B,
+          const relatedToFactionID_type& relatedToFactionID,
+          const relatedToUnknown_type& relatedToUnknown,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5299,7 +5318,8 @@ namespace ironfist_save
     field_27_ (field_27, ::xml_schema::flags (), this),
     relatedToX_ (relatedToX, ::xml_schema::flags (), this),
     relatedToY_ (relatedToY, ::xml_schema::flags (), this),
-    field_2B_ (field_2B, ::xml_schema::flags (), this),
+    relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
+    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -5354,7 +5374,8 @@ namespace ironfist_save
           const field_27_type& field_27,
           const relatedToX_type& relatedToX,
           const relatedToY_type& relatedToY,
-          const field_2B_type& field_2B,
+          const relatedToFactionID_type& relatedToFactionID,
+          const relatedToUnknown_type& relatedToUnknown,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5403,7 +5424,8 @@ namespace ironfist_save
     field_27_ (field_27, ::xml_schema::flags (), this),
     relatedToX_ (relatedToX, ::xml_schema::flags (), this),
     relatedToY_ (relatedToY, ::xml_schema::flags (), this),
-    field_2B_ (field_2B, ::xml_schema::flags (), this),
+    relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
+    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -5462,7 +5484,8 @@ namespace ironfist_save
     field_27_ (x.field_27_, f, this),
     relatedToX_ (x.relatedToX_, f, this),
     relatedToY_ (x.relatedToY_, f, this),
-    field_2B_ (x.field_2B_, f, this),
+    relatedToFactionID_ (x.relatedToFactionID_, f, this),
+    relatedToUnknown_ (x.relatedToUnknown_, f, this),
     occupiedObjType_ (x.occupiedObjType_, f, this),
     occupiedObjVal_ (x.occupiedObjVal_, f, this),
     mobility_ (x.mobility_, f, this),
@@ -5521,7 +5544,8 @@ namespace ironfist_save
     field_27_ (f, this),
     relatedToX_ (f, this),
     relatedToY_ (f, this),
-    field_2B_ (f, this),
+    relatedToFactionID_ (f, this),
+    relatedToUnknown_ (f, this),
     occupiedObjType_ (f, this),
     occupiedObjVal_ (f, this),
     mobility_ (f, this),
@@ -5793,13 +5817,24 @@ namespace ironfist_save
         }
       }
 
-      // field_2B
+      // relatedToFactionID
       //
-      if (n.name () == "field_2B" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToFactionID" && n.namespace_ ().empty ())
       {
-        if (!field_2B_.present ())
+        if (!relatedToFactionID_.present ())
         {
-          this->field_2B_.set (field_2B_traits::create (i, f, this));
+          this->relatedToFactionID_.set (relatedToFactionID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToUnknown
+      //
+      if (n.name () == "relatedToUnknown" && n.namespace_ ().empty ())
+      {
+        if (!relatedToUnknown_.present ())
+        {
+          this->relatedToUnknown_.set (relatedToUnknown_traits::create (i, f, this));
           continue;
         }
       }
@@ -6277,10 +6312,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_2B_.present ())
+    if (!relatedToFactionID_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_2B",
+        "relatedToFactionID",
+        "");
+    }
+
+    if (!relatedToUnknown_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToUnknown",
         "");
     }
 
@@ -13726,15 +13768,26 @@ namespace ironfist_save
       s << i.relatedToY ();
     }
 
-    // field_2B
+    // relatedToFactionID
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_2B",
+          "relatedToFactionID",
           e));
 
-      s << i.field_2B ();
+      s << i.relatedToFactionID ();
+    }
+
+    // relatedToUnknown
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToUnknown",
+          e));
+
+      s << i.relatedToUnknown ();
     }
 
     // occupiedObjType

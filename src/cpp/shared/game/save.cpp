@@ -623,7 +623,8 @@ static void ReadHeroXML(ironfist_save::hero_t& hx, hero* hro) {
   hro->field_27 = hx.field_27();
   hro->relatedToX = hx.relatedToX();
   hro->relatedToY = hx.relatedToY();
-  hro->field_2B = hx.field_2B();
+  hro->relatedToFactionID = hx.relatedToFactionID();
+  hro->relatedToUnknown = hx.relatedToUnknown();
   hro->field_4 = hx.field_4();
   hro->field_43 = hx.field_43();
   hro->field_46 = hx.field_46();
@@ -724,7 +725,8 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
     hro->field_27,
     hro->relatedToX,
     hro->relatedToY,
-    hro->field_2B,
+    hro->relatedToFactionID,
+    hro->relatedToUnknown,
     hro->occupiedObjType,
     hro->occupiedObjVal,
     hro->mobility,

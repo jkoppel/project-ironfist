@@ -698,19 +698,33 @@ namespace ironfist_save
     void
     relatedToY (const relatedToY_type& x);
 
-    // field_2B
+    // relatedToFactionID
     // 
-    typedef ::xml_schema::int_ field_2B_type;
-    typedef ::xsd::cxx::tree::traits< field_2B_type, char > field_2B_traits;
+    typedef ::xml_schema::int_ relatedToFactionID_type;
+    typedef ::xsd::cxx::tree::traits< relatedToFactionID_type, char > relatedToFactionID_traits;
 
-    const field_2B_type&
-    field_2B () const;
+    const relatedToFactionID_type&
+    relatedToFactionID () const;
 
-    field_2B_type&
-    field_2B ();
+    relatedToFactionID_type&
+    relatedToFactionID ();
 
     void
-    field_2B (const field_2B_type& x);
+    relatedToFactionID (const relatedToFactionID_type& x);
+
+    // relatedToUnknown
+    // 
+    typedef ::xml_schema::int_ relatedToUnknown_type;
+    typedef ::xsd::cxx::tree::traits< relatedToUnknown_type, char > relatedToUnknown_traits;
+
+    const relatedToUnknown_type&
+    relatedToUnknown () const;
+
+    relatedToUnknown_type&
+    relatedToUnknown ();
+
+    void
+    relatedToUnknown (const relatedToUnknown_type& x);
 
     // occupiedObjType
     // 
@@ -1166,7 +1180,8 @@ namespace ironfist_save
             const field_27_type&,
             const relatedToX_type&,
             const relatedToY_type&,
-            const field_2B_type&,
+            const relatedToFactionID_type&,
+            const relatedToUnknown_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
             const mobility_type&,
@@ -1215,7 +1230,8 @@ namespace ironfist_save
             const field_27_type&,
             const relatedToX_type&,
             const relatedToY_type&,
-            const field_2B_type&,
+            const relatedToFactionID_type&,
+            const relatedToUnknown_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
             const mobility_type&,
@@ -1287,7 +1303,8 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< field_27_type > field_27_;
     ::xsd::cxx::tree::one< relatedToX_type > relatedToX_;
     ::xsd::cxx::tree::one< relatedToY_type > relatedToY_;
-    ::xsd::cxx::tree::one< field_2B_type > field_2B_;
+    ::xsd::cxx::tree::one< relatedToFactionID_type > relatedToFactionID_;
+    ::xsd::cxx::tree::one< relatedToUnknown_type > relatedToUnknown_;
     ::xsd::cxx::tree::one< occupiedObjType_type > occupiedObjType_;
     ::xsd::cxx::tree::one< occupiedObjVal_type > occupiedObjVal_;
     ::xsd::cxx::tree::one< mobility_type > mobility_;
