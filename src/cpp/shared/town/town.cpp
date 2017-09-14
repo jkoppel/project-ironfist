@@ -15,12 +15,12 @@
 #include<sstream>
 
 unsigned long gTownEligibleBuildMask[] = {
-  1073266591,
-  469286815,
-  267960223,
-  1777909663,
-  905494431,
-  536395675
+  0x3FF8BF9F,
+  0x1BF8BF9F,
+  0xFF8BF9F,
+  0x69F8BF9F,
+  0x35F8BF9F,
+  0x1FF8BF9B
 };
 
 int BuildingBuilt(town* twn, int building) {
