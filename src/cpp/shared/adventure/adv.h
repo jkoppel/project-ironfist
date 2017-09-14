@@ -161,6 +161,7 @@ public:
   signed char Stats(int);
   signed char GetSSLevel(int);
   void SetSS(int, int);
+  int GiveSS(int, int);
   int CalcMobility();
   int CalcMobility_orig();
 
@@ -245,6 +246,8 @@ public:
 
   int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int switchSides, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
   int MapPutArmy(int x, int y, int monIdx, int monQty);
+
+  int GiveExperience(class hero*, int, int);
 };
 
 class ExpCampaign {
