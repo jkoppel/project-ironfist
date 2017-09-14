@@ -20,13 +20,13 @@ int game::GetRandomNumTroops(int creat) {
 
 extern int gbNoCDRom;
 
-__int16 creatureTypesAndQuantities[NUM_FACTIONS][3][3] = {
-  {{CREATURE_PEASANT,  30, 50},{CREATURE_ARCHER,   3, 5},{CREATURE_PIKEMAN,    2, 4}},
-  {{CREATURE_GOBLIN,   15, 25},{CREATURE_ORC,      3, 5},{CREATURE_WOLF,       2, 3}},
-  {{CREATURE_SPRITE,   10, 20},{CREATURE_DWARF,    2, 4},{CREATURE_ELF,        1, 2}},
-  {{CREATURE_CENTAUR,  6,  10},{CREATURE_GARGOYLE, 2, 4},{CREATURE_GRIFFIN,    1, 2}},
-  {{CREATURE_HALFLING, 6,  10},{CREATURE_BOAR,     2, 4},{CREATURE_IRON_GOLEM, 1, 2}},
-  {{CREATURE_SKELETON, 6,  10},{CREATURE_ZOMBIE,   2, 4},{CREATURE_MUMMY,      1, 2}}
+__int16 creatureTypesAndQuantities[NUM_FACTIONS][2][3] = {
+  {{CREATURE_PEASANT,  30, 50},{CREATURE_ARCHER,   3, 5}},
+  {{CREATURE_GOBLIN,   15, 25},{CREATURE_ORC,      3, 5}},
+  {{CREATURE_SPRITE,   10, 20},{CREATURE_DWARF,    2, 4}},
+  {{CREATURE_CENTAUR,  6,  10},{CREATURE_GARGOYLE, 2, 4}},
+  {{CREATURE_HALFLING, 6,  10},{CREATURE_BOAR,     2, 4}},
+  {{CREATURE_SKELETON, 6,  10},{CREATURE_ZOMBIE,   2, 4}}
 };
 
 int neutralTownCreatureTypes[NUM_FACTIONS][5] = {
