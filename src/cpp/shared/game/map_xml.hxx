@@ -670,19 +670,33 @@ namespace ironfist_save
     void
     field_27 (const field_27_type& x);
 
-    // field_29
+    // relatedToX
     // 
-    typedef ::xml_schema::int_ field_29_type;
-    typedef ::xsd::cxx::tree::traits< field_29_type, char > field_29_traits;
+    typedef ::xml_schema::int_ relatedToX_type;
+    typedef ::xsd::cxx::tree::traits< relatedToX_type, char > relatedToX_traits;
 
-    const field_29_type&
-    field_29 () const;
+    const relatedToX_type&
+    relatedToX () const;
 
-    field_29_type&
-    field_29 ();
+    relatedToX_type&
+    relatedToX ();
 
     void
-    field_29 (const field_29_type& x);
+    relatedToX (const relatedToX_type& x);
+
+    // relatedToY
+    // 
+    typedef ::xml_schema::int_ relatedToY_type;
+    typedef ::xsd::cxx::tree::traits< relatedToY_type, char > relatedToY_traits;
+
+    const relatedToY_type&
+    relatedToY () const;
+
+    relatedToY_type&
+    relatedToY ();
+
+    void
+    relatedToY (const relatedToY_type& x);
 
     // field_2B
     // 
@@ -1150,7 +1164,8 @@ namespace ironfist_save
             const field_23_type&,
             const field_25_type&,
             const field_27_type&,
-            const field_29_type&,
+            const relatedToX_type&,
+            const relatedToY_type&,
             const field_2B_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
@@ -1198,7 +1213,8 @@ namespace ironfist_save
             const field_23_type&,
             const field_25_type&,
             const field_27_type&,
-            const field_29_type&,
+            const relatedToX_type&,
+            const relatedToY_type&,
             const field_2B_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
@@ -1269,7 +1285,8 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< field_23_type > field_23_;
     ::xsd::cxx::tree::one< field_25_type > field_25_;
     ::xsd::cxx::tree::one< field_27_type > field_27_;
-    ::xsd::cxx::tree::one< field_29_type > field_29_;
+    ::xsd::cxx::tree::one< relatedToX_type > relatedToX_;
+    ::xsd::cxx::tree::one< relatedToY_type > relatedToY_;
     ::xsd::cxx::tree::one< field_2B_type > field_2B_;
     ::xsd::cxx::tree::one< occupiedObjType_type > occupiedObjType_;
     ::xsd::cxx::tree::one< occupiedObjVal_type > occupiedObjVal_;

@@ -95,7 +95,8 @@ public:
   __int16 field_23;
   __int16 field_25;
   __int16 field_27;
-  __int16 field_29;
+  __int8 relatedToX;
+  __int8 relatedToY;
   __int16 field_2B;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;

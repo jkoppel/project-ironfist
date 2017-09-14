@@ -34,7 +34,8 @@
       <xs:element name="field_23" type="xs:int"/>
       <xs:element name="field_25" type="xs:int"/>
       <xs:element name="field_27" type="xs:int"/>
-      <xs:element name="field_29" type="xs:int"/>
+      <xs:element name="relatedToX" type="xs:int"/>
+      <xs:element name="relatedToY" type="xs:int"/>
       <xs:element name="field_2B" type="xs:int"/>
       <xs:element name="occupiedObjType" type="xs:int"/>
       <xs:element name="occupiedObjVal" type="xs:int"/>

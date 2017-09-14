@@ -449,22 +449,40 @@ namespace ironfist_save
     this->field_27_.set (x);
   }
 
-  const hero_t::field_29_type& hero_t::
-  field_29 () const
+  const hero_t::relatedToX_type& hero_t::
+  relatedToX () const
   {
-    return this->field_29_.get ();
+    return this->relatedToX_.get ();
   }
 
-  hero_t::field_29_type& hero_t::
-  field_29 ()
+  hero_t::relatedToX_type& hero_t::
+  relatedToX ()
   {
-    return this->field_29_.get ();
+    return this->relatedToX_.get ();
   }
 
   void hero_t::
-  field_29 (const field_29_type& x)
+  relatedToX (const relatedToX_type& x)
   {
-    this->field_29_.set (x);
+    this->relatedToX_.set (x);
+  }
+
+  const hero_t::relatedToY_type& hero_t::
+  relatedToY () const
+  {
+    return this->relatedToY_.get ();
+  }
+
+  hero_t::relatedToY_type& hero_t::
+  relatedToY ()
+  {
+    return this->relatedToY_.get ();
+  }
+
+  void hero_t::
+  relatedToY (const relatedToY_type& x)
+  {
+    this->relatedToY_.set (x);
   }
 
   const hero_t::field_2B_type& hero_t::
@@ -5230,7 +5248,8 @@ namespace ironfist_save
           const field_23_type& field_23,
           const field_25_type& field_25,
           const field_27_type& field_27,
-          const field_29_type& field_29,
+          const relatedToX_type& relatedToX,
+          const relatedToY_type& relatedToY,
           const field_2B_type& field_2B,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
@@ -5278,7 +5297,8 @@ namespace ironfist_save
     field_23_ (field_23, ::xml_schema::flags (), this),
     field_25_ (field_25, ::xml_schema::flags (), this),
     field_27_ (field_27, ::xml_schema::flags (), this),
-    field_29_ (field_29, ::xml_schema::flags (), this),
+    relatedToX_ (relatedToX, ::xml_schema::flags (), this),
+    relatedToY_ (relatedToY, ::xml_schema::flags (), this),
     field_2B_ (field_2B, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
@@ -5332,7 +5352,8 @@ namespace ironfist_save
           const field_23_type& field_23,
           const field_25_type& field_25,
           const field_27_type& field_27,
-          const field_29_type& field_29,
+          const relatedToX_type& relatedToX,
+          const relatedToY_type& relatedToY,
           const field_2B_type& field_2B,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
@@ -5380,7 +5401,8 @@ namespace ironfist_save
     field_23_ (field_23, ::xml_schema::flags (), this),
     field_25_ (field_25, ::xml_schema::flags (), this),
     field_27_ (field_27, ::xml_schema::flags (), this),
-    field_29_ (field_29, ::xml_schema::flags (), this),
+    relatedToX_ (relatedToX, ::xml_schema::flags (), this),
+    relatedToY_ (relatedToY, ::xml_schema::flags (), this),
     field_2B_ (field_2B, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
@@ -5438,7 +5460,8 @@ namespace ironfist_save
     field_23_ (x.field_23_, f, this),
     field_25_ (x.field_25_, f, this),
     field_27_ (x.field_27_, f, this),
-    field_29_ (x.field_29_, f, this),
+    relatedToX_ (x.relatedToX_, f, this),
+    relatedToY_ (x.relatedToY_, f, this),
     field_2B_ (x.field_2B_, f, this),
     occupiedObjType_ (x.occupiedObjType_, f, this),
     occupiedObjVal_ (x.occupiedObjVal_, f, this),
@@ -5496,7 +5519,8 @@ namespace ironfist_save
     field_23_ (f, this),
     field_25_ (f, this),
     field_27_ (f, this),
-    field_29_ (f, this),
+    relatedToX_ (f, this),
+    relatedToY_ (f, this),
     field_2B_ (f, this),
     occupiedObjType_ (f, this),
     occupiedObjVal_ (f, this),
@@ -5747,13 +5771,24 @@ namespace ironfist_save
         }
       }
 
-      // field_29
+      // relatedToX
       //
-      if (n.name () == "field_29" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToX" && n.namespace_ ().empty ())
       {
-        if (!field_29_.present ())
+        if (!relatedToX_.present ())
         {
-          this->field_29_.set (field_29_traits::create (i, f, this));
+          this->relatedToX_.set (relatedToX_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToY
+      //
+      if (n.name () == "relatedToY" && n.namespace_ ().empty ())
+      {
+        if (!relatedToY_.present ())
+        {
+          this->relatedToY_.set (relatedToY_traits::create (i, f, this));
           continue;
         }
       }
@@ -6228,10 +6263,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_29_.present ())
+    if (!relatedToX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_29",
+        "relatedToX",
+        "");
+    }
+
+    if (!relatedToY_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToY",
         "");
     }
 
@@ -13662,15 +13704,26 @@ namespace ironfist_save
       s << i.field_27 ();
     }
 
-    // field_29
+    // relatedToX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_29",
+          "relatedToX",
           e));
 
-      s << i.field_29 ();
+      s << i.relatedToX ();
+    }
+
+    // relatedToY
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToY",
+          e));
+
+      s << i.relatedToY ();
     }
 
     // field_2B
