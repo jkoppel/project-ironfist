@@ -668,7 +668,7 @@ int l_getTownIDFromPos(lua_State *L) {
 
 int l_SetBarrierTentVisited(lua_State *L) {	
 	playerData* plyd = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-	int tentcolor = luaL_checknumber(L, 1);
+	int tentcolor = luaL_checknumber(L, 2);
 	plyd->SetBarrierTentVisited(tentcolor);
 	
 	return 0;
@@ -706,7 +706,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
   lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
-  lua_register(L, "SetBarrierTentsVisited", l_SetBarrierTentVisited);
+  lua_register(L, "SetBarrierTentVisited", l_SetBarrierTentVisited);
 
   // Tales of Enroth functions
   lua_register(L, "QuestionBox", l_questionBox);

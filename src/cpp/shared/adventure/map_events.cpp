@@ -30,8 +30,10 @@ void advManager::PasswordEvent(mapCell *cell, hero *hero) {
     gpCurPlayer->barrierTentsVisited |= 1 << barrierColor;
 }
 
+
 void playerData::SetBarrierTentVisited(int color) {	
-	gpCurPlayer->barrierTentsVisited |= 1 << color;	
+	
+	barrierTentsVisited |= 1 << color;
 }
  
 int advManager::BarrierEvent(mapCell *cell, hero *hero) {
@@ -50,7 +52,7 @@ int advManager::BarrierEvent(mapCell *cell, hero *hero) {
         H2MessageBox(gText);
         return 1;
     } else {
-        H2MessageBox("You try guessing in vein, but nothing happens.");
+        H2MessageBox("You try guessing in vein, but nothing happens.");		
         return 0;
 		
     }
