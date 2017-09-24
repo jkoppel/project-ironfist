@@ -279,7 +279,7 @@ void game::ProcessOnMapHeroes() {
       if (coordYForRandomHero >= MAP_HEIGHT)
         break;
       for (coordXForRandomHero = 0; coordXForRandomHero < MAP_WIDTH; ++coordXForRandomHero) {
-        loc = &this->map.tiles[coordYForRandomHero * this->map.width] + coordXForRandomHero;
+        loc = &this->map.tiles[(coordYForRandomHero * this->map.width) + coordXForRandomHero];
         if ((loc->objType & 0x7F) == 55 || loc->objType == 251) {
           isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
           ppMapExtraHeroIdx = loc->extraInfo;
