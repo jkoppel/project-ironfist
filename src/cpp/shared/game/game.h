@@ -256,8 +256,8 @@ extern char __fastcall StrEqNoCase(int *a1, int *a2);
 extern int gbInNewGameSetup;
 extern int iLastMsgNumHumanPlayers;
 extern bool gbSetupGamePosToRealGamePos[];
-extern char gcColorToSetupPos[];
-extern char giVisRange[];
+extern signed char gcColorToSetupPos[];
+extern signed char giVisRange[];
 extern char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 
