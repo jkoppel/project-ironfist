@@ -203,7 +203,7 @@ public:
   int ProcessMapExtra();
   void __cdecl InitializePasswords();
   int RandomizeEvents();
-  void *ProcessOnMapHeroes();
+  void ProcessOnMapHeroes();
   int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
   void SetupNewRumour();
   void GiveArmy(class armyGroup *, int, int, int);
