@@ -56,6 +56,41 @@ struct mapCellExtra {
 #endif
 };
 
+struct heroMapExtra {
+  char owner;
+  char couldBeHasArmy;
+  armyGroup army;
+  char field_11;
+  char heroID;
+  char artifacts[3];
+  char field_16;
+  int experience;
+  char couldBeHasSecondarySkills;
+  char secondarySkills[8];
+  char firstSecondarySkillLevel;
+  char secondSecondarySkillLevel;
+  char field_26;
+  char field_27;
+  char relatedToName[20];
+  char factionID;
+  char couldBeHasFaction;
+  char field_3E;
+  char field_3F;
+  char field_40;
+  char field_41;
+  char field_42;
+  char field_43;
+  char field_44;
+  char field_45;
+  char field_46;
+  char field_47;
+  char field_48;
+  char field_49;
+  char field_4A;
+  char field_4B;
+};
+
+
 class fullMap {
 public:
 	mapCell *tiles;

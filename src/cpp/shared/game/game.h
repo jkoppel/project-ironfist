@@ -210,6 +210,7 @@ public:
 
   void SetRandomHeroArmies(int heroIdx, int isAI);
   void GiveTroopsToNeutralTown(int castleIdx);
+  int RandomScan(signed char*, int, int, int, signed char);
 
 private:
   void PropagateVision();
