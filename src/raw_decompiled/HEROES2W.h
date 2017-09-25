@@ -2949,7 +2949,7 @@ enum ICON_GUI_FLAGS
 struct heroMapExtra
 {
   char owner;
-  char couldBeHasArmy;
+  char hasArmy;
   armyGroup army;
   char field_11;
   char heroID;

@@ -29408,7 +29408,7 @@ void* game::ProcessOnMapHeroes() {
               HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x) = coordYForRandomHero;
               LOBYTE(randomHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
             }
-            if (mapExtraHero->couldBeHasArmy) {
+            if (mapExtraHero->hasArmy) {
               for (armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
                 randomHero->army.quantities[armySlotIdx] = mapExtraHero->army.quantities[armySlotIdx];
                 if (randomHero->army.quantities[armySlotIdx] <= 0)

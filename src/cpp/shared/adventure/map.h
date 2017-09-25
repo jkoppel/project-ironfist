@@ -220,7 +220,7 @@ public:
     }
 
   char owner;
-  char couldBeHasArmy;
+  char hasArmy;
   armyGroup army;
   char field_11;
   char field_12;
