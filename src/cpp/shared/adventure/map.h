@@ -223,7 +223,7 @@ public:
   char hasArmy;
   armyGroup army;
   char field_11;
-  char field_12;
+  char heroID;
   char artifacts[3];
   char field_16;
   char experience;
