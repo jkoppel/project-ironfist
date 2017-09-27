@@ -828,6 +828,13 @@ int l_grantspellscroll(lua_State *L) {
 
 }
 
+int l_setNumberOfCreatures(lua_State *L) {
+	town* cstle = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
+	int dwllng = (int)luaL_checknumber(L, 2);
+	int numcrtrs = (int)luaL_checknumber(L, 3);	
+	return 0;
+}
+
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
   lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
