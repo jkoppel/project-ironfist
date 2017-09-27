@@ -63,32 +63,39 @@ SecondaryResourceNameTableEntry SecondaryResourceNameTable[] = {
 	{"gems", RESOURCE_GEMS}
 };
 
-
-char* ironfistAttributeNames[] = {STRIKE_AND_RETURN, PLASMA_BLAST, TELEPORTER, ASTRAL_DODGE, SHADOW_MARK, JUMPER};
-int ironfistAttributeTable[ELEMENTS_IN(ironfistAttributeNames)][MAX_CREATURES];
+std::vector<std::string> ironfistAttributeNames = { STRIKE_AND_RETURN, PLASMA_BLAST, TELEPORTER, ASTRAL_DODGE, SHADOW_MARK, JUMPER};
+std::vector<std::vector<int>> ironfistAttributeTable;
 
 void ResetCreatureAttributes() {
-	memset(ironfistAttributeTable, 0, sizeof(ironfistAttributeTable));
+  ironfistAttributeTable.clear();
+  for(int j = 0; j < (int)ironfistAttributeNames.size(); j++) {
+    std::vector<int> tmp;
+    for(int i = 0; i < MAX_CREATURES; i++) {
+      tmp.push_back(0);
+    }    
+    ironfistAttributeTable.push_back(tmp);
+  }
 }
 
-void GrantCreatureAttribute(int id, const char* name) {
-	for(int i = 0; i < ELEMENTS_IN(ironfistAttributeNames); i++) {
-		if(0 == strcmp(ironfistAttributeNames[i], name)) {
+void GrantCreatureAttribute(int id, std::string name) {
+	for(int i = 0; i < (int)ironfistAttributeNames.size(); i++) {
+		if(ironfistAttributeNames[i] == name) {
 			ironfistAttributeTable[i][id] = 1;
 			return;
 		}
 	}
 
-	EarlyShutdown((char*)name, "Attempted to grant attribute that does not exist. Check creatures.xml .");
+	EarlyShutdown(&name[0], "Attempted to grant attribute that does not exist. Check creatures.xml .");
 }
 
-int CreatureHasAttribute(int id, const char* name) {
-	for(int i = 0; i < ELEMENTS_IN(ironfistAttributeNames); i++) {
-		if(0 == strcmp(ironfistAttributeNames[i], name)) {
+int CreatureHasAttribute(int id, const std::string &name) {
+  if(id == -1)
+    return 0;
+	for(int i = 0; i < (int)ironfistAttributeNames.size(); i++) {
+		if(ironfistAttributeNames[i] == name) {
 			return ironfistAttributeTable[i][id];
 		}
 	}
-
 	return 0;
 }
 
@@ -149,7 +156,7 @@ void LoadCreatures() {
 
 						if(!attr_found) {
 							//Ironfist-only attribute; using general attribute engine
-							GrantCreatureAttribute(id, j->name().c_str());
+							GrantCreatureAttribute(id, j->name());
 						}
 				}
 

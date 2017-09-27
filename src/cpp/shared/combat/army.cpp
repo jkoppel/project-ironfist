@@ -316,13 +316,13 @@ void army::DoAttack(int isRetaliation) {
     }
 
     if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
-      if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget]) {
+      if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE]) {
         int dodgeAnimLen = 7;
         primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
         for (int p = 0; p < dodgeAnimLen; p++) {
           primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
         }
-        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget] = false;
+        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE] = false;
       } else {
         // revert to usual animations after the first received attack
         int winceAnimLen = 1;
@@ -332,7 +332,7 @@ void army::DoAttack(int isRetaliation) {
     }
 
     if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
-      if(gIronfistExtra.combat.stack.abilityNowAnimating[this]) {
+      if(gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER]) {
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] =
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 1;
@@ -348,7 +348,7 @@ void army::DoAttack(int isRetaliation) {
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] =
         this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 36;
-        gIronfistExtra.combat.stack.abilityNowAnimating[this] = false;
+        gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER] = false;
       } else {
         // revert to usual animations after the first received attack
         this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 
@@ -654,7 +654,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
   int res;
   std::vector<int> obstacleHexes;
 
-  if(!IsAICombatTurn() && CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this]) {
+  if(!IsAICombatTurn() && CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
     for (int i = 0; i < NUM_HEXES; i++) {
       if (gpCombatManager->combatGrid[i].isBlocked != 0 && !IsCastleWall(i)) {
         obstacleHexes.push_back(i);
@@ -814,7 +814,7 @@ int army::WalkTo(int hex) {
     for(int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
       int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
       int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-      if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this]) {
+      if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
         if(gMoveAttack && hexIdxb < 4) { // less than 4 hexes from enemy
           // find last hex
           for(int h = hexIdxb; h >= 0; --h) {
@@ -823,7 +823,7 @@ int army::WalkTo(int hex) {
             this->occupiedHex = destHex;
           }
           this->ArcJump(initialHex, destHex);
-		      gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
+		      gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER] = true;
 		      this->CancelSpellType(0);
 		      return 0;
         } else if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
@@ -883,7 +883,7 @@ int army::AttackTo(int targetHex) {
       for (int i = gpSearchArray->field_8 - 1; i; --i) {
         int dir = *((BYTE *)&gpSearchArray->field_2418 + i);
         int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
-        if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this]) {
+        if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
           if(gMoveAttack && i < 5) { // less than 4 hexes from enemy
             // find last hex
             for(int h = i; h >= 1; --h) {
@@ -892,7 +892,7 @@ int army::AttackTo(int targetHex) {
               this->occupiedHex = destHex;
             }
             this->ArcJump(initialHex, destHex);
-            gIronfistExtra.combat.stack.abilityNowAnimating[this] = true;
+            gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER] = true;
             break;
           } else {
             this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
@@ -1908,8 +1908,8 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (targ->effectStrengths[EFFECT_SHADOW_MARK])
 	  damagePerUnit *= 1.5;
 
-  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation && gIronfistExtra.combat.stack.abilityCounter[this] && gIronfistExtra.combat.stack.abilityNowAnimating[this]) {
-    gIronfistExtra.combat.stack.abilityCounter[this] = 0;
+  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER] && gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER]) {
+    gIronfistExtra.combat.stack.abilityCounter[this][JUMPER] = 0;
     damagePerUnit *= SRandom(125, 150) * 0.01;
   }
 
@@ -1935,9 +1935,9 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
   if(!isRanged && !isRetaliation) {
-    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && gIronfistExtra.combat.stack.abilityCounter[targ]) {
-        gIronfistExtra.combat.stack.abilityNowAnimating[targ] = true;
-        gIronfistExtra.combat.stack.abilityCounter[targ] = 0;
+    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && gIronfistExtra.combat.stack.abilityCounter[targ][ASTRAL_DODGE]) {
+        gIronfistExtra.combat.stack.abilityNowAnimating[targ][ASTRAL_DODGE] = true;
+        gIronfistExtra.combat.stack.abilityCounter[targ][ASTRAL_DODGE] = 0;
         baseDam = -2;
     }
   }
@@ -2093,10 +2093,13 @@ void army::CancelIndividualSpell(int effect) {
   }
 }
 
+extern std::vector<std::string> ironfistAttributeNames;
 void army::Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx) {
     Init_orig(creatureIdx, quantity, owner, stackIdx, startHex, armyIdx);
-    if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE) || CreatureHasAttribute(this->creatureIdx, JUMPER))
-        gIronfistExtra.combat.stack.abilityCounter[this] = 1;
+    for(auto &i : ironfistAttributeNames) {
+      if(CreatureHasAttribute(this->creatureIdx, i))
+        gIronfistExtra.combat.stack.abilityCounter[this][i] = 1;
+    }
 }
 
 void army::InitClean() {
@@ -2116,6 +2119,8 @@ void army::InitClean() {
   this->mirrorIdx = -1;
   this->armyIdx = -1;
   this->previousQuantity = -1;
-  if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE) || CreatureHasAttribute(this->creatureIdx, JUMPER))
-    gIronfistExtra.combat.stack.abilityCounter[this] = 1;
+  for(auto &i : ironfistAttributeNames) {
+      if(CreatureHasAttribute(this->creatureIdx, i))
+        gIronfistExtra.combat.stack.abilityCounter[this][i] = 1;
+    }
 }

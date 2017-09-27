@@ -3,7 +3,7 @@
 
 #include<string.h>
 #include<stdio.h>
-
+#include <set>
 
 #pragma pack(push, 1)
 
@@ -166,7 +166,7 @@ tag_monsterInfo gMonsterDatabase[];
 
 int gMonRandBound[][2];
 
-int CreatureHasAttribute(int id, const char* name);
+int CreatureHasAttribute(int id, const std::string &name);
 char* GetCreatureName(int id);
 char* GetCreaturePluralName(int id);
 int GetNumCreatures();

@@ -425,7 +425,7 @@ void combatManager::ResetRound() {
         for(int j = 0; j < MAX_STACKS; j++) {
             army* ptr = &gpCombatManager->creatures[i][j];
             if(ptr->creatureIdx >= 0 && CreatureHasAttribute(ptr->creatureIdx, ASTRAL_DODGE))
-                gIronfistExtra.combat.stack.abilityCounter[ptr] = 1;
+                gIronfistExtra.combat.stack.abilityCounter[ptr][ASTRAL_DODGE] = 1;
         }
     }
 }
