@@ -831,7 +831,8 @@ int l_grantspellscroll(lua_State *L) {
 int l_setNumberOfCreatures(lua_State *L) {
 	town* cstle = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
 	int dwllng = (int)luaL_checknumber(L, 2);
-	int numcrtrs = (int)luaL_checknumber(L, 3);	
+	int numcrtrs = (int)luaL_checknumber(L, 3);
+	cstle->numCreaturesInDwelling[dwllng] = numcrtrs;
 	return 0;
 }
 
