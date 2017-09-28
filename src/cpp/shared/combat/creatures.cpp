@@ -91,12 +91,12 @@ void GrantCreatureAttribute(int id, std::string name) {
 int CreatureHasAttribute(int id, const std::string &name) {
   if(id == -1)
     return 0;
-	for(int i = 0; i < (int)ironfistAttributeNames.size(); i++) {
-		if(ironfistAttributeNames[i] == name) {
-			return ironfistAttributeTable[i][id];
-		}
-	}
-	return 0;
+  for(int i = 0; i < (int)ironfistAttributeNames.size(); i++) {
+    if(ironfistAttributeNames[i] == name) {
+      return ironfistAttributeTable[i][id];
+    }
+  }
+  return 0;
 }
 
 char* GetCreatureName(int id) {
