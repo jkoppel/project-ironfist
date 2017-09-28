@@ -114,8 +114,18 @@ public:
   void DispelGood();
   void InitClean();
   int CanFit(int hex, int mayShiftTwoHexers, int *rearHex);
+  int FindPath(int, int, int, int, int);
+  int FindPath_orig(int, int, int, int, int);
   void Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
   void Init_orig(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
+  int ValidPath(int hex, int flag);
+  int FindPathIgnoringObstacles(int knownHex, int targHex, int speed, int flying, int flag);
+  void ArcJump(int fromHex, int toHex);
+  int AttackTo(int targetHex);
+  int AttackTo_orig(int targetHex);
+private:
+  void RevertJumpingAnimation();
+  void SetJumpingAnimation();
 };
 
 #pragma pack(pop)

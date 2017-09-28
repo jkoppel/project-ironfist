@@ -2,6 +2,7 @@
 #define COMBAT_MANAGER_H
 
 #include <string>
+#include <vector>
 
 #include "gui/gui.h"
 #include "graphics.h"
@@ -15,6 +16,7 @@
 #include "combat/creatures.h"
 
 #define MAX_STACKS 21
+#define NUM_HEXES 117
 
 enum BRIDGE_STATUS {
   BRIDGE_OPEN = 0x0,
@@ -58,9 +60,9 @@ public:
   char _1[768];
   char combatMessageRow1[120];
   char combatMessageRow2[120];
-  char field_42A[117];
-  char field_49F[117];
-  hexcell combatGrid[117];
+  char field_42A[NUM_HEXES];
+  char field_49F[NUM_HEXES];
+  hexcell combatGrid[NUM_HEXES];
   int terrainType;
   int combatFieldFringeID;
   int field_31E6;
@@ -163,7 +165,7 @@ public:
   char shouldVanish[2][20];
   char anyStacksShouldVanish;
   char combatBackgroundFilename[13];
-  char hexNeighbors[117][6];
+  char hexNeighbors[NUM_HEXES][6];
   heroWindow *combatEndWindow;
   int current_spell_id;
   int winningSide;
@@ -227,6 +229,9 @@ extern combatManager* gpCombatManager;
 extern int gbNoShowCombat;
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
+bool IsCastleWall(int hexIdx);
+bool IsAICombatTurn();
+std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY);
 
 #pragma pack(pop)
 

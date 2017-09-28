@@ -3,8 +3,8 @@
 
 class stackExtra {
     public:
-        std::map<army*, int> abilityCounter;
-        std::map<army*, bool> abilityNowAnimating;
+        std::map<army*, std::map<std::string, int>> abilityCounter;
+        std::map<army*, std::map<std::string, bool>> abilityNowAnimating;
 };
 
 class combatExtra {

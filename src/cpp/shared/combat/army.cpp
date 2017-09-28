@@ -6,6 +6,7 @@
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "expansions.h"
+#include <vector>
 
 extern ironfistExtra gIronfistExtra;
 
@@ -32,7 +33,7 @@ extern float gfBattleStat[];
 extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
-
+bool gMoveAttack; // ironfist var to differentiate between move/move and attack
 char *gCombatFxNames[34] =
 {
   "",
@@ -163,6 +164,46 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
   }
   gText[0] = toupper(gText[0]);
   gpCombatManager->CombatMessage(gText, 1, 1, 0);
+}
+
+void army::SetJumpingAnimation() {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] =
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 1;
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN] = 
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN] = 2;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS][0] =
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][0] =
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS][0] = 34;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] =
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] =
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] = 35;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] =
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] =
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 36;
+  }
+}
+
+void army::RevertJumpingAnimation() {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS] = 
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] = 
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 4;
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN] = 
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN] = 2;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS][0] = 17;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][0] = 10;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS][0] = 24;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][0] = 21;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][0] = 14;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][0] = 28;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] = 22;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] = 15;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 29;
+  }
 }
 
 void army::DoAttack(int isRetaliation) {
@@ -314,25 +355,29 @@ void army::DoAttack(int isRetaliation) {
       }
     }
 
-    if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget]) {
-        if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
-            int dodgeAnimLen = 7;
-            primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
-            for (int p = 0; p < dodgeAnimLen; p++) {
-              primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
-            }
-
-            this->PowEffect(-1, 0, -1, -1);
-
-            // revert to usual animations after the first received attack
-            int winceAnimLen = 1;
-            primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
-            primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;            
-            gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget] = false;
+    if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+      if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE]) {
+        int dodgeAnimLen = 7;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+        for (int p = 0; p < dodgeAnimLen; p++) {
+          primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
         }
-    } else {
-      this->PowEffect(-1, 0, -1, -1);
+        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE] = false;
+      } else {
+        // revert to usual animations after the first received attack
+        int winceAnimLen = 1;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+        primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;
+      }
     }
+
+    if(gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER]) {
+      SetJumpingAnimation();
+      gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER] = false;
+    } else {
+      RevertJumpingAnimation();
+    }
+    this->PowEffect(-1, 0, -1, -1);
     
     gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
     if (this->creatureIdx == CREATURE_GHOST)
@@ -612,6 +657,274 @@ void army::Walk(signed int dir, int last, int notFirst) {
     this->animationFrame = 0;
     gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
   }
+}
+
+int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
+  int res;
+  std::vector<int> obstacleHexes;
+
+  if(!IsAICombatTurn() && CreatureHasAttribute(this->creatureIdx, JUMPER) && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
+    for (int i = 0; i < NUM_HEXES; i++) {
+      if (gpCombatManager->combatGrid[i].isBlocked != 0 && !IsCastleWall(i)) {
+        obstacleHexes.push_back(i);
+        gpCombatManager->combatGrid[i].isBlocked = 0;
+      }
+    }
+  }
+  res = this->FindPath_orig(this->occupiedHex, targHex, this->creature.speed, 0, flag);
+
+  // pretending we don't see obstacles at all
+  // this does nothing for creatures that don't ignore obstacles
+  for (auto i : obstacleHexes)
+    gpCombatManager->combatGrid[i].isBlocked = 1;
+
+  return res;
+}
+
+int army::ValidPath(int hex, int flag) {
+  if (ValidHex(hex)) {
+    if (this->creature.creature_flags & FLYER) {
+      return this->ValidFlight(hex, flag);
+    } else if (this->FindPath(this->occupiedHex, hex, this->creature.speed, 0, flag)) {
+      this->targetHex = hex;
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+  return 0;
+}
+
+#pragma pack(push, 1)
+struct PathfindingInfo {
+  char field_0;
+  char field_1;
+  __int16 field_2;
+  char field_4;
+  int field_5;
+};
+#pragma pack(pop)
+
+#pragma pack(push,1)
+class searchArray {
+public:
+	int field_0;
+	int field_4;
+	int field_8;
+	char _1[8];
+	PathfindingInfo mainDataStructure[1024];
+	PathfindingInfo *field_2414;
+	int field_2418;
+	int field_241C[63];
+	searchArray();
+};
+#pragma pack(pop)
+
+void army::ArcJump(int fromHex, int toHex) {
+  bool firingLeft = true;
+  float fromX = gpCombatManager->combatGrid[fromHex].centerX;
+  float fromY = gpCombatManager->combatGrid[fromHex].otherY2;
+  float targX = gpCombatManager->combatGrid[toHex].centerX;
+  float targY = gpCombatManager->combatGrid[toHex].otherY2;
+  if(fromX > targX) {
+    this->facingRight = false;
+    firingLeft = false;
+  } else {
+    this->facingRight = true;
+  }
+
+  // remove from battlefield
+  gpCombatManager->combatGrid[fromHex].stackIdx = -1;
+  gpCombatManager->combatGrid[fromHex].unitOwner = -1;
+  gpCombatManager->combatGrid[fromHex].occupiersOtherHexIsToLeft = -1;
+  gpCombatManager->DrawFrame(0, 0, 0, 0, 75, 1, 1);
+
+  // temporarily save the screen so we can clear it from the creature sprite later
+  bitmap *savedscreen = new bitmap(0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+  gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+
+  this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 31;
+  this->animationFrame = 0;
+  this->animationType = ANIMATION_TYPE_MOVE;
+  
+  std::vector<COORD> points;
+  const int NUM_FRAMES = 24; // equals to the number of frames for the whole arc path
+  points = MakeCatapultArc(NUM_FRAMES, firingLeft, fromX, fromY, targX, targY);
+  for(int i = 0; i < (int)points.size(); i++) {
+    if(i == 5) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 32;
+    } else if(i == 12) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 33;
+    }
+    savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous creature sprite
+    this->DrawToBuffer(points[i].X, points[i].Y, 0);
+    gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 0, 1);
+    gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+    glTimers = (signed __int64)((double)KBTickCount() + (double)40 * gfCombatSpeedMod[giCombatSpeed]);
+    DelayTil(&glTimers);
+  }
+  
+  // occupy new hex
+  this->occupiedHex = toHex;
+  gpCombatManager->combatGrid[this->occupiedHex].unitOwner = LOBYTE(this->owningSide);
+  gpCombatManager->combatGrid[this->occupiedHex].stackIdx = LOBYTE(this->stackIdx);
+  gpCombatManager->combatGrid[this->occupiedHex].occupiersOtherHexIsToLeft = -1;
+
+  // reset renderer settings
+  savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous creature sprite
+  giMinExtentY = giMinExtentX = giMaxExtentY = giMaxExtentX = 0;
+  // reverting frame
+  this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][0] = 1;
+
+  delete savedscreen;
+}
+
+extern searchArray *gpSearchArray;
+
+int army::WalkTo(int hex) {
+  this->targetStackIdx = -1;
+  this->targetOwner = this->targetStackIdx;
+  if (gpCombatManager->hasMoat && this->creature.creature_flags & TWO_HEXER) {
+    bool goingToMoat = false;
+    int moatIdx = 0;
+    for (int i = 0; i < 9; ++i) {
+      if (moatCell[i] == hex) {
+        goingToMoat = true;
+        moatIdx = i;
+      }
+    }
+    if (goingToMoat) {
+      bool onEnemySideOfMoat = false;
+      if (moatIdx == 4 && gpCombatManager->drawBridgePosition != 4)
+        onEnemySideOfMoat = true;
+      if (moatIdx > 0 && *(&giWalkingYMod + moatIdx + 3) == this->occupiedHex// moatCell[moatIdx-1]
+        || moatIdx < 8 && moatCell[moatIdx + 1] == this->occupiedHex)
+        onEnemySideOfMoat = true;
+      for (int j = 0; j < 6; ++j) {
+        if (moatCell[moatIdx] == army::GetAdjacentCellIndex(this->occupiedHex, j))
+          onEnemySideOfMoat = true;
+      }
+      if (!this->owningSide && moatCell[this->occupiedHex / 13] < this->occupiedHex)
+        onEnemySideOfMoat = true;
+      if (this->owningSide == 1 && moatCell[this->occupiedHex / 13] > this->occupiedHex)
+        onEnemySideOfMoat = true;
+      if (!onEnemySideOfMoat) {
+        if (this->facingRight == 1)
+          --hex;
+        else
+          ++hex;
+      }
+    }
+  }
+
+  if(this->FindPath(this->occupiedHex, hex, this->creature.speed, 1, 0)) {
+    int traveledHexes = 0;
+    int initialHex = this->occupiedHex;
+    for(int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
+      int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
+      int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+      if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
+        if(gMoveAttack && hexIdxb < 4) { // less than 4 hexes from enemy
+          // find last hex
+          for(int h = hexIdxb; h >= 0; --h) {
+            dir = *((BYTE *)&gpSearchArray->field_2418 + h);
+            destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+            this->occupiedHex = destHex;
+          }
+          this->ArcJump(initialHex, destHex);
+		      gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER] = true;
+		      this->CancelSpellType(0);
+		      return 0;
+        } else if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
+          //finding where to land
+          for(int landHex = hexIdxb - 1; landHex >= 0; --landHex) {
+            dir = *((BYTE *)&gpSearchArray->field_2418 + landHex);
+            this->occupiedHex = destHex;
+            destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+            if(!gpCombatManager->combatGrid[destHex].isBlocked) {
+              traveledHexes += hexIdxb - landHex;
+              hexIdxb = landHex;
+              this->ArcJump(initialHex, destHex);
+              break;
+            }
+          }
+        } else {
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+        }
+      } else {
+        this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+      }
+      traveledHexes++;
+      if(traveledHexes >= this->creature.speed)
+        hexIdxb = -1;
+      initialHex = this->occupiedHex;
+    }
+    this->CancelSpellType(0);
+    this->animationType = ANIMATION_TYPE_STANDING;
+    this->animationFrame = 0;
+    gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+    gpCombatManager->TestRaiseDoor();
+    return 0;
+  } else {
+    return 3;
+  }
+}
+
+int army::AttackTo(int targetHex) {
+  int result;
+
+  if (this->creature.creature_flags & FLYER) {
+    if (this->occupiedHex != targetHex)
+      this->FlyTo(targetHex);
+    this->DoAttack(0);
+    result = 0;
+  } else if (this->creature.creature_flags & TWO_HEX_ATTACKER && this->occupiedHex == this->targetHex) {
+    this->DoAttack(0);
+    result = 0;
+  } else if (this->FindPath(this->occupiedHex, targetHex, this->creature.speed, 1, 0)) {
+    if (gpSearchArray->field_8 == 1) {
+      this->targetNeighborIdx = LOBYTE(gpSearchArray->field_2418);
+      gpCombatManager->TestRaiseDoor();
+      this->DoAttack(0);
+    } else {
+      int traveledHexes = 0;
+      int initialHex = this->occupiedHex;
+      for (int i = gpSearchArray->field_8 - 1; i; --i) {
+        int dir = *((BYTE *)&gpSearchArray->field_2418 + i);
+        int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+        if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
+          if(gMoveAttack && i < 5) { // less than 4 hexes from enemy
+            // find last hex
+            for(int h = i; h >= 1; --h) {
+              dir = *((BYTE *)&gpSearchArray->field_2418 + h);
+              destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
+              this->occupiedHex = destHex;
+            }
+            this->ArcJump(initialHex, destHex);
+            gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER] = true;
+            break;
+          } else {
+            this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
+          }
+        } else { 
+          this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
+        }
+        ++traveledHexes;
+        int a3 = i == 1 || this->creature.speed <= traveledHexes;
+        if (this->creature.speed <= traveledHexes && i != 1)
+          return 3;
+        initialHex = this->occupiedHex;
+      }
+      this->CancelSpellType(0);
+      this->targetNeighborIdx = LOBYTE(gpSearchArray->field_2418);
+      gpCombatManager->TestRaiseDoor();
+      this->DoAttack(0);
+    }
+    result = 0;
+  } else {
+    result = 3;
+  }
+  return result;
 }
 
 // ironfist function
@@ -1604,6 +1917,11 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (targ->effectStrengths[EFFECT_SHADOW_MARK])
 	  damagePerUnit *= 1.5;
 
+  if (CreatureHasAttribute(this->creatureIdx, JUMPER) && !isRetaliation && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER] && gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER]) {
+    gIronfistExtra.combat.stack.abilityCounter[this][JUMPER] = 0;
+    damagePerUnit *= SRandom(125, 150) * 0.01;
+  }
+
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
     baseDam = (signed __int64)(damagePerUnit * 1.25 + 0.5);
@@ -1626,9 +1944,9 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
     baseDam = -1;
   if(!isRanged && !isRetaliation) {
-    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && gIronfistExtra.combat.stack.abilityCounter[targ]) {
-        gIronfistExtra.combat.stack.abilityNowAnimating[targ] = true;
-        gIronfistExtra.combat.stack.abilityCounter[targ] = 0;
+    if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && gIronfistExtra.combat.stack.abilityCounter[targ][ASTRAL_DODGE]) {
+        gIronfistExtra.combat.stack.abilityNowAnimating[targ][ASTRAL_DODGE] = true;
+        gIronfistExtra.combat.stack.abilityCounter[targ][ASTRAL_DODGE] = 0;
         baseDam = -2;
     }
   }
@@ -1648,6 +1966,10 @@ void army::MoveTo(int hexIdx) {
 }
 
 void army::MoveAttack(int targHex, int x) {
+  gMoveAttack = false;
+  // when "x" is 1 - moveattack, when "x" is 0 - just move. It doesn't apply to AI moves!
+  if(x == 1 || (!x && gpCombatManager->combatGrid[targHex].unitOwner != -1))
+    gMoveAttack = true;
   int startHex = this->occupiedHex;
   this->MoveAttack_orig(targHex, x);
 
@@ -1780,10 +2102,13 @@ void army::CancelIndividualSpell(int effect) {
   }
 }
 
+extern std::vector<std::string> ironfistAttributeNames;
 void army::Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx) {
     Init_orig(creatureIdx, quantity, owner, stackIdx, startHex, armyIdx);
-    if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
-        gIronfistExtra.combat.stack.abilityCounter[this] = 1;
+    for(auto &i : ironfistAttributeNames) {
+      if(CreatureHasAttribute(this->creatureIdx, i))
+        gIronfistExtra.combat.stack.abilityCounter[this][i] = 1;
+    }
 }
 
 void army::InitClean() {
@@ -1803,6 +2128,8 @@ void army::InitClean() {
   this->mirrorIdx = -1;
   this->armyIdx = -1;
   this->previousQuantity = -1;
-  if(CreatureHasAttribute(this->creatureIdx, ASTRAL_DODGE))
-    gIronfistExtra.combat.stack.abilityCounter[this] = 1;
+  for(auto &i : ironfistAttributeNames) {
+      if(CreatureHasAttribute(this->creatureIdx, i))
+        gIronfistExtra.combat.stack.abilityCounter[this][i] = 1;
+    }
 }

@@ -13,6 +13,7 @@
 
 #include "scripting/callback.h"
 #include <string>
+#include <set>
 
 extern ironfistExtra gIronfistExtra;
 
@@ -183,40 +184,22 @@ void combatManager::ArcShot(icon *icn, int fromX, int fromY, int targX, int targ
   bool firingLeft = false;
   if (fromX > targX)
     firingLeft = true;
-  float boulderX = fromX;
-  float boulderY = fromY;
-  float amplitude = 0.01282;
-  float v33 = (double)((targX + fromX) / 2.);
-  float stepX = (v33 - (double)fromX) / 12.5;
-  float v32 = (double)targY - (double)(targX - fromX) * 0.3 - (double)targY * 0.35;
-  if(firingLeft)
-      v32 = (double)targY - (double)(fromX - targX) * 0.3 - (double)targY * 0.35;
-  float stepY = (v32 - (double)fromY) * amplitude;
-  int oldX = -1;
-  int oldY = -1;
   int imageIdx = 0; // changes the sprite when its angle changes
 
   // temporarily save the screen so we can clear it from the projectile sprite later
   bitmap *savedscreen = new bitmap(0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
   gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
 
-  const int NUM_CYCLES = 24; // equals to the number of frames for the whole arc path
-  for (int i = 0; i <= NUM_CYCLES; i++) {
-    if (i == (NUM_CYCLES / 2)) // reached the peak height
-      stepY = (v32 - (double)targY) * amplitude;
+  std::vector<COORD> points;
+  const int NUM_FRAMES = 24; // equals to the number of frames for the whole arc path
+  points = MakeCatapultArc(NUM_FRAMES, firingLeft, fromX, fromY, targX, targY);
+  for(int i = 0; i < (int)points.size(); i++) {
     if (i % 3 == 0) // every 3rd cycle
       if(imageIdx < (icn->numSprites - 1))
         imageIdx++; // changes the sprite of projectile
-
     savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear the screen from the previous projectile sprite
-    icn->CombatClipDrawToBuffer((int)boulderX, (int)boulderY, imageIdx, NULL, firingLeft, 0, 0, 0);
+    icn->CombatClipDrawToBuffer(points[i].X, points[i].Y, imageIdx, NULL, firingLeft, 0, 0, 0);
     gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
-    
-    oldX = (int)boulderX;
-    oldY = (int)boulderY;
-    boulderX += stepX;
-    boulderY += (double)((NUM_CYCLES / 2) - i) * stepY;
-    
     glTimers = (signed __int64)((double)KBTickCount() + (double)40 * gfCombatSpeedMod[giCombatSpeed]);
     DelayTil(&glTimers);
   }
@@ -442,7 +425,49 @@ void combatManager::ResetRound() {
         for(int j = 0; j < MAX_STACKS; j++) {
             army* ptr = &gpCombatManager->creatures[i][j];
             if(ptr->creatureIdx >= 0 && CreatureHasAttribute(ptr->creatureIdx, ASTRAL_DODGE))
-                gIronfistExtra.combat.stack.abilityCounter[ptr] = 1;
+                gIronfistExtra.combat.stack.abilityCounter[ptr][ASTRAL_DODGE] = 1;
         }
     }
+}
+
+bool IsCastleWall(int hexIdx) {
+    std::set<int> walls = {9, 22, 34, 47, 59, 73, 86, 100, 113, 92};
+    return walls.find(hexIdx) != walls.end();
+}
+
+bool IsAICombatTurn() {
+  int curPlayerID = gpCombatManager->playerID[gpCombatManager->currentActionSide];
+  if(curPlayerID == -1) // AI neutral
+    return 1;
+  else if(!gbHumanPlayer[curPlayerID]) // AI player
+    return 1;
+  return 0;
+}
+
+std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY) {
+  std::vector<COORD> points;
+  float amplitude = 0.01282;
+  float v33 = (double)((targX + fromX) / 2.);
+  float stepX = (v33 - (double)fromX) / 12.5;
+  float v32 = (double)targY - (double)(targX - fromX) * 0.3 - (double)targY * 0.35;
+  if(lefttoright)
+    v32 = (double)targY - (double)(fromX - targX) * 0.3 - (double)targY * 0.35;
+  float stepY = (v32 - (double)fromY) * amplitude;
+  int oldX = -1;
+  int oldY = -1;
+
+  float currentX = fromX;
+  float currentY = fromY;
+  for(int i = 0; i < numPoints; i++) {
+    if(i == (numPoints / 2)) // reached the peak height
+      stepY = (v32 - (double)targY) * amplitude;
+
+    points.push_back({ (short)currentX, (short)currentY });
+
+    oldX = (int)currentX;
+    oldY = (int)currentY;
+    currentX += stepX;
+    currentY += (double)((numPoints / 2) - i) * stepY;
+  }
+  return points;
 }
