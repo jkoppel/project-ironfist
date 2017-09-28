@@ -3,6 +3,7 @@
 
 #include<string.h>
 #include<stdio.h>
+#include <string>
 
 #pragma pack(push, 1)
 
