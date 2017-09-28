@@ -123,6 +123,8 @@ public:
   void ArcJump(int fromHex, int toHex);
   int AttackTo(int targetHex);
   int AttackTo_orig(int targetHex);
+  void RevertJumpingAnimation();
+  void SetJumpingAnimation();
 };
 
 #pragma pack(pop)
