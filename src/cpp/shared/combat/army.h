@@ -123,6 +123,7 @@ public:
   void ArcJump(int fromHex, int toHex);
   int AttackTo(int targetHex);
   int AttackTo_orig(int targetHex);
+private:
   void RevertJumpingAnimation();
   void SetJumpingAnimation();
 };
