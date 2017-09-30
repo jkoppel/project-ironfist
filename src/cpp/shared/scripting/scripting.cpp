@@ -828,6 +828,14 @@ int l_grantspellscroll(lua_State *L) {
 
 }
 
+int l_setNumberOfCreatures(lua_State *L) {
+	town* cstle = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
+	int dwllng = (int)luaL_checknumber(L, 2);
+	int numcrtrs = (int)luaL_checknumber(L, 3);
+	cstle->numCreaturesInDwelling[dwllng] = numcrtrs;
+	return 0;
+}
+
 void set_lua_globals(lua_State *L) {
   lua_register(L, "MessageBox", l_msgbox);
   lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
@@ -872,6 +880,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
   lua_register(L, "GetGuildSpell", l_getguildspell);
   lua_register(L, "GrantSpellScroll", l_grantspellscroll);
+  lua_register(L, "SetNumberOfCreatures", l_setNumberOfCreatures);
 	
   // Tales of Enroth functions
   lua_register(L, "QuestionBox", l_questionBox);
