@@ -216,11 +216,8 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   if ((isAI < 1 ? 25 : 65) <= Random(0, 99)) { // This line is only useful if the previous line doesn't assign "true" to hasTier[TIER_TWO].
     hasTier[TIER_TWO] = 1;                     // If isAI, there is a ~35% chance that this hero will get Tier 2 creatures; if not, then a ~75% chance
   }*/
-  for (signed int armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
-    heroArmy->creatureTypes[armySlotIdx] = -1;
-    heroArmy->quantities[armySlotIdx] = -1;
-  }
-  for (signed int creatureTier = 0; creatureTier < 2; ++creatureTier) {
+  this->ClearArmy(heroArmy);
+  for (int creatureTier = 0; creatureTier < 2; ++creatureTier) {
     if (hasTier[creatureTier]) {
       randomLowerBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][LOW_QUANTITY];
       randomUpperBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][HIGH_QUANTITY] + 9;
@@ -230,6 +227,13 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
       heroArmy->creatureTypes[creatureTier] = randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
       heroArmy->quantities[creatureTier] = Random(randomLowerBound, randomUpperBound) / 10;
     }
+  }
+}
+
+void game::ClearArmy(class armyGroup * heroArmy) {
+  for (int armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
+    heroArmy->creatureTypes[armySlotIdx] = -1;
+    heroArmy->quantities[armySlotIdx] = -1;
   }
 }
 
@@ -310,7 +314,7 @@ void game::ProcessOnMapHeroes() {
           if (randomHeroIdx == -1) { //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
             randomHeroIdx = this->RandomScan((signed char *)heroExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
             faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes)
-          }
+          }                              // NOTE: Hardcoded heroes may need to be generalized?!
           heroExists[randomHeroIdx] = 1;
           this->heroes[randomHeroIdx].factionID = faction;
           if (mapExtraHero->field_11 && mapExtraHero->heroID >= 54) {
