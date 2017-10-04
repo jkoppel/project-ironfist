@@ -6,6 +6,7 @@
 #define MAX_TOWNS 72
 #define MAX_PLACED_EVENTS 50
 #define MAX_MINES 144
+#define NUM_SECONDARY_SKILLS 8
 
 #pragma pack(push, 1)
 
@@ -231,7 +232,7 @@ public:
   char field_19;
   char field_1A;
   char couldBeHasSecondarySkills;
-  char secondarySkills[8];
+  char secondarySkills[NUM_SECONDARY_SKILLS];
   char firstSecondarySkillLevel;
   char secondSecondarySkillLevel;
   char field_26;
