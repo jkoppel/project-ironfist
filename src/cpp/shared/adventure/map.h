@@ -30,6 +30,8 @@ public:
   unsigned int displayFlags : 8;
   unsigned int objType : 8;
   unsigned int extraIdx : 16;
+
+  int getLocationType();
 #ifdef EDITOR
   unsigned int objLink;
   unsigned int ovrLink;

@@ -289,8 +289,8 @@ void game::ProcessOnMapHeroes() {
   for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
       loc = &this->map.tiles[(y * this->map.width) + x];
-      if ((loc->objType & 0x7F) == 55 || loc->objType == 251) {
-        isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
+      if (loc->getLocationType() == 55 || loc->objType == 251) {
+        isJail = loc->getLocationType() == LOCATION_JAIL;
         ppMapExtraHeroIdx = loc->extraInfo;
         mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
         if (!mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || heroExists[mapExtraHero->heroID]) {
@@ -317,11 +317,11 @@ void game::ProcessOnMapHeroes() {
           randomHeroIdx = this->RandomScan((signed char *)heroExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
           if (randomHeroIdx == -1) { //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
             randomHeroIdx = this->RandomScan((signed char *)heroExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-            faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes)
+            faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes); perhaps define HEROES_PER_FACTION?
           }                              // NOTE: Hardcoded heroes may need to be generalized?!
           heroExists[randomHeroIdx] = 1;
           this->heroes[randomHeroIdx].factionID = faction;
-          if (mapExtraHero->field_11 && mapExtraHero->heroID >= 54) {
+          if (mapExtraHero->field_11 && mapExtraHero->heroID >= 54) { // NUM_HEROES?
             this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
           }
           mapExtraHero->heroID = randomHeroIdx;
@@ -335,7 +335,7 @@ void game::ProcessOnMapHeroes() {
         }
 
         if (mapExtraHero->hasArmy) {
-          for (signed int armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
+          for (int armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
             randomHero->army.quantities[armySlotIdx] = mapExtraHero->army.quantities[armySlotIdx];
             if (randomHero->army.quantities[armySlotIdx] <= 0) {
               randomHero->army.creatureTypes[armySlotIdx] = -1;
@@ -344,9 +344,9 @@ void game::ProcessOnMapHeroes() {
             }
           }
         }
-        for (signed int artifactIdx = 0; artifactIdx < 3; ++artifactIdx) {
-          if (mapExtraHero->artifacts[artifactIdx] >= 0) {
-            GiveArtifact(randomHero, mapExtraHero->artifacts[artifactIdx], 1, -1);
+        for (int i = 0; i < 3; ++i) {
+          if (mapExtraHero->artifacts[i] >= 0) {
+            GiveArtifact(randomHero, mapExtraHero->artifacts[i], 1, -1);
           }
         }
         if (mapExtraHero->relatedToName[5]) {
