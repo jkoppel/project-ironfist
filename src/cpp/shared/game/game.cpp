@@ -272,7 +272,7 @@ void game::ProcessOnMapHeroes() {
   signed int randomHeroIdx;
   mapCell *loc;
   hero *randomHero;
-  char heroExists[56];
+  char heroExists[54];
   int ppMapExtraHeroIdx;
   HeroExtra *mapExtraHero;
   char isJail;
@@ -306,9 +306,9 @@ void game::ProcessOnMapHeroes() {
         if (mapExtraHero->couldBeHasFaction) {
           this->heroes[mapExtraHero->heroID].factionID = faction;
         } else {
-          randomHeroIdx = this->RandomScan((signed char *)mightBeHeroAlreadyExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
+          randomHeroIdx = this->RandomScan((signed char *)heroExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
           if (randomHeroIdx == -1) { //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
-            randomHeroIdx = this->RandomScan((signed char *)mightBeHeroAlreadyExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
+            randomHeroIdx = this->RandomScan((signed char *)heroExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
             faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes)
           }
           heroExists[randomHeroIdx] = 1;
