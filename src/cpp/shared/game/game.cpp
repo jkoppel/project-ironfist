@@ -271,8 +271,8 @@ void game::ProcessOnMapHeroes() {
   int i;
 
   memset(heroExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
-  for (y = 0; y < MAP_HEIGHT; ++y) {
-    for (x = 0; x < MAP_WIDTH; ++x) {
+  for (int y = 0; y < MAP_HEIGHT; ++y) {
+    for (int x = 0; x < MAP_WIDTH; ++x) {
       loc = &this->map.tiles[(y * this->map.width) + x];
       if ((loc->objType & 0x7F) == 55 || loc->objType == 251) {
         isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
@@ -340,25 +340,22 @@ void game::ProcessOnMapHeroes() {
         randomHero->experience = 0;
         gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
         randomHero->CheckLevel();       // Check this function (design question based on generalizing hardcoded, faction-specific data structure information related to skills)
-        randomHero->x = coordXForRandomHero;
-        randomHero->y = coordYForRandomHero;
+        randomHero->x = x;
+        randomHero->y = y;
 
         if (isJail) {
           randomHero->ownerIdx = -1;
           this->relatedToHeroForHireStatus[mapExtraHero->heroID] = 65;
+          loc->extraInfo = mapExtraHero->heroID;
         } else {
           randomHero->ownerIdx = mapExtraHero->owner;
           this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
-        }
-        if (!isJail && coordYForRandomHero > 0 && (this->map.tiles[coordXForRandomHero + ((coordYForRandomHero - 1) * this->map.width)].objType) == 163) {
-          --randomHero->relatedToY;
-          --randomHero->y;
-          this->castles[this->GetTownId(coordXForRandomHero, coordYForRandomHero - 1)].visitingHeroIdx = randomHero->idx;
-        }
-        if (isJail) {
-          loc->extraInfo = mapExtraHero->heroID;
-        } else {
+          if (y > 0 && (this->map.tiles[x + ((y - 1) * this->map.width)].objType) == 163) {
+            --randomHero->relatedToY;
+            --randomHero->y;
+            this->castles[this->GetTownId(x, y - 1)].visitingHeroIdx = randomHero->idx;
+          }
           loc->objTileset = 0;
           loc->objectIndex = -1;
           loc->extraInfo = 0;
