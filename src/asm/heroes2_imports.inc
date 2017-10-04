@@ -149,7 +149,6 @@ IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
 IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
 ?GiveTroopsToNeutralTown@game@@QAEXH@Z_clone EQU ?GiveTroopsToNeutralTown_orig@game@@QAEXH@Z
 IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
-?ProcessOnMapHeroes@game@@QAEXXZ_clone EQU ?ProcessOnMapHeroes_orig@game@@QAEXXZ
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
