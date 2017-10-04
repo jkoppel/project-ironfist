@@ -221,11 +221,15 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
     if (hasTier[creatureTier]) {
       randomLowerBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][LOW_QUANTITY];
       randomUpperBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][HIGH_QUANTITY] + 9;
-      if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
+      if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and this results in the probability of higher values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
-      heroArmy->creatureTypes[creatureTier] = randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
-      heroArmy->quantities[creatureTier] = Random(randomLowerBound, randomUpperBound) / 10;
+      /*heroArmy->creatureTypes[creatureTier] = randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
+      heroArmy->quantities[creatureTier] = Random(randomLowerBound, randomUpperBound) / 10;*/
+      this->GiveArmy(heroArmy, 
+                     randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE], 
+                     Random(randomLowerBound, randomUpperBound) / 10, 
+                     creatureTier);
     }
   }
 }
