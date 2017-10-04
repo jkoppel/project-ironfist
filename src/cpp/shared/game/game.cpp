@@ -382,12 +382,12 @@ void game::ProcessOnMapHeroes() {
         }
 
         if (!isJail) {
-          this->SetVisibility(randomHero->x, randomHero->y, randomHero->ownerIdx, giVisRange[randomHero->secondarySkillLevel[3]]);
+          this->SetVisibility(randomHero->x, randomHero->y, randomHero->ownerIdx, giVisRange[randomHero->secondarySkillLevel[3]]); // probably SECONDARY_SKILL_SCOUTING
         }
 
         FREE(ppMapExtra[ppMapExtraHeroIdx]);
-        ppMapExtra[ppMapExtraHeroIdx] = 0;
+        ppMapExtra[ppMapExtraHeroIdx] = NULL;
       }
+    }
   }
-}
 }
