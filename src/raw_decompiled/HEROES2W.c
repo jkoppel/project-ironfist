@@ -28341,7 +28341,7 @@ int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int i
   signed int armySlotIdx; // [sp+18h] [bp-84h]@3
   signed int creatureTier; // [sp+18h] [bp-84h]@6
   int randomLowerBound; // [sp+1Ch] [bp-80h]@9
-  //__int16 creatureTypesAndQuantities[54]; // [sp+20h] [bp-7Ch]@1
+  //__int16 randomHeroArmyBounds[54]; // [sp+20h] [bp-7Ch]@1
   armyGroup *pointerToArmyOfHeroIdx = &this->heroes[heroIdx].army; // [sp+8Ch] [bp-10h]@1
   bool hasTier[3]; // [sp+90h] [bp-Ch]@1
   int TIER_ONE = 0;
@@ -28360,9 +28360,9 @@ int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int i
   }
   for ( creatureTier = 0; creatureTier < 2; ++creatureTier ) {
     if ( hasTier[creatureTier] ) {
-      pointerToArmyOfHeroIdx->creatureTypes[creatureTier2] = creatureTypesAndQuantities[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
-      randomLowerBound = 10 * creatureTypesAndQuantities[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_TWO];
-      randomUpperBound = 10 * creatureTypesAndQuantities[pointerToGame->heroes[heroIdx].factionID ][creatureTier][TIER_THREE] + 9;
+      pointerToArmyOfHeroIdx->creatureTypes[creatureTier2] = randomHeroArmyBounds[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
+      randomLowerBound = 10 * randomHeroArmyBounds[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_TWO];
+      randomUpperBound = 10 * randomHeroArmyBounds[pointerToGame->heroes[heroIdx].factionID ][creatureTier][TIER_THREE] + 9;
       if (isAI) {                              //  If isAI, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
