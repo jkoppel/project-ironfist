@@ -185,10 +185,7 @@ void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int 
 }
 
 void game::SetRandomHeroArmies(int heroIdx, int isAI) {
-  int randomQuantity;
   int randomUpperBound;
-  signed int armySlotIdx;
-  signed int creatureTier;
   int randomLowerBound;
   armyGroup *heroArmy = &gpGame->heroes[heroIdx].army;
   bool hasTier[2];
@@ -201,12 +198,12 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   hasTier[TIER_TWO] = Random(0, 99) < (isAI < 1 ? 50 : 80); // If isAI, there is a ~20% chance that this hero will get Tier 2 creatures; if not, then a ~50% chance
   if ((isAI < 1 ? 25 : 65) <= Random(0, 99)) { // This line is only useful if the previous line doesn't assign "true" to hasTier[TIER_TWO].
     hasTier[TIER_TWO] = 1;                     // If isAI, there is a ~35% chance that this hero will get Tier 2 creatures; if not, then a ~75% chance
-  }
-  for (armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
+  }*/
+  for (signed int armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
     heroArmy->creatureTypes[armySlotIdx] = -1;
     heroArmy->quantities[armySlotIdx] = -1;
   }
-  for (creatureTier = 0; creatureTier < 2; ++creatureTier) {
+  for (signed int creatureTier = 0; creatureTier < 2; ++creatureTier) {
     if (hasTier[creatureTier]) {
       randomLowerBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][LOW_QUANTITY];
       randomUpperBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][HIGH_QUANTITY] + 9;
@@ -256,19 +253,12 @@ void game::GiveTroopsToNeutralTown(int castleIdx) {
 void game::ProcessOnMapHeroes() {
   int faction;
   signed int randomHeroIdx;
-  signed int armySlotIdx;
   mapCell *loc;
-  int coordYForRandomHero;
-  signed int artifactIdx;
-  signed int secondarySkillIdxA;
-  signed int secondarySkillIdxB;
-  int coordXForRandomHero;
   hero *randomHero;
   char heroExists[56];
   int ppMapExtraHeroIdx;
   HeroExtra *mapExtraHero;
   char isJail;
-  int i;
 
   memset(heroExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
   for (int y = 0; y < MAP_HEIGHT; ++y) {
@@ -314,13 +304,13 @@ void game::ProcessOnMapHeroes() {
         randomHero = &this->heroes[mapExtraHero->heroID];
 
         if (!isJail && mapExtraHero->relatedToName[19]) {
-          this->heroes[mapExtraHero->heroID].relatedToX = coordXForRandomHero;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
-          randomHero->relatedToY = coordYForRandomHero;
+          this->heroes[mapExtraHero->heroID].relatedToX = x;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
+          randomHero->relatedToY = y;
           randomHero->relatedToFactionID = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
         }
 
         if (mapExtraHero->hasArmy) {
-          for (armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
+          for (signed int armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
             randomHero->army.quantities[armySlotIdx] = mapExtraHero->army.quantities[armySlotIdx];
             if (randomHero->army.quantities[armySlotIdx] <= 0) {
               randomHero->army.creatureTypes[armySlotIdx] = -1;
@@ -329,7 +319,7 @@ void game::ProcessOnMapHeroes() {
             }
           }
         }
-        for (artifactIdx = 0; artifactIdx < 3; ++artifactIdx) {
+        for (signed int artifactIdx = 0; artifactIdx < 3; ++artifactIdx) {
           if (mapExtraHero->artifacts[artifactIdx] >= 0) {
             GiveArtifact(randomHero, mapExtraHero->artifacts[artifactIdx], 1, -1);
           }
@@ -364,13 +354,13 @@ void game::ProcessOnMapHeroes() {
 
         if (mapExtraHero->couldBeHasSecondarySkills) {
           randomHero->numSecSkillsKnown = 0;
-          for (secondarySkillIdxA = 0; secondarySkillIdxA < 14; ++secondarySkillIdxA) { //clear secondary skills
-            randomHero->secondarySkillLevel[secondarySkillIdxA] = 0;
-            randomHero->skillIndex[secondarySkillIdxA] = 0;
+          for (int i = 0; i < 14; ++i) { //clear secondary skills
+            randomHero->secondarySkillLevel[i] = 0;
+            randomHero->skillIndex[i] = 0;
           }
-          for (secondarySkillIdxB = 0; secondarySkillIdxB < 8; ++secondarySkillIdxB) { //assign new secondary skills
-            if (mapExtraHero->secondarySkills[secondarySkillIdxB] != -1)
-              randomHero->GiveSS(mapExtraHero->secondarySkills[secondarySkillIdxB],  *(&mapExtraHero->firstSecondarySkillLevel + secondarySkillIdxB));
+          for (int i = 0; i < 8; ++i) { //assign new secondary skills
+            if (mapExtraHero->secondarySkills[i] != -1)
+              randomHero->GiveSS(mapExtraHero->secondarySkills[i],  *(&mapExtraHero->firstSecondarySkillLevel + i));
           }
         }
 
