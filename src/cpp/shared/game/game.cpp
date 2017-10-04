@@ -193,9 +193,26 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   const int TIER_TWO = 1;
   const int LOW_QUANTITY = 1;
   const int HIGH_QUANTITY = 2;
+  int tierChance;
 
   hasTier[TIER_ONE] = 1;
-  hasTier[TIER_TWO] = Random(0, 99) < (isAI < 1 ? 50 : 80); // If isAI, there is a ~20% chance that this hero will get Tier 2 creatures; if not, then a ~50% chance
+  if (isAI) {
+    tierChance = 20;
+  } else {
+    tierChance = 50;
+  }
+  if (Random(0, 99) < tierChance) {
+    hasTier[TIER_TWO] = 1;
+  } else {
+    if (isAI) {
+      tierChance = 35;
+    } else {
+      tierChance = 75;
+    }
+    hasTier[TIER_TWO] = Random(0, 99) < tierChance;
+  }
+  
+  /*hasTier[TIER_TWO] = Random(0, 99) < (isAI < 1 ? 50 : 80); // If isAI, there is a ~20% chance that this hero will get Tier 2 creatures; if not, then a ~50% chance
   if ((isAI < 1 ? 25 : 65) <= Random(0, 99)) { // This line is only useful if the previous line doesn't assign "true" to hasTier[TIER_TWO].
     hasTier[TIER_TWO] = 1;                     // If isAI, there is a ~35% chance that this hero will get Tier 2 creatures; if not, then a ~75% chance
   }*/
