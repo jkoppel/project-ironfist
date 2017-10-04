@@ -264,24 +264,24 @@ void game::ProcessOnMapHeroes() {
   signed int secondarySkillIdxB;
   int coordXForRandomHero;
   hero *randomHero;
-  char mightBeHeroAlreadyExists[56];
+  char heroExists[56];
   int ppMapExtraHeroIdx;
   HeroExtra *mapExtraHero;
   char isJail;
   int i;
 
-  memset(mightBeHeroAlreadyExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
-  for (coordYForRandomHero = 0; coordYForRandomHero < MAP_HEIGHT; ++coordYForRandomHero) {
-    for (coordXForRandomHero = 0; coordXForRandomHero < MAP_WIDTH; ++coordXForRandomHero) {
-      loc = &this->map.tiles[(coordYForRandomHero * this->map.width) + coordXForRandomHero];
+  memset(heroExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
+  for (y = 0; y < MAP_HEIGHT; ++y) {
+    for (x = 0; x < MAP_WIDTH; ++x) {
+      loc = &this->map.tiles[(y * this->map.width) + x];
       if ((loc->objType & 0x7F) == 55 || loc->objType == 251) {
         isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
         ppMapExtraHeroIdx = loc->extraInfo;
         mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
-        if (!mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID]) {
+        if (!mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || heroExists[mapExtraHero->heroID]) {
           mapExtraHero->couldBeHasFaction = 0;
         } else {
-          mightBeHeroAlreadyExists[mapExtraHero->heroID] = 1;
+          heroExists[mapExtraHero->heroID] = 1;
           mapExtraHero->couldBeHasFaction = 1;
         }
 
@@ -304,7 +304,7 @@ void game::ProcessOnMapHeroes() {
             randomHeroIdx = this->RandomScan((signed char *)mightBeHeroAlreadyExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
             faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes)
           }
-          mightBeHeroAlreadyExists[randomHeroIdx] = 1;
+          heroExists[randomHeroIdx] = 1;
           this->heroes[randomHeroIdx].factionID = faction;
           if (mapExtraHero->field_11 && mapExtraHero->heroID >= 54) {
             this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
