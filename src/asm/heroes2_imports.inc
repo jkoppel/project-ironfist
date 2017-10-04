@@ -145,9 +145,7 @@ IMPORT_?NextPlayer@game@@QAEXXZ = 1
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
 IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
-?SetRandomHeroArmies@game@@QAEXHH@Z_clone EQU ?SetRandomHeroArmies_orig@game@@QAEXHH@Z
 IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
-?GiveTroopsToNeutralTown@game@@QAEXH@Z_clone EQU ?GiveTroopsToNeutralTown_orig@game@@QAEXH@Z
 IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
