@@ -213,7 +213,6 @@ public:
   int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
   void SetupNewRumour();
   void GiveArmy(class armyGroup *, int, int, int);
-  void ClearArmy(class armyGroup *);
 
   void SetRandomHeroArmies(int heroIdx, int isAI);
   void GiveTroopsToNeutralTown(int castleIdx);

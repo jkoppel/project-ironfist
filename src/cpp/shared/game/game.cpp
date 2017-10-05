@@ -194,7 +194,7 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   hasTier[0] = 1;
   hasTier[1] = Random(0, 99) < 87;
 
-  this->ClearArmy(heroArmy);
+  heroArmy->ClearArmy();
   for (int creatureTier = 0; creatureTier < 2; ++creatureTier) {
     if (hasTier[creatureTier]) {
       randomLowerBound = creatureFaction[creatureTier].lowQuantity;
@@ -207,10 +207,10 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   }
 }
 
-void game::ClearArmy(class armyGroup * heroArmy) {
+void armyGroup::ClearArmy() {
   for (int armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
-    heroArmy->creatureTypes[armySlotIdx] = -1;
-    heroArmy->quantities[armySlotIdx] = -1;
+    this->creatureTypes[armySlotIdx] = -1;
+    this->quantities[armySlotIdx] = -1;
   }
 }
 

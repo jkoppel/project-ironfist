@@ -72,6 +72,7 @@ public:
   };
 
   int Add(int, int, int);
+  void ClearArmy();
   
 };
 
