@@ -164,6 +164,7 @@ public:
   signed char GetSSLevel(int);
   void SetSS(int, int);
   int GiveSS(int, int);
+  void ClearSS();
   int CalcMobility();
   int CalcMobility_orig();
 

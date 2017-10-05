@@ -258,7 +258,7 @@ void game::ProcessOnMapHeroes() {
   HeroExtra *mapExtraHero;
   char isJail;
 
-  memset(heroExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
+  memset(heroExists, 0, 54u);
   for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
       loc = &this->map.tiles[(y * this->map.width) + x];
@@ -294,7 +294,7 @@ void game::ProcessOnMapHeroes() {
           }                              // NOTE: Hardcoded heroes may need to be generalized?!
           heroExists[randomHeroIdx] = 1;
           this->heroes[randomHeroIdx].factionID = faction;
-          if (mapExtraHero->field_11 && mapExtraHero->heroID >= MAX_HEROES) { // NUM_HEROES?
+          if (mapExtraHero->field_11 && mapExtraHero->heroID >= MAX_HEROES) {
             this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
           }
           mapExtraHero->heroID = randomHeroIdx;
@@ -351,12 +351,8 @@ void game::ProcessOnMapHeroes() {
         }
 
         if (mapExtraHero->hasSecondarySkills) {
-          randomHero->numSecSkillsKnown = 0;
-          for (int i = 0; i < 14; ++i) { //clear secondary skills
-            randomHero->secondarySkillLevel[i] = 0;
-            randomHero->skillIndex[i] = 0;
-          }
-          for (int i = 0; i < NUM_SECONDARY_SKILLS; ++i) { //assign new secondary skills
+          randomHero->ClearSS();
+          for (int i = 0; i < NUM_SECONDARY_SKILLS; ++i) {
             if (mapExtraHero->secondarySkills[i] != -1)
               randomHero->GiveSS(mapExtraHero->secondarySkills[i],  mapExtraHero->secondarySkillLevel[i]);
           }

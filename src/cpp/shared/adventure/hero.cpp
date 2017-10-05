@@ -151,6 +151,14 @@ void hero::SetPrimarySkill(int skill, int amt) {
   this->primarySkills[skill] = amt;
 }
 
+void hero::ClearSS() {
+  for (int i = 0; i < 14; ++i) {
+    this->secondarySkillLevel[i] = 0;
+    this->skillIndex[i] = 0;
+  }
+  this->numSecSkillsKnown = 0;
+}
+
 int hero::GetLevel() {
 	return this->oldLevel;
 }
