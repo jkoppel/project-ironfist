@@ -29403,7 +29403,7 @@ void* game::ProcessOnMapHeroes() {
 
           if (i == 2) {                        // 3rd iteration
             randomHero = &this->heroes[mapExtraHero->heroID];
-            if (!isJail && mapExtraHero->relatedToName[19]) {
+            if (!isJail && mapExtraHero->name[19]) {
               LOBYTE(this->heroes[mapExtraHero->heroID].relatedTo_HIBYTE_y_LOBYTE_x) = coordXForRandomHero;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
               HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x) = coordYForRandomHero;
               LOBYTE(randomHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
@@ -29421,8 +29421,8 @@ void* game::ProcessOnMapHeroes() {
               if (mapExtraHero->artifacts[artifactIdx] >= 0)
                 GiveArtifact(randomHero, mapExtraHero->artifacts[artifactIdx], 1, -1);
             }
-            if (mapExtraHero->relatedToName[5])
-              strcpy(randomHero->name, &mapExtraHero->relatedToName[6]);
+            if (mapExtraHero->name[5])
+              strcpy(randomHero->name, &mapExtraHero->name[6]);
             randomHero->experience = 0;
             gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
             randomHero->CheckLevel();       // Check this function (design question based on generalizing hardcoded, faction-specific data structure information related to skills)

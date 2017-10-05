@@ -2962,7 +2962,7 @@ struct heroMapExtra
   char secondSecondarySkillLevel;
   char field_26;
   char field_27;
-  char relatedToName[20];
+  char name[20];
   char factionID;
   char couldBeHasFaction;
   char field_3E;

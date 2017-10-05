@@ -301,7 +301,7 @@ void game::ProcessOnMapHeroes() {
         }
         randomHero = &this->heroes[mapExtraHero->heroID];
 
-        if (!isJail && mapExtraHero->relatedToName[19]) {
+        if (!isJail && mapExtraHero->name[19]) {
           this->heroes[mapExtraHero->heroID].relatedToX = x;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
           randomHero->relatedToY = y;
           randomHero->relatedToFactionID = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
@@ -322,8 +322,8 @@ void game::ProcessOnMapHeroes() {
             GiveArtifact(randomHero, mapExtraHero->artifacts[i], 1, -1);
           }
         }
-        if (mapExtraHero->relatedToName[5]) {
-          strcpy(randomHero->name, &mapExtraHero->relatedToName[6]);
+        if (mapExtraHero->name[5]) {
+          strcpy(randomHero->name, &mapExtraHero->name[6]);
         }
         randomHero->experience = 0;
         gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience

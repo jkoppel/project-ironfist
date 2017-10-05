@@ -230,16 +230,15 @@ public:
   char artifacts[3];
   char field_16;
   char experience;
-  char field_18;
+  char field_18;  // These 3 might also be experience, according to IDA
   char field_19;
   char field_1A;
   char couldBeHasSecondarySkills;
   char secondarySkills[NUM_SECONDARY_SKILLS];
   char firstSecondarySkillLevel;
   char secondSecondarySkillLevel;
-  char field_26;
-  char field_27;
-  char relatedToName[20];
+  char field_2C;
+  char name[13];
   char factionID;
   char couldBeHasFaction;
   char field_3E;
