@@ -253,7 +253,7 @@ void game::ProcessOnMapHeroes() {
   signed int randomHeroIdx;
   mapCell *loc;
   hero *randomHero;
-  char heroExists[54];
+  char heroExists[MAX_HEROES];
   int ppMapExtraHeroIdx;
   HeroExtra *mapExtraHero;
   char isJail;
@@ -262,11 +262,11 @@ void game::ProcessOnMapHeroes() {
   for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
       loc = &this->map.tiles[(y * this->map.width) + x];
-      if (loc->getLocationType() == 55 || loc->objType == 251) {
+      if (loc->getLocationType() == LOCATION_RANDOM_HERO || loc->objType == 251) { // TILE_HAS_EVENT & LOCATION_RANDOM_HERO
         isJail = loc->getLocationType() == LOCATION_JAIL;
         ppMapExtraHeroIdx = loc->extraInfo;
         mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
-        if (!mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || heroExists[mapExtraHero->heroID]) {
+        if (!mapExtraHero->field_11 || mapExtraHero->heroID >= MAX_HEROES || heroExists[mapExtraHero->heroID]) {
           mapExtraHero->couldBeHasFaction = 0;
         } else {
           heroExists[mapExtraHero->heroID] = 1;
@@ -289,12 +289,12 @@ void game::ProcessOnMapHeroes() {
         } else {
           randomHeroIdx = this->RandomScan((signed char *)heroExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
           if (randomHeroIdx == -1) { //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
-            randomHeroIdx = this->RandomScan((signed char *)heroExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
+            randomHeroIdx = this->RandomScan((signed char *)heroExists, 0, MAX_HEROES, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
             faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes); perhaps define HEROES_PER_FACTION?
           }                              // NOTE: Hardcoded heroes may need to be generalized?!
           heroExists[randomHeroIdx] = 1;
           this->heroes[randomHeroIdx].factionID = faction;
-          if (mapExtraHero->field_11 && mapExtraHero->heroID >= 54) { // NUM_HEROES?
+          if (mapExtraHero->field_11 && mapExtraHero->heroID >= MAX_HEROES) { // NUM_HEROES?
             this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
           }
           mapExtraHero->heroID = randomHeroIdx;
@@ -339,7 +339,7 @@ void game::ProcessOnMapHeroes() {
           randomHero->ownerIdx = mapExtraHero->owner;
           this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
-          if (y > 0 && (this->map.tiles[x + ((y - 1) * this->map.width)].objType) == 163) {
+          if (y > 0 && (this->map.tiles[x + ((y - 1) * this->map.width)].objType) == 163) { // maybe: TILE_HAS_EVENT & LOCATION_TOWN
             --randomHero->relatedToY;
             --randomHero->y;
             this->castles[this->GetTownId(x, y - 1)].visitingHeroIdx = randomHero->idx;
@@ -356,7 +356,7 @@ void game::ProcessOnMapHeroes() {
             randomHero->secondarySkillLevel[i] = 0;
             randomHero->skillIndex[i] = 0;
           }
-          for (int i = 0; i < 8; ++i) { //assign new secondary skills
+          for (int i = 0; i < NUM_SECONDARY_SKILLS; ++i) { //assign new secondary skills
             if (mapExtraHero->secondarySkills[i] != -1)
               randomHero->GiveSS(mapExtraHero->secondarySkills[i],  *(&mapExtraHero->firstSecondarySkillLevel + i));
           }
