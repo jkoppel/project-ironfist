@@ -189,13 +189,10 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   double randomLowerBound;
   armyGroup *heroArmy = &gpGame->heroes[heroIdx].army;
   bool hasTier[2];
-  const int TIER_ONE = 0;
-  const int TIER_TWO = 1;
-  int tierChance;
   randomHeroCreatureInfo* creatureFaction = randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID];
 
-  hasTier[TIER_ONE] = 1;
-  hasTier[TIER_TWO] = Random(0, 99) < 87;
+  hasTier[0] = 1;
+  hasTier[1] = Random(0, 99) < 87;
 
   this->ClearArmy(heroArmy);
   for (int creatureTier = 0; creatureTier < 2; ++creatureTier) {
