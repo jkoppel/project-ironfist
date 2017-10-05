@@ -191,8 +191,6 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   bool hasTier[2];
   const int TIER_ONE = 0;
   const int TIER_TWO = 1;
-  const int LOW_QUANTITY = 1;
-  const int HIGH_QUANTITY = 2;
   int tierChance;
 
   hasTier[TIER_ONE] = 1;
