@@ -238,6 +238,7 @@ public:
   char firstSecondarySkillLevel;
   char secondSecondarySkillLevel;
   char field_2C;
+  char hasName;
   char name[13];
   char factionID;
   char couldBeHasFaction;

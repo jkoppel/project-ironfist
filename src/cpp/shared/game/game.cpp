@@ -322,7 +322,7 @@ void game::ProcessOnMapHeroes() {
             GiveArtifact(randomHero, mapExtraHero->artifacts[i], 1, -1);
           }
         }
-        if (mapExtraHero->name[5]) {
+        if (mapExtraHero->hasName) {
           strcpy(randomHero->name, &mapExtraHero->name[6]);
         }
         randomHero->experience = 0;

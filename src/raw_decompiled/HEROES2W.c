@@ -29421,7 +29421,7 @@ void* game::ProcessOnMapHeroes() {
               if (mapExtraHero->artifacts[artifactIdx] >= 0)
                 GiveArtifact(randomHero, mapExtraHero->artifacts[artifactIdx], 1, -1);
             }
-            if (mapExtraHero->name[5])
+            if (mapExtraHero->hasName)
               strcpy(randomHero->name, &mapExtraHero->name[6]);
             randomHero->experience = 0;
             gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
