@@ -262,7 +262,7 @@ void game::ProcessOnMapHeroes() {
   for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
       loc = &this->map.tiles[(y * this->map.width) + x];
-      if (loc->getLocationType() == LOCATION_RANDOM_HERO || loc->objType == 251) { // TILE_HAS_EVENT & LOCATION_RANDOM_HERO
+      if (loc->getLocationType() == LOCATION_RANDOM_HERO || loc->objType == TILE_HAS_EVENT | LOCATION_RANDOM_HERO) {
         isJail = loc->getLocationType() == LOCATION_JAIL;
         ppMapExtraHeroIdx = loc->extraInfo;
         mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
@@ -339,7 +339,7 @@ void game::ProcessOnMapHeroes() {
           randomHero->ownerIdx = mapExtraHero->owner;
           this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
-          if (y > 0 && (this->map.tiles[x + ((y - 1) * this->map.width)].objType) == 163) { // maybe: TILE_HAS_EVENT & LOCATION_TOWN
+          if (y > 0 && (this->map.tiles[x + ((y - 1) * this->map.width)].objType) == TILE_HAS_EVENT | LOCATION_TOWN) {
             --randomHero->relatedToY;
             --randomHero->y;
             this->castles[this->GetTownId(x, y - 1)].visitingHeroIdx = randomHero->idx;
