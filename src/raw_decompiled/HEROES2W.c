@@ -29364,10 +29364,10 @@ void* game::ProcessOnMapHeroes() {
 
           if (!i) {                           // 1st iteration
             if (!mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID]) {
-              mapExtraHero->couldBeHasFaction = 0;
+              mapExtraHero->hasFaction = 0;
             } else {
               mightBeHeroAlreadyExists[mapExtraHero->heroID] = 1;
-              mapExtraHero->couldBeHasFaction = 1;
+              mapExtraHero->hasFaction = 1;
             }
             if (isJail) {
               mapExtraHero->owner = -1;
@@ -29385,7 +29385,7 @@ void* game::ProcessOnMapHeroes() {
               if (faction == FACTION_MULTIPLE)// Constant here (faction related)
                 faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];// Constant here (most likely faction related)
             }
-            if (mapExtraHero->couldBeHasFaction) {
+            if (mapExtraHero->hasFaction) {
               this->heroes[mapExtraHero->heroID].factionID = faction;
             } else {
               randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)

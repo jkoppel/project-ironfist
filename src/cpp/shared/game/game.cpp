@@ -267,10 +267,10 @@ void game::ProcessOnMapHeroes() {
         ppMapExtraHeroIdx = loc->extraInfo;
         mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
         if (!mapExtraHero->field_11 || mapExtraHero->heroID >= MAX_HEROES || heroExists[mapExtraHero->heroID]) {
-          mapExtraHero->couldBeHasFaction = 0;
+          mapExtraHero->hasFaction = 0;
         } else {
           heroExists[mapExtraHero->heroID] = 1;
-          mapExtraHero->couldBeHasFaction = 1;
+          mapExtraHero->hasFaction = 1;
         }
 
         if (isJail) {
@@ -284,7 +284,7 @@ void game::ProcessOnMapHeroes() {
           }
         }
 
-        if (mapExtraHero->couldBeHasFaction) {
+        if (mapExtraHero->hasFaction) {
           this->heroes[mapExtraHero->heroID].factionID = faction;
         } else {
           randomHeroIdx = this->RandomScan((signed char *)heroExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)

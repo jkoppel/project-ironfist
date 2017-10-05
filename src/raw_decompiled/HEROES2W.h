@@ -2963,7 +2963,7 @@ struct heroMapExtra
   char field_27;
   char name[20];
   char factionID;
-  char couldBeHasFaction;
+  char hasFaction;
   char field_3E;
   char field_3F;
   char field_40;

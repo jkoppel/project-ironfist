@@ -241,7 +241,7 @@ public:
   char name[13];
   char relatedToJailCondition;
   char factionID;
-  char couldBeHasFaction;
+  char hasFaction;
   char field_3E;
   char field_3F;
   char field_40;
