@@ -20,7 +20,7 @@ int game::GetRandomNumTroops(int creat) {
 
 extern int gbNoCDRom;
 
-__int16 randomHeroArmyBounds[NUM_FACTIONS][2][3] = {
+randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2] = {
   {{CREATURE_PEASANT,  30, 50},{CREATURE_ARCHER,   3, 5}},
   {{CREATURE_GOBLIN,   15, 25},{CREATURE_ORC,      3, 5}},
   {{CREATURE_SPRITE,   10, 20},{CREATURE_DWARF,    2, 4}},
@@ -219,15 +219,15 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   this->ClearArmy(heroArmy);
   for (int creatureTier = 0; creatureTier < 2; ++creatureTier) {
     if (hasTier[creatureTier]) {
-      randomLowerBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][LOW_QUANTITY];
-      randomUpperBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][HIGH_QUANTITY] + 9;
+      randomLowerBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier].lowQuantity;
+      randomUpperBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier].highQuantity + 9;
       if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and this results in the probability of higher values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
       /*heroArmy->creatureTypes[creatureTier] = randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
       heroArmy->quantities[creatureTier] = Random(randomLowerBound, randomUpperBound) / 10;*/
       this->GiveArmy(heroArmy, 
-                     randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE], 
+                     randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier].creatureType, 
                      Random(randomLowerBound, randomUpperBound) / 10, 
                      creatureTier);
     }

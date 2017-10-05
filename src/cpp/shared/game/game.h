@@ -88,6 +88,12 @@ struct boat
 	char owner;
 };
 
+struct randomHeroCreatureInfo {
+  enum CREATURES creatureType;
+  int lowQuantity;
+  int highQuantity;
+};
+
 class game {
 public:
 	__int16 gameDifficulty;
@@ -262,7 +268,7 @@ extern signed char giVisRange[];
 extern char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 
-extern __int16 randomHeroArmyBounds[NUM_FACTIONS][2][3];
+extern randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2];
 extern int neutralTownCreatureTypes[NUM_FACTIONS][5];
 
 extern signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4];
