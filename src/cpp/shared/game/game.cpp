@@ -358,7 +358,7 @@ void game::ProcessOnMapHeroes() {
           }
           for (int i = 0; i < NUM_SECONDARY_SKILLS; ++i) { //assign new secondary skills
             if (mapExtraHero->secondarySkills[i] != -1)
-              randomHero->GiveSS(mapExtraHero->secondarySkills[i],  *(&mapExtraHero->firstSecondarySkillLevel + i));
+              randomHero->GiveSS(mapExtraHero->secondarySkills[i],  mapExtraHero->secondarySkillLevel[i]);
           }
         }
 

@@ -235,8 +235,7 @@ public:
   char field_1A;
   char couldBeHasSecondarySkills;
   char secondarySkills[NUM_SECONDARY_SKILLS];
-  char firstSecondarySkillLevel;
-  char secondSecondarySkillLevel;
+  char secondarySkillLevel[NUM_SECONDARY_SKILLS];
   char field_2C;
   char hasName;
   char name[13];

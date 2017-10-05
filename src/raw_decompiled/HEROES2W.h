@@ -2958,8 +2958,7 @@ struct heroMapExtra
   int experience;
   char couldBeHasSecondarySkills;
   char secondarySkills[8];
-  char firstSecondarySkillLevel;
-  char secondSecondarySkillLevel;
+  char secondarySkillLevel;
   char field_26;
   char field_27;
   char name[20];

@@ -29458,7 +29458,7 @@ void* game::ProcessOnMapHeroes() {
               for (secondarySkillIdxB = 0; secondarySkillIdxB < 8; ++secondarySkillIdxB) {
                 if (mapExtraHero->secondarySkills[secondarySkillIdxB] != -1)
                   randomHero->GiveSS(mapExtraHero->secondarySkills[secondarySkillIdxB],
-                                     *(&mapExtraHero->firstSecondarySkillLevel + secondarySkillIdxB));
+                                     *(&mapExtraHero->secondarySkillLevel + secondarySkillIdxB));
               }
             }
             if (!isJail)
