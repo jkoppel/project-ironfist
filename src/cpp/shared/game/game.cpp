@@ -185,13 +185,14 @@ void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int 
 }
 
 void game::SetRandomHeroArmies(int heroIdx, int isAI) {
-  int randomUpperBound;
-  int randomLowerBound;
+  double randomUpperBound;
+  double randomLowerBound;
   armyGroup *heroArmy = &gpGame->heroes[heroIdx].army;
   bool hasTier[2];
   const int TIER_ONE = 0;
   const int TIER_TWO = 1;
   int tierChance;
+  randomHeroCreatureInfo* creatureFaction = randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID];
 
   hasTier[TIER_ONE] = 1;
   hasTier[TIER_TWO] = Random(0, 99) < 87;
@@ -199,17 +200,12 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   this->ClearArmy(heroArmy);
   for (int creatureTier = 0; creatureTier < 2; ++creatureTier) {
     if (hasTier[creatureTier]) {
-      randomLowerBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier].lowQuantity;
-      randomUpperBound = 10 * randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier].highQuantity + 9;
+      randomLowerBound = creatureFaction[creatureTier].lowQuantity;
+      randomUpperBound = creatureFaction[creatureTier].highQuantity + 9;
       if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and this results in the probability of higher values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
-      /*heroArmy->creatureTypes[creatureTier] = randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
-      heroArmy->quantities[creatureTier] = Random(randomLowerBound, randomUpperBound) / 10;*/
-      this->GiveArmy(heroArmy, 
-                     randomHeroArmyBounds[gpGame->heroes[heroIdx].factionID][creatureTier].creatureType, 
-                     Random(randomLowerBound, randomUpperBound) / 10, 
-                     creatureTier);
+      this->GiveArmy(heroArmy, creatureFaction[creatureTier].creatureType, (int)Random(randomLowerBound, randomUpperBound), creatureTier);
     }
   }
 }
