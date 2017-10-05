@@ -240,6 +240,7 @@ public:
   char field_2C;
   char hasName;
   char name[13];
+  char relatedToJailCondition;
   char factionID;
   char couldBeHasFaction;
   char field_3E;
