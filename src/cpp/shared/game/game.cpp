@@ -350,7 +350,7 @@ void game::ProcessOnMapHeroes() {
           loc->objType = 0;
         }
 
-        if (mapExtraHero->couldBeHasSecondarySkills) {
+        if (mapExtraHero->hasSecondarySkills) {
           randomHero->numSecSkillsKnown = 0;
           for (int i = 0; i < 14; ++i) { //clear secondary skills
             randomHero->secondarySkillLevel[i] = 0;

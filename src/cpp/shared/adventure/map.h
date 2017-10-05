@@ -233,7 +233,7 @@ public:
   char field_18;  // These 3 might also be experience, according to IDA
   char field_19;
   char field_1A;
-  char couldBeHasSecondarySkills;
+  char hasSecondarySkills;
   char secondarySkills[NUM_SECONDARY_SKILLS];
   char secondarySkillLevel[NUM_SECONDARY_SKILLS];
   char field_2C;

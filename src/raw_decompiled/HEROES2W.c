@@ -29449,7 +29449,7 @@ void* game::ProcessOnMapHeroes() {
               loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
               loc->objType = 0;
             }
-            if (mapExtraHero->couldBeHasSecondarySkills) {
+            if (mapExtraHero->hasSecondarySkills) {
               randomHero->numSecSkillsKnown = 0;
               for (secondarySkillIdxA = 0; secondarySkillIdxA < 14; ++secondarySkillIdxA) {
                 randomHero->secondarySkillLevel[secondarySkillIdxA] = 0;
