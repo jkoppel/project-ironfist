@@ -131,6 +131,7 @@ enum CREATURE_EVENT_CODE {
 #define ASTRAL_DODGE "astral-dodge"
 #define SHADOW_MARK "shadow-mark"
 #define JUMPER "jumper"
+#define CHARGER "charger"
 
 struct tag_monsterInfo
 {
