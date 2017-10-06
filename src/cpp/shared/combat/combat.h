@@ -222,6 +222,7 @@ public:
   void SetupCombat_orig(int arg0, int arg1, hero *h1, armyGroup *a1, town *t, hero *h2, armyGroup *a2, int arg2, int arg3, int arg4);
   void ResetRound_orig();
   void ResetRound();
+  int GetGridIndex(int x, int y);
 };
 
 extern combatManager* gpCombatManager;

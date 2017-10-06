@@ -6,6 +6,8 @@
 #include "graphics.h"
 #include "resource/resources.h"
 #include "spell/spells.h"
+#include <vector>
+#include <stack>
 
 #define NUM_SPELL_EFFECTS 19 // don't ever change it for now  
 
@@ -121,11 +123,16 @@ public:
   int ValidPath(int hex, int flag);
   int FindPathIgnoringObstacles(int knownHex, int targHex, int speed, int flying, int flag);
   void ArcJump(int fromHex, int toHex);
+  int AttackTo();
   int AttackTo(int targetHex);
   int AttackTo_orig(int targetHex);
+  int GetAttackMask(int hex, int focusLevel, int a5);
 private:
+  void RevertChargingAnimation();
+  void SetChargingAnimation();
   void RevertJumpingAnimation();
   void SetJumpingAnimation();
+  void ChargingDamage(std::stack<int> affectedHexes);
 };
 
 #pragma pack(pop)

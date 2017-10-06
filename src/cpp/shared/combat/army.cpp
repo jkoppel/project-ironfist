@@ -166,6 +166,26 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
   gpCombatManager->CombatMessage(gText, 1, 1, 0);
 }
 
+void army::SetChargingAnimation() {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
+    for(int i = 0; i < 8; i++)
+    {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = 96;
+    }
+  }
+}
+
+void army::RevertChargingAnimation() {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
+    this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] = 8;
+    for(int i = 0; i < 8; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] =
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] = 46 + i;
+    }
+  }
+}
+
 void army::SetJumpingAnimation() {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
     this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 
@@ -203,6 +223,73 @@ void army::RevertJumpingAnimation() {
     this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS_RETURN][1] = 22;
     this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][1] = 15;
     this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_DOWNWARDS_RETURN][1] = 29;
+  }
+}
+
+void army::ChargingDamage(std::stack<int> affectedHexes) {
+  if(!affectedHexes.size())
+    return;
+
+  int oldFacingRight = this->facingRight;
+
+  int totalDamage = 0;
+  int totalCreaturesKilled = 0;
+  
+  bool first = true;
+  while(!affectedHexes.empty()) {
+    int targHex = affectedHexes.top();
+    affectedHexes.pop();
+    army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targHex].unitOwner][gpCombatManager->combatGrid[targHex].stackIdx];
+    int creaturesKilled = 0;
+    int damDone;
+    if(first)
+      ;// do more damage
+    this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
+    totalDamage += damDone;
+    totalCreaturesKilled += creaturesKilled;
+
+    if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+      if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE]) {
+        int dodgeAnimLen = 7;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+        for (int p = 0; p < dodgeAnimLen; p++) {
+          primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
+        }
+        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE] = false;
+      } else {
+        // revert to usual animations after the first received attack
+        int winceAnimLen = 1;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+        primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;
+      }
+    }
+    first = false;
+  }
+  
+  //DoAttackBattleMessage(this, primaryTarget, totalCreaturesKilled, totalDamage);
+
+  this->PowEffect(-1, 0, -1, -1);
+    
+  gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
+
+  if (this->facingRight != oldFacingRight) {
+    if (!(this->creature.creature_flags & DEAD)) {
+      this->facingRight = oldFacingRight;
+      OccupyHexes(this);
+    }
+    /*for(auto targetHex : affectedHexes)
+    {
+      army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+      int targetOldFacingRight = primaryTarget->facingRight;
+      if(!(primaryTarget->creature.creature_flags & DEAD))
+      {
+        if(primaryTarget->facingRight != targetOldFacingRight)
+        {
+          primaryTarget->facingRight = targetOldFacingRight;
+          OccupyHexes(primaryTarget);
+        }
+      }
+    }*/
   }
 }
 
@@ -940,6 +1027,7 @@ bool army::IsCloseMove(int toHexIdx) {
   return false;
 }
 
+extern int giNextActionGridIndex;
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
 
@@ -992,6 +1080,8 @@ int army::FlyTo(int hexIdx) {
       gpCombatManager->combatGrid[v3].occupiersOtherHexIsToLeft = -1;
     }
 
+
+    std::stack<int> chargeAffectedHexes;
     if (!gbNoShowCombat) {
       bool closeMove = IsCloseMove(hexIdx);
       bool teleporter = CreatureHasAttribute(this->creatureIdx, TELEPORTER);
@@ -999,6 +1089,8 @@ int army::FlyTo(int hexIdx) {
       gpWindowManager->screenBuffer->CopyTo(gpCombatManager->probablyBitmapForCombatScreen, 0, 0, 0, 0, 0x280u, 442);
       gpCombatManager->zeroedAfterAnimatingDeathAndHolySpells = 0;
 
+      if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+        SetChargingAnimation();
       this->animationType = ANIMATION_TYPE_WALKING;
       for (int i = 0; numFrames > i; ++i) {
         if (teleporter) {
@@ -1099,6 +1191,11 @@ int army::FlyTo(int hexIdx) {
           if (this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] - 1 == this->animationFrame) {
             currentDrawX = (double)(i + 1) * stepX + (double)v19;
             currentDrawY = (double)(i + 1) * stepY + (double)v14;
+
+            int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
+            if(gpCombatManager->combatGrid[h].unitOwner != gpCombatManager->combatGrid[this->creatureIdx].unitOwner) {
+              chargeAffectedHexes.push(h);
+            }
           }
         }
       }
@@ -1122,7 +1219,15 @@ int army::FlyTo(int hexIdx) {
       OccupyHexes(this);
       this->field_8E = 0;
     }
+
+    if(gpCombatManager->combatGrid[giNextActionGridIndex].unitOwner != -1)
+      chargeAffectedHexes.push(giNextActionGridIndex);
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+      ChargingDamage(chargeAffectedHexes);
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+    
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+        RevertChargingAnimation();
     gpCombatManager->TestRaiseDoor();
     return 1;
   }
@@ -1966,13 +2071,84 @@ void army::MoveTo(int hexIdx) {
 }
 
 void army::MoveAttack(int targHex, int x) {
+  char targetOwner = gpCombatManager->combatGrid[targHex].unitOwner;
+  char targetStack = gpCombatManager->combatGrid[targHex].stackIdx;
   gMoveAttack = false;
   // when "x" is 1 - moveattack, when "x" is 0 - just move. It doesn't apply to AI moves!
-  if(x == 1 || (!x && gpCombatManager->combatGrid[targHex].unitOwner != -1))
+  if(x == 1 || (!x && targetOwner != -1))
     gMoveAttack = true;
   int startHex = this->occupiedHex;
-  this->MoveAttack_orig(targHex, x);
-
+  
+  while(1) {
+    gpCombatManager->field_F2B7 = 0;
+    this->targetOwner = -1;
+    this->targetStackIdx = -1;
+    if(!ValidHex(targHex))
+      break;
+    if(targetOwner == -1 ||
+      targetOwner == gpCombatManager->otherCurrentSideThing && targetStack == gpCombatManager->someSortOfStackIdx) {
+      if(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && gMoveAttack)) {
+        this->targetHex = targHex;
+        if(!ValidFlight(this->targetHex, 0))
+          return;
+        FlyTo(this->targetHex);
+      } else {
+        WalkTo(targHex);
+      }
+      gpCombatManager->field_F2B7 = 1;
+      return;
+    }
+    if(x)
+      return;
+    this->targetOwner = targetOwner;
+    this->targetStackIdx = targetStack;
+    this->targetHex = targHex;
+    int attackMask = GetAttackMask(this->occupiedHex, 0, -1);
+    if(!(this->creature.creature_flags & FLYER) || attackMask != 255) {
+      int attackMask2;
+      if(this->effectStrengths[5])
+        attackMask2 = GetAttackMask(this->occupiedHex, 2, -1);
+      else
+        attackMask2 = GetAttackMask(this->occupiedHex, 1, -1);
+      if(attackMask2 != 0xFF || this->creature.shots <= 0) {
+        if(attackMask == 0xFF) {
+          AttackTo();
+        } else {
+          for(int i = 0; i < 8; ++i) {
+            if(i < 6 || this->creature.creature_flags & TWO_HEXER) {
+              int knownHex = this->occupiedHex;
+              if(this->creature.creature_flags & TWO_HEXER && this->facingRight == 1 && i >= 0 && i <= 2)
+                ++knownHex;
+              if(this->creature.creature_flags & TWO_HEXER && !this->facingRight && i >= 3 && i <= 5)
+                --knownHex;
+              if(i >= 6) {
+                if(this->facingRight == 1)
+                  ++knownHex;
+                else
+                  --knownHex;
+              }
+              int adjCell = GetAdjacentCellIndex(knownHex, i);
+              if(ValidHex(adjCell)
+                && gpCombatManager->combatGrid[adjCell].unitOwner == this->targetOwner
+                && gpCombatManager->combatGrid[adjCell].stackIdx == this->targetStackIdx)
+                this->targetNeighborIdx = i;
+            }
+          }
+          if(!CreatureHasAttribute(this->creatureIdx, CHARGER) || gCloseMove)
+            DoAttack(0);
+        }
+      } else {
+        SpecialAttack();
+      }
+      gpCombatManager->field_F2B7 = 1;
+      return;
+    }
+    if(this->occupiedHex != this->targetHex && !ValidFlight(this->targetHex, 0))
+      return;
+    FlyTo(this->targetHex);
+  }
+ 
+  // broken
   if (!(this->creature.creature_flags & DEAD) &&
     CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
     MoveTo(startHex);
