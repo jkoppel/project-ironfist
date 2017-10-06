@@ -398,6 +398,10 @@
         <creature-attribute name="jumper"/>
         <random-spawn minimum="10" maximum="50"/>
     </creature>
+    <creature id="80" name-singular="cyber plasma lancer" name-plural="cyber plasma lancers" icn="cplancer.icn" frm="cplancer.bin" projectile="" cost="100" fight-value="1690" fight-value-aux="34" growth="8" hp="50" faction="6" speed="13" attack="5" defense="3" shots="0" short-name="lich">
+        <damage minimum="3" maximum="3"/>
+        <random-spawn minimum="10" maximum="50"/>
+    </creature>
     <creature id="81" name-singular="cyber indigo panther" name-plural="cyber indigo panthers" icn="cipanther.icn" frm="cipanther.bin" projectile="" cost="2500" fight-value="1690" fight-value-aux="34" growth="4" hp="200" faction="6" speed="10" attack="15" defense="6" shots="0" short-name="lich">
         <damage minimum="40" maximum="40"/>
         <creature-attribute name="flies"/>
