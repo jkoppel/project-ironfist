@@ -34,6 +34,7 @@ extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
 bool gMoveAttack; // ironfist var to differentiate between move/move and attack
+bool gChargeTargetDamaging;
 char *gCombatFxNames[34] =
 {
   "",
@@ -236,6 +237,7 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
   int totalCreaturesKilled = 0;
   
   bool first = true;
+  gChargeTargetDamaging = true;
   while(!affectedHexes.empty()) {
     int targHex = affectedHexes.top();
     affectedHexes.pop();
@@ -264,6 +266,7 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
       }
     }
     first = false;
+    gChargeTargetDamaging = false;
   }
   
   //DoAttackBattleMessage(this, primaryTarget, totalCreaturesKilled, totalDamage);
@@ -2027,6 +2030,12 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     damagePerUnit *= SRandom(125, 150) * 0.01;
   }
 
+  if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+    if(gChargeTargetDamaging)
+      damagePerUnit *= 1.25;
+    else
+      damagePerUnit *= 0.5;
+  }
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
     baseDam = (signed __int64)(damagePerUnit * 1.25 + 0.5);
