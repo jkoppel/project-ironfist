@@ -236,7 +236,6 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
   int totalDamage = 0;
   int totalCreaturesKilled = 0;
   
-  bool first = true;
   gChargeTargetDamaging = true;
   while(!affectedHexes.empty()) {
     int targHex = affectedHexes.top();
@@ -244,8 +243,6 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
     army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targHex].unitOwner][gpCombatManager->combatGrid[targHex].stackIdx];
     int creaturesKilled = 0;
     int damDone;
-    if(first)
-      ;// do more damage
     this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
     if(damDone > 0)
       totalDamage += damDone;
@@ -266,12 +263,12 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
         primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;
       }
     }
-    first = false;
     gChargeTargetDamaging = false;
   }
   
   this->PowEffect(-1, 0, -1, -1);
-    
+  
+  // Battle message
   char *attackingCreature, *targetCreature;
   if (this->quantity <= 1)
     attackingCreature = GetCreatureName(this->creatureIdx);
