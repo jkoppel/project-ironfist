@@ -7,6 +7,7 @@
 #define MAX_PLACED_EVENTS 50
 #define MAX_MINES 144
 #define NUM_SECONDARY_SKILLS 8
+#define MAX_TOTAL_SECONDARY_SKILLS 14
 
 #pragma pack(push, 1)
 
