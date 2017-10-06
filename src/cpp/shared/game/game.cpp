@@ -198,7 +198,7 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   for (int creatureTier = 0; creatureTier < 2; ++creatureTier) {
     if (hasTier[creatureTier]) {
       randomLowerBound = creatureFaction[creatureTier].lowQuantity;
-      randomUpperBound = creatureFaction[creatureTier].highQuantity + 9;
+      randomUpperBound = creatureFaction[creatureTier].highQuantity + 0.9;
       if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and this results in the probability of higher values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
