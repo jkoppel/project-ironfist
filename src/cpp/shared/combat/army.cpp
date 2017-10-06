@@ -247,7 +247,8 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
     if(first)
       ;// do more damage
     this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
-    totalDamage += damDone;
+    if(damDone > 0)
+      totalDamage += damDone;
     totalCreaturesKilled += creaturesKilled;
 
     if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
@@ -269,10 +270,30 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
     gChargeTargetDamaging = false;
   }
   
-  //DoAttackBattleMessage(this, primaryTarget, totalCreaturesKilled, totalDamage);
-
   this->PowEffect(-1, 0, -1, -1);
     
+  char *attackingCreature, *targetCreature;
+  if (this->quantity <= 1)
+    attackingCreature = GetCreatureName(this->creatureIdx);
+  else
+    attackingCreature = GetCreaturePluralName(this->creatureIdx);
+  if(totalDamage > 0) {
+    if (totalCreaturesKilled <= 0) {
+      sprintf(gText, "%s %s %d damage.", attackingCreature, (this->quantity > 1) ? "do" : "does", totalDamage);
+    } else {
+      sprintf(
+        gText,
+        "%s %s %d damage.\n%d creatures %s.",
+        attackingCreature,
+        (this->quantity > 1) ? "do" : "does",
+        totalDamage,
+        totalCreaturesKilled,
+        (totalCreaturesKilled > 1) ? "perish" : "perishes");
+    }
+    gText[0] = toupper(gText[0]);
+    gpCombatManager->CombatMessage(gText, 1, 1, 0);
+  }
+
   gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
 
   if (this->facingRight != oldFacingRight) {
