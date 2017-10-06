@@ -258,7 +258,7 @@ void game::ProcessOnMapHeroes() {
   HeroExtra *mapExtraHero;
   char isJail;
 
-  memset(heroExists, 0, 54u);
+  memset(heroExists, 0, MAX_HEROES);
   for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
       loc = &this->map.tiles[(y * this->map.width) + x];
