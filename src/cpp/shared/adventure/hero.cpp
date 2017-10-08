@@ -14,6 +14,15 @@ char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
 	                        '\0','\0','\0','\0','\0','\0',
                             'c'};
 
+signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4] = {
+  {{35, 45, 10, 10}, {25, 25, 25, 25}},
+  {{55, 35,  5,  5}, {25, 25, 25, 25}},
+  {{10, 10, 30, 50}, {20, 20, 30, 30}},
+  {{10, 10, 50, 30}, {20, 20, 30, 30}},
+  {{10, 10, 40, 40}, {20, 20, 30, 30}},
+  {{15, 15, 35, 35}, {25, 25, 25, 25}}
+};
+
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();
@@ -140,6 +149,14 @@ int hero::GetNumSpells(int type) {
 
 void hero::SetPrimarySkill(int skill, int amt) {
   this->primarySkills[skill] = amt;
+}
+
+void hero::ClearSS() {
+  for (int i = 0; i < MAX_TOTAL_SECONDARY_SKILLS; ++i) {
+    this->secondarySkillLevel[i] = 0;
+    this->skillIndex[i] = 0;
+  }
+  this->numSecSkillsKnown = 0;
 }
 
 int hero::GetLevel() {

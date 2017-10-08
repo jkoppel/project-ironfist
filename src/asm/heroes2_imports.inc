@@ -144,6 +144,9 @@ IMPORT_?NextPlayer@game@@QAEXXZ = 1
 
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
+IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
+IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
+IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
@@ -226,6 +229,7 @@ IMPORT_?AttackTo@army@@QAEHH@Z = 1
 IMPORT_?cHeroTypeInitial@@3PADA = 1
 IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
 IMPORT_?gAlignmentNames@@3PAPADA = 1
+IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
@@ -273,6 +277,8 @@ IMPORT_?SpellMessage@combatManager@@QAEXHH@Z = 1
 IMPORT_?ValidSpellTarget@combatManager@@QAEHHH@Z = 1
 
 ;;towns
+IMPORT_?gTownEligibleBuildMask@@3PAKA = 1
+
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
 IMPORT_?RecruitHero@townManager@@QAEHHH@Z = 1

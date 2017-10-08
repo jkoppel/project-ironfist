@@ -16,6 +16,8 @@ class mapCell;
 
 #define CREATURES_IN_ARMY 5
 
+#define NUM_FACTIONS 6
+
 enum PRIMARY_SKILL {
   PRIMARY_SKILL_ATTACK = 0,
   PRIMARY_SKILL_DEFENSE = 1,
@@ -70,6 +72,7 @@ public:
   };
 
   int Add(int, int, int);
+  void ClearArmy();
   
 };
 
@@ -93,8 +96,10 @@ public:
   __int16 field_23;
   __int16 field_25;
   __int16 field_27;
-  __int16 field_29;
-  __int16 field_2B;
+  __int8 relatedToX;
+  __int8 relatedToY;
+  __int8 relatedToFactionID;
+  __int8 relatedToUnknown;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;
   int mobility;
@@ -159,6 +164,8 @@ public:
   signed char Stats(int);
   signed char GetSSLevel(int);
   void SetSS(int, int);
+  int GiveSS(int, int);
+  void ClearSS();
   int CalcMobility();
   int CalcMobility_orig();
 
@@ -168,6 +175,9 @@ public:
   void SetPrimarySkill(int, int);
   int GetLevel();
   void Clear();
+
+  void CheckLevel();
+
 };
 
 enum HERO_FLAGS {
@@ -240,6 +250,19 @@ public:
 
   int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int switchSides, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
   int MapPutArmy(int x, int y, int monIdx, int monQty);
+
+  int GiveExperience(class hero*, int, int);
+};
+
+class ExpCampaign {
+public:
+
+  ExpCampaign();
+
+  char HasAward(int a2);
+  char *JosephName();
+  char *IvanName();
+  
 };
 
 extern advManager* gpAdvManager;
@@ -248,6 +271,14 @@ extern int giMapChangeCtr;
 
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;
+
+extern int giAdjacentMonsterUpperBoundX;
+extern int giAdjacentMonsterUpperBoundY;
+extern int giAdjacentMonsterX;
+extern int giAdjacentMonsterY;
+extern int giAdjacentMonsterLowerBoundX;
+extern int giAdjacentMonsterLowerBoundY;
+extern ExpCampaign xCampaign;
 
 hero* GetCurrentHero();
 

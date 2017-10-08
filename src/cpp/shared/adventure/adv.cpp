@@ -182,3 +182,7 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
   gpGame->map.tiles[cellIdx].isShadow = 0;
   return 0;
 }
+
+int mapCell::getLocationType() {
+  return this->objType & 0x7F;
+}

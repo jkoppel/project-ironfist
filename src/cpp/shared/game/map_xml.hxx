@@ -670,33 +670,61 @@ namespace ironfist_save
     void
     field_27 (const field_27_type& x);
 
-    // field_29
+    // relatedToX
     // 
-    typedef ::xml_schema::int_ field_29_type;
-    typedef ::xsd::cxx::tree::traits< field_29_type, char > field_29_traits;
+    typedef ::xml_schema::int_ relatedToX_type;
+    typedef ::xsd::cxx::tree::traits< relatedToX_type, char > relatedToX_traits;
 
-    const field_29_type&
-    field_29 () const;
+    const relatedToX_type&
+    relatedToX () const;
 
-    field_29_type&
-    field_29 ();
+    relatedToX_type&
+    relatedToX ();
 
     void
-    field_29 (const field_29_type& x);
+    relatedToX (const relatedToX_type& x);
 
-    // field_2B
+    // relatedToY
     // 
-    typedef ::xml_schema::int_ field_2B_type;
-    typedef ::xsd::cxx::tree::traits< field_2B_type, char > field_2B_traits;
+    typedef ::xml_schema::int_ relatedToY_type;
+    typedef ::xsd::cxx::tree::traits< relatedToY_type, char > relatedToY_traits;
 
-    const field_2B_type&
-    field_2B () const;
+    const relatedToY_type&
+    relatedToY () const;
 
-    field_2B_type&
-    field_2B ();
+    relatedToY_type&
+    relatedToY ();
 
     void
-    field_2B (const field_2B_type& x);
+    relatedToY (const relatedToY_type& x);
+
+    // relatedToFactionID
+    // 
+    typedef ::xml_schema::int_ relatedToFactionID_type;
+    typedef ::xsd::cxx::tree::traits< relatedToFactionID_type, char > relatedToFactionID_traits;
+
+    const relatedToFactionID_type&
+    relatedToFactionID () const;
+
+    relatedToFactionID_type&
+    relatedToFactionID ();
+
+    void
+    relatedToFactionID (const relatedToFactionID_type& x);
+
+    // relatedToUnknown
+    // 
+    typedef ::xml_schema::int_ relatedToUnknown_type;
+    typedef ::xsd::cxx::tree::traits< relatedToUnknown_type, char > relatedToUnknown_traits;
+
+    const relatedToUnknown_type&
+    relatedToUnknown () const;
+
+    relatedToUnknown_type&
+    relatedToUnknown ();
+
+    void
+    relatedToUnknown (const relatedToUnknown_type& x);
 
     // occupiedObjType
     // 
@@ -1150,8 +1178,10 @@ namespace ironfist_save
             const field_23_type&,
             const field_25_type&,
             const field_27_type&,
-            const field_29_type&,
-            const field_2B_type&,
+            const relatedToX_type&,
+            const relatedToY_type&,
+            const relatedToFactionID_type&,
+            const relatedToUnknown_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
             const mobility_type&,
@@ -1198,8 +1228,10 @@ namespace ironfist_save
             const field_23_type&,
             const field_25_type&,
             const field_27_type&,
-            const field_29_type&,
-            const field_2B_type&,
+            const relatedToX_type&,
+            const relatedToY_type&,
+            const relatedToFactionID_type&,
+            const relatedToUnknown_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
             const mobility_type&,
@@ -1269,8 +1301,10 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< field_23_type > field_23_;
     ::xsd::cxx::tree::one< field_25_type > field_25_;
     ::xsd::cxx::tree::one< field_27_type > field_27_;
-    ::xsd::cxx::tree::one< field_29_type > field_29_;
-    ::xsd::cxx::tree::one< field_2B_type > field_2B_;
+    ::xsd::cxx::tree::one< relatedToX_type > relatedToX_;
+    ::xsd::cxx::tree::one< relatedToY_type > relatedToY_;
+    ::xsd::cxx::tree::one< relatedToFactionID_type > relatedToFactionID_;
+    ::xsd::cxx::tree::one< relatedToUnknown_type > relatedToUnknown_;
     ::xsd::cxx::tree::one< occupiedObjType_type > occupiedObjType_;
     ::xsd::cxx::tree::one< occupiedObjVal_type > occupiedObjVal_;
     ::xsd::cxx::tree::one< mobility_type > mobility_;
@@ -1847,47 +1881,47 @@ namespace ironfist_save
     void
     numObelisks (const numObelisks_type& x);
 
-    // field_6395
+    // ultimateArtifactLocX
     // 
-    typedef ::xml_schema::int_ field_6395_type;
-    typedef ::xsd::cxx::tree::traits< field_6395_type, char > field_6395_traits;
+    typedef ::xml_schema::int_ ultimateArtifactLocX_type;
+    typedef ::xsd::cxx::tree::traits< ultimateArtifactLocX_type, char > ultimateArtifactLocX_traits;
 
-    const field_6395_type&
-    field_6395 () const;
+    const ultimateArtifactLocX_type&
+    ultimateArtifactLocX () const;
 
-    field_6395_type&
-    field_6395 ();
+    ultimateArtifactLocX_type&
+    ultimateArtifactLocX ();
 
     void
-    field_6395 (const field_6395_type& x);
+    ultimateArtifactLocX (const ultimateArtifactLocX_type& x);
 
-    // field_6396
+    // ultimateArtifactLocY
     // 
-    typedef ::xml_schema::int_ field_6396_type;
-    typedef ::xsd::cxx::tree::traits< field_6396_type, char > field_6396_traits;
+    typedef ::xml_schema::int_ ultimateArtifactLocY_type;
+    typedef ::xsd::cxx::tree::traits< ultimateArtifactLocY_type, char > ultimateArtifactLocY_traits;
 
-    const field_6396_type&
-    field_6396 () const;
+    const ultimateArtifactLocY_type&
+    ultimateArtifactLocY () const;
 
-    field_6396_type&
-    field_6396 ();
+    ultimateArtifactLocY_type&
+    ultimateArtifactLocY ();
 
     void
-    field_6396 (const field_6396_type& x);
+    ultimateArtifactLocY (const ultimateArtifactLocY_type& x);
 
-    // field_6397
+    // ultimateArtifactIdx
     // 
-    typedef ::xml_schema::int_ field_6397_type;
-    typedef ::xsd::cxx::tree::traits< field_6397_type, char > field_6397_traits;
+    typedef ::xml_schema::int_ ultimateArtifactIdx_type;
+    typedef ::xsd::cxx::tree::traits< ultimateArtifactIdx_type, char > ultimateArtifactIdx_traits;
 
-    const field_6397_type&
-    field_6397 () const;
+    const ultimateArtifactIdx_type&
+    ultimateArtifactIdx () const;
 
-    field_6397_type&
-    field_6397 ();
+    ultimateArtifactIdx_type&
+    ultimateArtifactIdx ();
 
     void
-    field_6397 (const field_6397_type& x);
+    ultimateArtifactIdx (const ultimateArtifactIdx_type& x);
 
     // currentRumor
     // 
@@ -2030,33 +2064,22 @@ namespace ironfist_save
     void
     heroHireStatus (const heroHireStatus_sequence& s);
 
-    // field_44D
+    // relatedToPlayerPosAndColor
     // 
-    typedef ::xml_schema::int_ field_44D_type;
-    typedef ::xsd::cxx::tree::traits< field_44D_type, char > field_44D_traits;
+    typedef ::ironfist_save::arrayInt_t relatedToPlayerPosAndColor_type;
+    typedef ::xsd::cxx::tree::sequence< relatedToPlayerPosAndColor_type > relatedToPlayerPosAndColor_sequence;
+    typedef relatedToPlayerPosAndColor_sequence::iterator relatedToPlayerPosAndColor_iterator;
+    typedef relatedToPlayerPosAndColor_sequence::const_iterator relatedToPlayerPosAndColor_const_iterator;
+    typedef ::xsd::cxx::tree::traits< relatedToPlayerPosAndColor_type, char > relatedToPlayerPosAndColor_traits;
 
-    const field_44D_type&
-    field_44D () const;
+    const relatedToPlayerPosAndColor_sequence&
+    relatedToPlayerPosAndColor () const;
 
-    field_44D_type&
-    field_44D ();
+    relatedToPlayerPosAndColor_sequence&
+    relatedToPlayerPosAndColor ();
 
     void
-    field_44D (const field_44D_type& x);
-
-    // field_451
-    // 
-    typedef ::xml_schema::int_ field_451_type;
-    typedef ::xsd::cxx::tree::traits< field_451_type, char > field_451_traits;
-
-    const field_451_type&
-    field_451 () const;
-
-    field_451_type&
-    field_451 ();
-
-    void
-    field_451 (const field_451_type& x);
+    relatedToPlayerPosAndColor (const relatedToPlayerPosAndColor_sequence& s);
 
     // playerHandicap
     // 
@@ -2075,39 +2098,39 @@ namespace ironfist_save
     void
     playerHandicap (const playerHandicap_sequence& s);
 
-    // field_459
+    // relatedToColorOfPlayerOrFaction
     // 
-    typedef ::ironfist_save::arrayInt_t field_459_type;
-    typedef ::xsd::cxx::tree::sequence< field_459_type > field_459_sequence;
-    typedef field_459_sequence::iterator field_459_iterator;
-    typedef field_459_sequence::const_iterator field_459_const_iterator;
-    typedef ::xsd::cxx::tree::traits< field_459_type, char > field_459_traits;
+    typedef ::ironfist_save::arrayInt_t relatedToColorOfPlayerOrFaction_type;
+    typedef ::xsd::cxx::tree::sequence< relatedToColorOfPlayerOrFaction_type > relatedToColorOfPlayerOrFaction_sequence;
+    typedef relatedToColorOfPlayerOrFaction_sequence::iterator relatedToColorOfPlayerOrFaction_iterator;
+    typedef relatedToColorOfPlayerOrFaction_sequence::const_iterator relatedToColorOfPlayerOrFaction_const_iterator;
+    typedef ::xsd::cxx::tree::traits< relatedToColorOfPlayerOrFaction_type, char > relatedToColorOfPlayerOrFaction_traits;
 
-    const field_459_sequence&
-    field_459 () const;
+    const relatedToColorOfPlayerOrFaction_sequence&
+    relatedToColorOfPlayerOrFaction () const;
 
-    field_459_sequence&
-    field_459 ();
+    relatedToColorOfPlayerOrFaction_sequence&
+    relatedToColorOfPlayerOrFaction ();
 
     void
-    field_459 (const field_459_sequence& s);
+    relatedToColorOfPlayerOrFaction (const relatedToColorOfPlayerOrFaction_sequence& s);
 
-    // field_45F
+    // somePlayerCodeOr10IfMayBeHuman
     // 
-    typedef ::ironfist_save::arrayInt_t field_45F_type;
-    typedef ::xsd::cxx::tree::sequence< field_45F_type > field_45F_sequence;
-    typedef field_45F_sequence::iterator field_45F_iterator;
-    typedef field_45F_sequence::const_iterator field_45F_const_iterator;
-    typedef ::xsd::cxx::tree::traits< field_45F_type, char > field_45F_traits;
+    typedef ::ironfist_save::arrayInt_t somePlayerCodeOr10IfMayBeHuman_type;
+    typedef ::xsd::cxx::tree::sequence< somePlayerCodeOr10IfMayBeHuman_type > somePlayerCodeOr10IfMayBeHuman_sequence;
+    typedef somePlayerCodeOr10IfMayBeHuman_sequence::iterator somePlayerCodeOr10IfMayBeHuman_iterator;
+    typedef somePlayerCodeOr10IfMayBeHuman_sequence::const_iterator somePlayerCodeOr10IfMayBeHuman_const_iterator;
+    typedef ::xsd::cxx::tree::traits< somePlayerCodeOr10IfMayBeHuman_type, char > somePlayerCodeOr10IfMayBeHuman_traits;
 
-    const field_45F_sequence&
-    field_45F () const;
+    const somePlayerCodeOr10IfMayBeHuman_sequence&
+    somePlayerCodeOr10IfMayBeHuman () const;
 
-    field_45F_sequence&
-    field_45F ();
+    somePlayerCodeOr10IfMayBeHuman_sequence&
+    somePlayerCodeOr10IfMayBeHuman ();
 
     void
-    field_45F (const field_45F_sequence& s);
+    somePlayerCodeOr10IfMayBeHuman (const somePlayerCodeOr10IfMayBeHuman_sequence& s);
 
     // difficulty
     // 
@@ -2464,16 +2487,14 @@ namespace ironfist_save
                  const week_type&,
                  const month_type&,
                  const numObelisks_type&,
-                 const field_6395_type&,
-                 const field_6396_type&,
-                 const field_6397_type&,
+                 const ultimateArtifactLocX_type&,
+                 const ultimateArtifactLocY_type&,
+                 const ultimateArtifactIdx_type&,
                  const currentRumor_type&,
                  const numRumors_type&,
                  const numEvents_type&,
                  const field_657B_type&,
                  const maxMapExtra_type&,
-                 const field_44D_type&,
-                 const field_451_type&,
                  const difficulty_type&,
                  const mapFilename_type&);
 
@@ -2516,9 +2537,9 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< week_type > week_;
     ::xsd::cxx::tree::one< month_type > month_;
     ::xsd::cxx::tree::one< numObelisks_type > numObelisks_;
-    ::xsd::cxx::tree::one< field_6395_type > field_6395_;
-    ::xsd::cxx::tree::one< field_6396_type > field_6396_;
-    ::xsd::cxx::tree::one< field_6397_type > field_6397_;
+    ::xsd::cxx::tree::one< ultimateArtifactLocX_type > ultimateArtifactLocX_;
+    ::xsd::cxx::tree::one< ultimateArtifactLocY_type > ultimateArtifactLocY_;
+    ::xsd::cxx::tree::one< ultimateArtifactIdx_type > ultimateArtifactIdx_;
     ::xsd::cxx::tree::one< currentRumor_type > currentRumor_;
     ::xsd::cxx::tree::one< numRumors_type > numRumors_;
     ::xsd::cxx::tree::one< numEvents_type > numEvents_;
@@ -2528,11 +2549,10 @@ namespace ironfist_save
     deadPlayers_sequence deadPlayers_;
     alivePlayers_sequence alivePlayers_;
     heroHireStatus_sequence heroHireStatus_;
-    ::xsd::cxx::tree::one< field_44D_type > field_44D_;
-    ::xsd::cxx::tree::one< field_451_type > field_451_;
+    relatedToPlayerPosAndColor_sequence relatedToPlayerPosAndColor_;
     playerHandicap_sequence playerHandicap_;
-    field_459_sequence field_459_;
-    field_45F_sequence field_45F_;
+    relatedToColorOfPlayerOrFaction_sequence relatedToColorOfPlayerOrFaction_;
+    somePlayerCodeOr10IfMayBeHuman_sequence somePlayerCodeOr10IfMayBeHuman_;
     ::xsd::cxx::tree::one< difficulty_type > difficulty_;
     ::xsd::cxx::tree::one< mapFilename_type > mapFilename_;
     field_2773_sequence field_2773_;
@@ -2670,19 +2690,19 @@ namespace ironfist_save
     void
     winConditionType (const winConditionType_type& x);
 
-    // field_1E
+    // relatedToWinConditionType
     // 
-    typedef ::xml_schema::int_ field_1E_type;
-    typedef ::xsd::cxx::tree::traits< field_1E_type, char > field_1E_traits;
+    typedef ::xml_schema::int_ relatedToWinConditionType_type;
+    typedef ::xsd::cxx::tree::traits< relatedToWinConditionType_type, char > relatedToWinConditionType_traits;
 
-    const field_1E_type&
-    field_1E () const;
+    const relatedToWinConditionType_type&
+    relatedToWinConditionType () const;
 
-    field_1E_type&
-    field_1E ();
+    relatedToWinConditionType_type&
+    relatedToWinConditionType ();
 
     void
-    field_1E (const field_1E_type& x);
+    relatedToWinConditionType (const relatedToWinConditionType_type& x);
 
     // allowDefeatAllVictory
     // 
@@ -2698,47 +2718,47 @@ namespace ironfist_save
     void
     allowDefeatAllVictory (const allowDefeatAllVictory_type& x);
 
-    // winConditionArgument
+    // winConditionArgumentOrLocX
     // 
-    typedef ::xml_schema::int_ winConditionArgument_type;
-    typedef ::xsd::cxx::tree::traits< winConditionArgument_type, char > winConditionArgument_traits;
+    typedef ::xml_schema::int_ winConditionArgumentOrLocX_type;
+    typedef ::xsd::cxx::tree::traits< winConditionArgumentOrLocX_type, char > winConditionArgumentOrLocX_traits;
 
-    const winConditionArgument_type&
-    winConditionArgument () const;
+    const winConditionArgumentOrLocX_type&
+    winConditionArgumentOrLocX () const;
 
-    winConditionArgument_type&
-    winConditionArgument ();
+    winConditionArgumentOrLocX_type&
+    winConditionArgumentOrLocX ();
 
     void
-    winConditionArgument (const winConditionArgument_type& x);
+    winConditionArgumentOrLocX (const winConditionArgumentOrLocX_type& x);
 
-    // field_22
+    // lossConditionType
     // 
-    typedef ::xml_schema::int_ field_22_type;
-    typedef ::xsd::cxx::tree::traits< field_22_type, char > field_22_traits;
+    typedef ::xml_schema::int_ lossConditionType_type;
+    typedef ::xsd::cxx::tree::traits< lossConditionType_type, char > lossConditionType_traits;
 
-    const field_22_type&
-    field_22 () const;
+    const lossConditionType_type&
+    lossConditionType () const;
 
-    field_22_type&
-    field_22 ();
+    lossConditionType_type&
+    lossConditionType ();
 
     void
-    field_22 (const field_22_type& x);
+    lossConditionType (const lossConditionType_type& x);
 
-    // field_23
+    // lossConditionArgumentOrLocX
     // 
-    typedef ::xml_schema::int_ field_23_type;
-    typedef ::xsd::cxx::tree::traits< field_23_type, char > field_23_traits;
+    typedef ::xml_schema::int_ lossConditionArgumentOrLocX_type;
+    typedef ::xsd::cxx::tree::traits< lossConditionArgumentOrLocX_type, char > lossConditionArgumentOrLocX_traits;
 
-    const field_23_type&
-    field_23 () const;
+    const lossConditionArgumentOrLocX_type&
+    lossConditionArgumentOrLocX () const;
 
-    field_23_type&
-    field_23 ();
+    lossConditionArgumentOrLocX_type&
+    lossConditionArgumentOrLocX ();
 
     void
-    field_23 (const field_23_type& x);
+    lossConditionArgumentOrLocX (const lossConditionArgumentOrLocX_type& x);
 
     // field_24
     // 
@@ -2768,33 +2788,47 @@ namespace ironfist_save
     void
     noStartingHeroInCastle (const noStartingHeroInCastle_type& x);
 
-    // field_2C
+    // winConditionArgumentOrLocY
     // 
-    typedef ::xml_schema::int_ field_2C_type;
-    typedef ::xsd::cxx::tree::traits< field_2C_type, char > field_2C_traits;
+    typedef ::xml_schema::int_ winConditionArgumentOrLocY_type;
+    typedef ::xsd::cxx::tree::traits< winConditionArgumentOrLocY_type, char > winConditionArgumentOrLocY_traits;
 
-    const field_2C_type&
-    field_2C () const;
+    const winConditionArgumentOrLocY_type&
+    winConditionArgumentOrLocY () const;
 
-    field_2C_type&
-    field_2C ();
+    winConditionArgumentOrLocY_type&
+    winConditionArgumentOrLocY ();
 
     void
-    field_2C (const field_2C_type& x);
+    winConditionArgumentOrLocY (const winConditionArgumentOrLocY_type& x);
 
-    // field_2E
+    // lossConditionArgumentOrLocY
     // 
-    typedef ::xml_schema::int_ field_2E_type;
-    typedef ::xsd::cxx::tree::traits< field_2E_type, char > field_2E_traits;
+    typedef ::xml_schema::int_ lossConditionArgumentOrLocY_type;
+    typedef ::xsd::cxx::tree::traits< lossConditionArgumentOrLocY_type, char > lossConditionArgumentOrLocY_traits;
 
-    const field_2E_type&
-    field_2E () const;
+    const lossConditionArgumentOrLocY_type&
+    lossConditionArgumentOrLocY () const;
 
-    field_2E_type&
-    field_2E ();
+    lossConditionArgumentOrLocY_type&
+    lossConditionArgumentOrLocY ();
 
     void
-    field_2E (const field_2E_type& x);
+    lossConditionArgumentOrLocY (const lossConditionArgumentOrLocY_type& x);
+
+    // relatedToPlayerColorOrSide
+    // 
+    typedef ::xml_schema::int_ relatedToPlayerColorOrSide_type;
+    typedef ::xsd::cxx::tree::traits< relatedToPlayerColorOrSide_type, char > relatedToPlayerColorOrSide_traits;
+
+    const relatedToPlayerColorOrSide_type&
+    relatedToPlayerColorOrSide () const;
+
+    relatedToPlayerColorOrSide_type&
+    relatedToPlayerColorOrSide ();
+
+    void
+    relatedToPlayerColorOrSide (const relatedToPlayerColorOrSide_type& x);
 
     // field_32
     // 
@@ -3034,15 +3068,16 @@ namespace ironfist_save
                  const minHumans_type&,
                  const maxHumans_type&,
                  const winConditionType_type&,
-                 const field_1E_type&,
+                 const relatedToWinConditionType_type&,
                  const allowDefeatAllVictory_type&,
-                 const winConditionArgument_type&,
-                 const field_22_type&,
-                 const field_23_type&,
+                 const winConditionArgumentOrLocX_type&,
+                 const lossConditionType_type&,
+                 const lossConditionArgumentOrLocX_type&,
                  const field_24_type&,
                  const noStartingHeroInCastle_type&,
-                 const field_2C_type&,
-                 const field_2E_type&,
+                 const winConditionArgumentOrLocY_type&,
+                 const lossConditionArgumentOrLocY_type&,
+                 const relatedToPlayerColorOrSide_type&,
                  const field_32_type&,
                  const field_36_type&,
                  const field_37_type&,
@@ -3086,15 +3121,16 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< minHumans_type > minHumans_;
     ::xsd::cxx::tree::one< maxHumans_type > maxHumans_;
     ::xsd::cxx::tree::one< winConditionType_type > winConditionType_;
-    ::xsd::cxx::tree::one< field_1E_type > field_1E_;
+    ::xsd::cxx::tree::one< relatedToWinConditionType_type > relatedToWinConditionType_;
     ::xsd::cxx::tree::one< allowDefeatAllVictory_type > allowDefeatAllVictory_;
-    ::xsd::cxx::tree::one< winConditionArgument_type > winConditionArgument_;
-    ::xsd::cxx::tree::one< field_22_type > field_22_;
-    ::xsd::cxx::tree::one< field_23_type > field_23_;
+    ::xsd::cxx::tree::one< winConditionArgumentOrLocX_type > winConditionArgumentOrLocX_;
+    ::xsd::cxx::tree::one< lossConditionType_type > lossConditionType_;
+    ::xsd::cxx::tree::one< lossConditionArgumentOrLocX_type > lossConditionArgumentOrLocX_;
     ::xsd::cxx::tree::one< field_24_type > field_24_;
     ::xsd::cxx::tree::one< noStartingHeroInCastle_type > noStartingHeroInCastle_;
-    ::xsd::cxx::tree::one< field_2C_type > field_2C_;
-    ::xsd::cxx::tree::one< field_2E_type > field_2E_;
+    ::xsd::cxx::tree::one< winConditionArgumentOrLocY_type > winConditionArgumentOrLocY_;
+    ::xsd::cxx::tree::one< lossConditionArgumentOrLocY_type > lossConditionArgumentOrLocY_;
+    ::xsd::cxx::tree::one< relatedToPlayerColorOrSide_type > relatedToPlayerColorOrSide_;
     ::xsd::cxx::tree::one< field_32_type > field_32_;
     ::xsd::cxx::tree::one< field_36_type > field_36_;
     ::xsd::cxx::tree::one< field_37_type > field_37_;
@@ -4560,19 +4596,19 @@ namespace ironfist_save
     void
     curHeroIdx (const curHeroIdx_type& x);
 
-    // field_3
+    // relatedToSomeSortOfHeroCountOrIdx
     // 
-    typedef ::xml_schema::int_ field_3_type;
-    typedef ::xsd::cxx::tree::traits< field_3_type, char > field_3_traits;
+    typedef ::xml_schema::int_ relatedToSomeSortOfHeroCountOrIdx_type;
+    typedef ::xsd::cxx::tree::traits< relatedToSomeSortOfHeroCountOrIdx_type, char > relatedToSomeSortOfHeroCountOrIdx_traits;
 
-    const field_3_type&
-    field_3 () const;
+    const relatedToSomeSortOfHeroCountOrIdx_type&
+    relatedToSomeSortOfHeroCountOrIdx () const;
 
-    field_3_type&
-    field_3 ();
+    relatedToSomeSortOfHeroCountOrIdx_type&
+    relatedToSomeSortOfHeroCountOrIdx ();
 
     void
-    field_3 (const field_3_type& x);
+    relatedToSomeSortOfHeroCountOrIdx (const relatedToSomeSortOfHeroCountOrIdx_type& x);
 
     // game_B
     // 
@@ -4616,33 +4652,33 @@ namespace ironfist_save
     void
     personality (const personality_type& x);
 
-    // _2
+    // relatedToMaxOrNumHeroes
     // 
-    typedef ::xml_schema::int_ _2_type;
-    typedef ::xsd::cxx::tree::traits< _2_type, char > _2_traits;
+    typedef ::xml_schema::int_ relatedToMaxOrNumHeroes_type;
+    typedef ::xsd::cxx::tree::traits< relatedToMaxOrNumHeroes_type, char > relatedToMaxOrNumHeroes_traits;
 
-    const _2_type&
-    _2 () const;
+    const relatedToMaxOrNumHeroes_type&
+    relatedToMaxOrNumHeroes () const;
 
-    _2_type&
-    _2 ();
+    relatedToMaxOrNumHeroes_type&
+    relatedToMaxOrNumHeroes ();
 
     void
-    _2 (const _2_type& x);
+    relatedToMaxOrNumHeroes (const relatedToMaxOrNumHeroes_type& x);
 
-    // _4_1
+    // hasEvilFaction
     // 
-    typedef ::xml_schema::int_ _4_1_type;
-    typedef ::xsd::cxx::tree::traits< _4_1_type, char > _4_1_traits;
+    typedef ::xml_schema::int_ hasEvilFaction_type;
+    typedef ::xsd::cxx::tree::traits< hasEvilFaction_type, char > hasEvilFaction_traits;
 
-    const _4_1_type&
-    _4_1 () const;
+    const hasEvilFaction_type&
+    hasEvilFaction () const;
 
-    _4_1_type&
-    _4_1 ();
+    hasEvilFaction_type&
+    hasEvilFaction ();
 
     void
-    _4_1 (const _4_1_type& x);
+    hasEvilFaction (const hasEvilFaction_type& x);
 
     // field_40
     // 
@@ -4700,19 +4736,33 @@ namespace ironfist_save
     void
     numCastles (const numCastles_type& x);
 
-    // field_45
+    // mightBeCurCastleIdx
     // 
-    typedef ::xml_schema::int_ field_45_type;
-    typedef ::xsd::cxx::tree::traits< field_45_type, char > field_45_traits;
+    typedef ::xml_schema::int_ mightBeCurCastleIdx_type;
+    typedef ::xsd::cxx::tree::traits< mightBeCurCastleIdx_type, char > mightBeCurCastleIdx_traits;
 
-    const field_45_type&
-    field_45 () const;
+    const mightBeCurCastleIdx_type&
+    mightBeCurCastleIdx () const;
 
-    field_45_type&
-    field_45 ();
+    mightBeCurCastleIdx_type&
+    mightBeCurCastleIdx ();
 
     void
-    field_45 (const field_45_type& x);
+    mightBeCurCastleIdx (const mightBeCurCastleIdx_type& x);
+
+    // relatedToUnknown
+    // 
+    typedef ::xml_schema::int_ relatedToUnknown_type;
+    typedef ::xsd::cxx::tree::traits< relatedToUnknown_type, char > relatedToUnknown_traits;
+
+    const relatedToUnknown_type&
+    relatedToUnknown () const;
+
+    relatedToUnknown_type&
+    relatedToUnknown ();
+
+    void
+    relatedToUnknown (const relatedToUnknown_type& x);
 
     // barrierTentsVisited
     // 
@@ -4835,17 +4885,18 @@ namespace ironfist_save
     playerData_t (const color_type&,
                   const numHeroes_type&,
                   const curHeroIdx_type&,
-                  const field_3_type&,
+                  const relatedToSomeSortOfHeroCountOrIdx_type&,
                   const game_B_type&,
                   const _3_type&,
                   const personality_type&,
-                  const _2_type&,
-                  const _4_1_type&,
+                  const relatedToMaxOrNumHeroes_type&,
+                  const hasEvilFaction_type&,
                   const field_40_type&,
                   const field_41_type&,
                   const daysLeftWithoutCastle_type&,
                   const numCastles_type&,
-                  const field_45_type&,
+                  const mightBeCurCastleIdx_type&,
+                  const relatedToUnknown_type&,
                   const barrierTentsVisited_type&);
 
     playerData_t (const ::xercesc::DOMElement& e,
@@ -4874,17 +4925,18 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< color_type > color_;
     ::xsd::cxx::tree::one< numHeroes_type > numHeroes_;
     ::xsd::cxx::tree::one< curHeroIdx_type > curHeroIdx_;
-    ::xsd::cxx::tree::one< field_3_type > field_3_;
+    ::xsd::cxx::tree::one< relatedToSomeSortOfHeroCountOrIdx_type > relatedToSomeSortOfHeroCountOrIdx_;
     ::xsd::cxx::tree::one< game_B_type > game_B_;
     ::xsd::cxx::tree::one< _3_type > _3_;
     ::xsd::cxx::tree::one< personality_type > personality_;
-    ::xsd::cxx::tree::one< _2_type > _2_;
-    ::xsd::cxx::tree::one< _4_1_type > _4_1_;
+    ::xsd::cxx::tree::one< relatedToMaxOrNumHeroes_type > relatedToMaxOrNumHeroes_;
+    ::xsd::cxx::tree::one< hasEvilFaction_type > hasEvilFaction_;
     ::xsd::cxx::tree::one< field_40_type > field_40_;
     ::xsd::cxx::tree::one< field_41_type > field_41_;
     ::xsd::cxx::tree::one< daysLeftWithoutCastle_type > daysLeftWithoutCastle_;
     ::xsd::cxx::tree::one< numCastles_type > numCastles_;
-    ::xsd::cxx::tree::one< field_45_type > field_45_;
+    ::xsd::cxx::tree::one< mightBeCurCastleIdx_type > mightBeCurCastleIdx_;
+    ::xsd::cxx::tree::one< relatedToUnknown_type > relatedToUnknown_;
     ::xsd::cxx::tree::one< barrierTentsVisited_type > barrierTentsVisited_;
     heroesOwned_sequence heroesOwned_;
     heroesForPurchase_sequence heroesForPurchase_;

@@ -8,6 +8,7 @@
 #define NUM_PLAYERS 6
 #define MAX_HEROES 54
 #define MAX_TOWNS 72
+#define NUM_DIFFICULTIES 5
 
 extern signed char gcColorToPlayerPos[];
 
@@ -21,28 +22,36 @@ extern char* gAlignmentNames[];
 #define BUILDING_LEFT_TURRET_BUILT      0x2
 #define BUILDING_SPECIAL_DEFENSE_BUILT  0x20
 
+enum WIN_CONDITION_TYPES {
+  WIN_CONDITION_CAPTURE_CASTLE = 0x1,
+  WIN_CONDITION_DEFEAT_HERO = 0x2,
+  WIN_CONDITION_FIND_ARTIFACT = 0x3,
+  WIN_CONDITION_DEFEAT_COLOR = 0x4,
+  WIN_CONDITION_ACCUMULATE_GOLD = 0x5,
+};
 
 class playerData {
 public:
 	char color;
 	char numHeroes;
 	char curHeroIdx;
-	char field_3;
+	char relatedToSomeSortOfHeroCountOrIdx;
 	char heroesOwned[8];
 	char heroesForPurchase[2];
-	char _2;
+	char relatedToMaxOrNumHeroes;
 	int personality;
 	char _3[45];
 	char field_40;
 	__int16 field_41;
 	char daysLeftWithoutCastle;
 	char numCastles;
-	__int16 field_45;
+  __int8 mightBeCurCastleIdx;
+  __int8 relatedToUnknown;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-    char _4_1;
-    char barrierTentsVisited;
-    char _4_2[58];
+  char hasEvilFaction;
+  char barrierTentsVisited;
+  char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -62,7 +71,7 @@ struct mine
 	char owner;
 	char type;
 	char guardianType;
-	char guadianQty;
+	char guardianQty;
 	char x;
 	char y;
 };
@@ -79,16 +88,22 @@ struct boat
 	char owner;
 };
 
+struct randomHeroCreatureInfo {
+  enum CREATURES creatureType;
+  int lowQuantity;
+  int highQuantity;
+};
+
 class game {
 public:
 	__int16 gameDifficulty;
-	char field_2;
+	char relatedToCurViewSideOrCampaign;
 	char field_3;
-	char field_4;
+	char relatedToCampaignMap;
 	char _1[120];
 	char field_7D;
 	char hasDwarfAlliance;
-	char field_7F;
+	char maybeIsGoodCampaign;
 	char field_80;
 	char field_81;
 	char field_82;
@@ -102,11 +117,10 @@ public:
 	char lastSaveFile[251];
 	char _12[100];
 	SMapHeader mapHeader;
-	int field_44D;
-	__int16 field_451;
-	char playerHandicap[6];
-	char field_459[6];
-	char field_45F[6];
+	char relatedToPlayerPosAndColor[NUM_PLAYERS];
+	char playerHandicap[NUM_PLAYERS];
+	char relatedToColorOfPlayerOrFaction[NUM_PLAYERS];
+	char somePlayerCodeOr10IfMayBeHuman[NUM_PLAYERS];
 	char difficulty;
 	char mapFilename[40];
 	char numPlayers;
@@ -130,9 +144,9 @@ public:
 	char boatBuilt[48];
 	char obeliskVisitedMasks[48];
 	char field_637D[24];
-	char field_6395;
-	char field_6396;
-	char field_6397;
+	char ultimateArtifactLocX;
+	char ultimateArtifactLocY;
+	char ultimateArtifactIdx;
 	int field_6398;
 	char _B[14];
 	char currentRumor[301];
@@ -147,8 +161,8 @@ public:
 	char field_660D;
 	char field_660E;
 
-    // New state
-    bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+  // New state
+  bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
   // Used for OnMapStart
@@ -159,10 +173,8 @@ public:
 	void SetupTowns();
 
 	void RandomizeHeroPool();
-	void SetRandomHeroArmies(int,int);
 
 	int GetRandomNumTroops(int);
-	void GiveTroopsToNeutralTown(int);
 	void InitNewGame(struct SMapHeader *a);
 	void InitNewGame_orig(struct SMapHeader *a);
 	void LoadGame(char*, int, int);
@@ -174,25 +186,40 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
-    void SetVisibility_orig(int, int, int, int);
+  void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
-    int GetTownId(int,int);
-
+  int GetTownId(int,int);
+  
 	void NextPlayer();
 	void NextPlayer_orig();
 
 	void PerDay();
 	void PerDay_orig();
 
-    void ResetIronfistGameState();
-    void ShareVision(int sourcePlayer, int destPlayer);
+  void ResetIronfistGameState();
+  void ShareVision(int sourcePlayer, int destPlayer);
 
-    void MakeAllWaterVisible(int player);
-    void MakeAllWaterVisible_orig(int player);
+  void MakeAllWaterVisible(int player);
+  void MakeAllWaterVisible_orig(int player);
+
+  int InitRandomArtifacts();
+  int LoadMap(char *nam);
+  int ProcessRandomObjects();
+  int ProcessMapExtra();
+  void __cdecl InitializePasswords();
+  int RandomizeEvents();
+  void ProcessOnMapHeroes();
+  int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
+  void SetupNewRumour();
+  void GiveArmy(class armyGroup *, int, int, int);
+
+  void SetRandomHeroArmies(int heroIdx, int isAI);
+  void GiveTroopsToNeutralTown(int castleIdx);
+  int RandomScan(signed char*, int, int, int, signed char);
 
 private:
-    void PropagateVision();
+  void PropagateVision();
 };
 
 enum GAME_DIFFICULTY {
@@ -204,10 +231,10 @@ enum GAME_DIFFICULTY {
 };
 
 enum PERSONALITY_TYPE {
-   PERSONALITY_WARRIOR = 0,
-   PERSONALITY_BUILDER = 1,
-   PERSONALITY_EXPLORER = 2,
-   PERSONALITY_HUMAN = 3,
+  PERSONALITY_WARRIOR = 0,
+  PERSONALITY_BUILDER = 1,
+  PERSONALITY_EXPLORER = 2,
+  PERSONALITY_HUMAN = 3,
 };
 
 extern void __fastcall CheckEndGame_orig(int a, int b);
@@ -220,6 +247,30 @@ extern game* gpGame;
 extern int gbInCampaign;
 
 extern int gbGameOver;
+
+extern __int16 giUltimateArtifactBaseX;
+extern __int16 giUltimateArtifactBaseY;
+extern __int16 giUltimateArtifactRadius;
+
+extern char gpcBeforeGSpellLimits[];
+extern int giPlayerInitialResourcesHuman[NUM_DIFFICULTIES][NUM_RESOURCES];
+extern int giPlayerInitialResourcesAI[NUM_DIFFICULTIES][NUM_RESOURCES];
+
+extern int __fastcall FindLastToken(const char *a1, char a2);
+extern char __fastcall StrEqNoCase(int *a1, int *a2);
+
+extern int gbInNewGameSetup;
+extern int iLastMsgNumHumanPlayers;
+extern bool gbSetupGamePosToRealGamePos[];
+extern signed char gcColorToSetupPos[];
+extern signed char giVisRange[];
+extern char xIsPlayingExpansionCampaign;
+extern int giCurTurn;
+
+extern randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2];
+extern int neutralTownCreatureTypes[NUM_FACTIONS][5];
+
+extern signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4];
 
 #pragma pack(pop)
 

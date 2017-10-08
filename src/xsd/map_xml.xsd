@@ -34,8 +34,10 @@
       <xs:element name="field_23" type="xs:int"/>
       <xs:element name="field_25" type="xs:int"/>
       <xs:element name="field_27" type="xs:int"/>
-      <xs:element name="field_29" type="xs:int"/>
-      <xs:element name="field_2B" type="xs:int"/>
+      <xs:element name="relatedToX" type="xs:int"/>
+      <xs:element name="relatedToY" type="xs:int"/>
+      <xs:element name="relatedToFactionID" type="xs:int"/>
+      <xs:element name="relatedToUnknown" type="xs:int"/>
       <xs:element name="occupiedObjType" type="xs:int"/>
       <xs:element name="occupiedObjVal" type="xs:int"/>
       <xs:element name="mobility" type="xs:int"/>
@@ -121,9 +123,9 @@
       <xs:element name="week" type="xs:int"/>
       <xs:element name="month" type="xs:int"/>
       <xs:element name="numObelisks" type="xs:int"/>
-      <xs:element name="field_6395" type="xs:int"/>
-      <xs:element name="field_6396" type="xs:int"/>
-      <xs:element name="field_6397" type="xs:int"/>
+      <xs:element name="ultimateArtifactLocX" type="xs:int"/>
+      <xs:element name="ultimateArtifactLocY" type="xs:int"/>
+      <xs:element name="ultimateArtifactIdx" type="xs:int"/>
       <xs:element name="currentRumor" type="xs:string"/>
       <xs:element name="numRumors" type="xs:int"/>
       <xs:element name="numEvents" type="xs:int"/>
@@ -133,11 +135,10 @@
       <xs:element name="deadPlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="alivePlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="heroHireStatus" type="arrayInt_t" minOccurs="54" maxOccurs="unbounded"/>
-      <xs:element name="field_44D" type="xs:int"/>
-      <xs:element name="field_451" type="xs:int"/>
+      <xs:element name="relatedToPlayerPosAndColor" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="playerHandicap" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
-      <xs:element name="field_459" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
-      <xs:element name="field_45F" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="relatedToColorOfPlayerOrFaction" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="somePlayerCodeOr10IfMayBeHuman" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="difficulty" type="xs:int"/>
       <xs:element name="mapFilename" type="xs:string"/>
       <xs:element name="field_2773" type="arrayInt_t" minOccurs="72" maxOccurs="unbounded"/>
@@ -177,15 +178,16 @@
       <xs:element name="minHumans" type="xs:int"/>
       <xs:element name="maxHumans" type="xs:int"/>
       <xs:element name="winConditionType" type="xs:int"/>
-      <xs:element name="field_1E" type="xs:int"/>
+      <xs:element name="relatedToWinConditionType" type="xs:int"/>
       <xs:element name="allowDefeatAllVictory" type="xs:int"/>
-      <xs:element name="winConditionArgument" type="xs:int"/>
-      <xs:element name="field_22" type="xs:int"/>
-      <xs:element name="field_23" type="xs:int"/>
+      <xs:element name="winConditionArgumentOrLocX" type="xs:int"/>
+      <xs:element name="lossConditionType" type="xs:int"/>
+      <xs:element name="lossConditionArgumentOrLocX" type="xs:int"/>
       <xs:element name="field_24" type="xs:int"/>
       <xs:element name="noStartingHeroInCastle" type="xs:int"/>
-      <xs:element name="field_2C" type="xs:int"/>
-      <xs:element name="field_2E" type="xs:int"/>
+      <xs:element name="winConditionArgumentOrLocY" type="xs:int"/>
+      <xs:element name="lossConditionArgumentOrLocY" type="xs:int"/>
+      <xs:element name="relatedToPlayerColorOrSide" type="xs:int"/>
       <xs:element name="field_32" type="xs:int"/>
       <xs:element name="field_36" type="xs:int"/>
       <xs:element name="field_37" type="xs:int"/>
@@ -314,17 +316,18 @@
       <xs:element name="color" type="xs:int"/>
       <xs:element name="numHeroes" type="xs:int"/>
       <xs:element name="curHeroIdx" type="xs:int"/>
-      <xs:element name="field_3" type="xs:int"/>
+      <xs:element name="relatedToSomeSortOfHeroCountOrIdx" type="xs:int"/>
       <xs:element name="game_B" type="xs:int"/>
       <xs:element name="_3" type="xs:int"/>
       <xs:element name="personality" type="xs:int"/>
-      <xs:element name="_2" type="xs:int"/>
-      <xs:element name="_4_1" type="xs:int"/>
+      <xs:element name="relatedToMaxOrNumHeroes" type="xs:int"/>
+      <xs:element name="hasEvilFaction" type="xs:int"/>
       <xs:element name="field_40" type="xs:int"/>
       <xs:element name="field_41" type="xs:int"/>
       <xs:element name="daysLeftWithoutCastle" type="xs:int"/>
       <xs:element name="numCastles" type="xs:int"/>
-      <xs:element name="field_45" type="xs:int"/>
+      <xs:element name="mightBeCurCastleIdx" type="xs:int"/>
+      <xs:element name="relatedToUnknown" type="xs:int"/>
       <xs:element name="barrierTentsVisited" type="xs:int"/>
       <xs:element name="heroesOwned" type="arrayInt_t" minOccurs="8" maxOccurs="unbounded"/>
       <xs:element name="heroesForPurchase" type="arrayInt_t" minOccurs="2" maxOccurs="unbounded"/>

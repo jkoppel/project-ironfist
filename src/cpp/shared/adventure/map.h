@@ -6,6 +6,8 @@
 #define MAX_TOWNS 72
 #define MAX_PLACED_EVENTS 50
 #define MAX_MINES 144
+#define NUM_SECONDARY_SKILLS 8
+#define MAX_TOTAL_SECONDARY_SKILLS 14
 
 #pragma pack(push, 1)
 
@@ -29,6 +31,8 @@ public:
   unsigned int displayFlags : 8;
   unsigned int objType : 8;
   unsigned int extraIdx : 16;
+
+  int getLocationType();
 #ifdef EDITOR
   unsigned int objLink;
   unsigned int ovrLink;
@@ -88,16 +92,17 @@ struct SMapHeader {
 	char minHumans;
 	char maxHumans;
 	char winConditionType;
-	char field_1E;
+	char relatedToWinConditionType;
 	char allowDefeatAllVictory;
-	__int16 winConditionArgument;
-	char field_22;
-	char field_23;
+	__int16 winConditionArgumentOrLocX;
+	char lossConditionType;
+	char lossConditionArgumentOrLocX;
 	char field_24;
 	char noStartingHeroInCastle;
 	char playerFactions[6];
-	__int16 field_2C;
-	int field_2E;
+	__int16 winConditionArgumentOrLocY;
+  __int16 lossConditionArgumentOrLocY;
+  __int16 relatedToPlayerColorOrSide;
 	int field_32;
 	char field_36;
 	char field_37;
@@ -219,25 +224,25 @@ public:
     }
 
   char owner;
-  char field_1;
+  char hasArmy;
   armyGroup army;
   char field_11;
-  char field_12;
+  char heroID;
   char artifacts[3];
   char field_16;
-  char field_17;
-  char field_18;
+  char experience;
+  char field_18;  // These 3 might also be experience, according to IDA
   char field_19;
   char field_1A;
-  char field_1B;
-  char secondarySkills[8];
-  char firstSecondarySkillLevel;
-  char secondSecondarySkillLevel;
-  char field_26;
-  char field_27;
-  char field_28[20];
-  char field_3C;
-  char field_3D;
+  char hasSecondarySkills;
+  char secondarySkills[NUM_SECONDARY_SKILLS];
+  char secondarySkillLevel[NUM_SECONDARY_SKILLS];
+  char field_2C;
+  char hasName;
+  char name[13];
+  char relatedToJailCondition;
+  char factionID;
+  char hasFaction;
   char field_3E;
   char field_3F;
   char field_40;

@@ -130,40 +130,40 @@ HeroExtra *MakeHeroMapExtra(int faction) {
 
     if (faction == FACTION_KNIGHT) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_LEADERSHIP;
-        heroMapExtra->firstSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[0] = 1;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_BALLISTICS;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     if (faction == FACTION_SORCERESS) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NAVIGATION;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     if (faction == FACTION_BARBARIAN) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_PATHFINDING;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
     }
 
     if (faction == FACTION_WARLOCK) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_SCOUTING;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     if (faction == FACTION_WIZARD) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
     }
 
     if (faction == FACTION_NECROMANCER) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NECROMANCY;
-        heroMapExtra->firstSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[0] = 1;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     return heroMapExtra;

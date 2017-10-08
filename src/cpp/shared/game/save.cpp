@@ -72,15 +72,16 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   mh->minHumans = mh_xml->minHumans();
   mh->maxHumans = mh_xml->maxHumans();
   mh->winConditionType = mh_xml->winConditionType();
-  mh->field_1E = mh_xml->field_1E();
+  mh->relatedToWinConditionType = mh_xml->relatedToWinConditionType();
   mh->allowDefeatAllVictory = mh_xml->allowDefeatAllVictory();
-  mh->winConditionArgument = mh_xml->winConditionArgument();
-  mh->field_22 = mh_xml->field_22();
-  mh->field_23 = mh_xml->field_23();
+  mh->winConditionArgumentOrLocX = mh_xml->winConditionArgumentOrLocX();
+  mh->lossConditionType = mh_xml->lossConditionType();
+  mh->lossConditionArgumentOrLocX = mh_xml->lossConditionArgumentOrLocX();
   mh->field_24 = mh_xml->field_24();
   mh->noStartingHeroInCastle = mh_xml->noStartingHeroInCastle();
-  mh->field_2C = mh_xml->field_2C();
-  mh->field_2E = mh_xml->field_2E();
+  mh->winConditionArgumentOrLocY = mh_xml->winConditionArgumentOrLocY();
+  mh->lossConditionArgumentOrLocY = mh_xml->lossConditionArgumentOrLocY();
+  mh->relatedToPlayerColorOrSide = mh_xml->relatedToPlayerColorOrSide();
   mh->field_32 = mh_xml->field_32();
   mh->field_36 = mh_xml->field_36();
   mh->field_37 = mh_xml->field_37();
@@ -98,12 +99,10 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ReadArrayFromXML(mh->playerMayBeComp, mh_xml->playerMayBeComp());
   ReadArrayFromXML(mh->playerFactions, mh_xml->playerFactions());
 
-  gam->field_44D = gs.field_44D();
-  gam->field_451 = gs.field_451();
-
+  ReadArrayFromXML(gam->relatedToPlayerPosAndColor, gs.relatedToPlayerPosAndColor());
   ReadArrayFromXML(gam->playerHandicap, gs.playerHandicap());
-  ReadArrayFromXML(gam->field_459, gs.field_459());
-  ReadArrayFromXML(gam->field_45F, gs.field_45F());
+  ReadArrayFromXML(gam->relatedToColorOfPlayerOrFaction, gs.relatedToColorOfPlayerOrFaction());
+  ReadArrayFromXML(gam->somePlayerCodeOr10IfMayBeHuman, gs.somePlayerCodeOr10IfMayBeHuman());
 
   gam->difficulty = gs.difficulty();
   strcpy(gam->mapFilename, gs.mapFilename().c_str());
@@ -152,7 +151,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     pdata->color = pdata_xml->color();
     pdata->numHeroes = pdata_xml->numHeroes();
     pdata->curHeroIdx = pdata_xml->curHeroIdx();
-    pdata->field_3 = pdata_xml->field_3();
+    pdata->relatedToSomeSortOfHeroCountOrIdx = pdata_xml->relatedToSomeSortOfHeroCountOrIdx();
 
     ReadArrayFromXML(pdata->heroesForPurchase, pdata_xml->heroesForPurchase());
     ReadArrayFromXML(pdata->heroesOwned, pdata_xml->heroesOwned());
@@ -160,13 +159,14 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     gam->_B[1] = pdata_xml->game_B();
     pdata->_3[0] = pdata_xml->_3();
     pdata->personality = pdata_xml->personality();
-    pdata->_2 = pdata_xml->_2();
-    pdata->_4_1 = pdata_xml->_4_1();
+    pdata->relatedToMaxOrNumHeroes = pdata_xml->relatedToMaxOrNumHeroes();
+    pdata->hasEvilFaction = pdata_xml->hasEvilFaction();
     pdata->field_40 = pdata_xml->field_40();
     pdata->field_41 = pdata_xml->field_41();
     pdata->daysLeftWithoutCastle = pdata_xml->daysLeftWithoutCastle();
     pdata->numCastles = pdata_xml->numCastles();
-    pdata->field_45 = pdata_xml->field_45();
+    pdata->mightBeCurCastleIdx = pdata_xml->mightBeCurCastleIdx();
+    pdata->relatedToUnknown = pdata_xml->relatedToUnknown();
 
     ReadArrayFromXML(pdata->castlesOwned, pdata_xml->castlesOwned());
     ReadArrayFromXML(pdata->resources, pdata_xml->resources());
@@ -225,7 +225,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     mn->owner = mn_xml->owner();
     mn->type = mn_xml->type();
     mn->guardianType = mn_xml->guardianType();
-    mn->guadianQty = mn_xml->guardianQty();
+    mn->guardianQty = mn_xml->guardianQty();
     mn->x = mn_xml->x();
     mn->y = mn_xml->y();
   }
@@ -248,9 +248,9 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ReadArrayFromXML(gam->boatBuilt, gs.boatBuilt());
   ReadArrayFromXML(gam->obeliskVisitedMasks, gs.obeliskVisitedMasks());
 
-  gam->field_6395 = gs.field_6395();
-  gam->field_6396 = gs.field_6396();
-  gam->field_6397 = gs.field_6397();
+  gam->ultimateArtifactLocX = gs.ultimateArtifactLocX();
+  gam->ultimateArtifactLocY = gs.ultimateArtifactLocY();
+  gam->ultimateArtifactIdx = gs.ultimateArtifactIdx();
   strcpy(gam->currentRumor, gs.currentRumor().c_str());
 
   ReadArrayFromXML(gam->field_637D, gs.field_637D());
@@ -343,16 +343,14 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     (int)gam->week,
     (int)gam->month,
     (int)gam->numObelisks,
-    (int)gam->field_6395,
-    (int)gam->field_6396,
-    (int)gam->field_6397,
+    (int)gam->ultimateArtifactLocX,
+    (int)gam->ultimateArtifactLocY,
+    (int)gam->ultimateArtifactIdx,
     gam->currentRumor,
     (int)gam->numRumors,
     (int)gam->numEvents,
     (int)gam->field_657B,
     iMaxMapExtra,
-    gam->field_44D,
-    gam->field_451,
     gam->difficulty,
     gam->mapFilename
   );
@@ -367,15 +365,16 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     mh->minHumans,
     mh->maxHumans,
     mh->winConditionType,
-    mh->field_1E,
+    mh->relatedToWinConditionType,
     mh->allowDefeatAllVictory,
-    mh->winConditionArgument,
-    mh->field_22,
-    mh->field_23,
+    mh->winConditionArgumentOrLocX,
+    mh->lossConditionType,
+    mh->lossConditionArgumentOrLocX,
     mh->field_24,
     mh->noStartingHeroInCastle,
-    mh->field_2C,
-    mh->field_2E,
+    mh->winConditionArgumentOrLocY,
+    mh->lossConditionArgumentOrLocY,
+    mh->relatedToPlayerColorOrSide,
     mh->field_32,
     mh->field_36,
     mh->field_37,
@@ -408,9 +407,10 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
 
   WriteArrayToXML(gs.alivePlayers(), playerAlive);
   WriteArrayToXML(gs.heroHireStatus(), gam->relatedToHeroForHireStatus);
+  WriteArrayToXML(gs.relatedToPlayerPosAndColor(), gam->relatedToPlayerPosAndColor);
   WriteArrayToXML(gs.playerHandicap(), gam->playerHandicap);
-  WriteArrayToXML(gs.field_459(), gam->field_459);
-  WriteArrayToXML(gs.field_45F(), gam->field_45F);
+  WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
+  WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
   WriteArrayToXML(gs.field_2773(), gam->field_2773);
   WriteArrayToXML(gs.field_27BB(), gam->field_27BB);
   WriteArrayToXML(gs.field_60A6(), gam->field_60A6);
@@ -449,17 +449,18 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       player.color,
       player.numHeroes,
       player.curHeroIdx,
-      player.field_3,
+      player.relatedToSomeSortOfHeroCountOrIdx,
       gam->_B[1],
       player._3[0],
       player.personality,
-      player._2,
-      player._4_1,
+      player.relatedToMaxOrNumHeroes,
+      player.hasEvilFaction,
       player.field_40,
       player.field_41,
       player.daysLeftWithoutCastle,
       player.numCastles,
-      player.field_45,
+      player.mightBeCurCastleIdx,
+      player.relatedToUnknown,
       player.barrierTentsVisited
     );
     gs.playerData().push_back(data);
@@ -516,7 +517,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
 
   for (int i = 0; i < ELEMENTS_IN(gam->mines); i++) {
     mine *m = &gam->mines[i];
-    gs.mine().push_back(ironfist_save::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guadianQty, m->x, m->y));
+    gs.mine().push_back(ironfist_save::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guardianQty, m->x, m->y));
   }
   for (int i = 0; i < ELEMENTS_IN(gam->boats); i++) {
     boat *b = &gam->boats[i];
@@ -624,8 +625,10 @@ static void ReadHeroXML(ironfist_save::hero_t& hx, hero* hro) {
   hro->field_23 = hx.field_23();
   hro->field_25 = hx.field_25();
   hro->field_27 = hx.field_27();
-  hro->field_29 = hx.field_29();
-  hro->field_2B = hx.field_2B();
+  hro->relatedToX = hx.relatedToX();
+  hro->relatedToY = hx.relatedToY();
+  hro->relatedToFactionID = hx.relatedToFactionID();
+  hro->relatedToUnknown = hx.relatedToUnknown();
   hro->field_4 = hx.field_4();
   hro->field_43 = hx.field_43();
   hro->field_46 = hx.field_46();
@@ -724,8 +727,10 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
     hro->field_23,
     hro->field_25,
     hro->field_27,
-    hro->field_29,
-    hro->field_2B,
+    hro->relatedToX,
+    hro->relatedToY,
+    hro->relatedToFactionID,
+    hro->relatedToUnknown,
     hro->occupiedObjType,
     hro->occupiedObjVal,
     hro->mobility,
