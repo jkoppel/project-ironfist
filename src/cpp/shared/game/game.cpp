@@ -9,6 +9,16 @@
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 
+// The title screen implements button hovering manually in code, using this data structure
+// x, y, width, height
+unsigned short IMHotSpots[][4] = {
+  {556,   8, 81, 113}, // new game
+  {442, 269, 88,  77}, // load game
+  {  0, 374, 80,  74}, // high scores
+  { 79, 434, 76,  43}, // credits
+  {555, 434, 86,  44}  // quit
+};
+
 
 char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
                              "Multiple", "Random", NULL, NULL, NULL, NULL,
