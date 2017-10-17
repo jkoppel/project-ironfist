@@ -223,6 +223,8 @@ public:
   void ResetRound_orig();
   void ResetRound();
   int GetGridIndex(int x, int y);
+  int GetCommand(int hex);
+  void DrawSmallView(int a2, int a3);
 };
 
 extern combatManager* gpCombatManager;

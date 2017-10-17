@@ -444,6 +444,100 @@ bool IsAICombatTurn() {
   return 0;
 }
 
+extern int gbProcessingCombatAction;
+extern int giNextAction;
+int combatManager::GetCommand(int hex) {
+  int v7 = 0;
+  int result = 0;
+  switch(hex) {
+    case -1:
+      result = 0;
+      break;
+    case 25:
+      if(this->heroes[1]) {
+        if(this->currentActionSide == 1)
+          result = 4;
+        else
+          result = 13;
+      } else {
+        result = 0;
+      }
+      break;
+    case 26:
+      if(this->heroes[0]) {
+        if(this->currentActionSide)
+          result = 13;
+        else
+          result = 4;
+      } else {
+        result = 0;
+      }
+      break;
+    case 77:
+      if(this->isCastleBattle)
+        result = 5;
+      else
+        result = 0;
+      break;
+    default:
+      if(hex % 13 == 12) {
+        result = 0;
+      } else {
+        int tempOwner = this->combatGrid[hex].unitOwner;
+        int tempStack = this->combatGrid[hex].stackIdx;
+        army *a = &this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx];
+        this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx].targetOwner = -1;
+        a->targetStackIdx = -1;
+        if(this->combatGrid[hex].isBlocked
+          && (!gpCombatManager->isCastleBattle || hex != 58 && hex != 59 || gpCombatManager->drawBridgePosition == 4
+            && (gpCombatManager->currentActionSide != 1 || gpCombatManager->combatGrid[58].unitOwner != -1 || gpCombatManager->combatGrid[58].numCorpses))) {
+          result = 0;
+        } else {
+          if(tempOwner == -1) {
+            if(this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx].ValidPath(hex, 0) == 1)
+              result = 2 - ((*(DWORD *)&this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx].creature.creature_flags & (unsigned int)FLYER) < 1);
+          } else {
+            if(this->otherCurrentSideThing != tempOwner || this->someSortOfStackIdx != tempStack) {
+              v7 = 1;
+              if(!gbProcessingCombatAction) {
+                if(!giNextAction) {
+                  *(DWORD *)&this->_15[104] = tempOwner;
+                  *(DWORD *)&this->_15[112] = tempStack;
+                  this->DrawSmallView(1, 1);
+                }
+              }
+            }
+            if(tempOwner >= 0 && tempOwner <= 1) {
+              if(this->currentActionSide == tempOwner || this->otherCurrentSideThing == tempOwner && this->someSortOfStackIdx == tempStack)
+                return 5;
+              a->targetOwner = tempOwner;
+              a->targetStackIdx = tempStack;
+              if(a->creature.shots > 0 && a->GetAttackMask(a->occupiedHex, 1, -1) == 255) {
+                if(this->ShotIsThroughWall(a->owningSide, a->occupiedHex, hex))
+                  return 15;
+                else
+                  return 3;
+              }
+              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->ValidFlight(hex, 0)))
+                return 7;
+              a->targetOwner = -1;
+              a->targetStackIdx = -1;
+              result = 0;
+            }
+          }
+        }
+      }
+      break;
+  }
+  if(!v7) {
+    if(!gbProcessingCombatAction) {
+      *(DWORD *)&this->_15[104] = -1;
+      this->DrawSmallView(1, 1);
+    }
+  }
+  return result;
+}
+
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY) {
   std::vector<COORD> points;
   float amplitude = 0.01282;
