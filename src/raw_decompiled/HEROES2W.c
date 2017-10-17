@@ -37441,7 +37441,7 @@ signed int __thiscall combatManager::GetCommand(combatManager *this, int hex)
   v7 = 0;
   switch ( hex )
   {
-    case 4294967295:
+    case -1:
       returnedResult = 0;
       break;
     case 25:
