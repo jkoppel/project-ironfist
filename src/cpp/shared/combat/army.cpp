@@ -2336,3 +2336,27 @@ void army::InitClean() {
         gIronfistExtra.combat.stack.abilityCounter[this][i] = 1;
     }
 }
+
+bool army::FlightThroughObstacles(int toHex) {
+  double x1, x2, y1, y2, dx, dy;
+  x1 = this->MidX();
+  y1 = this->MidY();
+  x2 = gpCombatManager->combatGrid[toHex].centerX;
+  y2 = gpCombatManager->combatGrid[toHex].occupyingCreatureBottomY;
+  dx = x2 - x1;
+  dy = y2 - y1;
+  int x = x1;
+  int endX = x2;
+  if(x1 > x2) {
+    x = x2;
+    endX = x1;
+  }
+  while(x < endX) {
+    int y = y1 + dy * (x - x1) / dx;
+    int cellIndex = gpCombatManager->GetGridIndex(x, y);
+    if(gpCombatManager->combatGrid[cellIndex].isBlocked)
+      return true;
+    x++;
+  }
+  return false;
+}

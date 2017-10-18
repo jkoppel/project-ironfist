@@ -127,6 +127,7 @@ public:
   int AttackTo(int targetHex);
   int AttackTo_orig(int targetHex);
   int GetAttackMask(int hex, int focusLevel, int a5);
+  bool FlightThroughObstacles(int toHex);
 private:
   void RevertChargingAnimation();
   void SetChargingAnimation();

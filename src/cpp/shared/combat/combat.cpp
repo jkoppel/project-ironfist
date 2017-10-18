@@ -518,7 +518,7 @@ int combatManager::GetCommand(int hex) {
                 else
                   return 3;
               }
-              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->ValidFlight(hex, 0)))
+              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->ValidFlight(hex, 0) && !a->FlightThroughObstacles(hex)))
                 return 7;
               a->targetOwner = -1;
               a->targetStackIdx = -1;
