@@ -225,6 +225,8 @@ public:
   int GetGridIndex(int x, int y);
   int GetCommand(int hex);
   void DrawSmallView(int a2, int a3);
+  void SetupGridForArmy(army *stack);
+  void SetupGridForArmy_orig(army *stack);
 };
 
 extern combatManager* gpCombatManager;

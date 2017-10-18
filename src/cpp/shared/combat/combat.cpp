@@ -538,6 +538,21 @@ int combatManager::GetCommand(int hex) {
   return result;
 }
 
+void combatManager::SetupGridForArmy(army *stack) {
+  this->SetupGridForArmy_orig(stack);
+  if(CreatureHasAttribute(stack->creatureIdx, CHARGER)) {
+    for(int i = 0; i < NUM_HEXES; i++) {
+      if((this->combatGrid[i].unitOwner != -1) && (this->combatGrid[i].unitOwner != stack->owningSide) && (!stack->FlightThroughObstacles(i))) {
+        stack->targetHex = i;
+        stack->targetOwner = this->combatGrid[i].unitOwner;
+        stack->targetStackIdx = this->combatGrid[i].stackIdx;
+        if(stack->ValidFlight(i, 0))
+          this->field_49F[i] = this->field_42A[i] = 1;
+      }
+    }
+  }
+}
+
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY) {
   std::vector<COORD> points;
   float amplitude = 0.01282;
