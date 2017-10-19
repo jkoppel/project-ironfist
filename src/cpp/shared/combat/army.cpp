@@ -169,8 +169,7 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
 
 void army::SetChargingAnimation() {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
-    for(int i = 0; i < 8; i++)
-    {
+    for(int i = 0; i < 8; i++) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = 96;
     }
@@ -1110,15 +1109,16 @@ int army::FlyTo(int hexIdx) {
       gpWindowManager->screenBuffer->CopyTo(gpCombatManager->probablyBitmapForCombatScreen, 0, 0, 0, 0, 0x280u, 442);
       gpCombatManager->zeroedAfterAnimatingDeathAndHolySpells = 0;
 
-      if(CreatureHasAttribute(this->creatureIdx, CHARGER))
-        SetChargingAnimation();
+      
       this->animationType = ANIMATION_TYPE_WALKING;
       for (int i = 0; numFrames > i; ++i) {
         if (teleporter) {
           BuildTeleporterTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0, closeMove);
-        } else
+        } else {
           BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
-
+          if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+            SetChargingAnimation();
+        }
         int startMoveLen = 0;
         int moveLen = 0;
         int moveAndSubEndMoveLen;
