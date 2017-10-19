@@ -2084,7 +2084,10 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   }
   
   *damageDone = baseDam;
-  *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
+  if(baseDam < 0)
+    *creaturesKilled = targ->Damage(0, SPELL_NONE);
+  else
+    *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
 }
 
 void army::MoveTo(int hexIdx) {
