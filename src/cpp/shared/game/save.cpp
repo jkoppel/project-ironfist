@@ -50,6 +50,7 @@ void ReadArrayFromXML(T &dest, xsd::cxx::tree::sequence<ironfist_save::arrayInt_
 
 template<typename T>
 void WriteArrayToXML(xsd::cxx::tree::sequence<ironfist_save::arrayInt_t> &dest, T &src) {
+  dest.reserve(ELEMENTS_IN(src));
   for (int i = 0; i < ELEMENTS_IN(src); i++)
     dest.push_back(ironfist_save::arrayInt_t::value_type(src[i]));
 }
@@ -393,6 +394,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.mapHeader().back().playerMayBeComp(), mh->playerMayBeComp);
   WriteArrayToXML(gs.mapHeader().back().playerFactions(), mh->playerFactions);
 
+  gs.playerNames().reserve(ELEMENTS_IN(cPlayerNames));
   for (int i = 0; i < ELEMENTS_IN(cPlayerNames); i++)
     gs.playerNames().push_back(ironfist_save::gamestate_t::playerNames_type(cPlayerNames[i]));
 
@@ -422,6 +424,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.eventIndices(), gam->eventIndices);
   WriteArrayToXML(gs._D(), gam->_D);
 
+  gs.mapRevealed().reserve(MAP_WIDTH * MAP_HEIGHT);
   for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
     int x = i % MAP_HEIGHT;
     int y = i / MAP_HEIGHT;
@@ -429,8 +432,10 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     gs.mapRevealed().back().revealed(mapRevealed[i]);
   }
 
+  gs.mapExtra().reserve(iMaxMapExtra);
   for (int i = 1; i < iMaxMapExtra; i++) {
     gs.mapExtra().push_back(ironfist_save::gamestate_t::mapExtra_type());
+    gs.mapExtra().back().ppMapExtra().reserve(pwSizeOfMapExtra[i]);
     for (int j = 0; j < pwSizeOfMapExtra[i]; j++) {
       gs.mapExtra().back().ppMapExtra().push_back(ironfist_save::mapExtra_t::ppMapExtra_type());
       gs.mapExtra().back().ppMapExtra().back().mapExtraIndex(i);
@@ -442,7 +447,8 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     }
   }
 
-  for (int i = 0; i < 6; i++) {
+  gs.playerData().reserve(NUM_PLAYERS);
+  for (int i = 0; i < NUM_PLAYERS; i++) {
     playerData player = gam->players[i];
 
     ironfist_save::gamestate_t::playerData_type data(
@@ -473,6 +479,9 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     WriteArrayToXML(gs.playerData().back()._4_2(), player._4_2);
   }
 
+  gs.towns().reserve(ELEMENTS_IN(gam->castles));
+  //gs.towns().back().garrison().reserve(ELEMENTS_IN(gam->castles)); //This results in a game crash
+  gs.map().reserve(ELEMENTS_IN(gam->castles));
   for (int i = 0; i < ELEMENTS_IN(gam->castles); i++) {
     town twn = gam->castles[i];
     ironfist_save::gamestate_t::towns_type data(
@@ -502,6 +511,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     WriteArrayToXML(gs.towns().back().numCreaturesInDwelling(), twn.numCreaturesInDwelling);
     WriteArrayToXML(gs.towns().back().numSpellsOfLevel(), twn.numSpellsOfLevel);
 
+    gs.towns().back().mageGuildSpells().reserve(20);
     for (int j = 0; j < 20; j++) {
       int x = j % 5;
       int y = j / 5;
@@ -509,16 +519,19 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       gs.towns().back().mageGuildSpells().back().value(twn.mageGuildSpells[x][y]);
     }
 
-    gs.towns().back().garrison().push_back(ironfist_save::town_t::garrison_type());
+    gs.towns().back().garrison().push_back(ironfist_save::town_t::garrison_type()); // Wait for discussion to address; this still doesn't have a "reserve()"
+    gs.towns().back().garrison().back().creature().reserve(ELEMENTS_IN(twn.garrison.creatureTypes));
     for (int j = 0; j < ELEMENTS_IN(twn.garrison.creatureTypes); j++) {
       gs.towns().back().garrison().back().creature().push_back(ironfist_save::armyGroup_t::creature_type(twn.garrison.creatureTypes[j], twn.garrison.quantities[j]));
     }
   }
 
+  gs.mine().reserve(ELEMENTS_IN(gam->mines));
   for (int i = 0; i < ELEMENTS_IN(gam->mines); i++) {
     mine *m = &gam->mines[i];
     gs.mine().push_back(ironfist_save::gamestate_t::mine_type(m->field_0, m->owner, m->type, m->guardianType, m->guardianQty, m->x, m->y));
   }
+  gs.boat().reserve(ELEMENTS_IN(gam->boats));
   for (int i = 0; i < ELEMENTS_IN(gam->boats); i++) {
     boat *b = &gam->boats[i];
     gs.boat().push_back(ironfist_save::gamestate_t::boat_type(b->idx, b->x, b->y, b->field_3, b->underlyingObjType, b->underlyingObjExtra, b->field_6, b->owner));
@@ -526,6 +539,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
 
   fullMap *map = &gam->map;
   gs.map().push_back(ironfist_save::gamestate_t::map_type(map->width, map->height, map->numCellExtras));
+  gs.map().back().mapCell().reserve(map->height * map->width);
   for (int i = 0; i < map->height * map->width; i++) {
     mapCell *c = &map->tiles[i];
     ironfist_save::map_t::mapCell_type cell(
@@ -547,6 +561,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       c->extraIdx);
     gs.map().back().mapCell().push_back(cell);
   }
+  gs.map().back().mapCellExtra().reserve(map->numCellExtras);
   for (int i = 0; i < map->numCellExtras; i++) {
     mapCellExtra *e = &map->cellExtras[i];
     ironfist_save::map_t::mapCellExtra_type cellExtra(
@@ -700,6 +715,7 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
 
   ironfist_save::army_t arm;
 
+  arm.slot().reserve(ELEMENTS_IN(hro->army.creatureTypes));
   for (int i = 0; i < ELEMENTS_IN(hro->army.creatureTypes); i++) {
     ironfist_save::slot_t sl;
     sl.id(hro->army.creatureTypes[i]);
@@ -759,6 +775,7 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
     hro->isCaptain,
     hro->field_E8);
 
+  hx.secondarySkill().reserve(ELEMENTS_IN(hro->secondarySkillLevel));
   for (int i = 0; i < ELEMENTS_IN(hro->secondarySkillLevel); i++) {
     ironfist_save::secondarySkill sk;
     sk.id(i);
@@ -767,11 +784,13 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
     hx.secondarySkill().push_back(sk);
   }
 
+  hx.spell().reserve(hro->GetNumSpells(SPELL_CATEGORY_ALL));
   for (int i = 0; i < NUM_SPELLS; i++) {
     if (hro->spellsLearned[i])
       hx.spell().push_back(i);
   }
 
+  hx.artifact().reserve(ELEMENTS_IN(hro->artifacts));
   for (int i = 0; i < ELEMENTS_IN(hro->artifacts); i++) {
     hx.artifact().push_back(ironfist_save::hero_t::artifact_type(hro->artifacts[i]));
     hx.artifact().back().spell(hro->scrollSpell[i]); // This will save this in the sub-element of the complex element "artifact",
@@ -792,7 +811,7 @@ static std::string MapVarTypeToString(MapVarType type) {
   }
 }
 
-static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {
+static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) { //idk how to account for the conditional allocations here...
   ironfist_save::table_t xsdTable;
   xsdTable.tableId(id);
   for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
@@ -809,7 +828,7 @@ static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable 
   return xsdTable;
 }
 
-static void WriteMapVariablesXML(ironfist_save::save_t& m) {
+static void WriteMapVariablesXML(ironfist_save::save_t& m) { //idk how to do this one either... I might need to establish a way to count the mapVariables
 
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
 
@@ -942,6 +961,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
 
   ironfist_save::save_t m;
 
+  m.hero().reserve(ELEMENTS_IN(this->heroes));
   for (int i = 0; i < ELEMENTS_IN(this->heroes); i++) {
     m.hero().push_back(WriteHeroXML(&this->heroes[i]));
   }
