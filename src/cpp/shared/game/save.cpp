@@ -357,7 +357,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   );
 
   SMapHeader *mh = &gam->mapHeader;
-  gs.mapHeader().push_back(ironfist_save::gamestate_t::mapHeader_type(
+  gs.mapHeader().push_back(ironfist_save::gamestate_t::mapHeader_type( //not much to do here; a reserve() here would either be useless or guarantee a reallocation
     mh->field_0,
     mh->field_4,
     mh->width,
@@ -433,6 +433,11 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   }
 
   gs.mapExtra().reserve(iMaxMapExtra);
+  int totalSize = 0;
+  for (int k = 0; k < iMaxMapExtra; k++) {
+    totalSize += pwSizeOfMapExtra[k];
+  }
+  //gs.mapExtra().back().ppMapExtra().reserve(totalSize);
   for (int i = 1; i < iMaxMapExtra; i++) {
     gs.mapExtra().push_back(ironfist_save::gamestate_t::mapExtra_type());
     gs.mapExtra().back().ppMapExtra().reserve(pwSizeOfMapExtra[i]);
@@ -481,7 +486,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
 
   gs.towns().reserve(ELEMENTS_IN(gam->castles));
   //gs.towns().back().garrison().reserve(ELEMENTS_IN(gam->castles)); //This results in a game crash
-  gs.map().reserve(ELEMENTS_IN(gam->castles));
+  //gs.towns().back().mageGuildSpells().reserve(ELEMENTS_IN(gam->castles) * 20);
   for (int i = 0; i < ELEMENTS_IN(gam->castles); i++) {
     town twn = gam->castles[i];
     ironfist_save::gamestate_t::towns_type data(
@@ -815,9 +820,9 @@ static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable 
   ironfist_save::table_t xsdTable;
   xsdTable.tableId(id);
   for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
-    if (it->second.type == MAPVAR_TYPE_TABLE) {
+    if (it->second.type == MAPVAR_TYPE_TABLE) { // How do I make pre-emptive allocations for tables that don't yet exist?
       xsdTable.table().push_back(WriteMapVariableTableXML(it->first, it->second.tableValue));
-    } else {
+    } else { // How shall I account for each element within each table? How shall I account for each table prior to this?
       ironfist_save::tableElement_t element;
       element.key(it->first);
       element.type(MapVarTypeToString(it->second.type));
@@ -940,6 +945,10 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 }
 
 int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
+  long delta, start;
+  char* cdelta;
+  std::string str2;
+  start = KBTickCount();
   baseGame = 0;
   gpAdvManager->DemobilizeCurrHero();
   char path[100];
@@ -966,15 +975,51 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
     m.hero().push_back(WriteHeroXML(&this->heroes[i]));
   }
 
+  delta = KBTickCount() - start;
+  str2 = std::to_string(delta);
+  cdelta = &str2[0];
+  H2MessageBox(cdelta);
+  start = KBTickCount();
+
   m.gamestate(WriteGameStateXML(gpGame));
+  delta = KBTickCount() - start;
+  str2 = std::to_string(delta);
+  cdelta = &str2[0];
+  H2MessageBox(cdelta);
+  start = KBTickCount();
+
   m.script(GetScriptContents());
+  delta = KBTickCount() - start;
+  str2 = std::to_string(delta);
+  cdelta = &str2[0];
+  H2MessageBox(cdelta);
+  start = KBTickCount();
+
   WriteMapVariablesXML(m);
-  
+  delta = KBTickCount() - start;
+  str2 = std::to_string(delta);
+  cdelta = &str2[0];
+  H2MessageBox(cdelta);
+  start = KBTickCount();
+
   xml_schema::namespace_infomap infomap;
   infomap[""].name = "ironfist_save";
   infomap[""].schema = "map_xml.xsd";
 
+  WriteMapVariablesXML(m);
+  delta = KBTickCount() - start;
+  str2 = std::to_string(delta);
+  cdelta = &str2[0];
+  H2MessageBox(cdelta);
+  start = KBTickCount();
+
   ironfist_save::save(os, m, infomap);
+
+  delta = KBTickCount() - start;
+  str2 = std::to_string(delta);
+  cdelta = &str2[0];
+  H2MessageBox(cdelta);
+  start = KBTickCount();
 
   return 1;
 }
