@@ -664,6 +664,13 @@ int l_sharevision(lua_State *L) {
   return 0;
 }
 
+int l_cancelsharevision(lua_State *L) {
+	int sourcePlayer = (int)luaL_checknumber(L, 1);
+	int destPlayer = (int)luaL_checknumber(L, 2);
+	gpGame->CancelShareVision(sourcePlayer, destPlayer);
+	return 0;
+}
+
 int l_setDaysAfterTownLost(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int days = (int)luaL_checknumber(L, 2);
