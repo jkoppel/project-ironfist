@@ -199,7 +199,8 @@ public:
 
   void ResetIronfistGameState();
   void ShareVision(int sourcePlayer, int destPlayer);
-
+  void CancelShareVision(int sourcePlayer, int destPlayer);
+	
   void MakeAllWaterVisible(int player);
   void MakeAllWaterVisible_orig(int player);
 

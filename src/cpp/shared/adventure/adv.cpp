@@ -81,6 +81,10 @@ void game::ShareVision(int sourcePlayer, int destPlayer) {
   this->PropagateVision();
 }
 
+void game::CancelShareVision(int sourcePlayer, int destPlayer) {
+	this->sharePlayerVision[sourcePlayer][destPlayer] = false;
+}
+
 void game::PropagateVision() {
   for (int p1 = 0; p1 < NUM_PLAYERS; p1++) {
     for (int p2 = 0; p2 < NUM_PLAYERS; p2++) {
