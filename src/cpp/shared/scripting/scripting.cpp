@@ -871,6 +871,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetNumGuildSpells", l_setnumguildspells);
   lua_register(L, "SetGuildSpell", l_setguildspell);
   lua_register(L, "ShareVision", l_sharevision);
+  lua_register(L, "CancelShareVision", l_cancelsharevision);
   lua_register(L, "GetHeroLevel", l_getherolevel);
   lua_register(L, "GetHeroTempMoraleBonuses", l_getHeroTempMoraleBonuses);
   lua_register(L, "SetHeroTempMoraleBonuses", l_setHeroTempMoraleBonuses);
