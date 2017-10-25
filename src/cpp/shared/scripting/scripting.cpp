@@ -874,7 +874,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GrantArmy", l_grantarmy);
   lua_register(L, "HasArtifact", l_hasartifact);
   lua_register(L, "TakeArtifact", l_takeartifact);
-  lua_register(L, "SetExperiencePoints", l_setExperiencePoints);	
+  lua_register(L, "SetExperiencePoints", l_setExperiencePoints);
+  lua_register(L, "GetExperiencePoints", l_getExperiencePoints);
   lua_register(L, "SetPrimarySkill", l_setprimaryskill);
   lua_register(L, "SetSpellpoints", l_setspellpoints);
   lua_register(L, "SetSecondarySkill", l_setsecondaryskill);
