@@ -373,6 +373,12 @@ int l_setExperiencePoints(lua_State *L) {
 	return 0;
 }
 
+int l_getExperiencePoints(lua_State *L) {
+	hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+	lua_pushinteger(L, hro->experience);
+	return 1;
+}
+
 int l_setprimaryskill(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int skill = (int)luaL_checknumber(L, 2);
