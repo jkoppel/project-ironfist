@@ -92,6 +92,7 @@ IMPORT_?SetupGame@game@@QAEHXZ = 1
 
 ;; title screen
 IMPORT_?IMHotSpots@@3PAY03GA = 1
+IMPORT_?CheckShingleUpdate@@YIXXZ = 1
 
 ;;;resourceManager
 

@@ -19,6 +19,11 @@ unsigned short IMHotSpots[][4] = {
   {555, 434, 86,  44}  // quit
 };
 
+void __fastcall CheckShingleUpdate() {
+  // Do nothing
+}
+
+
 
 char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
                              "Multiple", "Random", NULL, NULL, NULL, NULL,
