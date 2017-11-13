@@ -370,6 +370,7 @@ int l_setExperiencePoints(lua_State *L) {
 	hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
 	int points = (int)luaL_checknumber(L, 2);
 	hro->experience = points;
+	hro->CheckLevel();
 	return 0;
 }
 
