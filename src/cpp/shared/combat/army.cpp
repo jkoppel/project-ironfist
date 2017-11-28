@@ -169,6 +169,8 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
 
 void army::SetChargingAnimation() {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
+    this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE] = 1;
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE][0] = 97;
     for(int i = 0; i < 8; i++) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = 96;
@@ -179,6 +181,7 @@ void army::SetChargingAnimation() {
 void army::RevertChargingAnimation() {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
     this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] = 8;
+    this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE] = 0;
     for(int i = 0; i < 8; i++) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] =
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] = 46 + i;
