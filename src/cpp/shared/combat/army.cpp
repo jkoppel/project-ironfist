@@ -1212,12 +1212,17 @@ int army::FlyTo(int hexIdx) {
           if (this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] - 1 == this->animationFrame) {
             currentDrawX = (double)(i + 1) * stepX + (double)v19;
             currentDrawY = (double)(i + 1) * stepY + (double)v14;
-
-            int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
-            if(gpCombatManager->combatGrid[h].unitOwner != gpCombatManager->combatGrid[this->creatureIdx].unitOwner) {
-              chargeAffectedHexes.push(h);
-            }
           }
+		  int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
+		  if(IsEnemyCreatureHex(h))
+		     chargeAffectedHexes.push(h);
+		  const int creatureWidth = 30;
+		  h = gpCombatManager->GetGridIndex(currentDrawX + creatureWidth / 2, currentDrawY);
+		  if(h != -1 && IsEnemyCreatureHex(h))
+		     chargeAffectedHexes.push(h);
+		  h = gpCombatManager->GetGridIndex(currentDrawX - creatureWidth / 2, currentDrawY);
+		  if(h != -1 && IsEnemyCreatureHex(h))
+		     chargeAffectedHexes.push(h);
         }
       }
     }
@@ -2362,4 +2367,8 @@ bool army::FlightThroughObstacles(int toHex) {
     x++;
   }
   return false;
+}
+
+bool army::IsEnemyCreatureHex(int hex) {
+	return gpCombatManager->combatGrid[hex].unitOwner != gpCombatManager->combatGrid[this->creatureIdx].unitOwner;
 }

@@ -134,6 +134,7 @@ private:
   void RevertJumpingAnimation();
   void SetJumpingAnimation();
   void ChargingDamage(std::stack<int> affectedHexes);
+  bool IsEnemyCreatureHex(int hex);
 };
 
 #pragma pack(pop)

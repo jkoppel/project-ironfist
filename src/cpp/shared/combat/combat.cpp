@@ -448,6 +448,7 @@ extern int gbProcessingCombatAction;
 extern int giNextAction;
 int combatManager::GetCommand(int hex) {
   int v7 = 0;
+  UpdateGrid(0, 0);
   int result = 0;
   switch(hex) {
     case -1:
