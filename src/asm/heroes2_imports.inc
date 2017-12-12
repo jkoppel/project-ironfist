@@ -90,6 +90,10 @@ IMPORT_?SetupCDRom@@YIXXZ = 1
 IMPORT_?SetupGame@game@@QAEHXZ = 1
 ?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ
 
+;; title screen
+IMPORT_?IMHotSpots@@3PAY03GA = 1
+IMPORT_?CheckShingleUpdate@@YIXXZ = 1
+
 ;;;resourceManager
 
 IMPORT_??_7resourceManager@@6B@ = 1
