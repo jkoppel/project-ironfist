@@ -14,6 +14,15 @@
 
 #include<sstream>
 
+unsigned long gTownEligibleBuildMask[] = {
+  0x3FF8BF9F,
+  0x1BF8BF9F,
+  0xFF8BF9F,
+  0x69F8BF9F,
+  0x35F8BF9F,
+  0x1FF8BF9B
+};
+
 int BuildingBuilt(town* twn, int building) {
 	return (twn->buildingsBuiltFlags & (1 << building)) ? 1 : 0;
 }

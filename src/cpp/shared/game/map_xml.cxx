@@ -449,40 +449,76 @@ namespace ironfist_save
     this->field_27_.set (x);
   }
 
-  const hero_t::field_29_type& hero_t::
-  field_29 () const
+  const hero_t::relatedToX_type& hero_t::
+  relatedToX () const
   {
-    return this->field_29_.get ();
+    return this->relatedToX_.get ();
   }
 
-  hero_t::field_29_type& hero_t::
-  field_29 ()
+  hero_t::relatedToX_type& hero_t::
+  relatedToX ()
   {
-    return this->field_29_.get ();
-  }
-
-  void hero_t::
-  field_29 (const field_29_type& x)
-  {
-    this->field_29_.set (x);
-  }
-
-  const hero_t::field_2B_type& hero_t::
-  field_2B () const
-  {
-    return this->field_2B_.get ();
-  }
-
-  hero_t::field_2B_type& hero_t::
-  field_2B ()
-  {
-    return this->field_2B_.get ();
+    return this->relatedToX_.get ();
   }
 
   void hero_t::
-  field_2B (const field_2B_type& x)
+  relatedToX (const relatedToX_type& x)
   {
-    this->field_2B_.set (x);
+    this->relatedToX_.set (x);
+  }
+
+  const hero_t::relatedToY_type& hero_t::
+  relatedToY () const
+  {
+    return this->relatedToY_.get ();
+  }
+
+  hero_t::relatedToY_type& hero_t::
+  relatedToY ()
+  {
+    return this->relatedToY_.get ();
+  }
+
+  void hero_t::
+  relatedToY (const relatedToY_type& x)
+  {
+    this->relatedToY_.set (x);
+  }
+
+  const hero_t::relatedToFactionID_type& hero_t::
+  relatedToFactionID () const
+  {
+    return this->relatedToFactionID_.get ();
+  }
+
+  hero_t::relatedToFactionID_type& hero_t::
+  relatedToFactionID ()
+  {
+    return this->relatedToFactionID_.get ();
+  }
+
+  void hero_t::
+  relatedToFactionID (const relatedToFactionID_type& x)
+  {
+    this->relatedToFactionID_.set (x);
+  }
+
+  const hero_t::relatedToUnknown_type& hero_t::
+  relatedToUnknown () const
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  hero_t::relatedToUnknown_type& hero_t::
+  relatedToUnknown ()
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  void hero_t::
+  relatedToUnknown (const relatedToUnknown_type& x)
+  {
+    this->relatedToUnknown_.set (x);
   }
 
   const hero_t::occupiedObjType_type& hero_t::
@@ -1629,58 +1665,58 @@ namespace ironfist_save
     this->numObelisks_.set (x);
   }
 
-  const gamestate_t::field_6395_type& gamestate_t::
-  field_6395 () const
+  const gamestate_t::ultimateArtifactLocX_type& gamestate_t::
+  ultimateArtifactLocX () const
   {
-    return this->field_6395_.get ();
+    return this->ultimateArtifactLocX_.get ();
   }
 
-  gamestate_t::field_6395_type& gamestate_t::
-  field_6395 ()
+  gamestate_t::ultimateArtifactLocX_type& gamestate_t::
+  ultimateArtifactLocX ()
   {
-    return this->field_6395_.get ();
-  }
-
-  void gamestate_t::
-  field_6395 (const field_6395_type& x)
-  {
-    this->field_6395_.set (x);
-  }
-
-  const gamestate_t::field_6396_type& gamestate_t::
-  field_6396 () const
-  {
-    return this->field_6396_.get ();
-  }
-
-  gamestate_t::field_6396_type& gamestate_t::
-  field_6396 ()
-  {
-    return this->field_6396_.get ();
+    return this->ultimateArtifactLocX_.get ();
   }
 
   void gamestate_t::
-  field_6396 (const field_6396_type& x)
+  ultimateArtifactLocX (const ultimateArtifactLocX_type& x)
   {
-    this->field_6396_.set (x);
+    this->ultimateArtifactLocX_.set (x);
   }
 
-  const gamestate_t::field_6397_type& gamestate_t::
-  field_6397 () const
+  const gamestate_t::ultimateArtifactLocY_type& gamestate_t::
+  ultimateArtifactLocY () const
   {
-    return this->field_6397_.get ();
+    return this->ultimateArtifactLocY_.get ();
   }
 
-  gamestate_t::field_6397_type& gamestate_t::
-  field_6397 ()
+  gamestate_t::ultimateArtifactLocY_type& gamestate_t::
+  ultimateArtifactLocY ()
   {
-    return this->field_6397_.get ();
+    return this->ultimateArtifactLocY_.get ();
   }
 
   void gamestate_t::
-  field_6397 (const field_6397_type& x)
+  ultimateArtifactLocY (const ultimateArtifactLocY_type& x)
   {
-    this->field_6397_.set (x);
+    this->ultimateArtifactLocY_.set (x);
+  }
+
+  const gamestate_t::ultimateArtifactIdx_type& gamestate_t::
+  ultimateArtifactIdx () const
+  {
+    return this->ultimateArtifactIdx_.get ();
+  }
+
+  gamestate_t::ultimateArtifactIdx_type& gamestate_t::
+  ultimateArtifactIdx ()
+  {
+    return this->ultimateArtifactIdx_.get ();
+  }
+
+  void gamestate_t::
+  ultimateArtifactIdx (const ultimateArtifactIdx_type& x)
+  {
+    this->ultimateArtifactIdx_.set (x);
   }
 
   const gamestate_t::currentRumor_type& gamestate_t::
@@ -1851,40 +1887,22 @@ namespace ironfist_save
     this->heroHireStatus_ = s;
   }
 
-  const gamestate_t::field_44D_type& gamestate_t::
-  field_44D () const
+  const gamestate_t::relatedToPlayerPosAndColor_sequence& gamestate_t::
+  relatedToPlayerPosAndColor () const
   {
-    return this->field_44D_.get ();
+    return this->relatedToPlayerPosAndColor_;
   }
 
-  gamestate_t::field_44D_type& gamestate_t::
-  field_44D ()
+  gamestate_t::relatedToPlayerPosAndColor_sequence& gamestate_t::
+  relatedToPlayerPosAndColor ()
   {
-    return this->field_44D_.get ();
-  }
-
-  void gamestate_t::
-  field_44D (const field_44D_type& x)
-  {
-    this->field_44D_.set (x);
-  }
-
-  const gamestate_t::field_451_type& gamestate_t::
-  field_451 () const
-  {
-    return this->field_451_.get ();
-  }
-
-  gamestate_t::field_451_type& gamestate_t::
-  field_451 ()
-  {
-    return this->field_451_.get ();
+    return this->relatedToPlayerPosAndColor_;
   }
 
   void gamestate_t::
-  field_451 (const field_451_type& x)
+  relatedToPlayerPosAndColor (const relatedToPlayerPosAndColor_sequence& s)
   {
-    this->field_451_.set (x);
+    this->relatedToPlayerPosAndColor_ = s;
   }
 
   const gamestate_t::playerHandicap_sequence& gamestate_t::
@@ -1905,40 +1923,40 @@ namespace ironfist_save
     this->playerHandicap_ = s;
   }
 
-  const gamestate_t::field_459_sequence& gamestate_t::
-  field_459 () const
+  const gamestate_t::relatedToColorOfPlayerOrFaction_sequence& gamestate_t::
+  relatedToColorOfPlayerOrFaction () const
   {
-    return this->field_459_;
+    return this->relatedToColorOfPlayerOrFaction_;
   }
 
-  gamestate_t::field_459_sequence& gamestate_t::
-  field_459 ()
+  gamestate_t::relatedToColorOfPlayerOrFaction_sequence& gamestate_t::
+  relatedToColorOfPlayerOrFaction ()
   {
-    return this->field_459_;
-  }
-
-  void gamestate_t::
-  field_459 (const field_459_sequence& s)
-  {
-    this->field_459_ = s;
-  }
-
-  const gamestate_t::field_45F_sequence& gamestate_t::
-  field_45F () const
-  {
-    return this->field_45F_;
-  }
-
-  gamestate_t::field_45F_sequence& gamestate_t::
-  field_45F ()
-  {
-    return this->field_45F_;
+    return this->relatedToColorOfPlayerOrFaction_;
   }
 
   void gamestate_t::
-  field_45F (const field_45F_sequence& s)
+  relatedToColorOfPlayerOrFaction (const relatedToColorOfPlayerOrFaction_sequence& s)
   {
-    this->field_45F_ = s;
+    this->relatedToColorOfPlayerOrFaction_ = s;
+  }
+
+  const gamestate_t::somePlayerCodeOr10IfMayBeHuman_sequence& gamestate_t::
+  somePlayerCodeOr10IfMayBeHuman () const
+  {
+    return this->somePlayerCodeOr10IfMayBeHuman_;
+  }
+
+  gamestate_t::somePlayerCodeOr10IfMayBeHuman_sequence& gamestate_t::
+  somePlayerCodeOr10IfMayBeHuman ()
+  {
+    return this->somePlayerCodeOr10IfMayBeHuman_;
+  }
+
+  void gamestate_t::
+  somePlayerCodeOr10IfMayBeHuman (const somePlayerCodeOr10IfMayBeHuman_sequence& s)
+  {
+    this->somePlayerCodeOr10IfMayBeHuman_ = s;
   }
 
   const gamestate_t::difficulty_type& gamestate_t::
@@ -2455,22 +2473,22 @@ namespace ironfist_save
     this->winConditionType_.set (x);
   }
 
-  const mapHeader_t::field_1E_type& mapHeader_t::
-  field_1E () const
+  const mapHeader_t::relatedToWinConditionType_type& mapHeader_t::
+  relatedToWinConditionType () const
   {
-    return this->field_1E_.get ();
+    return this->relatedToWinConditionType_.get ();
   }
 
-  mapHeader_t::field_1E_type& mapHeader_t::
-  field_1E ()
+  mapHeader_t::relatedToWinConditionType_type& mapHeader_t::
+  relatedToWinConditionType ()
   {
-    return this->field_1E_.get ();
+    return this->relatedToWinConditionType_.get ();
   }
 
   void mapHeader_t::
-  field_1E (const field_1E_type& x)
+  relatedToWinConditionType (const relatedToWinConditionType_type& x)
   {
-    this->field_1E_.set (x);
+    this->relatedToWinConditionType_.set (x);
   }
 
   const mapHeader_t::allowDefeatAllVictory_type& mapHeader_t::
@@ -2491,58 +2509,58 @@ namespace ironfist_save
     this->allowDefeatAllVictory_.set (x);
   }
 
-  const mapHeader_t::winConditionArgument_type& mapHeader_t::
-  winConditionArgument () const
+  const mapHeader_t::winConditionArgumentOrLocX_type& mapHeader_t::
+  winConditionArgumentOrLocX () const
   {
-    return this->winConditionArgument_.get ();
+    return this->winConditionArgumentOrLocX_.get ();
   }
 
-  mapHeader_t::winConditionArgument_type& mapHeader_t::
-  winConditionArgument ()
+  mapHeader_t::winConditionArgumentOrLocX_type& mapHeader_t::
+  winConditionArgumentOrLocX ()
   {
-    return this->winConditionArgument_.get ();
-  }
-
-  void mapHeader_t::
-  winConditionArgument (const winConditionArgument_type& x)
-  {
-    this->winConditionArgument_.set (x);
-  }
-
-  const mapHeader_t::field_22_type& mapHeader_t::
-  field_22 () const
-  {
-    return this->field_22_.get ();
-  }
-
-  mapHeader_t::field_22_type& mapHeader_t::
-  field_22 ()
-  {
-    return this->field_22_.get ();
+    return this->winConditionArgumentOrLocX_.get ();
   }
 
   void mapHeader_t::
-  field_22 (const field_22_type& x)
+  winConditionArgumentOrLocX (const winConditionArgumentOrLocX_type& x)
   {
-    this->field_22_.set (x);
+    this->winConditionArgumentOrLocX_.set (x);
   }
 
-  const mapHeader_t::field_23_type& mapHeader_t::
-  field_23 () const
+  const mapHeader_t::lossConditionType_type& mapHeader_t::
+  lossConditionType () const
   {
-    return this->field_23_.get ();
+    return this->lossConditionType_.get ();
   }
 
-  mapHeader_t::field_23_type& mapHeader_t::
-  field_23 ()
+  mapHeader_t::lossConditionType_type& mapHeader_t::
+  lossConditionType ()
   {
-    return this->field_23_.get ();
+    return this->lossConditionType_.get ();
   }
 
   void mapHeader_t::
-  field_23 (const field_23_type& x)
+  lossConditionType (const lossConditionType_type& x)
   {
-    this->field_23_.set (x);
+    this->lossConditionType_.set (x);
+  }
+
+  const mapHeader_t::lossConditionArgumentOrLocX_type& mapHeader_t::
+  lossConditionArgumentOrLocX () const
+  {
+    return this->lossConditionArgumentOrLocX_.get ();
+  }
+
+  mapHeader_t::lossConditionArgumentOrLocX_type& mapHeader_t::
+  lossConditionArgumentOrLocX ()
+  {
+    return this->lossConditionArgumentOrLocX_.get ();
+  }
+
+  void mapHeader_t::
+  lossConditionArgumentOrLocX (const lossConditionArgumentOrLocX_type& x)
+  {
+    this->lossConditionArgumentOrLocX_.set (x);
   }
 
   const mapHeader_t::field_24_type& mapHeader_t::
@@ -2581,40 +2599,58 @@ namespace ironfist_save
     this->noStartingHeroInCastle_.set (x);
   }
 
-  const mapHeader_t::field_2C_type& mapHeader_t::
-  field_2C () const
+  const mapHeader_t::winConditionArgumentOrLocY_type& mapHeader_t::
+  winConditionArgumentOrLocY () const
   {
-    return this->field_2C_.get ();
+    return this->winConditionArgumentOrLocY_.get ();
   }
 
-  mapHeader_t::field_2C_type& mapHeader_t::
-  field_2C ()
+  mapHeader_t::winConditionArgumentOrLocY_type& mapHeader_t::
+  winConditionArgumentOrLocY ()
   {
-    return this->field_2C_.get ();
-  }
-
-  void mapHeader_t::
-  field_2C (const field_2C_type& x)
-  {
-    this->field_2C_.set (x);
-  }
-
-  const mapHeader_t::field_2E_type& mapHeader_t::
-  field_2E () const
-  {
-    return this->field_2E_.get ();
-  }
-
-  mapHeader_t::field_2E_type& mapHeader_t::
-  field_2E ()
-  {
-    return this->field_2E_.get ();
+    return this->winConditionArgumentOrLocY_.get ();
   }
 
   void mapHeader_t::
-  field_2E (const field_2E_type& x)
+  winConditionArgumentOrLocY (const winConditionArgumentOrLocY_type& x)
   {
-    this->field_2E_.set (x);
+    this->winConditionArgumentOrLocY_.set (x);
+  }
+
+  const mapHeader_t::lossConditionArgumentOrLocY_type& mapHeader_t::
+  lossConditionArgumentOrLocY () const
+  {
+    return this->lossConditionArgumentOrLocY_.get ();
+  }
+
+  mapHeader_t::lossConditionArgumentOrLocY_type& mapHeader_t::
+  lossConditionArgumentOrLocY ()
+  {
+    return this->lossConditionArgumentOrLocY_.get ();
+  }
+
+  void mapHeader_t::
+  lossConditionArgumentOrLocY (const lossConditionArgumentOrLocY_type& x)
+  {
+    this->lossConditionArgumentOrLocY_.set (x);
+  }
+
+  const mapHeader_t::relatedToPlayerColorOrSide_type& mapHeader_t::
+  relatedToPlayerColorOrSide () const
+  {
+    return this->relatedToPlayerColorOrSide_.get ();
+  }
+
+  mapHeader_t::relatedToPlayerColorOrSide_type& mapHeader_t::
+  relatedToPlayerColorOrSide ()
+  {
+    return this->relatedToPlayerColorOrSide_.get ();
+  }
+
+  void mapHeader_t::
+  relatedToPlayerColorOrSide (const relatedToPlayerColorOrSide_type& x)
+  {
+    this->relatedToPlayerColorOrSide_.set (x);
   }
 
   const mapHeader_t::field_32_type& mapHeader_t::
@@ -4305,22 +4341,22 @@ namespace ironfist_save
     this->curHeroIdx_.set (x);
   }
 
-  const playerData_t::field_3_type& playerData_t::
-  field_3 () const
+  const playerData_t::relatedToSomeSortOfHeroCountOrIdx_type& playerData_t::
+  relatedToSomeSortOfHeroCountOrIdx () const
   {
-    return this->field_3_.get ();
+    return this->relatedToSomeSortOfHeroCountOrIdx_.get ();
   }
 
-  playerData_t::field_3_type& playerData_t::
-  field_3 ()
+  playerData_t::relatedToSomeSortOfHeroCountOrIdx_type& playerData_t::
+  relatedToSomeSortOfHeroCountOrIdx ()
   {
-    return this->field_3_.get ();
+    return this->relatedToSomeSortOfHeroCountOrIdx_.get ();
   }
 
   void playerData_t::
-  field_3 (const field_3_type& x)
+  relatedToSomeSortOfHeroCountOrIdx (const relatedToSomeSortOfHeroCountOrIdx_type& x)
   {
-    this->field_3_.set (x);
+    this->relatedToSomeSortOfHeroCountOrIdx_.set (x);
   }
 
   const playerData_t::game_B_type& playerData_t::
@@ -4377,40 +4413,40 @@ namespace ironfist_save
     this->personality_.set (x);
   }
 
-  const playerData_t::_2_type& playerData_t::
-  _2 () const
+  const playerData_t::relatedToMaxOrNumHeroes_type& playerData_t::
+  relatedToMaxOrNumHeroes () const
   {
-    return this->_2_.get ();
+    return this->relatedToMaxOrNumHeroes_.get ();
   }
 
-  playerData_t::_2_type& playerData_t::
-  _2 ()
+  playerData_t::relatedToMaxOrNumHeroes_type& playerData_t::
+  relatedToMaxOrNumHeroes ()
   {
-    return this->_2_.get ();
-  }
-
-  void playerData_t::
-  _2 (const _2_type& x)
-  {
-    this->_2_.set (x);
-  }
-
-  const playerData_t::_4_1_type& playerData_t::
-  _4_1 () const
-  {
-    return this->_4_1_.get ();
-  }
-
-  playerData_t::_4_1_type& playerData_t::
-  _4_1 ()
-  {
-    return this->_4_1_.get ();
+    return this->relatedToMaxOrNumHeroes_.get ();
   }
 
   void playerData_t::
-  _4_1 (const _4_1_type& x)
+  relatedToMaxOrNumHeroes (const relatedToMaxOrNumHeroes_type& x)
   {
-    this->_4_1_.set (x);
+    this->relatedToMaxOrNumHeroes_.set (x);
+  }
+
+  const playerData_t::hasEvilFaction_type& playerData_t::
+  hasEvilFaction () const
+  {
+    return this->hasEvilFaction_.get ();
+  }
+
+  playerData_t::hasEvilFaction_type& playerData_t::
+  hasEvilFaction ()
+  {
+    return this->hasEvilFaction_.get ();
+  }
+
+  void playerData_t::
+  hasEvilFaction (const hasEvilFaction_type& x)
+  {
+    this->hasEvilFaction_.set (x);
   }
 
   const playerData_t::field_40_type& playerData_t::
@@ -4485,22 +4521,40 @@ namespace ironfist_save
     this->numCastles_.set (x);
   }
 
-  const playerData_t::field_45_type& playerData_t::
-  field_45 () const
+  const playerData_t::mightBeCurCastleIdx_type& playerData_t::
+  mightBeCurCastleIdx () const
   {
-    return this->field_45_.get ();
+    return this->mightBeCurCastleIdx_.get ();
   }
 
-  playerData_t::field_45_type& playerData_t::
-  field_45 ()
+  playerData_t::mightBeCurCastleIdx_type& playerData_t::
+  mightBeCurCastleIdx ()
   {
-    return this->field_45_.get ();
+    return this->mightBeCurCastleIdx_.get ();
   }
 
   void playerData_t::
-  field_45 (const field_45_type& x)
+  mightBeCurCastleIdx (const mightBeCurCastleIdx_type& x)
   {
-    this->field_45_.set (x);
+    this->mightBeCurCastleIdx_.set (x);
+  }
+
+  const playerData_t::relatedToUnknown_type& playerData_t::
+  relatedToUnknown () const
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  playerData_t::relatedToUnknown_type& playerData_t::
+  relatedToUnknown ()
+  {
+    return this->relatedToUnknown_.get ();
+  }
+
+  void playerData_t::
+  relatedToUnknown (const relatedToUnknown_type& x)
+  {
+    this->relatedToUnknown_.set (x);
   }
 
   const playerData_t::barrierTentsVisited_type& playerData_t::
@@ -5248,8 +5302,10 @@ namespace ironfist_save
           const field_23_type& field_23,
           const field_25_type& field_25,
           const field_27_type& field_27,
-          const field_29_type& field_29,
-          const field_2B_type& field_2B,
+          const relatedToX_type& relatedToX,
+          const relatedToY_type& relatedToY,
+          const relatedToFactionID_type& relatedToFactionID,
+          const relatedToUnknown_type& relatedToUnknown,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5296,8 +5352,10 @@ namespace ironfist_save
     field_23_ (field_23, ::xml_schema::flags (), this),
     field_25_ (field_25, ::xml_schema::flags (), this),
     field_27_ (field_27, ::xml_schema::flags (), this),
-    field_29_ (field_29, ::xml_schema::flags (), this),
-    field_2B_ (field_2B, ::xml_schema::flags (), this),
+    relatedToX_ (relatedToX, ::xml_schema::flags (), this),
+    relatedToY_ (relatedToY, ::xml_schema::flags (), this),
+    relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
+    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -5350,8 +5408,10 @@ namespace ironfist_save
           const field_23_type& field_23,
           const field_25_type& field_25,
           const field_27_type& field_27,
-          const field_29_type& field_29,
-          const field_2B_type& field_2B,
+          const relatedToX_type& relatedToX,
+          const relatedToY_type& relatedToY,
+          const relatedToFactionID_type& relatedToFactionID,
+          const relatedToUnknown_type& relatedToUnknown,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5398,8 +5458,10 @@ namespace ironfist_save
     field_23_ (field_23, ::xml_schema::flags (), this),
     field_25_ (field_25, ::xml_schema::flags (), this),
     field_27_ (field_27, ::xml_schema::flags (), this),
-    field_29_ (field_29, ::xml_schema::flags (), this),
-    field_2B_ (field_2B, ::xml_schema::flags (), this),
+    relatedToX_ (relatedToX, ::xml_schema::flags (), this),
+    relatedToY_ (relatedToY, ::xml_schema::flags (), this),
+    relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
+    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -5456,8 +5518,10 @@ namespace ironfist_save
     field_23_ (x.field_23_, f, this),
     field_25_ (x.field_25_, f, this),
     field_27_ (x.field_27_, f, this),
-    field_29_ (x.field_29_, f, this),
-    field_2B_ (x.field_2B_, f, this),
+    relatedToX_ (x.relatedToX_, f, this),
+    relatedToY_ (x.relatedToY_, f, this),
+    relatedToFactionID_ (x.relatedToFactionID_, f, this),
+    relatedToUnknown_ (x.relatedToUnknown_, f, this),
     occupiedObjType_ (x.occupiedObjType_, f, this),
     occupiedObjVal_ (x.occupiedObjVal_, f, this),
     mobility_ (x.mobility_, f, this),
@@ -5514,8 +5578,10 @@ namespace ironfist_save
     field_23_ (f, this),
     field_25_ (f, this),
     field_27_ (f, this),
-    field_29_ (f, this),
-    field_2B_ (f, this),
+    relatedToX_ (f, this),
+    relatedToY_ (f, this),
+    relatedToFactionID_ (f, this),
+    relatedToUnknown_ (f, this),
     occupiedObjType_ (f, this),
     occupiedObjVal_ (f, this),
     mobility_ (f, this),
@@ -5765,24 +5831,46 @@ namespace ironfist_save
         }
       }
 
-      // field_29
+      // relatedToX
       //
-      if (n.name () == "field_29" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToX" && n.namespace_ ().empty ())
       {
-        if (!field_29_.present ())
+        if (!relatedToX_.present ())
         {
-          this->field_29_.set (field_29_traits::create (i, f, this));
+          this->relatedToX_.set (relatedToX_traits::create (i, f, this));
           continue;
         }
       }
 
-      // field_2B
+      // relatedToY
       //
-      if (n.name () == "field_2B" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToY" && n.namespace_ ().empty ())
       {
-        if (!field_2B_.present ())
+        if (!relatedToY_.present ())
         {
-          this->field_2B_.set (field_2B_traits::create (i, f, this));
+          this->relatedToY_.set (relatedToY_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToFactionID
+      //
+      if (n.name () == "relatedToFactionID" && n.namespace_ ().empty ())
+      {
+        if (!relatedToFactionID_.present ())
+        {
+          this->relatedToFactionID_.set (relatedToFactionID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToUnknown
+      //
+      if (n.name () == "relatedToUnknown" && n.namespace_ ().empty ())
+      {
+        if (!relatedToUnknown_.present ())
+        {
+          this->relatedToUnknown_.set (relatedToUnknown_traits::create (i, f, this));
           continue;
         }
       }
@@ -6246,17 +6334,31 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_29_.present ())
+    if (!relatedToX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_29",
+        "relatedToX",
         "");
     }
 
-    if (!field_2B_.present ())
+    if (!relatedToY_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_2B",
+        "relatedToY",
+        "");
+    }
+
+    if (!relatedToFactionID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToFactionID",
+        "");
+    }
+
+    if (!relatedToUnknown_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToUnknown",
         "");
     }
 
@@ -6807,16 +6909,14 @@ namespace ironfist_save
                const week_type& week,
                const month_type& month,
                const numObelisks_type& numObelisks,
-               const field_6395_type& field_6395,
-               const field_6396_type& field_6396,
-               const field_6397_type& field_6397,
+               const ultimateArtifactLocX_type& ultimateArtifactLocX,
+               const ultimateArtifactLocY_type& ultimateArtifactLocY,
+               const ultimateArtifactIdx_type& ultimateArtifactIdx,
                const currentRumor_type& currentRumor,
                const numRumors_type& numRumors,
                const numEvents_type& numEvents,
                const field_657B_type& field_657B,
                const maxMapExtra_type& maxMapExtra,
-               const field_44D_type& field_44D,
-               const field_451_type& field_451,
                const difficulty_type& difficulty,
                const mapFilename_type& mapFilename)
   : ::xml_schema::type (),
@@ -6836,9 +6936,9 @@ namespace ironfist_save
     week_ (week, ::xml_schema::flags (), this),
     month_ (month, ::xml_schema::flags (), this),
     numObelisks_ (numObelisks, ::xml_schema::flags (), this),
-    field_6395_ (field_6395, ::xml_schema::flags (), this),
-    field_6396_ (field_6396, ::xml_schema::flags (), this),
-    field_6397_ (field_6397, ::xml_schema::flags (), this),
+    ultimateArtifactLocX_ (ultimateArtifactLocX, ::xml_schema::flags (), this),
+    ultimateArtifactLocY_ (ultimateArtifactLocY, ::xml_schema::flags (), this),
+    ultimateArtifactIdx_ (ultimateArtifactIdx, ::xml_schema::flags (), this),
     currentRumor_ (currentRumor, ::xml_schema::flags (), this),
     numRumors_ (numRumors, ::xml_schema::flags (), this),
     numEvents_ (numEvents, ::xml_schema::flags (), this),
@@ -6848,11 +6948,10 @@ namespace ironfist_save
     deadPlayers_ (::xml_schema::flags (), this),
     alivePlayers_ (::xml_schema::flags (), this),
     heroHireStatus_ (::xml_schema::flags (), this),
-    field_44D_ (field_44D, ::xml_schema::flags (), this),
-    field_451_ (field_451, ::xml_schema::flags (), this),
+    relatedToPlayerPosAndColor_ (::xml_schema::flags (), this),
     playerHandicap_ (::xml_schema::flags (), this),
-    field_459_ (::xml_schema::flags (), this),
-    field_45F_ (::xml_schema::flags (), this),
+    relatedToColorOfPlayerOrFaction_ (::xml_schema::flags (), this),
+    somePlayerCodeOr10IfMayBeHuman_ (::xml_schema::flags (), this),
     difficulty_ (difficulty, ::xml_schema::flags (), this),
     mapFilename_ (mapFilename, ::xml_schema::flags (), this),
     field_2773_ (::xml_schema::flags (), this),
@@ -6897,9 +6996,9 @@ namespace ironfist_save
     week_ (x.week_, f, this),
     month_ (x.month_, f, this),
     numObelisks_ (x.numObelisks_, f, this),
-    field_6395_ (x.field_6395_, f, this),
-    field_6396_ (x.field_6396_, f, this),
-    field_6397_ (x.field_6397_, f, this),
+    ultimateArtifactLocX_ (x.ultimateArtifactLocX_, f, this),
+    ultimateArtifactLocY_ (x.ultimateArtifactLocY_, f, this),
+    ultimateArtifactIdx_ (x.ultimateArtifactIdx_, f, this),
     currentRumor_ (x.currentRumor_, f, this),
     numRumors_ (x.numRumors_, f, this),
     numEvents_ (x.numEvents_, f, this),
@@ -6909,11 +7008,10 @@ namespace ironfist_save
     deadPlayers_ (x.deadPlayers_, f, this),
     alivePlayers_ (x.alivePlayers_, f, this),
     heroHireStatus_ (x.heroHireStatus_, f, this),
-    field_44D_ (x.field_44D_, f, this),
-    field_451_ (x.field_451_, f, this),
+    relatedToPlayerPosAndColor_ (x.relatedToPlayerPosAndColor_, f, this),
     playerHandicap_ (x.playerHandicap_, f, this),
-    field_459_ (x.field_459_, f, this),
-    field_45F_ (x.field_45F_, f, this),
+    relatedToColorOfPlayerOrFaction_ (x.relatedToColorOfPlayerOrFaction_, f, this),
+    somePlayerCodeOr10IfMayBeHuman_ (x.somePlayerCodeOr10IfMayBeHuman_, f, this),
     difficulty_ (x.difficulty_, f, this),
     mapFilename_ (x.mapFilename_, f, this),
     field_2773_ (x.field_2773_, f, this),
@@ -6958,9 +7056,9 @@ namespace ironfist_save
     week_ (f, this),
     month_ (f, this),
     numObelisks_ (f, this),
-    field_6395_ (f, this),
-    field_6396_ (f, this),
-    field_6397_ (f, this),
+    ultimateArtifactLocX_ (f, this),
+    ultimateArtifactLocY_ (f, this),
+    ultimateArtifactIdx_ (f, this),
     currentRumor_ (f, this),
     numRumors_ (f, this),
     numEvents_ (f, this),
@@ -6970,11 +7068,10 @@ namespace ironfist_save
     deadPlayers_ (f, this),
     alivePlayers_ (f, this),
     heroHireStatus_ (f, this),
-    field_44D_ (f, this),
-    field_451_ (f, this),
+    relatedToPlayerPosAndColor_ (f, this),
     playerHandicap_ (f, this),
-    field_459_ (f, this),
-    field_45F_ (f, this),
+    relatedToColorOfPlayerOrFaction_ (f, this),
+    somePlayerCodeOr10IfMayBeHuman_ (f, this),
     difficulty_ (f, this),
     mapFilename_ (f, this),
     field_2773_ (f, this),
@@ -7189,35 +7286,35 @@ namespace ironfist_save
         }
       }
 
-      // field_6395
+      // ultimateArtifactLocX
       //
-      if (n.name () == "field_6395" && n.namespace_ ().empty ())
+      if (n.name () == "ultimateArtifactLocX" && n.namespace_ ().empty ())
       {
-        if (!field_6395_.present ())
+        if (!ultimateArtifactLocX_.present ())
         {
-          this->field_6395_.set (field_6395_traits::create (i, f, this));
+          this->ultimateArtifactLocX_.set (ultimateArtifactLocX_traits::create (i, f, this));
           continue;
         }
       }
 
-      // field_6396
+      // ultimateArtifactLocY
       //
-      if (n.name () == "field_6396" && n.namespace_ ().empty ())
+      if (n.name () == "ultimateArtifactLocY" && n.namespace_ ().empty ())
       {
-        if (!field_6396_.present ())
+        if (!ultimateArtifactLocY_.present ())
         {
-          this->field_6396_.set (field_6396_traits::create (i, f, this));
+          this->ultimateArtifactLocY_.set (ultimateArtifactLocY_traits::create (i, f, this));
           continue;
         }
       }
 
-      // field_6397
+      // ultimateArtifactIdx
       //
-      if (n.name () == "field_6397" && n.namespace_ ().empty ())
+      if (n.name () == "ultimateArtifactIdx" && n.namespace_ ().empty ())
       {
-        if (!field_6397_.present ())
+        if (!ultimateArtifactIdx_.present ())
         {
-          this->field_6397_.set (field_6397_traits::create (i, f, this));
+          this->ultimateArtifactIdx_.set (ultimateArtifactIdx_traits::create (i, f, this));
           continue;
         }
       }
@@ -7324,26 +7421,15 @@ namespace ironfist_save
         continue;
       }
 
-      // field_44D
+      // relatedToPlayerPosAndColor
       //
-      if (n.name () == "field_44D" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToPlayerPosAndColor" && n.namespace_ ().empty ())
       {
-        if (!field_44D_.present ())
-        {
-          this->field_44D_.set (field_44D_traits::create (i, f, this));
-          continue;
-        }
-      }
+        ::std::auto_ptr< relatedToPlayerPosAndColor_type > r (
+          relatedToPlayerPosAndColor_traits::create (i, f, this));
 
-      // field_451
-      //
-      if (n.name () == "field_451" && n.namespace_ ().empty ())
-      {
-        if (!field_451_.present ())
-        {
-          this->field_451_.set (field_451_traits::create (i, f, this));
-          continue;
-        }
+        this->relatedToPlayerPosAndColor_.push_back (r);
+        continue;
       }
 
       // playerHandicap
@@ -7357,25 +7443,25 @@ namespace ironfist_save
         continue;
       }
 
-      // field_459
+      // relatedToColorOfPlayerOrFaction
       //
-      if (n.name () == "field_459" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToColorOfPlayerOrFaction" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< field_459_type > r (
-          field_459_traits::create (i, f, this));
+        ::std::auto_ptr< relatedToColorOfPlayerOrFaction_type > r (
+          relatedToColorOfPlayerOrFaction_traits::create (i, f, this));
 
-        this->field_459_.push_back (r);
+        this->relatedToColorOfPlayerOrFaction_.push_back (r);
         continue;
       }
 
-      // field_45F
+      // somePlayerCodeOr10IfMayBeHuman
       //
-      if (n.name () == "field_45F" && n.namespace_ ().empty ())
+      if (n.name () == "somePlayerCodeOr10IfMayBeHuman" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< field_45F_type > r (
-          field_45F_traits::create (i, f, this));
+        ::std::auto_ptr< somePlayerCodeOr10IfMayBeHuman_type > r (
+          somePlayerCodeOr10IfMayBeHuman_traits::create (i, f, this));
 
-        this->field_45F_.push_back (r);
+        this->somePlayerCodeOr10IfMayBeHuman_.push_back (r);
         continue;
       }
 
@@ -7717,24 +7803,24 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_6395_.present ())
+    if (!ultimateArtifactLocX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_6395",
+        "ultimateArtifactLocX",
         "");
     }
 
-    if (!field_6396_.present ())
+    if (!ultimateArtifactLocY_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_6396",
+        "ultimateArtifactLocY",
         "");
     }
 
-    if (!field_6397_.present ())
+    if (!ultimateArtifactIdx_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_6397",
+        "ultimateArtifactIdx",
         "");
     }
 
@@ -7770,20 +7856,6 @@ namespace ironfist_save
     {
       throw ::xsd::cxx::tree::expected_element< char > (
         "maxMapExtra",
-        "");
-    }
-
-    if (!field_44D_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_element< char > (
-        "field_44D",
-        "");
-    }
-
-    if (!field_451_.present ())
-    {
-      throw ::xsd::cxx::tree::expected_element< char > (
-        "field_451",
         "");
     }
 
@@ -7826,15 +7898,16 @@ namespace ironfist_save
                const minHumans_type& minHumans,
                const maxHumans_type& maxHumans,
                const winConditionType_type& winConditionType,
-               const field_1E_type& field_1E,
+               const relatedToWinConditionType_type& relatedToWinConditionType,
                const allowDefeatAllVictory_type& allowDefeatAllVictory,
-               const winConditionArgument_type& winConditionArgument,
-               const field_22_type& field_22,
-               const field_23_type& field_23,
+               const winConditionArgumentOrLocX_type& winConditionArgumentOrLocX,
+               const lossConditionType_type& lossConditionType,
+               const lossConditionArgumentOrLocX_type& lossConditionArgumentOrLocX,
                const field_24_type& field_24,
                const noStartingHeroInCastle_type& noStartingHeroInCastle,
-               const field_2C_type& field_2C,
-               const field_2E_type& field_2E,
+               const winConditionArgumentOrLocY_type& winConditionArgumentOrLocY,
+               const lossConditionArgumentOrLocY_type& lossConditionArgumentOrLocY,
+               const relatedToPlayerColorOrSide_type& relatedToPlayerColorOrSide,
                const field_32_type& field_32,
                const field_36_type& field_36,
                const field_37_type& field_37,
@@ -7855,15 +7928,16 @@ namespace ironfist_save
     minHumans_ (minHumans, ::xml_schema::flags (), this),
     maxHumans_ (maxHumans, ::xml_schema::flags (), this),
     winConditionType_ (winConditionType, ::xml_schema::flags (), this),
-    field_1E_ (field_1E, ::xml_schema::flags (), this),
+    relatedToWinConditionType_ (relatedToWinConditionType, ::xml_schema::flags (), this),
     allowDefeatAllVictory_ (allowDefeatAllVictory, ::xml_schema::flags (), this),
-    winConditionArgument_ (winConditionArgument, ::xml_schema::flags (), this),
-    field_22_ (field_22, ::xml_schema::flags (), this),
-    field_23_ (field_23, ::xml_schema::flags (), this),
+    winConditionArgumentOrLocX_ (winConditionArgumentOrLocX, ::xml_schema::flags (), this),
+    lossConditionType_ (lossConditionType, ::xml_schema::flags (), this),
+    lossConditionArgumentOrLocX_ (lossConditionArgumentOrLocX, ::xml_schema::flags (), this),
     field_24_ (field_24, ::xml_schema::flags (), this),
     noStartingHeroInCastle_ (noStartingHeroInCastle, ::xml_schema::flags (), this),
-    field_2C_ (field_2C, ::xml_schema::flags (), this),
-    field_2E_ (field_2E, ::xml_schema::flags (), this),
+    winConditionArgumentOrLocY_ (winConditionArgumentOrLocY, ::xml_schema::flags (), this),
+    lossConditionArgumentOrLocY_ (lossConditionArgumentOrLocY, ::xml_schema::flags (), this),
+    relatedToPlayerColorOrSide_ (relatedToPlayerColorOrSide, ::xml_schema::flags (), this),
     field_32_ (field_32, ::xml_schema::flags (), this),
     field_36_ (field_36, ::xml_schema::flags (), this),
     field_37_ (field_37, ::xml_schema::flags (), this),
@@ -7895,15 +7969,16 @@ namespace ironfist_save
     minHumans_ (x.minHumans_, f, this),
     maxHumans_ (x.maxHumans_, f, this),
     winConditionType_ (x.winConditionType_, f, this),
-    field_1E_ (x.field_1E_, f, this),
+    relatedToWinConditionType_ (x.relatedToWinConditionType_, f, this),
     allowDefeatAllVictory_ (x.allowDefeatAllVictory_, f, this),
-    winConditionArgument_ (x.winConditionArgument_, f, this),
-    field_22_ (x.field_22_, f, this),
-    field_23_ (x.field_23_, f, this),
+    winConditionArgumentOrLocX_ (x.winConditionArgumentOrLocX_, f, this),
+    lossConditionType_ (x.lossConditionType_, f, this),
+    lossConditionArgumentOrLocX_ (x.lossConditionArgumentOrLocX_, f, this),
     field_24_ (x.field_24_, f, this),
     noStartingHeroInCastle_ (x.noStartingHeroInCastle_, f, this),
-    field_2C_ (x.field_2C_, f, this),
-    field_2E_ (x.field_2E_, f, this),
+    winConditionArgumentOrLocY_ (x.winConditionArgumentOrLocY_, f, this),
+    lossConditionArgumentOrLocY_ (x.lossConditionArgumentOrLocY_, f, this),
+    relatedToPlayerColorOrSide_ (x.relatedToPlayerColorOrSide_, f, this),
     field_32_ (x.field_32_, f, this),
     field_36_ (x.field_36_, f, this),
     field_37_ (x.field_37_, f, this),
@@ -7935,15 +8010,16 @@ namespace ironfist_save
     minHumans_ (f, this),
     maxHumans_ (f, this),
     winConditionType_ (f, this),
-    field_1E_ (f, this),
+    relatedToWinConditionType_ (f, this),
     allowDefeatAllVictory_ (f, this),
-    winConditionArgument_ (f, this),
-    field_22_ (f, this),
-    field_23_ (f, this),
+    winConditionArgumentOrLocX_ (f, this),
+    lossConditionType_ (f, this),
+    lossConditionArgumentOrLocX_ (f, this),
     field_24_ (f, this),
     noStartingHeroInCastle_ (f, this),
-    field_2C_ (f, this),
-    field_2E_ (f, this),
+    winConditionArgumentOrLocY_ (f, this),
+    lossConditionArgumentOrLocY_ (f, this),
+    relatedToPlayerColorOrSide_ (f, this),
     field_32_ (f, this),
     field_36_ (f, this),
     field_37_ (f, this),
@@ -8065,13 +8141,13 @@ namespace ironfist_save
         }
       }
 
-      // field_1E
+      // relatedToWinConditionType
       //
-      if (n.name () == "field_1E" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToWinConditionType" && n.namespace_ ().empty ())
       {
-        if (!field_1E_.present ())
+        if (!relatedToWinConditionType_.present ())
         {
-          this->field_1E_.set (field_1E_traits::create (i, f, this));
+          this->relatedToWinConditionType_.set (relatedToWinConditionType_traits::create (i, f, this));
           continue;
         }
       }
@@ -8087,35 +8163,35 @@ namespace ironfist_save
         }
       }
 
-      // winConditionArgument
+      // winConditionArgumentOrLocX
       //
-      if (n.name () == "winConditionArgument" && n.namespace_ ().empty ())
+      if (n.name () == "winConditionArgumentOrLocX" && n.namespace_ ().empty ())
       {
-        if (!winConditionArgument_.present ())
+        if (!winConditionArgumentOrLocX_.present ())
         {
-          this->winConditionArgument_.set (winConditionArgument_traits::create (i, f, this));
+          this->winConditionArgumentOrLocX_.set (winConditionArgumentOrLocX_traits::create (i, f, this));
           continue;
         }
       }
 
-      // field_22
+      // lossConditionType
       //
-      if (n.name () == "field_22" && n.namespace_ ().empty ())
+      if (n.name () == "lossConditionType" && n.namespace_ ().empty ())
       {
-        if (!field_22_.present ())
+        if (!lossConditionType_.present ())
         {
-          this->field_22_.set (field_22_traits::create (i, f, this));
+          this->lossConditionType_.set (lossConditionType_traits::create (i, f, this));
           continue;
         }
       }
 
-      // field_23
+      // lossConditionArgumentOrLocX
       //
-      if (n.name () == "field_23" && n.namespace_ ().empty ())
+      if (n.name () == "lossConditionArgumentOrLocX" && n.namespace_ ().empty ())
       {
-        if (!field_23_.present ())
+        if (!lossConditionArgumentOrLocX_.present ())
         {
-          this->field_23_.set (field_23_traits::create (i, f, this));
+          this->lossConditionArgumentOrLocX_.set (lossConditionArgumentOrLocX_traits::create (i, f, this));
           continue;
         }
       }
@@ -8142,24 +8218,35 @@ namespace ironfist_save
         }
       }
 
-      // field_2C
+      // winConditionArgumentOrLocY
       //
-      if (n.name () == "field_2C" && n.namespace_ ().empty ())
+      if (n.name () == "winConditionArgumentOrLocY" && n.namespace_ ().empty ())
       {
-        if (!field_2C_.present ())
+        if (!winConditionArgumentOrLocY_.present ())
         {
-          this->field_2C_.set (field_2C_traits::create (i, f, this));
+          this->winConditionArgumentOrLocY_.set (winConditionArgumentOrLocY_traits::create (i, f, this));
           continue;
         }
       }
 
-      // field_2E
+      // lossConditionArgumentOrLocY
       //
-      if (n.name () == "field_2E" && n.namespace_ ().empty ())
+      if (n.name () == "lossConditionArgumentOrLocY" && n.namespace_ ().empty ())
       {
-        if (!field_2E_.present ())
+        if (!lossConditionArgumentOrLocY_.present ())
         {
-          this->field_2E_.set (field_2E_traits::create (i, f, this));
+          this->lossConditionArgumentOrLocY_.set (lossConditionArgumentOrLocY_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToPlayerColorOrSide
+      //
+      if (n.name () == "relatedToPlayerColorOrSide" && n.namespace_ ().empty ())
+      {
+        if (!relatedToPlayerColorOrSide_.present ())
+        {
+          this->relatedToPlayerColorOrSide_.set (relatedToPlayerColorOrSide_traits::create (i, f, this));
           continue;
         }
       }
@@ -8394,10 +8481,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_1E_.present ())
+    if (!relatedToWinConditionType_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_1E",
+        "relatedToWinConditionType",
         "");
     }
 
@@ -8408,24 +8495,24 @@ namespace ironfist_save
         "");
     }
 
-    if (!winConditionArgument_.present ())
+    if (!winConditionArgumentOrLocX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "winConditionArgument",
+        "winConditionArgumentOrLocX",
         "");
     }
 
-    if (!field_22_.present ())
+    if (!lossConditionType_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_22",
+        "lossConditionType",
         "");
     }
 
-    if (!field_23_.present ())
+    if (!lossConditionArgumentOrLocX_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_23",
+        "lossConditionArgumentOrLocX",
         "");
     }
 
@@ -8443,17 +8530,24 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_2C_.present ())
+    if (!winConditionArgumentOrLocY_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_2C",
+        "winConditionArgumentOrLocY",
         "");
     }
 
-    if (!field_2E_.present ())
+    if (!lossConditionArgumentOrLocY_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_2E",
+        "lossConditionArgumentOrLocY",
+        "");
+    }
+
+    if (!relatedToPlayerColorOrSide_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToPlayerColorOrSide",
         "");
     }
 
@@ -10270,33 +10364,35 @@ namespace ironfist_save
   playerData_t (const color_type& color,
                 const numHeroes_type& numHeroes,
                 const curHeroIdx_type& curHeroIdx,
-                const field_3_type& field_3,
+                const relatedToSomeSortOfHeroCountOrIdx_type& relatedToSomeSortOfHeroCountOrIdx,
                 const game_B_type& game_B,
                 const _3_type& _3,
                 const personality_type& personality,
-                const _2_type& _2,
-                const _4_1_type& _4_1,
+                const relatedToMaxOrNumHeroes_type& relatedToMaxOrNumHeroes,
+                const hasEvilFaction_type& hasEvilFaction,
                 const field_40_type& field_40,
                 const field_41_type& field_41,
                 const daysLeftWithoutCastle_type& daysLeftWithoutCastle,
                 const numCastles_type& numCastles,
-                const field_45_type& field_45,
+                const mightBeCurCastleIdx_type& mightBeCurCastleIdx,
+                const relatedToUnknown_type& relatedToUnknown,
                 const barrierTentsVisited_type& barrierTentsVisited)
   : ::xml_schema::type (),
     color_ (color, ::xml_schema::flags (), this),
     numHeroes_ (numHeroes, ::xml_schema::flags (), this),
     curHeroIdx_ (curHeroIdx, ::xml_schema::flags (), this),
-    field_3_ (field_3, ::xml_schema::flags (), this),
+    relatedToSomeSortOfHeroCountOrIdx_ (relatedToSomeSortOfHeroCountOrIdx, ::xml_schema::flags (), this),
     game_B_ (game_B, ::xml_schema::flags (), this),
     _3_ (_3, ::xml_schema::flags (), this),
     personality_ (personality, ::xml_schema::flags (), this),
-    _2_ (_2, ::xml_schema::flags (), this),
-    _4_1_ (_4_1, ::xml_schema::flags (), this),
+    relatedToMaxOrNumHeroes_ (relatedToMaxOrNumHeroes, ::xml_schema::flags (), this),
+    hasEvilFaction_ (hasEvilFaction, ::xml_schema::flags (), this),
     field_40_ (field_40, ::xml_schema::flags (), this),
     field_41_ (field_41, ::xml_schema::flags (), this),
     daysLeftWithoutCastle_ (daysLeftWithoutCastle, ::xml_schema::flags (), this),
     numCastles_ (numCastles, ::xml_schema::flags (), this),
-    field_45_ (field_45, ::xml_schema::flags (), this),
+    mightBeCurCastleIdx_ (mightBeCurCastleIdx, ::xml_schema::flags (), this),
+    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
     barrierTentsVisited_ (barrierTentsVisited, ::xml_schema::flags (), this),
     heroesOwned_ (::xml_schema::flags (), this),
     heroesForPurchase_ (::xml_schema::flags (), this),
@@ -10315,17 +10411,18 @@ namespace ironfist_save
     color_ (x.color_, f, this),
     numHeroes_ (x.numHeroes_, f, this),
     curHeroIdx_ (x.curHeroIdx_, f, this),
-    field_3_ (x.field_3_, f, this),
+    relatedToSomeSortOfHeroCountOrIdx_ (x.relatedToSomeSortOfHeroCountOrIdx_, f, this),
     game_B_ (x.game_B_, f, this),
     _3_ (x._3_, f, this),
     personality_ (x.personality_, f, this),
-    _2_ (x._2_, f, this),
-    _4_1_ (x._4_1_, f, this),
+    relatedToMaxOrNumHeroes_ (x.relatedToMaxOrNumHeroes_, f, this),
+    hasEvilFaction_ (x.hasEvilFaction_, f, this),
     field_40_ (x.field_40_, f, this),
     field_41_ (x.field_41_, f, this),
     daysLeftWithoutCastle_ (x.daysLeftWithoutCastle_, f, this),
     numCastles_ (x.numCastles_, f, this),
-    field_45_ (x.field_45_, f, this),
+    mightBeCurCastleIdx_ (x.mightBeCurCastleIdx_, f, this),
+    relatedToUnknown_ (x.relatedToUnknown_, f, this),
     barrierTentsVisited_ (x.barrierTentsVisited_, f, this),
     heroesOwned_ (x.heroesOwned_, f, this),
     heroesForPurchase_ (x.heroesForPurchase_, f, this),
@@ -10344,17 +10441,18 @@ namespace ironfist_save
     color_ (f, this),
     numHeroes_ (f, this),
     curHeroIdx_ (f, this),
-    field_3_ (f, this),
+    relatedToSomeSortOfHeroCountOrIdx_ (f, this),
     game_B_ (f, this),
     _3_ (f, this),
     personality_ (f, this),
-    _2_ (f, this),
-    _4_1_ (f, this),
+    relatedToMaxOrNumHeroes_ (f, this),
+    hasEvilFaction_ (f, this),
     field_40_ (f, this),
     field_41_ (f, this),
     daysLeftWithoutCastle_ (f, this),
     numCastles_ (f, this),
-    field_45_ (f, this),
+    mightBeCurCastleIdx_ (f, this),
+    relatedToUnknown_ (f, this),
     barrierTentsVisited_ (f, this),
     heroesOwned_ (f, this),
     heroesForPurchase_ (f, this),
@@ -10413,13 +10511,13 @@ namespace ironfist_save
         }
       }
 
-      // field_3
+      // relatedToSomeSortOfHeroCountOrIdx
       //
-      if (n.name () == "field_3" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToSomeSortOfHeroCountOrIdx" && n.namespace_ ().empty ())
       {
-        if (!field_3_.present ())
+        if (!relatedToSomeSortOfHeroCountOrIdx_.present ())
         {
-          this->field_3_.set (field_3_traits::create (i, f, this));
+          this->relatedToSomeSortOfHeroCountOrIdx_.set (relatedToSomeSortOfHeroCountOrIdx_traits::create (i, f, this));
           continue;
         }
       }
@@ -10457,24 +10555,24 @@ namespace ironfist_save
         }
       }
 
-      // _2
+      // relatedToMaxOrNumHeroes
       //
-      if (n.name () == "_2" && n.namespace_ ().empty ())
+      if (n.name () == "relatedToMaxOrNumHeroes" && n.namespace_ ().empty ())
       {
-        if (!_2_.present ())
+        if (!relatedToMaxOrNumHeroes_.present ())
         {
-          this->_2_.set (_2_traits::create (i, f, this));
+          this->relatedToMaxOrNumHeroes_.set (relatedToMaxOrNumHeroes_traits::create (i, f, this));
           continue;
         }
       }
 
-      // _4_1
+      // hasEvilFaction
       //
-      if (n.name () == "_4_1" && n.namespace_ ().empty ())
+      if (n.name () == "hasEvilFaction" && n.namespace_ ().empty ())
       {
-        if (!_4_1_.present ())
+        if (!hasEvilFaction_.present ())
         {
-          this->_4_1_.set (_4_1_traits::create (i, f, this));
+          this->hasEvilFaction_.set (hasEvilFaction_traits::create (i, f, this));
           continue;
         }
       }
@@ -10523,13 +10621,24 @@ namespace ironfist_save
         }
       }
 
-      // field_45
+      // mightBeCurCastleIdx
       //
-      if (n.name () == "field_45" && n.namespace_ ().empty ())
+      if (n.name () == "mightBeCurCastleIdx" && n.namespace_ ().empty ())
       {
-        if (!field_45_.present ())
+        if (!mightBeCurCastleIdx_.present ())
         {
-          this->field_45_.set (field_45_traits::create (i, f, this));
+          this->mightBeCurCastleIdx_.set (mightBeCurCastleIdx_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToUnknown
+      //
+      if (n.name () == "relatedToUnknown" && n.namespace_ ().empty ())
+      {
+        if (!relatedToUnknown_.present ())
+        {
+          this->relatedToUnknown_.set (relatedToUnknown_traits::create (i, f, this));
           continue;
         }
       }
@@ -10635,10 +10744,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_3_.present ())
+    if (!relatedToSomeSortOfHeroCountOrIdx_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_3",
+        "relatedToSomeSortOfHeroCountOrIdx",
         "");
     }
 
@@ -10663,17 +10772,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!_2_.present ())
+    if (!relatedToMaxOrNumHeroes_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "_2",
+        "relatedToMaxOrNumHeroes",
         "");
     }
 
-    if (!_4_1_.present ())
+    if (!hasEvilFaction_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "_4_1",
+        "hasEvilFaction",
         "");
     }
 
@@ -10705,10 +10814,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_45_.present ())
+    if (!mightBeCurCastleIdx_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_45",
+        "mightBeCurCastleIdx",
+        "");
+    }
+
+    if (!relatedToUnknown_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToUnknown",
         "");
     }
 
@@ -13710,26 +13826,48 @@ namespace ironfist_save
       s << i.field_27 ();
     }
 
-    // field_29
+    // relatedToX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_29",
+          "relatedToX",
           e));
 
-      s << i.field_29 ();
+      s << i.relatedToX ();
     }
 
-    // field_2B
+    // relatedToY
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_2B",
+          "relatedToY",
           e));
 
-      s << i.field_2B ();
+      s << i.relatedToY ();
+    }
+
+    // relatedToFactionID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToFactionID",
+          e));
+
+      s << i.relatedToFactionID ();
+    }
+
+    // relatedToUnknown
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToUnknown",
+          e));
+
+      s << i.relatedToUnknown ();
     }
 
     // occupiedObjType
@@ -14394,37 +14532,37 @@ namespace ironfist_save
       s << i.numObelisks ();
     }
 
-    // field_6395
+    // ultimateArtifactLocX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_6395",
+          "ultimateArtifactLocX",
           e));
 
-      s << i.field_6395 ();
+      s << i.ultimateArtifactLocX ();
     }
 
-    // field_6396
+    // ultimateArtifactLocY
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_6396",
+          "ultimateArtifactLocY",
           e));
 
-      s << i.field_6396 ();
+      s << i.ultimateArtifactLocY ();
     }
 
-    // field_6397
+    // ultimateArtifactIdx
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_6397",
+          "ultimateArtifactIdx",
           e));
 
-      s << i.field_6397 ();
+      s << i.ultimateArtifactIdx ();
     }
 
     // currentRumor
@@ -14538,26 +14676,18 @@ namespace ironfist_save
       s << *b;
     }
 
-    // field_44D
+    // relatedToPlayerPosAndColor
     //
+    for (gamestate_t::relatedToPlayerPosAndColor_const_iterator
+         b (i.relatedToPlayerPosAndColor ().begin ()), n (i.relatedToPlayerPosAndColor ().end ());
+         b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_44D",
+          "relatedToPlayerPosAndColor",
           e));
 
-      s << i.field_44D ();
-    }
-
-    // field_451
-    //
-    {
-      ::xercesc::DOMElement& s (
-        ::xsd::cxx::xml::dom::create_element (
-          "field_451",
-          e));
-
-      s << i.field_451 ();
+      s << *b;
     }
 
     // playerHandicap
@@ -14574,29 +14704,29 @@ namespace ironfist_save
       s << *b;
     }
 
-    // field_459
+    // relatedToColorOfPlayerOrFaction
     //
-    for (gamestate_t::field_459_const_iterator
-         b (i.field_459 ().begin ()), n (i.field_459 ().end ());
+    for (gamestate_t::relatedToColorOfPlayerOrFaction_const_iterator
+         b (i.relatedToColorOfPlayerOrFaction ().begin ()), n (i.relatedToColorOfPlayerOrFaction ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_459",
+          "relatedToColorOfPlayerOrFaction",
           e));
 
       s << *b;
     }
 
-    // field_45F
+    // somePlayerCodeOr10IfMayBeHuman
     //
-    for (gamestate_t::field_45F_const_iterator
-         b (i.field_45F ().begin ()), n (i.field_45F ().end ());
+    for (gamestate_t::somePlayerCodeOr10IfMayBeHuman_const_iterator
+         b (i.somePlayerCodeOr10IfMayBeHuman ().begin ()), n (i.somePlayerCodeOr10IfMayBeHuman ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_45F",
+          "somePlayerCodeOr10IfMayBeHuman",
           e));
 
       s << *b;
@@ -14970,15 +15100,15 @@ namespace ironfist_save
       s << i.winConditionType ();
     }
 
-    // field_1E
+    // relatedToWinConditionType
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_1E",
+          "relatedToWinConditionType",
           e));
 
-      s << i.field_1E ();
+      s << i.relatedToWinConditionType ();
     }
 
     // allowDefeatAllVictory
@@ -14992,37 +15122,37 @@ namespace ironfist_save
       s << i.allowDefeatAllVictory ();
     }
 
-    // winConditionArgument
+    // winConditionArgumentOrLocX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "winConditionArgument",
+          "winConditionArgumentOrLocX",
           e));
 
-      s << i.winConditionArgument ();
+      s << i.winConditionArgumentOrLocX ();
     }
 
-    // field_22
+    // lossConditionType
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_22",
+          "lossConditionType",
           e));
 
-      s << i.field_22 ();
+      s << i.lossConditionType ();
     }
 
-    // field_23
+    // lossConditionArgumentOrLocX
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_23",
+          "lossConditionArgumentOrLocX",
           e));
 
-      s << i.field_23 ();
+      s << i.lossConditionArgumentOrLocX ();
     }
 
     // field_24
@@ -15047,26 +15177,37 @@ namespace ironfist_save
       s << i.noStartingHeroInCastle ();
     }
 
-    // field_2C
+    // winConditionArgumentOrLocY
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_2C",
+          "winConditionArgumentOrLocY",
           e));
 
-      s << i.field_2C ();
+      s << i.winConditionArgumentOrLocY ();
     }
 
-    // field_2E
+    // lossConditionArgumentOrLocY
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_2E",
+          "lossConditionArgumentOrLocY",
           e));
 
-      s << i.field_2E ();
+      s << i.lossConditionArgumentOrLocY ();
+    }
+
+    // relatedToPlayerColorOrSide
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToPlayerColorOrSide",
+          e));
+
+      s << i.relatedToPlayerColorOrSide ();
     }
 
     // field_32
@@ -16151,15 +16292,15 @@ namespace ironfist_save
       s << i.curHeroIdx ();
     }
 
-    // field_3
+    // relatedToSomeSortOfHeroCountOrIdx
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_3",
+          "relatedToSomeSortOfHeroCountOrIdx",
           e));
 
-      s << i.field_3 ();
+      s << i.relatedToSomeSortOfHeroCountOrIdx ();
     }
 
     // game_B
@@ -16195,26 +16336,26 @@ namespace ironfist_save
       s << i.personality ();
     }
 
-    // _2
+    // relatedToMaxOrNumHeroes
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_2",
+          "relatedToMaxOrNumHeroes",
           e));
 
-      s << i._2 ();
+      s << i.relatedToMaxOrNumHeroes ();
     }
 
-    // _4_1
+    // hasEvilFaction
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_4_1",
+          "hasEvilFaction",
           e));
 
-      s << i._4_1 ();
+      s << i.hasEvilFaction ();
     }
 
     // field_40
@@ -16261,15 +16402,26 @@ namespace ironfist_save
       s << i.numCastles ();
     }
 
-    // field_45
+    // mightBeCurCastleIdx
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_45",
+          "mightBeCurCastleIdx",
           e));
 
-      s << i.field_45 ();
+      s << i.mightBeCurCastleIdx ();
+    }
+
+    // relatedToUnknown
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToUnknown",
+          e));
+
+      s << i.relatedToUnknown ();
     }
 
     // barrierTentsVisited

@@ -90,6 +90,10 @@ IMPORT_?SetupCDRom@@YIXXZ = 1
 IMPORT_?SetupGame@game@@QAEHXZ = 1
 ?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ
 
+;; title screen
+IMPORT_?IMHotSpots@@3PAY03GA = 1
+IMPORT_?CheckShingleUpdate@@YIXXZ = 1
+
 ;;;resourceManager
 
 IMPORT_??_7resourceManager@@6B@ = 1
@@ -147,6 +151,9 @@ IMPORT_?ClaimTown@game@@QAEXHHH@Z = 1
 
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
+IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
+IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
+IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
@@ -212,11 +219,24 @@ IMPORT_?CancelIndividualSpell@army@@QAEXH@Z = 1
 IMPORT_?CastSpell@combatManager@@QAEXHHHH@Z = 1
 IMPORT_?InitClean@army@@QAEXXZ = 1
 IMPORT_?ShowSpellMessage@combatManager@@QAEXHHPAVarmy@@@Z = 1
+IMPORT_?WalkTo@army@@QAEHH@Z = 1
+IMPORT_?ValidPath@army@@QAEHHH@Z = 1
+IMPORT_?FindPath@army@@QAEHHHHHH@Z = 1
+?FindPath@army@@QAEHHHHHH@Z_clone EQU ?FindPath_orig@army@@QAEHHHHHH@Z
+IMPORT_?SetupCombat@combatManager@@QAEXHHPAVhero@@PAVarmyGroup@@PAVtown@@01HHH@Z = 1
+?SetupCombat@combatManager@@QAEXHHPAVhero@@PAVarmyGroup@@PAVtown@@01HHH@Z_clone EQU ?SetupCombat_orig@combatManager@@QAEXHHPAVhero@@PAVarmyGroup@@PAVtown@@01HHH@Z
+IMPORT_?ResetRound@combatManager@@QAEXXZ = 1
+?ResetRound@combatManager@@QAEXXZ_clone EQU ?ResetRound_orig@combatManager@@QAEXXZ
+IMPORT_?Init@army@@QAEXHHHHHH@Z = 1
+?Init@army@@QAEXHHHHHH@Z_clone EQU ?Init_orig@army@@QAEXHHHHHH@Z
+IMPORT_?AttackTo@army@@QAEHH@Z = 1
+?AttackTo@army@@QAEHH@Z_clone EQU IMPORT_?AttackTo_orig@army@@QAEHH@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
 IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
 IMPORT_?gAlignmentNames@@3PAPADA = 1
+IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
@@ -264,6 +284,8 @@ IMPORT_?SpellMessage@combatManager@@QAEXHH@Z = 1
 IMPORT_?ValidSpellTarget@combatManager@@QAEHHH@Z = 1
 
 ;;towns
+IMPORT_?gTownEligibleBuildMask@@3PAKA = 1
+
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
 IMPORT_?RecruitHero@townManager@@QAEHHH@Z = 1

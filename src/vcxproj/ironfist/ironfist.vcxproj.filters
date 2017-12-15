@@ -285,6 +285,9 @@
     <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp">
       <Filter>Source Files\spell</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\expansions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\stdafx.h">
@@ -478,6 +481,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h">
       <Filter>Header Files\spell</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\expansions.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

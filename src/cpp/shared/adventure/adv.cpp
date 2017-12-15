@@ -81,6 +81,10 @@ void game::ShareVision(int sourcePlayer, int destPlayer) {
   this->PropagateVision();
 }
 
+void game::CancelShareVision(int sourcePlayer, int destPlayer) {
+	this->sharePlayerVision[sourcePlayer][destPlayer] = false;
+}
+
 void game::PropagateVision() {
   for (int p1 = 0; p1 < NUM_PLAYERS; p1++) {
     for (int p2 = 0; p2 < NUM_PLAYERS; p2++) {
@@ -125,7 +129,7 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   SAMPLE2 res2 = NULL_SAMPLE2;
  
   ScriptCallback("OnLocationVisit", locationType, locX, locY);
-  if (locationType != LOCATION_SHRINE_FIRST && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
+  if (locationType != LOCATION_SHRINE_FIRST_ORDER && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
     this->DoEvent_orig(cell, locX, locY);
     return;
   }
@@ -148,7 +152,7 @@ void __thiscall game::ClaimTown(int castleidx, int playeridx, int a4) {
 
 void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
   switch (locationType) {
-    case LOCATION_SHRINE_FIRST: {
+    case LOCATION_SHRINE_FIRST_ORDER: {
       sprintf(gText, "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
       break;
     }
@@ -188,4 +192,8 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
   gpGame->map.tiles[cellIdx].field_4_1 = 0;
   gpGame->map.tiles[cellIdx].isShadow = 0;
   return 0;
+}
+
+int mapCell::getLocationType() {
+  return this->objType & 0x7F;
 }

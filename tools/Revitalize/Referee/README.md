@@ -1,3 +1,5 @@
+**New**: Python version courtesy of Joe Leong. https://github.com/joeleong/ida-referee
+
 ##What it is
 
 It's much easier to reverse-engineer a structure when you can find every place its members are used. If you wish to reengineer the binary and modify a structure, finding every use is essential. Referee makes both of these tasks easier by marking accesses of structures in decompiled functions.

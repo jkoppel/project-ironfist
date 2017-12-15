@@ -5,7 +5,7 @@
 
 #pragma pack(push,1)
 
-extern unsigned long gTownEligibleBuildMask[];
+unsigned long gTownEligibleBuildMask[];
 extern signed char gDwellingType[][12];
 
 extern signed char gSpellLimits[];
@@ -151,7 +151,6 @@ extern char *gWellExtraNames[];
 extern char *gSpecialBuildingNames[];
 extern char *gNeutralBuildingNames[];
 extern char *gDwellingNames[][12];
-extern unsigned long gTownEligibleBuildMask[];
 
 int BuildingBuilt(town*, int);
 char *__fastcall GetBuildingName(int faction, int building);

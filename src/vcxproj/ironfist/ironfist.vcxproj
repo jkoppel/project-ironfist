@@ -111,6 +111,7 @@
     <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\compat.cpp" />
     <ClCompile Include="..\..\cpp\shared\driver.cpp" />
+    <ClCompile Include="..\..\cpp\shared\expansions.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx" />
@@ -165,6 +166,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
