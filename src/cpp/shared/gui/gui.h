@@ -52,6 +52,7 @@ public:
 
   heroWindow(int, int, char*);
   int BroadcastMessage(tag_message&);
+  void DrawWindow();
 };
 
 class heroWindowManager : public baseManager
