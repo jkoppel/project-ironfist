@@ -86,6 +86,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\cpp\editor\hero_edit.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />

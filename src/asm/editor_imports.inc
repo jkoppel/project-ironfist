@@ -139,5 +139,8 @@ IMPORT_?SpellScrollEditDialog@editManager@@QAEXPAH@Z = 1
 IMPORT_?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z = 1
 ?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z_clone EQU ?SpellScrollEditDialogCallback_orig@@YIHAAUtag_message@@@Z
 
+IMPORT_?EditHeroHandler@@YIHAAUtag_message@@@Z = 1
+?EditHeroHandler@@YIHAAUtag_message@@@Z_clone EQU  ?EditHeroHandler_orig@@YIHAAUtag_message@@@Z
+
 ;;spells
 IMPORT_?gSpellNames@@3PAPADA = 1

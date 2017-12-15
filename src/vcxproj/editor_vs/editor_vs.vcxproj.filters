@@ -210,6 +210,9 @@
     <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp">
       <Filter>Source Files\shared\spell</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\editor\hero_edit.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\editor_imports.inc">
