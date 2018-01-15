@@ -11,6 +11,12 @@
 
 #define NUM_SPELL_EFFECTS 19 // don't ever change it for now  
 
+enum CHARGING_DIRECTION {
+  CHARGING_FORWARD,
+  CHARGING_UP,
+  CHARGING_DOWN
+};
+
 #pragma pack(push, 1)
 class army {
 public:
@@ -130,7 +136,7 @@ public:
   bool FlightThroughObstacles(int toHex);
 private:
   void RevertChargingAnimation();
-  void SetChargingAnimation();
+  void SetChargingAnimation(CHARGING_DIRECTION dir);
   void RevertJumpingAnimation();
   void SetJumpingAnimation();
   void ChargingDamage(std::stack<int> affectedHexes);

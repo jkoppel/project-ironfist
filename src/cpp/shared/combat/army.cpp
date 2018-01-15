@@ -167,13 +167,30 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
   gpCombatManager->CombatMessage(gText, 1, 1, 0);
 }
 
-void army::SetChargingAnimation() {
+void army::SetChargingAnimation(CHARGING_DIRECTION dir) {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
-    this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE] = 1;
-    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE][0] = 97;
+    int inAirFrame, endMoveFirstFrame;
+    switch(dir) {
+      case CHARGING_FORWARD:
+        inAirFrame = 17;
+        endMoveFirstFrame = 19;
+        break;
+      case CHARGING_UP:
+        inAirFrame = 96;
+        endMoveFirstFrame = 82;
+        break;
+      case CHARGING_DOWN:
+        inAirFrame = 97;
+        endMoveFirstFrame = 89;
+        break;
+    }
+    this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE] = 7;
+    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE]; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE][i] = endMoveFirstFrame + i;
+    }
     for(int i = 0; i < 8; i++) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
-      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = 96;
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = inAirFrame;
     }
   }
 }
@@ -1119,8 +1136,16 @@ int army::FlyTo(int hexIdx) {
           BuildTeleporterTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0, closeMove);
         } else {
           BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
-          if(CreatureHasAttribute(this->creatureIdx, CHARGER))
-            SetChargingAnimation();
+          if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+
+            CHARGING_DIRECTION dir = CHARGING_FORWARD;
+            double angle = (180.0 / 3.141592653589793238463) * atan2(deltaY, abs(deltaX));
+            if(angle > 45)
+              dir = CHARGING_DOWN;
+            else if(angle < -45)
+              dir = CHARGING_UP;
+            SetChargingAnimation(dir);
+          }
         }
         int startMoveLen = 0;
         int moveLen = 0;
