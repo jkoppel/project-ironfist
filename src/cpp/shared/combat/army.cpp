@@ -167,26 +167,19 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
   gpCombatManager->CombatMessage(gText, 1, 1, 0);
 }
 
-void army::SetChargingAnimation(CHARGING_DIRECTION dir) {
+void army::SetChargingMoveAnimation(CHARGING_DIRECTION dir) {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
-    int inAirFrame, endMoveFirstFrame;
+    int inAirFrame;
     switch(dir) {
       case CHARGING_FORWARD:
         inAirFrame = 17;
-        endMoveFirstFrame = 19;
         break;
       case CHARGING_UP:
         inAirFrame = 96;
-        endMoveFirstFrame = 82;
         break;
       case CHARGING_DOWN:
         inAirFrame = 97;
-        endMoveFirstFrame = 89;
         break;
-    }
-    this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE] = 7;
-    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE]; i++) {
-      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_END_MOVE][i] = endMoveFirstFrame + i;
     }
     for(int i = 0; i < 8; i++) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
@@ -195,13 +188,54 @@ void army::SetChargingAnimation(CHARGING_DIRECTION dir) {
   }
 }
 
-void army::RevertChargingAnimation() {
+void army::RevertChargingMoveAnimation() {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
     this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] = 8;
-    this->frameInfo.animationLengths[ANIMATION_TYPE_END_MOVE] = 0;
     for(int i = 0; i < 8; i++) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] =
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] = 46 + i;
+    }
+  }
+}
+
+void army::SetChargingAttackAnimation(CHARGING_DIRECTION dir) {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
+    int attackFirstFrame, attackReturnFirstFrame;
+    switch(dir) {
+      case CHARGING_FORWARD:
+        attackFirstFrame = 19;
+        attackReturnFirstFrame = 58;
+        break;
+      case CHARGING_UP:
+        attackFirstFrame = 82;
+        attackReturnFirstFrame = 83;
+        break;
+      case CHARGING_DOWN:
+        attackFirstFrame = 89;
+        attackReturnFirstFrame = 90;
+        break;
+    }
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] = 1;
+    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS]; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][i] = attackFirstFrame + i;
+    }
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 6;
+    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN]; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][i] = attackReturnFirstFrame + i;
+    }
+
+  }
+}
+
+void army::RevertChargingAttackAnimation() {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] = 3;
+    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS]; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][i] = 55 + i;
+    }
+    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 6;
+    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN]; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][i] = 58 + i;
     }
   }
 }
@@ -246,7 +280,7 @@ void army::RevertJumpingAnimation() {
   }
 }
 
-void army::ChargingDamage(std::stack<int> affectedHexes) {
+void army::ChargingDamage(std::stack<int> affectedHexes, CHARGING_DIRECTION dir) {
   if(!affectedHexes.size())
     return;
 
@@ -285,8 +319,15 @@ void army::ChargingDamage(std::stack<int> affectedHexes) {
     gChargeTargetDamaging = false;
   }
   
+  // setting up attack animation for playing
+  this->SetChargingAttackAnimation(dir);
+  this->mightBeAttackAnimIdx = ANIMATION_TYPE_MELEE_ATTACK_FORWARDS;
+  this->mightBeIsAttacking = 1;
+
   this->PowEffect(-1, 0, -1, -1);
   
+  this->RevertChargingAttackAnimation();
+
   // Battle message
   char *attackingCreature, *targetCreature;
   if (this->quantity <= 1)
@@ -1071,6 +1112,7 @@ extern int giNextActionGridIndex;
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
 
+  CHARGING_DIRECTION chargeDir = CHARGING_FORWARD;
   if (ValidHex(hexIdx)) {
     int colDiff = hexIdx % 13 - this->occupiedHex % 13;
     this->field_8E = 0;
@@ -1137,14 +1179,13 @@ int army::FlyTo(int hexIdx) {
         } else {
           BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
           if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
-
-            CHARGING_DIRECTION dir = CHARGING_FORWARD;
+            
             double angle = (180.0 / 3.141592653589793238463) * atan2(deltaY, abs(deltaX));
             if(angle > 45)
-              dir = CHARGING_DOWN;
+              chargeDir = CHARGING_DOWN;
             else if(angle < -45)
-              dir = CHARGING_UP;
-            SetChargingAnimation(dir);
+              chargeDir = CHARGING_UP;
+            SetChargingMoveAnimation(chargeDir);
           }
         }
         int startMoveLen = 0;
@@ -1277,11 +1318,11 @@ int army::FlyTo(int hexIdx) {
     if(gpCombatManager->combatGrid[giNextActionGridIndex].unitOwner != -1)
       chargeAffectedHexes.push(giNextActionGridIndex);
     if(CreatureHasAttribute(this->creatureIdx, CHARGER))
-      ChargingDamage(chargeAffectedHexes);
+      ChargingDamage(chargeAffectedHexes, chargeDir);
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     
     if(CreatureHasAttribute(this->creatureIdx, CHARGER))
-        RevertChargingAnimation();
+        RevertChargingMoveAnimation();
     gpCombatManager->TestRaiseDoor();
     return 1;
   }
