@@ -366,6 +366,20 @@ int l_countemptycreatureslots(lua_State *L) {
 	return 1;
 }
 
+int l_setExperiencePoints(lua_State *L) {
+	hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+	int points = (int)luaL_checknumber(L, 2);
+	hro->experience = points;
+	hro->CheckLevel();
+	return 0;
+}
+
+int l_getExperiencePoints(lua_State *L) {
+	hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+	lua_pushinteger(L, hro->experience);
+	return 1;
+}
+
 int l_setprimaryskill(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int skill = (int)luaL_checknumber(L, 2);
@@ -664,6 +678,13 @@ int l_sharevision(lua_State *L) {
   return 0;
 }
 
+int l_cancelsharevision(lua_State *L) {
+	int sourcePlayer = (int)luaL_checknumber(L, 1);
+	int destPlayer = (int)luaL_checknumber(L, 2);
+	gpGame->CancelShareVision(sourcePlayer, destPlayer);
+	return 0;
+}
+
 int l_setDaysAfterTownLost(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int days = (int)luaL_checknumber(L, 2);
@@ -854,6 +875,8 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "GrantArmy", l_grantarmy);
   lua_register(L, "HasArtifact", l_hasartifact);
   lua_register(L, "TakeArtifact", l_takeartifact);
+  lua_register(L, "SetExperiencePoints", l_setExperiencePoints);
+  lua_register(L, "GetExperiencePoints", l_getExperiencePoints);
   lua_register(L, "SetPrimarySkill", l_setprimaryskill);
   lua_register(L, "SetSpellpoints", l_setspellpoints);
   lua_register(L, "SetSecondarySkill", l_setsecondaryskill);
@@ -864,6 +887,7 @@ void set_lua_globals(lua_State *L) {
   lua_register(L, "SetNumGuildSpells", l_setnumguildspells);
   lua_register(L, "SetGuildSpell", l_setguildspell);
   lua_register(L, "ShareVision", l_sharevision);
+  lua_register(L, "CancelShareVision", l_cancelsharevision);
   lua_register(L, "GetHeroLevel", l_getherolevel);
   lua_register(L, "GetHeroTempMoraleBonuses", l_getHeroTempMoraleBonuses);
   lua_register(L, "SetHeroTempMoraleBonuses", l_setHeroTempMoraleBonuses);

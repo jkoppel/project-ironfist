@@ -130,40 +130,40 @@ HeroExtra *MakeHeroMapExtra(int faction) {
 
     if (faction == FACTION_KNIGHT) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_LEADERSHIP;
-        heroMapExtra->firstSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[0] = 1;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_BALLISTICS;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     if (faction == FACTION_SORCERESS) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NAVIGATION;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     if (faction == FACTION_BARBARIAN) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_PATHFINDING;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
     }
 
     if (faction == FACTION_WARLOCK) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_SCOUTING;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     if (faction == FACTION_WIZARD) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->firstSecondarySkillLevel = 2;
+        heroMapExtra->secondarySkillLevel[0] = 2;
     }
 
     if (faction == FACTION_NECROMANCER) {
         heroMapExtra->secondarySkills[0] = SECONDARY_SKILL_NECROMANCY;
-        heroMapExtra->firstSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[0] = 1;
         heroMapExtra->secondarySkills[1] = SECONDARY_SKILL_WISDOM;
-        heroMapExtra->secondSecondarySkillLevel = 1;
+        heroMapExtra->secondarySkillLevel[1] = 1;
     }
 
     return heroMapExtra;
@@ -23327,7 +23327,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     ""
   },
 
-  //artifact
+  //artifacts
   {
     963,
     963,
@@ -23355,6 +23355,32 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     964,
     964,
+    10,
+    11,
+    3,
+    0,
+    '\x06',
+    12884901888i64,
+    4094,
+    4095,
+    0i64,
+    8589934592i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    41,
+    '\b',
+    9999,
+    ""
+  },
+
+  // creatures
+  {
+    965,
+    965,
     323,
     12,
     2,
@@ -23377,8 +23403,8 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     ""
   },
   {
-    965,
-    965,
+    966,
+    966,
     324,
     12,
     2,
@@ -23401,8 +23427,8 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     ""
   },
   {
-    966,
-    966,
+    967,
+    967,
     325,
     12,
     2,
@@ -23425,8 +23451,8 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     ""
   },
   {
-    967,
-    967,
+    968,
+    968,
     326,
     12,
     2,
@@ -23449,8 +23475,8 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     ""
   },
   {
-    968,
-    968,
+    969,
+    969,
     327,
     12,
     2,
@@ -23473,8 +23499,8 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     ""
   },
   {
-    969,
-    969,
+    970,
+    970,
     328,
     12,
     2,

@@ -81,6 +81,10 @@ void game::ShareVision(int sourcePlayer, int destPlayer) {
   this->PropagateVision();
 }
 
+void game::CancelShareVision(int sourcePlayer, int destPlayer) {
+	this->sharePlayerVision[sourcePlayer][destPlayer] = false;
+}
+
 void game::PropagateVision() {
   for (int p1 = 0; p1 < NUM_PLAYERS; p1++) {
     for (int p2 = 0; p2 < NUM_PLAYERS; p2++) {
@@ -181,4 +185,8 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
   gpGame->map.tiles[cellIdx].field_4_1 = 0;
   gpGame->map.tiles[cellIdx].isShadow = 0;
   return 0;
+}
+
+int mapCell::getLocationType() {
+  return this->objType & 0x7F;
 }
