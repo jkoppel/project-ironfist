@@ -7,7 +7,6 @@
 #include "resource/resources.h"
 #include "spell/spells.h"
 #include <vector>
-#include <stack>
 
 #define NUM_SPELL_EFFECTS 19 // don't ever change it for now  
 
@@ -141,7 +140,7 @@ private:
   void SetChargingMoveAnimation(CHARGING_DIRECTION dir);
   void RevertJumpingAnimation();
   void SetJumpingAnimation();
-  void ChargingDamage(std::stack<int> affectedHexes, CHARGING_DIRECTION dir);
+  void ChargingDamage(std::vector<int> affectedHexes, CHARGING_DIRECTION dir);
   bool IsEnemyCreatureHex(int hex);
 };
 

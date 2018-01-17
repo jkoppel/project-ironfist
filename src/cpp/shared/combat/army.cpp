@@ -6,6 +6,7 @@
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "expansions.h"
+#include <set>
 #include <vector>
 
 extern ironfistExtra gIronfistExtra;
@@ -280,7 +281,7 @@ void army::RevertJumpingAnimation() {
   }
 }
 
-void army::ChargingDamage(std::stack<int> affectedHexes, CHARGING_DIRECTION dir) {
+void army::ChargingDamage(std::vector<int> affectedHexes, CHARGING_DIRECTION dir) {
   if(!affectedHexes.size())
     return;
 
@@ -290,9 +291,8 @@ void army::ChargingDamage(std::stack<int> affectedHexes, CHARGING_DIRECTION dir)
   int totalCreaturesKilled = 0;
   
   gChargeTargetDamaging = true;
-  while(!affectedHexes.empty()) {
-    int targHex = affectedHexes.top();
-    affectedHexes.pop();
+  for(auto i : affectedHexes) {
+    int targHex = i;
     army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targHex].unitOwner][gpCombatManager->combatGrid[targHex].stackIdx];
     int creaturesKilled = 0;
     int damDone;
@@ -1163,7 +1163,7 @@ int army::FlyTo(int hexIdx) {
     }
 
 
-    std::stack<int> chargeAffectedHexes;
+    std::vector<int> chargeAffectedHexes;
     if (!gbNoShowCombat) {
       bool closeMove = IsCloseMove(hexIdx);
       bool teleporter = CreatureHasAttribute(this->creatureIdx, TELEPORTER);
@@ -1284,14 +1284,14 @@ int army::FlyTo(int hexIdx) {
           }
 		  int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
 		  if(IsEnemyCreatureHex(h))
-		     chargeAffectedHexes.push(h);
+		     chargeAffectedHexes.push_back(h);
 		  const int creatureWidth = 30;
 		  h = gpCombatManager->GetGridIndex(currentDrawX + creatureWidth / 2, currentDrawY);
 		  if(h != -1 && IsEnemyCreatureHex(h))
-		     chargeAffectedHexes.push(h);
+		     chargeAffectedHexes.push_back(h);
 		  h = gpCombatManager->GetGridIndex(currentDrawX - creatureWidth / 2, currentDrawY);
 		  if(h != -1 && IsEnemyCreatureHex(h))
-		     chargeAffectedHexes.push(h);
+		     chargeAffectedHexes.push_back(h);
         }
       }
     }
@@ -1316,9 +1316,13 @@ int army::FlyTo(int hexIdx) {
     }
 
     if(gpCombatManager->combatGrid[giNextActionGridIndex].unitOwner != -1)
-      chargeAffectedHexes.push(giNextActionGridIndex);
-    if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+      chargeAffectedHexes.push_back(giNextActionGridIndex);
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+      // remove duplicates
+      std::set<int> s(chargeAffectedHexes.begin(), chargeAffectedHexes.end() );
+      chargeAffectedHexes.assign(s.begin(),s.end());
       ChargingDamage(chargeAffectedHexes, chargeDir);
+    }
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     
     if(CreatureHasAttribute(this->creatureIdx, CHARGER))
@@ -2439,5 +2443,6 @@ bool army::FlightThroughObstacles(int toHex) {
 }
 
 bool army::IsEnemyCreatureHex(int hex) {
-	return gpCombatManager->combatGrid[hex].unitOwner != gpCombatManager->combatGrid[this->creatureIdx].unitOwner;
+	return (gpCombatManager->combatGrid[hex].stackIdx != -1) &&
+    (gpCombatManager->combatGrid[hex].unitOwner != this->owningSide);
 }
