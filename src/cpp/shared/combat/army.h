@@ -133,14 +133,13 @@ public:
   int AttackTo_orig(int targetHex);
   int GetAttackMask(int hex, int focusLevel, int a5);
   bool FlightThroughObstacles(int toHex);
+  bool TargetOnStraightLine(int targHex);
 private:
-  void SetChargingAttackAnimation(CHARGING_DIRECTION dir);
-  void RevertChargingAttackAnimation();
   void RevertChargingMoveAnimation();
   void SetChargingMoveAnimation(CHARGING_DIRECTION dir);
   void RevertJumpingAnimation();
   void SetJumpingAnimation();
-  void ChargingDamage(std::vector<int> affectedHexes, CHARGING_DIRECTION dir);
+  void ChargingDamage(std::vector<int> affectedHexes);
   bool IsEnemyCreatureHex(int hex);
 };
 

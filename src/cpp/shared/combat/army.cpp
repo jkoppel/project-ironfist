@@ -186,6 +186,7 @@ void army::SetChargingMoveAnimation(CHARGING_DIRECTION dir) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = inAirFrame;
     }
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0] = inAirFrame;
   }
 }
 
@@ -196,48 +197,7 @@ void army::RevertChargingMoveAnimation() {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] =
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] = 46 + i;
     }
-  }
-}
-
-void army::SetChargingAttackAnimation(CHARGING_DIRECTION dir) {
-  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
-    int attackFirstFrame, attackReturnFirstFrame;
-    switch(dir) {
-      case CHARGING_FORWARD:
-        attackFirstFrame = 19;
-        attackReturnFirstFrame = 58;
-        break;
-      case CHARGING_UP:
-        attackFirstFrame = 82;
-        attackReturnFirstFrame = 83;
-        break;
-      case CHARGING_DOWN:
-        attackFirstFrame = 89;
-        attackReturnFirstFrame = 90;
-        break;
-    }
-    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] = 1;
-    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS]; i++) {
-      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][i] = attackFirstFrame + i;
-    }
-    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 6;
-    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN]; i++) {
-      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][i] = attackReturnFirstFrame + i;
-    }
-
-  }
-}
-
-void army::RevertChargingAttackAnimation() {
-  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
-    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS] = 3;
-    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS]; i++) {
-      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS][i] = 55 + i;
-    }
-    this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN] = 6;
-    for(int i = 0; i < this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN]; i++) {
-      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MELEE_ATTACK_FORWARDS_RETURN][i] = 58 + i;
-    }
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0] = 69;
   }
 }
 
@@ -281,7 +241,7 @@ void army::RevertJumpingAnimation() {
   }
 }
 
-void army::ChargingDamage(std::vector<int> affectedHexes, CHARGING_DIRECTION dir) {
+void army::ChargingDamage(std::vector<int> affectedHexes) {
   if(!affectedHexes.size())
     return;
 
@@ -319,15 +279,8 @@ void army::ChargingDamage(std::vector<int> affectedHexes, CHARGING_DIRECTION dir
     gChargeTargetDamaging = false;
   }
   
-  // setting up attack animation for playing
-  this->SetChargingAttackAnimation(dir);
-  this->mightBeAttackAnimIdx = ANIMATION_TYPE_MELEE_ATTACK_FORWARDS;
-  this->mightBeIsAttacking = 1;
-
-  this->PowEffect(-1, 0, -1, -1);
+  //this->PowEffect(-1, 0, -1, -1);
   
-  this->RevertChargingAttackAnimation();
-
   // Battle message
   char *attackingCreature, *targetCreature;
   if (this->quantity <= 1)
@@ -1282,16 +1235,9 @@ int army::FlyTo(int hexIdx) {
             currentDrawX = (double)(i + 1) * stepX + (double)v19;
             currentDrawY = (double)(i + 1) * stepY + (double)v14;
           }
-		  int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
-		  if(IsEnemyCreatureHex(h))
-		     chargeAffectedHexes.push_back(h);
-		  const int creatureWidth = 30;
-		  h = gpCombatManager->GetGridIndex(currentDrawX + creatureWidth / 2, currentDrawY);
-		  if(h != -1 && IsEnemyCreatureHex(h))
-		     chargeAffectedHexes.push_back(h);
-		  h = gpCombatManager->GetGridIndex(currentDrawX - creatureWidth / 2, currentDrawY);
-		  if(h != -1 && IsEnemyCreatureHex(h))
-		     chargeAffectedHexes.push_back(h);
+		      int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
+		      if(IsEnemyCreatureHex(h))
+		         chargeAffectedHexes.push_back(h);
         }
       }
     }
@@ -1315,13 +1261,11 @@ int army::FlyTo(int hexIdx) {
       this->field_8E = 0;
     }
 
-    if(gpCombatManager->combatGrid[giNextActionGridIndex].unitOwner != -1)
-      chargeAffectedHexes.push_back(giNextActionGridIndex);
     if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
       // remove duplicates
       std::set<int> s(chargeAffectedHexes.begin(), chargeAffectedHexes.end() );
       chargeAffectedHexes.assign(s.begin(),s.end());
-      ChargingDamage(chargeAffectedHexes, chargeDir);
+      ChargingDamage(chargeAffectedHexes);
     }
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
     
@@ -2178,6 +2122,13 @@ void army::MoveTo(int hexIdx) {
   }
 }
 
+bool army::TargetOnStraightLine(int targHex) {
+  int deltaY = gpCombatManager->combatGrid[targHex].occupyingCreatureBottomY - gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
+  int deltaX = gpCombatManager->combatGrid[targHex].centerX - gpCombatManager->combatGrid[this->occupiedHex].centerX;
+  double angle = abs((180.0 / 3.141592653589793238463) * atan2(deltaY, abs(deltaX)));
+  return angle == 0 || angle == 62.354024636261322;
+}
+
 void army::MoveAttack(int targHex, int x) {
   char targetOwner = gpCombatManager->combatGrid[targHex].unitOwner;
   char targetStack = gpCombatManager->combatGrid[targHex].stackIdx;
@@ -2195,7 +2146,7 @@ void army::MoveAttack(int targHex, int x) {
       break;
     if(targetOwner == -1 ||
       targetOwner == gpCombatManager->otherCurrentSideThing && targetStack == gpCombatManager->someSortOfStackIdx) {
-      if(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && gMoveAttack)) {
+      if(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && gMoveAttack && TargetOnStraightLine(targHex))) {
         this->targetHex = targHex;
         if(!ValidFlight(this->targetHex, 0))
           return;
@@ -2242,8 +2193,7 @@ void army::MoveAttack(int targHex, int x) {
                 this->targetNeighborIdx = i;
             }
           }
-          if(!CreatureHasAttribute(this->creatureIdx, CHARGER) || gCloseMove)
-            DoAttack(0);
+          DoAttack(0);
         }
       } else {
         SpecialAttack();
