@@ -16,6 +16,7 @@ extern "C" {
 
 #include "gui/dialog.h"
 
+#include "scripting/lua_utils.h"
 #include "scripting/register.h"
 #include "scripting/scripting.h"
 #include "scripting/temporary_file.h"
@@ -26,11 +27,6 @@ static string script_contents("");
 
 static bool scripting_on = false;
 lua_State* map_lua = NULL;
-
-static void DisplayLuaError() {
-	const char* msg = luaL_checkstring(map_lua, -1);
-	DisplayError(msg, "Script Error");
-}
 
 void set_lua_globals(lua_State *L) {
   set_scripting_funcs(L);
@@ -53,13 +49,13 @@ void RunScript(string& script_filename) {
   set_lua_globals(map_lua);
 
   if (luaL_dofile(map_lua, ".\\SCRIPTS\\MODULES\\binding.lua")) {
-    DisplayLuaError();
+    DisplayLuaError(map_lua);
   }
 
   LoadScriptContents(script_filename);
 
   if (luaL_dofile(map_lua, script_filename.c_str())) {
-    DisplayLuaError();
+    DisplayLuaError(map_lua);
   }
 }
 

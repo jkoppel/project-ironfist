@@ -9,6 +9,7 @@ extern "C" {
 #include "adventure/map.h"
 #include "combat/creatures.h"
 #include "spell/spells.h"
+#include "scripting/lua_utils.h"
 #include "scripting/register.h"
 #include "town/town.h"
 #include "gui/dialog.h"
@@ -18,7 +19,6 @@ void set_dialog_consts(lua_State *L) {
 	lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
 	lua_setconst(L, "DIALOG_OR", DIALOG_OR);
 	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
-
 }
 
 void set_messageboxgroups_const(lua_State *L) {

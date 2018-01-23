@@ -488,6 +488,9 @@
     <ClInclude Include="..\..\cpp\shared\expansions.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\scripting\lua_utils.h">
+      <Filter>Header Files\scripting</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\heroes2_imports.inc">
