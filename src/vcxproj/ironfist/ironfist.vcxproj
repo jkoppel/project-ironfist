@@ -156,6 +156,7 @@
     <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp" />
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\callback.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\funcs.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\lua_utils.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\consts.cpp" />
