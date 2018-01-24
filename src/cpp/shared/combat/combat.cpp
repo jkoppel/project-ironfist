@@ -519,7 +519,7 @@ int combatManager::GetCommand(int hex) {
                 else
                   return 3;
               }
-              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->ValidFlight(hex, 0) && !a->FlightThroughObstacles(hex)))
+              if(a->ValidPath(hex, 0) == 1)// || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->TargetOnStraightLine(hex) && a->ValidFlight(hex, 0) && !a->FlightThroughObstacles(hex)))
                 return 7;
               a->targetOwner = -1;
               a->targetStackIdx = -1;
@@ -541,9 +541,9 @@ int combatManager::GetCommand(int hex) {
 
 void combatManager::SetupGridForArmy(army *stack) {
   this->SetupGridForArmy_orig(stack);
-  if(CreatureHasAttribute(stack->creatureIdx, CHARGER)) {
+  /*if(CreatureHasAttribute(stack->creatureIdx, CHARGER)) {
     for(int i = 0; i < NUM_HEXES; i++) {
-      if((this->combatGrid[i].unitOwner != -1) && (this->combatGrid[i].unitOwner != stack->owningSide) && (!stack->FlightThroughObstacles(i))) {
+      if((this->combatGrid[i].unitOwner != -1) && (this->combatGrid[i].unitOwner != stack->owningSide) && (!stack->FlightThroughObstacles(i)) && stack->TargetOnStraightLine(i)) {
         stack->targetHex = i;
         stack->targetOwner = this->combatGrid[i].unitOwner;
         stack->targetStackIdx = this->combatGrid[i].stackIdx;
@@ -551,7 +551,7 @@ void combatManager::SetupGridForArmy(army *stack) {
           this->field_49F[i] = this->field_42A[i] = 1;
       }
     }
-  }
+  }*/
 }
 
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY) {
