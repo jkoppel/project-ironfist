@@ -792,7 +792,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
       }
     }
   }
-  res = this->FindPath_orig(this->occupiedHex, targHex, this->creature.speed, 0, flag);
+  res = this->FindPath_orig(knownHex, targHex, speed, flying, flag);
 
   // pretending we don't see obstacles at all
   // this does nothing for creatures that don't ignore obstacles
@@ -2129,6 +2129,43 @@ bool army::TargetOnStraightLine(int targHex) {
   return angle == 0 || angle == 62.354024636261322;
 }
 
+void army::MoveAttackNonFlyer(int attackMask) {
+  int attackMask2;
+  if(this->effectStrengths[5])
+    attackMask2 = GetAttackMask(this->occupiedHex, 2, -1);
+  else
+    attackMask2 = GetAttackMask(this->occupiedHex, 1, -1);
+  if(attackMask2 != 0xFF || this->creature.shots <= 0) {
+    if(attackMask == 0xFF) {
+      AttackTo();
+    } else {
+      for(int i = 0; i < 8; ++i) {
+        if(i < 6 || this->creature.creature_flags & TWO_HEXER) {
+          int knownHex = this->occupiedHex;
+          if(this->creature.creature_flags & TWO_HEXER && this->facingRight == 1 && i >= 0 && i <= 2)
+            ++knownHex;
+          if(this->creature.creature_flags & TWO_HEXER && !this->facingRight && i >= 3 && i <= 5)
+            --knownHex;
+          if(i >= 6) {
+            if(this->facingRight == 1)
+              ++knownHex;
+            else
+              --knownHex;
+          }
+          int adjCell = GetAdjacentCellIndex(knownHex, i);
+          if(ValidHex(adjCell)
+            && gpCombatManager->combatGrid[adjCell].unitOwner == this->targetOwner
+            && gpCombatManager->combatGrid[adjCell].stackIdx == this->targetStackIdx)
+            this->targetNeighborIdx = i;
+        }
+      }
+      DoAttack(0);
+    }
+  } else {
+    SpecialAttack();
+  }
+}
+
 void army::MoveAttack(int targHex, int x) {
   char targetOwner = gpCombatManager->combatGrid[targHex].unitOwner;
   char targetStack = gpCombatManager->combatGrid[targHex].stackIdx;
@@ -2163,47 +2200,24 @@ void army::MoveAttack(int targHex, int x) {
     this->targetStackIdx = targetStack;
     this->targetHex = targHex;
     int attackMask = GetAttackMask(this->occupiedHex, 0, -1);
-    if(!(this->creature.creature_flags & FLYER) || attackMask != 255) {
-      int attackMask2;
-      if(this->effectStrengths[5])
-        attackMask2 = GetAttackMask(this->occupiedHex, 2, -1);
-      else
-        attackMask2 = GetAttackMask(this->occupiedHex, 1, -1);
-      if(attackMask2 != 0xFF || this->creature.shots <= 0) {
-        if(attackMask == 0xFF) {
-          AttackTo();
-        } else {
-          for(int i = 0; i < 8; ++i) {
-            if(i < 6 || this->creature.creature_flags & TWO_HEXER) {
-              int knownHex = this->occupiedHex;
-              if(this->creature.creature_flags & TWO_HEXER && this->facingRight == 1 && i >= 0 && i <= 2)
-                ++knownHex;
-              if(this->creature.creature_flags & TWO_HEXER && !this->facingRight && i >= 3 && i <= 5)
-                --knownHex;
-              if(i >= 6) {
-                if(this->facingRight == 1)
-                  ++knownHex;
-                else
-                  --knownHex;
-              }
-              int adjCell = GetAdjacentCellIndex(knownHex, i);
-              if(ValidHex(adjCell)
-                && gpCombatManager->combatGrid[adjCell].unitOwner == this->targetOwner
-                && gpCombatManager->combatGrid[adjCell].stackIdx == this->targetStackIdx)
-                this->targetNeighborIdx = i;
-            }
-          }
-          DoAttack(0);
-        }
-      } else {
-        SpecialAttack();
-      }
+    if(!(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && TargetOnStraightLine(targHex))) || attackMask != 255) {
+      MoveAttackNonFlyer(attackMask);
       gpCombatManager->field_F2B7 = 1;
       return;
     }
     if(this->occupiedHex != this->targetHex && !ValidFlight(this->targetHex, 0))
       return;
-    FlyTo(this->targetHex);
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+      if(TargetOnStraightLine(this->targetHex)) {
+        FlyTo(this->targetHex);
+      } else {
+        MoveAttackNonFlyer(attackMask);
+        gpCombatManager->field_F2B7 = 1;
+        return;
+      }
+    } else {    
+      FlyTo(this->targetHex);
+    }
   }
  
   // broken

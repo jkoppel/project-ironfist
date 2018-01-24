@@ -141,6 +141,7 @@ private:
   void SetJumpingAnimation();
   void ChargingDamage(std::vector<int> affectedHexes);
   bool IsEnemyCreatureHex(int hex);
+  void MoveAttackNonFlyer(int attackMask);
 };
 
 #pragma pack(pop)
