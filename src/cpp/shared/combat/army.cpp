@@ -1065,7 +1065,6 @@ bool army::IsCloseMove(int toHexIdx) {
   return false;
 }
 
-extern int giNextActionGridIndex;
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
 
@@ -1118,7 +1117,6 @@ int army::FlyTo(int hexIdx) {
       gpCombatManager->combatGrid[v3].occupiersOtherHexIsToLeft = -1;
     }
 
-
     std::vector<int> chargeAffectedHexes;
     if (!gbNoShowCombat) {
       bool closeMove = IsCloseMove(hexIdx);
@@ -1127,7 +1125,6 @@ int army::FlyTo(int hexIdx) {
       gpWindowManager->screenBuffer->CopyTo(gpCombatManager->probablyBitmapForCombatScreen, 0, 0, 0, 0, 0x280u, 442);
       gpCombatManager->zeroedAfterAnimatingDeathAndHolySpells = 0;
 
-      
       this->animationType = ANIMATION_TYPE_WALKING;
       for (int i = 0; numFrames > i; ++i) {
         if (teleporter) {
@@ -1239,9 +1236,9 @@ int army::FlyTo(int hexIdx) {
             currentDrawX = (double)(i + 1) * stepX + (double)v19;
             currentDrawY = (double)(i + 1) * stepY + (double)v14;
           }
-		      int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
-		      if(IsEnemyCreatureHex(h))
-		         chargeAffectedHexes.push_back(h);
+          int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
+          if(IsEnemyCreatureHex(h))
+            chargeAffectedHexes.push_back(h);
         }
       }
     }
@@ -2136,7 +2133,7 @@ bool army::TargetOnStraightLine(int targHex) {
   return angle == 0 || angle == 62.354024636261322;
 }
 
-void army::MoveAttackNonFlyer(int attackMask) {
+void army::MoveAttackNonFlyer(int startHex, int attackMask) {
   int attackMask2;
   if(this->effectStrengths[5])
     attackMask2 = GetAttackMask(this->occupiedHex, 2, -1);
@@ -2170,6 +2167,11 @@ void army::MoveAttackNonFlyer(int attackMask) {
     }
   } else {
     SpecialAttack();
+  }
+
+  if (!(this->creature.creature_flags & DEAD) &&
+    CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
+    MoveTo(startHex);
   }
 }
 
@@ -2208,7 +2210,7 @@ void army::MoveAttack(int targHex, int x) {
     this->targetHex = targHex;
     int attackMask = GetAttackMask(this->occupiedHex, 0, -1);
     if(!(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && TargetOnStraightLine(targHex))) || attackMask != 255) {
-      MoveAttackNonFlyer(attackMask);
+      MoveAttackNonFlyer(startHex, attackMask);
       gpCombatManager->field_F2B7 = 1;
       return;
     }
@@ -2218,19 +2220,13 @@ void army::MoveAttack(int targHex, int x) {
       if(TargetOnStraightLine(this->targetHex)) {
         FlyTo(this->targetHex);
       } else {
-        MoveAttackNonFlyer(attackMask);
+        MoveAttackNonFlyer(startHex, attackMask);
         gpCombatManager->field_F2B7 = 1;
         return;
       }
     } else {    
       FlyTo(this->targetHex);
     }
-  }
- 
-  // broken
-  if (!(this->creature.creature_flags & DEAD) &&
-    CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
-    MoveTo(startHex);
   }
 }
 
@@ -2414,6 +2410,6 @@ bool army::FlightThroughObstacles(int toHex) {
 }
 
 bool army::IsEnemyCreatureHex(int hex) {
-	return (gpCombatManager->combatGrid[hex].stackIdx != -1) &&
+  return (gpCombatManager->combatGrid[hex].stackIdx != -1) &&
     (gpCombatManager->combatGrid[hex].unitOwner != this->owningSide);
 }
