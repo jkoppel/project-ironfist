@@ -519,6 +519,7 @@ int combatManager::GetCommand(int hex) {
                 else
                   return 3;
               }
+              // Kert: Makes charging possible if the path is completely blocked (but it's broken now)
               if(a->ValidPath(hex, 0) == 1)// || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->TargetOnStraightLine(hex) && a->ValidFlight(hex, 0) && !a->FlightThroughObstacles(hex)))
                 return 7;
               a->targetOwner = -1;
@@ -541,6 +542,8 @@ int combatManager::GetCommand(int hex) {
 
 void combatManager::SetupGridForArmy(army *stack) {
   this->SetupGridForArmy_orig(stack);
+  // Kert: Will mark certain hexes black (possible to interact with)
+  // Isn't used currently because moving through enemies (if the path is completely blocked) is broken
   /*if(CreatureHasAttribute(stack->creatureIdx, CHARGER)) {
     for(int i = 0; i < NUM_HEXES; i++) {
       if((this->combatGrid[i].unitOwner != -1) && (this->combatGrid[i].unitOwner != stack->owningSide) && (!stack->FlightThroughObstacles(i)) && stack->TargetOnStraightLine(i)) {

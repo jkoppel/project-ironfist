@@ -35,7 +35,9 @@ extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
 bool gMoveAttack; // ironfist var to differentiate between move/move and attack
-bool gChargeTargetDamaging;
+bool gChargePathDamage;
+bool gCharging;
+
 char *gCombatFxNames[34] =
 {
   "",
@@ -250,7 +252,7 @@ void army::ChargingDamage(std::vector<int> affectedHexes) {
   int totalDamage = 0;
   int totalCreaturesKilled = 0;
   
-  gChargeTargetDamaging = true;
+  gChargePathDamage = true;
   for(auto i : affectedHexes) {
     int targHex = i;
     army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targHex].unitOwner][gpCombatManager->combatGrid[targHex].stackIdx];
@@ -275,12 +277,10 @@ void army::ChargingDamage(std::vector<int> affectedHexes) {
         primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
         primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;
       }
-    }
-    gChargeTargetDamaging = false;
+    }  
   }
-  
-  //this->PowEffect(-1, 0, -1, -1);
-  
+  gChargePathDamage = false;
+
   // Battle message
   char *attackingCreature, *targetCreature;
   if (this->quantity <= 1)
@@ -311,6 +311,7 @@ void army::ChargingDamage(std::vector<int> affectedHexes) {
       this->facingRight = oldFacingRight;
       OccupyHexes(this);
     }
+    // Kert: Not sure if this is needed
     /*for(auto targetHex : affectedHexes)
     {
       army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
@@ -421,6 +422,9 @@ void army::DoAttack(int isRetaliation) {
     int v13 = 0; // unused
     if (secondHexTarget)
       this->DamageEnemy(secondHexTarget, &v13, &v13, 0, isRetaliation);
+    
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+      gCharging = false;
 
     DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
 
@@ -1065,7 +1069,6 @@ extern int giNextActionGridIndex;
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
 
-  CHARGING_DIRECTION chargeDir = CHARGING_FORWARD;
   if (ValidHex(hexIdx)) {
     int colDiff = hexIdx % 13 - this->occupiedHex % 13;
     this->field_8E = 0;
@@ -1132,7 +1135,8 @@ int army::FlyTo(int hexIdx) {
         } else {
           BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
           if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
-            
+            gCharging = true;
+            CHARGING_DIRECTION chargeDir = CHARGING_FORWARD;
             double angle = (180.0 / 3.141592653589793238463) * atan2(deltaY, abs(deltaX));
             if(angle > 45)
               chargeDir = CHARGING_DOWN;
@@ -2071,11 +2075,14 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   }
 
   if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
-    if(gChargeTargetDamaging)
-      damagePerUnit *= 1.25;
-    else
-      damagePerUnit *= 0.5;
+    if(gCharging) {
+      if(gChargePathDamage)
+        damagePerUnit *= 0.5;
+      else
+        damagePerUnit *= 1.25;
+    }
   }
+
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
     baseDam = (signed __int64)(damagePerUnit * 1.25 + 0.5);
