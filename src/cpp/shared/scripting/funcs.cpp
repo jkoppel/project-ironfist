@@ -1,5 +1,3 @@
-
-
 extern "C" {
 #include "lua/src/lua.h"
 #include "lua/src/lualib.h"
@@ -16,13 +14,13 @@ extern "C" {
 
 #include "scripting/register.h"
 
-int StackIndexOfArg(int argNumber, int numArgs) {
+static int StackIndexOfArg(int argNumber, int numArgs) {
   return (numArgs - (argNumber - 1));
 }
 
 /************************************************ Deep binded objects ********************************************************/
 
-void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
@@ -31,7 +29,7 @@ void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L, -2);
 }
 
-void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
@@ -40,7 +38,7 @@ void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L, -2);
 }
 
-void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
@@ -49,7 +47,7 @@ void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L, -2);
 }
 
-void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
@@ -58,7 +56,7 @@ void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L, -2);
 }
 
-void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex) {
+static void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex) {
   lua_pushstring(L, "ptr");
   lua_gettable(L, -1 - stackIndex);
   void* ret = (void*)(int)lua_tonumber(L, -1);
@@ -68,14 +66,13 @@ void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex) {
 
 /************************************************ Dialogs ********************************************************/
 
-
-int l_msgbox(lua_State *L) {
+static int l_msgBox(lua_State *L) {
   const char* msg = luaL_checkstring(L, 1);
   H2MessageBox((char*)msg);
   return 0;
 }
 
-int l_AdvancedMessageBox(lua_State *L) {
+static int l_AdvancedMessageBox(lua_State *L) {
   const char* msg = luaL_checkstring(L, 1);
   int yesno = luaL_checkinteger(L, 2);
   int horizontal = luaL_checkinteger(L, 3);
@@ -90,13 +87,13 @@ int l_AdvancedMessageBox(lua_State *L) {
   return 0;
 }
 
-int l_questionBox(lua_State *L) {
+static int l_questionBox(lua_State *L) {
   char* qst = (char*)luaL_checkstring(L, 1);
   lua_pushboolean(L, H2QuestionBox(qst));
   return 1;
 }
 
-int l_inputBox(lua_State *L) {
+static int l_inputBox(lua_State *L) {
   char* qst = (char*)luaL_checkstring(L, 1);
   int len = (int)luaL_checknumber(L, 2);
   char* input = H2InputBox(qst, len);
@@ -105,7 +102,7 @@ int l_inputBox(lua_State *L) {
   return 1;
 }
 
-int l_recruitBox(lua_State *L)
+static int l_recruitBox(lua_State *L)
 {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int creature = (int)luaL_checknumber(L, 2);
@@ -115,68 +112,79 @@ int l_recruitBox(lua_State *L)
 
   lua_pushinteger(L, startQ - quantity);
   return 1;
+} 
+
+static void register_dialog_funcs(lua_State *L) {
+  lua_register(L, "MessageBox", l_msgBox);
+  lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
+  lua_register(L, "QuestionBox", l_questionBox);
+  lua_register(L, "InputBox", l_inputBox);
+  lua_register(L, "RecruitBox", l_recruitBox);
 }
 
 /************************************************ Date ********************************************************/
 
-
-int l_getday(lua_State *L) {
+static int l_getDay(lua_State *L) {
   lua_pushinteger(L, gpGame->day);
   return 1;
 }
 
-int l_getweek(lua_State *L) {
+static int l_getWeek(lua_State *L) {
   lua_pushinteger(L, gpGame->week);
   return 1;
 }
 
-int l_getmonth(lua_State *L) {
+static int l_getMonth(lua_State *L) {
   lua_pushinteger(L, gpGame->month);
   return 1;
 }
 
-
+static void register_date_funcs(lua_State *L) {
+  lua_register(L, "GetDay", l_getDay);
+  lua_register(L, "GetWeek", l_getWeek);
+  lua_register(L, "GetMonth", l_getMonth);
+}
 
 /************************************************ Player ********************************************************/
 
-int l_getplayer(lua_State *L) {
+static int l_getPlayer(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
   MakeLuaPlayerTable(L, &gpGame->players[n]);
   return 1;
 }
 
-int l_getCurrentPlayer(lua_State *L) {
+static int l_getCurrentPlayer(lua_State *L) {
   MakeLuaPlayerTable(L, gpCurPlayer);
   return 1;
 }
 
-int l_getPlayerColor(lua_State *L) {
+static int l_getPlayerColor(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, p->color);
   return 1;
 }
 
-int l_getnumheroes(lua_State *L) {
+static int l_getNumHeroes(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, p->numHeroes);
   return 1;
 }
 
-int l_gethero(lua_State *L) {
+static int l_getHero(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int n = (int)luaL_checknumber(L, 2);
   MakeLuaHeroTable(L, &gpGame->heroes[p->heroesOwned[n]]);
   return 1;
 }
 
-int l_getheroforhire(lua_State *L) {
+static int l_getHeroForHire(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int n = (int)luaL_checknumber(L, 2);
   MakeLuaHeroTable(L, &gpGame->heroes[p->heroesForPurchase[n]]);
   return 1;
 }
 
-int l_giveResource(lua_State *L) {
+static int l_giveResource(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int res = (int)luaL_checknumber(L, 2);
   int val = (int)luaL_checknumber(L, 3);
@@ -184,7 +192,7 @@ int l_giveResource(lua_State *L) {
   return 0;
 }
 
-int l_setResource(lua_State *L) {
+static int l_setResource(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int res = (int)luaL_checknumber(L, 2);
   int val = (int)luaL_checknumber(L, 3);
@@ -192,42 +200,41 @@ int l_setResource(lua_State *L) {
   return 0;
 }
 
-int l_getResource(lua_State *L) {
+static int l_getResource(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int res = (int)luaL_checknumber(L, 2);
   lua_pushinteger(L, player->resources[res]);
   return 1;
 }
 
-int l_sharevision(lua_State *L) {
+static int l_shareVision(lua_State *L) {
   int sourcePlayer = (int)luaL_checknumber(L, 1);
   int destPlayer = (int)luaL_checknumber(L, 2);
   gpGame->ShareVision(sourcePlayer, destPlayer);
   return 0;
 }
 
-int l_cancelsharevision(lua_State *L) {
+static int l_cancelShareVision(lua_State *L) {
   int sourcePlayer = (int)luaL_checknumber(L, 1);
   int destPlayer = (int)luaL_checknumber(L, 2);
   gpGame->CancelShareVision(sourcePlayer, destPlayer);
   return 0;
 }
 
-int l_setDaysAfterTownLost(lua_State *L) {
+static int l_setDaysAfterTownLost(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int days = (int)luaL_checknumber(L, 2);
   player->daysLeftWithoutCastle = days;
   return 0;
 }
 
-int l_getDaysAfterTownLost(lua_State *L) {
+static int l_getDaysAfterTownLost(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, player->daysLeftWithoutCastle);
   return 1;
 }
 
-
-int l_revealMap(lua_State *L) {
+static int l_revealMap(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
   int x = (int)luaL_checknumber(L, 2);
   int y = (int)luaL_checknumber(L, 3);
@@ -242,29 +249,45 @@ int l_revealMap(lua_State *L) {
   return 1;
 }
 
+static void register_player_funcs(lua_State *L) {
+  lua_register(L, "GetPlayer", l_getPlayer);
+  lua_register(L, "GetCurrentPlayer", l_getCurrentPlayer);
+  lua_register(L, "GetPlayerColor", l_getPlayerColor);
+  lua_register(L, "GetNumHeroes", l_getNumHeroes);
+  lua_register(L, "GetHero", l_getHero);
+  lua_register(L, "GetHeroForHire", l_getHeroForHire);
+  lua_register(L, "GiveResource", l_giveResource);
+  lua_register(L, "SetResource", l_setResource);
+  lua_register(L, "GetResource", l_getResource);
+  lua_register(L, "ShareVision", l_shareVision);
+  lua_register(L, "CancelShareVision", l_cancelShareVision);
+  lua_register(L, "SetDaysAfterTownLost", l_setDaysAfterTownLost);
+  lua_register(L, "GetDaysAfterTownLost", l_getDaysAfterTownLost);
+  lua_register(L, "RevealMap", l_revealMap);
+}
+
 /************************************************ Heroes ********************************************************/
 
-
-int l_getcurrenthero(lua_State *L) {
+static int l_getCurrentHero(lua_State *L) {
   MakeLuaHeroTable(L, GetCurrentHero());
   return 1;
 }
 
-int l_grantspell(lua_State *L) {
+static int l_grantSpell(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int sp = (int)luaL_checknumber(L, 2);
   hro->AddSpell(sp);
   return 0;
 }
 
-int l_forgetSpell(lua_State *L) {
+static int l_forgetSpell(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int spell = (int)luaL_checknumber(L, 2);
   hro->spellsLearned[spell] = 0;
   return 0;
 }
 
-int l_hasTroop(lua_State *L) {
+static int l_hasTroop(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int creature = (int)luaL_checknumber(L, 2);
   int quantity = (int)luaL_checknumber(L, 3);
@@ -278,7 +301,7 @@ int l_hasTroop(lua_State *L) {
   return 1;
 }
 
-int l_getCreatureAmount(lua_State *L) {
+static int l_getCreatureAmount(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int creature = (int)luaL_checknumber(L, 2);
   int quantity = 0;
@@ -293,7 +316,7 @@ int l_getCreatureAmount(lua_State *L) {
   return 1;
 }
 
-int l_takeTroop(lua_State *L) {
+static int l_takeTroop(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int creature = (int)luaL_checknumber(L, 2);
   int quantity = (int)luaL_checknumber(L, 3);
@@ -314,7 +337,7 @@ int l_takeTroop(lua_State *L) {
   return 0;
 }
 
-int l_teleportHero(lua_State *L) {
+static int l_teleportHero(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int x = (int)luaL_checknumber(L, 2);
   int y = (int)luaL_checknumber(L, 3);
@@ -322,66 +345,65 @@ int l_teleportHero(lua_State *L) {
   return 0;
 }
 
-int l_getHeroName(lua_State *L) {
+static int l_getHeroName(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushstring(L, hro->name);
   return 1;
 }
 
-int l_setHeroName(lua_State *L) {
+static int l_setHeroName(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   lua_pushstring(L, hro->name);
   strncpy(hro->name, luaL_checkstring(L, 2), ELEMENTS_IN(hro->name));
   return 0;
 }
 
-int l_getheroinpool(lua_State *L) {
+static int l_getHeroInPool(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
   MakeLuaHeroTable(L, &gpGame->heroes[n]);
   return 1;
 }
 
-int l_getheroowner(lua_State *L) {
+static int l_getHeroOwner(lua_State *L) {
   hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->ownerIdx);
   return 1;
 }
 
-
-int l_grantartifact(lua_State *L) {
+static int l_grantArtifact(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int art = (int)luaL_checknumber(L, 2);
   GiveArtifact(hro, art, 1, -1);
   return 0;
 }
 
-int l_hasartifact(lua_State *L) {
+static int l_hasArtifact(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int art = (int)luaL_checknumber(L, 2);
   lua_pushboolean(L, hro->HasArtifact(art));
   return 1;
 }
 
-int l_takeartifact(lua_State *L) {
+static int l_takeArtifact(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int art = (int)luaL_checknumber(L, 2);
   hro->TakeArtifact(art);
   return 0;
 }
 
-int l_countemptyartifactslots(lua_State *L) {
+static int l_countEmptyArtifactSlots(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->CountEmptyArtifactSlots());
   return 1;
 }
 
-int l_countemptycreatureslots(lua_State *L) {
+static int l_countEmptyCreatureSlots(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->CountEmptyCreatureSlots());
   return 1;
 }
 
-int l_setExperiencePoints(lua_State *L) {
+static int l_setExperiencePoints(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int points = (int)luaL_checknumber(L, 2);
   hro->experience = points;
@@ -389,13 +411,13 @@ int l_setExperiencePoints(lua_State *L) {
   return 0;
 }
 
-int l_getExperiencePoints(lua_State *L) {
+static int l_getExperiencePoints(lua_State *L) {
   hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->experience);
   return 1;
 }
 
-int l_setprimaryskill(lua_State *L) {
+static int l_setPrimarySkill(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int skill = (int)luaL_checknumber(L, 2);
   int amt = (int)luaL_checknumber(L, 3);
@@ -403,27 +425,27 @@ int l_setprimaryskill(lua_State *L) {
   return 0;
 }
 
-int l_getPrimarySkill(lua_State *L) {
+static int l_getPrimarySkill(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int skill = (int)luaL_checknumber(L, 2);
   lua_pushinteger(L, hro->primarySkills[skill]);
   return 1;
 }
 
-int l_setspellpoints(lua_State *L) {
+static int l_setSpellpoints(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int points = (int)luaL_checknumber(L, 2);
   hro->spellpoints = points;
   return 0;
 }
 
-int l_getSpellpoints(lua_State *L) {
+static int l_getSpellpoints(lua_State *L) {
   hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->spellpoints);
   return 1;
 }
 
-int l_setsecondaryskill(lua_State *L) {
+static int l_setSecondarySkill(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int skill = (int)luaL_checknumber(L, 2);
   int level = (int)luaL_checknumber(L, 3);
@@ -431,14 +453,14 @@ int l_setsecondaryskill(lua_State *L) {
   return 0;
 }
 
-int l_getSecondarySkill(lua_State *L) {
+static int l_getSecondarySkill(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int skill = (int)luaL_checknumber(L, 2);
   lua_pushinteger(L, hro->GetSSLevel(skill));
   return 1;
 }
 
-int l_grantarmy(lua_State *L) {
+static int l_grantArmy(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int cr = (int)luaL_checknumber(L, 2);
   int n = (int)luaL_checknumber(L, 3);
@@ -446,89 +468,127 @@ int l_grantarmy(lua_State *L) {
   return 0;
 }
 
-int l_setHeroTempLuckBonuses(lua_State *L) {
-  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
-  int LuckBonus = (int)luaL_checknumber(L, 2);
-  hro->tempLuckBonuses = LuckBonus;
-  return 0;
-}
-
-int l_getHeroMobility(lua_State *L) {
+static int l_getHeroMobility(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->mobility);
   return 1;
 }
 
-int l_setHeroMobility(lua_State *L) {
+static int l_setHeroMobility(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int mobility = (int)luaL_checknumber(L, 2);
   hro->mobility = mobility;
   return 0;
 }
 
-int l_getHeroRemainingMobility(lua_State *L) {
+static int l_getHeroRemainingMobility(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->remainingMobility);
   return 1;
 }
 
-int l_setHeroRemainingMobility(lua_State *L) {
+static int l_setHeroRemainingMobility(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int remainingMobility = (int)luaL_checknumber(L, 2);
   hro->remainingMobility = remainingMobility;
   return 0;
 }
 
-int l_getHeroX(lua_State *L) {
+static int l_getHeroX(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->x);
   return 1;
 }
 
-int l_getHeroY(lua_State *L) {
+static int l_getHeroY(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->y);
   return 1;
 }
 
-int l_getherolevel(lua_State *L) {
+static int l_getHeroLevel(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->GetLevel());
   return 1;
 }
 
-int l_getHeroTempMoraleBonuses(lua_State *L) {
+static int l_getHeroTempMoraleBonuses(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->tempMoraleBonuses);
   return 1;
 }
 
-int l_setHeroTempMoraleBonuses(lua_State *L) {
+static int l_setHeroTempMoraleBonuses(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int moraleBonus = (int)luaL_checknumber(L, 2);
   hro->tempMoraleBonuses = moraleBonus;
   return 0;
 }
 
-int l_getHeroTempLuckBonuses(lua_State *L) {
+static int l_getHeroTempLuckBonuses(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, hro->tempLuckBonuses);
   return 1;
 }
 
+static int l_setHeroTempLuckBonuses(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int LuckBonus = (int)luaL_checknumber(L, 2);
+  hro->tempLuckBonuses = LuckBonus;
+  return 0;
+}
 
-int l_grantspellscroll(lua_State *L) {
+static int l_grantSpellScroll(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int sp = (int)luaL_checknumber(L, 2);
   GiveArtifact(hro, ARTIFACT_SPELL_SCROLL, 1, sp);
   return 0;
 }
 
+static void register_hero_funcs(lua_State *L) {
+  lua_register(L, "GetCurrentHero", l_getCurrentHero);
+  lua_register(L, "GrantSpell", l_grantSpell);
+  lua_register(L, "ForgetSpell", l_forgetSpell);
+  lua_register(L, "HasTroop", l_hasTroop);
+  lua_register(L, "GetCreatureAmount", l_getCreatureAmount);
+  lua_register(L, "TakeTroop", l_takeTroop);
+  lua_register(L, "TeleportHero", l_teleportHero);
+  lua_register(L, "GetHeroName", l_getHeroName);
+  lua_register(L, "SetHeroName", l_setHeroName);
+  lua_register(L, "GetHeroInPool", l_getHeroInPool);
+  lua_register(L, "GetHeroOwner", l_getHeroOwner);
+  lua_register(L, "GrantArtifact", l_grantArtifact);
+  lua_register(L, "HasArtifact", l_hasArtifact);
+  lua_register(L, "TakeArtifact", l_takeArtifact);
+  lua_register(L, "CountEmptyArtifactSlots", l_countEmptyArtifactSlots);
+  lua_register(L, "CountEmptyCreatureSlots", l_countEmptyCreatureSlots);
+  lua_register(L, "SetExperiencePoints", l_setExperiencePoints);
+  lua_register(L, "GetExperiencePoints", l_getExperiencePoints);
+  lua_register(L, "SetPrimarySkill", l_setPrimarySkill);
+  lua_register(L, "GetPrimarySkill", l_getPrimarySkill);
+  lua_register(L, "SetSpellpoints", l_setSpellpoints);
+  lua_register(L, "GetSpellpoints", l_getSpellpoints);
+  lua_register(L, "SetSecondarySkill", l_setSecondarySkill);
+  lua_register(L, "GetSecondarySkill", l_getSecondarySkill);
+  lua_register(L, "GrantArmy", l_grantArmy);
+  lua_register(L, "GetHeroMobility", l_getHeroMobility);
+  lua_register(L, "SetHeroMobility", l_setHeroMobility);
+  lua_register(L, "GetHeroRemainingMobility", l_getHeroRemainingMobility);
+  lua_register(L, "SetHeroRemainingMobility", l_setHeroRemainingMobility);
+  lua_register(L, "GetHeroX", l_getHeroX);
+  lua_register(L, "GetHeroY", l_getHeroY);
+  lua_register(L, "GetHeroLevel", l_getHeroLevel);
+  lua_register(L, "GetHeroTempMoraleBonuses", l_getHeroTempMoraleBonuses);
+  lua_register(L, "SetHeroTempMoraleBonuses", l_setHeroTempMoraleBonuses);
+  lua_register(L, "GetHeroTempLuckBonuses", l_getHeroTempLuckBonuses);
+  lua_register(L, "SetHeroTempLuckBonuses", l_setHeroTempLuckBonuses);
+  lua_register(L, "GrantSpellScroll", l_grantSpellScroll);
+}
 
 /************************************** Map *******************************************/
 
 // FIXME: What is this 3?
-int l_mapSetObject(lua_State *L) {
+static int l_mapSetObject(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
   int obj = (int)luaL_checknumber(L, 3);
@@ -540,7 +600,7 @@ int l_mapSetObject(lua_State *L) {
   return 0;
 }
 
-int l_mapPutArmy(lua_State *L) {
+static int l_mapPutArmy(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
   int monIdx = (int)luaL_checknumber(L, 3);
@@ -550,34 +610,37 @@ int l_mapPutArmy(lua_State *L) {
   return 1;
 }
 
+static void register_map_funcs(lua_State *L) {
+  lua_register(L, "MapSetObject", l_mapSetObject);
+  lua_register(L, "MapPutArmy", l_mapPutArmy);
+}
+
 /************************************** Town *******************************************/
 
-
-int l_getcurrenttown(lua_State *L) {
+static int l_getCurrentTown(lua_State *L) {
   MakeLuaTownTable(L, gpTownManager->castle);
   return 1;
 }
 
-
-int l_hasvisitinghero(lua_State *L) {
+static int l_hasVisitingHero(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushboolean(L, twn->visitingHeroIdx >= 0);
   return 1;
 }
 
-int l_getvisitinghero(lua_State *L) {
+static int l_getVisitingHero(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   MakeLuaHeroTable(L, &gpGame->heroes[twn->visitingHeroIdx]);
   return 1;
 }
 
-int l_buildincurrenttown(lua_State *L) {
+static int l_buildInCurrentTown(lua_State *L) {
   int obj = (int)luaL_checknumber(L, 1);
   gpTownManager->BuildObj(obj);
   return 0;
 }
 
-int l_getTown(lua_State *L) {
+static int l_getTown(lua_State *L) {
   int index = (int)luaL_checknumber(L, 1);
   if (index < MAX_TOWNS) {
     MakeLuaTownTable(L, &gpGame->castles[index]);
@@ -585,19 +648,19 @@ int l_getTown(lua_State *L) {
   return 1;
 }
 
-int l_getTownName(lua_State *L) {
+static int l_getTownName(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushstring(L, twn->name);
   return 1;
 }
 
-int l_setTownName(lua_State *L) {
+static int l_setTownName(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   strcpy(twn->name, luaL_checkstring(L, 2));
   return 1;
 }
 
-int l_getTownByName(lua_State *L) {
+static int l_getTownByName(lua_State *L) {
   char *name = (char*)luaL_checkstring(L, 1);
   for (int i = 0; i < MAX_TOWNS; i++) {
     if (strcmp(gpGame->castles[i].name, name) == 0) {
@@ -609,7 +672,7 @@ int l_getTownByName(lua_State *L) {
   return 1;
 }
 
-int l_getPlayerTown(lua_State *L) {
+static int l_getPlayerTown(lua_State *L) {
   playerData *player = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int index = (int)luaL_checknumber(L, 2);
 
@@ -619,47 +682,27 @@ int l_getPlayerTown(lua_State *L) {
   return 1;
 }
 
-int l_buildInTown(lua_State *L) {
+static int l_buildInTown(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int building = (int)luaL_checknumber(L, 2);
   twn->BuildBuilding(building);
   return 0;
 }
 
-int l_getTownFaction(lua_State *L) {
+static int l_getTownFaction(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, twn->factionID);
   return 1;
 }
 
-int l_setTownFaction(lua_State *L) {
+static int l_setTownFaction(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int faction = (int)luaL_checknumber(L, 2);
   twn->factionID = (char)faction;
   return 0;
 }
 
-
-int l_setnumguildspells(lua_State *L) {
-  town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
-  int l = (int)luaL_checknumber(L, 2);
-  int n = (int)luaL_checknumber(L, 3);
-  twn->SetNumSpellsOfLevel(l, n);
-  twn->GiveSpells(NULL);
-  return 0;
-}
-
-int l_setguildspell(lua_State *L) {
-  town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
-  int l = (int)luaL_checknumber(L, 2);
-  int n = (int)luaL_checknumber(L, 3);
-  int s = (int)luaL_checknumber(L, 4);
-  twn->mageGuildSpells[l][n] = s;
-  twn->GiveSpells(NULL);
-  return 0;
-}
-
-int l_getCreatureCost(lua_State *L) {
+static int l_getCreatureCost(lua_State *L) {
   int creature = (int)luaL_checknumber(L, 1);
   int cost[NUM_RESOURCES];
   GetMonsterCost(creature, cost);
@@ -669,39 +712,39 @@ int l_getCreatureCost(lua_State *L) {
   return 7;
 }
 
-int l_getTownOwner(lua_State *L) {
+static int l_getTownOwner(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, twn->ownerIdx);
   return 1;
 }
 
-int l_setTownOwner(lua_State *L) {
+static int l_setTownOwner(lua_State *L) {
   int townIdx = (int)luaL_checknumber(L, 1);
   int playerIdx = (int)luaL_checknumber(L, 2);
   gpGame->ClaimTown(townIdx, playerIdx, 0);
   return 0;
 }
 
-int l_getTownX(lua_State *L) {
+static int l_getTownX(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, twn->x);
   return 1;
 }
 
-int l_getTownY(lua_State *L) {
+static int l_getTownY(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, twn->y);
   return 1;
 }
 
-int l_getTownIDFromPos(lua_State *L) {
+static int l_getTownIDFromPos(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
   lua_pushinteger(L, gpGame->GetTownId(x, y));
   return 1;
 }
 
-int l_setNumberOfCreatures(lua_State *L) {
+static int l_setNumberOfCreatures(lua_State *L) {
   town* cstle = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int dwllng = (int)luaL_checknumber(L, 2);
   int numcrtrs = (int)luaL_checknumber(L, 3);
@@ -709,7 +752,26 @@ int l_setNumberOfCreatures(lua_State *L) {
   return 0;
 }
 
-int l_getguildspell(lua_State *L) {
+static int l_setNumGuildSpells(lua_State *L) {
+  town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
+  int l = (int)luaL_checknumber(L, 2);
+  int n = (int)luaL_checknumber(L, 3);
+  twn->SetNumSpellsOfLevel(l, n);
+  twn->GiveSpells(NULL);
+  return 0;
+}
+
+static int l_setGuildSpell(lua_State *L) {
+  town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
+  int l = (int)luaL_checknumber(L, 2);
+  int n = (int)luaL_checknumber(L, 3);
+  int s = (int)luaL_checknumber(L, 4);
+  twn->mageGuildSpells[l][n] = s;
+  twn->GiveSpells(NULL);
+  return 0;
+}
+
+static int l_getGuildSpell(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int l = (int)luaL_checknumber(L, 2);
   int n = (int)luaL_checknumber(L, 3);
@@ -718,10 +780,35 @@ int l_getguildspell(lua_State *L) {
   return 1;
 }
 
+static void register_town_funcs(lua_State *L) {
+  lua_register(L, "GetCurrentTown", l_getCurrentTown);
+  lua_register(L, "HasVisitingHero", l_hasVisitingHero);
+  lua_register(L, "GetVisitingHero", l_getVisitingHero);
+  lua_register(L, "BuildInCurrentTown", l_buildInCurrentTown);
+  lua_register(L, "GetTown", l_getTown);
+  lua_register(L, "GetTownName", l_getTownName);
+  lua_register(L, "SetTownName", l_setTownName);
+  lua_register(L, "GetTownByName", l_getTownByName);
+  lua_register(L, "GetPlayerTown", l_getPlayerTown);
+  lua_register(L, "BuildInTown", l_buildInTown);
+  lua_register(L, "GetTownFaction", l_getTownFaction);
+  lua_register(L, "SetTownFaction", l_setTownFaction);
+  lua_register(L, "GetCreatureCost", l_getCreatureCost);
+  lua_register(L, "GetTownOwner", l_getTownOwner);
+  lua_register(L, "SetTownOwner", l_setTownOwner);
+  lua_register(L, "GetTownX", l_getTownX);
+  lua_register(L, "GetTownY", l_getTownY);
+  lua_register(L, "GetTownIdFromPos", l_getTownIDFromPos);
+  lua_register(L, "SetNumberOfCreatures", l_setNumberOfCreatures);
+  lua_register(L, "SetNumGuildSpells", l_setNumGuildSpells);
+  lua_register(L, "SetGuildSpell", l_setGuildSpell);
+  lua_register(L, "GetGuildSpell", l_getGuildSpell);
+}
+
 /************************************* Battle ******************************************/
 
 // FIXME: DraggonFantasy's version used getFirstEmptyHex. That was more useful
-int l_battleSummonCreature(lua_State *L) {
+static int l_battleSummonCreature(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   int hex = (int)luaL_checknumber(L, 2);
   int creature = (int)luaL_checknumber(L, 3);
@@ -731,7 +818,7 @@ int l_battleSummonCreature(lua_State *L) {
   return 0;
 }
 
-int l_isHexEmpty(lua_State *L) {
+static int l_isHexEmpty(lua_State *L) {
   int hexno = (int)luaL_checknumber(L, 1);
   if (!ValidHex(hexno)) {
     lua_pushboolean(L, 0);
@@ -744,110 +831,131 @@ int l_isHexEmpty(lua_State *L) {
   return 1;
 }
 
-int l_battleHasHero(lua_State *L) {
+static int l_battleHasHero(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   lua_pushboolean(L, gpCombatManager->heroes[side] != NULL);
   return 1;
 }
 
-int l_battleGetHero(lua_State *L) {
+static int l_battleGetHero(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   MakeLuaHeroTable(L, gpCombatManager->heroes[side]);
   return 1;
 }
 
-int l_battleMessage(lua_State *L) {
+static int l_battleMessage(lua_State *L) {
   char* message = (char*)luaL_checkstring(L, 1);
   gpCombatManager->CombatMessage(message);
   return 0;
 }
 
-int l_battleGetNumStacks(lua_State *L) {
+static int l_battleGetNumStacks(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   lua_pushinteger(L, gpCombatManager->numCreatures[side]);
   return 1;
 }
 
-int l_battleGetStack(lua_State *L) {
+static int l_battleGetStack(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   int idx = (int)luaL_checknumber(L, 2);
   MakeLuaBattleStackTable(L, &gpCombatManager->creatures[side][idx]);
   return 1;
 }
 
-int l_getStackSide(lua_State *L) {
+static int l_getStackSide(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->owningSide);
   return 1;
 }
 
-int l_getStackType(lua_State *L) {
+static int l_getStackType(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->creatureIdx);
   return 1;
 }
 
-int l_getStackQuantity(lua_State *L) {
+static int l_getStackQuantity(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->quantity);
   return 1;
 }
 
-int l_setStackQuantity(lua_State *L) {
+static int l_setStackQuantity(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int quantity = (int)luaL_checknumber(L, 2);
   creat->quantity = quantity;
   return 0;
 }
 
-int l_getStackInitialQuantity(lua_State *L) {
+static int l_getStackInitialQuantity(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->initialQuantity);
   return 1;
 }
 
-int l_setStackInitialQuantity(lua_State *L) {
+static int l_setStackInitialQuantity(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int initialQuantity = (int)luaL_checknumber(L, 2);
   creat->initialQuantity = initialQuantity;
   return 0;
 }
 
-int l_getStackHex(lua_State *L) {
+static int l_getStackHex(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->occupiedHex);
   return 1;
 }
 
-int l_getStackMorale(lua_State *L) {
+static int l_getStackMorale(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->morale);
   return 1;
 }
 
-int l_setStackMorale(lua_State *L) {
+static int l_setStackMorale(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int morale = (int)luaL_checknumber(L, 2);
   creat->morale = morale;
   return 0;
 }
 
-int l_getStackLuck(lua_State *L) {
+static int l_getStackLuck(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
   lua_pushinteger(L, creat->luck);
   return 1;
 }
 
-int l_setStackLuck(lua_State *L) {
+static int l_setStackLuck(lua_State *L) {
   army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int luck = (int)luaL_checknumber(L, 2);
   creat->luck = luck;
   return 0;
 }
 
+static void register_battle_funcs(lua_State *L) {
+  lua_register(L, "BattleSummonCreature", l_battleSummonCreature);
+  lua_register(L, "IsHexEmpty", l_isHexEmpty);
+  lua_register(L, "BattleHasHero", l_battleHasHero);
+  lua_register(L, "BattleGetHero", l_battleGetHero);
+  lua_register(L, "BattleMessage", l_battleMessage);
+  lua_register(L, "BattleNumStacksForSide", l_battleGetNumStacks);
+  lua_register(L, "BattleGetStack", l_battleGetStack);
+  lua_register(L, "GetStackSide", l_getStackSide);
+  lua_register(L, "GetStackType", l_getStackType);
+  lua_register(L, "GetStackQuantity", l_getStackQuantity);
+  lua_register(L, "SetStackQuantity", l_setStackQuantity);
+  lua_register(L, "GetStackInitialQuantity", l_getStackInitialQuantity);
+  lua_register(L, "SetStackInitialQuantity", l_setStackInitialQuantity);
+  lua_register(L, "GetStackHex", l_getStackHex);
+  lua_register(L, "GetStackMorale", l_getStackMorale);
+  lua_register(L, "SetStackMorale", l_setStackMorale);
+  lua_register(L, "GetStackLuck", l_getStackLuck);
+  lua_register(L, "SetStackLuck", l_setStackLuck);
+}
+
 /************************************** Uncategorized ******************************************/
 
-int l_startbattle(lua_State *L) {
+static int l_startbattle(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
   int mon1 = (int)luaL_checknumber(L, 2);
   int mon1quantity = (int)luaL_checknumber(L, 3);
@@ -858,130 +966,27 @@ int l_startbattle(lua_State *L) {
   return 1;
 }
 
-int l_toggleAIArmySharing(lua_State *L) {
+static int l_toggleAIArmySharing(lua_State *L) {
   bool toggle = luaL_checknumber(L, 1);
   gpGame->allowAIArmySharing = toggle;
   return 0;
+}
+
+static void register_uncategorized_funcs(lua_State *L) {
+  lua_register(L, "StartBattle", l_startbattle);
+  lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 }
 
 /****************************************************************************************************************/
 
 
 void set_scripting_funcs(lua_State *L) {
-
-  lua_register(L, "MessageBox", l_msgbox);
-  lua_register(L, "AdvancedMessageBox", l_AdvancedMessageBox);
-  lua_register(L, "GetDay", l_getday);
-  lua_register(L, "GetWeek", l_getweek);
-  lua_register(L, "GetMonth", l_getmonth);
-  lua_register(L, "GetCurrentHero", l_getcurrenthero);
-  lua_register(L, "GetPlayer", l_getplayer);
-  lua_register(L, "GetNumHeroes", l_getnumheroes);
-  lua_register(L, "GetHero", l_gethero);
-  lua_register(L, "GetHeroForHire", l_getheroforhire);
-  lua_register(L, "GetHeroInPool", l_getheroinpool);
-  lua_register(L, "GetHeroOwner", l_getheroowner);
-  lua_register(L, "GrantArtifact", l_grantartifact);
-  lua_register(L, "GrantSpell", l_grantspell);
-  lua_register(L, "GrantArmy", l_grantarmy);
-  lua_register(L, "HasArtifact", l_hasartifact);
-  lua_register(L, "TakeArtifact", l_takeartifact);
-  lua_register(L, "SetExperiencePoints", l_setExperiencePoints);
-  lua_register(L, "GetExperiencePoints", l_getExperiencePoints);
-  lua_register(L, "SetPrimarySkill", l_setprimaryskill);
-  lua_register(L, "SetSpellpoints", l_setspellpoints);
-  lua_register(L, "SetSecondarySkill", l_setsecondaryskill);
-  lua_register(L, "GetCurrentTown", l_getcurrenttown);
-  lua_register(L, "HasVisitingHero", l_hasvisitinghero);
-  lua_register(L, "GetVisitingHero", l_getvisitinghero);
-  lua_register(L, "BuildInCurrentTown", l_buildincurrenttown);
-  lua_register(L, "SetNumGuildSpells", l_setnumguildspells);
-  lua_register(L, "SetGuildSpell", l_setguildspell);
-  lua_register(L, "ShareVision", l_sharevision);
-  lua_register(L, "CancelShareVision", l_cancelsharevision);
-  lua_register(L, "GetHeroLevel", l_getherolevel);
-  lua_register(L, "GetHeroTempMoraleBonuses", l_getHeroTempMoraleBonuses);
-  lua_register(L, "SetHeroTempMoraleBonuses", l_setHeroTempMoraleBonuses);
-  lua_register(L, "GetHeroTempLuckBonuses", l_getHeroTempLuckBonuses);
-  lua_register(L, "SetHeroTempLuckBonuses", l_setHeroTempLuckBonuses);
-  lua_register(L, "GetHeroMobility", l_getHeroMobility);
-  lua_register(L, "SetHeroMobility", l_setHeroMobility);
-  lua_register(L, "GetHeroRemainingMobility", l_getHeroRemainingMobility);
-  lua_register(L, "SetHeroRemainingMobility", l_setHeroRemainingMobility);
-  lua_register(L, "GetHeroX", l_getHeroX);
-  lua_register(L, "GetHeroY", l_getHeroY);
-  lua_register(L, "StartBattle", l_startbattle);
-  lua_register(L, "CountEmptyArtifactSlots", l_countemptyartifactslots);
-  lua_register(L, "CountEmptyCreatureSlots", l_countemptycreatureslots);
-  lua_register(L, "GetGuildSpell", l_getguildspell);
-  lua_register(L, "GrantSpellScroll", l_grantspellscroll);
-  lua_register(L, "SetNumberOfCreatures", l_setNumberOfCreatures);
-
-  // Tales of Enroth functions
-  lua_register(L, "QuestionBox", l_questionBox);
-  lua_register(L, "InputBox", l_inputBox);
-  lua_register(L, "RecruitBox", l_recruitBox);
-  lua_register(L, "SetDaysAfterTownLost", l_setDaysAfterTownLost);
-  lua_register(L, "GetDaysAfterTownLost", l_getDaysAfterTownLost);
-
-  lua_register(L, "GiveResource", l_giveResource);
-  lua_register(L, "SetResource", l_setResource);
-  lua_register(L, "GetResource", l_getResource);
-  lua_register(L, "GetCreatureCost", l_getCreatureCost);
-
-  lua_register(L, "BattleSummonCreature", l_battleSummonCreature);
-  lua_register(L, "IsHexEmpty", l_isHexEmpty);
-  lua_register(L, "BattleHasHero", l_battleHasHero);
-  lua_register(L, "BattleGetHero", l_battleGetHero);
-  lua_register(L, "BattleMessage", l_battleMessage);
-
-  lua_register(L, "BattleNumStacksForSide", l_battleGetNumStacks);
-  lua_register(L, "BattleGetStack", l_battleGetStack);
-  lua_register(L, "GetStackSide", l_getStackSide);
-  lua_register(L, "GetStackQuantity", l_getStackQuantity);
-  lua_register(L, "SetStackQuantity", l_setStackQuantity);
-  lua_register(L, "GetStackInitialQuantity", l_getStackInitialQuantity);
-  lua_register(L, "SetStackInitialQuantity", l_setStackInitialQuantity);
-  lua_register(L, "GetStackType", l_getStackType);
-  lua_register(L, "GetStackHex", l_getStackHex);
-  lua_register(L, "GetStackMorale", l_getStackMorale);
-  lua_register(L, "SetStackMorale", l_setStackMorale);
-  lua_register(L, "GetStackLuck", l_getStackLuck);
-  lua_register(L, "SetStackLuck", l_setStackLuck);
-
-  lua_register(L, "GetTown", l_getTown);
-  lua_register(L, "GetTownName", l_getTownName);
-  lua_register(L, "SetTownName", l_setTownName);
-  lua_register(L, "GetTownByName", l_getTownByName);
-  lua_register(L, "GetPlayerTown", l_getPlayerTown);
-  lua_register(L, "BuildInTown", l_buildInTown);
-  lua_register(L, "GetTownFaction", l_getTownFaction);
-  lua_register(L, "SetTownFaction", l_setTownFaction);
-
-  lua_register(L, "MapSetObject", l_mapSetObject);
-  lua_register(L, "MapPutArmy", l_mapPutArmy);
-
-  lua_register(L, "GetCurrentPlayer", l_getCurrentPlayer);
-  lua_register(L, "GetPlayerColor", l_getPlayerColor);
-  lua_register(L, "TeleportHero", l_teleportHero);
-  lua_register(L, "GetHeroName", l_getHeroName);
-  lua_register(L, "SetHeroName", l_setHeroName);
-  lua_register(L, "ForgetSpell", l_forgetSpell);
-  lua_register(L, "HasTroop", l_hasTroop);
-  lua_register(L, "GetCreatureAmount", l_getCreatureAmount);
-  lua_register(L, "TakeTroop", l_takeTroop);
-  lua_register(L, "GetPrimarySkill", l_getPrimarySkill);
-  lua_register(L, "GetSpellpoints", l_getSpellpoints);
-  lua_register(L, "GetSecondarySkill", l_getSecondarySkill);
-
-  lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
-
-  lua_register(L, "GetTownOwner", l_getTownOwner);
-  lua_register(L, "SetTownOwner", l_setTownOwner);
-  lua_register(L, "GetTownX", l_getTownX);
-  lua_register(L, "GetTownY", l_getTownY);
-  lua_register(L, "GetTownIdFromPos", l_getTownIDFromPos);
-
-  lua_register(L, "RevealMap", l_revealMap);
-
+  register_dialog_funcs(L);
+  register_date_funcs(L);
+  register_player_funcs(L);
+  register_hero_funcs(L);
+  register_map_funcs(L);
+  register_town_funcs(L);
+  register_battle_funcs(L);
+  register_uncategorized_funcs(L);
 }

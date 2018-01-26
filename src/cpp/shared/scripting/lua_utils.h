@@ -1,4 +1,5 @@
-#pragma once
+#ifndef LUA_UTILS_H
+#define LUA_UTILS_H
 
 extern "C" {
 #include "lua/src/lua.h"
@@ -9,3 +10,5 @@ extern "C" {
 void lua_setconst(lua_State *L, const char* nam, int i);
 void DisplayLuaError(lua_State *L);
 int LuaGlobalExists(lua_State *L, const char* nam);
+
+#endif
