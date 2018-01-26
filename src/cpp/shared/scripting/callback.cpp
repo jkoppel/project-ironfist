@@ -1,4 +1,5 @@
 #include "scripting/callback.h"
+#include "scripting/lua_utils.h"
 
 void ironfist_lua_push(int arg) {
   lua_pushinteger(map_lua, arg);
@@ -17,9 +18,4 @@ void ironfist_lua_push(std::string arg) {
 }
 
 void ironfist_lua_pushmulti() {
-};
-
-void ScriptCallback(const char * funcName) {
-  lua_getglobal(map_lua, funcName);
-  lua_pcall(map_lua, 0, 0, 0);
 }
