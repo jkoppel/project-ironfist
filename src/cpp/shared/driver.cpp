@@ -2,9 +2,12 @@
 #include "scripting/scripting.h"
 #include "windows.h"
 
+#include <xercesc/util/PlatformUtils.hpp>
+
 extern void* hInstApp;
 
 void IronfistInit() {
+  xercesc::XMLPlatformUtils::Initialize();
 	LoadCreatures();
 	//LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }
@@ -19,4 +22,5 @@ void __fastcall AppExit() {
 #ifndef EDITOR
 	ScriptingShutdown();
 #endif
+  xercesc::XMLPlatformUtils::Terminate();
 }
