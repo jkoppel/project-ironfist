@@ -945,10 +945,6 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 }
 
 int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
-  long delta, start;
-  char* cdelta;
-  std::string str2;
-  start = KBTickCount();
   baseGame = 0;
   gpAdvManager->DemobilizeCurrHero();
   char path[100];
@@ -967,59 +963,25 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
     strcpy(gpGame->lastSaveFile, saveFile);
 
   std::ofstream os(v9);
-
   ironfist_save::save_t m;
 
   m.hero().reserve(ELEMENTS_IN(this->heroes));
   for (int i = 0; i < ELEMENTS_IN(this->heroes); i++) {
     m.hero().push_back(WriteHeroXML(&this->heroes[i]));
   }
-
-  delta = KBTickCount() - start;
-  str2 = std::to_string(delta);
-  cdelta = &str2[0];
-  H2MessageBox(cdelta);
-  start = KBTickCount();
-
   m.gamestate(WriteGameStateXML(gpGame));
-  delta = KBTickCount() - start;
-  str2 = std::to_string(delta);
-  cdelta = &str2[0];
-  H2MessageBox(cdelta);
-  start = KBTickCount();
-
   m.script(GetScriptContents());
-  delta = KBTickCount() - start;
-  str2 = std::to_string(delta);
-  cdelta = &str2[0];
-  H2MessageBox(cdelta);
-  start = KBTickCount();
-
   WriteMapVariablesXML(m);
-  delta = KBTickCount() - start;
-  str2 = std::to_string(delta);
-  cdelta = &str2[0];
-  H2MessageBox(cdelta);
-  start = KBTickCount();
 
   xml_schema::namespace_infomap infomap;
   infomap[""].name = "ironfist_save";
   infomap[""].schema = "map_xml.xsd";
 
-  WriteMapVariablesXML(m);
-  delta = KBTickCount() - start;
-  str2 = std::to_string(delta);
-  cdelta = &str2[0];
-  H2MessageBox(cdelta);
-  start = KBTickCount();
-
-  ironfist_save::save(os, m, infomap);
-
-  delta = KBTickCount() - start;
-  str2 = std::to_string(delta);
-  cdelta = &str2[0];
-  H2MessageBox(cdelta);
-  start = KBTickCount();
+  WriteMapVariablesXML(m); // Why is this in here twice? (Look a few lines above)
+  ironfist_save::save(os, m, infomap, "UTF-8", xml_schema::flags::dont_initialize /* 
+                                             | xml_schema::flags::no_xml_declaration 
+                                             | xml_schema::flags::dont_pretty_print 
+                                             | xml_schema::flags::dont_validate*/); // I know this is ugly; it's just temporary and it won't leave this branch
 
   return 1;
 }
