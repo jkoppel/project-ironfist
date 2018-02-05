@@ -1065,6 +1065,7 @@ bool army::IsCloseMove(int toHexIdx) {
   return false;
 }
 
+extern int giNextActionGridIndex;
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
 
@@ -1266,6 +1267,10 @@ int army::FlyTo(int hexIdx) {
       // remove duplicates
       std::set<int> s(chargeAffectedHexes.begin(), chargeAffectedHexes.end() );
       chargeAffectedHexes.assign(s.begin(),s.end());
+      // don't damage target creature by "charge path damage"
+      auto f = std::find(chargeAffectedHexes.begin(), chargeAffectedHexes.end(), giNextActionGridIndex);
+      if(f != chargeAffectedHexes.end())
+        chargeAffectedHexes.erase(f);
       ChargingDamage(chargeAffectedHexes);
     }
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
