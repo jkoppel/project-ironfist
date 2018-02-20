@@ -83,6 +83,8 @@ IMPORT_?AddManager@executive@@QAEHPAVbaseManager@@H@Z = 1
 ;;init
 IMPORT_?InitMainClasses@@YIXXZ = 1
 IMPORT_?DeleteMainClasses@@YIXXZ = 1
+IMPORT_?InterpretCommandLine@@YIHXZ = 1
+?InterpretCommandLine@@YIHXZ_clone EQU ?InterpretCommandLine_orig@@YIHXZ
 
 ;;allowing play without CD
 IMPORT_?SetupCDDrive@@YIHXZ = 1
@@ -285,16 +287,24 @@ IMPORT_?gTownEligibleBuildMask@@3PAKA = 1
 
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
+IMPORT_?SetupWell@townManager@@QAEXPAVheroWindow@@@Z = 1
+?SetupWell@townManager@@QAEXPAVheroWindow@@@Z_clone EQU ?SetupWell_orig@townManager@@QAEXPAVheroWindow@@@Z
 IMPORT_?RecruitHero@townManager@@QAEHHH@Z = 1
 ?RecruitHero@townManager@@QAEHHH@Z_clone EQU ?RecruitHero_orig@townManager@@QAEHHH@Z
 IMPORT_?GetBuildingName@@YIPADHH@Z = 1
 ?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@recruitUnit@@UAEHH@Z = 1
 ?Open@recruitUnit@@UAEHH@Z_clone EQU ?Open_orig@recruitUnit@@QAEHH@Z
+IMPORT_?GetBuildingInfo@@YIPADHHH@Z = 1
+?GetBuildingInfo@@YIPADHHH@Z_clone EQU ?GetBuildingInfo_orig@@YIPADHHH@Z
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1
 ?PerDay@game@@QAEXXZ_clone EQU ?PerDay_orig@game@@QAEXXZ
+IMPORT_?PerWeek@game@@QAEXXZ = 1
+?PerWeek@game@@QAEXXZ_clone EQU ?PerWeek_orig@game@@QAEXXZ
+IMPORT_?PerMonth@game@@QAEXXZ = 1
+?PerMonth@game@@QAEXXZ_clone EQU ?PerMonth_orig@game@@QAEXXZ
 IMPORT_?Open@advManager@@UAEHH@Z = 1
 ?Open@advManager@@UAEHH@Z_clone EQU ?Open_orig@advManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@townManager@@UAEHH@Z = 1

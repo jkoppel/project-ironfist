@@ -196,6 +196,10 @@ public:
 
 	void PerDay();
 	void PerDay_orig();
+  void PerWeek();
+  void PerWeek_orig();
+  void PerMonth();
+  void PerMonth_orig();
 
   void ResetIronfistGameState();
   void ShareVision(int sourcePlayer, int destPlayer);
@@ -243,6 +247,8 @@ void __fastcall CheckEndGame(int a, int b);
 
 int __fastcall HandleAppSpecificMenuCommands(int a1);
 int __fastcall HandleAppSpecificMenuCommands_orig(int a1);
+int __fastcall InterpretCommandLine();
+int __fastcall InterpretCommandLine_orig();
 
 extern game* gpGame;
 extern int gbInCampaign;
@@ -267,6 +273,10 @@ extern signed char gcColorToSetupPos[];
 extern signed char giVisRange[];
 extern char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
+extern int giMonthType;
+extern int giMonthTypeExtra;
+extern char gcCommandLine[];
+extern bool gbDisableWell;
 
 extern randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2];
 extern int neutralTownCreatureTypes[NUM_FACTIONS][5];

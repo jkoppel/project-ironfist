@@ -9,6 +9,9 @@
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 
+// Set to true to disable +2 growth from the well.
+bool gbDisableWell = false;
+
 // The title screen implements button hovering manually in code, using this data structure
 // x, y, width, height
 unsigned short IMHotSpots[][4] = {
@@ -139,6 +142,63 @@ void game::PerDay() {
 	ScriptCallback("OnNewDay", this->month, this->week, this->day);
 }
 
+void game::PerWeek() {
+  PerWeek_orig();
+  if (!gbDisableWell) {
+    return;
+  }
+
+  for (int i = 0; i < MAX_TOWNS; ++i) {
+    town &townObj = castles[i];
+    for (int d = BUILDING_DWELLING_1; d <= BUILDING_UPGRADE_5B; ++d) {
+      if (!townObj.BuildingBuilt(BUILDING_WELL) || !townObj.BuildingBuilt(d)) {
+        continue;
+      }
+
+      // Undo the +2 growth provided by the Well. Unowned towns grow at half rate.
+      const int dwellingIdx = d - BUILDING_DWELLING_1;
+      if (townObj.ownerIdx >= 0) {
+        townObj.numCreaturesInDwelling[dwellingIdx] -= 2;
+      }
+      else {
+        townObj.numCreaturesInDwelling[dwellingIdx] -= 1;
+      }
+    }
+  }
+}
+
+void game::PerMonth() {
+  // Save the number of creatures in each dwelling in case we have to restore
+  // them later. PerWeek() runs before this so all dwellings have increased
+  // population at this point.
+  int numCreatures[MAX_CASTLES][NUM_DWELLINGS];
+  for (int c = 0; c < MAX_CASTLES; ++c) {
+    town &townObj = castles[c];
+    for (int d = 0; d < NUM_DWELLINGS; ++d) {
+      numCreatures[c][d] = townObj.numCreaturesInDwelling[d];
+    }
+  }
+
+  PerMonth_orig();
+  if (!gbDisableWell || giMonthType != 2) {
+    return;
+  }
+
+  // The math the original code does for Month of Plague is slightly off now
+  // that I've disabled the Well. But I kinda hate the Plague anyway so I'll
+  // just remove it.
+  for (int c = 0; c < MAX_CASTLES; ++c) {
+    town &townObj = castles[c];
+    for (int d = 0; d < NUM_DWELLINGS; ++d) {
+      townObj.numCreaturesInDwelling[d] = numCreatures[c][d];
+    }
+  }
+
+  // One of the benign month types that don't do anything.
+  giMonthType = 0;
+  giMonthTypeExtra = Random(0, 9);
+}
+
 void game::ResetIronfistGameState() {
     for (int i = 0; i < NUM_PLAYERS; i++) {
         for (int j = 0; j < NUM_PLAYERS; j++) {
@@ -182,6 +242,17 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
     default:
       return HandleAppSpecificMenuCommands_orig(a1);
   }
+}
+
+int __fastcall InterpretCommandLine() {
+  const int status = InterpretCommandLine_orig();
+
+  const std::string args(gcCommandLine);
+  if (args.find("/disable-well") != std::string::npos) {
+    gbDisableWell = true;
+  }
+
+  return status;
 }
 
 class philAI {
