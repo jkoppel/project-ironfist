@@ -327,7 +327,7 @@ void townManager::SetupWell(heroWindow *window) {
 
     // Overwrite the text the original code sent for each creature's
     // description field in the Well window.
-    GUISetText(window, 25 + tier, desc.str().c_str());
+    GUISetText(window, 25 + tier, desc.str());
   }
 }
 
