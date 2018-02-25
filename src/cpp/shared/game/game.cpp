@@ -159,8 +159,7 @@ void game::PerWeek() {
       const int dwellingIdx = d - BUILDING_DWELLING_1;
       if (townObj.ownerIdx >= 0) {
         townObj.numCreaturesInDwelling[dwellingIdx] -= 2;
-      }
-      else {
+      } else {
         townObj.numCreaturesInDwelling[dwellingIdx] -= 1;
       }
     }

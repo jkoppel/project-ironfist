@@ -12,7 +12,8 @@
 #include "spell/spells.h"
 #include "town/town.h"
 
-#include<sstream>
+#include <sstream>
+#include <string>
 
 unsigned long gTownEligibleBuildMask[] = {
   0x3FF8BF9F,
@@ -304,51 +305,29 @@ void townManager::SetupWell(heroWindow *window) {
     return;
   }
 
-  const char *format = "Attack: %d"
-    "\nDefense: %d"
-    "\nDmg: %d-%d"
-    "\nHP: %d"
-    "\n\nSpeed:\n%s";
-  const char *formatWithGrowth = "Attack: %d"
-    "\nDefense: %d"
-    "\nDmg: %d-%d"
-    "\nHP: %d"
-    "\n\nSpeed:\n%s"
-    "\n\nGrowth\n + %d / week";
-
   for (int tier = 0; tier < 6; ++tier) {
-    char buf[128] = { 0 };
     const int dwellingIdx = castle->DwellingIndex(tier);
     const tag_monsterInfo &mon = gMonsterDatabase[gDwellingType[castle->factionID][dwellingIdx]];
+
+    std::ostringstream desc;
+    desc << "Attack: " << int(mon.attack)
+      << "\nDefense: " << int(mon.defense)
+      << "\nDmg: " << int(mon.min_damage) << '-' << int(mon.max_damage)
+      << "\nHP: " << mon.hp
+      << "\n\nSpeed:\n" << speedText[mon.speed];
+
     if (castle->DwellingBuilt(dwellingIdx)) {
       // Original code added +2 for the Well here.
       int growth = mon.growth;
       if (tier == 0 && castle->BuildingBuilt(BUILDING_SPECIAL_GROWTH)) {
         growth += 8;
       }
-
-      snprintf(buf, sizeof(buf), formatWithGrowth,
-        mon.attack,
-        mon.defense,
-        mon.min_damage,
-        mon.max_damage,
-        mon.hp,
-        speedText[mon.speed],
-        growth);
-    }
-    else {
-      snprintf(buf, sizeof(buf), format,
-        mon.attack,
-        mon.defense,
-        mon.min_damage,
-        mon.max_damage,
-        mon.hp,
-        speedText[mon.speed]);
+      desc << "\n\nGrowth\n + " << growth << " / week";
     }
 
     // Overwrite the text the original code sent for each creature's
     // description field in the Well window.
-    GUISetText(window, 25 + tier, buf);
+    GUISetText(window, 25 + tier, desc.str().c_str());
   }
 }
 
@@ -372,49 +351,41 @@ int townManager::RecruitHero(int id, int x) {
 }
 
 char *__fastcall GetBuildingName(int faction, int building) {
-  static char poisonedWellName[] = "Poisoned Well";
-
   if (faction == FACTION_NECROMANCER && building == BUILDING_TAVERN) {
     return xNecromancerShrine;
-  }
-  else {
+  } else {
     if (building == BUILDING_SPECIAL_GROWTH) {
       return gWellExtraNames[faction];
-    }
-    else if (building == BUILDING_SPECIAL) {
+    } else if (building == BUILDING_SPECIAL) {
       return gSpecialBuildingNames[faction];
-    }
-    else if (building >= BUILDING_DWELLING_1) {
+    } else if (building >= BUILDING_DWELLING_1) {
       return gDwellingNames[faction][building - BUILDING_DWELLING_1];
-    }
-    else if (gbDisableWell && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
-      return poisonedWellName;
-    }
-    else {
+    } else if (gbDisableWell && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
+      static std::string poisonedWellName = "Poisoned Well";
+      return &poisonedWellName[0];
+    } else {
       return gNeutralBuildingNames[building];
     }
   }
 }
 
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
-  static char buf[128] = { 0 };
-  const char *wellInfo = "The Well provides refreshing drinking water.";
-  const char *poisonedInfo = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
-
   if (gbDisableWell && building == BUILDING_WELL) {
-    const char *info = wellInfo;
+    static std::string buf;
+    std::string wellInfo = "The Well provides refreshing drinking water.";
     if (faction == FACTION_NECROMANCER) {
-      info = poisonedInfo;
+      wellInfo = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
     }
+
     if (withTitle) {
-      snprintf(buf, 128, "{%s}\n\n%s", GetBuildingName(faction, building), info);
+      buf = "{";
+      buf += GetBuildingName(faction, building);
+      buf += "}\n\n" + wellInfo;
+    } else {
+      buf = wellInfo;
     }
-    else {
-      snprintf(buf, 128, "%s", info);
-    }
-    return buf;
-  }
-  else {
+    return &buf[0];
+  } else {
     return GetBuildingInfo_orig(faction, building, withTitle);
   }
 }

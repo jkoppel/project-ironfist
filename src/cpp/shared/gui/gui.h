@@ -95,7 +95,7 @@ void GUIAddFlag(heroWindow*, int, int);
 void GUIRemoveFlag(heroWindow*, int, int);
 void GUISetImgIdx(heroWindow*, int, int);
 void GUISetIcon(heroWindow*, int, char*);
-void GUISetText(heroWindow*, int, char*);
+void GUISetText(heroWindow*, int, const char*);
 void GUIDroplistAdd(heroWindow*, int, char*);
 
 void GUIBroadcastMessage(heroWindow*, int, int, void*);

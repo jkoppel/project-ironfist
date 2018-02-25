@@ -18,7 +18,7 @@ void GUISetIcon(heroWindow* hwnd, int f, char* p) {
 	GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_SET_ICON, (void*)p);
 }
 
-void GUISetText(heroWindow* hwnd, int f, char* p) {
+void GUISetText(heroWindow* hwnd, int f, const char* p) {
 	GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_SET_TEXT, (void*)p);
 }
 
