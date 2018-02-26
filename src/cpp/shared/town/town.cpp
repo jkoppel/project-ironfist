@@ -301,7 +301,7 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 
 void townManager::SetupWell(heroWindow *window) {
   SetupWell_orig(window);
-  if (!gbDisableWell) {
+  if (!IsWellDisabled()) {
     return;
   }
 
@@ -360,7 +360,7 @@ char *__fastcall GetBuildingName(int faction, int building) {
       return gSpecialBuildingNames[faction];
     } else if (building >= BUILDING_DWELLING_1) {
       return gDwellingNames[faction][building - BUILDING_DWELLING_1];
-    } else if (gbDisableWell && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
+    } else if (IsWellDisabled() && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
       static std::string poisonedWellName = "Poisoned Well";
       return &poisonedWellName[0];
     } else {
@@ -370,7 +370,7 @@ char *__fastcall GetBuildingName(int faction, int building) {
 }
 
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
-  if (gbDisableWell && building == BUILDING_WELL) {
+  if (IsWellDisabled() && building == BUILDING_WELL) {
     static std::string buf;
     std::string wellInfo = "The Well provides refreshing drinking water.";
     if (faction == FACTION_NECROMANCER) {

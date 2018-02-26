@@ -83,8 +83,6 @@ IMPORT_?AddManager@executive@@QAEHPAVbaseManager@@H@Z = 1
 ;;init
 IMPORT_?InitMainClasses@@YIXXZ = 1
 IMPORT_?DeleteMainClasses@@YIXXZ = 1
-IMPORT_?InterpretCommandLine@@YIHXZ = 1
-?InterpretCommandLine@@YIHXZ_clone EQU ?InterpretCommandLine_orig@@YIHXZ
 
 ;;allowing play without CD
 IMPORT_?SetupCDDrive@@YIHXZ = 1

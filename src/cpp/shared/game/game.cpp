@@ -9,8 +9,6 @@
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 
-// Set to true to disable +2 growth from the well.
-bool gbDisableWell = false;
 
 // The title screen implements button hovering manually in code, using this data structure
 // x, y, width, height
@@ -144,7 +142,7 @@ void game::PerDay() {
 
 void game::PerWeek() {
   PerWeek_orig();
-  if (!gbDisableWell) {
+  if (!IsWellDisabled()) {
     return;
   }
 
@@ -179,7 +177,7 @@ void game::PerMonth() {
   }
 
   PerMonth_orig();
-  if (!gbDisableWell || giMonthType != 2) {
+  if (!IsWellDisabled() || giMonthType != 2) {
     return;
   }
 
@@ -243,15 +241,20 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
   }
 }
 
-int __fastcall InterpretCommandLine() {
-  const int status = InterpretCommandLine_orig();
-
-  const std::string args(gcCommandLine);
-  if (args.find("/disable-well") != std::string::npos) {
-    gbDisableWell = true;
+bool IsWellDisabled_impl() {
+  const std::string key = "Disable Well";
+  const DWORD wellSetting = read_pref<DWORD>(key);
+  if (wellSetting == DWORD(-1)) {
+    write_pref(key, 0ul);
+    return false;
   }
 
-  return status;
+  return wellSetting == 1;
+}
+
+bool IsWellDisabled() {
+  static const bool isDisabled = IsWellDisabled_impl();
+  return isDisabled;
 }
 
 class philAI {
