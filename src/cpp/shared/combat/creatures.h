@@ -131,6 +131,8 @@ enum CREATURE_EVENT_CODE {
 #define SHADOW_MARK "shadow-mark"
 #define JUMPER "jumper"
 
+extern char *speedText[];
+
 struct tag_monsterInfo
 {
   __int16 cost;

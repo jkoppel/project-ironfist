@@ -18,12 +18,24 @@ void GUISetIcon(heroWindow* hwnd, int f, char* p) {
 	GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_SET_ICON, (void*)p);
 }
 
+void GUISetIcon(heroWindow* hwnd, int f, std::string& p) {
+  GUISetIcon(hwnd, f, &p[0]);
+}
+
 void GUISetText(heroWindow* hwnd, int f, char* p) {
 	GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_SET_TEXT, (void*)p);
 }
 
+void GUISetText(heroWindow* hwnd, int f, std::string& p) {
+  GUISetText(hwnd, f, &p[0]);
+}
+
 void GUIDroplistAdd(heroWindow* hwnd, int f, char* p) {
   GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_DROPLIST_ADD, (void*)p);
+}
+
+void GUIDroplistAdd(heroWindow* hwnd, int f, std::string& p) {
+  GUIDroplistAdd(hwnd, f, &p[0]);
 }
 
 
