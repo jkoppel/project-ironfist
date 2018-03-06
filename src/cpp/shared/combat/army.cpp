@@ -184,6 +184,7 @@ void army::SetChargingMoveAnimation(CHARGING_DIRECTION dir) {
         inAirFrame = 97;
         break;
     }
+	this->creature.creature_flags |= FLYER;
     for(int i = 0; i < 8; i++) {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = inAirFrame;
@@ -200,6 +201,7 @@ void army::RevertChargingMoveAnimation() {
       this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] = 46 + i;
     }
     this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0] = 69;
+	this->creature.creature_flags &= ~FLYER;
   }
 }
 
