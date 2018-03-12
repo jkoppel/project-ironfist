@@ -173,6 +173,8 @@ IMPORT_?CDShutdown@soundManager@@QAEXXZ = 1
 IMPORT_?CDIsPlaying@soundManager@@QAEHXZ = 1
 ?CDIsPlaying@soundManager@@QAEHXZ_clone EQU ?CDIsPlaying_orig@soundManager@@QAEHXZ
 useOpera EQU ?useOpera@@3HA
+IMPORT_?Open@soundManager@@UAEHH@Z = 1
+?Open@soundManager@@UAEHH@Z_clone EQU ?Open_orig@soundManager@@QAEHH@Z
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1

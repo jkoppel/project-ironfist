@@ -12,8 +12,10 @@
 
 #include "base.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 #include "sound/sound.h"
 #include "manager.h"
+#include "prefs.h"
 #include <iostream>
 
 extern int gbNoSound;
@@ -222,4 +224,41 @@ void soundManager::CDPlay(int track_number, signed int a3, int a4, int a5) {
       this->currentTrack = track_number;
     }
   }
+}
+
+int soundManager::Open(int foo) {
+  const DWORD volume = read_pref<DWORD>("Sound Volume");
+  const int origResult = Open_orig(foo);
+  
+  // The following does the same thing the original sound initialization code
+  // did. But for some reason it works here when it didn't before.
+  const int useWaveout = 15;
+  AIL_set_preference(useWaveout, 0);
+
+  WAVEFORMATEX fmt;
+  fmt.wFormatTag = WAVE_FORMAT_PCM;
+  fmt.nChannels = 1;
+  fmt.nSamplesPerSec = 22050;
+  fmt.nAvgBytesPerSec = fmt.nSamplesPerSec;
+  fmt.nBlockAlign = 1;
+  fmt.wBitsPerSample = 8;
+  fmt.cbSize = 0;
+  HDIGDRIVER driver = 0;
+  const int status = AIL_waveOutOpen(&driver, 0, 0, &fmt);
+  if (status == 0) {
+    hdidriver = driver;
+    AllocateSampleHandles();
+  }
+  else {
+    std::string msg = "{Sound Error}\n\n";
+    msg += AIL_last_error();
+    H2MessageBox(msg);
+  }
+
+  if (volume > 0 && volume <= 10) {
+    const int soundEffectsVol0 = 40028;
+    HandleAppSpecificMenuCommands(soundEffectsVol0 + volume);
+  }
+
+  return origResult;
 }

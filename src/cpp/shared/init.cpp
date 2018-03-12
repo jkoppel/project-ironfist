@@ -150,11 +150,9 @@ void __fastcall SetupCDRom() {
 		SetPalette(gPalette->contents, 1);
 		gpMouseManager->ShowColorPointer();
 		gbNoCDRom = 1;
-		int oldNoSound = gbNoSound;
-		gbNoSound = 1;
+		gbNoSound = 0;
 		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
 						"but otherwise, have fun!");
-		gbNoSound = oldNoSound;
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
 						"  Please run the installation program.");
@@ -164,7 +162,6 @@ void __fastcall SetupCDRom() {
 										"Please run the installation program.");
 		exit(0);
 	}
-
 }
 
 int __fastcall SetupCDDrive() {

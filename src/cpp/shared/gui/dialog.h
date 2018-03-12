@@ -47,6 +47,7 @@ extern void __fastcall NormalDialog(char * msg,int,int x,int y,int img1Type,int 
 void __fastcall GetDataEntry(char *,char *,int,char *,int,int);
 
 void H2MessageBox(char* msg);
+void H2MessageBox(std::string &msg);
 bool H2QuestionBox(char* qst);
 char* H2InputBox(char *qst, int len);
 void H2NormalDialog(char* msg, int YESNO, int vertical, int horizontal, int img1type, int img1arg, int img2type, int img2arg, int Or);
