@@ -102,9 +102,9 @@ void bass_play_track(int trknum) {
     return; //this track is already being played
 
   if (!useOpera && trknum >= 4 && trknum <= 9)
-    sprintf(trkbuf, "%s/sw/homm2_%02d.ogg", trkpath, trknum);
+    snprintf(trkbuf, sizeof(trkbuf), "%s/sw/homm2_%02d.ogg", trkpath, trknum);
   else // use opera versions for town screens
-    sprintf(trkbuf, "%s/homm2_%02d.ogg", trkpath, trknum);
+    snprintf(trkbuf, sizeof(trkbuf), "%s/homm2_%02d.ogg", trkpath, trknum);
 
   // preload next chan
   int next = BASS_StreamCreateFile(FALSE, trkbuf, 0, 0, BASS_STREAM_AUTOFREE);
@@ -117,7 +117,7 @@ void bass_play_track(int trknum) {
   QWORD pos = BASS_ChannelGetLength(next, BASS_POS_BYTE);
   int next_len = -1;
   if (pos != -1)
-      next_len = BASS_ChannelBytes2Seconds(next, pos);
+    next_len = static_cast<int>(BASS_ChannelBytes2Seconds(next, pos));
 
   // "jingle"? play it and forget it
   if (next_len <= 10) {
