@@ -1239,7 +1239,8 @@ int army::FlyTo(int hexIdx) {
             currentDrawX = (double)(i + 1) * stepX + (double)v19;
             currentDrawY = (double)(i + 1) * stepY + (double)v14;
           }
-          int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY);
+          const int CHARGE_SPRITE_OFFSET = 10;
+          int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY - CHARGE_SPRITE_OFFSET);
           if(IsEnemyCreatureHex(h))
             chargeAffectedHexes.push_back(h);
         }
