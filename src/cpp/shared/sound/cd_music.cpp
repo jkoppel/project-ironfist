@@ -229,6 +229,11 @@ void soundManager::CDPlay(int track_number, signed int a3, int a4, int a5) {
 int soundManager::Open(int foo) {
   const DWORD volume = read_pref<DWORD>("Sound Volume");
   const int origResult = Open_orig(foo);
+
+  // The original code works on OS earlier than Windows 10.
+  if (hdidriver) {
+    return origResult;
+  }
   
   // The following does the same thing the original sound initialization code
   // did. But for some reason it works here when it didn't before.
