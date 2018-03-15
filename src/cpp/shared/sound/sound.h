@@ -52,6 +52,9 @@ public:
   int ConvertVolume(int, int);
   int ConvertVolume_orig(int, int);
   void ServiceSound();
+  void AllocateSampleHandles();
+  int Open(int);
+  int Open_orig(int);
 };
 
 #pragma pack(pop)
@@ -63,5 +66,12 @@ extern signed char townTheme[];
 
 extern struct SAMPLE2 __fastcall LoadPlaySample(char *);
 extern void __fastcall WaitEndSample(struct SAMPLE2, int);
+
+// Audio Interface Library calls in mss32.dll
+extern "C" {
+  int __stdcall AIL_set_preference(unsigned int number, int value);
+  int __stdcall AIL_waveOutOpen(HDIGDRIVER *drv, void *phWaveOut, int wDeviceID, WAVEFORMATEX *pFormat);
+  char * __stdcall AIL_last_error();
+}
 
 #endif

@@ -164,7 +164,6 @@ void __fastcall SetupCDRom() {
 										"Please run the installation program.");
 		exit(0);
 	}
-
 }
 
 int __fastcall SetupCDDrive() {
