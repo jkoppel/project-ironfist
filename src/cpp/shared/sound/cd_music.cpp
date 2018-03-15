@@ -253,8 +253,7 @@ int soundManager::Open(int foo) {
   if (status == 0) {
     hdidriver = driver;
     AllocateSampleHandles();
-  }
-  else {
+  } else {
     std::string msg = "{Sound Error}\n\n";
     msg += AIL_last_error();
     H2MessageBox(msg);
