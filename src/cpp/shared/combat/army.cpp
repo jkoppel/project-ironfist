@@ -401,6 +401,7 @@ void army::DoAttack(int isRetaliation) {
       && !primaryTarget->effectStrengths[EFFECT_PARALYZE]
       && !primaryTarget->effectStrengths[EFFECT_PETRIFY]
       && (primaryTarget->creatureIdx == CREATURE_GRIFFIN || !(primaryTarget->creature.creature_flags & RETALIATED))
+      && (primaryTarget->creatureIdx != CREATURE_GRIFFIN && !primaryTarget->effectStrengths[EFFECT_PARALYZE])
       && this->creatureIdx != CREATURE_ROGUE
       && this->creatureIdx != CREATURE_SPRITE
       && this->creatureIdx != CREATURE_VAMPIRE
