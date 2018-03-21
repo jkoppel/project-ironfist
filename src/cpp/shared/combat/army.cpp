@@ -427,7 +427,8 @@ void army::DoAttack(int isRetaliation) {
     }
     if ((this->creatureIdx == CREATURE_WOLF
       || this->creatureIdx == CREATURE_PALADIN
-      || this->creatureIdx == CREATURE_CRUSADER)
+      || this->creatureIdx == CREATURE_CRUSADER
+      || this->creatureIdx == CREATURE_GRIFFIN)
       && primaryTarget
       && primaryTarget->quantity > 0
       && !isRetaliation
