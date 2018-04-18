@@ -88,6 +88,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\cpp\editor\hero_edit.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
+    <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\compat.cpp" />
@@ -148,6 +149,7 @@
     <None Include="..\..\asm\editor_imports.inc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
     <ClInclude Include="..\..\rc\editor\resource.h" />
