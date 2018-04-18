@@ -7,7 +7,7 @@ extern void* hInstApp;
 
 void IronfistInit() {
 	LoadCreatures();
-  LoadArtifacts();
+	LoadArtifacts();
 	//LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }
 
