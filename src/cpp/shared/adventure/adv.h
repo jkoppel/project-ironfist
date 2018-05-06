@@ -205,6 +205,8 @@ public:
 
   mapCell *GetCell(int x, int y);
 
+  void EraseObj(mapCell*, int x, int y);
+
   void PurgeMapChangeQueue();
   void CheckSetEvilInterface(int, int);
 
