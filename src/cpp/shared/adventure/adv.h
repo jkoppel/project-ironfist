@@ -218,6 +218,7 @@ public:
   void CastSpell(int);
   void CastSpell_orig(int);
 
+  void CompleteDraw(int);
   void RedrawAdvScreen(int, int);
   void UpdateRadar(int, int);
   void UpdateHeroLocator(int, int, int);

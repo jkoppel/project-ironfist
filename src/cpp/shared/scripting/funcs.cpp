@@ -615,12 +615,24 @@ static int l_mapEraseObj(lua_State *L) {
   int y = (int)luaL_checknumber(L, 2);
   mapCell *cell = gpAdvManager->GetCell(x, y);
   gpAdvManager->EraseObj(cell, x, y);
+  gpAdvManager->CompleteDraw(0);
+  return 0;
+}
+
+static int l_mapSetTerrainTile(lua_State *L) {
+  int x = (int)luaL_checknumber(L, 1);
+  int y = (int)luaL_checknumber(L, 2);
+  int tileno = (int)luaL_checknumber(L, 3);
+  gpAdvManager->GetCell(x, y)->groundIndex = tileno;
+  gpAdvManager->CompleteDraw(0);
+  return 0;
 }
 
 static void register_map_funcs(lua_State *L) {
   lua_register(L, "MapSetObject", l_mapSetObject);
   lua_register(L, "MapPutArmy", l_mapPutArmy);
-  lua_register(L, "MapEraseObect", l_mapEraseObj);
+  lua_register(L, "MapEraseSquare", l_mapEraseObj);
+  lua_register(L, "MapSetTileTerrain", l_mapSetTerrainTile);
 }
 
 /************************************** Town *******************************************/
