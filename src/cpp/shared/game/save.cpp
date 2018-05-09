@@ -299,7 +299,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     cell->hasLateOverlay = cell_xml->hasLateOverlay();
     cell->overlayTileset = cell_xml->overlayTileset();
     cell->overlayIndex = cell_xml->overlayIndex();
-    cell->displayFlags = cell_xml->displayFlags();
+    cell->flags = cell_xml->displayFlags();
     cell->objType = cell_xml->objType();
     cell->extraIdx = cell_xml->extraIdx();
   }
@@ -542,7 +542,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       c->hasLateOverlay,
       c->overlayTileset,
       c->overlayIndex,
-      c->displayFlags,
+      c->flags,
       c->objType,
       c->extraIdx);
     gs.map().back().mapCell().push_back(cell);

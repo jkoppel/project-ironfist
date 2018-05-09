@@ -13,6 +13,16 @@
 
 extern unsigned char gTileTerrainTypes[];
 
+
+enum MAP_CELL_FLAGS : __int8 {
+  MAP_CELL_FLIP_VERTICALLY = 0x01,
+  MAP_CELL_FLIP_HORIZONTALLY = 0x02,
+  MAP_CELL_HAS_ACTIVE_HERO = 0x40,
+};
+
+const int MAP_CELL_NO_FLIP = 0;
+const int MAP_CELL_FLIP_DIAGONALLY = MAP_CELL_FLIP_VERTICALLY | MAP_CELL_FLIP_HORIZONTALLY;
+
 class mapCell {
 public:
   unsigned int groundIndex : 16;
@@ -28,11 +38,13 @@ public:
   unsigned int hasLateOverlay : 1;
   unsigned int overlayTileset : 6;
   signed int overlayIndex : 8;
-  unsigned int displayFlags : 8;
+  unsigned int flags : 8;
   unsigned int objType : 8;
   unsigned int extraIdx : 16;
 
   int getLocationType();
+  void SetTileFlip(__int8);
+
 #ifdef EDITOR
   unsigned int objLink;
   unsigned int ovrLink;
