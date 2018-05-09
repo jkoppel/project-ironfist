@@ -28,7 +28,7 @@ public:
   unsigned int hasLateOverlay : 1;
   unsigned int overlayTileset : 6;
   signed int overlayIndex : 8;
-  unsigned int displayFlags : 8;
+  unsigned int flags : 8;
   unsigned int objType : 8;
   unsigned int extraIdx : 16;
 
