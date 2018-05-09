@@ -634,8 +634,15 @@ static int l_mapSetTerrainTile(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
   int tileno = (int)luaL_checknumber(L, 3);
+
+  __int8 flip = MAP_CELL_NO_FLIP;
+  if (lua_gettop(L) >= 4) {
+    flip = (__int8)luaL_checknumber(L, 4);
+  }
+
   mapCell *cell = gpAdvManager->GetCell(x, y);
   cell->groundIndex = tileno;
+  cell->SetTileFlip(flip);
   gpAdvManager->CompleteDraw(0);
   return 0;
 }
