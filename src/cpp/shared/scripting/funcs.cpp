@@ -610,6 +610,17 @@ static int l_mapPutArmy(lua_State *L) {
   return 1;
 }
 
+/* Note: This doesn't really work, at least not in the way you want
+ * EraseObj has special casing for a number of objects which are normally deleted in the game
+ * (e.g.: monsters, resources, jails). This special casing will make it find other tiles (namely, shadows)
+ * associated with the deleted object and delete them as well.
+ * 
+ * If you try to delete other objects, you will need to manually call this for every single tile -- and
+ * if there are multiple overlays on a tile, you don't control which one is deleted. Furthermore,
+ * if the tile was impassable, it will still be impassable. It appears that the impassability of tiles
+ * is controlled by some mixture of display flag 0x20 (or was it 0x80? I forget) and other stuff
+ * (like whether it has an object?). We still need to figure out exactly how that works.
+ */
 static int l_mapEraseObj(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
@@ -623,7 +634,8 @@ static int l_mapSetTerrainTile(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
   int tileno = (int)luaL_checknumber(L, 3);
-  gpAdvManager->GetCell(x, y)->groundIndex = tileno;
+  mapCell *cell = gpAdvManager->GetCell(x, y);
+  cell->groundIndex = tileno;
   gpAdvManager->CompleteDraw(0);
   return 0;
 }
