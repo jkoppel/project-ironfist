@@ -33,7 +33,7 @@ void advManager::PasswordEvent(mapCell *cell, hero *hero) {
 
 void playerData::SetBarrierTentVisited(int color) {	
 	
-	barrierTentsVisited |= 1 << color;
+	this->barrierTentsVisited |= (1 << color);
 }
  
 int advManager::BarrierEvent(mapCell *cell, hero *hero) {

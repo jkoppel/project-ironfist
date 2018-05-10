@@ -43,7 +43,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>C:\Program Files (x86)\GOG Galaxy\Games\HoMM 2 Gold</OutDir>
+    <OutDir>C:\Users\tornado711\Desktop\Folders\Developer-tools\GitHub\project-ironfist\build</OutDir>
     <TargetName>ironfist</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -514,5 +514,6 @@ void set_scripting_consts(lua_State* L) {
   set_creature_consts(L);
   set_resources_consts(L);
   set_location_consts(L);  
+  set_barriercolor_consts(L);
   
 }
