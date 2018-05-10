@@ -3,6 +3,7 @@
 
 #include "manager.h"
 #include "resource/resources.h"
+#include <string>
 
 #pragma pack(push,1)
 
@@ -52,6 +53,7 @@ public:
 
   heroWindow(int, int, char*);
   int BroadcastMessage(tag_message&);
+  void DrawWindow();
 };
 
 class heroWindowManager : public baseManager
@@ -94,8 +96,11 @@ void GUIAddFlag(heroWindow*, int, int);
 void GUIRemoveFlag(heroWindow*, int, int);
 void GUISetImgIdx(heroWindow*, int, int);
 void GUISetIcon(heroWindow*, int, char*);
+void GUISetIcon(heroWindow*, int, std::string&);
 void GUISetText(heroWindow*, int, char*);
+void GUISetText(heroWindow*, int, std::string&);
 void GUIDroplistAdd(heroWindow*, int, char*);
+void GUIDroplistAdd(heroWindow*, int, std::string&);
 
 void GUIBroadcastMessage(heroWindow*, int, int, void*);
 int GUIGetDropdownSelection(heroWindow*, void*);

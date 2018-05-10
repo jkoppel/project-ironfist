@@ -9,24 +9,27 @@ extern "C" {
 #include "adventure/map.h"
 #include "combat/creatures.h"
 #include "spell/spells.h"
+#include "scripting/lua_utils.h"
 #include "scripting/register.h"
 #include "town/town.h"
 #include "gui/dialog.h"
 
+
+/******************************* GUI *****************************************************/
 
 void set_dialog_consts(lua_State *L) {
 	lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
 	lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
 	lua_setconst(L, "DIALOG_OR", DIALOG_OR);
 	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
-
 }
+
 
 void set_barriercolor_consts(lua_State *L){
 	lua_setconst(L, "AQUA_BARRIER", AQUA_BARRIER);
 }
+void set_messageboxgroups_consts(lua_State *L) {
 
-void set_messageboxgroups_const(lua_State *L) {
 	lua_setconst(L, "IMAGE_EMPTY", IMAGE_EMPTY);
 	lua_setconst(L, "IMAGE_WOOD", IMAGE_WOOD);
 	lua_setconst(L, "IMAGE_MERCURY", IMAGE_MERCURY);
@@ -48,6 +51,13 @@ void set_messageboxgroups_const(lua_State *L) {
 	lua_setconst(L, "IMAGE_GROUP_UNIT", IMAGE_GROUP_UNIT);
 	lua_setconst(L, "IMAGE_GROUP_PRIMARY_SKILLS", IMAGE_GROUP_PRIMARY_SKILLS);
 }
+
+void set_gui_consts(lua_State *L) {
+  set_dialog_consts(L);
+  set_messageboxgroups_consts(L);
+}
+
+/************************************************************************************/
 
 void set_spell_consts(lua_State *L) {
   lua_setconst(L, "SPELL_FIREBALL", SPELL_FIREBALL);
@@ -503,17 +513,30 @@ void set_location_consts(lua_State *L) {
   lua_setconst(L, "LOCATION_JAIL", LOCATION_JAIL);
 }
 
+void set_map_cell_consts(lua_State *L) {
+  lua_setconst(L, "MAP_CELL_NO_FLIP", MAP_CELL_NO_FLIP);
+  lua_setconst(L, "MAP_CELL_FLIP_VERTICALLY", MAP_CELL_FLIP_VERTICALLY);
+  lua_setconst(L, "MAP_CELL_FLIP_HORIZONTALLY", MAP_CELL_FLIP_HORIZONTALLY);
+  lua_setconst(L, "MAP_CELL_FLIP_DIAGONALLY", MAP_CELL_FLIP_DIAGONALLY);
+}
+
+void set_map_consts(lua_State *L) {
+  set_location_consts(L);
+  set_map_cell_consts(L);
+}
+
+/*************************************************************************************/
+
 void set_scripting_consts(lua_State* L) {
-  set_dialog_consts(L);
-  set_messageboxgroups_const(L);
+  set_gui_consts(L);
   set_spell_consts(L);
   set_artifact_consts(L);
   set_town_consts(L);
   set_faction_consts(L);
   set_skill_consts(L);
   set_creature_consts(L);
-  set_resources_consts(L);
   set_location_consts(L);  
   set_barriercolor_consts(L);
-  
+  set_resources_consts(L); 
+  set_map_consts(L);
 }

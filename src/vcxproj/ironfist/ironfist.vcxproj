@@ -61,6 +61,7 @@
       <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ShowIncludes>false</ShowIncludes>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -69,6 +70,7 @@
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmtd.lib;PocoFoundationmtd.lib;xerces-c_static_3D.lib;bass.lib;</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Manifest>
       <AdditionalManifestFiles>
@@ -156,6 +158,7 @@
     <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp" />
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\callback.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\funcs.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\lua_utils.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\consts.cpp" />
@@ -169,6 +172,7 @@
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
+    <ClInclude Include="..\..\cpp\shared\scripting\lua_utils.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />

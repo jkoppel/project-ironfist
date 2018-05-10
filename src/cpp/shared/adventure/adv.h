@@ -177,7 +177,6 @@ public:
   int GetLevel();
   void Clear();
 
-
 };
 
 enum HERO_FLAGS {
@@ -207,6 +206,8 @@ public:
 
   mapCell *GetCell(int x, int y);
 
+  void EraseObj(mapCell*, int x, int y);
+
   void PurgeMapChangeQueue();
   void CheckSetEvilInterface(int, int);
 
@@ -218,6 +219,7 @@ public:
   void CastSpell(int);
   void CastSpell_orig(int);
 
+  void CompleteDraw(int);
   void RedrawAdvScreen(int, int);
   void UpdateRadar(int, int);
   void UpdateHeroLocator(int, int, int);

@@ -12,8 +12,10 @@
 
 #include "base.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 #include "sound/sound.h"
 #include "manager.h"
+#include "prefs.h"
 #include <iostream>
 
 extern int gbNoSound;
@@ -100,9 +102,9 @@ void bass_play_track(int trknum) {
     return; //this track is already being played
 
   if (!useOpera && trknum >= 4 && trknum <= 9)
-    sprintf(trkbuf, "%s/sw/homm2_%02d.ogg", trkpath, trknum);
+    snprintf(trkbuf, sizeof(trkbuf), "%s/sw/homm2_%02d.ogg", trkpath, trknum);
   else // use opera versions for town screens
-    sprintf(trkbuf, "%s/homm2_%02d.ogg", trkpath, trknum);
+    snprintf(trkbuf, sizeof(trkbuf), "%s/homm2_%02d.ogg", trkpath, trknum);
 
   // preload next chan
   int next = BASS_StreamCreateFile(FALSE, trkbuf, 0, 0, BASS_STREAM_AUTOFREE);
@@ -115,7 +117,7 @@ void bass_play_track(int trknum) {
   QWORD pos = BASS_ChannelGetLength(next, BASS_POS_BYTE);
   int next_len = -1;
   if (pos != -1)
-      next_len = BASS_ChannelBytes2Seconds(next, pos);
+    next_len = static_cast<int>(BASS_ChannelBytes2Seconds(next, pos));
 
   // "jingle"? play it and forget it
   if (next_len <= 10) {
@@ -222,4 +224,45 @@ void soundManager::CDPlay(int track_number, signed int a3, int a4, int a5) {
       this->currentTrack = track_number;
     }
   }
+}
+
+int soundManager::Open(int foo) {
+  const DWORD volume = read_pref<DWORD>("Sound Volume");
+  const int origResult = Open_orig(foo);
+
+  // The original code works on OS earlier than Windows 10.
+  if (hdidriver) {
+    return origResult;
+  }
+  
+  // The following does the same thing the original sound initialization code
+  // did. But for some reason it works here when it didn't before.
+  const int useWaveout = 15;
+  AIL_set_preference(useWaveout, 0);
+
+  WAVEFORMATEX fmt;
+  fmt.wFormatTag = WAVE_FORMAT_PCM;
+  fmt.nChannels = 1;
+  fmt.nSamplesPerSec = 22050;
+  fmt.nAvgBytesPerSec = fmt.nSamplesPerSec;
+  fmt.nBlockAlign = 1;
+  fmt.wBitsPerSample = 8;
+  fmt.cbSize = 0;
+  HDIGDRIVER driver = 0;
+  const int status = AIL_waveOutOpen(&driver, 0, 0, &fmt);
+  if (status == 0) {
+    hdidriver = driver;
+    AllocateSampleHandles();
+  } else {
+    std::string msg = "{Sound Error}\n\n";
+    msg += AIL_last_error();
+    H2MessageBox(msg);
+  }
+
+  if (volume > 0 && volume <= 10) {
+    const int soundEffectsVol0 = 40028;
+    HandleAppSpecificMenuCommands(soundEffectsVol0 + volume);
+  }
+
+  return origResult;
 }

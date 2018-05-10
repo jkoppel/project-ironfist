@@ -13,6 +13,12 @@ void H2MessageBox(char* msg) {
 	}
 }
 
+void H2MessageBox(std::string &msg) {
+  if (!msg.empty()) {
+    H2MessageBox(&msg[0]);
+  }
+}
+
 bool H2QuestionBox(char* msg) {
   NormalDialog(msg, DIALOG_YES_NO, -1,-1,-1,0,-1,0,-1,0);
   return gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL;

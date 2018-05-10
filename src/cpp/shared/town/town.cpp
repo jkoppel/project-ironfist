@@ -12,7 +12,8 @@
 #include "spell/spells.h"
 #include "town/town.h"
 
-#include<sstream>
+#include <sstream>
+#include <string>
 
 unsigned long gTownEligibleBuildMask[] = {
   0x3FF8BF9F,
@@ -22,10 +23,6 @@ unsigned long gTownEligibleBuildMask[] = {
   0x35F8BF9F,
   0x1FF8BF9B
 };
-
-int BuildingBuilt(town* twn, int building) {
-	return (twn->buildingsBuiltFlags & (1 << building)) ? 1 : 0;
-}
 
 void game::SetupTowns() {
 
@@ -83,7 +80,7 @@ void game::SetupTowns() {
 			}
 
 			for(int i = BUILDING_UPGRADE_1; i <= BUILDING_UPGRADE_5B; i++ ) {
-				if((1 << i) & castle->buildingsBuiltFlags) {
+				if(castle->BuildingBuilt(i)) {
 					if(i == BUILDING_UPGRADE_5B)
 						castle->buildingsBuiltFlags &= ~((1 << BUILDING_DWELLING_6) | (BUILDING_UPGRADE_5B));
 					else
@@ -91,15 +88,15 @@ void game::SetupTowns() {
 				}
 			}
 
-			for(int i = 0; i <= NUM_DWELLINGS; i++) {
-				if((1 << (i+BUILDING_DWELLING_1) & castle->buildingsBuiltFlags))
+			for(int i = 0; i < NUM_DWELLINGS; i++) {
+				if(castle->DwellingBuilt(i))
 					castle->numCreaturesInDwelling[i] = gMonsterDatabase[gDwellingType[castle->factionID][i]].growth;
 			}
 
-			if(castle->buildingsBuiltFlags & (1 << BUILDING_MAGE_GUILD)) {
+			if(castle->BuildingBuilt(BUILDING_MAGE_GUILD)) {
 				for(int i = 0; i < castle->mageGuildLevel; i++ ) {
 					castle->numSpellsOfLevel[i] = gSpellLimits[i];
-					if(castle->factionID == FACTION_WIZARD && (castle->buildingsBuiltFlags & (1 << BUILDING_SPECIAL)))
+					if(castle->factionID == FACTION_WIZARD && (castle->BuildingBuilt(BUILDING_SPECIAL)))
 						castle->numSpellsOfLevel[i]++;
 				}
 			}
@@ -223,6 +220,37 @@ void town::SetNumSpellsOfLevel(int l, int n) {
 	this->numSpellsOfLevel[l] = n;
 }
 
+bool town::BuildingBuilt(int building) const {
+  if (building < 0 || building >= BUILDING_MAX) {
+    return false;
+  }
+
+  return (buildingsBuiltFlags & (1 << building));
+}
+
+bool town::DwellingBuilt(int index) const
+{
+  if (index < 0 || index >= NUM_DWELLINGS) {
+    return false;
+  }
+
+  return BuildingBuilt(index + BUILDING_DWELLING_1);
+}
+
+int town::DwellingIndex(int tier) const {
+  if (tier < 0 || tier > 5) {
+    return -1;
+  }
+
+  int dwellingIdx = tier;
+  if (tier > 0 && BuildingBuilt(tier + BUILDING_UPGRADE_1 - 1)) {
+    dwellingIdx += 5;
+  }
+  if (tier == 5 && BuildingBuilt(BUILDING_UPGRADE_5B)) {  // Warlock Black Tower
+    dwellingIdx = 11;
+  }
+  return dwellingIdx;
+}
 
 void townManager::SetupMage(heroWindow *mageGuildWindow) {
 	const int SPELL_SCROLLS = 10;
@@ -238,7 +266,7 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 
 	for (int i = 0; i < 5; i++) {
 		for(int j = 0; j < 4; j++) {
-			int hasLibrary = this->castle->factionID == FACTION_WIZARD && BuildingBuilt(this->castle, BUILDING_SPECIAL);
+			int hasLibrary = this->castle->factionID == FACTION_WIZARD && this->castle->BuildingBuilt(BUILDING_SPECIAL);
 
 			if(j < this->castle->numSpellsOfLevel[i]) {
 				GUIAddFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
@@ -271,6 +299,39 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 	GUISetIcon(mageGuildWindow, BUILDING_ICON, gText);
 }
 
+void townManager::SetupWell(heroWindow *window) {
+  SetupWell_orig(window);
+  if (!IsWellDisabled()) {
+    return;
+  }
+
+  for (int tier = 0; tier < 6; ++tier) {
+    const int dwellingIdx = castle->DwellingIndex(tier);
+    const tag_monsterInfo &mon = gMonsterDatabase[gDwellingType[castle->factionID][dwellingIdx]];
+
+    std::ostringstream desc;
+    desc << "Attack: " << int(mon.attack)
+      << "\nDefense: " << int(mon.defense)
+      << "\nDmg: " << int(mon.min_damage) << '-' << int(mon.max_damage)
+      << "\nHP: " << mon.hp
+      << "\n\nSpeed:\n" << speedText[mon.speed];
+
+    if (castle->DwellingBuilt(dwellingIdx)) {
+      // Original code added +2 for the Well here.
+      int growth = mon.growth;
+      if (tier == 0 && castle->BuildingBuilt(BUILDING_SPECIAL_GROWTH)) {
+        growth += 8;
+      }
+      desc << "\n\nGrowth\n + " << growth << " / week";
+    }
+
+    // Overwrite the text the original code sent for each creature's
+    // description field in the Well window.
+    GUISetText(window, 25 + tier, desc.str());
+  }
+}
+
+
 int townManager::RecruitHero(int id, int x) {
 	 /*
 	  * The original RecruitHero will give heroes their movement points back.
@@ -290,18 +351,42 @@ int townManager::RecruitHero(int id, int x) {
 }
 
 char *__fastcall GetBuildingName(int faction, int building) {
-  if(faction == FACTION_NECROMANCER && building == BUILDING_TAVERN) {
+  if (faction == FACTION_NECROMANCER && building == BUILDING_TAVERN) {
     return xNecromancerShrine;
   } else {
-    if(building == BUILDING_SPECIAL_GROWTH) {
+    if (building == BUILDING_SPECIAL_GROWTH) {
       return gWellExtraNames[faction];
-    } else if(building == BUILDING_SPECIAL) {
+    } else if (building == BUILDING_SPECIAL) {
       return gSpecialBuildingNames[faction];
-    } else if(building >= BUILDING_DWELLING_1) {
-      return gDwellingNames[faction][building-BUILDING_DWELLING_1];
+    } else if (building >= BUILDING_DWELLING_1) {
+      return gDwellingNames[faction][building - BUILDING_DWELLING_1];
+    } else if (IsWellDisabled() && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
+      static std::string poisonedWellName = "Poisoned Well";
+      return &poisonedWellName[0];
     } else {
       return gNeutralBuildingNames[building];
     }
+  }
+}
+
+char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
+  if (IsWellDisabled() && building == BUILDING_WELL) {
+    static std::string buf;
+    std::string wellInfo = "The Well provides refreshing drinking water.";
+    if (faction == FACTION_NECROMANCER) {
+      wellInfo = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
+    }
+
+    if (withTitle) {
+      buf = "{";
+      buf += GetBuildingName(faction, building);
+      buf += "}\n\n" + wellInfo;
+    } else {
+      buf = wellInfo;
+    }
+    return &buf[0];
+  } else {
+    return GetBuildingInfo_orig(faction, building, withTitle);
   }
 }
 

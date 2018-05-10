@@ -119,7 +119,8 @@ char *gArtifactNames[] = {
 	"Sword Breaker",
 	"Sword of Anduran",
 	"Spade of Necromancy",
-	"Pandora's Box"
+	"Pandora's Box",
+    "Iron Fist"
 };
 
 char *gArtifactDesc[] =
@@ -228,6 +229,7 @@ char *gArtifactDesc[] =
 	"{Sword of Anduran}\n\nThe Sword increases your attack skill by 5.",
 	"{Spade of Necromancy}\n\nThe Spade gives you increased necromancy skill.",
 	"{Pandora's Box}\n\nPandora's Box gives your hero's army a random stack of level 1 creatures for the duration of each battle.",
+    "{Iron Fist}\n\nThe Iron Fist is a snazzy accessory to go with your helmet and boots.",
 };
 
 char* gArtifactEvents[] =
@@ -335,7 +337,8 @@ char* gArtifactEvents[] =
 	"A former Captain of the Guard admires your quest and gives you the enchanted Sword Breaker that he relied on during his tour of duty.",
 	"A Troll stops you and says: \"Pay me 5,000 gold, or the Sword of Anduran will slay you where you stand.\"  You refuse.  The troll grabs the sword hanging from its belt, screams in pain, and runs away.  Picking up the fabled sword, you give thanks that half-witted Trolls tend to grab the wrong end of sharp objects.",
 	"A dirty shovel has been thrust into a dirt mound nearby. Upon investigation, you discover it to be the enchanted shovel of the Gravediggers, long thought lost by mortals.",
-	"You pass by a chest lying under a tree. Suddenly, a goblin jumps out of the chest and shrieks. Before it can raise its club, you grab it and throw it back in the chest, and tie it sealed with rope."
+	"You pass by a chest lying under a tree. Suddenly, a goblin jumps out of the chest and shrieks. Before it can raise its club, you grab it and throw it back in the chest, and tie it sealed with rope.",
+    "You get a sudden urge to dig where you are standing. You dig and find a glistening metal gauntlet, mysteriously untouched by dirt. As you touch it, it leaps up and fuses itself onto your arm."
 };
 
 unsigned char gArtifactLevel[] =
@@ -443,5 +446,6 @@ unsigned char gArtifactLevel[] =
   2,
   2,
   4,
-  4
+  4,
+  2
 };
