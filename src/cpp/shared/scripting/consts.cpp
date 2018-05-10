@@ -27,6 +27,13 @@ void set_dialog_consts(lua_State *L) {
 
 void set_barriercolor_consts(lua_State *L){
 	lua_setconst(L, "AQUA_BARRIER", AQUA_BARRIER);
+	lua_setconst(L, "BLUE_BARRIER", BLUE_BARRIER);
+	lua_setconst(L, "RED_BARRIER", RED_BARRIER);
+	lua_setconst(L, "ORANGE_BARRIER", ORANGE_BARRIER);
+	lua_setconst(L, "BROWN_BARRIER", BROWN_BARRIER);
+	lua_setconst(L, "PURPLE_BARRIER", PURPLE_BARRIER);
+	lua_setconst(L, "GOLD_BARRIER", GOLD_BARRIER);
+	lua_setconst(L, "GREEN_BARRIER", GREEN_BARRIER);
 }
 void set_messageboxgroups_consts(lua_State *L) {
 
