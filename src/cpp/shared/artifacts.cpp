@@ -22,15 +22,15 @@
 namespace {
   const int NUM_SUPPORTED_ARTIFACTS = 256;
 
-  int TotalArtifacts(const artifacts::artifact_sequence &artifactList) {
-    int numArtifacts = 0;
+  int MaxArtifactId(const artifacts::artifact_sequence &artifactList) {
+    int maxId = -1;
     for (const auto &art : artifactList) {
       const int i = art.id();
-      if (i > numArtifacts && i < NUM_SUPPORTED_ARTIFACTS) {
-        numArtifacts = i;
+      if (i > maxId && i < NUM_SUPPORTED_ARTIFACTS) {
+        maxId = i;
       }
     }
-    return numArtifacts + 1;
+    return maxId;
   }
 
   template <typename T>
@@ -58,14 +58,14 @@ void LoadArtifacts() {
   auto allArtifacts = artifacts_("./DATA/artifacts.xml");
   const auto &artifactList = allArtifacts->artifact();
 
-  const int numArtifacts = TotalArtifacts(artifactList);
-  names.resize(numArtifacts);
-  descriptions.resize(numArtifacts);
-  events.resize(numArtifacts);
+  const int artSize = MaxArtifactId(artifactList) + 1;
+  names.resize(artSize);
+  descriptions.resize(artSize);
+  events.resize(artSize);
 
   for (const auto &art : artifactList) {
     const int i = art.id();
-    if (i < 0 || i >= numArtifacts) {
+    if (i < 0 || i >= artSize) {
       continue;
     }
 
@@ -84,6 +84,9 @@ void LoadArtifacts() {
     events[i] = JoinSequence(art.event());
     gArtifactEvents[i] = &(events[i][0]);
 
+    // See level_t::value for the different levels here.  Ultimate artifacts
+    // get level 0, major level 1, etc.  But the game expects values of 1, 2, 4, 8, etc.,
+    // so we need 2^level to get the right number.
     const auto lvl = static_cast<unsigned char>(std::pow(2, static_cast<int>(art.level())));
     gArtifactLevel[i] = lvl;
   }
