@@ -41,6 +41,24 @@ namespace {
     }
     return ret;
   }
+
+  int GetArtifactLevel(level_t::value lvl) {
+    switch (lvl) {
+    case level_t::ultimate:
+      return 1;
+    case level_t::major:
+      return 2;
+    case level_t::minor:
+      return 4;
+    case level_t::treasure:
+      return 8;
+    case level_t::spellbook:
+      return 16;
+    case level_t::unused:
+    default:
+      return 32;
+    }
+  }
 }
 
 
@@ -84,10 +102,6 @@ void LoadArtifacts() {
     events[i] = JoinSequence(art.event());
     gArtifactEvents[i] = &(events[i][0]);
 
-    // See level_t::value for the different levels here.  Ultimate artifacts
-    // get level 0, major level 1, etc.  But the game expects values of 1, 2, 4, 8, etc.,
-    // so we need 2^level to get the right number.
-    const auto lvl = static_cast<unsigned char>(std::pow(2, static_cast<int>(art.level())));
-    gArtifactLevel[i] = lvl;
+    gArtifactLevel[i] = GetArtifactLevel(art.level());
   }
 }
