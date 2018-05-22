@@ -1,11 +1,13 @@
 #include "combat/creatures.h"
 #include "scripting/scripting.h"
+#include "artifacts.h"
 #include "windows.h"
 
 extern void* hInstApp;
 
 void IronfistInit() {
 	LoadCreatures();
+	LoadArtifacts();
 	//LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }
 

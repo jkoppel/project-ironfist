@@ -110,5 +110,6 @@ enum ARTIFACT {
   ARTIFACT_PANDORA_BOX = 103,
 };
 
+void LoadArtifacts();
 
 #endif

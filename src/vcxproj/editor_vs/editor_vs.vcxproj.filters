@@ -213,6 +213,9 @@
     <ClCompile Include="..\..\cpp\editor\hero_edit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx">
+      <Filter>Source Files\shared</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\editor_imports.inc">
@@ -366,6 +369,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\gui\msg.h">
       <Filter>Header Files\shared\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx">
+      <Filter>Header Files\shared</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

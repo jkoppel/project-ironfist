@@ -1,0 +1,520 @@
+<?xml version="1.0"?>
+<artifacts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:noNamespaceSchemaLocation="artifacts_xml.xsd">
+    <artifact id="0" name="Ultimate Book of Knowledge" level="ultimate">
+        <title>Ultimate Book&#10;(+12 Knowledge)</title>
+        <description>The Ultimate Book of Knowledge increases your knowledge by 12.</description>
+    </artifact>
+    <artifact id="1" name="Ultimate Sword of Dominion" level="ultimate">
+        <title>Ultimate Sword&#10;(+12 Attack)</title>
+        <description>The Ultimate Sword of Dominion increases your attack skill by 12.</description>
+    </artifact>
+    <artifact id="2" name="Ultimate Cloak of Protection" level="ultimate">
+        <title>Ultimate Cloak&#10;(+12 Defense)</title>
+        <description>The Ultimate Cloak of Protection increases your defense skill by 12.</description>
+    </artifact>
+    <artifact id="3" name="Ultimate Wand of Magic" level="ultimate">
+        <title>Ultimate Wand&#10;(+12 Spell Power)</title>
+        <description>The Ultimate Wand of Magic increases your spell power by 12.</description>
+    </artifact>
+    <artifact id="4" name="Ultimate Shield" level="ultimate">
+        <title>Ultimate Shield</title>
+        <description>The Ultimate Shield increases your attack and defense skills by 6 each.</description>
+    </artifact>
+    <artifact id="5" name="Ultimate Staff" level="ultimate">
+        <title>Ultimate Staff</title>
+        <description>The Ultimate Staff increases your spell power and knowledge by 6 each.</description>
+    </artifact>
+    <artifact id="6" name="Ultimate Crown" level="ultimate">
+        <title>Ultimate Crown</title>
+        <description>The Ultimate Crown increases each of your basic skills by 4 points.</description>
+    </artifact>
+    <artifact id="7" name="Golden Goose" level="ultimate">
+        <title>Golden Goose</title>
+        <description>The Golden Goose brings in an income of 10,000 gold per turn.</description>
+    </artifact>
+    <artifact id="8" name="Arcane Necklace of Magic" level="major">
+        <title>Arcane Necklace&#10;(+4 Spell Power)</title>
+        <description>The Arcane Necklace of Magic increases your spell power by 4.</description>
+        <event>After rescuing a Sorceress from a cursed tomb, she rewards your heroism with an exquisite jeweled necklace.</event>
+    </artifact>
+    <artifact id="9" name="Caster's Bracelet of Magic" level="minor">
+        <title>Caster's Bracelet&#10;(+2 Spell Power)</title>
+        <description>The Caster's Bracelet of Magic increases your spell power by 2.</description>
+        <event>While searching through the rubble of a caved-in mine, you free a group of trapped Dwarves.  Grateful, the leader gives you a golden bracelet.</event>
+    </artifact>
+    <artifact id="10" name="Mage's Ring of Power" level="minor">
+        <title>Mage's Ring&#10;(+2 Spell Power)</title>
+        <description>The Mage's Ring of Power increases your spell power by 2.</description>
+        <event>A cry of pain leads you to a Centaur, caught in a trap.  Upon setting the creature free, he hands you a small pouch.  Emptying the contents, you find a dazzling jeweled ring.</event>
+    </artifact>
+    <artifact id="11" name="Witch's Broach of Magic" level="major">
+        <title>Witches Broach&#10;(+3 Spell Power)</title>
+        <description>The Witch's Broach of Magic increases your spell power by 3.</description>
+        <event>Alongside the remains of a burnt witch lies a beautiful broach, intricately designed.  Approaching the corpse with caution, you add the broach to your inventory.</event>
+    </artifact>
+    <artifact id="12" name="Medal of Valor" level="treasure">
+        <title>Medal</title>
+        <description>The Medal of Valor increases your morale.</description>
+        <event>Freeing a virtuous maiden from the clutches of an evil overlord, you are granted a Medal of Valor by the King's herald.</event>
+    </artifact>
+    <artifact id="13" name="Medal of Courage" level="treasure">
+        <title>Medal</title>
+        <description>The Medal of Courage increases your morale.</description>
+        <event>After saving a young boy from a vicious pack of Wolves, you return him to his father's manor.  The grateful nobleman awards you with a Medal of Courage.</event>
+    </artifact>
+    <artifact id="14" name="Medal of Honor" level="treasure">
+        <title>Medal</title>
+        <description>The Medal of Honor increases your morale.</description>
+        <event>After freeing a princess of a neighboring kingdom from the evil clutches of despicable slavers, she awards you with a Medal of Honor.</event>
+    </artifact>
+    <artifact id="15" name="Medal of Distinction" level="treasure">
+        <title>Medal</title>
+        <description>The Medal of Distinction increases your morale.</description>
+        <event>Ridding the countryside of the hideous Minotaur who made a sport of eating noblemen's Knights, you are honored with the Medal of Distinction.</event>
+    </artifact>
+    <artifact id="16" name="Fizbin of Misfortune" level="treasure">
+        <title>Fizbin</title>
+        <description>The Fizbin of Misfortune greatly decreases your morale.</description>
+        <event>You stumble upon a medal lying alongside the empty road.  Adding the medal to your inventory, you become aware that you have acquired the undesirable Fizbin of Misfortune, greatly decreasing your army's morale.</event>
+    </artifact>
+    <artifact id="17" name="Thunder Mace of Dominion" level="treasure">
+        <title>Thunder Mace&#10;(+1 Attack)</title>
+        <description>The Thunder Mace of Dominion increases your attack skill by 1.</description>
+        <event>During a sudden storm, a bolt of lightning strikes a tree, splitting it.  Inside the tree you find a mysterious mace.</event>
+    </artifact>
+    <artifact id="18" name="Armored Gauntlets of Protection" level="treasure">
+        <title>Armored Gauntlets&#10;(+1 Defense)</title>
+        <description>The Armored Gauntlets of Protection increase your defense skill by 1.</description>
+        <event>You encounter the infamous Black Knight!  After a grueling duel ending in a draw, the Knight, out of respect, offers you a pair of armored gauntlets.</event>
+    </artifact>
+    <artifact id="19" name="Defender Helm of Protection" level="treasure">
+        <title>Defender Helm&#10;(+1 Defense)</title>
+        <description>The Defender Helm of Protection increases your defense skill by 1.</description>
+        <event>A glint of golden light catches your eye.  Upon further investigation, you find a golden helm hidden under a bush.</event>
+    </artifact>
+    <artifact id="20" name="Giant Flail of Dominion" level="treasure">
+        <title>Giant Flail&#10;(+1 Attack)</title>
+        <description>The Giant Flail of Dominion increases your attack skill by 1.</description>
+        <event>A clumsy Giant has killed himself with his own flail.  Knowing your superior skill with this weapon, you confidently remove the spectacular flail from the fallen Giant.</event>
+    </artifact>
+    <artifact id="21" name="Ballista of Quickness" level="major">
+        <title>Ballista</title>
+        <description>The Ballista of Quickness lets your catapult fire twice per combat round.</description>
+        <event>Walking through the ruins of an ancient walled city, you find the instrument of the city's destruction, an elaborately crafted ballista.</event>
+    </artifact>
+    <artifact id="22" name="Stealth Shield of Protection" level="minor">
+        <title>Stealth Shield&#10;(+2 Defense)</title>
+        <description>The Stealth Shield of Protection increases your defense skill by 2.</description>
+        <event>A stone statue of a warrior holds a silver shield.  As you remove the shield, the statue crumbles into dust.</event>
+    </artifact>
+    <artifact id="23" name="Dragon Sword of Dominion" level="major">
+        <title>Dragon Sword&#10;(+3 Attack)</title>
+        <description>The Dragon Sword of Dominion increases your attack skill by 3.</description>
+        <event>As you are walking along a narrow path, a nearby bush suddenly bursts into flames.  Before your eyes the flames become the image of a beautiful woman.  She holds out a magnificent sword to you.</event>
+    </artifact>
+    <artifact id="24" name="Power Axe of Dominion" level="minor">
+        <title>Power Axe&#10;(+2 Attack)</title>
+        <description>The Power Axe of Dominion increases your attack skill by 2.</description>
+        <event>You see a silver axe embedded deeply in the ground.  After several unsuccessful attempts by your army to remove the axe, you tightly grip the handle of the axe and effortlessly pull it free.</event>
+    </artifact>
+    <artifact id="25" name="Divine Breastplate of Protection" level="major">
+        <title>Divine Breastplate&#10;(+3 Defense)</title>
+        <description>The Divine Breastplate of Protection increases your defense skill by 3.</description>
+        <event>A gang of Rogues is sifting through the possessions of dead warriors.  Scaring off the scavengers, you note the Rogues had overlooked a beautiful breastplate.</event>
+    </artifact>
+    <artifact id="26" name="Minor Scroll of Knowledge" level="minor">
+        <title>Minor Scroll&#10;(+2 Knowledge)</title>
+        <description>The Minor Scroll of Knowledge increases your knowledge by 2.</description>
+        <event>Before you appears a levitating glass case with a scroll, perched upon a bed of crimson velvet.  At your touch, the lid opens and the scroll floats into your awaiting hands.</event>
+    </artifact>
+    <artifact id="27" name="Major Scroll of Knowledge" level="major">
+        <title>Major Scroll&#10;(+3 Knowledge)</title>
+        <description>The Major Scroll of Knowledge increases your knowledge by 3.</description>
+        <event>Visiting a local wiseman, you explain the intent of your journey.  He reaches into a sack and withdraws a yellowed scroll and hands it to you.</event>
+    </artifact>
+    <artifact id="28" name="Superior Scroll of Knowledge" level="major">
+        <title>Superior Scroll&#10;(+4 Knowledge)</title>
+        <description>The Superior Scroll of Knowledge increases your knowledge by 4.</description>
+        <event>You come across the remains of an ancient Druid.  Bones, yellowed with age, peer from the ragged folds of her robe.  Searching the robe, you discover a scroll hidden in the folds.</event>
+    </artifact>
+    <artifact id="29" name="Foremost Scroll of Knowledge" level="major">
+        <title>Foremost Scroll&#10;(+5 Knowledge)</title>
+        <description>The Foremost Scroll of Knowledge increases your knowledge by 5.</description>
+        <event>Mangled bones, yellowed with age, peer from the ragged folds of a dead Druid's robe.  Searching the robe, you discover a scroll hidden within.</event>
+    </artifact>
+    <artifact id="30" name="Endless Sack of Gold" level="major">
+        <title>Endless Sack</title>
+        <description>The Endless Sack of Gold provides you with 1000 gold per day.</description>
+        <event>A little leprechaun dances gleefully around a magic sack.  Seeing you approach, he stops in mid-stride.  The little man screams and stamps his foot ferociously, vanishing into thin air.  Remembering the old leprechaun saying 'Finders Keepers', you grab the sack and leave.</event>
+    </artifact>
+    <artifact id="31" name="Endless Bag of Gold" level="major">
+        <title>Endless Bag</title>
+        <description>The Endless Bag of Gold provides you with 750 gold per day.</description>
+        <event>A noblewoman, separated from her traveling companions, asks for your help.  After escorting her home, she rewards you with a bag filled with gold.</event>
+    </artifact>
+    <artifact id="32" name="Endless Purse of Gold" level="minor">
+        <title>Endless Purse</title>
+        <description>The Endless Purse of Gold provides you with 500 gold per day.</description>
+        <event>In your travels, you find a leather purse filled with gold that once belonged to a great warrior king who had the ability to transform any inanimate object into gold.</event>
+    </artifact>
+    <artifact id="33" name="Nomad Boots of Mobility" level="major">
+        <title>Nomad Boots</title>
+        <description>The Nomad Boots of Mobility increase your movement on land.</description>
+        <event>A Nomad trader seeks protection from a tribe of Goblins.  For your assistance, he gives you a finely crafted pair of boots made from the softest leather.  Looking closely, you see fascinating ancient carvings engraved on the leather.</event>
+    </artifact>
+    <artifact id="34" name="Traveler's Boots of Mobility" level="major">
+        <title>Traveler's Boots</title>
+        <description>The Traveler's Boots of Mobility increase your movement on land.</description>
+        <event>Discovering a pair of beautifully beaded boots made from the finest and softest leather, you thank the anonymous donor and add the boots to your inventory.</event>
+    </artifact>
+    <artifact id="35" name="Lucky Rabbit's Foot" level="treasure">
+        <title>Rabbit's Foot</title>
+        <description>The Lucky Rabbit's Foot increases your luck in combat.</description>
+        <event>A traveling merchant offers you a rabbit's foot, made of gleaming silver fur, for safe passage.  The merchant explains the charm will increase your luck in combat.</event>
+    </artifact>
+    <artifact id="36" name="Golden Horseshoe" level="treasure">
+        <title>Horseshoe</title>
+        <description>The Golden Horseshoe increases your luck in combat.</description>
+        <event>An ensnared Unicorn whinnies in fright.  Murmuring soothing words, you set her free.  Snorting and stamping her front hoof once, she gallops off.  Looking down you see a golden horseshoe.</event>
+    </artifact>
+    <artifact id="37" name="Gambler's Lucky Coin" level="treasure">
+        <title>Coin</title>
+        <description>The Gambler's Lucky Coin increases your luck in combat.</description>
+        <event>You have captured a mischievous imp who has been terrorizing the region.  In exchange for his release, he rewards you with a magical coin.</event>
+    </artifact>
+    <artifact id="38" name="Four-Leaf Clover" level="treasure">
+        <title>Clover</title>
+        <description>The Four-Leaf Clover increases your luck in combat.</description>
+        <event>In the middle of a patch of dead and dry vegetation, to your surprise you find a healthy green four-leaf clover.</event>
+    </artifact>
+    <artifact id="39" name="True Compass of Mobility" level="major">
+        <title>Compass</title>
+        <description>The True Compass of Mobility increases your movement on land and sea.</description>
+        <event>An old man claiming to be an inventor asks you to try his latest invention.  He then hands you a compass.</event>
+    </artifact>
+    <artifact id="40" name="Sailor's Astrolabe of Mobility" level="minor">
+        <title>Astrolabe</title>
+        <description>The Sailors' Astrolabe of Mobility increases your movement on sea.</description>
+        <event>An old sea captain is being tortured by Ogres.  You save him, and in return he rewards you with a wondrous instrument to measure the distance of a star.</event>
+    </artifact>
+    <artifact id="41" name="Evil Eye" level="minor">
+        <title>Evil Eye</title>
+        <description>The Evil Eye reduces the casting cost of curse spells by half.</description>
+        <event>While venturing into a decrepit hut you find the Skeleton of a long dead witch.  Investigation of the remains reveals a glass eye rolling around inside an empty skull.</event>
+    </artifact>
+    <artifact id="42" name="Enchanted Hourglass" level="treasure">
+        <title>Enchanted hourglass</title>
+        <description>The Enchanted Hourglass extends the duration of all your spells by 2 turns.</description>
+        <event>A surprise turn in the landscape finds you in the midst of a grisly scene:  Vultures picking at the aftermath of a terrible battle.  Your cursory search of the remains turns up an enchanted hourglass.</event>
+    </artifact>
+    <artifact id="43" name="Gold Watch" level="minor">
+        <title>Gold watch</title>
+        <description>The Gold Watch doubles the effectiveness of your hypnotize spells.</description>
+        <event>In reward for helping his cart out of a ditch, a traveling potion salesman gives you a "magic" gold watch.  Unbeknownst to him, the watch really is magical.</event>
+    </artifact>
+    <artifact id="44" name="Skullcap" level="minor">
+        <title>Skullcap</title>
+        <description>The Skullcap halves the casting cost of all mind influencing spells.</description>
+        <event>A brief stop at an improbable rural inn yields an exchange of money, tales, and accidentally, luggage.  You find a magical skullcap in your new backpack.</event>
+    </artifact>
+    <artifact id="45" name="Ice Cloak" level="treasure">
+        <title>Ice cloak</title>
+        <description>The Ice Cloak halves all damage your troops take from cold spells.</description>
+        <event>Responding to the panicked cries of a damsel in distress, you discover a young woman fleeing from a hungry bear.  You slay the beast in the nick of time, and the grateful Sorceress weaves a magic cloak from the bear's hide.</event>
+    </artifact>
+    <artifact id="46" name="Fire Cloak" level="treasure">
+        <title>Fire cloak</title>
+        <description>The Fire Cloak halves all damage your troops take from fire spells.</description>
+        <event>You've come upon a fight between a Necromancer and a Paladin.  The Necromancer blasts the Paladin with a fire bolt, bringing him to his knees.  Acting quickly, you slay the evil one before the final blow.  The grateful Paladin gives you the fire cloak that saved him.</event>
+    </artifact>
+    <artifact id="47" name="Lightning Helm" level="treasure">
+        <title>Lightning helm</title>
+        <description>The Lightning Helm halves all damage your troops take from lightning spells.</description>
+        <event>A traveling tinker in need of supplies offers you a helm with a thunderbolt design on its top in exchange for food and water.  Curious, you accept, and later find out that the helm is magical.</event>
+    </artifact>
+    <artifact id="48" name="Evercold Icicle" level="minor">
+        <title>Evercold icicle</title>
+        <description>The Evercold Icicle causes your cold spells to do 50% more damage to enemy troops.</description>
+        <event>An icicle withstanding the full heat of the noonday sun attracts your attention.  Intrigued, you break it off, and find that it does not melt in your hand.</event>
+    </artifact>
+    <artifact id="49" name="Everhot Lava Rock" level="minor">
+        <title>Everhot lava rock</title>
+        <description>The Everhot Lava Rock causes your fire spells to do 50% more damage to enemy troops.</description>
+        <event>Your wanderings bring you into contact with a tribe of ape-like beings using a magical lava rock that never cools to light their fires.  You take pity on them and teach them to make fire with sticks.  Believing you to be a god, the apes give you their rock.</event>
+    </artifact>
+    <artifact id="50" name="Lightning Rod " level="minor">
+        <title>Lightning rod </title>
+        <description>The Lightning Rod causes your lightning spells to do 50% more damage to enemy troops.</description>
+        <event>While waiting out a storm, a lighting bolt strikes a nearby cottage's lightning rod, which melts and falls to the ground.  The tip of the rod, however, survives intact and makes your hair stand on end when you touch it.  Hmm...</event>
+    </artifact>
+    <artifact id="51" name="Snake-Ring" level="treasure">
+        <title>Snake-ring</title>
+        <description>The Snake Ring halves the casting cost of all your bless spells.</description>
+        <event>You've found an oddly shaped ring on the finger of a long dead traveler.  The ring looks like a snake biting its own tail.</event>
+    </artifact>
+    <artifact id="52" name="Ankh" level="minor">
+        <title>Ankh</title>
+        <description>The Ankh doubles the effectiveness of all your resurrect and animate spells.</description>
+        <event>A fierce windstorm reveals the entrance to a buried tomb.  Your investigation reveals that the tomb has already been looted, but the thieves overlooked an ankh on a silver chain in the dark.</event>
+    </artifact>
+    <artifact id="53" name="Book of Elements" level="minor">
+        <title>Book of Elements</title>
+        <description>The Book of Elements doubles the effectiveness of all your summoning spells.</description>
+        <event>You come across a conjurer who begs to accompany you and your army awhile for safety.  You agree, and he offers as payment a copy of the book of the elements.</event>
+    </artifact>
+    <artifact id="54" name="Elemental Ring" level="minor">
+        <title>Elemental ring</title>
+        <description>The Elemental Ring halves the casting cost of all summoning spells.</description>
+        <event>While pausing to rest, you notice a bobcat climbing a short tree to get at a crow's nest.  On impulse, you climb the tree yourself and scare off the cat.  When you look in the nest, you find a collection of shiny stones and a ring.</event>
+    </artifact>
+    <artifact id="55" name="Holy Pendant" level="treasure">
+        <title>Holy Pendant</title>
+        <description>The Holy Pendant makes all your troops immune to curse spells.</description>
+        <event>In your wanderings you come across a hermit living in a small, tidy hut.  Impressed with your mission, he takes time out from his meditations to bless and give you a charm against curses.</event>
+    </artifact>
+    <artifact id="56" name="Pendant of Free Will" level="treasure">
+        <title>Pendant of free will</title>
+        <description>The Pendant of Free Will makes all your troops immune to hypnotize spells.</description>
+        <event>Responding to cries for help, you find river Sprites making a sport of dunking an old man.  Feeling vengeful, you rescue the man and drag a Sprite onto dry land for awhile.  The Sprite, uncomfortable in the air, gives you a magic pendant to let him go.</event>
+    </artifact>
+    <artifact id="57" name="Pendant of Life" level="treasure">
+        <title>Pendant of life</title>
+        <description>The Pendant of Life makes all your troops immune to death spells.</description>
+        <event>A brief roadside encounter with a small caravan and a game of knucklebones wins a magic pendant.  Its former owner says that it protects from Necromancers' death spells.</event>
+    </artifact>
+    <artifact id="58" name="Serenity Pendant" level="treasure">
+        <title>Serenity pendant</title>
+        <description>The Serenity Pendant makes all your troops immune to berserk spells.</description>
+        <event>The sounds of combat draw you to the scene of a fight between an old Barbarian and an eight-headed Hydra.  Your timely intervention swings the battle in favor of the man, and he rewards you with a pendant he used to use to calm his mind for battle.</event>
+    </artifact>
+    <artifact id="59" name="Seeing-eye Pendant" level="treasure">
+        <title>Seeing-eye pendant</title>
+        <description>The Seeing-eye Pendant makes all your troops immune to blindness spells.</description>
+        <event>You come upon a very old woman, long blind from cataracts and dying alone.  You tend to her final needs and promise a proper burial.  Grateful, she gives you a magic pendant emblazoned with a stylized eye.  It lets you see with your eyes closed.</event>
+    </artifact>
+    <artifact id="60" name="Kinetic Pendant" level="treasure">
+        <title>Kinetic pendant</title>
+        <description>The Kinetic Pendant makes all your troops immune to paralyze spells.</description>
+        <event>You come across a golem wearing a glowing pendant and blocking your way.   Acting on a hunch, you cut the pendant from its neck.  Deprived of its power source, the golem breaks down, leaving you with the magical pendant.</event>
+    </artifact>
+    <artifact id="61" name="Pendant of Death" level="treasure">
+        <title>Pendant of death</title>
+        <description>The Pendant of Death makes all your troops immune to holy spells.</description>
+        <event>A quick and deadly battle with a Necromancer wins you his magical pendant.  Later, a Wizard tells you that the pendant protects undead under your control from holy word spells.</event>
+    </artifact>
+    <artifact id="62" name="Wand of Negation" level="major">
+        <title>Wand of negation</title>
+        <description>The Wand of Negation protects your troops from the Dispel Magic spell.</description>
+        <event>You meet an old Wizard friend of yours traveling in the opposite direction.  He presents  you with a gift:  A wand that prevents the use of the dispel magic spell on your allies.</event>
+    </artifact>
+    <artifact id="63" name="Golden Bow" level="treasure">
+        <title>Golden bow</title>
+        <description>The Golden Bow eliminates the 50% penalty for your troops shooting past obstacles. (e.g. castle walls)</description>
+        <event>A chance meeting with a famous Archer finds you in a game of knucklebones pitting his bow against your horse.  You win.</event>
+    </artifact>
+    <artifact id="64" name="Telescope" level="treasure">
+        <title>Telescope</title>
+        <description>The Telescope increases the amount of terrain your hero reveals when adventuring by 1 extra square.</description>
+        <event>A merchant from far away lands trades you a new invention of his people for traveling supplies.  It makes distant objects appear closer, and he calls it...&#10;&#10;a telescope.</event>
+    </artifact>
+    <artifact id="65" name="Statesman's Quill" level="treasure">
+        <title>Statesman's quill</title>
+        <description>The Statesman's Quill reduces the cost of surrender to 10% of the total cost of troops you have in your army.</description>
+        <event>You pause to help a diplomat with a broken axle fix his problem.  In gratitude, he gives you a writing quill with magical properties which he says will "help people see things your way".</event>
+    </artifact>
+    <artifact id="66" name="Wizard's Hat" level="major">
+        <title>Wizard's hat</title>
+        <description>The Wizard's Hat increases the duration of your spells by 10 turns!</description>
+        <event>You see a Wizard fleeing from a Griffin and riding like the wind.  The Wizard opens a portal and rides through, getting his hat knocked off by the edge of the gate.  The Griffin follows; the gate closes.  You pick the hat up, dust it off, and put it on.</event>
+    </artifact>
+    <artifact id="67" name="Power Ring" level="minor">
+        <title>Power ring</title>
+        <description>The Power Ring returns 2 extra spell points/turn to your hero.</description>
+        <event>You find a small tree that closely resembles the great Warlock Carnauth with a ring around one of its twigs.  Scraps of clothing and rotting leather lead you to suspect that it IS Carnauth, transformed.  Since you can't help him, you take the magic ring.</event>
+    </artifact>
+    <artifact id="68" name="Ammo Cart" level="minor">
+        <title>Ammo cart</title>
+        <description>The Ammo Cart provides endless ammunition for all your troops that shoot.</description>
+        <event>An ammunition cart in the middle of an old battlefield catches your eye.  Inspection shows it to be in good working order, so  you take it along.</event>
+    </artifact>
+    <artifact id="69" name="Tax Lien" level="treasure">
+        <title>Tax lien</title>
+        <description>The Tax Lien costs you 250 gold pieces/turn.</description>
+        <event>Your big spending habits have earned you a massive tax bill that you can't hope to pay.  The tax man takes pity and agrees to only take 250 gold a day from your account for life.  Check here if you want one dollar to go to the presidential campaign election fund.</event>
+    </artifact>
+    <artifact id="70" name="Hideous Mask" level="treasure">
+        <title>Hideous mask</title>
+        <description>The Hideous Mask prevents all 'wandering' armies from joining your hero.</description>
+        <event>Your looting of the grave of Sinfilas Gardolad, the famous shapeshifting Warlock, unearths his fabled mask.  Trembling, you put it on and it twists your visage into an awful grimace!  Oh no!  It's actually the hideous mask of Gromluck Greene, and you are stuck with it.</event>
+    </artifact>
+    <artifact id="71" name="Endless Pouch of Sulfur" level="major">
+        <title>Endless pouch of sulfur</title>
+        <description>The Endless Pouch of Sulfur provides 1 unit of sulfur per day.</description>
+        <event>You visit an alchemist who, upon seeing your army, is swayed by the righteousness of your cause.  The newly loyal subject gives you his endless pouch of sulfur to help with the war effort.</event>
+    </artifact>
+    <artifact id="72" name="Endless Vial of Mercury" level="major">
+        <title>Endless vial of mercury</title>
+        <description>The Endless Vial of Mercury provides 1 unit of mercury per day.</description>
+        <event>A brief stop at a hastily abandoned Wizard's tower turns up a magical vial of mercury that always has a little left on the bottom.  Recognizing a treasure when you see one, you cap it and slip it in your pocket.</event>
+    </artifact>
+    <artifact id="73" name="Endless Pouch of Gems" level="major">
+        <title>Endless pouch of gems</title>
+        <description>The Endless Pouch of Gems provides 1 unit of gems per day.</description>
+        <event>A short rainstorm brings forth a rainbow...and you can see the end of it.  Riding quickly, you seize the pot of gold you find there.  The leprechaun who owns it, unable to stop you from taking it, offers an endless pouch of gems for the return of his gold.  You accept.</event>
+    </artifact>
+    <artifact id="74" name="Endless Cord of Wood" level="minor">
+        <title>Endless cord of wood</title>
+        <description>The Endless Cord of Wood provides 1 unit of wood per day.</description>
+        <event>Pausing to rest and light a cook fire, you pull wood out of a nearby pile of dead wood.  As you keep pulling wood from the pile, you notice that it doesn't shrink.  You realize to your delight that the wood is enchanted, so you take it along.</event>
+    </artifact>
+    <artifact id="75" name="Endless Cart of Ore" level="minor">
+        <title>Endless cart of ore</title>
+        <description>The Endless Cart of Ore provides 1 unit of ore per day.</description>
+        <event>You've found a Goblin weapon smithy making weapons for use against humans.  With a tremendous yell you and your army descend upon their camp and drive them away.  A search finds a magic ore cart that never runs out of iron.</event>
+    </artifact>
+    <artifact id="76" name="Endless Pouch of Crystal" level="major">
+        <title>Endless pouch of crystal</title>
+        <description>The Endless Pouch of Crystal provides 1 unit of crystal/day.</description>
+        <event>Taking shelter from a storm in a small cave,  you notice a small patch of crystal in one corner.  Curious, you break a piece off and notice that the original crystal grows the lost piece back.  You decide to stuff the entire patch into a pouch and take it with you.</event>
+    </artifact>
+    <artifact id="77" name="Spiked Helm" level="minor">
+        <title>Spiked helm</title>
+        <description>The Spiked Helm increases your attack and defense skills by 1 each.</description>
+        <event>Your army is ambushed by a small tribe of wild (and none too bright) Orcs.  You fend them off easily and the survivors flee in all directions.  One of the Orcs was wearing a polished spiked helm.  Figuring it will make a good souvenir, you take it.</event>
+    </artifact>
+    <artifact id="78" name="Spiked Shield" level="major">
+        <title>Spiked shield</title>
+        <description>The Spiked Shield increases your attack and defense skills by 2 each.</description>
+        <event>You come upon a bridge spanning a dry gully.  Before you can cross, a Troll steps out from under the bridge and demands payment before it will permit you to pass.  You refuse, and the Troll charges, forcing you to slay it.  You take its spiked shield as a trophy.</event>
+    </artifact>
+    <artifact id="79" name="White Pearl" level="minor">
+        <title>White pearl</title>
+        <description>The White Pearl increases your spell power and knowledge by 1 each.</description>
+        <event>A walk across a dry saltwater lake bed yields an unlikely prize:  A white pearl amidst shattered shells and debris.</event>
+    </artifact>
+    <artifact id="80" name="Black Pearl" level="major">
+        <title>Black pearl</title>
+        <description>The Black Pearl increases your spell power and knowledge by 2 each.</description>
+        <event>Rumors of a Griffin of unusual size preying upon the countryside lead you to its cave lair.  A quick, brutal fight dispatches the beast, and a search of its foul nest turns up a huge black pearl.</event>
+    </artifact>
+    <artifact id="81" name="Magic Book" level="spellbook">
+        <title>Magic Book</title>
+        <description>The Magic Book enables you to cast spells.</description>
+    </artifact>
+    <artifact id="82" name="ERROR : Artifact 82" level="unused">
+        <title>ERROR</title>
+        <description>Artifact 82.</description>
+        <event>ERROR : Artifact event 82.</event>
+    </artifact>
+    <artifact id="83" name="ERROR : Artifact 83" level="unused">
+        <title>ERROR</title>
+        <description>Artifact 83.</description>
+        <event>ERROR : Artifact event 83.</event>
+    </artifact>
+    <artifact id="84" name="ERROR : Artifact 84" level="unused">
+        <title>ERROR</title>
+        <description>Artifact 84.</description>
+        <event>ERROR : Artifact event 84.</event>
+    </artifact>
+    <artifact id="85" name="ERROR : Artifact 85" level="unused">
+        <title>ERROR</title>
+        <description>Artifact 85.</description>
+        <event>ERROR : Artifact event 85.</event>
+    </artifact>
+    <artifact id="86" name="Spell Scroll" level="major">
+        <title>Spell Scroll</title>
+        <description>This Spell Scroll gives your hero the ability to cast the '%s' spell.</description>
+        <event>You find an elaborate container which houses an old vellum scroll. The runes on the container are very old, and the artistry with which it was put together is stunning. As you pull the scroll out, you feel imbued with magical power.</event>
+    </artifact>
+    <artifact id="87" name="Arm of the Martyr" level="treasure">
+        <title>Arm of the Martyr</title>
+        <description>The Arm of the Martyr increases your spell power by 3 but adds the undead morale penalty.</description>
+        <event>One of the less intelligent members of your party picks up an arm off of the ground.  Despite its missing a body, it is still moving.  Your troops find the dismembered arm repulsive, but you cannot bring yourself to drop it: it seems to hold some sort of magical power that influences your decision making.</event>
+    </artifact>
+    <artifact id="88" name="Breastplate of Anduran" level="major">
+        <title>Breastplate of Anduran</title>
+        <description>The Breastplate increases your defense by 5.</description>
+        <event>You come upon a sign.  It reads: "Here lies the body of Anduran.  Bow and swear fealty, and you shall be rewarded."  You decide to do as it says.  As you stand up, you feel a coldness against your skin.  Looking down, you find that you are suddenly wearing a gleaming, ornate breastplate.</event>
+    </artifact>
+    <artifact id="89" name="Broach of Shielding" level="treasure">
+        <title>Broach of Shielding</title>
+        <description>The Broach of Shielding provides 50% protection from Armageddon and Elemental Storm, but decreases spell power by 2.</description>
+        <event>A kindly Sorceress thinks that your army's defenses could use a magical boost.  She offers to enchant the Broach that you wear on your cloak, and you accept.</event>
+    </artifact>
+    <artifact id="90" name="Battle Garb of Anduran" level="major">
+        <title>Battle Garb</title>
+        <description>The Battle Garb of Anduran combines the powers of the three Anduran artifacts.  It provides maximum luck and morale for your troops and gives you the Town Portal spell.</description>
+        <event>Out of pity for a poor peasant, you purchase a chest of old junk they are hawking for too much gold. Later, as you search through it, you find it contains the 3 pieces of the legendary battle garb of Anduran!</event>
+    </artifact>
+    <artifact id="91" name="Crystal Ball" level="major">
+        <title>Crystal Ball</title>
+        <description>The Crystal Ball lets you get more specific information about monsters, enemy heroes, and castles nearby the hero who holds it.</description>
+        <event>You come upon a caravan of gypsies who are feasting and fortifying their bodies with mead.  They call you forward and say "If you prove that you can dance the Rama-Buta, we will reward you."  You don't know it, but try anyway.  They laugh hysterically, but admire your bravery, giving you a Crystal Ball.</event>
+    </artifact>
+    <artifact id="92" name="Heart of Fire" level="treasure">
+        <title>Heart of Fire</title>
+        <description>The Heart of Fire provides 50% protection from fire, but doubles the damage taken from cold.</description>
+        <event>You enter a recently burned glade and come upon a Fire Elemental sitting atop a rock.  It looks up, its flaming face contorted in a look of severe pain.  It then tosses a glowing object at you.  You put up your hands to block it, but it passes right through them and sears itself into your chest.</event>
+    </artifact>
+    <artifact id="93" name="Heart of Ice" level="treasure">
+        <title>Heart of Ice</title>
+        <description>The Heart of Ice provides 50% protection from cold, but doubles the damage taken from fire.</description>
+        <event>Suddenly, a biting coldness engulfs your body.  You seize up, falling from your horse.  The pain subsides, but you still feel as if your chest is frozen.  As you pick yourself up off of the ground, you hear hearty laughter.  You turn around just in time to see a Frost Giant run off into the woods and disappear.</event>
+    </artifact>
+    <artifact id="94" name="Helmet of Anduran" level="major">
+        <title>Helmet of Anduran</title>
+        <description>The Helmet increases your spell power by 5.</description>
+        <event>You spy a gleaming object poking up out of the ground.   You send a member of your party over to investigate.  He comes back with a golden helmet in his hands.  You realize that it must be the helmet of the legendary Anduran, the only man who was known to wear solid gold armor.</event>
+    </artifact>
+    <artifact id="95" name="Holy Hammer" level="major">
+        <title>Holy Hammer</title>
+        <description>The Holy Hammer increases your attack skill by 5.</description>
+        <event>You come upon a battle where a Paladin has been mortally wounded by a group of Zombies.  He asks you to take his hammer and finish what he started.  As you pick it up, it begins to hum, and then everything becomes a blur.  The Zombies lie dead, the hammer dripping with blood.  You strap it to your belt.</event>
+    </artifact>
+    <artifact id="96" name="Legendary Scepter" level="major">
+        <title>Legendary Scepter</title>
+        <description>The Legendary Scepter adds 2 points to all attributes.</description>
+        <event>Upon cresting a small hill, you come upon a ridiculous looking sight.  A Sprite is attempting to carry a Scepter that is almost as big as it is.  Trying not to laugh, you ask, "Need help?"  The Sprite glares at you and answers: "You think this is funny?  Fine.  You can carry it.  I much prefer flying anyway."</event>
+    </artifact>
+    <artifact id="97" name="Masthead" level="minor">
+        <title>Masthead</title>
+        <description>The Masthead boosts your luck and morale by 1 each in sea combat.</description>
+        <event>An old seaman tells you a tale of an enchanted masthead that he used in his youth to rally his crew during times of trouble.  He then hands you a faded map that shows where he hid it.  After much exploring, you find it stashed underneath a nearby dock.</event>
+    </artifact>
+    <artifact id="98" name="Sphere of Negation" level="major">
+        <title>Sphere of Negation</title>
+        <description>The Sphere of Negation disables all spell casting, for both sides, in combat.</description>
+        <event>You stop to help a Peasant catch a runaway mare.  To show his gratitude, he hands you a tiny sphere.  As soon as you grasp it, you feel the magical energy drain from your limbs...</event>
+    </artifact>
+    <artifact id="99" name="Staff of Wizardry" level="major">
+        <title>Staff of Wizardry</title>
+        <description>The Staff of Wizardry boosts your spell power by 5.</description>
+        <event>While out scaring up game, your troops find a mysterious staff levitating about three feet off of the ground.  They hand it to you, and you notice an inscription.  It reads: "Brains best brawn and magic beats might.  Heed my words, and you'll win every fight."</event>
+    </artifact>
+    <artifact id="100" name="Sword Breaker" level="major">
+        <title>Sword Breaker</title>
+        <description>The Sword Breaker increases your defense by 4 and attack by 1.</description>
+        <event>A former Captain of the Guard admires your quest and gives you the enchanted Sword Breaker that he relied on during his tour of duty.</event>
+    </artifact>
+    <artifact id="101" name="Sword of Anduran" level="major">
+        <title>Sword of Anduran</title>
+        <description>The Sword increases your attack skill by 5.</description>
+        <event>A Troll stops you and says: "Pay me 5,000 gold, or the Sword of Anduran will slay you where you stand."  You refuse.  The troll grabs the sword hanging from its belt, screams in pain, and runs away.  Picking up the fabled sword, you give thanks that half-witted Trolls tend to grab the wrong end of sharp objects.</event>
+    </artifact>
+    <artifact id="102" name="Spade of Necromancy" level="minor">
+        <title>Spade of Necromancy</title>
+        <description>The Spade gives you increased necromancy skill.</description>
+        <event>A dirty shovel has been thrust into a dirt mound nearby. Upon investigation, you discover it to be the enchanted shovel of the Gravediggers, long thought lost by mortals.</event>
+    </artifact>
+    <artifact id="103" name="Pandora's Box" level="minor">
+        <title>Pandora's Box</title>
+        <description>Pandora's Box gives your hero's army a random stack of level 1 creatures for the duration of each battle.</description>
+        <event>You pass by a chest lying under a tree. Suddenly, a goblin jumps out of the chest and shrieks. Before it can raise its club, you grab it and throw it back in the chest, and tie it sealed with rope.</event>
+    </artifact>
+    <artifact id="104" name="Iron Fist" level="major">
+        <title>Iron Fist</title>
+        <description>The Iron Fist is a snazzy accessory to go with your helmet and boots.</description>
+        <event>You get a sudden urge to dig where you are standing. You dig and find a glistening metal gauntlet, mysteriously untouched by dirt. As you touch it, it leaps up and fuses itself onto your arm.</event>
+    </artifact>
+</artifacts>
