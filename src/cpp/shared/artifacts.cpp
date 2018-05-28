@@ -70,6 +70,7 @@ unsigned char gArtifactLevel[NUM_SUPPORTED_ARTIFACTS] = { 0 };
 std::vector<std::string> names;
 std::vector<std::string> descriptions;
 std::vector<std::string> events;
+std::vector<char> isCursed;
 
 
 void LoadArtifacts() {
@@ -80,6 +81,7 @@ void LoadArtifacts() {
   names.resize(artSize);
   descriptions.resize(artSize);
   events.resize(artSize);
+  isCursed.resize(artSize, 0);
 
   for (const auto &art : artifactList) {
     const int i = art.id();
@@ -103,5 +105,18 @@ void LoadArtifacts() {
     gArtifactEvents[i] = &(events[i][0]);
 
     gArtifactLevel[i] = GetArtifactLevel(art.level());
+
+    if (art.cursed()) {
+      isCursed[i] = art.cursed().get();
+    }
   }
+}
+
+int __fastcall IsCursedItem(int artId) {
+  const int size = isCursed.size();
+  if (artId < 0 || artId >= size) {
+    return 0;
+  }
+
+  return isCursed[artId];
 }

@@ -73,7 +73,7 @@
         <description>The Medal of Distinction increases your morale.</description>
         <event>Ridding the countryside of the hideous Minotaur who made a sport of eating noblemen's Knights, you are honored with the Medal of Distinction.</event>
     </artifact>
-    <artifact id="16" name="Fizbin of Misfortune" level="treasure">
+    <artifact id="16" name="Fizbin of Misfortune" level="treasure" cursed="true">
         <title>Fizbin</title>
         <description>The Fizbin of Misfortune greatly decreases your morale.</description>
         <event>You stumble upon a medal lying alongside the empty road.  Adding the medal to your inventory, you become aware that you have acquired the undesirable Fizbin of Misfortune, greatly decreasing your army's morale.</event>
@@ -338,12 +338,12 @@
         <description>The Ammo Cart provides endless ammunition for all your troops that shoot.</description>
         <event>An ammunition cart in the middle of an old battlefield catches your eye.  Inspection shows it to be in good working order, so  you take it along.</event>
     </artifact>
-    <artifact id="69" name="Tax Lien" level="treasure">
+    <artifact id="69" name="Tax Lien" level="treasure" cursed="true">
         <title>Tax lien</title>
         <description>The Tax Lien costs you 250 gold pieces/turn.</description>
         <event>Your big spending habits have earned you a massive tax bill that you can't hope to pay.  The tax man takes pity and agrees to only take 250 gold a day from your account for life.  Check here if you want one dollar to go to the presidential campaign election fund.</event>
     </artifact>
-    <artifact id="70" name="Hideous Mask" level="treasure">
+    <artifact id="70" name="Hideous Mask" level="treasure" cursed="true">
         <title>Hideous mask</title>
         <description>The Hideous Mask prevents all 'wandering' armies from joining your hero.</description>
         <event>Your looting of the grave of Sinfilas Gardolad, the famous shapeshifting Warlock, unearths his fabled mask.  Trembling, you put it on and it twists your visage into an awful grimace!  Oh no!  It's actually the hideous mask of Gromluck Greene, and you are stuck with it.</event>
@@ -427,7 +427,7 @@
         <description>This Spell Scroll gives your hero the ability to cast the '%s' spell.</description>
         <event>You find an elaborate container which houses an old vellum scroll. The runes on the container are very old, and the artistry with which it was put together is stunning. As you pull the scroll out, you feel imbued with magical power.</event>
     </artifact>
-    <artifact id="87" name="Arm of the Martyr" level="treasure">
+    <artifact id="87" name="Arm of the Martyr" level="treasure" cursed="true">
         <title>Arm of the Martyr</title>
         <description>The Arm of the Martyr increases your spell power by 3 but adds the undead morale penalty.</description>
         <event>One of the less intelligent members of your party picks up an arm off of the ground.  Despite its missing a body, it is still moving.  Your troops find the dismembered arm repulsive, but you cannot bring yourself to drop it: it seems to hold some sort of magical power that influences your decision making.</event>
@@ -437,7 +437,7 @@
         <description>The Breastplate increases your defense by 5.</description>
         <event>You come upon a sign.  It reads: "Here lies the body of Anduran.  Bow and swear fealty, and you shall be rewarded."  You decide to do as it says.  As you stand up, you feel a coldness against your skin.  Looking down, you find that you are suddenly wearing a gleaming, ornate breastplate.</event>
     </artifact>
-    <artifact id="89" name="Broach of Shielding" level="treasure">
+    <artifact id="89" name="Broach of Shielding" level="treasure" cursed="true">
         <title>Broach of Shielding</title>
         <description>The Broach of Shielding provides 50% protection from Armageddon and Elemental Storm, but decreases spell power by 2.</description>
         <event>A kindly Sorceress thinks that your army's defenses could use a magical boost.  She offers to enchant the Broach that you wear on your cloak, and you accept.</event>
@@ -452,12 +452,12 @@
         <description>The Crystal Ball lets you get more specific information about monsters, enemy heroes, and castles nearby the hero who holds it.</description>
         <event>You come upon a caravan of gypsies who are feasting and fortifying their bodies with mead.  They call you forward and say "If you prove that you can dance the Rama-Buta, we will reward you."  You don't know it, but try anyway.  They laugh hysterically, but admire your bravery, giving you a Crystal Ball.</event>
     </artifact>
-    <artifact id="92" name="Heart of Fire" level="treasure">
+    <artifact id="92" name="Heart of Fire" level="treasure" cursed="true">
         <title>Heart of Fire</title>
         <description>The Heart of Fire provides 50% protection from fire, but doubles the damage taken from cold.</description>
         <event>You enter a recently burned glade and come upon a Fire Elemental sitting atop a rock.  It looks up, its flaming face contorted in a look of severe pain.  It then tosses a glowing object at you.  You put up your hands to block it, but it passes right through them and sears itself into your chest.</event>
     </artifact>
-    <artifact id="93" name="Heart of Ice" level="treasure">
+    <artifact id="93" name="Heart of Ice" level="treasure" cursed="true">
         <title>Heart of Ice</title>
         <description>The Heart of Ice provides 50% protection from cold, but doubles the damage taken from fire.</description>
         <event>Suddenly, a biting coldness engulfs your body.  You seize up, falling from your horse.  The pain subsides, but you still feel as if your chest is frozen.  As you pick yourself up off of the ground, you hear hearty laughter.  You turn around just in time to see a Frost Giant run off into the woods and disappear.</event>

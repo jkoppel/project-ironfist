@@ -366,6 +366,24 @@ class artifact_t: public ::xml_schema::type
   void
   level (::std::auto_ptr< level_type > p);
 
+  // cursed
+  // 
+  typedef ::xml_schema::boolean cursed_type;
+  typedef ::xsd::cxx::tree::optional< cursed_type > cursed_optional;
+  typedef ::xsd::cxx::tree::traits< cursed_type, char > cursed_traits;
+
+  const cursed_optional&
+  cursed () const;
+
+  cursed_optional&
+  cursed ();
+
+  void
+  cursed (const cursed_type& x);
+
+  void
+  cursed (const cursed_optional& x);
+
   // Constructors.
   //
   artifact_t (const id_type&,
@@ -401,6 +419,7 @@ class artifact_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< id_type > id_;
   ::xsd::cxx::tree::one< name_type > name_;
   ::xsd::cxx::tree::one< level_type > level_;
+  cursed_optional cursed_;
 };
 
 class level_t: public ::xml_schema::string

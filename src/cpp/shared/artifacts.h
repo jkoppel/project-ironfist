@@ -111,5 +111,6 @@ enum ARTIFACT {
 };
 
 void LoadArtifacts();
+int __fastcall IsCursedItem(int);
 
 #endif
