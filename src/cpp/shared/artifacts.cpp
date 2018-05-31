@@ -20,8 +20,6 @@
  */
 
 namespace {
-  const int NUM_SUPPORTED_ARTIFACTS = 256;
-
   int MaxArtifactId(const artifacts::artifact_sequence &artifactList) {
     int maxId = -1;
     for (const auto &art : artifactList) {

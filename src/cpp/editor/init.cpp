@@ -2,6 +2,7 @@
 #include "base.h"
 #include "manager.h"
 
+#include "artifacts.h"
 #include "editor.h"
 #include "gui/gui.h"
 #include "resource/resources.h"

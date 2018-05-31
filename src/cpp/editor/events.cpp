@@ -8,6 +8,7 @@
 
 #include "editor.h"
 #include "events.h"
+#include "hero_edit.h"
 #include "../../rc/editor/resource.h"
 #include "town/town.h"
 
@@ -406,4 +407,9 @@ void eventsManager::EditTown(int x, int y) {
 	int extraIdx = gpExaminedCell->extraInfo;
 	memcpy(&gEditTownExtra, gpEditManager->mapExtra[extraIdx], sizeof(TownExtra));
 	DialogBoxParamA((HINSTANCE)hInstApp, "EDIT_TOWN",  (HWND)hwndApp, (DLGPROC)EditTownProc, 0);;
+}
+
+int eventsManager::EditHero(int x, int y, int isJailed) {
+  requestUserDefinedArtifacts();
+  return EditHero_orig(x, y, isJailed);
 }

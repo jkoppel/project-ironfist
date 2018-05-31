@@ -1,16 +1,38 @@
-//#include "base.h"
+#include "hero_edit.h"
 
-#include "adventure/map.h"
-
+#include "artifacts.h"
 #include "editor.h"
 #include "gui/msg.h"
 
 extern HeroExtra gEditedHeroExtra;
 
-extern int __fastcall EditHeroHandler_orig(tag_message&);
-extern void __stdcall FillInHeroEdit(HeroExtra*);
-
 #define NUM_HERO_PORTRAITS 72
+
+namespace {
+  bool fillInArtifacts = true;
+}
+
+void __stdcall FillInHeroEdit(HeroExtra *extra) {
+  const int ARTIFACT_SLOT_1 = 308;
+
+  if (fillInArtifacts) {
+    tag_message artifactEvent;
+    artifactEvent.eventCode = INPUT_GUI_MESSAGE_CODE;
+    artifactEvent.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
+    for (int i = MAX_EXPANSION_ARTIFACT + 1; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
+      if (gArtifactNames[i]) {
+        for (int j = 0; j < 3; ++j) {
+          artifactEvent.payload = gArtifactNames[i];
+          artifactEvent.yCoordOrFieldID = j + ARTIFACT_SLOT_1;
+          gpCellEditDialog->BroadcastMessage(artifactEvent);
+        }
+      }
+    }
+    fillInArtifacts = false;
+  }
+
+  FillInHeroEdit_orig(extra);
+}
 
 int __fastcall EditHeroHandler(tag_message& evt) {
   const int NEXT_HERO_PORTRAIT_BUTTON = 704;
@@ -30,4 +52,8 @@ int __fastcall EditHeroHandler(tag_message& evt) {
   } else {
     return EditHeroHandler_orig(evt);
   }
+}
+
+void requestUserDefinedArtifacts() {
+  fillInArtifacts = true;
 }

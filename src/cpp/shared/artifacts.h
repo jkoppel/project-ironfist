@@ -110,7 +110,13 @@ enum ARTIFACT {
   ARTIFACT_PANDORA_BOX = 103,
 };
 
+const int MAX_BASE_ARTIFACT = 81;
+const int MAX_EXPANSION_ARTIFACT = 102;
+const int NUM_SUPPORTED_ARTIFACTS = 256;
+
 void LoadArtifacts();
 int __fastcall IsCursedItem(int);
+
+extern char *gArtifactNames[];
 
 #endif
