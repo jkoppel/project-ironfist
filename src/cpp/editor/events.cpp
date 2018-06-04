@@ -49,7 +49,8 @@ int buildingIdToIdx[32];
 static const std::wstring GetWC(const char *c) {
 	const size_t cSize = strlen(c) + 1;
 	std::wstring wc(cSize, L'#');
-	mbstowcs(&wc[0], c, cSize);
+	size_t result = 0;
+	mbstowcs_s(&result, &wc[0], cSize, c, cSize);
 
 	return wc;
 }
@@ -187,7 +188,7 @@ void InitializeTownEdit(HWND hwnd) {
 	for(int i = 0; i < ELEMENTS_IN(monTypeFields); i++) {
 		SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"-empty-");
 		for(int j = 0; j < GetNumCreatures(); j++) {
-			sprintf(gText, "%s", GetCreatureName(j));
+			snprintf(gText, 64, "%s", GetCreatureName(j));
 			if(strlen(gText) == 0) {
                 SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"###UNKNOWN CREATURE###");
 				continue; //ghetto way of checking for if creature is real (not random)
@@ -410,6 +411,6 @@ void eventsManager::EditTown(int x, int y) {
 }
 
 int eventsManager::EditHero(int x, int y, int isJailed) {
-  requestUserDefinedArtifacts();
+  RequestUserDefinedArtifacts();
   return EditHero_orig(x, y, isJailed);
 }

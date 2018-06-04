@@ -54,6 +54,6 @@ int __fastcall EditHeroHandler(tag_message& evt) {
   }
 }
 
-void requestUserDefinedArtifacts() {
+void RequestUserDefinedArtifacts() {
   fillInArtifacts = true;
 }

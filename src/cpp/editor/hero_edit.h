@@ -12,6 +12,6 @@ extern void __stdcall FillInHeroEdit_orig(HeroExtra*);
 // game and expansion. To get any extra artifacts defined in the xml file,
 // we need to request that a function that runs after EditHero fill in the
 // rest. (That function is FillInHeroEdit.)
-void requestUserDefinedArtifacts();
+void RequestUserDefinedArtifacts();
 
 #endif
