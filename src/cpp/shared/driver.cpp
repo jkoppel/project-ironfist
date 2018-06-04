@@ -3,11 +3,21 @@
 #include "artifacts.h"
 #include "windows.h"
 
+#ifdef EDITOR
+#include "overlay/overlay.h"
+#endif EDITOR
+
+#include <windows.h>
+
+
 extern void* hInstApp;
 
 void IronfistInit() {
 	LoadCreatures();
 	LoadArtifacts();
+#ifdef EDITOR
+    LoadOverlays();
+#endif
 	//LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }
 

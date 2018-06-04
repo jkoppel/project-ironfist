@@ -56,7 +56,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;XERCES_STATIC_LIBRARY;%(PreprocessorDefinitions);EDITOR</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib; ..\..\cpp\editor</AdditionalIncludeDirectories>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -89,6 +89,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\editor\hero_edit.cpp" />
+    <ClCompile Include="..\..\cpp\editor\overlay\overlay.cpp" />
+    <ClCompile Include="..\..\cpp\editor\overlay\overlays_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
@@ -98,7 +100,6 @@
     <ClCompile Include="..\..\cpp\editor\editor.cpp" />
     <ClCompile Include="..\..\cpp\editor\events.cpp" />
     <ClCompile Include="..\..\cpp\editor\map_state.cpp" />
-    <ClCompile Include="..\..\cpp\editor\overlay.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
     <ClCompile Include="..\..\cpp\editor\init.cpp" />
@@ -151,6 +152,8 @@
     <None Include="..\..\asm\editor_imports.inc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\editor\overlay\overlay.h" />
+    <ClInclude Include="..\..\cpp\editor\overlay\overlays_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
@@ -165,7 +168,6 @@
     <ClInclude Include="..\..\cpp\shared\driver.h" />
     <ClInclude Include="..\..\cpp\editor\editor.h" />
     <ClInclude Include="..\..\cpp\editor\events.h" />
-    <ClInclude Include="..\..\cpp\editor\overlay.h" />
     <ClInclude Include="..\..\cpp\shared\gui\dialog.h" />
     <ClInclude Include="..\..\cpp\shared\gui\gui.h" />
     <ClInclude Include="..\..\cpp\shared\lib\lua\src\lapi.h" />

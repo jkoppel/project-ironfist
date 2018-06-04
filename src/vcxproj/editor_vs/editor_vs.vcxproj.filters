@@ -64,6 +64,12 @@
     <Filter Include="Source Files\shared\spell">
       <UniqueIdentifier>{392c4a50-5c25-4ceb-929c-1b88817a4d2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\overlay">
+      <UniqueIdentifier>{a5ca243c-f43f-4b02-b9df-8b1cadb456ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\editor">
+      <UniqueIdentifier>{eaf9e0d9-ab79-446a-9ba4-eae04699006e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp">
@@ -192,9 +198,6 @@
     <ClCompile Include="..\..\cpp\editor\map_state.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\editor\overlay.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp">
       <Filter>Source Files\shared</Filter>
     </ClCompile>
@@ -215,6 +218,12 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx">
       <Filter>Source Files\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\editor\overlay\overlays_xml.cxx">
+      <Filter>Source Files\overlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\editor\overlay\overlay.cpp">
+      <Filter>Source Files\overlay</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -358,9 +367,6 @@
     <ClInclude Include="..\..\cpp\editor\events.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cpp\editor\overlay.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\rc\editor\resource.h">
       <Filter>Header Files\rc</Filter>
     </ClInclude>
@@ -372,6 +378,12 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx">
       <Filter>Header Files\shared</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\editor\overlay\overlay.h">
+      <Filter>Header Files\editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\editor\overlay\overlays_xml.hxx">
+      <Filter>Header Files\editor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

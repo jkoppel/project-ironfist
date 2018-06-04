@@ -23,7 +23,7 @@ struct overlay
   char tileset;
   char category;
   __int16 field_E;
-  char field_10;
+  char animationLength;
   __int64 intersectsTileMask;
   int terrainObjCategoryMask;
   int allowedTerrainPlacementMask;
@@ -42,6 +42,7 @@ struct overlay
 };
 #pragma pack(pop)
 
+void LoadOverlays();
 
 extern signed int __fastcall OverlayMaskBitSet(__int64 *mask, int x, int y);
 overlay gOverlayDatabase[];
