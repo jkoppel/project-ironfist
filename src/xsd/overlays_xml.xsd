@@ -1,0 +1,221 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="overlays">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="overlay" type="overlay_t" maxOccurs="unbounded" />
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="overlay_t">
+        <xs:choice minOccurs="0" maxOccurs="unbounded">
+            <xs:element name="tiles" type="xs:string" />
+            <xs:element name="animatedTiles" type="xs:string" />
+        </xs:choice>
+        <xs:attribute name="idx" type="xs:int" use="required" />
+        <xs:attribute name="idx2" type="xs:int" use="required" />
+        <xs:attribute name="ordinal" type="xs:int" use="required" />
+        <xs:attribute name="tileset" type="tileset_t" use="required" />
+        <xs:attribute name="category" type="category_t" use="required"
+                      />
+        
+        <xs:attribute name="animationLength" type="xs:int" default="0" />
+    </xs:complexType>
+
+    <xs:simpleType name="tileset_t">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="TILESET_HAUNTED" />
+            <xs:enumeration value="TILESET_ARTIFACT" />
+            <xs:enumeration value="TILESET_MONSTER" />
+            <xs:enumeration value="TILESET_ARTIFACT_TAKEN" />
+            <xs:enumeration value="TILESET_FLAG" />
+            <xs:enumeration value="TILESET_RESOURCE_DISPLAY" />
+            <xs:enumeration value="TILESET_HOURGLASS" />
+            <xs:enumeration value="TILESET_ROUTE" />
+            <xs:enumeration value="TILESET_STONBACK" />
+            <xs:enumeration value="TILESET_MONSTER_ANIMATION" />
+            <xs:enumeration value="TILESET_HERO" />
+            <xs:enumeration value="TILESET_SNOW_MOUNTAIN" />
+            <xs:enumeration value="TILESET_SWAMP_MOUNTAIN" />
+            <xs:enumeration value="TILESET_LAVA_MOUNTAIN" />
+            <xs:enumeration value="TILESET_DESERT_MOUNTAIN" />
+            <xs:enumeration value="TILESET_DIRT_MOUNTAIN" />
+            <xs:enumeration value="TILESET_MOUNTAIN_MULTIPLE" />
+            <xs:enumeration value="TILESET_EXTRA_OVERLAY" />
+            <xs:enumeration value="TILESET_ROAD" />
+            <xs:enumeration value="TILESET_MOUNTAIN_CRACKED" />
+            <xs:enumeration value="TILESET_MOUNTAIN_GRASS" />
+            <xs:enumeration value="TILESET_TREE_JUNGLE" />
+            <xs:enumeration value="TILESET_TREE_EVIL" />
+            <xs:enumeration value="TILESET_OBJ_TOWN" />
+            <xs:enumeration value="TILESET_TOWN_TERRAIN" />
+            <xs:enumeration value="TILESET_TOWN_SHADOW" />
+            <xs:enumeration value="TILESET_TOWN_RANDOM" />
+            <xs:enumeration value="TILESET_OBJECT_EXTRA" />
+            <xs:enumeration value="TILESET_OBJECT_WATER_2" />
+            <xs:enumeration value="TILESET_OBJECT_MULTIPLE_2" />
+            <xs:enumeration value="TILESET_OBJECT_TREE_SNOW" />
+            <xs:enumeration value="TILESET_OBJECT_TREE_FIR" />
+            <xs:enumeration value="TILESET_OBJECT_TREE_FALL" />
+            <xs:enumeration value="TILESET_OBJECT_STREAM" />
+            <xs:enumeration value="TILESET_OBJECT_RESOURCE" />
+            <xs:enumeration value="TILESET_OBJECT_DUMMY" />
+            <xs:enumeration value="TILESET_OBJECT_GRASS_2" />
+            <xs:enumeration value="TILESET_OBJECT_TREE_DECIDUOUS" />
+            <xs:enumeration value="TILESET_OBJECT_WATER" />
+            <xs:enumeration value="TILESET_OBJECT_GRASS" />
+            <xs:enumeration value="TILESET_OBJECT_SNOW" />
+            <xs:enumeration value="TILESET_OBJECT_SWAMP" />
+            <xs:enumeration value="TILESET_OBJECT_LAVA" />
+            <xs:enumeration value="TILESET_OBJECT_DESERT" />
+            <xs:enumeration value="TILESET_OBJECT_DIRT" />
+            <xs:enumeration value="TILESET_OBJECT_CRACKED" />
+            <xs:enumeration value="TILESET_OBJECT_LAVA_3" />
+            <xs:enumeration value="TILESET_OBJECT_MULTIPLE" />
+            <xs:enumeration value="TILESET_OBJECT_LAVA_2" />
+            <xs:enumeration value="TILESET_OBJECT_EXPANSION_1" />
+            <xs:enumeration value="TILESET_OBJECT_EXPANSION_2" />
+            <xs:enumeration value="TILESET_OBJECT_EXPANSION_3" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    
+    <xs:simpleType name="category_t">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="CATEGORY_TERRAIN" />
+            <xs:enumeration value="CATEGORY_TREASURE" />
+            <xs:enumeration value="CATEGORY_CREATURE" />
+            <xs:enumeration value="CATEGORY_ARTIFACT" />
+            <xs:enumeration value="CATEGORY_TOWN" />
+            <xs:enumeration value="CATEGORY_BUILTIN" />
+            <xs:enumeration value="CATEGORY_HERO" />
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="location_t">
+        <xs:restriction base="xs:string">
+           <xs:enumeration value="LOCATION_ALCHEMIST_LAB" />
+           <xs:enumeration value="LOCATION_SIGN" />
+           <xs:enumeration value="LOCATION_BUOY" />
+           <xs:enumeration value="LOCATION_SKELETON" />
+           <xs:enumeration value="LOCATION_DAEMON_CAVE" />
+           <xs:enumeration value="LOCATION_TREASURE_CHEST" />
+           <xs:enumeration value="LOCATION_FAERIE_RING" />
+           <xs:enumeration value="LOCATION_CAMPFIRE" />
+           <xs:enumeration value="LOCATION_FOUNTAIN" />
+           <xs:enumeration value="LOCATION_GAZEBO" />
+           <xs:enumeration value="LOCATION_ANCIENT_LAMP" />
+           <xs:enumeration value="LOCATION_GRAVEYARD" />
+           <xs:enumeration value="LOCATION_ARCHERS_HOUSE" />
+           <xs:enumeration value="LOCATION_GOBLIN_HUT" />
+           <xs:enumeration value="LOCATION_DWARF_COTTAGE" />
+           <xs:enumeration value="LOCATION_PEASANT_HUT" />
+           <xs:enumeration value="LOCATION_LOG_CABIN" />
+           <xs:enumeration value="LOCATION_ROAD" />
+           <xs:enumeration value="LOCATION_EVENT" />
+           <xs:enumeration value="LOCATION_DRAGON_CITY" />
+           <xs:enumeration value="LOCATION_LIGHTHOUSE" />
+           <xs:enumeration value="LOCATION_WATERWHEEL" />
+           <xs:enumeration value="LOCATION_MINE" />
+           <xs:enumeration value="LOCATION_ARMY_CAMP" />
+           <xs:enumeration value="LOCATION_OBELISK" />
+           <xs:enumeration value="LOCATION_OASIS" />
+           <xs:enumeration value="LOCATION_RESOURCE" />
+           <xs:enumeration value="LOCATION_SAWMILL" />
+           <xs:enumeration value="LOCATION_ORACLE" />
+           <xs:enumeration value="LOCATION_SHRINE_FIRST" />
+           <xs:enumeration value="LOCATION_SHIPWRECK" />
+           <xs:enumeration value="LOCATION_SEA_CHEST" />
+           <xs:enumeration value="LOCATION_DESRT_TENT" />
+           <xs:enumeration value="LOCATION_TOWN" />
+           <xs:enumeration value="LOCATION_STONE_LITHS" />
+           <xs:enumeration value="LOCATION_WAGON_CAMP" />
+           <xs:enumeration value="LOCATION_WELL" />
+           <xs:enumeration value="LOCATION_WHIRLPOOL" />
+           <xs:enumeration value="LOCATION_WINDMILL" />
+           <xs:enumeration value="LOCATION_ARTIFACT" />
+           <xs:enumeration value="LOCATION_HERO" />
+           <xs:enumeration value="LOCATION_BOAT" />
+           <xs:enumeration value="LOCATION_RANDOM_ARTIFACT" />
+           <xs:enumeration value="LOCATION_RANDOM_RESOURCE" />
+           <xs:enumeration value="LOCATION_RANDOM_MONSTER" />
+           <xs:enumeration value="LOCATION_RANDOM_TOWN" />
+           <xs:enumeration value="LOCATION_RANDOM_CASTLE" />
+           <xs:enumeration value="LOCATION_RANDOM_MONSTER_WEAK" />
+           <xs:enumeration value="LOCATION_RANDOM_MONSTER_MEDIUM" />
+           <xs:enumeration value="LOCATION_RANDOM_MONSTER_STRONG" />
+           <xs:enumeration value="LOCATION_RANDOM_MONSTER_VERY_STRONG" />
+           <xs:enumeration value="LOCATION_RANDOM_HERO" />
+           <xs:enumeration value="LOCATION_NOTHING_SPECIAL" />
+           <xs:enumeration value="LOCATION_WATCH_TOWER" />
+           <xs:enumeration value="LOCATION_TREE_HOUSE" />
+           <xs:enumeration value="LOCATION_TREE_CITY" />
+           <xs:enumeration value="LOCATION_RUINS" />
+           <xs:enumeration value="LOCATION_FORT" />
+           <xs:enumeration value="LOCATION_TRADING_POST" />
+           <xs:enumeration value="LOCATION_ABANDONED_MINE" />
+           <xs:enumeration value="LOCATION_DWARF_CABIN" />
+           <xs:enumeration value="LOCATION_STANDING_STONES" />
+           <xs:enumeration value="LOCATION_IDOL" />
+           <xs:enumeration value="LOCATION_TREE_OF_KNOWLEDGE" />
+           <xs:enumeration value="LOCATION_WITCH_DOCTORS_HUT" />
+           <xs:enumeration value="LOCATION_TEMPLE" />
+           <xs:enumeration value="LOCATION_HILL_FORT" />
+           <xs:enumeration value="LOCATION_HALFLING_HOLE" />
+           <xs:enumeration value="LOCATION_MERCENARY_CAMP" />
+           <xs:enumeration value="LOCATION_SHRINE_SECOND_ORDER" />
+           <xs:enumeration value="LOCATION_SHRINE_THIRD_ORDER" />
+           <xs:enumeration value="LOCATION_PYRAMID" />
+           <xs:enumeration value="LOCATION_CITY_OF_DEAD" />
+           <xs:enumeration value="LOCATION_EXCAVATION" />
+           <xs:enumeration value="LOCATION_SPHINX" />
+           <xs:enumeration value="LOCATION_WAGON" />
+           <xs:enumeration value="LOCATION_TAR_PIT" />
+           <xs:enumeration value="LOCATION_ARTESIAN_SPRING" />
+           <xs:enumeration value="LOCATION_TROLL_BRIDGE" />
+           <xs:enumeration value="LOCATION_WATERING_HOLE" />
+           <xs:enumeration value="LOCATION_WITCH_HUT" />
+           <xs:enumeration value="LOCATION_XANADU" />
+           <xs:enumeration value="LOCATION_CAVE" />
+           <xs:enumeration value="LOCATION_LEAN_TO" />
+           <xs:enumeration value="LOCATION_MAGELLANS_MAPS" />
+           <xs:enumeration value="LOCATION_FLOTSAM" />
+           <xs:enumeration value="LOCATION_DERELICT_SHIP" />
+           <xs:enumeration value="LOCATION_SHIPWRECK_SURVIVOR" />
+           <xs:enumeration value="LOCATION_BOTTLE" />
+           <xs:enumeration value="LOCATION_MAGIC_WELL" />
+           <xs:enumeration value="LOCATION_MAGIC_GARDEN" />
+           <xs:enumeration value="LOCATION_OBSERVATION_TOWER" />
+           <xs:enumeration value="LOCATION_FREEMANS_FOUNDRY" />
+           <xs:enumeration value="LOCATION_STREAM" />
+           <xs:enumeration value="LOCATION_TREES" />
+           <xs:enumeration value="LOCATION_MOUNTAINS" />
+           <xs:enumeration value="LOCATION_VOLCANO" />
+           <xs:enumeration value="LOCATION_FLOWERS" />
+           <xs:enumeration value="LOCATION_ROCK" />
+           <xs:enumeration value="LOCATION_LAKE" />
+           <xs:enumeration value="LOCATION_MANDRAKE" />
+           <xs:enumeration value="LOCATION_DEAD_TREE" />
+           <xs:enumeration value="LOCATION_STUMP" />
+           <xs:enumeration value="LOCATION_CRATER" />
+           <xs:enumeration value="LOCATION_CACTUS" />
+           <xs:enumeration value="LOCATION_MOUND" />
+           <xs:enumeration value="LOCATION_DUNE" />
+           <xs:enumeration value="LOCATION_LAVA_POOL" />
+           <xs:enumeration value="LOCATION_SHRUB" />
+           <xs:enumeration value="LOCATION_HOLE" />
+           <xs:enumeration value="LOCATION_OUTCROPPING" />
+           <xs:enumeration value="LOCATION_RANDOM_ARTIFACT_TREASURE" />
+           <xs:enumeration value="LOCATION_RANDOM_ARTIFACT_MINOR" />
+           <xs:enumeration value="LOCATION_RANDOM_ARTIFACT_MAJOR" />
+           <xs:enumeration value="LOCATION_BARRIER" />
+           <xs:enumeration value="LOCATION_TRAVELLER_TENT" />
+           <xs:enumeration value="LOCATION_EXPANSION_DWELLING" />
+           <xs:enumeration value="LOCATION_ALCHEMIST_TOWER" />
+           <xs:enumeration value="LOCATION_JAIL" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>
