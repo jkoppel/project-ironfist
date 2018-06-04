@@ -163,6 +163,30 @@ level (::std::auto_ptr< level_type > x)
   this->level_.set (x);
 }
 
+const artifact_t::cursed_optional& artifact_t::
+cursed () const
+{
+  return this->cursed_;
+}
+
+artifact_t::cursed_optional& artifact_t::
+cursed ()
+{
+  return this->cursed_;
+}
+
+void artifact_t::
+cursed (const cursed_type& x)
+{
+  this->cursed_.set (x);
+}
+
+void artifact_t::
+cursed (const cursed_optional& x)
+{
+  this->cursed_ = x;
+}
+
 
 // level_t
 // 
@@ -246,7 +270,8 @@ artifact_t (const id_type& id,
   event_ (::xml_schema::flags (), this),
   id_ (id, ::xml_schema::flags (), this),
   name_ (name, ::xml_schema::flags (), this),
-  level_ (level, ::xml_schema::flags (), this)
+  level_ (level, ::xml_schema::flags (), this),
+  cursed_ (::xml_schema::flags (), this)
 {
 }
 
@@ -260,7 +285,8 @@ artifact_t (const artifact_t& x,
   event_ (x.event_, f, this),
   id_ (x.id_, f, this),
   name_ (x.name_, f, this),
-  level_ (x.level_, f, this)
+  level_ (x.level_, f, this),
+  cursed_ (x.cursed_, f, this)
 {
 }
 
@@ -274,7 +300,8 @@ artifact_t (const ::xercesc::DOMElement& e,
   event_ (f, this),
   id_ (f, this),
   name_ (f, this),
-  level_ (f, this)
+  level_ (f, this),
+  cursed_ (f, this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
   {
@@ -356,6 +383,12 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         level_traits::create (i, f, this));
 
       this->level_.set (r);
+      continue;
+    }
+
+    if (n.name () == "cursed" && n.namespace_ ().empty ())
+    {
+      this->cursed_.set (cursed_traits::create (i, f, this));
       continue;
     }
   }
@@ -1056,6 +1089,18 @@ operator<< (::xercesc::DOMElement& e, const artifact_t& i)
         e));
 
     a << i.level ();
+  }
+
+  // cursed
+  //
+  if (i.cursed ())
+  {
+    ::xercesc::DOMAttr& a (
+      ::xsd::cxx::xml::dom::create_attribute (
+        "cursed",
+        e));
+
+    a << *i.cursed ();
   }
 }
 
