@@ -519,8 +519,8 @@ int combatManager::GetCommand(int hex) {
                 else
                   return 3;
               }
-              // Kert: Makes charging possible if the path is completely blocked (but it's broken now)
-              if(a->ValidPath(hex, 0) == 1)// || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->TargetOnStraightLine(hex) && a->ValidFlight(hex, 0) && !a->FlightThroughObstacles(hex)))
+              // Makes charging possible if the path is completely blocked
+              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->TargetOnStraightLine(hex) && a->ValidFlightPath(hex, 0) && !a->FlightThroughObstacles(hex)))
                 return 7;
               a->targetOwner = -1;
               a->targetStackIdx = -1;
@@ -542,19 +542,18 @@ int combatManager::GetCommand(int hex) {
 
 void combatManager::SetupGridForArmy(army *stack) {
   this->SetupGridForArmy_orig(stack);
-  // Kert: Will mark certain hexes black (possible to interact with)
-  // Isn't used currently because moving through enemies (if the path is completely blocked) is broken
-  /*if(CreatureHasAttribute(stack->creatureIdx, CHARGER)) {
+  // Will mark certain hexes black (possible to interact with)
+  if(CreatureHasAttribute(stack->creatureIdx, CHARGER)) {
     for(int i = 0; i < NUM_HEXES; i++) {
       if((this->combatGrid[i].unitOwner != -1) && (this->combatGrid[i].unitOwner != stack->owningSide) && (!stack->FlightThroughObstacles(i)) && stack->TargetOnStraightLine(i)) {
         stack->targetHex = i;
         stack->targetOwner = this->combatGrid[i].unitOwner;
         stack->targetStackIdx = this->combatGrid[i].stackIdx;
-        if(stack->ValidFlight(i, 0))
+        if(stack->ValidFlightPath(i, 0))
           this->field_49F[i] = this->field_42A[i] = 1;
       }
     }
-  }*/
+  }
 }
 
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY) {

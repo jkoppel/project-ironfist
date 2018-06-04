@@ -85,7 +85,10 @@ public:
   void LoadResources();
   int FlyTo(int hexIdx);
   int ValidFlight(int hex, int);
+  int ValidFlightPath(int hex, int flag);
   int WalkTo(int hex);
+  int ValidAttack(int knownHex, signed int neighborIdx, int focusLevel, int a5, int *neighbor);
+  int GetBestDirection(int curHex, int destHex, int mask);
   void MoveTo(int hex);
 
   void MoveAttack(int, int);

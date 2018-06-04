@@ -822,6 +822,101 @@ int army::ValidPath(int hex, int flag) {
   return 0;
 }
 
+int army::ValidFlightPath(int hex, int flag)
+{
+  signed int result; // eax@2
+  int i; // [sp+10h] [bp-34h]@33
+  int rearHex; // [sp+14h] [bp-30h]@30
+  int neighbor; // [sp+18h] [bp-2Ch]@17
+  int neighborIdx; // [sp+1Ch] [bp-28h]@17
+  int mask; // [sp+20h] [bp-24h]@15
+  army *target; // [sp+2Ch] [bp-18h]@10
+  signed int nextNeighborIdx; // [sp+30h] [bp-14h]@29
+  int a1; // [sp+34h] [bp-10h]@29
+  int targHex; // [sp+3Ch] [bp-8h]@11
+  int targMask; // [sp+40h] [bp-4h]@20
+
+  if(ValidHex(hex)) {
+    if(this->targetOwner >= 0 && this->targetOwner <= 1 && this->targetStackIdx >= 0 && this->targetStackIdx <= 19) {
+      target = &gpCombatManager->creatures[this->targetOwner][this->targetStackIdx];
+      if(flag)
+        targHex = hex;
+      else
+        targHex = target->occupiedHex;
+      if(ValidHex(targHex)) {
+        for(mask = this->GetAttackMask(this->occupiedHex, 0, -1); mask != 255; mask |= 1 << neighbor) {
+          neighbor = GetBestDirection(this->occupiedHex, targHex, mask);
+          if(this->ValidAttack(this->occupiedHex, neighbor, 0, -1, &neighborIdx)) {
+            this->targetNeighborIdx = neighbor;
+            this->targetHex = this->occupiedHex;
+            return 1;
+          }
+        }
+        targMask = 0;
+        if(target->creature.creature_flags & TWO_HEXER && !flag) {
+          if(target->facingRight == 1)
+            ++targHex;
+          else
+            --targHex;
+          if(target->facingRight == 1)
+            targMask = 16;
+          else
+            targMask = 2;
+        }
+        while(targMask != 63) {
+          nextNeighborIdx = army::GetBestDirection(targHex, this->occupiedHex, targMask);
+          a1 = this->GetAdjacentCellIndex(targHex, nextNeighborIdx);
+          if(ValidHex(a1) && this->CanFit(a1, 1 - flag, &rearHex)) {
+            this->targetHex = rearHex;
+            if(this->creature.creature_flags & TWO_HEXER) {
+              mask = ~this->GetAttackMask(this->targetHex, 0, -1);
+              for(i = 0; i < 8; ++i) {
+                if((1 << i) & mask)
+                  this->targetNeighborIdx = i;
+              }
+            } else {
+              this->targetNeighborIdx = OppositeDirection(nextNeighborIdx);
+            }
+            return 1;
+          }
+          targMask |= 1 << nextNeighborIdx;
+        }
+        if(target->creature.creature_flags & 1 && !flag) {
+          if(target->facingRight == 1)
+            --targHex;
+          else
+            ++targHex;
+          if(target->facingRight == 1)
+            targMask = 2;
+          else
+            targMask = 16;
+          while(targMask != 63) {
+            nextNeighborIdx = GetBestDirection(targHex, this->occupiedHex, targMask);
+            a1 = this->GetAdjacentCellIndex(targHex, nextNeighborIdx);
+            if(ValidHex(a1) && this->CanFit(a1, 0, 0)) {
+              this->targetHex = a1;
+              this->targetNeighborIdx = GetBestDirection(this->targetHex, targHex, 0);
+              return 1;
+            }
+            targMask |= 1 << nextNeighborIdx;
+          }
+        }
+        result = 0;
+      } else {
+        result = 0;
+      }
+    } else if(this->CanFit(hex, 0, 0)) {
+      this->targetHex = hex;
+      result = 1;
+    } else {
+      result = 0;
+    }
+  } else {
+    result = 0;
+  }
+  return result;
+}
+
 #pragma pack(push, 1)
 struct PathfindingInfo {
   char field_0;
@@ -1000,7 +1095,7 @@ int army::WalkTo(int hex) {
 int army::AttackTo(int targetHex) {
   int result;
 
-  if (this->creature.creature_flags & FLYER) {
+  if (this->creature.creature_flags & FLYER || (this->ValidPath(targetHex, 0) == 0 && CreatureHasAttribute(this->creatureIdx, CHARGER))) {
     if (this->occupiedHex != targetHex)
       this->FlyTo(targetHex);
     this->DoAttack(0);
