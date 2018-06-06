@@ -93,6 +93,7 @@ enum CREATURES
   CREATURE_CYBER_SHADOW_ASSASSIN = 82,
   CREATURE_CYBER_BEHEMOTH = 83,
 };
+#define MAX_BASE_CREATURE 65
 
 enum CREATURE_FLAGS : __int16 {
   TWO_HEXER = 0x1,
@@ -158,7 +159,8 @@ struct tag_monsterInfo
 						cost((short)c), fight_value(f), fight_value_aux(f2), growth(g), hp(h),
 						faction(f3), speed(s), attack(a), defense(d), min_damage(m), max_damage(m2), shots(s2),
 						creature_flags(c2), _(_2) {
-							strcpy(this->short_name, s3);
+							const size_t nameSize = sizeof(this->short_name);
+							strncpy_s(this->short_name, nameSize, s3, nameSize - 1);
 						}
 };
 

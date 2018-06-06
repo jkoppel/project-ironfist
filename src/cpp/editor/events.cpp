@@ -411,6 +411,6 @@ void eventsManager::EditTown(int x, int y) {
 }
 
 int eventsManager::EditHero(int x, int y, int isJailed) {
-  RequestUserDefinedArtifacts();
+  RequestUserDefinedElements();
   return EditHero_orig(x, y, isJailed);
 }
