@@ -8,10 +8,10 @@ extern int __fastcall EditHeroHandler_orig(tag_message&);
 void __stdcall FillInHeroEdit(HeroExtra*);
 extern void __stdcall FillInHeroEdit_orig(HeroExtra*);
 
-// The EditHero dialog automatically fills in the artifacts from the base
-// game and expansion. To get any extra artifacts defined in the xml file,
-// we need to request that a function that runs after EditHero fill in the
-// rest. (That function is FillInHeroEdit.)
-void RequestUserDefinedArtifacts();
+// The EditHero dialog automatically fills in the artifacts and creatures
+// from the base game and expansion. To get any extra items defined in the
+// xml files, we need to request that a function that runs after EditHero
+// fill in the rest. (That function is FillInHeroEdit.)
+void RequestUserDefinedElements();
 
 #endif
