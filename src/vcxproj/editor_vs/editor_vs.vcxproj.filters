@@ -373,6 +373,9 @@
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx">
       <Filter>Header Files\shared</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cpp\editor\hero_edit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\asm\editor.asm">

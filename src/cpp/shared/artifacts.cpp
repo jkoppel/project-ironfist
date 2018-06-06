@@ -20,8 +20,6 @@
  */
 
 namespace {
-  const int NUM_SUPPORTED_ARTIFACTS = 256;
-
   int MaxArtifactId(const artifacts::artifact_sequence &artifactList) {
     int maxId = -1;
     for (const auto &art : artifactList) {
@@ -70,7 +68,8 @@ unsigned char gArtifactLevel[NUM_SUPPORTED_ARTIFACTS] = { 0 };
 std::vector<std::string> names;
 std::vector<std::string> descriptions;
 std::vector<std::string> events;
-std::vector<char> isCursed;
+std::vector<char> isCursed;  // avoiding vector<bool> per _Effective STL_ item 18
+                             // (using char as a 1-byte int)
 
 
 void LoadArtifacts() {

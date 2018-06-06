@@ -151,6 +151,7 @@
     <None Include="..\..\asm\editor_imports.inc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\editor\hero_edit.h" />
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
