@@ -2,33 +2,29 @@
 
 #include "artifacts.h"
 #include "editor.h"
-#include "gui/msg.h"
+#include "gui/gui.h"
 
 extern HeroExtra gEditedHeroExtra;
 
 #define NUM_HERO_PORTRAITS 72
 
 namespace {
-  bool fillInArtifacts = true;
+  bool shouldFillInArtifacts = true;
 }
 
 void __stdcall FillInHeroEdit(HeroExtra *extra) {
   const int ARTIFACT_SLOT_1 = 308;
 
-  if (fillInArtifacts) {
-    tag_message artifactEvent;
-    artifactEvent.eventCode = INPUT_GUI_MESSAGE_CODE;
-    artifactEvent.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
+  if (shouldFillInArtifacts) {
     for (int i = MAX_EXPANSION_ARTIFACT + 1; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
-      if (gArtifactNames[i]) {
-        for (int j = 0; j < 3; ++j) {
-          artifactEvent.payload = gArtifactNames[i];
-          artifactEvent.yCoordOrFieldID = j + ARTIFACT_SLOT_1;
-          gpCellEditDialog->BroadcastMessage(artifactEvent);
-        }
+      if (!gArtifactNames[i]) {
+        continue;
+      }
+      for (int j = 0; j < 3; ++j) {
+        GUIDroplistAdd(gpCellEditDialog, j + ARTIFACT_SLOT_1, gArtifactNames[i]);
       }
     }
-    fillInArtifacts = false;
+    shouldFillInArtifacts = false;
   }
 
   FillInHeroEdit_orig(extra);
@@ -55,5 +51,5 @@ int __fastcall EditHeroHandler(tag_message& evt) {
 }
 
 void RequestUserDefinedArtifacts() {
-  fillInArtifacts = true;
+  shouldFillInArtifacts = true;
 }

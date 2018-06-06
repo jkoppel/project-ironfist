@@ -188,7 +188,7 @@ void InitializeTownEdit(HWND hwnd) {
 	for(int i = 0; i < ELEMENTS_IN(monTypeFields); i++) {
 		SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"-empty-");
 		for(int j = 0; j < GetNumCreatures(); j++) {
-			snprintf(gText, 64, "%s", GetCreatureName(j));
+			snprintf(gText, 300, "%s", GetCreatureName(j));
 			if(strlen(gText) == 0) {
                 SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"###UNKNOWN CREATURE###");
 				continue; //ghetto way of checking for if creature is real (not random)
