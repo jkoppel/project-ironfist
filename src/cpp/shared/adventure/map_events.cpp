@@ -30,9 +30,7 @@ void advManager::PasswordEvent(mapCell *cell, hero *hero) {
     gpCurPlayer->barrierTentsVisited |= 1 << barrierColor;
 }
 
-
 void playerData::SetBarrierTentVisited(int color) {	
-	
 	this->barrierTentsVisited |= (1 << color);
 }
  

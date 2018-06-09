@@ -24,7 +24,6 @@ void set_dialog_consts(lua_State *L) {
 	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
 }
 
-
 void set_barriercolor_consts(lua_State *L){
 	lua_setconst(L, "AQUA_BARRIER", AQUA_BARRIER);
 	lua_setconst(L, "BLUE_BARRIER", BLUE_BARRIER);
