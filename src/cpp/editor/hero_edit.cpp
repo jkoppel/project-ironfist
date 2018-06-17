@@ -78,7 +78,7 @@ int __fastcall EditHeroHandler(tag_message& evt) {
   }
 }
 
-void RequestUserDefinedElements() {
+void EditHero_RequestUserDefinedElements() {
   shouldFillInArtifacts = true;
   shouldFillInCreatures = true;
 }

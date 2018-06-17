@@ -128,6 +128,8 @@ IMPORT_?DeleteExtraObjectData@@YIXI@Z = 1
 IMPORT_?EditTown@eventsManager@@QAEXHH@Z = 1
 IMPORT_?EditHero@eventsManager@@QAEHHHH@Z = 1
 ?EditHero@eventsManager@@QAEHHHH@Z_clone EQU ?EditHero_orig@eventsManager@@QAEHHHH@Z
+IMPORT_?EditEvent@eventsManager@@QAEHH@Z = 1
+?EditEvent@eventsManager@@QAEHH@Z_clone EQU ?EditEvent_orig@eventsManager@@QAEHH@Z
 IMPORT_?ShowErrorMessage@@YIXPBD@Z = 1
 ?ShowErrorMessage@@YIXPBD@Z_clone EQU ?ShowErrorMessage_orig@@YIXPBD@Z
 
@@ -145,6 +147,8 @@ IMPORT_?EditHeroHandler@@YIHAAUtag_message@@@Z = 1
 ?EditHeroHandler@@YIHAAUtag_message@@@Z_clone EQU  ?EditHeroHandler_orig@@YIHAAUtag_message@@@Z
 IMPORT_?FillInHeroEdit@@YGXPAVHeroExtra@@@Z = 1
 ?FillInHeroEdit@@YGXPAVHeroExtra@@@Z_clone EQU ?FillInHeroEdit_orig@@YGXPAVHeroExtra@@@Z
+IMPORT_?FillInEventEdit@@YGXPAVEventExtra@@@Z = 1
+?FillInEventEdit@@YGXPAVEventExtra@@@Z_clone EQU ?FillInEventEdit_orig@@YGXPAVEventExtra@@@Z
 
 ;;spells
 IMPORT_?gSpellNames@@3PAPADA = 1

@@ -6,11 +6,16 @@
 #include "adventure/map.h"
 #include "combat/creatures.h"
 
+#include "artifacts.h"
 #include "editor.h"
 #include "events.h"
 #include "hero_edit.h"
 #include "../../rc/editor/resource.h"
 #include "town/town.h"
+
+namespace {
+  bool shouldFillInArtifacts = true;
+}
 
 extern void* hwndApp;
 extern TownExtra gEditTownExtra;
@@ -411,6 +416,32 @@ void eventsManager::EditTown(int x, int y) {
 }
 
 int eventsManager::EditHero(int x, int y, int isJailed) {
-  RequestUserDefinedElements();
+  EditHero_RequestUserDefinedElements();
   return EditHero_orig(x, y, isJailed);
+}
+
+int eventsManager::EditEvent(int mapExtraIdx) {
+  EditEvent_RequestUserDefinedElements();
+  return EditEvent_orig(mapExtraIdx);
+}
+
+void __stdcall FillInEventEdit(EventExtra *extra) {
+  const int ARTIFACT_SLOT = 301;
+
+  if (shouldFillInArtifacts) {
+    for (int i = MAX_EXPANSION_ARTIFACT + 1; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
+      if (!gArtifactNames[i]) {
+        continue;
+      }
+      GUIDroplistAdd(gpCellEditDialog, ARTIFACT_SLOT, gArtifactNames[i]);
+    }
+
+    shouldFillInArtifacts = false;
+  }
+
+  FillInEventEdit_orig(extra);
+}
+
+void EditEvent_RequestUserDefinedElements() {
+  shouldFillInArtifacts = true;
 }
