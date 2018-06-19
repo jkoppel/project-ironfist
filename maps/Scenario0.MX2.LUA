@@ -88,7 +88,20 @@ end
 function Cave()
     if (not caveVisited) then
         caveVisited = true;
-        MessageBox("Cave");
+        MessageBox("Hidden in the cave is a witch that offers you either great riches or a powerful spell.");
+        choice = QuestionBox("What do you choose?\n\nYES: Mass Invisibility\nNO: 1000 gold & 1000 gems");
+        if (choice) then 
+            if (HasArtifact(hero, ARTIFACT_MAGIC_BOOK)) then --Does the hero have a spellbook???
+                GrantSpell(hero, SPELL_MASS_BLESS); --Placeholder spell. Mass Invisibility does not exist.
+            else
+                GrantSpellScroll(hero, SPELL_MASS_BLESS);
+            end
+        else
+            GiveResource(player, RESOURCE_GOLD, 1000);
+            GiveResource(player, RESOURCE_GEMS, 1000);
+        end
+    else
+        MessageBox("The cave has already been visited.");
     end
 end
 
