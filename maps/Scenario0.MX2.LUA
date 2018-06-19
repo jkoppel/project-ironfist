@@ -108,7 +108,13 @@ end
 function Tent()
     if (not tentVisited) then
         tentVisited = true;
-        MessageBox("Tent");
+        MessageBox("A few rangers show their skill in a competition.");
+        MessageBox("Upon your arrival, you join the crowd and watch the show which ends with one archer splitting an arrow in mid air and hitting the bullseye of the target.");
+        MessageBox("After the show, the archers notice you, and offer to join you telling you it will be their honor to serve you with their skills.");
+        --What if the army slots are full?
+        GrantArmy(hero, CREATURE_RANGER, 10);
+    else
+        MessageBox("The tent has already been visited.");
     end
 end
 
