@@ -47,8 +47,7 @@ function AbandonedHut()
         abandonedHutVisited = true;
         MessageBox("You find a small hut that seems to be abandoned.");
         MessageBox("Upon entering the hut you discover a staff with great power.");
-        
-        hero = GetHero(GetPlayer(0), 0);
+        --Should SetSecondarySkill be used instead of an artifact?
         freeSlots = CountEmptyArtifactSlots(hero);
         if (freeSlots > 0) then
             --We do not have a staff with +2 pathfinding. A placeholder is being used.
@@ -65,7 +64,7 @@ function AbandonedHut()
             MessageBox("The hero can't carry anymore artifacts!");
         end
     else
-        MessageBox("The abandoned hut has already been visited");
+        MessageBox("The abandoned hut has already been visited.");
     end
 end
 
