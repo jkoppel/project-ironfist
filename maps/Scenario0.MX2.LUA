@@ -27,7 +27,7 @@ function OnMapStart()
 	MessageBox("After!");
 end; 
 
-function OnHeroMove(x, y)
+function OnHeroMove(x, y) --Should we have custom text for when a location's event has already happened?
     if (x == 6) then    
         if (y == 9) then
             AbandonedHut();
