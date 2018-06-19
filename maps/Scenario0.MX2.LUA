@@ -3,21 +3,23 @@ bonfireVisited = false;
 caveVisited = false;
 tentVisited = false;
 treeHouseVisited = false;
+hero = null;
 
-mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited"};
+mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "hero"};
 
 
 function OnMapStart()
-	GrantArmy(GetHero(GetPlayer(0), 0), CREATURE_CYBER_BEHEMOTH, 23);
-	GrantArmy(GetHero(GetPlayer(0), 0), CREATURE_CYBER_INDIGO_PANTHER, 20);
-	GrantArmy(GetHero(GetPlayer(0), 0), CREATURE_CYBER_SHADOW_ASSASSIN, 20);
+    hero = GetHero(GetPlayer(0), 0);
+	GrantArmy(hero, CREATURE_CYBER_BEHEMOTH, 23);
+	GrantArmy(hero, CREATURE_CYBER_INDIGO_PANTHER, 20);
+	GrantArmy(hero, CREATURE_CYBER_SHADOW_ASSASSIN, 20);
 	MessageBox("Let me tell you a story!");
 	MessageBox("The bravest warrior that has ever existed, controlling his augments and abilities, and leading his army of enhanced creatures to free the world from the mad tyrant Archibald the wicked!");
 	MessageBox("This hero is unique - no one has ever seen such a marvel - part man, part machine, a true cybernetic hero.");
     MessageBox("Where this hero sees science and technology everyone else sees magic!");
     MessageBox("The chase after Archibald is tedious, the kingdom is littered with warlock towers sapping the life energy of the land.");
     MessageBox("Your goal now is to capture the warlock lord controlling this region and extract information about Archibald’s army, and location. Once you capture this final town you will be able to pass through to Archibald’s Grand Castle, and finally defeat the tyrant.");
-    TeleportHero(GetHero(GetPlayer(0), 0), 10, 14);
+    TeleportHero(hero, 10, 14);
 	MessageBox(tostring(AQUA_BARRIER));
 	SetBarrierTentVisited(GetPlayer(0), AQUA_BARRIER);
 	MessageBox("After!");
