@@ -12,6 +12,6 @@ extern void __stdcall FillInHeroEdit_orig(HeroExtra*);
 // from the base game and expansion. To get any extra items defined in the
 // xml files, we need to request that a function that runs after EditHero
 // fill in the rest. (That function is FillInHeroEdit.)
-void RequestUserDefinedElements();
+void EditHero_RequestUserDefinedElements();
 
 #endif
