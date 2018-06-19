@@ -4,12 +4,14 @@ caveVisited = false;
 tentVisited = false;
 treeHouseVisited = false;
 hero = null;
+player = null;
 
-mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "hero"};
+mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "hero", "player"};
 
 
 function OnMapStart()
-    hero = GetHero(GetPlayer(0), 0);
+    player = GetPlayer(0);
+    hero = GetHero(player, 0);
 	GrantArmy(hero, CREATURE_CYBER_BEHEMOTH, 23);
 	GrantArmy(hero, CREATURE_CYBER_INDIGO_PANTHER, 20);
 	GrantArmy(hero, CREATURE_CYBER_SHADOW_ASSASSIN, 20);
@@ -21,7 +23,7 @@ function OnMapStart()
     MessageBox("Your goal now is to capture the warlock lord controlling this region and extract information about Archibald’s army, and location. Once you capture this final town you will be able to pass through to Archibald’s Grand Castle, and finally defeat the tyrant.");
     TeleportHero(hero, 10, 14);
 	MessageBox(tostring(AQUA_BARRIER));
-	SetBarrierTentVisited(GetPlayer(0), AQUA_BARRIER);
+	SetBarrierTentVisited(player, AQUA_BARRIER);
 	MessageBox("After!");
 end; 
 
