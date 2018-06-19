@@ -1,3 +1,12 @@
+abandonedHutVisited = false;
+bonfireVisited = false;
+caveVisited = false;
+tentVisited = false;
+treeHouseVisited = false;
+
+mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited"};
+
+
 function OnMapStart()
 	GrantArmy(GetHero(GetPlayer(0), 0), CREATURE_CYBER_BEHEMOTH, 23);
 	GrantArmy(GetHero(GetPlayer(0), 0), CREATURE_CYBER_INDIGO_PANTHER, 20);
@@ -14,6 +23,78 @@ function OnMapStart()
 	MessageBox("After!");
 end; 
 
+function OnHeroMove(x, y)
+    if (x == 6) then    
+        if (y == 9) then
+            AbandonedHut();
+        elseif (y == 10) then
+            Bonfire();
+        elseif (y == 11) then
+            Cave();
+        elseif (y == 12) then
+            Tent();
+        elseif (y == 13) then
+            TreeHouse();
+        end
+    end
+        
+end;
+
+function AbandonedHut()
+    if (not abandonedHutVisited) then
+        abandonedHutVisited = true;
+        MessageBox("You find a small hut that seems to be abandoned.");
+        MessageBox("Upon entering the hut you discover a staff with great power.");
+        
+        hero = GetHero(GetPlayer(0), 0);
+        freeSlots = CountEmptyArtifactSlots(hero);
+        if (freeSlots > 0) then
+            --We do not have a staff with +2 pathfinding. A placeholder is being used.
+            artifact = ARTIFACT_STAFF_OF_WIZARDRY;
+            if (not HasArtifact(hero, artifact)) then
+                --We have not implemented a screen to grant artifacts.
+                GrantArtifact(hero, artifact);
+            else
+                abandonedHutVisited = false;
+                MessageBox("The hero already has this artifact!");
+            end
+        else
+            abandonedHutVisited = false;
+            MessageBox("The hero can't carry anymore artifacts!");
+        end
+    else
+        MessageBox("The abandoned hut has already been visited");
+    end
+end
+
+function Bonfire()
+    if (not bonfireVisited) then
+        bonfireVisited = true;
+        MessageBox("Bonfire");
+    end
+end
+
+function Cave()
+    if (not caveVisited) then
+        caveVisited = true;
+        MessageBox("Cave");
+    end
+end
+
+function Tent()
+    if (not tentVisited) then
+        tentVisited = true;
+        MessageBox("Tent");
+    end
+end
+
+function TreeHouse()
+    if (not treeHouseVisited) then
+        treeHouseVisited = true;
+        MessageBox("Tree House");
+    end
+end
+
 function OnCastleConquered(castleId, playerId)
 
 	if castleId==0
@@ -23,10 +104,6 @@ function OnCastleConquered(castleId, playerId)
 	end;
 
 end;
-
-
-
-
 
 function OnMapVictory()
     MessageBox("The warlock lord curses you from his high tower - he waves his wand in the air, and shimmering smoke falls as if it's heavier than the air.");
