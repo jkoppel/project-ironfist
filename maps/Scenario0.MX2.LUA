@@ -71,7 +71,15 @@ end
 function Bonfire()
     if (not bonfireVisited) then
         bonfireVisited = true;
-        MessageBox("Bonfire");
+        MessageBox("As you approach the fire you find a battle hardened paladin and his companion archers.");
+        MessageBox("They offer to join your cause.");
+        --Should this be a choice?
+        --What if the hero's army is full? These are 2 (probably inseparable) stacks. Can we even check the hero army slots?
+        --Should this be using the RecruitBox?
+        GrantArmy(hero, CREATURE_PALADIN, 1);
+        GrantArmy(hero, CREATURE_ARCHER, 10);
+    else
+        MessageBox("The bonfire has already been visited.");
     end
 end
 
