@@ -120,3 +120,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
   }
   return 1;
 }
+
+int __cdecl WinConditionHandler() {
+  return WinConditionHandler_orig();
+}

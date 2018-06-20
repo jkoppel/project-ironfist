@@ -59,6 +59,7 @@ public:
 extern editManager* gpEditManager;
 extern SMapHeader gpMapHeader;
 extern heroWindow* gpCellEditDialog;
+extern heroWindow* gpSpecEditDialog;
 extern int OriginalSpell;
 
 void __fastcall ShowErrorMessage(const char *str);
@@ -73,6 +74,10 @@ extern int __fastcall SelectTerrainTile(int, int, int, int, int, int, float);
 extern char* gpTownNames[];
 
 extern void __cdecl RedrawEditPane();
+
+int __cdecl WinConditionHandler();
+extern int __cdecl WinConditionHandler_orig();
+extern int __fastcall FillInWinCondition(int);
 
 #pragma pack(pop)
 
