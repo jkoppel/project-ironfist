@@ -77,7 +77,8 @@ extern void __cdecl RedrawEditPane();
 
 int __cdecl WinConditionHandler();
 extern int __cdecl WinConditionHandler_orig();
-extern int __fastcall FillInWinCondition(int);
+int __fastcall FillInWinCondition(int);
+extern int __fastcall FillInWinCondition_orig(int);
 
 #pragma pack(pop)
 

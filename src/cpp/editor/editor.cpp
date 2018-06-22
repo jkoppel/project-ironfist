@@ -1,6 +1,7 @@
 #include <stack>
 
 #include "editor.h"
+#include "artifacts.h"
 #include "base.h"
 #include "string.h"
 #include "gui/gui.h"
@@ -122,16 +123,49 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
 }
 
 int __cdecl WinConditionHandler() {
-  if (gpMapHeader.winConditionType != FIND_ARTIFACT) {
+  if (gpMapHeader.winConditionType != WIN_FIND_ARTIFACT) {
     return WinConditionHandler_orig();
   }
 
   const int WIN_CONDITION_EXTRA = 251;
+
+  // Add artifact names to the dropdown list.
   GUIDroplistClear(gpSpecEditDialog, WIN_CONDITION_EXTRA);
-  // TODO: fill in artifacts from list
-  GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, "This is a test");
-  // TODO: use real win condition here
-  FillInWinCondition(0);
-  GUISetDropdownSelection(gpSpecEditDialog, WIN_CONDITION_EXTRA, 0);
+  GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, "Ultimate Artifact");
+  for (int i = 0; i <= MAX_BASE_ARTIFACT; ++i) {
+    GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, gArtifactNames[i]);
+  }
+  for (int i = MIN_EXPANSION_ARTIFACT; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
+    if (gArtifactNames[i]) {
+      GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, gArtifactNames[i]);
+    }
+  }
+
+  // Select the current winning artifact in the list.
+  int index = gpMapHeader.winConditionArgumentOrLocX;
+  if (index - 1 > MAX_BASE_ARTIFACT) {  // -1 allows for generic ultimate artifact at index 0
+    // Skip the unused artifacts between the base game and expansion lists.
+    index -= MIN_EXPANSION_ARTIFACT - MAX_BASE_ARTIFACT - 1;
+  }
+  GUISetDropdownSelection(gpSpecEditDialog, WIN_CONDITION_EXTRA, index);
+  return 0;
+}
+
+// Convert the index of the selected artifact from the droplist to the real
+// artifact id.
+int __fastcall FillInWinCondition(int index) {
+  if (gpMapHeader.winConditionType != WIN_FIND_ARTIFACT) {
+    return FillInWinCondition_orig(index);
+  }
+
+  int artifactId = index - 1;  // generic ultimate artifact at index 0
+  if (artifactId > MAX_BASE_ARTIFACT) {
+    // Skip the unused artifacts between the base game and expansion lists.
+    artifactId += MIN_EXPANSION_ARTIFACT - MAX_BASE_ARTIFACT - 1;
+  }
+
+  // Win condition stores an off-by-one value to allow for the generic
+  // ultimate artifact at index 0.
+  gpMapHeader.winConditionArgumentOrLocX = artifactId + 1;
   return 0;
 }

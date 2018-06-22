@@ -151,6 +151,8 @@ IMPORT_?FillInEventEdit@@YGXPAVEventExtra@@@Z = 1
 ?FillInEventEdit@@YGXPAVEventExtra@@@Z_clone EQU ?FillInEventEdit_orig@@YGXPAVEventExtra@@@Z
 IMPORT_?WinConditionHandler@@YAHXZ = 1
 ?WinConditionHandler@@YAHXZ_clone EQU ?WinConditionHandler_orig@@YAHXZ
+IMPORT_?FillInWinCondition@@YIHH@Z = 1
+?FillInWinCondition@@YIHH@Z_clone EQU ?FillInWinCondition_orig@@YIHH@Z
 
 ;;spells
 IMPORT_?gSpellNames@@3PAPADA = 1
