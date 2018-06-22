@@ -116,6 +116,14 @@ struct SMapHeader {
 	char numEvents;
 };
 
+enum WinConditionType {
+  STANDARD,
+  CAPTURE_CASTLE,
+  DEFEAT_HERO,
+  FIND_ARTIFACT,
+  TEAM_VICTORY,
+  ACCUMULATE_GOLD
+};
 
 extern int MAP_HEIGHT;
 extern int MAP_WIDTH;

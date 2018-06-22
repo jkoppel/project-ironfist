@@ -122,5 +122,16 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
 }
 
 int __cdecl WinConditionHandler() {
-  return WinConditionHandler_orig();
+  if (gpMapHeader.winConditionType != FIND_ARTIFACT) {
+    return WinConditionHandler_orig();
+  }
+
+  const int WIN_CONDITION_EXTRA = 251;
+  GUIDroplistClear(gpSpecEditDialog, WIN_CONDITION_EXTRA);
+  // TODO: fill in artifacts from list
+  GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, "This is a test");
+  // TODO: use real win condition here
+  FillInWinCondition(0);
+  GUISetDropdownSelection(gpSpecEditDialog, WIN_CONDITION_EXTRA, 0);
+  return 0;
 }

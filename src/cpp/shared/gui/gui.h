@@ -101,9 +101,11 @@ void GUISetText(heroWindow*, int, char*);
 void GUISetText(heroWindow*, int, std::string&);
 void GUIDroplistAdd(heroWindow*, int, char*);
 void GUIDroplistAdd(heroWindow*, int, std::string&);
+void GUIDroplistClear(heroWindow*, int);
 
 void GUIBroadcastMessage(heroWindow*, int, int, void*);
 int GUIGetDropdownSelection(heroWindow*, void*);
+void GUISetDropdownSelection(heroWindow*, int, int);
 
 void __fastcall SetupRecruitWin(heroWindow *,int,int,int,int,int);
 void __fastcall QuickViewWait(void);
