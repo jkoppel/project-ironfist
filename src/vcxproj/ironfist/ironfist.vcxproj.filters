@@ -497,6 +497,9 @@
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\lib\optional.hpp">
+      <Filter>Source Files\lib</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\heroes2_imports.inc">

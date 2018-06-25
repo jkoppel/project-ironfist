@@ -3,6 +3,8 @@
 
 #include <string>
 
+#include "optional.hpp"
+
 extern "C" {
 #include "lua/src/lua.h"
 #include "lua/src/lualib.h"
@@ -16,6 +18,12 @@ void ironfist_lua_push(bool arg);
 void ironfist_lua_push(void *arg);
 void ironfist_lua_push(std::string arg);
 void ironfist_lua_pushmulti();
+
+template <typename Res>
+nonstd::optional<Res> GetLuaResult(lua_State *L, int arg);
+
+template <>
+nonstd::optional<bool> GetLuaResult(lua_State *L, int arg);
 
 template<typename T, typename... Args>
 void ironfist_lua_pushmulti(T first, Args... args) {
@@ -41,6 +49,28 @@ void ScriptCallback(const char * funcName, Args... args) {
   if (lua_pcall(map_lua, size, 0, 0) != LUA_OK) {
     DisplayLuaError(map_lua);
   }
+}
+
+template<typename Res, typename... Args>
+nonstd::optional<Res> ScriptCallbackResult(const char * funcName, Args... args) {
+  if (!map_lua) { // if it's not an ironfist map
+    return nonstd::optional<Res>();
+  }
+
+  if (!LuaGlobalExists(map_lua, funcName)) {
+    return nonstd::optional<Res>();
+  }
+
+  lua_getglobal(map_lua, funcName);
+  ironfist_lua_pushmulti(args...);
+  int size = sizeof...(Args);
+  if (lua_pcall(map_lua, size, 1, 0) != LUA_OK) {
+    lua_pop(map_lua, 1); // Unsure if should have this
+    DisplayLuaError(map_lua);
+    return nonstd::optional<Res>();
+  }
+
+  return GetLuaResult<Res>(map_lua, -1);
 }
 
 #endif
