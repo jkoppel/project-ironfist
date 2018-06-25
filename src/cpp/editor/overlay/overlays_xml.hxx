@@ -222,6 +222,9 @@ namespace xml_schema
 // Forward declarations.
 //
 class overlay_t;
+class terrain_mask_t;
+class terrain_t;
+class player_color_t;
 class tileset_t;
 class category_t;
 class location_t;
@@ -276,6 +279,57 @@ class overlay_t: public ::xml_schema::type
 
   void
   animatedTiles (const animatedTiles_sequence& s);
+
+  // coveredNonObstructed
+  // 
+  typedef ::xml_schema::string coveredNonObstructed_type;
+  typedef ::xsd::cxx::tree::sequence< coveredNonObstructed_type > coveredNonObstructed_sequence;
+  typedef coveredNonObstructed_sequence::iterator coveredNonObstructed_iterator;
+  typedef coveredNonObstructed_sequence::const_iterator coveredNonObstructed_const_iterator;
+  typedef ::xsd::cxx::tree::traits< coveredNonObstructed_type, char > coveredNonObstructed_traits;
+
+  const coveredNonObstructed_sequence&
+  coveredNonObstructed () const;
+
+  coveredNonObstructed_sequence&
+  coveredNonObstructed ();
+
+  void
+  coveredNonObstructed (const coveredNonObstructed_sequence& s);
+
+  // shadows
+  // 
+  typedef ::xml_schema::string shadows_type;
+  typedef ::xsd::cxx::tree::sequence< shadows_type > shadows_sequence;
+  typedef shadows_sequence::iterator shadows_iterator;
+  typedef shadows_sequence::const_iterator shadows_const_iterator;
+  typedef ::xsd::cxx::tree::traits< shadows_type, char > shadows_traits;
+
+  const shadows_sequence&
+  shadows () const;
+
+  shadows_sequence&
+  shadows ();
+
+  void
+  shadows (const shadows_sequence& s);
+
+  // validTerrain
+  // 
+  typedef ::terrain_t validTerrain_type;
+  typedef ::xsd::cxx::tree::sequence< validTerrain_type > validTerrain_sequence;
+  typedef validTerrain_sequence::iterator validTerrain_iterator;
+  typedef validTerrain_sequence::const_iterator validTerrain_const_iterator;
+  typedef ::xsd::cxx::tree::traits< validTerrain_type, char > validTerrain_traits;
+
+  const validTerrain_sequence&
+  validTerrain () const;
+
+  validTerrain_sequence&
+  validTerrain ();
+
+  void
+  validTerrain (const validTerrain_sequence& s);
 
   // idx
   // 
@@ -353,6 +407,26 @@ class overlay_t: public ::xml_schema::type
   void
   category (::std::auto_ptr< category_type > p);
 
+  // color
+  // 
+  typedef ::player_color_t color_type;
+  typedef ::xsd::cxx::tree::traits< color_type, char > color_traits;
+
+  const color_type&
+  color () const;
+
+  color_type&
+  color ();
+
+  void
+  color (const color_type& x);
+
+  void
+  color (::std::auto_ptr< color_type > p);
+
+  static const color_type&
+  color_default_value ();
+
   // animationLength
   // 
   typedef ::xml_schema::int_ animationLength_type;
@@ -403,12 +477,172 @@ class overlay_t: public ::xml_schema::type
   protected:
   tiles_sequence tiles_;
   animatedTiles_sequence animatedTiles_;
+  coveredNonObstructed_sequence coveredNonObstructed_;
+  shadows_sequence shadows_;
+  validTerrain_sequence validTerrain_;
   ::xsd::cxx::tree::one< idx_type > idx_;
   ::xsd::cxx::tree::one< idx2_type > idx2_;
   ::xsd::cxx::tree::one< ordinal_type > ordinal_;
   ::xsd::cxx::tree::one< tileset_type > tileset_;
   ::xsd::cxx::tree::one< category_type > category_;
+  ::xsd::cxx::tree::one< color_type > color_;
+  static const color_type color_default_value_;
   ::xsd::cxx::tree::one< animationLength_type > animationLength_;
+};
+
+class terrain_mask_t: public ::xml_schema::type
+{
+  public:
+  // Constructors.
+  //
+  terrain_mask_t ();
+
+  terrain_mask_t (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  terrain_mask_t (const ::xercesc::DOMAttr& a,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  terrain_mask_t (const ::std::string& s,
+                  const ::xercesc::DOMElement* e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  terrain_mask_t (const terrain_mask_t& x,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  virtual terrain_mask_t*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  virtual 
+  ~terrain_mask_t ();
+};
+
+class terrain_t: public ::xml_schema::string
+{
+  public:
+  enum value
+  {
+    TERRAIN_WATER,
+    TERRAIN_GRASS,
+    TERRAIN_SNOW,
+    TERRAIN_SWAMP,
+    TERRAIN_LAVA,
+    TERRAIN_DESERT,
+    TERRAIN_DIRT,
+    TERRAIN_WASTELAND,
+    TERRAIN_SAND
+  };
+
+  terrain_t (value v);
+
+  terrain_t (const char* v);
+
+  terrain_t (const ::std::string& v);
+
+  terrain_t (const ::xml_schema::string& v);
+
+  terrain_t (const ::xercesc::DOMElement& e,
+             ::xml_schema::flags f = 0,
+             ::xml_schema::container* c = 0);
+
+  terrain_t (const ::xercesc::DOMAttr& a,
+             ::xml_schema::flags f = 0,
+             ::xml_schema::container* c = 0);
+
+  terrain_t (const ::std::string& s,
+             const ::xercesc::DOMElement* e,
+             ::xml_schema::flags f = 0,
+             ::xml_schema::container* c = 0);
+
+  terrain_t (const terrain_t& x,
+             ::xml_schema::flags f = 0,
+             ::xml_schema::container* c = 0);
+
+  virtual terrain_t*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  terrain_t&
+  operator= (value v);
+
+  virtual
+  operator value () const
+  {
+    return _xsd_terrain_t_convert ();
+  }
+
+  protected:
+  value
+  _xsd_terrain_t_convert () const;
+
+  public:
+  static const char* const _xsd_terrain_t_literals_[9];
+  static const value _xsd_terrain_t_indexes_[9];
+};
+
+class player_color_t: public ::xml_schema::string
+{
+  public:
+  enum value
+  {
+    PLAYER_BLUE,
+    PLAYER_GREEN,
+    PLAYER_YELLOW,
+    PLAYER_RED,
+    PLAYER_ORANGE,
+    PLAYER_PURPLE
+  };
+
+  player_color_t (value v);
+
+  player_color_t (const char* v);
+
+  player_color_t (const ::std::string& v);
+
+  player_color_t (const ::xml_schema::string& v);
+
+  player_color_t (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  player_color_t (const ::xercesc::DOMAttr& a,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  player_color_t (const ::std::string& s,
+                  const ::xercesc::DOMElement* e,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  player_color_t (const player_color_t& x,
+                  ::xml_schema::flags f = 0,
+                  ::xml_schema::container* c = 0);
+
+  virtual player_color_t*
+  _clone (::xml_schema::flags f = 0,
+          ::xml_schema::container* c = 0) const;
+
+  player_color_t&
+  operator= (value v);
+
+  virtual
+  operator value () const
+  {
+    return _xsd_player_color_t_convert ();
+  }
+
+  protected:
+  value
+  _xsd_player_color_t_convert () const;
+
+  public:
+  static const char* const _xsd_player_color_t_literals_[6];
+  static const value _xsd_player_color_t_indexes_[6];
 };
 
 class tileset_t: public ::xml_schema::string

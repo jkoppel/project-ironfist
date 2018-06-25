@@ -13,16 +13,51 @@
         <xs:choice minOccurs="0" maxOccurs="unbounded">
             <xs:element name="tiles" type="xs:string" />
             <xs:element name="animatedTiles" type="xs:string" />
+            <xs:element name="coveredNonObstructed" type="xs:string" />
+            <xs:element name="shadows" type="xs:string" />
+            <xs:element name="validTerrain" type="terrain_t" />
         </xs:choice>
+
+        
+        <xs:attribute name="name" type="xs:string" />
         <xs:attribute name="idx" type="xs:int" use="required" />
         <xs:attribute name="idx2" type="xs:int" use="required" />
         <xs:attribute name="ordinal" type="xs:int" use="required" />
         <xs:attribute name="tileset" type="tileset_t" use="required" />
-        <xs:attribute name="category" type="category_t" use="required"
-                      />
+        <xs:attribute name="category" type="category_t" use="required"/>
+        <xs:attribute name="color" type="player_color_t" default="PLAYER_BLUE" />
         
         <xs:attribute name="animationLength" type="xs:int" default="0" />
     </xs:complexType>
+
+    <xs:complexType name="terrain_mask_t">
+      
+    </xs:complexType>
+
+    <xs:simpleType name="terrain_t">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="TERRAIN_WATER" />
+        <xs:enumeration value="TERRAIN_GRASS" />
+        <xs:enumeration value="TERRAIN_SNOW" />
+        <xs:enumeration value="TERRAIN_SWAMP" />
+        <xs:enumeration value="TERRAIN_LAVA" />
+        <xs:enumeration value="TERRAIN_DESERT" />
+        <xs:enumeration value="TERRAIN_DIRT" />
+        <xs:enumeration value="TERRAIN_WASTELAND" />
+        <xs:enumeration value="TERRAIN_SAND" />
+      </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="player_color_t">
+      <xs:restriction base="xs:string">
+        <xs:enumeration value="PLAYER_BLUE" />
+        <xs:enumeration value="PLAYER_GREEN" />
+        <xs:enumeration value="PLAYER_YELLOW" />
+        <xs:enumeration value="PLAYER_RED" />
+        <xs:enumeration value="PLAYER_ORANGE" />
+        <xs:enumeration value="PLAYER_PURPLE" />
+      </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="tileset_t">
         <xs:restriction base="xs:string">

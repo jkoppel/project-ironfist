@@ -79,6 +79,60 @@ animatedTiles (const animatedTiles_sequence& s)
   this->animatedTiles_ = s;
 }
 
+const overlay_t::coveredNonObstructed_sequence& overlay_t::
+coveredNonObstructed () const
+{
+  return this->coveredNonObstructed_;
+}
+
+overlay_t::coveredNonObstructed_sequence& overlay_t::
+coveredNonObstructed ()
+{
+  return this->coveredNonObstructed_;
+}
+
+void overlay_t::
+coveredNonObstructed (const coveredNonObstructed_sequence& s)
+{
+  this->coveredNonObstructed_ = s;
+}
+
+const overlay_t::shadows_sequence& overlay_t::
+shadows () const
+{
+  return this->shadows_;
+}
+
+overlay_t::shadows_sequence& overlay_t::
+shadows ()
+{
+  return this->shadows_;
+}
+
+void overlay_t::
+shadows (const shadows_sequence& s)
+{
+  this->shadows_ = s;
+}
+
+const overlay_t::validTerrain_sequence& overlay_t::
+validTerrain () const
+{
+  return this->validTerrain_;
+}
+
+overlay_t::validTerrain_sequence& overlay_t::
+validTerrain ()
+{
+  return this->validTerrain_;
+}
+
+void overlay_t::
+validTerrain (const validTerrain_sequence& s)
+{
+  this->validTerrain_ = s;
+}
+
 const overlay_t::idx_type& overlay_t::
 idx () const
 {
@@ -181,6 +235,36 @@ category (::std::auto_ptr< category_type > x)
   this->category_.set (x);
 }
 
+const overlay_t::color_type& overlay_t::
+color () const
+{
+  return this->color_.get ();
+}
+
+overlay_t::color_type& overlay_t::
+color ()
+{
+  return this->color_.get ();
+}
+
+void overlay_t::
+color (const color_type& x)
+{
+  this->color_.set (x);
+}
+
+void overlay_t::
+color (::std::auto_ptr< color_type > x)
+{
+  this->color_.set (x);
+}
+
+const overlay_t::color_type& overlay_t::
+color_default_value ()
+{
+  return color_default_value_;
+}
+
 const overlay_t::animationLength_type& overlay_t::
 animationLength () const
 {
@@ -203,6 +287,100 @@ overlay_t::animationLength_type overlay_t::
 animationLength_default_value ()
 {
   return animationLength_type (0);
+}
+
+
+// terrain_mask_t
+// 
+
+
+// terrain_t
+// 
+
+terrain_t::
+terrain_t (value v)
+: ::xml_schema::string (_xsd_terrain_t_literals_[v])
+{
+}
+
+terrain_t::
+terrain_t (const char* v)
+: ::xml_schema::string (v)
+{
+}
+
+terrain_t::
+terrain_t (const ::std::string& v)
+: ::xml_schema::string (v)
+{
+}
+
+terrain_t::
+terrain_t (const ::xml_schema::string& v)
+: ::xml_schema::string (v)
+{
+}
+
+terrain_t::
+terrain_t (const terrain_t& v,
+           ::xml_schema::flags f,
+           ::xml_schema::container* c)
+: ::xml_schema::string (v, f, c)
+{
+}
+
+terrain_t& terrain_t::
+operator= (value v)
+{
+  static_cast< ::xml_schema::string& > (*this) = 
+  ::xml_schema::string (_xsd_terrain_t_literals_[v]);
+
+  return *this;
+}
+
+
+// player_color_t
+// 
+
+player_color_t::
+player_color_t (value v)
+: ::xml_schema::string (_xsd_player_color_t_literals_[v])
+{
+}
+
+player_color_t::
+player_color_t (const char* v)
+: ::xml_schema::string (v)
+{
+}
+
+player_color_t::
+player_color_t (const ::std::string& v)
+: ::xml_schema::string (v)
+{
+}
+
+player_color_t::
+player_color_t (const ::xml_schema::string& v)
+: ::xml_schema::string (v)
+{
+}
+
+player_color_t::
+player_color_t (const player_color_t& v,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::string (v, f, c)
+{
+}
+
+player_color_t& player_color_t::
+operator= (value v)
+{
+  static_cast< ::xml_schema::string& > (*this) = 
+  ::xml_schema::string (_xsd_player_color_t_literals_[v]);
+
+  return *this;
 }
 
 
@@ -368,6 +546,9 @@ overlay (const overlay_sequence& s)
 // overlay_t
 //
 
+const overlay_t::color_type overlay_t::color_default_value_ (
+  "PLAYER_BLUE");
+
 overlay_t::
 overlay_t (const idx_type& idx,
            const idx2_type& idx2,
@@ -377,11 +558,15 @@ overlay_t (const idx_type& idx,
 : ::xml_schema::type (),
   tiles_ (::xml_schema::flags (), this),
   animatedTiles_ (::xml_schema::flags (), this),
+  coveredNonObstructed_ (::xml_schema::flags (), this),
+  shadows_ (::xml_schema::flags (), this),
+  validTerrain_ (::xml_schema::flags (), this),
   idx_ (idx, ::xml_schema::flags (), this),
   idx2_ (idx2, ::xml_schema::flags (), this),
   ordinal_ (ordinal, ::xml_schema::flags (), this),
   tileset_ (tileset, ::xml_schema::flags (), this),
   category_ (category, ::xml_schema::flags (), this),
+  color_ (color_default_value (), ::xml_schema::flags (), this),
   animationLength_ (animationLength_default_value (), ::xml_schema::flags (), this)
 {
 }
@@ -393,11 +578,15 @@ overlay_t (const overlay_t& x,
 : ::xml_schema::type (x, f, c),
   tiles_ (x.tiles_, f, this),
   animatedTiles_ (x.animatedTiles_, f, this),
+  coveredNonObstructed_ (x.coveredNonObstructed_, f, this),
+  shadows_ (x.shadows_, f, this),
+  validTerrain_ (x.validTerrain_, f, this),
   idx_ (x.idx_, f, this),
   idx2_ (x.idx2_, f, this),
   ordinal_ (x.ordinal_, f, this),
   tileset_ (x.tileset_, f, this),
   category_ (x.category_, f, this),
+  color_ (x.color_, f, this),
   animationLength_ (x.animationLength_, f, this)
 {
 }
@@ -409,11 +598,15 @@ overlay_t (const ::xercesc::DOMElement& e,
 : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
   tiles_ (f, this),
   animatedTiles_ (f, this),
+  coveredNonObstructed_ (f, this),
+  shadows_ (f, this),
+  validTerrain_ (f, this),
   idx_ (f, this),
   idx2_ (f, this),
   ordinal_ (f, this),
   tileset_ (f, this),
   category_ (f, this),
+  color_ (f, this),
   animationLength_ (f, this)
 {
   if ((f & ::xml_schema::flags::base) == 0)
@@ -452,6 +645,39 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
         animatedTiles_traits::create (i, f, this));
 
       this->animatedTiles_.push_back (r);
+      continue;
+    }
+
+    // coveredNonObstructed
+    //
+    if (n.name () == "coveredNonObstructed" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< coveredNonObstructed_type > r (
+        coveredNonObstructed_traits::create (i, f, this));
+
+      this->coveredNonObstructed_.push_back (r);
+      continue;
+    }
+
+    // shadows
+    //
+    if (n.name () == "shadows" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< shadows_type > r (
+        shadows_traits::create (i, f, this));
+
+      this->shadows_.push_back (r);
+      continue;
+    }
+
+    // validTerrain
+    //
+    if (n.name () == "validTerrain" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< validTerrain_type > r (
+        validTerrain_traits::create (i, f, this));
+
+      this->validTerrain_.push_back (r);
       continue;
     }
 
@@ -500,6 +726,15 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       continue;
     }
 
+    if (n.name () == "color" && n.namespace_ ().empty ())
+    {
+      ::std::auto_ptr< color_type > r (
+        color_traits::create (i, f, this));
+
+      this->color_.set (r);
+      continue;
+    }
+
     if (n.name () == "animationLength" && n.namespace_ ().empty ())
     {
       this->animationLength_.set (animationLength_traits::create (i, f, this));
@@ -542,6 +777,11 @@ parse (::xsd::cxx::xml::dom::parser< char >& p,
       "");
   }
 
+  if (!color_.present ())
+  {
+    this->color_.set (color_default_value ());
+  }
+
   if (!animationLength_.present ())
   {
     this->animationLength_.set (animationLength_default_value ());
@@ -559,6 +799,222 @@ overlay_t::
 ~overlay_t ()
 {
 }
+
+// terrain_mask_t
+//
+
+terrain_mask_t::
+terrain_mask_t ()
+: ::xml_schema::type ()
+{
+}
+
+terrain_mask_t::
+terrain_mask_t (const terrain_mask_t& x,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::type (x, f, c)
+{
+}
+
+terrain_mask_t::
+terrain_mask_t (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::type (e, f, c)
+{
+}
+
+terrain_mask_t::
+terrain_mask_t (const ::xercesc::DOMAttr& a,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::type (a, f, c)
+{
+}
+
+terrain_mask_t::
+terrain_mask_t (const ::std::string& s,
+                const ::xercesc::DOMElement* e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::type (s, e, f, c)
+{
+}
+
+terrain_mask_t* terrain_mask_t::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class terrain_mask_t (*this, f, c);
+}
+
+terrain_mask_t::
+~terrain_mask_t ()
+{
+}
+
+// terrain_t
+//
+
+terrain_t::
+terrain_t (const ::xercesc::DOMElement& e,
+           ::xml_schema::flags f,
+           ::xml_schema::container* c)
+: ::xml_schema::string (e, f, c)
+{
+  _xsd_terrain_t_convert ();
+}
+
+terrain_t::
+terrain_t (const ::xercesc::DOMAttr& a,
+           ::xml_schema::flags f,
+           ::xml_schema::container* c)
+: ::xml_schema::string (a, f, c)
+{
+  _xsd_terrain_t_convert ();
+}
+
+terrain_t::
+terrain_t (const ::std::string& s,
+           const ::xercesc::DOMElement* e,
+           ::xml_schema::flags f,
+           ::xml_schema::container* c)
+: ::xml_schema::string (s, e, f, c)
+{
+  _xsd_terrain_t_convert ();
+}
+
+terrain_t* terrain_t::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class terrain_t (*this, f, c);
+}
+
+terrain_t::value terrain_t::
+_xsd_terrain_t_convert () const
+{
+  ::xsd::cxx::tree::enum_comparator< char > c (_xsd_terrain_t_literals_);
+  const value* i (::std::lower_bound (
+                    _xsd_terrain_t_indexes_,
+                    _xsd_terrain_t_indexes_ + 9,
+                    *this,
+                    c));
+
+  if (i == _xsd_terrain_t_indexes_ + 9 || _xsd_terrain_t_literals_[*i] != *this)
+  {
+    throw ::xsd::cxx::tree::unexpected_enumerator < char > (*this);
+  }
+
+  return *i;
+}
+
+const char* const terrain_t::
+_xsd_terrain_t_literals_[9] =
+{
+  "TERRAIN_WATER",
+  "TERRAIN_GRASS",
+  "TERRAIN_SNOW",
+  "TERRAIN_SWAMP",
+  "TERRAIN_LAVA",
+  "TERRAIN_DESERT",
+  "TERRAIN_DIRT",
+  "TERRAIN_WASTELAND",
+  "TERRAIN_SAND"
+};
+
+const terrain_t::value terrain_t::
+_xsd_terrain_t_indexes_[9] =
+{
+  ::terrain_t::TERRAIN_DESERT,
+  ::terrain_t::TERRAIN_DIRT,
+  ::terrain_t::TERRAIN_GRASS,
+  ::terrain_t::TERRAIN_LAVA,
+  ::terrain_t::TERRAIN_SAND,
+  ::terrain_t::TERRAIN_SNOW,
+  ::terrain_t::TERRAIN_SWAMP,
+  ::terrain_t::TERRAIN_WASTELAND,
+  ::terrain_t::TERRAIN_WATER
+};
+
+// player_color_t
+//
+
+player_color_t::
+player_color_t (const ::xercesc::DOMElement& e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::string (e, f, c)
+{
+  _xsd_player_color_t_convert ();
+}
+
+player_color_t::
+player_color_t (const ::xercesc::DOMAttr& a,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::string (a, f, c)
+{
+  _xsd_player_color_t_convert ();
+}
+
+player_color_t::
+player_color_t (const ::std::string& s,
+                const ::xercesc::DOMElement* e,
+                ::xml_schema::flags f,
+                ::xml_schema::container* c)
+: ::xml_schema::string (s, e, f, c)
+{
+  _xsd_player_color_t_convert ();
+}
+
+player_color_t* player_color_t::
+_clone (::xml_schema::flags f,
+        ::xml_schema::container* c) const
+{
+  return new class player_color_t (*this, f, c);
+}
+
+player_color_t::value player_color_t::
+_xsd_player_color_t_convert () const
+{
+  ::xsd::cxx::tree::enum_comparator< char > c (_xsd_player_color_t_literals_);
+  const value* i (::std::lower_bound (
+                    _xsd_player_color_t_indexes_,
+                    _xsd_player_color_t_indexes_ + 6,
+                    *this,
+                    c));
+
+  if (i == _xsd_player_color_t_indexes_ + 6 || _xsd_player_color_t_literals_[*i] != *this)
+  {
+    throw ::xsd::cxx::tree::unexpected_enumerator < char > (*this);
+  }
+
+  return *i;
+}
+
+const char* const player_color_t::
+_xsd_player_color_t_literals_[6] =
+{
+  "PLAYER_BLUE",
+  "PLAYER_GREEN",
+  "PLAYER_YELLOW",
+  "PLAYER_RED",
+  "PLAYER_ORANGE",
+  "PLAYER_PURPLE"
+};
+
+const player_color_t::value player_color_t::
+_xsd_player_color_t_indexes_[6] =
+{
+  ::player_color_t::PLAYER_BLUE,
+  ::player_color_t::PLAYER_GREEN,
+  ::player_color_t::PLAYER_ORANGE,
+  ::player_color_t::PLAYER_PURPLE,
+  ::player_color_t::PLAYER_RED,
+  ::player_color_t::PLAYER_YELLOW
+};
 
 // tileset_t
 //
