@@ -25,9 +25,11 @@ void ironfist_lua_pushmulti() {
 }
 
 template <>
-nonstd::optional<bool> GetLuaResult(lua_State *L, int arg) {
-  if (lua_isboolean(L, -1)) {
-    return nonstd::optional<bool>(lua_toboolean(L, -1));
+nonstd::optional<bool> PopLuaResult(lua_State *L, int arg) {
+  if (lua_isboolean(L, arg)) {
+    auto retVal = nonstd::optional<bool>(lua_toboolean(L, arg));
+    lua_remove(L, arg);
+    return retVal;
   } else {
     DisplayError("Incorrect return value: expected bool; got something else", "Script error");
     return nonstd::optional<bool>();
