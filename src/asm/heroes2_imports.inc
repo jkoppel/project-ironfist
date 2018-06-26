@@ -192,6 +192,8 @@ IMPORT_?gArtifactDesc@@3PAPADA = 1
 IMPORT_?gArtifactEvents@@3PAPADA = 1
 IMPORT_?gArtifactLevel@@3PAEA = 1
 IMPORT_?IsCursedItem@@YIHH@Z = 1
+IMPORT_?InitRandomArtifacts@game@@QAEXXZ = 1
+IMPORT_?GetRandomArtifactId@game@@QAEHHH@Z = 1
 
 ;;combat
 IMPORT_?gCombatFxNames@@3PAPADA = 1

@@ -3,6 +3,7 @@
 
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "artifacts.h"
 #include "town/town.h"
 
 #define NUM_PLAYERS 6
@@ -139,7 +140,7 @@ public:
 	char relatedToHeroForHireStatus[54];
 	mine mines[144];
 	char field_60A6[144];
-	char artifactGeneratedRandomly[103];
+	char artifactGeneratedRandomly[NUM_SUPPORTED_ARTIFACTS];
 	boat boats[48];
 	char boatBuilt[48];
 	char obeliskVisitedMasks[48];
@@ -208,7 +209,8 @@ public:
   void MakeAllWaterVisible(int player);
   void MakeAllWaterVisible_orig(int player);
 
-  int InitRandomArtifacts();
+  void InitRandomArtifacts();
+  int GetRandomArtifactId(int allowedLevels, int allowNegatives);
   int LoadMap(char *nam);
   int ProcessRandomObjects();
   int ProcessMapExtra();
@@ -271,7 +273,7 @@ extern int iLastMsgNumHumanPlayers;
 extern bool gbSetupGamePosToRealGamePos[];
 extern signed char gcColorToSetupPos[];
 extern signed char giVisRange[];
-extern char xIsPlayingExpansionCampaign;
+extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;

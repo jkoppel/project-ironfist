@@ -119,5 +119,6 @@ void LoadArtifacts();
 int __fastcall IsCursedItem(int);
 
 extern char *gArtifactNames[];
+extern unsigned char gArtifactLevel[];
 
 #endif
