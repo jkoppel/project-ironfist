@@ -105,6 +105,7 @@
     <ClCompile Include="..\..\cpp\shared\adventure\map_events.cpp" />
     <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
+    <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
@@ -169,8 +170,10 @@
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\lua_utils.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
