@@ -290,7 +290,7 @@ void game::InitRandomArtifacts() {
 
 int game::GetRandomArtifactId(int allowedLevels, int allowNegatives) {
   int winConditionArtifact = -1;
-  if (mapHeader.winConditionType == WIN_FIND_ARTIFACT) {
+  if (mapHeader.winConditionType == WIN_CONDITION_FIND_ARTIFACT) {
     winConditionArtifact = mapHeader.winConditionArgumentOrLocX - 1;
   }
 
@@ -301,7 +301,8 @@ int game::GetRandomArtifactId(int allowedLevels, int allowNegatives) {
   const int numArtifacts = (xIsExpansionMap ? NUM_SUPPORTED_ARTIFACTS : MAX_BASE_ARTIFACT + 1);
 
   for (int i = 0; i < numArtifacts; ++i) {
-    if ((gArtifactLevel[i] & allowedLevels) == 0) { // TODO: also test for unused
+    const int level = GetArtifactLevel(i);
+    if ((level == ARTIFACT_LEVEL_UNUSED) || ((level & allowedLevels) == 0)) {
       continue;
     }
     if (IsArtifactGenerated(i)) {

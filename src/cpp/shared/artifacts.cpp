@@ -40,21 +40,21 @@ namespace {
     return ret;
   }
 
-  int GetArtifactLevel(level_t::value lvl) {
+  int GetLevel(level_t::value lvl) {
     switch (lvl) {
     case level_t::ultimate:
-      return 1;
+      return ARTIFACT_LEVEL_ULTIMATE;
     case level_t::major:
-      return 2;
+      return ARTIFACT_LEVEL_MAJOR;
     case level_t::minor:
-      return 4;
+      return ARTIFACT_LEVEL_MINOR;
     case level_t::treasure:
-      return 8;
+      return ARTIFACT_LEVEL_TREASURE;
     case level_t::spellbook:
-      return 16;
+      return ARTIFACT_LEVEL_SPELLBOOK;
     case level_t::unused:
     default:
-      return 32;
+      return ARTIFACT_LEVEL_UNUSED;
     }
   }
 
@@ -102,7 +102,7 @@ void LoadArtifacts() {
     events[i] = JoinSequence(art.event());
     gArtifactEvents[i] = &(events[i][0]);
 
-    gArtifactLevel[i] = GetArtifactLevel(art.level());
+    gArtifactLevel[i] = GetLevel(art.level());
 
     if (art.cursed()) {
       isCursed[i] = art.cursed().get();
@@ -149,4 +149,8 @@ void DeserializeGeneratedArtifacts(const std::vector<int> &src) {
 
 const std::vector<int> & SerializeGeneratedArtifacts() {
   return isGenerated;
+}
+
+int GetArtifactLevel(int id) {
+  return gArtifactLevel[id];
 }

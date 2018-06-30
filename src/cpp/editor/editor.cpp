@@ -4,6 +4,7 @@
 #include "artifacts.h"
 #include "base.h"
 #include "string.h"
+#include "game/game.h"
 #include "gui/gui.h"
 #include "gui/msg.h"
 #include "spell/spell_constants.h"
@@ -119,7 +120,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
 }
 
 int __cdecl WinConditionHandler() {
-  if (gpMapHeader.winConditionType != WIN_FIND_ARTIFACT) {
+  if (gpMapHeader.winConditionType != WIN_CONDITION_FIND_ARTIFACT) {
     return WinConditionHandler_orig();
   }
 
@@ -150,7 +151,7 @@ int __cdecl WinConditionHandler() {
 // Convert the index of the selected artifact from the droplist to the real
 // artifact id.
 int __fastcall FillInWinCondition(int index) {
-  if (gpMapHeader.winConditionType != WIN_FIND_ARTIFACT) {
+  if (gpMapHeader.winConditionType != WIN_CONDITION_FIND_ARTIFACT) {
     return FillInWinCondition_orig(index);
   }
 
