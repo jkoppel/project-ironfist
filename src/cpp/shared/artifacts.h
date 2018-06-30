@@ -1,6 +1,8 @@
 #ifndef TIED_ARTIFACT_H
 #define TIED_ARTIFACT_H
 
+#include <vector>
+
 #define MAX_ARTIFACTS 14
 
 enum ARTIFACT {
@@ -117,6 +119,13 @@ const int NUM_SUPPORTED_ARTIFACTS = 256;
 
 void LoadArtifacts();
 int __fastcall IsCursedItem(int);
+bool IsArtifactGenerated(int);
+void GenerateArtifact(int);
+void ResetGeneratedArtifacts();
+void ResetGeneratedArtifacts(int);
+
+void DeserializeGeneratedArtifacts(const std::vector<int> &);
+const std::vector<int> & SerializeGeneratedArtifacts();
 
 extern char *gArtifactNames[];
 extern unsigned char gArtifactLevel[];

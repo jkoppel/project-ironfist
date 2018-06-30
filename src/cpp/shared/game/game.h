@@ -140,7 +140,7 @@ public:
 	char relatedToHeroForHireStatus[54];
 	mine mines[144];
 	char field_60A6[144];
-	char artifactGeneratedRandomly[NUM_SUPPORTED_ARTIFACTS];
+	char artifactGeneratedRandomly[103];
 	boat boats[48];
 	char boatBuilt[48];
 	char obeliskVisitedMasks[48];

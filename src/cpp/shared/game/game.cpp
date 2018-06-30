@@ -103,7 +103,8 @@ void game::InitNewGame(struct SMapHeader *a) {
 			lastPlayed = read_pref<std::string>("Last Map");
 
 		if (lastPlayed.length() < 20) { // otherwise means no registry keys exist yet
-			strcpy(gMapName, lastPlayed.c_str());  // can't determine the size of gMapName
+			const int mapNameSize = 13;  // DOS 8+3 format
+			strcpy_s(gMapName, mapNameSize, lastPlayed.c_str());
 			strcpy_s(this->mapFilename, sizeof(mapFilename), lastPlayed.c_str());
 		}
 	}
@@ -274,14 +275,14 @@ void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int 
 }
 
 void game::InitRandomArtifacts() {
-  memset(artifactGeneratedRandomly, 0, sizeof(artifactGeneratedRandomly));
+  ResetGeneratedArtifacts();
   for (int i = 0; i < MAP_WIDTH; ++i) {
     for (int j = 0; j < MAP_HEIGHT; ++j) {
       const auto &tile = map.tiles[j * MAP_WIDTH + i];
       if (tile.objType == (TILE_HAS_EVENT | LOCATION_ARTIFACT)) {
-        // Don't know why we need to divide by 2, but that's what the decompiled code says.
+        // Each artifact has two tiles. Convert from tile id to the artifact id.
         const int artifactId = static_cast<unsigned char>(tile.objectIndex) / 2;
-        artifactGeneratedRandomly[artifactId] = 1;
+        GenerateArtifact(artifactId);
       }
     }
   }
@@ -300,10 +301,10 @@ int game::GetRandomArtifactId(int allowedLevels, int allowNegatives) {
   const int numArtifacts = (xIsExpansionMap ? NUM_SUPPORTED_ARTIFACTS : MAX_BASE_ARTIFACT + 1);
 
   for (int i = 0; i < numArtifacts; ++i) {
-    if ((gArtifactLevel[i] & allowedLevels) == 0) {
+    if ((gArtifactLevel[i] & allowedLevels) == 0) { // TODO: also test for unused
       continue;
     }
-    if (artifactGeneratedRandomly[i]) {
+    if (IsArtifactGenerated(i)) {
       continue;
     }
     if (i == ARTIFACT_SPELL_SCROLL) {
@@ -329,16 +330,12 @@ int game::GetRandomArtifactId(int allowedLevels, int allowNegatives) {
 
   // Ran out of artifacts (how'd you manage that?), so reset and try again.
   if (choices.empty()) {
-    for (int i = 0; i < numArtifacts; ++i) {
-      if (gArtifactLevel[i] & allowedLevels) {
-        artifactGeneratedRandomly[i] = 0;
-      }
-    }
+    ResetGeneratedArtifacts(allowedLevels);
     return GetRandomArtifactId(allowedLevels, allowNegatives);
   }
 
   const auto artifactId = choices[Random(0, choices.size() - 1)];
-  artifactGeneratedRandomly[artifactId] = 1;
+  GenerateArtifact(artifactId);
   return artifactId;
 }
 
