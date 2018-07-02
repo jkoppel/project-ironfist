@@ -173,6 +173,7 @@
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
+    <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\lua_utils.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />

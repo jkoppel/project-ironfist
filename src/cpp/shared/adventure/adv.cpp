@@ -10,6 +10,7 @@
 #include "spell/spells.h"
 #include "prefs.h"
 
+#include "optional.hpp"
 #include <sstream>
 
 static const int END_TURN_BUTTON = 4;
@@ -127,12 +128,15 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   int locationType = cell->objType & 0x7F;
   SAMPLE2 res2 = NULL_SAMPLE2;
-  ScriptCallback("OnLocationVisit", locationType, locX, locY);
-  if (locationType != LOCATION_SHRINE_FIRST_ORDER && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
-    this->DoEvent_orig(cell, locX, locY);
-    return;
+  nonstd::optional<bool> shouldSkip = ScriptCallbackResult<bool>("OnLocationVisit", locationType, locX, locY);
+  if (!shouldSkip.value_or(false)) {
+    if (locationType != LOCATION_SHRINE_FIRST_ORDER && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
+      this->DoEvent_orig(cell, locX, locY);
+      return;
+    }
+    this->HandleSpellShrine(cell, locationType, hro, res2, locX, locY);
   }
-  this->HandleSpellShrine(cell, locationType, hro, res2, locX, locY);
+
   this->UpdateRadar(1, 0);
   this->UpdateHeroLocators(1, 1);
   this->UpdateTownLocators(1, 1);
