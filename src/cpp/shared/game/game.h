@@ -3,6 +3,7 @@
 
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "artifacts.h"
 #include "town/town.h"
 
 #define NUM_PLAYERS 6
@@ -208,7 +209,8 @@ public:
   void MakeAllWaterVisible(int player);
   void MakeAllWaterVisible_orig(int player);
 
-  int InitRandomArtifacts();
+  void InitRandomArtifacts();
+  int GetRandomArtifactId(int allowedLevels, int allowNegatives);
   int LoadMap(char *nam);
   int ProcessRandomObjects();
   int ProcessMapExtra();
@@ -271,7 +273,7 @@ extern int iLastMsgNumHumanPlayers;
 extern bool gbSetupGamePosToRealGamePos[];
 extern signed char gcColorToSetupPos[];
 extern signed char giVisRange[];
-extern char xIsPlayingExpansionCampaign;
+extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;

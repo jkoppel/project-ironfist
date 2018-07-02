@@ -1,6 +1,8 @@
 #ifndef TIED_ARTIFACT_H
 #define TIED_ARTIFACT_H
 
+#include <vector>
+
 #define MAX_ARTIFACTS 14
 
 enum ARTIFACT {
@@ -110,6 +112,15 @@ enum ARTIFACT {
   ARTIFACT_PANDORA_BOX = 103,
 };
 
+enum ArtifactLevel {
+  ARTIFACT_LEVEL_ULTIMATE = 1,
+  ARTIFACT_LEVEL_MAJOR = 2,
+  ARTIFACT_LEVEL_MINOR = 4,
+  ARTIFACT_LEVEL_TREASURE = 8,
+  ARTIFACT_LEVEL_SPELLBOOK = 16,
+  ARTIFACT_LEVEL_UNUSED = 32
+};
+
 const int MAX_BASE_ARTIFACT = 81;
 const int MIN_EXPANSION_ARTIFACT = 86;
 const int MAX_EXPANSION_ARTIFACT = 102;
@@ -117,6 +128,14 @@ const int NUM_SUPPORTED_ARTIFACTS = 256;
 
 void LoadArtifacts();
 int __fastcall IsCursedItem(int);
+bool IsArtifactGenerated(int);
+void GenerateArtifact(int);
+void ResetGeneratedArtifacts();
+void ResetGeneratedArtifacts(int);
+int GetArtifactLevel(int);
+
+void DeserializeGeneratedArtifacts(const std::vector<int> &);
+const std::vector<int> & SerializeGeneratedArtifacts();
 
 extern char *gArtifactNames[];
 
