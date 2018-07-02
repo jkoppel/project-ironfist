@@ -432,7 +432,7 @@
         <description>The Arm of the Martyr increases your spell power by 3 but adds the undead morale penalty.</description>
         <event>One of the less intelligent members of your party picks up an arm off of the ground.  Despite its missing a body, it is still moving.  Your troops find the dismembered arm repulsive, but you cannot bring yourself to drop it: it seems to hold some sort of magical power that influences your decision making.</event>
     </artifact>
-    <artifact id="88" name="Breastplate of Anduran" level="major">
+    <artifact id="88" name="Breastplate of Anduran" level="major" campaign_only="true">
         <title>Breastplate of Anduran</title>
         <description>The Breastplate increases your defense by 5.</description>
         <event>You come upon a sign.  It reads: "Here lies the body of Anduran.  Bow and swear fealty, and you shall be rewarded."  You decide to do as it says.  As you stand up, you feel a coldness against your skin.  Looking down, you find that you are suddenly wearing a gleaming, ornate breastplate.</event>
@@ -442,7 +442,7 @@
         <description>The Broach of Shielding provides 50% protection from Armageddon and Elemental Storm, but decreases spell power by 2.</description>
         <event>A kindly Sorceress thinks that your army's defenses could use a magical boost.  She offers to enchant the Broach that you wear on your cloak, and you accept.</event>
     </artifact>
-    <artifact id="90" name="Battle Garb of Anduran" level="major">
+    <artifact id="90" name="Battle Garb of Anduran" level="major" campaign_only="true">
         <title>Battle Garb</title>
         <description>The Battle Garb of Anduran combines the powers of the three Anduran artifacts.  It provides maximum luck and morale for your troops and gives you the Town Portal spell.</description>
         <event>Out of pity for a poor peasant, you purchase a chest of old junk they are hawking for too much gold. Later, as you search through it, you find it contains the 3 pieces of the legendary battle garb of Anduran!</event>
@@ -462,7 +462,7 @@
         <description>The Heart of Ice provides 50% protection from cold, but doubles the damage taken from fire.</description>
         <event>Suddenly, a biting coldness engulfs your body.  You seize up, falling from your horse.  The pain subsides, but you still feel as if your chest is frozen.  As you pick yourself up off of the ground, you hear hearty laughter.  You turn around just in time to see a Frost Giant run off into the woods and disappear.</event>
     </artifact>
-    <artifact id="94" name="Helmet of Anduran" level="major">
+    <artifact id="94" name="Helmet of Anduran" level="major" campaign_only="true">
         <title>Helmet of Anduran</title>
         <description>The Helmet increases your spell power by 5.</description>
         <event>You spy a gleaming object poking up out of the ground.   You send a member of your party over to investigate.  He comes back with a golden helmet in his hands.  You realize that it must be the helmet of the legendary Anduran, the only man who was known to wear solid gold armor.</event>
@@ -482,7 +482,7 @@
         <description>The Masthead boosts your luck and morale by 1 each in sea combat.</description>
         <event>An old seaman tells you a tale of an enchanted masthead that he used in his youth to rally his crew during times of trouble.  He then hands you a faded map that shows where he hid it.  After much exploring, you find it stashed underneath a nearby dock.</event>
     </artifact>
-    <artifact id="98" name="Sphere of Negation" level="major">
+    <artifact id="98" name="Sphere of Negation" level="major" campaign_only="true">
         <title>Sphere of Negation</title>
         <description>The Sphere of Negation disables all spell casting, for both sides, in combat.</description>
         <event>You stop to help a Peasant catch a runaway mare.  To show his gratitude, he hands you a tiny sphere.  As soon as you grasp it, you feel the magical energy drain from your limbs...</event>
@@ -497,7 +497,7 @@
         <description>The Sword Breaker increases your defense by 4 and attack by 1.</description>
         <event>A former Captain of the Guard admires your quest and gives you the enchanted Sword Breaker that he relied on during his tour of duty.</event>
     </artifact>
-    <artifact id="101" name="Sword of Anduran" level="major">
+    <artifact id="101" name="Sword of Anduran" level="major" campaign_only="true">
         <title>Sword of Anduran</title>
         <description>The Sword increases your attack skill by 5.</description>
         <event>A Troll stops you and says: "Pay me 5,000 gold, or the Sword of Anduran will slay you where you stand."  You refuse.  The troll grabs the sword hanging from its belt, screams in pain, and runs away.  Picking up the fabled sword, you give thanks that half-witted Trolls tend to grab the wrong end of sharp objects.</event>
@@ -512,7 +512,7 @@
         <description>Pandora's Box gives your hero's army a random stack of level 1 creatures for the duration of each battle.</description>
         <event>You pass by a chest lying under a tree. Suddenly, a goblin jumps out of the chest and shrieks. Before it can raise its club, you grab it and throw it back in the chest, and tie it sealed with rope.</event>
     </artifact>
-    <artifact id="104" name="Iron Fist" level="major">
+    <artifact id="104" name="Iron Fist" level="major" campaign_only="true">
         <title>Iron Fist</title>
         <description>The Iron Fist is a snazzy accessory to go with your helmet and boots.</description>
         <event>You get a sudden urge to dig where you are standing. You dig and find a glistening metal gauntlet, mysteriously untouched by dirt. As you touch it, it leaps up and fuses itself onto your arm.</event>

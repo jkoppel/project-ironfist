@@ -384,6 +384,24 @@ class artifact_t: public ::xml_schema::type
   void
   cursed (const cursed_optional& x);
 
+  // campaign_only
+  // 
+  typedef ::xml_schema::boolean campaign_only_type;
+  typedef ::xsd::cxx::tree::optional< campaign_only_type > campaign_only_optional;
+  typedef ::xsd::cxx::tree::traits< campaign_only_type, char > campaign_only_traits;
+
+  const campaign_only_optional&
+  campaign_only () const;
+
+  campaign_only_optional&
+  campaign_only ();
+
+  void
+  campaign_only (const campaign_only_type& x);
+
+  void
+  campaign_only (const campaign_only_optional& x);
+
   // Constructors.
   //
   artifact_t (const id_type&,
@@ -420,6 +438,7 @@ class artifact_t: public ::xml_schema::type
   ::xsd::cxx::tree::one< name_type > name_;
   ::xsd::cxx::tree::one< level_type > level_;
   cursed_optional cursed_;
+  campaign_only_optional campaign_only_;
 };
 
 class level_t: public ::xml_schema::string

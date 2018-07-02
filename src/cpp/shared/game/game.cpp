@@ -301,22 +301,10 @@ int game::GetRandomArtifactId(int allowedLevels, int allowNegatives) {
   const int numArtifacts = (xIsExpansionMap ? NUM_SUPPORTED_ARTIFACTS : MAX_BASE_ARTIFACT + 1);
 
   for (int i = 0; i < numArtifacts; ++i) {
-    const int level = GetArtifactLevel(i);
-    if ((level == ARTIFACT_LEVEL_UNUSED) || ((level & allowedLevels) == 0)) {
+    if ((GetArtifactLevel(i) & allowedLevels) == 0) {
       continue;
     }
-    if (IsArtifactGenerated(i)) {
-      continue;
-    }
-    if (i == ARTIFACT_SPELL_SCROLL) {
-      continue;
-    }
-    if (xIsPlayingExpansionCampaign
-      && (i == ARTIFACT_BREASTPLATE_OF_ANDURAN
-       || i == ARTIFACT_BATTLE_GARB_OF_ANDURAN
-       || i == ARTIFACT_HELMET_OF_ANDURAN
-       || i == ARTIFACT_SWORD_OF_ANDURAN
-       || i == ARTIFACT_SPHERE_OF_NEGATION)) {
+    if (!IsArtifactGenerationAllowed(i)) {
       continue;
     }
     if (!allowCursed && IsCursedItem(i)) {

@@ -129,6 +129,7 @@ const int NUM_SUPPORTED_ARTIFACTS = 256;
 void LoadArtifacts();
 int __fastcall IsCursedItem(int);
 bool IsArtifactGenerated(int);
+bool IsArtifactGenerationAllowed(int);
 void GenerateArtifact(int);
 void ResetGeneratedArtifacts();
 void ResetGeneratedArtifacts(int);
