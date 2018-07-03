@@ -7,8 +7,7 @@
 /*
  *
  * Also still unsupported:
- * 1) Random artifacts
- * 2) AI Artifact value tables
+ * 1) AI Artifact value tables
  *
  * FURTHERMORE
  *
@@ -63,6 +62,7 @@ namespace {
   std::vector<std::string> events;
   std::vector<int> isCursed;
   std::vector<int> isGenerated;
+  std::vector<int> isCampaignOnly;
 }
 
 char *gArtifactNames[NUM_SUPPORTED_ARTIFACTS] = { 0 };
@@ -80,6 +80,7 @@ void LoadArtifacts() {
   events.resize(artSize);
   isCursed.resize(artSize, 0);
   isGenerated.resize(artSize, 0);
+  isCampaignOnly.resize(artSize, 0);
 
   for (const auto &art : artifactList) {
     const int i = art.id();
@@ -107,6 +108,10 @@ void LoadArtifacts() {
     if (art.cursed()) {
       isCursed[i] = art.cursed().get();
     }
+
+    if (art.campaign_only()) {
+      isCampaignOnly[i] = art.campaign_only().get();
+    }
   }
 }
 
@@ -121,6 +126,23 @@ int __fastcall IsCursedItem(int artId) {
 
 bool IsArtifactGenerated(int id) {
   return isGenerated[id] == 1;
+}
+
+bool IsArtifactGenerationAllowed(int id) {
+  if (IsArtifactGenerated(id)) {
+    return false;
+  }
+  if (GetArtifactLevel(id) == ARTIFACT_LEVEL_UNUSED) {
+    return false;
+  }
+  if (id == ARTIFACT_SPELL_SCROLL) {  // TODO: learn how to add a random spell to these
+    return false;
+  }
+  if (isCampaignOnly[id]) {
+    return false;
+  }
+
+  return true;
 }
 
 void GenerateArtifact(int id) {
