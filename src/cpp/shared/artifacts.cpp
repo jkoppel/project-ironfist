@@ -124,15 +124,30 @@ int __fastcall IsCursedItem(int artId) {
   return isCursed[artId];
 }
 
+bool IsArtifactValid(int id) {
+  const int numArtifacts = names.size();
+  if (id < 0 || id >= numArtifacts) {
+    return false;
+  }
+  if (GetArtifactName(id).empty()) {
+    return false;
+  }
+  if (GetArtifactLevel(id) == ARTIFACT_LEVEL_UNUSED) {
+    return false;
+  }
+
+  return true;
+}
+
 bool IsArtifactGenerated(int id) {
   return isGenerated[id] == 1;
 }
 
 bool IsArtifactGenerationAllowed(int id) {
-  if (IsArtifactGenerated(id)) {
+  if (!IsArtifactValid(id)) {
     return false;
   }
-  if (GetArtifactLevel(id) == ARTIFACT_LEVEL_UNUSED) {
+  if (IsArtifactGenerated(id)) {
     return false;
   }
   if (id == ARTIFACT_SPELL_SCROLL) {  // TODO: learn how to add a random spell to these
@@ -175,4 +190,8 @@ const std::vector<int> & SerializeGeneratedArtifacts() {
 
 int GetArtifactLevel(int id) {
   return gArtifactLevel[id];
+}
+
+std::string GetArtifactName(int id) {
+  return names[id];
 }
