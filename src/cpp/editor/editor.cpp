@@ -130,11 +130,11 @@ int __cdecl WinConditionHandler() {
   GUIDroplistClear(gpSpecEditDialog, WIN_CONDITION_EXTRA);
   GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, "Ultimate Artifact");
   for (int i = 0; i <= MAX_BASE_ARTIFACT; ++i) {
-    GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, gArtifactNames[i]);
+    GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, GetArtifactName(i));
   }
   for (int i = MIN_EXPANSION_ARTIFACT; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
-    if (gArtifactNames[i]) {
-      GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, gArtifactNames[i]);
+    if (IsArtifactValid(i)) {
+      GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, GetArtifactName(i));
     }
   }
 

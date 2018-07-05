@@ -243,7 +243,7 @@
         <description>The Everhot Lava Rock causes your fire spells to do 50% more damage to enemy troops.</description>
         <event>Your wanderings bring you into contact with a tribe of ape-like beings using a magical lava rock that never cools to light their fires.  You take pity on them and teach them to make fire with sticks.  Believing you to be a god, the apes give you their rock.</event>
     </artifact>
-    <artifact id="50" name="Lightning Rod " level="minor">
+    <artifact id="50" name="Lightning Rod" level="minor">
         <title>Lightning rod </title>
         <description>The Lightning Rod causes your lightning spells to do 50% more damage to enemy troops.</description>
         <event>While waiting out a storm, a lighting bolt strikes a nearby cottage's lightning rod, which melts and falls to the ground.  The tip of the rod, however, survives intact and makes your hair stand on end when you touch it.  Hmm...</event>
