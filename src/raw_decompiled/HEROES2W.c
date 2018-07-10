@@ -15507,18 +15507,16 @@ int __thiscall army::FindPath(army *this, int knownHex, int targHex, int speed, 
 signed int __thiscall army::ValidPath(army *this, int hex, int flag)
 {
   signed int result; // eax@2
-  army *thisa; // [sp+Ch] [bp-Ch]@1
 
-  thisa = this;
   if ( ValidHex(hex) )
   {
-    if ( thisa->creature.creature_flags & FLYER )
+    if ( this->creature.creature_flags & FLYER )
     {
-      result = army::ValidFlight(thisa, hex, flag);
+      result = army::ValidFlight(this, hex, flag);
     }
-    else if ( army::FindPath(thisa, thisa->occupiedHex, hex, thisa->creature.speed, 0, flag) )
+    else if ( army::FindPath(this, this->occupiedHex, hex, this->creature.speed, 0, flag) )
     {
-      thisa->targetHex = hex;
+      this->targetHex = hex;
       result = 1;
     }
     else
@@ -36684,31 +36682,30 @@ void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexI
   army *thisb; // [sp+38h] [bp-50h]@2
   int v7; // [sp+3Ch] [bp-4Ch]@108
   int i; // [sp+40h] [bp-48h]@2
-  char v9[6]; // [sp+44h] [bp-44h]@53
-  char v10; // [sp+4Ah] [bp-3Eh]@71
-  int v11; // [sp+4Ch] [bp-3Ch]@103
-  int v12; // [sp+50h] [bp-38h]@2
-  int v13; // [sp+54h] [bp-34h]@74
-  army *v14; // [sp+58h] [bp-30h]@2
+  char v9[8]; // [sp+44h] [bp-44h]@53
+  int v10; // [sp+4Ch] [bp-3Ch]@103
+  int v11; // [sp+50h] [bp-38h]@2
+  int v12; // [sp+54h] [bp-34h]@74
+  army *v13; // [sp+58h] [bp-30h]@2
   int a2[8]; // [sp+5Ch] [bp-2Ch]@9
-  int v16; // [sp+7Ch] [bp-Ch]@75
-  char v17[8]; // [sp+80h] [bp-8h]@47
+  int v15; // [sp+7Ch] [bp-Ch]@75
+  char v16[8]; // [sp+80h] [bp-8h]@47
 
   if ( !this->field_F2B3 )
   {
     thisb = &this->creatures[this->activeStackOwner][this->activeStack];
     v3 = thisb->targetOwner;
-    v12 = thisb->targetStackIdx;
+    v11 = thisb->targetStackIdx;
     thisb->targetOwner = -1;
     thisb->targetStackIdx = -1;
-    v14 = &this->creatures[v3][v12];
+    v13 = &this->creatures[v3][v11];
     for ( i = 0; i < 8; ++i )
     {
       if ( i != 6 && i != 7 )
       {
         a2[i] = this->hexNeighbors[hexIdx][i];
       }
-      else if ( thisb->creature.creature_flags & 1 )
+      else if ( thisb->creature.creature_flags & TWO_HEXER )
       {
         if ( thisb->facingRight == 1 )
         {
@@ -36729,7 +36726,7 @@ void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexI
       {
         a2[i] = -1;
       }
-      if ( thisb->creature.creature_flags & 1 && a2[i] != -1 )
+      if ( thisb->creature.creature_flags & TWO_HEXER && a2[i] != -1 )
       {
         if ( thisb->facingRight == 1 )
         {
@@ -36764,18 +36761,18 @@ void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexI
       {
         v4[i] = -2;
       }
-      v17[i] = combatManager::ValidHexToStandOn(this, a2[i]) && combatManager::ValidHexToStandOn(this, v4[i]);
+      v16[i] = combatManager::ValidHexToStandOn(this, a2[i]) && combatManager::ValidHexToStandOn(this, v4[i]);
     }
-    if ( thisb->creature.creature_flags & 2 )
+    if ( thisb->creature.creature_flags & FLYER )
     {
       for ( i = 0; i < 8; ++i )
-        v9[i] = v17[i];
+        v9[i] = v16[i];
     }
     else
     {
       for ( i = 0; i < 8; ++i )
       {
-        if ( v17[i] )
+        if ( v16[i] )
           v9[i] = a2[i] == thisb->occupiedHex || army::ValidPath(thisb, a2[i], 1);
         else
           v9[i] = 0;
@@ -36788,77 +36785,77 @@ void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexI
         ++this->field_F51F;
     }
     if ( !this->field_F51F )
-      v10 = 1;
+      v9[6] = 1;
     memset(this->field_F503, 0xFFu, 0x18u);
     for ( i = 0; i < 8; ++i )
     {
-      v13 = i;
+      v12 = i;
       if ( i >= 6 )
       {
         if ( i == 6 )
-          v16 = 7;
+          v15 = 7;
         else
-          v16 = 6;
+          v15 = 6;
       }
       else
       {
-        v16 = (i + 3) % 6;
+        v15 = (i + 3) % 6;
       }
-      if ( v9[v16] )
+      if ( v9[v15] )
       {
-        if ( v14->creature.creature_flags & 1 )
+        if ( v13->creature.creature_flags & 1 )
         {
-          if ( i || this->combatGrid[hexIdx - 1].unitOwner != v3 || this->combatGrid[hexIdx - 1].stackIdx != v12 )
+          if ( i || this->combatGrid[hexIdx - 1].unitOwner != v3 || this->combatGrid[hexIdx - 1].stackIdx != v11 )
           {
-            if ( i != 5 || this->combatGrid[hexIdx + 1].unitOwner != v3 || this->combatGrid[hexIdx + 1].stackIdx != v12 )
+            if ( i != 5 || this->combatGrid[hexIdx + 1].unitOwner != v3 || this->combatGrid[hexIdx + 1].stackIdx != v11 )
             {
               if ( i != 2
                 || this->combatGrid[hexIdx - 1].unitOwner != v3
-                || this->combatGrid[hexIdx - 1].stackIdx != v12 )
+                || this->combatGrid[hexIdx - 1].stackIdx != v11 )
               {
                 if ( i == 3
                   && this->combatGrid[hexIdx + 1].unitOwner == v3
-                  && this->combatGrid[hexIdx + 1].stackIdx == v12 )
-                  v13 = 7;
+                  && this->combatGrid[hexIdx + 1].stackIdx == v11 )
+                  v12 = 7;
               }
               else
               {
-                v13 = 7;
+                v12 = 7;
               }
             }
             else
             {
-              v13 = 6;
+              v12 = 6;
             }
           }
           else
           {
-            v13 = 6;
+            v12 = 6;
           }
         }
         if ( i >= 6 )
         {
           if ( i == 6 )
           {
-            this->field_F503[11] = v13;
-            this->field_F503[12] = v13;
-            this->field_F503[13] = v13;
+            this->field_F503[11] = v12;
+            this->field_F503[12] = v12;
+            this->field_F503[13] = v12;
           }
           else
           {
-            this->field_F503[0] = v13;
-            this->field_F503[1] = v13;
-            this->field_F503[23] = v13;
+            this->field_F503[0] = v12;
+            this->field_F503[1] = v12;
+            this->field_F503[23] = v12;
           }
         }
         else
         {
-          memset(&this->field_F503[4 * v16], v13, 4u);
+          memset(&this->field_F503[4 * v15], v12, 4u);
         }
       }
     }
-    v11 = 24;
-    while ( v11 > 0 )
+    v10 = 24;
+    while ( v10 > 0 )
     {
       for ( i = 0; i < 24; ++i )
       {
@@ -36877,13 +36874,13 @@ void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexI
           }
         }
       }
-      v11 = 0;
+      v10 = 0;
       for ( i = 0; i < 24; ++i )
       {
         if ( this->field_F503[i] < 10 )
         {
           if ( this->field_F503[i] == -1 )
-            ++v11;
+            ++v10;
         }
         else
         {
@@ -36892,13 +36889,12 @@ void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexI
       }
     }
     thisb->targetOwner = v3;
-    thisb->targetStackIdx = v12;
+    thisb->targetStackIdx = v11;
   }
 }
 // 43B590: using guessed type int a2[8];
 // 43B590: using guessed type int var_74[8];
 // 43B590: using guessed type char var_8[8];
-// 43B590: using guessed type char var_44[6];
 
 //----- (0043BE40) --------------------------------------------------------
 void __thiscall combatManager::CheckSetMouseDirection(combatManager *this, int a2, int a3, signed int a4)
