@@ -19,6 +19,7 @@
         <xs:attribute name="name" type="xs:string" use="required" />
         <xs:attribute name="level" type="level_t" use="required" />
         <xs:attribute name="cursed" type="xs:boolean" use="optional" />
+        <xs:attribute name="campaign_only" type="xs:boolean" use="optional" />
     </xs:complexType>
 
     <xs:simpleType name="level_t">

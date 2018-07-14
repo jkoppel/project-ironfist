@@ -1,14 +1,13 @@
 #include "artifacts.h"
 #include "artifacts_xml.hxx"
+#include <algorithm>
 #include <cmath>
 #include <string>
-#include <vector>
 
 /*
  *
  * Also still unsupported:
- * 1) Random artifacts
- * 2) AI Artifact value tables
+ * 1) AI Artifact value tables
  *
  * FURTHERMORE
  *
@@ -40,37 +39,36 @@ namespace {
     return ret;
   }
 
-  int GetArtifactLevel(level_t::value lvl) {
+  int GetLevel(level_t::value lvl) {
     switch (lvl) {
     case level_t::ultimate:
-      return 1;
+      return ARTIFACT_LEVEL_ULTIMATE;
     case level_t::major:
-      return 2;
+      return ARTIFACT_LEVEL_MAJOR;
     case level_t::minor:
-      return 4;
+      return ARTIFACT_LEVEL_MINOR;
     case level_t::treasure:
-      return 8;
+      return ARTIFACT_LEVEL_TREASURE;
     case level_t::spellbook:
-      return 16;
+      return ARTIFACT_LEVEL_SPELLBOOK;
     case level_t::unused:
     default:
-      return 32;
+      return ARTIFACT_LEVEL_UNUSED;
     }
   }
-}
 
+  std::vector<std::string> names;
+  std::vector<std::string> descriptions;
+  std::vector<std::string> events;
+  std::vector<int> isCursed;
+  std::vector<int> isGenerated;
+  std::vector<int> isCampaignOnly;
+}
 
 char *gArtifactNames[NUM_SUPPORTED_ARTIFACTS] = { 0 };
 char *gArtifactDesc[NUM_SUPPORTED_ARTIFACTS] = { 0 };
 char *gArtifactEvents[NUM_SUPPORTED_ARTIFACTS] = { 0 };
 unsigned char gArtifactLevel[NUM_SUPPORTED_ARTIFACTS] = { 0 };
-
-std::vector<std::string> names;
-std::vector<std::string> descriptions;
-std::vector<std::string> events;
-std::vector<char> isCursed;  // avoiding vector<bool> per _Effective STL_ item 18
-                             // (using char as a 1-byte int)
-
 
 void LoadArtifacts() {
   auto allArtifacts = artifacts_("./DATA/artifacts.xml");
@@ -81,6 +79,8 @@ void LoadArtifacts() {
   descriptions.resize(artSize);
   events.resize(artSize);
   isCursed.resize(artSize, 0);
+  isGenerated.resize(artSize, 0);
+  isCampaignOnly.resize(artSize, 0);
 
   for (const auto &art : artifactList) {
     const int i = art.id();
@@ -103,10 +103,14 @@ void LoadArtifacts() {
     events[i] = JoinSequence(art.event());
     gArtifactEvents[i] = &(events[i][0]);
 
-    gArtifactLevel[i] = GetArtifactLevel(art.level());
+    gArtifactLevel[i] = GetLevel(art.level());
 
     if (art.cursed()) {
       isCursed[i] = art.cursed().get();
+    }
+
+    if (art.campaign_only()) {
+      isCampaignOnly[i] = art.campaign_only().get();
     }
   }
 }
@@ -118,4 +122,76 @@ int __fastcall IsCursedItem(int artId) {
   }
 
   return isCursed[artId];
+}
+
+bool IsArtifactValid(int id) {
+  const int numArtifacts = names.size();
+  if (id < 0 || id >= numArtifacts) {
+    return false;
+  }
+  if (GetArtifactName(id).empty()) {
+    return false;
+  }
+  if (GetArtifactLevel(id) == ARTIFACT_LEVEL_UNUSED) {
+    return false;
+  }
+
+  return true;
+}
+
+bool IsArtifactGenerated(int id) {
+  return isGenerated[id] == 1;
+}
+
+bool IsArtifactGenerationAllowed(int id) {
+  if (!IsArtifactValid(id)) {
+    return false;
+  }
+  if (IsArtifactGenerated(id)) {
+    return false;
+  }
+  if (id == ARTIFACT_SPELL_SCROLL) {  // TODO: learn how to add a random spell to these
+    return false;
+  }
+  if (isCampaignOnly[id]) {
+    return false;
+  }
+
+  return true;
+}
+
+void GenerateArtifact(int id) {
+  isGenerated[id] = 1;
+}
+
+void ResetGeneratedArtifacts() {
+  std::fill(isGenerated.begin(), isGenerated.end(), 0);
+}
+
+void ResetGeneratedArtifacts(int matchingLevels) {
+  for (auto i = 0u; i < isGenerated.size(); ++i) {
+    if (gArtifactLevel[i] & matchingLevels) {
+      isGenerated[i] = 0;
+    }
+  }
+}
+
+void DeserializeGeneratedArtifacts(const std::vector<int> &src) {
+  ResetGeneratedArtifacts();
+  const auto size = std::min(src.size(), isGenerated.size());
+  for (auto i = 0u; i < size; ++i) {
+    isGenerated[i] = src[i];
+  }
+}
+
+const std::vector<int> & SerializeGeneratedArtifacts() {
+  return isGenerated;
+}
+
+int GetArtifactLevel(int id) {
+  return gArtifactLevel[id];
+}
+
+std::string GetArtifactName(int id) {
+  return names[id];
 }

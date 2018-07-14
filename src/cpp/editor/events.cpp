@@ -430,10 +430,10 @@ void __stdcall FillInEventEdit(EventExtra *extra) {
 
   if (shouldFillInArtifacts) {
     for (int i = MAX_EXPANSION_ARTIFACT + 1; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
-      if (!gArtifactNames[i]) {
+      if (!IsArtifactValid(i)) {
         continue;
       }
-      GUIDroplistAdd(gpCellEditDialog, ARTIFACT_SLOT, gArtifactNames[i]);
+      GUIDroplistAdd(gpCellEditDialog, ARTIFACT_SLOT, GetArtifactName(i));
     }
 
     shouldFillInArtifacts = false;

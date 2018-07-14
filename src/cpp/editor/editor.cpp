@@ -4,6 +4,7 @@
 #include "artifacts.h"
 #include "base.h"
 #include "string.h"
+#include "game/game.h"
 #include "gui/gui.h"
 #include "gui/msg.h"
 #include "spell/spell_constants.h"
@@ -119,7 +120,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
 }
 
 int __cdecl WinConditionHandler() {
-  if (gpMapHeader.winConditionType != WIN_FIND_ARTIFACT) {
+  if (gpMapHeader.winConditionType != WIN_CONDITION_FIND_ARTIFACT) {
     return WinConditionHandler_orig();
   }
 
@@ -129,11 +130,11 @@ int __cdecl WinConditionHandler() {
   GUIDroplistClear(gpSpecEditDialog, WIN_CONDITION_EXTRA);
   GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, "Ultimate Artifact");
   for (int i = 0; i <= MAX_BASE_ARTIFACT; ++i) {
-    GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, gArtifactNames[i]);
+    GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, GetArtifactName(i));
   }
   for (int i = MIN_EXPANSION_ARTIFACT; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
-    if (gArtifactNames[i]) {
-      GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, gArtifactNames[i]);
+    if (IsArtifactValid(i)) {
+      GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, GetArtifactName(i));
     }
   }
 
@@ -150,7 +151,7 @@ int __cdecl WinConditionHandler() {
 // Convert the index of the selected artifact from the droplist to the real
 // artifact id.
 int __fastcall FillInWinCondition(int index) {
-  if (gpMapHeader.winConditionType != WIN_FIND_ARTIFACT) {
+  if (gpMapHeader.winConditionType != WIN_CONDITION_FIND_ARTIFACT) {
     return FillInWinCondition_orig(index);
   }
 

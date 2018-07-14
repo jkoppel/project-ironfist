@@ -1,4 +1,5 @@
-#include<string>
+#include <string>
+#include <vector>
 
 #include "analytics.h"
 #include "base.h"
@@ -102,8 +103,9 @@ void game::InitNewGame(struct SMapHeader *a) {
 			lastPlayed = read_pref<std::string>("Last Map");
 
 		if (lastPlayed.length() < 20) { // otherwise means no registry keys exist yet
-			strcpy(gMapName, lastPlayed.c_str());
-			strcpy(this->mapFilename, lastPlayed.c_str());
+			const int mapNameSize = 13;  // DOS 8+3 format
+			strcpy_s(gMapName, mapNameSize, lastPlayed.c_str());
+			strcpy_s(this->mapFilename, sizeof(mapFilename), lastPlayed.c_str());
 		}
 	}
 	this->InitNewGame_orig(a);
@@ -272,6 +274,60 @@ void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int 
 	}
 }
 
+void game::InitRandomArtifacts() {
+  ResetGeneratedArtifacts();
+  for (int i = 0; i < MAP_WIDTH; ++i) {
+    for (int j = 0; j < MAP_HEIGHT; ++j) {
+      const auto &tile = map.tiles[j * MAP_WIDTH + i];
+      if (tile.objType == (TILE_HAS_EVENT | LOCATION_ARTIFACT)) {
+        // Each artifact has two tiles. Convert from tile id to the artifact id.
+        const int artifactId = static_cast<unsigned char>(tile.objectIndex) / 2;
+        GenerateArtifact(artifactId);
+      }
+    }
+  }
+}
+
+int game::GetRandomArtifactId(int allowedLevels, int allowNegatives) {
+  int winConditionArtifact = -1;
+  if (mapHeader.winConditionType == WIN_CONDITION_FIND_ARTIFACT) {
+    winConditionArtifact = mapHeader.winConditionArgumentOrLocX - 1;
+  }
+
+  // Cursed artifacts are allowed 70% of the time, every time.
+  const bool allowCursed = (allowNegatives && Random(0, 100) >= 30);
+
+  std::vector<int> choices;
+  const int numArtifacts = (xIsExpansionMap ? NUM_SUPPORTED_ARTIFACTS : MAX_BASE_ARTIFACT + 1);
+
+  for (int i = 0; i < numArtifacts; ++i) {
+    if ((GetArtifactLevel(i) & allowedLevels) == 0) {
+      continue;
+    }
+    if (!IsArtifactGenerationAllowed(i)) {
+      continue;
+    }
+    if (!allowCursed && IsCursedItem(i)) {
+      continue;
+    }
+    if (i == winConditionArtifact) {
+      continue;
+    }
+
+    choices.push_back(i);
+  }
+
+  // Ran out of artifacts (how'd you manage that?), so reset and try again.
+  if (choices.empty()) {
+    ResetGeneratedArtifacts(allowedLevels);
+    return GetRandomArtifactId(allowedLevels, allowNegatives);
+  }
+
+  const auto artifactId = choices[Random(0, choices.size() - 1)];
+  GenerateArtifact(artifactId);
+  return artifactId;
+}
+
 void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   double randomUpperBound;
   double randomLowerBound;
@@ -290,7 +346,8 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
       if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and this results in the probability of higher values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
-      this->GiveArmy(heroArmy, creatureFaction[creatureTier].creatureType, (int)Random(randomLowerBound, randomUpperBound), creatureTier);
+      const int numCreatures = Random(static_cast<int>(randomLowerBound), static_cast<int>(randomUpperBound));
+      this->GiveArmy(heroArmy, creatureFaction[creatureTier].creatureType, numCreatures, creatureTier);
     }
   }
 }
@@ -411,7 +468,7 @@ void game::ProcessOnMapHeroes() {
           }
         }
         if (mapExtraHero->hasName) {
-          strcpy(randomHero->name, mapExtraHero->name);
+          strcpy_s(randomHero->name, sizeof(randomHero->name), mapExtraHero->name);
         }
         randomHero->experience = 0;
         gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);
@@ -427,7 +484,7 @@ void game::ProcessOnMapHeroes() {
           randomHero->ownerIdx = mapExtraHero->owner;
           this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
-          if (y > 0 && (this->map.tiles[x + ((y - 1) * this->map.width)].objType) == TILE_HAS_EVENT | LOCATION_TOWN) {
+          if (y > 0 && this->map.tiles[x + ((y - 1) * this->map.width)].objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
             --randomHero->relatedToY;
             --randomHero->y;
             this->castles[this->GetTownId(x, y - 1)].visitingHeroIdx = randomHero->idx;

@@ -32,11 +32,11 @@ void __stdcall FillInHeroEdit(HeroExtra *extra) {
 
   if (shouldFillInArtifacts) {
     for (int i = MAX_EXPANSION_ARTIFACT + 1; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
-      if (!gArtifactNames[i]) {
+      if (!IsArtifactValid(i)) {
         continue;
       }
       for (int j = 0; j < 3; ++j) {
-        GUIDroplistAdd(gpCellEditDialog, j + ARTIFACT_SLOT_1, gArtifactNames[i]);
+        GUIDroplistAdd(gpCellEditDialog, j + ARTIFACT_SLOT_1, GetArtifactName(i));
       }
     }
     shouldFillInArtifacts = false;
