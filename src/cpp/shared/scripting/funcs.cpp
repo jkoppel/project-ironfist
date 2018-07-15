@@ -173,6 +173,7 @@ static int l_getNumHeroes(lua_State *L) {
 static int l_getHero(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int n = (int)luaL_checknumber(L, 2);
+  if (n > p->numHeroes) luaL_error(L, "Current Hero Array Index Maximum, for Player exceeded");
   MakeLuaHeroTable(L, &gpGame->heroes[p->heroesOwned[n]]);
   return 1;
 }
