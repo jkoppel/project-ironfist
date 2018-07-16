@@ -2236,6 +2236,25 @@ bool army::TargetOnStraightLine(int targHex) {
   return angle == 0 || angle == 62.354024636261322;
 }
 
+int army::GetStraightLineDirection(int targHex) {
+  int deltaY = gpCombatManager->combatGrid[targHex].occupyingCreatureBottomY - gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
+  int deltaX = gpCombatManager->combatGrid[targHex].centerX - gpCombatManager->combatGrid[this->occupiedHex].centerX;
+  double angle = (180.0 / 3.141592653589793238463) * atan2(deltaY, deltaX);
+  if(angle == -62.354024636261322)
+    return 0;
+  if(angle == 0)
+    return 1;
+  if(angle == 62.354024636261322)
+    return 2;
+  if(angle == 117.64597536373869)
+    return 3;
+  if(angle == 180)
+    return 4;
+  if(angle == -117.64597536373869)
+    return 5;
+  return -1;
+}
+
 void army::MoveAttackNonFlyer(int startHex, int attackMask) {
   int attackMask2;
   if(this->effectStrengths[5])
@@ -2515,4 +2534,20 @@ bool army::FlightThroughObstacles(int toHex) {
 bool army::IsEnemyCreatureHex(int hex) {
   return (gpCombatManager->combatGrid[hex].stackIdx != -1) &&
     (gpCombatManager->combatGrid[hex].unitOwner != this->owningSide);
+}
+
+int army::GetStraightLineDistanceToHex(int hex) {
+  int dir = this->GetStraightLineDirection(hex);
+  if(dir == -1)
+    return 999;
+  int tempHex = this->occupiedHex;
+  int distance = 0;
+  while(tempHex != hex) {
+    tempHex = this->GetAdjacentCellIndex(tempHex, dir);
+    distance++;
+    if(tempHex > 113 || tempHex < 0) {
+      return 999;
+    }
+  }
+  return distance;
 }

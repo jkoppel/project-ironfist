@@ -129,7 +129,6 @@ public:
   void Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
   void Init_orig(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
   int ValidPath(int hex, int flag);
-  int FindPathIgnoringObstacles(int knownHex, int targHex, int speed, int flying, int flag);
   void ArcJump(int fromHex, int toHex);
   int AttackTo();
   int AttackTo(int targetHex);
@@ -137,6 +136,8 @@ public:
   int GetAttackMask(int hex, int focusLevel, int a5);
   bool FlightThroughObstacles(int toHex);
   bool TargetOnStraightLine(int targHex);
+  int GetStraightLineDirection(int targHex);
+  int GetStraightLineDistanceToHex(int hex);
 private:
   void RevertChargingMoveAnimation();
   void SetChargingMoveAnimation(CHARGING_DIRECTION dir);

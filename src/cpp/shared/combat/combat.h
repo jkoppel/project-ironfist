@@ -228,6 +228,9 @@ public:
   int UpdateGrid(int a, int b);
   void SetupGridForArmy(army *stack);
   void SetupGridForArmy_orig(army *stack);
+  void SetCombatDirections(int hexIdx);
+  void SetCombatDirections_orig(int hex);
+  int ValidHexToStandOn(signed int a2);
 };
 
 extern combatManager* gpCombatManager;
