@@ -471,3 +471,12 @@ std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX,
   }
   return points;
 }
+
+
+void combatManager::CombatMessage(char* msg, int doUpdate, int keepPrevMessage, int a5) {
+  // It already does this logging if gbNoShowCombat is true
+  if (!gbNoShowCombat) {
+    LogStr(msg);
+  }
+  this->CombatMessage_orig(msg, doUpdate, keepPrevMessage, a5);
+}
