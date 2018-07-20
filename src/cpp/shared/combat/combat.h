@@ -174,6 +174,7 @@ public:
   void InitNonVisualVars();
   void InitNonVisualVars_orig();
 
+  void CombatMessage_orig(char *msg, int updateScreen, int keepPrevMessage, int);
   void CombatMessage(char *msg, int updateScreen, int keepPrevMessage, int);
   void CombatMessage(char *msg) { CombatMessage(msg, 1, 1, 0); }
 
