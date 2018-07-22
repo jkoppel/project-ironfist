@@ -156,6 +156,9 @@ IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
 ?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
 
+;; Timing
+IMPORT_?DelayTilMilli@@YIXJ@Z = 1
+
 ;;sound
 ;;IMPORT___imp__AIL_redbook_play@12 = 1
 IMPORT_?CDPlay@soundManager@@QAEXHHHH@Z = 1
