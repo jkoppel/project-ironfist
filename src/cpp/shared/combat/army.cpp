@@ -2314,7 +2314,7 @@ void army::MoveAttack(int targHex, int x) {
       break;
     if(targetOwner == -1 ||
       targetOwner == gpCombatManager->otherCurrentSideThing && targetStack == gpCombatManager->someSortOfStackIdx) {
-      if(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && gMoveAttack && TargetOnStraightLine(giNextActionGridIndex))) {
+      if(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && gMoveAttack && TargetOnStraightLine(giNextActionGridIndex) && TargetOnStraightLine(targHex))) {
         this->targetHex = targHex;
         if(!ValidFlight(this->targetHex, 0))
           return;
