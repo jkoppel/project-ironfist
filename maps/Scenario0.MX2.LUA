@@ -189,19 +189,24 @@ function GateEvent()
     end
 end
 
+function FountainEvent()
+    if (not fountainVisited) then
+        fountainVisited = true;
+        MessageBox("At a distance, you see a grass island in the middle of all the horrible hellish ground - a beautiful fountain with a few butterflies surrounding the water.");
+        MessageBox("As you get closer to these butterflies, you see that they are not butterflies at all - they are fairies. One of them gets closer to you, and whispers in a magical voice that sounds like a melody in your ear.");
+        MessageBox("It is so wonderful to meet you, truly a pleasure to see our savior in the flesh, as you see even our magic is waning and we’ll not be able to hold on much longer.");
+        result = QuestionBox("We can teach you a great spell that will help you on your journey: Mass Haste or Meteor Shower.\nYES: Mass Haste\nNO: Meteor Shower");
+        if (result) then
+            GrantSpell(hero, SPELL_MASS_HASTE);
+        else
+            GrantSpell(hero, SPELL_METEOR_SHOWER);
+        end
     else
+        MessageBox("The fountain has already been visited.");
     end
 end
 
-function Fountain()
-    MessageBox("At a distance, you see a grass island in the middle of all the horrible hellish ground - a beautiful fountain with a few butterflies surrounding the water.");
-    MessageBox("As you get closer to these butterflies, you see that they are not butterflies at all - they are fairies. One of them gets closer to you, and whispers in a magical voice that sounds like a melody in your ear.");
-    MessageBox("It is so wonderful to meet you, truly a pleasure to see our savior in the flesh, as you see even our magic is waning and we’ll not be able to hold on much longer.");
-    result = QuestionBox("We can teach you a great spell that will help you on your journey: Mass Haste or Meteor Shower.\nYES: Mass Haste\nNO: Meteor Shower");
-    if (result) then
-        GrantSpell(hero, SPELL_MASS_HASTE);
     else
-        GrantSpell(hero, SPELL_METEOR_SHOWER);
     end
 end
 
