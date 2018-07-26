@@ -175,16 +175,22 @@ function TreeHouseEvent()
     end
 end
 
-function Gate()
-    if (gateUnlocked) then
-        MapEraseSquare(x, y);
-    else
-        MessageBox("A mighty gate stands before you.");
-        MessageBox("You try to open it, you use strength, then use the combined might of your army, but even your mighty behemoth is unable to open it.");
-        MessageBox("Finally when the sun lowers you see a shimmer on the gate - it is magically sealed.");
-        MessageBox("One of your companions reveals his hunch that whatever is locking the gate must be in that warlock tower that we passed nearby.");
+function GateEvent()
+    if (not gateDestroyed) then
+        if (gateUnlocked) then
+            gateDestroyed = true;
+            MapEraseSquare(x, y);
+        else
+            MessageBox("A mighty gate stands before you.");
+            MessageBox("You try to open it, you use strength, then use the combined might of your army, but even your mighty behemoth is unable to open it.");
+            MessageBox("Finally when the sun lowers you see a shimmer on the gate - it is magically sealed.");
+            MessageBox("One of your companions reveals his hunch that whatever is locking the gate must be in that warlock tower that we passed nearby.");
+        end
     end
-    return true;
+end
+
+    else
+    end
 end
 
 function Fountain()
