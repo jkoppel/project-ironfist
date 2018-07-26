@@ -91,23 +91,16 @@ function OnHeroMove(x, y) --Should we have custom text for when a location's eve
         
 end;
 
-function AbandonedHut()
+function AbandonedHutEvent()
     if (not abandonedHutVisited) then
-        abandonedHutVisited = true;
         MessageBox("You find a small hut that seems to be abandoned.");
         MessageBox("Upon entering the hut you discover a pair of boots with odd markings.");
         freeSlots = CountEmptyArtifactSlots(hero);
         if (freeSlots > 0) then
-            artifact = ARTIFACT_NOMAD_BOOTS_OF_MOBILITY;
-            if (not HasArtifact(hero, artifact)) then
-                --We have not implemented a screen to grant artifacts.
-                GrantArtifact(hero, artifact);
-            else
-                abandonedHutVisited = false;
-                MessageBox("The hero already has this artifact!");
+            if (TryGrantArtifact(hero, ARTIFACT_NOMAD_BOOTS_OF_MOBILITY)) then
+                abandonedHutVisited = true;
             end
         else
-            abandonedHutVisited = false;
             MessageBox("The hero can't carry anymore artifacts!");
         end
     else
