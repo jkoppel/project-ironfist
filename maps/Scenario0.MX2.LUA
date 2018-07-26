@@ -4,10 +4,12 @@ caveVisited = false;
 tentVisited = false;
 treeHouseVisited = false;
 gateUnlocked = false;
+gateDestroyed = false;
+fountainVisited = false;
 hero = null;
 player = null;
 
-mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited","gateUnlocked", "hero", "player"};
+mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "gateUnlocked", "gateDestroyed", "fountainVisited", "smallHouseVisited", "joustingRingVisited", "hero", "player"};
 
 
 function TryGrantArtifact(hero, artifact) --We have not implemented a screen to grant artifacts.
