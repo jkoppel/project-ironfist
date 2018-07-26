@@ -53,12 +53,10 @@ function AbandonedHut()
     if (not abandonedHutVisited) then
         abandonedHutVisited = true;
         MessageBox("You find a small hut that seems to be abandoned.");
-        MessageBox("Upon entering the hut you discover a staff with great power.");
-        --Should SetSecondarySkill be used instead of an artifact?
+        MessageBox("Upon entering the hut you discover a pair of boots with odd markings.");
         freeSlots = CountEmptyArtifactSlots(hero);
         if (freeSlots > 0) then
-            --We do not have a staff with +2 pathfinding. A placeholder is being used.
-            artifact = ARTIFACT_STAFF_OF_WIZARDRY;
+            artifact = ARTIFACT_NOMAD_BOOTS_OF_MOBILITY;
             if (not HasArtifact(hero, artifact)) then
                 --We have not implemented a screen to grant artifacts.
                 GrantArtifact(hero, artifact);
