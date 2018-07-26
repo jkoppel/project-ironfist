@@ -24,6 +24,18 @@ function TryGrantArtifact(hero, artifact) --We have not implemented a screen to 
     end
     return false;
 end
+
+function TryGrantArmy(hero, creature, amount)
+    freeSlots = CountEmptyCreatureSlots(hero);
+    if (freeSlots > 0) then
+        GrantArmy(hero, creature, amount);
+        return true;
+    else
+        MessageBox("The hero's army is full!");
+        return false;
+    end
+end
+
 function OnMapStart()
     player = GetPlayer(0);
     hero = GetHero(player, 0);
