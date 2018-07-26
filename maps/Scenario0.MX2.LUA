@@ -32,18 +32,33 @@ function OnMapStart()
 	MessageBox("After!");
 end; 
 
+function OnLocationVisit(loc, x, y)
+    if (loc == LOCATION_RANDOM_MONSTER or (LOCATION_RANDOM_MONSTER_WEAK <= loc and loc <= LOCATION_RANDOM_MONSTER_VERY_STRONG)) then
+        MessageBox("This is a battle.");
+        return false;
+    elseif (loc == LOCATION_BARRIER) then
+        Gate();
+    elseif (loc == LOCATION_FOUNTAIN) then
+        Fountain();
+    elseif (x == 29 and y == 8) then
+        AbandonedHut();
+    elseif (x == 26 and y == 19) then
+        TreeHouse();
+    elseif (x == 31 and y == 19) then
+        Bonfire();
+    else
+        MessageBox("This is some sort of location.");
+        return false;
+    end
+    return true;
+end
+
 function OnHeroMove(x, y) --Should we have custom text for when a location's event has already happened?
-    if (x == 6) then    
-        if (y == 9) then
-            AbandonedHut();
-        elseif (y == 10) then
-            Bonfire();
-        elseif (y == 11) then
+    if (x == 6) then      --OnLocationVisit should be used, but I don't know where/what the events will be yet
+        if (y == 11) then
             Cave();
         elseif (y == 12) then
             Tent();
-        elseif (y == 13) then
-            TreeHouse();
         end
     end
         
