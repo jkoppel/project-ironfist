@@ -80,12 +80,10 @@ function OnLocationVisit(loc, x, y) --Should we have custom text for when a loca
     return true;
 end
 
-function OnHeroMove(x, y) --Should we have custom text for when a location's event has already happened?
-    if (x == 6) then      --OnLocationVisit should be used, but I don't know where/what the events will be yet
-        if (y == 11) then
-            Cave();
-        elseif (y == 12) then
-            Tent();
+function OnHeroMove(x, y)
+    if (x >= 10 and x <= 13) then
+        if (y >= 16 and y <= 18) then
+            GateEvent();
         end
     end
         
