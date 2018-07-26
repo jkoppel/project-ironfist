@@ -215,12 +215,12 @@ function OnCastleConquered(castleId, playerId)
     firstCastle = 0;
     firstPlayer = 0;
 	if (castleId == firstCastle and playerId == firstPlayer) then
-		MessageBox("Upon defeating the warlock, and securing his tower, you hear a great noise in the distance.");
-        MessageBox("Once you look out the window you notice that the grand gate, that was once unbreakable, is now open.");
-		gateUnlocked = true;
-	end;
-
-end;
+		MessageBox("With the first Warlock defeated, your troops scurry to secure the castle.");
+        MessageBox("At the top of the tower, there is a lever, labeled “Darkstone Pass”.");
+		MessageBox("You pull it, and hear a roar from the south.");
+        gateUnlocked = true;
+	end
+end
 
 function OnMapVictory()
     MessageBox("The warlock lord curses you from his high tower - he waves his wand in the air, and shimmering smoke falls as if it's heavier than the air.");
@@ -228,4 +228,4 @@ function OnMapVictory()
     MessageBox("Oh wait, wait, this is way too fast, let me start from the beginning:");
     MessageBox("Sometime after Archibald was captured by Roland, and was placed in his statue prison, a large guild of warlocks calling themselves the Unwavering Darkness, decided that Archibald is the mightiest wizard that the kingdom has ever known, and thus ventured to free him.");
     MessageBox("Together they conquered the land, and in the process, Archibald never forgave his brother for looming a plan to remove him from the world. ");
-end;
+end
