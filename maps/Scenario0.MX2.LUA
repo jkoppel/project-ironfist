@@ -3,6 +3,7 @@ bonfireVisited = false;
 caveVisited = false;
 tentVisited = false;
 treeHouseVisited = false;
+gateUnlocked = false;
 hero = null;
 player = null;
 
@@ -153,12 +154,26 @@ function TreeHouse()
     end
 end
 
-function OnCastleConquered(castleId, playerId)
+function Gate()
+    if (gateUnlocked) then
+        MapEraseSquare(x, y);
+    else
+        MessageBox("A mighty gate stands before you.");
+        MessageBox("You try to open it, you use strength, then use the combined might of your army, but even your mighty behemoth is unable to open it.");
+        MessageBox("Finally when the sun lowers you see a shimmer on the gate - it is magically sealed.");
+        MessageBox("One of your companions reveals his hunch that whatever is locking the gate must be in that warlock tower that we passed nearby.");
+    end
+    return true;
+end
 
-	if castleId==0
-	then
-		
-		
+function OnCastleConquered(castleId, playerId)
+    MessageBox("A castle was conquered.");
+    firstCastle = 0;
+    firstPlayer = 0;
+	if (castleId == firstCastle and playerId == firstPlayer) then
+		MessageBox("Upon defeating the warlock, and securing his tower, you hear a great noise in the distance.");
+        MessageBox("Once you look out the window you notice that the grand gate, that was once unbreakable, is now open.");
+		gateUnlocked = true;
 	end;
 
 end;
