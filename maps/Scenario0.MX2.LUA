@@ -127,11 +127,11 @@ function TreeHouse()
         MessageBox("In the distance you notice a small tree house, getting closer an old druid comes down from the tree, he looks at you with his one good eye, while his other eye travels away randomly.");
         MessageBox("The one that will save us all from the tyrant Archibald.");
         MessageBox("For this you may take one of my precious beloved items:");
-        choice = QuestionBox("YES: Robe of Defence\nNO: Robe of Strength");
+        choice = QuestionBox("YES: Giant Flail of Dominion\nNO: Armored Gauntlets of Protection");
         if (choice) then --Had to use placeholder artifacts.
-            GrantArtifact(hero, ARTIFACT_BROACH_OF_SHIELDING);
+            GrantArtifact(hero, ARTIFACT_GIANT_FLAIL_OF_DOMINION);
         else
-            GrantArtifact(hero, ARTIFACT_BATTLE_GARB_OF_ANDURAN);
+            GrantArtifact(hero, ARTIFACT_ARMORED_GAUNTLETS_OF_PROTECTION);
         end
     else
         MessageBox("The tree house has already been visited.");
