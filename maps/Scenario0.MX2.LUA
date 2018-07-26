@@ -10,6 +10,20 @@ player = null;
 mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited","gateUnlocked", "hero", "player"};
 
 
+function TryGrantArtifact(hero, artifact) --We have not implemented a screen to grant artifacts.
+    freeSlots = CountEmptyArtifactSlots(hero);
+    if (freeSlots > 0) then
+        if (not HasArtifact(hero, artifact)) then
+            GrantArtifact(hero, artifact);
+            return true;
+        else
+            MessageBox("The hero already has this artifact!");
+        end
+    else
+        MessageBox("The hero can't carry anymore artifacts!");
+    end
+    return false;
+end
 function OnMapStart()
     player = GetPlayer(0);
     hero = GetHero(player, 0);
