@@ -221,7 +221,21 @@ function SmallHouseEvent()
     end
 end
 
+function JoustingRingEvent()
+    if (not joustingRingVisited) then
+        joustingRingVisited = true;
+        MessageBox("As you get closer a group of jousting knights battles each other.");
+        MessageBox("You enjoy the show, and once you are about to leave, they approach you offering to join your cause.");
+        if (not TryGrantArmy(hero, CREATURE_CAVALRY, 10)) then
+            joustingRingVisited = false;
+            return;
+        end
+        if (not TryGrantArmy(hero, CREATURE_CHAMPION, 1)) then
+            TakeTroop(hero, CREATURE_CAVALRY, 10);
+            joustingRingVisited = false;
+        end
     else
+        MessageBox("The jousting ring has already been visited.");
     end
 end
 
