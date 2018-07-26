@@ -6,7 +6,7 @@ treeHouseVisited = false;
 hero = null;
 player = null;
 
-mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "hero", "player"};
+mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited","gateUnlocked", "hero", "player"};
 
 
 function OnMapStart()
