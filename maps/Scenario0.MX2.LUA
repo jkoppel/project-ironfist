@@ -59,23 +59,23 @@ function OnMapStart()
 	MessageBox("After!");
 end; 
 
-function OnLocationVisit(loc, x, y)
-    if (loc == LOCATION_RANDOM_MONSTER or (LOCATION_RANDOM_MONSTER_WEAK <= loc and loc <= LOCATION_RANDOM_MONSTER_VERY_STRONG)) then
-        MessageBox("This is a battle.");
-        return false;
-    elseif (loc == LOCATION_BARRIER) then
-        Gate();
-    elseif (loc == LOCATION_FOUNTAIN) then
-        Fountain();
+function OnLocationVisit(loc, x, y) --Should we have custom text for when a location's event has already happened?
+    if (loc == LOCATION_FOUNTAIN) then
+        FountainEvent();
     elseif (x == 29 and y == 8) then
-        AbandonedHut();
+        AbandonedHutEvent();
     elseif (x == 26 and y == 19) then
-        TreeHouse();
+        TreeHouseEvent();
     elseif (x == 31 and y == 19) then
-        Bonfire();
-    else
-        MessageBox("This is some sort of location.");
-        return false;
+        BonfireEvent();
+    elseif (x == 24 and y == 10) then
+        CaveEvent();
+    elseif (x == 32 and y == 31) then
+        TentEvent();
+    elseif (x == 21 and y == 22) then
+        SmallHouseEvent();
+    elseif (x == 30 and y == 4) then
+        JoustingRingEvent();
     end
     return true;
 end
