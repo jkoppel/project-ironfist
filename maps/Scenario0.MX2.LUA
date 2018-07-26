@@ -108,7 +108,7 @@ function AbandonedHutEvent()
     end
 end
 
-function Bonfire()
+function BonfireEvent()
     if (not bonfireVisited) then
         bonfireVisited = true;
         MessageBox("As you approach the fire you find a battle hardened paladin and his companion archers.");
@@ -116,8 +116,14 @@ function Bonfire()
         --Should this be a choice?
         --What if the hero's army is full? These are 2 (probably inseparable) stacks. Can we even check the hero army slots?
         --Should this be using the RecruitBox?
-        GrantArmy(hero, CREATURE_PALADIN, 1);
-        GrantArmy(hero, CREATURE_ARCHER, 10);
+        if (not TryGrantArmy(hero, CREATURE_PALADIN, 1)) then
+            bonfireVisited = false;
+            return;
+        end
+        if (not TryGrantArmy(hero, CREATURE_ARCHER, 10)) then
+            TakeTroop(hero, CREATURE_PALADIN, 1);
+            bonfireVisited = false;
+        end
     else
         MessageBox("The bonfire has already been visited.");
     end
