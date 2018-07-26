@@ -160,7 +160,7 @@ function TentEvent()
     end
 end
 
-function TreeHouse()
+function TreeHouseEvent()
     if (not treeHouseVisited) then
         treeHouseVisited = true;
         MessageBox("In the distance you notice a small tree house, getting closer an old druid comes down from the tree, he looks at you with his one good eye, while his other eye travels away randomly.");
@@ -168,9 +168,9 @@ function TreeHouse()
         MessageBox("For this you may take one of my precious beloved items:");
         choice = QuestionBox("YES: Giant Flail of Dominion\nNO: Armored Gauntlets of Protection");
         if (choice) then --Had to use placeholder artifacts.
-            GrantArtifact(hero, ARTIFACT_GIANT_FLAIL_OF_DOMINION);
+            TryGrantArtifact(hero, ARTIFACT_GIANT_FLAIL_OF_DOMINION);
         else
-            GrantArtifact(hero, ARTIFACT_ARMORED_GAUNTLETS_OF_PROTECTION);
+            TryGrantArtifact(hero, ARTIFACT_ARMORED_GAUNTLETS_OF_PROTECTION);
         end
     else
         MessageBox("The tree house has already been visited.");
