@@ -12,9 +12,14 @@ mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVis
 function OnMapStart()
     player = GetPlayer(0);
     hero = GetHero(player, 0);
-	GrantArmy(hero, CREATURE_CYBER_BEHEMOTH, 23);
-	GrantArmy(hero, CREATURE_CYBER_INDIGO_PANTHER, 20);
-	GrantArmy(hero, CREATURE_CYBER_SHADOW_ASSASSIN, 20);
+	GrantArmy(hero, CREATURE_CYBER_BEHEMOTH, 1);
+	GrantArmy(hero, CREATURE_CYBER_INDIGO_PANTHER, 2);
+	GrantArmy(hero, CREATURE_CYBER_SHADOW_ASSASSIN, 5);
+	GrantArmy(hero, CREATURE_CYBER_PLASMA_BERSERKER, 5);
+	GrantArmy(hero, CREATURE_CYBER_KOBOLD_SPEARMAN, 2);
+    if (not HasArtifact(hero, ARTIFACT_MAGIC_BOOK)) then
+        GrantArtifact(hero, ARTIFACT_MAGIC_BOOK);
+    end
 	MessageBox("Let me tell you a story!");
 	MessageBox("The bravest warrior that has ever existed, controlling his augments and abilities, and leading his army of enhanced creatures to free the world from the mad tyrant Archibald the wicked!");
 	MessageBox("This hero is unique - no one has ever seen such a marvel - part man, part machine, a true cybernetic hero.");
