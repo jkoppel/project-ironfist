@@ -58,9 +58,6 @@ function OnMapStart()
     MessageBox("The chase after Archibald is tedious, the kingdom is littered with warlock towers sapping the life energy of the land.");
     MessageBox("Your goal now is to capture the warlock lord controlling this region and extract information about Archibald’s army, and location. Once you capture this final town you will be able to pass through to Archibald’s Grand Castle, and finally defeat the tyrant.");
     TeleportHero(hero, 10, 14);
-	MessageBox(tostring(AQUA_BARRIER));
-	SetBarrierTentVisited(player, AQUA_BARRIER);
-	MessageBox("After!");
 end; 
 
 function OnLocationVisit(loc, x, y) --Should we have custom text for when a location's event has already happened?
@@ -248,7 +245,7 @@ function JoustingRingEvent()
 end
 
 function OnCastleConquered(castleId, playerId)
-    MessageBox("A castle was conquered.");
+    --MessageBox("A castle was conquered.");
     firstCastle = 0;
     firstPlayer = 0;
 	if (castleId == firstCastle and playerId == firstPlayer) then
