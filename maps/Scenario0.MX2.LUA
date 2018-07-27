@@ -65,7 +65,7 @@ function OnMapStart()
     MessageBox("The chase after Archibald is tedious, the kingdom is littered with warlock towers sapping the life energy of the land.");
     MessageBox("Your goal now is to capture the warlock lord controlling this region and extract information about Archibald’s army, and location. Once you capture this final town you will be able to pass through to Archibald’s Grand Castle, and finally defeat the tyrant.");
     TeleportHero(hero, 10, 14);
-end; 
+end
 
 function OnLocationVisit(loc, x, y) --Should we have custom text for when a location's event has already happened?
     if (loc == LOCATION_FOUNTAIN) then
@@ -90,7 +90,7 @@ function OnHeroMove(x, y)
             GateDestroyEvent();
         end
     end
-end;
+end
 
 function AbandonedHutEvent()
     if (not abandonedHutVisited) then
