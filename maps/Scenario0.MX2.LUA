@@ -78,6 +78,8 @@ function OnLocationVisit(loc, x, y) --Should we have custom text for when a loca
         SmallHouseEvent();
     elseif (x == 30 and y == 4) then
         JoustingRingEvent();
+    elseif (x == gateX and y == gateY and loc == LOCATION_BARRIER) then
+        GateEvent();
     end
     return true;
 end
@@ -85,10 +87,9 @@ end
 function OnHeroMove(x, y)
     if (x >= 10 and x <= 13) then
         if (y >= 16 and y <= 18) then
-            GateEvent();
+            GateDestroyEvent();
         end
     end
-        
 end;
 
 function AbandonedHutEvent()
@@ -177,17 +178,20 @@ function TreeHouseEvent()
     end
 end
 
+function GateDestroyEvent() --Need to set up play sound for destroy?
+    if (gateUnlocked and not gateDestroyed) then
+        gateDestroyed = true;
+        MessageBox("Crash! The gate to the south, once impenetrable, crumbles before your eyes.");
+        MapEraseSquare(gateX, gateY);
+    end
+end
+
 function GateEvent()
-    if (not gateDestroyed) then
-        if (gateUnlocked) then
-            gateDestroyed = true;
-            MapEraseSquare(x, y);
-        else
-            MessageBox("A mighty gate stands before you.");
-            MessageBox("You try to open it, you use strength, then use the combined might of your army, but even your mighty behemoth is unable to open it.");
-            MessageBox("Finally when the sun lowers you see a shimmer on the gate - it is magically sealed.");
-            MessageBox("One of your companions reveals his hunch that whatever is locking the gate must be in that warlock tower that we passed nearby.");
-        end
+    if ((not gateUnlocked) and (not gateDestroyed)) then
+        MessageBox("A mighty gate stands before you.");
+        MessageBox("You try to open it, you use strength, then use the combined might of your army, but even your mighty behemoth is unable to open it.");
+        MessageBox("Finally when the sun lowers you see a shimmer on the gate - it is magically sealed.");
+        MessageBox("One of your companions reveals his hunch that whatever is locking the gate must be in that warlock tower that we passed nearby.");
     end
 end
 
