@@ -10,8 +10,15 @@ hero = null;
 player = null;
 gateX = 11;
 gateY = 18;
+events = {  {x=29, y= 8, func='AbandonedHutEvent'},
+            {x=26, y=19, func='TreeHouseEvent'   },
+            {x=31, y=19, func='BonfireEvent'     },
+            {x=24, y=10, func='CaveEvent'        },
+            {x=32, y=31, func='TentEvent'        },
+            {x=21, y=22, func='SmallHouseEvent'  },
+            {x=30, y= 4, func='JoustingRingEvent'}};
 
-mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "gateUnlocked", "gateDestroyed", "fountainVisited", "smallHouseVisited", "joustingRingVisited", "hero", "player", "gateX", "gateY"};
+mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "gateUnlocked", "gateDestroyed", "fountainVisited", "smallHouseVisited", "joustingRingVisited", "hero", "player", "gateX", "gateY", "events"};
 
 
 function TryGrantArtifact(hero, artifact) --We have not implemented a screen to grant artifacts.
@@ -63,24 +70,18 @@ end;
 function OnLocationVisit(loc, x, y) --Should we have custom text for when a location's event has already happened?
     if (loc == LOCATION_FOUNTAIN) then
         FountainEvent();
-    elseif (x == 29 and y == 8) then
-        AbandonedHutEvent();
-    elseif (x == 26 and y == 19) then
-        TreeHouseEvent();
-    elseif (x == 31 and y == 19) then
-        BonfireEvent();
-    elseif (x == 24 and y == 10) then
-        CaveEvent();
-    elseif (x == 32 and y == 31) then
-        TentEvent();
-    elseif (x == 21 and y == 22) then
-        SmallHouseEvent();
-    elseif (x == 30 and y == 4) then
-        JoustingRingEvent();
     elseif (x == gateX and y == gateY and loc == LOCATION_BARRIER) then
         GateEvent();
+    else
+        for _,event in ipairs(events) do
+            if (event.x == x and event.y == y) then
+                _G[event.func]();
+                return true;
+            end
+        end
+        return false;
     end
-    return true;
+    return true; --This can be removed when all of the events are in the tables
 end
 
 function OnHeroMove(x, y)
