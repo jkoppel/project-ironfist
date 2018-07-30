@@ -75,6 +75,8 @@ public:
 
   int DoDialog(heroWindow *,int (__fastcall*)(tag_message &),int);
   void UpdateScreenRegion(int, int, int, int);
+  void AddWindow(heroWindow*, int, int);
+  void RemoveWindow(heroWindow*);
 };
 
 extern heroWindowManager* gpWindowManager;

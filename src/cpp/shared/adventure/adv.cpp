@@ -5,6 +5,7 @@
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "gui/gui.h"
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
@@ -12,6 +13,7 @@
 
 #include "optional.hpp"
 #include <sstream>
+#include <string>
 
 static const int END_TURN_BUTTON = 4;
 
@@ -193,4 +195,29 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
 
 int mapCell::getLocationType() {
   return this->objType & 0x7F;
+}
+
+void advManager::QuickInfo(int x, int y) {
+  // Ensure the tooltip box is visible on the screen.
+  int pxOffset = 32 * x - 57;
+  if (pxOffset < 30) {
+    pxOffset = 30;
+  } else if (pxOffset + 160 > 464) {
+    pxOffset = 304;
+  }
+
+  int pyOffset = 32 * y - 25;
+  if (pyOffset < 16) {
+    pyOffset = 16;
+  } else if (pyOffset + 96 > 448) {
+    pyOffset = 352;
+  }
+
+  auto tooltip = new heroWindow(pxOffset, pyOffset, "qwikinfo.bin");
+  std::string str("This is a test");
+  GUISetText(tooltip, 1, str);
+  gpWindowManager->AddWindow(tooltip, 1, -1);
+  QuickViewWait();
+  gpWindowManager->RemoveWindow(tooltip);
+  //QuickInfo_orig(x, y);
 }
