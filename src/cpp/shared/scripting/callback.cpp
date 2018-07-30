@@ -35,3 +35,16 @@ nonstd::optional<bool> PopLuaResult(lua_State *L, int arg) {
     return nonstd::optional<bool>();
   }
 }
+
+template <>
+nonstd::optional<std::string> PopLuaResult(lua_State *L, int arg) {
+  const char *luaStr = lua_tostring(L, arg);
+  if (luaStr) {
+    const std::string ret = luaStr;
+    lua_remove(L, arg);
+    return ret;
+  } else {
+    DisplayError("Incorrect return value: expected string; got something else", "Script error");
+    return nonstd::optional<std::string>();
+  }
+}

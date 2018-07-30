@@ -198,6 +198,23 @@ int mapCell::getLocationType() {
 }
 
 void advManager::QuickInfo(int x, int y) {
+  const int xLoc = x + viewX;
+  const int yLoc = y + viewY;
+  if (!(xLoc >= 0 && xLoc < MAP_WIDTH && yLoc >= 0 && yLoc < MAP_HEIGHT)) {
+    // Outside map boundary
+    QuickInfo_orig(x, y);
+    return;
+  }
+
+  const auto mapCell = GetCell(xLoc, yLoc);
+  const int locationType = mapCell->objType & 0x7F;
+  auto overrideText = ScriptCallbackResult<std::string>("GetTooltipText", locationType, xLoc, yLoc);
+  if (!overrideText || overrideText->empty()) {
+    // Lua error occurred or tooltip text not overridden.
+    QuickInfo_orig(x, y);
+    return;
+  }
+
   // Ensure the tooltip box is visible on the screen.
   int pxOffset = 32 * x - 57;
   if (pxOffset < 30) {
@@ -213,11 +230,9 @@ void advManager::QuickInfo(int x, int y) {
     pyOffset = 352;
   }
 
-  auto tooltip = new heroWindow(pxOffset, pyOffset, "qwikinfo.bin");
-  std::string str("This is a test");
-  GUISetText(tooltip, 1, str);
-  gpWindowManager->AddWindow(tooltip, 1, -1);
+  heroWindow tooltip(pxOffset, pyOffset, "qwikinfo.bin");
+  GUISetText(&tooltip, 1, *overrideText);
+  gpWindowManager->AddWindow(&tooltip, 1, -1);
   QuickViewWait();
-  gpWindowManager->RemoveWindow(tooltip);
-  //QuickInfo_orig(x, y);
+  gpWindowManager->RemoveWindow(&tooltip);
 }
