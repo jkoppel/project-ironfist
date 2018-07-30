@@ -520,7 +520,7 @@ int combatManager::GetCommand(int hex) {
                   return 3;
               }
               // Makes charging possible if the path is completely blocked
-              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->TargetOnStraightLine(hex) && a->ValidFlightPath(hex, 0) && !a->FlightThroughObstacles(hex) && a->GetStraightLineDistanceToHex(hex) <= a->creature.speed))
+              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->TargetOnStraightLine(hex) && a->ValidFlight(hex, 0) && !a->FlightThroughObstacles(hex) && a->GetStraightLineDistanceToHex(hex) <= a->creature.speed))
                 return 7;
               a->targetOwner = -1;
               a->targetStackIdx = -1;
@@ -549,7 +549,7 @@ void combatManager::SetupGridForArmy(army *stack) {
         stack->targetHex = i;
         stack->targetOwner = this->combatGrid[i].unitOwner;
         stack->targetStackIdx = this->combatGrid[i].stackIdx;
-        if(stack->ValidFlightPath(i, 0) && stack->GetStraightLineDistanceToHex(i) <= stack->creature.speed)
+        if(stack->ValidFlight(i, 0) && stack->GetStraightLineDistanceToHex(i) <= stack->creature.speed)
           this->field_49F[i] = this->field_42A[i] = 1;
       }
     }
@@ -659,7 +659,7 @@ void combatManager::SetCombatDirections(int hexIdx) {
     } else {
       for(int i = 0; i < 8; ++i) {
         if(v18[i])
-          if((CreatureHasAttribute(thisb->creatureIdx, CHARGER) && thisb->GetStraightLineDistanceToHex(a2[i]) <= thisb->creature.speed && thisb->TargetOnStraightLine(a2[i]) && thisb->TargetOnStraightLine(hexIdx) && thisb->ValidFlightPath(a2[i], 0))) {
+          if((CreatureHasAttribute(thisb->creatureIdx, CHARGER) && thisb->GetStraightLineDistanceToHex(a2[i]) <= thisb->creature.speed && thisb->TargetOnStraightLine(a2[i]) && thisb->TargetOnStraightLine(hexIdx) && thisb->ValidFlight(a2[i], 0))) {
             v10[i] = a2[i] = 1;
           }
           else
