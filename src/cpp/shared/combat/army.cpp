@@ -2240,17 +2240,17 @@ int army::GetStraightLineDirection(int targHex) {
   int deltaY = gpCombatManager->combatGrid[targHex].occupyingCreatureBottomY - gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
   int deltaX = gpCombatManager->combatGrid[targHex].centerX - gpCombatManager->combatGrid[this->occupiedHex].centerX;
   double angle = (180.0 / 3.141592653589793238463) * atan2(deltaY, deltaX);
-  if(angle == -62.354024636261322)
+  if(angle >= -62.4 && angle <= -62.3)
     return 0;
   if(angle == 0)
     return 1;
-  if(angle == 62.354024636261322)
+  if(angle >= 62.3 && angle <= 62.4)
     return 2;
-  if(angle == 117.64597536373869)
+  if(angle >= 117.6 && angle <= 117.7)
     return 3;
   if(angle == 180)
     return 4;
-  if(angle == -117.64597536373869)
+  if(angle >= -117.7 && angle <= -117.6)
     return 5;
   return -1;
 }
