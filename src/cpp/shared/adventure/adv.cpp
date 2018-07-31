@@ -150,34 +150,41 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
 }
 
 void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
+  std::string shrineText;
   switch (locationType) {
     case LOCATION_SHRINE_FIRST_ORDER: {
-      sprintf(gText, "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '";
+      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_SECOND_ORDER: {
-      sprintf(gText, "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '";
+      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_THIRD_ORDER: {
-      sprintf(gText, "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '";
+      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += "'.  ";
       break;
     }
   }
 
   if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
     if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
-      strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
-      this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+      shrineText += "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.";
+      this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
     } else {
       this->EventSound(locationType, NULL, &res2);
       int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
       hro->AddSpell(cell->extraInfo - 1, heroKnowledge);
-      this->EventWindow(-1, 1, gText, 8, cell->extraInfo - 1, -1, 0, -1);
+      this->EventWindow(-1, 1, &shrineText[0], 8, cell->extraInfo - 1, -1, 0, -1);
     }
   } else {
-    strcat(gText, "Unfortunately, you have no Magic Book to record the spell with.");
-    this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+    shrineText += "Unfortunately, you have no Magic Book to record the spell with.";
+    this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
   }
 }
 
