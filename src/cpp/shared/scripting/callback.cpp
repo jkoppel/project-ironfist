@@ -43,8 +43,11 @@ nonstd::optional<std::string> PopLuaResult(lua_State *L, int arg) {
     const std::string ret = luaStr;
     lua_remove(L, arg);
     return ret;
-  } else {
-    DisplayError("Incorrect return value: expected string; got something else", "Script error");
-    return nonstd::optional<std::string>();
   }
+
+  // Tolerate nil but warn if we got some other type.
+  if (!lua_isnil(L, arg)) {
+    DisplayError("Incorrect return value: expected string; got something else", "Script error");
+  }
+  return {};
 }

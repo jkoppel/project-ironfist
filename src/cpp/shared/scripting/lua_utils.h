@@ -8,6 +8,7 @@ extern "C" {
 }
 
 void lua_setconst(lua_State *L, const char* nam, int i);
+void lua_setconst_nil(lua_State *L, const char* nam);
 void DisplayLuaError(lua_State *L);
 int LuaGlobalExists(lua_State *L, const char* nam);
 
