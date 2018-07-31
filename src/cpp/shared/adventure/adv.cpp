@@ -216,21 +216,31 @@ void advManager::QuickInfo(int x, int y) {
   }
 
   // Ensure the tooltip box is visible on the screen.
-  int pxOffset = 32 * x - 57;
-  if (pxOffset < 30) {
-    pxOffset = 30;
-  } else if (pxOffset + 160 > 464) {
-    pxOffset = 304;
+  const int pTileSize = 32;
+  const int pxOffset = -57;  // tooltip is drawn (-57,-25) pixels from the mouse
+  const int pyOffset = -25;
+  const int pTooltipWidth = 160;
+  const int pTooltipHeight = 96;
+
+  int px = pTileSize * x + pxOffset;
+  if (px < 30) {
+    // minimum indent from left edge
+    px = 30;
+  } else if (px + pTooltipWidth > 464) {
+    // don't overrun right edge
+    px = 304;
   }
 
-  int pyOffset = 32 * y - 25;
-  if (pyOffset < 16) {
-    pyOffset = 16;
-  } else if (pyOffset + 96 > 448) {
-    pyOffset = 352;
+  int py = pTileSize * y + pyOffset;
+  if (py < 16) {
+    // minimum indent from top edge
+    py = 16;
+  } else if (py + pTooltipHeight > 448) {
+    // don't overrun bottom edge
+    py = 352;
   }
 
-  heroWindow tooltip(pxOffset, pyOffset, "qwikinfo.bin");
+  heroWindow tooltip(px, py, "qwikinfo.bin");
   GUISetText(&tooltip, 1, *overrideText);
   gpWindowManager->AddWindow(&tooltip, 1, -1);
   QuickViewWait();
