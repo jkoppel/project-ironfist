@@ -253,6 +253,9 @@ public:
   int MapPutArmy(int x, int y, int monIdx, int monQty);
 
   int GiveExperience(class hero*, int, int);
+
+  void QuickInfo(int, int);
+  void QuickInfo_orig(int, int);
 };
 
 class ExpCampaign {

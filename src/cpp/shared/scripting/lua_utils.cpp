@@ -12,6 +12,11 @@ void lua_setconst(lua_State *L, const char* nam, int i) {
 	lua_setglobal(L, nam);
 }
 
+void lua_setconst_nil(lua_State *L, const char* nam) {
+	lua_pushnil(L);
+	lua_setglobal(L, nam);
+}
+
 void DisplayLuaError(lua_State *L) {
   const char* msg = luaL_checkstring(L, -1);
   DisplayError(msg, "Script Error");

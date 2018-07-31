@@ -21,13 +21,10 @@ void ironfist_lua_pushmulti();
 
 /*
  * The implementations use Lua functions like lua_isnumber and lua_tonumber.
- * We need template specialization to implement these.
+ * We need template specialization to implement these, see callback.cpp.
  */
 template <typename Res>
 nonstd::optional<Res> PopLuaResult(lua_State *L, int arg);
-
-template <>
-nonstd::optional<bool> PopLuaResult(lua_State *L, int arg);
 
 template<typename T, typename... Args>
 void ironfist_lua_pushmulti(T first, Args... args) {
