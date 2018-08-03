@@ -175,6 +175,8 @@ IMPORT_?CDIsPlaying@soundManager@@QAEHXZ = 1
 useOpera EQU ?useOpera@@3HA
 IMPORT_?Open@soundManager@@UAEHH@Z = 1
 ?Open@soundManager@@UAEHH@Z_clone EQU ?Open_orig@soundManager@@QAEHH@Z
+IMPORT_?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z = 1
+?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z_clone EQU ?SetupGridForArmy_orig@combatManager@@QAEXPAVarmy@@@Z
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
@@ -234,6 +236,11 @@ IMPORT_?Init@army@@QAEXHHHHHH@Z = 1
 IMPORT_?AttackTo@army@@QAEHH@Z = 1
 IMPORT_?CombatMessage@combatManager@@QAEXPADHHH@Z = 1
 ?CombatMessage@combatManager@@QAEXPADHHH@Z_clone EQU ?CombatMessage_orig@combatManager@@QAEXPADHHH@Z
+?AttackTo@army@@QAEHH@Z_clone EQU ?AttackTo_orig@army@@QAEHH@Z
+IMPORT_?GetCommand@combatManager@@QAEHH@Z = 1
+?GetCommand@combatManager@@QAEHH@Z_clone EQU ?GetCommand_orig@combatManager@@QAEHH@Z
+IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
+?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

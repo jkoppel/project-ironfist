@@ -223,6 +223,15 @@ public:
   void SetupCombat_orig(int arg0, int arg1, hero *h1, armyGroup *a1, town *t, hero *h2, armyGroup *a2, int arg2, int arg3, int arg4);
   void ResetRound_orig();
   void ResetRound();
+  int GetGridIndex(int x, int y);
+  int GetCommand(int hex);
+  void DrawSmallView(int a2, int a3);
+  int UpdateGrid(int a, int b);
+  void SetupGridForArmy(army *stack);
+  void SetupGridForArmy_orig(army *stack);
+  void SetCombatDirections(int hexIdx);
+  void SetCombatDirections_orig(int hex);
+  int ValidHexToStandOn(signed int a2);
 };
 
 extern combatManager* gpCombatManager;

@@ -63,7 +63,7 @@ SecondaryResourceNameTableEntry SecondaryResourceNameTable[] = {
 	{"gems", RESOURCE_GEMS}
 };
 
-std::vector<std::string> ironfistAttributeNames = { STRIKE_AND_RETURN, PLASMA_BLAST, TELEPORTER, ASTRAL_DODGE, SHADOW_MARK, JUMPER};
+std::vector<std::string> ironfistAttributeNames = { STRIKE_AND_RETURN, PLASMA_BLAST, TELEPORTER, ASTRAL_DODGE, SHADOW_MARK, JUMPER, CHARGER};
 std::vector<std::vector<int>> ironfistAttributeTable;
 
 void ResetCreatureAttributes() {

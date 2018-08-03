@@ -444,6 +444,118 @@ bool IsAICombatTurn() {
   return 0;
 }
 
+extern int gbProcessingCombatAction;
+extern int giNextAction;
+int combatManager::GetCommand(int hex) {
+  int v7 = 0;
+  UpdateGrid(0, 0);
+  int result = 0;
+  switch(hex) {
+    case -1:
+      result = 0;
+      break;
+    case 25:
+      if(this->heroes[1]) {
+        if(this->currentActionSide == 1)
+          result = 4;
+        else
+          result = 13;
+      } else {
+        result = 0;
+      }
+      break;
+    case 26:
+      if(this->heroes[0]) {
+        if(this->currentActionSide)
+          result = 13;
+        else
+          result = 4;
+      } else {
+        result = 0;
+      }
+      break;
+    case 77:
+      if(this->isCastleBattle)
+        result = 5;
+      else
+        result = 0;
+      break;
+    default:
+      if(hex % 13 == 12) {
+        result = 0;
+      } else {
+        int tempOwner = this->combatGrid[hex].unitOwner;
+        int tempStack = this->combatGrid[hex].stackIdx;
+        army *a = &this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx];
+        this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx].targetOwner = -1;
+        a->targetStackIdx = -1;
+        if(this->combatGrid[hex].isBlocked
+          && (!gpCombatManager->isCastleBattle || hex != 58 && hex != 59 || gpCombatManager->drawBridgePosition == 4
+            && (gpCombatManager->currentActionSide != 1 || gpCombatManager->combatGrid[58].unitOwner != -1 || gpCombatManager->combatGrid[58].numCorpses))) {
+          result = 0;
+        } else {
+          if(tempOwner == -1) {
+            if(this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx].ValidPath(hex, 0) == 1)
+              result = 2 - ((*(DWORD *)&this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx].creature.creature_flags & (unsigned int)FLYER) < 1);
+          } else {
+            if(this->otherCurrentSideThing != tempOwner || this->someSortOfStackIdx != tempStack) {
+              v7 = 1;
+              if(!gbProcessingCombatAction) {
+                if(!giNextAction) {
+                  *(DWORD *)&this->_15[104] = tempOwner;
+                  *(DWORD *)&this->_15[112] = tempStack;
+                  this->DrawSmallView(1, 1);
+                }
+              }
+            }
+            if(tempOwner >= 0 && tempOwner <= 1) {
+              if(this->currentActionSide == tempOwner || this->otherCurrentSideThing == tempOwner && this->someSortOfStackIdx == tempStack)
+                return 5;
+              a->targetOwner = tempOwner;
+              a->targetStackIdx = tempStack;
+              if(a->creature.shots > 0 && a->GetAttackMask(a->occupiedHex, 1, -1) == 255) {
+                if(this->ShotIsThroughWall(a->owningSide, a->occupiedHex, hex))
+                  return 15;
+                else
+                  return 3;
+              }
+              // Makes charging possible if the path is completely blocked
+              if(a->ValidPath(hex, 0) == 1 || (CreatureHasAttribute(a->creatureIdx, CHARGER) && a->TargetOnStraightLine(hex) && a->ValidFlight(hex, 0) && !a->FlightThroughObstacles(hex) && a->GetStraightLineDistanceToHex(hex) <= a->creature.speed))
+                return 7;
+              a->targetOwner = -1;
+              a->targetStackIdx = -1;
+              result = 0;
+            }
+          }
+        }
+      }
+      break;
+  }
+  if(!v7) {
+    if(!gbProcessingCombatAction) {
+      *(DWORD *)&this->_15[104] = -1;
+      this->DrawSmallView(1, 1);
+    }
+  }
+  return result;
+}
+
+void combatManager::SetupGridForArmy(army *stack) {
+  this->SetupGridForArmy_orig(stack);
+  // Will mark certain hexes black (possible to interact with)
+  if(CreatureHasAttribute(stack->creatureIdx, CHARGER)) {
+    for(int i = 0; i < NUM_HEXES; i++) {
+      if((this->combatGrid[i].unitOwner != -1) && (this->combatGrid[i].unitOwner != stack->owningSide) && (!stack->FlightThroughObstacles(i)) && stack->TargetOnStraightLine(i)) {
+        stack->targetHex = i;
+        stack->targetOwner = this->combatGrid[i].unitOwner;
+        stack->targetStackIdx = this->combatGrid[i].stackIdx;
+        if(stack->ValidFlight(i, 0) && stack->GetStraightLineDistanceToHex(i) <= stack->creature.speed)
+          this->field_49F[i] = this->field_42A[i] = 1;
+      }
+    }
+  }
+}
+
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY) {
   std::vector<COORD> points;
   float amplitude = 0.01282;
@@ -470,6 +582,169 @@ std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX,
     currentY += (double)((numPoints / 2) - i) * stepY;
   }
   return points;
+}
+
+// Decides how a certain hex can be interacted from each direction by current creature
+void combatManager::SetCombatDirections(int hexIdx) {
+  if(this->field_F2B3)
+    return;
+
+  int v5[8]; // [sp+14h] [bp-74h]@31
+  char v10[8]; // [sp+44h] [bp-44h]@53
+  int a2[8]; // [sp+5Ch] [bp-2Ch]@9
+  char v18[8]; // [sp+80h] [bp-8h]@47
+  army* attacker = &this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx];
+  int targetOwner = attacker->targetOwner;
+  int targetStackIdx = attacker->targetStackIdx;
+  attacker->targetOwner = -1;
+  attacker->targetStackIdx = -1;
+  army* target = &this->creatures[targetOwner][targetStackIdx];
+  for(int i = 0; i < 8; ++i) {
+    if(i != 6 && i != 7) {
+      a2[i] = this->hexNeighbors[hexIdx][i];
+    } else if(attacker->creature.creature_flags & TWO_HEXER) {
+      if(attacker->facingRight == 1) {
+        if(i == 6)
+          a2[6] = this->hexNeighbors[hexIdx][5];
+        if(i == 7)
+          a2[7] = this->hexNeighbors[hexIdx][3];
+      } else {
+        if(i == 6)
+          a2[6] = this->hexNeighbors[hexIdx][0];
+        if(i == 7)
+          a2[7] = this->hexNeighbors[hexIdx][2];
+      }
+    } else {
+      a2[i] = -1;
+    }
+    if(attacker->creature.creature_flags & TWO_HEXER && a2[i] != -1) {
+      if(attacker->facingRight == 1) {
+        if(i == 5 || i == 4 || i == 3) {
+          if(a2[i] % 13 == 1)
+            a2[i] = -1;
+          else
+            --a2[i];
+        }
+        if(a2[i] % 13 == 11)
+          v5[i] = -1;
+        else
+          v5[i] = a2[i] + 1;
+      } else {
+        if(!i || i == 1 || i == 2) {
+          if(a2[i] % 13 == 11)
+            a2[i] = -1;
+          else
+            ++a2[i];
+        }
+        if(a2[i] % 13 == 1)
+          v5[i] = -1;
+        else
+          v5[i] = a2[i] - 1;
+      }
+    } else {
+      v5[i] = -2;
+    }
+    v18[i] = this->ValidHexToStandOn(a2[i]) && this->ValidHexToStandOn(v5[i]);
+  }
+  if(attacker->creature.creature_flags & FLYER) {
+    for(int i = 0; i < 8; ++i)
+      v10[i] = v18[i];
+  } else {
+    for(int i = 0; i < 8; ++i) {
+      if(v18[i])
+        if((CreatureHasAttribute(attacker->creatureIdx, CHARGER) && attacker->GetStraightLineDistanceToHex(a2[i]) <= attacker->creature.speed && attacker->TargetOnStraightLine(a2[i]) && attacker->TargetOnStraightLine(hexIdx) && attacker->ValidFlight(a2[i], 0))) {
+          v10[i] = a2[i] = 1;
+        }
+        else
+          v10[i] = a2[i] == attacker->occupiedHex || attacker->ValidPath(a2[i], 1);
+      else
+        v10[i] = 0;
+    }
+  }
+  *(DWORD *)&this->_15[64] = 0;
+  for(int i = 0; i < 8; ++i) {
+    if(v10[i])
+      ++*(DWORD *)&this->_15[64];
+  }
+  if(!*(DWORD *)&this->_15[64])
+    v10[6] = 1;
+  memset(&this->_15[36], 0xFFu, 0x18u);
+  
+  int v17;
+  for(int i = 0; i < 8; ++i) {
+    int v14 = i;
+    if(i >= 6) {
+      if(i == 6)
+        v17 = 7;
+      else
+        v17 = 6;
+    } else {
+      v17 = (i + 3) % 6;
+    }
+    if(v10[v17]) {
+      if(target->creature.creature_flags & TWO_HEXER) {
+        if(i || this->combatGrid[hexIdx - 1].unitOwner != targetOwner || this->combatGrid[hexIdx - 1].stackIdx != targetStackIdx) {
+          if(i != 5
+            || this->combatGrid[hexIdx + 1].unitOwner != targetOwner
+            || this->combatGrid[hexIdx + 1].stackIdx != targetStackIdx) {
+            if(i != 2
+              || this->combatGrid[hexIdx - 1].unitOwner != targetOwner
+              || this->combatGrid[hexIdx - 1].stackIdx != targetStackIdx) {
+              if(i == 3
+                && this->combatGrid[hexIdx + 1].unitOwner == targetOwner
+                && this->combatGrid[hexIdx + 1].stackIdx == targetStackIdx)
+                v14 = 7;
+            } else {
+              v14 = 7;
+            }
+          } else {
+            v14 = 6;
+          }
+        } else {
+          v14 = 6;
+        }
+      }
+      if(i >= 6) {
+        if(i == 6) {
+          this->_15[47] = v14;
+          this->_15[48] = v14;
+          this->_15[49] = v14;
+        } else {
+          this->_15[36] = v14;
+          this->_15[37] = v14;
+          this->_15[59] = v14;
+        }
+      } else {
+        memset(&this->_15[4 * v17 + 36], v14, 4u);
+      }
+    }
+  }
+  int v12 = 24;
+  while(v12 > 0) {
+    for(int i = 0; i < 24; ++i) {
+      if(this->_15[i + 36] == -1) {
+        int v6 = (i + 1) % 24;
+        int v8 = (i + 23) % 24;
+        if(this->_15[(i + 1) % 24 + 36] < 0 || this->_15[v6 + 36] > 7) {
+          if(this->_15[v8 + 36] >= 0 && this->_15[v8 + 36] <= 7)
+            this->_15[i + 36] = this->_15[v8 + 36] + 10;
+        } else {
+          this->_15[i + 36] = this->_15[v6 + 36] + 10;
+        }
+      }
+    }
+    v12 = 0;
+    for(int i = 0; i < 24; ++i) {
+      if(this->_15[i + 36] < 10) {
+        if(this->_15[i + 36] == -1)
+          ++v12;
+      } else {
+        this->_15[i + 36] -= 10;
+      }
+    }
+  }
+  attacker->targetOwner = targetOwner;
+  attacker->targetStackIdx = targetStackIdx;
 }
 
 
