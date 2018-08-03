@@ -456,9 +456,14 @@ void set_map_cell_consts(lua_State *L) {
   lua_setconst(L, "MAP_CELL_FLIP_DIAGONALLY", MAP_CELL_FLIP_DIAGONALLY);
 }
 
+void set_tooltip_consts(lua_State *L) {
+  lua_setconst_nil(L, "TOOLTIP_DEFAULT");
+}
+
 void set_map_consts(lua_State *L) {
   set_location_consts(L);
   set_map_cell_consts(L);
+  set_tooltip_consts(L);
 }
 
 /*************************************************************************************/

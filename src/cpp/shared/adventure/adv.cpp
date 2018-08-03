@@ -5,6 +5,7 @@
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "gui/gui.h"
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
@@ -12,6 +13,7 @@
 
 #include "optional.hpp"
 #include <sstream>
+#include <string>
 
 static const int END_TURN_BUTTON = 4;
 
@@ -153,34 +155,41 @@ void __thiscall game::ClaimTown(int castleidx, int playeridx, int a4) {
 }
 
 void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
+  std::string shrineText;
   switch (locationType) {
     case LOCATION_SHRINE_FIRST_ORDER: {
-      sprintf(gText, "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '";
+      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_SECOND_ORDER: {
-      sprintf(gText, "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '";
+      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_THIRD_ORDER: {
-      sprintf(gText, "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '";
+      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += "'.  ";
       break;
     }
   }
 
   if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
     if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
-      strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
-      this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+      shrineText += "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.";
+      this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
     } else {
       this->EventSound(locationType, NULL, &res2);
       int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
       hro->AddSpell(cell->extraInfo - 1, heroKnowledge);
-      this->EventWindow(-1, 1, gText, 8, cell->extraInfo - 1, -1, 0, -1);
+      this->EventWindow(-1, 1, &shrineText[0], 8, cell->extraInfo - 1, -1, 0, -1);
     }
   } else {
-    strcat(gText, "Unfortunately, you have no Magic Book to record the spell with.");
-    this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+    shrineText += "Unfortunately, you have no Magic Book to record the spell with.";
+    this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
   }
 }
 
@@ -198,4 +207,54 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
 
 int mapCell::getLocationType() {
   return this->objType & 0x7F;
+}
+
+void advManager::QuickInfo(int x, int y) {
+  const int xLoc = x + viewX;
+  const int yLoc = y + viewY;
+  if (!(xLoc >= 0 && xLoc < MAP_WIDTH && yLoc >= 0 && yLoc < MAP_HEIGHT)) {
+    // Outside map boundary
+    QuickInfo_orig(x, y);
+    return;
+  }
+
+  const auto mapCell = GetCell(xLoc, yLoc);
+  const int locationType = mapCell->objType & 0x7F;
+  auto overrideText = ScriptCallbackResult<std::string>("GetTooltipText", locationType, xLoc, yLoc);
+  if (!overrideText || overrideText->empty()) {
+    // Lua error occurred or tooltip text not overridden.
+    QuickInfo_orig(x, y);
+    return;
+  }
+
+  // Ensure the tooltip box is visible on the screen.
+  const int pTileSize = 32;
+  const int pxOffset = -57;  // tooltip is drawn (-57,-25) pixels from the mouse
+  const int pyOffset = -25;
+  const int pTooltipWidth = 160;
+  const int pTooltipHeight = 96;
+
+  int px = pTileSize * x + pxOffset;
+  if (px < 30) {
+    // minimum indent from left edge
+    px = 30;
+  } else if (px + pTooltipWidth > 464) {
+    // don't overrun right edge
+    px = 304;
+  }
+
+  int py = pTileSize * y + pyOffset;
+  if (py < 16) {
+    // minimum indent from top edge
+    py = 16;
+  } else if (py + pTooltipHeight > 448) {
+    // don't overrun bottom edge
+    py = 352;
+  }
+
+  heroWindow tooltip(px, py, "qwikinfo.bin");
+  GUISetText(&tooltip, 1, *overrideText);
+  gpWindowManager->AddWindow(&tooltip, 1, -1);
+  QuickViewWait();
+  gpWindowManager->RemoveWindow(&tooltip);
 }
