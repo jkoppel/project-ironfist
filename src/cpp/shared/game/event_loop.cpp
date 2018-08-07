@@ -19,11 +19,6 @@ void __fastcall Process1WindowsMessage() {
   Process1WindowsMessage_orig();
 }
 
-
-unsigned long UTickCount() {
-  return KBTickCount();
-}
-
 /*
  * This is a slightly hacky fix to the bug described in https://www.celestialheavens.com/forum/7/16792 ,
  * where a signed overflow of GetTickCount() can cause the game to wait for up to 25 days
@@ -34,9 +29,8 @@ unsigned long UTickCount() {
  * in a very small number, it will never wait for very long.
  */
 void __fastcall DelayTilMilli(long tick) {
-  unsigned long uTick = tick;
-  while (UTickCount() < uTick)
-  {
+  const unsigned long uTick = static_cast<unsigned long>(tick);
+  while (static_cast<unsigned long>(KBTickCount()) < uTick) {
     Process1WindowsMessage();
     PollSound();
   }
