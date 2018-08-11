@@ -200,14 +200,16 @@ void set_town_consts(lua_State* L) {
 }
 
 void set_faction_consts(lua_State* L) {
-  lua_setconst(L, "FACTION_KNIGHT", 0);
-  lua_setconst(L, "FACTION_BARBARIAN", 1);
-  lua_setconst(L, "FACTION_SORCERESS", 2);
-  lua_setconst(L, "FACTION_WARLOCK", 3);
-  lua_setconst(L, "FACTION_WIZARD", 4);
-  lua_setconst(L, "FACTION_NECROMANCER", 5);
-  lua_setconst(L, "FACTION_MULTIPLE", 6);
-  lua_setconst(L, "FACTION_RANDOM", 7);
+  lua_setconst(L, "FACTION_KNIGHT", FACTION_KNIGHT);
+  lua_setconst(L, "FACTION_BARBARIAN", FACTION_BARBARIAN);
+  lua_setconst(L, "FACTION_SORCERESS", FACTION_SORCERESS);
+  lua_setconst(L, "FACTION_WARLOCK", FACTION_WARLOCK);
+  lua_setconst(L, "FACTION_WIZARD", FACTION_WIZARD);
+  lua_setconst(L, "FACTION_NECROMANCER", FACTION_NECROMANCER);
+  lua_setconst(L, "FACTION_MULTIPLE", FACTION_MULTIPLE);
+  lua_setconst(L, "FACTION_RANDOM", FACTION_RANDOM);
+
+  lua_setconst(L, "FACTION_CYBORG", FACTION_CYBORG);
 }
 
 
