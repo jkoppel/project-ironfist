@@ -343,7 +343,22 @@ void town::SelectSpells() {
 						weight = 1500;
 
 					if(hasAdventureSpellAtLevel != 1 || !(gsSpellInfo[spell].attributes & ATTR_ADVENTURE_SPELL)) {
-						if(*(&gsSpellInfo[spell].nonMagicFactionAppearanceChance + this->factionID) >= Random(0, 10)) {
+						// nonMagicFactionAppearanceChance[6] is either 0 or 10 for every faction.
+						// It's 10 for most spells/factions.
+						// Holy Word/Shout is 0 for Necromancer, 10 for everyone else.
+						// Death Ripple/Wave is 10 for Necromancer, 0 for everyone else.
+						// In all other cases, the chance is the same for every faction.
+						// To support any number of new factions, we can just use the Knight's
+						// spell appearance chances for everyone except Necromancer.
+						int factionAppearanceChance = gsSpellInfo[spell].nonMagicFactionAppearanceChance;
+						if (factionID == FACTION_NECROMANCER) {
+							if (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT) {
+								factionAppearanceChance = 0;
+							} else if (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE) {
+								factionAppearanceChance = 10;
+							}
+						}
+						if(factionAppearanceChance >= Random(0, 10)) {
 							++tries;
 							if(tries <= 500) {
 								if(!spellPresent[spell] && Random(1, 1500) <= weight)
