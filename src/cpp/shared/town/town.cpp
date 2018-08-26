@@ -12,46 +12,10 @@
 #include "spell/spells.h"
 #include "town/town.h"
 
+#include <cstdio>
 #include <sstream>
 #include <string>
-
-
-namespace {
-  void initTownObjNames() {
-    gTownObjNames[0] = "mage";
-    gTownObjNames[1] = "thie";
-    gTownObjNames[2] = "tvrn";
-    gTownObjNames[3] = "dock";
-    gTownObjNames[4] = "well";
-    gTownObjNames[5] = "tent";
-    gTownObjNames[6] = "cstl";
-    gTownObjNames[7] = "stat";
-    gTownObjNames[8] = "ltur";
-    gTownObjNames[9] = "rtur";
-    gTownObjNames[10] = "mark";
-    gTownObjNames[11] = "wel2";
-    gTownObjNames[12] = "moat";
-    gTownObjNames[13] = "spec";
-    gTownObjNames[14] = "boat";
-    gTownObjNames[15] = "capt";
-    gTownObjNames[16] = "ext0";
-    gTownObjNames[17] = "ext1";
-    gTownObjNames[18] = "ext2";
-    gTownObjNames[19] = "dw_0";
-    gTownObjNames[20] = "dw_1";
-    gTownObjNames[21] = "dw_2";
-    gTownObjNames[22] = "dw_3";
-    gTownObjNames[23] = "dw_4";
-    gTownObjNames[24] = "dw_5";
-    gTownObjNames[25] = "up_1";
-    gTownObjNames[26] = "up_2";
-    gTownObjNames[27] = "up_3";
-    gTownObjNames[28] = "up_4";
-    gTownObjNames[29] = "up_5";
-    gTownObjNames[30] = "up5b";
-    gTownObjNames[31] = "ext3";
-  }
-}
+#include <vector>
 
 unsigned long gTownEligibleBuildMask[NUM_FACTIONS] = {
   0x3FF8BF9F,
@@ -69,52 +33,154 @@ unsigned long gTownEligibleBuildMask[NUM_FACTIONS] = {
   0x01F8BF9F  // TODO: decide whether Cyborg creatures have any upgrades
 };
 
-extern char *gTownObjNames[32] = {
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
-  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4
+// Leave these undefined initially to make the compiler put them in the
+// same data segment. This ensures the old game code will be able to index
+// into gDwellingType by referencing gTownObjNames.
+char *gTownObjNames[32] = { 0 };
+unsigned char gDwellingType[NUM_FACTIONS * NUM_DWELLINGS] = { 0 };
+
+std::vector<std::string> objectNames = {
+  "mage",
+  "thie",
+  "tvrn",
+  "dock",
+  "well",
+  "tent",
+  "cstl",
+  "stat",
+  "ltur",
+  "rtur",
+  "mark",
+  "wel2",
+  "moat",
+  "spec",
+  "boat",
+  "capt",
+  "ext0",
+  "ext1",
+  "ext2",
+  "dw_0",
+  "dw_1",
+  "dw_2",
+  "dw_3",
+  "dw_4",
+  "dw_5",
+  "up_1",
+  "up_2",
+  "up_3",
+  "up_4",
+  "up_5",
+  "up5b",
+  "ext3"
 };
+
+void InitTownObjNames() {
+  for (auto i = 0u; i < objectNames.size(); ++i) {
+    gTownObjNames[i] = &objectNames[i][0];
+  }
+}
 
 // Defines the creature types in dwellings 1-6, followed by upgrades 1-5b
 // (which are really the tier 2 upgrade through tier 6 second upgrade).
-// TODO: do Cyborg creatures have upgrades?
-unsigned char gDwellingType[NUM_FACTIONS * NUM_DWELLINGS] = {
-  
-   CREATURE_PEASANT, CREATURE_ARCHER, CREATURE_PIKEMAN, CREATURE_SWORDSMAN, CREATURE_CAVALRY, CREATURE_PALADIN,
-       CREATURE_RANGER, CREATURE_VETERAN_PIKEMAN, CREATURE_MASTER_SWORDSMAN, CREATURE_CHAMPION, CREATURE_CRUSADER, CREATURE_INVALID,
-   CREATURE_GOBLIN, CREATURE_ORC, CREATURE_WOLF, CREATURE_OGRE, CREATURE_TROLL, CREATURE_CYCLOPS,
-       CREATURE_ORC_CHIEF, CREATURE_INVALID, CREATURE_OGRE_LORD, CREATURE_WAR_TROLL, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_SPRITE, CREATURE_DWARF, CREATURE_ELF, CREATURE_DRUID, CREATURE_UNICORN, CREATURE_PHOENIX,
-       CREATURE_BATTLE_DWARF, CREATURE_GRAND_ELF, CREATURE_GREATER_DRUID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_CENTAUR, CREATURE_GARGOYLE, CREATURE_GRIFFIN, CREATURE_MINOTAUR, CREATURE_HYDRA, CREATURE_GREEN_DRAGON,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_MINOTAUR_KING, CREATURE_INVALID, CREATURE_RED_DRAGON, CREATURE_BLACK_DRAGON,
-   CREATURE_HALFLING, CREATURE_BOAR, CREATURE_IRON_GOLEM, CREATURE_ROC, CREATURE_MAGE, CREATURE_GIANT,
-       CREATURE_INVALID, CREATURE_STEEL_GOLEM, CREATURE_INVALID, CREATURE_ARCHMAGE, CREATURE_TITAN, CREATURE_INVALID,
-   CREATURE_SKELETON, CREATURE_ZOMBIE, CREATURE_MUMMY, CREATURE_VAMPIRE, CREATURE_LICH, CREATURE_BONE_DRAGON,
-       CREATURE_MUTANT_ZOMBIE, CREATURE_ROYAL_MUMMY, CREATURE_VAMPIRE_LORD, CREATURE_POWER_LICH, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
-   CREATURE_CYBER_KOBOLD_SPEARMAN, CREATURE_CYBER_PLASMA_BERSERKER, CREATURE_CYBER_PLASMA_LANCER, CREATURE_CYBER_INDIGO_PANTHER, CREATURE_CYBER_SHADOW_ASSASSIN, CREATURE_CYBER_BEHEMOTH,
-       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID
-};
+void InitDwellingTypes() {
+  for (int i = 0; i < NUM_FACTIONS * NUM_DWELLINGS; ++i) {
+    gDwellingType[i] = CREATURE_INVALID;
+  }
+
+  // Knight creatures
+  gDwellingType[0] = CREATURE_PEASANT;
+  gDwellingType[1] = CREATURE_ARCHER;
+  gDwellingType[2] = CREATURE_PIKEMAN;
+  gDwellingType[3] = CREATURE_SWORDSMAN;
+  gDwellingType[4] = CREATURE_CAVALRY;
+  gDwellingType[5] = CREATURE_PALADIN;
+  gDwellingType[6] = CREATURE_RANGER;
+  gDwellingType[7] = CREATURE_VETERAN_PIKEMAN;
+  gDwellingType[8] = CREATURE_MASTER_SWORDSMAN;
+  gDwellingType[9] = CREATURE_CHAMPION;
+  gDwellingType[10] = CREATURE_CRUSADER;
+  // no paladin second upgrade
+
+  // Barbarian creatures
+  gDwellingType[12] = CREATURE_GOBLIN;
+  gDwellingType[13] = CREATURE_ORC;
+  gDwellingType[14] = CREATURE_WOLF;
+  gDwellingType[15] = CREATURE_OGRE;
+  gDwellingType[16] = CREATURE_TROLL;
+  gDwellingType[17] = CREATURE_CYCLOPS;
+  gDwellingType[18] = CREATURE_ORC_CHIEF;
+  // no wolf upgrade
+  gDwellingType[20] = CREATURE_OGRE_LORD;
+  gDwellingType[21] = CREATURE_WAR_TROLL;
+  // no cyclops upgrade or second upgrade
+
+  // Sorceress creatures
+  gDwellingType[24] = CREATURE_SPRITE;
+  gDwellingType[25] = CREATURE_DWARF;
+  gDwellingType[26] = CREATURE_ELF;
+  gDwellingType[27] = CREATURE_DRUID;
+  gDwellingType[28] = CREATURE_UNICORN;
+  gDwellingType[29] = CREATURE_PHOENIX;
+  gDwellingType[30] = CREATURE_BATTLE_DWARF;
+  gDwellingType[31] = CREATURE_GRAND_ELF;
+  gDwellingType[32] = CREATURE_GREATER_DRUID;
+  // no unicorn upgrade
+  // no phoenix upgrade or second upgrade
+
+  // Warlock creatures
+  gDwellingType[36] = CREATURE_CENTAUR;
+  gDwellingType[37] = CREATURE_GARGOYLE;
+  gDwellingType[38] = CREATURE_GRIFFIN;
+  gDwellingType[39] = CREATURE_MINOTAUR;
+  gDwellingType[40] = CREATURE_HYDRA;
+  gDwellingType[41] = CREATURE_GREEN_DRAGON;
+  // no gargoyle upgrade
+  // no griffin upgrade
+  gDwellingType[44] = CREATURE_MINOTAUR_KING;
+  // no hydra upgrade
+  gDwellingType[46] = CREATURE_RED_DRAGON;
+  gDwellingType[47] = CREATURE_BLACK_DRAGON;
+
+  // Wizard creatures
+  gDwellingType[48] = CREATURE_HALFLING;
+  gDwellingType[49] = CREATURE_BOAR;
+  gDwellingType[50] = CREATURE_IRON_GOLEM;
+  gDwellingType[51] = CREATURE_ROC;
+  gDwellingType[52] = CREATURE_MAGE;
+  gDwellingType[53] = CREATURE_GIANT;
+  // no boar upgrade
+  gDwellingType[55] = CREATURE_STEEL_GOLEM;
+  // no roc upgrade
+  gDwellingType[57] = CREATURE_ARCHMAGE;
+  gDwellingType[58] = CREATURE_TITAN;
+  // no giant second upgrade
+
+  // Necromancer creatures
+  gDwellingType[60] = CREATURE_SKELETON;
+  gDwellingType[61] = CREATURE_ZOMBIE;
+  gDwellingType[62] = CREATURE_MUMMY;
+  gDwellingType[63] = CREATURE_VAMPIRE;
+  gDwellingType[64] = CREATURE_LICH;
+  gDwellingType[65] = CREATURE_BONE_DRAGON;
+  gDwellingType[66] = CREATURE_MUTANT_ZOMBIE;
+  gDwellingType[67] = CREATURE_ROYAL_MUMMY;
+  gDwellingType[68] = CREATURE_VAMPIRE_LORD;
+  gDwellingType[69] = CREATURE_POWER_LICH;
+  // no bone dragon upgrade or second upgrade
+
+  // Cyborg creatures
+  gDwellingType[144] = CREATURE_CYBER_KOBOLD_SPEARMAN;
+  gDwellingType[145] = CREATURE_CYBER_PLASMA_BERSERKER;
+  gDwellingType[146] = CREATURE_CYBER_PLASMA_LANCER;
+  gDwellingType[147] = CREATURE_CYBER_INDIGO_PANTHER;
+  gDwellingType[148] = CREATURE_CYBER_SHADOW_ASSASSIN;
+  gDwellingType[149] = CREATURE_CYBER_BEHEMOTH;
+  // TODO: do Cyborg creatures have upgrades?
+}
 
 void game::SetupTowns() {
-	initTownObjNames();
+	InitTownObjNames();
+	InitDwellingTypes();
 
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
 		if(this->castles[castleIdx].exists) {
@@ -180,7 +246,7 @@ void game::SetupTowns() {
 
 			for(int i = 0; i < NUM_DWELLINGS; i++) {
 				if(castle->DwellingBuilt(i))
-					castle->numCreaturesInDwelling[i] = gMonsterDatabase[gDwellingType[castle->factionID * NUM_DWELLINGS + i]].growth;
+					castle->numCreaturesInDwelling[i] = gMonsterDatabase[GetDwellingType(castle->factionID, i)].growth;
 			}
 
 			if(castle->BuildingBuilt(BUILDING_MAGE_GUILD)) {
@@ -194,7 +260,7 @@ void game::SetupTowns() {
 				castle->buildingsBuiltFlags |= 1 << BUILDING_CAPTAIN;
 
 			castle->mayNotBeUpgradedToCastle = twnExtra->disallowCastle;
-			strcpy(castle->name, twnExtra->name);
+			strncpy(castle->name, twnExtra->name, sizeof(castle->name));
 
 			castle->SelectSpells();
 
@@ -315,7 +381,7 @@ bool town::BuildingBuilt(int building) const {
     return false;
   }
 
-  return (buildingsBuiltFlags & (1 << building));
+  return (buildingsBuiltFlags & (1 << building)) != 0;
 }
 
 bool town::DwellingBuilt(int index) const
@@ -366,10 +432,10 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 							  gsSpellInfo[this->castle->mageGuildSpells[i][j]].magicBookIconIdx);
 				if(smallFont->LineLength(gSpellNames[this->castle->mageGuildSpells[i][j]], 74) == 1 ) {
 					int c = GetManaCost(this->castle->mageGuildSpells[i][j]);
-					sprintf(gText, "%s\n[%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
+					sprintf_s(gText, gTextSize, "%s\n[%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
 				} else {
 					int c = GetManaCost(this->castle->mageGuildSpells[i][j]);
-					sprintf(gText, "%s  [%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
+					sprintf_s(gText, gTextSize, "%s  [%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
 				}
 				GUISetText(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, gText);
 			} else if(j < gSpellLimits[i] + hasLibrary) {
@@ -385,7 +451,7 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 		}
 	}
 	GUISetImgIdx(mageGuildWindow, BUILDING_ICON, this->castle->mageGuildLevel-1);
-	sprintf(gText, "magegld%c.icn", cHeroTypeInitial[this->castle->factionID]);
+	sprintf_s(gText, gTextSize, "magegld%c.icn", cHeroTypeInitial[this->castle->factionID]);
 	GUISetIcon(mageGuildWindow, BUILDING_ICON, gText);
 }
 
@@ -397,7 +463,7 @@ void townManager::SetupWell(heroWindow *window) {
 
   for (int tier = 0; tier < 6; ++tier) {
     const int dwellingIdx = castle->DwellingIndex(tier);
-    const tag_monsterInfo &mon = gMonsterDatabase[gDwellingType[castle->factionID * NUM_DWELLINGS + dwellingIdx]];
+    const tag_monsterInfo &mon = gMonsterDatabase[GetDwellingType(castle->factionID, dwellingIdx)];
 
     std::ostringstream desc;
     desc << "Attack: " << int(mon.attack)
@@ -478,6 +544,15 @@ char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
   } else {
     return GetBuildingInfo_orig(faction, building, withTitle);
   }
+}
+
+int GetDwellingType(int faction, int dwellingIndex) {
+  if (faction < 0 || faction >= NUM_FACTIONS ||
+      dwellingIndex < 0 || dwellingIndex >= NUM_DWELLINGS) {
+    return CREATURE_INVALID;
+  }
+
+  return gDwellingType[faction * NUM_DWELLINGS + dwellingIndex];
 }
 
 int recruitUnit::Open(int x) {
