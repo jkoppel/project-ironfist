@@ -6,15 +6,18 @@
 #pragma pack(push,1)
 
 unsigned long gTownEligibleBuildMask[];
-extern signed char gDwellingType[][12];
 
 extern signed char gSpellLimits[];
 
 extern char cHeroTypeInitial[];
 
 #define MAX_CASTLES 72
-
 #define NUM_DWELLINGS 12
+
+// Order matters here. The original game indexes into gTownObjNames to
+// access elements of gDwellingType.
+extern char *gTownObjNames[];
+extern unsigned char gDwellingType[];
 
 enum HERO_TYPE
 {

@@ -15,16 +15,106 @@
 #include <sstream>
 #include <string>
 
-unsigned long gTownEligibleBuildMask[] = {
+
+namespace {
+  void initTownObjNames() {
+    gTownObjNames[0] = "mage";
+    gTownObjNames[1] = "thie";
+    gTownObjNames[2] = "tvrn";
+    gTownObjNames[3] = "dock";
+    gTownObjNames[4] = "well";
+    gTownObjNames[5] = "tent";
+    gTownObjNames[6] = "cstl";
+    gTownObjNames[7] = "stat";
+    gTownObjNames[8] = "ltur";
+    gTownObjNames[9] = "rtur";
+    gTownObjNames[10] = "mark";
+    gTownObjNames[11] = "wel2";
+    gTownObjNames[12] = "moat";
+    gTownObjNames[13] = "spec";
+    gTownObjNames[14] = "boat";
+    gTownObjNames[15] = "capt";
+    gTownObjNames[16] = "ext0";
+    gTownObjNames[17] = "ext1";
+    gTownObjNames[18] = "ext2";
+    gTownObjNames[19] = "dw_0";
+    gTownObjNames[20] = "dw_1";
+    gTownObjNames[21] = "dw_2";
+    gTownObjNames[22] = "dw_3";
+    gTownObjNames[23] = "dw_4";
+    gTownObjNames[24] = "dw_5";
+    gTownObjNames[25] = "up_1";
+    gTownObjNames[26] = "up_2";
+    gTownObjNames[27] = "up_3";
+    gTownObjNames[28] = "up_4";
+    gTownObjNames[29] = "up_5";
+    gTownObjNames[30] = "up5b";
+    gTownObjNames[31] = "ext3";
+  }
+}
+
+unsigned long gTownEligibleBuildMask[NUM_FACTIONS] = {
   0x3FF8BF9F,
   0x1BF8BF9F,
   0xFF8BF9F,
   0x69F8BF9F,
   0x35F8BF9F,
-  0x1FF8BF9B
+  0x1FF8BF9B,
+  0x0,
+  0x0,
+  0x0,
+  0x0,
+  0x0,
+  0x0,
+  0x01F8BF9F  // TODO: decide whether Cyborg creatures have any upgrades
+};
+
+extern char *gTownObjNames[32] = {
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4,
+  (char*)0x4, (char*)0x4, (char*)0x4, (char*)0x4
+};
+
+// Defines the creature types in dwellings 1-6, followed by upgrades 1-5b
+// (which are really the tier 2 upgrade through tier 6 second upgrade).
+// TODO: do Cyborg creatures have upgrades?
+unsigned char gDwellingType[NUM_FACTIONS * NUM_DWELLINGS] = {
+  
+   CREATURE_PEASANT, CREATURE_ARCHER, CREATURE_PIKEMAN, CREATURE_SWORDSMAN, CREATURE_CAVALRY, CREATURE_PALADIN,
+       CREATURE_RANGER, CREATURE_VETERAN_PIKEMAN, CREATURE_MASTER_SWORDSMAN, CREATURE_CHAMPION, CREATURE_CRUSADER, CREATURE_INVALID,
+   CREATURE_GOBLIN, CREATURE_ORC, CREATURE_WOLF, CREATURE_OGRE, CREATURE_TROLL, CREATURE_CYCLOPS,
+       CREATURE_ORC_CHIEF, CREATURE_INVALID, CREATURE_OGRE_LORD, CREATURE_WAR_TROLL, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_SPRITE, CREATURE_DWARF, CREATURE_ELF, CREATURE_DRUID, CREATURE_UNICORN, CREATURE_PHOENIX,
+       CREATURE_BATTLE_DWARF, CREATURE_GRAND_ELF, CREATURE_GREATER_DRUID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_CENTAUR, CREATURE_GARGOYLE, CREATURE_GRIFFIN, CREATURE_MINOTAUR, CREATURE_HYDRA, CREATURE_GREEN_DRAGON,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_MINOTAUR_KING, CREATURE_INVALID, CREATURE_RED_DRAGON, CREATURE_BLACK_DRAGON,
+   CREATURE_HALFLING, CREATURE_BOAR, CREATURE_IRON_GOLEM, CREATURE_ROC, CREATURE_MAGE, CREATURE_GIANT,
+       CREATURE_INVALID, CREATURE_STEEL_GOLEM, CREATURE_INVALID, CREATURE_ARCHMAGE, CREATURE_TITAN, CREATURE_INVALID,
+   CREATURE_SKELETON, CREATURE_ZOMBIE, CREATURE_MUMMY, CREATURE_VAMPIRE, CREATURE_LICH, CREATURE_BONE_DRAGON,
+       CREATURE_MUTANT_ZOMBIE, CREATURE_ROYAL_MUMMY, CREATURE_VAMPIRE_LORD, CREATURE_POWER_LICH, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID,
+   CREATURE_CYBER_KOBOLD_SPEARMAN, CREATURE_CYBER_PLASMA_BERSERKER, CREATURE_CYBER_PLASMA_LANCER, CREATURE_CYBER_INDIGO_PANTHER, CREATURE_CYBER_SHADOW_ASSASSIN, CREATURE_CYBER_BEHEMOTH,
+       CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID, CREATURE_INVALID
 };
 
 void game::SetupTowns() {
+	initTownObjNames();
 
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
 		if(this->castles[castleIdx].exists) {
@@ -90,7 +180,7 @@ void game::SetupTowns() {
 
 			for(int i = 0; i < NUM_DWELLINGS; i++) {
 				if(castle->DwellingBuilt(i))
-					castle->numCreaturesInDwelling[i] = gMonsterDatabase[gDwellingType[castle->factionID][i]].growth;
+					castle->numCreaturesInDwelling[i] = gMonsterDatabase[gDwellingType[castle->factionID * NUM_DWELLINGS + i]].growth;
 			}
 
 			if(castle->BuildingBuilt(BUILDING_MAGE_GUILD)) {
@@ -307,7 +397,7 @@ void townManager::SetupWell(heroWindow *window) {
 
   for (int tier = 0; tier < 6; ++tier) {
     const int dwellingIdx = castle->DwellingIndex(tier);
-    const tag_monsterInfo &mon = gMonsterDatabase[gDwellingType[castle->factionID][dwellingIdx]];
+    const tag_monsterInfo &mon = gMonsterDatabase[gDwellingType[castle->factionID * NUM_DWELLINGS + dwellingIdx]];
 
     std::ostringstream desc;
     desc << "Attack: " << int(mon.attack)
