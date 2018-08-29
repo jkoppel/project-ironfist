@@ -17,7 +17,7 @@
 #include <string>
 #include <vector>
 
-unsigned long gTownEligibleBuildMask[NUM_FACTIONS] = {
+unsigned long gTownEligibleBuildMask[MAX_FACTIONS] = {
   0x3FF8BF9F,
   0x1BF8BF9F,
   0xFF8BF9F,
@@ -37,7 +37,7 @@ unsigned long gTownEligibleBuildMask[NUM_FACTIONS] = {
 // same data segment. This ensures the old game code will be able to index
 // into gDwellingType by referencing gTownObjNames.
 char *gTownObjNames[32] = { 0 };
-unsigned char gDwellingType[NUM_FACTIONS * NUM_DWELLINGS] = { 0 };
+unsigned char gDwellingType[MAX_FACTIONS * NUM_DWELLINGS] = { 0 };
 
 std::vector<std::string> objectNames = {
   "mage",
@@ -83,7 +83,7 @@ void InitTownObjNames() {
 // Defines the creature types in dwellings 1-6, followed by upgrades 1-5b
 // (which are really the tier 2 upgrade through tier 6 second upgrade).
 void InitDwellingTypes() {
-  for (int i = 0; i < NUM_FACTIONS * NUM_DWELLINGS; ++i) {
+  for (int i = 0; i < MAX_FACTIONS * NUM_DWELLINGS; ++i) {
     gDwellingType[i] = CREATURE_INVALID;
   }
 
@@ -562,7 +562,7 @@ char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
 }
 
 int GetDwellingType(int faction, int dwellingIndex) {
-  if (faction < 0 || faction >= NUM_FACTIONS ||
+  if (faction < 0 || faction >= MAX_FACTIONS ||
       dwellingIndex < 0 || dwellingIndex >= NUM_DWELLINGS) {
     return CREATURE_INVALID;
   }

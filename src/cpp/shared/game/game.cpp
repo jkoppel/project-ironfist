@@ -37,7 +37,7 @@ int game::GetRandomNumTroops(int creat) {
 
 extern int gbNoCDRom;
 
-randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2] = {
+randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2] = {
   {{CREATURE_PEASANT,  30, 50},{CREATURE_ARCHER,   3, 5}},
   {{CREATURE_GOBLIN,   15, 25},{CREATURE_ORC,      3, 5}},
   {{CREATURE_SPRITE,   10, 20},{CREATURE_DWARF,    2, 4}},
@@ -53,7 +53,7 @@ randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2] = {
   {{CREATURE_CYBER_KOBOLD_SPEARMAN, 6, 10},{CREATURE_CYBER_PLASMA_BERSERKER, 2, 4}}
 };
 
-int neutralTownCreatureTypes[NUM_FACTIONS][5] = {
+int neutralTownCreatureTypes[MAX_FACTIONS][5] = {
   {CREATURE_PEASANT,  CREATURE_ARCHER,   CREATURE_PIKEMAN,    CREATURE_SWORDSMAN, CREATURE_CAVALRY},
   {CREATURE_GOBLIN,   CREATURE_ORC,      CREATURE_WOLF,       CREATURE_OGRE,      CREATURE_TROLL},
   {CREATURE_SPRITE,   CREATURE_DWARF,    CREATURE_ELF,        CREATURE_DRUID,     CREATURE_UNICORN},

@@ -10,11 +10,11 @@
 #include<io.h>
 #include<stddef.h>
 
-char cHeroTypeInitial[NUM_FACTIONS] = {'k', 'b', 's', 'w', 'z', 'n',
+char cHeroTypeInitial[MAX_FACTIONS] = {'k', 'b', 's', 'w', 'z', 'n',
                                        '\0','\0','\0','\0','\0','\0',
                                        'c'};
 
-signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4] = {
+signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
   {{35, 45, 10, 10}, {25, 25, 25, 25}},
   {{55, 35,  5,  5}, {25, 25, 25, 25}},
   {{10, 10, 30, 50}, {20, 20, 30, 30}},
