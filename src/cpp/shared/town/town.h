@@ -12,12 +12,6 @@ extern signed char gSpellLimits[];
 extern char cHeroTypeInitial[];
 
 #define MAX_CASTLES 72
-#define NUM_DWELLINGS 12
-
-// Order matters here. The original game indexes into gTownObjNames to
-// access elements of gDwellingType.
-extern char *gTownObjNames[];
-extern unsigned char gDwellingType[];
 
 enum HERO_TYPE
 {
@@ -90,6 +84,28 @@ enum BUILDING_CODE : __int8
   BUILDING_EXT_3 = 0x1F,
   BUILDING_MAX
 };
+
+enum DWELLING_TYPE
+{
+  DWELLING_1,
+  DWELLING_2,
+  DWELLING_3,
+  DWELLING_4,
+  DWELLING_5,
+  DWELLING_6,
+  DWELLING_2_UPGRADE,
+  DWELLING_3_UPGRADE,
+  DWELLING_4_UPGRADE,
+  DWELLING_5_UPGRADE,
+  DWELLING_6_UPGRADE,
+  DWELLING_6_UPGRADE2,
+  NUM_DWELLINGS
+};
+
+// Order matters here. The original game indexes into gTownObjNames to
+// access elements of gDwellingType.
+extern char *gTownObjNames[];
+extern unsigned char gDwellingType[][NUM_DWELLINGS];
 
 class town {
 public:
