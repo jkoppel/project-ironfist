@@ -140,6 +140,7 @@ void set_spell_consts(lua_State *L) {
   lua_setconst(L, "SPELL_SET_AIR_GUARDIAN", SPELL_SET_AIR_GUARDIAN);
   lua_setconst(L, "SPELL_SET_FIRE_GUARDIAN", SPELL_SET_FIRE_GUARDIAN);
   lua_setconst(L, "SPELL_SET_WATER_GUARDIAN", SPELL_SET_WATER_GUARDIAN);
+  lua_setconst(L, "SPELL_MARKSMAN_PIERCE", SPELL_MARKSMAN_PIERCE);
 }
 
 void set_artifact_consts(lua_State* L) {

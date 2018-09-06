@@ -94,6 +94,7 @@ enum Spell : int {
 
   SPELL_AWARENESS = 65,
   SPELL_SHADOW_MARK = 66,
+  SPELL_MARKSMAN_PIERCE = 67
 };
 
 
@@ -127,7 +128,8 @@ enum STACK_MODIFYING_EFFECT {
   EFFECT_ANTI_MAGIC = 12,
   EFFECT_STONESKIN = 13,
   EFFECT_STEELSKIN = 14,
-  EFFECT_SHADOW_MARK = 16
+  EFFECT_SHADOW_MARK = 16,
+  EFFECT_DAZE = 17
 };
 
 extern int __fastcall GetManaCost(int, class hero*);

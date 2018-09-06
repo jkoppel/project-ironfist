@@ -382,6 +382,7 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_COLD_RAY:
       case SPELL_DISRUPTING_RAY:
       case SPELL_SHADOW_MARK:
+      case SPELL_MARKSMAN_PIERCE:
         if (this->combatGrid[hexIdx].unitOwner == 1 - this->currentActionSide)
           return 1;
         return 0;

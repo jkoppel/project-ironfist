@@ -76,7 +76,8 @@ char *gSpellDesc[] =
   "{Set Fire Guardian}\n\nSets Fire Elementals to guard a mine against enemy armies.",
   "{Set Water Guardian}\n\nSets Water Elementals to guard a mine against enemy armies.",
   "{Awareness}\n\nExplores a large area around your hero.",
-  "{Shadow Mark}\n\nMarked creature receives 150% damage from your troops for 1 turn"
+  "{Shadow Mark}\n\nMarked creature receives 150% damage from your troops for 1 turn",
+  "{Marksman Pierce}\n\nTarget creature receives 1000 damage and is dazed for 1 turn"
 };
 
 SSpellInfo gsSpellInfo[] = {
@@ -149,7 +150,8 @@ SSpellInfo gsSpellInfo[] = {
 	//awareness
 	{"", 1, 55, 0, 700, 20, 10, 0, 0, ATTR_ADVENTURE_SPELL},
   //shadow mark
-  {"shdwmark", 2, 66, 33, 150, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL}
+  {"shdwmark", 2, 66, 33, 150, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
+  {"mrksmprc", 5, 67, 34, 200, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL}
 };
 
 #define DD_MOVEMENT_COST 225

@@ -596,6 +596,30 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
         stack->SetSpellInfluence(EFFECT_SHADOW_MARK, 1);
         stack->SpellEffect(gsSpellInfo[SPELL_SHADOW_MARK].creatureEffectAnimationIdx, 0, 0);
       break;
+    case SPELL_MARKSMAN_PIERCE: {
+      DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
+      //long damage = 10 * spellpower;
+      long damage = 1000;
+      //this->ModifyDamageForArtifacts(&damage, SPELL_MARKSMAN_PIERCE, currentHero, enemyHero);
+      char *creatureName;
+      if (stack->quantity <= 1)
+        creatureName = GetCreatureName(stack->creatureIdx);
+      else
+        creatureName = GetCreaturePluralName(stack->creatureIdx);
+      sprintf(gText, "The marksman pierce round does %d\n damage to the %s.", damage, creatureName);
+      this->CombatMessage(gText, 1, 1, 0);
+      float angles[9] = {90.000000,45.000038,26.565073,18.262905,0.000000,-18.262905,-26.565073,-45.000038,-90.000000};
+      icon *arrowIcon = gpResourceManager->GetIcon("keep.icn");
+      this->ShootMissile(castX, castY, stack->MidX(), stack->MidY(), angles, arrowIcon);
+      gpResourceManager->Dispose(arrowIcon);
+      stack->Damage(damage, SPELL_NONE);
+      
+      stack->SetSpellInfluence(EFFECT_DAZE, 1);
+      stack->SpellEffect(gsSpellInfo[SPELL_MARKSMAN_PIERCE].creatureEffectAnimationIdx, 0, 0);
+      
+      stack->PowEffect(-1, 1, -1, -1);
+      break;
+    }
     default:
       this->DefaultSpell(hexIdx);
       break;

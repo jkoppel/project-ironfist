@@ -38,7 +38,7 @@ bool gMoveAttack; // ironfist var to differentiate between move/move and attack
 bool gChargePathDamage;
 bool gCharging;
 
-char *gCombatFxNames[34] =
+char *gCombatFxNames[35] =
 {
   "",
   "magic01.icn",
@@ -73,10 +73,11 @@ char *gCombatFxNames[34] =
   "stonskin.icn",
   "stelskin.icn",
   "plasmblast.icn",
-  "shdwmark.icn"
+  "shdwmark.icn",
+  "mrksmprc.icn"
 };
 
-unsigned __int8 giNumPowFrames[34] =
+unsigned __int8 giNumPowFrames[35] =
 {
   10u,
   10u,
@@ -111,6 +112,7 @@ unsigned __int8 giNumPowFrames[34] =
   11u,
   16u,
   7u,
+  8u,
   8u
 };
 
@@ -2338,6 +2340,10 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
       break;
     case EFFECT_SHADOW_MARK:
       break;
+    case EFFECT_DAZE:
+      this->creature.attack /= 2;
+      this->creature.defense /= 2;
+      break;
     }
     return this->AddActiveEffect(effectType, strength);
   }
@@ -2364,6 +2370,10 @@ void army::CancelIndividualSpell(int effect) {
       this->creature.defense -= 5;
       break;
     case EFFECT_SHADOW_MARK:
+      break;
+    case EFFECT_DAZE:
+      this->creature.attack *= 2;
+      this->creature.defense *= 2;
       break;
     case EFFECT_BLIND:
     case EFFECT_BLESS:
