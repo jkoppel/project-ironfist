@@ -51,22 +51,22 @@ end
 
 function OnMapStart()
     player = GetPlayer(0);
+    player.daysLeftWithoutCastle = 60;
     hero = GetHero(player, 0);
-	GrantArmy(hero, CREATURE_CYBER_BEHEMOTH, 1);
-	GrantArmy(hero, CREATURE_CYBER_INDIGO_PANTHER, 2);
-	GrantArmy(hero, CREATURE_CYBER_SHADOW_ASSASSIN, 5);
-	GrantArmy(hero, CREATURE_CYBER_PLASMA_BERSERKER, 5);
-	GrantArmy(hero, CREATURE_CYBER_KOBOLD_SPEARMAN, 2);
+    GrantArmy(hero, CREATURE_CYBER_BEHEMOTH, 1);
+    GrantArmy(hero, CREATURE_CYBER_INDIGO_PANTHER, 2);
+    GrantArmy(hero, CREATURE_CYBER_SHADOW_ASSASSIN, 5);
+    GrantArmy(hero, CREATURE_CYBER_PLASMA_BERSERKER, 5);
+    GrantArmy(hero, CREATURE_CYBER_KOBOLD_SPEARMAN, 2);
     if (not HasArtifact(hero, ARTIFACT_MAGIC_BOOK)) then
         GrantArtifact(hero, ARTIFACT_MAGIC_BOOK);
     end
-	MessageBox("Let me tell you a story!");
-	MessageBox("The bravest warrior that has ever existed, controlling his augments and abilities, and leading his army of enhanced creatures to free the world from the mad tyrant Archibald the wicked!");
-	MessageBox("This hero is unique - no one has ever seen such a marvel - part man, part machine, a true cybernetic hero.");
+    MessageBox("Let me tell you a story!");
+    MessageBox("The bravest warrior that has ever existed, controlling his augments and abilities, and leading his army of enhanced creatures to free the world from the mad tyrant Archibald the wicked!");
+    MessageBox("This hero is unique - no one has ever seen such a marvel - part man, part machine, a true cybernetic hero.");
     MessageBox("Where this hero sees science and technology everyone else sees magic!");
     MessageBox("The chase after Archibald is tedious, the kingdom is littered with warlock towers sapping the life energy of the land.");
-    MessageBox("Your goal now is to capture the warlock lord controlling this region and extract information about Archibald’s army, and location. Once you capture this final town you will be able to pass through to Archibald’s Grand Castle, and finally defeat the tyrant.");
-    TeleportHero(hero, 10, 14);
+    MessageBox("Your goal now is to capture the warlock lord controlling this region and extract information about Archibald’s army and location. Once you capture this final town you will be able to pass through to Archibald’s Grand Castle, and finally defeat the tyrant.");
 end
 
 function OnLocationVisit(loc, x, y) --Should we have custom text for when a location's event has already happened?
@@ -251,12 +251,12 @@ function OnCastleConquered(castleId, playerId)
     --MessageBox("A castle was conquered.");
     firstCastle = 0;
     firstPlayer = 0;
-	if (castleId == firstCastle and playerId == firstPlayer) then
-		MessageBox("With the first Warlock defeated, your troops scurry to secure the castle.");
+    if (castleId == firstCastle and playerId == firstPlayer) then
+        MessageBox("With the first Warlock defeated, your troops scurry to secure the castle.");
         MessageBox("At the top of the tower, there is a lever, labeled \"Darkstone Pass\".");
-		MessageBox("You pull it, and hear a roar from the south.");
+        MessageBox("You pull it, and hear a roar from the south.");
         gateUnlocked = true;
-	end
+    end
 end
 
 function OnMapVictory()
