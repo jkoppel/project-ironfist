@@ -232,6 +232,7 @@ public:
   void SetCombatDirections(int hexIdx);
   void SetCombatDirections_orig(int hex);
   int ValidHexToStandOn(signed int a2);
+  int InCastle(int hex);
 };
 
 extern combatManager* gpCombatManager;
