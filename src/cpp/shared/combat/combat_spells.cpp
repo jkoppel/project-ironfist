@@ -627,16 +627,15 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   } else {
     this->ShowSpellCastFailure(stack, proto_spell);
   }
-  for (int i = 0; i < 2; ++i) {
-    for (int j = 0; this->numCreatures[i] > j; ++j) {
-      void *v14 = (char *)this + 24234 * i + 1154 * j;
-      char *v15 = (char *)v14 + 13647;
-      *(DWORD *)((char *)v14 + 13865) = 0;
-      *(DWORD *)(v15 + 222) = *(DWORD *)(v15 + 218);
-      *(DWORD *)(v15 + 214) = *(DWORD *)(v15 + 222);
-      *(DWORD *)(v15 + 6) = 1;
-      *v15 = 0;
-      *(DWORD *)(v15 + 154) = -1;
+  for (int i = 0; i < 2; i++) {
+    for (int j = 0; this->numCreatures[i] > j; j++) {
+      army *cr = &this->creatures[i][j];
+      cr->hasTakenLosses = 0;
+      cr->dead = cr->hasTakenLosses;
+      cr->damageTakenDuringSomeTimePeriod = cr->dead;
+      cr->field_6 = 1;
+      cr->mightBeIsAttacking = 0;
+      cr->previousQuantity = -1;
     }
   }
   if (!isCreatureAbility) {
