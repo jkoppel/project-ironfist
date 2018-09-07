@@ -2005,7 +2005,15 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (!targ)
     return;
 
-  int attackDiff = this->creature.attack - targ->creature.defense;
+  char attackerAtk = this->creature.attack;
+  if(this->effectStrengths[EFFECT_DAZE])
+    attackerAtk /= 2;
+  char targetDef = targ->creature.defense;
+  if(targ->effectStrengths[EFFECT_DAZE])
+    targetDef /= 2;
+
+  int attackDiff = attackerAtk - targetDef;
+
   if (this->effectStrengths[EFFECT_DRAGON_SLAYER]
     && (targ->creatureIdx == CREATURE_GREEN_DRAGON
       || targ->creatureIdx == CREATURE_RED_DRAGON
@@ -2338,10 +2346,7 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
     case EFFECT_PETRIFY:
       break;
     case EFFECT_SHADOW_MARK:
-      break;
     case EFFECT_DAZE:
-      this->creature.attack /= 2;
-      this->creature.defense /= 2;
       break;
     }
     return this->AddActiveEffect(effectType, strength);
@@ -2369,10 +2374,7 @@ void army::CancelIndividualSpell(int effect) {
       this->creature.defense -= 5;
       break;
     case EFFECT_SHADOW_MARK:
-      break;
     case EFFECT_DAZE:
-      this->creature.attack *= 2;
-      this->creature.defense *= 2;
       break;
     case EFFECT_BLIND:
     case EFFECT_BLESS:
