@@ -3,7 +3,7 @@
 
 #pragma pack(push, 1)
 
-#define NUM_SPELLS 68
+#define NUM_SPELLS 69
 
 char* gSpellNames[];
 

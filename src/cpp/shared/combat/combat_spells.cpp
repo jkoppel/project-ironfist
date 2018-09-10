@@ -622,6 +622,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       stack->PowEffect(-1, 1, -1, -1);
       break;
     }
+    case SPELL_PLASMA_CONE:
+      this->Fireball(hexIdx, SPELL_PLASMA_CONE);
+      break;
     default:
       this->DefaultSpell(hexIdx);
       break;

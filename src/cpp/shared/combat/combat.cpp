@@ -402,6 +402,7 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_FIREBLAST:
       case SPELL_METEOR_SHOWER:
       case SPELL_COLD_RING:
+      case SPELL_PLASMA_CONE:
         if (hexIdx != -1 && hexIdx % 13 && hexIdx % 13 != 12)
           return 1;
         return 0;
