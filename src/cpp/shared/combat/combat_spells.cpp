@@ -656,3 +656,182 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   WaitEndSample(res, res.sample);
   this->CheckChangeSelector();
 }
+
+void combatManager::Fireball(int hexIdx, int spell) {
+  if(!ValidHex(hexIdx))
+    return;
+
+  if(!gbNoShowCombat) {
+    icon *spellIcon;
+    int numSprites = 12;
+    switch(spell) {
+      case SPELL_FIREBALL:
+        spellIcon = gpResourceManager->GetIcon("fireball.icn");
+        break;
+      case SPELL_FIREBLAST:
+        spellIcon = gpResourceManager->GetIcon("firebal2.icn");
+        break;
+      case SPELL_COLD_RING:
+        spellIcon = gpResourceManager->GetIcon("coldring.icn");
+        numSprites = 7;
+        break;
+      default:
+        spellIcon = gpResourceManager->GetIcon("fireball.icn");
+        break;
+    }
+    int x = this->combatGrid[hexIdx].centerX;
+    int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
+    for(int spriteID = 0; spriteID < numSprites; spriteID++) {
+      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
+      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 0x280u, 443, 0);
+      if(spell == SPELL_COLD_RING)
+        FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+      this->UpdateCombatArea();
+      this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
+      DelayTil(&glTimers);
+    }
+    gpResourceManager->Dispose((resource *)spellIcon);
+  }
+  this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+
+  army *stack = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  short affectedHexes[19];
+  for(int i = 0; i < 19; i++)
+    affectedHexes[i] = -1;
+  if(spell != SPELL_COLD_RING)
+    affectedHexes[0] = hexIdx;
+  for(int neighborHexID = 0; neighborHexID < 6; neighborHexID++) {
+    affectedHexes[neighborHexID + 1] = GetAdjacentCellIndexNoArmy(hexIdx, neighborHexID);
+    if(spell == SPELL_FIREBLAST)
+      affectedHexes[neighborHexID + 7] = stack->GetAdjacentCellIndex(affectedHexes[neighborHexID + 1], neighborHexID);
+  }
+  if(spell == SPELL_FIREBLAST) {
+    affectedHexes[13] = hexIdx - 26;
+    if(hexIdx - 26 < 0)
+      affectedHexes[13] = -1;
+    affectedHexes[14] = hexIdx + 26;
+    if(hexIdx + 26 >= 117)
+      affectedHexes[14] = -1;
+    affectedHexes[15] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 0);
+    affectedHexes[16] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 2);
+    affectedHexes[17] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 5);
+    affectedHexes[18] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 3);
+  }
+
+  long damage = 10 * this->heroSpellpowers[this->currentActionSide];
+  combatManager::ClearEffects();
+
+  int anyoneDamaged = 0;
+  for(int neighborHexID = 0; neighborHexID < 19; neighborHexID++) {
+    if(affectedHexes[neighborHexID] != -1) {
+      hexcell *curHexcell = &this->combatGrid[affectedHexes[neighborHexID]];
+      char unitOwner = curHexcell->unitOwner;
+      char stackIdx = curHexcell->stackIdx;
+      if(unitOwner != -1) {
+        stack = &this->creatures[unitOwner][stackIdx];
+        if(stack->SpellCastWorks(spell)) {
+          if(!gArmyEffected[unitOwner][stackIdx]) {
+            gArmyEffected[unitOwner][stackIdx] = 1;
+            if(!stack->damageTakenDuringSomeTimePeriod) {
+              int dam = damage;
+              if(spell == SPELL_COLD_RING && stack->creatureIdx == CREATURE_FIRE_ELEMENTAL)
+                dam = 2 * damage;
+              if((spell == SPELL_FIREBALL || spell == 1) && stack->creatureIdx == CREATURE_WATER_ELEMENTAL)
+                dam *= 2;
+              if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
+                dam = (signed __int64)((double)dam * 0.5);
+              stack->Damage(dam, spell);
+              anyoneDamaged = 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  if(anyoneDamaged) {
+    this->ModifyDamageForArtifacts(&damage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+    if(spell == SPELL_COLD_RING)
+      sprintf(gText, "The cold ring does %d damage.", damage);
+    else
+      sprintf(gText, "The fireball does %d damage.", damage);
+    this->CombatMessage(gText, 1, 1, 0);
+    stack->PowEffect(-1, 1, -1, -1);
+  }
+}
+
+int __fastcall HandleCastSpell(tag_message &evt) {
+  Event *msg = (Event*)&evt;
+  switch(msg->inputEvt.eventCode) {
+    case 4: {
+      int hex = gpCombatManager->GetGridIndex(msg->inputEvt.xCoordOrKeycode, msg->inputEvt.yCoordOrFieldID);
+      if(indexToCastOn != hex) {
+        if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, hex)) {
+          indexToCastOn = hex;
+
+          //save hex colors
+          char savedHexes[NUM_HEXES];
+          for(int i = 0; i < NUM_HEXES; i++)
+            savedHexes[i] = gpCombatManager->field_49F[i];
+
+          // marking affected hexes
+          gpCombatManager->field_49F[indexToCastOn] = 1;
+
+          gpCombatManager->UpdateGrid(0, 0);
+          gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+
+          //reverting hex colors before marking again if needed
+          for(int i = 0; i < NUM_HEXES; i++)
+            gpCombatManager->field_49F[i] = savedHexes[i];
+
+          gpMouseManager->SetPointer(gsSpellInfo[gpCombatManager->current_spell_id].magicBookIconIdx);
+          gpCombatManager->SpellMessage(gpCombatManager->current_spell_id, hex);
+        } else {
+          indexToCastOn = -1;
+          gpMouseManager->SetPointer(0);
+          if(gpCombatManager->current_spell_id == SPELL_TELEPORT && bInTeleportGetDest)
+            gpCombatManager->CombatMessage("Invalid Teleport Destination", 1, 0, 0);
+          else
+            gpCombatManager->CombatMessage("Select Spell Target", 1, 0, 0);
+        }
+      }
+      return 1;
+    }
+    case 8:
+      if(indexToCastOn == -1)
+        return 1;
+      if(bInTeleportGetDest) {
+        giNextActionGridIndex2 = indexToCastOn;
+      }
+      else {
+        giNextActionGridIndex = indexToCastOn;
+        if(gpCombatManager->current_spell_id == 4) {
+          bInTeleportGetDest = 1;
+          indexToCastOn = -1;
+          msg->inputEvt.eventCode = INPUT_EVENT_CODE::INPUT_MOUSEMOVE_EVENT_CODE;
+          msg->inputEvt.xCoordOrKeycode = msg->inputEvt.altXCoord;
+          msg->inputEvt.yCoordOrFieldID = msg->inputEvt.altYCoord;
+          HandleCastSpell((tag_message&)msg);
+          gpCombatManager->CombatMessage("Select teleport destination.", 1, 0, 0);
+          return 1;
+        }
+      }
+      bInTeleportGetDest = 0;
+      msg->inputEvt.eventCode = INPUT_EVENT_CODE::INPUT_GUI_MESSAGE_CODE;
+      msg->inputEvt.xCoordOrKeycode = 10;
+      return 2;
+    case 1:
+      if(msg->guiMsg.messageType == 1)
+        goto LABEL_19;
+      return 1;
+    case 32:
+    LABEL_19:
+      gpCombatManager->current_spell_id = -1;
+      giNextAction = 0;
+      msg->inputEvt.eventCode = INPUT_EVENT_CODE::INPUT_GUI_MESSAGE_CODE;
+      msg->inputEvt.xCoordOrKeycode = 10;
+      bInTeleportGetDest = 0;
+      return 2;
+    default:
+      return 1;
+  }
+}

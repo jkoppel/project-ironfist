@@ -233,13 +233,21 @@ public:
   void SetCombatDirections_orig(int hex);
   int ValidHexToStandOn(signed int a2);
   int InCastle(int hex);
+  void UpdateMouseGrid(signed int hexIdx, int a3);
 };
 
 extern combatManager* gpCombatManager;
 
 extern int gbNoShowCombat;
+extern int bInTeleportGetDest;
+extern int indexToCastOn;
+extern int giNextActionGridIndex2;
+extern int giNextActionGridIndex;
+extern int giNextAction;
+extern int gbProcessingCombatAction;
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
+signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);
 bool IsCastleWall(int hexIdx);
 bool IsAICombatTurn();
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY);

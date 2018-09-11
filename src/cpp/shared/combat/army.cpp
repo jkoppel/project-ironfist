@@ -1071,7 +1071,6 @@ bool army::IsCloseMove(int toHexIdx) {
   return false;
 }
 
-extern int giNextActionGridIndex;
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
 

@@ -30,7 +30,6 @@ extern int giCurTurn;
 extern playerData* gpCurPlayer;
 extern unsigned char giCurPlayerBit;
 
-extern signed char gbThisNetHumanPlayer[];
 extern int giCurWatchPlayer;
 extern unsigned char giCurWatchPlayerBit;
 

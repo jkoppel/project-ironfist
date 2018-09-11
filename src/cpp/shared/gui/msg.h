@@ -43,6 +43,27 @@ enum GUI_MESSAGE_CODE {
   GUI_MESSAGE_SET_WIDTH = 0x3D,
 };
 
+#pragma pack(push, 1)
+struct GUIMessage
+{
+  INPUT_EVENT_CODE eventCode;
+  int messageType;
+  int fieldID;
+  int inputTypeBitmask;
+  int altXCoord;
+  int altYCoord;
+  void *payload;
+};
+#pragma pack(pop)
+
+#pragma pack(push, 1)
+union Event
+{
+  tag_message inputEvt;
+  GUIMessage guiMsg;
+};
+#pragma pack(pop)
+
 #pragma pack(pop)
 
 #endif

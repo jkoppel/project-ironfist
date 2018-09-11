@@ -31,13 +31,6 @@ public:
 	inputManager();
 };
 
-class mouseManager {
-public:
-	char _[138];
-	mouseManager();
-	void ShowColorPointer();
-};
-
 class highScoreManager {
 public:
 	char _[99];
@@ -58,7 +51,6 @@ public:
 
 extern executive* gpExec;
 extern inputManager* gpInputManager;
-extern mouseManager* gpMouseManager;
 extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
 extern soundManager* gpSoundManager;
