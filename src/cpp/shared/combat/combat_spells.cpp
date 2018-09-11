@@ -710,7 +710,7 @@ void combatManager::Fireball(int hexIdx, int spell) {
     if(hexIdx - 26 < 0)
       affectedHexes[13] = -1;
     affectedHexes[14] = hexIdx + 26;
-    if(hexIdx + 26 >= 117)
+    if(hexIdx + 26 >= NUM_HEXES)
       affectedHexes[14] = -1;
     affectedHexes[15] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 0);
     affectedHexes[16] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 2);
