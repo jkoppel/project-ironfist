@@ -234,6 +234,7 @@ public:
   int ValidHexToStandOn(signed int a2);
   int InCastle(int hex);
   void UpdateMouseGrid(signed int hexIdx, int a3);
+  void CheckMouseDirection(int screenX, int screenY, int hex);
 };
 
 extern combatManager* gpCombatManager;

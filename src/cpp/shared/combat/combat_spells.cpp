@@ -759,12 +759,103 @@ void combatManager::Fireball(int hexIdx, int spell) {
   }
 }
 
+void combatManager::CheckMouseDirection(int screenX, int screenY, int hex) {
+  int offsetX;
+  int offsetY;
+
+  offsetX = screenX - 44 * (hex % 13 - 1) - 67;
+  if ( !(hex / 13 & 1) )
+    offsetX = screenX - 44 * (hex % 13 - 1) - 89;
+  
+  offsetY = screenY - 63 - 42 * (hex / 13) - 26;
+
+  int clockHour = 0;
+  int v15 = offsetX - 22;
+  if(v15 >= 0) {
+    if(offsetY >= 0)
+      clockHour = 6;
+  } else if(offsetY >= 0) {
+    clockHour = 12;
+  } else {
+    clockHour = 18;
+  }
+
+  float v9 = (double)abs(v15) / (double)abs(offsetY);
+
+  if(clockHour && clockHour != 12) {
+    if(v9 >= 0.27) {
+      if(v9 >= 0.58) {
+        if(v9 >= 1.0) {
+          if(v9 >= 1.73) {
+            if(v9 < 3.73)
+              ++clockHour;
+          } else {
+            clockHour += 2;
+          }
+        } else {
+          clockHour += 3;
+        }
+      } else {
+        clockHour += 4;
+      }
+    } else {
+      clockHour += 5;
+    }
+  } else if(v9 <= 3.73) {
+    if(v9 <= 1.73) {
+      if(v9 <= 1.0) {
+        if(v9 <= 0.58) {
+          if(v9 > 0.27)
+            ++clockHour;
+        } else {
+          clockHour += 2;
+        }
+      } else {
+        clockHour += 3;
+      }
+    } else {
+      clockHour += 4;
+    }
+  } else {
+    clockHour += 5;
+  }
+
+  int cursorIdx = 0;
+  switch(clockHour) {
+    case 23: case 0: case 1:
+      cursorIdx = 14;
+      break;
+    case 2: case 3: case 4:
+      cursorIdx = 10;
+      break;
+    case 5: case 6: case 7:
+      cursorIdx = 11;
+      break;
+    case 8: case 9: case 10:
+      cursorIdx = 12;
+      break;
+    case 11: case 12: case 13:
+      cursorIdx = 13;
+      break;
+    case 14: case 15: case 16:
+      cursorIdx = 7;
+      break;
+    case 17: case 18: case 19:
+      cursorIdx = 8;
+      break;
+    case 20: case 21: case 22:
+      cursorIdx = 9;
+      break;
+  }
+  gpMouseManager->SetPointer(cursorIdx);
+}
+
 int __fastcall HandleCastSpell(tag_message &evt) {
   Event *msg = (Event*)&evt;
   switch(msg->inputEvt.eventCode) {
     case INPUT_MOUSEMOVE_EVENT_CODE: {
       int hex = gpCombatManager->GetGridIndex(msg->inputEvt.xCoordOrKeycode, msg->inputEvt.yCoordOrFieldID);
-      if(indexToCastOn != hex) {
+      //if(indexToCastOn != hex) {
         if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, hex)) {
           indexToCastOn = hex;
 
@@ -777,13 +868,17 @@ int __fastcall HandleCastSpell(tag_message &evt) {
           gpCombatManager->field_49F[indexToCastOn] = 1;
 
           gpCombatManager->UpdateGrid(0, 0);
-          gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+          gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
 
           //reverting hex colors before marking again if needed
           for(int i = 0; i < NUM_HEXES; i++)
             gpCombatManager->field_49F[i] = savedHexes[i];
 
-          gpMouseManager->SetPointer(gsSpellInfo[gpCombatManager->current_spell_id].magicBookIconIdx);
+          //gpMouseManager->SetPointer(gsSpellInfo[gpCombatManager->current_spell_id].magicBookIconIdx);
+          
+          gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
+          gpCombatManager->CheckMouseDirection(evt.altXCoord, evt.altYCoord, indexToCastOn);
+
           gpCombatManager->SpellMessage(gpCombatManager->current_spell_id, hex);
         } else {
           indexToCastOn = -1;
@@ -793,7 +888,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
           else
             gpCombatManager->CombatMessage("Select Spell Target", 1, 0, 0);
         }
-      }
+      //}
       return 1;
     }
     case INPUT_LEFT_CLICK_EVENT_CODE:

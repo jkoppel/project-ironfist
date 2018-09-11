@@ -52,14 +52,4 @@ extern "C" void __fastcall PollSound();
 extern int __fastcall Random(int,int);
 extern int __fastcall SRandom(int,int);
 
-class mouseManager {
-public:
-	char _[138];
-	mouseManager();
-	void ShowColorPointer();
-  void SetPointer(int spriteIdxArg);
-};
-
-extern mouseManager* gpMouseManager;
-
 #endif
