@@ -762,7 +762,7 @@ void combatManager::Fireball(int hexIdx, int spell) {
 int __fastcall HandleCastSpell(tag_message &evt) {
   Event *msg = (Event*)&evt;
   switch(msg->inputEvt.eventCode) {
-    case 4: {
+    case INPUT_MOUSEMOVE_EVENT_CODE: {
       int hex = gpCombatManager->GetGridIndex(msg->inputEvt.xCoordOrKeycode, msg->inputEvt.yCoordOrFieldID);
       if(indexToCastOn != hex) {
         if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, hex)) {
@@ -796,18 +796,17 @@ int __fastcall HandleCastSpell(tag_message &evt) {
       }
       return 1;
     }
-    case 8:
+    case INPUT_LEFT_CLICK_EVENT_CODE:
       if(indexToCastOn == -1)
         return 1;
       if(bInTeleportGetDest) {
         giNextActionGridIndex2 = indexToCastOn;
-      }
-      else {
+      } else {
         giNextActionGridIndex = indexToCastOn;
-        if(gpCombatManager->current_spell_id == 4) {
+        if(gpCombatManager->current_spell_id == SPELL_TELEPORT) {
           bInTeleportGetDest = 1;
           indexToCastOn = -1;
-          msg->inputEvt.eventCode = INPUT_EVENT_CODE::INPUT_MOUSEMOVE_EVENT_CODE;
+          msg->inputEvt.eventCode = INPUT_MOUSEMOVE_EVENT_CODE;
           msg->inputEvt.xCoordOrKeycode = msg->inputEvt.altXCoord;
           msg->inputEvt.yCoordOrFieldID = msg->inputEvt.altYCoord;
           HandleCastSpell((tag_message&)msg);
@@ -816,18 +815,23 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         }
       }
       bInTeleportGetDest = 0;
-      msg->inputEvt.eventCode = INPUT_EVENT_CODE::INPUT_GUI_MESSAGE_CODE;
+      msg->inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
       msg->inputEvt.xCoordOrKeycode = 10;
       return 2;
-    case 1:
-      if(msg->guiMsg.messageType == 1)
-        goto LABEL_19;
+    case INPUT_KEYDOWN_EVENT_CODE:
+      if(msg->guiMsg.messageType == 1) {
+        gpCombatManager->current_spell_id = -1;
+        giNextAction = 0;
+        msg->inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
+        msg->inputEvt.xCoordOrKeycode = 10;
+        bInTeleportGetDest = 0;
+        return 2;
+      }
       return 1;
-    case 32:
-    LABEL_19:
+    case INPUT_RIGHT_CLICK:
       gpCombatManager->current_spell_id = -1;
       giNextAction = 0;
-      msg->inputEvt.eventCode = INPUT_EVENT_CODE::INPUT_GUI_MESSAGE_CODE;
+      msg->inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
       msg->inputEvt.xCoordOrKeycode = 10;
       bInTeleportGetDest = 0;
       return 2;
