@@ -153,48 +153,6 @@ public:
 
 extern font* smallFont;
 
-
-enum MOUSE_CURSOR_CATEGORY {
-  MOUSE_CURSOR_CATEGORY_ADVENTURE = 0x0,
-  MOUSE_CURSOR_CATEGORY_COMBAT = 0x1,
-  MOUSE_CURSOR_CATEGORY_SPELL = 0x2,
-};
-
-class mouseManager {
-public:
-	//char _[138]; the whole mouseManager should be of this size
-
-  // everything breaks after uncommenting stuff below
-  /*bitmap *bitmap;
-  int spriteIdx;
-  icon *cursorIcon;*/
-  char _[66];
-  MOUSE_CURSOR_CATEGORY cursorCategory;
-  int cursorIdx;
-  int field_4A;
-  int field_4E;
-  int field_52;
-  int field_56;
-  int field_5A;
-  int cursorTopLeftX;
-  int cursorTopLeftY;
-  int field_66;
-  int field_6A;
-  int field_6E;
-  int field_72;
-  int cursorWidth;
-  int cursorHeight;
-  int field_7E;
-  int couldBeShowMouse;
-  int cursorDisabled;
-
-	mouseManager();
-	void ShowColorPointer();
-  void SetPointer(int spriteIdxArg);
-};
-
-extern mouseManager* gpMouseManager;
-
 #define NUM_GOOD_EVIL_ICONS 37
 
 #pragma pack(pop)
