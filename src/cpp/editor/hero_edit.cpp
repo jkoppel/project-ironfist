@@ -10,6 +10,9 @@ extern HeroExtra gEditedHeroExtra;
 #define NUM_HERO_PORTRAITS 72
 
 namespace {
+  const int ARTIFACT_DROPDOWN_1 = 308;
+  const int CREATURE_DROPDOWN_1 = 220;
+
   bool shouldFillInArtifacts = true;
   bool shouldFillInCreatures = true;
 
@@ -27,16 +30,13 @@ namespace {
 }
 
 void __stdcall FillInHeroEdit(HeroExtra *extra) {
-  const int ARTIFACT_SLOT_1 = 308;
-  const int CREATURE_SLOT_1 = 220;
-
   if (shouldFillInArtifacts) {
     for (int i = MAX_EXPANSION_ARTIFACT + 1; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
       if (!IsArtifactValid(i)) {
         continue;
       }
       for (int j = 0; j < 3; ++j) {
-        GUIDroplistAdd(gpCellEditDialog, j + ARTIFACT_SLOT_1, GetArtifactName(i));
+        GUIDroplistAdd(gpCellEditDialog, j + ARTIFACT_DROPDOWN_1, GetArtifactName(i));
       }
     }
     shouldFillInArtifacts = false;
@@ -49,30 +49,59 @@ void __stdcall FillInHeroEdit(HeroExtra *extra) {
         continue;
       }
       for (int j = 0; j < 5; ++j) {
-        GUIDroplistAdd(gpCellEditDialog, j + CREATURE_SLOT_1, name);
+        GUIDroplistAdd(gpCellEditDialog, j + CREATURE_DROPDOWN_1, name);
       }
     }
     shouldFillInCreatures = false;
   }
 
   FillInHeroEdit_orig(extra);
+
+  for (int i = 0; i < 5; ++i) {
+    // skip one for "~empty~"
+    int creatureIndex = extra->army.creatureTypes[i] + 1;
+    if (creatureIndex > MAX_BASE_CREATURE + 1) {
+      // The slots for random creatures between the base game and Ironfist
+      // creatures are not included in the creature dropdown.
+      creatureIndex -= MIN_IRONFIST_CREATURE - MAX_BASE_CREATURE - 1;
+    }
+    GUISetDropdownSelection(gpCellEditDialog, CREATURE_DROPDOWN_1 + i, creatureIndex);
+  }
 }
 
 int __fastcall EditHeroHandler(tag_message& evt) {
   const int NEXT_HERO_PORTRAIT_BUTTON = 704;
-  if (evt.eventCode == INPUT_GUI_MESSAGE_CODE && evt.yCoordOrFieldID == NEXT_HERO_PORTRAIT_BUTTON) {
-    if (gEditedHeroExtra.field_11) {
-      if (gEditedHeroExtra.heroID < NUM_HERO_PORTRAITS - 1)
-        ++gEditedHeroExtra.heroID;
+  if (evt.eventCode == INPUT_GUI_MESSAGE_CODE) {
+    if (evt.yCoordOrFieldID == NEXT_HERO_PORTRAIT_BUTTON) {
+      if (gEditedHeroExtra.field_11) {
+        if (gEditedHeroExtra.heroID < NUM_HERO_PORTRAITS - 1)
+          ++gEditedHeroExtra.heroID;
+      } else {
+        gEditedHeroExtra.field_11 = 1;
+        gEditedHeroExtra.heroID = 0;
+      }
+
+      FillInHeroEdit(&gEditedHeroExtra);
+      gpCellEditDialog->DrawWindow();
+
+      return 1;
+    } else if (evt.yCoordOrFieldID >= CREATURE_DROPDOWN_1 && evt.yCoordOrFieldID < CREATURE_DROPDOWN_1 + 5) {
+      // Subtract 1 to account for "~empty~" in index 0.
+      int creatureSelection = GUIGetDropdownSelection(gpCellEditDialog, evt.yCoordOrFieldID) - 1;
+      const int armyIndex = evt.yCoordOrFieldID - CREATURE_DROPDOWN_1;
+      // The slots for random creatures between the base game and Ironfist
+      // creatures are not included in the creature dropdown.
+      if (creatureSelection > MAX_BASE_CREATURE) {
+        creatureSelection += MIN_IRONFIST_CREATURE - MAX_BASE_CREATURE - 1;
+      }
+      gEditedHeroExtra.army.creatureTypes[armyIndex] = creatureSelection;
+
+      FillInHeroEdit(&gEditedHeroExtra);
+      gpCellEditDialog->DrawWindow();
+      return 1;
     } else {
-      gEditedHeroExtra.field_11 = 1;
-      gEditedHeroExtra.heroID = 0;
+      return EditHeroHandler_orig(evt);
     }
-
-    FillInHeroEdit(&gEditedHeroExtra);
-    gpCellEditDialog->DrawWindow();
-
-    return 1;
   } else {
     return EditHeroHandler_orig(evt);
   }

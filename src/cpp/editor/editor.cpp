@@ -103,7 +103,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
   } else if (msg.eventCode == INPUT_GUI_MESSAGE_CODE) {
     if (msg.xCoordOrKeycode == GUI_MESSAGE_MOUSE_CLICK) {
       if (msg.yCoordOrFieldID == FIELD_ID_SPELL_SCROLL_PAYLOAD) {
-        OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, (void *)msg.payload);
+        OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, FIELD_ID_SPELL_SCROLL_PAYLOAD);
         // "return 1;" will be reached at the end of this function.
       }
     } else if (msg.xCoordOrKeycode == GUI_MESSAGE_BUTTON_PRESSED) {
