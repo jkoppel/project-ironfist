@@ -920,6 +920,8 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         msg->inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
         msg->inputEvt.xCoordOrKeycode = 10;
         bInTeleportGetDest = 0;
+        // clear combatfield from marked hexes
+        gpCombatManager->UpdateGrid(0, 0);
         return 2;
       }
       return 1;
@@ -929,6 +931,8 @@ int __fastcall HandleCastSpell(tag_message &evt) {
       msg->inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
       msg->inputEvt.xCoordOrKeycode = 10;
       bInTeleportGetDest = 0;
+      // clear combatfield from marked hexes
+      gpCombatManager->UpdateGrid(0, 0);
       return 2;
     default:
       return 1;
