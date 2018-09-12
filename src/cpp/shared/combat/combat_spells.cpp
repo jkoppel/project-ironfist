@@ -854,6 +854,11 @@ int __fastcall HandleCastSpell(tag_message &evt) {
           for(int i = 0; i < NUM_HEXES; i++)
             savedHexes[i] = gpCombatManager->field_49F[i];
 
+          // marking all valid hexes as available to be casted on
+          for(int i = 0; i < NUM_HEXES; i++)
+            if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, i))
+              gpCombatManager->field_49F[i] = 3;
+          
           // marking affected hexes
           gpCombatManager->field_49F[indexToCastOn] = 1;
           
