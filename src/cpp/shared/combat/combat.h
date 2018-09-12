@@ -26,6 +26,17 @@ enum BRIDGE_STATUS {
   BRIDGE_CLOSED = 0x4,
 };
 
+enum CURSOR_DIRECTION {
+  CURSOR_DIRECTION_RIGHT_UP = 0,
+  CURSOR_DIRECTION_RIGHT = 1,
+  CURSOR_DIRECTION_RIGHT_DOWN = 2,
+  CURSOR_DIRECTION_DOWN = 3,
+  CURSOR_DIRECTION_LEFT_DOWN = 4,
+  CURSOR_DIRECTION_LEFT = 5,
+  CURSOR_DIRECTION_LEFT_UP = 6,
+  CURSOR_DIRECTION_UP = 7
+};
+
 #pragma pack(push, 1)
 
 class hexcell {
@@ -234,7 +245,7 @@ public:
   int ValidHexToStandOn(signed int a2);
   int InCastle(int hex);
   void UpdateMouseGrid(signed int hexIdx, int a3);
-  void CheckMouseDirection(int screenX, int screenY, int hex);
+  CURSOR_DIRECTION GetCursorDirection(int screenX, int screenY, int hex);
 };
 
 extern combatManager* gpCombatManager;

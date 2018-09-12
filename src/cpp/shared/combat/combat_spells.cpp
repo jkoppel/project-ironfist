@@ -759,7 +759,7 @@ void combatManager::Fireball(int hexIdx, int spell) {
   }
 }
 
-void combatManager::CheckMouseDirection(int screenX, int screenY, int hex) {
+CURSOR_DIRECTION combatManager::GetCursorDirection(int screenX, int screenY, int hex) {
   int offsetX;
   int offsetY;
 
@@ -820,34 +820,24 @@ void combatManager::CheckMouseDirection(int screenX, int screenY, int hex) {
     clockHour += 5;
   }
 
-  int cursorIdx = 0;
   switch(clockHour) {
     case 23: case 0: case 1:
-      cursorIdx = 14;
-      break;
+      return CURSOR_DIRECTION_DOWN;
     case 2: case 3: case 4:
-      cursorIdx = 10;
-      break;
+      return CURSOR_DIRECTION_LEFT_DOWN;
     case 5: case 6: case 7:
-      cursorIdx = 11;
-      break;
+      return CURSOR_DIRECTION_LEFT;
     case 8: case 9: case 10:
-      cursorIdx = 12;
-      break;
+      return CURSOR_DIRECTION_LEFT_UP;
     case 11: case 12: case 13:
-      cursorIdx = 13;
-      break;
+      return CURSOR_DIRECTION_UP;
     case 14: case 15: case 16:
-      cursorIdx = 7;
-      break;
+      return CURSOR_DIRECTION_RIGHT_UP;
     case 17: case 18: case 19:
-      cursorIdx = 8;
-      break;
+      return CURSOR_DIRECTION_RIGHT;
     case 20: case 21: case 22:
-      cursorIdx = 9;
-      break;
+      return CURSOR_DIRECTION_RIGHT_DOWN;
   }
-  gpMouseManager->SetPointer(cursorIdx);
 }
 
 int __fastcall HandleCastSpell(tag_message &evt) {
@@ -866,19 +856,44 @@ int __fastcall HandleCastSpell(tag_message &evt) {
 
           // marking affected hexes
           gpCombatManager->field_49F[indexToCastOn] = 1;
-
+          
+          // showing affected hexes
           gpCombatManager->UpdateGrid(0, 0);
           gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
+          
+          // changing cursor
+          //gpMouseManager->SetPointer(gsSpellInfo[gpCombatManager->current_spell_id].magicBookIconIdx);
+          CURSOR_DIRECTION dir = gpCombatManager->GetCursorDirection(evt.altXCoord, evt.altYCoord, indexToCastOn);
+          int cursorIdx = 0;
+          switch(dir) {
+            case CURSOR_DIRECTION_LEFT_DOWN: case CURSOR_DIRECTION_DOWN: 
+              cursorIdx = 10;
+              break;
+            case CURSOR_DIRECTION_LEFT:
+              cursorIdx = 11;
+              break;
+            case CURSOR_DIRECTION_LEFT_UP: case CURSOR_DIRECTION_UP: 
+              cursorIdx = 12;
+              break;
+            case CURSOR_DIRECTION_RIGHT_UP:
+              cursorIdx = 7;
+              break;
+            case CURSOR_DIRECTION_RIGHT:
+              cursorIdx = 8;
+              break;
+            case CURSOR_DIRECTION_RIGHT_DOWN:
+              cursorIdx = 9;
+              break;
+          }
+          gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
+          gpMouseManager->SetPointer(cursorIdx);
 
           //reverting hex colors before marking again if needed
           for(int i = 0; i < NUM_HEXES; i++)
             gpCombatManager->field_49F[i] = savedHexes[i];
 
-          //gpMouseManager->SetPointer(gsSpellInfo[gpCombatManager->current_spell_id].magicBookIconIdx);
+         
           
-          gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
-          gpCombatManager->CheckMouseDirection(evt.altXCoord, evt.altYCoord, indexToCastOn);
-
           gpCombatManager->SpellMessage(gpCombatManager->current_spell_id, hex);
         } else {
           indexToCastOn = -1;
