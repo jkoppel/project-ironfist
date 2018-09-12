@@ -17,6 +17,8 @@ extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,in
 
 extern heroWindowManager *gpWindowManager;
 
+int gSpellDirection; // ironfist var. used for plasma cone stream spell
+
 #define RESURRECT_ANIMATION_LENGTH 22
 #define RESURRECT_ANIMATION_NUM_STANDING_FRAMES 4
 
@@ -657,108 +659,6 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   this->CheckChangeSelector();
 }
 
-void combatManager::Fireball(int hexIdx, int spell) {
-  if(!ValidHex(hexIdx))
-    return;
-
-  if(!gbNoShowCombat) {
-    icon *spellIcon;
-    int numSprites = 12;
-    switch(spell) {
-      case SPELL_FIREBALL:
-        spellIcon = gpResourceManager->GetIcon("fireball.icn");
-        break;
-      case SPELL_FIREBLAST:
-        spellIcon = gpResourceManager->GetIcon("firebal2.icn");
-        break;
-      case SPELL_COLD_RING:
-        spellIcon = gpResourceManager->GetIcon("coldring.icn");
-        numSprites = 7;
-        break;
-      default:
-        spellIcon = gpResourceManager->GetIcon("fireball.icn");
-        break;
-    }
-    int x = this->combatGrid[hexIdx].centerX;
-    int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
-    for(int spriteID = 0; spriteID < numSprites; spriteID++) {
-      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
-      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 0x280u, 443, 0);
-      if(spell == SPELL_COLD_RING)
-        FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
-      this->UpdateCombatArea();
-      this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
-      DelayTil(&glTimers);
-    }
-    gpResourceManager->Dispose((resource *)spellIcon);
-  }
-  this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
-
-  army *stack = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
-  short affectedHexes[19];
-  for(int i = 0; i < 19; i++)
-    affectedHexes[i] = -1;
-  if(spell != SPELL_COLD_RING)
-    affectedHexes[0] = hexIdx;
-  for(int neighborHexID = 0; neighborHexID < 6; neighborHexID++) {
-    affectedHexes[neighborHexID + 1] = GetAdjacentCellIndexNoArmy(hexIdx, neighborHexID);
-    if(spell == SPELL_FIREBLAST)
-      affectedHexes[neighborHexID + 7] = stack->GetAdjacentCellIndex(affectedHexes[neighborHexID + 1], neighborHexID);
-  }
-  if(spell == SPELL_FIREBLAST) {
-    affectedHexes[13] = hexIdx - 26;
-    if(hexIdx - 26 < 0)
-      affectedHexes[13] = -1;
-    affectedHexes[14] = hexIdx + 26;
-    if(hexIdx + 26 >= NUM_HEXES)
-      affectedHexes[14] = -1;
-    affectedHexes[15] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 0);
-    affectedHexes[16] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 2);
-    affectedHexes[17] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 5);
-    affectedHexes[18] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 3);
-  }
-
-  long damage = 10 * this->heroSpellpowers[this->currentActionSide];
-  combatManager::ClearEffects();
-
-  int anyoneDamaged = 0;
-  for(int neighborHexID = 0; neighborHexID < 19; neighborHexID++) {
-    if(affectedHexes[neighborHexID] != -1) {
-      hexcell *curHexcell = &this->combatGrid[affectedHexes[neighborHexID]];
-      char unitOwner = curHexcell->unitOwner;
-      char stackIdx = curHexcell->stackIdx;
-      if(unitOwner != -1) {
-        stack = &this->creatures[unitOwner][stackIdx];
-        if(stack->SpellCastWorks(spell)) {
-          if(!gArmyEffected[unitOwner][stackIdx]) {
-            gArmyEffected[unitOwner][stackIdx] = 1;
-            if(!stack->damageTakenDuringSomeTimePeriod) {
-              int dam = damage;
-              if(spell == SPELL_COLD_RING && stack->creatureIdx == CREATURE_FIRE_ELEMENTAL)
-                dam = 2 * damage;
-              if((spell == SPELL_FIREBALL || spell == 1) && stack->creatureIdx == CREATURE_WATER_ELEMENTAL)
-                dam *= 2;
-              if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
-                dam = (signed __int64)((double)dam * 0.5);
-              stack->Damage(dam, spell);
-              anyoneDamaged = 1;
-            }
-          }
-        }
-      }
-    }
-  }
-  if(anyoneDamaged) {
-    this->ModifyDamageForArtifacts(&damage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
-    if(spell == SPELL_COLD_RING)
-      sprintf(gText, "The cold ring does %d damage.", damage);
-    else
-      sprintf(gText, "The fireball does %d damage.", damage);
-    this->CombatMessage(gText, 1, 1, 0);
-    stack->PowEffect(-1, 1, -1, -1);
-  }
-}
-
 CURSOR_DIRECTION combatManager::GetCursorDirection(int screenX, int screenY, int hex) {
   int offsetX;
   int offsetY;
@@ -964,20 +864,20 @@ int __fastcall HandleCastSpell(tag_message &evt) {
           gpMouseManager->SetPointer(cursorIdx);
 
           // Getting spell mask
-          int spellDirection = CURSOR_DIRECTION_RIGHT; 
+          gSpellDirection = CURSOR_DIRECTION_RIGHT; 
           switch(dir) {
             case CURSOR_DIRECTION_DOWN:
-              spellDirection = CURSOR_DIRECTION_LEFT_DOWN;
+              gSpellDirection = CURSOR_DIRECTION_LEFT_DOWN;
               break;
             case CURSOR_DIRECTION_UP:
-              spellDirection = CURSOR_DIRECTION_LEFT_UP;
+              gSpellDirection = CURSOR_DIRECTION_LEFT_UP;
               break;         
             default:
-              spellDirection = dir;
+              gSpellDirection = dir;
               break;
           }
 
-          std::vector<int> spellMask = GetPlasmaConeSpellMask(indexToCastOn, spellDirection);
+          std::vector<int> spellMask = GetPlasmaConeSpellMask(indexToCastOn, gSpellDirection);
 
           // marking affected hexes
           for(auto i : spellMask)
@@ -1048,5 +948,131 @@ int __fastcall HandleCastSpell(tag_message &evt) {
       return 2;
     default:
       return 1;
+  }
+}
+
+void combatManager::Fireball(int hexIdx, int spell) {
+  if(!ValidHex(hexIdx))
+    return;
+
+  if(!gbNoShowCombat) {
+    icon *spellIcon;
+    int numSprites = 12;
+    switch(spell) {
+      case SPELL_FIREBALL:
+        spellIcon = gpResourceManager->GetIcon("fireball.icn");
+        break;
+      case SPELL_FIREBLAST:
+        spellIcon = gpResourceManager->GetIcon("firebal2.icn");
+        break;
+      case SPELL_COLD_RING:
+        spellIcon = gpResourceManager->GetIcon("coldring.icn");
+        numSprites = 7;
+        break;
+      default:
+        spellIcon = gpResourceManager->GetIcon("fireball.icn");
+        break;
+    }
+    int x = this->combatGrid[hexIdx].centerX;
+    int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
+    for(int spriteID = 0; spriteID < numSprites; spriteID++) {
+      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
+      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 0x280u, 443, 0);
+      if(spell == SPELL_COLD_RING)
+        FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+      this->UpdateCombatArea();
+      this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
+      DelayTil(&glTimers);
+    }
+    gpResourceManager->Dispose((resource *)spellIcon);
+  }
+  this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+
+  army *stack = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+
+  std::vector<int> affectedHexes;
+  int numAffectedHexes = 19;
+
+  if(spell == SPELL_PLASMA_CONE)
+    numAffectedHexes = 32;
+
+  for(int i = 0; i < numAffectedHexes; i++)
+    affectedHexes.push_back(-1);
+
+  if(spell != SPELL_COLD_RING)
+    affectedHexes[0] = hexIdx;
+
+  for(int neighborHexID = 0; neighborHexID < 6; neighborHexID++) {
+    affectedHexes[neighborHexID + 1] = GetAdjacentCellIndexNoArmy(hexIdx, neighborHexID);
+    if(spell == SPELL_FIREBLAST)
+      affectedHexes[neighborHexID + 7] = stack->GetAdjacentCellIndex(affectedHexes[neighborHexID + 1], neighborHexID);
+  }
+  
+  if(spell == SPELL_FIREBLAST) {
+    affectedHexes[13] = hexIdx - 26;
+    if(hexIdx - 26 < 0)
+      affectedHexes[13] = -1;
+    affectedHexes[14] = hexIdx + 26;
+    if(hexIdx + 26 >= NUM_HEXES)
+      affectedHexes[14] = -1;
+    affectedHexes[15] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 0);
+    affectedHexes[16] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 2);
+    affectedHexes[17] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 5);
+    affectedHexes[18] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 3);
+  }
+
+  if(spell == SPELL_PLASMA_CONE) {
+    std::vector<int> spellMask;
+    spellMask = GetPlasmaConeSpellMask(hexIdx, gSpellDirection);
+    for(int i = 0; i < spellMask.size(); i++) {
+      affectedHexes[i] = spellMask[i];
+    }
+  }
+
+  long damage = 10 * this->heroSpellpowers[this->currentActionSide];
+  combatManager::ClearEffects();
+
+  int anyoneDamaged = 0;
+  for(int neighborHexID = 0; neighborHexID < affectedHexes.size(); neighborHexID++) {
+    if(affectedHexes[neighborHexID] != -1) {
+      hexcell *curHexcell = &this->combatGrid[affectedHexes[neighborHexID]];
+      char unitOwner = curHexcell->unitOwner;
+      char stackIdx = curHexcell->stackIdx;
+      if(unitOwner != -1) {
+        stack = &this->creatures[unitOwner][stackIdx];
+        if(stack->SpellCastWorks(spell)) {
+          if(!gArmyEffected[unitOwner][stackIdx]) {
+            gArmyEffected[unitOwner][stackIdx] = 1;
+            if(!stack->damageTakenDuringSomeTimePeriod) {
+              int dam = damage;
+              if(spell == SPELL_COLD_RING && stack->creatureIdx == CREATURE_FIRE_ELEMENTAL)
+                dam = 2 * damage;
+              if((spell == SPELL_FIREBALL || spell == 1) && stack->creatureIdx == CREATURE_WATER_ELEMENTAL)
+                dam *= 2;
+              if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
+                dam = (signed __int64)((double)dam * 0.5);
+              stack->Damage(dam, spell);
+              anyoneDamaged = 1;
+            }
+          }
+        }
+      }
+    }
+  }
+  if(anyoneDamaged) {
+    this->ModifyDamageForArtifacts(&damage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+    switch(spell) {
+      case SPELL_COLD_RING:
+        sprintf(gText, "The cold ring does %d damage.", damage);
+        break;
+      case SPELL_PLASMA_CONE:
+        sprintf(gText, "The plasma cone stream does %d damage.", damage);
+        break;
+      default:
+         sprintf(gText, "The fireball does %d damage.", damage);
+         break;
+    }
+    this->CombatMessage(gText, 1, 1, 0);
+    stack->PowEffect(-1, 1, -1, -1);
   }
 }
