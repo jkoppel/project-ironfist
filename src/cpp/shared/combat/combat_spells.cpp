@@ -840,6 +840,83 @@ CURSOR_DIRECTION combatManager::GetCursorDirection(int screenX, int screenY, int
   }
 }
 
+int GetHexNeighboursLine(int startingFrom, int neighbDir, int len, std::vector<int> &hexes)
+{
+  hexes.clear();
+  int curHex = startingFrom;
+  hexes.push_back(startingFrom);
+  for(int j = 0; j < len-1; j++)
+  {
+    int nei = GetAdjacentCellIndexNoArmy(curHex, neighbDir);
+    if(nei != -1) {
+      hexes.push_back(nei);
+      curHex = nei;
+    }
+    else break;
+  }
+  if(hexes.size())
+    return 0;
+  return 1;
+}
+
+static std::vector<int> GetPlasmaConeSpellMask(int fromHex, int direction) {
+  std::vector<int> mask;
+  int spellNeighbourDirections[8][3] = {
+    {5, 0, 1}, // right up
+    {0, 1, 2}, // right
+    {1, 2, 3}, // right down
+    {-1, -1, -1}, // UNUSED down
+    {2, 3, 4}, // left down
+    {3, 4, 5}, // left
+    {4, 5, 0},  // left up
+    {-1, -1, -1} // UNUSED up
+  };
+    
+  int leftDirection = spellNeighbourDirections[direction][0];
+  int centerDirection = spellNeighbourDirections[direction][1];
+  int rightDirection = spellNeighbourDirections[direction][2];
+
+  // Get starting hexes for lines and their length
+  struct HexLineData {
+    int fromHex;
+    int len;
+  };
+  std::vector<HexLineData> hexLineData;
+  
+  int centerHex = fromHex;
+  hexLineData.push_back({ centerHex, 8 });
+
+  int leftHex = GetAdjacentCellIndexNoArmy(GetAdjacentCellIndexNoArmy(centerHex, centerDirection), leftDirection);
+  if(leftHex != -1)
+    hexLineData.push_back({ leftHex, 6 });
+  leftHex = GetAdjacentCellIndexNoArmy(leftHex, centerDirection);
+  leftHex = GetAdjacentCellIndexNoArmy(GetAdjacentCellIndexNoArmy(leftHex, centerDirection), leftDirection);
+  if(leftHex != -1)
+    hexLineData.push_back({ leftHex, 4 });
+  leftHex = GetAdjacentCellIndexNoArmy(GetAdjacentCellIndexNoArmy(leftHex, centerDirection), leftDirection);
+  if(leftHex != -1)
+    hexLineData.push_back({ leftHex, 2 });
+
+  int rightHex = GetAdjacentCellIndexNoArmy(GetAdjacentCellIndexNoArmy(centerHex, centerDirection), rightDirection);
+  if(rightHex != -1)
+    hexLineData.push_back({ rightHex, 6 });
+  rightHex = GetAdjacentCellIndexNoArmy(rightHex, centerDirection);
+  rightHex = GetAdjacentCellIndexNoArmy(GetAdjacentCellIndexNoArmy(rightHex, centerDirection), rightDirection);
+  if(rightHex != -1)
+    hexLineData.push_back({ rightHex, 4 });
+  rightHex = GetAdjacentCellIndexNoArmy(GetAdjacentCellIndexNoArmy(rightHex, centerDirection), rightDirection);
+  if(rightHex != -1)
+    hexLineData.push_back({ rightHex, 2 });
+  
+  // Getting lines of hexes and the whole mask out of all of them
+  for(auto i : hexLineData) {
+    std::vector<int> lineHexes;
+    if(!GetHexNeighboursLine(i.fromHex, centerDirection, i.len, lineHexes))
+      mask.insert(mask.end(), lineHexes.begin(), lineHexes.end());
+  }
+  return mask;
+}
+
 int __fastcall HandleCastSpell(tag_message &evt) {
   Event *msg = (Event*)&evt;
   switch(msg->inputEvt.eventCode) {
@@ -849,7 +926,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, hex)) {
           indexToCastOn = hex;
 
-          //save hex colors
+          // save hex colors
           char savedHexes[NUM_HEXES];
           for(int i = 0; i < NUM_HEXES; i++)
             savedHexes[i] = gpCombatManager->field_49F[i];
@@ -858,13 +935,6 @@ int __fastcall HandleCastSpell(tag_message &evt) {
           for(int i = 0; i < NUM_HEXES; i++)
             if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, i))
               gpCombatManager->field_49F[i] = 3;
-          
-          // marking affected hexes
-          gpCombatManager->field_49F[indexToCastOn] = 1;
-          
-          // showing affected hexes
-          gpCombatManager->UpdateGrid(0, 0);
-          gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
           
           // changing cursor
           //gpMouseManager->SetPointer(gsSpellInfo[gpCombatManager->current_spell_id].magicBookIconIdx);
@@ -893,11 +963,33 @@ int __fastcall HandleCastSpell(tag_message &evt) {
           gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
           gpMouseManager->SetPointer(cursorIdx);
 
+          // Getting spell mask
+          int spellDirection = CURSOR_DIRECTION_RIGHT; 
+          switch(dir) {
+            case CURSOR_DIRECTION_DOWN:
+              spellDirection = CURSOR_DIRECTION_LEFT_DOWN;
+              break;
+            case CURSOR_DIRECTION_UP:
+              spellDirection = CURSOR_DIRECTION_LEFT_UP;
+              break;         
+            default:
+              spellDirection = dir;
+              break;
+          }
+
+          std::vector<int> spellMask = GetPlasmaConeSpellMask(indexToCastOn, spellDirection);
+
+          // marking affected hexes
+          for(auto i : spellMask)
+            gpCombatManager->field_49F[i] = 1;
+
+          // showing affected hexes
+          gpCombatManager->UpdateGrid(0, 0);
+          gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
+
           //reverting hex colors before marking again if needed
           for(int i = 0; i < NUM_HEXES; i++)
             gpCombatManager->field_49F[i] = savedHexes[i];
-
-         
           
           gpCombatManager->SpellMessage(gpCombatManager->current_spell_id, hex);
         } else {
