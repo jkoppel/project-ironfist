@@ -1060,7 +1060,7 @@ void combatManager::Fireball(int hexIdx, int spell) {
 
   army *stack = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
 
-  long damage = 10 * this->heroSpellpowers[this->currentActionSide];
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   combatManager::ClearEffects();
 
   std::vector<int>affectedHexes = GetSpellMask((Spell)spell, hexIdx, gSpellDirection);
@@ -1079,28 +1079,28 @@ void combatManager::Fireball(int hexIdx, int spell) {
       continue;
     gArmyEffected[unitOwner][stackIdx] = 1;
     if(!stack->damageTakenDuringSomeTimePeriod) {
-      int dam = damage;
-      if(spell == SPELL_COLD_RING && stack->creatureIdx == CREATURE_FIRE_ELEMENTAL)
-        dam = 2 * damage;
-      if((spell == SPELL_FIREBALL || spell == 1) && stack->creatureIdx == CREATURE_WATER_ELEMENTAL)
-        dam *= 2;
+      int damage = spellDamage;
+      if(stack->creatureIdx == CREATURE_FIRE_ELEMENTAL && spell == SPELL_COLD_RING)
+        damage *= 2;
+      if(stack->creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
+        damage *= 2;
       if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
-        dam = (signed __int64)((double)dam * 0.5);
-      stack->Damage(dam, spell);
+        damage /= 2;
+      stack->Damage(damage, spell);
       anyoneDamaged = 1;
     }
   }
   if(anyoneDamaged) {
-    this->ModifyDamageForArtifacts(&damage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+    this->ModifyDamageForArtifacts(&spellDamage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
     switch(spell) {
       case SPELL_COLD_RING:
-        sprintf(gText, "The cold ring does %d damage.", damage);
+        sprintf(gText, "The cold ring does %d damage.", spellDamage);
         break;
       case SPELL_PLASMA_CONE:
-        sprintf(gText, "The plasma cone stream does %d damage.", damage);
+        sprintf(gText, "The plasma cone stream does %d damage.", spellDamage);
         break;
       default:
-         sprintf(gText, "The fireball does %d damage.", damage);
+         sprintf(gText, "The fireball does %d damage.", spellDamage);
          break;
     }
     this->CombatMessage(gText, 1, 1, 0);
