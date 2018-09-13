@@ -9,6 +9,8 @@
 #include "base.h"
 #include "sound/sound.h"
 
+#include <set>
+
 extern SCmbtHero sCmbtHero[13];
 extern int castX;
 extern int castY;
@@ -741,13 +743,11 @@ CURSOR_DIRECTION combatManager::GetCursorDirection(int screenX, int screenY, int
   }
 }
 
-int GetHexNeighboursLine(int startingFrom, int neighbDir, int len, std::vector<int> &hexes)
-{
+int GetHexNeighboursLine(int startingFrom, int neighbDir, int len, std::vector<int> &hexes) {
   hexes.clear();
   int curHex = startingFrom;
   hexes.push_back(startingFrom);
-  for(int j = 0; j < len-1; j++)
-  {
+  for(int j = 0; j < len-1; j++) {
     int nei = GetAdjacentCellIndexNoArmy(curHex, neighbDir);
     if(nei != -1) {
       hexes.push_back(nei);
@@ -818,90 +818,157 @@ static std::vector<int> GetPlasmaConeSpellMask(int fromHex, int direction) {
   return mask;
 }
 
+std::vector<int> GetSpellMask(Spell spell, int fromHex, int direction) {
+  std::vector<int> mask;
+  switch(spell) {
+    case SPELL_PLASMA_CONE:
+      mask = GetPlasmaConeSpellMask(fromHex, direction);
+      break;
+    case SPELL_FIREBALL:
+      mask = GetSpellMask(SPELL_COLD_RING, fromHex, direction);
+      mask.push_back(fromHex);
+      break;
+    case SPELL_COLD_RING:
+      for(int i = 0; i < 6; i++) {
+        int nei = GetAdjacentCellIndexNoArmy(fromHex, i);
+        if(gpCombatManager->ValidSpellTarget(spell, nei))
+          mask.push_back(nei);
+      }
+      break;
+    case SPELL_FIREBLAST:
+      mask = GetSpellMask(SPELL_FIREBALL, fromHex, direction);
+      // adding hexes on straight lines from target hex
+      for(int i = 0; i < 6; i++) {
+        int neiOfNeiStraight = GetAdjacentCellIndexNoArmy(GetAdjacentCellIndexNoArmy(fromHex, i), i);
+        if(gpCombatManager->ValidSpellTarget(spell, neiOfNeiStraight)) {
+          mask.push_back(neiOfNeiStraight);
+        }
+      }
+      // adding remaining farthest hexes
+      for(int i = 0; i < 6; i++) {
+        int closestNei = GetAdjacentCellIndexNoArmy(fromHex, i);
+        if(gpCombatManager->ValidSpellTarget(spell, closestNei)) {
+          int dirRight = i + 1;
+          if(dirRight >= 6)
+            dirRight -= 6;
+          int rightHex = GetAdjacentCellIndexNoArmy(closestNei, dirRight);
+          if(gpCombatManager->ValidSpellTarget(spell, rightHex))
+            mask.push_back(rightHex);
+          int dirLeft = i - 1;
+          if(dirLeft < 0)
+            dirLeft += 6;
+          int leftHex = GetAdjacentCellIndexNoArmy(closestNei, dirLeft);
+          if(gpCombatManager->ValidSpellTarget(spell, leftHex))
+            mask.push_back(leftHex);
+        }
+      }
+      break;
+    default:
+      mask.push_back(fromHex);
+  }
+  // remove duplicates and invalid values
+  std::set<int> tmp;
+  unsigned size = mask.size();
+  for( unsigned i = 0; i < size; ++i )
+    if(mask[i] != -1)
+      tmp.insert(mask[i]);
+  mask.assign(tmp.begin(), tmp.end());
+  return mask;
+}
+
 int __fastcall HandleCastSpell(tag_message &evt) {
   Event *msg = (Event*)&evt;
+  Spell currentSpell = (Spell)gpCombatManager->current_spell_id;
   switch(msg->inputEvt.eventCode) {
     case INPUT_MOUSEMOVE_EVENT_CODE: {
       int hex = gpCombatManager->GetGridIndex(msg->inputEvt.xCoordOrKeycode, msg->inputEvt.yCoordOrFieldID);
-      //if(indexToCastOn != hex) {
-        if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, hex)) {
-          indexToCastOn = hex;
+      if(gpCombatManager->ValidSpellTarget(currentSpell, hex)) {
+        indexToCastOn = hex;
 
-          // save hex colors
-          char savedHexes[NUM_HEXES];
-          for(int i = 0; i < NUM_HEXES; i++)
-            savedHexes[i] = gpCombatManager->field_49F[i];
+        // save hex colors
+        char savedHexes[NUM_HEXES];
+        for(int i = 0; i < NUM_HEXES; i++)
+          savedHexes[i] = gpCombatManager->field_49F[i];
 
-          // marking all valid hexes as available to be casted on
-          for(int i = 0; i < NUM_HEXES; i++)
-            if(gpCombatManager->ValidSpellTarget((Spell)gpCombatManager->current_spell_id, i))
-              gpCombatManager->field_49F[i] = 3;
-          
-          // changing cursor
-          //gpMouseManager->SetPointer(gsSpellInfo[gpCombatManager->current_spell_id].magicBookIconIdx);
-          CURSOR_DIRECTION dir = gpCombatManager->GetCursorDirection(evt.altXCoord, evt.altYCoord, indexToCastOn);
-          int cursorIdx = 0;
-          switch(dir) {
-            case CURSOR_DIRECTION_LEFT_DOWN: case CURSOR_DIRECTION_DOWN: 
-              cursorIdx = 10;
-              break;
-            case CURSOR_DIRECTION_LEFT:
-              cursorIdx = 11;
-              break;
-            case CURSOR_DIRECTION_LEFT_UP: case CURSOR_DIRECTION_UP: 
-              cursorIdx = 12;
-              break;
-            case CURSOR_DIRECTION_RIGHT_UP:
-              cursorIdx = 7;
-              break;
-            case CURSOR_DIRECTION_RIGHT:
-              cursorIdx = 8;
-              break;
-            case CURSOR_DIRECTION_RIGHT_DOWN:
-              cursorIdx = 9;
-              break;
+        // marking all valid hexes as available to be casted on
+        for(int i = 0; i < NUM_HEXES; i++)
+          if(gpCombatManager->ValidSpellTarget(currentSpell, i))
+            gpCombatManager->field_49F[i] = 3;
+
+        std::vector<int> spellMask;
+        switch(currentSpell) {
+          case SPELL_PLASMA_CONE:
+          {
+            // changing cursor
+            CURSOR_DIRECTION dir = gpCombatManager->GetCursorDirection(evt.altXCoord, evt.altYCoord, indexToCastOn);
+            int cursorIdx = 0;
+            switch(dir) {
+              case CURSOR_DIRECTION_LEFT_DOWN: case CURSOR_DIRECTION_DOWN:
+                cursorIdx = 10;
+                break;
+              case CURSOR_DIRECTION_LEFT:
+                cursorIdx = 11;
+                break;
+              case CURSOR_DIRECTION_LEFT_UP: case CURSOR_DIRECTION_UP:
+                cursorIdx = 12;
+                break;
+              case CURSOR_DIRECTION_RIGHT_UP:
+                cursorIdx = 7;
+                break;
+              case CURSOR_DIRECTION_RIGHT:
+                cursorIdx = 8;
+                break;
+              case CURSOR_DIRECTION_RIGHT_DOWN:
+                cursorIdx = 9;
+                break;
+            }
+            gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
+            gpMouseManager->SetPointer(cursorIdx);
+
+            // Getting spell direction
+            gSpellDirection = CURSOR_DIRECTION_RIGHT;
+            switch(dir) {
+              case CURSOR_DIRECTION_DOWN:
+                gSpellDirection = CURSOR_DIRECTION_LEFT_DOWN;
+                break;
+              case CURSOR_DIRECTION_UP:
+                gSpellDirection = CURSOR_DIRECTION_LEFT_UP;
+                break;
+              default:
+                gSpellDirection = dir;
+                break;
+            }
+            break;
           }
-          gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
-          gpMouseManager->SetPointer(cursorIdx);
-
-          // Getting spell mask
-          gSpellDirection = CURSOR_DIRECTION_RIGHT; 
-          switch(dir) {
-            case CURSOR_DIRECTION_DOWN:
-              gSpellDirection = CURSOR_DIRECTION_LEFT_DOWN;
-              break;
-            case CURSOR_DIRECTION_UP:
-              gSpellDirection = CURSOR_DIRECTION_LEFT_UP;
-              break;         
-            default:
-              gSpellDirection = dir;
-              break;
+          default: {
+            // changing cursor
+            gpMouseManager->SetPointer(gsSpellInfo[currentSpell].magicBookIconIdx);
           }
-
-          std::vector<int> spellMask = GetPlasmaConeSpellMask(indexToCastOn, gSpellDirection);
-
-          // marking affected hexes
-          for(auto i : spellMask)
-            gpCombatManager->field_49F[i] = 1;
-
-          // showing affected hexes
-          gpCombatManager->UpdateGrid(0, 0);
-          gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
-
-          //reverting hex colors before marking again if needed
-          for(int i = 0; i < NUM_HEXES; i++)
-            gpCombatManager->field_49F[i] = savedHexes[i];
-          
-          gpCombatManager->SpellMessage(gpCombatManager->current_spell_id, hex);
-        } else {
-          indexToCastOn = -1;
-          gpMouseManager->SetPointer(0);
-          if(gpCombatManager->current_spell_id == SPELL_TELEPORT && bInTeleportGetDest)
-            gpCombatManager->CombatMessage("Invalid Teleport Destination", 1, 0, 0);
-          else
-            gpCombatManager->CombatMessage("Select Spell Target", 1, 0, 0);
         }
-      //}
+        // setting spell mask
+        spellMask = GetSpellMask(currentSpell, indexToCastOn, gSpellDirection);
+        
+        // marking affected hexes
+        for(auto i : spellMask)
+          gpCombatManager->field_49F[i] = 1;
+
+        // showing affected hexes
+        gpCombatManager->UpdateGrid(0, 0);
+        gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
+
+        //reverting hex colors before marking again if needed
+        for(int i = 0; i < NUM_HEXES; i++)
+          gpCombatManager->field_49F[i] = savedHexes[i];
+
+        gpCombatManager->SpellMessage(currentSpell, hex);
+      } else {
+        indexToCastOn = -1;
+        gpMouseManager->SetPointer(0);
+        if(currentSpell == SPELL_TELEPORT && bInTeleportGetDest)
+          gpCombatManager->CombatMessage("Invalid Teleport Destination", 1, 0, 0);
+        else
+          gpCombatManager->CombatMessage("Select Spell Target", 1, 0, 0);
+      }
       return 1;
     }
     case INPUT_LEFT_CLICK_EVENT_CODE:
@@ -911,7 +978,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         giNextActionGridIndex2 = indexToCastOn;
       } else {
         giNextActionGridIndex = indexToCastOn;
-        if(gpCombatManager->current_spell_id == SPELL_TELEPORT) {
+        if(currentSpell == SPELL_TELEPORT) {
           bInTeleportGetDest = 1;
           indexToCastOn = -1;
           msg->inputEvt.eventCode = INPUT_MOUSEMOVE_EVENT_CODE;
@@ -925,6 +992,8 @@ int __fastcall HandleCastSpell(tag_message &evt) {
       bInTeleportGetDest = 0;
       msg->inputEvt.eventCode = INPUT_GUI_MESSAGE_CODE;
       msg->inputEvt.xCoordOrKeycode = 10;
+      // clear combatfield from marked hexes
+      gpCombatManager->UpdateGrid(0, 0);
       return 2;
     case INPUT_KEYDOWN_EVENT_CODE:
       if(msg->guiMsg.messageType == 1) {
@@ -991,73 +1060,34 @@ void combatManager::Fireball(int hexIdx, int spell) {
 
   army *stack = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
 
-  std::vector<int> affectedHexes;
-  int numAffectedHexes = 19;
-
-  if(spell == SPELL_PLASMA_CONE)
-    numAffectedHexes = 32;
-
-  for(int i = 0; i < numAffectedHexes; i++)
-    affectedHexes.push_back(-1);
-
-  if(spell != SPELL_COLD_RING)
-    affectedHexes[0] = hexIdx;
-
-  for(int neighborHexID = 0; neighborHexID < 6; neighborHexID++) {
-    affectedHexes[neighborHexID + 1] = GetAdjacentCellIndexNoArmy(hexIdx, neighborHexID);
-    if(spell == SPELL_FIREBLAST)
-      affectedHexes[neighborHexID + 7] = stack->GetAdjacentCellIndex(affectedHexes[neighborHexID + 1], neighborHexID);
-  }
-  
-  if(spell == SPELL_FIREBLAST) {
-    affectedHexes[13] = hexIdx - 26;
-    if(hexIdx - 26 < 0)
-      affectedHexes[13] = -1;
-    affectedHexes[14] = hexIdx + 26;
-    if(hexIdx + 26 >= NUM_HEXES)
-      affectedHexes[14] = -1;
-    affectedHexes[15] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 0);
-    affectedHexes[16] = GetAdjacentCellIndexNoArmy(affectedHexes[2], 2);
-    affectedHexes[17] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 5);
-    affectedHexes[18] = GetAdjacentCellIndexNoArmy(affectedHexes[5], 3);
-  }
-
-  if(spell == SPELL_PLASMA_CONE) {
-    std::vector<int> spellMask;
-    spellMask = GetPlasmaConeSpellMask(hexIdx, gSpellDirection);
-    for(int i = 0; i < spellMask.size(); i++) {
-      affectedHexes[i] = spellMask[i];
-    }
-  }
-
   long damage = 10 * this->heroSpellpowers[this->currentActionSide];
   combatManager::ClearEffects();
 
+  std::vector<int>affectedHexes = GetSpellMask((Spell)spell, hexIdx, gSpellDirection);
+
   int anyoneDamaged = 0;
-  for(int neighborHexID = 0; neighborHexID < affectedHexes.size(); neighborHexID++) {
-    if(affectedHexes[neighborHexID] != -1) {
-      hexcell *curHexcell = &this->combatGrid[affectedHexes[neighborHexID]];
-      char unitOwner = curHexcell->unitOwner;
-      char stackIdx = curHexcell->stackIdx;
-      if(unitOwner != -1) {
-        stack = &this->creatures[unitOwner][stackIdx];
-        if(stack->SpellCastWorks(spell)) {
-          if(!gArmyEffected[unitOwner][stackIdx]) {
-            gArmyEffected[unitOwner][stackIdx] = 1;
-            if(!stack->damageTakenDuringSomeTimePeriod) {
-              int dam = damage;
-              if(spell == SPELL_COLD_RING && stack->creatureIdx == CREATURE_FIRE_ELEMENTAL)
-                dam = 2 * damage;
-              if((spell == SPELL_FIREBALL || spell == 1) && stack->creatureIdx == CREATURE_WATER_ELEMENTAL)
-                dam *= 2;
-              if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
-                dam = (signed __int64)((double)dam * 0.5);
-              stack->Damage(dam, spell);
-              anyoneDamaged = 1;
-            }
-          }
-        }
-      }
+  for(auto hex : affectedHexes) {
+    hexcell *curHexcell = &this->combatGrid[hex];
+    char unitOwner = curHexcell->unitOwner;
+    char stackIdx = curHexcell->stackIdx;
+    if(unitOwner == -1)
+      continue;
+    stack = &this->creatures[unitOwner][stackIdx];
+    if(!stack->SpellCastWorks(spell))
+      continue;
+    if(gArmyEffected[unitOwner][stackIdx])
+      continue;
+    gArmyEffected[unitOwner][stackIdx] = 1;
+    if(!stack->damageTakenDuringSomeTimePeriod) {
+      int dam = damage;
+      if(spell == SPELL_COLD_RING && stack->creatureIdx == CREATURE_FIRE_ELEMENTAL)
+        dam = 2 * damage;
+      if((spell == SPELL_FIREBALL || spell == 1) && stack->creatureIdx == CREATURE_WATER_ELEMENTAL)
+        dam *= 2;
+      if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
+        dam = (signed __int64)((double)dam * 0.5);
+      stack->Damage(dam, spell);
+      anyoneDamaged = 1;
     }
   }
   if(anyoneDamaged) {
