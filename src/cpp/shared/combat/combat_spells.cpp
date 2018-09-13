@@ -602,8 +602,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
       //long damage = 10 * spellpower;
       long damage = 1000;
-      if(isCastleBattle && this->InCastle(stack->occupiedHex))
-        damage *= 0.75;
+      if(isCastleBattle)
+        if(currentActionSide == 0 && this->InCastle(stack->occupiedHex))
+          damage *= 0.75;
       //this->ModifyDamageForArtifacts(&damage, SPELL_MARKSMAN_PIERCE, currentHero, enemyHero);
       char *creatureName;
       if (stack->quantity <= 1)
