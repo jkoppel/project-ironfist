@@ -1881,7 +1881,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
                 if (creature->animationType != ANIMATION_TYPE_STANDING && creature->animationType != ANIMATION_TYPE_DYING) {
                   creature->animationType = ANIMATION_TYPE_STANDING;
                   creature->animationFrame = 0;
-                  creature->effectStrengths[15] = 1;
+                  creature->field_3 = -1;
                 }
               } else {
                 creature->animationType = creature->field_4;
