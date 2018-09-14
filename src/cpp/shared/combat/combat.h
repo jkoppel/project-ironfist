@@ -246,6 +246,9 @@ public:
   int InCastle(int hex);
   void UpdateMouseGrid(signed int hexIdx, int a3);
   CURSOR_DIRECTION GetCursorDirection(int screenX, int screenY, int hex);
+  void Blur(int a2, int a3, int a4);
+  void Ripple(int strength);
+  void ShowMassSpell(signed char(*const stackAffected)[20], int animIdx, int isDamageSpell);
 };
 
 extern combatManager* gpCombatManager;

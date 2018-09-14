@@ -672,6 +672,191 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   this->CheckChangeSelector();
 }
 
+void combatManager::CastMassSpell(int spell, signed int spellpower)
+{
+  int v3; // edx@1
+  int othSide; // [sp+18h] [bp-48h]@2
+  int thisSide; // [sp+18h] [bp-48h]@8
+  signed int side0; // [sp+18h] [bp-48h]@14
+  signed int side1; // [sp+18h] [bp-48h]@23
+  signed int side2; // [sp+18h] [bp-48h]@35
+  signed int othSidee; // [sp+18h] [bp-48h]@44
+  signed int othSidef; // [sp+18h] [bp-48h]@53
+  signed int othSideg; // [sp+18h] [bp-48h]@64
+  signed int affectedSide; // [sp+18h] [bp-48h]@74
+  army *thisa; // [sp+1Ch] [bp-44h]@80
+  int isDamageSpell; // [sp+20h] [bp-40h]@1
+  signed int damage; // [sp+24h] [bp-3Ch]@23
+  signed int damagea; // [sp+24h] [bp-3Ch]@53
+  signed int anyoneAffected; // [sp+28h] [bp-38h]@64
+  STACK_MODIFYING_EFFECT effect; // [sp+2Ch] [bp-34h]@87
+  int animIdx; // [sp+30h] [bp-30h]@1
+  int i; // [sp+34h] [bp-2Ch]@2
+  int j; // [sp+34h] [bp-2Ch]@8
+  int k; // [sp+34h] [bp-2Ch]@16
+  int l; // [sp+34h] [bp-2Ch]@25
+  int m; // [sp+34h] [bp-2Ch]@37
+  int n; // [sp+34h] [bp-2Ch]@46
+  int ii; // [sp+34h] [bp-2Ch]@55
+  int jj; // [sp+34h] [bp-2Ch]@66
+  int kk; // [sp+34h] [bp-2Ch]@76
+  char stackAffected[2][20]; // [sp+38h] [bp-28h]@1
+
+  animIdx = gsSpellInfo[spell].creatureEffectAnimationIdx;
+  isDamageSpell = 0;
+  gpWindowManager->cycleColors = 0;
+  this->ShowSpellMessage(0, spell, 0);
+  memset(stackAffected, 0, 40u);
+  switch ( spell )
+  {
+    case SPELL_MASS_SLOW:
+    case SPELL_MASS_CURSE:
+      othSide = 1 - this->currentActionSide;
+      for ( i = 0; this->numCreatures[othSide] > i; ++i )
+      {
+        if ( this->creatures[othSide][i].SpellCastWorks(spell) )
+          stackAffected[othSide][i] = 1;
+      }
+      break;
+    case SPELL_MASS_CURE:
+    case SPELL_MASS_HASTE:
+    case SPELL_MASS_BLESS:
+    case SPELL_MASS_SHIELD:
+      thisSide = this->currentActionSide;
+      for ( j = 0; this->numCreatures[thisSide] > j; ++j )
+      {
+        if ( this->creatures[thisSide][j].SpellCastWorks(spell) )
+          stackAffected[thisSide][j] = 1;
+      }
+      break;
+    case SPELL_MASS_DISPEL:
+      for ( side0 = 0; side0 < 2; ++side0 )
+      {
+        for ( k = 0; this->numCreatures[side0] > k; ++k )
+        {
+          if ( this->creatures[side0][k].SpellCastWorks(spell) )
+            stackAffected[side0][k] = 1;
+        }
+      }
+      break;
+    case SPELL_HOLY_WORD:
+    case SPELL_HOLY_SHOUT:
+      isDamageSpell = 1;
+      damage = spellpower * ((unsigned int)(spell - SPELL_HOLY_WORD) < 1 ? 10 : 20);
+      for ( side1 = 0; side1 < 2; ++side1 )
+      {
+        for ( l = 0; ; ++l )
+        {
+          v3 = l;
+          if ( this->numCreatures[side1] <= l )
+            break;
+          if ( HIBYTE(this->creatures[side1][l].creature.creature_flags) & ATTR_UNDEAD
+            && this->creatures[side1][l].SpellCastWorks(spell) )
+            stackAffected[side1][l] = 1;
+        }
+      }
+      if ( spell == SPELL_HOLY_WORD )
+        this->Blur(0, -2, -2);
+      else
+        this->Blur(0, -4, -4);
+      for ( side2 = 0; side2 < 2; ++side2 )
+      {
+        for ( m = 0; this->numCreatures[side2] > m; ++m )
+        {
+          if ( stackAffected[side2][m] )
+            this->creatures[side2][m].Damage(damage, SPELL_NONE);
+        }
+      }
+      sprintf(gText, "The %s spell does %d damage\nto all undead creatures.", gSpellNames[spell], damage);
+      this->CombatMessage(gText, 1, 1, 0);
+      break;
+    case SPELL_DEATH_RIPPLE:
+    case SPELL_DEATH_WAVE:
+      isDamageSpell = 1;
+      for ( othSidee = 0; othSidee < 2; ++othSidee )
+      {
+        for ( n = 0; ; ++n )
+        {
+          v3 = n;
+          if ( this->numCreatures[othSidee] <= n )
+            break;
+          if ( !(HIBYTE(this->creatures[othSidee][n].creature.creature_flags) & ATTR_UNDEAD)
+            && this->creatures[othSidee][n].SpellCastWorks(spell) )
+            stackAffected[othSidee][n] = 1;
+        }
+      }
+      this->Ripple(2 - ((unsigned int)(spell - SPELL_DEATH_RIPPLE) < 1));
+      damagea = spellpower * ((unsigned int)(spell - SPELL_DEATH_RIPPLE) < 1 ? 5 : 10);
+      for ( othSidef = 0; othSidef < 2; ++othSidef )
+      {
+        for ( ii = 0; this->numCreatures[othSidef] > ii; ++ii )
+        {
+          if ( stackAffected[othSidef][ii] )
+            this->creatures[othSidef][ii].Damage(damagea, SPELL_NONE);
+        }
+      }
+      sprintf(gText, "The Death spell does %d damage\nto all living creatures.", damagea);
+      this->CombatMessage(gText, 1, 1, 0);
+      break;
+    default:
+      break;
+  }
+  if ( !gbNoShowCombat )
+  {
+    anyoneAffected = 0;
+    for ( othSideg = 0; othSideg < 2; ++othSideg )
+    {
+      for ( jj = 0; this->numCreatures[othSideg] > jj; ++jj )
+      {
+        if ( stackAffected[othSideg][jj] )
+          anyoneAffected = 1;
+      }
+    }
+    if ( anyoneAffected )
+      this->ShowMassSpell((signed char (*)[20])stackAffected, animIdx, isDamageSpell);
+  }
+  for ( affectedSide = 0; affectedSide < 2; ++affectedSide )
+  {
+    for ( kk = 0; this->numCreatures[affectedSide] > kk; ++kk )
+    {
+      if ( stackAffected[affectedSide][kk] )
+      {
+        thisa = &this->creatures[affectedSide][kk];
+        switch ( spell )
+        {
+          case SPELL_MASS_CURSE:
+            thisa->SetSpellInfluence(EFFECT_CURSE, spellpower);
+            break;
+          case SPELL_MASS_SLOW:
+            thisa->SetSpellInfluence(EFFECT_SLOW, spellpower);
+            break;
+          case SPELL_MASS_HASTE:
+            thisa->SetSpellInfluence(EFFECT_HASTE, spellpower);
+            break;
+          case SPELL_MASS_BLESS:
+            thisa->SetSpellInfluence(EFFECT_BLESS, spellpower);
+            break;
+          case SPELL_MASS_SHIELD:
+            thisa->SetSpellInfluence(EFFECT_SHIELD, spellpower);
+            break;
+          case SPELL_MASS_CURE:
+            thisa->Cure(spellpower);
+            break;
+          case SPELL_MASS_DISPEL:
+            for(int i = 0; i < NUM_SPELL_EFFECTS; i++)
+              thisa->CancelIndividualSpell(i);
+            break;
+          case SPELL_DEATH_RIPPLE:
+          case SPELL_DEATH_WAVE:
+            continue;
+        }
+      }
+    }
+  }
+  this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+  gpWindowManager->cycleColors = 1;
+}
+
 CURSOR_DIRECTION combatManager::GetCursorDirection(int screenX, int screenY, int hex) {
   int offsetX;
   int offsetY;
