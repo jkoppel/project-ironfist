@@ -222,7 +222,8 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     && proto_spell != SPELL_MASS_SHIELD
     && proto_spell != SPELL_ARMAGEDDON
     && proto_spell != SPELL_ELEMENTAL_STORM
-    && proto_spell != SPELL_MASS_DISPEL) {
+    && proto_spell != SPELL_MASS_DISPEL
+    && proto_spell != SPELL_MASS_FORCE_SHIELD) {
     int targetedUnitOwner = this->combatGrid[hexIdx].unitOwner;
     int targetedUnitStackIdx = this->combatGrid[hexIdx].stackIdx;
     if (ValidHex(hexIdx) && targetedUnitOwner >= 0) {
@@ -460,6 +461,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_DEATH_RIPPLE:
     case SPELL_DEATH_WAVE:
     case SPELL_MASS_SHIELD:
+    case SPELL_MASS_FORCE_SHIELD:
       this->CastMassSpell(proto_spell, spellpower);
       break;
     case SPELL_MIRROR_IMAGE:

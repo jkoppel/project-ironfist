@@ -79,7 +79,8 @@ char *gSpellDesc[] =
   "{Shadow Mark}\n\nMarked creature receives 150% damage from your troops for 1 turn",
   "{Marksman Pierce}\n\nTarget creature receives 1000 damage and is dazed for 1 turn",
   "{Plasma Cone}\n\nCreates a cone of hot plasma in the direction of the target",
-  "{Force Shield}\n\nCreates a Kinetic shield over the target ally"
+  "{Force Shield}\n\nCreates a Kinetic shield over the target ally",
+  "{Mass Force Shield}\n\nCreates a Kinetic shield over all allies"
 };
 
 SSpellInfo gsSpellInfo[] = {
@@ -155,7 +156,8 @@ SSpellInfo gsSpellInfo[] = {
   {"shdwmark", 2, 66, 33, 150, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
   {"mrksmprc", 5, 67, 34, 200, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
   {"plsmcone", 5, 68, 35, 50, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
-  {"forcshld", 2, 69, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL}
+  {"forcshld", 2, 69, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
+  {"forcshld", 2, 70, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL}
 };
 
 #define DD_MOVEMENT_COST 225
