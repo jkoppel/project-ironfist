@@ -630,6 +630,11 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_PLASMA_CONE:
       this->Fireball(hexIdx, SPELL_PLASMA_CONE);
       break;
+    case SPELL_FORCE_SHIELD:
+      this->ShowSpellMessage(isCreatureAbility, proto_spell, stack);
+      stack->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
+      stack->SpellEffect(gsSpellInfo[SPELL_FORCE_SHIELD].creatureEffectAnimationIdx, 0, 0);
+    break;
     default:
       this->DefaultSpell(hexIdx);
       break;
