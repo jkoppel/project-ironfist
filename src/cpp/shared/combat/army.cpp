@@ -2133,8 +2133,20 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   *damageDone = baseDam;
   if(baseDam < 0)
     *creaturesKilled = targ->Damage(0, SPELL_NONE);
-  else
+  else {
+    int forceShieldHP = gIronfistExtra.combat.stack.forceShieldHP[targ];
+    if(forceShieldHP > 0) {
+      int afterDmg = forceShieldHP - baseDam;
+      if(afterDmg <= 0) {
+        targ->CancelIndividualSpell(EFFECT_FORCE_SHIELD);
+        baseDam = -1 * afterDmg;
+      } else {
+        gIronfistExtra.combat.stack.forceShieldHP[targ] -= baseDam;
+        baseDam = 0;
+      } 
+    }
     *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
+  }
 }
 
 void army::MoveTo(int hexIdx) {
@@ -2273,6 +2285,8 @@ void army::MoveAttack(int targHex, int x) {
 void army::DecrementSpellRounds() {
   for (int effect = 0; effect < NUM_SPELL_EFFECTS; ++effect) {
     if (this->effectStrengths[effect]) {
+      if(effect == EFFECT_FORCE_SHIELD)
+        continue;
       if (this->effectStrengths[effect] == 1)
         this->CancelIndividualSpell(effect);
       else
@@ -2352,6 +2366,9 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
     case EFFECT_SHADOW_MARK:
     case EFFECT_DAZE:
       break;
+    case EFFECT_FORCE_SHIELD:
+      gIronfistExtra.combat.stack.forceShieldHP[this] = gMonsterDatabase[this->creatureIdx].hp;
+      break;
     }
     return this->AddActiveEffect(effectType, strength);
   }
@@ -2379,6 +2396,9 @@ void army::CancelIndividualSpell(int effect) {
       break;
     case EFFECT_SHADOW_MARK:
     case EFFECT_DAZE:
+      break;
+    case EFFECT_FORCE_SHIELD:
+      gIronfistExtra.combat.stack.forceShieldHP[this] = 0;
       break;
     case EFFECT_BLIND:
     case EFFECT_BLESS:
