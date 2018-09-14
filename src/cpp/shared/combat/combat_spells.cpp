@@ -632,6 +632,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       break;
     case SPELL_FORCE_SHIELD:
       this->ShowSpellMessage(isCreatureAbility, proto_spell, stack);
+
+      stack->DispelGood();
+
       stack->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
       stack->SpellEffect(gsSpellInfo[SPELL_FORCE_SHIELD].creatureEffectAnimationIdx, 0, 0);
     break;
