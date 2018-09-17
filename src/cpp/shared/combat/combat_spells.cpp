@@ -1324,6 +1324,7 @@ int combatManager::ViewSpells(int unused) {
       case SPELL_DEATH_RIPPLE:
       case SPELL_DEATH_WAVE:
       case SPELL_MASS_SHIELD:
+      case SPELL_MASS_FORCE_SHIELD:
         if(this->HasValidSpellTarget(this->current_spell_id)) {
           giNextAction = 1;
           giNextActionExtra = this->current_spell_id;
