@@ -31,7 +31,7 @@ public:
   H2RECT bounds;
   H2RECT effectAnimationBounds;
   int field_4A;
-  float field_4E;
+  int field_4E;
   int targetOwner;
   int targetStackIdx;
   int targetNeighborIdx;
@@ -137,6 +137,9 @@ public:
   bool TargetOnStraightLine(int targHex);
   int GetStraightLineDirection(int targHex);
   int GetStraightLineDistanceToHex(int hex);
+  int GetPowBaseY();
+  int RightX();
+  int LeftX();
 private:
   void RevertChargingMoveAnimation();
   void SetChargingMoveAnimation(CHARGING_DIRECTION dir);

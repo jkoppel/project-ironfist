@@ -2491,3 +2491,168 @@ int army::GetStraightLineDistanceToHex(int hex) {
   }
   return distance;
 }
+
+void army::DrawToBuffer(int centX, int standingBotY, int a4) {
+  if(!gpCombatManager->field_F357 && !gbNoShowCombat) {
+    int x = this->xDrawOffset + centX;
+    int y = this->yDrawOffset + standingBotY;
+    if(this->animationType == ANIMATION_TYPE_WALKING && !(this->creature.creature_flags & FLYER)) {
+      int walkLen = this->frameInfo.animationLengths[this->animationType];
+      int offsetYExtra = 42 * this->animationFrame / walkLen;
+      int offsetXExtra = 22 * this->animationFrame / walkLen;
+      if(!this->field_8A || this->field_8A == 5) {
+        y -= offsetYExtra;
+        giWalkingYMod = -offsetYExtra;
+      }
+      if(this->field_8A == 2 || this->field_8A == 3) {
+        y += offsetYExtra;
+        giWalkingYMod = offsetYExtra;
+      }
+      if(!this->field_8A || this->field_8A == 2)
+        x -= offsetXExtra;
+      if(this->field_8A == 5 || this->field_8A == 3)
+        x += offsetXExtra;
+    }
+    bool isIdle = false;
+    if(this->animationType == ANIMATION_TYPE_STANDING || this->animationType >= ANIMATION_TYPE_FIDGET_1 && this->animationType <= ANIMATION_TYPE_FIDGET_5)
+      isIdle = true;
+    int unknown = 0;
+    if(!giSpellEffectShowType && isIdle && this->numActiveEffects > 0)
+      unknown = 237;
+    if(this->occupiedHex == gpCombatManager->field_F2BB && gpCombatManager->field_F2B7 == 1)
+      unknown = 236;
+
+    unsigned char *paletteSubstitution = nullptr;
+    if(this->effectStrengths[EFFECT_PETRIFY])
+      paletteSubstitution = gColorTableGray;
+    else if(HIBYTE(this->creature.creature_flags) & ATTR_BLOODLUST_RED)
+      paletteSubstitution = gColorTableRed;
+    else if(HIBYTE(this->creature.creature_flags) & ATTR_BROWN)
+      paletteSubstitution = gColorTableDarkBrown;
+    else if(HIBYTE(this->creature.creature_flags) & ATTR_PETRIFY_GRAY)
+      paletteSubstitution = gColorTableGray;
+    else if(HIBYTE(this->creature.creature_flags) & ATTR_MIRROR_IMAGE)
+      paletteSubstitution = gColorTableLighten;
+
+    if(!a4)
+      this->creatureIcon->CombatClipDrawToBuffer(
+        x,
+        y,
+        this->frameInfo.animationFrameToImgIdx[this->animationType][this->animationFrame],
+        &this->bounds,
+        this->facingRight < 1,
+        unknown,
+        paletteSubstitution,
+        (signed char*)this->field_125);
+    if(isIdle && gpCombatManager->field_F2BF && this->field_4E) {
+      int hexInFront;
+      int stackNumXOffset;
+      if(this->creature.creature_flags & TWO_HEXER) {
+        if(this->facingRight == 1) {
+          stackNumXOffset = x + 53;
+          hexInFront = this->occupiedHex + 2;
+        }
+        else {
+          stackNumXOffset = x - 73;
+          hexInFront = this->occupiedHex - 2;
+        }
+      } else if(this->facingRight == 1) {
+        stackNumXOffset = x + 9;
+        hexInFront = this->occupiedHex + 1;
+      } else {
+        stackNumXOffset = x - 29;
+        hexInFront = this->occupiedHex - 1;
+      }
+      bool hexInFrontClear = gpCombatManager->combatGrid[hexInFront].unitOwner != -1;
+      int creatureStackNumXOffset = this->frameInfo.stackNumDispXShift[1 - this->facingRight];
+      if(hexInFrontClear && creatureStackNumXOffset > 0)
+        creatureStackNumXOffset = 0;
+      if(this->facingRight == 1)
+        stackNumXOffset += creatureStackNumXOffset;
+      else
+        stackNumXOffset -= creatureStackNumXOffset;
+
+      int offsetY;
+      if(this->facingRight == 1)
+        offsetY = y - 11;
+      else
+        offsetY = y - 23;
+      int numPosEffects = 0;
+      int numNegEffects = 0;
+      for(int i = 0; i < NUM_SPELL_EFFECTS; i++) {
+        if(this->effectStrengths[i]) {
+          switch(i) {
+            case EFFECT_HASTE:
+            case EFFECT_BLESS:
+            case EFFECT_DRAGON_SLAYER:
+            case EFFECT_BLOOD_LUST:
+            case EFFECT_SHIELD:
+            case EFFECT_ANTI_MAGIC:
+            case EFFECT_STONESKIN:
+            case EFFECT_STEELSKIN:
+              ++numPosEffects;
+              break;
+            default:
+              ++numNegEffects;
+              break;
+          }
+        }
+      }
+
+      int inRedrawZone;
+      if(giSpellEffectShowType && isIdle && this->numActiveEffects > 0) {
+        if(giSpellEffectShowType == 1) {
+          inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 11, &this->stackSizeDispBounds, 0, 237, 0, 0);
+        } else {
+          int numImageIdx = 12;
+          if(numPosEffects <= 0 || numNegEffects <= 0) {
+            if(numNegEffects > 0)
+              numImageIdx = 14;
+          } else {
+            numImageIdx = 13;
+          }
+          inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, numImageIdx, &this->stackSizeDispBounds, 0, 0, 0, 0);
+        }
+      } else {
+        inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 10, &this->stackSizeDispBounds, 0, 0, 0, 0);
+      }
+      if(inRedrawZone) {
+        int quantity;
+        if(this->previousQuantity == -1)
+          quantity = this->quantity;
+        else
+          quantity = this->previousQuantity;
+        std::string str = std::to_string(quantity);
+        smallFont->DrawBoundedString((char*)str.c_str(), stackNumXOffset, offsetY + 2, 20, 12, 1, 1);
+      }
+    }
+    if(this->probablyIsNeedDrawSpellEffect && !a4) {
+      int offsetX = x;
+      if(this->animationType == ANIMATION_TYPE_WINCE || this->animationType == ANIMATION_TYPE_WINCE_RETURN) {
+        if(this->facingRight == 1)
+          offsetX -= 4;
+        else
+          offsetX += 4;
+      }
+      if(this->creature.creature_flags & TWO_HEXER) {
+        if(this->facingRight == 1)
+          offsetX += 22;
+        else
+          offsetX -= 22;
+      }
+      if(gCurLoadedSpellEffect == ANIM_SHIELD_IDX) {
+        if(this->facingRight == 1)
+          offsetX = this->RightX();
+        else
+          offsetX = this->LeftX();
+      }
+
+      int spellOffsetYExtra = this->GetPowBaseY();
+      if(gCurLoadedSpellEffect == ANIM_BLIND_IDX) {
+        offsetX = x + this->frameInfo.offsetForBlind[0] * ((unsigned int)(this->facingRight - 1) < 1 ? 1 : -1);
+        spellOffsetYExtra = y + this->frameInfo.offsetForBlind[1];
+      }
+      gCurLoadedSpellIcon->CombatClipDrawToBuffer(offsetX, spellOffsetYExtra + this->field_FA, gCurSpellEffectFrame, &this->effectAnimationBounds, 1 - this->facingRight, 0, 0, 0);
+    }
+  }
+}

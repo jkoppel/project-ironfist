@@ -149,6 +149,7 @@ public:
   ~font();
 
   int LineLength(char*, int);
+  void DrawBoundedString(char *str, int x, int y, signed int regionWidth, int regionHeight, int a7, int alignType);
 };
 
 extern font* smallFont;

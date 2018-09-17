@@ -264,6 +264,12 @@ extern int giNextActionGridIndex;
 extern int giNextAction;
 extern int giNextActionExtra;
 extern int gbProcessingCombatAction;
+extern int giSpellEffectShowType;
+extern unsigned char gColorTableGray[];
+extern unsigned char gColorTableRed[];
+extern unsigned char gColorTableDarkBrown[];
+extern unsigned char gColorTableGray[];
+extern unsigned char gColorTableLighten[];
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);
