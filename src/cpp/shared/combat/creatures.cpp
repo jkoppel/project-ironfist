@@ -27,7 +27,6 @@ using namespace std;
 * 3) Debug menu free creatures
 */
 
-#define MAX_CREATURES 256
 #define RAND_DEFAULT 3
 
 tag_monsterInfo gMonsterDatabase[MAX_CREATURES];
@@ -203,7 +202,7 @@ void LoadCreatures() {
 					0);
 				
 		}
-	} catch(const xml_schema::exception& e) {
+	} catch(const xml_schema::exception&) {
 		EarlyShutdown("Startup Error", "Error loading creatures.xml. Try reinstalling Ironfist.");
 	}
     giNumCreatures++;
