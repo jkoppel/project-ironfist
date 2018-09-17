@@ -6,7 +6,6 @@
 #pragma pack(push,1)
 
 unsigned long gTownEligibleBuildMask[];
-extern signed char gDwellingType[][12];
 
 extern signed char gSpellLimits[];
 
@@ -14,7 +13,23 @@ extern char cHeroTypeInitial[];
 
 #define MAX_CASTLES 72
 
-#define NUM_DWELLINGS 12
+enum HERO_TYPE
+{
+	HERO_TYPE_KNIGHT = 0,
+	HERO_TYPE_BARBARIAN = 1,
+	HERO_TYPE_SORCERESS = 2,
+	HERO_TYPE_WARLOCK = 3,
+	HERO_TYPE_WIZARD = 4,
+	HERO_TYPE_NECROMANCER = 5,
+	HERO_TYPE_KNIGHT_CAPTAIN = 6,
+	HERO_TYPE_BARBARIAN_CAPTAIN = 7,
+	HERO_TYPE_SORCERESS_CAPTAIN = 8,
+	HERO_TYPE_WARLOCK_CAPTAIN = 9,
+	HERO_TYPE_WIZARD_CAPTAIN = 10,
+	HERO_TYPE_NECROMANCER_CAPTAIN = 11,
+	HERO_TYPE_CYBORG = 12,
+	HERO_TYPE_CYBORG_CAPTAIN = 18
+};
 
 enum FACTION
 {
@@ -27,7 +42,8 @@ enum FACTION
 	FACTION_MULTIPLE = 6,
 	FACTION_RANDOM = 7,
 
-	FACTION_CYBORG = 13,
+	FACTION_CYBORG = 12,
+	MAX_FACTIONS
 };
 
 enum BUILDING_CODE : __int8
@@ -68,6 +84,28 @@ enum BUILDING_CODE : __int8
   BUILDING_EXT_3 = 0x1F,
   BUILDING_MAX
 };
+
+enum DWELLING_TYPE
+{
+  DWELLING_1,
+  DWELLING_2,
+  DWELLING_3,
+  DWELLING_4,
+  DWELLING_5,
+  DWELLING_6,
+  DWELLING_2_UPGRADE,
+  DWELLING_3_UPGRADE,
+  DWELLING_4_UPGRADE,
+  DWELLING_5_UPGRADE,
+  DWELLING_6_UPGRADE,
+  DWELLING_6_UPGRADE2,
+  NUM_DWELLINGS
+};
+
+// Order matters here. The original game indexes into gTownObjNames to
+// access elements of gDwellingType.
+extern char *gTownObjNames[];
+extern unsigned char gDwellingType[][NUM_DWELLINGS];
 
 class town {
 public:
@@ -160,11 +198,12 @@ extern char *xNecromancerShrine;
 extern char *gWellExtraNames[];
 extern char *gSpecialBuildingNames[];
 extern char *gNeutralBuildingNames[];
-extern char *gDwellingNames[][12];
+extern char *gDwellingNames[][NUM_DWELLINGS];
 
 char *__fastcall GetBuildingName(int faction, int building);
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle);
 char * __fastcall GetBuildingInfo_orig(int faction, int building, int withTitle);
+int GetDwellingType(int faction, int dwellingIndex);
 
 
 extern townManager* gpTownManager;

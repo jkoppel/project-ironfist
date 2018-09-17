@@ -16,8 +16,6 @@ class mapCell;
 
 #define CREATURES_IN_ARMY 5
 
-#define NUM_FACTIONS 6
-
 enum PRIMARY_SKILL {
   PRIMARY_SKILL_ATTACK = 0,
   PRIMARY_SKILL_DEFENSE = 1,

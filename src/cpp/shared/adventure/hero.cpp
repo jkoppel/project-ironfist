@@ -10,17 +10,24 @@
 #include<io.h>
 #include<stddef.h>
 
-char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
-	                        '\0','\0','\0','\0','\0','\0',
-                            'c'};
+char cHeroTypeInitial[MAX_FACTIONS] = {'k', 'b', 's', 'w', 'z', 'n',
+                                       '\0','\0','\0','\0','\0','\0',
+                                       'c'};
 
-signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4] = {
+signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
   {{35, 45, 10, 10}, {25, 25, 25, 25}},
   {{55, 35,  5,  5}, {25, 25, 25, 25}},
   {{10, 10, 30, 50}, {20, 20, 30, 30}},
   {{10, 10, 50, 30}, {20, 20, 30, 30}},
   {{10, 10, 40, 40}, {20, 20, 30, 30}},
-  {{15, 15, 35, 35}, {25, 25, 25, 25}}
+  {{15, 15, 35, 35}, {25, 25, 25, 25}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{15, 15, 35, 35}, {25, 25, 25, 25}},  // TODO: decide on Cyborg skill chances, copied Necromancer for now
 };
 
 hero::hero() {
@@ -198,7 +205,7 @@ int hero::CalcMobility() {
   int MOVEMENT_POINTS_TERM_CREATURE_MAX = 1500;
   int PLAYER_FIRST = 0;
   int PLAYER_LAST = 5;
-  float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
+  float gfSSLogisticsMod[] = { 1.0f,  1.1f,  1.2f,  1.3f };
   
   mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
   if (cell != nullptr) {  //This is here because CalcMobility() is called on the first successive start of a New Game in the current running instance of the program
