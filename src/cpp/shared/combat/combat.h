@@ -249,6 +249,9 @@ public:
   void Blur(int a2, int a3, int a4);
   void Ripple(int strength);
   void ShowMassSpell(signed char(*const stackAffected)[20], int animIdx, int isDamageSpell);
+  int ViewSpells(int a2);
+  signed int HasValidSpellTarget(int spellID);
+  int SpaceForElementalExists();
 };
 
 extern combatManager* gpCombatManager;
@@ -259,6 +262,7 @@ extern int indexToCastOn;
 extern int giNextActionGridIndex2;
 extern int giNextActionGridIndex;
 extern int giNextAction;
+extern int giNextActionExtra;
 extern int gbProcessingCombatAction;
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);

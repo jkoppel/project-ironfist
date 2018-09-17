@@ -2,6 +2,7 @@
 #include "combat\animation.h"
 #include "combat\combat.h"
 #include "combat\speed.h"
+#include "gui\dialog.h"
 #include "resource\resourceManager.h"
 #include "spell\spells.h"
 
@@ -162,6 +163,9 @@ float army::SpellCastWorkChance(int spell) {
 
   if (spell == SPELL_SHADOW_MARK && this->dead)
     return 0.0;
+
+  if(spell == SPELL_MASS_FORCE_SHIELD)
+    return 1.0;
 
 	return this->SpellCastWorkChance_orig(spell);
 }
@@ -692,6 +696,7 @@ void combatManager::CastMassSpell(int spell, signed int spellpower) {
     case SPELL_MASS_HASTE:
     case SPELL_MASS_BLESS:
     case SPELL_MASS_SHIELD:
+    case SPELL_MASS_FORCE_SHIELD:
       for(int i = 0; this->numCreatures[thisSide] > i; ++i)
         if(this->creatures[thisSide][i].SpellCastWorks(spell))
           stackAffected[thisSide][i] = 1;
@@ -793,6 +798,9 @@ void combatManager::CastMassSpell(int spell, signed int spellpower) {
             break;
           case SPELL_MASS_SHIELD:
             creature->SetSpellInfluence(EFFECT_SHIELD, spellpower);
+            break;
+          case SPELL_MASS_FORCE_SHIELD:
+            creature->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
             break;
           case SPELL_MASS_CURE:
             creature->Cure(spellpower);
@@ -1254,4 +1262,112 @@ void combatManager::Fireball(int hexIdx, int spell) {
     this->CombatMessage(gText, 1, 1, 0);
     stack->PowEffect(-1, 1, -1, -1);
   }
+}
+
+int combatManager::ViewSpells(int a2)
+{
+  signed int result; // eax@12
+  CREATURES elemental_type; // [sp+14h] [bp-4h]@6
+
+  this->current_spell_id = gpGame->ViewSpells(this->heroes[giCurGeneral],
+                              SPELL_CATEGORY_COMBAT,
+                              (int (__fastcall *)(struct tag_message &))CombatSpecialHandler,
+                              0);
+  if ( this->current_spell_id == -1 )
+  {
+LABEL_29:
+    result = 0;
+  }
+  else
+  {
+    switch ( this->current_spell_id )
+    {
+      case SPELL_EARTHQUAKE:
+        if ( this->castles[1] )
+          goto LABEL_20;
+        NormalDialog("An earthquake will do you no good unless there are town walls to damage.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        goto LABEL_27;
+      case SPELL_SUMMON_EARTH_ELEMENTAL:
+        elemental_type = CREATURE_EARTH_ELEMENTAL;
+        goto LABEL_10;
+      case SPELL_SUMMON_AIR_ELEMENTAL:
+        elemental_type = CREATURE_AIR_ELEMENTAL;
+        goto LABEL_10;
+      case SPELL_SUMMON_FIRE_ELEMENTAL:
+        elemental_type = CREATURE_FIRE_ELEMENTAL;
+        goto LABEL_10;
+      case SPELL_SUMMON_WATER_ELEMENTAL:
+        elemental_type = CREATURE_WATER_ELEMENTAL;
+LABEL_10:
+        if ( this->summonedCreatureType[this->currentActionSide]
+          && this->summonedCreatureType[this->currentActionSide] != elemental_type )
+        {
+          NormalDialog("You may only summon one type of elemental per combat.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        if ( this->numCreatures[this->currentActionSide] >= 20 )
+        {
+          sprintf(
+            gText,
+            "You already have %d creatures groups in combat and cannot add any more.",
+            this->numCreatures[this->currentActionSide]);
+          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        if ( !this->SpaceForElementalExists() )
+        {
+          sprintf(gText, "There is no open space adjacent to your hero to summon an Elemental to.");
+          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+LABEL_20:
+        giNextAction = 1;
+        giNextActionExtra = (Spell)this->current_spell_id;
+        goto LABEL_27;
+      case SPELL_MASS_CURE:
+      case SPELL_MASS_HASTE:
+      case SPELL_MASS_SLOW:
+      case SPELL_MASS_BLESS:
+      case SPELL_MASS_CURSE:
+      case SPELL_HOLY_WORD:
+      case SPELL_HOLY_SHOUT:
+      case SPELL_MASS_DISPEL:
+      case SPELL_ARMAGEDDON:
+      case SPELL_ELEMENTAL_STORM:
+      case SPELL_DEATH_RIPPLE:
+      case SPELL_DEATH_WAVE:
+      case SPELL_MASS_SHIELD:
+        if ( this->HasValidSpellTarget((Spell)this->current_spell_id) )
+          goto LABEL_20;
+        NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        return 0;
+      case SPELL_MIRROR_IMAGE:
+        if ( this->numCreatures[this->currentActionSide] < 20 )
+          goto LABEL_23;
+        sprintf(
+          gText,
+          "You already have %d creatures groups in combat and cannot add any more.",
+          this->numCreatures[this->currentActionSide]);
+        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        return 0;
+      default:
+LABEL_23:
+        if ( !this->HasValidSpellTarget((Spell)this->current_spell_id) )
+        {
+          NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        giNextAction = 1;
+        giNextActionExtra = (Spell)this->current_spell_id;
+        gpMouseManager->SetPointer("spelmous.mse", gsSpellInfo[this->current_spell_id].magicBookIconIdx, -999);
+        gpWindowManager->DoDialog(0, (int (__fastcall *)(tag_message &))HandleCastSpell, 0);
+LABEL_27:
+        gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
+        if ( this->current_spell_id == -1 )
+          goto LABEL_29;
+        result = 1;
+        break;
+    }
+  }
+  return result;
 }

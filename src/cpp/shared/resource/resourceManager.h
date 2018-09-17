@@ -109,6 +109,7 @@ public:
 	mouseManager();
 	void ShowColorPointer();
   void SetPointer(int spriteIdxArg);
+  void SetPointer(char *mse, int spriteIdx, signed int protoCategory);
 };
 
 extern mouseManager* gpMouseManager;
