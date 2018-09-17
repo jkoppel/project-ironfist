@@ -249,7 +249,7 @@ public:
   void Blur(int a2, int a3, int a4);
   void Ripple(int strength);
   void ShowMassSpell(signed char(*const stackAffected)[20], int animIdx, int isDamageSpell);
-  int ViewSpells(int a2);
+  int ViewSpells(int unused);
   signed int HasValidSpellTarget(int spellID);
   int SpaceForElementalExists();
 };

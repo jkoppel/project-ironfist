@@ -1264,33 +1264,23 @@ void combatManager::Fireball(int hexIdx, int spell) {
   }
 }
 
-int combatManager::ViewSpells(int a2)
-{
+int combatManager::ViewSpells(int unused) {
   this->current_spell_id = gpGame->ViewSpells(this->heroes[giCurGeneral], SPELL_CATEGORY_COMBAT, CombatSpecialHandler, 0);
-  if(this->current_spell_id == -1)
+  if(this->current_spell_id == SPELL_NONE)
     return 0;
-  else
-  {
-    switch ( this->current_spell_id )
-    {
+  else {
+    switch(this->current_spell_id) {
       case SPELL_EARTHQUAKE:
         if(this->castles[1]) {
           giNextAction = 1;
           giNextActionExtra = this->current_spell_id;
-          gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
-          if(this->current_spell_id == -1)
-            return 0;
-          return 1;
+          break;
         }
         NormalDialog("An earthquake will do you no good unless there are town walls to damage.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
-        gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
-        if(this->current_spell_id == -1)
-          return 0;
-        return 1;
+        break;
       case SPELL_SUMMON_EARTH_ELEMENTAL: case SPELL_SUMMON_AIR_ELEMENTAL: case SPELL_SUMMON_FIRE_ELEMENTAL: case SPELL_SUMMON_WATER_ELEMENTAL: {
         CREATURES elemental_type;
-        switch(this->current_spell_id)
-        {
+        switch(this->current_spell_id) {
           case SPELL_SUMMON_EARTH_ELEMENTAL:
             elemental_type = CREATURE_EARTH_ELEMENTAL;
             break;
@@ -1304,33 +1294,22 @@ int combatManager::ViewSpells(int a2)
             elemental_type = CREATURE_WATER_ELEMENTAL;
             break;
         }
-        if ( this->summonedCreatureType[this->currentActionSide]
-          && this->summonedCreatureType[this->currentActionSide] != elemental_type )
-        {
+        if(this->summonedCreatureType[this->currentActionSide] && this->summonedCreatureType[this->currentActionSide] != elemental_type) {
           NormalDialog("You may only summon one type of elemental per combat.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
           return 0;
         }
-        if ( this->numCreatures[this->currentActionSide] >= 20 )
-        {
-          sprintf(
-            gText,
-            "You already have %d creatures groups in combat and cannot add any more.",
-            this->numCreatures[this->currentActionSide]);
+        if(this->numCreatures[this->currentActionSide] >= 20) {
+          sprintf(gText, "You already have %d creatures groups in combat and cannot add any more.", this->numCreatures[this->currentActionSide]);
           NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
           return 0;
         }
-        if ( !this->SpaceForElementalExists() )
-        {
-          sprintf(gText, "There is no open space adjacent to your hero to summon an Elemental to.");
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        if(!this->SpaceForElementalExists()) {
+          NormalDialog("There is no open space adjacent to your hero to summon an Elemental to.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
           return 0;
         }
         giNextAction = 1;
         giNextActionExtra = this->current_spell_id;
-        gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
-        if(this->current_spell_id == -1)
-          return 0;
-        return 1;
+        break;
       }
       case SPELL_MASS_CURE:
       case SPELL_MASS_HASTE:
@@ -1348,19 +1327,13 @@ int combatManager::ViewSpells(int a2)
         if(this->HasValidSpellTarget(this->current_spell_id)) {
           giNextAction = 1;
           giNextActionExtra = this->current_spell_id;
-          gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
-          if(this->current_spell_id == -1)
-            return 0;
-          return 1;
+          break;
         }
         NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
         return 0;
-      case SPELL_MIRROR_IMAGE:
-      {
-        if(this->numCreatures[this->currentActionSide] < 20)
-        {
-          if ( !this->HasValidSpellTarget(this->current_spell_id) )
-          {
+      case SPELL_MIRROR_IMAGE: {
+        if(this->numCreatures[this->currentActionSide] < 20) {
+          if(!this->HasValidSpellTarget(this->current_spell_id)) {
             NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
             return 0;
           }
@@ -1368,21 +1341,14 @@ int combatManager::ViewSpells(int a2)
           giNextActionExtra = this->current_spell_id;
           gpMouseManager->SetPointer("spelmous.mse", gsSpellInfo[this->current_spell_id].magicBookIconIdx, -999);
           gpWindowManager->DoDialog(0, HandleCastSpell, 0);
-          gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
-          if(this->current_spell_id == -1)
-            return 0;
-          return 1;
+          break;
         }
-        sprintf(
-          gText,
-          "You already have %d creatures groups in combat and cannot add any more.",
-          this->numCreatures[this->currentActionSide]);
+        sprintf(gText, "You already have %d creatures groups in combat and cannot add any more.", this->numCreatures[this->currentActionSide]);
         NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
         return 0;
       }
       default:
-        if ( !this->HasValidSpellTarget(this->current_spell_id) )
-        {
+        if(!this->HasValidSpellTarget(this->current_spell_id)) {
           NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
           return 0;
         }
@@ -1390,10 +1356,11 @@ int combatManager::ViewSpells(int a2)
         giNextActionExtra = this->current_spell_id;
         gpMouseManager->SetPointer("spelmous.mse", gsSpellInfo[this->current_spell_id].magicBookIconIdx, -999);
         gpWindowManager->DoDialog(0, HandleCastSpell, 0);
-        gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
-        if(this->current_spell_id == -1)
-          return 0;
-        return 1;
+        break;
     }
+    gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
+    if(this->current_spell_id == SPELL_NONE)
+      return 0;
+    return 1;
   }
 }
