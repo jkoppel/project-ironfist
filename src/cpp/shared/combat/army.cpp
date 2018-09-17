@@ -2590,6 +2590,7 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
             case EFFECT_ANTI_MAGIC:
             case EFFECT_STONESKIN:
             case EFFECT_STEELSKIN:
+            case EFFECT_FORCE_SHIELD:
               ++numPosEffects;
               break;
             default:
