@@ -60,6 +60,11 @@ public:
   char field_41;
   H2RECT drawingBounds;
   char field_52[16];
+
+  void DrawOccupant(int a2, int a3);
+  void DrawLowerDeadOccupants();
+  void DrawUpperDeadOccupant();
+  void DrawObstacle();
 };
 
 int __fastcall ValidHex(int);
@@ -196,7 +201,7 @@ public:
   void CombatMessage(char *msg) { CombatMessage(msg, 1, 1, 0); }
 
   void UpdateCombatArea();
-  void DrawFrame(int redrawAll,int,int,int,int,int,int);
+  void DrawFrame(int redrawAll, int a3, int a4, int a5, signed int delay, int a7, int waitUntilItIsTime);
 
   void HandlePandoraBox(int side);
   void AddArmy(int side, int creat, int qty, int hex, int attrs, int fizzle);
@@ -258,6 +263,9 @@ public:
   int ViewSpells(int unused);
   signed int HasValidSpellTarget(int spellID);
   int SpaceForElementalExists();
+  void CycleCombatScreen();
+  void CycleCombatScreen_orig();
+  void DrawBackground();
 };
 
 extern combatManager* gpCombatManager;
@@ -276,6 +284,21 @@ extern unsigned char gColorTableRed[];
 extern unsigned char gColorTableDarkBrown[];
 extern unsigned char gColorTableGray[];
 extern unsigned char gColorTableLighten[];
+extern char *gCombatFxNames[];
+extern int gbComputeExtent;
+extern int gbSaveBiggestExtent;
+extern int gbReturnAfterComputeExtent;
+extern SCmbtHero sCmbtHero[];
+extern int gbLimitToExtent;
+extern unsigned __int8 moatCell[];
+extern int giWalkingFrom;
+extern int giWalkingFrom2;
+extern int giWalkingTo;
+extern int giWalkingTo2;
+extern int giWalkingYMod;
+extern int combatArmyInfoLevel;
+extern int gbFullCombatScreenDrawn;
+extern int gbEnlargeScreenBlit;
 
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);

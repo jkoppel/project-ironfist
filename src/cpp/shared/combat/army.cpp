@@ -19,17 +19,7 @@ extern int gCurLoadedSpellEffect;
 extern int gCurSpellEffectFrame;
 extern int gbGenieHalf;
 extern int gbRemoteOn;
-extern int giWalkingFrom;
-extern int giWalkingFrom2;
-extern int giWalkingTo;
-extern int giWalkingTo2;
-extern int giWalkingYMod;
-extern int gbComputeExtent;
-extern int gbSaveBiggestExtent;
-extern int gbReturnAfterComputeExtent;
 extern int gbCurrArmyDrawn;
-extern int gbLimitToExtent;
-extern unsigned __int8 moatCell[];
 extern float gfBattleStat[];
 extern float gfSSArcheryMod[];
 

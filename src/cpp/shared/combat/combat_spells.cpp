@@ -12,11 +12,8 @@
 
 #include <set>
 
-extern SCmbtHero sCmbtHero[13];
 extern int castX;
 extern int castY;
-
-extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,int,int);
 
 extern heroWindowManager *gpWindowManager;
 

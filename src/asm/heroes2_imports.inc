@@ -249,6 +249,9 @@ IMPORT_?HandleCastSpell@@YIHAAUtag_message@@@Z = 1
 IMPORT_?CastMassSpell@combatManager@@QAEXHH@Z = 1
 IMPORT_?ViewSpells@combatManager@@QAEHH@Z = 1
 IMPORT_?DrawToBuffer@army@@QAEXHHH@Z = 1
+IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
+IMPORT_?CycleCombatScreen@combatManager@@QAEXXZ = 1
+?CycleCombatScreen@combatManager@@QAEXXZ_clone EQU ?CycleCombatScreen_orig@combatManager@@QAEXXZ
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
