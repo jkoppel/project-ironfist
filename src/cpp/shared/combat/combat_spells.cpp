@@ -644,6 +644,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       stack->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
       stack->SpellEffect(gsSpellInfo[SPELL_FORCE_SHIELD].creatureEffectAnimationIdx, 0, 0);
     break;
+    case SPELL_FIRE_BOMB:
+      this->Fireball(hexIdx, SPELL_FIREBALL);
+      break;
     default:
       this->DefaultSpell(hexIdx);
       break;

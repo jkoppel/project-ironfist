@@ -38,7 +38,7 @@ bool gMoveAttack; // ironfist var to differentiate between move/move and attack
 bool gChargePathDamage;
 bool gCharging;
 
-char *gCombatFxNames[37] =
+char *gCombatFxNames[38] =
 {
   "",
   "magic01.icn",
@@ -76,10 +76,11 @@ char *gCombatFxNames[37] =
   "shdwmark.icn",
   "mrksmprc.icn",
   "plsmcone.icn",
-  "forcshld.icn"
+  "forcshld.icn",
+  "firebomb.icn"
 };
 
-unsigned __int8 giNumPowFrames[37] =
+unsigned __int8 giNumPowFrames[38] =
 {
   10u,
   10u,
@@ -114,6 +115,7 @@ unsigned __int8 giNumPowFrames[37] =
   11u,
   16u,
   7u,
+  8u,
   8u,
   8u,
   8u,
