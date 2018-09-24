@@ -508,8 +508,8 @@ int combatManager::GetCommand(int hex) {
               v7 = 1;
               if(!gbProcessingCombatAction) {
                 if(!giNextAction) {
-                  *(DWORD *)&this->_15[104] = tempOwner;
-                  *(DWORD *)&this->_15[112] = tempStack;
+                  this->field_F547 = tempOwner;
+                  this->field_F54B[1] = tempStack;
                   this->DrawSmallView(1, 1);
                 }
               }
@@ -539,7 +539,7 @@ int combatManager::GetCommand(int hex) {
   }
   if(!v7) {
     if(!gbProcessingCombatAction) {
-      *(DWORD *)&this->_15[104] = -1;
+      this->field_F547 = -1;
       this->DrawSmallView(1, 1);
     }
   }
@@ -667,14 +667,14 @@ void combatManager::SetCombatDirections(int hexIdx) {
         v10[i] = 0;
     }
   }
-  *(DWORD *)&this->_15[64] = 0;
+  this->field_F51F = 0;
   for(int i = 0; i < 8; ++i) {
     if(v10[i])
-      ++*(DWORD *)&this->_15[64];
+       this->field_F51F++;
   }
-  if(!*(DWORD *)&this->_15[64])
+  if(!this->field_F51F)
     v10[6] = 1;
-  memset(&this->_15[36], 0xFFu, 0x18u);
+  memset(this->field_F503, 0xFFu, 0x18u);
   
   int v17;
   for(int i = 0; i < 8; ++i) {
@@ -712,40 +712,40 @@ void combatManager::SetCombatDirections(int hexIdx) {
       }
       if(i >= 6) {
         if(i == 6) {
-          this->_15[47] = v14;
-          this->_15[48] = v14;
-          this->_15[49] = v14;
+          this->field_F503[11] = v14;
+          this->field_F503[12] = v14;
+          this->field_F503[13] = v14;
         } else {
-          this->_15[36] = v14;
-          this->_15[37] = v14;
-          this->_15[59] = v14;
+          this->field_F503[0] = v14;
+          this->field_F503[1] = v14;
+          this->field_F503[23] = v14;
         }
       } else {
-        memset(&this->_15[4 * v17 + 36], v14, 4u);
+        memset(&this->field_F503[4 * v17], v14, 4u);
       }
     }
   }
   int v12 = 24;
   while(v12 > 0) {
     for(int i = 0; i < 24; ++i) {
-      if(this->_15[i + 36] == -1) {
+      if(this->field_F503[i] == -1) {
         int v6 = (i + 1) % 24;
         int v8 = (i + 23) % 24;
-        if(this->_15[(i + 1) % 24 + 36] < 0 || this->_15[v6 + 36] > 7) {
-          if(this->_15[v8 + 36] >= 0 && this->_15[v8 + 36] <= 7)
-            this->_15[i + 36] = this->_15[v8 + 36] + 10;
+        if(this->field_F503[(i + 1) % 24] < 0 || this->field_F503[v6] > 7) {
+          if(this->field_F503[v8] >= 0 &&  this->field_F503[v8] <= 7)
+            this->field_F503[i] = this->field_F503[v8] + 10;
         } else {
-          this->_15[i + 36] = this->_15[v6 + 36] + 10;
+           this->field_F503[i] = this->field_F503[v6] + 10;
         }
       }
     }
     v12 = 0;
     for(int i = 0; i < 24; ++i) {
-      if(this->_15[i + 36] < 10) {
-        if(this->_15[i + 36] == -1)
+      if(this->field_F503[i] < 10) {
+        if(this->field_F503[i] == -1)
           ++v12;
       } else {
-        this->_15[i + 36] -= 10;
+        this->field_F503[i] -= 10;
       }
     }
   }

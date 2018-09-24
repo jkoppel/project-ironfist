@@ -162,14 +162,20 @@ public:
   int field_F373;
   int field_F377[2];
   int limitCreature[2][20];
-  int field_F41F;
-  int field_F423;
+  int field_F41F[2];
   int field_F427[2];
   int field_F42F;
-  char _14[160];
-  int sideCasualtiesTitleTextWidget[2];
-  textWidget *battlefieldCasualtiesTextWidget;
-  char _15[116];
+  int casualtyRelatedTextWidgets[50];
+  int field_F4FB;
+  int field_F4FF;
+  char field_F503[24];
+  int field_F51B;
+  int field_F51F;
+  H2RECT field_F523; // 16
+  char _15[16];
+  int field_F543;
+  int field_F547;
+  int field_F54B[2];
   int field_F553;
   int field_F557;
   char _16[28];
