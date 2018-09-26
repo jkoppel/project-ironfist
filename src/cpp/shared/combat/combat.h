@@ -17,6 +17,8 @@
 
 #define MAX_STACKS 21
 #define NUM_HEXES 117
+#define NUM_COMBAT_FIELD_ROWS 9
+#define NUM_COMBAT_FIELD_COLUMNS 13
 
 enum BRIDGE_STATUS {
   BRIDGE_OPEN = 0x0,
@@ -35,6 +37,20 @@ enum CURSOR_DIRECTION {
   CURSOR_DIRECTION_LEFT = 5,
   CURSOR_DIRECTION_LEFT_UP = 6,
   CURSOR_DIRECTION_UP = 7
+};
+
+enum COMBAT_ICON_INDICES {
+  COMBAT_ICON_IDX_TEXTBAR = 1,
+  COMBAT_ICON_IDX_CATAPULT = 3,
+  COMBAT_ICON_IDX_CASTLE = 5,
+  COMBAT_ICON_IDX_KEEP = 7,
+  COMBAT_ICON_SPELLS = 8,
+  COMBAT_ICON_MISC = 9,
+  COMBAT_ICON_VIEW_ARMY = 10,
+  COMBAT_ICON_MINI_LUCK_MORALE = 11,
+  COMBAT_ICON_SPELL_INF = 12,
+  COMBAT_ICON_MOAT_PART = 13,
+  COMBAT_ICON_MOAT_WHOLE = 14,
 };
 
 #pragma pack(push, 1)
@@ -266,6 +282,7 @@ public:
   void CycleCombatScreen();
   void CycleCombatScreen_orig();
   void DrawBackground();
+  void DrawMoatPart(int row);
 };
 
 extern combatManager* gpCombatManager;

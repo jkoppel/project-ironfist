@@ -762,125 +762,110 @@ void combatManager::CombatMessage(char* msg, int doUpdate, int keepPrevMessage, 
   this->CombatMessage_orig(msg, doUpdate, keepPrevMessage, a5);
 }
 
+void combatManager::DrawMoatPart(int row) {
+  this->combatScreenIcons[COMBAT_ICON_MOAT_PART]->CombatClipDrawToBuffer(0, 0, row, &this->moatPartBounds[row], 0, 0, 0, 0);
+  this->combatGrid[moatCell[row] + 19].DrawOccupant(100, 1);
+  this->combatGrid[moatCell[row]].DrawOccupant(100, 1);
+  this->combatGrid[moatCell[row] + 1].DrawOccupant(100, 1);
+}
+
 void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int delay, int a7, int waitUntilItIsTime)
 {
-  int v8; // ecx@127
-  int v9; // ST50_4@148
-  int v10; // eax@146
-  int offsetX; // [sp+24h] [bp-C4h]@22
-  int offsetY; // [sp+28h] [bp-C0h]@19
-  int offY; // [sp+34h] [bp-B4h]@96
-  int imageIdx; // [sp+38h] [bp-B0h]@96
-  int offX; // [sp+3Ch] [bp-ACh]@96
-  unsigned __int8 v17[7]; // [sp+44h] [bp-A4h]@94
-  Point16 v18[6][4]; // [sp+4Ch] [bp-9Ch]@94
-  int v19; // [sp+ACh] [bp-3Ch]@151
-  int colBound; // [sp+B0h] [bp-38h]@55
-  int v21; // [sp+B4h] [bp-34h]@72
-  int deltaX; // [sp+B8h] [bp-30h]@55
-  int colStart; // [sp+BCh] [bp-2Ch]@55
-  int i; // [sp+C0h] [bp-28h]@7
-  int v25; // [sp+D4h] [bp-14h]@5
-  int l; // [sp+DCh] [bp-Ch]@5
-  int j; // [sp+E0h] [bp-8h]@47
-  int k; // [sp+E4h] [bp-4h]@78
 
-  if ( this->field_F357 || gbNoShowCombat || !this->field_F42F )
+  if(this->field_F357 || gbNoShowCombat || !this->field_F42F)
     return;
   PollSound();
   gpMouseManager->couldBeShowMouse = 0;
-  if ( a3 )
-  {
-    v25 = 0;
-    for ( l = 0; l < 2; ++l )
-    {
-      for ( i = 0; i < 20; ++i )
-      {
-        if ( this->limitCreature[l][i] > 0 )
-        {
-          v25 = 1;
+  if(a3) {
+    int unknownFlag = 0;
+    for(int side = 0; side < 2; side++) {
+      for(int i = 0; i < 20; i++) {
+        if(this->limitCreature[side][i] > 0) {
+          unknownFlag = 1;
           gbComputeExtent = 1;
           gbSaveBiggestExtent = 1;
           gbReturnAfterComputeExtent = 1;
-          this->creatures[l][i].DrawToBuffer(
-            this->combatGrid[this->creatures[l][i].occupiedHex].centerX,
-            this->combatGrid[this->creatures[l][i].occupiedHex].occupyingCreatureBottomY,
-            0);
+
+          army* creature = &this->creatures[side][i];
+          hexcell *occupiedHex = &this->combatGrid[creature->occupiedHex];
+          creature->DrawToBuffer(occupiedHex->centerX, occupiedHex->occupyingCreatureBottomY, 0);
+          
           gbReturnAfterComputeExtent = 0;
           gbComputeExtent = 0;
           gbSaveBiggestExtent = 0;
         }
       }
-    }
-    for ( l = 0; l < 2; ++l )
-    {
-      if ( this->field_F41F[l] )
-      {
-        v25 = 1;
+      if(this->field_F41F[side]) {
+        unknownFlag = 1;
         gbComputeExtent = 1;
         gbSaveBiggestExtent = 1;
         gbReturnAfterComputeExtent = 1;
-        this->heroIcon[l]->CombatClipDrawToBuffer(
-          (unsigned int)l < 1 ? 30 : 610,
-          (unsigned int)l < 1 ? 183 : 148,
-          sCmbtHero[this->heroType[l]].frameIndex[this->heroAnimationType[l]][this->heroAnimationFrameCount[l]],
-          &this->heroBounds[l],
-          1,
-          0,
-          0,
-          0);
+
+        int offsetX = 30;
+        int offsetY = 183;
+        if(side == 0) {
+          offsetX = 610;
+          offsetY = 148;
+        }
+        int type = this->heroType[side];
+        int animType = this->heroAnimationType[side];
+        int animFrameCount = this->heroAnimationFrameCount[side];
+        int frameIdx = sCmbtHero[type].frameIndex[animType][animFrameCount];
+        this->heroIcon[side]->CombatClipDrawToBuffer(offsetX, offsetY, frameIdx, &this->heroBounds[side], 1, 0, 0, 0);
+
         gbReturnAfterComputeExtent = 0;
         gbComputeExtent = 0;
         gbSaveBiggestExtent = 0;
       }
-      if ( this->field_F427[l] )
-      {
-        v25 = 1;
+      if(this->field_F427[side]) {
+        unknownFlag = 1;
         gbComputeExtent = 1;
         gbSaveBiggestExtent = 1;
         gbReturnAfterComputeExtent = 1;
-        if ( l )
-          offsetY = (unsigned int)this->heroes[l]->isCaptain < 1 ? 148 : 135;
-        else
-          offsetY = 183;
-        if ( l )
-          offsetX = (unsigned int)this->heroes[l]->isCaptain < 1 ? 610 : 103;
-        else
+
+        int offsetX = 610;
+        int offsetY = 148;
+        if(side) {          
+          if(this->heroes[side]->isCaptain) {
+            offsetX = 103;
+            offsetY = 135;
+          }
+        } else {
           offsetX = 30;
-        this->heroFlagIcon[l]->CombatClipDrawToBuffer(
-          offsetX,
-          offsetY,
-          this->heroFlagIconIdx[l],
-          &this->heroFlagBounds[l],
-          1,
-          0,
-          0,
-          0);
+          offsetY = 183;
+        }
+        int imageIdx = this->heroFlagIconIdx[side];
+        this->heroFlagIcon[side]->CombatClipDrawToBuffer(offsetX, offsetY, imageIdx, &this->heroFlagBounds[side], 1, 0, 0, 0);
+
         gbReturnAfterComputeExtent = 0;
         gbComputeExtent = 0;
         gbSaveBiggestExtent = 0;
       }
     }
-    if ( a5 || !v25 )
-      goto LABEL_168;
+
+    if(a5 || !unknownFlag) {
+      gpMouseManager->couldBeShowMouse = 1;
+      PollSound();
+      return;
+    }
+
     --giMinExtentX;
     --giMinExtentY;
     ++giMaxExtentX;
     ++giMaxExtentY;
-    if ( giMinExtentX < 0 )
+    if(giMinExtentX < 0)
       giMinExtentX = 0;
-    if ( giMinExtentY < 0 )
+    if(giMinExtentY < 0)
       giMinExtentY = 0;
-    if ( giMaxExtentX > 639 )
+    if(giMaxExtentX > 639)
       giMaxExtentX = 639;
-    if ( giMaxExtentY > 442 )
+    if(giMaxExtentY > 442)
       giMaxExtentY = 442;
   }
-  if ( a7 )
-  {
-    if ( this->zeroedAfterAnimatingDeathAndHolySpells )
-    {
-      if ( a3 || a4 || gbLimitToExtent )
+
+  if(a7) {
+    if(this->zeroedAfterAnimatingDeathAndHolySpells) {
+      if(a3 || a4 || gbLimitToExtent)
         this->probablyBitmapForCombatScreen->CopyTo(
           gpWindowManager->screenBuffer,
           giMinExtentX,
@@ -890,357 +875,225 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
           giMaxExtentX - giMinExtentX + 1,
           giMaxExtentY - giMinExtentY + 1);
       else
-        this->probablyBitmapForCombatScreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, 640u, 443);
-    }
-    else
-    {
+        this->probablyBitmapForCombatScreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, 640, 443);
+    } else {
       this->DrawBackground();
     }
   }
-  if ( a3 )
-  {
+
+  if(a3) {
     gbLimitToExtent = 1;
     gbComputeExtent = 1;
   }
-  for ( j = 0; j < 9; ++j )
-  {
-    if ( j == 1 && this->heroes[1] )
-    {
-      this->heroIcon[1]->CombatClipDrawToBuffer(
-        (unsigned int)this->heroes[1]->isCaptain < 1 ? 610 : 103,
-        (unsigned int)this->heroes[1]->isCaptain < 1 ? 148 : 0x87u,
-        sCmbtHero[this->heroType[1]].frameIndex[this->heroAnimationType[1]][this->heroAnimationFrameCount[1]],
-        &this->heroBounds[1],
-        1,
-        0,
-        0,
-        0);
-      this->heroFlagIcon[1]->CombatClipDrawToBuffer(
-        610,
-        148,
-        this->heroFlagIconIdx[1],
-        &this->heroFlagBounds[1],
-        1,
-        0,
-        0,
-        0);
-    }
-    if ( j == 2 && this->heroes[0] )
-    {
-      this->heroIcon[0]->CombatClipDrawToBuffer(
-        30,
-        183,
-        sCmbtHero[this->heroType[0]].frameIndex[this->heroAnimationType[0]][this->heroAnimationFrameCount[0]],
-        this->heroBounds,
-        0,
-        0,
-        0,
-        0);
-      this->heroFlagIcon[0]->CombatClipDrawToBuffer(
-        30,
-        183,
-        this->heroFlagIconIdx[0],
-        this->heroFlagBounds,
-        0,
-        0,
-        0,
-        0);
-    }
-    colStart = 1;
-    colBound = 12;
-    deltaX = 1;
-    if ( this->isCastleBattle && j >= 5 )
-    {
-      colStart = 11;
-      colBound = 0;
-      deltaX = -1;
-    }
-    if ( this->isCastleBattle && j == 7 )
-      this->combatScreenIcons[3]->CombatClipDrawToBuffer(
-        22,
-        390,
-        this->probablyCatapultImgIdx[0],
-        &this->catapultBounds,
-        0,
-        0,
-        0,
-        0);
-    if ( this->isCastleBattle && j == 4 && this->drawBridgePosition != 4 )
-      this->combatScreenIcons[5]->CombatClipDrawToBuffer(
-        0,
-        0,
-        this->drawBridgePosition + 21,
-        &this->drawbridgeBounds,
-        0,
-        0,
-        0,
-        0);
-    if ( this->isCastleBattle && j == 5 && !this->drawBridgePosition )
-      this->combatScreenIcons[5]->CombatClipDrawToBuffer(0, 0, 25, &this->field_F303, 0, 0, 0, 0);
-    if ( this->isCastleBattle && j == 6 )
-      this->combatScreenIcons[5]->CombatClipDrawToBuffer(
-        0,
-        0,
-        (unsigned int)this->ballistaDestroyed < 1 ? 20 : 26,
-        &this->ballistaBounds,
-        0,
-        0,
-        0,
-        0);
-    v21 = 0;
-    if ( this->isCastleBattle && this->wallStatus[3] != 2 && this->wallStatus[3] != 6 )
-    {
-      v21 = 1;
-      for ( l = 0; l < 4; ++l )
-      {
-        this->combatGrid[114].DrawOccupant(l, 0);
-        this->combatGrid[115].DrawOccupant(l, 0);
+
+  for(int row = 0; row < NUM_COMBAT_FIELD_ROWS; row++) {
+    // Draw heroes with flags
+    if(row == 1 && this->heroes[1]) {
+      int offsetX = 610;
+      int offsetY = 148;
+      if(!this->heroes[1]->isCaptain) {
+        offsetX = 103;
+        offsetY = 135;
       }
+      int type = this->heroType[1];
+      int animType = this->heroAnimationType[1];
+      int animFrameCount = this->heroAnimationFrameCount[1];
+      int frameIdx = sCmbtHero[type].frameIndex[animType][animFrameCount];
+
+      this->heroIcon[1]->CombatClipDrawToBuffer(offsetX, offsetY, frameIdx, &this->heroBounds[1], 1, 0, 0, 0);
+      this->heroFlagIcon[1]->CombatClipDrawToBuffer(610, 148, this->heroFlagIconIdx[1], &this->heroFlagBounds[1], 1, 0, 0, 0);
     }
-    for ( k = colStart; k != colBound; k += deltaX )
-      this->combatGrid[13 * j + k].DrawLowerDeadOccupants();
-    for ( k = colStart; k != colBound; k += deltaX )
-      this->combatGrid[13 * j + k].DrawUpperDeadOccupant();
-    for ( l = 0; l < 4; ++l )
-    {
-      if ( l == 1 )
-      {
-        for ( k = colStart; k != colBound; k += deltaX )
-        {
-          if ( this->combatGrid[13 * j + k].combatObjIdx != -1 )
-            this->combatGrid[13 * j + k].DrawObstacle();
+    if(row == 2 && this->heroes[0]) {
+      int type = this->heroType[0];
+      int animType = this->heroAnimationType[0];
+      int animFrameCount = this->heroAnimationFrameCount[0];
+      int frameIdx = sCmbtHero[type].frameIndex[animType][animFrameCount];
+
+      this->heroIcon[0]->CombatClipDrawToBuffer(30, 183, frameIdx, this->heroBounds, 0, 0, 0, 0);
+      this->heroFlagIcon[0]->CombatClipDrawToBuffer(30, 183, this->heroFlagIconIdx[0], this->heroFlagBounds, 0, 0, 0, 0);
+    }
+
+    // Drawing catapult, bridge parts and ballista
+    int colStart = 1;
+    int colBound = 12;
+    int deltaX = 1;
+    int unknownFlag = 0;
+    if(this->isCastleBattle) {
+      if(row >= 5) {
+        colStart = 11;
+        colBound = 0;
+        deltaX = -1;
+      }
+      if(row == 7)
+        this->combatScreenIcons[COMBAT_ICON_IDX_CATAPULT]->CombatClipDrawToBuffer(22, 390, this->probablyCatapultImgIdx[0], &this->catapultBounds, 0, 0, 0, 0);
+      if(row == 4 && this->drawBridgePosition != 4)
+        this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(0, 0, this->drawBridgePosition + 21, &this->drawbridgeBounds, 0, 0, 0, 0);
+      if(row == 5 && !this->drawBridgePosition)
+        this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(0, 0, 25, &this->field_F303, 0, 0, 0, 0);
+      if(row == 6) {
+        int imageIdx = 26;
+        if(this->ballistaDestroyed)
+          imageIdx = 20;
+        this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(0, 0, imageIdx, &this->ballistaBounds, 0, 0, 0, 0);
+      }
+      if(this->wallStatus[3] != 2 && this->wallStatus[3] != 6) {
+        unknownFlag = 1;
+        for(int p = 0; p < 4; p++) {
+          this->combatGrid[114].DrawOccupant(p, 0);
+          this->combatGrid[115].DrawOccupant(p, 0);
         }
       }
-      for ( k = colStart; k != colBound; k += deltaX )
-      {
-        v18[0][0].x = 443;
-        v18[0][0].y = 153;
-        v18[0][1].x = 399;
-        v18[0][1].y = 237;
-        v18[0][2].x = 399;
-        v18[0][2].y = 321;
-        v18[0][3].x = 443;
-        v18[0][3].y = 405;
-        v18[1][0].x = 443;
-        v18[1][0].y = 153;
-        v18[1][1].x = 399;
-        v18[1][1].y = 237;
-        v18[1][2].x = 399;
-        v18[1][2].y = 321;
-        v18[1][3].x = 443;
-        v18[1][3].y = 405;
-        v18[2][0].x = 443;
-        v18[2][0].y = 153;
-        v18[2][1].x = 399;
-        v18[2][1].y = 237;
-        v18[2][2].x = 399;
-        v18[2][2].y = 321;
-        v18[2][3].x = 443;
-        v18[2][3].y = 405;
-        v18[3][0].x = 443;
-        v18[3][0].y = 153;
-        v18[3][1].x = 399;
-        v18[3][1].y = 237;
-        v18[3][2].x = 399;
-        v18[3][2].y = 321;
-        v18[3][3].x = 443;
-        v18[3][3].y = 405;
-        v18[4][0].x = 443;
-        v18[4][0].y = 153;
-        v18[4][1].x = 399;
-        v18[4][1].y = 237;
-        v18[4][2].x = 399;
-        v18[4][2].y = 321;
-        v18[4][3].x = 443;
-        v18[4][3].y = 405;
-        v18[5][0].x = 443;
-        v18[5][0].y = 153;
-        v18[5][1].x = 399;
-        v18[5][1].y = 237;
-        v18[5][2].x = 399;
-        v18[5][2].y = 321;
-        v18[5][3].x = 443;
-        v18[5][3].y = 405;
-        v17[0] = 0;
-        v17[1] = 4;
-        v17[2] = 8;
-        v17[3] = 23;
-        v17[4] = 27;
-        v17[5] = 35;
-        v17[6] = 31;
-        if ( this->isCastleBattle && !l )
-        {
-          imageIdx = 0;
-          offX = 0;
-          offY = 0;
-          switch ( k + 13 * j )
-          {
+    }
+
+    // Draw dead creatures
+    for(int i = colStart; i != colBound; i += deltaX) {
+      int hexIdx = NUM_COMBAT_FIELD_COLUMNS * row + i;
+      this->combatGrid[hexIdx].DrawLowerDeadOccupants();
+    }
+    for(int i = colStart; i != colBound; i += deltaX) {
+      int hexIdx = NUM_COMBAT_FIELD_COLUMNS * row + i;
+      this->combatGrid[hexIdx].DrawUpperDeadOccupant();
+    }
+
+    for (int maybeLayerNum = 0; maybeLayerNum < 4; maybeLayerNum++) {
+      // Draw unknown obstacles?
+      if(maybeLayerNum == 1) {
+        for(int i = colStart; i != colBound; i += deltaX) {
+          int hexIdx = NUM_COMBAT_FIELD_COLUMNS * row + i;
+          if(this->combatGrid[hexIdx].combatObjIdx != -1)
+            this->combatGrid[hexIdx].DrawObstacle();
+        }
+      }
+
+      // Drawing castle walls and turrets
+      for(int i = colStart; i != colBound; i += deltaX) {
+        int hexIdx = NUM_COMBAT_FIELD_COLUMNS * row + i;
+        if(this->isCastleBattle && maybeLayerNum == 0) {
+          int imageIdx = 0;
+          int offX = 0;
+          int offY = 0;
+          const Point16 turretPos[4] = { {443,153},{399,237},{399,321},{443,405} };
+          int wallImageOffset[7] = { 0,4,8,23,27,35,31 };
+          switch(hexIdx) {
             case 9:
-              imageIdx = v17[this->wallStatus[0]] + 5;
+              imageIdx = wallImageOffset[this->wallStatus[0]] + 5;
               break;
             case 34:
-              imageIdx = v17[this->wallStatus[1]] + 6;
+              imageIdx = wallImageOffset[this->wallStatus[1]] + 6;
               break;
             case 86:
-              imageIdx = v17[this->wallStatus[2]] + 7;
+              imageIdx = wallImageOffset[this->wallStatus[2]] + 7;
               break;
             case 113:
-              imageIdx = v17[this->wallStatus[3]] + 8;
+              imageIdx = wallImageOffset[this->wallStatus[3]] + 8;
               break;
             case 22:
               imageIdx = this->turretStatus[0] + 17;
-              offX = *(DWORD *)v18[this->castles[1]->factionID] & 0xFFFF;
-              offY = v18[this->castles[1]->factionID][0].y;
+              offX = turretPos[0].x;
+              offY = turretPos[0].y;
               break;
             case 47:
               imageIdx = this->turretStatus[1] + 17;
-              offX = v18[this->castles[1]->factionID][1].x;
-              offY = v18[this->castles[1]->factionID][1].y;
+              offX = turretPos[1].x;
+              offY = turretPos[1].y;
               break;
             case 73:
               imageIdx = this->turretStatus[2] + 17;
-              offX = v18[this->castles[1]->factionID][2].x;
-              offY = v18[this->castles[1]->factionID][2].y;
+              offX = turretPos[2].x;
+              offY = turretPos[2].y;
               break;
             case 100:
               imageIdx = this->turretStatus[3] + 17;
-              offX = v18[this->castles[1]->factionID][3].x;
-              offY = v18[this->castles[1]->factionID][3].y;
+              offX = turretPos[3].x;
+              offY = turretPos[3].y;
               break;
             case 59:
-              if ( this->drawBridgePosition != 3 )
+              if(this->drawBridgePosition != 3)
                 imageIdx = 4;
               break;
             default:
               break;
           }
-          if ( imageIdx )
-            this->combatScreenIcons[5]->CombatClipDrawToBuffer(
-              offX,
-              offY,
-              imageIdx,
-              (H2RECT *)((char *)&this->combatGrid[13 * j].drawingBounds + 98 * k),
-              0,
-              0,
-              0,
-              0);
+          if(imageIdx) {
+            H2RECT *rect = (H2RECT *)((char *)&this->combatGrid[NUM_COMBAT_FIELD_COLUMNS * row].drawingBounds + 98 * i);
+            this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(offX, offY, imageIdx, rect, 0, 0, 0, 0);
+          }
         }
-        if ( !v21 || k + 13 * j != 114 && k + 13 * j != 115 )
-          this->combatGrid[13 * j + k].DrawOccupant(l, 0);
+        if(!unknownFlag || hexIdx != 114 && hexIdx != 115)
+          this->combatGrid[hexIdx].DrawOccupant(maybeLayerNum, 0);
       }
     }
     
-    if ( this->isCastleBattle
-      && (*((char*)&(this->castles[1]->buildingsBuiltFlags)+1)) & 0x10
-      && (j != 4 || this->drawBridgePosition == 4) )
-    {
-      if ( moatCell[j] != giWalkingTo
-        && moatCell[j] != giWalkingTo2
-        && moatCell[j] != giWalkingFrom
-        && moatCell[j] != giWalkingFrom2 )
-      {
-        if ( this->combatGrid[moatCell[j]].unitOwner != -1 )
-          goto LABEL_150;
-      }
-      else
-      {
-        if ( abs(giWalkingTo - giWalkingFrom) <= 1 )
-          goto LABEL_150;
-        v8 = giWalkingFrom / 13;
-        if ( giWalkingFrom / 13 <= giWalkingTo / 13 )
-          v8 = giWalkingTo / 13;
-        if ( v8 == j )
-        {
-          if ( gpCombatManager->drawBridgePosition == 4 || giWalkingTo / 13 != 4 && giWalkingFrom / 13 != 4 )
-          {
-            v10 = giWalkingFrom;
-            if ( giWalkingFrom <= giWalkingTo )
-              v10 = giWalkingTo;
-            v9 = giWalkingYMod + this->combatGrid[giWalkingFrom].occupyingCreatureBottomY - 9;
-            IconToBitmap(
-              this->combatScreenIcons[14],
-              gpWindowManager->screenBuffer,
-              0,
-              0,
-              0,
-              1,
-              0,
-              v9,
-              0x280u,
-              this->combatGrid[v10].occupyingCreatureBottomY + 5 - v9 + 1,
-              0);
-          }
-          else if ( (giWalkingTo / 13 != 4 || giWalkingFrom / 13 != 3) && (giWalkingTo / 13 != 3 || giWalkingFrom / 13 != 4) )
-          {
-            if ( giWalkingFrom <= giWalkingTo )
-            {
-              if ( moatCell[j] == giWalkingTo || moatCell[j] == giWalkingTo2 )
-              {
-LABEL_150:
-                this->combatScreenIcons[13]->CombatClipDrawToBuffer(
-                  0,
-                  0,
-                  j,
-                  &this->moatPartBounds[j],
-                  0,
-                  0,
-                  0,
-                  0);
-                this->combatGrid[moatCell[j] + 19].DrawOccupant(100, 1);
-                this->combatGrid[moatCell[j]].DrawOccupant(100, 1);
-                this->combatGrid[moatCell[j] + 1].DrawOccupant(100, 1);
-                goto LABEL_151;
+    // Drawing moat
+    if(this->isCastleBattle && this->castles[1]->buildingsBuiltFlags & BUILDING_MOAT && (row != 4 || this->drawBridgePosition == 4)) {
+      /*&& (*((char*)&(this->castles[1]->buildingsBuiltFlags) + 1)) & 0x10*/
+      if(moatCell[row] != giWalkingTo
+        && moatCell[row] != giWalkingTo2
+        && moatCell[row] != giWalkingFrom
+        && moatCell[row] != giWalkingFrom2) {
+        if(this->combatGrid[moatCell[row]].unitOwner != -1) {
+          this->DrawMoatPart(row);
+          continue;
+        }
+      } else {
+        if(abs(giWalkingTo - giWalkingFrom) <= 1) {
+          this->DrawMoatPart(row);
+          continue;
+        }
+        int maybeAffectedRow = giWalkingFrom / NUM_COMBAT_FIELD_COLUMNS;
+        if(maybeAffectedRow <= giWalkingTo / NUM_COMBAT_FIELD_COLUMNS)
+          maybeAffectedRow = giWalkingTo / NUM_COMBAT_FIELD_COLUMNS;
+        if(maybeAffectedRow == row) {
+          if(gpCombatManager->drawBridgePosition == 4 || giWalkingTo / NUM_COMBAT_FIELD_COLUMNS != 4 && giWalkingFrom / NUM_COMBAT_FIELD_COLUMNS != 4) {
+            int destHex = giWalkingFrom;
+            if(giWalkingFrom <= giWalkingTo)
+              destHex = giWalkingTo;
+            int unknownOffsetY = giWalkingYMod + this->combatGrid[giWalkingFrom].occupyingCreatureBottomY - 9;
+            IconToBitmap(this->combatScreenIcons[COMBAT_ICON_MOAT_WHOLE], gpWindowManager->screenBuffer, 0, 0, 0, 1, 0, unknownOffsetY, 0x280u, this->combatGrid[destHex].occupyingCreatureBottomY + 5 - unknownOffsetY + 1, 0);
+          } else if((giWalkingTo / NUM_COMBAT_FIELD_COLUMNS != 4 || giWalkingFrom / NUM_COMBAT_FIELD_COLUMNS != 3) && (giWalkingTo / NUM_COMBAT_FIELD_COLUMNS != 3 || giWalkingFrom / NUM_COMBAT_FIELD_COLUMNS != 4)) {
+            if(giWalkingFrom <= giWalkingTo) {
+              if(moatCell[row] == giWalkingTo || moatCell[row] == giWalkingTo2) {
+                this->DrawMoatPart(row);
+                continue;
               }
-            }
-            else if ( moatCell[j] == giWalkingFrom || moatCell[j] == giWalkingFrom2 )
-            {
-              goto LABEL_150;
+            } else if(moatCell[row] == giWalkingFrom || moatCell[row] == giWalkingFrom2) {
+              this->DrawMoatPart(row);
+              continue;
             }
           }
         }
       }
     }
-LABEL_151:
-    v19 = 0;
   }
   
-  if ( *(DWORD *)&combatArmyInfoLevel > 0 && this->field_F543 != -1 )
-  {
+  if(combatArmyInfoLevel > 0 && this->field_F543 != -1) {
     this->DrawSmallView(0, 0);
     this->DrawSmallView(1, 0);
   }
+
   gpMouseManager->couldBeShowMouse = 1;
   PollSound();
-  if ( a3 || a4 )
-  {
+  if(a3 || a4) {
     gbLimitToExtent = 0;
     gbComputeExtent = 0;
-    if ( waitUntilItIsTime )
+    if(waitUntilItIsTime)
       DelayTil(&glTimers);
     glTimers = (signed __int64)((double)KBTickCount() + (double)delay * gfCombatSpeedMod[giCombatSpeed]);
     gbFullCombatScreenDrawn = 0;
-    if ( redrawAll == 1 )
-    {
-      if ( giMaxExtentY > 442 )
+    if(redrawAll == 1) {
+      if(giMaxExtentY > 442)
         giMaxExtentY = 442;
       gbEnlargeScreenBlit = 0;
-      gpWindowManager->UpdateScreenRegion(
-        giMinExtentX,
-        giMinExtentY,
-        giMaxExtentX - giMinExtentX + 1,
-        giMaxExtentY - giMinExtentY + 1);
+      gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
       gbEnlargeScreenBlit = 1;
     }
-  }
-  else if ( redrawAll == 1 )
-  {
-    if ( waitUntilItIsTime )
+  } else if(redrawAll == 1) {
+    if(waitUntilItIsTime)
       DelayTil(&glTimers);
     gbFullCombatScreenDrawn = 1;
     glTimers = (signed __int64)((double)KBTickCount() + (double)delay * gfCombatSpeedMod[giCombatSpeed]);
     this->UpdateCombatArea();
   }
-LABEL_168:
   gpMouseManager->couldBeShowMouse = 1;
   PollSound();
 }

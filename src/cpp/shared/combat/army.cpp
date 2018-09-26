@@ -2599,7 +2599,7 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
     int inRedrawZone;
     if(giSpellEffectShowType && isIdle && this->numActiveEffects > 0) {
       if(giSpellEffectShowType == 1) {
-        inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 11, &this->stackSizeDispBounds, 0, 237, 0, 0);
+        inRedrawZone = gpCombatManager->combatScreenIcons[COMBAT_ICON_IDX_TEXTBAR]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 11, &this->stackSizeDispBounds, 0, 237, 0, 0);
       } else {
         int numImageIdx = 12;
         if(numPosEffects <= 0 || numNegEffects <= 0) {
@@ -2608,10 +2608,10 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
         } else {
           numImageIdx = 13;
         }
-        inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, numImageIdx, &this->stackSizeDispBounds, 0, 0, 0, 0);
+        inRedrawZone = gpCombatManager->combatScreenIcons[COMBAT_ICON_IDX_TEXTBAR]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, numImageIdx, &this->stackSizeDispBounds, 0, 0, 0, 0);
       }
     } else {
-      inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 10, &this->stackSizeDispBounds, 0, 0, 0, 0);
+      inRedrawZone = gpCombatManager->combatScreenIcons[COMBAT_ICON_IDX_TEXTBAR]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 10, &this->stackSizeDispBounds, 0, 0, 0, 0);
     }
     if(inRedrawZone) {
       int quantity;
