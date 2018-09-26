@@ -764,7 +764,7 @@ void combatManager::CombatMessage(char* msg, int doUpdate, int keepPrevMessage, 
 
 void combatManager::DrawMoatPart(int row) {
   this->combatScreenIcons[COMBAT_ICON_MOAT_PART]->CombatClipDrawToBuffer(0, 0, row, &this->moatPartBounds[row], 0, 0, 0, 0);
-  this->combatGrid[moatCell[row] + 19].DrawOccupant(100, 1);
+  this->combatGrid[moatCell[row] - 1].DrawOccupant(100, 1);
   this->combatGrid[moatCell[row]].DrawOccupant(100, 1);
   this->combatGrid[moatCell[row] + 1].DrawOccupant(100, 1);
 }
