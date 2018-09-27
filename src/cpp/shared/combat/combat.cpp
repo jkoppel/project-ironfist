@@ -1118,7 +1118,7 @@ void combatManager::CycleCombatScreen() {
   int maxFrames = wallImg->numSprites;
   for(auto &wall : gIronfistExtra.combat.spell.fireBombWalls) {
     wall.currentFrame++;
-    if(wall.currentFrame > maxFrames) {
+    if(wall.currentFrame >= maxFrames) {
       wall.currentFrame = 0;
     }
   }
