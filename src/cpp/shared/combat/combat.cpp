@@ -261,6 +261,7 @@ void combatManager::SpellMessage(int spell, int hex) {
       case SPELL_METEOR_SHOWER:
       case SPELL_COLD_RING:
       case SPELL_PLASMA_CONE:
+      case SPELL_FIRE_BOMB:
         sprintf(gText, "Cast %s", gSpellNames[spell]);
         break;
       case SPELL_TELEPORT: {
@@ -436,6 +437,16 @@ void combatManager::ResetRound() {
             if(ptr->creatureIdx >= 0 && CreatureHasAttribute(ptr->creatureIdx, ASTRAL_DODGE))
                 gIronfistExtra.combat.stack.abilityCounter[ptr][ASTRAL_DODGE] = 1;
         }
+    }
+
+    auto it = gIronfistExtra.combat.spell.fireBombWalls.begin();
+    while(it != gIronfistExtra.combat.spell.fireBombWalls.end()) {
+      it->turnsLeft--;
+      if(it->turnsLeft < 0) {
+        it = gIronfistExtra.combat.spell.fireBombWalls.erase(it);
+      }
+      else
+        ++it;
     }
 }
 
