@@ -977,6 +977,15 @@ int army::WalkTo(int hex) {
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
         }
       } else {
+        // Burning the creature
+        for(auto wallHex : gIronfistExtra.combat.spell.fireBombWalls) {
+          if(wallHex.hexIdx == initialHex) {
+            this->SetSpellInfluence(EFFECT_BURN, 2);
+            //this->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
+            //this->PowEffect(-1, 1, -1, -1);
+            // Show a message here
+          }
+        }
         this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
       }
       traveledHexes++;
@@ -1816,7 +1825,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
       army *creature = &gpCombatManager->creatures[i][j];
       creature->field_3 = -1;
       creature->field_4 = -1;
-      creature->effectStrengths[15] = 0;
+      //creature->effectStrengths[15] = 0;
       if (creature->damageTakenDuringSomeTimePeriod || creature->mightBeIsAttacking) {
         if (creature->mightBeIsAttacking) {
           creature->field_3 = this->mightBeAttackAnimIdx;
@@ -1862,7 +1871,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
           }
         }
         if (creature->field_3 != -1
-          && !creature->effectStrengths[15]
+    //      && !creature->effectStrengths[15]
           && (creature->mightBeIsAttacking
             || creature->field_5 >= maxAnimLen - k - 1
             || maxToAnimLen && maxToAnimLen - 1 <= k
@@ -2002,10 +2011,10 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     return;
 
   char attackerAtk = this->creature.attack;
-  if(this->effectStrengths[EFFECT_DAZE])
+  if(this->effectStrengths[EFFECT_DAZE] || this->effectStrengths[EFFECT_BURN])
     attackerAtk /= 2;
   char targetDef = targ->creature.defense;
-  if(targ->effectStrengths[EFFECT_DAZE])
+  if(targ->effectStrengths[EFFECT_DAZE] || this->effectStrengths[EFFECT_BURN])
     targetDef /= 2;
 
   int attackDiff = attackerAtk - targetDef;
@@ -2357,6 +2366,7 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
       break;
     case EFFECT_SHADOW_MARK:
     case EFFECT_DAZE:
+    case EFFECT_BURN:
       break;
     case EFFECT_FORCE_SHIELD:
       gIronfistExtra.combat.stack.forceShieldHP[this] = gMonsterDatabase[this->creatureIdx].hp;
@@ -2388,6 +2398,7 @@ void army::CancelIndividualSpell(int effect) {
       break;
     case EFFECT_SHADOW_MARK:
     case EFFECT_DAZE:
+    case EFFECT_BURN:
       break;
     case EFFECT_FORCE_SHIELD:
       gIronfistExtra.combat.stack.forceShieldHP[this] = 0;
