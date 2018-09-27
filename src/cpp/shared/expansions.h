@@ -8,9 +8,20 @@ class stackExtra {
         std::map<army*, int> forceShieldHP;
 };
 
+class spellExtra {
+    struct FireBombWallHex {
+        int hexIdx;
+        int turnsLeft;
+        int currentFrame;
+    };
+    public:
+        std::vector<FireBombWallHex> fireBombWalls;
+};
+
 class combatExtra {
     public:
         stackExtra stack;
+        spellExtra spell;
 };
 
 class ironfistExtra {

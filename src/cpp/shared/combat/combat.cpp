@@ -425,6 +425,7 @@ void combatManager::SetupCombat(int arg0, int arg1, hero *h1, armyGroup *a1, tow
     gIronfistExtra.combat.stack.abilityCounter.clear();
     gIronfistExtra.combat.stack.abilityNowAnimating.clear();
     gIronfistExtra.combat.stack.forceShieldHP.clear();
+    gIronfistExtra.combat.spell.fireBombWalls.clear();
 }
 
 void combatManager::ResetRound() {
@@ -886,6 +887,17 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
     gbComputeExtent = 1;
   }
 
+  // Drawing Fire Bomb spell walls if any
+  icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
+  for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
+    hexcell *hex = &this->combatGrid[wall.hexIdx];
+    int drawX = hex->leftX;
+    int drawY = hex->occupyingCreatureBottomY;
+    int frame = wall.currentFrame;
+    H2RECT rect;
+    wallImg->CombatClipDrawToBuffer(drawX, drawY, frame, &rect, 0, 0, 0, 0);
+  }
+
   for(int row = 0; row < NUM_COMBAT_FIELD_ROWS; row++) {
     // Draw heroes with flags
     if(row == 1 && this->heroes[1]) {
@@ -1100,4 +1112,14 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
 
 void combatManager::CycleCombatScreen() {
   this->CycleCombatScreen_orig();
+
+  // Animating Fire Bomb spell walls
+  icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
+  int maxFrames = wallImg->numSprites;
+  for(auto &wall : gIronfistExtra.combat.spell.fireBombWalls) {
+    wall.currentFrame++;
+    if(wall.currentFrame > maxFrames) {
+      wall.currentFrame = 0;
+    }
+  }
 }
