@@ -1136,3 +1136,23 @@ void combatManager::CycleCombatScreen() {
     }
   }
 }
+
+void combatManager::CheckBurnCreature(army *stack) {
+  for(auto wallHex : gIronfistExtra.combat.spell.fireBombWalls) {
+      if(wallHex.hexIdx == stack->occupiedHex) {
+        stack->SetSpellInfluence(EFFECT_BURN, 2);
+        stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
+        stack->Damage(20, SPELL_FIRE_BOMB);
+        int minExtentX = giMinExtentX;
+        int minExtentY = giMinExtentY;
+        int maxExtentX = giMaxExtentX;
+        int maxExtentY = giMaxExtentY;
+        stack->PowEffect(-1, 1, -1, -1);
+        giMinExtentX = minExtentX;
+        giMinExtentY = minExtentY;
+        giMaxExtentX = maxExtentX;
+        giMaxExtentY = maxExtentY;
+        // Show a message here
+      }
+    }
+}

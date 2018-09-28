@@ -782,6 +782,7 @@ void army::Walk(signed int dir, int last, int notFirst) {
     this->animationFrame = 0;
     gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
   }
+  gpCombatManager->CheckBurnCreature(this);
 }
 
 int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
@@ -977,15 +978,6 @@ int army::WalkTo(int hex) {
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
         }
       } else {
-        // Burning the creature
-        for(auto wallHex : gIronfistExtra.combat.spell.fireBombWalls) {
-          if(wallHex.hexIdx == initialHex) {
-            this->SetSpellInfluence(EFFECT_BURN, 2);
-            //this->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
-            //this->PowEffect(-1, 1, -1, -1);
-            // Show a message here
-          }
-        }
         this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
       }
       traveledHexes++;
@@ -1287,6 +1279,8 @@ int army::FlyTo(int hexIdx) {
     if(CreatureHasAttribute(this->creatureIdx, CHARGER))
         RevertChargingMoveAnimation();
     gpCombatManager->TestRaiseDoor();
+
+    gpCombatManager->CheckBurnCreature(this);
     return 1;
   }
   return 0;

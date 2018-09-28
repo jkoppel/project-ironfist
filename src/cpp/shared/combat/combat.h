@@ -283,6 +283,7 @@ public:
   void CycleCombatScreen_orig();
   void DrawBackground();
   void DrawMoatPart(int row);
+  void CheckBurnCreature(army *stack);
 };
 
 extern combatManager* gpCombatManager;
