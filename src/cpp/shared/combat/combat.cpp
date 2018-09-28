@@ -875,6 +875,8 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
       giMaxExtentY = 442;
   }
 
+  giMinExtentY = 0;
+  giMaxExtentY = 442;
   if(a7) {
     if(this->zeroedAfterAnimatingDeathAndHolySpells) {
       if(a3 || a4 || gbLimitToExtent)
@@ -902,8 +904,8 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
   icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
   for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
     hexcell *hex = &this->combatGrid[wall.hexIdx];
-    int drawX = hex->leftX;
-    int drawY = hex->occupyingCreatureBottomY;
+    int drawX = hex->centerX;
+    int drawY = hex->topY;
     int frame = wall.currentFrame;
     H2RECT rect;
     wallImg->CombatClipDrawToBuffer(drawX, drawY, frame, &rect, 0, 0, 0, 0);
