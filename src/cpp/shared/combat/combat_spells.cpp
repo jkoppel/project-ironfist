@@ -1263,6 +1263,9 @@ void combatManager::Fireball(int hexIdx, int spell) {
       case SPELL_PLASMA_CONE:
         sprintf(gText, "The plasma cone stream does %d damage.", spellDamage);
         break;
+      case SPELL_FIRE_BOMB:
+        sprintf(gText, "The fire bomb does %d damage.", spellDamage);
+        break;
       default:
          sprintf(gText, "The fireball does %d damage.", spellDamage);
          break;

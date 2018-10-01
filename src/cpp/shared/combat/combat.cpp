@@ -1144,10 +1144,14 @@ void combatManager::CheckBurnCreature(army *stack) {
         // Must be set before using SpellEffect because walking animation frame has a different offset
         stack->animationType = ANIMATION_TYPE_WINCE;
         stack->animationFrame = 0;
-        
         stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
-        stack->Damage(20, SPELL_FIRE_BOMB);
 
+        int creaturesKilled;
+        int burnDamage = 20;
+        burnDamage += SRandom(0, 5);
+        creaturesKilled = stack->Damage(burnDamage, SPELL_FIRE_BOMB);
+
+        // Save and revert graphics variables to avoid crashing for drawing out of bounds data (?)
         int minExtentX = giMinExtentX;
         int minExtentY = giMinExtentY;
         int maxExtentX = giMaxExtentX;
@@ -1157,7 +1161,18 @@ void combatManager::CheckBurnCreature(army *stack) {
         giMinExtentY = minExtentY;
         giMaxExtentX = maxExtentX;
         giMaxExtentY = maxExtentY;
-        // Show a message here
+
+        std::string message;
+        message = "Burning does " + std::to_string(burnDamage) + " damage. ";
+        if(creaturesKilled > 0) {
+          char *targetCreature;
+          if(creaturesKilled <= 1)
+            targetCreature = GetCreatureName(stack->creatureIdx);
+          else
+            targetCreature = GetCreaturePluralName(stack->creatureIdx);
+          message += std::to_string(creaturesKilled) + " " + targetCreature + " " + ((creaturesKilled > 1) ? "perish" : "perishes");
+        }
+        gpCombatManager->CombatMessage((char*)message.c_str(), 1, 1, 0);
       }
     }
 }
