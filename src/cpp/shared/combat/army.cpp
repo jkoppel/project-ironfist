@@ -976,9 +976,13 @@ int army::WalkTo(int hex) {
           }
         } else {
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+          if(this->animationType == ANIMATION_TYPE_DYING)
+            return 0;
         }
       } else {
         this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+        if(this->animationType == ANIMATION_TYPE_DYING)
+          return 0;
       }
       traveledHexes++;
       if(traveledHexes >= this->creature.speed)
@@ -1031,9 +1035,13 @@ int army::AttackTo(int targetHex) {
             break;
           } else {
             this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
+            if(this->animationType == ANIMATION_TYPE_DYING)
+              return 0;
           }
         } else { 
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
+          if(this->animationType == ANIMATION_TYPE_DYING)
+            return 0;
         }
         ++traveledHexes;
         int a3 = i == 1 || this->creature.speed <= traveledHexes;
