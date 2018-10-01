@@ -935,7 +935,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
       int frameIdx = sCmbtHero[type].frameIndex[animType][animFrameCount];
 
       this->heroIcon[0]->CombatClipDrawToBuffer(30, 183, frameIdx, this->heroBounds, 0, 0, 0, 0);
-      this->heroFlagIcon[0]->CombatClipDrawToBuffer(30, 183, this->heroFlagIconIdx[0], this->heroFlagBounds, 0, 0, 0, 0);
+      this->heroFlagIcon[0]->CombatClipDrawToBuffer(30, 183, this->heroFlagIconIdx[0], &this->heroFlagBounds[0], 0, 0, 0, 0);
     }
 
     // Drawing catapult, bridge parts and ballista
