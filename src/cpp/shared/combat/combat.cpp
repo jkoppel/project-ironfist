@@ -1141,8 +1141,13 @@ void combatManager::CheckBurnCreature(army *stack) {
   for(auto wallHex : gIronfistExtra.combat.spell.fireBombWalls) {
       if(wallHex.hexIdx == stack->occupiedHex) {
         stack->SetSpellInfluence(EFFECT_BURN, 2);
+        // Must be set before using SpellEffect because walking animation frame has a different offset
+        stack->animationType = ANIMATION_TYPE_WINCE;
+        stack->animationFrame = 0;
+        
         stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
         stack->Damage(20, SPELL_FIRE_BOMB);
+
         int minExtentX = giMinExtentX;
         int minExtentY = giMinExtentY;
         int maxExtentX = giMaxExtentX;
