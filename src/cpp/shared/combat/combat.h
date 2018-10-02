@@ -17,6 +17,7 @@
 
 #define MAX_STACKS 21
 #define NUM_HEXES 117
+#define HEX_SIZE_IN_PIXELS 43 // Not an exact number because it's actually x:44 y:42
 #define NUM_COMBAT_FIELD_ROWS 9
 #define NUM_COMBAT_FIELD_COLUMNS 13
 

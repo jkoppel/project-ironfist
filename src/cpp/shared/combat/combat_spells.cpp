@@ -979,6 +979,10 @@ static std::vector<int> GetPlasmaConeSpellMask(int fromHex, int direction) {
   return mask;
 }
 
+double GetDistanceBetweenPoints(int fromX, int fromY, int toX, int toY) {
+  return sqrt(pow(fromX - toX, 2) + pow(fromY - toY, 2));
+}
+
 std::vector<int> GetSpellMask(Spell spell, int fromHex, int direction) {
   std::vector<int> mask;
   switch(spell) {
@@ -1024,6 +1028,20 @@ std::vector<int> GetSpellMask(Spell spell, int fromHex, int direction) {
         }
       }
       break;
+    case SPELL_IMPLOSION_GRENADE: {
+      const int SPELL_HEX_RADIUS = 5;
+      double maxDistance = HEX_SIZE_IN_PIXELS * SPELL_HEX_RADIUS - HEX_SIZE_IN_PIXELS / 2;
+      for(int i = 0; i < NUM_HEXES; i++) {
+        if(!gpCombatManager->ValidSpellTarget(spell, i))
+          continue;
+        int toHex = i;
+        hexcell* hexcellFrom = &gpCombatManager->combatGrid[fromHex];
+        hexcell* hexcellTo = &gpCombatManager->combatGrid[toHex];
+        double dist = GetDistanceBetweenPoints(hexcellFrom->centerX, hexcellFrom->otherY2, hexcellTo->centerX, hexcellTo->otherY2);
+        if(dist < maxDistance)
+          mask.push_back(i);
+      }
+    }
     default:
       mask.push_back(fromHex);
   }
