@@ -646,6 +646,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_FIRE_BOMB:
       this->Fireball(hexIdx, SPELL_FIRE_BOMB);
       break;
+    case SPELL_IMPLOSION_GRENADE:
+      this->Fireball(hexIdx, SPELL_IMPLOSION_GRENADE);
+      break;
     default:
       this->DefaultSpell(hexIdx);
       break;
