@@ -43,8 +43,7 @@ extern int bSecondAttack;
 extern signed char gbThisNetHumanPlayer[];
 
 #pragma pack(push, 1)
-struct Point16
-{
+struct Point16 {
   __int16 x;
   __int16 y;
 };

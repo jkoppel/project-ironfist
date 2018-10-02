@@ -781,9 +781,7 @@ void combatManager::DrawMoatPart(int row) {
   this->combatGrid[moatCell[row] + 1].DrawOccupant(100, 1);
 }
 
-void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int delay, int a7, int waitUntilItIsTime)
-{
-
+void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int delay, int a7, int waitUntilItIsTime) {
   if(this->field_F357 || gbNoShowCombat || !this->field_F42F)
     return;
   PollSound();
