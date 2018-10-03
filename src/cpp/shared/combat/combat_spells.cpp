@@ -11,6 +11,7 @@
 #include "expansions.h"
 #include "sound/sound.h"
 
+#include <algorithm>
 #include <set>
 
 extern int castX;
@@ -1275,6 +1276,87 @@ void combatManager::Fireball(int hexIdx, int spell) {
       anyoneDamaged = 1;
     }
   }
+
+  if(spell == SPELL_IMPLOSION_GRENADE) {
+    // Don't do anything with center hex
+    affectedHexes.erase(std::remove(affectedHexes.begin(), affectedHexes.end(), hexIdx), affectedHexes.end());
+
+    // Find creature destination hexes after spell sucking affected creatures to the center
+    std::map<int, int> implosionHexMoveDirections;
+    int rowCentHex = hexIdx / 13;
+    int colCentHex = hexIdx % 13;
+    for(auto affHex : affectedHexes) {
+      int rowAffHex = affHex / 13;
+      int colAffHex = affHex % 13;
+      int rowdiff = rowCentHex - rowAffHex;
+      int coldiff = colCentHex - colAffHex;
+      int resultDir;
+      if(rowdiff < 0) {
+        if(coldiff < 0) {
+          if(abs(coldiff) > abs(rowdiff))
+            resultDir = 4;
+          else
+            resultDir = 5;
+        } else {
+          if(abs(coldiff) > abs(rowdiff))
+            resultDir = 1;
+          else
+            resultDir = 0;
+        }
+      } else {
+        if(coldiff < 0) {
+          if(abs(coldiff) > abs(rowdiff))
+            resultDir = 4;
+          else
+            resultDir = 3;
+        } else {
+          if(abs(coldiff) > abs(rowdiff))
+            resultDir = 1;
+          else
+            resultDir = 2;
+        }
+      }
+      implosionHexMoveDirections[affHex] = GetAdjacentCellIndexNoArmy(affHex, resultDir);
+    }
+
+    // Move every affected creature in the direction of the spell center starting from closest to center
+    hexcell* centerHexcell = &gpCombatManager->combatGrid[hexIdx];
+    for(int size = 1; size <= 5; size++) {
+      double maxDistance = HEX_SIZE_IN_PIXELS * size - HEX_SIZE_IN_PIXELS / 2;
+      auto it = affectedHexes.begin();
+      while(it != affectedHexes.end()) {
+        int affHex = *it;
+        hexcell* movableHexcell = &gpCombatManager->combatGrid[affHex];
+        if(movableHexcell->unitOwner == -1) {
+          it = affectedHexes.erase(it);
+          continue;
+        }
+        double dist = GetDistanceBetweenPoints(centerHexcell->centerX, centerHexcell->otherY2, movableHexcell->centerX, movableHexcell->otherY2);
+        if(dist < maxDistance) {
+          it = affectedHexes.erase(it);
+
+          int destHex = implosionHexMoveDirections[affHex];
+          hexcell *destHexcell = &this->combatGrid[destHex];
+          // check if hex is occupied by something
+          if(destHexcell->isBlocked || destHexcell->unitOwner != -1)
+            continue;
+
+          army *creatureToMove = &this->creatures[movableHexcell->unitOwner][movableHexcell->stackIdx];
+          // Probably needs a better way to move creatures
+          // Needs support for 2hex creatures
+          // Needs animation
+          creatureToMove->occupiedHex = destHex;
+          combatGrid[destHex].stackIdx = movableHexcell->stackIdx;
+          combatGrid[destHex].unitOwner = movableHexcell->unitOwner;
+          combatGrid[affHex].stackIdx = -1;
+          combatGrid[affHex].unitOwner = -1;
+        }
+        else
+          ++it;
+      }
+    }
+  }
+
   if(anyoneDamaged) {
     this->ModifyDamageForArtifacts(&spellDamage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
     switch(spell) {

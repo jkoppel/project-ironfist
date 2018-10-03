@@ -327,4 +327,6 @@ std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX,
 
 #pragma pack(pop)
 
+int __fastcall OppositeDirection(signed int hex);
+
 #endif
