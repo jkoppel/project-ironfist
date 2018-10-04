@@ -1336,20 +1336,92 @@ void combatManager::Fireball(int hexIdx, int spell) {
           it = affectedHexes.erase(it);
 
           int destHex = implosionHexMoveDirections[affHex];
-          hexcell *destHexcell = &this->combatGrid[destHex];
-          // check if hex is occupied by something
-          if(destHexcell->isBlocked || destHexcell->unitOwner != -1)
+          if(destHex == -1)
             continue;
-
+          hexcell *destHexcell = &this->combatGrid[destHex];
           army *creatureToMove = &this->creatures[movableHexcell->unitOwner][movableHexcell->stackIdx];
-          // Probably needs a better way to move creatures
-          // Needs support for 2hex creatures
-          // Needs animation
-          creatureToMove->occupiedHex = destHex;
-          combatGrid[destHex].stackIdx = movableHexcell->stackIdx;
-          combatGrid[destHex].unitOwner = movableHexcell->unitOwner;
-          combatGrid[affHex].stackIdx = -1;
-          combatGrid[affHex].unitOwner = -1;
+          // check if hex is occupied by something
+          if(destHexcell->isBlocked)
+            continue;
+          if(!creatureToMove->CanFit(destHex, 0, 0))
+            continue;
+          if(destHexcell->unitOwner != -1)
+            if(!(movableHexcell->unitOwner == destHexcell->unitOwner && movableHexcell->stackIdx == destHexcell->stackIdx))
+              continue;
+
+          if(creatureToMove->creature.creature_flags & TWO_HEXER) {
+            hexcell *destSecondHexcell;
+            hexcell *movableSecondHexcell;
+            int destHexSecond;
+            int affHexSecond;
+            if(movableHexcell->occupiersOtherHexIsToLeft == 1) {
+              destHexSecond = destHex - 1;
+              affHexSecond = affHex - 1;
+              destSecondHexcell = &this->combatGrid[destHexSecond];
+              movableSecondHexcell = &this->combatGrid[affHexSecond];
+
+              if(destSecondHexcell->isBlocked) 
+                continue;
+              if(destSecondHexcell->unitOwner != -1)
+                if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
+                  continue;
+
+              if(creatureToMove->facingRight) {
+                if(IsOutOfBoundsHex(destHex))
+                  continue;
+                creatureToMove->occupiedHex = destHexSecond;
+              } else {
+                if(IsOutOfBoundsHex(destHexSecond))
+                  continue;
+                creatureToMove->occupiedHex = destHex;
+              }
+            } else {
+              destHexSecond = destHex + 1;
+              affHexSecond = affHex + 1;
+              destSecondHexcell = &this->combatGrid[destHexSecond];
+              movableSecondHexcell = &this->combatGrid[affHexSecond];
+
+              if(destSecondHexcell->isBlocked)
+                continue;
+              if(destSecondHexcell->unitOwner != -1)
+                if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
+                  continue;
+
+              if(creatureToMove->facingRight) {
+                if(IsOutOfBoundsHex(destHex))
+                  continue;
+                creatureToMove->occupiedHex = destHex;
+              } else {
+                if(IsOutOfBoundsHex(destHexSecond))
+                  continue;
+                creatureToMove->occupiedHex = destHexSecond;
+              }
+            }
+            int stackIdx = movableHexcell->stackIdx;
+            movableHexcell->stackIdx = movableSecondHexcell->stackIdx = -1;
+            destHexcell->stackIdx = destSecondHexcell->stackIdx = stackIdx;
+
+            int unitOwner = movableHexcell->unitOwner;
+            movableHexcell->unitOwner = movableSecondHexcell->unitOwner = -1;
+            destHexcell->unitOwner = destSecondHexcell->unitOwner = unitOwner;
+
+            int occupiersOtherHexIsToLeft = movableHexcell->occupiersOtherHexIsToLeft;
+            int occupiersOtherHexIsToLeft2 = movableSecondHexcell->occupiersOtherHexIsToLeft;
+            movableHexcell->occupiersOtherHexIsToLeft = movableSecondHexcell->occupiersOtherHexIsToLeft = -1;
+            destHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft;
+            destSecondHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft2;
+
+            // erase second hex from looping if it was also affected
+            auto itFound = std::find(affectedHexes.begin(), affectedHexes.end(), affHexSecond);
+            if(itFound != affectedHexes.end())
+              it = affectedHexes.erase(itFound);
+          } else {
+            creatureToMove->occupiedHex = destHex;
+            destHexcell->stackIdx = movableHexcell->stackIdx;
+            destHexcell->unitOwner = movableHexcell->unitOwner;
+            movableHexcell->stackIdx = -1;
+            movableHexcell->unitOwner = -1;
+          }
         }
         else
           ++it;

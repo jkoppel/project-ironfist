@@ -1176,3 +1176,7 @@ void combatManager::CheckBurnCreature(army *stack) {
       }
     }
 }
+
+bool IsOutOfBoundsHex(int hex) {
+  return !ValidHex(hex) || (!(hex % 13 && hex % 13 != 12));
+}
