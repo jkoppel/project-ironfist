@@ -1321,6 +1321,8 @@ void combatManager::Fireball(int hexIdx, int spell) {
 
     // Move every affected creature in the direction of the spell center starting from closest to center
     hexcell* centerHexcell = &gpCombatManager->combatGrid[hexIdx];
+    // Saving initial hexes of creatures beforehand
+    std::map<army*, int> creatureMovesFrom;
     for(int size = 1; size <= 5; size++) {
       double maxDistance = HEX_SIZE_IN_PIXELS * size - HEX_SIZE_IN_PIXELS / 2;
       auto it = affectedHexes.begin();
@@ -1369,10 +1371,12 @@ void combatManager::Fireball(int hexIdx, int spell) {
               if(creatureToMove->facingRight) {
                 if(IsOutOfBoundsHex(destHex))
                   continue;
+                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
                 creatureToMove->occupiedHex = destHexSecond;
               } else {
                 if(IsOutOfBoundsHex(destHexSecond))
                   continue;
+                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
                 creatureToMove->occupiedHex = destHex;
               }
             } else {
@@ -1390,10 +1394,12 @@ void combatManager::Fireball(int hexIdx, int spell) {
               if(creatureToMove->facingRight) {
                 if(IsOutOfBoundsHex(destHex))
                   continue;
+                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
                 creatureToMove->occupiedHex = destHex;
               } else {
                 if(IsOutOfBoundsHex(destHexSecond))
                   continue;
+                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
                 creatureToMove->occupiedHex = destHexSecond;
               }
             }
@@ -1416,6 +1422,7 @@ void combatManager::Fireball(int hexIdx, int spell) {
             if(itFound != affectedHexes.end())
               it = affectedHexes.erase(itFound);
           } else {
+            creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
             creatureToMove->occupiedHex = destHex;
             destHexcell->stackIdx = movableHexcell->stackIdx;
             destHexcell->unitOwner = movableHexcell->unitOwner;
@@ -1426,6 +1433,32 @@ void combatManager::Fireball(int hexIdx, int spell) {
         else
           ++it;
       }
+    }
+
+    // ANIMATING the creatures moving towards the center of the spell
+    const int NUM_FRAMES = 10;
+    for(int frame = 0; frame < NUM_FRAMES; frame++) {
+      for(auto currentlyAnimated : creatureMovesFrom) {
+        army* cr = currentlyAnimated.first;
+        int initialHex = currentlyAnimated.second;
+        cr->animationType = ANIMATION_TYPE_WINCE_RETURN;
+        cr->animationFrame = 0;
+
+        int startX = gpCombatManager->combatGrid[initialHex].centerX;
+        int startY = gpCombatManager->combatGrid[initialHex].occupyingCreatureBottomY;
+        int deltaX = gpCombatManager->combatGrid[cr->occupiedHex].centerX - startX;
+        int deltaY = gpCombatManager->combatGrid[cr->occupiedHex].occupyingCreatureBottomY - startY;
+        int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
+        float stepX = (double)deltaX / (double)NUM_FRAMES;
+        float stepY = (double)deltaY / (double)NUM_FRAMES;
+        double currentDrawX = startX + stepX * frame;
+        double currentDrawY = startY + stepY * frame;
+
+        cr->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
+      }
+      gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+      DelayTil(&glTimers);
+      glTimers = (signed __int64)((double)KBTickCount() + 100 * gfCombatSpeedMod[giCombatSpeed] * 1.3);
     }
   }
 
