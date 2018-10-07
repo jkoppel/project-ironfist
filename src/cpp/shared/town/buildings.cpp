@@ -28,7 +28,7 @@ namespace {
     "Dungeon",
     "Library",
     "Storm",
-    "Special"
+    "Special",
     "",
     "",
     "",

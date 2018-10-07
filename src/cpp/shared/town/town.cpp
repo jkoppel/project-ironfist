@@ -39,6 +39,7 @@ unsigned long gTownEligibleBuildMask[MAX_FACTIONS] = {
 // into gDwellingType by referencing gTownObjNames.
 char *gTownObjNames[32] = { 0 };
 unsigned char gDwellingType[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
+
 char *gWellExtraNames[MAX_FACTIONS] = { 0 };
 char *gSpecialBuildingNames[MAX_FACTIONS] = { 0 };
 
@@ -167,6 +168,7 @@ void InitDwellingTypes() {
 void InitBuildingNames() {
   for (int f = 0; f < MAX_FACTIONS; ++f) {
     gWellExtraNames[f] = GetFirstLevelGrowerName(f);
+    gSpecialBuildingNames[f] = GetSpecialBuildingName(f);
   }
 }
 
