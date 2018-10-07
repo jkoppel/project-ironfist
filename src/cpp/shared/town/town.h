@@ -193,13 +193,6 @@ class recruitUnit : public baseManager {
     int Open_orig(int);
 };
 
-
-extern char *xNecromancerShrine;
-extern char *gWellExtraNames[];
-extern char *gSpecialBuildingNames[];
-extern char *gNeutralBuildingNames[];
-extern char *gDwellingNames[][NUM_DWELLINGS];
-
 char *__fastcall GetBuildingName(int faction, int building);
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle);
 char * __fastcall GetBuildingInfo_orig(int faction, int building, int withTitle);

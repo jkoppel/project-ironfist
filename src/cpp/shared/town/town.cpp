@@ -40,8 +40,13 @@ unsigned long gTownEligibleBuildMask[MAX_FACTIONS] = {
 char *gTownObjNames[32] = { 0 };
 unsigned char gDwellingType[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
 
-char *gWellExtraNames[MAX_FACTIONS] = { 0 };
-char *gSpecialBuildingNames[MAX_FACTIONS] = { 0 };
+// Declare these in the cpp file to force the use of the helper functions in
+// order to get these building names.
+extern char *gWellExtraNames[MAX_FACTIONS] = { 0 };
+extern char *gSpecialBuildingNames[MAX_FACTIONS] = { 0 };
+extern char *xNecromancerShrine;
+extern char *gNeutralBuildingNames[];
+extern char *gDwellingNames[][NUM_DWELLINGS];
 
 std::vector<std::string> objectNames = {
   "mage",
