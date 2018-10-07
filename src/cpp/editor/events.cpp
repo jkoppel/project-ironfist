@@ -216,7 +216,7 @@ void InitializeTownEdit(HWND hwnd) {
 
 	int faction = gEditTownExtra.faction;
 	SendDlgItemMessage(hwnd, IDC_SPECIAL_GROWTH_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(GetFirstLevelGrowerName(faction)).c_str());
-	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(gSpecialBuildingNames[faction]).c_str());
+	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(GetSpecialBuildingName(faction)).c_str());
 
 	if(faction == FACTION_NECROMANCER) {
 		SendDlgItemMessage(hwnd, IDC_TAVERN, WM_SETTEXT, 0, (LPARAM)L"Shrine");

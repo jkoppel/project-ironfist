@@ -40,6 +40,7 @@ unsigned long gTownEligibleBuildMask[MAX_FACTIONS] = {
 char *gTownObjNames[32] = { 0 };
 unsigned char gDwellingType[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
 char *gWellExtraNames[MAX_FACTIONS] = { 0 };
+char *gSpecialBuildingNames[MAX_FACTIONS] = { 0 };
 
 std::vector<std::string> objectNames = {
   "mage",
@@ -520,7 +521,7 @@ char *__fastcall GetBuildingName(int faction, int building) {
     if (building == BUILDING_SPECIAL_GROWTH) {
       return GetFirstLevelGrowerName(faction);
     } else if (building == BUILDING_SPECIAL) {
-      return gSpecialBuildingNames[faction];
+      return GetSpecialBuildingName(faction);
     } else if (building >= BUILDING_DWELLING_1) {
       return gDwellingNames[faction][building - BUILDING_DWELLING_1];
     } else if (IsWellDisabled() && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {

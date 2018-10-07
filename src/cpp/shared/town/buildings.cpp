@@ -20,9 +20,34 @@ namespace {
     "",
     "[TODO] Cyborg Grower"
   };
+
+  std::vector<std::string> specialBuildingNames = {
+    "Fortifications",
+    "Coliseum",
+    "Rainbow",
+    "Dungeon",
+    "Library",
+    "Storm",
+    "Special"
+    "",
+    "",
+    "",
+    "",
+    "",
+    "[TODO] Cyborg Special"
+  };
+
+  bool IsFactionValid(int faction) {
+    return faction >= 0 && faction < static_cast<int>(firstLevelGrowerNames.size());
+  }
 }
 
 char * GetFirstLevelGrowerName(int faction) {
-  ASSERT(faction >= 0 && faction < static_cast<int>(firstLevelGrowerNames.size()));
+  ASSERT(IsFactionValid(faction));
   return &firstLevelGrowerNames[faction][0];
+}
+
+char * GetSpecialBuildingName(int faction) {
+  ASSERT(IsFactionValid(faction));
+  return &specialBuildingNames[faction][0];
 }

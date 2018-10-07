@@ -303,6 +303,7 @@ IMPORT_?gTownEligibleBuildMask@@3PAKA = 1
 IMPORT_?gTownObjNames@@3PAPADA = 1
 IMPORT_?gDwellingType@@3PAY0M@EA = 1
 IMPORT_?gWellExtraNames@@3PAPADA = 1
+IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
 
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
