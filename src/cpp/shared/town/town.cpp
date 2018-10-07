@@ -525,7 +525,7 @@ char *__fastcall GetBuildingName(int faction, int building) {
     } else if (building == BUILDING_SPECIAL) {
       return GetSpecialBuildingName(faction);
     } else if (building >= BUILDING_DWELLING_1) {
-      return gDwellingNames[faction][building - BUILDING_DWELLING_1];
+      return GetDwellingName(faction, building - BUILDING_DWELLING_1);
     } else if (IsWellDisabled() && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
       static std::string poisonedWellName = "Poisoned Well";
       return &poisonedWellName[0];
@@ -563,6 +563,14 @@ int GetDwellingType(int faction, int dwellingIndex) {
   }
 
   return gDwellingType[faction][dwellingIndex];
+}
+
+char * GetDwellingName(int faction, int dwellingIndex) {
+  if (faction >= FACTION_KNIGHT && faction <= FACTION_NECROMANCER) {
+    return gDwellingNames[faction][dwellingIndex];
+  }
+
+  return GetIronfistDwellingName(faction, dwellingIndex);
 }
 
 int recruitUnit::Open(int x) {

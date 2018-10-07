@@ -204,6 +204,7 @@ char *__fastcall GetBuildingName(int faction, int building);
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle);
 char * __fastcall GetBuildingInfo_orig(int faction, int building, int withTitle);
 int GetDwellingType(int faction, int dwellingIndex);
+char * GetDwellingName(int faction, int dwellingIndex);
 
 
 extern townManager* gpTownManager;
