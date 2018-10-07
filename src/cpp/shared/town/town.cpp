@@ -10,6 +10,7 @@
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
+#include "town/buildings.h"
 #include "town/town.h"
 
 #include <cstdio>
@@ -38,6 +39,7 @@ unsigned long gTownEligibleBuildMask[MAX_FACTIONS] = {
 // into gDwellingType by referencing gTownObjNames.
 char *gTownObjNames[32] = { 0 };
 unsigned char gDwellingType[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
+char *gWellExtraNames[MAX_FACTIONS] = { 0 };
 
 std::vector<std::string> objectNames = {
   "mage",
@@ -161,9 +163,16 @@ void InitDwellingTypes() {
   // TODO: do Cyborg creatures have upgrades?
 }
 
+void InitBuildingNames() {
+  for (int f = 0; f < MAX_FACTIONS; ++f) {
+    gWellExtraNames[f] = GetFirstLevelGrowerName(f);
+  }
+}
+
 void game::SetupTowns() {
 	InitTownObjNames();
 	InitDwellingTypes();
+	InitBuildingNames();
 
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
 		if(this->castles[castleIdx].exists) {
@@ -509,7 +518,7 @@ char *__fastcall GetBuildingName(int faction, int building) {
     return xNecromancerShrine;
   } else {
     if (building == BUILDING_SPECIAL_GROWTH) {
-      return gWellExtraNames[faction];
+      return GetFirstLevelGrowerName(faction);
     } else if (building == BUILDING_SPECIAL) {
       return gSpecialBuildingNames[faction];
     } else if (building >= BUILDING_DWELLING_1) {
