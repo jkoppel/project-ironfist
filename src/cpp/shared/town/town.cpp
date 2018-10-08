@@ -47,6 +47,7 @@ extern char *gSpecialBuildingNames[MAX_FACTIONS] = { 0 };
 extern char *xNecromancerShrine;
 extern char *gNeutralBuildingNames[];
 extern char *gDwellingNames[][NUM_DWELLINGS];
+extern char *gBuildingInfoSpecial[MAX_FACTIONS] = { 0 };
 
 std::vector<std::string> objectNames = {
   "mage",
@@ -174,6 +175,7 @@ void InitBuildingNames() {
   for (int f = 0; f < MAX_FACTIONS; ++f) {
     gWellExtraNames[f] = GetFirstLevelGrowerName(f);
     gSpecialBuildingNames[f] = GetSpecialBuildingName(f);
+    gBuildingInfoSpecial[f] = GetSpecialBuildingDesc(f);
   }
 }
 
