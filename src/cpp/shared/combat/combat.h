@@ -285,6 +285,12 @@ public:
   void DrawBackground();
   void DrawMoatPart(int row);
   void CheckBurnCreature(army *stack);
+  int GetNextArmy(int maybeIsFirstTurn);
+  int CheckApplyBadMorale(int side, int stackIdx);
+  void GetControl();
+  void CheckCastleAttack();
+  int ProcessNextAction(tag_message &a2);
+  int ProcessNextAction_orig(tag_message &a2);
 };
 
 extern combatManager* gpCombatManager;

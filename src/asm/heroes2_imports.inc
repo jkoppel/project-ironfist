@@ -252,6 +252,9 @@ IMPORT_?DrawToBuffer@army@@QAEXHHH@Z = 1
 IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
 IMPORT_?CycleCombatScreen@combatManager@@QAEXXZ = 1
 ?CycleCombatScreen@combatManager@@QAEXXZ_clone EQU ?CycleCombatScreen_orig@combatManager@@QAEXXZ
+IMPORT_?GetNextArmy@combatManager@@QAEHH@Z = 1
+IMPORT_?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z = 1
+?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z_clone EQU ?ProcessNextAction_orig@combatManager@@QAEHAAUtag_message@@@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
