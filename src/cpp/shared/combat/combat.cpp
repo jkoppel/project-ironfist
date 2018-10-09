@@ -1174,3 +1174,76 @@ void combatManager::CheckBurnCreature(army *stack) {
       }
     }
 }
+
+int combatManager::GetNextArmy(int maybeIsFirstTurn) {
+  while(1) {
+    bool unknownDeadFlag = false;
+    int currentSide = this->otherCurrentSideThing;
+    this->field_F2AB = 14;
+    for(int currentSpeed = 0; currentSpeed < 15; ++currentSpeed) {
+      for(int side = 0; side < 2; ++side) {
+        currentSide = 1 - currentSide;
+        int stackIdx;
+        for(stackIdx = 0; ; ++stackIdx) {
+          if(this->numCreatures[currentSide] > stackIdx) {
+            bool skipTurn = false;
+            army *cr = &this->creatures[currentSide][stackIdx];
+            if(cr->creature.creature_flags & (MAYBE_NOT_LOST_TURN | DEAD)
+              || cr->effectStrengths[EFFECT_PARALYZE]
+              || cr->effectStrengths[EFFECT_PETRIFY]
+              || cr->effectStrengths[EFFECT_BLIND]
+              || cr->creature.speed != this->field_F2AB
+              && !(cr->creature.creature_flags & HAS_GOOD_MORALE))
+              skipTurn = true;
+            if(!skipTurn && !currentSpeed && !(cr->creature.creature_flags & HAS_GOOD_MORALE))
+              skipTurn = true;
+            if(HIBYTE(cr->creature.creature_flags) & DEAD) {
+              skipTurn = true;
+              unknownDeadFlag = true;
+            }
+            if(!skipTurn && maybeIsFirstTurn && this->CheckApplyBadMorale(currentSide, stackIdx))
+              skipTurn = true;
+            if(skipTurn)
+              continue;
+          }
+          break;
+        }
+        if(this->numCreatures[currentSide] != stackIdx) {
+          this->otherCurrentSideThing = currentSide;
+          this->someSortOfStackIdx = stackIdx;
+          if(this->creatures[currentSide][stackIdx].effectStrengths[EFFECT_HYPNOTIZE])
+            this->currentActionSide = 1 - currentSide;
+          else
+            this->currentActionSide = currentSide;
+          this->GetControl();
+          return 1;
+        }
+      }
+      if(currentSpeed) {
+        this->field_F2AB--;
+        if(!this->field_F2AB)
+          this->field_F2AB = 15;
+      }
+    }
+    if(!unknownDeadFlag)
+      break;
+    maybeIsFirstTurn = 0;
+    for(int side = 0; side < 2; ++side) {
+      for(int stackIdxa = 0; this->numCreatures[side] > stackIdxa; ++stackIdxa)
+        *(DWORD *)&this->creatures[side][stackIdxa].creature.creature_flags &= 0xFFFFEFFFu;
+    }
+  }
+  this->CheckCastleAttack();
+  this->currentActionSide = 1 - this->currentActionSide;
+  this->CheckCastleAttack();
+  this->currentActionSide = 1 - this->currentActionSide;
+  return 0;
+}
+
+int combatManager::ProcessNextAction(tag_message &a2) {
+  if(giNextAction == 3) { // Pressed skip button
+    army* currentCreature = &this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx];
+    this->CheckBurnCreature(currentCreature);
+  }
+  return this->ProcessNextAction_orig(a2);
+}

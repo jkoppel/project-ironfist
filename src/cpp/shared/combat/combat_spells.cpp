@@ -1250,7 +1250,10 @@ void combatManager::Fireball(int hexIdx, int spell) {
         damage *= 2;
       if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
         damage /= 2;
-      stack->Damage(damage, spell);
+      if(spell == SPELL_FIRE_BOMB)
+        CheckBurnCreature(stack);
+      else
+        stack->Damage(damage, spell);
       anyoneDamaged = 1;
     }
   }
