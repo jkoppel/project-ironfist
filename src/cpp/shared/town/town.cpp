@@ -543,24 +543,41 @@ char *__fastcall GetBuildingName(int faction, int building) {
 }
 
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
-  if (IsWellDisabled() && building == BUILDING_WELL) {
-    static std::string buf;
-    std::string wellInfo = "The Well provides refreshing drinking water.";
-    if (faction == FACTION_NECROMANCER) {
-      wellInfo = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
-    }
+  std::string desc;
+  const std::string buildingName = GetBuildingName(faction, building);
 
-    if (withTitle) {
-      buf = "{";
-      buf += GetBuildingName(faction, building);
-      buf += "}\n\n" + wellInfo;
-    } else {
-      buf = wellInfo;
+  if (IsWellDisabled() && building == BUILDING_WELL) {
+    desc = "The Well provides refreshing drinking water.";
+    if (faction == FACTION_NECROMANCER) {
+      desc = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
     }
-    return &buf[0];
+  } else if (building == BUILDING_SPECIAL_GROWTH) {
+    const int tier1 = GetDwellingType(faction, DWELLING_1);
+    desc = "The ";
+    desc += buildingName;
+    desc += " increases production of ";
+    desc += GetCreaturePluralName(tier1);
+    desc += " by 8 per week.";
+  } else if (building >= BUILDING_DWELLING_1) {
+    const int creatureId = GetDwellingType(faction, building - BUILDING_DWELLING_1);
+    desc = "The ";
+    desc += buildingName;
+    desc += " produces ";
+    desc += GetCreaturePluralName(creatureId);
+    desc += '.';
   } else {
     return GetBuildingInfo_orig(faction, building, withTitle);
   }
+
+  static std::string buf;
+  if (withTitle) {
+    buf = "{";
+    buf += buildingName;
+    buf += "}\n\n" + desc;
+  } else {
+    buf = desc;
+  }
+  return &buf[0];
 }
 
 int GetDwellingType(int faction, int dwellingIndex) {
