@@ -192,12 +192,12 @@ function OnHeroMove(x, y)
 		if GetHeroOwner(GetCurrentHero()) == 0 and druidCircleVisited == 0 then
 			h = GetCurrentHero();
 			if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
-				MessageBox("You stumble upon a droid circle. The old druid there, foretelling your arrival, knows that you already have the Travelers's Boots of Mobility he wanted to give you. Instead, he gives you 3000 gold.");
+				MessageBox("You stumble upon a druid circle. The old druid there, foretelling your arrival, knows that you already have the Travelers's Boots of Mobility he wanted to give you. Instead, he gives you 3000 gold.");
 				GiveResource(GetPlayer(0), RESOURCE_GOLD, 3000);
 				druidCircleVisited = 1;
 			else
 				GrantArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
-				AdvMessageBox.SingleImage("You stumble upon a droid circle. The old druid there, foretelling your arrival, would like to grant you the Travelers's Boots of Mobility as a gift, to aid you on your journey.", DIALOG_OKAY, IMAGE_GROUP_ARTIFACTS, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
+				AdvMessageBox.SingleImage("You stumble upon a druid circle. The old druid there, foretelling your arrival, would like to grant you the Travelers's Boots of Mobility as a gift, to aid you on your journey.", DIALOG_OKAY, IMAGE_GROUP_ARTIFACTS, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY);
 				if HasArtifact(h, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) then
 					druidCircleVisited = 1;
 				else
