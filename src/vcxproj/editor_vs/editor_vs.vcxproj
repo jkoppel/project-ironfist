@@ -138,6 +138,7 @@
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c" />
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
     <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp" />
+    <ClCompile Include="..\..\cpp\shared\town\buildings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="..\..\asm\editor.asm">
@@ -155,6 +156,7 @@
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
+    <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
     <ClInclude Include="..\..\rc\editor\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\army.h" />

@@ -10,6 +10,7 @@
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
+#include "town/buildings.h"
 #include "town/town.h"
 
 #include <cstdio>
@@ -38,6 +39,15 @@ unsigned long gTownEligibleBuildMask[MAX_FACTIONS] = {
 // into gDwellingType by referencing gTownObjNames.
 char *gTownObjNames[32] = { 0 };
 unsigned char gDwellingType[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
+
+// Declare these in the cpp file to force the use of the helper functions in
+// order to get these building names.
+extern char *gWellExtraNames[MAX_FACTIONS] = { 0 };
+extern char *gSpecialBuildingNames[MAX_FACTIONS] = { 0 };
+extern char *xNecromancerShrine;
+extern char *gNeutralBuildingNames[];
+extern char *gDwellingNames[][NUM_DWELLINGS];
+extern char *gBuildingInfoSpecial[MAX_FACTIONS] = { 0 };
 
 std::vector<std::string> objectNames = {
   "mage",
@@ -161,9 +171,18 @@ void InitDwellingTypes() {
   // TODO: do Cyborg creatures have upgrades?
 }
 
+void InitBuildingNames() {
+  for (int f = 0; f < MAX_FACTIONS; ++f) {
+    gWellExtraNames[f] = GetFirstLevelGrowerName(f);
+    gSpecialBuildingNames[f] = GetSpecialBuildingName(f);
+    gBuildingInfoSpecial[f] = GetSpecialBuildingDesc(f);
+  }
+}
+
 void game::SetupTowns() {
 	InitTownObjNames();
 	InitDwellingTypes();
+	InitBuildingNames();
 
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
 		if(this->castles[castleIdx].exists) {
@@ -509,11 +528,11 @@ char *__fastcall GetBuildingName(int faction, int building) {
     return xNecromancerShrine;
   } else {
     if (building == BUILDING_SPECIAL_GROWTH) {
-      return gWellExtraNames[faction];
+      return GetFirstLevelGrowerName(faction);
     } else if (building == BUILDING_SPECIAL) {
-      return gSpecialBuildingNames[faction];
+      return GetSpecialBuildingName(faction);
     } else if (building >= BUILDING_DWELLING_1) {
-      return gDwellingNames[faction][building - BUILDING_DWELLING_1];
+      return GetDwellingName(faction, building - BUILDING_DWELLING_1);
     } else if (IsWellDisabled() && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
       static std::string poisonedWellName = "Poisoned Well";
       return &poisonedWellName[0];
@@ -524,24 +543,41 @@ char *__fastcall GetBuildingName(int faction, int building) {
 }
 
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
-  if (IsWellDisabled() && building == BUILDING_WELL) {
-    static std::string buf;
-    std::string wellInfo = "The Well provides refreshing drinking water.";
-    if (faction == FACTION_NECROMANCER) {
-      wellInfo = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
-    }
+  std::string desc;
+  const std::string buildingName = GetBuildingName(faction, building);
 
-    if (withTitle) {
-      buf = "{";
-      buf += GetBuildingName(faction, building);
-      buf += "}\n\n" + wellInfo;
-    } else {
-      buf = wellInfo;
+  if (IsWellDisabled() && building == BUILDING_WELL) {
+    desc = "The Well provides refreshing drinking water.";
+    if (faction == FACTION_NECROMANCER) {
+      desc = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
     }
-    return &buf[0];
+  } else if (building == BUILDING_SPECIAL_GROWTH) {
+    const int tier1 = GetDwellingType(faction, DWELLING_1);
+    desc = "The ";
+    desc += buildingName;
+    desc += " increases production of ";
+    desc += GetCreaturePluralName(tier1);
+    desc += " by 8 per week.";
+  } else if (building >= BUILDING_DWELLING_1) {
+    const int creatureId = GetDwellingType(faction, building - BUILDING_DWELLING_1);
+    desc = "The ";
+    desc += buildingName;
+    desc += " produces ";
+    desc += GetCreaturePluralName(creatureId);
+    desc += '.';
   } else {
     return GetBuildingInfo_orig(faction, building, withTitle);
   }
+
+  static std::string buf;
+  if (withTitle) {
+    buf = "{";
+    buf += buildingName;
+    buf += "}\n\n" + desc;
+  } else {
+    buf = desc;
+  }
+  return &buf[0];
 }
 
 int GetDwellingType(int faction, int dwellingIndex) {
@@ -551,6 +587,14 @@ int GetDwellingType(int faction, int dwellingIndex) {
   }
 
   return gDwellingType[faction][dwellingIndex];
+}
+
+char * GetDwellingName(int faction, int dwellingIndex) {
+  if (faction >= FACTION_KNIGHT && faction <= FACTION_NECROMANCER) {
+    return gDwellingNames[faction][dwellingIndex];
+  }
+
+  return GetIronfistDwellingName(faction, dwellingIndex);
 }
 
 int recruitUnit::Open(int x) {
