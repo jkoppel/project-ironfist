@@ -180,6 +180,7 @@ IMPORT_?Open@soundManager@@UAEHH@Z = 1
 ?Open@soundManager@@UAEHH@Z_clone EQU ?Open_orig@soundManager@@QAEHH@Z
 IMPORT_?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z = 1
 ?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z_clone EQU ?SetupGridForArmy_orig@combatManager@@QAEXPAVarmy@@@Z
+IMPORT_?townTheme@@3PACA = 1
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
