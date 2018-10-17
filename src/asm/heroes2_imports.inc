@@ -306,6 +306,7 @@ IMPORT_?gDwellingType@@3PAY0M@EA = 1
 IMPORT_?gWellExtraNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
 IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
+IMPORT_?gBuildingsToDraw@@3PAY0CA@W4BUILDING_CODE@@A = 1
 
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
