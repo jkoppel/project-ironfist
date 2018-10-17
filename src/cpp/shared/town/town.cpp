@@ -49,6 +49,12 @@ extern char *gNeutralBuildingNames[];
 extern char *gDwellingNames[][NUM_DWELLINGS];
 extern char *gBuildingInfoSpecial[MAX_FACTIONS] = { 0 };
 
+extern char *gTownPrefixNames[MAX_FACTIONS] = {
+  "twnk", "twnb", "twns", "twnw", "twnz", "twnn",
+  "", "", "", "", "", "",
+  "twnc"
+};
+
 std::vector<std::string> objectNames = {
   "mage",
   "thie",
