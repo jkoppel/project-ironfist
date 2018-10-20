@@ -27,9 +27,9 @@ void __fastcall CheckShingleUpdate() {
 
 
 
-char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
-                             "Multiple", "Random", NULL, NULL, NULL, NULL,
-                             "Cyborg"};
+char* gAlignmentNames[MAX_FACTIONS] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
+                                       "Multiple", "Random", NULL, NULL, NULL, NULL,
+                                       "Cyborg"};
 
 int game::GetRandomNumTroops(int creat) {
 	return Random(gMonRandBound[creat][0], gMonRandBound[creat][1]);

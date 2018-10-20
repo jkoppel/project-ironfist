@@ -14,6 +14,12 @@ char cHeroTypeInitial[MAX_FACTIONS] = {'k', 'b', 's', 'w', 'z', 'n',
                                        '\0','\0','\0','\0','\0','\0',
                                        'c'};
 
+extern char* cHeroTypeShortName[MAX_FACTIONS] = {
+  "kngt", "barb", "sorc", "wrlk", "wzrd", "necr",
+  "", "", "", "", "", "",
+  "cbrg"
+};
+
 signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
   {{35, 45, 10, 10}, {25, 25, 25, 25}},
   {{55, 35,  5,  5}, {25, 25, 25, 25}},
@@ -28,6 +34,22 @@ signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
   {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
   {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
   {{15, 15, 35, 35}, {25, 25, 25, 25}},  // TODO: decide on Cyborg skill chances, copied Necromancer for now
+};
+
+signed __int8 captainStats[MAX_FACTIONS][4] = {
+  {1, 1, 1, 1},
+  {1, 1, 1, 1},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {1, 1, 1, 1}
 };
 
 hero::hero() {

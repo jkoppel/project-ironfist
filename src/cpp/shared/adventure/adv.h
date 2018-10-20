@@ -180,7 +180,8 @@ enum HERO_FLAGS {
   HERO_AT_SEA = 0x80
 };
 
-char cHeroTypeInitial[];
+extern char cHeroTypeInitial[];
+extern signed __int8 captainStats[][4];
 
 class mapCell;
 

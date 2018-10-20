@@ -9,8 +9,6 @@ unsigned long gTownEligibleBuildMask[];
 
 extern signed char gSpellLimits[];
 
-extern char cHeroTypeInitial[];
-
 #define MAX_CASTLES 72
 
 enum HERO_TYPE
