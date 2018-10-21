@@ -188,6 +188,7 @@ void InitBuildingNames() {
 void game::SetupTowns() {
 	InitTownObjNames();
 	InitDwellingTypes();
+	InitDwellingCosts();
 	InitBuildingNames();
 
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {

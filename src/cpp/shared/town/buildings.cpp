@@ -75,32 +75,6 @@ namespace {
   }
 }
 
-char * GetFirstLevelGrowerName(int faction) {
-  ASSERT(IsFactionValid(faction));
-  return &firstLevelGrowerNames[faction][0];
-}
-
-char * GetSpecialBuildingName(int faction) {
-  ASSERT(IsFactionValid(faction));
-  return &specialBuildingNames[faction][0];
-}
-
-char * GetSpecialBuildingDesc(int faction) {
-  ASSERT(IsFactionValid(faction));
-  return &specialBuildingDescriptions[faction][0];
-}
-
-char * GetIronfistDwellingName(int faction, int dwelling) {
-  ASSERT(IsFactionValid(faction));
-  ASSERT(dwelling > 0 && dwelling < NUM_DWELLINGS);
-
-  if (faction == FACTION_CYBORG) {
-    return &cyborgDwellings[dwelling][0];
-  }
-
-  return "INVALID DWELLING";
-}
-
 extern BUILDING_CODE gBuildingsToDraw[MAX_FACTIONS][BUILDING_MAX] = {
   { // Knight buildings
     BUILDING_SPECIAL_GROWTH,
@@ -363,3 +337,104 @@ extern building_cost gSpecialBuildingCosts[MAX_FACTIONS] = {
   {0},
   {5, 0, 15, 0, 0, 0, 1500}  // TODO: what should Cyborg special building cost?
 };
+
+extern building_cost gDwellingCosts[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
+
+char * GetFirstLevelGrowerName(int faction) {
+  ASSERT(IsFactionValid(faction));
+  return &firstLevelGrowerNames[faction][0];
+}
+
+char * GetSpecialBuildingName(int faction) {
+  ASSERT(IsFactionValid(faction));
+  return &specialBuildingNames[faction][0];
+}
+
+char * GetSpecialBuildingDesc(int faction) {
+  ASSERT(IsFactionValid(faction));
+  return &specialBuildingDescriptions[faction][0];
+}
+
+char * GetIronfistDwellingName(int faction, int dwelling) {
+  ASSERT(IsFactionValid(faction));
+  ASSERT(dwelling > 0 && dwelling < NUM_DWELLINGS);
+
+  if (faction == FACTION_CYBORG) {
+    return &cyborgDwellings[dwelling][0];
+  }
+
+  return "INVALID DWELLING";
+}
+
+void InitDwellingCosts() {
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_1] = { 0, 0, 0, 0, 0, 0, 200 };
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_2] = { 0, 0, 0, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_3] = { 0, 0, 5, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_4] = {10, 0, 10, 0, 0, 0, 2000};
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_5] = {20, 0, 0, 0, 0, 0, 3000};
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_6] = {20, 0, 0, 0, 20, 0, 5000};
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_2_UPGRADE] = {5, 0, 0, 0, 0, 0, 1500};
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_3_UPGRADE] = {0, 0, 5, 0, 0, 0, 1500};
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_4_UPGRADE] = {5, 0, 5, 0, 0, 0, 2000};
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_5_UPGRADE] = {10, 0, 0, 0, 0, 0, 3000};
+  gDwellingCosts[FACTION_KNIGHT][DWELLING_6_UPGRADE] = {10, 0, 0, 0, 10, 0, 5000};
+
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_1] = { 0, 0, 0, 0, 0, 0, 300 };
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_2] = { 5, 0, 0, 0, 0, 0, 800 };
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_3] = {0, 0, 0, 0, 0, 0, 1000};
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_4] = {10, 0, 10, 0, 0, 0, 2000};
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_5] = {0, 0, 20, 0, 0, 0, 4000};
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_6] = {0, 0, 20, 0, 20, 0, 6000};
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_2_UPGRADE] = {5, 0, 0, 0, 0, 0, 1200};
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_4_UPGRADE] = {5, 0, 5, 0, 0, 0, 3000};
+  gDwellingCosts[FACTION_BARBARIAN][DWELLING_5_UPGRADE] = {0, 0, 10, 0, 0, 0, 2000};
+
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_1] = { 5, 0, 0, 0, 0, 0, 500 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_2] = { 5, 0, 0, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_3] = { 0, 0, 0, 0, 0, 0, 1500 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_4] = { 0, 0, 10, 0, 0, 0, 2500 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_5] = {10, 0, 0, 0, 0, 10, 3000 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_6] = { 0, 20, 30, 0, 0, 0, 10000 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_2_UPGRADE] = { 5, 0, 0, 0, 0, 0, 1500 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_3_UPGRADE] = { 5, 0, 0, 0, 0, 0, 1500 };
+  gDwellingCosts[FACTION_SORCERESS][DWELLING_4_UPGRADE] = { 0, 5, 0, 0, 0, 0, 1500 };
+
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_1] = { 0, 0, 0, 0, 0, 0, 500 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_2] = { 0, 0, 10, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_3] = { 0, 0, 0, 0, 0, 0, 2000 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_4] = { 0, 0, 0, 0, 0, 10, 3000 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_5] = { 0, 0, 0, 10, 0, 0, 4000 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_6] = { 0, 0, 30, 20, 0, 0, 15000 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_4_UPGRADE] = { 0, 0, 0, 0, 0, 5, 2000 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_6_UPGRADE] = { 0, 0, 5, 10, 0, 0, 5000 };
+  gDwellingCosts[FACTION_WARLOCK][DWELLING_6_UPGRADE2] = { 0, 0, 5, 10, 0, 0, 5000 };
+
+  gDwellingCosts[FACTION_WIZARD][DWELLING_1] = { 0, 0, 0, 0, 0, 0, 400 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_2] = { 0, 0, 0, 0, 0, 0, 800 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_3] = { 5, 0, 5, 0, 0, 0, 1500 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_4] = { 5, 0, 0, 0, 0, 0, 3000 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_5] = { 5, 5, 5, 5, 5, 5, 3500 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_6] = { 5, 0, 5, 0, 0, 20, 12500 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_3_UPGRADE] = { 0, 5, 0, 0, 0, 0, 1500 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_5_UPGRADE] = { 5, 0, 5, 0, 0, 0, 4000 };
+  gDwellingCosts[FACTION_WIZARD][DWELLING_6_UPGRADE] = { 5, 0, 5, 0, 0, 20, 12500 };
+
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_1] = { 0, 0, 0, 0, 0, 0, 400 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_2] = { 0, 0, 0, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_3] = { 0, 0, 10, 0, 0, 0, 1500 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_4] = { 10, 0, 0, 0, 0, 0, 3000 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_5] = { 10, 0, 0, 10, 0, 0, 4000 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_6] = { 10, 5, 10, 5, 5, 5, 10000 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_2_UPGRADE] = { 0, 0, 0, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_3_UPGRADE] = { 0, 0, 5, 0, 0, 0, 1500 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_4_UPGRADE] = { 5, 0, 0, 0, 10, 10, 4000 };
+  gDwellingCosts[FACTION_NECROMANCER][DWELLING_5_UPGRADE] = { 0, 0, 5, 0, 5, 0, 3000 };
+
+  // TODO: decide on Cyborg building costs
+  gDwellingCosts[FACTION_CYBORG][DWELLING_1] = { 0, 0, 0, 0, 0, 0, 200 };
+  gDwellingCosts[FACTION_CYBORG][DWELLING_2] = { 0, 0, 0, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_CYBORG][DWELLING_3] = { 0, 0, 5, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_CYBORG][DWELLING_4] = {10, 0, 10, 0, 0, 0, 2000};
+  gDwellingCosts[FACTION_CYBORG][DWELLING_5] = {20, 0, 0, 0, 0, 0, 3000};
+  gDwellingCosts[FACTION_CYBORG][DWELLING_6] = {20, 0, 0, 0, 20, 0, 5000};
+}
