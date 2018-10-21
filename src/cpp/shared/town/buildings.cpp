@@ -347,3 +347,19 @@ extern BUILDING_CODE gBuildingsToDraw[MAX_FACTIONS][BUILDING_MAX] = {
     BUILDING_EXT_3
   }
 };
+
+extern building_cost gSpecialBuildingCosts[MAX_FACTIONS] = {
+  {5, 0, 15, 0, 0, 0, 1500},
+  {10, 0, 10, 0, 0, 0, 2000},
+  {0, 0, 0, 0, 10, 0, 1500},
+  {5, 0, 10, 0, 0, 0, 3000},
+  {5, 5, 5, 5, 5, 5, 1500},
+  {0, 10, 0, 10, 0, 0, 1000},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {5, 0, 15, 0, 0, 0, 1500}  // TODO: what should Cyborg special building cost?
+};

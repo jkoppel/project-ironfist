@@ -49,7 +49,7 @@ signed __int8 captainStats[MAX_FACTIONS][4] = {
   {0, 0, 0, 0},
   {0, 0, 0, 0},
   {0, 0, 0, 0},
-  {1, 1, 1, 1}
+  {1, 1, 1, 1}  // TODO: is Cyborg a might or magic hero?
 };
 
 hero::hero() {
