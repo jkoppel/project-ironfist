@@ -8,6 +8,7 @@
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 #include "gui/dialog.h"
+#include "skills.h"
 
 #include<iostream>
 #include<fstream>

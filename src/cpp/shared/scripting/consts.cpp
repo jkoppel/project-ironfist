@@ -13,6 +13,7 @@ extern "C" {
 #include "scripting/register.h"
 #include "town/town.h"
 #include "gui/dialog.h"
+#include "skills.h"
 #include <algorithm>
 #include <cctype>
 #include <string>

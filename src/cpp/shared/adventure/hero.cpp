@@ -2,6 +2,7 @@
 
 #include "artifacts.h"
 #include "base.h"
+#include "skills.h"
 #include "spell/spells.h"
 
 #include "adventure/adv.h"

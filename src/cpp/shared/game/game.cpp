@@ -8,6 +8,7 @@
 #include "prefs.h"
 #include "scripting/callback.h"
 #include "scripting/scripting.h"
+#include "skills.h"
 #include "spell/spells.h"
 
 
