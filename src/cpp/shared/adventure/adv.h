@@ -23,6 +23,14 @@ enum PRIMARY_SKILL {
   PRIMARY_SKILL_KNOWLEDGE = 3,
 };
 
+struct startingPrimarySkills {
+  __int8 attack;
+  __int8 defense;
+  __int8 spellPower;
+  __int8 knowledge;
+  __int8 unused;
+};
+
 enum SECONDARY_SKILL {
   SECONDARY_SKILL_PATHFINDING = 0,
   SECONDARY_SKILL_ARCHERY = 1,

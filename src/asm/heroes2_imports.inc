@@ -312,6 +312,7 @@ IMPORT_?gBuildingsToDraw@@3PAY0CA@W4BUILDING_CODE@@A = 1
 IMPORT_?gTownPrefixNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingCosts@@3PAUbuilding_cost@@A = 1
 IMPORT_?gDwellingCosts@@3PAY0M@Ubuilding_cost@@A = 1
+IMPORT_?gStartingHeroStats@@3PAUstartingPrimarySkills@@A = 1
 
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1

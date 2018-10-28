@@ -52,6 +52,22 @@ signed __int8 captainStats[MAX_FACTIONS][4] = {
   {1, 1, 1, 1}  // TODO: is Cyborg a might or magic hero?
 };
 
+extern startingPrimarySkills gStartingHeroStats[MAX_FACTIONS] = {
+  {2, 2, 1, 1, 0},
+  {3, 1, 1, 1, 0},
+  {0, 0, 2, 3, 0},
+  {0, 0, 3, 2, 0},
+  {0, 1, 2, 2, 0},
+  {1, 0, 2, 2, 0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {1, 0, 2, 2, 0}  // TODO: Cyborg hero starting stats, copied Necromancer for now
+};
+
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();
