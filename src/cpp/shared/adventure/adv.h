@@ -5,6 +5,7 @@
 #include "resource/resources.h"
 
 #include "base.h"
+#include "skills.h"
 
 class mapCell;
 
@@ -80,7 +81,7 @@ public:
   int remainingMobility;
   int experience;
   __int16 oldLevel;
-  char primarySkills[4];
+  char primarySkills[NUM_PRIMARY_SKILLS];
   char field_43;
   char tempMoraleBonuses;
   char tempLuckBonuses;
@@ -157,7 +158,7 @@ enum HERO_FLAGS {
 };
 
 extern char cHeroTypeInitial[];
-extern signed __int8 captainStats[][4];
+extern signed __int8 captainStats[][NUM_PRIMARY_SKILLS];
 
 class mapCell;
 
