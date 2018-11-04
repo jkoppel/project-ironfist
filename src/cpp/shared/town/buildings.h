@@ -1,7 +1,7 @@
 #ifndef BUILDINGS_H
 #define BUILDINGS_H
 
-struct building_cost {
+struct SBuildingCost {
   int wood;
   int mercury;
   int ore;

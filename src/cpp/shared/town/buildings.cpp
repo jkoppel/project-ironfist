@@ -322,7 +322,7 @@ BUILDING_CODE gBuildingsToDraw[MAX_FACTIONS][BUILDING_MAX] = {
   }
 };
 
-building_cost gSpecialBuildingCosts[MAX_FACTIONS] = {
+SBuildingCost gSpecialBuildingCosts[MAX_FACTIONS] = {
   {5, 0, 15, 0, 0, 0, 1500},
   {10, 0, 10, 0, 0, 0, 2000},
   {0, 0, 0, 0, 10, 0, 1500},
@@ -338,7 +338,7 @@ building_cost gSpecialBuildingCosts[MAX_FACTIONS] = {
   {5, 0, 15, 0, 0, 0, 1500}  // TODO: what should Cyborg special building cost?
 };
 
-building_cost gDwellingCosts[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
+SBuildingCost gDwellingCosts[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
 
 char * GetFirstLevelGrowerName(int faction) {
   ASSERT(IsFactionValid(faction));
