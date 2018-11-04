@@ -180,6 +180,7 @@ IMPORT_?Open@soundManager@@UAEHH@Z = 1
 ?Open@soundManager@@UAEHH@Z_clone EQU ?Open_orig@soundManager@@QAEHH@Z
 IMPORT_?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z = 1
 ?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z_clone EQU ?SetupGridForArmy_orig@combatManager@@QAEXPAVarmy@@@Z
+IMPORT_?townTheme@@3PACA = 1
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
@@ -250,6 +251,8 @@ IMPORT_?cHeroTypeInitial@@3PADA = 1
 IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
 IMPORT_?gAlignmentNames@@3PAPADA = 1
 IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
+IMPORT_?cHeroTypeShortName@@3PAPADA = 1
+IMPORT_?captainStats@@3PAY03CA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
@@ -305,6 +308,11 @@ IMPORT_?gDwellingType@@3PAY0M@EA = 1
 IMPORT_?gWellExtraNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
 IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
+IMPORT_?gBuildingsToDraw@@3PAY0CA@W4BUILDING_CODE@@A = 1
+IMPORT_?gTownPrefixNames@@3PAPADA = 1
+IMPORT_?gSpecialBuildingCosts@@3PAUSBuildingCost@@A = 1
+IMPORT_?gDwellingCosts@@3PAY0M@USBuildingCost@@A = 1
+IMPORT_?gStartingHeroStats@@3PAUstartingPrimarySkills@@A = 1
 
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1

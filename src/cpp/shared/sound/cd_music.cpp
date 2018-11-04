@@ -33,6 +33,8 @@ QWORD *t_position;            // saved position
 float global_volume = 1.0f;
 bool setup_bass = false;
 
+signed char townTheme[MAX_FACTIONS] = { 8, 9, 5, 6, 10, 7, -1, -1, -1, -1, -1, -1, 43 };
+
 extern void __fastcall Process1WindowsMessage();
 
 void reset_town_saved_music_positions() {

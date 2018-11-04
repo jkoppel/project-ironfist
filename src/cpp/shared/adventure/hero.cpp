@@ -2,6 +2,7 @@
 
 #include "artifacts.h"
 #include "base.h"
+#include "skills.h"
 #include "spell/spells.h"
 
 #include "adventure/adv.h"
@@ -13,6 +14,12 @@
 char cHeroTypeInitial[MAX_FACTIONS] = {'k', 'b', 's', 'w', 'z', 'n',
                                        '\0','\0','\0','\0','\0','\0',
                                        'c'};
+
+extern char* cHeroTypeShortName[MAX_FACTIONS] = {
+  "kngt", "barb", "sorc", "wrlk", "wzrd", "necr",
+  "", "", "", "", "", "",
+  "cbrg"
+};
 
 signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
   {{35, 45, 10, 10}, {25, 25, 25, 25}},
@@ -28,6 +35,38 @@ signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
   {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
   {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
   {{15, 15, 35, 35}, {25, 25, 25, 25}},  // TODO: decide on Cyborg skill chances, copied Necromancer for now
+};
+
+signed __int8 captainStats[MAX_FACTIONS][4] = {
+  {1, 1, 1, 1},
+  {1, 1, 1, 1},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 2, 2}
+};
+
+extern startingPrimarySkills gStartingHeroStats[MAX_FACTIONS] = {
+  {2, 2, 1, 1, 0},
+  {3, 1, 1, 1, 0},
+  {0, 0, 2, 3, 0},
+  {0, 0, 3, 2, 0},
+  {0, 1, 2, 2, 0},
+  {1, 0, 2, 2, 0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {1, 0, 2, 2, 0}  // TODO: Cyborg hero starting stats, copied Necromancer for now
 };
 
 hero::hero() {

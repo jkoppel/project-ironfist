@@ -5,6 +5,7 @@
 #include "resource/resources.h"
 
 #include "base.h"
+#include "skills.h"
 
 class mapCell;
 
@@ -15,30 +16,6 @@ class mapCell;
 #define MAX_TOTAL_HEROES 48
 
 #define CREATURES_IN_ARMY 5
-
-enum PRIMARY_SKILL {
-  PRIMARY_SKILL_ATTACK = 0,
-  PRIMARY_SKILL_DEFENSE = 1,
-  PRIMARY_SKILL_SPELLPOWER = 2,
-  PRIMARY_SKILL_KNOWLEDGE = 3,
-};
-
-enum SECONDARY_SKILL {
-  SECONDARY_SKILL_PATHFINDING = 0,
-  SECONDARY_SKILL_ARCHERY = 1,
-  SECONDARY_SKILL_LOGISTICS = 2,
-  SECONDARY_SKILL_SCOUTING = 3,
-  SECONDARY_SKILL_DIPLOMACY = 4,
-  SECONDARY_SKILL_NAVIGATION = 5,
-  SECONDARY_SKILL_LEADERSHIP = 6,
-  SECONDARY_SKILL_WISDOM = 7,
-  SECONDARY_SKILL_MYSTICISM = 8,
-  SECONDARY_SKILL_LUCK = 9,
-  SECONDARY_SKILL_BALLISTICS = 10,
-  SECONDARY_SKILL_EAGLE_EYE = 11,
-  SECONDARY_SKILL_NECROMANCY = 12,
-  SECONDARY_SKILL_ESTATES = 13,
-};
 
 #define NUM_RESOURCES 7
 #define NUM_SECONDARY_RESOURCES 6
@@ -104,7 +81,7 @@ public:
   int remainingMobility;
   int experience;
   __int16 oldLevel;
-  char primarySkills[4];
+  char primarySkills[NUM_PRIMARY_SKILLS];
   char field_43;
   char tempMoraleBonuses;
   char tempLuckBonuses;
@@ -180,7 +157,8 @@ enum HERO_FLAGS {
   HERO_AT_SEA = 0x80
 };
 
-char cHeroTypeInitial[];
+extern char cHeroTypeInitial[];
+extern signed __int8 captainStats[][NUM_PRIMARY_SKILLS];
 
 class mapCell;
 

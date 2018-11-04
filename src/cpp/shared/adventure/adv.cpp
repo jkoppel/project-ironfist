@@ -10,6 +10,7 @@
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "prefs.h"
+#include "skills.h"
 
 #include "optional.hpp"
 #include <sstream>

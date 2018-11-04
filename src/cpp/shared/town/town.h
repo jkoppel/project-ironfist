@@ -9,8 +9,6 @@ unsigned long gTownEligibleBuildMask[];
 
 extern signed char gSpellLimits[];
 
-extern char cHeroTypeInitial[];
-
 #define MAX_CASTLES 72
 
 enum HERO_TYPE
@@ -48,6 +46,7 @@ enum FACTION
 
 enum BUILDING_CODE : __int8
 {
+  BUILDING_INVALID = -1,
   BUILDING_MAGE_GUILD = 0x0,
   BUILDING_THIEVES_GUILD = 0x1,
   BUILDING_TAVERN = 0x2,
