@@ -366,7 +366,13 @@ static int l_getHeroInPool(lua_State *L) {
 
 static int l_getHeroOwner(lua_State *L) {
   hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-  MakeLuaPlayerTable(L, &gpGame->players[hro->ownerIdx]);
+  
+  if (hro->ownerIdx < 0) {
+    lua_pushnil(L);
+  } else {
+    MakeLuaPlayerTable(L, &gpGame->players[hro->ownerIdx]);
+  }
+
   return 1;
 }
 
