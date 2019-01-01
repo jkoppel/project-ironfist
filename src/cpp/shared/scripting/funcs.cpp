@@ -20,7 +20,7 @@ static int StackIndexOfArg(int argNumber, int numArgs) {
 
 /************************************************ Deep binded objects ********************************************************/
 
-static void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaHeroTable(lua_State *L, hero *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
@@ -29,7 +29,7 @@ static void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L, -2);
 }
 
-static void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaTownTable(lua_State *L, town *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
@@ -38,7 +38,7 @@ static void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L, -2);
 }
 
-static void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaPlayerTable(lua_State *L, playerData *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
@@ -47,7 +47,7 @@ static void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
   lua_setmetatable(L, -2);
 }
 
-static void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr) {
+static void MakeLuaBattleStackTable(lua_State *L, army *ptrAddr) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
   lua_pushinteger(L, (int)ptrAddr);
