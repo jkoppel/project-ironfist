@@ -55,14 +55,14 @@ Section
 	SetOutPath $INSTDIR\MAPS
 	
 	File ..\maps\SorrowEn.MX2
-	File ..\maps\LastStand.MX2
+	File ..\maps\LastStan.MX2
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
 	SetOutPath $INSTDIR\SCRIPTS
 	
 	File ..\maps\SorrowEn.MX2.lua
-	File ..\maps\LastStand.MX2.lua
+	File ..\maps\LastStan.MX2.lua
 
 	CreateDirectory "$INSTDIR\SCRIPTS\MODULES"
 	
@@ -95,6 +95,9 @@ Section "uninstall"
 
 	Delete "$INSTDIR\GAMES\map_xml.xsd"
 
+	Delete "$INSTDIR\MAPS\SorrowEn.MX2"
+	Delete "$INSTDIR\MAPS\LastStan.MX2"
+	
 	RMDIR "$INSTDIR\SCRIPTS"
 
 	Delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
