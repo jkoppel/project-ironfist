@@ -12,56 +12,11 @@ extern "C" {
 #include "town/town.h"
 #include "artifacts.h"
 
+#include "scripting/deepbinding.h"
 #include "scripting/register.h"
 
 static int StackIndexOfArg(int argNumber, int numArgs) {
   return (numArgs - (argNumber - 1));
-}
-
-/************************************************ Deep binded objects ********************************************************/
-
-static void MakeLuaHeroTable(lua_State *L, hero *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void MakeLuaTownTable(lua_State *L, town *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "town_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void MakeLuaPlayerTable(lua_State *L, playerData *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "player_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void MakeLuaBattleStackTable(lua_State *L, army *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "battleStack_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex) {
-  lua_pushstring(L, "ptr");
-  lua_gettable(L, -1 - stackIndex);
-  void* ret = (void*)(int)lua_tonumber(L, -1);
-  lua_pop(L, 1);
-  return ret;
 }
 
 /************************************************ Dialogs ********************************************************/
@@ -149,12 +104,12 @@ static void register_date_funcs(lua_State *L) {
 
 static int l_getPlayer(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
-  MakeLuaPlayerTable(L, &gpGame->players[n]);
+  deepbound_push(L, deepbind<playerData*>(&gpGame->players[n]));
   return 1;
 }
 
 static int l_getCurrentPlayer(lua_State *L) {
-  MakeLuaPlayerTable(L, gpCurPlayer);
+  deepbound_push(L, deepbind<playerData*>(gpCurPlayer));
   return 1;
 }
 
@@ -173,14 +128,14 @@ static int l_getNumHeroes(lua_State *L) {
 static int l_getHero(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int n = (int)luaL_checknumber(L, 2);
-  MakeLuaHeroTable(L, &gpGame->heroes[p->heroesOwned[n]]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[p->heroesOwned[n]]));
   return 1;
 }
 
 static int l_getHeroForHire(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int n = (int)luaL_checknumber(L, 2);
-  MakeLuaHeroTable(L, &gpGame->heroes[p->heroesForPurchase[n]]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[p->heroesForPurchase[n]]));
   return 1;
 }
 
@@ -269,7 +224,7 @@ static void register_player_funcs(lua_State *L) {
 /************************************************ Heroes ********************************************************/
 
 static int l_getCurrentHero(lua_State *L) {
-  MakeLuaHeroTable(L, GetCurrentHero());
+  deepbound_push(L, deepbind<hero*>(GetCurrentHero()));
   return 1;
 }
 
@@ -360,7 +315,7 @@ static int l_setHeroName(lua_State *L) {
 
 static int l_getHeroInPool(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
-  MakeLuaHeroTable(L, &gpGame->heroes[n]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[n]));
   return 1;
 }
 
@@ -370,7 +325,7 @@ static int l_getHeroOwner(lua_State *L) {
   if (hro->ownerIdx < 0) {
     lua_pushnil(L);
   } else {
-    MakeLuaPlayerTable(L, &gpGame->players[hro->ownerIdx]);
+    deepbound_push(L, deepbind<playerData*>(&gpGame->players[hro->ownerIdx]));
   }
 
   return 1;
@@ -663,7 +618,7 @@ static void register_map_funcs(lua_State *L) {
 /************************************** Town *******************************************/
 
 static int l_getCurrentTown(lua_State *L) {
-  MakeLuaTownTable(L, gpTownManager->castle);
+  deepbound_push(L, deepbind<town*>(gpTownManager->castle));
   return 1;
 }
 
@@ -675,7 +630,7 @@ static int l_hasVisitingHero(lua_State *L) {
 
 static int l_getVisitingHero(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-  MakeLuaHeroTable(L, &gpGame->heroes[twn->visitingHeroIdx]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[twn->visitingHeroIdx]));
   return 1;
 }
 
@@ -688,7 +643,7 @@ static int l_buildInCurrentTown(lua_State *L) {
 static int l_getTown(lua_State *L) {
   int index = (int)luaL_checknumber(L, 1);
   if (index < MAX_TOWNS) {
-    MakeLuaTownTable(L, &gpGame->castles[index]);
+    deepbound_push(L, deepbind<town*>(&gpGame->castles[index]));
   }
   return 1;
 }
@@ -709,7 +664,7 @@ static int l_getTownByName(lua_State *L) {
   char *name = (char*)luaL_checkstring(L, 1);
   for (int i = 0; i < MAX_TOWNS; i++) {
     if (strcmp(gpGame->castles[i].name, name) == 0) {
-      MakeLuaTownTable(L, &gpGame->castles[i]);
+      deepbound_push(L, deepbind<town*>(&gpGame->castles[i]));
       return 1;
     }
   }
@@ -722,7 +677,7 @@ static int l_getPlayerTown(lua_State *L) {
   int index = (int)luaL_checknumber(L, 2);
 
   if (index < MAX_TOWNS) {
-    MakeLuaTownTable(L, &gpGame->castles[player->castlesOwned[index]]);
+    deepbound_push(L, deepbind<town*>(&gpGame->castles[player->castlesOwned[index]]));
   }
   return 1;
 }
@@ -884,7 +839,7 @@ static int l_battleHasHero(lua_State *L) {
 
 static int l_battleGetHero(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
-  MakeLuaHeroTable(L, gpCombatManager->heroes[side]);
+  deepbound_push(L, deepbind<hero*>(gpCombatManager->heroes[side]));
   return 1;
 }
 
@@ -903,7 +858,7 @@ static int l_battleGetNumStacks(lua_State *L) {
 static int l_battleGetStack(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   int idx = (int)luaL_checknumber(L, 2);
-  MakeLuaBattleStackTable(L, &gpCombatManager->creatures[side][idx]);
+  deepbound_push(L, deepbind<army*>(&gpCombatManager->creatures[side][idx]));
   return 1;
 }
 

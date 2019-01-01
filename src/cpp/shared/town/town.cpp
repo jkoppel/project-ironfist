@@ -391,7 +391,7 @@ void town::SelectSpells() {
 
 int townManager::Open(int idx) {
   int res = this->Open_orig(idx);
-  ScriptCallback("OnTownOpen", this->castle->name);
+  ScriptCallback("OnTownOpen", deepbind<town*>(this->castle));
   gpSoundManager->SwitchAmbientMusic(townTheme[this->castle->factionID]);
   return res;
 }
