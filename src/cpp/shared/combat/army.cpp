@@ -590,6 +590,11 @@ void army::DoAttack(int isRetaliation) {
   this->targetOwner = -1;
   if (isRetaliation)
     gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
+
+  if (!isRetaliation) {
+    ScriptCallback("OnBattleMeleeAttackComplete");
+  }
+
 }
 
 void army::Walk(signed int dir, int last, int notFirst) { 
