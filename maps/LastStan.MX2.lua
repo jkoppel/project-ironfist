@@ -469,7 +469,7 @@ down_occupied = true
 uphex = -1
 downhex = -1
 
-function OnBattleMeleeAttackComplete()
+function OnBattleMeleeAttackComplete(attackerStack, targetStack)
 	if up_occupied == false then
 		BattleSummonCreature(1, uphex, CREATURE_EARTH_ELEMENTAL, 1);
 		BattleMessage("Earth elemental splits itself.");

@@ -592,7 +592,7 @@ void army::DoAttack(int isRetaliation) {
     gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
 
   if (!isRetaliation) {
-    ScriptCallback("OnBattleMeleeAttackComplete");
+    ScriptCallback("OnBattleMeleeAttackComplete", deepbind<army*>(this), deepbind<army*>(primaryTarget));
   }
 
 }
