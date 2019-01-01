@@ -336,7 +336,7 @@ void army::DoAttack(int isRetaliation) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
     primaryTarget = this;
-  ScriptCallback("OnBattleMeleeAttack", deepbind<army*>(this), deepbind<army*>(primaryTarget), isRetaliation);
+  ScriptCallback("OnBattleMeleeAttack", deepbind<army*>(this), deepbind<army*>(primaryTarget), (bool)isRetaliation);
 
   if(isRetaliation)
     gCloseMove = true;
