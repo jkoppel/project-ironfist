@@ -37,6 +37,7 @@ Section
 	File MSS32.DLL
 	File SMACKW32.DLL
 	File xerces-c_3_1.dll
+	FILE bass.dll
 	File ..\build\bin\editor.exe
 
 	SetOutPath $INSTDIR\DATA
