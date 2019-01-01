@@ -8,41 +8,30 @@ extern "C" {
 #include "scripting/deepbinding.h"
 #include "town/town.h"
 
-
-void deepbound_push(lua_State *L, deepbind<army*> ptrAddr) {
+static void make_deepbound_object(lua_State *L, int ptrAddr, std::string metatable_name) {
   lua_newtable(L);
   lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr.get());
+  lua_pushinteger(L, ptrAddr);
   lua_settable(L, -3);
-  lua_getglobal(L, "battleStack_mt");
+  lua_getglobal(L, metatable_name.c_str());
   lua_setmetatable(L, -2);
+}
+
+
+void deepbound_push(lua_State *L, deepbind<army*> ptrAddr) {
+  make_deepbound_object(L, (int)ptrAddr.get(), "battleStack_mt");
 }
 
 void deepbound_push(lua_State *L, deepbind<hero*> ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr.get());
-  lua_settable(L, -3);
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L, -2);
+  make_deepbound_object(L, (int)ptrAddr.get(), "hero_mt");
 }
 
 void deepbound_push(lua_State *L, deepbind<playerData*> ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr.get());
-  lua_settable(L, -3);
-  lua_getglobal(L, "player_mt");
-  lua_setmetatable(L, -2);
+  make_deepbound_object(L, (int)ptrAddr.get(), "player_mt");
 }
 
 void deepbound_push(lua_State *L, deepbind<town*> ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr.get());
-  lua_settable(L, -3);
-  lua_getglobal(L, "town_mt");
-  lua_setmetatable(L, -2);
+  make_deepbound_object(L, (int)ptrAddr.get(), "town_mt");
 }
 
 void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex) {
