@@ -114,5 +114,7 @@ Section "uninstall"
 	Delete "$SMPROGRAMS\Project Ironfist\Map Editor.lnk"
 	Delete "$SMPROGRAMS\Project Ironfist\Uninstall.lnk"
 	RMDIR "$SMPROGRAMS\Project Ironfist"
+	
+	Delete "$INSTDIR\uninstall-ironfist.exe"
 
 SectionEnd
