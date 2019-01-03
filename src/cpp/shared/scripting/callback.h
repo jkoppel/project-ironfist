@@ -70,12 +70,25 @@ nonstd::optional<Res> ScriptCallbackResult(const char * funcName, Args... args) 
   lua_getglobal(map_lua, funcName);
   ironfist_lua_pushmulti(args...);
   const int size = sizeof...(Args);
-  if (lua_pcall(map_lua, size, 1, 0) != LUA_OK) {
+
+  int nresult;
+  if (lua_pcall_nresult(map_lua, size, &nresult) != LUA_OK) {
     DisplayLuaError(map_lua);
     return nonstd::optional<Res>();
   }
 
-  return PopLuaResult<Res>(map_lua, -1);
+  if (nresult == 0) {
+    return nonstd::optional<Res>();
+  } else if (nresult == 1) {
+    return PopLuaResult<Res>(map_lua, -1);
+  } else {
+    std::string s;
+    s += funcName;
+    s += " should return at most 1 result, but returned ";
+    s += std::to_string(nresult);
+    DisplayCustomLuaError(map_lua, s);
+    return nonstd::optional<Res>();
+  }
 }
 
 #endif
