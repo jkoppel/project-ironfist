@@ -101,6 +101,10 @@ Section "uninstall"
 	Delete "$INSTDIR\MAPS\LastStan.MX2"
 	Delete "$INSTDIR\MAPS\Behemoth.MX2"
 	
+	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
+	
 	RMDIR "$INSTDIR\SCRIPTS"
 
 	Delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
