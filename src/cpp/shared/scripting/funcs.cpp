@@ -296,6 +296,12 @@ static int l_teleportHero(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int x = (int)luaL_checknumber(L, 2);
   int y = (int)luaL_checknumber(L, 3);
+
+  // Working around a bug where TeleportTo will erroneously call
+  // gpGame->SetVisibility(hero, viewX, viewY, heroViewingRadius)
+  gpAdvManager->viewX = x;
+  gpAdvManager->viewY = y;
+
   gpAdvManager->TeleportTo(hro, x, y, 0, 0);
   return 0;
 }
