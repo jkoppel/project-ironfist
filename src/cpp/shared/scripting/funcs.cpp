@@ -938,6 +938,71 @@ static int l_setStackLuck(lua_State *L) {
   return 0;
 }
 
+static int l_getStackAttack(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.attack);
+  return 1;
+}
+
+static int l_setStackAttack(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int attack = (int)luaL_checknumber(L, 2);
+  creat->creature.attack = attack;
+  return 0;
+}
+
+static int l_getStackDefense(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.defense);
+  return 1;
+}
+
+static int l_setStackDefense(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int defense = (int)luaL_checknumber(L, 2);
+  creat->creature.defense = defense;
+  return 0;
+}
+
+static int l_getStackSpeed(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.speed);
+  return 1;
+}
+
+static int l_setStackSpeed(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int speed = (int)luaL_checknumber(L, 2);
+  creat->creature.speed = speed;
+  return 0;
+}
+
+static int l_getStackShots(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.shots);
+  return 1;
+}
+
+static int l_setStackShots(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int shots = (int)luaL_checknumber(L, 2);
+  creat->creature.shots = shots;
+  return 0;
+}
+
+static int l_getStackHp(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.hp - creat->damage);
+  return 1;
+}
+
+static int l_setStackHp(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int hp = (int)luaL_checknumber(L, 2);
+  creat->damage = creat->creature.hp - hp;
+  return 0;
+}
+
 static void register_battle_funcs(lua_State *L) {
   lua_register(L, "BattleSummonCreature", l_battleSummonCreature);
   lua_register(L, "IsHexEmpty", l_isHexEmpty);
@@ -957,6 +1022,16 @@ static void register_battle_funcs(lua_State *L) {
   lua_register(L, "SetStackMorale", l_setStackMorale);
   lua_register(L, "GetStackLuck", l_getStackLuck);
   lua_register(L, "SetStackLuck", l_setStackLuck);
+  lua_register(L, "GetStackAttack", l_getStackAttack);
+  lua_register(L, "SetStackAttack", l_setStackAttack);
+  lua_register(L, "GetStackDefense", l_getStackDefense);
+  lua_register(L, "SetStackDefense", l_setStackDefense);
+  lua_register(L, "GetStackSpeed", l_getStackSpeed);
+  lua_register(L, "SetStackSpeed", l_setStackSpeed);
+  lua_register(L, "GetStackShots", l_getStackShots);
+  lua_register(L, "SetStackShots", l_setStackShots);
+  lua_register(L, "GetStackHp", l_getStackHp);
+  lua_register(L, "SetStackHp", l_setStackHp);
 }
 
 /************************************** Uncategorized ******************************************/
