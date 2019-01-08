@@ -119,6 +119,7 @@
     <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
+    <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
     <ClCompile Include="..\..\cpp\shared\init.cpp" />
