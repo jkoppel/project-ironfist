@@ -1496,7 +1496,7 @@ void SpecialAttackGraphics(army *attacker, army *target) {
       }
 
       toDrawAt = Point(centX - halfProjIconWidth, centY - halfProjIconHeight);
-      toDrawAt = toDrawAt.clipToRect(H2RECT(top(0), bottom(640 - from->height), left(0), right(640 - from->width)));
+      toDrawAt = toDrawAt.clipToRect(H2RECT(top(0), bottom(442 - from->height), left(0), right(640 - from->width)));
 
       from->GrabBitmapCareful(gpWindowManager->screenBuffer, toDrawAt._x, toDrawAt._y);
       attacker->missileIcon->DrawToBuffer(centX, centY, spriteIdx, firingLeft);
