@@ -154,7 +154,9 @@ public:
 };
 
 enum HERO_FLAGS {
-  HERO_AT_SEA = 0x80
+  HERO_AT_SEA = 0x80,
+  HERO_FLAG_RELATED_TO_PYRAMID = 0x4000,
+  HERO_ARMY_COMPACT = 0x8000
 };
 
 extern char cHeroTypeInitial[];
@@ -223,7 +225,8 @@ public:
   void DoEvent_orig(class mapCell *, int, int);
   void DoEvent(class mapCell *cell, int locX, int locY);
 
-  void HandleSpellShrine(class mapCell *cell, int LocationType, hero *hro, SAMPLE2 res2, int locX, int locY);
+  void HandleSpellShrine(class mapCell *cell, int LocationType, hero *hro, SAMPLE2 *res2, int locX, int locY);
+  void HandlePyramid(class mapCell *cell, int LocationType, hero *hro, SAMPLE2 *res2, int locX, int locY);
 
   int CombatMonsterEvent(class hero *hero, int mon1, int mon1quantity, class mapCell *mapcell, int locX, int locY, int switchSides, int locX2, int locY2, int mon2, int mon2quantity, int mon2stacks, int mon3, int mon3quantity, int mon3stacks);
   int MapPutArmy(int x, int y, int monIdx, int monQty);
