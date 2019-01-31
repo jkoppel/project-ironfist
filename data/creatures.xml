@@ -383,7 +383,7 @@
         <creature-attribute name="two-hex"/>
         <random-spawn minimum="3" maximum="11"/>
     </creature>
-    <creature id="77" name-singular="treant" name-plural="treants" icn="treant.icn" frm="dend_frm.bin" projectile="elf__msl.icn" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="120" faction="6" speed="2" attack="6" defense="18" shots="0" short-name="dend">
+    <creature id="77" name-singular="treant" name-plural="treants" icn="treant.icn" frm="dend_frm.bin" projectile="" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="120" faction="6" speed="2" attack="6" defense="18" shots="0" short-name="dend">
         <damage minimum="3" maximum="7"/>
         <random-spawn minimum="10" maximum="20"/>
     </creature>
