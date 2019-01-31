@@ -133,11 +133,20 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   SAMPLE2 res2 = NULL_SAMPLE2;
   nonstd::optional<bool> shouldSkip = ScriptCallbackResult<bool>("OnLocationVisit", locationType, locX, locY);
   if (!shouldSkip.value_or(false)) {
-    if (locationType != LOCATION_SHRINE_FIRST_ORDER && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
+
+    switch (locationType) {
+    case LOCATION_SHRINE_FIRST_ORDER:
+    case LOCATION_SHRINE_SECOND_ORDER:
+    case LOCATION_SHRINE_THIRD_ORDER:
+      this->HandleSpellShrine(cell, locationType, hro, &res2, locX, locY);
+      break;
+    case LOCATION_PYRAMID:
+      this->HandlePyramid(cell, locationType, hro, &res2, locX, locY);
+      break;
+    default:
       this->DoEvent_orig(cell, locX, locY);
       return;
     }
-    this->HandleSpellShrine(cell, locationType, hro, res2, locX, locY);
   }
 
   this->UpdateRadar(1, 0);
@@ -150,42 +159,93 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   CheckEndGame(0, 0);
 }
 
-void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
+void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 *res2, int locX, int locY) {
+  int spellId = cell->extraInfo - 1;
+
   std::string shrineText;
   switch (locationType) {
     case LOCATION_SHRINE_FIRST_ORDER: {
       shrineText = "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '";
-      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += gSpellNames[spellId];
       shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_SECOND_ORDER: {
       shrineText = "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '";
-      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += gSpellNames[spellId];
       shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_THIRD_ORDER: {
       shrineText = "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '";
-      shrineText += gSpellNames[cell->extraInfo - 1];
+      shrineText += gSpellNames[spellId];
       shrineText += "'.  ";
       break;
     }
   }
 
   if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
-    if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
+    if (gsSpellInfo[spellId].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
       shrineText += "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.";
       this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
     } else {
-      this->EventSound(locationType, NULL, &res2);
+      this->EventSound(locationType, NULL, res2);
       int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
-      hro->AddSpell(cell->extraInfo - 1, heroKnowledge);
-      this->EventWindow(-1, 1, &shrineText[0], 8, cell->extraInfo - 1, -1, 0, -1);
+      hro->AddSpell(spellId, heroKnowledge);
+      this->EventWindow(-1, 1, &shrineText[0], 8, spellId, -1, 0, -1);
     }
   } else {
     shrineText += "Unfortunately, you have no Magic Book to record the spell with.";
     this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
+  }
+}
+
+void advManager::HandlePyramid(class mapCell *cell,int locType, hero *hro, SAMPLE2 *res2, int locX, int locY) {
+  int spellId = cell->extraInfo - 1;
+
+  this->EventSound(locType, cell->extraInfo, res2);
+
+  this->EventWindow(-1, 2,
+    "You come upon the pyramid of a great and ancient king.  You are tempted to search it for treasure, but all the old stories warn of fearful curses and undead guardians.  Will you search?",
+    -1, 0, -1, 0, -1);
+
+  if (gpWindowManager->buttonPressedCode == BUTTON_YES) {
+    if (cell->extraInfo != 0) {
+      
+      if (!this->CombatMonsterEvent(hro, CREATURE_ROYAL_MUMMY, 30, cell, locX, locY, 0, locX, locY, CREATURE_VAMPIRE_LORD, 20, 2, -1, 0, 0)) {
+        hro->CheckLevel();
+        
+        std::string msg;
+        msg += "Upon defeating the monsters, you decipher an ancient glyph on the wall, telling the secret of the spell - '";
+        msg += gSpellNames[spellId];
+        msg += "'.  ";
+
+        if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+          if (hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] < gsSpellInfo[spellId].level - 2) {
+            msg += "  Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ";
+            advManager::EventWindow(-1, 1, &msg[0], -1, 0, -1, 0, -1);
+          } else {
+            int knowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
+
+            hro->AddSpell(spellId, knowledge);
+            advManager::EventWindow(-1, 1, &msg[0], 8, spellId, -1, 0, -1);
+          }
+        } else {
+          msg += "  Unfortunately, you have no Magic Book to record the spell with.";
+          this->EventWindow(-1, 1, &msg[0], -1, 0, -1, 0, -1);
+        }
+        cell->extraInfo = 0;
+      }
+    } else {
+      NormalDialog(
+        "You come upon the pyramid of a great and ancient king.  Routine exploration reveals that the pyramid is completely empty.",
+        1, -1, -1,11, 0, 11, 0, -1, 0);
+
+      if (!(hro->flags & HERO_FLAG_RELATED_TO_PYRAMID)) {
+        hro->flags |= HERO_FLAG_RELATED_TO_PYRAMID;
+        hro->tempLuckBonuses -= 2;
+      }
+    }
   }
 }
 
