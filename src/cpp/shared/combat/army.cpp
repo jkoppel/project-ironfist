@@ -1385,8 +1385,8 @@ void SpecialAttackGraphics(army *attacker, army *target) {
         spriteIdx = attacker->frameInfo.numMissileDirs - 1;
       else
         spriteIdx = i - 1;
-    }
-    else {
+    } else {
+      
       if (yDiff <= 0)
         spriteIdx = 0;
       else
