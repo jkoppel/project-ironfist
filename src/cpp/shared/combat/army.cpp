@@ -3,9 +3,11 @@
 #include "combat/combat.h"
 #include "resource/resourceManager.h"
 #include "scripting/callback.h"
+#include "scripting/deepbinding.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "expansions.h"
+
 #include <set>
 #include <vector>
 
@@ -334,7 +336,7 @@ void army::DoAttack(int isRetaliation) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
     primaryTarget = this;
-  ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, isRetaliation);
+  ScriptCallback("OnBattleMeleeAttack", deepbind<army*>(this), deepbind<army*>(primaryTarget), (bool)isRetaliation);
 
   if(isRetaliation)
     gCloseMove = true;
@@ -588,6 +590,11 @@ void army::DoAttack(int isRetaliation) {
   this->targetOwner = -1;
   if (isRetaliation)
     gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
+
+  if (!isRetaliation) {
+    ScriptCallback("OnBattleMeleeAttackComplete", deepbind<army*>(this), deepbind<army*>(primaryTarget));
+  }
+
 }
 
 void army::Walk(signed int dir, int last, int notFirst) { 
