@@ -19,8 +19,8 @@ extern void __fastcall CleanUpMenus();
 void __fastcall AppExit() {
   CleanUpWinGraphics();
   CleanUpMenus();
-  UnloadCreatures();
 #ifndef EDITOR
+  UnloadCreatures();
   ScriptingShutdown();
 #endif
 }

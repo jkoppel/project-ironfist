@@ -268,6 +268,12 @@ IMPORT_?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z = 1
 IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 ?QuickInfo@advManager@@QAEXHH@Z_clone EQU ?QuickInfo_orig@advManager@@QAEXHH@Z
 
+;; Making hero render on top of flag
+IMPORT_?DrawCell@advManager@@QAEXHHHHHH@Z = 1
+?DrawCell@advManager@@QAEXHHHHHH@Z_clone EQU ?DrawCell_orig@advManager@@QAEXHHHHHH@Z
+IMPORT_?DrawCursor@advManager@@QAEXXZ = 1
+?DrawCursor@advManager@@QAEXXZ_clone EQU ?DrawCursor_orig@advManager@@QAEXXZ
+
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
 ?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z

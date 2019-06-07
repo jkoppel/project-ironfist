@@ -4,6 +4,7 @@
 #include "combat/creatures.h"
 #include "combat/speed.h"
 #include "game/game.h"
+#include "graphics.h"
 #include "gui/dialog.h"
 #include "gui/gui.h"
 #include "scripting/callback.h"
@@ -304,4 +305,102 @@ void advManager::QuickInfo(int x, int y) {
   gpWindowManager->AddWindow(&tooltip, 1, -1);
   QuickViewWait();
   gpWindowManager->RemoveWindow(&tooltip);
+}
+
+
+// Next two functions are a hack to make heroes draw in front of the flag rather than behind, used because
+// some frames of the Cyborg overlap the flag, and we decided it looks better this way rather than
+// moving the flag/Cyborg
+
+extern int bShowIt;
+extern int gbDrawingPuzzle;
+void __fastcall IconToBitmap(icon *, bitmap *, int, int, int, int, int, int, int, int, int);
+void __fastcall FlipIconToBitmap(icon *, bitmap *, int, int, int, int, int, int, int, int, int);
+
+#define HERO_IS_BOAT 6
+
+void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int forceDraw) {
+  this->DrawCell_orig(x, y, cellCol, cellRow, cellDrawingPhaseFlags, forceDraw);
+
+
+
+  if (!forceDraw && !bShowIt) {
+    return;
+  }
+
+  if (gbDrawingPuzzle) {
+    return;
+  }
+
+  if (!(cellDrawingPhaseFlags & 8)) {
+    return;
+  }
+
+  mapCell *cell = this->GetCell(x, y);
+
+  if (cell->objType == (TILE_HAS_EVENT | LOCATION_HERO)) {
+    hero *hro = &gpGame->heroes[cell->extraInfo];
+    if (!(hro->flags & HERO_AT_SEA)) {
+      int heroColor = gpGame->players[hro->ownerIdx].color;
+      int faction = hro->factionID;
+
+      int spriteIdxAndFlipBit = this->GetCursorBaseFrame(hro->directionFacing);
+      int spriteIdx = spriteIdxAndFlipBit & 0x7F;
+      int spriteIsFlipped = spriteIdxAndFlipBit & 0x80;
+
+      int drawX = 32 * cellCol;
+      int drawY = 32 * cellRow;
+
+      if (spriteIsFlipped) {
+        FlipIconToBitmap(this->heroIcons[faction], gpWindowManager->screenBuffer,
+          drawX + 32, drawY + 31, spriteIdx,
+          1, 0, 0, 480, 480, 0);
+      } else {
+        IconToBitmap(this->heroIcons[faction], gpWindowManager->screenBuffer,
+          drawX, drawY + 31, spriteIdx,
+          1, 0, 0, 480, 480, 0);
+      }
+    }
+
+  }
+}
+
+extern int bSpecialHideCursor;
+extern int gbDrawSavedCursor;
+
+extern int S1cursorFrameCount;
+
+
+void advManager::DrawCursor() {
+  int oldMobilizedHeroAnimPos;
+  if (gbDrawSavedCursor) {
+    oldMobilizedHeroAnimPos = S1cursorFrameCount;
+  } else {
+    oldMobilizedHeroAnimPos = this->mobilizedHeroAnimPos;
+  }
+
+  this->DrawCursor_orig();
+
+  if (!bShowIt || bSpecialHideCursor) {
+    return;
+  }
+
+  if (this->mobilizedHeroFactionOrBoat == HERO_IS_BOAT) {
+    return;
+  }
+
+  int spriteIdx = oldMobilizedHeroAnimPos + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F);
+  int y = this->mapPortTopY + 8 * 32 - 1;
+
+  if (this->mobilizedHeroBaseFrameBit8IsFlip & 0x80) {
+    int x = this->mapPortLeftX + 8 * 32;
+    FlipIconToBitmap(this->heroIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer,
+      x, y, spriteIdx,
+      1, 0, 0, 480, 480, 0);
+  } else {
+    int x = this->mapPortLeftX + 7 * 32;
+    IconToBitmap(this->heroIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer,
+      x, y, spriteIdx,
+      1, 0, 0, 480, 480, 0);
+  }
 }

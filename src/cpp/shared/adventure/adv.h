@@ -9,6 +9,7 @@
 
 class mapCell;
 
+#define NUM_FACTIONS 6
 #define ORIG_SPELLS 65
 
 #pragma pack(push, 1)
@@ -74,7 +75,7 @@ public:
   __int8 relatedToX;
   __int8 relatedToY;
   __int8 relatedToFactionID;
-  __int8 relatedToUnknown;
+  __int8 directionFacing;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;
   int mobility;
@@ -175,9 +176,27 @@ public:
   int field_1E2;
   int xOff;
   int yOff;
-  char _2[0xB8];
+  int field_1EE;
+  int field_1F2;
+  int mapPortLeftX;
+  int mapPortTopY;
+  char _2[0x1C];
+  icon *heroIcons[NUM_FACTIONS];
+  icon *boatIcon;
+  icon *frothIcon;
+  icon *shadowIcon;
+  icon *boatShadowIcon;
+  icon *flagIconsHero[6];
+  icon *flagIconsBoat[6];
+  int field_272;
+  int field_276;
+  int mobilizedHeroFactionOrBoat;
+  int field_27E;
+  int mobilizedHeroBaseFrameBit8IsFlip;
+  int mobilizedHeroAnimPos;
+  char _3[0x1C];
   int heroMobilized;
-  char _3[0xD4];
+  char _4[0xD4];
 
   advManager();
 
@@ -195,6 +214,12 @@ public:
 
   void CastSpell(int);
   void CastSpell_orig(int);
+
+  void DrawCell(int, int, int, int, int, int);
+  void DrawCell_orig(int, int, int, int, int, int);
+  int GetCursorBaseFrame(int);
+  void DrawCursor();
+  void DrawCursor_orig();
 
   void CompleteDraw(int);
   void RedrawAdvScreen(int, int);
