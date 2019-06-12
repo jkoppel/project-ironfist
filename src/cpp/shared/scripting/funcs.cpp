@@ -1036,6 +1036,19 @@ static void register_battle_funcs(lua_State *L) {
 
 /************************************** Uncategorized ******************************************/
 
+static int l_setwilljoin(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	bool willJoin = luaL_checknumber(L, 3);
+	if ((x >= 0) && (y >= 0) && (x < MAP_WIDTH) && (y < MAP_HEIGHT)) {
+		mapCell* cell = gpAdvManager->GetCell(x, y);
+		if (cell->objType & LOCATION_ARMY_CAMP) {
+			gpGame->monstersWillJoin[x][y] = willJoin;
+		}
+	}
+	return 0;
+}
+
 static int l_startbattle(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
   int mon1 = (int)luaL_checknumber(L, 2);
@@ -1054,6 +1067,7 @@ static int l_toggleAIArmySharing(lua_State *L) {
 }
 
 static void register_uncategorized_funcs(lua_State *L) {
+  lua_register(L, "SetWillJoin", l_setwilljoin);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 }

@@ -314,3 +314,67 @@ void advManager::QuickInfo(int x, int y) {
   QuickViewWait();
   gpWindowManager->RemoveWindow(&tooltip);
 }
+
+void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5) {
+	int creat = cell->objectIndex;
+	int amt = cell->extraInfo;
+	int x;
+	int y;
+	if (!(cell->objType & LOCATION_ARMY_CAMP)) {
+		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+		return;
+	}
+	if (GetMapCellXY(cell, &x, &y)) {
+		ScriptCallback("OnMonsterInteract", x, y);
+	} else {
+		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+		return;
+	}
+	if (gpGame->monstersWillJoin[x][y]) {
+		sprintf(gText, "{Followers}\n\nA group of %s with a desire for greater glory wish to join you. Do you accept? ", GetCreaturePluralName(creat));
+		advManager::EventWindow(-1, 2, gText, -1, 0, -1, 0, -1);
+		if (gpWindowManager->buttonPressedCode == 30725) {
+			player->army.Add(creat, amt, -1);
+			((heroWindow*)window)->idx = 1;
+			return;
+		}
+	}
+	this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+}
+
+void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1) {
+	int creat = cell->objectIndex;
+	int amt = cell->extraInfo;
+	int x;
+	int y;
+	if (!(cell->objType & LOCATION_ARMY_CAMP)) {
+		this->ComputerMonsterInteract_orig(cell, computer, a1);
+		return;
+	}
+	if (GetMapCellXY(cell, &x, &y)) {
+		ScriptCallback("OnMonsterInteract", x, y);
+	}
+	else {
+		this->ComputerMonsterInteract_orig(cell, computer, a1);
+		return;
+	}
+	if (gpGame->monstersWillJoin[x][y]) {
+		gpGame->GiveArmy(&(computer->army), creat, amt, -1);
+		return;
+	}
+	this->ComputerMonsterInteract_orig(cell, computer, a1);
+}
+
+bool GetMapCellXY(mapCell* cell, int* x, int* y) {
+	for (int i = 0; i < gpGame->map.width; i++) {
+		for (int j = 0; j < gpGame->map.height; j++) {
+			if (cell == (&(gpGame->map.tiles[j * gpGame->map.width])) + i) {
+				// heroCell = &this->map.tiles[heroLocationY * this->map.width] + heroLocationX;
+				*x = i;
+				*y = j;
+				return true;
+			}
+		}
+	}
+	return false;
+}
