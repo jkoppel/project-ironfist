@@ -250,7 +250,7 @@ void advManager::HandlePyramid(class mapCell *cell,int locType, hero *hro, SAMPL
 }
 
 int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
-  int cellIdx = x * gpGame->map.height + y;
+  int cellIdx = y * gpGame->map.height + x;
   gpGame->map.tiles[cellIdx].objectIndex = monIdx;
   gpGame->map.tiles[cellIdx].extraInfo = monQty;
   gpGame->map.tiles[cellIdx].objTileset = TILESET_MONSTER;
