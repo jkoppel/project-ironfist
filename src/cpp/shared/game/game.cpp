@@ -219,11 +219,6 @@ void game::ResetIronfistGameState() {
 			this->sharePlayerVision[i][j] = false;
 		}
 	}
-	for (int i = 0; i < MAP_WIDTH_MAX; i++) {
-		for (int j = 0; j < MAP_HEIGHT_MAX; j++) {
-			this->monstersWillJoin[i][j] = false;
-		}
-	}
 }
 
 extern int gbGameOver;

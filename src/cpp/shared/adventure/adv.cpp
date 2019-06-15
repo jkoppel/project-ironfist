@@ -250,7 +250,7 @@ void advManager::HandlePyramid(class mapCell *cell,int locType, hero *hro, SAMPL
 }
 
 int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
-  int cellIdx = x * gpGame->map.height + y;
+  int cellIdx = y * gpGame->map.height + x;
   gpGame->map.tiles[cellIdx].objectIndex = monIdx;
   gpGame->map.tiles[cellIdx].extraInfo = monQty;
   gpGame->map.tiles[cellIdx].objTileset = TILESET_MONSTER;
@@ -320,24 +320,12 @@ void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *play
 	int amt = cell->extraInfo;
 	int x;
 	int y;
-	if (!(cell->objType & LOCATION_ARMY_CAMP)) {
+	if (cell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
 		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
 		return;
 	}
 	if (GetMapCellXY(cell, &x, &y)) {
 		ScriptCallback("OnMonsterInteract", x, y);
-	} else {
-		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
-		return;
-	}
-	if (gpGame->monstersWillJoin[x][y]) {
-		sprintf(gText, "{Followers}\n\nA group of %s with a desire for greater glory wish to join you. Do you accept? ", GetCreaturePluralName(creat));
-		advManager::EventWindow(-1, 2, gText, -1, 0, -1, 0, -1);
-		if (gpWindowManager->buttonPressedCode == 30725) {
-			player->army.Add(creat, amt, -1);
-			((heroWindow*)window)->idx = 1;
-			return;
-		}
 	}
 	this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
 }
@@ -347,20 +335,12 @@ void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1)
 	int amt = cell->extraInfo;
 	int x;
 	int y;
-	if (!(cell->objType & LOCATION_ARMY_CAMP)) {
+	if (cell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
 		this->ComputerMonsterInteract_orig(cell, computer, a1);
 		return;
 	}
 	if (GetMapCellXY(cell, &x, &y)) {
 		ScriptCallback("OnMonsterInteract", x, y);
-	}
-	else {
-		this->ComputerMonsterInteract_orig(cell, computer, a1);
-		return;
-	}
-	if (gpGame->monstersWillJoin[x][y]) {
-		gpGame->GiveArmy(&(computer->army), creat, amt, -1);
-		return;
 	}
 	this->ComputerMonsterInteract_orig(cell, computer, a1);
 }

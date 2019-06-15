@@ -6,8 +6,6 @@
 #include "artifacts.h"
 #include "town/town.h"
 
-#define MAP_WIDTH_MAX 144
-#define MAP_HEIGHT_MAX 144
 #define NUM_PLAYERS 6
 #define MAX_HEROES 54
 #define MAX_TOWNS 72
@@ -165,7 +163,6 @@ public:
 	char field_660E;
 
   // New states
-  bool monstersWillJoin[MAP_WIDTH_MAX][MAP_HEIGHT_MAX];
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
