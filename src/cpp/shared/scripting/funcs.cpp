@@ -1042,7 +1042,7 @@ static int l_setwilljoin(lua_State *L) {
 	bool willJoin = luaL_checknumber(L, 3);
 	if ((x >= 0) && (y >= 0) && (x < MAP_WIDTH) && (y < MAP_HEIGHT)) {
 		mapCell* cell = gpAdvManager->GetCell(x, y);
-		if (cell->objType & LOCATION_ARMY_CAMP) {
+		if (cell->objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
 			gpGame->monstersWillJoin[x][y] = willJoin;
 		}
 	}

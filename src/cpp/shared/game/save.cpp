@@ -819,6 +819,18 @@ static void WriteMapVariablesXML(ironfist_save::save_t& m) {
 
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
 
+  for (int x = 0; x < MAP_WIDTH_MAX; x++) {
+	  for (int y = 0; y < MAP_HEIGHT_MAX; y++) {
+		  if (gpGame->monstersWillJoin[x][y]) {
+			  ironfist_save::mapVariable_t mapVar;
+			  mapVar.id(std::string("_WillJoin_"+std::to_string(x)+"_"+std::to_string(y))+"_");
+			  mapVar.type("boolean");
+			  mapVar.value("1");
+			  m.mapVariable().push_back(mapVar);
+		  }
+	  }
+  }
+
   for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
     ironfist_save::mapVariable_t mapVar;
     mapVar.id(it->first);
@@ -900,8 +912,40 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       std::map<std::string, mapVariable> mapVariables;
       for (ironfist_save::save_t::mapVariable_const_iterator it = mp->mapVariable().begin();
         it != mp->mapVariable().end(); it++) {
-        mapVariable *mapVar = new mapVariable;
         std::string mapVariableId = it->id().get();
+		if (mapVariableId.length() > 11) {
+			if ((StringToMapVarType(it->type()) == MAPVAR_TYPE_BOOLEAN) && (it->value().get() == "1")) {
+				if ((mapVariableId[mapVariableId.length() - 1] == '_') && (mapVariableId.substr(0, 10) == "_WillJoin_")) {
+					std::string monsterWillJoin = mapVariableId.substr(10);
+					std::string monsterWillJoinX = "";
+					std::string monsterWillJoinY = "";
+					int x;
+					int y;
+					bool coordinate = true;
+					for (int i = 0; i < monsterWillJoin.length(); i++) {
+						if (monsterWillJoin[i] == '_') {
+							coordinate = !coordinate;
+							continue;
+						}
+						if (coordinate) {
+							monsterWillJoinX.push_back(monsterWillJoin[i]);
+						}
+						else {
+							monsterWillJoinY.push_back(monsterWillJoin[i]);
+						}
+					}
+					if ((!monsterWillJoinX.empty()) && (!monsterWillJoinY.empty())) {
+						x = atoi(monsterWillJoinX.c_str());
+						y = atoi(monsterWillJoinY.c_str());
+						if ((x >= 0) && (y >= 0) && (x < MAP_WIDTH_MAX) && (y < MAP_HEIGHT_MAX)) {
+							gpGame->monstersWillJoin[x][y] = true;
+						}
+					}
+					continue;
+				}
+			}
+		}
+		mapVariable *mapVar = new mapVariable;
         MapVarType mapVariableType = StringToMapVarType(it->type());
         mapVar->type = mapVariableType;
         if (isTable(mapVariableType)) {

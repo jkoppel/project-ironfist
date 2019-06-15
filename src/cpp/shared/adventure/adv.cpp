@@ -320,7 +320,7 @@ void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *play
 	int amt = cell->extraInfo;
 	int x;
 	int y;
-	if (!(cell->objType & LOCATION_ARMY_CAMP)) {
+	if (!(cell->objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT))) {
 		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
 		return;
 	}
@@ -347,7 +347,7 @@ void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1)
 	int amt = cell->extraInfo;
 	int x;
 	int y;
-	if (!(cell->objType & LOCATION_ARMY_CAMP)) {
+	if (!(cell->objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT))) {
 		this->ComputerMonsterInteract_orig(cell, computer, a1);
 		return;
 	}
