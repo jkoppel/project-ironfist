@@ -316,8 +316,6 @@ void advManager::QuickInfo(int x, int y) {
 }
 
 void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5) {
-	int creat = cell->objectIndex;
-	int amt = cell->extraInfo;
 	int x;
 	int y;
 	if (cell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
@@ -327,12 +325,15 @@ void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *play
 	if (GetMapCellXY(cell, &x, &y)) {
 		ScriptCallback("OnMonsterInteract", x, y);
 	}
-	this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+	if ((x < 0) && (y < 0) && (x >= gpGame->map.width) || (y >= gpGame->map.height)) {
+		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+		return;
+	}
+	int cellIdx = y * gpGame->map.height + x;
+	this->PlayerMonsterInteract_orig(&gpGame->map.tiles[cellIdx], other, player, window, a1, a2, a3, a4, a5);
 }
 
 void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1) {
-	int creat = cell->objectIndex;
-	int amt = cell->extraInfo;
 	int x;
 	int y;
 	if (cell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
@@ -343,6 +344,12 @@ void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1)
 		ScriptCallback("OnMonsterInteract", x, y);
 	}
 	this->ComputerMonsterInteract_orig(cell, computer, a1);
+	if ((x < 0) && (y < 0) && (x >= gpGame->map.width) || (y >= gpGame->map.height)) {
+		this->ComputerMonsterInteract_orig(cell, computer, a1);
+		return;
+	}
+	int cellIdx = y * gpGame->map.height + x;
+	this->ComputerMonsterInteract_orig(&gpGame->map.tiles[cellIdx], computer, a1);
 }
 
 bool GetMapCellXY(mapCell* cell, int* x, int* y) {

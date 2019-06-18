@@ -1040,10 +1040,10 @@ static int l_getwilljoin(lua_State *L) {
 	int x = (int)luaL_checknumber(L, 1);
 	int y = (int)luaL_checknumber(L, 2);
 	int willJoin = 0;
-	if ((x >= 0) && (y >= 0) && (x < MAP_WIDTH) && (y < MAP_HEIGHT)) {
-		mapCell* cell = gpAdvManager->GetCell(x, y);
-		if (cell->objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
-			willJoin = (cell->extraInfo & (1 << 12));
+	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
+		int cellIdx = y * gpGame->map.height + x;
+		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+			willJoin = (gpGame->map.tiles[cellIdx].extraInfo & (1 << 12));
 		}
 	}
 	if (willJoin) {
@@ -1058,41 +1058,14 @@ static int l_setwilljoin(lua_State *L) {
 	int x = (int)luaL_checknumber(L, 1);
 	int y = (int)luaL_checknumber(L, 2);
 	bool willJoin = luaL_checknumber(L, 3);
-	if ((x >= 0) && (y >= 0) && (x < MAP_WIDTH) && (y < MAP_HEIGHT)) {
-		mapCell* cell = gpAdvManager->GetCell(x, y);
-		if (cell->objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
+		int cellIdx = y * gpGame->map.height + x;
+		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
 			if (willJoin) {
-				cell->extraInfo |= (1 << 12);
+				gpGame->map.tiles[cellIdx].extraInfo |= (1 << 12);
 			} else {
-				cell->extraInfo &= ~(1 << 12);
+				gpGame->map.tiles[cellIdx].extraInfo &= ~(1 << 12);
 			}
-		}
-	}
-	return 0;
-}
-
-static int l_getmapmonsterquantity(lua_State *L) {
-	int x = (int)luaL_checknumber(L, 1);
-	int y = (int)luaL_checknumber(L, 2);
-	int quantity = 0;
-	if ((x >= 0) && (y >= 0) && (x < MAP_WIDTH) && (y < MAP_HEIGHT)) {
-		mapCell* cell = gpAdvManager->GetCell(x, y);
-		if (cell->objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
-			quantity = cell->extraInfo;
-		}
-	}
-	lua_pushinteger(L, quantity);
-	return 1;
-}
-
-static int l_setmapmonsterquantity(lua_State *L) {
-	int x = (int)luaL_checknumber(L, 1);
-	int y = (int)luaL_checknumber(L, 2);
-	int quantity = (int)luaL_checknumber(L, 3);
-	if ((x >= 0) && (y >= 0) && (x < MAP_WIDTH) && (y < MAP_HEIGHT)) {
-		mapCell* cell = gpAdvManager->GetCell(x, y);
-		if (cell->objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
-			cell->extraInfo = quantity | (cell->extraInfo & (1 << 12));
 		}
 	}
 	return 0;
@@ -1118,8 +1091,6 @@ static int l_toggleAIArmySharing(lua_State *L) {
 static void register_uncategorized_funcs(lua_State *L) {
   lua_register(L, "GetWillJoin", l_getwilljoin);
   lua_register(L, "SetWillJoin", l_setwilljoin);
-  lua_register(L, "GetMapMonsterQuantity", l_getmapmonsterquantity);
-  lua_register(L, "SetMapMonsterQuantity", l_setmapmonsterquantity);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 }
