@@ -1036,7 +1036,7 @@ static void register_battle_funcs(lua_State *L) {
 
 /************************************** Uncategorized ******************************************/
 
-static int l_getwilljoin(lua_State *L) {
+static int l_getinclinedtojoin(lua_State *L) {
 	int x = (int)luaL_checknumber(L, 1);
 	int y = (int)luaL_checknumber(L, 2);
 	int willJoin = 0;
@@ -1054,7 +1054,7 @@ static int l_getwilljoin(lua_State *L) {
 	return 1;
 }
 
-static int l_setwilljoin(lua_State *L) {
+static int l_setinclinedtojoin(lua_State *L) {
 	int x = (int)luaL_checknumber(L, 1);
 	int y = (int)luaL_checknumber(L, 2);
 	bool willJoin = luaL_checknumber(L, 3);
@@ -1089,8 +1089,8 @@ static int l_toggleAIArmySharing(lua_State *L) {
 }
 
 static void register_uncategorized_funcs(lua_State *L) {
-  lua_register(L, "GetWillJoin", l_getwilljoin);
-  lua_register(L, "SetWillJoin", l_setwilljoin);
+  lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
+  lua_register(L, "SetInclinedToJoin", l_setinclinedtojoin);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 }
