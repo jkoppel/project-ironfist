@@ -329,8 +329,7 @@ void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *play
 		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
 		return;
 	}
-	int cellIdx = y * gpGame->map.height + x;
-	this->PlayerMonsterInteract_orig(&gpGame->map.tiles[cellIdx], other, player, window, a1, a2, a3, a4, a5);
+	this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
 }
 
 void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1) {

@@ -162,7 +162,7 @@ public:
 	char field_660D;
 	char field_660E;
 
-  // New states
+  // New state
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
