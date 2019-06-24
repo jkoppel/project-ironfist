@@ -325,10 +325,6 @@ void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *play
 	if (GetMapCellXY(cell, &x, &y)) {
 		ScriptCallback("OnMonsterInteract", x, y);
 	}
-	if ((x < 0) && (y < 0) && (x >= gpGame->map.width) || (y >= gpGame->map.height)) {
-		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
-		return;
-	}
 	this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
 }
 
@@ -343,12 +339,6 @@ void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1)
 		ScriptCallback("OnMonsterInteract", x, y);
 	}
 	this->ComputerMonsterInteract_orig(cell, computer, a1);
-	if ((x < 0) && (y < 0) && (x >= gpGame->map.width) || (y >= gpGame->map.height)) {
-		this->ComputerMonsterInteract_orig(cell, computer, a1);
-		return;
-	}
-	int cellIdx = y * gpGame->map.height + x;
-	this->ComputerMonsterInteract_orig(&gpGame->map.tiles[cellIdx], computer, a1);
 }
 
 bool GetMapCellXY(mapCell* cell, int* x, int* y) {
