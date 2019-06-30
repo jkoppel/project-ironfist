@@ -171,7 +171,9 @@ static std::string GetMVValueFromLua(MapVarType &type, int idx) {
 static std::string GetMVKeyFromLUA(int idx) {
   MapVarType type = mapVarTypeForVal(map_lua, idx);
   if (type != MAPVAR_TYPE_STRING) {
-    DisplayError("Warning: Saving tables with non-string keys may not work properly.", "Script Warning");
+    DisplayError("Warning: Saving tables with non-string keys may not work properly."
+                   "This includes arrays, which have integer keys."
+                , "Script Warning");
   }
 
   return GetMVValueFromLua(type, idx);
