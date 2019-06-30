@@ -21,6 +21,10 @@ void ironfist_lua_push(std::string arg) {
   lua_pushstring(map_lua, arg.c_str());
 }
 
+void ironfist_lua_push(char *arg) {
+  lua_pushstring(map_lua, arg);
+}
+
 void ironfist_lua_pushmulti() {
 }
 

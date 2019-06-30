@@ -10,21 +10,186 @@
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
+#include "town/buildings.h"
 #include "town/town.h"
 
+#include <cstdio>
 #include <sstream>
 #include <string>
+#include <vector>
 
-unsigned long gTownEligibleBuildMask[] = {
+unsigned long gTownEligibleBuildMask[MAX_FACTIONS] = {
   0x3FF8BF9F,
   0x1BF8BF9F,
   0xFF8BF9F,
   0x69F8BF9F,
   0x35F8BF9F,
-  0x1FF8BF9B
+  0x1FF8BF9B,
+  0x0,
+  0x0,
+  0x0,
+  0x0,
+  0x0,
+  0x0,
+  0x01F8BF9F  // TODO: decide whether Cyborg creatures have any upgrades
 };
 
+// Leave these undefined initially to make the compiler put them in the
+// same data segment. This ensures the old game code will be able to index
+// into gDwellingType by referencing gTownObjNames.
+char *gTownObjNames[32] = { 0 };
+unsigned char gDwellingType[MAX_FACTIONS][NUM_DWELLINGS] = { 0 };
+
+// Declare these in the cpp file to force the use of the helper functions in
+// order to get these building names.
+extern char *gWellExtraNames[MAX_FACTIONS] = { 0 };
+extern char *gSpecialBuildingNames[MAX_FACTIONS] = { 0 };
+extern char *xNecromancerShrine;
+extern char *gNeutralBuildingNames[];
+extern char *gDwellingNames[][NUM_DWELLINGS];
+extern char *gBuildingInfoSpecial[MAX_FACTIONS] = { 0 };
+
+extern char *gTownPrefixNames[MAX_FACTIONS] = {
+  "twnk", "twnb", "twns", "twnw", "twnz", "twnn",
+  "", "", "", "", "", "",
+  "twnc"
+};
+
+std::vector<std::string> objectNames = {
+  "mage",
+  "thie",
+  "tvrn",
+  "dock",
+  "well",
+  "tent",
+  "cstl",
+  "stat",
+  "ltur",
+  "rtur",
+  "mark",
+  "wel2",
+  "moat",
+  "spec",
+  "boat",
+  "capt",
+  "ext0",
+  "ext1",
+  "ext2",
+  "dw_0",
+  "dw_1",
+  "dw_2",
+  "dw_3",
+  "dw_4",
+  "dw_5",
+  "up_1",
+  "up_2",
+  "up_3",
+  "up_4",
+  "up_5",
+  "up5b",
+  "ext3"
+};
+
+void InitTownObjNames() {
+  for (auto i = 0u; i < objectNames.size(); ++i) {
+    gTownObjNames[i] = &objectNames[i][0];
+  }
+}
+
+// Defines the creature types in dwellings 1-6, followed by upgrades 1-5b
+// (which are really the tier 2 upgrade through tier 6 second upgrade).
+void InitDwellingTypes() {
+  for (int i = 0; i < MAX_FACTIONS; ++i) {
+    for (int j = 0; j < NUM_DWELLINGS; ++j) {
+      gDwellingType[i][j] = CREATURE_INVALID;
+    }
+  }
+
+  gDwellingType[FACTION_KNIGHT][DWELLING_1] = CREATURE_PEASANT;
+  gDwellingType[FACTION_KNIGHT][DWELLING_2] = CREATURE_ARCHER;
+  gDwellingType[FACTION_KNIGHT][DWELLING_3] = CREATURE_PIKEMAN;
+  gDwellingType[FACTION_KNIGHT][DWELLING_4] = CREATURE_SWORDSMAN;
+  gDwellingType[FACTION_KNIGHT][DWELLING_5] = CREATURE_CAVALRY;
+  gDwellingType[FACTION_KNIGHT][DWELLING_6] = CREATURE_PALADIN;
+  gDwellingType[FACTION_KNIGHT][DWELLING_2_UPGRADE] = CREATURE_RANGER;
+  gDwellingType[FACTION_KNIGHT][DWELLING_3_UPGRADE] = CREATURE_VETERAN_PIKEMAN;
+  gDwellingType[FACTION_KNIGHT][DWELLING_4_UPGRADE] = CREATURE_MASTER_SWORDSMAN;
+  gDwellingType[FACTION_KNIGHT][DWELLING_5_UPGRADE] = CREATURE_CHAMPION;
+  gDwellingType[FACTION_KNIGHT][DWELLING_6_UPGRADE] = CREATURE_CRUSADER;
+
+  gDwellingType[FACTION_BARBARIAN][DWELLING_1] = CREATURE_GOBLIN;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_2] = CREATURE_ORC;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_3] = CREATURE_WOLF;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_4] = CREATURE_OGRE;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_5] = CREATURE_TROLL;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_6] = CREATURE_CYCLOPS;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_2_UPGRADE] = CREATURE_ORC_CHIEF;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_4_UPGRADE] = CREATURE_OGRE_LORD;
+  gDwellingType[FACTION_BARBARIAN][DWELLING_5_UPGRADE] = CREATURE_WAR_TROLL;
+
+  gDwellingType[FACTION_SORCERESS][DWELLING_1] = CREATURE_SPRITE;
+  gDwellingType[FACTION_SORCERESS][DWELLING_2] = CREATURE_DWARF;
+  gDwellingType[FACTION_SORCERESS][DWELLING_3] = CREATURE_ELF;
+  gDwellingType[FACTION_SORCERESS][DWELLING_4] = CREATURE_DRUID;
+  gDwellingType[FACTION_SORCERESS][DWELLING_5] = CREATURE_UNICORN;
+  gDwellingType[FACTION_SORCERESS][DWELLING_6] = CREATURE_PHOENIX;
+  gDwellingType[FACTION_SORCERESS][DWELLING_2_UPGRADE] = CREATURE_BATTLE_DWARF;
+  gDwellingType[FACTION_SORCERESS][DWELLING_3_UPGRADE] = CREATURE_GRAND_ELF;
+  gDwellingType[FACTION_SORCERESS][DWELLING_4_UPGRADE] = CREATURE_GREATER_DRUID;
+
+  gDwellingType[FACTION_WARLOCK][DWELLING_1] = CREATURE_CENTAUR;
+  gDwellingType[FACTION_WARLOCK][DWELLING_2] = CREATURE_GARGOYLE;
+  gDwellingType[FACTION_WARLOCK][DWELLING_3] = CREATURE_GRIFFIN;
+  gDwellingType[FACTION_WARLOCK][DWELLING_4] = CREATURE_MINOTAUR;
+  gDwellingType[FACTION_WARLOCK][DWELLING_5] = CREATURE_HYDRA;
+  gDwellingType[FACTION_WARLOCK][DWELLING_6] = CREATURE_GREEN_DRAGON;
+  gDwellingType[FACTION_WARLOCK][DWELLING_4_UPGRADE] = CREATURE_MINOTAUR_KING;
+  gDwellingType[FACTION_WARLOCK][DWELLING_6_UPGRADE] = CREATURE_RED_DRAGON;
+  gDwellingType[FACTION_WARLOCK][DWELLING_6_UPGRADE2] = CREATURE_BLACK_DRAGON;
+
+  gDwellingType[FACTION_WIZARD][DWELLING_1] = CREATURE_HALFLING;
+  gDwellingType[FACTION_WIZARD][DWELLING_2] = CREATURE_BOAR;
+  gDwellingType[FACTION_WIZARD][DWELLING_3] = CREATURE_IRON_GOLEM;
+  gDwellingType[FACTION_WIZARD][DWELLING_4] = CREATURE_ROC;
+  gDwellingType[FACTION_WIZARD][DWELLING_5] = CREATURE_MAGE;
+  gDwellingType[FACTION_WIZARD][DWELLING_6] = CREATURE_GIANT;
+  gDwellingType[FACTION_WIZARD][DWELLING_3_UPGRADE] = CREATURE_STEEL_GOLEM;
+  gDwellingType[FACTION_WIZARD][DWELLING_5_UPGRADE] = CREATURE_ARCHMAGE;
+  gDwellingType[FACTION_WIZARD][DWELLING_6_UPGRADE] = CREATURE_TITAN;
+
+  gDwellingType[FACTION_NECROMANCER][DWELLING_1] = CREATURE_SKELETON;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_2] = CREATURE_ZOMBIE;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_3] = CREATURE_MUMMY;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_4] = CREATURE_VAMPIRE;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_5] = CREATURE_LICH;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_6] = CREATURE_BONE_DRAGON;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_2_UPGRADE] = CREATURE_MUTANT_ZOMBIE;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_3_UPGRADE] = CREATURE_ROYAL_MUMMY;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_4_UPGRADE] = CREATURE_VAMPIRE_LORD;
+  gDwellingType[FACTION_NECROMANCER][DWELLING_5_UPGRADE] = CREATURE_POWER_LICH;
+
+  gDwellingType[FACTION_CYBORG][DWELLING_1] = CREATURE_CYBER_KOBOLD_SPEARMAN;
+  gDwellingType[FACTION_CYBORG][DWELLING_2] = CREATURE_CYBER_PLASMA_BERSERKER;
+  gDwellingType[FACTION_CYBORG][DWELLING_3] = CREATURE_CYBER_PLASMA_LANCER;
+  gDwellingType[FACTION_CYBORG][DWELLING_4] = CREATURE_CYBER_INDIGO_PANTHER;
+  gDwellingType[FACTION_CYBORG][DWELLING_5] = CREATURE_CYBER_SHADOW_ASSASSIN;
+  gDwellingType[FACTION_CYBORG][DWELLING_6] = CREATURE_CYBER_BEHEMOTH;
+  // TODO: do Cyborg creatures have upgrades?
+}
+
+void InitBuildingNames() {
+  for (int f = 0; f < MAX_FACTIONS; ++f) {
+    gWellExtraNames[f] = GetFirstLevelGrowerName(f);
+    gSpecialBuildingNames[f] = GetSpecialBuildingName(f);
+    gBuildingInfoSpecial[f] = GetSpecialBuildingDesc(f);
+  }
+}
+
 void game::SetupTowns() {
+	InitTownObjNames();
+	InitDwellingTypes();
+	InitDwellingCosts();
+	InitBuildingNames();
 
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
 		if(this->castles[castleIdx].exists) {
@@ -90,7 +255,7 @@ void game::SetupTowns() {
 
 			for(int i = 0; i < NUM_DWELLINGS; i++) {
 				if(castle->DwellingBuilt(i))
-					castle->numCreaturesInDwelling[i] = gMonsterDatabase[gDwellingType[castle->factionID][i]].growth;
+					castle->numCreaturesInDwelling[i] = gMonsterDatabase[GetDwellingType(castle->factionID, i)].growth;
 			}
 
 			if(castle->BuildingBuilt(BUILDING_MAGE_GUILD)) {
@@ -104,7 +269,7 @@ void game::SetupTowns() {
 				castle->buildingsBuiltFlags |= 1 << BUILDING_CAPTAIN;
 
 			castle->mayNotBeUpgradedToCastle = twnExtra->disallowCastle;
-			strcpy(castle->name, twnExtra->name);
+			strncpy(castle->name, twnExtra->name, sizeof(castle->name));
 
 			castle->SelectSpells();
 
@@ -187,7 +352,22 @@ void town::SelectSpells() {
 						weight = 1500;
 
 					if(hasAdventureSpellAtLevel != 1 || !(gsSpellInfo[spell].attributes & ATTR_ADVENTURE_SPELL)) {
-						if(*(&gsSpellInfo[spell].nonMagicFactionAppearanceChance + this->factionID) >= Random(0, 10)) {
+						// nonMagicFactionAppearanceChance[6] is either 0 or 10 for every faction.
+						// It's 10 for most spells/factions.
+						// Holy Word/Shout is 0 for Necromancer, 10 for everyone else.
+						// Death Ripple/Wave is 10 for Necromancer, 0 for everyone else.
+						// In all other cases, the chance is the same for every faction.
+						// To support any number of new factions, we can just use the Knight's
+						// spell appearance chances for everyone except Necromancer.
+						int factionAppearanceChance = gsSpellInfo[spell].nonMagicFactionAppearanceChance;
+						if (factionID == FACTION_NECROMANCER) {
+							if (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT) {
+								factionAppearanceChance = 0;
+							} else if (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE) {
+								factionAppearanceChance = 10;
+							}
+						}
+						if(factionAppearanceChance >= Random(0, 10)) {
 							++tries;
 							if(tries <= 500) {
 								if(!spellPresent[spell] && Random(1, 1500) <= weight)
@@ -211,7 +391,7 @@ void town::SelectSpells() {
 
 int townManager::Open(int idx) {
   int res = this->Open_orig(idx);
-  ScriptCallback("OnTownOpen", this->castle->name);
+  ScriptCallback("OnTownOpen", deepbind<town*>(this->castle));
   gpSoundManager->SwitchAmbientMusic(townTheme[this->castle->factionID]);
   return res;
 }
@@ -225,7 +405,7 @@ bool town::BuildingBuilt(int building) const {
     return false;
   }
 
-  return (buildingsBuiltFlags & (1 << building));
+  return (buildingsBuiltFlags & (1 << building)) != 0;
 }
 
 bool town::DwellingBuilt(int index) const
@@ -276,10 +456,10 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 							  gsSpellInfo[this->castle->mageGuildSpells[i][j]].magicBookIconIdx);
 				if(smallFont->LineLength(gSpellNames[this->castle->mageGuildSpells[i][j]], 74) == 1 ) {
 					int c = GetManaCost(this->castle->mageGuildSpells[i][j]);
-					sprintf(gText, "%s\n[%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
+					sprintf_s(gText, gTextSize, "%s\n[%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
 				} else {
 					int c = GetManaCost(this->castle->mageGuildSpells[i][j]);
-					sprintf(gText, "%s  [%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
+					sprintf_s(gText, gTextSize, "%s  [%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
 				}
 				GUISetText(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, gText);
 			} else if(j < gSpellLimits[i] + hasLibrary) {
@@ -295,7 +475,7 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 		}
 	}
 	GUISetImgIdx(mageGuildWindow, BUILDING_ICON, this->castle->mageGuildLevel-1);
-	sprintf(gText, "magegld%c.icn", cHeroTypeInitial[this->castle->factionID]);
+	sprintf_s(gText, gTextSize, "magegld%c.icn", cHeroTypeInitial[this->castle->factionID]);
 	GUISetIcon(mageGuildWindow, BUILDING_ICON, gText);
 }
 
@@ -307,7 +487,7 @@ void townManager::SetupWell(heroWindow *window) {
 
   for (int tier = 0; tier < 6; ++tier) {
     const int dwellingIdx = castle->DwellingIndex(tier);
-    const tag_monsterInfo &mon = gMonsterDatabase[gDwellingType[castle->factionID][dwellingIdx]];
+    const tag_monsterInfo &mon = gMonsterDatabase[GetDwellingType(castle->factionID, dwellingIdx)];
 
     std::ostringstream desc;
     desc << "Attack: " << int(mon.attack)
@@ -355,11 +535,11 @@ char *__fastcall GetBuildingName(int faction, int building) {
     return xNecromancerShrine;
   } else {
     if (building == BUILDING_SPECIAL_GROWTH) {
-      return gWellExtraNames[faction];
+      return GetFirstLevelGrowerName(faction);
     } else if (building == BUILDING_SPECIAL) {
-      return gSpecialBuildingNames[faction];
+      return GetSpecialBuildingName(faction);
     } else if (building >= BUILDING_DWELLING_1) {
-      return gDwellingNames[faction][building - BUILDING_DWELLING_1];
+      return GetDwellingName(faction, building - BUILDING_DWELLING_1);
     } else if (IsWellDisabled() && faction == FACTION_NECROMANCER && building == BUILDING_WELL) {
       static std::string poisonedWellName = "Poisoned Well";
       return &poisonedWellName[0];
@@ -370,24 +550,58 @@ char *__fastcall GetBuildingName(int faction, int building) {
 }
 
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
-  if (IsWellDisabled() && building == BUILDING_WELL) {
-    static std::string buf;
-    std::string wellInfo = "The Well provides refreshing drinking water.";
-    if (faction == FACTION_NECROMANCER) {
-      wellInfo = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
-    }
+  std::string desc;
+  const std::string buildingName = GetBuildingName(faction, building);
 
-    if (withTitle) {
-      buf = "{";
-      buf += GetBuildingName(faction, building);
-      buf += "}\n\n" + wellInfo;
-    } else {
-      buf = wellInfo;
+  if (IsWellDisabled() && building == BUILDING_WELL) {
+    desc = "The Well provides refreshing drinking water.";
+    if (faction == FACTION_NECROMANCER) {
+      desc = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
     }
-    return &buf[0];
+  } else if (building == BUILDING_SPECIAL_GROWTH) {
+    const int tier1 = GetDwellingType(faction, DWELLING_1);
+    desc = "The ";
+    desc += buildingName;
+    desc += " increases production of ";
+    desc += GetCreaturePluralName(tier1);
+    desc += " by 8 per week.";
+  } else if (building >= BUILDING_DWELLING_1) {
+    const int creatureId = GetDwellingType(faction, building - BUILDING_DWELLING_1);
+    desc = "The ";
+    desc += buildingName;
+    desc += " produces ";
+    desc += GetCreaturePluralName(creatureId);
+    desc += '.';
   } else {
     return GetBuildingInfo_orig(faction, building, withTitle);
   }
+
+  static std::string buf;
+  if (withTitle) {
+    buf = "{";
+    buf += buildingName;
+    buf += "}\n\n" + desc;
+  } else {
+    buf = desc;
+  }
+  return &buf[0];
+}
+
+int GetDwellingType(int faction, int dwellingIndex) {
+  if (faction < 0 || faction >= MAX_FACTIONS ||
+      dwellingIndex < 0 || dwellingIndex >= NUM_DWELLINGS) {
+    return CREATURE_INVALID;
+  }
+
+  return gDwellingType[faction][dwellingIndex];
+}
+
+char * GetDwellingName(int faction, int dwellingIndex) {
+  if (faction >= FACTION_KNIGHT && faction <= FACTION_NECROMANCER) {
+    return gDwellingNames[faction][dwellingIndex];
+  }
+
+  return GetIronfistDwellingName(faction, dwellingIndex);
 }
 
 int recruitUnit::Open(int x) {

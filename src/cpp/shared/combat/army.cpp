@@ -1,11 +1,16 @@
 #include "artifacts.h"
 #include "combat/army.h"
 #include "combat/combat.h"
+#include "graphics.h"
 #include "resource/resourceManager.h"
 #include "scripting/callback.h"
+#include "scripting/deepbinding.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "expansions.h"
+
+#include <limits.h>
+#include <set>
 #include <vector>
 
 extern ironfistExtra gIronfistExtra;
@@ -34,6 +39,9 @@ extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
 bool gMoveAttack; // ironfist var to differentiate between move/move and attack
+bool gChargePathDamage;
+bool gCharging;
+
 char *gCombatFxNames[34] =
 {
   "",
@@ -166,6 +174,41 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
   gpCombatManager->CombatMessage(gText, 1, 1, 0);
 }
 
+void army::SetChargingMoveAnimation(CHARGING_DIRECTION dir) {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
+    int inAirFrame;
+    switch(dir) {
+      case CHARGING_FORWARD:
+        inAirFrame = 17;
+        break;
+      case CHARGING_UP:
+        inAirFrame = 96;
+        break;
+      case CHARGING_DOWN:
+        inAirFrame = 97;
+        break;
+    }
+    this->creature.creature_flags |= FLYER;
+    for(int i = 0; i < 8; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] =
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] = inAirFrame;
+    }
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0] = inAirFrame;
+  }
+}
+
+void army::RevertChargingMoveAnimation() {
+  if(this->creatureIdx == CREATURE_CYBER_PLASMA_LANCER) {
+    this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] = 8;
+    for(int i = 0; i < 8; i++) {
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WALKING][i] =
+      this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_MOVE][i] = 46 + i;
+    }
+    this->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_STANDING][0] = 69;
+    this->creature.creature_flags &= ~FLYER;
+  }
+}
+
 void army::SetJumpingAnimation() {
   if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER) {
     this->frameInfo.animationLengths[ANIMATION_TYPE_MELEE_ATTACK_UPWARDS] = 
@@ -206,11 +249,96 @@ void army::RevertJumpingAnimation() {
   }
 }
 
+void army::ChargingDamage(std::vector<int> affectedHexes) {
+  if(!affectedHexes.size())
+    return;
+
+  int oldFacingRight = this->facingRight;
+
+  int totalDamage = 0;
+  int totalCreaturesKilled = 0;
+  
+  gChargePathDamage = true;
+  for(auto i : affectedHexes) {
+    int targHex = i;
+    army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targHex].unitOwner][gpCombatManager->combatGrid[targHex].stackIdx];
+    int creaturesKilled = 0;
+    int damDone;
+    this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, 0);
+    if(damDone > 0)
+      totalDamage += damDone;
+    totalCreaturesKilled += creaturesKilled;
+
+    if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
+      if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE]) {
+        int dodgeAnimLen = 7;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
+        for (int p = 0; p < dodgeAnimLen; p++) {
+          primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
+        }
+        gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE] = false;
+      } else {
+        // revert to usual animations after the first received attack
+        int winceAnimLen = 1;
+        primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = winceAnimLen;
+        primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][0] = 50;
+      }
+    }  
+  }
+  gChargePathDamage = false;
+
+  // Battle message
+  char *attackingCreature, *targetCreature;
+  if (this->quantity <= 1)
+    attackingCreature = GetCreatureName(this->creatureIdx);
+  else
+    attackingCreature = GetCreaturePluralName(this->creatureIdx);
+  if(totalDamage > 0) {
+    if (totalCreaturesKilled <= 0) {
+      sprintf(gText, "%s %s %d damage.", attackingCreature, (this->quantity > 1) ? "do" : "does", totalDamage);
+    } else {
+      sprintf(
+        gText,
+        "%s %s %d damage.\n%d creatures %s.",
+        attackingCreature,
+        (this->quantity > 1) ? "do" : "does",
+        totalDamage,
+        totalCreaturesKilled,
+        (totalCreaturesKilled > 1) ? "perish" : "perishes");
+    }
+    gText[0] = toupper(gText[0]);
+    gpCombatManager->CombatMessage(gText, 1, 1, 0);
+  }
+
+  gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
+
+  if (this->facingRight != oldFacingRight) {
+    if (!(this->creature.creature_flags & DEAD)) {
+      this->facingRight = oldFacingRight;
+      OccupyHexes(this);
+    }
+    // Kert: Not sure if this is needed
+    /*for(auto targetHex : affectedHexes)
+    {
+      army *primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
+      int targetOldFacingRight = primaryTarget->facingRight;
+      if(!(primaryTarget->creature.creature_flags & DEAD))
+      {
+        if(primaryTarget->facingRight != targetOldFacingRight)
+        {
+          primaryTarget->facingRight = targetOldFacingRight;
+          OccupyHexes(primaryTarget);
+        }
+      }
+    }*/
+  }
+}
+
 void army::DoAttack(int isRetaliation) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
     primaryTarget = this;
-  ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, isRetaliation);
+  ScriptCallback("OnBattleMeleeAttack", deepbind<army*>(this), deepbind<army*>(primaryTarget), (bool)isRetaliation);
 
   if(isRetaliation)
     gCloseMove = true;
@@ -300,6 +428,9 @@ void army::DoAttack(int isRetaliation) {
     int v13 = 0; // unused
     if (secondHexTarget)
       this->DamageEnemy(secondHexTarget, &v13, &v13, 0, isRetaliation);
+    
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+      gCharging = false;
 
     DoAttackBattleMessage(this, primaryTarget, creaturesKilled, damDone);
 
@@ -461,6 +592,11 @@ void army::DoAttack(int isRetaliation) {
   this->targetOwner = -1;
   if (isRetaliation)
     gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
+
+  if (!isRetaliation) {
+    ScriptCallback("OnBattleMeleeAttackComplete", deepbind<army*>(this), deepbind<army*>(primaryTarget));
+  }
+
 }
 
 void army::Walk(signed int dir, int last, int notFirst) { 
@@ -671,7 +807,7 @@ int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
       }
     }
   }
-  res = this->FindPath_orig(this->occupiedHex, targHex, this->creature.speed, 0, flag);
+  res = this->FindPath_orig(knownHex, targHex, speed, flying, flag);
 
   // pretending we don't see obstacles at all
   // this does nothing for creatures that don't ignore obstacles
@@ -873,7 +1009,7 @@ int army::WalkTo(int hex) {
 int army::AttackTo(int targetHex) {
   int result;
 
-  if (this->creature.creature_flags & FLYER) {
+  if (this->creature.creature_flags & FLYER || (this->ValidPath(targetHex, 0) == 0 && CreatureHasAttribute(this->creatureIdx, CHARGER))) {
     if (this->occupiedHex != targetHex)
       this->FlyTo(targetHex);
     this->DoAttack(0);
@@ -940,6 +1076,7 @@ bool army::IsCloseMove(int toHexIdx) {
   return false;
 }
 
+extern int giNextActionGridIndex;
 int army::FlyTo(int hexIdx) {
   gCloseMove = IsCloseMove(hexIdx);
 
@@ -992,6 +1129,7 @@ int army::FlyTo(int hexIdx) {
       gpCombatManager->combatGrid[v3].occupiersOtherHexIsToLeft = -1;
     }
 
+    std::vector<int> chargeAffectedHexes;
     if (!gbNoShowCombat) {
       bool closeMove = IsCloseMove(hexIdx);
       bool teleporter = CreatureHasAttribute(this->creatureIdx, TELEPORTER);
@@ -1003,9 +1141,19 @@ int army::FlyTo(int hexIdx) {
       for (int i = 0; numFrames > i; ++i) {
         if (teleporter) {
           BuildTeleporterTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0, closeMove);
-        } else
+        } else {
           BuildTempWalkSeq(&this->frameInfo, i + 1 == numFrames, i > 0);
-
+          if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+            gCharging = true;
+            CHARGING_DIRECTION chargeDir = CHARGING_FORWARD;
+            double angle = (180.0 / 3.141592653589793238463) * atan2(deltaY, abs(deltaX));
+            if(angle > 45)
+              chargeDir = CHARGING_DOWN;
+            else if(angle < -45)
+              chargeDir = CHARGING_UP;
+            SetChargingMoveAnimation(chargeDir);
+          }
+        }
         int startMoveLen = 0;
         int moveLen = 0;
         int moveAndSubEndMoveLen;
@@ -1100,6 +1248,10 @@ int army::FlyTo(int hexIdx) {
             currentDrawX = (double)(i + 1) * stepX + (double)v19;
             currentDrawY = (double)(i + 1) * stepY + (double)v14;
           }
+          const int CHARGE_SPRITE_OFFSET = 10;
+          int h = gpCombatManager->GetGridIndex(currentDrawX, currentDrawY - CHARGE_SPRITE_OFFSET);
+          if(IsEnemyCreatureHex(h))
+            chargeAffectedHexes.push_back(h);
         }
       }
     }
@@ -1122,7 +1274,21 @@ int army::FlyTo(int hexIdx) {
       OccupyHexes(this);
       this->field_8E = 0;
     }
+
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+      // remove duplicates
+      std::set<int> s(chargeAffectedHexes.begin(), chargeAffectedHexes.end() );
+      chargeAffectedHexes.assign(s.begin(),s.end());
+      // don't damage target creature by "charge path damage"
+      auto f = std::find(chargeAffectedHexes.begin(), chargeAffectedHexes.end(), giNextActionGridIndex);
+      if(f != chargeAffectedHexes.end())
+        chargeAffectedHexes.erase(f);
+      ChargingDamage(chargeAffectedHexes);
+    }
     gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+    
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER))
+        RevertChargingMoveAnimation();
     gpCombatManager->TestRaiseDoor();
     return 1;
   }
@@ -1179,83 +1345,100 @@ void SpecialAttackGraphics(army *attacker, army *target) {
   gpCombatManager->limitCreature[attacker->owningSide][attacker->stackIdx]++;
   gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
 
-  int targMidX = target->MidX();
-  int targMidY = target->MidY();
-  if (attacker->creatureIdx == CREATURE_LICH || attacker->creatureIdx == CREATURE_POWER_LICH) {
-    targMidX = gpCombatManager->combatGrid[target->occupiedHex].centerX;
-    targMidY = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
+  int targMidX, targMidY;
+  int totXDiff, yDiff;
+  char firingLeft;
+  {
+    targMidX = target->MidX();
+    targMidY = target->MidY();
+    if (attacker->creatureIdx == CREATURE_LICH || attacker->creatureIdx == CREATURE_POWER_LICH) {
+      targMidX = gpCombatManager->combatGrid[target->occupiedHex].centerX;
+      targMidY = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
+    }
+    int projStartX;
+    if (attacker->facingRight == 1)
+      projStartX = attacker->frameInfo.projectileStartOffset[1][0] + gpCombatManager->combatGrid[attacker->occupiedHex].centerX;
+    else
+      projStartX = gpCombatManager->combatGrid[attacker->occupiedHex].centerX - attacker->frameInfo.projectileStartOffset[1][0];
+    int projStartY = attacker->frameInfo.projectileStartOffset[1][1] + gpCombatManager->combatGrid[attacker->occupiedHex].occupyingCreatureBottomY;
+    totXDiff = targMidX - projStartX;
+    firingLeft = 0;
+    if (targMidX - projStartX < 0) {
+      firingLeft = 1;
+      totXDiff = -totXDiff;
+    }
+    yDiff = targMidY - projStartY;
   }
-  int projStartX;
-  if (attacker->facingRight == 1)
-    projStartX = attacker->frameInfo.projectileStartOffset[1][0] + gpCombatManager->combatGrid[attacker->occupiedHex].centerX;
-  else
-    projStartX = gpCombatManager->combatGrid[attacker->occupiedHex].centerX - attacker->frameInfo.projectileStartOffset[1][0];
-  int projStartY = attacker->frameInfo.projectileStartOffset[1][1] + gpCombatManager->combatGrid[attacker->occupiedHex].occupyingCreatureBottomY;
-  int totXDiff = targMidX - projStartX;
-  char firingLeft = 0;
-  if (targMidX - projStartX < 0) {
-    firingLeft = 1;
-    totXDiff = -totXDiff;
-  }
-  int yDiff = targMidY - projStartY;
 
   float angleDeg;
   int spriteIdx;
-  if (totXDiff) {
-    float slope = (double)-yDiff / (double)totXDiff;
-    angleDeg = atan(slope) * 180.0 / 3.14159;
-    int i;
-    for (i = 1;  attacker->frameInfo.numMissileDirs > i &&
-      (*(float *)((char *)&attacker->frameInfo.projectileStartOffset[i + 2] + 1) +
-        attacker->frameInfo.projDirAngle[i]) / 2.0 >= angleDeg;  ++i)
-      ;
-    if (attacker->frameInfo.numMissileDirs <= i)
-      spriteIdx = attacker->frameInfo.numMissileDirs - 1;
-    else
-      spriteIdx = i - 1;
-  } else {
-    if (yDiff <= 0)
-      spriteIdx = 0;
-    else
-      spriteIdx = attacker->frameInfo.numMissileDirs - 1;
-    angleDeg = (double)(yDiff <= 0 ? 90 : -90);
+  {
+    if (totXDiff) {
+      float slope = (double)-yDiff / (double)totXDiff;
+      angleDeg = atan(slope) * 180.0 / 3.14159;
+      int i;
+      for (i = 1;  attacker->frameInfo.numMissileDirs > i &&
+        (*(float *)((char *)&attacker->frameInfo.projectileStartOffset[i + 2] + 1) +
+          attacker->frameInfo.projDirAngle[i]) / 2.0 >= angleDeg;  ++i)
+        ;
+      if (attacker->frameInfo.numMissileDirs <= i)
+        spriteIdx = attacker->frameInfo.numMissileDirs - 1;
+      else
+        spriteIdx = i - 1;
+    } else {
+      
+      if (yDiff <= 0)
+        spriteIdx = 0;
+      else
+        spriteIdx = attacker->frameInfo.numMissileDirs - 1;
+      angleDeg = (double)(yDiff <= 0 ? 90 : -90);
+    }
   }
 
   int attackDirectionAnimationIdx;
-  if (angleDeg <= 25.0) {
-    if (angleDeg <= -25.0) {
-      attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS;
-      attackDirectionAnimationIdx = 2;
+  {
+    if (angleDeg <= 25.0) {
+      if (angleDeg <= -25.0) {
+        attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS;
+        attackDirectionAnimationIdx = 2;
+      } else {
+        attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_FORWARDS;
+        attackDirectionAnimationIdx = 1;
+      }
     } else {
-      attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_FORWARDS;
-      attackDirectionAnimationIdx = 1;
+      attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_UPWARDS;
+      attackDirectionAnimationIdx = 0;
     }
-  } else {
-    attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_UPWARDS;
-    attackDirectionAnimationIdx = 0;
   }
-  for (attacker->animationFrame = 0;
-    attacker->frameInfo.animationLengths[attacker->animationType] > attacker->animationFrame;
-    ++attacker->animationFrame) {
-    if (attacker->frameInfo.animationLengths[attacker->animationType] - 1 == attacker->animationFrame)
-      gpCombatManager->DrawFrame(0, 1, 0, 0, 75, 1, 1);
-    else
-      gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
-    glTimers = (signed __int64)((double)KBTickCount()
-      + (double)attacker->frameInfo.shootingTime
-      * gfCombatSpeedMod[giCombatSpeed]
-      / (double)attacker->frameInfo.animationLengths[attacker->animationType]);
+
+  DrawShootingAnimation: {
+    for (attacker->animationFrame = 0;
+         attacker->frameInfo.animationLengths[attacker->animationType] > attacker->animationFrame;
+         ++attacker->animationFrame) {
+
+      if (attacker->frameInfo.animationLengths[attacker->animationType] - 1 == attacker->animationFrame) {
+        gpCombatManager->DrawFrame(0, 1, 0, 0, 75, 1, 1);
+      } else {
+        gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
+      }
+
+      glTimers = (signed __int64)((double)KBTickCount()
+        + (double)attacker->frameInfo.shootingTime
+        * gfCombatSpeedMod[giCombatSpeed]
+        / (double)attacker->frameInfo.animationLengths[attacker->animationType]);
+    }
+
+    attacker->animationFrame = attacker->frameInfo.animationLengths[attacker->animationType] - 1;
   }
-  attacker->animationFrame = attacker->frameInfo.animationLengths[attacker->animationType] - 1;
-  int projIconWidth = 100;
-  int projIconHeight = 100;
-  int v35 = 31;
+
+
+  int halfProjIconWidth = 100;
+  int halfProjIconHeight = 100;
+  int shotSpeed = 31; // in pixels/frame
   int v22 = 25;
 
-  int v20 = 0;
-  int offsetX = 639;
-  int v15 = 0;
-  int offsetY = 479;
+  H2RECT bounds(top(INT_MAX), bottom(INT_MIN), left(INT_MAX), right(INT_MIN));
+
   int startX;
   if (attacker->facingRight == 1)
     startX = attacker->frameInfo.projectileStartOffset[attackDirectionAnimationIdx][0] + gpCombatManager->combatGrid[attacker->occupiedHex].centerX;
@@ -1269,7 +1452,7 @@ void SpecialAttackGraphics(army *attacker, army *target) {
   int diffX = endX - startX;
   int diffY = endY - startY;
   int distance = (signed __int64)sqrt((double)(diffY * diffY + diffX * diffX));
-  int v52 = (distance + (v35 / 2)) / v35;
+  int numFrames = (distance + (shotSpeed / 2)) / shotSpeed;
 
   if (attacker->creatureIdx == CREATURE_MAGE || attacker->creatureIdx == CREATURE_ARCHMAGE) {
     gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
@@ -1278,85 +1461,64 @@ void SpecialAttackGraphics(army *attacker, army *target) {
   } else if (attacker->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
     gpCombatManager->ArcShot(attacker->missileIcon, startX, startY, endX, endY);
   } else {
-    int v37;
-    int v43;
-    if (v52 <= 1) {
-      v43 = diffX;
-      v37 = diffY;
+    int dx, dy;
+
+    if (numFrames <= 1) {
+      dx = diffX;
+      dy = diffY;
     } else {
-      v43 = diffX / (v52 - 1);
-      v37 = diffY / (v52 - 1);
+      dx = diffX / (numFrames - 1);
+      dy = diffY / (numFrames - 1);
     }
-    int v44 = startX;
-    int v38 = startY;
-    //from = (bitmap *)operator new(26);
-    bitmap *from = nullptr;
-    from = new bitmap(33, 2 * projIconWidth, 2 * projIconHeight);
-    from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - projIconWidth, v38 - projIconHeight);
-    int v59 = v44;
-    int v53 = v38;
-    int x = 0;
-    int y = 0;
-    for (int i = 0; i < v52; ++i) {
-      if (v59 - projIconWidth < offsetX)
-        offsetX = v59 - projIconWidth;
-      if (offsetX < 0)
-        offsetX = 0;
-      if (projIconWidth + v59 > v20)
-        v20 = projIconWidth + v59;
-      if (v20 > 639)
-        v20 = 639;
-      if (v53 - projIconHeight < offsetY)
-        offsetY = v53 - projIconHeight;
-      if (offsetY < 0)
-        offsetY = 0;
-      if (projIconHeight + v53 > v15)
-        v15 = projIconHeight + v53;
-      if (v15 > 442)
-        v15 = 442;
-      if (i) {
-        from->DrawToBufferCareful(x, y);
+    int centX = startX;
+    int centY = startY;
+    Point toDrawAt(0, 0);
+
+    bitmap *from = new bitmap(33, 2 * halfProjIconWidth, 2 * halfProjIconHeight);
+    from->GrabBitmapCareful(gpWindowManager->screenBuffer, centX - halfProjIconWidth, centY - halfProjIconHeight);
+    int oldCentX = centX;
+    int oldCentY = centY;
+
+    for (int i = 0; i < numFrames; ++i) {
+      bounds = bounds.unionWith(rectAroundPoint(Point(oldCentX, oldCentY),
+                                                 halfProjIconWidth, halfProjIconHeight));
+
+      bounds = bounds.clipToBounds(H2RECT(top(0), bottom(442), left(0), right(639)));
+
+      if (i > 0) {
+        from->DrawToBufferCareful(toDrawAt._x, toDrawAt._y);
       } else {
-        if (giMinExtentX > offsetX)
-          giMinExtentX = offsetX;
-        if (v20 > giMaxExtentX)
-          giMaxExtentX = v20;
-        if (offsetY < giMinExtentY)
-          giMinExtentY = offsetY;
-        if (v15 > giMaxExtentY)
-          giMaxExtentY = v15;
+        // extent = extent.unionWidth(bounds);
+        giMinExtentX = min(giMinExtentX, bounds._left);
+        giMaxExtentX = max(giMaxExtentX, bounds._right);
+        giMinExtentY = min(giMinExtentY, bounds._top);
+        giMaxExtentY = max(giMaxExtentY, bounds._bottom);
       }
-      x = v44 - projIconWidth;
-      if (v44 - projIconWidth < 0)
-        x = 0;
-      if (x + (signed int)from->width > 640)
-        x = 640 - from->width;
-      y = v38 - projIconHeight;
-      if (v38 - projIconHeight < 0)
-        y = 0;
-      if (y + (signed int)from->height > 640)
-        y = 640 - from->height;
-      from->GrabBitmapCareful(gpWindowManager->screenBuffer, x, y);
-      attacker->missileIcon->DrawToBuffer(v44, v38, spriteIdx, firingLeft);
-      if (i) {
-        DelayTil(&glTimers);
-        gpWindowManager->UpdateScreenRegion(offsetX, offsetY, v20 - offsetX + 1, v15 - offsetY + 1);
-      } else {
+
+      toDrawAt = Point(centX - halfProjIconWidth, centY - halfProjIconHeight);
+      toDrawAt = toDrawAt.clipToRect(H2RECT(top(0), bottom(442 - from->height), left(0), right(640 - from->width)));
+
+      from->GrabBitmapCareful(gpWindowManager->screenBuffer, toDrawAt._x, toDrawAt._y);
+      attacker->missileIcon->DrawToBuffer(centX, centY, spriteIdx, firingLeft);
+      if (i == 0) {
         gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
+      } else {
+        DelayTil(&glTimers);
+        gpWindowManager->UpdateScreenRegion(bounds._left, bounds._top, bounds.getWidth(), bounds.getHeight());
       }
 
       glTimers = (signed __int64)((double)KBTickCount() + (double)v22 * gfCombatSpeedMod[giCombatSpeed]);
-      v59 = v44;
-      v53 = v38;
-      v44 += v43;
-      v38 += v37;
-      offsetX = v44 - projIconWidth;
-      v20 = projIconWidth + v44;
-      offsetY = v38 - projIconHeight;
-      v15 = projIconHeight + v38;
+      oldCentX = centX;
+      oldCentY = centY;
+      centX += dx;
+      centY += dy;
+
+      bounds = rectAroundPoint(Point(centX, centY),
+                                  halfProjIconWidth, halfProjIconHeight);
     }
-    from->DrawToBuffer(x, y);
-    gpWindowManager->UpdateScreenRegion(v59 - projIconWidth, v53 - projIconHeight, 2 * projIconWidth, 2 * projIconHeight);
+
+    from->DrawToBuffer(toDrawAt._x, toDrawAt._y);
+    gpWindowManager->UpdateScreenRegion(oldCentX - halfProjIconWidth, oldCentY - halfProjIconHeight, 2 * halfProjIconWidth, 2 * halfProjIconHeight);
     if (from)
       from->~bitmap();
   }
@@ -1922,6 +2084,15 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     damagePerUnit *= SRandom(125, 150) * 0.01;
   }
 
+  if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+    if(gCharging) {
+      if(gChargePathDamage)
+        damagePerUnit *= 0.5;
+      else
+        damagePerUnit *= 1.25;
+    }
+  }
+
   int baseDam;
   if(!gCloseMove && CreatureHasAttribute(this->creatureIdx, TELEPORTER)) {
     baseDam = (signed __int64)(damagePerUnit * 1.25 + 0.5);
@@ -1952,7 +2123,10 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   }
   
   *damageDone = baseDam;
-  *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
+  if(baseDam < 0)
+    *creaturesKilled = targ->Damage(0, SPELL_NONE);
+  else
+    *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
 }
 
 void army::MoveTo(int hexIdx) {
@@ -1965,17 +2139,126 @@ void army::MoveTo(int hexIdx) {
   }
 }
 
-void army::MoveAttack(int targHex, int x) {
-  gMoveAttack = false;
-  // when "x" is 1 - moveattack, when "x" is 0 - just move. It doesn't apply to AI moves!
-  if(x == 1 || (!x && gpCombatManager->combatGrid[targHex].unitOwner != -1))
-    gMoveAttack = true;
-  int startHex = this->occupiedHex;
-  this->MoveAttack_orig(targHex, x);
+bool army::TargetOnStraightLine(int targHex) {
+  int deltaY = gpCombatManager->combatGrid[targHex].occupyingCreatureBottomY - gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
+  int deltaX = gpCombatManager->combatGrid[targHex].centerX - gpCombatManager->combatGrid[this->occupiedHex].centerX;
+  double angle = abs((180.0 / 3.141592653589793238463) * atan2(deltaY, abs(deltaX)));
+  return angle == 0 || angle == 62.354024636261322;
+}
+
+int army::GetStraightLineDirection(int targHex) {
+  int deltaY = gpCombatManager->combatGrid[targHex].occupyingCreatureBottomY - gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY;
+  int deltaX = gpCombatManager->combatGrid[targHex].centerX - gpCombatManager->combatGrid[this->occupiedHex].centerX;
+  double angle = (180.0 / 3.141592653589793238463) * atan2(deltaY, deltaX);
+  if(angle >= -62.4 && angle <= -62.3)
+    return 0;
+  if(angle == 0)
+    return 1;
+  if(angle >= 62.3 && angle <= 62.4)
+    return 2;
+  if(angle >= 117.6 && angle <= 117.7)
+    return 3;
+  if(angle == 180)
+    return 4;
+  if(angle >= -117.7 && angle <= -117.6)
+    return 5;
+  return -1;
+}
+
+void army::MoveAttackNonFlyer(int startHex, int attackMask) {
+  int attackMask2;
+  if(this->effectStrengths[5])
+    attackMask2 = GetAttackMask(this->occupiedHex, 2, -1);
+  else
+    attackMask2 = GetAttackMask(this->occupiedHex, 1, -1);
+  if(attackMask2 != 0xFF || this->creature.shots <= 0) {
+    if(attackMask == 0xFF) {
+      AttackTo();
+    } else {
+      for(int i = 0; i < 8; ++i) {
+        if(i < 6 || this->creature.creature_flags & TWO_HEXER) {
+          int knownHex = this->occupiedHex;
+          if(this->creature.creature_flags & TWO_HEXER && this->facingRight == 1 && i >= 0 && i <= 2)
+            ++knownHex;
+          if(this->creature.creature_flags & TWO_HEXER && !this->facingRight && i >= 3 && i <= 5)
+            --knownHex;
+          if(i >= 6) {
+            if(this->facingRight == 1)
+              ++knownHex;
+            else
+              --knownHex;
+          }
+          int adjCell = GetAdjacentCellIndex(knownHex, i);
+          if(ValidHex(adjCell)
+            && gpCombatManager->combatGrid[adjCell].unitOwner == this->targetOwner
+            && gpCombatManager->combatGrid[adjCell].stackIdx == this->targetStackIdx)
+            this->targetNeighborIdx = i;
+        }
+      }
+      DoAttack(0);
+    }
+  } else {
+    SpecialAttack();
+  }
 
   if (!(this->creature.creature_flags & DEAD) &&
     CreatureHasAttribute(this->creatureIdx, STRIKE_AND_RETURN)) {
     MoveTo(startHex);
+  }
+}
+
+void army::MoveAttack(int targHex, int x) {
+  char targetOwner = gpCombatManager->combatGrid[targHex].unitOwner;
+  char targetStack = gpCombatManager->combatGrid[targHex].stackIdx;
+  gMoveAttack = false;
+  // when "x" is 1 - moveattack, when "x" is 0 - just move. It doesn't apply to AI moves!
+  if(x == 1 || (!x && targetOwner != -1))
+    gMoveAttack = true;
+  int startHex = this->occupiedHex;
+  
+  while(1) {
+    gpCombatManager->field_F2B7 = 0;
+    this->targetOwner = -1;
+    this->targetStackIdx = -1;
+    if(!ValidHex(targHex))
+      break;
+    if(targetOwner == -1 ||
+      targetOwner == gpCombatManager->otherCurrentSideThing && targetStack == gpCombatManager->someSortOfStackIdx) {
+      if(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && gMoveAttack && TargetOnStraightLine(giNextActionGridIndex) && TargetOnStraightLine(targHex))) {
+        this->targetHex = targHex;
+        if(!ValidFlight(this->targetHex, 0))
+          return;
+        FlyTo(this->targetHex);
+      } else {
+        WalkTo(targHex);
+      }
+      gpCombatManager->field_F2B7 = 1;
+      return;
+    }
+    if(x)
+      return;
+    this->targetOwner = targetOwner;
+    this->targetStackIdx = targetStack;
+    this->targetHex = targHex;
+    int attackMask = GetAttackMask(this->occupiedHex, 0, -1);
+    if(!(this->creature.creature_flags & FLYER || (CreatureHasAttribute(this->creatureIdx, CHARGER) && TargetOnStraightLine(targHex))) || attackMask != 255) {
+      MoveAttackNonFlyer(startHex, attackMask);
+      gpCombatManager->field_F2B7 = 1;
+      return;
+    }
+    if(this->occupiedHex != this->targetHex && !ValidFlight(this->targetHex, 0))
+      return;
+    if(CreatureHasAttribute(this->creatureIdx, CHARGER)) {
+      if(TargetOnStraightLine(this->targetHex)) {
+        FlyTo(this->targetHex);
+      } else {
+        MoveAttackNonFlyer(startHex, attackMask);
+        gpCombatManager->field_F2B7 = 1;
+        return;
+      }
+    } else {    
+      FlyTo(this->targetHex);
+    }
   }
 }
 
@@ -2132,4 +2415,49 @@ void army::InitClean() {
       if(CreatureHasAttribute(this->creatureIdx, i))
         gIronfistExtra.combat.stack.abilityCounter[this][i] = 1;
     }
+}
+
+bool army::FlightThroughObstacles(int toHex) {
+  double x1, x2, y1, y2, dx, dy;
+  x1 = this->MidX();
+  y1 = this->MidY();
+  x2 = gpCombatManager->combatGrid[toHex].centerX;
+  y2 = gpCombatManager->combatGrid[toHex].occupyingCreatureBottomY;
+  dx = x2 - x1;
+  dy = y2 - y1;
+  int x = x1;
+  int endX = x2;
+  if(x1 > x2) {
+    x = x2;
+    endX = x1;
+  }
+  while(x < endX) {
+    int y = y1 + dy * (x - x1) / dx;
+    int cellIndex = gpCombatManager->GetGridIndex(x, y);
+    if(gpCombatManager->combatGrid[cellIndex].isBlocked)
+      return true;
+    x++;
+  }
+  return false;
+}
+
+bool army::IsEnemyCreatureHex(int hex) {
+  return (gpCombatManager->combatGrid[hex].stackIdx != -1) &&
+    (gpCombatManager->combatGrid[hex].unitOwner != this->owningSide);
+}
+
+int army::GetStraightLineDistanceToHex(int hex) {
+  int dir = this->GetStraightLineDirection(hex);
+  if(dir == -1)
+    return 999;
+  int tempHex = this->occupiedHex;
+  int distance = 0;
+  while(tempHex != hex) {
+    tempHex = this->GetAdjacentCellIndex(tempHex, dir);
+    distance++;
+    if(tempHex > 113 || tempHex < 0) {
+      return 999;
+    }
+  }
+  return distance;
 }

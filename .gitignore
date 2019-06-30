@@ -39,6 +39,6 @@ ipch/
 
 # Ironfist packed resources
 [Bb]uild/
-src/vcxproj/editor_vs/editor_vs.vcxproj
-*.DS_STORE
 
+*.DS_STORE
+*~

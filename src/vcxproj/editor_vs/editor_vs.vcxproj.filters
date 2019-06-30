@@ -64,6 +64,9 @@
     <Filter Include="Source Files\shared\spell">
       <UniqueIdentifier>{392c4a50-5c25-4ceb-929c-1b88817a4d2c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\shared\town">
+      <UniqueIdentifier>{d965efce-eef7-4af4-bd93-b85979ebae44}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp">
@@ -215,6 +218,9 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx">
       <Filter>Source Files\shared</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\town\buildings.cpp">
+      <Filter>Source Files\shared\town</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +381,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\editor\hero_edit.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\town\buildings.h">
+      <Filter>Header Files\shared\town</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

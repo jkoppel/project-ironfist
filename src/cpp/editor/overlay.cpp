@@ -3,6 +3,7 @@
 #include "base.h"
 
 #include "artifacts.h"
+#include "skills.h"
 
 #include "adventure/map.h"
 #include "editor.h"
