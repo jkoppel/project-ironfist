@@ -163,6 +163,7 @@ public:
 	char field_660E;
 
   // New state
+  bool onMapEndCallbackStatus = false;
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
