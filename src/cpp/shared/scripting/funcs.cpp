@@ -17,10 +17,7 @@ extern "C" {
 
 #include "sound/sound.h"
 
-typedef enum {
-	SND_DO_WAIT   = (1 << 0),
-	SND_DONT_WAIT = (1 << 1)
-} SoundEffectWait;
+enum SoundEffectWait { SND_DO_WAIT, SND_DONT_WAIT };
 
 static bool PlaySoundEffect(std::string snd, SoundEffectWait wait, SAMPLE2* samp) {
 	SAMPLE2 res = NULL_SAMPLE2;
@@ -36,6 +33,34 @@ static bool PlaySoundEffect(std::string snd, SoundEffectWait wait, SAMPLE2* samp
 			WaitEndSample(res, res.sample);
 		}
 		free(src);
+		return true;
+	}
+	return false;
+}
+
+static bool CheckLocationItem(mapCell *loc) {
+	if (loc->objType & LOCATION_ANCIENT_LAMP) {
+		return true;
+	}
+	if (loc->objType & LOCATION_ARTIFACT) {
+		return true;
+	}
+	if (loc->objType & LOCATION_RESOURCE) {
+		return true;
+	}
+	if (loc->objType & LOCATION_CAMPFIRE) {
+		return true;
+	}
+	if (loc->objType & LOCATION_TREASURE_CHEST) {
+		return true;
+	}
+	if (loc->objType & LOCATION_SHIPWRECK_SURVIVOR) {
+		return true;
+	}
+	if (loc->objType & LOCATION_FLOTSAM) {
+		return true;
+	}
+	if (loc->objType & LOCATION_SEA_CHEST) {
 		return true;
 	}
 	return false;
@@ -642,7 +667,7 @@ static int l_mapFizzleObj(lua_State *L) {
 	gpAdvManager->CompleteDraw(0);
 	gpWindowManager->SaveFizzleSource(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight());
 	if (snd != 0) {
-		if (!PlaySoundEffect("killfade", SND_DONT_WAIT, &res)) {
+		if (!PlaySoundEffect((!CheckLocationItem(cell)?"killfade":("pickup0"+std::to_string(Random(1, 7)))), SND_DONT_WAIT, &res)) {
 			snd = 0;
 		}
 	}
