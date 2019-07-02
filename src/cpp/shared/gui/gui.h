@@ -77,6 +77,8 @@ public:
   void UpdateScreenRegion(int, int, int, int);
   void AddWindow(heroWindow*, int, int);
   void RemoveWindow(heroWindow*);
+  void SaveFizzleSource(int, int, int, int);
+  void FizzleForward(int, int, int, int, int, signed char *, signed char *);
 };
 
 extern heroWindowManager* gpWindowManager;

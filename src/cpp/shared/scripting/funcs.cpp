@@ -15,8 +15,29 @@ extern "C" {
 #include "scripting/deepbinding.h"
 #include "scripting/register.h"
 
+#include "sound/sound.h"
+
 static int StackIndexOfArg(int argNumber, int numArgs) {
   return (numArgs - (argNumber - 1));
+}
+
+static bool PlaySoundEffect(std::string snd, bool wait, SAMPLE2* samp) {
+	SAMPLE2 res = NULL_SAMPLE2;
+	if (!snd.empty()) {
+		char* src;
+		snd += ".82m";
+		src = strdup(snd.c_str());
+		res = LoadPlaySample(src);
+		if (samp != NULL) {
+			memcpy(samp, &res, sizeof(SAMPLE2));
+		}
+		if (wait) {
+			WaitEndSample(res, res.sample);
+		}
+		free(src);
+		return true;
+	}
+	return false;
 }
 
 /************************************************ Dialogs ********************************************************/
@@ -597,6 +618,29 @@ static int l_mapEraseObj(lua_State *L) {
   return 0;
 }
 
+static int l_mapFizzleObj(lua_State *L) {
+	SAMPLE2 res;
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	int snd = (int)luaL_checknumber(L, 3);
+	mapCell *cell = gpAdvManager->GetCell(x, y);
+	gpAdvManager->CompleteDraw(0);
+	gpWindowManager->SaveFizzleSource(16, 16, 448, 448);
+	if (snd != 0) {
+		if (!PlaySoundEffect("killfade", false, &res)) {
+			snd = 0;
+		}
+	}
+	gpAdvManager->EraseObj(cell, x, y);
+	gpAdvManager->CompleteDraw(0);
+	PollSound();
+	gpWindowManager->FizzleForward(16, 16, 448, 448, -1, 0, 0);
+	if (snd != 0) {
+		WaitEndSample(res, res.sample);
+	}
+	return 0;
+}
+
 static int l_mapSetTerrainTile(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
@@ -618,6 +662,7 @@ static void register_map_funcs(lua_State *L) {
   lua_register(L, "MapSetObject", l_mapSetObject);
   lua_register(L, "MapPutArmy", l_mapPutArmy);
   lua_register(L, "MapEraseSquare", l_mapEraseObj);
+  lua_register(L, "MapFizzle", l_mapFizzleObj);
   lua_register(L, "MapSetTileTerrain", l_mapSetTerrainTile);
 }
 
@@ -1036,6 +1081,12 @@ static void register_battle_funcs(lua_State *L) {
 
 /************************************** Uncategorized ******************************************/
 
+static int l_playsoundeffect(lua_State *L) {
+	std::string snd = std::string(luaL_checkstring(L, 1));
+	PlaySoundEffect(snd, true, NULL);
+	return 0;
+}
+
 static int l_getinclinedtojoin(lua_State *L) {
 	int x = (int)luaL_checknumber(L, 1);
 	int y = (int)luaL_checknumber(L, 2);
@@ -1092,6 +1143,7 @@ static int l_toggleAIArmySharing(lua_State *L) {
 }
 
 static void register_uncategorized_funcs(lua_State *L) {
+  lua_register(L, "PlaySoundEffeect", l_playsoundeffect);
   lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
   lua_register(L, "SetInclinedToJoin", l_setinclinedtojoin);
   lua_register(L, "StartBattle", l_startbattle);
