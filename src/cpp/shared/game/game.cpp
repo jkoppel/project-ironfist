@@ -232,8 +232,7 @@ void __fastcall CheckEndGame(int a, int b) {
 			gpGame->onMapEndCallbackStatus = true;
 			if (giEndSequence) {
 				ScriptCallback("OnMapVictory");
-			}
-			else {
+			} else {
 				ScriptCallback("OnMapLoss");
 			}
 		}
