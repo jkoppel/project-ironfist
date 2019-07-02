@@ -32,6 +32,8 @@ char* gAlignmentNames[MAX_FACTIONS] = {"Knight", "Barbarian", "Sorceress", "Warl
                                        "Multiple", "Random", NULL, NULL, NULL, NULL,
                                        "Cyborg"};
 
+H2RECT gMapViewportRegion = H2RECT(top(16), bottom(464), left(16), right(464));
+
 int game::GetRandomNumTroops(int creat) {
 	return Random(gMonRandBound[creat][0], gMonRandBound[creat][1]);
 }
