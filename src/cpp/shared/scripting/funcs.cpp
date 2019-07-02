@@ -17,11 +17,12 @@ extern "C" {
 
 #include "sound/sound.h"
 
-static int StackIndexOfArg(int argNumber, int numArgs) {
-  return (numArgs - (argNumber - 1));
-}
+typedef enum {
+	SND_DO_WAIT   = (1 << 0),
+	SND_DONT_WAIT = (1 << 1)
+} SoundEffectWait;
 
-static bool PlaySoundEffect(std::string snd, bool wait, SAMPLE2* samp) {
+static bool PlaySoundEffect(std::string snd, SoundEffectWait wait, SAMPLE2* samp) {
 	SAMPLE2 res = NULL_SAMPLE2;
 	if (!snd.empty()) {
 		char* src;
@@ -31,13 +32,17 @@ static bool PlaySoundEffect(std::string snd, bool wait, SAMPLE2* samp) {
 		if (samp != NULL) {
 			memcpy(samp, &res, sizeof(SAMPLE2));
 		}
-		if (wait) {
+		if (wait == SND_DO_WAIT) {
 			WaitEndSample(res, res.sample);
 		}
 		free(src);
 		return true;
 	}
 	return false;
+}
+
+static int StackIndexOfArg(int argNumber, int numArgs) {
+	return (numArgs - (argNumber - 1));
 }
 
 /************************************************ Dialogs ********************************************************/
@@ -635,16 +640,16 @@ static int l_mapFizzleObj(lua_State *L) {
 	int snd = (int)luaL_checknumber(L, 3);
 	mapCell *cell = gpAdvManager->GetCell(x, y);
 	gpAdvManager->CompleteDraw(0);
-	gpWindowManager->SaveFizzleSource(16, 16, 448, 448);
+	gpWindowManager->SaveFizzleSource(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight());
 	if (snd != 0) {
-		if (!PlaySoundEffect("killfade", false, &res)) {
+		if (!PlaySoundEffect("killfade", SND_DONT_WAIT, &res)) {
 			snd = 0;
 		}
 	}
 	gpAdvManager->EraseObj(cell, x, y);
 	gpAdvManager->CompleteDraw(0);
 	PollSound();
-	gpWindowManager->FizzleForward(16, 16, 448, 448, -1, 0, 0);
+	gpWindowManager->FizzleForward(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight(), -1, 0, 0);
 	if (snd != 0) {
 		WaitEndSample(res, res.sample);
 	}
@@ -1093,7 +1098,7 @@ static void register_battle_funcs(lua_State *L) {
 
 static int l_playsoundeffect(lua_State *L) {
 	std::string snd = std::string(luaL_checkstring(L, 1));
-	PlaySoundEffect(snd, true, NULL);
+	PlaySoundEffect(snd, SND_DO_WAIT, NULL);
 	return 0;
 }
 
@@ -1153,7 +1158,7 @@ static int l_toggleAIArmySharing(lua_State *L) {
 }
 
 static void register_uncategorized_funcs(lua_State *L) {
-  lua_register(L, "PlaySoundEffeect", l_playsoundeffect);
+  lua_register(L, "PlaySoundEffect", l_playsoundeffect);
   lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
   lua_register(L, "SetInclinedToJoin", l_setinclinedtojoin);
   lua_register(L, "StartBattle", l_startbattle);

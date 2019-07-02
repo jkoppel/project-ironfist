@@ -19,6 +19,8 @@ extern int gbHumanPlayer[];
 
 extern char* gAlignmentNames[];
 
+extern H2RECT gMapViewportRegion;
+
 #define BUILDING_RIGHT_TURRET_BUILT     0x1
 #define BUILDING_LEFT_TURRET_BUILT      0x2
 #define BUILDING_SPECIAL_DEFENSE_BUILT  0x20
