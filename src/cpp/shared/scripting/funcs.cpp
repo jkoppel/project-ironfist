@@ -56,6 +56,15 @@ static bool CheckLocationItem(mapCell *loc) {
 	return false;
 }
 
+static bool CheckBoolean(lua_State *L, int pos) {
+	if (lua_isboolean(L, pos)) {
+		return lua_toboolean(L, pos);
+	}
+	const char *msg = lua_pushfstring(L, "%s expected, got %s", lua_typename(L, LUA_TBOOLEAN), luaL_typename(L, pos));
+	luaL_argerror(L, pos, msg);
+	return false;
+}
+
 static int StackIndexOfArg(int argNumber, int numArgs) {
 	return (numArgs - (argNumber - 1));
 }
@@ -642,20 +651,20 @@ static int l_mapFizzleObj(lua_State *L) {
 	SAMPLE2 res;
 	int x = (int)luaL_checknumber(L, 1);
 	int y = (int)luaL_checknumber(L, 2);
-	int snd = (int)luaL_checknumber(L, 3);
+	bool snd = CheckBoolean(L, 3);
 	mapCell *cell = gpAdvManager->GetCell(x, y);
 	gpAdvManager->CompleteDraw(0);
 	gpWindowManager->SaveFizzleSource(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight());
-	if (snd != 0) {
+	if (snd) {
 		if (!PlaySoundEffect((!CheckLocationItem(cell)?"killfade":("pickup0"+std::to_string(Random(1, 7)))), SND_DONT_WAIT, &res)) {
-			snd = 0;
+			snd = false;
 		}
 	}
 	gpAdvManager->EraseObj(cell, x, y);
 	gpAdvManager->CompleteDraw(0);
 	PollSound();
 	gpWindowManager->FizzleForward(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight(), -1, 0, 0);
-	if (snd != 0) {
+	if (snd) {
 		WaitEndSample(res, res.sample);
 	}
 	return 0;
@@ -1129,7 +1138,7 @@ static int l_getinclinedtojoin(lua_State *L) {
 static int l_setinclinedtojoin(lua_State *L) {
 	int x = (int)luaL_checknumber(L, 1);
 	int y = (int)luaL_checknumber(L, 2);
-	bool inclinedToJoin = luaL_checknumber(L, 3);
+	bool inclinedToJoin = CheckBoolean(L, 3);
 	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
 		int cellIdx = y * gpGame->map.height + x;
 		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
@@ -1157,7 +1166,7 @@ static int l_startbattle(lua_State *L) {
 }
 
 static int l_toggleAIArmySharing(lua_State *L) {
-  bool toggle = luaL_checknumber(L, 1);
+  bool toggle = CheckBoolean(L, 1);
   gpGame->allowAIArmySharing = toggle;
   return 0;
 }
