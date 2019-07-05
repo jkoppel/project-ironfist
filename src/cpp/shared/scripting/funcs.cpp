@@ -39,29 +39,19 @@ static bool PlaySoundEffect(std::string snd, SoundEffectWait wait, SAMPLE2* samp
 }
 
 static bool CheckLocationItem(mapCell *loc) {
-	if (loc->objType == LOCATION_ANCIENT_LAMP) {
-		return true;
+	if (!(loc->objType&TILE_HAS_EVENT)) {
+		return false;
 	}
-	if (loc->objType == LOCATION_ARTIFACT) {
-		return true;
-	}
-	if (loc->objType == LOCATION_RESOURCE) {
-		return true;
-	}
-	if (loc->objType == LOCATION_CAMPFIRE) {
-		return true;
-	}
-	if (loc->objType == LOCATION_TREASURE_CHEST) {
-		return true;
-	}
-	if (loc->objType == LOCATION_SHIPWRECK_SURVIVOR) {
-		return true;
-	}
-	if (loc->objType == LOCATION_FLOTSAM) {
-		return true;
-	}
-	if (loc->objType == LOCATION_SEA_CHEST) {
-		return true;
+	switch (loc->objType^TILE_HAS_EVENT) {
+		case LOCATION_ANCIENT_LAMP:
+		case LOCATION_ARTIFACT:
+		case LOCATION_RESOURCE:
+		case LOCATION_CAMPFIRE:
+		case LOCATION_TREASURE_CHEST:
+		case LOCATION_SHIPWRECK_SURVIVOR:
+		case LOCATION_FLOTSAM:
+		case LOCATION_SEA_CHEST:
+			return true;
 	}
 	return false;
 }
