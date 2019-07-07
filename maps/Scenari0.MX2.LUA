@@ -176,7 +176,7 @@ function GateDestroyEvent() --Need to set up play sound for destroy?
     if (gateUnlocked and not gateDestroyed) then
         gateDestroyed = true;
         MessageBox("Crash! The gate to the south, once impenetrable, crumbles before your eyes.");
-        MapEraseSquare(gateX, gateY);
+        MapFizzle(gateX, gateY, true); --We pass true because we want the sound to play.
     end
 end
 
