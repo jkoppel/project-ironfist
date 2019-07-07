@@ -114,18 +114,11 @@ end
 function BonfireEvent()
     if (not bonfireVisited) then
         bonfireVisited = true;
-        MessageBox("As you approach the fire you find a battle hardened paladin and his companion archers.");
-        MessageBox("They offer to join your cause.");
-        --Should this be a choice?
-        --What if the hero's army is full? These are 2 (probably inseparable) stacks. Can we even check the hero army slots?
-        --Should this be using the RecruitBox?
+        MessageBox("As you approach the fire you find a battle-hardened paladin.");
+        MessageBox("He offers to join your cause.");
         if (not TryGrantArmy(hero, CREATURE_PALADIN, 1)) then
             bonfireVisited = false;
             return;
-        end
-        if (not TryGrantArmy(hero, CREATURE_ARCHER, 10)) then
-            TakeTroop(hero, CREATURE_PALADIN, 1);
-            bonfireVisited = false;
         end
     else
         MessageBox("The bonfire has already been visited.");
@@ -154,7 +147,6 @@ function TentEvent()
         MessageBox("A few rangers show their skill in a competition.");
         MessageBox("Upon your arrival, you join the crowd and watch the show which ends with one archer splitting an arrow in mid air and hitting the bullseye of the target.");
         MessageBox("After the show, the archers notice you, and offer to join you telling you it will be their honor to serve you with their skills.");
-        --What if the army slots are full?
         if (not TryGrantArmy(hero, CREATURE_RANGER, 10)) then
             tentVisited = false;
         end
@@ -170,7 +162,7 @@ function TreeHouseEvent()
         MessageBox("\"The one that will save us all from the tyrant Archibald.\"");
         MessageBox("\"For this you may take one of my precious beloved items:\"");
         choice = QuestionBox("YES: Giant Flail of Dominion\nNO: Armored Gauntlets of Protection");
-        if (choice) then --Had to use placeholder artifacts.
+        if (choice) then
             TryGrantArtifact(hero, ARTIFACT_GIANT_FLAIL_OF_DOMINION);
         else
             TryGrantArtifact(hero, ARTIFACT_ARMORED_GAUNTLETS_OF_PROTECTION);
@@ -237,10 +229,6 @@ function JoustingRingEvent()
         if (not TryGrantArmy(hero, CREATURE_CAVALRY, 10)) then
             joustingRingVisited = false;
             return;
-        end
-        if (not TryGrantArmy(hero, CREATURE_CHAMPION, 1)) then
-            TakeTroop(hero, CREATURE_CAVALRY, 10);
-            joustingRingVisited = false;
         end
     else
         MessageBox("The jousting ring has already been visited.");
