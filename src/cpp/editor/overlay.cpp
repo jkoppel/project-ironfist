@@ -196,18 +196,355 @@ TownExtra* MakeTownExtra(int color, int idx) {
     return townMapExtra;
 }
 
-
-
 int __fastcall PlaceOverlay(overlay *ovr, int left, int top, int userDemanded) {
-  if ((ovr->locationType == LOCATION_HERO || ovr->locationType == LOCATION_RANDOM_HERO)
-    && CountHeroes(ovr->fullGridIconIndices[47] / 7) >= 8) {
+  if (userDemanded) {
+      ++giCurOverlayIdx;
+  }
+    
+  if((ovr->locationType == LOCATION_HERO  || ovr->locationType == LOCATION_RANDOM_HERO)
+        && CountHeroes(ovr->fullGridIconIndices[47] /7) >= 8) {
+            
+      sprintf(gText, "Max heroes on map (%d) for color has been reached", 8);
+      ShowErrorMessage(gText);
+      return 0;
+  }
 
-    sprintf(gText, "Max heroes on map (%d) for color has been reached", 8);
+
+  if (!ValidOverlayPlacement(ovr, left, top, 1)) {
+    LogStr("Invalid Placement");
+    ShowErrorMessage("Invalid Placement");
+    return 0;
+  }
+  
+  UnknownPlaceOverlayHelper(ovr, left, top);
+
+  if (ovr->category == OVERLAY_CATEGORY_TOWN && CountTowns() >= MAX_TOWNS) {
+    sprintf(gText, "Max towns on map (%d) has been reached.", MAX_TOWNS);
     ShowErrorMessage(gText);
     return 0;
-  } else {
-    return PlaceOverlay_orig(ovr, left, top, userDemanded);
   }
+
+  if (ovr->locationType == LOCATION_EVENT && CountPlacedEvents() >= MAX_PLACED_EVENTS) {
+    sprintf(gText, "Max map events (%d) has been reached.", MAX_PLACED_EVENTS);
+    ShowErrorMessage(gText);
+    return 0;
+  }
+
+  if ((ovr->locationType & 0x7F) == LOCATION_ULTIMATE_ARTIFACT) {
+      for (int j = 0; j < MAP_WIDTH; j++) {
+          for (int i = 0; i < MAP_WIDTH; i++) {
+              if ((gpMap.tiles[gpMap.width * i + j].objType & 0x7F) == LOCATION_ULTIMATE_ARTIFACT) {
+                  sprintf(gText, "The ultimate artifact has already been placed.");
+                  ShowErrorMessage(gText);
+                  return 0;
+              }
+          }
+      }
+      
+      int right = left + 7;
+      int bottom = top + 5;
+
+      if (right < 9 || right >= MAP_WIDTH - 9 || bottom < 9 || bottom >= MAP_HEIGHT - 9) {
+          sprintf(gText, "The ultimate artifact must be placed at least 9 squares in from map edge.");
+          ShowErrorMessage(gText);
+          return 0;
+      }
+  }
+  
+  if (CountMines() >= MAX_MINES && 
+      (ovr->locationType == LOCATION_ABANDONED_MINE
+        || ovr->locationType == LOCATION_MINE
+        || ovr->locationType == LOCATION_SAWMILL
+        || ovr->locationType == LOCATION_ALCHEMIST_LAB
+        || ovr->locationType == 50
+        || ovr->locationType == LOCATION_DRAGON_CITY
+        || ovr->locationType == LOCATION_LIGHTHOUSE)) {
+
+     sprintf(gText, "Max mines, sawmills and alchemists on map (%d) has been reached.", MAX_MINES);
+     ShowErrorMessage(gText);
+     return 0;
+  }
+
+
+  if (ovr->category == OVERLAY_CATEGORY_TOWN) {
+      int shadowOverlay;
+
+      if (ovr->idx >= 835 && ovr->idx <= 918) {
+          shadowOverlay = (ovr->idx - 835) % 12 + 919;
+      } else {
+          // No, I don't know what this means
+          shadowOverlay = (((unsigned __int64)(ovr->idx - 939) >> 32) ^ (((unsigned __int8)((unsigned __int64)(ovr->idx - 939) >> 32) ^ (unsigned __int8)(LOBYTE(ovr->idx) + 85))
+                                                                   - (unsigned __int8)((unsigned __int64)(ovr->idx - 939) >> 32)) & 1)
+                     - ((unsigned __int64)(ovr->idx - 939) >> 32)
+                     + 941;
+      }
+
+      PlaceOverlay(&gOverlayDatabase[shadowOverlay], left, top, 0);
+
+
+      int townEntryX = left + 5;
+      int townEntryY = top + 5;
+      
+      int terrainOverlay = 930 + gTileTerrainTypes[gpMap.tiles[townEntryY * gpMap.width + townEntryX].groundIndex];
+      PlaceOverlay(&gOverlayDatabase[terrainOverlay], left, top, 0);
+  }
+
+  for (int i = 0; i < 6; i++) {
+      for (int j = 0; j < 8; j++) {
+
+          if (left + j < 0 || left + j >= MAP_WIDTH) {
+              continue;
+          }
+
+          if (top + i < 0 || top + i >= MAP_HEIGHT) {
+              continue;
+          }
+
+          int ovrTileIdx = 8 * i + j;
+          mapCell *tile = &gpMap.tiles[(top + i) * gpMap.width + (left + j)];
+
+          if (ovr->fullGridIconIndices[ovrTileIdx] == -1) {
+              continue;
+          }
+
+          if (OverlayMaskBitSet(&ovr->coveredNonObstructedMask, j, i)) {
+              if (tile->overlayIndex == -1) {
+
+                  tile->ovrLink = giCurOverlayIdx;
+                  tile->overlayIndex = ovr->fullGridIconIndices[ovrTileIdx];
+                  tile->overlayTileset = ovr->tileset;
+
+                  if (i < 4
+                        && OverlayMaskBitSet(&ovr->intersectsTileMask, j, i + 1)
+                        && (ovr->locationType != LOCATION_ROAD || !OverlayMaskBitSet(&ovr->interactionPointMask, j, i + 1))
+                        && !OverlayMaskBitSet(&ovr->shadowsMask, j, i + 1)) {
+                      
+                      tile->hasLateOverlay = 1;
+                  } else {
+                      tile->hasLateOverlay = 0;
+                  }
+
+                  if (OverlayMaskBitSet(&ovr->animatedLateOverlay, j, i)) {
+                      tile->hasOverlay = 1;
+                  } else {
+                      tile->hasOverlay = 0;
+                  }
+              } else {
+                  mapCellExtra *extra = gpMap.GetNewCellExtraOverlay(left + j, top + i);
+                  extra->ovrLink = giCurOverlayIdx;
+                  extra->overlayIndex = ovr->fullGridIconIndices[ovrTileIdx];
+                  extra->tileset = ovr->tileset;
+                  
+                  if (i < 4
+                        && OverlayMaskBitSet(&ovr->intersectsTileMask, j, i + 1)
+                        && (ovr->locationType != LOCATION_ROAD || !OverlayMaskBitSet(&ovr->interactionPointMask, j, i + 1))
+                        && !OverlayMaskBitSet(&ovr->shadowsMask, j, i + 1)) {
+                      
+                      extra->hasLateOverlay = 1;
+                  } else {
+                      extra->hasLateOverlay = 0;
+                  }
+
+                  if (OverlayMaskBitSet(&ovr->animatedLateOverlay, j, i)) {
+                      extra->animatedLateOverlay = 1;
+                  } else {
+                      extra->animatedLateOverlay = 0;
+                  }
+              }
+          } else {
+              if (tile->objectIndex != -1
+                  && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)
+                  && ovr->locationType != LOCATION_MINE) {
+
+                gpMap.MoveInfoToCellExtra(left + j, top + i);
+              }
+
+              if (tile->objectIndex == -1) {
+                  if (unknownTerrainTileAttribute[tile->groundIndex] & 0x80) {
+                      tile->groundIndex = SelectTerrainTile(gTileTerrainTypes[tile->groundIndex],
+                          unknownTerrainTileAttribute[tile->groundIndex] - 128, 0, 0, 0, 0, 1.0);
+                  }
+
+                  tile->objLink = giCurOverlayIdx;
+                  tile->objectIndex = ovr->fullGridIconIndices[ovrTileIdx];
+                  tile->objTileset = ovr->tileset;
+                  if (OverlayMaskBitSet(&ovr->shadowsMask, j, i)) {
+                    tile->objType = 0;
+                    tile->isShadow = 1;
+                  } else {
+                    tile->objType = ovr->locationType;
+                    tile->isShadow = 0;
+                  }
+
+                  if (i >= 5
+                      || ovr->field_4B
+                      || OverlayMaskBitSet(&ovr->shadowsMask, j, i)
+                      || !OverlayMaskBitSet(&ovr->intersectsTileMask, j, i + 1)
+                      || OverlayMaskBitSet(&ovr->shadowsMask, j, i + 1)) {
+
+                      tile->field_4_3 = 0;
+                  } else {
+                      tile->field_4_3 = 1;
+                  }
+
+                  if (ovr->field_4B) {
+                      tile->field_4_1 = 1;
+                  } else {
+                      tile->field_4_1 = 0;
+                  }
+
+                  tile->hasObject = OverlayMaskBitSet(&ovr->animatedLateOverlay, j, i);
+              } else {
+                  mapCellExtra *extra = gpMap.GetNewCellExtraObject(left + j, top + i);
+                  extra->objLink = giCurOverlayIdx;
+                  extra->objectIndex = ovr->fullGridIconIndices[ovrTileIdx];
+                  extra->objTileset = ovr->tileset;
+                  extra->field_4_2 = OverlayMaskBitSet(&ovr->shadowsMask, j, i);
+
+                  if (i >= 5
+                      || ovr->field_4B
+                      || OverlayMaskBitSet(&ovr->shadowsMask, j, i)
+                      || !OverlayMaskBitSet(&ovr->intersectsTileMask, j, i + 1)
+                      || OverlayMaskBitSet(&ovr->shadowsMask, j, i + 1)) {
+                      extra->field_4_3 = 0;
+                  } else {
+                      extra->field_4_3 = 1;
+                  }
+
+                  if (ovr->field_4B) {
+                      extra->field_4_1 = 1;
+                  } else {
+                      extra->field_4_1 = 0;
+                  }
+
+                  extra->animatedObject = OverlayMaskBitSet(&ovr->animatedLateOverlay, j, i);
+              }
+          }
+
+          
+          if (OverlayMaskBitSet(&ovr->interactionPointMask, j, i) && ovr->locationType == LOCATION_MINE) {
+              tile->objType = LOCATION_MINE;
+          }
+          
+          if (OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+              tile->objType |= TILE_HAS_EVENT;
+          }
+
+          
+          if ( (tile->objType == (TILE_HAS_EVENT|LOCATION_TOWN)
+                  || tile->objType == (TILE_HAS_EVENT|LOCATION_RANDOM_TOWN)
+                  || tile->objType == (TILE_HAS_EVENT|LOCATION_RANDOM_CASTLE))
+              && OverlayMaskBitSet(&ovr->interactionPointMask, j, i) ) {
+
+                  int color = ovr->townColorOrMineColor;
+                  int idx = ovr->idx;
+
+                  AddMapExtra(tile, MakeTownExtra(color, idx));
+          }
+
+          if ((tile->objType == (TILE_HAS_EVENT|LOCATION_SIGN) || tile->objType == (TILE_HAS_EVENT|LOCATION_BOTTLE))
+                  && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+                      
+              AddMapExtra(tile, new SignExtra);
+          }
+
+          if (tile->objType == (TILE_HAS_EVENT|LOCATION_EVENT) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+              AddMapExtra(tile, new EventExtra);
+          }
+          
+          if (tile->objType == (TILE_HAS_EVENT|LOCATION_SPHINX) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+              AddMapExtra(tile, new SphinxExtra);
+          }
+          
+          if ((tile->objType == (TILE_HAS_EVENT|LOCATION_RANDOM_HERO) || tile->objType == (TILE_HAS_EVENT|LOCATION_JAIL))
+                            && OverlayMaskBitSet(&ovr->interactionPointMask, j, i) ) {
+            int faction;
+            if (tile->objType == LOCATION_JAIL) {
+                faction = 0;
+            }
+            else {
+                faction = tile->objectIndex % 7;
+            }
+
+            AddMapExtra(tile, MakeHeroMapExtra(faction));
+          }
+          
+          if (tile->objType == (TILE_HAS_EVENT|LOCATION_ARTIFACT) && (tile->objectIndex & 0xFE) == 2*ARTIFACT_SPELL_SCROLL) {
+              tile->extraInfo = 0;
+          }
+                          
+          if (tile->objType == (TILE_HAS_EVENT|LOCATION_ALCHEMIST_TOWER) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+              switch (ovr->idx) {
+              case 0x316:
+                  tile->extraInfo = 0;
+                  break;
+              case 0x317:
+                  tile->extraInfo = 1;
+                  break;
+              case 0x31D:
+                  tile->extraInfo = 2;
+                  break;
+              case 0x31E:
+                  tile->extraInfo = 3;
+                  break;
+              case 0x32F:
+                  tile->extraInfo = 4;
+                  break;
+              case 0x331:
+                  tile->extraInfo = 5;
+                  break;
+              case 0x332:
+                  tile->extraInfo = 6;
+                  break;
+              default:
+                  break;
+              }
+          }
+
+          if (tile->objType == (TILE_HAS_EVENT|LOCATION_EXPANSION_DWELLING) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+              switch (ovr->idx) {
+              case 792:
+                  tile->extraInfo = 0;
+                  break;
+              case 793:
+                  tile->extraInfo = 1;
+                  break;
+              case 794:
+                  tile->extraInfo = 1;
+                  break;
+              case 795:
+                  tile->extraInfo = 3;
+                  break;
+              case 796:
+                  tile->extraInfo = 4;
+                  break;
+              default:
+                  break;
+              }
+          }
+          if (tile->objType == (TILE_HAS_EVENT|LOCATION_BARRIER) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+              tile->extraInfo = ovr->idx - 799;
+          }
+
+          if (tile->objType == (TILE_HAS_EVENT|LOCATION_TRAVELLER_TENT) && OverlayMaskBitSet(&ovr->interactionPointMask, j, i)) {
+              tile->extraInfo = ovr->idx - 807;
+          }
+
+          if (OverlayMaskBitSet(&ovr->resourceField, j, i)) {
+              SetMineResourceIcon(&gOverlayDatabase[ovr->townColorOrMineColor + 128], left + j, top + i, 0);
+          }
+          
+      }
+  }
+  
+  if (ovr->category == OVERLAY_CATEGORY_TOWN) {
+      // Flags 
+
+      PlaceOverlay(&gOverlayDatabase[2 * ovr->townColorOrMineColor + 134], left - 3, top - 1, 0);
+      PlaceOverlay(&gOverlayDatabase[2 * ovr->townColorOrMineColor + 135], left - 1, top - 1, 0);
+  }
+
+  return 1;
 }
 
 overlay gOverlayDatabase[NUM_OVERLAYS] =
