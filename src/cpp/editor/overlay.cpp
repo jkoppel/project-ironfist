@@ -108,7 +108,7 @@ extern unsigned char unknownTerrainTileAttribute[];
 extern void __fastcall UnknownPlaceOverlayHelper(overlay*, int left, int top);
 extern int __fastcall SetMineResourceIcon(overlay*, int x, int y, int);
 
-template <typename T> void AddMapExtra(mapCell *tile, T mapExtra) {
+template <typename T> void AddMapExtra(mapCell *tile, T *mapExtra) {
     tile->extraInfo = gpEditManager->nMapExtra;
     gpEditManager->mapExtra[gpEditManager->nMapExtra] = mapExtra;
     gpEditManager->lenMapExtra[gpEditManager->nMapExtra++] = sizeof(T);
