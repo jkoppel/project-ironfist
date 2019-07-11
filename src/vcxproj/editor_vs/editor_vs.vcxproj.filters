@@ -222,6 +222,9 @@
     <ClCompile Include="..\..\cpp\shared\town\buildings.cpp">
       <Filter>Source Files\shared\town</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp">
+      <Filter>Source Files\shared\town</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\editor_imports.inc">
@@ -383,6 +386,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\town\buildings.h">
+      <Filter>Header Files\shared\town</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\town\town_globals.h">
       <Filter>Header Files\shared\town</Filter>
     </ClInclude>
   </ItemGroup>

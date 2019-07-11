@@ -303,6 +303,9 @@
     <ClCompile Include="..\..\cpp\shared\graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp">
+      <Filter>Source Files\town</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\stdafx.h">
@@ -514,6 +517,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\scripting\deepbinding.h">
       <Filter>Header Files\scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\town\town_globals.h">
+      <Filter>Header Files\town</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
