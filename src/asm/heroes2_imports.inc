@@ -320,6 +320,11 @@ IMPORT_?gSpecialBuildingCosts@@3PAUSBuildingCost@@A = 1
 IMPORT_?gDwellingCosts@@3PAY0M@USBuildingCost@@A = 1
 IMPORT_?gStartingHeroStats@@3PAUstartingPrimarySkills@@A = 1
 
+IMPORT_??_7recruitUnit@@6B@ = 1
+IMPORT_??0recruitUnit@@QAE@PAVarmyGroup@@HPAF@Z = 1
+IMPORT_??0recruitUnit@@QAE@PAVtown@@HH@Z = 1
+IMPORT_?Update@recruitUnit@@QAEXXZ = 1
+IMPORT_?SetupRecruitWin@@YIXPAVheroWindow@@HHHHH@Z = 1
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
 IMPORT_?SetupWell@townManager@@QAEXPAVheroWindow@@@Z = 1

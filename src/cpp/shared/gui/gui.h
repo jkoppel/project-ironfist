@@ -112,7 +112,6 @@ void GUIBroadcastMessage(heroWindow*, int, int, void*);
 int GUIGetDropdownSelection(heroWindow*, int);
 void GUISetDropdownSelection(heroWindow*, int, int);
 
-void __fastcall SetupRecruitWin(heroWindow *,int,int,int,int,int);
 void __fastcall QuickViewWait(void);
 
 #pragma pack(pop)
