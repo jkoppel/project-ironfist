@@ -186,6 +186,7 @@ void UnloadCreatures();
 
 
 void __fastcall GetMonsterCost(int, int *const);
+char *__fastcall GetMonsterName(int id);
 
 #pragma pack(pop)
 
