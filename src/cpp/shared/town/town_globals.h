@@ -103,6 +103,7 @@ enum DWELLING_TYPE
 // access elements of gDwellingType.
 extern char *gTownObjNames[];
 extern unsigned char gDwellingType[][NUM_DWELLINGS];
+extern char *gTownPrefixNames[MAX_FACTIONS];
 
 void InitTownObjNames();
 void InitDwellingTypes();
