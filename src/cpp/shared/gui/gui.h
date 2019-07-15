@@ -79,9 +79,73 @@ public:
   void RemoveWindow(heroWindow*);
   void SaveFizzleSource(int, int, int, int);
   void FizzleForward(int, int, int, int, int, signed char *, signed char *);
+
+class border {
+public:
+  void *vtable; //widgetVtable *vtable;
+  heroWindow *parentWindow;
+  widget *nextInLinkedList;
+  int prevInLinkedList;
+  short fieldID;
+  short field_12;
+  short backgroundType;
+  short flagsRelatedToShouldDisplayAndPerhapsMouseCode;
+  short offsetX;
+  short offsetY;
+  short width;
+  short height;
+  bitmap *bitmap;
+  icon *icon;
+  short color;
+
+  border(short x, short y, short width, short height, short fieldID, short a7, short color, char *filename);
 };
 
 extern heroWindowManager* gpWindowManager;
+
+extern class playerData;
+struct bankBox
+{
+  playerData *player;
+  short x;
+  short y;
+  heroWindow *window;
+
+public:
+  bankBox(short x, short y, playerData *player) {
+    this->player = player;
+    this->x = x;
+    this->y = y;
+    this->window = new heroWindow(this->x, this->y, "bankbox.bin");
+    if(!this->window)
+      MemError();
+    gpWindowManager->AddWindow(this->window, -1, 1);
+    this->Update(1);
+  }
+  void Update(int);
+};
+
+extern class armyGroup;
+class strip {
+  heroWindow *window;
+  char _1[24];
+  int x;
+  int y;
+  int field_24;
+  int drawBorder;
+  void *field_2C[6];
+  icon *stripIcon;
+  icon *creaturePortraits[5];
+  int creatureTypes[5];
+  icon *portraitIcon;
+  icon *portraitFlagIcon;
+  int portraitIconIdx;
+  int field_7C;
+  armyGroup *army;
+
+public:
+  strip(int x, int y, int a4, unsigned long portraitFileID, int portraitIconIdx, armyGroup *armyGrp, int fieldIDStart, int redraw, int a10);
+};
 
 enum ICON_GUI_FLAGS
 {
