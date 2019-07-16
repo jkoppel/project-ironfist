@@ -122,6 +122,7 @@
     <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\recruit_unit.cpp" />
     <ClCompile Include="..\..\cpp\shared\init.cpp" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lauxlib.c" />
@@ -176,6 +177,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
