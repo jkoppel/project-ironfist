@@ -815,10 +815,16 @@ int townManager::Main(tag_message &evt) {
           if(v37) {
           LABEL_127:
             char *buildInfo = GetBuildingInfo(this->castle->factionID, evt.yCoordOrFieldID, 1);
-            NormalDialog(buildInfo, 4, -1, -1, this->castle->factionID + 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
+            if(this->castle->factionID == FACTION_CYBORG)
+              NormalDialog(buildInfo, 4, -1, -1, 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
+            else
+              NormalDialog(buildInfo, 4, -1, -1, this->castle->factionID + 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
           } else {
             char *buildInfo = GetBuildingInfo(this->castle->factionID, evt.yCoordOrFieldID, 1);
-            NormalDialog(buildInfo, 1, -1, -1, this->castle->factionID + 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
+            if(this->castle->factionID == FACTION_CYBORG)
+              NormalDialog(buildInfo, 1, -1, -1, 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
+            else
+              NormalDialog(buildInfo, 1, -1, -1, this->castle->factionID + 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
           }
           goto LABEL_192;
         }
