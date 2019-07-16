@@ -33,6 +33,21 @@ enum WIN_CONDITION_TYPES {
   WIN_CONDITION_ACCUMULATE_GOLD = 0x5,
 };
 
+extern void __fastcall KBChangeMenu(void*);
+extern void *hmnuRecruitSave;
+extern void *hmnuCurrent;
+extern void *hmnuDflt;
+
+class mouseManager {
+public:
+	char _[138];
+	mouseManager();
+	void ShowColorPointer();
+  void SetPointer(char *mse, int spriteIdx, int protoCategory);
+};
+
+extern mouseManager* gpMouseManager;
+
 class playerData {
 public:
 	char color;

@@ -1,6 +1,7 @@
 #ifndef GUI_H
 #define GUI_H
 
+#include "base.h"
 #include "manager.h"
 #include "resource/resources.h"
 #include <string>
@@ -54,6 +55,8 @@ public:
   heroWindow(int, int, char*);
   int BroadcastMessage(tag_message&);
   void DrawWindow();
+  void DrawWindow(int updateScreen, signed int lowID, signed int highID);
+  void AddWidget(widget *guiObj, int index);
 };
 
 class heroWindowManager : public baseManager
@@ -79,6 +82,8 @@ public:
   void RemoveWindow(heroWindow*);
   void SaveFizzleSource(int, int, int, int);
   void FizzleForward(int, int, int, int, int, signed char *, signed char *);
+  int BroadcastMessage(int code, int messageType, int fieldID, int payload);
+};
 
 class border {
 public:
