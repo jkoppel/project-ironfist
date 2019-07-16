@@ -99,6 +99,7 @@ public:
 
   void BuildObj(signed int);
 
+  int Main(tag_message&);
   virtual int Open(int);
   int Open_orig(int);
   void SetupMage(heroWindow*);
@@ -108,11 +109,16 @@ public:
   int RecruitHero(int,int);
   int RecruitHero_orig(int,int);
   void RedrawTownScreen();
-  void RedrawTownScreen_orig();
   void SetCommandAndText(struct tag_message &evt);
-  void SetCommandAndText_orig(struct tag_message &evt);
   void DrawTown(int a2, int a3);
   void UnloadTown();
+  void ChangeTown();
+  void SetupCastle(heroWindow *window, int a3);
+  void SetupThievesGuild(heroWindow *window, int strength);
+  void DoTavern();
+  int BuyBuild(int building, int a3, int a4);
+  void DoCommand(int cmd);
+  void ShiftQualChange();
 };
 
 char *__fastcall GetBuildingName(int faction, int building);
@@ -120,6 +126,12 @@ char * __fastcall GetBuildingInfo(int faction, int building, int withTitle);
 char * __fastcall GetBuildingInfo_orig(int faction, int building, int withTitle);
 int GetDwellingType(int faction, int dwellingIndex);
 char * GetDwellingName(int faction, int dwellingIndex);
+extern char*__fastcall GetTownName(int idx);
+extern void __fastcall QuickViewRecruit(town *castle, int dwellingIdx);
+extern int __fastcall MageGuildHandler(tag_message &evt);
+extern int __fastcall CastleHandler(tag_message &evt);
+extern int __fastcall CanBuy(town *twn, int building);
+extern void __fastcall DoTradingPost(int isMarket, float efficiency);
 
 extern townManager* gpTownManager;
 

@@ -4,6 +4,7 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
 #include "artifacts.h"
+#include "combat/army.h"
 #include "town/town.h"
 
 #define NUM_PLAYERS 6
@@ -241,7 +242,9 @@ public:
   void SetRandomHeroArmies(int heroIdx, int isAI);
   void GiveTroopsToNeutralTown(int castleIdx);
   int RandomScan(signed char*, int, int, int, signed char);
-
+  int GetBoatsBuilt();
+  int CreateBoat(int x, int y, int doSend);
+  void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
 private:
   void PropagateVision();
 };
@@ -299,6 +302,8 @@ extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
 extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
 extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
+
+extern int getCastleOwnedIdx(playerData *player, int castleIdx);
 
 #pragma pack(pop)
 

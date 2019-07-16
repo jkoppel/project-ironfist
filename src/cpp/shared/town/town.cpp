@@ -5,7 +5,9 @@
 #include "adventure/map.h"
 #include "combat/creatures.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 #include "gui/gui.h"
+#include "gui/recruit_unit.h"
 #include "resource/resourceManager.h"
 #include "resource/resources.h"
 #include "scripting/callback.h"
@@ -270,6 +272,20 @@ SBuildingInfo sBuildingsInfo[MAX_FACTIONS][BUILDING_MAX] = {
     { '\0', 0, 0, 0, 0 },
     { '\0', 0, 0, 0, 0 }
   }
+};
+
+float marketEfficiency[11] = {
+  0,
+  0.1,
+  0.15,
+  0.2,
+  0.25,
+  0.3,
+  0.35,
+  0.4,
+  0.45,
+  0.5,
+  0.5
 };
 
 void game::SetupTowns() {
@@ -713,4 +729,388 @@ townObject::townObject(int faction, int buildingCode, char *filename) {
     if(!this->guiElement)
       MemError();
   }
+}
+
+int townManager::Main(tag_message &evt) {
+  int v36 = 0;
+  int v37;
+  if((*((unsigned char*)&(evt.inputTypeBitmask) + 1)) & 2)
+    v37 = 1;
+  else
+    v37 = 0;
+  if(giDebugBuildingToBuild != -1) {
+    int buildingToBuild = giDebugBuildingToBuild;
+    giDebugBuildingToBuild = -1;
+    if(buildingToBuild == 100) {
+      for(int buildingCode = 0; buildingCode < BUILDING_MAX; ++buildingCode) {
+        //if ( (1 << buildingCode) & (unsigned int)(&gTownEligibleBuildMask)[this->castle->factionID]
+        if((1 << buildingCode) & (unsigned int)&gTownEligibleBuildMask[this->castle->factionID]
+          || buildingCode == BUILDING_CASTLE)
+          this->BuildObj(buildingCode);
+      }
+    } else {
+      //if ( (1 << v32) & (unsigned int)(&gTownEligibleBuildMask)[this->castle->factionID] || v32 == 6 )
+      if((1 << buildingToBuild) & (unsigned int)&gTownEligibleBuildMask[this->castle->factionID] || buildingToBuild == BUILDING_CASTLE)
+        this->BuildObj(buildingToBuild);
+    }
+  }
+  if(KBTickCount() > glTimers) {
+    this->DrawTown(1, 1);
+    glTimers = KBTickCount() + 150;
+  }
+  int eventCode = evt.eventCode;
+  if(eventCode > 512)
+    goto LABEL_192;
+  if(eventCode == 512) {
+    int v15 = evt.xCoordOrKeycode;
+    if(v15 == 12)
+      goto LABEL_205;
+    if(v15 == 13) {
+      int v13 = evt.yCoordOrFieldID;
+      if(v13 >= 903) {
+        if(v13 <= 904) {
+          if(this->castle->ownerIdx == giCurPlayer && gpCurPlayer->numCastles > 1) {
+            this->castle = &gpGame->castles[gpCurPlayer->castlesOwned[(getCastleOwnedIdx(
+              gpCurPlayer,
+              this->castle->idx)
+                                                                      + gpCurPlayer->numCastles
+                                                                      + ((unsigned int)(evt.yCoordOrFieldID - 903) < 1 ? -1 : 1))
+              % gpCurPlayer->numCastles]];
+            this->ChangeTown();
+          }
+        } else {
+          if(v13 == 30720 && !v37)
+            ++v36;
+        }
+      }
+      goto LABEL_192;
+    }
+    if(v15 == 14) {
+    LABEL_205:
+      int v14 = evt.yCoordOrFieldID;
+      if(v14 > 15) {
+        if(v14 >= 19) {
+          if(v14 <= 30) {
+            if(v37) {
+              QuickViewRecruit(this->castle, evt.yCoordOrFieldID - 19);
+            } else {
+              this->DrawTown(1, 1);
+              recruitUnit *unit = new recruitUnit(this->castle, evt.yCoordOrFieldID - 19, 1);
+              if(!unit)
+                MemError();
+              gpExec->DoDialog((baseManager *)unit);
+              delete unit;
+            }
+            goto LABEL_192;
+          }
+          if(v14 == 30720) {
+            if(!v37)
+              this->SetCommandAndText(evt);
+            goto LABEL_192;
+          }
+        }
+      } else {
+        if(v14 == 15) {
+        LABEL_126:
+          if(v37) {
+          LABEL_127:
+            char *buildInfo = GetBuildingInfo(this->castle->factionID, evt.yCoordOrFieldID, 1);
+            NormalDialog(buildInfo, 4, -1, -1, this->castle->factionID + 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
+          } else {
+            char *buildInfo = GetBuildingInfo(this->castle->factionID, evt.yCoordOrFieldID, 1);
+            NormalDialog(buildInfo, 1, -1, -1, this->castle->factionID + 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
+          }
+          goto LABEL_192;
+        }
+        if((unsigned int)v14 <= 0xD) {
+          switch(v14) {
+            case BUILDING_CASTLE:
+              if(v37)
+                goto LABEL_127;
+              this->curScreen = new heroWindow(0, 0, "caslwind.bin");
+              if(!this->curScreen)
+                MemError();
+              this->SetupCastle(this->curScreen, 0);
+              this->field_15A = 1;
+              this->field_14E = 0;
+              gpWindowManager->DoDialog(this->curScreen,
+                CastleHandler,
+                0);
+              this->field_15A = 0;
+              delete this->curScreen;
+              if(this->field_14E) {
+                this->RedrawTownScreen();
+                gpWindowManager->SaveFizzleSource(0, 256, 552, 204);
+                if(this->visitingArmyDisplay)
+                  delete this->visitingArmyDisplay;
+                sprintf(gText, "port%04d.icn", this->heroBeingRecruited->heroID);
+                this->visitingArmyDisplay = new strip(0, 355, 3, gpResourceManager->MakeId(gText, 1), 0, &this->heroBeingRecruited->army, 122, 0, -1);
+                if(!this->visitingArmyDisplay)
+                  MemError();
+                SAMPLE2 res = LoadPlaySample("buildtwn.82M");
+                this->townScreen->DrawWindow(0);
+                this->garrisonDisplay->DrawIcons(0);
+                this->visitingArmyDisplay->DrawIcons(0);
+                gpWindowManager->FizzleForward(0, 256, 552, 204, -1, 0, 0);
+                WaitEndSample(res, -1);
+                this->field_14E = 0;
+                gpWindowManager->ReleaseFizzleSource();
+              } else {
+                if(this->field_15E == 15 && this->castle->visitingHeroIdx == -1) {
+                  if(this->visitingArmyDisplay)
+                    delete this->visitingArmyDisplay;
+                  this->visitingArmyDisplay = 0;
+                  sprintf(gText, "port%04d.icn", this->castle->factionID + 90);
+                  this->visitingArmyDisplay = new strip(0, 355, 3, gpResourceManager->MakeId(gText, 1), 0, 0, -1, 0, gpCurPlayer->color);
+                  if(!this->visitingArmyDisplay)
+                    MemError();
+                }
+                this->RedrawTownScreen();
+                if(this->field_15E != -1)
+                  this->BuildObj(this->field_15E);
+              }
+              goto LABEL_192;
+            case BUILDING_MAGE_GUILD:
+              if(v37)
+                goto LABEL_127;
+              if(this->castle->visitingHeroIdx == -1
+                || gpGame->heroes[this->castle->visitingHeroIdx].HasArtifact(81)) {
+                this->curScreen = new heroWindow(0, 0, "magewind.bin");
+                if(!this->curScreen)
+                  MemError();
+                SetWinText(this->curScreen, 17);
+                this->SetupMage(this->curScreen);
+                gpWindowManager->DoDialog(this->curScreen, MageGuildHandler, 0);
+                delete this->curScreen;
+              } else {
+                if(gpGame->heroes[this->castle->visitingHeroIdx].NumArtifacts() == 14) {
+                  NormalDialog(
+                    "You must purchase a spell book to use the mage guild, but you currently have no room for a spell book.  Try giving one of your artifacts to another hero.",
+                    1,
+                    -1,
+                    -1,
+                    -1,
+                    0,
+                    -1,
+                    0,
+                    -1,
+                    0);
+                } else {
+                  if(gpCurPlayer->resources[6] >= 500) {
+                    NormalDialog(
+                      "To cast spells, you must first buy a spell book for 500 gold.  Do you wish to buy one?",
+                      2,
+                      -1,
+                      -1,
+                      7,
+                      81,
+                      -1,
+                      0,
+                      -1,
+                      0);
+                    if(gpWindowManager->buttonPressedCode == 30725) {
+                      GiveArtifact(&gpGame->heroes[this->castle->visitingHeroIdx], ARTIFACT_MAGIC_BOOK, 1, -1);
+                      gpCurPlayer->resources[RESOURCE_GOLD] -= 500;
+                      this->bankbox->Update(1);
+                      this->townScreen->DrawWindow();
+                      this->castle->GiveSpells(0);
+                    }
+                  } else {
+                    NormalDialog(
+                      "To cast spells, you must first buy a spell book for 500 gold.  Unfortunately, you seem to be a little short of cash at the moment.",
+                      1,
+                      -1,
+                      -1,
+                      7,
+                      81,
+                      -1,
+                      0,
+                      -1,
+                      0);
+                  }
+                }
+              }
+              this->castle->GiveSpells(0);
+              this->RedrawTownScreen();
+              goto LABEL_192;
+            case BUILDING_WELL:
+              if(v37)
+                goto LABEL_127;
+              this->curScreen = new heroWindow(0, 0, "wellwind.bin");
+              if(!this->curScreen)
+                MemError();
+              this->SetupWell(this->curScreen);
+              gpWindowManager->DoDialog(this->curScreen, TrueFalseDialogHandler, 0);
+              delete this->curScreen;
+              this->RedrawTownScreen();
+              goto LABEL_192;
+            case BUILDING_THIEVES_GUILD:
+              if(v37)
+                goto LABEL_127;
+              this->curScreen = new heroWindow(0, 0, "thiefwin.bin");
+              if(!this->curScreen)
+                MemError();
+              SetWinText(this->curScreen, 14);
+              this->SetupThievesGuild(this->curScreen, -1);
+              gpWindowManager->DoDialog(this->curScreen, TrueFalseDialogHandler, 0);
+              delete this->curScreen;
+              this->RedrawTownScreen();
+              goto LABEL_192;
+            case BUILDING_TAVERN:
+              if(v37)
+                goto LABEL_127;
+              if(this->castle->factionID == 5) {
+                char *buildInfo = GetBuildingInfo(this->castle->factionID, evt.yCoordOrFieldID, 1);
+                NormalDialog(buildInfo, 1, -1, -1, this->castle->factionID + 19, evt.yCoordOrFieldID, -1, 0, -1, 0);
+              } else {
+                this->DoTavern();
+              }
+              goto LABEL_192;
+            case BUILDING_TENT:
+              if(v37)
+                goto LABEL_127;
+              if(this->castle->mayNotBeUpgradedToCastle) {
+                NormalDialog("This town may not be upgraded to a castle.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              } else {
+                if(this->BuyBuild(BUILDING_CASTLE, CanBuy(this->castle, BUILDING_CASTLE) < 1, v37))
+                  this->BuildObj(6);
+              }
+              goto LABEL_192;
+            case BUILDING_DOCK:
+              if(v37)
+                goto LABEL_127;
+              gpWindowManager->BroadcastMessage(512, 5, 30720, 16392);
+              if(gpGame->GetBoatsBuilt() >= 48
+                || gpAdvManager->GetCell(this->castle->buildDockRelated, this->castle->field_7)->objType) {
+                NormalDialog("Cannot build another boat.", 1, 208, 40, -1, 0, -1, 0, -1, 0);
+              } else {
+                this->curScreen = new heroWindow(177, 20, "shipwind.bin");
+                if(!this->curScreen)
+                  MemError();
+                SetWinText(this->curScreen, 12);
+                if(gpGame->players[giCurPlayer].resources[6] < 1000 || gpGame->players[giCurPlayer].resources[0] < 10) {
+                  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+                  evt.xCoordOrKeycode = 5;
+                  evt.yCoordOrFieldID = 30722;
+                  evt.payload = (void *)4096;
+                  this->curScreen->BroadcastMessage(evt);
+                  evt.xCoordOrKeycode = 6;
+                  evt.payload = (void *)2;
+                  this->curScreen->BroadcastMessage(evt);
+                }
+                gpWindowManager->DoDialog(this->curScreen, TrueFalseDialogHandler, 0);
+                delete this->curScreen;
+                if(gpWindowManager->buttonPressedCode == 30722) {
+                  if(gpGame->CreateBoat(this->castle->buildDockRelated, this->castle->field_7, 0) == -1) {
+                    LogStr("Can't create boat!");
+                  } else {
+                    this->BuildObj(BUILDING_BOAT);
+                    gpGame->players[giCurPlayer].resources[RESOURCE_GOLD] -= 1000;
+                    gpGame->players[giCurPlayer].resources[RESOURCE_WOOD] -= 10;
+                    this->bankbox->Update(1);
+                  }
+                }
+              }
+              gpWindowManager->BroadcastMessage(512, 6, 30720, 16392);
+              goto LABEL_192;
+            case BUILDING_MARKET:
+            {
+              if(v37)
+                goto LABEL_127;
+              int v30 = 0;
+              for(int buildingCode = 0; gpCurPlayer->numCastles > buildingCode; ++buildingCode) {
+                unsigned int builtFlags = gpGame->castles[gpCurPlayer->castlesOwned[buildingCode]].buildingsBuiltFlags;
+                if((*((unsigned char*)&(builtFlags)+1)) & 4)
+                  ++v30;
+              }
+              if(v30 > 10)
+                v30 = 10;
+              DoTradingPost(1, marketEfficiency[v30]);
+              this->RedrawTownScreen();
+              goto LABEL_192;
+            }
+            case BUILDING_STATUE:
+            case BUILDING_LEFT_TURRET:
+            case BUILDING_RIGHT_TURRET:
+            case BUILDING_SPECIAL_GROWTH:
+            case BUILDING_MOAT:
+            case BUILDING_SPECIAL:
+              goto LABEL_126;
+            default:
+              break;
+          }
+        }
+      }
+      if(v37) {
+        int v29 = 0;
+        if(evt.yCoordOrFieldID >= 117 && evt.yCoordOrFieldID <= 121) {
+          this->field_D6 = this->garrisonDisplay;
+          this->field_DA = evt.yCoordOrFieldID - 117;
+          v29 = 1;
+        }
+        if(evt.yCoordOrFieldID >= 123 && evt.yCoordOrFieldID <= 127) {
+          this->field_D6 = this->visitingArmyDisplay;
+          this->field_DA = evt.yCoordOrFieldID - 123;
+          v29 = 1;
+        }
+        if(v29 && this->field_D6->army->creatureTypes[this->field_DA] != -1) {
+          hero* hro;
+          if(this->field_D6 == this->visitingArmyDisplay)
+            hro = &gpGame->heroes[this->castle->visitingHeroIdx];
+          else
+            hro = 0;
+          gpGame->ViewArmy(
+            119,
+            20,
+            (CREATURES)this->field_D6->army->creatureTypes[this->field_DA],
+            this->field_D6->army->quantities[this->field_DA],
+            this->castle,
+            1,
+            1u,
+            1,
+            hro,
+            0,
+            this->field_D6->army,
+            this->field_DA);
+          this->bankbox->Update(1);
+        }
+      } else {
+        this->DoCommand(this->field_14A);
+        this->SetCommandAndText(evt);
+      }
+    }
+    goto LABEL_192;
+  }
+  if(eventCode == 1) {
+    int keyCode = evt.xCoordOrKeycode;
+    if(keyCode == 1) {
+      ++v36;
+    } else {
+      if(keyCode == 42 || keyCode == 54)
+        this->ShiftQualChange();
+    }
+    goto LABEL_192;
+  }
+  if(eventCode == 2) {
+    int keycode = evt.xCoordOrKeycode;
+    if(keycode == 42 || keycode == 54)
+      this->ShiftQualChange();
+    goto LABEL_192;
+  }
+  if(eventCode != 4) {
+  LABEL_192:
+    if(v36 == 1) {
+      evt.eventCode = (INPUT_EVENT_CODE)16384;
+      evt.xCoordOrKeycode = 1;
+      return 2;
+    } else
+      return 1;
+  }
+  gpWindowManager->ConvertToHover(evt);
+  if(evt.yCoordOrFieldID != this->field_142 || evt.inputTypeBitmask != this->field_146) {
+    this->field_142 = evt.yCoordOrFieldID;
+    this->field_146 = evt.inputTypeBitmask;
+    this->SetCommandAndText(evt);
+  }
+  return 1;
 }

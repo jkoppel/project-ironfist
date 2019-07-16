@@ -151,6 +151,7 @@ public:
   void SetPrimarySkill(int, int);
   int GetLevel();
   void Clear();
+  int NumArtifacts();
 };
 
 enum HERO_FLAGS {

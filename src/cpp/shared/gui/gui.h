@@ -55,6 +55,7 @@ public:
   heroWindow(int, int, char*);
   int BroadcastMessage(tag_message&);
   void DrawWindow();
+  void DrawWindow(int updateScreen);
   void DrawWindow(int updateScreen, signed int lowID, signed int highID);
   void AddWidget(widget *guiObj, int index);
 };
@@ -81,8 +82,10 @@ public:
   void AddWindow(heroWindow*, int, int);
   void RemoveWindow(heroWindow*);
   void SaveFizzleSource(int, int, int, int);
+  void ReleaseFizzleSource();
   void FizzleForward(int, int, int, int, int, signed char *, signed char *);
   int BroadcastMessage(int code, int messageType, int fieldID, int payload);
+  int ConvertToHover(tag_message &msg);
 };
 
 class border {
@@ -132,6 +135,7 @@ public:
 
 extern class armyGroup;
 class strip {
+public:
   heroWindow *window;
   char _1[24];
   int x;
@@ -150,6 +154,7 @@ class strip {
 
 public:
   strip(int x, int y, int a4, unsigned long portraitFileID, int portraitIconIdx, armyGroup *armyGrp, int fieldIDStart, int redraw, int a10);
+  void DrawIcons(int updateScreen);
 };
 
 enum ICON_GUI_FLAGS
@@ -182,7 +187,8 @@ int GUIGetDropdownSelection(heroWindow*, int);
 void GUISetDropdownSelection(heroWindow*, int, int);
 
 void __fastcall QuickViewWait(void);
-
+extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
+extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
 #pragma pack(pop)
 
 #endif

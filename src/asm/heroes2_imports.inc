@@ -338,6 +338,7 @@ IMPORT_?Open@recruitUnit@@UAEHH@Z = 1
 ?Open@recruitUnit@@UAEHH@Z_clone EQU ?Open_orig@recruitUnit@@QAEHH@Z
 IMPORT_?GetBuildingInfo@@YIPADHHH@Z = 1
 ?GetBuildingInfo@@YIPADHHH@Z_clone EQU ?GetBuildingInfo_orig@@YIPADHHH@Z
+IMPORT_?Main@townManager@@UAEHAAUtag_message@@@Z = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1

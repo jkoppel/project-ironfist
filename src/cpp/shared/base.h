@@ -41,6 +41,7 @@ extern void __fastcall DelayTil(int *);
 extern void __fastcall DelayMilli(long);
 extern signed char gArmyEffected[2][20];
 extern int bSecondAttack;
+extern int giDebugBuildingToBuild;
 /*
  * Updates sound, graphics if needed.
  *
