@@ -319,6 +319,7 @@ IMPORT_?gTownPrefixNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingCosts@@3PAUSBuildingCost@@A = 1
 IMPORT_?gDwellingCosts@@3PAY0M@USBuildingCost@@A = 1
 IMPORT_?gStartingHeroStats@@3PAUstartingPrimarySkills@@A = 1
+IMPORT_??0townObject@@QAE@HHPAD@Z = 1
 
 IMPORT_??_7recruitUnit@@6B@ = 1
 IMPORT_??0recruitUnit@@QAE@PAVarmyGroup@@HPAF@Z = 1

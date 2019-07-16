@@ -51,6 +51,17 @@ public:
   int DwellingIndex(int) const;
 };
 
+class townObject {
+public:
+  int animationLength;
+  int animationIdx;
+  int built;
+  int buildingCode;
+  icon *icon;
+  border *guiElement;
+  townObject(int faction, int buildingCode, char *filename);
+};
+
 class townManager : public baseManager {
 public:
   town* castle;
