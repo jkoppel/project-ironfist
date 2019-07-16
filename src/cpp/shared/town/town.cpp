@@ -733,11 +733,13 @@ townObject::townObject(int faction, int buildingCode, char *filename) {
 
 int townManager::Main(tag_message &evt) {
   int v36 = 0;
-  int v37;
+
+  bool rightClick;
   if((*((unsigned char*)&(evt.inputTypeBitmask) + 1)) & 2)
-    v37 = 1;
+    rightClick = 1;
   else
-    v37 = 0;
+    rightClick = 0;
+
   if(giDebugBuildingToBuild != -1) {
     int buildingToBuild = giDebugBuildingToBuild;
     giDebugBuildingToBuild = -1;
@@ -754,14 +756,18 @@ int townManager::Main(tag_message &evt) {
         this->BuildObj(buildingToBuild);
     }
   }
+
   if(KBTickCount() > glTimers) {
+    const int TOWN_DRAW_DURATION = 150;
     this->DrawTown(1, 1);
-    glTimers = KBTickCount() + 150;
+    glTimers = KBTickCount() + TOWN_DRAW_DURATION;
   }
+
   int eventCode = evt.eventCode;
-  if(eventCode > 512)
+  if(eventCode > INPUT_GUI_MESSAGE_CODE)
     goto LABEL_192;
-  if(eventCode == 512) {
+
+  if(eventCode == INPUT_GUI_MESSAGE_CODE) {
     int v15 = evt.xCoordOrKeycode;
     if(v15 == 12)
       goto LABEL_205;
@@ -779,7 +785,7 @@ int townManager::Main(tag_message &evt) {
             this->ChangeTown();
           }
         } else {
-          if(v13 == 30720 && !v37)
+          if(v13 == 30720 && !rightClick)
             ++v36;
         }
       }
@@ -791,7 +797,7 @@ int townManager::Main(tag_message &evt) {
       if(v14 > 15) {
         if(v14 >= 19) {
           if(v14 <= 30) {
-            if(v37) {
+            if(rightClick) {
               QuickViewRecruit(this->castle, evt.yCoordOrFieldID - 19);
             } else {
               this->DrawTown(1, 1);
@@ -804,7 +810,7 @@ int townManager::Main(tag_message &evt) {
             goto LABEL_192;
           }
           if(v14 == 30720) {
-            if(!v37)
+            if(!rightClick)
               this->SetCommandAndText(evt);
             goto LABEL_192;
           }
@@ -812,7 +818,7 @@ int townManager::Main(tag_message &evt) {
       } else {
         if(v14 == 15) {
         LABEL_126:
-          if(v37) {
+          if(rightClick) {
           LABEL_127:
             char *buildInfo = GetBuildingInfo(this->castle->factionID, evt.yCoordOrFieldID, 1);
             if(this->castle->factionID == FACTION_CYBORG)
@@ -831,7 +837,7 @@ int townManager::Main(tag_message &evt) {
         if((unsigned int)v14 <= 0xD) {
           switch(v14) {
             case BUILDING_CASTLE:
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               this->curScreen = new heroWindow(0, 0, "caslwind.bin");
               if(!this->curScreen)
@@ -877,7 +883,7 @@ int townManager::Main(tag_message &evt) {
               }
               goto LABEL_192;
             case BUILDING_MAGE_GUILD:
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               if(this->castle->visitingHeroIdx == -1
                 || gpGame->heroes[this->castle->visitingHeroIdx].HasArtifact(81)) {
@@ -940,7 +946,7 @@ int townManager::Main(tag_message &evt) {
               this->RedrawTownScreen();
               goto LABEL_192;
             case BUILDING_WELL:
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               this->curScreen = new heroWindow(0, 0, "wellwind.bin");
               if(!this->curScreen)
@@ -951,7 +957,7 @@ int townManager::Main(tag_message &evt) {
               this->RedrawTownScreen();
               goto LABEL_192;
             case BUILDING_THIEVES_GUILD:
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               this->curScreen = new heroWindow(0, 0, "thiefwin.bin");
               if(!this->curScreen)
@@ -963,7 +969,7 @@ int townManager::Main(tag_message &evt) {
               this->RedrawTownScreen();
               goto LABEL_192;
             case BUILDING_TAVERN:
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               if(this->castle->factionID == 5) {
                 char *buildInfo = GetBuildingInfo(this->castle->factionID, evt.yCoordOrFieldID, 1);
@@ -973,17 +979,17 @@ int townManager::Main(tag_message &evt) {
               }
               goto LABEL_192;
             case BUILDING_TENT:
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               if(this->castle->mayNotBeUpgradedToCastle) {
                 NormalDialog("This town may not be upgraded to a castle.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
               } else {
-                if(this->BuyBuild(BUILDING_CASTLE, CanBuy(this->castle, BUILDING_CASTLE) < 1, v37))
+                if(this->BuyBuild(BUILDING_CASTLE, CanBuy(this->castle, BUILDING_CASTLE) < 1, rightClick))
                   this->BuildObj(6);
               }
               goto LABEL_192;
             case BUILDING_DOCK:
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               gpWindowManager->BroadcastMessage(512, 5, 30720, 16392);
               if(gpGame->GetBoatsBuilt() >= 48
@@ -1021,7 +1027,7 @@ int townManager::Main(tag_message &evt) {
               goto LABEL_192;
             case BUILDING_MARKET:
             {
-              if(v37)
+              if(rightClick)
                 goto LABEL_127;
               int v30 = 0;
               for(int buildingCode = 0; gpCurPlayer->numCastles > buildingCode; ++buildingCode) {
@@ -1047,7 +1053,7 @@ int townManager::Main(tag_message &evt) {
           }
         }
       }
-      if(v37) {
+      if(rightClick) {
         int v29 = 0;
         if(evt.yCoordOrFieldID >= 117 && evt.yCoordOrFieldID <= 121) {
           this->field_D6 = this->garrisonDisplay;
@@ -1087,7 +1093,8 @@ int townManager::Main(tag_message &evt) {
     }
     goto LABEL_192;
   }
-  if(eventCode == 1) {
+
+  if(eventCode == INPUT_KEYDOWN_EVENT_CODE) {
     int keyCode = evt.xCoordOrKeycode;
     if(keyCode == 1) {
       ++v36;
@@ -1097,13 +1104,16 @@ int townManager::Main(tag_message &evt) {
     }
     goto LABEL_192;
   }
-  if(eventCode == 2) {
+
+  if(eventCode == INPUT_KEYUP_EVENT_CODE) {
     int keycode = evt.xCoordOrKeycode;
+    // left shift / right shift
     if(keycode == 42 || keycode == 54)
       this->ShiftQualChange();
     goto LABEL_192;
   }
-  if(eventCode != 4) {
+
+  if(eventCode != INPUT_MOUSEMOVE_EVENT_CODE) {
   LABEL_192:
     if(v36 == 1) {
       evt.eventCode = (INPUT_EVENT_CODE)16384;
@@ -1112,6 +1122,8 @@ int townManager::Main(tag_message &evt) {
     } else
       return 1;
   }
+
+  // Show message on hover
   gpWindowManager->ConvertToHover(evt);
   if(evt.yCoordOrFieldID != this->field_142 || evt.inputTypeBitmask != this->field_146) {
     this->field_142 = evt.yCoordOrFieldID;
