@@ -53,20 +53,55 @@ public:
 
 class townManager : public baseManager {
 public:
-	town* castle;
-	char _[378-sizeof(baseManager)-sizeof(town*)];
-	townManager();
+  town* castle;
+  icon *couldBeBackground;
+  townObject *buildingDisplays[32];
+  int curBuilding;
+  int factionID;
+  int field_C6;
+  heroWindow *townScreen;
+  strip *garrisonDisplay;
+  strip *visitingArmyDisplay;
+  strip *field_D6;
+  int field_DA;
+  strip *field_DE;
+  int field_E2;
+  strip *field_E6;
+  int field_EA;
+  bankBox *bankbox;
+  char infoMessage[80];
+  int field_142;
+  int field_146;
+  int field_14A;
+  int field_14E;
+  int field_152;
+  int field_156;
+  int field_15A;
+  int field_15E;
+  heroWindow *curScreen;
+  heroWindow *dialog;
+  int field_16A;
+  int field_16E;
+  int recruitHeroConfirmed;
+  hero *heroBeingRecruited;
+  townManager();
 
-	void BuildObj(signed int);
+  void BuildObj(signed int);
 
-	virtual int Open(int);
-	int Open_orig(int);
-	void SetupMage(heroWindow*);
-	void SetupWell(heroWindow*);
-	void SetupWell_orig(heroWindow*);
+  virtual int Open(int);
+  int Open_orig(int);
+  void SetupMage(heroWindow*);
+  void SetupWell(heroWindow*);
+  void SetupWell_orig(heroWindow*);
 
-	int RecruitHero(int,int);
-	int RecruitHero_orig(int,int);
+  int RecruitHero(int,int);
+  int RecruitHero_orig(int,int);
+  void RedrawTownScreen();
+  void RedrawTownScreen_orig();
+  void SetCommandAndText(struct tag_message &evt);
+  void SetCommandAndText_orig(struct tag_message &evt);
+  void DrawTown(int a2, int a3);
+  void UnloadTown();
 };
 
 class recruitUnit : public baseManager {
