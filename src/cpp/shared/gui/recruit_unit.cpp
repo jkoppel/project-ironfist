@@ -84,7 +84,7 @@ int recruitUnit::Open(int id) {
   hmnuRecruitSave = hmnuCurrent;
   KBChangeMenu(hmnuDflt);
 
-  this->type = 16384;
+  this->type = MANAGER_TYPE_RECRUIT_UNIT;
   this->idx = id;
   this->ready = 1;
   strcpy(this->name, "recruitManager");
