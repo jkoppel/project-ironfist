@@ -152,6 +152,11 @@ static void register_date_funcs(lua_State *L) {
 
 /************************************************ Player ********************************************************/
 
+static int l_getNumPlayers(lua_State *L) {
+	lua_pushinteger(L, gpGame->numPlayers);
+	return 1;
+}
+
 static int l_getPlayer(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
   deepbound_push(L, deepbind<playerData*>(&gpGame->players[n]));
@@ -255,6 +260,7 @@ static int l_revealMap(lua_State *L) {
 }
 
 static void register_player_funcs(lua_State *L) {
+  lua_register(L, "GetNumPlayers", l_getNumPlayers);
   lua_register(L, "GetPlayer", l_getPlayer);
   lua_register(L, "GetCurrentPlayer", l_getCurrentPlayer);
   lua_register(L, "GetPlayerColor", l_getPlayerColor);
@@ -617,6 +623,29 @@ static int l_mapSetObject(lua_State *L) {
   return 0;
 }
 
+static int l_mapEmptyCheck(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+
+	mapCell* cell = gpAdvManager->GetCell(x, y);
+	if (cell->objType & TILE_HAS_EVENT) {
+		lua_pushboolean(L, false);
+		return 1;
+	}
+	lua_pushboolean(L, true);
+	return 1;
+}
+
+static int l_mapPutResource(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	int resIdx = (int)luaL_checknumber(L, 3);
+	int resQty = (int)luaL_checknumber(L, 4);
+
+	lua_pushinteger(L, gpAdvManager->MapPutResource(x, y, resIdx, resQty));
+	return 1;
+}
+
 static int l_mapPutArmy(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
@@ -689,6 +718,8 @@ static int l_mapSetTerrainTile(lua_State *L) {
 
 static void register_map_funcs(lua_State *L) {
   lua_register(L, "MapSetObject", l_mapSetObject);
+  lua_register(L, "MapEmptyCheck", l_mapEmptyCheck);
+  lua_register(L, "MapPutResource", l_mapPutResource);
   lua_register(L, "MapPutArmy", l_mapPutArmy);
   lua_register(L, "MapEraseSquare", l_mapEraseObj);
   lua_register(L, "MapFizzle", l_mapFizzleObj);
@@ -1171,12 +1202,21 @@ static int l_toggleAIArmySharing(lua_State *L) {
   return 0;
 }
 
+static int l_forceComputerPlayerChase(lua_State *L) {
+	hero* src = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
+	hero* dst = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(2, 3));
+	bool force = CheckBoolean(L, 3);
+	gpGame->ForceComputerPlayerChase(src, dst, force);
+	return 0;
+}
+
 static void register_uncategorized_funcs(lua_State *L) {
   lua_register(L, "PlaySoundEffect", l_playsoundeffect);
   lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
   lua_register(L, "SetInclinedToJoin", l_setinclinedtojoin);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
+  lua_register(L, "ForceComputerPlayerChase", l_forceComputerPlayerChase);
 }
 
 /****************************************************************************************************************/
