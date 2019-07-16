@@ -38,6 +38,18 @@ enum MANAGER_RETURN_CODE
   MANAGER_FAILED = 3,
 };
 
+class executive {
+public:
+  char _[16];
+  executive();
+
+  int DoDialog(baseManager *a2);
+  int AddManager(baseManager *mgr, int argIdx);
+  int AddManager_orig(baseManager *mgr, int argIdx);
+};
+
+extern executive* gpExec;
+
 #pragma pack(pop)
 
 #endif

@@ -15,16 +15,6 @@
 
 #pragma pack(push,1)
 
-class executive {
-public:
-  char _[16];
-  executive();
-
-  int DoDialog(baseManager *a2);
-  int AddManager(baseManager *mgr, int argIdx);
-  int AddManager_orig(baseManager *mgr, int argIdx);
-};
-
 class inputManager {
 public:
 	char _[2154];
@@ -49,7 +39,6 @@ public:
 	philAI();
 };
 
-extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
