@@ -1392,6 +1392,8 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     v11 = 0;
 
     int v16 = 32 * this->castle->factionID;
+    if(this->castle->factionID == FACTION_CYBORG)
+      v16 = 32 * 6;
     for(int j = 2; j <= 5; ++j) {
       for(int k = 4; k <= 8; ++k) {
         if(j != 2 || k == 6) {
