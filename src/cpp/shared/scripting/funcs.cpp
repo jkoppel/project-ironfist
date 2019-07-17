@@ -259,7 +259,6 @@ int l_SetBarrierTentVisited(lua_State *L) {
 	int tentcolor = luaL_checknumber(L, 2);
 	plyd->SetBarrierTentVisited(tentcolor);
 
-
 	return 0;
 }
 

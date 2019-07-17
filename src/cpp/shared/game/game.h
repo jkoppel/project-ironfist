@@ -48,13 +48,13 @@ public:
 	__int16 field_41;
 	char daysLeftWithoutCastle;
 	char numCastles;
-  __int8 mightBeCurCastleIdx;
-  __int8 relatedToUnknown;
+	__int8 mightBeCurCastleIdx;
+	__int8 relatedToUnknown;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-  char hasEvilFaction;
-  char barrierTentsVisited;
-  char _4_2[58];
+	char hasEvilFaction;
+	char barrierTentsVisited;
+	char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -165,12 +165,12 @@ public:
 	char field_660D;
 	char field_660E;
 
-  // New state
-  bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+	// New state
+	bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
-  // Used for OnMapStart
-  bool firstDayEventDone = false;
+	// Used for OnMapStart
+	bool firstDayEventDone = false;
 
 	int SetupGame();
 	int SetupGame_orig();
@@ -190,11 +190,11 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
-  void SetVisibility_orig(int, int, int, int);
+	void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
 	void ClaimTown_orig(int, int, int);
-    int GetTownId(int,int);
+	int GetTownId(int,int);
 
 
 	void NextPlayer();
@@ -202,33 +202,33 @@ public:
 
 	void PerDay();
 	void PerDay_orig();
-  void PerWeek();
-  void PerWeek_orig();
-  void PerMonth();
-  void PerMonth_orig();
+	void PerWeek();
+	void PerWeek_orig();
+	void PerMonth();
+	void PerMonth_orig();
 
-  void ResetIronfistGameState();
-  void ShareVision(int sourcePlayer, int destPlayer);
-  void CancelShareVision(int sourcePlayer, int destPlayer);
+	void ResetIronfistGameState();
+	void ShareVision(int sourcePlayer, int destPlayer);
+	void CancelShareVision(int sourcePlayer, int destPlayer);
 	
-  void MakeAllWaterVisible(int player);
-  void MakeAllWaterVisible_orig(int player);
+	void MakeAllWaterVisible(int player);
+	void MakeAllWaterVisible_orig(int player);
 
-  void InitRandomArtifacts();
-  int GetRandomArtifactId(int allowedLevels, int allowNegatives);
-  int LoadMap(char *nam);
-  int ProcessRandomObjects();
-  int ProcessMapExtra();
-  void __cdecl InitializePasswords();
-  int RandomizeEvents();
-  void ProcessOnMapHeroes();
-  int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
-  void SetupNewRumour();
-  void GiveArmy(class armyGroup *, int, int, int);
+	void InitRandomArtifacts();
+	int GetRandomArtifactId(int allowedLevels, int allowNegatives);
+	int LoadMap(char *nam);
+	int ProcessRandomObjects();
+	int ProcessMapExtra();
+	void __cdecl InitializePasswords();
+	int RandomizeEvents();
+	void ProcessOnMapHeroes();
+	int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
+	void SetupNewRumour();
+	void GiveArmy(class armyGroup *, int, int, int);
 
-  void SetRandomHeroArmies(int heroIdx, int isAI);
-  void GiveTroopsToNeutralTown(int castleIdx);
-  int RandomScan(signed char*, int, int, int, signed char);
+	void SetRandomHeroArmies(int heroIdx, int isAI);
+	void GiveTroopsToNeutralTown(int castleIdx);
+	int RandomScan(signed char*, int, int, int, signed char);
 
 private:
   void PropagateVision();
@@ -243,10 +243,10 @@ enum GAME_DIFFICULTY {
 };
 
 enum PERSONALITY_TYPE {
-  PERSONALITY_WARRIOR = 0,
-  PERSONALITY_BUILDER = 1,
-  PERSONALITY_EXPLORER = 2,
-  PERSONALITY_HUMAN = 3,
+	PERSONALITY_WARRIOR = 0,
+	PERSONALITY_BUILDER = 1,
+	PERSONALITY_EXPLORER = 2,
+	PERSONALITY_HUMAN = 3,
 };
 
 extern void __fastcall CheckEndGame_orig(int a, int b);

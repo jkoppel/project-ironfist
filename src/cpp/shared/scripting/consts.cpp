@@ -35,7 +35,6 @@ namespace {
   }
 }
 
-
 /******************************* GUI *****************************************************/
 
 void set_dialog_consts(lua_State *L) {
@@ -50,7 +49,6 @@ void set_barriercolor_consts(lua_State *L){
 	lua_setconst(L, "AQUA_BARRIER", AQUA_BARRIER);
 }
 void set_messageboxgroups_consts(lua_State *L) {
-
 	lua_setconst(L, "IMAGE_EMPTY", IMAGE_EMPTY);
 	lua_setconst(L, "IMAGE_WOOD", IMAGE_WOOD);
 	lua_setconst(L, "IMAGE_MERCURY", IMAGE_MERCURY);

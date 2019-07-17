@@ -401,7 +401,6 @@ enum barriercolors {
 	ORANGE_BARRIER,
 	PURPLE_BARRIER,
 	RED_BARRIER,
-	
 };
 
 enum OBJ_TILESET : __int8 {

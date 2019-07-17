@@ -1,6 +1,7 @@
 #include<stdio.h>
 
 #include "base.h"
+
 #include "adventure/adv.h"
 #include "adventure/map.h"
 #include "game/game.h"
@@ -8,7 +9,6 @@
 
 extern char *xBarrierColor[];
 extern char *xPasswordStrings[];
-
 
 int GetBarrierColor(int cellExtraInfo) {
     return cellExtraInfo & 7;
@@ -32,7 +32,6 @@ void advManager::PasswordEvent(mapCell *cell, hero *hero) {
 
 
 void playerData::SetBarrierTentVisited(int color) {	
-	
 	this->barrierTentsVisited |= (1 << color);
 }
  
@@ -47,12 +46,12 @@ int advManager::BarrierEvent(mapCell *cell, hero *hero) {
     H2MessageBox(gText);
 
     if (gpCurPlayer->barrierTentsVisited & (1 << barrierColor)) {
-        this->EventSound(cell->objType & 0x7F, barrierColor, &res);		
+        this->EventSound(cell->objType & 0x7F, barrierColor, &res);
         sprintf(gText, "As you speak the magic word \"%s\", the glowing barrier dissolves into nothingness.", password);
         H2MessageBox(gText);
         return 1;
     } else {
-        H2MessageBox("You try guessing in vein, but nothing happens.");		
+        H2MessageBox("You try guessing in vein, but nothing happens.");
         return 0;
 		
     }

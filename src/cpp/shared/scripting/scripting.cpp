@@ -30,7 +30,6 @@ lua_State* map_lua = NULL;
 
 void set_lua_globals(lua_State *L) {
   set_scripting_funcs(L);
-
   set_scripting_consts(L);
 }
 
