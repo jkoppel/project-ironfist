@@ -7,6 +7,12 @@
 #pragma pack(push,1)
 
 extern signed char gSpellLimits[];
+// 18 - all buildings before dwellings?
+extern unsigned char castleSlotsUse[18];
+extern unsigned char castleSlotsBase[18];
+extern char* cHeroTypeShortName[MAX_FACTIONS];
+extern char *gStatNames[NUM_PRIMARY_SKILLS];
+extern int gHeroGoldCost;
 
 class town {
 public:
@@ -131,6 +137,7 @@ extern void __fastcall QuickViewRecruit(town *castle, int dwellingIdx);
 extern int __fastcall MageGuildHandler(tag_message &evt);
 extern int __fastcall CastleHandler(tag_message &evt);
 extern int __fastcall CanBuy(town *twn, int building);
+extern int __fastcall CanBuild(town *twn, int building);
 extern void __fastcall DoTradingPost(int isMarket, float efficiency);
 
 extern townManager* gpTownManager;

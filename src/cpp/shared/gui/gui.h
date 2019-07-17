@@ -157,6 +157,29 @@ public:
   void DrawIcons(int updateScreen);
 };
 
+class iconWidget {
+public:
+  void *vtable; //widgetVtable *vtable;
+  heroWindow *parentWindow;
+  widget *nextInLinkedList;
+  widget *prevInLinkedList;
+  short fieldID;
+  short componentIndex;
+  short field_14;
+  short field_16;
+  short offsetX;
+  short offsetY;
+  short width;
+  short height;
+  icon *icon;
+  short imgIdx;
+  char mirror;
+  short field_27;
+  int iconFileID;
+
+  iconWidget(short x, short y, short width, short height, char *filename, short imgIdx, signed char mirror, short fieldID, short a10, short a11);
+};
+
 enum ICON_GUI_FLAGS
 {
   ICON_GUI_VISIBLE = 0x4,
@@ -189,6 +212,8 @@ void GUISetDropdownSelection(heroWindow*, int, int);
 void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
+extern heroWindow* casWin;
+
 #pragma pack(pop)
 
 #endif

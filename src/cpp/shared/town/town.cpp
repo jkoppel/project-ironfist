@@ -3,6 +3,7 @@
 
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "adventure/terrain.h"
 #include "combat/creatures.h"
 #include "game/game.h"
 #include "gui/dialog.h"
@@ -1129,4 +1130,294 @@ int townManager::Main(tag_message &evt) {
     this->SetCommandAndText(evt);
   }
   return 1;
+}
+
+void townManager::SetupCastle(heroWindow *window, int a3) {
+  tag_message evt;
+  casWin = window;
+
+  for(int i = 0; i < 18; ++i) {
+    castleSlotsUse[i] = castleSlotsBase[i];
+    if((signed int)castleSlotsBase[i] >= 20
+      && (signed int)castleSlotsBase[i] <= 24
+      && ((1 << castleSlotsBase[i]) & this->castle->buildingsBuiltFlags
+        || (1 << (castleSlotsBase[i] + 5)) & this->castle->buildingsBuiltFlags
+        || castleSlotsBase[i] == 24 && this->castle->factionID == 3 && (*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x40)
+      && (1 << (castleSlotsBase[i] + 5)) & gTownEligibleBuildMask[this->castle->factionID]) {
+      if(castleSlotsBase[i] == 24
+        && this->castle->factionID == 3
+        && ((*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x20 || (*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x40))
+        castleSlotsUse[i] = 30;
+      else
+        castleSlotsUse[i] = castleSlotsBase[i] + 5;
+    }
+  }
+  this->field_156 = 0;
+  this->field_152 = this->field_156;
+  for(int i = 0; i < 18; ++i) {
+    if(CanBuy(this->castle, castleSlotsUse[i]))
+      this->field_152 |= 1 << castleSlotsUse[i];
+    if(CanBuild(this->castle, castleSlotsUse[i]))
+      this->field_156 |= 1 << castleSlotsUse[i];
+  }
+  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+  evt.xCoordOrKeycode = 4;
+  for(int i = 0; i < 18; ++i) {
+    evt.yCoordOrFieldID = i + 700;
+    evt.payload = (void *)castleSlotsUse[i];
+    casWin->BroadcastMessage(evt);
+  }
+  evt.xCoordOrKeycode = 9;
+  sprintf(gText, "cstl%s.icn", cHeroTypeShortName[this->castle->factionID]);
+  evt.payload = &gText;
+  for(int i = 0; i < 18; ++i) {
+    evt.yCoordOrFieldID = i + 700;
+    casWin->BroadcastMessage(evt);
+  }
+  evt.xCoordOrKeycode = 3;
+  for(int i = 0; i < 18; ++i) {
+    evt.yCoordOrFieldID = i + 600;
+    if(castleSlotsUse[i]) {
+      evt.payload = GetBuildingName(this->castle->factionID, castleSlotsUse[i]);
+    } else {
+      int mageGuildLevel = this->castle->mageGuildLevel + 1;
+      if(mageGuildLevel >= 5)
+        mageGuildLevel = 5;
+      sprintf(gText, "Mage Guild, Level %d", mageGuildLevel);
+      evt.payload = gText;
+    }
+    casWin->BroadcastMessage(evt);
+  }
+
+  int v10;
+  for(int i = 0; i < 18; ++i) {
+    v10 = -1;
+    if((1 << castleSlotsUse[i]) & this->castle->buildingsBuiltFlags
+      && (castleSlotsUse[i] || this->castle->mageGuildLevel == 5)) {
+      v10 = 11;
+    } else {
+      if((1 << castleSlotsUse[i]) & this->field_156) {
+        if(!((1 << castleSlotsUse[i]) & this->field_152))
+          v10 = 13;
+      } else {
+        v10 = 12;
+      }
+    }
+    if(v10 == -1) {
+      evt.xCoordOrKeycode = 6;
+      evt.payload = (void *)4;
+      evt.yCoordOrFieldID = i + 800;
+      casWin->BroadcastMessage(evt);
+    } else {
+      evt.xCoordOrKeycode = 5;
+      evt.yCoordOrFieldID = i + 800;
+      evt.payload = (void *)4;
+      casWin->BroadcastMessage(evt);
+      evt.xCoordOrKeycode = 4;
+      evt.payload = (void *)v10;
+      casWin->BroadcastMessage(evt);
+    }
+    if(v10 == 11) {
+      evt.xCoordOrKeycode = 6;
+      evt.payload = (void *)4;
+      evt.yCoordOrFieldID = i + 400;
+      casWin->BroadcastMessage(evt);
+    } else {
+      evt.xCoordOrKeycode = 5;
+      evt.payload = (void *)4;
+      evt.yCoordOrFieldID = i + 400;
+      casWin->BroadcastMessage(evt);
+      evt.xCoordOrKeycode = 4;
+      if(v10 == -1)
+        evt.payload = (void *)1;
+      else
+        evt.payload = (void *)2;
+      casWin->BroadcastMessage(evt);
+    }
+  }
+
+  int v23 = this->castle->buildingsBuiltFlags & 0x8000;
+  if(v23)
+    evt.xCoordOrKeycode = 6;
+  else
+    evt.xCoordOrKeycode = 5;
+  evt.yCoordOrFieldID = 1101;
+  evt.payload = (void *)6;
+  casWin->BroadcastMessage(evt);
+  evt.xCoordOrKeycode = 4;
+  evt.yCoordOrFieldID = 1100;
+  if(v23)
+    evt.payload = (void *)1;
+  else
+    evt.payload = 0;
+  casWin->BroadcastMessage(evt);
+  sprintf(gText, "CSTLCAP%c.ICN", cHeroTypeInitial[this->castle->factionID]);
+  evt.xCoordOrKeycode = 9;
+  evt.yCoordOrFieldID = 1100;
+  evt.payload = gText;
+  casWin->BroadcastMessage(evt);
+  if(v23)
+    evt.xCoordOrKeycode = 5;
+  else
+    evt.xCoordOrKeycode = 6;
+  evt.yCoordOrFieldID = 1106;
+  evt.payload = (void *)4;
+  casWin->BroadcastMessage(evt);
+  if(v23) {
+    evt.xCoordOrKeycode = 4;
+    evt.yCoordOrFieldID = 1106;
+    evt.payload = (void *)gpCurPlayer->color;
+    casWin->BroadcastMessage(evt);
+  }
+  v10 = -1;
+  if(v23) {
+    evt.xCoordOrKeycode = 3;
+    evt.payload = gText;
+
+    char a2[100];
+    sprintf(gText, "");
+    for(int i = 0; i < 4; ++i) {
+      sprintf(a2, "%s\n", gStatNames[i]);
+      strcat(gText, a2);
+    }
+    evt.yCoordOrFieldID = 1104;
+    casWin->BroadcastMessage(evt);
+    sprintf(gText, "");
+    for(int i = 0; i < 4; ++i) {
+      sprintf(a2, "%d\n", captainStats[this->castle->factionID][i]);
+      strcat(gText, a2);
+    }
+    evt.yCoordOrFieldID = 1105;
+    casWin->BroadcastMessage(evt);
+
+    if(this->castle->field_38)
+      evt.xCoordOrKeycode = 6;
+    else
+      evt.xCoordOrKeycode = 5;
+    evt.yCoordOrFieldID = 213;
+    evt.payload = (void *)4;
+    casWin->BroadcastMessage(evt);
+    if(this->castle->field_38)
+      evt.xCoordOrKeycode = 5;
+    else
+      evt.xCoordOrKeycode = 6;
+    evt.yCoordOrFieldID = 215;
+    evt.payload = (void *)4;
+    casWin->BroadcastMessage(evt);
+  } else {
+    if(CanBuild(this->castle, 15)) {
+      if(!CanBuy(this->castle, 15))
+        v10 = 13;
+    } else {
+      v10 = 12;
+    }
+    if(CanBuild(this->castle, 15))
+      this->field_156 |= 0x8000u;
+    if(CanBuy(this->castle, 15))
+      this->field_152 |= 0x8000u;
+  }
+  if(v10 == -1)
+    evt.xCoordOrKeycode = 6;
+  else
+    evt.xCoordOrKeycode = 5;
+  evt.yCoordOrFieldID = 1102;
+  evt.payload = (void *)4;
+  casWin->BroadcastMessage(evt);
+  if(v10 != -1) {
+    evt.xCoordOrKeycode = 4;
+    evt.payload = (void *)v10;
+    casWin->BroadcastMessage(evt);
+  }
+
+  if(gpCurPlayer->resources[6] >= gHeroGoldCost) {
+    if(gpCurPlayer->numHeroes != 8 && this->castle->visitingHeroIdx == -1) {
+      if(this->field_14E)
+        v10 = 11;
+      else
+        v10 = -1;
+    } else {
+      v10 = 12;
+    }
+  } else {
+    v10 = 13;
+  }
+
+  for(int i = 0; i < 2; ++i) {
+    evt.payload = (void *)4;
+    evt.yCoordOrFieldID = i + 902;
+    if(v10 == -1) {
+      evt.xCoordOrKeycode = 6;
+      casWin->BroadcastMessage(evt);
+    } else {
+      evt.xCoordOrKeycode = 5;
+      casWin->BroadcastMessage(evt);
+      evt.xCoordOrKeycode = 4;
+      evt.payload = (void *)v10;
+      casWin->BroadcastMessage(evt);
+    }
+    evt.xCoordOrKeycode = 9;
+    sprintf(gText, "port%04d.icn", gpGame->heroes[gpCurPlayer->heroesForPurchase[i]].heroID);
+    evt.payload = &gText;
+    evt.yCoordOrFieldID = i + 900;
+    casWin->BroadcastMessage(evt);
+  }
+
+  if(!a3) {
+    // find terrain id under castle
+    int v19 = giGroundToTerrain[gpGame->map.tiles[this->castle->y * gpGame->map.width + this->castle->x].groundIndex];
+    // find correct frame offset
+    v19 = 2 * (5 * v19 - 5);
+
+    int v11 = 0;
+    for(int j = 5; j <= 6; ++j) {
+      for(int k = 4; k <= 8; ++k) {
+          widget *guiObj = (widget *)new iconWidget(
+                               32 * (k - 4) + 458,
+                               32 * (j - 2),
+                               32,
+                               32,
+                               "objntwba.icn",
+                               v11 + v19,
+                               0,
+                               -1,
+                               16,
+                               1);
+
+        if(!guiObj)
+          MemError();
+        casWin->AddWidget(guiObj, -1);
+        ++v11;
+      }
+    }
+    v11 = 0;
+
+    int v16 = 32 * this->castle->factionID;
+    for(int j = 2; j <= 5; ++j) {
+      for(int k = 4; k <= 8; ++k) {
+        if(j != 2 || k == 6) {
+            widget *guiObj = (widget *)new iconWidget(
+                                 32 * (k - 4) + 458,
+                                 32 * (j - 2),
+                                 32,
+                                 32,
+                                 "objntown.icn",
+                                 v11 + v16,
+                                 0,
+                                 -1,
+                                 16,
+                                 1);
+          if(!guiObj)
+            MemError();
+          casWin->AddWidget(guiObj, -1);
+          ++v11;
+        }
+      }
+    }
+    if(!xIsExpansionMap && this->castle->factionID == FACTION_NECROMANCER) {
+      widget *guiObj = (widget *)new iconWidget(149, 157, 137, 72, "caslxtra.icn", 0, 0, -1, 16, 1);
+      if(!guiObj)
+        MemError();
+      casWin->AddWidget(guiObj, -1);
+    }
+  }
 }
