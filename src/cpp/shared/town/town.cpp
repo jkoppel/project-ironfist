@@ -745,14 +745,12 @@ int townManager::Main(tag_message &evt) {
     giDebugBuildingToBuild = -1;
     if(buildingToBuild == 100) {
       for(int buildingCode = 0; buildingCode < BUILDING_MAX; ++buildingCode) {
-        //if ( (1 << buildingCode) & (unsigned int)(&gTownEligibleBuildMask)[this->castle->factionID]
-        if((1 << buildingCode) & (unsigned int)&gTownEligibleBuildMask[this->castle->factionID]
+        if((1 << buildingCode) & gTownEligibleBuildMask[this->castle->factionID]
           || buildingCode == BUILDING_CASTLE)
           this->BuildObj(buildingCode);
       }
     } else {
-      //if ( (1 << v32) & (unsigned int)(&gTownEligibleBuildMask)[this->castle->factionID] || v32 == 6 )
-      if((1 << buildingToBuild) & (unsigned int)&gTownEligibleBuildMask[this->castle->factionID] || buildingToBuild == BUILDING_CASTLE)
+      if((1 << buildingToBuild) & gTownEligibleBuildMask[this->castle->factionID] || buildingToBuild == BUILDING_CASTLE)
         this->BuildObj(buildingToBuild);
     }
   }
