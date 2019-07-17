@@ -356,7 +356,7 @@ char * GetSpecialBuildingDesc(int faction) {
 
 char * GetIronfistDwellingName(int faction, int dwelling) {
   ASSERT(IsFactionValid(faction));
-  ASSERT(dwelling > 0 && dwelling < NUM_DWELLINGS);
+  ASSERT(dwelling >= 0 && dwelling < NUM_DWELLINGS);
 
   if (faction == FACTION_CYBORG) {
     return &cyborgDwellings[dwelling][0];
