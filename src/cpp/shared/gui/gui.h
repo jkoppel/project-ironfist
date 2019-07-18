@@ -130,6 +130,8 @@ public:
     gpWindowManager->AddWindow(this->window, -1, 1);
     this->Update(1);
   }
+  ~bankBox();
+
   void Update(int);
 };
 

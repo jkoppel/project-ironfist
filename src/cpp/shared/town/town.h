@@ -67,6 +67,7 @@ public:
   icon *icon;
   border *guiElement;
   townObject(int faction, int buildingCode, char *filename);
+  ~townObject();
 };
 
 class townManager : public baseManager {
