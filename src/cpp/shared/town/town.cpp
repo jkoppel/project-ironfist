@@ -289,6 +289,22 @@ float marketEfficiency[11] = {
   0.5
 };
 
+unsigned long gHierarchyMask[MAX_FACTIONS][NUM_DWELLINGS] = {
+  {0x00000000, 0x00080000, 0x00080010, 0x00080004, 0x00700000, 0x00700000, 0x00700000, 0x00700000, 0x00700000, 0x00800000, 0x01000000, 0x0FFFFFFFF },
+  {0x00000000, 0x00080000, 0x00080000, 0x00080000, 0x00700000, 0x00800000, 0x00700000, 0x0FFFFFFFF, 0x00700000, 0x00800000, 0x0FFFFFFFF, 0x0FFFFFFFF},
+  {0x00000000, 0x00080004, 0x00080000, 0x00200001, 0x00400000, 0x00800000, 0x00100010, 0x00400000, 0x00400000, 0x0FFFFFFFF, 0x0FFFFFFFF, 0x0FFFFFFFF},
+  {0x00000000, 0x00080000, 0x00080000, 0x00100000, 0x00200000, 0x00C00000, 0x0FFFFFFFF, 0x0FFFFFFFF, 0x00400000, 0x0FFFFFFFF, 0x01000000, 0x20000000},
+  {0x00000000, 0x00080000, 0x00080000, 0x00100000, 0x00200001, 0x00C00000, 0x0FFFFFFFF, 0x00200010, 0x0FFFFFFFF, 0x00802000, 0x01000000, 0x0FFFFFFFF},
+  {0x00000000, 0x00080000, 0x00080000, 0x00200002, 0x00100001, 0x00800000, 0x00100000, 0x00200000, 0x00400000, 0x00800000, 0x0FFFFFFFF, 0x0FFFFFFFF},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+  {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+  {0x00000000, 0x00080000, 0x00080010, 0x00080004, 0x00700000, 0x00700000, 0x00700000, 0x00700000, 0x00700000, 0x00800000, 0x01000000, 0x0FFFFFFFF}
+};
+
 void game::SetupTowns() {
 	InitTownObjNames();
 	InitDwellingTypes();
@@ -1422,4 +1438,72 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       casWin->AddWidget(guiObj, -1);
     }
   }
+}
+
+int __fastcall CanBuild(town *twn, int building) {
+  
+  int result; // eax@2
+  
+  if(gpGame->field_27BB[twn->idx]) { // BitTest(gpGame->field_27BB, twn->idx)
+    result = 0;
+  } else {
+    int v6 = building;
+    if(v6 == 6 || twn->buildingsBuiltFlags & 0x40) {
+      if(xIsExpansionMap || v6 != 2 || twn->factionID != 5) {
+        if(v6 == 3) {
+          if(twn->CanBuildDock())
+            result = 1;
+          else
+            result = 0;
+        } else {
+          if(v6 || twn->mageGuildLevel < 5) {
+            if(v6 != 5 && v6 != 14 && v6 != 16 && v6 != 17 && v6 != 18 && v6 != 31) {
+              if(v6 >= 19 && v6 <= 30) {
+                unsigned int byte3 = *((unsigned char*)&(twn->buildingsBuiltFlags)+3);                  
+                if(v6 == 20 && byte3 & 2
+                  || v6 == 21 && byte3 & 4
+                  || v6 == 22 && byte3 & 8
+                  || v6 == 23 && byte3 & 0x10
+                  || v6 == 24 && (byte3 & 0x20 || byte3 & 0x40)
+                  || v6 == 29 && byte3 & 0x40) {
+                  result = 0;
+                } else {
+                  unsigned int v8 = twn->buildingsBuiltFlags;
+                  unsigned int byte3 = *((unsigned char*)&(v8)+3);    
+                  if(byte3 & 2)
+                    v8 |= 0x100000u;
+                  if(byte3 & 4)
+                    v8 |= 0x200000u;
+                  if(byte3 & 8)
+                    v8 |= 0x400000u;
+                  if(byte3 & 0x10)
+                    v8 |= 0x800000u;
+                  if(byte3 & 0x40)
+                    v8 |= 0x20000000u;
+                  if(byte3 & 0x20)
+                    v8 |= 0x1000000u;
+                  int v5 = gHierarchyMask[twn->factionID][v6 - 19]; // - 19
+                  if((v8 & v5) == v5)
+                    result = twn->factionID != 5 || v6 != 28 || twn->mageGuildLevel > 1;
+                  else
+                    result = 0;
+                }
+              } else {
+                result = 1;
+              }
+            } else {
+              result = 0;
+            }
+          } else {
+            result = 0;
+          }
+        }
+      } else {
+        result = 0;
+      }
+    } else {
+      result = 0;
+    }
+  }
+  return result;
 }

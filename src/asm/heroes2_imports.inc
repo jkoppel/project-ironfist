@@ -340,6 +340,8 @@ IMPORT_?GetBuildingInfo@@YIPADHHH@Z = 1
 ?GetBuildingInfo@@YIPADHHH@Z_clone EQU ?GetBuildingInfo_orig@@YIPADHHH@Z
 IMPORT_?Main@townManager@@UAEHAAUtag_message@@@Z = 1
 IMPORT_?SetupCastle@townManager@@QAEXPAVheroWindow@@H@Z = 1
+IMPORT_?gHierarchyMask@@3PAY0M@KA = 1
+IMPORT_?CanBuild@@YIHPAVtown@@H@Z = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1

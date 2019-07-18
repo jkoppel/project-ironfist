@@ -46,6 +46,7 @@ public:
   void GiveSpells(hero *captain);
   void SelectSpells();
   void SetNumSpellsOfLevel(int,int);
+  int CanBuildDock();
 
   void BuildBuilding(int);
   bool BuildingBuilt(int) const;
@@ -138,6 +139,7 @@ extern int __fastcall MageGuildHandler(tag_message &evt);
 extern int __fastcall CastleHandler(tag_message &evt);
 extern int __fastcall CanBuy(town *twn, int building);
 extern int __fastcall CanBuild(town *twn, int building);
+int __fastcall CanBuild(town *twn, int building);
 extern void __fastcall DoTradingPost(int isMarket, float efficiency);
 
 extern townManager* gpTownManager;
