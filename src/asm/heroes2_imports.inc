@@ -272,6 +272,11 @@ IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
 ?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z
 
+;; will join
+IMPORT_?PlayerMonsterInteract@advManager@@QAEXPAVmapCell@@0PAVhero@@PAHHHHHH@Z = 1
+?PlayerMonsterInteract@advManager@@QAEXPAVmapCell@@0PAVhero@@PAHHHHHH@Z_clone EQU ?PlayerMonsterInteract_orig@advManager@@QAEXPAVmapCell@@0PAVhero@@PAHHHHHH@Z
+IMPORT_?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z = 1
+?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z_clone EQU ?ComputerMonsterInteract_orig@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1

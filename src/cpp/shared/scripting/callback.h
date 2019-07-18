@@ -11,13 +11,23 @@ extern "C" {
 #include "lua/src/lauxlib.h"
 }
 
+#include "scripting/deepbinding.h"
 #include "scripting/lua_utils.h"
+
+
 
 void ironfist_lua_push(int arg);
 void ironfist_lua_push(bool arg);
 void ironfist_lua_push(void *arg);
 void ironfist_lua_push(char *arg);
 void ironfist_lua_push(std::string arg);
+
+template <typename T>
+void ironfist_lua_push(deepbind<T> t) {
+  deepbound_push(map_lua, t);
+}
+
+
 void ironfist_lua_pushmulti();
 
 /*

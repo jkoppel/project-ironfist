@@ -77,6 +77,8 @@ public:
   void UpdateScreenRegion(int, int, int, int);
   void AddWindow(heroWindow*, int, int);
   void RemoveWindow(heroWindow*);
+  void SaveFizzleSource(int, int, int, int);
+  void FizzleForward(int, int, int, int, int, signed char *, signed char *);
 };
 
 extern heroWindowManager* gpWindowManager;
@@ -90,6 +92,7 @@ enum GENERAL_GUI_FIELD_IDS {
   FIELD_TOP_BANNER = 2,
   BUTTON_CANCEL = 30721,
   BUTTON_OK = 30722,
+  BUTTON_YES = 30725,
 };
 
 /* These functions provide a simpler API to parts of the old GUI "BroadcastMessage" API */

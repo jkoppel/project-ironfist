@@ -116,6 +116,16 @@ battleStack_mt = {
 			SetStackMorale(table, value)
 		elseif key == "luck" then
 			SetStackLuck(table, value)
+		elseif key == "attack" then
+			SetStackAttack(table, value)
+		elseif key == "defense" then
+			SetStackDefense(table, value)
+		elseif key == "speed" then
+			SetStackSpeed(table, value)
+		elseif key == "shots" then
+			SetStackShots(table, value)
+		elseif key == "hp" then
+			SetStackHp(table, value)
 		else
 			MessageBox("This field is not supported")
 		end
@@ -137,6 +147,16 @@ battleStack_mt = {
 			return GetStackMorale(t)
 		elseif k == "luck" then
 			return GetStackLuck(t)
+		elseif k == "attack" then
+			return GetStackAttack(t)
+		elseif k == "defense" then
+			return GetStackDefense(t)
+		elseif k == "speed" then
+			return GetStackSpeed(t)
+		elseif k == "shots" then
+			return GetStackShots(t)
+		elseif k == "hp" then
+			return GetStackHp(t)
 		else
 			MessageBox("This field is not supported")
 		end
