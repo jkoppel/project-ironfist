@@ -15,8 +15,58 @@ extern "C" {
 #include "scripting/deepbinding.h"
 #include "scripting/register.h"
 
+#include "sound/sound.h"
+
+enum SoundEffectWait { SND_DO_WAIT, SND_DONT_WAIT };
+
+static bool PlaySoundEffect(std::string snd, SoundEffectWait wait, SAMPLE2* samp) {
+	SAMPLE2 res = NULL_SAMPLE2;
+	if (!snd.empty()) {
+		char* src;
+		snd += ".82m";
+		src = strdup(snd.c_str());
+		res = LoadPlaySample(src);
+		if (samp != NULL) {
+			memcpy(samp, &res, sizeof(SAMPLE2));
+		}
+		if (wait == SND_DO_WAIT) {
+			WaitEndSample(res, res.sample);
+		}
+		free(src);
+		return true;
+	}
+	return false;
+}
+
+static bool CheckLocationItem(mapCell *loc) {
+	if (!(loc->objType&TILE_HAS_EVENT)) {
+		return false;
+	}
+	switch (loc->objType^TILE_HAS_EVENT) {
+		case LOCATION_ANCIENT_LAMP:
+		case LOCATION_ARTIFACT:
+		case LOCATION_RESOURCE:
+		case LOCATION_CAMPFIRE:
+		case LOCATION_TREASURE_CHEST:
+		case LOCATION_SHIPWRECK_SURVIVOR:
+		case LOCATION_FLOTSAM:
+		case LOCATION_SEA_CHEST:
+			return true;
+	}
+	return false;
+}
+
+static bool CheckBoolean(lua_State *L, int pos) {
+	if (lua_isboolean(L, pos)) {
+		return lua_toboolean(L, pos);
+	}
+	const char *msg = lua_pushfstring(L, "%s expected, got %s", lua_typename(L, LUA_TBOOLEAN), luaL_typename(L, pos));
+	luaL_argerror(L, pos, msg);
+	return false;
+}
+
 static int StackIndexOfArg(int argNumber, int numArgs) {
-  return (numArgs - (argNumber - 1));
+	return (numArgs - (argNumber - 1));
 }
 
 /************************************************ Dialogs ********************************************************/
@@ -512,6 +562,19 @@ static int l_grantSpellScroll(lua_State *L) {
   return 0;
 }
 
+static int l_getHeroFaction(lua_State *L) {
+  hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, hro->factionID);
+  return 1;
+}
+
+static int l_setHeroFaction(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int newFaction = (int)luaL_checknumber(L, 2);
+  hro->factionID = newFaction;
+  return 0;
+}
+
 static void register_hero_funcs(lua_State *L) {
   lua_register(L, "GetCurrentHero", l_getCurrentHero);
   lua_register(L, "GrantSpell", l_grantSpell);
@@ -550,6 +613,8 @@ static void register_hero_funcs(lua_State *L) {
   lua_register(L, "GetHeroTempLuckBonuses", l_getHeroTempLuckBonuses);
   lua_register(L, "SetHeroTempLuckBonuses", l_setHeroTempLuckBonuses);
   lua_register(L, "GrantSpellScroll", l_grantSpellScroll);
+  lua_register(L, "GetHeroFaction", l_getHeroFaction);
+  lua_register(L, "SetHeroFaction", l_setHeroFaction);
 }
 
 /************************************** Map *******************************************/
@@ -597,6 +662,29 @@ static int l_mapEraseObj(lua_State *L) {
   return 0;
 }
 
+static int l_mapFizzleObj(lua_State *L) {
+	SAMPLE2 res;
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	bool snd = CheckBoolean(L, 3);
+	mapCell *cell = gpAdvManager->GetCell(x, y);
+	gpAdvManager->CompleteDraw(0);
+	gpWindowManager->SaveFizzleSource(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight());
+	if (snd) {
+		if (!PlaySoundEffect((!CheckLocationItem(cell)?"killfade":("pickup0"+std::to_string(Random(1, 7)))), SND_DONT_WAIT, &res)) {
+			snd = false;
+		}
+	}
+	gpAdvManager->EraseObj(cell, x, y);
+	gpAdvManager->CompleteDraw(0);
+	PollSound();
+	gpWindowManager->FizzleForward(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight(), -1, 0, 0);
+	if (snd) {
+		WaitEndSample(res, res.sample);
+	}
+	return 0;
+}
+
 static int l_mapSetTerrainTile(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
@@ -618,6 +706,7 @@ static void register_map_funcs(lua_State *L) {
   lua_register(L, "MapSetObject", l_mapSetObject);
   lua_register(L, "MapPutArmy", l_mapPutArmy);
   lua_register(L, "MapEraseSquare", l_mapEraseObj);
+  lua_register(L, "MapFizzle", l_mapFizzleObj);
   lua_register(L, "MapSetTileTerrain", l_mapSetTerrainTile);
 }
 
@@ -1036,6 +1125,50 @@ static void register_battle_funcs(lua_State *L) {
 
 /************************************** Uncategorized ******************************************/
 
+static int l_playsoundeffect(lua_State *L) {
+	std::string snd = std::string(luaL_checkstring(L, 1));
+	PlaySoundEffect(snd, SND_DO_WAIT, NULL);
+	return 0;
+}
+
+static int l_getinclinedtojoin(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	int inclinedToJoin = 0;
+	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
+		int cellIdx = y * gpGame->map.height + x;
+		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+			// This uses the correct WillJoin bit, but does not mean that the army at the map cell here will not fight a hero (see "l_setinclinedtojoin").
+			inclinedToJoin = (gpGame->map.tiles[cellIdx].extraInfo & (1 << 12));
+		}
+	}
+	if (inclinedToJoin) {
+		lua_pushinteger(L, 1);
+	} else {
+		lua_pushinteger(L, 0);
+	}
+	return 1;
+}
+
+static int l_setinclinedtojoin(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	bool inclinedToJoin = CheckBoolean(L, 3);
+	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
+		int cellIdx = y * gpGame->map.height + x;
+		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+			// These are using the correct WillJoin bit, but it is not guaranteed to make every army join any hero no matter what.
+			// This condition also depends on the ratio of the hero's power to the army's power, among other variables.
+			if (inclinedToJoin) {
+				gpGame->map.tiles[cellIdx].extraInfo |= (1 << 12);
+			} else {
+				gpGame->map.tiles[cellIdx].extraInfo &= ~(1 << 12);
+			}
+		}
+	}
+	return 0;
+}
+
 static int l_startbattle(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
   int mon1 = (int)luaL_checknumber(L, 2);
@@ -1048,12 +1181,15 @@ static int l_startbattle(lua_State *L) {
 }
 
 static int l_toggleAIArmySharing(lua_State *L) {
-  bool toggle = luaL_checknumber(L, 1);
+  bool toggle = CheckBoolean(L, 1);
   gpGame->allowAIArmySharing = toggle;
   return 0;
 }
 
 static void register_uncategorized_funcs(lua_State *L) {
+  lua_register(L, "PlaySoundEffect", l_playsoundeffect);
+  lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
+  lua_register(L, "SetInclinedToJoin", l_setinclinedtojoin);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 }

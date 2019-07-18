@@ -235,6 +235,12 @@ public:
 
   void QuickInfo(int, int);
   void QuickInfo_orig(int, int);
+
+  void PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5);
+  void PlayerMonsterInteract_orig(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5);
+
+  void ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1);
+  void ComputerMonsterInteract_orig(mapCell *cell, hero *computer, int *a1);
 };
 
 class ExpCampaign {
@@ -264,6 +270,7 @@ extern int giAdjacentMonsterLowerBoundY;
 extern ExpCampaign xCampaign;
 
 hero* GetCurrentHero();
+bool GetMapCellXY(mapCell* cell, int* x, int* y);
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
 void __fastcall GiveTakeArtifactStat(hero *h, int art, int take);
