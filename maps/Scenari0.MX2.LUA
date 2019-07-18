@@ -12,13 +12,13 @@ hero = null;
 player = null;
 gateX = 11;
 gateY = 18;
-events = {  {x=29, y= 8, func='AbandonedHutEvent'},
-            {x=26, y=19, func='TreeHouseEvent'   },
-            {x=31, y=19, func='BonfireEvent'     },
-            {x=24, y=10, func='CaveEvent'        },
-            {x=32, y=31, func='TentEvent'        },
-            {x=21, y=22, func='SmallHouseEvent'  },
-            {x=30, y= 4, func='JoustingRingEvent'}};
+events = {  zero  = {x=29, y= 8, func='AbandonedHutEvent'},
+            one   = {x=26, y=19, func='TreeHouseEvent'   },
+            two   = {x=31, y=19, func='BonfireEvent'     },
+            three = {x=24, y=10, func='CaveEvent'        },
+            four  = {x=32, y=31, func='TentEvent'        },
+            five  = {x=21, y=22, func='SmallHouseEvent'  },
+            six   = {x=30, y= 4, func='JoustingRingEvent'}};
 
 mapVariables = {"abandonedHutVisited", "bonfireVisited", "caveVisited", "tentVisited", "treeHouseVisited", "gateUnlocked", "gateDestroyed", "fountainVisited", "smallHouseVisited", "joustingRingVisited", "hero", "player", "gateX", "gateY", "events"};
 
@@ -75,7 +75,7 @@ function OnLocationVisit(loc, x, y) --Should we have custom text for when a loca
     elseif (x == gateX and y == gateY and loc == LOCATION_BARRIER) then
         GateEvent();
     else
-        for _,event in ipairs(events) do
+        for key, event in pairs(events) do
             if (event.x == x and event.y == y) then
                 _G[event.func]();
                 return true;
