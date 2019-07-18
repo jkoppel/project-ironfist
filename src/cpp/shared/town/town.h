@@ -138,7 +138,6 @@ extern void __fastcall QuickViewRecruit(town *castle, int dwellingIdx);
 extern int __fastcall MageGuildHandler(tag_message &evt);
 extern int __fastcall CastleHandler(tag_message &evt);
 extern int __fastcall CanBuy(town *twn, int building);
-extern int __fastcall CanBuild(town *twn, int building);
 int __fastcall CanBuild(town *twn, int building);
 extern void __fastcall DoTradingPost(int isMarket, float efficiency);
 
