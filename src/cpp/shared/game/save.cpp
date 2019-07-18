@@ -8,6 +8,7 @@
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 #include "gui/dialog.h"
+#include "skills.h"
 
 #include<iostream>
 #include<fstream>
@@ -795,18 +796,6 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
   }                                                  // even though the scrollSpell data is actually not part of the "artifacts" array in the hero class.
 
   return hx;
-}
-
-static std::string MapVarTypeToString(MapVarType type) {
-  if (type == MAPVAR_TYPE_STRING) {
-    return "string";
-  } else if (type == MAPVAR_TYPE_NUMBER) {
-    return "number";
-  } else if (type == MAPVAR_TYPE_BOOLEAN) {
-    return "boolean";
-  } else if (type == MAPVAR_TYPE_TABLE) {
-    return "table";
-  }
 }
 
 static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {

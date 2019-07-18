@@ -19,6 +19,8 @@ extern int gbHumanPlayer[];
 
 extern char* gAlignmentNames[];
 
+extern H2RECT gMapViewportRegion;
+
 #define BUILDING_RIGHT_TURRET_BUILT     0x1
 #define BUILDING_LEFT_TURRET_BUILT      0x2
 #define BUILDING_SPECIAL_DEFENSE_BUILT  0x20
@@ -278,10 +280,10 @@ extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
 
-extern randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2];
-extern int neutralTownCreatureTypes[NUM_FACTIONS][5];
+extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
+extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
-extern signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4];
+extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
 #pragma pack(pop)
 
