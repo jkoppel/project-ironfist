@@ -1438,7 +1438,7 @@ int __fastcall CanBuild(town *twn, int building) {
   
   int result; // eax@2
   
-  if(gpGame->field_27BB[twn->idx]) { // BitTest(gpGame->field_27BB, twn->idx)
+  if(BitTest((const LONG*)gpGame->field_27BB, twn->idx)) {
     result = 0;
   } else {
     int v6 = building;
