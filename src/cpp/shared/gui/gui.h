@@ -154,6 +154,7 @@ public:
 
 public:
   strip(int x, int y, int a4, unsigned long portraitFileID, int portraitIconIdx, armyGroup *armyGrp, int fieldIDStart, int redraw, int a10);
+  ~strip();
   void DrawIcons(int updateScreen);
 };
 
