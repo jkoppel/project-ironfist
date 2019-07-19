@@ -167,9 +167,24 @@ class mapCell;
 
 class advManager : public baseManager {
 public:
-  char _[0xA6 - sizeof(baseManager)];
+  int field_36;
+  widget *someComponents[2][12];
+  heroWindow *adventureScreen;
+  int sizeOfSomethingMapRelated;
+  int field_A2;
   int currentTerrain;
-  char _1[0x12C];
+  int field_AA;
+  void *map; // fullMap *map;
+  iconWidget *heroScrollbarKnob;
+  iconWidget *castleScrollbarKnob;
+  int field_BA;
+  int field_BE;
+  tileset *groundTileset;
+  tileset *clofTileset;
+  tileset *stonTileset;
+  int field_CE[64];
+  icon *radarIcon;
+  icon *clopIcon;
   int viewX;
   int viewY;
   int field_1DE;
