@@ -257,6 +257,11 @@ public:
 
   void ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1);
   void ComputerMonsterInteract_orig(mapCell *cell, hero *computer, int *a1);
+
+  void TownQuickView(int a2, int a3, int a4, int a5);
+  int IsCrystalBallInEffect(int x, int y, int a3);
+  void SetTownContext(int townID);
+  char * GetArmySizeName(signed int amt, int queryType);
 };
 
 class ExpCampaign {

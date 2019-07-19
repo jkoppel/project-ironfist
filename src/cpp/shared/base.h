@@ -44,6 +44,7 @@ extern int bSecondAttack;
 extern int giDebugBuildingToBuild;
 extern signed char gbThisNetHumanPlayer[];
 extern int gbAllBlack;
+extern int giDebugLevel;
 /*
  * Updates sound, graphics if needed.
  *

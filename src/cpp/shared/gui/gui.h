@@ -30,10 +30,13 @@ public:
 };
 
 class textWidget : public widget {
+public:
   char *content;
   font *font;
   __int16 field_28;
   char field_2A;
+
+  __fastcall textWidget(short a2, short a3, short a4, short a5, char *content, char *fontName, short a8, short a9, short a10, short a11);
 };
 
 class heroWindow {

@@ -245,6 +245,8 @@ public:
   int GetBoatsBuilt();
   int CreateBoat(int x, int y, int doSend);
   void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
+  int getNumberOfThievesGuilds(int playerIdx);
+
 private:
   void PropagateVision();
 };
