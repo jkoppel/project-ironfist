@@ -24043,7 +24043,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     978,
     919,
     0,
-    37,
+    35,
     6,
     0,
     '\x06',
