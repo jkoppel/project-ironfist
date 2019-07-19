@@ -409,7 +409,7 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
       int faction = gpGame->castles[townID].factionID;
       evt.payload = (void *)castleIconFrames[faction];
       if(!(gpGame->castles[townID].buildingsBuiltFlags & 0x40))
-          evt.payload = (char *)townIconFrames[faction];
+          evt.payload = (void *)townIconFrames[faction];
       this->adventureScreen->BroadcastMessage(evt);
 
       if(BitTest((const LONG*)gpGame->builtToday, townID))
