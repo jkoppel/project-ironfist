@@ -9,7 +9,9 @@ extern void* hInstApp;
 void IronfistInit() {
   LoadCreatures();
   LoadArtifacts();
+#ifndef EDITOR
   InitializeTownConstants();
+#endif
   //LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }
 
