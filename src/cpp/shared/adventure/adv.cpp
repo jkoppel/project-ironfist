@@ -513,9 +513,11 @@ void advManager::TownQuickView(int townID, int _104, int xOff, int a3) {
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
   evt.xCoordOrKeycode = 4;
   evt.yCoordOrFieldID = 2;
-  evt.payload = (void *)(town->factionID + 9);
+
+  int faction = town->factionID;
+  evt.payload = (void *)castleIconFrames[faction];
   if(!(gpGame->castles[townID].buildingsBuiltFlags & 0x40))
-    evt.payload = (char *)evt.payload + 6;
+    evt.payload = (void *)townIconFrames[faction];
   window->BroadcastMessage(evt);
   if(thievesGuildsLevel != 3 || (v5 = BitTest((const LONG*)gpGame->builtToday, town->idx), !v5)) {
     evt.xCoordOrKeycode = 6;
