@@ -376,10 +376,19 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
         evt.payload = (void *)2;
         v4->adventureScreen->BroadcastMessage(evt);
         evt.xCoordOrKeycode = 4;
-        evt.payload = (void *)(gpGame->castles[i].factionID + 9);
-        if(!(gpGame->castles[i].buildingsBuiltFlags & 0x40))
-          evt.payload = (char *)evt.payload + 6;
+        int faction = gpGame->castles[i].factionID;
+        if(faction == FACTION_CYBORG)
+          evt.payload = (void *)25;
+        else
+          evt.payload = (void *)(faction + 9);
+        if(!(gpGame->castles[i].buildingsBuiltFlags & 0x40)) {
+          if(faction == FACTION_CYBORG)
+            evt.payload = (void *)26;
+          else
+            evt.payload = (char *)evt.payload + 6;
+        }
         v4->adventureScreen->BroadcastMessage(evt);
+
         if(BitTest((const LONG*)gpGame->field_27BB, i))
           evt.xCoordOrKeycode = 5;
         else
