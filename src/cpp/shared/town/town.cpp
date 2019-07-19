@@ -90,7 +90,7 @@ std::vector<std::string> objectNames = {
   "ext3"
 };
 
-void InitTownObjNames() {
+static void InitTownObjNames() {
   for (auto i = 0u; i < objectNames.size(); ++i) {
     gTownObjNames[i] = &objectNames[i][0];
   }
@@ -98,7 +98,7 @@ void InitTownObjNames() {
 
 // Defines the creature types in dwellings 1-6, followed by upgrades 1-5b
 // (which are really the tier 2 upgrade through tier 6 second upgrade).
-void InitDwellingTypes() {
+static void InitDwellingTypes() {
   for (int i = 0; i < MAX_FACTIONS; ++i) {
     for (int j = 0; j < NUM_DWELLINGS; ++j) {
       gDwellingType[i][j] = CREATURE_INVALID;
@@ -177,7 +177,7 @@ void InitDwellingTypes() {
   // TODO: do Cyborg creatures have upgrades?
 }
 
-void InitBuildingNames() {
+static void InitBuildingNames() {
   for (int f = 0; f < MAX_FACTIONS; ++f) {
     gWellExtraNames[f] = GetFirstLevelGrowerName(f);
     gSpecialBuildingNames[f] = GetSpecialBuildingName(f);
@@ -185,12 +185,14 @@ void InitBuildingNames() {
   }
 }
 
-void game::SetupTowns() {
-	InitTownObjNames();
-	InitDwellingTypes();
-	InitDwellingCosts();
-	InitBuildingNames();
+void InitializeTownConstants() {
+  InitTownObjNames();
+  InitDwellingTypes();
+  InitDwellingCosts();
+  InitBuildingNames();
+}
 
+void game::SetupTowns() {
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
 		if(this->castles[castleIdx].exists) {
 			town* castle = &this->castles[castleIdx];
