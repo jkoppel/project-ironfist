@@ -18,6 +18,38 @@
 
 static const int END_TURN_BUTTON = 4;
 
+int castleIconFrames[MAX_FACTIONS] = {
+  9,
+  10,
+  11,
+  12,
+  13,
+  14,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  25
+};
+
+int townIconFrames[MAX_FACTIONS] = {
+  15,
+  16,
+  17,
+  18,
+  19,
+  20,
+  0,
+  0,
+  0,
+  0,
+  0,
+  0,
+  26
+};
+
 int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
   extern int giBottomViewOverride;
   extern int iCurBottomView;
@@ -387,6 +419,9 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
           else
             evt.payload = (char *)evt.payload + 6;
         }
+        evt.payload = (void *)castleIconFrames[faction];
+        if(!(gpGame->castles[i].buildingsBuiltFlags & 0x40))
+            evt.payload = (char *)townIconFrames[faction];
         v4->adventureScreen->BroadcastMessage(evt);
 
         if(BitTest((const LONG*)gpGame->field_27BB, i))
