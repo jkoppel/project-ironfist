@@ -571,6 +571,19 @@ static int l_grantSpellScroll(lua_State *L) {
   return 0;
 }
 
+static int l_getHeroFaction(lua_State *L) {
+  hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, hro->factionID);
+  return 1;
+}
+
+static int l_setHeroFaction(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int newFaction = (int)luaL_checknumber(L, 2);
+  hro->factionID = newFaction;
+  return 0;
+}
+
 static void register_hero_funcs(lua_State *L) {
   lua_register(L, "GetCurrentHero", l_getCurrentHero);
   lua_register(L, "GrantSpell", l_grantSpell);
@@ -609,6 +622,8 @@ static void register_hero_funcs(lua_State *L) {
   lua_register(L, "GetHeroTempLuckBonuses", l_getHeroTempLuckBonuses);
   lua_register(L, "SetHeroTempLuckBonuses", l_setHeroTempLuckBonuses);
   lua_register(L, "GrantSpellScroll", l_grantSpellScroll);
+  lua_register(L, "GetHeroFaction", l_getHeroFaction);
+  lua_register(L, "SetHeroFaction", l_setHeroFaction);
 }
 
 /************************************** Map *******************************************/
