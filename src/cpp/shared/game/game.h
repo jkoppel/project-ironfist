@@ -153,7 +153,7 @@ public:
 	char numObelisks;
 	town castles[MAX_TOWNS];
 	char field_2773[72];
-	char field_27BB[9];
+	char builtToday[9];
 	hero heroes[MAX_HEROES];
 	char relatedToHeroForHireStatus[54];
 	mine mines[144];

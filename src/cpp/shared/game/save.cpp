@@ -230,7 +230,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   }
 
   ReadArrayFromXML(gam->field_2773, gs.field_2773());
-  ReadArrayFromXML(gam->field_27BB, gs.field_27BB());
+  ReadArrayFromXML(gam->builtToday, gs.field_27BB());
 
   for (int i = 0; i < gs.mine().size(); i++) {
     mine *mn = &gam->mines[i];
@@ -429,7 +429,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
   WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
   WriteArrayToXML(gs.field_2773(), gam->field_2773);
-  WriteArrayToXML(gs.field_27BB(), gam->field_27BB);
+  WriteArrayToXML(gs.field_27BB(), gam->builtToday);
   WriteArrayToXML(gs.field_60A6(), gam->field_60A6);
   WriteArrayToXML(gs.randomArtifacts(), SerializeGeneratedArtifacts());
   WriteArrayToXML(gs.boatBuilt(), gam->boatBuilt);
