@@ -341,6 +341,60 @@ void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1)
 	this->ComputerMonsterInteract_orig(cell, computer, a1);
 }
 
+void advManager::UpdateTownLocators(int a2, int updateScreen) {
+  advManager *v4; // [sp+14h] [bp-30h]@1
+  tag_message evt; // [sp+20h] [bp-24h]@2
+  int i; // [sp+3Ch] [bp-8h]@4
+  int j; // [sp+40h] [bp-4h]@2
+
+  v4 = this;
+  if(gbThisNetHumanPlayer[giCurPlayer]) {
+    evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+    for(j = 0; j < 4; ++j) {
+      i = *(&gpCurPlayer->castlesOwned[j] + gpCurPlayer->relatedToUnknown);
+      evt.xCoordOrKeycode = 8;
+      evt.yCoordOrFieldID = j + 32;
+      if(gpCurPlayer->mightBeCurCastleIdx == -1 || gpCurPlayer->mightBeCurCastleIdx != i || gbAllBlack)
+        evt.payload = (void *)36;
+      else
+        evt.payload = (void *)153;
+      v4->adventureScreen->BroadcastMessage(evt);
+      evt.yCoordOrFieldID = j + 16;
+      if(i == -1 || gbAllBlack) {
+        evt.xCoordOrKeycode = 4;
+        evt.payload = (void *)(j + 5);
+        v4->adventureScreen->BroadcastMessage(evt);
+        evt.xCoordOrKeycode = 6;
+        evt.payload = (void *)2;
+        v4->adventureScreen->BroadcastMessage(evt);
+        evt.xCoordOrKeycode = 6;
+        evt.payload = (void *)4;
+        evt.yCoordOrFieldID = j + 300;
+        v4->adventureScreen->BroadcastMessage(evt);
+      } else {
+        evt.xCoordOrKeycode = 5;
+        evt.payload = (void *)2;
+        v4->adventureScreen->BroadcastMessage(evt);
+        evt.xCoordOrKeycode = 4;
+        evt.payload = (void *)(gpGame->castles[i].factionID + 9);
+        if(!(gpGame->castles[i].buildingsBuiltFlags & 0x40))
+          evt.payload = (char *)evt.payload + 6;
+        v4->adventureScreen->BroadcastMessage(evt);
+        if(BitTest((const LONG*)gpGame->field_27BB, i))
+          evt.xCoordOrKeycode = 5;
+        else
+          evt.xCoordOrKeycode = 6;
+        evt.payload = (void *)4;
+        evt.yCoordOrFieldID = j + 300;
+        v4->adventureScreen->BroadcastMessage(evt);
+      }
+    }
+    v4->castleScrollbarKnob->offsetY = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)gpCurPlayer->relatedToUnknown * 74.0 / (double)((signed int)gpCurPlayer->numCastles - 4) + 195.0) : 232;
+    if(a2)
+      v4->adventureScreen->DrawWindow(updateScreen);
+  }
+}
+
 bool GetMapCellXY(mapCell* cell, int* x, int* y) {
 	for (int i = 0; i < gpGame->map.width; i++) {
 		for (int j = 0; j < gpGame->map.height; j++) {

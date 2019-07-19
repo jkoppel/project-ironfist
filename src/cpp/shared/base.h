@@ -42,6 +42,8 @@ extern void __fastcall DelayMilli(long);
 extern signed char gArmyEffected[2][20];
 extern int bSecondAttack;
 extern int giDebugBuildingToBuild;
+extern signed char gbThisNetHumanPlayer[];
+extern int gbAllBlack;
 /*
  * Updates sound, graphics if needed.
  *
