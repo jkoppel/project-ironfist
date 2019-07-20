@@ -12,6 +12,8 @@ hero = null;
 player = null;
 gateX = 11;
 gateY = 18;
+bonfireX = 31;
+bonfireY = 19;
 events = {  zero  = {x=29, y= 8, func='AbandonedHutEvent'},
             one   = {x=26, y=19, func='TreeHouseEvent'   },
             two   = {x=31, y=19, func='BonfireEvent'     },
@@ -118,10 +120,9 @@ function BonfireEvent()
         MessageBox("He offers to join your cause.");
         if (not TryGrantArmy(hero, CREATURE_PALADIN, 1)) then
             bonfireVisited = false;
-            return;
+        else
+            MapFizzle(bonfireX, bonfireY, true); --We pass true because we want the sound to play.
         end
-    else
-        MessageBox("The bonfire has already been visited.");
     end
 end
 
