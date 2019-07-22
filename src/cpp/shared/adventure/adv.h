@@ -8,6 +8,8 @@
 #include "skills.h"
 
 class mapCell;
+extern class town;
+extern class fullMap;
 
 #define ORIG_SPELLS 65
 
@@ -174,7 +176,7 @@ public:
   int field_A2;
   int currentTerrain;
   int field_AA;
-  void *map; // fullMap *map;
+  fullMap *map;
   iconWidget *heroScrollbarKnob;
   iconWidget *castleScrollbarKnob;
   int field_BA;
@@ -262,6 +264,7 @@ public:
   int IsCrystalBallInEffect(int x, int y, int a3);
   void SetTownContext(int townID);
   char * GetArmySizeName(signed int amt, int queryType);
+  char * GetQuantityString(int thievesGuildsLevel, town* town, int garrisonIdx);
 };
 
 class ExpCampaign {

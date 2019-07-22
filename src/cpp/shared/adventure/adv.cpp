@@ -380,32 +380,34 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
 
   tag_message evt;
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  for(int j = 0; j < 4; ++j) {
-    int townID = *(&gpCurPlayer->castlesOwned[j] + gpCurPlayer->relatedToUnknown);
+  const int NUM_GUI_ROWS = 4;
+  for(int guiRow = 0; guiRow < NUM_GUI_ROWS; ++guiRow) {
+    int townID = *(&gpCurPlayer->castlesOwned[guiRow] + gpCurPlayer->relatedToUnknown);
     evt.xCoordOrKeycode = 8;
-    evt.yCoordOrFieldID = j + 32;
+    evt.yCoordOrFieldID = guiRow + 32;
     if(gpCurPlayer->mightBeCurCastleIdx == -1 || gpCurPlayer->mightBeCurCastleIdx != townID || gbAllBlack)
       evt.payload = (void *)36;
     else
       evt.payload = (void *)153;
     this->adventureScreen->BroadcastMessage(evt);
-    evt.yCoordOrFieldID = j + 16;
+    evt.yCoordOrFieldID = guiRow + 16;
     if(townID == -1 || gbAllBlack) {
       evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)(j + 5);
+      evt.payload = (void *)(guiRow + 5);
       this->adventureScreen->BroadcastMessage(evt);
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)2;
       this->adventureScreen->BroadcastMessage(evt);
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
-      evt.yCoordOrFieldID = j + 300;
+      evt.yCoordOrFieldID = guiRow + 300;
       this->adventureScreen->BroadcastMessage(evt);
     } else {
       evt.xCoordOrKeycode = 5;
       evt.payload = (void *)2;
       this->adventureScreen->BroadcastMessage(evt);
       evt.xCoordOrKeycode = 4;
+      // setting town icon
       int faction = gpGame->castles[townID].factionID;
       evt.payload = (void *)castleIconFrames[faction];
       if(!(gpGame->castles[townID].buildingsBuiltFlags & 0x40))
@@ -417,7 +419,7 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
       else
         evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
-      evt.yCoordOrFieldID = j + 300;
+      evt.yCoordOrFieldID = guiRow + 300;
       this->adventureScreen->BroadcastMessage(evt);
     }
   }
@@ -427,78 +429,24 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
 }
 
 void advManager::TownQuickView(int townID, int _104, int xOff, int a3) {
-  int v5; // eax@19
-  char *v6; // eax@24
-  __int16 v7; // ST14_2@57
-  int v8; // ebx@57
-  int v9; // ST04_4@57
-  int v10; // ebx@57
-  IconEntry *v11; // eax@57
-  char *v12; // eax@64
-  __int16 v13; // ST14_2@78
-  int v14; // ebx@78
-  int v15; // ST04_4@78
-  int v16; // ebx@78
-  IconEntry *v17; // eax@78
-  char *v18; // eax@85
-  textWidget *v20; // [sp+1Ch] [bp-DCh]@87
-  iconWidget *v21; // [sp+20h] [bp-D8h]@77
-  textWidget *v22; // [sp+24h] [bp-D4h]@66
-  iconWidget *v23; // [sp+28h] [bp-D0h]@56
-  textWidget *v24; // [sp+2Ch] [bp-CCh]@34
-  signed int v26; // [sp+34h] [bp-C4h]@41
-  signed int v27; // [sp+38h] [bp-C0h]@40
-  int v28; // [sp+38h] [bp-C0h]@73
-  int v29; // [sp+3Ch] [bp-BCh]@48
-  int v30; // [sp+40h] [bp-B8h]@48
-  int v31; // [sp+40h] [bp-B8h]@73
-  int v32; // [sp+44h] [bp-B4h]@48
-  char *v33[4]; // [sp+4Ch] [bp-ACh]@61
-  int v34; // [sp+60h] [bp-98h]@48
-  int v35; // [sp+64h] [bp-94h]@41
-  int imgIdx; // [sp+68h] [bp-90h]@56
-  iconWidget *iconWidgetArray[5]; // [sp+6Ch] [bp-8Ch]@57
-  int v38; // [sp+80h] [bp-78h]@48
-  textWidget *textWidgetArray[5]; // [sp+84h] [bp-74h]@67
-  char *content; // [sp+98h] [bp-60h]@31
-  widget *guiObj; // [sp+9Ch] [bp-5Ch]@35
-  __int16 v42; // [sp+A0h] [bp-58h]@1
-  __int16 v43; // [sp+A4h] [bp-54h]@1
-  tag_message evt; // [sp+A8h] [bp-50h]@16
-  icon *res; // [sp+C4h] [bp-34h]@2
-  __int16 v46; // [sp+C8h] [bp-30h]@1
-  __int16 v47; // [sp+CCh] [bp-2Ch]@1
-  int i; // [sp+D0h] [bp-28h]@24
-  int v49; // [sp+D4h] [bp-24h]@93
-  int v50; // [sp+D8h] [bp-20h]@93
-  int thievesGuildsLevel; // [sp+DCh] [bp-1Ch]@11
-  __int16 v52; // [sp+E0h] [bp-18h]@1
-  heroWindow *window; // [sp+E4h] [bp-14h]@5
-  town *town; // [sp+E8h] [bp-10h]@2
-  int garrisonCreatures; // [sp+ECh] [bp-Ch]@16
-  __int16 v56; // [sp+F0h] [bp-8h]@1
-  __int16 v57; // [sp+F4h] [bp-4h]@1
-
-  std::string str;
-
-  v42 = 192;
-  v47 = 22;
-  v46 = 32;
-  v56 = 32;
-  v57 = 1;
-  v43 = 2;
-  v52 = 8;
   if(townID == -1)
-    return;
-  res = gpResourceManager->GetIcon("mons32.icn");
-  town = &gpGame->castles[townID];
+    return;  
+  
+  const int MAX_GARRISON_CREATURE_SLOTS = 5;
+
+  icon *res = gpResourceManager->GetIcon("mons32.icn");
+  town *town = &gpGame->castles[townID];
+
   if(xOff == -1) {
     xOff = 328;
     a3 = 176;
   }
-  window = new heroWindow(xOff, a3, "qtown1.bin");
+
+  heroWindow *window = new heroWindow(xOff, a3, "qtown1.bin");
   if(!window)
     MemError();
+
+  int thievesGuildsLevel;
   if(town->ownerIdx != giCurPlayer && giDebugLevel < 2) {
     thievesGuildsLevel = gpGame->getNumberOfThievesGuilds(giCurPlayer);
     if(thievesGuildsLevel > 2)
@@ -509,7 +457,8 @@ void advManager::TownQuickView(int townID, int _104, int xOff, int a3) {
   if(this->IsCrystalBallInEffect(town->x, town->y, 8))
     thievesGuildsLevel = 3;
   SetWinText(window, 19);
-  garrisonCreatures = 0;
+  
+  tag_message evt;
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
   evt.xCoordOrKeycode = 4;
   evt.yCoordOrFieldID = 2;
@@ -519,12 +468,15 @@ void advManager::TownQuickView(int townID, int _104, int xOff, int a3) {
   if(!(gpGame->castles[townID].buildingsBuiltFlags & 0x40))
     evt.payload = (void *)townIconFrames[faction];
   window->BroadcastMessage(evt);
-  if(thievesGuildsLevel != 3 || (v5 = BitTest((const LONG*)gpGame->builtToday, town->idx), !v5)) {
+
+  // built today icon
+  if(thievesGuildsLevel != 3 || !BitTest((const LONG*)gpGame->builtToday, town->idx)) {
     evt.xCoordOrKeycode = 6;
     evt.yCoordOrFieldID = 300;
     evt.payload = (void *)4;
     window->BroadcastMessage(evt);
   }
+
   if(town->ownerIdx == -1) {
     evt.xCoordOrKeycode = 6;
     evt.yCoordOrFieldID = 8;
@@ -541,193 +493,155 @@ void advManager::TownQuickView(int townID, int _104, int xOff, int a3) {
     evt.payload = (void*)((int)evt.payload + 1);
     window->BroadcastMessage(evt);
   }
-  v6 = GetTownName(town->idx);
-  sprintf(gText, v6);
+
+  sprintf(gText, GetTownName(town->idx));
   evt.xCoordOrKeycode = 3;
   evt.yCoordOrFieldID = 1;
   evt.payload = gText;
   window->BroadcastMessage(evt);
-  garrisonCreatures = 0;
-  for(i = 0; i < 5; ++i) {
+
+  int garrisonCreatures = 0;
+  for(int i = 0; i < MAX_GARRISON_CREATURE_SLOTS; ++i) {
     if(town->garrison.creatureTypes[i] != -1)
       ++garrisonCreatures;
   }
+
   if(thievesGuildsLevel && garrisonCreatures) {
-    v27 = 76;
-    if(garrisonCreatures < 1)
-      goto LABEL_43;
-    if(garrisonCreatures <= 3) {
-      v27 = 98;
-      v26 = garrisonCreatures;
-      v35 = 0;
+    iconWidget *iconWidgetArray[MAX_GARRISON_CREATURE_SLOTS];
+    textWidget *textWidgetArray[MAX_GARRISON_CREATURE_SLOTS];
+
+    int yOffset = 76;
+    int numCreaturesSecondRow;
+    int numCreaturesFirstRow;
+    if(garrisonCreatures < 1 || garrisonCreatures >= 5) {
+      numCreaturesSecondRow = 2;
+      numCreaturesFirstRow = 3;
+    } else if(garrisonCreatures >= 1 && garrisonCreatures <= 3) {
+      yOffset = 98;
+      numCreaturesSecondRow = garrisonCreatures;
+      numCreaturesFirstRow = 0;
     } else {
-      if(garrisonCreatures != 4) {
-      LABEL_43:
-        v26 = 2;
-        v35 = 3;
-        goto LABEL_48;
-      }
-      v26 = 2;
-      v35 = 2;
+      numCreaturesSecondRow = 2;
+      numCreaturesFirstRow = 2;
     }
-  LABEL_48:
-    v38 = 0;
-    v29 = 0;
-    v34 = 192 / v26;
-    v30 = (192 / v26 - 32) / 2 + 22;
-    v32 = 0;
-    for(i = 0; i < v26; ++i) {
+    
+    int xOffset = 0;
+    int xOffset2 = (192 / numCreaturesSecondRow - 32) / 2 + 22;
+    int xOffset3 = 192 / numCreaturesSecondRow;
+
+    int widgetIdx = 0;
+    int garrisonIdx = 0;
+    for(int i = 0; i < numCreaturesSecondRow; ++i) {
       if(garrisonCreatures == 5) {
         if(i)
-          v32 = -12;
+          xOffset = -12;
         else
-          v32 = 12;
+          xOffset = 12;
       }
-      while(town->garrison.creatureTypes[v29] == -1)
-        ++v29;
-      imgIdx = town->garrison.creatureTypes[v29];
+      while(town->garrison.creatureTypes[garrisonIdx] == -1)
+        ++garrisonIdx;
 
-      v7 = imgIdx;
-      v8 = v27 - GetIconEntry(res, imgIdx)->offsetY;
-      v9 = v8 - GetIconEntry(res, imgIdx)->height + 30;
-      v10 = v32 + v30 + v34 * v38 - GetIconEntry(res, imgIdx)->offsetX;
-      v11 = GetIconEntry(res, imgIdx);
-      iconWidgetArray[v38] = new iconWidget(
-                                (32 - v11->width) / 2 + v10 + 1,
-                                v9,
-                                32,
-                                32,
-                                "mons32.icn",
-                                v7,
-                                0,
-                                -1,
-                                16,
-                                1);
-      if(!iconWidgetArray[v38])
+      int imgIdx = town->garrison.creatureTypes[garrisonIdx];
+
+      IconEntry *iconEntry = GetIconEntry(res, imgIdx);
+
+      int v10 = xOffset + xOffset2 + xOffset3 * widgetIdx - iconEntry->offsetX;
+      int x = (32 - iconEntry->width) / 2 + v10 + 1;
+      int y = (yOffset - iconEntry->offsetY) - iconEntry->height + 30;
+
+      iconWidgetArray[widgetIdx] = new iconWidget(x, y, 32, 32, "mons32.icn", imgIdx, 0, -1, 16, 1);
+      if(!iconWidgetArray[widgetIdx])
+        MemError();           
+
+      x = xOffset + xOffset2 + xOffset3 * widgetIdx - 14;
+      y = yOffset + 32;
+      char *quantityStr = this->GetQuantityString(thievesGuildsLevel, town, garrisonIdx);
+      textWidgetArray[widgetIdx] = new textWidget(x, y, 60, 12, quantityStr, "smalfont.fnt", 1, -1, 512, 1);
+      if(!textWidgetArray[widgetIdx])
         MemError();
 
-      std::string quantityStr;
-      if(thievesGuildsLevel == 3)
-        quantityStr = std::to_string(town->garrison.quantities[v29]);
-      else if(thievesGuildsLevel == 2)
-        quantityStr = this->GetArmySizeName(town->garrison.quantities[v29], 0);
-      else
-        quantityStr = "???";
-
-      char *charStr = (char*)BaseAlloc(quantityStr.size(), __FILE__, __LINE__);
-      charStr = strdup(quantityStr.c_str());
-
-      textWidgetArray[v38] = new textWidget(
-                                 v32 + v30 + v34 * v38 - 14,
-                                 v27 + 32,
-                                 60,
-                                 12,
-                                 charStr,
-                                 "smalfont.fnt",
-                                 1,
-                                 -1,
-                                 512,
-                                 1);
-
-      if(!textWidgetArray[v38])
-        MemError();
-      window->AddWidget((widget *)iconWidgetArray[v38], -1);
-      window->AddWidget((widget *)textWidgetArray[v38++], -1);
-      ++v29;
+      window->AddWidget((widget *)iconWidgetArray[widgetIdx], -1);
+      window->AddWidget((widget *)textWidgetArray[widgetIdx++], -1);
+      ++garrisonIdx;
     }
-    if(v35) {
-      v34 = 192 / v35;
-      v31 = (192 / v35 - 32) / 2 + 22;
-      v28 = v27 + 44;
-      for(i = v26; v35 + v26 > i; ++i) {
-        while(town->garrison.creatureTypes[v29] == -1)
-          ++v29;
-        imgIdx = town->garrison.creatureTypes[v29];
 
-        v13 = imgIdx;
-        v14 = v28 - GetIconEntry(res, imgIdx)->offsetY;
-        v15 = v14 - GetIconEntry(res, imgIdx)->height + 30;
-        v16 = v31 + v34 * (v38 - v26) - GetIconEntry(res, imgIdx)->offsetX;
-        v17 = GetIconEntry(res, imgIdx);
-        iconWidgetArray[v38] = new iconWidget(
-                                  (32 - v17->width) / 2 + v16 + 1,
-                                  v15,
-                                  32,
-                                  32,
-                                  "mons32.icn",
-                                  v13,
-                                  0,
-                                  -1,
-                                  16,
-                                  1);
+    if(numCreaturesFirstRow) {
+      xOffset3 = 192 / numCreaturesFirstRow;
+      int v31 = (192 / numCreaturesFirstRow - 32) / 2 + 22;
+      int yOffset2 = yOffset + 44;
+      for(int i = numCreaturesSecondRow; numCreaturesFirstRow + numCreaturesSecondRow > i; ++i) {
+        while(town->garrison.creatureTypes[garrisonIdx] == -1)
+          ++garrisonIdx;
+        int imgIdx = town->garrison.creatureTypes[garrisonIdx];
 
-        if(!iconWidgetArray[v38])
+        int v14 = yOffset2 - GetIconEntry(res, imgIdx)->offsetY;
+        int y = v14 - GetIconEntry(res, imgIdx)->height + 30;
+        int v16 = v31 + xOffset3 * (widgetIdx - numCreaturesSecondRow) - GetIconEntry(res, imgIdx)->offsetX;
+        IconEntry *v17 = GetIconEntry(res, imgIdx);
+        int x = (32 - v17->width) / 2 + v16 + 1;
+        iconWidgetArray[widgetIdx] = new iconWidget(x, y, 32, 32, "mons32.icn", imgIdx, 0, -1, 16, 1);
+
+        if(!iconWidgetArray[widgetIdx])
+          MemError();       
+
+        x = v31 + xOffset3 * (widgetIdx - numCreaturesSecondRow) - 14;
+        y = yOffset2 + 32;
+        char *quantityStr = this->GetQuantityString(thievesGuildsLevel, town, garrisonIdx);
+        textWidgetArray[widgetIdx] = new textWidget(x, y, 60, 12, quantityStr, "smalfont.fnt", 1, -1, 512, 1);
+
+        if(!textWidgetArray[widgetIdx])
           MemError();
-        
-        std::string quantityStr;
-        if(thievesGuildsLevel == 3)
-          quantityStr = std::to_string(town->garrison.quantities[v29]);
-        else if(thievesGuildsLevel == 2)
-          quantityStr = this->GetArmySizeName(town->garrison.quantities[v29], 0);
-        else
-          quantityStr = "???";
-
-        char *charStr = (char*)BaseAlloc(quantityStr.size(), __FILE__, __LINE__);
-        charStr = strdup(quantityStr.c_str());
-
-        textWidgetArray[v38] = new textWidget(
-                                  v31 + v34 * (v38 - v26) - 14,
-                                  v28 + 32,
-                                  60,
-                                  12,
-                                  charStr,
-                                  "smalfont.fnt",
-                                  1,
-                                  -1,
-                                  512,
-                                  1);
-
-        if(!textWidgetArray[v38])
-          MemError();
-        window->AddWidget((widget *)iconWidgetArray[v38], -1);
-        window->AddWidget((widget *)textWidgetArray[v38++], -1);
-        ++v29;
+        window->AddWidget((widget *)iconWidgetArray[widgetIdx], -1);
+        window->AddWidget((widget *)textWidgetArray[widgetIdx++], -1);
+        ++garrisonIdx;
       }
     }
-    goto LABEL_93;
+  } else {
+    std::string str;
+    if(thievesGuildsLevel)
+      str = "None";
+    else
+      str = "Unknown";
+    char *charStr = (char*)BaseAlloc(str.size(), __FILE__, __LINE__);
+          charStr = strdup(str.c_str());
+
+    widget *guiObj = new textWidget(13, 117, 211, 12, charStr, "smalfont.fnt", 1, -1, 512, 1);
+
+    if(!guiObj)
+      MemError();
+    window->AddWidget(guiObj, -1);
   }
- 
-  if(thievesGuildsLevel)
-    str = "None";
-  else
-    str = "Unknown";
-
-  char *charStr = (char*)BaseAlloc(str.size(), __FILE__, __LINE__);
-        charStr = strdup(str.c_str());
-
-  guiObj = new textWidget(13, 117, 211, 12, charStr, "smalfont.fnt", 1, -1, 512, 1);
-
-  if(!guiObj)
-    MemError();
-  window->AddWidget(guiObj, -1);
-LABEL_93:
   gpWindowManager->AddWindow(window, -1, 1);
-  v50 = this->viewX;
-  v49 = this->viewY;
+  int tmpViewX = this->viewX;
+  int tmpViewY = this->viewY;
   this->viewX = town->x - 7;
   this->viewY = town->y - 7;
   this->UpdateRadar(1, 0);
   QuickViewWait();
   gpWindowManager->RemoveWindow(window);
   delete window;
-  this->viewX = v50;
-  this->viewY = v49;
+  this->viewX = tmpViewX;
+  this->viewY = tmpViewY;
   this->UpdateRadar(1, 0);
   this->CompleteDraw(0);
   this->UpdateScreen(0, 0);
   if(evt.eventCode == 8 && town->ownerIdx == giCurPlayer)
     this->SetTownContext(town->idx);
   gpResourceManager->Dispose((resource *)res);
+}
+
+char * advManager::GetQuantityString(int thievesGuildsLevel, town* town, int garrisonIdx) {
+  std::string quantityStr;
+  if(thievesGuildsLevel == 3)
+    quantityStr = std::to_string(town->garrison.quantities[garrisonIdx]);
+  else if(thievesGuildsLevel == 2)
+    quantityStr = this->GetArmySizeName(town->garrison.quantities[garrisonIdx], 0);
+  else
+    quantityStr = "???";
+
+  char *charStr = (char*)BaseAlloc(quantityStr.size(), __FILE__, __LINE__);
+  charStr = strdup(quantityStr.c_str());
+  return charStr;
 }
 
 bool GetMapCellXY(mapCell* cell, int* x, int* y) {
