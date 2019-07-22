@@ -819,6 +819,20 @@ static void WriteMapVariablesXML(ironfist_save::save_t& m) {
 
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
 
+  for (int i = 0; i != MAX_HEROES; ++i) {
+	  for (int j = 0; j != MAX_HEROES; ++j) {
+		  if (gpGame->forcedComputerPlayerChases[i][j]) {
+			  std::string mapVariableId = "_AICHASE_" + std::to_string(i) + "_" + std::to_string(j) + "_";
+			  mapVariable mapVar;
+			  mapVar.singleValue = nullptr;
+			  mapVar.type = MAPVAR_TYPE_BOOLEAN;
+			  mapVariables[mapVariableId] = mapVar;
+			  mapVariables[mapVariableId].type = MAPVAR_TYPE_BOOLEAN;
+			  mapVariables[mapVariableId].singleValue = new std::string("true");
+		  }
+	  }
+  }
+
   for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
     ironfist_save::mapVariable_t mapVar;
     mapVar.id(it->first);
@@ -900,9 +914,40 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       std::map<std::string, mapVariable> mapVariables;
       for (ironfist_save::save_t::mapVariable_const_iterator it = mp->mapVariable().begin();
         it != mp->mapVariable().end(); it++) {
-        mapVariable *mapVar = new mapVariable;
         std::string mapVariableId = it->id().get();
         MapVarType mapVariableType = StringToMapVarType(it->type());
+		if ((mapVariableType == MAPVAR_TYPE_BOOLEAN) && (!mapVariableId.empty())) {
+		  if ((mapVariableId[0] == '_') && ((it->value().get() == "true") || (it->value().get() == "True") || (it->value().get() == "TRUE"))) {
+			if (mapVariableId.length() > 10) {
+			  if (mapVariableId.substr(1, 8) == "AICHASE_") {
+				if (mapVariableId[mapVariableId.length() - 1] == '_') {
+				  std::string x = "";
+				  std::string y = "";
+				  bool coordinate = true;
+				  for (int i = 9; i != mapVariableId.length(); ++i) {
+					if (mapVariableId[i] == '_') {
+					  if (coordinate) {
+						coordinate = false;
+						continue;
+					  }
+					  break;
+					}
+					if (coordinate) {
+					  x.push_back(mapVariableId[i]);
+					} else {
+					  y.push_back(mapVariableId[i]);
+					}
+				  }
+				  if ((!x.empty()) && (!y.empty())) {
+					  gpGame->forcedComputerPlayerChases[atoi(x.c_str())][atoi(y.c_str())] = true;
+					  continue;
+				  }
+				}
+			  }
+			}
+		  }
+		}
+		mapVariable *mapVar = new mapVariable;
         mapVar->type = mapVariableType;
         if (isTable(mapVariableType)) {
           mapVar->tableValue = ReadMapVarXML(it->table().get());
