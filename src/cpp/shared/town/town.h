@@ -7,12 +7,13 @@
 #pragma pack(push,1)
 
 extern signed char gSpellLimits[];
-// 18 - all buildings before dwellings?
-extern unsigned char castleSlotsUse[18];
-extern unsigned char castleSlotsBase[18];
+#define NUM_NON_DWELLING_BUILDINGS 18
+extern unsigned char castleSlotsUse[NUM_NON_DWELLING_BUILDINGS];
+extern unsigned char castleSlotsBase[NUM_NON_DWELLING_BUILDINGS];
 extern char* cHeroTypeShortName[MAX_FACTIONS];
 extern char *gStatNames[NUM_PRIMARY_SKILLS];
 extern int gHeroGoldCost;
+
 
 class town {
 public:

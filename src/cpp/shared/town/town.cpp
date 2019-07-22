@@ -726,8 +726,7 @@ char * GetDwellingName(int faction, int dwellingIndex) {
 
 townObject::townObject(int faction, int buildingCode, char *filename) {
   this->animationIdx = 0;
-  this->icon = 0;
-  this->guiElement = 0;
+  this->guiElement = nullptr;
   this->built = 1;
   SBuildingInfo *bInfo = &sBuildingsInfo[faction][buildingCode];
   this->animationLength = bInfo->animationLength;
@@ -1146,46 +1145,50 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   tag_message evt;
   casWin = window;
 
-  for(int i = 0; i < 18; ++i) {
+  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     castleSlotsUse[i] = castleSlotsBase[i];
     if((signed int)castleSlotsBase[i] >= 20
       && (signed int)castleSlotsBase[i] <= 24
       && ((1 << castleSlotsBase[i]) & this->castle->buildingsBuiltFlags
         || (1 << (castleSlotsBase[i] + 5)) & this->castle->buildingsBuiltFlags
-        || castleSlotsBase[i] == 24 && this->castle->factionID == 3 && (*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x40)
+        || castleSlotsBase[i] == 24 && this->castle->factionID == FACTION_WARLOCK && (*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x40)
       && (1 << (castleSlotsBase[i] + 5)) & gTownEligibleBuildMask[this->castle->factionID]) {
       if(castleSlotsBase[i] == 24
-        && this->castle->factionID == 3
+        && this->castle->factionID == FACTION_WARLOCK
         && ((*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x20 || (*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x40))
         castleSlotsUse[i] = 30;
       else
         castleSlotsUse[i] = castleSlotsBase[i] + 5;
     }
   }
+
   this->field_156 = 0;
   this->field_152 = this->field_156;
-  for(int i = 0; i < 18; ++i) {
+  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     if(CanBuy(this->castle, castleSlotsUse[i]))
       this->field_152 |= 1 << castleSlotsUse[i];
     if(CanBuild(this->castle, castleSlotsUse[i]))
       this->field_156 |= 1 << castleSlotsUse[i];
   }
+  
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
   evt.xCoordOrKeycode = 4;
-  for(int i = 0; i < 18; ++i) {
+  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     evt.yCoordOrFieldID = i + 700;
     evt.payload = (void *)castleSlotsUse[i];
     casWin->BroadcastMessage(evt);
   }
+
   evt.xCoordOrKeycode = 9;
   sprintf(gText, "cstl%s.icn", cHeroTypeShortName[this->castle->factionID]);
   evt.payload = &gText;
-  for(int i = 0; i < 18; ++i) {
+  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     evt.yCoordOrFieldID = i + 700;
     casWin->BroadcastMessage(evt);
   }
+
   evt.xCoordOrKeycode = 3;
-  for(int i = 0; i < 18; ++i) {
+  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     evt.yCoordOrFieldID = i + 600;
     if(castleSlotsUse[i]) {
       evt.payload = GetBuildingName(this->castle->factionID, castleSlotsUse[i]);
@@ -1200,7 +1203,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   }
 
   int v10;
-  for(int i = 0; i < 18; ++i) {
+  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     v10 = -1;
     if((1 << castleSlotsUse[i]) & this->castle->buildingsBuiltFlags
       && (castleSlotsUse[i] || this->castle->mageGuildLevel == 5)) {
@@ -1223,6 +1226,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       evt.yCoordOrFieldID = i + 800;
       evt.payload = (void *)4;
       casWin->BroadcastMessage(evt);
+
       evt.xCoordOrKeycode = 4;
       evt.payload = (void *)v10;
       casWin->BroadcastMessage(evt);
@@ -1237,6 +1241,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       evt.payload = (void *)4;
       evt.yCoordOrFieldID = i + 400;
       casWin->BroadcastMessage(evt);
+
       evt.xCoordOrKeycode = 4;
       if(v10 == -1)
         evt.payload = (void *)1;
@@ -1254,6 +1259,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   evt.yCoordOrFieldID = 1101;
   evt.payload = (void *)6;
   casWin->BroadcastMessage(evt);
+
   evt.xCoordOrKeycode = 4;
   evt.yCoordOrFieldID = 1100;
   if(v23)
@@ -1261,11 +1267,13 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   else
     evt.payload = 0;
   casWin->BroadcastMessage(evt);
+
   sprintf(gText, "CSTLCAP%c.ICN", cHeroTypeInitial[this->castle->factionID]);
   evt.xCoordOrKeycode = 9;
   evt.yCoordOrFieldID = 1100;
   evt.payload = gText;
   casWin->BroadcastMessage(evt);
+
   if(v23)
     evt.xCoordOrKeycode = 5;
   else
@@ -1273,6 +1281,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   evt.yCoordOrFieldID = 1106;
   evt.payload = (void *)4;
   casWin->BroadcastMessage(evt);
+
   if(v23) {
     evt.xCoordOrKeycode = 4;
     evt.yCoordOrFieldID = 1106;
@@ -1280,6 +1289,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     casWin->BroadcastMessage(evt);
   }
   v10 = -1;
+
   if(v23) {
     evt.xCoordOrKeycode = 3;
     evt.payload = gText;
@@ -1292,6 +1302,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     }
     evt.yCoordOrFieldID = 1104;
     casWin->BroadcastMessage(evt);
+
     sprintf(gText, "");
     for(int i = 0; i < 4; ++i) {
       sprintf(a2, "%d\n", captainStats[this->castle->factionID][i]);
@@ -1307,6 +1318,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     evt.yCoordOrFieldID = 213;
     evt.payload = (void *)4;
     casWin->BroadcastMessage(evt);
+
     if(this->castle->field_38)
       evt.xCoordOrKeycode = 5;
     else
@@ -1315,15 +1327,15 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     evt.payload = (void *)4;
     casWin->BroadcastMessage(evt);
   } else {
-    if(CanBuild(this->castle, 15)) {
-      if(!CanBuy(this->castle, 15))
+    if(CanBuild(this->castle, BUILDING_CAPTAIN)) {
+      if(!CanBuy(this->castle, BUILDING_CAPTAIN))
         v10 = 13;
     } else {
       v10 = 12;
     }
-    if(CanBuild(this->castle, 15))
+    if(CanBuild(this->castle, BUILDING_CAPTAIN))
       this->field_156 |= 0x8000u;
-    if(CanBuy(this->castle, 15))
+    if(CanBuy(this->castle, BUILDING_CAPTAIN))
       this->field_152 |= 0x8000u;
   }
   if(v10 == -1)
@@ -1333,13 +1345,14 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   evt.yCoordOrFieldID = 1102;
   evt.payload = (void *)4;
   casWin->BroadcastMessage(evt);
+
   if(v10 != -1) {
     evt.xCoordOrKeycode = 4;
     evt.payload = (void *)v10;
     casWin->BroadcastMessage(evt);
   }
 
-  if(gpCurPlayer->resources[6] >= gHeroGoldCost) {
+  if(gpCurPlayer->resources[RESOURCE_GOLD] >= gHeroGoldCost) {
     if(gpCurPlayer->numHeroes != 8 && this->castle->visitingHeroIdx == -1) {
       if(this->field_14E)
         v10 = 11;
@@ -1361,10 +1374,12 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     } else {
       evt.xCoordOrKeycode = 5;
       casWin->BroadcastMessage(evt);
+
       evt.xCoordOrKeycode = 4;
       evt.payload = (void *)v10;
       casWin->BroadcastMessage(evt);
     }
+
     evt.xCoordOrKeycode = 9;
     sprintf(gText, "port%04d.icn", gpGame->heroes[gpCurPlayer->heroesForPurchase[i]].heroID);
     evt.payload = &gText;
@@ -1372,59 +1387,46 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     casWin->BroadcastMessage(evt);
   }
 
+  // Drawing castle and terrain underneath
   if(!a3) {
     // find terrain id under castle
-    int v19 = giGroundToTerrain[gpGame->map.tiles[this->castle->y * gpGame->map.width + this->castle->x].groundIndex];
+    int terrain = giGroundToTerrain[gpGame->map.tiles[this->castle->y * gpGame->map.width + this->castle->x].groundIndex];
     // find correct frame offset
-    v19 = 2 * (5 * v19 - 5);
+    int frameOffset = 2 * (5 * terrain - 5);
 
-    int v11 = 0;
+    int currentFrame = 0;
     for(int j = 5; j <= 6; ++j) {
       for(int k = 4; k <= 8; ++k) {
-          widget *guiObj = (widget *)new iconWidget(
-                               32 * (k - 4) + 458,
-                               32 * (j - 2),
-                               32,
-                               32,
-                               "objntwba.icn",
-                               v11 + v19,
-                               0,
-                               -1,
-                               16,
-                               1);
-
+        int x = 32 * (k - 4) + 458;
+        int y = 32 * (j - 2);
+        int frame = currentFrame + frameOffset;
+          widget *guiObj = (widget *)new iconWidget(x, y, 32, 32, "objntwba.icn", frame, 0, -1, 16, 1);
         if(!guiObj)
           MemError();
         casWin->AddWidget(guiObj, -1);
-        ++v11;
+        ++currentFrame;
       }
     }
-    v11 = 0;
 
-    int v16 = 32 * this->castle->factionID;
+    currentFrame = 0;
+    frameOffset = 32 * this->castle->factionID;
     if(this->castle->factionID == FACTION_CYBORG)
-      v16 = 32 * 6;
+      frameOffset = 32 * 6;
     for(int j = 2; j <= 5; ++j) {
       for(int k = 4; k <= 8; ++k) {
         if(j != 2 || k == 6) {
-            widget *guiObj = (widget *)new iconWidget(
-                                 32 * (k - 4) + 458,
-                                 32 * (j - 2),
-                                 32,
-                                 32,
-                                 "objntown.icn",
-                                 v11 + v16,
-                                 0,
-                                 -1,
-                                 16,
-                                 1);
+          int x = 32 * (k - 4) + 458;
+          int y = 32 * (j - 2);
+          int frame = currentFrame + frameOffset;
+            widget *guiObj = (widget *)new iconWidget(x, y, 32, 32, "objntown.icn", frame, 0, -1, 16, 1);
           if(!guiObj)
             MemError();
           casWin->AddWidget(guiObj, -1);
-          ++v11;
+          ++currentFrame;
         }
       }
     }
+
     if(!xIsExpansionMap && this->castle->factionID == FACTION_NECROMANCER) {
       widget *guiObj = (widget *)new iconWidget(149, 157, 137, 72, "caslxtra.icn", 0, 0, -1, 16, 1);
       if(!guiObj)
@@ -1434,70 +1436,57 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   }
 }
 
-int __fastcall CanBuild(town *twn, int building) {
-  
-  int result; // eax@2
-  
+int __fastcall CanBuild(town *twn, int building) {    
   if(BitTest((const LONG*)gpGame->builtToday, twn->idx)) {
-    result = 0;
-  } else {
-    int v6 = building;
-    if(v6 == 6 || twn->buildingsBuiltFlags & 0x40) {
-      if(xIsExpansionMap || v6 != 2 || twn->factionID != 5) {
-        if(v6 == 3) {
-          if(twn->CanBuildDock())
-            result = 1;
-          else
-            result = 0;
-        } else {
-          if(v6 || twn->mageGuildLevel < 5) {
-            if(v6 != 5 && v6 != 14 && v6 != 16 && v6 != 17 && v6 != 18 && v6 != 31) {
-              if(v6 >= 19 && v6 <= 30) {
-                unsigned int byte3 = *((unsigned char*)&(twn->buildingsBuiltFlags)+3);                  
-                if(v6 == 20 && byte3 & 2
-                  || v6 == 21 && byte3 & 4
-                  || v6 == 22 && byte3 & 8
-                  || v6 == 23 && byte3 & 0x10
-                  || v6 == 24 && (byte3 & 0x20 || byte3 & 0x40)
-                  || v6 == 29 && byte3 & 0x40) {
-                  result = 0;
-                } else {
-                  unsigned int v8 = twn->buildingsBuiltFlags;
-                  unsigned int byte3 = *((unsigned char*)&(v8)+3);    
-                  if(byte3 & 2)
-                    v8 |= 0x100000u;
-                  if(byte3 & 4)
-                    v8 |= 0x200000u;
-                  if(byte3 & 8)
-                    v8 |= 0x400000u;
-                  if(byte3 & 0x10)
-                    v8 |= 0x800000u;
-                  if(byte3 & 0x40)
-                    v8 |= 0x20000000u;
-                  if(byte3 & 0x20)
-                    v8 |= 0x1000000u;
-                  int v5 = gHierarchyMask[twn->factionID][v6 - 19]; // - 19
-                  if((v8 & v5) == v5)
-                    result = twn->factionID != 5 || v6 != 28 || twn->mageGuildLevel > 1;
-                  else
-                    result = 0;
-                }
-              } else {
-                result = 1;
-              }
-            } else {
-              result = 0;
-            }
-          } else {
-            result = 0;
-          }
-        }
-      } else {
-        result = 0;
-      }
-    } else {
-      result = 0;
-    }
+    return 0;
   }
-  return result;
+
+  unsigned int builtFlags = twn->buildingsBuiltFlags;
+  if(building == BUILDING_CASTLE || builtFlags & 0x40) {
+    if(xIsExpansionMap || building != BUILDING_TAVERN || twn->factionID != FACTION_NECROMANCER) {
+      if(building == BUILDING_DOCK) {
+        if(twn->CanBuildDock())
+          return 1;
+        return 0;
+      }
+
+      if(building || twn->mageGuildLevel < 5) {
+        if(building != BUILDING_TENT && building != BUILDING_BOAT && building != BUILDING_EXT_0 && building != BUILDING_EXT_1 && building != BUILDING_EXT_2 && building != BUILDING_EXT_3) {
+          if(building >= BUILDING_DWELLING_1 && building <= BUILDING_UPGRADE_5B) {
+            unsigned int byte3 = *((unsigned char*)&(builtFlags)+3);
+            if(building == BUILDING_DWELLING_2 && byte3 & 2
+              || building == BUILDING_DWELLING_3 && byte3 & 4
+              || building == BUILDING_DWELLING_4 && byte3 & 8
+              || building == BUILDING_DWELLING_5 && byte3 & 0x10
+              || building == BUILDING_DWELLING_6 && (byte3 & 0x20 || byte3 & 0x40)
+              || building == BUILDING_UPGRADE_5 && byte3 & 0x40) {
+              return 0;
+            }
+
+            if(byte3 & 2)
+              builtFlags |= 0x100000u;
+            if(byte3 & 4)
+              builtFlags |= 0x200000u;
+            if(byte3 & 8)
+              builtFlags |= 0x400000u;
+            if(byte3 & 0x10)
+              builtFlags |= 0x800000u;
+            if(byte3 & 0x40)
+              builtFlags |= 0x20000000u;
+            if(byte3 & 0x20)
+              builtFlags |= 0x1000000u;
+            int mask = gHierarchyMask[twn->factionID][building - 19];
+            if((builtFlags & mask) == mask)
+              return twn->factionID != FACTION_NECROMANCER || building != BUILDING_UPGRADE_4 || twn->mageGuildLevel > 1;
+            return 0;
+          }
+          return 1;
+        }
+        return 0;
+      }
+      return 0;
+    }
+    return 0;
+  }
+  return 0;
 }
