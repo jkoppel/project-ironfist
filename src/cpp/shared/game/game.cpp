@@ -542,7 +542,6 @@ int getCastleOwnedIdx(playerData *player, int castleIdx) {
 int game::getNumberOfThievesGuilds(int playerIdx) {
   int numGuilds = 0;
   for(int i = 0; this->players[playerIdx].numCastles > i; ++i) {
-    //if(gpGame->castles[*(&this->players[0].castlesOwned[284 * playerIdx] + i - playerIdx)].buildingsBuiltFlags & 2)
     if(gpGame->castles[this->players[playerIdx].castlesOwned[i]].buildingsBuiltFlags & BUILDING_TAVERN)
       ++numGuilds;
   }
