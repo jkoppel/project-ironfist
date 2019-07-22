@@ -266,27 +266,6 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
   return 0;
 }
 
-int advManager::MapPutResource(int x, int y, int resIdx, int resQty) {
-	//gResourceNames[0] == "Wood"
-	//gResourceNames[1] == "Mercury"
-	//gResourceNames[2] == "Ore"
-	//gResourceNames[3] == "Sulfur"
-	//gResourceNames[4] == "Crystal"
-	//gResourceNames[5] == "Gems"
-	//gResourceNames[6] == "Gold"
-	//resType == loc->objectIndex >> 1
-	int cellIdx = y * gpGame->map.height + x;
-	mapCell * loc = &gpGame->map.tiles[cellIdx];
-	loc->objectIndex = resIdx;
-	loc->extraInfo = resQty;
-	loc->objTileset = TILESET_OBJECT_RESOURCE;
-	loc->objType = TILE_HAS_EVENT | LOCATION_RESOURCE;
-	loc->overlayIndex = -1;
-	loc->field_4_1 = 0;
-	loc->isShadow = 0;
-	return 0;
-}
-
 int mapCell::getLocationType() {
   return this->objType & 0x7F;
 }

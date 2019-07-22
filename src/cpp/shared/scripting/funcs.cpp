@@ -623,29 +623,6 @@ static int l_mapSetObject(lua_State *L) {
   return 0;
 }
 
-static int l_mapEmptyCheck(lua_State *L) {
-	int x = (int)luaL_checknumber(L, 1);
-	int y = (int)luaL_checknumber(L, 2);
-
-	mapCell* cell = gpAdvManager->GetCell(x, y);
-	if (cell->objType & TILE_HAS_EVENT) {
-		lua_pushboolean(L, false);
-		return 1;
-	}
-	lua_pushboolean(L, true);
-	return 1;
-}
-
-static int l_mapPutResource(lua_State *L) {
-	int x = (int)luaL_checknumber(L, 1);
-	int y = (int)luaL_checknumber(L, 2);
-	int resIdx = (int)luaL_checknumber(L, 3);
-	int resQty = (int)luaL_checknumber(L, 4);
-
-	lua_pushinteger(L, gpAdvManager->MapPutResource(x, y, resIdx, resQty));
-	return 1;
-}
-
 static int l_mapPutArmy(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
@@ -718,8 +695,6 @@ static int l_mapSetTerrainTile(lua_State *L) {
 
 static void register_map_funcs(lua_State *L) {
   lua_register(L, "MapSetObject", l_mapSetObject);
-  lua_register(L, "MapEmptyCheck", l_mapEmptyCheck);
-  lua_register(L, "MapPutResource", l_mapPutResource);
   lua_register(L, "MapPutArmy", l_mapPutArmy);
   lua_register(L, "MapEraseSquare", l_mapEraseObj);
   lua_register(L, "MapFizzle", l_mapFizzleObj);
