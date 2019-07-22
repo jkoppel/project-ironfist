@@ -77,8 +77,8 @@ int recruitUnit::Open(int id) {
   this->field_62 = 0;
   this->field_66 = 0;
   if(!*this->available) {
-    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 6, 30722, 2);
-    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 5, 30722, 16392);
+    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 6, BUTTON_OK, 2);
+    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 5, BUTTON_OK, 16392);
   }
 
   hmnuRecruitSave = hmnuCurrent;
