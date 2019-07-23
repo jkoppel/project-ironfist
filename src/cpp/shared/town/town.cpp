@@ -1292,51 +1292,51 @@ int __fastcall CanBuild(town *twn, int building) {
   }
 
   unsigned int builtFlags = twn->buildingsBuiltFlags;
-  if(building == BUILDING_CASTLE || builtFlags & 0x40) {
-    if(xIsExpansionMap || building != BUILDING_TAVERN || twn->factionID != FACTION_NECROMANCER) {
-      if(building == BUILDING_DOCK) {
-        if(twn->CanBuildDock())
-          return 1;
-        return 0;
-      }
+  if(!(builtFlags & 0x40) && building != BUILDING_CASTLE)
+    return 0;
 
-      if(building || twn->mageGuildLevel < 5) {
-        if(building != BUILDING_TENT && building != BUILDING_BOAT && building != BUILDING_EXT_0 && building != BUILDING_EXT_1 && building != BUILDING_EXT_2 && building != BUILDING_EXT_3) {
-          if(building >= BUILDING_DWELLING_1 && building <= BUILDING_UPGRADE_5B) {
-            unsigned int byte3 = *((unsigned char*)&(builtFlags)+3);
-            if(building == BUILDING_DWELLING_2 && byte3 & 2
-              || building == BUILDING_DWELLING_3 && byte3 & 4
-              || building == BUILDING_DWELLING_4 && byte3 & 8
-              || building == BUILDING_DWELLING_5 && byte3 & 0x10
-              || building == BUILDING_DWELLING_6 && (byte3 & 0x20 || byte3 & 0x40)
-              || building == BUILDING_UPGRADE_5 && byte3 & 0x40) {
-              return 0;
-            }
+  if(twn->factionID == FACTION_NECROMANCER && building == BUILDING_TAVERN && !xIsExpansionMap)
+    return 0;
 
-            if(byte3 & 2)
-              builtFlags |= 0x100000u;
-            if(byte3 & 4)
-              builtFlags |= 0x200000u;
-            if(byte3 & 8)
-              builtFlags |= 0x400000u;
-            if(byte3 & 0x10)
-              builtFlags |= 0x800000u;
-            if(byte3 & 0x40)
-              builtFlags |= 0x20000000u;
-            if(byte3 & 0x20)
-              builtFlags |= 0x1000000u;
-            int mask = gHierarchyMask[twn->factionID][building - 19];
-            if((builtFlags & mask) == mask)
-              return twn->factionID != FACTION_NECROMANCER || building != BUILDING_UPGRADE_4 || twn->mageGuildLevel > 1;
-            return 0;
-          }
-          return 1;
-        }
-        return 0;
-      }
-      return 0;
-    }
+  if(building == BUILDING_DOCK) {
+    if(twn->CanBuildDock())
+      return 1;
     return 0;
   }
-  return 0;
+
+  if(building == BUILDING_MAGE_GUILD && twn->mageGuildLevel >= 5)
+    return 0;
+
+  if(building == BUILDING_TENT || building == BUILDING_BOAT || building == BUILDING_EXT_0 || building == BUILDING_EXT_1 || building == BUILDING_EXT_2 || building == BUILDING_EXT_3)
+    return 0;
+
+  if(building >= BUILDING_DWELLING_1 && building <= BUILDING_UPGRADE_5B) {
+    unsigned int byte3 = *((unsigned char*)&(builtFlags)+3);
+    if(building == BUILDING_DWELLING_2 && byte3 & 2
+      || building == BUILDING_DWELLING_3 && byte3 & 4
+      || building == BUILDING_DWELLING_4 && byte3 & 8
+      || building == BUILDING_DWELLING_5 && byte3 & 0x10
+      || building == BUILDING_DWELLING_6 && (byte3 & 0x20 || byte3 & 0x40)
+      || building == BUILDING_UPGRADE_5 && byte3 & 0x40) {
+      return 0;
+    }
+
+    if(byte3 & 2)
+      builtFlags |= 0x100000u;
+    if(byte3 & 4)
+      builtFlags |= 0x200000u;
+    if(byte3 & 8)
+      builtFlags |= 0x400000u;
+    if(byte3 & 0x10)
+      builtFlags |= 0x800000u;
+    if(byte3 & 0x40)
+      builtFlags |= 0x20000000u;
+    if(byte3 & 0x20)
+      builtFlags |= 0x1000000u;
+    int mask = gHierarchyMask[twn->factionID][building - 19];
+    if((builtFlags & mask) == mask)
+      return twn->factionID != FACTION_NECROMANCER || building != BUILDING_UPGRADE_4 || twn->mageGuildLevel > 1;
+    return 0;
+  }
+  return 1;
 }
