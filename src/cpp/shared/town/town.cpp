@@ -1121,39 +1121,39 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     }    
   }
 
-  int v10;
+  int imgIdx;
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
-    v10 = -1;
+    imgIdx = -1;
     if((1 << castleSlotsUse[i]) & this->castle->buildingsBuiltFlags
       && (castleSlotsUse[i] || this->castle->mageGuildLevel == 5)) {
-      v10 = 11;
+      imgIdx = 11;
     } else {
       if((1 << castleSlotsUse[i]) & this->field_156) {
         if(!((1 << castleSlotsUse[i]) & this->field_152))
-          v10 = 13;
+          imgIdx = 13;
       } else {
-        v10 = 12;
+        imgIdx = 12;
       }
     }
-    if(v10 == -1)
+    if(imgIdx == -1)
       GUIRemoveFlag(casWin, i + 800, 4);
     else {
       GUIAddFlag(casWin, i + 800, 4);
-      GUISetImgIdx(casWin, i + 800, v10);
+      GUISetImgIdx(casWin, i + 800, imgIdx);
     }
-    if(v10 == 11)
+    if(imgIdx == 11)
       GUIRemoveFlag(casWin, i + 400, 4);
     else {
       GUIAddFlag(casWin, i + 400, 4);
-      if(v10 == -1)
+      if(imgIdx == -1)
         GUISetImgIdx(casWin, i + 400, 1);
       else
         GUISetImgIdx(casWin, i + 400, 2);
     }
   }
 
-  int v23 = this->castle->buildingsBuiltFlags & 0x8000;
-  if(v23) {
+  int hasCaptain = this->castle->buildingsBuiltFlags & 0x8000;
+  if(hasCaptain) {
     GUIRemoveFlag(casWin, 1101, 6);
     GUISetImgIdx(casWin, 1100, 1);
     GUIAddFlag(casWin, 1106, 4);
@@ -1167,9 +1167,9 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   sprintf(gText, "CSTLCAP%c.ICN", cHeroTypeInitial[this->castle->factionID]);
   GUISetIcon(casWin, 1100, gText);
 
-  v10 = -1;
+  imgIdx = -1;
 
-  if(v23) {
+  if(hasCaptain) {
     char a2[100];
     sprintf(gText, "");
     for(int i = 0; i < 4; ++i) {
@@ -1195,9 +1195,9 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   } else {
     if(CanBuild(this->castle, BUILDING_CAPTAIN)) {
       if(!CanBuy(this->castle, BUILDING_CAPTAIN))
-        v10 = 13;
+        imgIdx = 13;
     } else {
-      v10 = 12;
+      imgIdx = 12;
     }
     if(CanBuild(this->castle, BUILDING_CAPTAIN))
       this->field_156 |= 0x8000u;
@@ -1205,32 +1205,32 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       this->field_152 |= 0x8000u;
   }
 
-  if(v10 == -1) {
+  if(imgIdx == -1) {
     GUIRemoveFlag(casWin, 1102, 4);
-    GUISetImgIdx(casWin, 1102, v10);
+    GUISetImgIdx(casWin, 1102, imgIdx);
   } else
     GUIAddFlag(casWin, 1102, 4);
 
   if(gpCurPlayer->resources[RESOURCE_GOLD] >= gHeroGoldCost) {
     if(gpCurPlayer->numHeroes != 8 && this->castle->visitingHeroIdx == -1) {
       if(this->isRecruitingHero)
-        v10 = 11;
+        imgIdx = 11;
       else
-        v10 = -1;
+        imgIdx = -1;
     } else {
-      v10 = 12;
+      imgIdx = 12;
     }
   } else {
-    v10 = 13;
+    imgIdx = 13;
   }
 
   for(int i = 0; i < 2; ++i) {
     int field = i + 902;
-    if(v10 == -1) {
+    if(imgIdx == -1) {
       GUIRemoveFlag(casWin, field, 4);
     } else {
       GUIAddFlag(casWin, field, 4);
-      GUISetImgIdx(casWin, field, v10);
+      GUISetImgIdx(casWin, field, imgIdx);
     }
     sprintf(gText, "port%04d.icn", gpGame->heroes[gpCurPlayer->heroesForPurchase[i]].heroID);
     field = i + 900;
