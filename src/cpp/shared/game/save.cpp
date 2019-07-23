@@ -204,7 +204,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     twn->x = twn_xml->x();
     twn->y = twn_xml->y();
     twn->buildDockRelated = twn_xml->buildDockRelated();
-    twn->field_7 = twn_xml->field_7();
+    twn->boatCell = twn_xml->field_7();
     twn->visitingHeroIdx = twn_xml->visitingHeroIdx();
     twn->buildingsBuiltFlags = twn_xml->buildingsBuiltFlags();
     twn->mageGuildLevel = twn_xml->mageGuildLevel();
@@ -500,7 +500,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       twn.x,
       twn.y,
       twn.buildDockRelated,
-      twn.field_7,
+      twn.boatCell,
       twn.visitingHeroIdx,
       (int)twn.buildingsBuiltFlags,
       twn.mageGuildLevel,

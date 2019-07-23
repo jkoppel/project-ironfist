@@ -24,7 +24,7 @@ public:
   char x;
   char y;
   char buildDockRelated;
-  char field_7;
+  char boatCell;
   armyGroup garrison;
   char visitingHeroIdx;
   unsigned int buildingsBuiltFlags;
@@ -82,8 +82,8 @@ public:
   heroWindow *townScreen;
   strip *garrisonDisplay;
   strip *visitingArmyDisplay;
-  strip *field_D6;
-  int field_DA;
+  strip *currentDisplay;
+  int currentCreature;
   strip *field_DE;
   int field_E2;
   strip *field_E6;
@@ -93,11 +93,11 @@ public:
   int field_142;
   int field_146;
   int field_14A;
-  int field_14E;
+  int isRecruitingHero;
   int field_152;
   int field_156;
   int field_15A;
-  int field_15E;
+  int buildingToBuild;
   heroWindow *curScreen;
   heroWindow *dialog;
   int field_16A;

@@ -1,8 +1,6 @@
 #ifndef BUILDINGS_H
 #define BUILDINGS_H
 
-#define NUM_NON_DWELLING_BUILDINGS 18
-
 struct SBuildingInfo {
   char animationLength;
   short x;

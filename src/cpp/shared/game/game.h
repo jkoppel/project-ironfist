@@ -10,6 +10,7 @@
 #define NUM_PLAYERS 6
 #define MAX_HEROES 54
 #define MAX_TOWNS 72
+#define MAX_BOATS 48
 #define NUM_DIFFICULTIES 5
 
 extern signed char gcColorToPlayerPos[];
