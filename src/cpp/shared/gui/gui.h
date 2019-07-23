@@ -91,20 +91,8 @@ public:
   int ConvertToHover(tag_message &msg);
 };
 
-class border {
+class border : public widget {
 public:
-  void *vtable; //widgetVtable *vtable;
-  heroWindow *parentWindow;
-  widget *nextInLinkedList;
-  int prevInLinkedList;
-  short fieldID;
-  short field_12;
-  short backgroundType;
-  short flagsRelatedToShouldDisplayAndPerhapsMouseCode;
-  short offsetX;
-  short offsetY;
-  short width;
-  short height;
   bitmap *bitmap;
   icon *icon;
   short color;
@@ -163,20 +151,8 @@ public:
   void DrawIcons(int updateScreen);
 };
 
-class iconWidget {
+class iconWidget : public widget {
 public:
-  void *vtable; //widgetVtable *vtable;
-  heroWindow *parentWindow;
-  widget *nextInLinkedList;
-  widget *prevInLinkedList;
-  short fieldID;
-  short componentIndex;
-  short field_14;
-  short field_16;
-  short offsetX;
-  short offsetY;
-  short width;
-  short height;
   icon *icon;
   short imgIdx;
   char mirror;
