@@ -1,3 +1,5 @@
+AdvMessageBox = require("scripts.modules.advmessagebox");
+
 abandonedHutVisited = false;
 bonfireVisited = false;
 caveVisited = false;
@@ -30,6 +32,7 @@ function TryGrantArtifact(hero, artifact) --We have not implemented a screen to 
     if (freeSlots > 0) then
         if (not HasArtifact(hero, artifact)) then
             GrantArtifact(hero, artifact);
+            AdvMessageBox.SingleImage("You have received an artifact!", 1, 7, artifact)
             return true;
         else
             MessageBox("The hero already has this artifact!");
@@ -213,7 +216,6 @@ function SmallHouseEvent()
         MessageBox("You get closer and notice a farmer and his wife sitting down and eating their meal.");
         MessageBox("They offer you to join them, but you decline as you have pressing matters. They insist and you agree.");
         MessageBox("After the meal they tell you: \"It's so great to meet and feed our hero. You may take our precious heirloom to aid you on your journey:\"");
-        MessageBox("You have received the Golden Horseshoe.");
         if (not TryGrantArtifact(hero, ARTIFACT_GOLDEN_HORSESHOE)) then
             smallHouseVisited = false;
         end
