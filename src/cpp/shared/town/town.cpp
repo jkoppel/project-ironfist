@@ -305,12 +305,14 @@ unsigned long gHierarchyMask[MAX_FACTIONS][NUM_DWELLINGS] = {
   {0x00000000, 0x00080000, 0x00080010, 0x00080004, 0x00700000, 0x00700000, 0x00700000, 0x00700000, 0x00700000, 0x00800000, 0x01000000, 0x0FFFFFFFF}
 };
 
-void game::SetupTowns() {
-	InitTownObjNames();
-	InitDwellingTypes();
-	InitDwellingCosts();
-	InitBuildingNames();
+void InitializeTownConstants() {
+  InitTownObjNames();
+  InitDwellingTypes();
+  InitDwellingCosts();
+  InitBuildingNames();
+}
 
+void game::SetupTowns() {
 	for(int castleIdx = 0; castleIdx < MAX_TOWNS; castleIdx++) {
 		if(this->castles[castleIdx].exists) {
 			town* castle = &this->castles[castleIdx];

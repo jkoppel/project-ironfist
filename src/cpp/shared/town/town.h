@@ -130,6 +130,8 @@ public:
   void ShiftQualChange();
 };
 
+void InitializeTownConstants();
+
 char *__fastcall GetBuildingName(int faction, int building);
 char * __fastcall GetBuildingInfo(int faction, int building, int withTitle);
 char * __fastcall GetBuildingInfo_orig(int faction, int building, int withTitle);

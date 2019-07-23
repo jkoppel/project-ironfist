@@ -534,7 +534,7 @@ struct hero
   __int8 relatedToX;
   __int8 relatedToY;
   __int8 relatedToFactionID;
-  __int8 relatedToUnknown;
+  __int8 directionFacing;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;
   int mobility;
@@ -2154,9 +2154,9 @@ enum HERO_FLAGS
 /*  117 */
 enum BUILDINGS_BUILT
 {
-  BUILDING_RIGHT_TURRET_BUILT = 0x1,
-  BUILDING_LEFT_TURRET_BUILT = 0x2,
-  BUILDING_SPECIAL_DEFENSE_BUILT = 0x20,
+  BUILDING_THIEVES_GUILD_BUILT = 0x2,
+  BUILDING_TAVERN_BUILT = 0x4,
+  BUILDING_TENT_BUILT = 0x20,
 };
 
 /*  118 */
@@ -2347,7 +2347,7 @@ struct advManager
   tileset *groundTileset;
   tileset *clofTileset;
   tileset *stonTileset;
-  int field_CE[64];
+  int tilesetIcns[64];
   icon *radarIcon;
   icon *clopIcon;
   int viewX;
@@ -2358,8 +2358,8 @@ struct advManager
   int yOff;
   int field_1EE;
   int field_1F2;
-  int field_1F6;
-  int field_1FA;
+  int mapPortLeftX;
+  int mapPortTopY;
   int field_1FE;
   int field_202;
   int field_206;
@@ -2372,21 +2372,21 @@ struct advManager
   icon *frothIcon;
   icon *shadowIcon;
   icon *boatShadowIcon;
-  void *flagIcons1[6];
-  void *flagIcons2[6];
+  void *flagIconsHero[6];
+  void *flagIconsBoat[6];
   int field_272;
   int field_276;
-  int field_27A;
+  int mobilizedHeroFactionOrBoat;
   int field_27E;
-  int field_282;
-  int field_286;
+  int mobilizedHeroBaseFrameBit8IsFlip;
+  int mobilizedHeroAnimPos;
   int field_28A;
   int field_28E;
   int field_292;
   int field_296;
   int field_29A;
   int field_29E;
-  int field_2A2;
+  int hasDrawnCursor;
   int heroMobilized;
   int field_2AA;
   int field_2AE;
