@@ -378,11 +378,11 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
   if(!gbThisNetHumanPlayer[giCurPlayer])
     return;
 
-  tag_message evt;
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
   const int NUM_GUI_ROWS = 4;
   for(int guiRow = 0; guiRow < NUM_GUI_ROWS; ++guiRow) {
     int townID = *(&gpCurPlayer->castlesOwned[guiRow] + gpCurPlayer->relatedToUnknown);
+    tag_message evt;
+    evt.eventCode = INPUT_GUI_MESSAGE_CODE;
     evt.xCoordOrKeycode = 8;
     evt.yCoordOrFieldID = guiRow + 32;
     if(gpCurPlayer->mightBeCurCastleIdx == -1 || gpCurPlayer->mightBeCurCastleIdx != townID || gbAllBlack)
@@ -390,37 +390,28 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
     else
       evt.payload = (void *)153;
     this->adventureScreen->BroadcastMessage(evt);
-    evt.yCoordOrFieldID = guiRow + 16;
+    
     if(townID == -1 || gbAllBlack) {
-      evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)(guiRow + 5);
-      this->adventureScreen->BroadcastMessage(evt);
-      evt.xCoordOrKeycode = 6;
-      evt.payload = (void *)2;
-      this->adventureScreen->BroadcastMessage(evt);
-      evt.xCoordOrKeycode = 6;
-      evt.payload = (void *)4;
-      evt.yCoordOrFieldID = guiRow + 300;
-      this->adventureScreen->BroadcastMessage(evt);
+      int guiField = guiRow + 16;
+      GUISetImgIdx(this->adventureScreen, guiField, guiRow + 5);
+      GUIRemoveFlag(this->adventureScreen, guiField, 2);
+      guiField = guiRow + 300;
+      GUIRemoveFlag(this->adventureScreen, guiField, 4);
     } else {
-      evt.xCoordOrKeycode = 5;
-      evt.payload = (void *)2;
-      this->adventureScreen->BroadcastMessage(evt);
-      evt.xCoordOrKeycode = 4;
-      // setting town icon
-      int faction = gpGame->castles[townID].factionID;
-      evt.payload = (void *)castleIconFrames[faction];
-      if(!(gpGame->castles[townID].buildingsBuiltFlags & 0x40))
-          evt.payload = (void *)townIconFrames[faction];
-      this->adventureScreen->BroadcastMessage(evt);
+      int guiField = guiRow + 16;
+      GUIAddFlag(this->adventureScreen, guiField, 2);
 
-      if(BitTest((const LONG*)gpGame->builtToday, townID))
-        evt.xCoordOrKeycode = 5;
+      int faction = gpGame->castles[townID].factionID;     
+      if(!(gpGame->castles[townID].buildingsBuiltFlags & 0x40))
+        GUISetImgIdx(this->adventureScreen, guiField, townIconFrames[faction]);
       else
-        evt.xCoordOrKeycode = 6;
-      evt.payload = (void *)4;
-      evt.yCoordOrFieldID = guiRow + 300;
-      this->adventureScreen->BroadcastMessage(evt);
+        GUISetImgIdx(this->adventureScreen, guiField, castleIconFrames[faction]);
+
+      guiField = guiRow + 300;
+      if(BitTest((const LONG*)gpGame->builtToday, townID))
+        GUIAddFlag(this->adventureScreen, guiField, 4);
+      else
+        GUIRemoveFlag(this->adventureScreen, guiField, 4);
     }
   }
   this->castleScrollbarKnob->offsetY = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)gpCurPlayer->relatedToUnknown * 74.0 / (double)((signed int)gpCurPlayer->numCastles - 4) + 195.0) : 232;
@@ -458,47 +449,26 @@ void advManager::TownQuickView(int townID, int _104, int xOff, int a3) {
     thievesGuildsLevel = 3;
   SetWinText(window, 19);
   
-  tag_message evt;
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 4;
-  evt.yCoordOrFieldID = 2;
-
   int faction = town->factionID;
-  evt.payload = (void *)castleIconFrames[faction];
   if(!(gpGame->castles[townID].buildingsBuiltFlags & 0x40))
-    evt.payload = (void *)townIconFrames[faction];
-  window->BroadcastMessage(evt);
+    GUISetImgIdx(window, 2, townIconFrames[faction]);
+  else
+    GUISetImgIdx(window, 2, castleIconFrames[faction]);
 
   // built today icon
-  if(thievesGuildsLevel != 3 || !BitTest((const LONG*)gpGame->builtToday, town->idx)) {
-    evt.xCoordOrKeycode = 6;
-    evt.yCoordOrFieldID = 300;
-    evt.payload = (void *)4;
-    window->BroadcastMessage(evt);
-  }
+  if(thievesGuildsLevel != 3 || !BitTest((const LONG*)gpGame->builtToday, town->idx))
+    GUIRemoveFlag(window, 300, 4);
 
   if(town->ownerIdx == -1) {
-    evt.xCoordOrKeycode = 6;
-    evt.yCoordOrFieldID = 8;
-    evt.payload = (void *)4;
-    window->BroadcastMessage(evt);
-    ++evt.yCoordOrFieldID;
-    window->BroadcastMessage(evt);
+    GUIRemoveFlag(window, 8, 4);
+    GUIRemoveFlag(window, 9, 4);
   } else {
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = 8;
-    evt.payload = (void *)(2 * gpGame->players[town->ownerIdx].color);
-    window->BroadcastMessage(evt);
-    ++evt.yCoordOrFieldID;
-    evt.payload = (void*)((int)evt.payload + 1);
-    window->BroadcastMessage(evt);
+    int val = 2 * gpGame->players[town->ownerIdx].color;
+    GUISetImgIdx(window, 8, val);
+    GUISetImgIdx(window, 9, val + 1);
   }
 
-  sprintf(gText, GetTownName(town->idx));
-  evt.xCoordOrKeycode = 3;
-  evt.yCoordOrFieldID = 1;
-  evt.payload = gText;
-  window->BroadcastMessage(evt);
+  GUISetText(window, 1, GetTownName(town->idx));
 
   int garrisonCreatures = 0;
   for(int i = 0; i < MAX_GARRISON_CREATURE_SLOTS; ++i) {
@@ -625,17 +595,19 @@ void advManager::TownQuickView(int townID, int _104, int xOff, int a3) {
   this->UpdateRadar(1, 0);
   this->CompleteDraw(0);
   this->UpdateScreen(0, 0);
-  if(evt.eventCode == 8 && town->ownerIdx == giCurPlayer)
-    this->SetTownContext(town->idx);
+  // Never called anyway?
+  //if(evt.eventCode == 8 && town->ownerIdx == giCurPlayer)
+  //  this->SetTownContext(town->idx);
   gpResourceManager->Dispose((resource *)res);
 }
 
 char * advManager::GetQuantityString(int thievesGuildsLevel, town* town, int garrisonIdx) {
   std::string quantityStr;
+  int quantity = town->garrison.quantities[garrisonIdx];
   if(thievesGuildsLevel == 3)
-    quantityStr = std::to_string(town->garrison.quantities[garrisonIdx]);
+    quantityStr = std::to_string(quantity);
   else if(thievesGuildsLevel == 2)
-    quantityStr = this->GetArmySizeName(town->garrison.quantities[garrisonIdx], 0);
+    quantityStr = this->GetArmySizeName(quantity, 0);
   else
     quantityStr = "???";
 

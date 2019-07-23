@@ -57,7 +57,7 @@ int recruitUnit::Open(int id) {
   
   gpMouseManager->SetPointer("advmice.mse", 0, -999);
   this->Update();
-  gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 5, 30720, 16392);
+  gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, GUI_MESSAGE_ADD_FLAGS, BUTTON_EXIT, 16392);
   gpWindowManager->AddWindow(this->window, -1, 1);
 
   int buyableByGold = gpCurPlayer->resources[RESOURCE_GOLD] / this->costSingleGold;
@@ -77,8 +77,8 @@ int recruitUnit::Open(int id) {
   this->field_62 = 0;
   this->field_66 = 0;
   if(!*this->available) {
-    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 6, BUTTON_OK, 2);
-    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 5, BUTTON_OK, 16392);
+    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, GUI_MESSAGE_REMOVE_FLAGS, BUTTON_OK, 2);
+    gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, GUI_MESSAGE_ADD_FLAGS, BUTTON_OK, 16392);
   }
 
   hmnuRecruitSave = hmnuCurrent;
@@ -92,62 +92,27 @@ int recruitUnit::Open(int id) {
 }
 
 void recruitUnit::Update() {
-  tag_message evt;
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 3;
-  sprintf(gText, "%s%d", "Available: ", *this->available);
-  evt.yCoordOrFieldID = 67;
-  evt.payload = gText;
-  this->window->BroadcastMessage(evt);
-  sprintf(gText, "%d", this->amountSelected);
-  evt.yCoordOrFieldID = 68;
-  this->window->BroadcastMessage(evt);
+  GUISetText(this->window, 67, "Available: " + std::to_string(*this->available));
+  GUISetText(this->window, 68, std::to_string(this->amountSelected));
   this->costTotalGold = this->costSingleGold * this->amountSelected;
-  sprintf(gText, "%d", this->costTotalGold);
-  evt.yCoordOrFieldID = 77;
-  this->window->BroadcastMessage(evt);
+  GUISetText(this->window, 77, std::to_string(this->costTotalGold));
   if(this->resource != -1) {
     this->costTotalResource = this->costSingleResource * this->amountSelected;
-    sprintf(gText, "%d", this->costTotalResource);
-    evt.yCoordOrFieldID = 79;
-    this->window->BroadcastMessage(evt);
+    GUISetText(this->window, 79, std::to_string(this->costTotalResource));
   }
 }
 
 void __fastcall SetupRecruitWin(heroWindow *window, int creature, int goldCost, int resourceCost, int resourceAmt, int numAvail) {
   sprintf(gText, "Recruit %s", GetMonsterName(creature));
   gText[8] = toupper(gText[8]);
-  tag_message evt;
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 3;
-  evt.yCoordOrFieldID = 64;
-  evt.payload = gText;
-  window->BroadcastMessage(evt);
-  sprintf(gText, "%d", goldCost);
-  evt.yCoordOrFieldID = 73;
-  window->BroadcastMessage(evt);
+  GUISetText(window, 64, gText);
+  GUISetText(window, 73, std::to_string(goldCost));
   if(resourceCost != -1) {
-    sprintf(gText, "%d", resourceAmt);
-    evt.yCoordOrFieldID = 75;
-    window->BroadcastMessage(evt);
+    GUISetImgIdx(window, 74, resourceCost);
+    GUISetImgIdx(window, 78, resourceCost);
+    GUISetText(window, 75, std::to_string(resourceAmt));
   }
-  sprintf(gText, "%s%d", "Available: ", numAvail);
-  evt.yCoordOrFieldID = 67;
-  evt.payload = gText;
-  window->BroadcastMessage(evt);
+  GUISetText(window, 67, "Available: " + std::to_string(numAvail));
   sprintf(gText, "monh%04d.icn", creature);
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 9;
-  evt.yCoordOrFieldID = 66;
-  evt.payload = gText;
-  window->BroadcastMessage(evt);
-  if(resourceCost != -1) {
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = 74;
-    evt.payload = (void *)resourceCost;
-    window->BroadcastMessage(evt);
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = 78;
-    window->BroadcastMessage(evt);
-  }
+  GUISetIcon(window, 66, gText);
 }

@@ -940,7 +940,7 @@ int townManager::Main(tag_message &evt) {
                 }
                 break;
               case BUILDING_DOCK: {
-                gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 5, BUTTON_EXIT, 16392);
+                gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, GUI_MESSAGE_ADD_FLAGS, BUTTON_EXIT, 16392);
                 if(gpGame->GetBoatsBuilt() >= MAX_BOATS
                   || gpAdvManager->GetCell(this->castle->buildDockRelated, this->castle->boatCell)->objType) {
                   NormalDialog("Cannot build another boat.", 1, 208, 40, -1, 0, -1, 0, -1, 0);
@@ -950,14 +950,8 @@ int townManager::Main(tag_message &evt) {
                     MemError();
                   SetWinText(this->curScreen, 12);
                   if(gpGame->players[giCurPlayer].resources[RESOURCE_GOLD] < 1000 || gpGame->players[giCurPlayer].resources[RESOURCE_WOOD] < 10) {
-                    evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-                    evt.xCoordOrKeycode = 5;
-                    evt.yCoordOrFieldID = BUTTON_OK;
-                    evt.payload = (void *)4096;
-                    this->curScreen->BroadcastMessage(evt);
-                    evt.xCoordOrKeycode = 6;
-                    evt.payload = (void *)2;
-                    this->curScreen->BroadcastMessage(evt);
+                    GUIAddFlag(this->curScreen, BUTTON_OK, 4096);
+                    GUIRemoveFlag(this->curScreen, BUTTON_OK, 2);
                   }
                   gpWindowManager->DoDialog(this->curScreen, TrueFalseDialogHandler, 0);
                   delete this->curScreen;
@@ -972,7 +966,7 @@ int townManager::Main(tag_message &evt) {
                     }
                   }
                 }
-                gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, 6, BUTTON_EXIT, 16392);
+                gpWindowManager->BroadcastMessage(INPUT_GUI_MESSAGE_CODE, GUI_MESSAGE_REMOVE_FLAGS, BUTTON_EXIT, 16392);
                 break;
                 }
               case BUILDING_MARKET: {
@@ -1019,10 +1013,13 @@ int townManager::Main(tag_message &evt) {
             this->currentCreature = evt.yCoordOrFieldID - 123;
             showInfo = true;
           }
-          int creature = this->currentCreature;
-          armyGroup* currentArmy = this->currentDisplay->army;
-          int type = currentArmy->creatureTypes[creature];
-          if(showInfo && type != -1) {
+          
+          if(showInfo) {
+            int creature = this->currentCreature;
+            armyGroup* currentArmy = this->currentDisplay->army;
+            int type = currentArmy->creatureTypes[creature];
+            if(type == -1)
+              break;
             hero* hro = nullptr;
             if(this->currentDisplay == this->visitingArmyDisplay)
               hro = &gpGame->heroes[this->castle->visitingHeroIdx];
@@ -1077,7 +1074,7 @@ int townManager::Main(tag_message &evt) {
 }
 
 void townManager::SetupCastle(heroWindow *window, int a3) {
-  tag_message evt;
+  
   casWin = window;
 
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
@@ -1105,35 +1102,23 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       this->field_156 |= 1 << castleSlotsUse[i];
   }
   
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 4;
-  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
-    evt.yCoordOrFieldID = i + 700;
-    evt.payload = (void *)castleSlotsUse[i];
-    casWin->BroadcastMessage(evt);
-  }
+  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i)
+    GUISetImgIdx(casWin, i + 700, castleSlotsUse[i]);
 
-  evt.xCoordOrKeycode = 9;
   sprintf(gText, "cstl%s.icn", cHeroTypeShortName[this->castle->factionID]);
-  evt.payload = &gText;
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
-    evt.yCoordOrFieldID = i + 700;
-    casWin->BroadcastMessage(evt);
+    GUISetIcon(casWin, i + 700, gText);
   }
 
-  evt.xCoordOrKeycode = 3;
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
-    evt.yCoordOrFieldID = i + 600;
     if(castleSlotsUse[i]) {
-      evt.payload = GetBuildingName(this->castle->factionID, castleSlotsUse[i]);
+      GUISetText(casWin, i + 600, GetBuildingName(this->castle->factionID, castleSlotsUse[i]));
     } else {
       int mageGuildLevel = this->castle->mageGuildLevel + 1;
       if(mageGuildLevel >= 5)
         mageGuildLevel = 5;
-      sprintf(gText, "Mage Guild, Level %d", mageGuildLevel);
-      evt.payload = gText;
-    }
-    casWin->BroadcastMessage(evt);
+      GUISetText(casWin, i + 600, "Mage Guild, Level " + std::to_string(mageGuildLevel));
+    }    
   }
 
   int v10;
@@ -1150,116 +1135,63 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
         v10 = 12;
       }
     }
-    if(v10 == -1) {
-      evt.xCoordOrKeycode = 6;
-      evt.payload = (void *)4;
-      evt.yCoordOrFieldID = i + 800;
-      casWin->BroadcastMessage(evt);
-    } else {
-      evt.xCoordOrKeycode = 5;
-      evt.yCoordOrFieldID = i + 800;
-      evt.payload = (void *)4;
-      casWin->BroadcastMessage(evt);
-
-      evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)v10;
-      casWin->BroadcastMessage(evt);
+    if(v10 == -1)
+      GUIRemoveFlag(casWin, i + 800, 4);
+    else {
+      GUIAddFlag(casWin, i + 800, 4);
+      GUISetImgIdx(casWin, i + 800, v10);
     }
-    if(v10 == 11) {
-      evt.xCoordOrKeycode = 6;
-      evt.payload = (void *)4;
-      evt.yCoordOrFieldID = i + 400;
-      casWin->BroadcastMessage(evt);
-    } else {
-      evt.xCoordOrKeycode = 5;
-      evt.payload = (void *)4;
-      evt.yCoordOrFieldID = i + 400;
-      casWin->BroadcastMessage(evt);
-
-      evt.xCoordOrKeycode = 4;
+    if(v10 == 11)
+      GUIRemoveFlag(casWin, i + 400, 4);
+    else {
+      GUIAddFlag(casWin, i + 400, 4);
       if(v10 == -1)
-        evt.payload = (void *)1;
+        GUISetImgIdx(casWin, i + 400, 1);
       else
-        evt.payload = (void *)2;
-      casWin->BroadcastMessage(evt);
+        GUISetImgIdx(casWin, i + 400, 2);
     }
   }
 
   int v23 = this->castle->buildingsBuiltFlags & 0x8000;
-  if(v23)
-    evt.xCoordOrKeycode = 6;
-  else
-    evt.xCoordOrKeycode = 5;
-  evt.yCoordOrFieldID = 1101;
-  evt.payload = (void *)6;
-  casWin->BroadcastMessage(evt);
-
-  evt.xCoordOrKeycode = 4;
-  evt.yCoordOrFieldID = 1100;
-  if(v23)
-    evt.payload = (void *)1;
-  else
-    evt.payload = 0;
-  casWin->BroadcastMessage(evt);
+  if(v23) {
+    GUIRemoveFlag(casWin, 1101, 6);
+    GUISetImgIdx(casWin, 1100, 1);
+    GUIAddFlag(casWin, 1106, 4);
+    GUISetImgIdx(casWin, 1106, gpCurPlayer->color);
+  } else {  
+    GUIAddFlag(casWin, 1101, 6);
+    GUISetImgIdx(casWin, 1100, 0);
+    GUIRemoveFlag(casWin, 1106, 4);
+  }
 
   sprintf(gText, "CSTLCAP%c.ICN", cHeroTypeInitial[this->castle->factionID]);
-  evt.xCoordOrKeycode = 9;
-  evt.yCoordOrFieldID = 1100;
-  evt.payload = gText;
-  casWin->BroadcastMessage(evt);
+  GUISetIcon(casWin, 1100, gText);
 
-  if(v23)
-    evt.xCoordOrKeycode = 5;
-  else
-    evt.xCoordOrKeycode = 6;
-  evt.yCoordOrFieldID = 1106;
-  evt.payload = (void *)4;
-  casWin->BroadcastMessage(evt);
-
-  if(v23) {
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = 1106;
-    evt.payload = (void *)gpCurPlayer->color;
-    casWin->BroadcastMessage(evt);
-  }
   v10 = -1;
 
   if(v23) {
-    evt.xCoordOrKeycode = 3;
-    evt.payload = gText;
-
     char a2[100];
     sprintf(gText, "");
     for(int i = 0; i < 4; ++i) {
       sprintf(a2, "%s\n", gStatNames[i]);
       strcat(gText, a2);
     }
-    evt.yCoordOrFieldID = 1104;
-    casWin->BroadcastMessage(evt);
+    GUISetText(casWin, 1104, gText);
 
     sprintf(gText, "");
     for(int i = 0; i < 4; ++i) {
       sprintf(a2, "%d\n", captainStats[this->castle->factionID][i]);
       strcat(gText, a2);
     }
-    evt.yCoordOrFieldID = 1105;
-    casWin->BroadcastMessage(evt);
+    GUISetText(casWin, 1105, gText);
 
-    if(this->castle->field_38)
-      evt.xCoordOrKeycode = 6;
-    else
-      evt.xCoordOrKeycode = 5;
-    evt.yCoordOrFieldID = 213;
-    evt.payload = (void *)4;
-    casWin->BroadcastMessage(evt);
-
-    if(this->castle->field_38)
-      evt.xCoordOrKeycode = 5;
-    else
-      evt.xCoordOrKeycode = 6;
-    evt.yCoordOrFieldID = 215;
-    evt.payload = (void *)4;
-    casWin->BroadcastMessage(evt);
+    if(this->castle->field_38) {
+      GUIRemoveFlag(casWin, 213, 4);
+      GUIAddFlag(casWin, 215, 4);
+    } else {
+      GUIAddFlag(casWin, 213, 4);
+      GUIRemoveFlag(casWin, 215, 4);
+    }
   } else {
     if(CanBuild(this->castle, BUILDING_CAPTAIN)) {
       if(!CanBuy(this->castle, BUILDING_CAPTAIN))
@@ -1272,19 +1204,12 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     if(CanBuy(this->castle, BUILDING_CAPTAIN))
       this->field_152 |= 0x8000u;
   }
-  if(v10 == -1)
-    evt.xCoordOrKeycode = 6;
-  else
-    evt.xCoordOrKeycode = 5;
-  evt.yCoordOrFieldID = 1102;
-  evt.payload = (void *)4;
-  casWin->BroadcastMessage(evt);
 
-  if(v10 != -1) {
-    evt.xCoordOrKeycode = 4;
-    evt.payload = (void *)v10;
-    casWin->BroadcastMessage(evt);
-  }
+  if(v10 == -1) {
+    GUIRemoveFlag(casWin, 1102, 4);
+    GUISetImgIdx(casWin, 1102, v10);
+  } else
+    GUIAddFlag(casWin, 1102, 4);
 
   if(gpCurPlayer->resources[RESOURCE_GOLD] >= gHeroGoldCost) {
     if(gpCurPlayer->numHeroes != 8 && this->castle->visitingHeroIdx == -1) {
@@ -1300,25 +1225,16 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   }
 
   for(int i = 0; i < 2; ++i) {
-    evt.payload = (void *)4;
-    evt.yCoordOrFieldID = i + 902;
+    int field = i + 902;
     if(v10 == -1) {
-      evt.xCoordOrKeycode = 6;
-      casWin->BroadcastMessage(evt);
+      GUIRemoveFlag(casWin, field, 4);
     } else {
-      evt.xCoordOrKeycode = 5;
-      casWin->BroadcastMessage(evt);
-
-      evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)v10;
-      casWin->BroadcastMessage(evt);
+      GUIAddFlag(casWin, field, 4);
+      GUISetImgIdx(casWin, field, v10);
     }
-
-    evt.xCoordOrKeycode = 9;
     sprintf(gText, "port%04d.icn", gpGame->heroes[gpCurPlayer->heroesForPurchase[i]].heroID);
-    evt.payload = &gText;
-    evt.yCoordOrFieldID = i + 900;
-    casWin->BroadcastMessage(evt);
+    field = i + 900;
+    GUISetIcon(casWin, field, gText);
   }
 
   // Drawing castle and terrain underneath
