@@ -69,21 +69,6 @@ void WriteArrayToXML(xsd::cxx::tree::sequence<ironfist_save::arrayInt_t> &dest, 
     dest.push_back(ironfist_save::arrayInt_t::value_type(src[i]));
 }
 
-static bool CheckMapVarComputerPlayerChaseFormat(std::string mapVariableId, MapVarType mapVariableType, std::string mapVariableValue) {
-  if ((mapVariableType == MAPVAR_TYPE_BOOLEAN) && (!mapVariableId.empty())) {
-    if ((mapVariableId[0] == '_') && ((mapVariableValue == "true") || (mapVariableValue == "True") || (mapVariableValue == "TRUE"))) {
-      if (mapVariableId.length() > 10) {
-        if (mapVariableId.substr(1, 8) == "AICHASE_") {
-          if (mapVariableId[mapVariableId.length() - 1] == '_') {
-            return true;
-          }
-        }
-      }
-    }
-  }
-  return false;
-}
-
 static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ClearMapExtra();
 
@@ -931,28 +916,10 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
         it != mp->mapVariable().end(); it++) {
         std::string mapVariableId = it->id().get();
         MapVarType mapVariableType = StringToMapVarType(it->type());
-        if (CheckMapVarComputerPlayerChaseFormat(mapVariableId, mapVariableType, it->value().get())) {
-          std::string x = "";
-          std::string y = "";
-          bool coordinate = true;
-          for (int i = 9; i != mapVariableId.length(); ++i) {
-            if (mapVariableId[i] == '_') {
-              if (coordinate) {
-                coordinate = false;
-                continue;
-              }
-              break;
-            }
-            if (coordinate) {
-              x.push_back(mapVariableId[i]);
-            } else {
-              y.push_back(mapVariableId[i]);
-            }
-          }
-          if ((!x.empty()) && (!y.empty())) {
-            gpGame->forcedComputerPlayerChases[atoi(x.c_str())][atoi(y.c_str())] = true;
-            continue;
-          }
+        int x;
+        int y;
+        if ((mapVariableType == MAPVAR_TYPE_BOOLEAN) && (it->value().get() == "true") && (sscanf(mapVariableId.c_str(), "_AICHASE_%d_%d_", &x, &y))) {
+          gpGame->forcedComputerPlayerChases[x][y] = true;
         }
         mapVariable *mapVar = new mapVariable;
         mapVar->type = mapVariableType;
