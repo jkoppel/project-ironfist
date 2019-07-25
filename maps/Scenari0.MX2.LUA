@@ -75,9 +75,7 @@ function OnMapStart()
 end
 
 function OnLocationVisit(loc, x, y) --Should we have custom text for when a location's event has already happened?
-    if (loc == LOCATION_FOUNTAIN) then
-        FountainEvent();
-    elseif (x == gateX and y == gateY and loc == LOCATION_BARRIER) then
+    if (x == gateX and y == gateY and loc == LOCATION_BARRIER) then
         GateEvent();
     else
         for key, event in pairs(events) do
@@ -95,6 +93,12 @@ function OnHeroMove(x, y)
     if (x >= 10 and x <= 13) then
         if (y >= 16 and y <= 18) then
             GateDestroyEvent();
+        end
+    end
+    
+    if (x >= 5 and x <= 6) then
+        if (y == 18) then
+            FountainEvent();
         end
     end
 end
@@ -205,8 +209,6 @@ function FountainEvent()
         else
             GrantSpell(hero, SPELL_METEOR_SHOWER);
         end
-    else
-        MessageBox("The fountain has already been visited.");
     end
 end
 
