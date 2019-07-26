@@ -278,6 +278,10 @@ IMPORT_?PlayerMonsterInteract@advManager@@QAEXPAVmapCell@@0PAVhero@@PAHHHHHH@Z =
 IMPORT_?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z = 1
 ?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z_clone EQU ?ComputerMonsterInteract_orig@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z
 
+;; forced ai chase
+IMPORT_?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z = 1
+?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z_clone EQU ?EvaluateHeroEvent_orig@philAI@@QAEHHHHHPAH@Z
+
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
 IMPORT_?PasswordEvent@advManager@@QAEXPAVmapCell@@PAVhero@@@Z = 1
