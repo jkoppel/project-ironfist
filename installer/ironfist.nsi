@@ -57,6 +57,7 @@ Section
 	File ..\maps\SorrowEn.MX2
 	File ..\maps\LastStan.MX2
 	File ..\maps\Behemoth.MX2
+	File ..\maps\Scenari0.MX2
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
@@ -65,6 +66,7 @@ Section
 	File ..\maps\SorrowEn.MX2.lua
 	File ..\maps\LastStan.MX2.lua
 	File ..\maps\Behemoth.MX2.lua
+	File ..\maps\Scenari0.MX2.lua
 
 	CreateDirectory "$INSTDIR\SCRIPTS\MODULES"
 	
