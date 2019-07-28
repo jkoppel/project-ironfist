@@ -77,9 +77,11 @@ static int l_msgBox(lua_State *L) {
   return 0;
 }
 
+extern int gbFunctionComplete;
+
 static int l_AdvancedMessageBox(lua_State *L) {
   const char* msg = luaL_checkstring(L, 1);
-  int yesno = luaL_checkinteger(L, 2);
+  int dialogType = luaL_checkinteger(L, 2);
   int horizontal = luaL_checkinteger(L, 3);
   int vertical = luaL_checknumber(L, 4);
   int img1type = luaL_checknumber(L, 5);
@@ -88,8 +90,21 @@ static int l_AdvancedMessageBox(lua_State *L) {
   int img2arg = luaL_checknumber(L, 8);
   int writeOr = luaL_checknumber(L, 9);
   int a10 = luaL_checknumber(L, 10);
-  NormalDialog((char*)msg, (int)yesno, (int)horizontal, (int)vertical, (int)img1type, (int)img1arg, (int)img2type, (int)img2arg, (int)writeOr, (int)a10);
-  return 0;
+  
+  std::string msgCopy = msg;
+  NormalDialog(&msgCopy[0], dialogType, horizontal, vertical, img1type, img1arg, img2type, img2arg, writeOr, a10);
+ 
+  if (dialogType == DIALOG_LEARN_CHOICE) { // learn dialog
+    lua_pushboolean(L, gpWindowManager->buttonPressedCode == BUTTON_CODE_LEARN_LEFT);
+  } else if (dialogType == DIALOG_CANCEL_ALT) {
+    lua_pushboolean(L, gbFunctionComplete);
+  } else if (dialogType == DIALOG_YES_NO) {
+    lua_pushboolean(L, gpWindowManager->buttonPressedCode == BUTTON_CODE_OKAY);
+  } else {
+    lua_pushboolean(L, true);
+  }
+  
+  return 1;
 }
 
 static int l_questionBox(lua_State *L) {
