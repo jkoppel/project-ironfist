@@ -23876,7 +23876,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     971,
     971,
-    6,
+    11,
     35,
     5,
     0,
@@ -23900,7 +23900,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     972,
     972,
-    26,
+    31,
     35,
     5,
     0,
@@ -23924,7 +23924,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     973,
     973,
-    46,
+    51,
     35,
     5,
     0,
@@ -23948,7 +23948,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     974,
     974,
-    66,
+    71,
     35,
     5,
     0,
@@ -23972,7 +23972,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     975,
     975,
-    86,
+    91,
     35,
     5,
     0,
@@ -23996,7 +23996,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     976,
     976,
-    106,
+    111,
     35,
     5,
     0,
@@ -24020,7 +24020,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     977,
     977,
-    126,
+    131,
     35,
     5,
     0,
