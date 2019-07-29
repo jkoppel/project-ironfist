@@ -1,8 +1,10 @@
 #include <stack>
 
 #include "editor.h"
+#include "artifacts.h"
 #include "base.h"
 #include "string.h"
+#include "game/game.h"
 #include "gui/gui.h"
 #include "gui/msg.h"
 #include "spell/spell_constants.h"
@@ -14,12 +16,8 @@
 extern void __fastcall ShowErrorMessage_orig(const char *str);
 
 void __fastcall ShowErrorMessage(const char *str) {
-	char *buf = (char*)ALLOC(strlen(str) + 1);
-	strcpy(buf, str);
-
-	ShowErrorMessage_orig(buf);
-
-	FREE(buf);
+	std::string buf(str);
+	ShowErrorMessage_orig(&buf[0]);
 }
 
 extern fullMap gpMap;
@@ -105,7 +103,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
   } else if (msg.eventCode == INPUT_GUI_MESSAGE_CODE) {
     if (msg.xCoordOrKeycode == GUI_MESSAGE_MOUSE_CLICK) {
       if (msg.yCoordOrFieldID == FIELD_ID_SPELL_SCROLL_PAYLOAD) {
-        OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, (void *)msg.payload);
+        OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, FIELD_ID_SPELL_SCROLL_PAYLOAD);
         // "return 1;" will be reached at the end of this function.
       }
     } else if (msg.xCoordOrKeycode == GUI_MESSAGE_BUTTON_PRESSED) {
@@ -119,4 +117,52 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
     }
   }
   return 1;
+}
+
+int __cdecl WinConditionHandler() {
+  if (gpMapHeader.winConditionType != WIN_CONDITION_FIND_ARTIFACT) {
+    return WinConditionHandler_orig();
+  }
+
+  const int WIN_CONDITION_EXTRA = 251;
+
+  // Add artifact names to the dropdown list.
+  GUIDroplistClear(gpSpecEditDialog, WIN_CONDITION_EXTRA);
+  GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, "Ultimate Artifact");
+  for (int i = 0; i <= MAX_BASE_ARTIFACT; ++i) {
+    GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, GetArtifactName(i));
+  }
+  for (int i = MIN_EXPANSION_ARTIFACT; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
+    if (IsArtifactValid(i)) {
+      GUIDroplistAdd(gpSpecEditDialog, WIN_CONDITION_EXTRA, GetArtifactName(i));
+    }
+  }
+
+  // Select the current winning artifact in the list.
+  int index = gpMapHeader.winConditionArgumentOrLocX;
+  if (index - 1 > MAX_BASE_ARTIFACT) {  // -1 allows for generic ultimate artifact at index 0
+    // Skip the unused artifacts between the base game and expansion lists.
+    index -= MIN_EXPANSION_ARTIFACT - MAX_BASE_ARTIFACT - 1;
+  }
+  GUISetDropdownSelection(gpSpecEditDialog, WIN_CONDITION_EXTRA, index);
+  return 0;
+}
+
+// Convert the index of the selected artifact from the droplist to the real
+// artifact id.
+int __fastcall FillInWinCondition(int index) {
+  if (gpMapHeader.winConditionType != WIN_CONDITION_FIND_ARTIFACT) {
+    return FillInWinCondition_orig(index);
+  }
+
+  int artifactId = index - 1;  // generic ultimate artifact at index 0
+  if (artifactId > MAX_BASE_ARTIFACT) {
+    // Skip the unused artifacts between the base game and expansion lists.
+    artifactId += MIN_EXPANSION_ARTIFACT - MAX_BASE_ARTIFACT - 1;
+  }
+
+  // Win condition stores an off-by-one value to allow for the generic
+  // ultimate artifact at index 0.
+  gpMapHeader.winConditionArgumentOrLocX = artifactId + 1;
+  return 0;
 }

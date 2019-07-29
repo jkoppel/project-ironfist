@@ -89,10 +89,16 @@ enum CREATURES
   CREATURE_TREANT = 77,
   CREATURE_CYBER_KOBOLD_SPEARMAN = 78,
   CREATURE_CYBER_PLASMA_BERSERKER = 79,
+  CREATURE_CYBER_PLASMA_LANCER = 80,
   CREATURE_CYBER_INDIGO_PANTHER = 81,
   CREATURE_CYBER_SHADOW_ASSASSIN = 82,
   CREATURE_CYBER_BEHEMOTH = 83,
+
+  CREATURE_INVALID = 255,
+  MAX_CREATURES
 };
+#define MAX_BASE_CREATURE 65
+#define MIN_IRONFIST_CREATURE 72
 
 enum CREATURE_FLAGS : __int16 {
   TWO_HEXER = 0x1,
@@ -130,6 +136,7 @@ enum CREATURE_EVENT_CODE {
 #define ASTRAL_DODGE "astral-dodge"
 #define SHADOW_MARK "shadow-mark"
 #define JUMPER "jumper"
+#define CHARGER "charger"
 
 extern char *speedText[];
 
@@ -158,7 +165,8 @@ struct tag_monsterInfo
 						cost((short)c), fight_value(f), fight_value_aux(f2), growth(g), hp(h),
 						faction(f3), speed(s), attack(a), defense(d), min_damage(m), max_damage(m2), shots(s2),
 						creature_flags(c2), _(_2) {
-							strcpy(this->short_name, s3);
+							const size_t nameSize = sizeof(this->short_name);
+							strncpy_s(this->short_name, nameSize, s3, nameSize - 1);
 						}
 };
 

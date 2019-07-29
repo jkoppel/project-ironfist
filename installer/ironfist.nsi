@@ -37,6 +37,7 @@ Section
 	File MSS32.DLL
 	File SMACKW32.DLL
 	File xerces-c_3_1.dll
+	FILE bass.dll
 	File ..\build\bin\editor.exe
 
 	SetOutPath $INSTDIR\DATA
@@ -44,6 +45,8 @@ Section
 	File ..\build\ironfist.agg
 	File ..\src\xsd\creatures_xml.xsd
 	File ..\data\creatures.xml
+	File ..\src\xsd\artifacts_xml.xsd
+	File ..\data\artifacts.xml
 
 	SetOutPath $INSTDIR\GAMES
 
@@ -52,14 +55,16 @@ Section
 	SetOutPath $INSTDIR\MAPS
 	
 	File ..\maps\SorrowEn.MX2
-	File ..\maps\LastStand.MX2
+	File ..\maps\LastStan.MX2
+	File ..\maps\Behemoth.MX2
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
 	SetOutPath $INSTDIR\SCRIPTS
 	
 	File ..\maps\SorrowEn.MX2.lua
-	File ..\maps\LastStand.MX2.lua
+	File ..\maps\LastStan.MX2.lua
+	File ..\maps\Behemoth.MX2.lua
 
 	CreateDirectory "$INSTDIR\SCRIPTS\MODULES"
 	
@@ -87,9 +92,19 @@ Section "uninstall"
 	Delete "$INSTDIR\DATA\ironfist.agg"
 	Delete "$INSTDIR\DATA\creatures_xml.xsd"
 	Delete "$INSTDIR\DATA\creatures.xml"
+	Delete "$INSTDIR\DATA\artifacts_xml.xsd"
+	Delete "$INSTDIR\DATA\artifacts.xml"
 
 	Delete "$INSTDIR\GAMES\map_xml.xsd"
 
+	Delete "$INSTDIR\MAPS\SorrowEn.MX2"
+	Delete "$INSTDIR\MAPS\LastStan.MX2"
+	Delete "$INSTDIR\MAPS\Behemoth.MX2"
+	
+	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
+	
 	RMDIR "$INSTDIR\SCRIPTS"
 
 	Delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
@@ -103,5 +118,7 @@ Section "uninstall"
 	Delete "$SMPROGRAMS\Project Ironfist\Map Editor.lnk"
 	Delete "$SMPROGRAMS\Project Ironfist\Uninstall.lnk"
 	RMDIR "$SMPROGRAMS\Project Ironfist"
+	
+	Delete "$INSTDIR\uninstall-ironfist.exe"
 
 SectionEnd

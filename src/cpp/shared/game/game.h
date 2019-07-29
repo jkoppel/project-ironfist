@@ -3,6 +3,7 @@
 
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "artifacts.h"
 #include "town/town.h"
 
 #define NUM_PLAYERS 6
@@ -17,6 +18,8 @@ extern int gbHumanPlayer[];
 #pragma pack(push,1)
 
 extern char* gAlignmentNames[];
+
+extern H2RECT gMapViewportRegion;
 
 #define BUILDING_RIGHT_TURRET_BUILT     0x1
 #define BUILDING_LEFT_TURRET_BUILT      0x2
@@ -208,7 +211,8 @@ public:
   void MakeAllWaterVisible(int player);
   void MakeAllWaterVisible_orig(int player);
 
-  int InitRandomArtifacts();
+  void InitRandomArtifacts();
+  int GetRandomArtifactId(int allowedLevels, int allowNegatives);
   int LoadMap(char *nam);
   int ProcessRandomObjects();
   int ProcessMapExtra();
@@ -271,15 +275,15 @@ extern int iLastMsgNumHumanPlayers;
 extern bool gbSetupGamePosToRealGamePos[];
 extern signed char gcColorToSetupPos[];
 extern signed char giVisRange[];
-extern char xIsPlayingExpansionCampaign;
+extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
 
-extern randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2];
-extern int neutralTownCreatureTypes[NUM_FACTIONS][5];
+extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
+extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
-extern signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4];
+extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
 #pragma pack(pop)
 

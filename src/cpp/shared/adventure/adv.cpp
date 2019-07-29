@@ -5,12 +5,16 @@
 #include "combat/speed.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "gui/gui.h"
 #include "scripting/callback.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "prefs.h"
+#include "skills.h"
 
+#include "optional.hpp"
 #include <sstream>
+#include <string>
 
 static const int END_TURN_BUTTON = 4;
 
@@ -127,12 +131,24 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   hero *hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   int locationType = cell->objType & 0x7F;
   SAMPLE2 res2 = NULL_SAMPLE2;
-  ScriptCallback("OnLocationVisit", locationType, locX, locY);
-  if (locationType != LOCATION_SHRINE_FIRST_ORDER && locationType != LOCATION_SHRINE_SECOND_ORDER && locationType != LOCATION_SHRINE_THIRD_ORDER) {
-    this->DoEvent_orig(cell, locX, locY);
-    return;
+  nonstd::optional<bool> shouldSkip = ScriptCallbackResult<bool>("OnLocationVisit", locationType, locX, locY);
+  if (!shouldSkip.value_or(false)) {
+
+    switch (locationType) {
+    case LOCATION_SHRINE_FIRST_ORDER:
+    case LOCATION_SHRINE_SECOND_ORDER:
+    case LOCATION_SHRINE_THIRD_ORDER:
+      this->HandleSpellShrine(cell, locationType, hro, &res2, locX, locY);
+      break;
+    case LOCATION_PYRAMID:
+      this->HandlePyramid(cell, locationType, hro, &res2, locX, locY);
+      break;
+    default:
+      this->DoEvent_orig(cell, locX, locY);
+      return;
+    }
   }
-  this->HandleSpellShrine(cell, locationType, hro, res2, locX, locY);
+
   this->UpdateRadar(1, 0);
   this->UpdateHeroLocators(1, 1);
   this->UpdateTownLocators(1, 1);
@@ -143,40 +159,98 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
   CheckEndGame(0, 0);
 }
 
-void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 res2, int locX, int locY) {
+void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *hro, SAMPLE2 *res2, int locX, int locY) {
+  int spellId = cell->extraInfo - 1;
+
+  std::string shrineText;
   switch (locationType) {
     case LOCATION_SHRINE_FIRST_ORDER: {
-      sprintf(gText, "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - '";
+      shrineText += gSpellNames[spellId];
+      shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_SECOND_ORDER: {
-      sprintf(gText, "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - '";
+      shrineText += gSpellNames[spellId];
+      shrineText += "'.  ";
       break;
     }
     case LOCATION_SHRINE_THIRD_ORDER: {
-      sprintf(gText, "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '%s'.  ", gSpellNames[cell->extraInfo - 1]);
+      shrineText = "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - '";
+      shrineText += gSpellNames[spellId];
+      shrineText += "'.  ";
       break;
     }
   }
 
   if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
-    if (gsSpellInfo[cell->extraInfo - 1].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
-      strcat(gText, "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ");  // Why is there a trailing space here?
-      this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+    if (gsSpellInfo[spellId].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
+      shrineText += "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.";
+      this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
     } else {
-      this->EventSound(locationType, NULL, &res2);
+      this->EventSound(locationType, NULL, res2);
       int heroKnowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
-      hro->AddSpell(cell->extraInfo - 1, heroKnowledge);
-      this->EventWindow(-1, 1, gText, 8, cell->extraInfo - 1, -1, 0, -1);
+      hro->AddSpell(spellId, heroKnowledge);
+      this->EventWindow(-1, 1, &shrineText[0], 8, spellId, -1, 0, -1);
     }
   } else {
-    strcat(gText, "Unfortunately, you have no Magic Book to record the spell with.");
-    this->EventWindow(-1, 1, gText, -1, 0, -1, 0, -1);
+    shrineText += "Unfortunately, you have no Magic Book to record the spell with.";
+    this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
+  }
+}
+
+void advManager::HandlePyramid(class mapCell *cell,int locType, hero *hro, SAMPLE2 *res2, int locX, int locY) {
+  int spellId = cell->extraInfo - 1;
+
+  this->EventSound(locType, cell->extraInfo, res2);
+
+  this->EventWindow(-1, 2,
+    "You come upon the pyramid of a great and ancient king.  You are tempted to search it for treasure, but all the old stories warn of fearful curses and undead guardians.  Will you search?",
+    -1, 0, -1, 0, -1);
+
+  if (gpWindowManager->buttonPressedCode == BUTTON_YES) {
+    if (cell->extraInfo != 0) {
+      
+      if (!this->CombatMonsterEvent(hro, CREATURE_ROYAL_MUMMY, 30, cell, locX, locY, 0, locX, locY, CREATURE_VAMPIRE_LORD, 20, 2, -1, 0, 0)) {
+        hro->CheckLevel();
+        
+        std::string msg;
+        msg += "Upon defeating the monsters, you decipher an ancient glyph on the wall, telling the secret of the spell - '";
+        msg += gSpellNames[spellId];
+        msg += "'.  ";
+
+        if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+          if (hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] < gsSpellInfo[spellId].level - 2) {
+            msg += "  Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ";
+            advManager::EventWindow(-1, 1, &msg[0], -1, 0, -1, 0, -1);
+          } else {
+            int knowledge = hro->Stats(PRIMARY_SKILL_KNOWLEDGE);
+
+            hro->AddSpell(spellId, knowledge);
+            advManager::EventWindow(-1, 1, &msg[0], 8, spellId, -1, 0, -1);
+          }
+        } else {
+          msg += "  Unfortunately, you have no Magic Book to record the spell with.";
+          this->EventWindow(-1, 1, &msg[0], -1, 0, -1, 0, -1);
+        }
+        cell->extraInfo = 0;
+      }
+    } else {
+      NormalDialog(
+        "You come upon the pyramid of a great and ancient king.  Routine exploration reveals that the pyramid is completely empty.",
+        1, -1, -1,11, 0, 11, 0, -1, 0);
+
+      if (!(hro->flags & HERO_FLAG_RELATED_TO_PYRAMID)) {
+        hro->flags |= HERO_FLAG_RELATED_TO_PYRAMID;
+        hro->tempLuckBonuses -= 2;
+      }
+    }
   }
 }
 
 int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
-  int cellIdx = x * gpGame->map.height + y;
+  int cellIdx = y * gpGame->map.height + x;
   gpGame->map.tiles[cellIdx].objectIndex = monIdx;
   gpGame->map.tiles[cellIdx].extraInfo = monQty;
   gpGame->map.tiles[cellIdx].objTileset = TILESET_MONSTER;
@@ -189,4 +263,94 @@ int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
 
 int mapCell::getLocationType() {
   return this->objType & 0x7F;
+}
+
+void advManager::QuickInfo(int x, int y) {
+  const int xLoc = x + viewX;
+  const int yLoc = y + viewY;
+  if (!(xLoc >= 0 && xLoc < MAP_WIDTH && yLoc >= 0 && yLoc < MAP_HEIGHT)) {
+    // Outside map boundary
+    QuickInfo_orig(x, y);
+    return;
+  }
+
+  const auto mapCell = GetCell(xLoc, yLoc);
+  const int locationType = mapCell->objType & 0x7F;
+  auto overrideText = ScriptCallbackResult<std::string>("GetTooltipText", locationType, xLoc, yLoc);
+  if (!overrideText || overrideText->empty()) {
+    // Lua error occurred or tooltip text not overridden.
+    QuickInfo_orig(x, y);
+    return;
+  }
+
+  // Ensure the tooltip box is visible on the screen.
+  const int pTileSize = 32;
+  const int pxOffset = -57;  // tooltip is drawn (-57,-25) pixels from the mouse
+  const int pyOffset = -25;
+  const int pTooltipWidth = 160;
+  const int pTooltipHeight = 96;
+
+  int px = pTileSize * x + pxOffset;
+  if (px < 30) {
+    // minimum indent from left edge
+    px = 30;
+  } else if (px + pTooltipWidth > 464) {
+    // don't overrun right edge
+    px = 304;
+  }
+
+  int py = pTileSize * y + pyOffset;
+  if (py < 16) {
+    // minimum indent from top edge
+    py = 16;
+  } else if (py + pTooltipHeight > 448) {
+    // don't overrun bottom edge
+    py = 352;
+  }
+
+  heroWindow tooltip(px, py, "qwikinfo.bin");
+  GUISetText(&tooltip, 1, *overrideText);
+  gpWindowManager->AddWindow(&tooltip, 1, -1);
+  QuickViewWait();
+  gpWindowManager->RemoveWindow(&tooltip);
+}
+
+void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5) {
+	int x;
+	int y;
+	if (cell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+		return;
+	}
+	if (GetMapCellXY(cell, &x, &y)) {
+		ScriptCallback("OnMonsterInteract", x, y);
+	}
+	this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+}
+
+void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1) {
+	int x;
+	int y;
+	if (cell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+		this->ComputerMonsterInteract_orig(cell, computer, a1);
+		return;
+	}
+	if (GetMapCellXY(cell, &x, &y)) {
+		ScriptCallback("OnMonsterInteract", x, y);
+	}
+	this->ComputerMonsterInteract_orig(cell, computer, a1);
+}
+
+bool GetMapCellXY(mapCell* cell, int* x, int* y) {
+	for (int i = 0; i < gpGame->map.width; i++) {
+		for (int j = 0; j < gpGame->map.height; j++) {
+			if (cell == (&(gpGame->map.tiles[j * gpGame->map.width])) + i) {
+				// heroCell = &this->map.tiles[heroLocationY * this->map.width] + heroLocationX;
+				*x = i;
+				*y = j;
+				return true;
+			}
+		}
+	}
+	return false;
 }

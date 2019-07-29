@@ -128,7 +128,6 @@ struct SMapHeader {
 	char numEvents;
 };
 
-
 extern int MAP_HEIGHT;
 extern int MAP_WIDTH;
 
@@ -242,10 +241,7 @@ public:
   char heroID;
   char artifacts[3];
   char field_16;
-  char experience;
-  char field_18;  // These 3 might also be experience, according to IDA
-  char field_19;
-  char field_1A;
+  int experience;
   char hasSecondarySkills;
   char secondarySkills[NUM_SECONDARY_SKILLS];
   char secondarySkillLevel[NUM_SECONDARY_SKILLS];

@@ -38,6 +38,9 @@ void GUIDroplistAdd(heroWindow* hwnd, int f, std::string& p) {
   GUIDroplistAdd(hwnd, f, &p[0]);
 }
 
+void GUIDroplistClear(heroWindow* hwnd, int f) {
+  GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_DROPLIST_CLEAR, 0);
+}
 
 void GUIBroadcastMessage(heroWindow* hwnd, int f, int c, void* p) {
 	tag_message evt;
@@ -48,12 +51,16 @@ void GUIBroadcastMessage(heroWindow* hwnd, int f, int c, void* p) {
 	hwnd->BroadcastMessage(evt);
 }
 
-int GUIGetDropdownSelection(heroWindow* hwnd, void* spell) {
+int GUIGetDropdownSelection(heroWindow* hwnd, int f) {
   tag_message evt;
-  evt.yCoordOrFieldID = 100;
+  evt.yCoordOrFieldID = f;
   evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 55;
-  evt.payload = spell;
+  evt.xCoordOrKeycode = GUI_MESSAGE_GET_DROPLIST_INDEX;
+  evt.payload = nullptr;
   hwnd->BroadcastMessage(evt);
   return (int)evt.payload;
+}
+
+void GUISetDropdownSelection(heroWindow* hwnd, int f, int index) {
+  GUIBroadcastMessage(hwnd, f, GUI_MESSAGE_SET_DROPLIST_INDEX, reinterpret_cast<void *>(index));
 }

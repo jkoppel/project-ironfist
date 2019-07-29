@@ -73,7 +73,7 @@
         <description>The Medal of Distinction increases your morale.</description>
         <event>Ridding the countryside of the hideous Minotaur who made a sport of eating noblemen's Knights, you are honored with the Medal of Distinction.</event>
     </artifact>
-    <artifact id="16" name="Fizbin of Misfortune" level="treasure">
+    <artifact id="16" name="Fizbin of Misfortune" level="treasure" cursed="true">
         <title>Fizbin</title>
         <description>The Fizbin of Misfortune greatly decreases your morale.</description>
         <event>You stumble upon a medal lying alongside the empty road.  Adding the medal to your inventory, you become aware that you have acquired the undesirable Fizbin of Misfortune, greatly decreasing your army's morale.</event>
@@ -243,7 +243,7 @@
         <description>The Everhot Lava Rock causes your fire spells to do 50% more damage to enemy troops.</description>
         <event>Your wanderings bring you into contact with a tribe of ape-like beings using a magical lava rock that never cools to light their fires.  You take pity on them and teach them to make fire with sticks.  Believing you to be a god, the apes give you their rock.</event>
     </artifact>
-    <artifact id="50" name="Lightning Rod " level="minor">
+    <artifact id="50" name="Lightning Rod" level="minor">
         <title>Lightning rod </title>
         <description>The Lightning Rod causes your lightning spells to do 50% more damage to enemy troops.</description>
         <event>While waiting out a storm, a lighting bolt strikes a nearby cottage's lightning rod, which melts and falls to the ground.  The tip of the rod, however, survives intact and makes your hair stand on end when you touch it.  Hmm...</event>
@@ -338,12 +338,12 @@
         <description>The Ammo Cart provides endless ammunition for all your troops that shoot.</description>
         <event>An ammunition cart in the middle of an old battlefield catches your eye.  Inspection shows it to be in good working order, so  you take it along.</event>
     </artifact>
-    <artifact id="69" name="Tax Lien" level="treasure">
+    <artifact id="69" name="Tax Lien" level="treasure" cursed="true">
         <title>Tax lien</title>
         <description>The Tax Lien costs you 250 gold pieces/turn.</description>
         <event>Your big spending habits have earned you a massive tax bill that you can't hope to pay.  The tax man takes pity and agrees to only take 250 gold a day from your account for life.  Check here if you want one dollar to go to the presidential campaign election fund.</event>
     </artifact>
-    <artifact id="70" name="Hideous Mask" level="treasure">
+    <artifact id="70" name="Hideous Mask" level="treasure" cursed="true">
         <title>Hideous mask</title>
         <description>The Hideous Mask prevents all 'wandering' armies from joining your hero.</description>
         <event>Your looting of the grave of Sinfilas Gardolad, the famous shapeshifting Warlock, unearths his fabled mask.  Trembling, you put it on and it twists your visage into an awful grimace!  Oh no!  It's actually the hideous mask of Gromluck Greene, and you are stuck with it.</event>
@@ -427,22 +427,22 @@
         <description>This Spell Scroll gives your hero the ability to cast the '%s' spell.</description>
         <event>You find an elaborate container which houses an old vellum scroll. The runes on the container are very old, and the artistry with which it was put together is stunning. As you pull the scroll out, you feel imbued with magical power.</event>
     </artifact>
-    <artifact id="87" name="Arm of the Martyr" level="treasure">
+    <artifact id="87" name="Arm of the Martyr" level="treasure" cursed="true">
         <title>Arm of the Martyr</title>
         <description>The Arm of the Martyr increases your spell power by 3 but adds the undead morale penalty.</description>
         <event>One of the less intelligent members of your party picks up an arm off of the ground.  Despite its missing a body, it is still moving.  Your troops find the dismembered arm repulsive, but you cannot bring yourself to drop it: it seems to hold some sort of magical power that influences your decision making.</event>
     </artifact>
-    <artifact id="88" name="Breastplate of Anduran" level="major">
+    <artifact id="88" name="Breastplate of Anduran" level="major" campaign_only="true">
         <title>Breastplate of Anduran</title>
         <description>The Breastplate increases your defense by 5.</description>
         <event>You come upon a sign.  It reads: "Here lies the body of Anduran.  Bow and swear fealty, and you shall be rewarded."  You decide to do as it says.  As you stand up, you feel a coldness against your skin.  Looking down, you find that you are suddenly wearing a gleaming, ornate breastplate.</event>
     </artifact>
-    <artifact id="89" name="Broach of Shielding" level="treasure">
+    <artifact id="89" name="Broach of Shielding" level="treasure" cursed="true">
         <title>Broach of Shielding</title>
         <description>The Broach of Shielding provides 50% protection from Armageddon and Elemental Storm, but decreases spell power by 2.</description>
         <event>A kindly Sorceress thinks that your army's defenses could use a magical boost.  She offers to enchant the Broach that you wear on your cloak, and you accept.</event>
     </artifact>
-    <artifact id="90" name="Battle Garb of Anduran" level="major">
+    <artifact id="90" name="Battle Garb of Anduran" level="major" campaign_only="true">
         <title>Battle Garb</title>
         <description>The Battle Garb of Anduran combines the powers of the three Anduran artifacts.  It provides maximum luck and morale for your troops and gives you the Town Portal spell.</description>
         <event>Out of pity for a poor peasant, you purchase a chest of old junk they are hawking for too much gold. Later, as you search through it, you find it contains the 3 pieces of the legendary battle garb of Anduran!</event>
@@ -452,17 +452,17 @@
         <description>The Crystal Ball lets you get more specific information about monsters, enemy heroes, and castles nearby the hero who holds it.</description>
         <event>You come upon a caravan of gypsies who are feasting and fortifying their bodies with mead.  They call you forward and say "If you prove that you can dance the Rama-Buta, we will reward you."  You don't know it, but try anyway.  They laugh hysterically, but admire your bravery, giving you a Crystal Ball.</event>
     </artifact>
-    <artifact id="92" name="Heart of Fire" level="treasure">
+    <artifact id="92" name="Heart of Fire" level="treasure" cursed="true">
         <title>Heart of Fire</title>
         <description>The Heart of Fire provides 50% protection from fire, but doubles the damage taken from cold.</description>
         <event>You enter a recently burned glade and come upon a Fire Elemental sitting atop a rock.  It looks up, its flaming face contorted in a look of severe pain.  It then tosses a glowing object at you.  You put up your hands to block it, but it passes right through them and sears itself into your chest.</event>
     </artifact>
-    <artifact id="93" name="Heart of Ice" level="treasure">
+    <artifact id="93" name="Heart of Ice" level="treasure" cursed="true">
         <title>Heart of Ice</title>
         <description>The Heart of Ice provides 50% protection from cold, but doubles the damage taken from fire.</description>
         <event>Suddenly, a biting coldness engulfs your body.  You seize up, falling from your horse.  The pain subsides, but you still feel as if your chest is frozen.  As you pick yourself up off of the ground, you hear hearty laughter.  You turn around just in time to see a Frost Giant run off into the woods and disappear.</event>
     </artifact>
-    <artifact id="94" name="Helmet of Anduran" level="major">
+    <artifact id="94" name="Helmet of Anduran" level="major" campaign_only="true">
         <title>Helmet of Anduran</title>
         <description>The Helmet increases your spell power by 5.</description>
         <event>You spy a gleaming object poking up out of the ground.   You send a member of your party over to investigate.  He comes back with a golden helmet in his hands.  You realize that it must be the helmet of the legendary Anduran, the only man who was known to wear solid gold armor.</event>
@@ -482,7 +482,7 @@
         <description>The Masthead boosts your luck and morale by 1 each in sea combat.</description>
         <event>An old seaman tells you a tale of an enchanted masthead that he used in his youth to rally his crew during times of trouble.  He then hands you a faded map that shows where he hid it.  After much exploring, you find it stashed underneath a nearby dock.</event>
     </artifact>
-    <artifact id="98" name="Sphere of Negation" level="major">
+    <artifact id="98" name="Sphere of Negation" level="major" campaign_only="true">
         <title>Sphere of Negation</title>
         <description>The Sphere of Negation disables all spell casting, for both sides, in combat.</description>
         <event>You stop to help a Peasant catch a runaway mare.  To show his gratitude, he hands you a tiny sphere.  As soon as you grasp it, you feel the magical energy drain from your limbs...</event>
@@ -497,7 +497,7 @@
         <description>The Sword Breaker increases your defense by 4 and attack by 1.</description>
         <event>A former Captain of the Guard admires your quest and gives you the enchanted Sword Breaker that he relied on during his tour of duty.</event>
     </artifact>
-    <artifact id="101" name="Sword of Anduran" level="major">
+    <artifact id="101" name="Sword of Anduran" level="major" campaign_only="true">
         <title>Sword of Anduran</title>
         <description>The Sword increases your attack skill by 5.</description>
         <event>A Troll stops you and says: "Pay me 5,000 gold, or the Sword of Anduran will slay you where you stand."  You refuse.  The troll grabs the sword hanging from its belt, screams in pain, and runs away.  Picking up the fabled sword, you give thanks that half-witted Trolls tend to grab the wrong end of sharp objects.</event>
@@ -512,7 +512,7 @@
         <description>Pandora's Box gives your hero's army a random stack of level 1 creatures for the duration of each battle.</description>
         <event>You pass by a chest lying under a tree. Suddenly, a goblin jumps out of the chest and shrieks. Before it can raise its club, you grab it and throw it back in the chest, and tie it sealed with rope.</event>
     </artifact>
-    <artifact id="104" name="Iron Fist" level="major">
+    <artifact id="104" name="Iron Fist" level="major" campaign_only="true">
         <title>Iron Fist</title>
         <description>The Iron Fist is a snazzy accessory to go with your helmet and boots.</description>
         <event>You get a sudden urge to dig where you are standing. You dig and find a glistening metal gauntlet, mysteriously untouched by dirt. As you touch it, it leaps up and fuses itself onto your arm.</event>

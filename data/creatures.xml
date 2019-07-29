@@ -383,9 +383,8 @@
         <creature-attribute name="two-hex"/>
         <random-spawn minimum="3" maximum="11"/>
     </creature>
-    <creature id="77" name-singular="treant" name-plural="treants" icn="treant.icn" frm="dend_frm.bin" projectile="elf__msl.icn" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="120" faction="6" speed="2" attack="6" defense="18" shots="0" short-name="dend">
+    <creature id="77" name-singular="treant" name-plural="treants" icn="treant.icn" frm="dend_frm.bin" projectile="" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="120" faction="6" speed="2" attack="6" defense="18" shots="0" short-name="dend">
         <damage minimum="3" maximum="7"/>
-        <creature-attribute name="shoots"/>
         <random-spawn minimum="10" maximum="20"/>
     </creature>
     <creature id="78" name-singular="cyber kobold spearman" name-plural="cyber kobold spearmen" icn="koboldsp.icn" frm="koboldsp.bin" projectile="" cost="100" fight-value="1690" fight-value-aux="34" growth="8" hp="5" faction="6" speed="4" attack="5" defense="3" shots="0" short-name="lich">
@@ -396,6 +395,11 @@
     <creature id="79" name-singular="cyber plasma berserker" name-plural="cyber plasma berserkers" icn="cpbrsrkr.icn" frm="cpbrsrkr.bin" projectile="" cost="100" fight-value="1690" fight-value-aux="34" growth="8" hp="5" faction="6" speed="4" attack="5" defense="3" shots="0" short-name="lich">
         <damage minimum="3" maximum="3"/>
         <creature-attribute name="jumper"/>
+        <random-spawn minimum="10" maximum="50"/>
+    </creature>
+    <creature id="80" name-singular="cyber plasma lancer" name-plural="cyber plasma lancers" icn="cplancer.icn" frm="cplancer.bin" projectile="" cost="1000" fight-value="1690" fight-value-aux="4" growth="4" hp="30" faction="6" speed="4" attack="12" defense="10" shots="0" short-name="lich">
+        <damage minimum="15" maximum="15"/>
+        <creature-attribute name="charger"/>
         <random-spawn minimum="10" maximum="50"/>
     </creature>
     <creature id="81" name-singular="cyber indigo panther" name-plural="cyber indigo panthers" icn="cipanther.icn" frm="cipanther.bin" projectile="" cost="2500" fight-value="1690" fight-value-aux="34" growth="4" hp="200" faction="6" speed="10" attack="15" defense="6" shots="0" short-name="lich">

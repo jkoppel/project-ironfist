@@ -1,4 +1,5 @@
 #include "adventure/adv.h"
+#include "artifacts.h"
 #include "base.h"
 #include "adventure/map.h"
 #include "game/game.h"
@@ -7,6 +8,7 @@
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 #include "gui/dialog.h"
+#include "skills.h"
 
 #include<iostream>
 #include<fstream>
@@ -44,13 +46,26 @@ static const LPCWSTR tmpFileNameW = L"tmp";
 
 template<typename T>
 void ReadArrayFromXML(T &dest, xsd::cxx::tree::sequence<ironfist_save::arrayInt_t> &src) {
-  for (int i = 0; i < src.size(); i++)
+  for (auto i = 0u; i < src.size(); i++)
+    dest[i] = src.at(i).value();
+}
+
+template <>
+void ReadArrayFromXML(std::vector<int> &dest, xsd::cxx::tree::sequence<ironfist_save::arrayInt_t> &src) {
+  dest.resize(src.size());
+  for (auto i = 0u; i < src.size(); i++)
     dest[i] = src.at(i).value();
 }
 
 template<typename T>
 void WriteArrayToXML(xsd::cxx::tree::sequence<ironfist_save::arrayInt_t> &dest, T &src) {
-  for (int i = 0; i < ELEMENTS_IN(src); i++)
+  for (auto i = 0u; i < ELEMENTS_IN(src); i++)
+    dest.push_back(ironfist_save::arrayInt_t::value_type(src[i]));
+}
+
+template <>
+void WriteArrayToXML(xsd::cxx::tree::sequence<ironfist_save::arrayInt_t> &dest, const std::vector<int> &src) {
+  for (auto i = 0u; i < src.size(); i++)
     dest.push_back(ironfist_save::arrayInt_t::value_type(src[i]));
 }
 
@@ -231,7 +246,10 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   }
 
   ReadArrayFromXML(gam->field_60A6, gs.field_60A6());
-  ReadArrayFromXML(gam->artifactGeneratedRandomly, gs.randomArtifacts());
+
+  std::vector<int> xmlArtifacts;
+  ReadArrayFromXML(xmlArtifacts, gs.randomArtifacts());
+  DeserializeGeneratedArtifacts(xmlArtifacts);
 
   for (int i = 0; i < gs.boat().size(); i++) {
     boat *bt = &gam->boats[i];
@@ -414,7 +432,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.field_2773(), gam->field_2773);
   WriteArrayToXML(gs.field_27BB(), gam->field_27BB);
   WriteArrayToXML(gs.field_60A6(), gam->field_60A6);
-  WriteArrayToXML(gs.randomArtifacts(), gam->artifactGeneratedRandomly);
+  WriteArrayToXML(gs.randomArtifacts(), SerializeGeneratedArtifacts());
   WriteArrayToXML(gs.boatBuilt(), gam->boatBuilt);
   WriteArrayToXML(gs.obeliskVisitedMasks(), gam->obeliskVisitedMasks);
   WriteArrayToXML(gs.field_637D(), gam->field_637D);
@@ -778,18 +796,6 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
   }                                                  // even though the scrollSpell data is actually not part of the "artifacts" array in the hero class.
 
   return hx;
-}
-
-static std::string MapVarTypeToString(MapVarType type) {
-  if (type == MAPVAR_TYPE_STRING) {
-    return "string";
-  } else if (type == MAPVAR_TYPE_NUMBER) {
-    return "number";
-  } else if (type == MAPVAR_TYPE_BOOLEAN) {
-    return "boolean";
-  } else if (type == MAPVAR_TYPE_TABLE) {
-    return "table";
-  }
 }
 
 static ironfist_save::table_t WriteMapVariableTableXML(std::string id, luaTable *lt) {

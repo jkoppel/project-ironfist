@@ -6,10 +6,17 @@
 #include "adventure/map.h"
 #include "combat/creatures.h"
 
+#include "artifacts.h"
 #include "editor.h"
 #include "events.h"
+#include "hero_edit.h"
 #include "../../rc/editor/resource.h"
+#include "town/buildings.h"
 #include "town/town.h"
+
+namespace {
+  bool shouldFillInArtifacts = true;
+}
 
 extern void* hwndApp;
 extern TownExtra gEditTownExtra;
@@ -48,7 +55,8 @@ int buildingIdToIdx[32];
 static const std::wstring GetWC(const char *c) {
 	const size_t cSize = strlen(c) + 1;
 	std::wstring wc(cSize, L'#');
-	mbstowcs(&wc[0], c, cSize);
+	size_t result = 0;
+	mbstowcs_s(&result, &wc[0], cSize, c, cSize);
 
 	return wc;
 }
@@ -186,7 +194,7 @@ void InitializeTownEdit(HWND hwnd) {
 	for(int i = 0; i < ELEMENTS_IN(monTypeFields); i++) {
 		SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"-empty-");
 		for(int j = 0; j < GetNumCreatures(); j++) {
-			sprintf(gText, "%s", GetCreatureName(j));
+			snprintf(gText, gTextSize, "%s", GetCreatureName(j));
 			if(strlen(gText) == 0) {
                 SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"###UNKNOWN CREATURE###");
 				continue; //ghetto way of checking for if creature is real (not random)
@@ -207,8 +215,8 @@ void InitializeTownEdit(HWND hwnd) {
 	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"Level 5");
 
 	int faction = gEditTownExtra.faction;
-	SendDlgItemMessage(hwnd, IDC_SPECIAL_GROWTH_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(gWellExtraNames[faction]).c_str());
-	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(gSpecialBuildingNames[faction]).c_str());
+	SendDlgItemMessage(hwnd, IDC_SPECIAL_GROWTH_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(GetFirstLevelGrowerName(faction)).c_str());
+	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(GetSpecialBuildingName(faction)).c_str());
 
 	if(faction == FACTION_NECROMANCER) {
 		SendDlgItemMessage(hwnd, IDC_TAVERN, WM_SETTEXT, 0, (LPARAM)L"Shrine");
@@ -406,4 +414,35 @@ void eventsManager::EditTown(int x, int y) {
 	int extraIdx = gpExaminedCell->extraInfo;
 	memcpy(&gEditTownExtra, gpEditManager->mapExtra[extraIdx], sizeof(TownExtra));
 	DialogBoxParamA((HINSTANCE)hInstApp, "EDIT_TOWN",  (HWND)hwndApp, (DLGPROC)EditTownProc, 0);;
+}
+
+int eventsManager::EditHero(int x, int y, int isJailed) {
+  EditHero_RequestUserDefinedElements();
+  return EditHero_orig(x, y, isJailed);
+}
+
+int eventsManager::EditEvent(int mapExtraIdx) {
+  EditEvent_RequestUserDefinedElements();
+  return EditEvent_orig(mapExtraIdx);
+}
+
+void __stdcall FillInEventEdit(EventExtra *extra) {
+  const int ARTIFACT_SLOT = 301;
+
+  if (shouldFillInArtifacts) {
+    for (int i = MAX_EXPANSION_ARTIFACT + 1; i < NUM_SUPPORTED_ARTIFACTS; ++i) {
+      if (!IsArtifactValid(i)) {
+        continue;
+      }
+      GUIDroplistAdd(gpCellEditDialog, ARTIFACT_SLOT, GetArtifactName(i));
+    }
+
+    shouldFillInArtifacts = false;
+  }
+
+  FillInEventEdit_orig(extra);
+}
+
+void EditEvent_RequestUserDefinedElements() {
+  shouldFillInArtifacts = true;
 }

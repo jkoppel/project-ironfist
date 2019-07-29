@@ -6,8 +6,15 @@
 #include "graphics.h"
 #include "resource/resources.h"
 #include "spell/spells.h"
+#include <vector>
 
 #define NUM_SPELL_EFFECTS 19 // don't ever change it for now  
+
+enum CHARGING_DIRECTION {
+  CHARGING_FORWARD,
+  CHARGING_UP,
+  CHARGING_DOWN
+};
 
 #pragma pack(push, 1)
 class army {
@@ -79,6 +86,8 @@ public:
   int FlyTo(int hexIdx);
   int ValidFlight(int hex, int);
   int WalkTo(int hex);
+  int ValidAttack(int knownHex, signed int neighborIdx, int focusLevel, int a5, int *neighbor);
+  int GetBestDirection(int curHex, int destHex, int mask);
   void MoveTo(int hex);
 
   void MoveAttack(int, int);
@@ -119,13 +128,23 @@ public:
   void Init(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
   void Init_orig(int creatureIdx, int quantity, int owner, int stackIdx, int startHex, int armyIdx);
   int ValidPath(int hex, int flag);
-  int FindPathIgnoringObstacles(int knownHex, int targHex, int speed, int flying, int flag);
   void ArcJump(int fromHex, int toHex);
+  int AttackTo();
   int AttackTo(int targetHex);
   int AttackTo_orig(int targetHex);
+  int GetAttackMask(int hex, int focusLevel, int a5);
+  bool FlightThroughObstacles(int toHex);
+  bool TargetOnStraightLine(int targHex);
+  int GetStraightLineDirection(int targHex);
+  int GetStraightLineDistanceToHex(int hex);
 private:
+  void RevertChargingMoveAnimation();
+  void SetChargingMoveAnimation(CHARGING_DIRECTION dir);
   void RevertJumpingAnimation();
   void SetJumpingAnimation();
+  void ChargingDamage(std::vector<int> affectedHexes);
+  bool IsEnemyCreatureHex(int hex);
+  void MoveAttackNonFlyer(int startHex, int attackMask);
 };
 
 #pragma pack(pop)

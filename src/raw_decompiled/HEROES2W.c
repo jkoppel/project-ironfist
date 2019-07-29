@@ -42,7 +42,7 @@ signed __int32 __thiscall soundManager::DigitalReport(soundManager *this, HSAMPL
 void __thiscall soundManager::AdjustSoundVolumes(soundManager *this); // idb
 void __thiscall soundManager::AdjustMusicVolumes(int this);
 void __thiscall soundManager::ForcePollSound(int this);
-char __thiscall soundManager::SetMusicQuality(int this, int a2);
+void __thiscall soundManager::SetMusicQuality(soundManager *this, int a2);
 char __thiscall soundManager::PlayAmbientMusic(int this, int track, signed int a3, int a4);
 void __thiscall soundManager::PollSound(soundManager *this); // idb
 void __thiscall soundManager::SwitchAmbientMusic(soundManager *this, int track);
@@ -153,7 +153,7 @@ void __cdecl townManager::ShiftQualChange();
 int __thiscall townManager::ResetStrips(int this);
 int __thiscall sub_414980(int this, int a2);
 void __thiscall townManager::DrawTown(townManager *this, int a2, int a3);
-bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4);
+bool __thiscall townManager::BuyBuild(townManager *this, signed int buildingCode, int a3, int a4); // idb
 void __thiscall townManager::BuildObj(townManager *this, signed int buildingCode); // idb
 void __thiscall townManager::SetupMage(townManager *this, heroWindow *mageGuildWindow);
 signed int __fastcall MageGuildHandler(tag_message *evt);
@@ -170,7 +170,7 @@ signed int __thiscall playerData::Read(playerData *this, int fd);
 signed int __thiscall playerData::NextHero(playerData *this, int a2);
 signed int __thiscall playerData::HasMobileHero(playerData *this);
 int __fastcall GetNumObelisks(int playerIdx);
-int __thiscall playerData::BuildingsOwned(int this, int a2, signed int a3, int a4);
+int __thiscall playerData::BuildingsOwned(playerData *this, int a2, signed int a3, int a4);
 int __thiscall playerData::NumOfGivenArtifact(playerData *this, ARTIFACT artifact); // idb
 int __thiscall game::MineTypesOwned(game *this, int a2, int a3);
 char __fastcall ComputeUALoc(int a1);
@@ -220,7 +220,7 @@ int __thiscall game::InitRandomArtifacts(game *this);
 int __thiscall game::GetRandomArtifactId(game *this, char allowedLevels, int allowNegatives);
 bool __fastcall IsCursedItem(int art);
 void __thiscall game::RandomizeHeroPool(game *this);
-int __thiscall game::SetRandomHeroArmies(game *this, _DWORD heroIdx, unsigned int isAI); // idb
+int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, bool arg3);
 int __thiscall game::ProcessRandomObjects(game *this);
 void __thiscall game::SetVisibility(game *, int x, int y, int playerIdx, signed int radius);
 void __thiscall game::MakeAllWaterVisible(game *this, char playerIdx);
@@ -282,7 +282,7 @@ char *__fastcall GetBuildingName(int faction, signed int building); // idb
 void *__fastcall GetBuildingCost(int a1, signed int a2, void *a3, int a4);
 char *__fastcall GetMonsterName(int creature); // idb
 void __fastcall GetMonsterCost(int mon, int *const costs);
-bool __fastcall CanBuild(unsigned int *a1, signed int a2);
+bool __fastcall CanBuild(town *castle, signed int buildingCode); // idb
 signed int __fastcall CanBuy(int a1, signed int a2);
 int __fastcall GetBuildingBaseResourceValue(int a1, signed int a2, int a3);
 signed int __thiscall WaitHandler(tag_message *this);
@@ -292,7 +292,7 @@ void __fastcall PlayerDead(int playerNo); // idb
 void __fastcall CheckEndGame(int a1, int a2);
 void __cdecl QuickViewWait();
 void __cdecl InitVars();
-heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2);
+heroWindow *__stdcall game::ShowMoraleInfo(hero *hro, int a2); // idb
 heroWindow *__stdcall game::ShowLuckInfo(int a1, int a2);
 void __cdecl ClearMapExtra();
 _DWORD __fastcall GetMonType(signed int a1, _DWORD a2);
@@ -308,7 +308,7 @@ void __fastcall FileError(void *this);
 void __fastcall SmackFade(const void *a1, void *a2);
 void *__thiscall ShowCongrats(void *this);
 const void *__cdecl CongratsWait();
-__int64 __thiscall LoadPlaySample(const char *this);
+SAMPLE2 __thiscall LoadPlaySample(const char *this);
 void __thiscall WaitEndSample(void *this, resource *res, HSAMPLE samp);
 void __cdecl MemError();
 char *__fastcall GetTownName(int idx); // idb
@@ -337,7 +337,7 @@ heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Typ
 void __thiscall UpdateNormalDialog(void *this);
 signed int __thiscall combatManager::Main(combatManager *this, tag_message *evt);
 bool __thiscall combatManager::ValidHexToStandOn(combatManager *this, signed int a2);
-combatManager *__thiscall combatManager::SetCombatDirections(combatManager *this, int hexIdx);
+void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexIdx);
 void __thiscall combatManager::CheckSetMouseDirection(combatManager *this, int a2, int a3, signed int a4);
 signed int __stdcall combatManager::GetPointer(signed int a1, int a2);
 signed int __thiscall combatManager::ProcessCombatMsg(combatManager *this, tag_message *evt);
@@ -388,7 +388,7 @@ void __thiscall advManager::UpdateScreen(advManager *this, int a2, int a3);
 void __thiscall advManager::CompleteDraw(advManager *ecx0, int left, int top, int a6, int a5);
 void __thiscall advManager::CompleteDraw(advManager *this, int a4);
 _DWORD __stdcall advManager::GetCloudLookup(_DWORD, _DWORD); // weak
-void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int a4, char a5, int a6);
+void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6);
 mapCell *__thiscall advManager::GetCell(advManager *this, int col, int row);
 void __thiscall advManager::UpdateRadar(advManager *this, int a2, int a3);
 BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3);
@@ -771,7 +771,7 @@ void __fastcall SetMenus(HMENU a1, unsigned int a2);
 int __cdecl KBTickCount();
 // void __cdecl InitVideo();
 void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, int locY);
-void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, int a4); // idb
+void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int col, int row);
 void __thiscall advManager::HeroSwap(void *this, int a2, int a3);
 signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, hero *hero);
 char __fastcall StrEqNoCase(int *a1, int *a2);
@@ -1016,7 +1016,7 @@ int __stdcall philAI::FightEvent(int a1, int a2, int a3);
 signed int __stdcall philAI::DamageGroup(void *a1, int a2, int a3, float a4);
 playerData *__cdecl philAI::IncrementHourGlass();
 void __thiscall philAI::TownEvent(void *ecx0, int a1, int a2, __int64 a3);
-signed int __stdcall philAI::ComputeUpgradeValue(int a1, int a2);
+signed int __stdcall philAI::ComputeUpgradeValue(int creat1, int creat2); // idb
 signed int __stdcall philAI::ComputeValueOfSS(int a1, int a2, int a3);
 signed int __stdcall philAI::ComputeValueOfFreeSS(int a1, int a2);
 int __stdcall philAI::ManaRefreshValue(int a1, int a2);
@@ -1093,7 +1093,7 @@ int __thiscall advManager::StartCursor(int this, signed int a2);
 void __thiscall advManager::StopCursor(advManager *this, int a2);
 void __thiscall advManager::DrawCursor(advManager *this);
 int __thiscall advManager::DrawCursorShadow(advManager *this);
-int __stdcall advManager::GetCursorBaseFrame(signed int a1);
+int __stdcall advManager::GetCursorBaseFrame(signed int direction); // idb
 void __thiscall advManager::TurnTo(int this, int a2);
 bool __stdcall advManager::GetMoveShowIt(int a1, int a2);
 mapCell *__thiscall advManager::MoveHero(advManager *this, int a2, signed int a3, int *trigX, int *trigY, int a6, int a7, signed int a8, int a9); // idb
@@ -1470,7 +1470,7 @@ signed int __thiscall widget::Main(widget *this, Event *evt);
 void __thiscall dimmerWidget::Draw(int this);
 tileset *__thiscall tileset::tileset(tileset *this, int fileID);
 tileset *__thiscall tileset::_scalar_deleting_destructor_(tileset *this, char a2);
-sample *__thiscall sample::sample(sample *this, const char *filename, int a3, int a4, int a5);
+sample *__thiscall sample::sample(sample *this, const char *filename, int a3, unsigned int volume, int loopCount);
 sample *__thiscall sample::_scalar_deleting_destructor_(sample *this, char a2);
 MIDIWrap *__thiscall MIDIWrap::MIDIWrap(MIDIWrap *this, const char *filename);
 MIDIWrap *__thiscall MIDIWrap::_scalar_deleting_destructor_(MIDIWrap *this, char a2);
@@ -2025,6 +2025,28 @@ int __cdecl _matherr(struct _exception *);
 //-------------------------------------------------------------------------
 // Data declarations
 
+IMAGE_DOS_HEADER stru_400000 =
+{
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  257u,
+  { 257u, 257u, 257u, 257u },
+  257u,
+  257u,
+  { 257u, 257u, 257u, 257u, 257u, 257u, 257u, 257u, 257u, 257u },
+  16843009
+}; // weak
 int (__stdcall *soundManager::_vftable_)(int) = &soundManager::Open; // weak
 managerVtable highScoreManager::_vftable_ = { &highScoreManager::Open, &highScoreManager::Close, &highScoreManager::Main };
 managerVtable recruitUnit::_vftable_ = { &recruitUnit::Open, &recruitUnit::Close, &recruitUnit::Main };
@@ -2301,7 +2323,7 @@ resourceVtable MIDIWrap::_vftable_ = { &MIDIWrap::_scalar_deleting_destructor_ }
 double maxdouble1 =  1.797693134862316e308;
 double mindouble1 =  2.225073858507201e-308;
 double maxdouble2 =  1.797693134862316e308;
-_UNKNOWN SCS; // weak
+SampleChannelStruct SCS[2] = { { 0, 1, 0 }, { 1, 2, 1 } };
 int CDPlaying = 0; // weak
 void *ptr = NULL; // idb
 void *dword_4ED0B4 = NULL; // idb
@@ -7363,8 +7385,7 @@ char *gCombatFxNames[32] =
 __int16 horseFrameFlip[] = { 45 }; // weak
 __int16 boatFrameFlip[] = { 0 }; // weak
 int gHeroGoldCost = 2500; // weak
-char normalDirTable[] = { '\0' }; // weak
-char byte_4F1DC1[] = { '\xFF' }; // weak
+char normalDirTable[] = { '\0', '\xFF', '\x10', '\0' }; // idb
 int dword_4F1DE0[] = { 200 }; // weak
 int giPlayerInitialResourcesHuman[5][7] =
 {
@@ -9257,15 +9278,15 @@ CREATURES gDwellingType[6][12] =
   { 5, 0, 15, 0, 0, 0, 1500, 10, 0, 10, 0, 0 }
 };
 _DWORD gMageBuildingCosts[7] = { 0, 0, 0, 0, 0, 0, 0 }; // idb
-void gSpecialBuildingCosts; // idb
-void gNeutralBuildingCosts; // idb
+building_cost gSpecialBuildingCosts[] = { { 5, 0, 15, 0, 0, 0, 1500 } };
+building_cost gNeutralBuildingCosts[] = { { 5, 0, 5, 0, 0, 0, 2000 } };
 int gMageBaseResourceValues[] = { 0 }; // weak
 int dword_4F4100[] = { 5000 }; // weak
 int dword_4F411C[] = { 2500 }; // weak
 int dword_4F4150[] = { 1500 }; // weak
 building_cost gDwellingCosts[] = { { 0, 0, 0, 0, 0, 0, 200 } }; // weak
 building_cost stru_4F4A14 = { 0, 0, 5, 0, 5, 0, 3000 }; // weak
-int gHierarchyMask[] = { 0 }; // weak
+int gHierarchyMask[][12] = ;
 int giDebugBuildingToBuild = 4294967295; // weak
 char giTerrainToMusicTrack[] = { '\x10', '\x12', '\x0E', '\x0F', '\v', '\r', '\x11', '\f', '\x10' }; // idb
 char *cHeroTypeShortName[6] = { "kngt", "barb", "sorc", "wrlk", "wzrd", "necr" }; // weak
@@ -9515,7 +9536,7 @@ int giWalkingYMod = 0; // weak
 unsigned __int8 moatCell[] = { 8u, 21u, 33u, 46u, 58u, 72u, 85u, 99u, 112u };
 _UNKNOWN campaignChoices; // weak
 char *congratsText = NULL; // idb
-char *dword_4F55F4[104] =
+char *oneBeforeGArtifactNames[104] =
 {
   NULL,
   "Ultimate Book of Knowledge",
@@ -11228,10 +11249,14 @@ char byte_50CE04[] = { '\0', '\0', '\0', '\0' }; // idb
 char aArchibald[10] = "Archibald"; // weak
 char byte_50CFB4[] = { '\0', '\0', '\0', '\0' }; // idb
 char byte_50CFB8[] = { '\0', '\0', '\0', '\0' }; // idb
-__int16 IMHotSpots[] = { 481 }; // weak
-__int16 word_50CFEA[] = { 185 }; // weak
-__int16 word_50CFEC[] = { 83 }; // weak
-__int16 word_50CFEE[] = { 96 }; // weak
+__int16 IMHotSpots[][4] =
+{
+  { 481, 185, 83, 96 },
+  { 194, 179, 82, 79 },
+  { 412, 105, 75, 76 },
+  { 303, 137, 75, 44 },
+  { 0, 389, 86, 90 }
+};
 int lastIMHoverID = 4294967295; // weak
 char byte_50D014[] = { '\0', '\0', '\0', '\0' }; // idb
 char byte_50D018[] = { '\0', '\0', '\0', '\0' }; // idb
@@ -12536,24 +12561,24 @@ int giNextActionGridIndex; // idb
 int giNextAction; // idb
 int iMaxTransferArtifacts; // weak
 int giSurrenderCost; // weak
-int word_524CAC; // idb
+__int16 word_524CAC;
 int iLastAnimFrame; // weak
 int giFrameStep; // weak
 int dword_524CD4; // weak
-int dword_524CDC; // weak
+hero *curDrawingHero;
 int giAdjacentMonsterUpperBoundY; // weak
 int dword_524CE4; // weak
 int spriteIdx; // idb
 int idx; // idb
 int giAdjacentMonsterX; // weak
-int y; // idb
+int drawY; // idb
 int dword_524CF8; // weak
 int giAdjacentMonsterUpperBoundX; // weak
 mapCell *currentlyDrawnMapTile;
-int dword_524D04; // weak
+int isDrawingHeroOrBoat; // weak
 int dword_524D08; // weak
 int giAdjacentMonsterY; // weak
-int dword_524D10; // idb
+int drawX; // idb
 int dword_524D14; // weak
 int giLimitUpdMaxX; // weak
 int giLimitUpdMaxY; // weak
@@ -12567,11 +12592,11 @@ char byte_524D3E[]; // weak
 char byte_524DA1; // weak
 char byte_524DB3; // weak
 char byte_524DC5; // weak
-int dword_524E74; // weak
+int curDrawingHeroColor; // weak
 int giLimitUpdMinY; // idb
 int giAdjacentMonsterLowerBoundX; // weak
 heroWindow *cPanel; // idb
-int dword_524EA0; // weak
+int curDrawingHeroFaction; // weak
 heroWindow *townPortalWin; // idb
 int dword_524EA8; // weak
 mapCellExtra *currentlyDrawingMapCellExtra;
@@ -14369,44 +14394,28 @@ void __thiscall soundManager::ForcePollSound(int this)
 // 523F24: using guessed type int gbNoSound;
 
 //----- (00403CA0) --------------------------------------------------------
-char __thiscall soundManager::SetMusicQuality(int this, int a2)
+void __thiscall soundManager::SetMusicQuality(soundManager *this, int a2)
 {
-  char result; // al@2
-  int thisb; // [sp+Ch] [bp-8h]@1
   int track; // [sp+10h] [bp-4h]@6
 
-  thisb = this;
-  if ( !gbNoSound )
+  if ( !gbNoSound && *(_DWORD *)&this->_0[0] && *(_DWORD *)&giMusicVolume && this->field_69E )
   {
-    result = this;
-    if ( *(_DWORD *)(this + 66) )
+    if ( *(_DWORD *)&useCDMusic )
     {
-      if ( *(_DWORD *)&giMusicVolume )
-      {
-        result = this;
-        if ( *(_DWORD *)(this + 1694) )
-        {
-          if ( *(_DWORD *)&useCDMusic )
-          {
-            track = *(_BYTE *)(this + 1404);
-            soundManager::CDStop((soundManager *)this);
-            *(_BYTE *)(thisb + 1404) = -1;
-          }
-          else
-          {
-            track = *(_BYTE *)(this + 1404);
-            soundManager::MIDIStop(this);
-          }
-          memset((void *)(thisb + 1428), 0, 0xF0u);
-          result = a2;
-          *(_DWORD *)&useCDMusic = a2;
-          if ( track >= 0 )
-            result = soundManager::PlayAmbientMusic(thisb, track, 0, -1);
-        }
-      }
+      track = this->currentTrack;
+      soundManager::CDStop(this);
+      this->currentTrack = -1;
     }
+    else
+    {
+      track = this->currentTrack;
+      soundManager::MIDIStop((int)this);
+    }
+    memset(&this->_4[23], 0, 0xF0u);
+    *(_DWORD *)&useCDMusic = a2;
+    if ( track >= 0 )
+      soundManager::PlayAmbientMusic((int)this, track, 0, -1);
   }
-  return result;
 }
 // 523F24: using guessed type int gbNoSound;
 
@@ -14566,12 +14575,10 @@ void __thiscall soundManager::SwitchAmbientMusic(soundManager *this, int track)
 HSAMPLE __thiscall soundManager::MemorySample(soundManager *this, sample *a2)
 {
   signed __int32 v3; // ST08_4@23
-  soundManager *thisa; // [sp+Ch] [bp-14h]@1
-  char *v5; // [sp+10h] [bp-10h]@12
+  SampleChannelStruct *chan; // [sp+10h] [bp-10h]@12
   struct _SAMPLE *S; // [sp+14h] [bp-Ch]@22
   __int16 i; // [sp+18h] [bp-8h]@12
 
-  thisa = this;
   if ( gbNoSound )
     return 0;
   if ( !this->hdidriver )
@@ -14580,26 +14587,26 @@ HSAMPLE __thiscall soundManager::MemorySample(soundManager *this, sample *a2)
     return 0;
   if ( !*(_DWORD *)&soundVolume )
     return 0;
-  if ( !*(_DWORD *)&this->_0[0] || !a2->field_28 )
+  if ( !*(_DWORD *)&this->_0[0] || !a2->volume )
     return 0;
-  v5 = (char *)&SCS + 12 * a2->codeThing;
-  for ( i = *(_DWORD *)v5; *((_DWORD *)v5 + 1) > (signed int)i && AIL_sample_status(thisa->hsamples[i]) != 2; ++i )
+  chan = &SCS[a2->codeThing];
+  for ( i = chan->field_0; chan->field_4 > i && AIL_sample_status(this->hsamples[i]) != 2; ++i )
     ;
-  if ( *((_DWORD *)v5 + 1) == i )
+  if ( chan->field_4 == i )
   {
     if ( a2->codeThing == 4 )
       return 0;
-    i = (*((_DWORD *)v5 + 2))++;
-    if ( *((_DWORD *)v5 + 1) <= *((_DWORD *)v5 + 2) )
+    i = chan->field_8++;
+    if ( chan->field_4 <= chan->field_8 )
     {
-      *((_DWORD *)v5 + 2) = *(_DWORD *)v5;
-      i = *((_DWORD *)v5 + 2);
+      chan->field_8 = chan->field_0;
+      i = chan->field_8;
     }
-    soundManager::StopSample(thisa, thisa->hsamples[i]);
+    soundManager::StopSample(this, this->hsamples[i]);
   }
-  S = thisa->hsamples[i];
-  thisa->_1[i + 64] = LOBYTE(a2->field_28);
-  iLastVolume[i] = a2->field_28;
+  S = this->hsamples[i];
+  this->_1[i + 64] = LOBYTE(a2->volume);
+  iLastVolume[i] = a2->volume;
   AIL_init_sample(S);
   AIL_set_sample_type(S, a2->sampleType, 0);
   AIL_set_sample_playback_rate(S, a2->playbackRate);
@@ -14607,7 +14614,7 @@ HSAMPLE __thiscall soundManager::MemorySample(soundManager *this, sample *a2)
   AIL_set_sample_address(S, a2->contents, a2->nbytes);
   if ( *(_DWORD *)&soundVolume )
   {
-    v3 = soundManager::ConvertVolume(a2->field_28, 100);
+    v3 = soundManager::ConvertVolume(a2->volume, 100);
     AIL_set_sample_volume(S, v3);
   }
   else
@@ -14616,9 +14623,9 @@ HSAMPLE __thiscall soundManager::MemorySample(soundManager *this, sample *a2)
   }
   AIL_start_sample(S);
   a2->field_10 = (int)S;
-  *(_DWORD *)&thisa->_2[4 * i] = S;
-  *(_DWORD *)&thisa->_2[4 * i + 64] = a2->contents;
-  *(_DWORD *)&thisa->_2[4 * i + 128] = a2->nbytes;
+  *(_DWORD *)&this->_2[4 * i] = S;
+  *(_DWORD *)&this->_2[4 * i + 64] = a2->contents;
+  *(_DWORD *)&this->_2[4 * i + 128] = a2->nbytes;
   return S;
 }
 // 522B30: using guessed type __int16 iLastVolume[32];
@@ -15522,18 +15529,16 @@ int __thiscall army::FindPath(army *this, int knownHex, int targHex, int speed, 
 signed int __thiscall army::ValidPath(army *this, int hex, int flag)
 {
   signed int result; // eax@2
-  army *thisa; // [sp+Ch] [bp-Ch]@1
 
-  thisa = this;
   if ( ValidHex(hex) )
   {
-    if ( thisa->creature.creature_flags & FLYER )
+    if ( this->creature.creature_flags & FLYER )
     {
-      result = army::ValidFlight(thisa, hex, flag);
+      result = army::ValidFlight(this, hex, flag);
     }
-    else if ( army::FindPath(thisa, thisa->occupiedHex, hex, thisa->creature.speed, 0, flag) )
+    else if ( army::FindPath(this, this->occupiedHex, hex, this->creature.speed, 0, flag) )
     {
-      thisa->targetHex = hex;
+      this->targetHex = hex;
       result = 1;
     }
     else
@@ -17197,7 +17202,7 @@ void __thiscall townManager::SetupCastle(townManager *ecx0, heroWindow *window, 
   {
     if ( CanBuy((int)&thisa->castle->idx, (unsigned __int8)castleSlotsUse[i]) )
       thisa->field_152 |= 1 << castleSlotsUse[i];
-    if ( CanBuild((unsigned int *)thisa->castle, (unsigned __int8)castleSlotsUse[i]) )
+    if ( CanBuild(thisa->castle, (unsigned __int8)castleSlotsUse[i]) )
       thisa->field_156 |= 1 << castleSlotsUse[i];
   }
   evt = 512;
@@ -17358,7 +17363,7 @@ void __thiscall townManager::SetupCastle(townManager *ecx0, heroWindow *window, 
   }
   else
   {
-    if ( CanBuild((unsigned int *)thisa->castle, 15) )
+    if ( CanBuild(thisa->castle, 15) )
     {
       if ( !CanBuy((int)&thisa->castle->idx, 15) )
         v13 = 13;
@@ -17367,7 +17372,7 @@ void __thiscall townManager::SetupCastle(townManager *ecx0, heroWindow *window, 
     {
       v13 = 12;
     }
-    if ( CanBuild((unsigned int *)thisa->castle, 15) )
+    if ( CanBuild(thisa->castle, 15) )
       thisa->field_156 |= 0x8000u;
     if ( CanBuy((int)&thisa->castle->idx, 15) )
       thisa->field_152 |= 0x8000u;
@@ -20826,10 +20831,7 @@ LABEL_3:
   }
   else if ( fieldID >= 19 )
   {
-    sprintf(
-      this->infoMessage,
-      off_4F6674,
-      gArmyNames[LOBYTE((&gTownObjNames[3 * this->castle->factionID + 27])[fieldID + 1])]);
+    sprintf(this->infoMessage, off_4F6674, gArmyNames[*(_BYTE *)(fieldID + 12 * this->castle->factionID + 5193085)]);
   }
   else
   {
@@ -20892,7 +20894,6 @@ LABEL_3:
   }
   townManager::ShowText(thisa, thisa->infoMessage);
 }
-// 4F3D10: using guessed type char *gTownObjNames[32];
 
 //----- (00412730) --------------------------------------------------------
 void __thiscall townManager::ShowText(townManager *this, char *msg)
@@ -20994,12 +20995,10 @@ signed int __thiscall townManager::Main(int ecx0, GUIMessage *evt)
           {
             *(_DWORD *)(this + 54) = (char *)gpGame
                                    + 100
-                                   * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                     + (getCastleOwnedIdx(gpCurPlayer, **(_BYTE **)(this + 54))
-                                      + gpCurPlayer->numCastles
-                                      + ((unsigned int)(evt->fieldID - 903) < 1 ? -1 : 1))
-                                     % gpCurPlayer->numCastles
-                                     + 2)
+                                   * gpCurPlayer->castlesOwned[(getCastleOwnedIdx(gpCurPlayer, **(_BYTE **)(this + 54))
+                                                              + gpCurPlayer->numCastles
+                                                              + ((unsigned int)(evt->fieldID - 903) < 1 ? -1 : 1))
+                                                             % gpCurPlayer->numCastles]
                                    + 2899;
             townManager::ChangeTown((townManager *)this);
           }
@@ -21114,7 +21113,7 @@ LABEL_124:
               }
               if ( !*(_DWORD *)(this + 210) )
                 MemError();
-              res = (SAMPLE2)LoadPlaySample("buildtwn.82M");
+              res = LoadPlaySample("buildtwn.82M");
               heroWindow::DrawWindow(*(heroWindow **)(this + 202), 0);
               strip::DrawIcons(*(strip **)(this + 206), 0);
               strip::DrawIcons(*(strip **)(this + 210), 0);
@@ -21283,7 +21282,7 @@ LABEL_124:
             else
             {
               v7 = CanBuy(*(_DWORD *)(this + 54), 6);
-              if ( townManager::BuyBuild((void *)this, 6, (unsigned int)v7 < 1, v37) )
+              if ( townManager::BuyBuild((townManager *)this, 6, (unsigned int)v7 < 1, v37) )
                 townManager::BuildObj((townManager *)this, 6);
             }
             goto LABEL_188;
@@ -21349,9 +21348,7 @@ LABEL_124:
             v30 = 0;
             for ( buildingCode = 0; gpCurPlayer->numCastles > buildingCode; ++buildingCode )
             {
-              if ( BYTE1(gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                         + buildingCode
-                                         + 2)].buildingsBuiltFlags) & 4 )
+              if ( BYTE1(gpGame->castles[gpCurPlayer->castlesOwned[buildingCode]].buildingsBuiltFlags) & 4 )
                 ++v30;
             }
             if ( v30 > 10 )
@@ -21726,7 +21723,7 @@ void __thiscall townManager::DrawTown(townManager *this, int a2, int a3)
 }
 
 //----- (00414AC0) --------------------------------------------------------
-bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
+bool __thiscall townManager::BuyBuild(townManager *this, signed int buildingCode, int a3, int a4)
 {
   int v4; // eax@18
   int v5; // eax@21
@@ -21742,13 +21739,12 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
   __int16 v15; // bx@119
   IconEntry *v16; // eax@119
   bool result; // eax@138
-  void *v18; // [sp+Ch] [bp-14Ch]@1
   iconWidget *thisa; // [sp+18h] [bp-140h]@118
   textWidget *v20; // [sp+1Ch] [bp-13Ch]@113
   textWidget *v21; // [sp+20h] [bp-138h]@89
   heroWindow *v22; // [sp+24h] [bp-134h]@79
-  int v23; // [sp+2Ch] [bp-12Ch]@59
-  int v24; // [sp+30h] [bp-128h]@59
+  int hierarchyMask; // [sp+2Ch] [bp-12Ch]@59
+  int numRequiredBuildings; // [sp+30h] [bp-128h]@59
   char *content; // [sp+34h] [bp-124h]@1
   int v26[7]; // [sp+3Ch] [bp-11Ch]@114
   char v27[28]; // [sp+58h] [bp-100h]@113
@@ -21785,13 +21781,12 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
   int v58; // [sp+12Ch] [bp-2Ch]@1
   int v59; // [sp+130h] [bp-28h]@111
   int v60; // [sp+134h] [bp-24h]@45
-  int v61; // [sp+138h] [bp-20h]@4
+  int dwellingOffset; // [sp+138h] [bp-20h]@4
   __int16 v62; // [sp+13Ch] [bp-1Ch]@45
   __int16 width[2]; // [sp+140h] [bp-18h]@113
   __int16 v64[8]; // [sp+144h] [bp-14h]@3
   widget *guiObj; // [sp+154h] [bp-4h]@90
 
-  v18 = this;
   v58 = 0;
   v44 = 0;
   content = (char *)BaseAlloc(0x190u, "F:\\h2xsrc\\Source\\TOWNMGR.CPP", word_4EEF50 + 8);
@@ -21800,32 +21795,34 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
     v64[i] = -1;
     v43[i] = LOBYTE(v64[i]);
   }
-  v61 = -1;
-  if ( a2 >= 19 && a2 <= 30 )
-    v61 = a2 - 19;
-  if ( a2 != 2 || *(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 3) != 5 )
+  dwellingOffset = -1;
+  if ( buildingCode >= BUILDING_DWELLING_1 && buildingCode <= BUILDING_UPGRADE_5B )
+    dwellingOffset = buildingCode - 19;
+  if ( buildingCode != 2 || this->castle->factionID != 5 )
   {
-    if ( a2 )
+    if ( buildingCode )
     {
-      if ( a2 == 13 )
+      if ( buildingCode == 13 )
       {
         for ( i = 0; i < 7; ++i )
         {
-          if ( *((_DWORD *)&gSpecialBuildingCosts + 7 * gpTownManager->castle->factionID + i) > 0 )
+          if ( *(&gSpecialBuildingCosts[gpTownManager->castle->factionID].wood + i) > 0 )
           {
             v43[v44] = i;
-            v64[v44++] = *((_DWORD *)&gSpecialBuildingCosts + 7 * gpTownManager->castle->factionID + i);
+            v64[v44++] = *(&gSpecialBuildingCosts[gpTownManager->castle->factionID].wood + i);
           }
         }
       }
-      else if ( a2 > 15 )
+      else if ( buildingCode > 15 )
       {
         for ( i = 0; i < 7; ++i )
         {
-          if ( *(&gDwellingCosts[12 * (signed int)gpTownManager->castle->factionID].wood + 7 * v61 + i) > 0 )
+          if ( *(&gDwellingCosts[12 * (signed int)gpTownManager->castle->factionID].wood + 7 * dwellingOffset + i) > 0 )
           {
             v43[v44] = i;
-            v64[v44++] = *(&gDwellingCosts[12 * (signed int)gpTownManager->castle->factionID].wood + 7 * v61 + i);
+            v64[v44++] = *(&gDwellingCosts[12 * (signed int)gpTownManager->castle->factionID].wood
+                         + 7 * dwellingOffset
+                         + i);
           }
         }
       }
@@ -21833,10 +21830,10 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
       {
         for ( i = 0; i < 7; ++i )
         {
-          if ( *((_DWORD *)&gNeutralBuildingCosts + 7 * a2 + i) > 0 )
+          if ( *(&gNeutralBuildingCosts[buildingCode].wood + i) > 0 )
           {
             v43[v44] = i;
-            v64[v44++] = *((_DWORD *)&gNeutralBuildingCosts + 7 * a2 + i);
+            v64[v44++] = *(&gNeutralBuildingCosts[buildingCode].wood + i);
           }
         }
       }
@@ -21908,27 +21905,27 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
   {
     v30 = v60;
   }
-  v6 = GetBuildingInfo(*(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 3), a2, 0);
+  v6 = GetBuildingInfo(this->castle->factionID, buildingCode, 0);
   sprintf(content, v6);
-  if ( v61 >= 0 )
+  if ( dwellingOffset >= 0 )
   {
-    v24 = 0;
-    v23 = *(&gHierarchyMask[12 * *(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 3)] + v61);
+    numRequiredBuildings = 0;
+    hierarchyMask = gHierarchyMask[this->castle->factionID][dwellingOffset];
     for ( i = 0; i < 32; ++i )
     {
-      if ( (1 << i) & v23 )
+      if ( (1 << i) & hierarchyMask )
       {
-        if ( !v24 )
+        if ( !numRequiredBuildings )
           strcat(content, "\n\nRequires:");
-        ++v24;
+        ++numRequiredBuildings;
         strcat(content, L"\n");
-        v7 = GetBuildingName(*(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 3), i);
+        v7 = GetBuildingName(this->castle->factionID, i);
         strcat(content, v7);
       }
     }
-    if ( *(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 3) == 5
-      && a2 == 28
-      && (signed int)*(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 28) <= 2 )
+    if ( this->castle->factionID == FACTION_NECROMANCER
+      && buildingCode == BUILDING_UPGRADE_4
+      && this->castle->mageGuildLevel <= 2 )
       strcat(content, "\nLevel 2 Mage Guild");
   }
   strcat(content, "\n ");
@@ -21957,16 +21954,16 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
   evt = 512;
   v32 = 9;
   v33 = 2;
-  sprintf(&v50, "cstl%s.icn", cHeroTypeShortName[*(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 3)]);
+  sprintf(&v50, "cstl%s.icn", cHeroTypeShortName[this->castle->factionID]);
   v34 = (int)&v50;
   heroWindow::BroadcastMessage(a2a, (tag_message *)&evt);
   v32 = 4;
   v33 = 2;
-  v34 = a2;
+  v34 = buildingCode;
   heroWindow::BroadcastMessage(a2a, (tag_message *)&evt);
-  if ( a2 )
+  if ( buildingCode )
   {
-    v9 = GetBuildingName(*(_BYTE *)(*(_DWORD *)((char *)v18 + 54) + 3), a2);
+    v9 = GetBuildingName(this->castle->factionID, buildingCode);
     strcpy(gText, v9);
   }
   else
@@ -22082,7 +22079,7 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
   resourceManager::Dispose(gpResourceManager, (resource *)res);
   if ( !a4 )
     heroWindowManager::BroadcastMessage(gpWindowManager, INPUT_GUI_MESSAGE_CODE, 5, 30720, 16392);
-  *(_DWORD *)((char *)v18 + 350) = -1;
+  this->field_15E = -1;
   if ( a4 )
   {
     v32 = 6;
@@ -22117,7 +22114,7 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
     heroWindowManager::DoDialog(gpWindowManager, a2a, TrueFalseDialogHandler, 0);
     if ( gpWindowManager->buttonPressedCode == 30722 )
     {
-      *(_DWORD *)((char *)v18 + 350) = a2;
+      this->field_15E = buildingCode;
       for ( i = 0; i < v60; ++i )
         gpCurPlayer->resources[v43[i]] -= v64[i];
     }
@@ -22133,7 +22130,6 @@ bool __thiscall townManager::BuyBuild(void *this, signed int a2, int a3, int a4)
 }
 // 4EEF50: using guessed type __int16 word_4EEF50;
 // 4F4288: using guessed type building_cost gDwellingCosts[];
-// 4F4A68: using guessed type int gHierarchyMask[];
 // 4F4BA0: using guessed type char *cHeroTypeShortName[6];
 // 414AC0: using guessed type __int16 var_14[8];
 // 414AC0: using guessed type char var_78[8];
@@ -22246,7 +22242,7 @@ void __thiscall townManager::BuildObj(townManager *this, signed int buildingCode
       giMaxExtentY - giMinExtentY + 1);
     townManager::DrawTown(thisa, 0, 1);
     res = NULL_SAMPLE2;
-    res = (SAMPLE2)LoadPlaySample("buildtwn.82M");
+    res = LoadPlaySample("buildtwn.82M");
     heroWindowManager::FizzleForward(
       gpWindowManager,
       giMinExtentX,
@@ -22520,7 +22516,7 @@ bool __thiscall townManager::RecruitHero(townManager *this, int a2, int a3)
     this->heroBeingRecruited->y = y;
     v5 = this->heroBeingRecruited->flags;
     this->heroBeingRecruited->flags = v5 & 0x600000;
-    HIBYTE(this->heroBeingRecruited->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = 2;
+    this->heroBeingRecruited->directionFacing = 2;
     this->heroBeingRecruited->remainingMobility = hero::CalcMobility(this->heroBeingRecruited);
     this->heroBeingRecruited->mobility = this->heroBeingRecruited->remainingMobility;
     this->heroBeingRecruited->occupiedObjType = *(&gpGame->map.tiles[x].objType + 12 * y * gpGame->map.width);
@@ -23108,9 +23104,7 @@ int __stdcall townManager::SetupThievesGuild(heroWindow *window, int strength)
             v41 = 0;
             for ( skill = 0; gpGame->players[j].numCastles > (signed int)skill; ++skill )
             {
-              v51 = &gpGame->castles[*((_BYTE *)&gpGame->players[j].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                     + skill
-                                     + 2)];
+              v51 = &gpGame->castles[gpGame->players[j].castlesOwned[skill]];
               for ( k = 0; k < 5; ++k )
               {
                 if ( v51->garrison.creatureTypes[k] != -1
@@ -23264,16 +23258,8 @@ void __fastcall GetCategoryStats(int row, int *playerStats, char *playerIndices)
                     0);
           for ( n = 0; gpGame->players[playerIdx].numCastles > n; ++n )
           {
-            this = &gpGame->castles[*((_BYTE *)&gpGame->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                    + 284 * playerIdx
-                                    + n
-                                    - playerIdx
-                                    + 2)];
-            if ( town::HasGarrison(&gpGame->castles[*((_BYTE *)&gpGame->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                                    + 284 * playerIdx
-                                                    + n
-                                                    - playerIdx
-                                                    + 2)]) )
+            this = &gpGame->castles[*(&gpGame->players[0].castlesOwned[284 * playerIdx] + n - playerIdx)];
+            if ( town::HasGarrison(&gpGame->castles[*(&gpGame->players[0].castlesOwned[284 * playerIdx] + n - playerIdx)]) )
               v6 += philAI::FightValueOfStack(&this->garrison, 0, 0, 0, 0, 0);
           }
           playerAmt[playerIdx] = v6;
@@ -23338,12 +23324,12 @@ signed int __thiscall playerData::Write(playerData *this, int fd)
   _write(fd, &this->hasEvilFaction, 1);
   _write(fd, &this->field_40, 1);
   _write(fd, &this->field_41, 1);
-  _write(fd, (char *)&this->field_41 + 1, 1);
+  _write(fd, &this->field_42, 1);
   _write(fd, &this->daysLeftWithoutCastle, 1);
   _write(fd, &this->numCastles, 1);
-  _write(fd, &this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx, 1);
-  _write(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 1, 1);
-  _write(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 2, 72);
+  _write(fd, &this->mightBeCurCastleIdx, 1);
+  _write(fd, &this->relatedToUnknown, 1);
+  _write(fd, this->castlesOwned, 72);
   _write(fd, this->resources, 28);
   _write(fd, this->field_E7, 28);
   _write(fd, &this->barrierTentsVisited, 1);
@@ -23370,12 +23356,12 @@ signed int __thiscall playerData::Read(playerData *this, int fd)
   _read(fd, &this->hasEvilFaction, 1u);
   _read(fd, &this->field_40, 1u);
   _read(fd, &this->field_41, 1u);
-  _read(fd, (char *)&this->field_41 + 1, 1u);
+  _read(fd, &this->field_42, 1u);
   _read(fd, &this->daysLeftWithoutCastle, 1u);
   _read(fd, &this->numCastles, 1u);
-  _read(fd, &this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx, 1u);
-  _read(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 1, 1u);
-  _read(fd, (char *)&this->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 2, 0x48u);
+  _read(fd, &this->mightBeCurCastleIdx, 1u);
+  _read(fd, &this->relatedToUnknown, 1u);
+  _read(fd, this->castlesOwned, 0x48u);
   _read(fd, this->resources, 0x1Cu);
   _read(fd, this->field_E7, 0x1Cu);
   _read(fd, &this->barrierTentsVisited, 1u);
@@ -23444,24 +23430,24 @@ int __fastcall GetNumObelisks(int playerIdx)
 }
 
 //----- (00418EF0) --------------------------------------------------------
-int __thiscall playerData::BuildingsOwned(int this, int a2, signed int a3, int a4)
+int __thiscall playerData::BuildingsOwned(playerData *this, int a2, signed int a3, int a4)
 {
   signed int i; // [sp+14h] [bp-8h]@1
   int v6; // [sp+18h] [bp-4h]@1
 
   v6 = 0;
-  for ( i = 0; *(_BYTE *)(this + 68) > i; ++i )
+  for ( i = 0; this->numCastles > i; ++i )
   {
-    if ( a3 < 19 || gpGame->castles[*(_BYTE *)(i + this + 71)].factionID == a2 )
+    if ( a3 < 19 || gpGame->castles[this->castlesOwned[i]].factionID == a2 )
     {
       if ( a3 )
       {
-        if ( (1 << a3) & gpGame->castles[*(_BYTE *)(i + this + 71)].buildingsBuiltFlags )
+        if ( (1 << a3) & gpGame->castles[this->castlesOwned[i]].buildingsBuiltFlags )
           ++v6;
       }
-      else if ( gpGame->castles[*(_BYTE *)(i + this + 71)].buildingsBuiltFlags & 1 )
+      else if ( gpGame->castles[this->castlesOwned[i]].buildingsBuiltFlags & 1 )
       {
-        if ( gpGame->castles[*(_BYTE *)(i + this + 71)].mageGuildLevel == a4 )
+        if ( gpGame->castles[this->castlesOwned[i]].mageGuildLevel == a4 )
           ++v6;
       }
     }
@@ -23567,23 +23553,23 @@ char __fastcall ComputeUALoc(int a1)
           break;
         }
       }
-      LOBYTE(gpGame->players[playerNo].field_41) = v8;
+      gpGame->players[playerNo].field_41 = v8;
       result = v7;
-      HIBYTE(gpGame->players[playerNo].field_41) = v7;
+      gpGame->players[playerNo].field_42 = v7;
     }
     else
     {
-      LOBYTE(gpGame->players[playerNo].field_41) = gpGame->ultimateArtifactLocX;
+      gpGame->players[playerNo].field_41 = gpGame->ultimateArtifactLocX;
       result = gpGame->ultimateArtifactLocY;
-      HIBYTE(gpGame->players[playerNo].field_41) = result;
+      gpGame->players[playerNo].field_42 = result;
     }
   }
   else
   {
     gpGame->players[playerNo].field_40 = 0;
-    LOBYTE(gpGame->players[playerNo].field_41) = -1;
+    gpGame->players[playerNo].field_41 = -1;
     result = 27 * playerNo;
-    HIBYTE(gpGame->players[playerNo].field_41) = -1;
+    gpGame->players[playerNo].field_42 = -1;
   }
   return result;
 }
@@ -23712,7 +23698,7 @@ signed int __thiscall game::CreateBoat(game *ecx0, unsigned int x, unsigned int 
     cell = &ecx0->map.tiles[y * ecx0->map.width] + x;
     boat->underlyingObjType = cell->objType;
     boat->underlyingObjExtra = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
-    cell->objType = -85;
+    cell->objType = 171;
     cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * boatIdx | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
   }
   return boatIdx;
@@ -23732,7 +23718,7 @@ signed int __thiscall game::Scan(game *this, signed __int8 *a1, int start, int l
 }
 
 //----- (004199F0) --------------------------------------------------------
-signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, char a5) // Check this function; it relies on the relationship between the number of factions and the number of heroes
+signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, char a5)
 {
   signed int i; // [sp+10h] [bp-8h]@1
   int randomVal; // [sp+14h] [bp-4h]@3
@@ -23747,7 +23733,7 @@ signed int __stdcall game::RandomScan(int a1, int minVal, int maxIndex, int a4, 
 }
 
 //----- (00419A70) --------------------------------------------------------
-int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero) // Check this function
+int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction, int getPowerfulHero)
 {
   signed int tries; // [sp+14h] [bp-10h]@1
   int heroIdx; // [sp+20h] [bp-4h]@1
@@ -23760,7 +23746,7 @@ int __thiscall game::GetNewHeroId(game *this, int playerIdx, signed int faction,
     heroIdx = Random(0, 53);
     if ( this->relatedToHeroForHireStatus[heroIdx] == -1 || this->relatedToHeroForHireStatus[heroIdx] == 64 )
     {
-      if ( (this->relatedToHeroForHireStatus[heroIdx] != 64 || tries >= 1500)// What's so significant about these constants; why are they critical to a certain scenario?
+      if ( (this->relatedToHeroForHireStatus[heroIdx] != 64 || tries >= 1500)
         && (faction < 0 || faction > 5 || tries >= 100 || this->heroes[heroIdx].factionID == faction)// Constant here
         && (!getPowerfulHero
          || tries >= 40
@@ -24060,7 +24046,7 @@ int __thiscall game::SetupOrigData(game *this)
     this->players[i]._3[0] = 0;
     memset(this->players[i].heroesForPurchase, 0xFFu, 2u);
     memset(this->players[i].heroesOwned, 0xFFu, 8u);
-    memset((char *)&this->players[i].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + 2, 0xFFu, 0x48u);
+    memset(this->players[i].castlesOwned, 0xFFu, 0x48u);
   }
   this->numObelisks = 0;
   gpAdvManager->heroMobilized = 0;
@@ -24070,12 +24056,12 @@ int __thiscall game::SetupOrigData(game *this)
     memset(&this->heroes[j], 0, 0xFAu);
     memset(this->heroes[j].spellsLearned, 0, 0x41u);
     memset(this->heroes[j].artifacts, 0xFFu, 0xEu);
-    HIBYTE(this->heroes[j].relatedTo_HIBYTE_y_LOBYTE_x) = -1;
-    LOBYTE(this->heroes[j].relatedTo_HIBYTE_y_LOBYTE_x) = HIBYTE(this->heroes[j].relatedTo_HIBYTE_y_LOBYTE_x);
+    this->heroes[j].relatedToY = -1;
+    this->heroes[j].relatedToX = this->heroes[j].relatedToY;
     this->heroes[j].idx = j;
     this->heroes[j].heroID = j;
     this->heroes[j].ownerIdx = -1;
-    HIBYTE(this->heroes[j].relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = 2;
+    this->heroes[j].directionFacing = 2;
     strcpy(this->heroes[j].name, (&gHeroDefaultNames)[4 * j]);
     this->heroes[j].factionID = j / 9;
     for ( k = 0; k < 5; ++k )
@@ -24351,39 +24337,166 @@ void __thiscall game::LoadGame(game *ecx0, char *filnam, int isNewGame, int a4)
 // 41B5F0: using guessed type char hasPlayer[12];
 
 //----- (0041C0E0) --------------------------------------------------------
+// Check this function (design question)
 void __thiscall game::GiveTroopsToNeutralTown(game *this, int castleIdx)
 {
   int randomQuantity; // [sp+18h] [bp-14h]@7
   int quantity; // [sp+18h] [bp-14h]@15
   signed int creatureTier; // [sp+1Ch] [bp-10h]@7
   int creatureType; // [sp+24h] [bp-8h]@0
-  int creatureTierRandomizer; // [sp+28h] [bp-4h]@4
+  int creatureQtyAndIdxRandomizer; // [sp+28h] [bp-4h]@4
 
   if ( (this->castles[castleIdx].x > 0 || this->castles[castleIdx].y > 0) && this->castles[castleIdx].ownerIdx < 0 )
   {
-    creatureTierRandomizer = Random(1, 15);
-    if (giCurTurn / 10) { // As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
-      creatureTierRandomizer += Random(0, giCurTurn / 10);
+    creatureQtyAndIdxRandomizer = Random(1, 15);
+    if ( giCurTurn / 10 )
+      creatureQtyAndIdxRandomizer += Random(0, giCurTurn / 10);// As time goes on, the odds of getting smaller stacks of stronger creatures increases, but it is still possible to get larger stacks of weaker creatures
+    if ( creatureQtyAndIdxRandomizer > 5 )
+    {
+      if ( creatureQtyAndIdxRandomizer > 10 )
+      {
+        if ( creatureQtyAndIdxRandomizer > 13 )
+        {
+          if ( creatureQtyAndIdxRandomizer > 15 )
+          {
+            creatureTier = 50;
+            randomQuantity = 1;
+          }
+          else
+          {
+            creatureTier = 40;
+            randomQuantity = Random(1, 3);
+          }
+        }
+        else
+        {
+          creatureTier = 30;
+          randomQuantity = Random(3, 5);
+        }
+      }
+      else
+      {
+        creatureTier = 20;
+        randomQuantity = Random(5, 7);
+      }
     }
-    if (creatureTierRandomizer <= 5) {
+    else
+    {
       creatureTier = 10;
       randomQuantity = Random(8, 15);
-    } else if (creatureTierRandomizer <= 10) {
-      creatureTier = 20;
-      randomQuantity = Random(5, 7);
-    } else if (creatureTierRandomizer <= 13) {
-      creatureTier = 30;
-      randomQuantity = Random(3, 5);
-    } else if (creatureTierRandomizer <= 15) {
-      creatureTier = 40;
-      randomQuantity = Random(1, 3);
-    } else {
-      creatureTier = 50;
-      randomQuantity = 1;
     }
     quantity = giCurTurn / 20 + randomQuantity;
-    creatureType = neutralTownCreatureTypes[this->castles[castleIdx].factionID][creatureTier/10];
-    this->GiveArmy(&this->castles[castleIdx].garrison, creatureType, quantity, -1);
+    switch ( creatureTier + this->castles[castleIdx].factionID )// Constant here (Lots of faction-specific stuff here; design question); new creatures would need to be hardcoded or have a default case added; new factions would need more logic accounting for them as well; this entire thing should be a design question
+    {
+      case 10:
+        creatureType = CREATURE_PEASANT;
+        break;
+      case 20:
+        creatureType = CREATURE_ARCHER;
+        break;
+      case 30:
+        creatureType = CREATURE_PIKEMAN;
+        break;
+      case 40:
+        creatureType = CREATURE_SWORDSMAN;
+        break;
+      case 50:
+        creatureType = CREATURE_CAVALRY;
+        break;
+      case 11:
+        creatureType = CREATURE_GOBLIN;
+        break;
+      case 21:
+        creatureType = CREATURE_ORC;
+        break;
+      case 31:
+        creatureType = CREATURE_WOLF;
+        break;
+      case 41:
+        creatureType = CREATURE_OGRE;
+        break;
+      case 51:
+        creatureType = CREATURE_TROLL;
+        break;
+      case 12:
+        creatureType = CREATURE_SPRITE;
+        break;
+      case 22:
+        creatureType = CREATURE_DWARF;
+        break;
+      case 32:
+        creatureType = CREATURE_ELF;
+        break;
+      case 42:
+        creatureType = CREATURE_DRUID;
+        break;
+      case 52:
+        creatureType = CREATURE_UNICORN;
+        break;
+      case 13:
+        creatureType = CREATURE_CENTAUR;
+        break;
+      case 23:
+        creatureType = CREATURE_GARGOYLE;
+        break;
+      case 33:
+        creatureType = CREATURE_GRIFFIN;
+        break;
+      case 43:
+        creatureType = CREATURE_MINOTAUR;
+        break;
+      case 53:
+        creatureType = CREATURE_HYDRA;
+        break;
+      case 14:
+        creatureType = CREATURE_HALFLING;
+        break;
+      case 24:
+        creatureType = CREATURE_BOAR;
+        break;
+      case 34:
+        creatureType = CREATURE_IRON_GOLEM;
+        break;
+      case 44:
+        creatureType = CREATURE_ROC;
+        break;
+      case 54:
+        creatureType = CREATURE_MAGE;
+        break;
+      case 15:
+        creatureType = CREATURE_SKELETON;
+        break;
+      case 25:
+        creatureType = CREATURE_ZOMBIE;
+        break;
+      case 35:
+        creatureType = CREATURE_MUMMY;
+        break;
+      case 45:
+        creatureType = CREATURE_VAMPIRE;
+        break;
+      case 55:
+        creatureType = CREATURE_LICH;
+        break;
+      case 16:
+      case 17:
+      case 18:
+      case 19:
+      case 26:
+      case 27:
+      case 28:
+      case 29:
+      case 36:
+      case 37:
+      case 38:
+      case 39:
+      case 46:
+      case 47:
+      case 48:
+      case 49:
+        break;
+    }
+    game::GiveArmy(&this->castles[castleIdx].garrison, creatureType, quantity, -1);
   }
 }
 // 532C54: using guessed type int giCurTurn;
@@ -24511,8 +24624,8 @@ void __thiscall game::NewMap(game *this, char *name)
   for ( playerIdxe = 0; this->numPlayers > playerIdxe; ++playerIdxe )
   {
     this->players[playerIdxe].numCastles = 0;
-    HIBYTE(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = 0;// playerData->field_45 changed to relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-    LOBYTE(this->players[playerIdxe].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = -1;// Consider splitting this into multiple variables
+    this->players[playerIdxe].relatedToUnknown = 0;// playerData->field_45 changed to relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
+    this->players[playerIdxe].mightBeCurCastleIdx = -1;// Consider splitting this into multiple variables
     this->players[playerIdxe].numHeroes = 0;
     this->players[playerIdxe].relatedToSomeSortOfHeroCountOrIdx = 0;
     this->players[playerIdxe].curHeroIdx = -1;
@@ -24547,7 +24660,7 @@ void __thiscall game::NewMap(game *this, char *name)
         ++numPlayers;
       if ( this->mapHeader.winConditionArgumentOrLocX + 1 == numPlayers )
       {
-        HIWORD(this->mapHeader.lossConditionArgumentOrLocY) = playerIdxh;
+        this->mapHeader.relatedToPlayerColorOrSide = playerIdxh;
         playerIdxh = 99;
       }
     }
@@ -24557,8 +24670,8 @@ void __thiscall game::NewMap(game *this, char *name)
   for ( playerIdxi = 0; this->numPlayers > playerIdxi; ++playerIdxi )
   {
     this->players[playerIdxi].field_40 = 0;
-    LOBYTE(this->players[playerIdxi].field_41) = -1;
-    HIBYTE(this->players[playerIdxi].field_41) = -1;// Consider splitting this into multiple variables
+    this->players[playerIdxi].field_41 = -1;
+    this->players[playerIdxi].field_42 = -1;    // Consider splitting this into multiple variables
     someSortOfCastleIdxOrRelatedToCastles = -1;
     if ( !this->mapHeader.noStartingHeroInCastle && this->players[playerIdxi].numCastles > 0 )
     {
@@ -24567,8 +24680,8 @@ void __thiscall game::NewMap(game *this, char *name)
         for ( numPlayersa = 0; this->players[playerIdxi].numCastles > numPlayersa; ++numPlayersa )
         {
           if ( someSortOfCastleIdxOrRelatedToCastles == -1
-            && this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + numPlayersa + 2)].visitingHeroIdx == -1
-            && (this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + numPlayersa + 2)].buildingsBuiltFlags & 0x40
+            && this->castles[this->players[playerIdxi].castlesOwned[numPlayersa]].visitingHeroIdx == -1
+            && (this->castles[this->players[playerIdxi].castlesOwned[numPlayersa]].buildingsBuiltFlags & 0x40
              || goesFrom0To1 == 1) )
             someSortOfCastleIdxOrRelatedToCastles = numPlayersa;
         }
@@ -24576,16 +24689,20 @@ void __thiscall game::NewMap(game *this, char *name)
     }
     if ( someSortOfCastleIdxOrRelatedToCastles != -1 )
     {
-      this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes] = game::GetNewHeroId(this, playerIdxi, this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].factionID, 0);// Constant here (within GetNewHeroId)
-      this->relatedToHeroForHireStatus[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]] = playerIdxi;// 283 is playerData object size; players[6] is array of playerData. There is lots of unnecessary pointer arithmetic here that could just be replaced by using the indices for the elements in the array within the array brackets.
-      this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].ownerIdx = playerIdxi;
-      this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].x = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].x;
-      this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].y = this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].y;
-      this->castles[*((_BYTE *)&this->players[playerIdxi].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + someSortOfCastleIdxOrRelatedToCastles + 2)].visitingHeroIdx = *(&this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]);
+      *(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi) = game::GetNewHeroId(this, playerIdxi, this->castles[this->players[playerIdxi].castlesOwned[someSortOfCastleIdxOrRelatedToCastles]].factionID, 0);// Constant here (within GetNewHeroId)
+      this->relatedToHeroForHireStatus[*(&this->players[0].heroesOwned[284 * playerIdxi]
+                                       + this->players[playerIdxi].numHeroes
+                                       - playerIdxi)] = playerIdxi;// 283 is playerData object size; players[6] is array of playerData. There is lots of unnecessary pointer arithmetic here that could just be replaced by using the indices for the elements in the array within the array brackets.
+      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].ownerIdx = playerIdxi;
+      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].x = this->castles[this->players[playerIdxi].castlesOwned[someSortOfCastleIdxOrRelatedToCastles]].x;
+      this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi)].y = this->castles[this->players[playerIdxi].castlesOwned[someSortOfCastleIdxOrRelatedToCastles]].y;
+      this->castles[this->players[playerIdxi].castlesOwned[someSortOfCastleIdxOrRelatedToCastles]].visitingHeroIdx = *(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes - playerIdxi);
       game::SetVisibility(
         this,
-        this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].x,
-        this->heroes[this->players[playerIdxi].heroesOwned[this->players[playerIdxi].numHeroes]].y,
+        this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes
+                                                                       - playerIdxi)].x,
+        this->heroes[*(&this->players[0].heroesOwned[284 * playerIdxi] + this->players[playerIdxi].numHeroes
+                                                                       - playerIdxi)].y,
         playerIdxi,
         giVisRange[this->heroes[this->players[playerIdxi].heroesOwned[0]].secondarySkillLevel[3]]);
       ++this->players[playerIdxi].numHeroes;
@@ -24681,16 +24798,19 @@ LABEL_196:
     {
       heroLocationX = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].x;
       heroLocationY = this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].y;
-      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjType = this->map.tiles[heroLocationX + heroLocationY * this->map.width].objType;// The pointer arithmetic can be replaced by taking the offsets and adding them to the index value within the tiles[] array brackets. The "12" should be removed since that is just to account for the 12-byte size of the mapCell type, which tiles[] is an array of
-      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (this->map.tiles[heroLocationX + heroLocationY * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;// A doubly-bad decompilation error
-      this->map.tiles[heroLocationX + heroLocationY * this->map.width].objType = -86;
-      heroCell = this->map.tiles[heroLocationY * this->map.width + heroLocationX];
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjType = *(&this->map.tiles[heroLocationX].objType
+                                                                                         + 12
+                                                                                         * heroLocationY
+                                                                                         * this->map.width);// The pointer arithmetic can be replaced by taking the offsets and adding them to the index value within the tiles[] array brackets. The "12" should be removed since that is just to account for the 12-byte size of the mapCell type, which tiles[] is an array of
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[heroLocationX].field_4_1_1_isShadow_1_13_extraInfo + 6 * heroLocationY * this->map.width) >> 8) >> -5);// A doubly-bad decompilation error
+      *(&this->map.tiles[heroLocationX].objType + 12 * heroLocationY * this->map.width) = -86;
+      heroCell = &this->map.tiles[heroLocationY * this->map.width] + heroLocationX;
       heroCell->field_4_1_1_isShadow_1_13_extraInfo = heroCell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * this->players[playerIdxk].heroesOwned[numPlayersb];
     }
     if ( this->players[playerIdxk].numHeroes <= 0 )
     {
       if ( this->players[playerIdxk].numCastles > 0 )
-        LOBYTE(this->players[playerIdxk].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = BYTE2(this->players[playerIdxk].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
+        this->players[playerIdxk].mightBeCurCastleIdx = this->players[playerIdxk].castlesOwned[0];
     }
     else
     {
@@ -24713,18 +24833,20 @@ LABEL_196:
         {
           if ( MAP_HEIGHT - 10 >= ultimateArtifactLocY )
           {
-            if ( this->map.tiles[ultimateArtifactLocX + ultimateArtifactLocY * this->map.width].objectIndex == 255 )
+            if ( *(&this->map.tiles[ultimateArtifactLocX].objectIndex + 12 * ultimateArtifactLocY * this->map.width) == 255 )
             {
-              if ( *(&this->map.tiles[ultimateArtifactLocX + ultimateArtifactLocY * this->map.width].overlayIndex) == 255 )
+              if ( *(&this->map.tiles[ultimateArtifactLocX].overlayIndex + 12 * ultimateArtifactLocY * this->map.width) == 255 )
               {
-                if ( giGroundToTerrain[this->map.tiles[ultimateArtifactLocX + ultimateArtifactLocY * this->map.width].groundIndex] )
+                if ( giGroundToTerrain[*(&this->map.tiles[ultimateArtifactLocY * this->map.width].groundIndex
+                                       + 6 * ultimateArtifactLocX)] )
                 {
                   if ( iLastMsgNumHumanPlayers != 1 )
                     break;
                   if ( someSortOfLoopCount >= 200 )
                     break;
                   distanceYBetweenUltimateArtifactAndHero = abs(ultimateArtifactLocY - this->heroes[this->players[0].heroesOwned[0]].y);
-                  if ( abs(ultimateArtifactLocX - this->heroes[this->players[0].heroesOwned[0]].x) + distanceYBetweenUltimateArtifactAndHero > randomVal3 )
+                  if ( abs(ultimateArtifactLocX - this->heroes[this->players[0].heroesOwned[0]].x)
+                     + distanceYBetweenUltimateArtifactAndHero > randomVal3 )
                     break;
                 }
               }
@@ -24761,8 +24883,8 @@ LABEL_196:
   this->ultimateArtifactIdx = Random(0, 7);     // this->field_6397 changed to ultimateArtifactIdx
   if ( gbInCampaign
     && (!this->relatedToCurViewSideOrCampaign && this->relatedToCampaignMap == 7// this->field_4 changed to relatedToCampaignMap
-     || this->relatedToCurViewSideOrCampaign == 1 && this->relatedToCampaignMap == 8) )// this->field_2 changed to relatedToCurViewSide
-    this->ultimateArtifactIdx = 6;
+     || this->relatedToCurViewSideOrCampaign == 1 && this->relatedToCampaignMap == 8) )
+    this->ultimateArtifactIdx = ARTIFACT_ULTIMATE_CROWN;
   for ( playerIdxm = 0; this->numPlayers > playerIdxm; ++playerIdxm )
   {
     if ( gbHumanPlayer[playerIdxm] )
@@ -24777,7 +24899,8 @@ LABEL_196:
             resourceMultiplierFromHandicap = 0.85;
           else
             resourceMultiplierFromHandicap = 0.7;
-          this->players[playerIdxm].resources[resourceType] = (signed __int64)((double)this->players[playerIdxm].resources[resourceType] * resourceMultiplierFromHandicap);
+          this->players[playerIdxm].resources[resourceType] = (signed __int64)((double)this->players[playerIdxm].resources[resourceType]
+                                                                             * resourceMultiplierFromHandicap);
         }
       }
     }
@@ -24791,15 +24914,15 @@ LABEL_196:
   if ( this->mapHeader.lossConditionType == 2 ) // field_22 changed to lossConditionType
   {
     lossConditionArgumentLocX = *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX;// field_23 changed to lossConditionArgumentOrLocX
-    lossConditionArgumentLocY = LOWORD(this->mapHeader.lossConditionArgumentOrLocY);// field_2E changed to relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY
+    lossConditionArgumentLocY = this->mapHeader.lossConditionArgumentOrLocY;// field_2E changed to relatedTo_HIWORD_Unknown_LOWORD_lossConditionArgumentOrLocY
     *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = 0;
-    if ( *this->map.tiles[lossConditionArgumentLocX + lossConditionArgumentLocY * this->map.width].objType == 170 )
+    if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * lossConditionArgumentLocY * this->map.width) == 170 )
     {
-      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (this->map.tiles[lossConditionArgumentLocX + lossConditionArgumentLocY * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * lossConditionArgumentLocY * this->map.width) >> 8) >> -5);
     }
-    else if ( this->map.tiles[lossConditionArgumentLocX + (lossConditionArgumentLocY - 1) * this->map.width].objType == 170 )
+    else if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * (lossConditionArgumentLocY - 1) * this->map.width) == 170 )
     {
-      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (this->map.tiles[lossConditionArgumentLocX + (lossConditionArgumentLocY - 1) * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * (lossConditionArgumentLocY - 1) * this->map.width) >> 8) >> -5);
     }
     else
     {
@@ -24811,13 +24934,19 @@ LABEL_196:
     relatedToWinConditionLocX = this->mapHeader.winConditionArgumentOrLocX;// winConditionArgument changed to winConditionArgumentOrLocX
     relatedToWinConditionLocY = this->mapHeader.winConditionArgumentOrLocY;// field_2C changed to winConditionArgumentOrLocY
     this->mapHeader.winConditionArgumentOrLocX = 0;
-    if ( this->map.tiles[relatedToWinConditionLocX + relatedToWinConditionLocY * this->map.width].objType == 170 )
+    if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * relatedToWinConditionLocY * this->map.width) == 170 )
     {
-      this->mapHeader.winConditionArgumentOrLocX = (this->map.tiles[relatedToWinConditionLocX + relatedToWinConditionLocY * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
+                                                                                       + 6
+                                                                                       * relatedToWinConditionLocY
+                                                                                       * this->map.width) >> 8) >> -5);
     }
-    else if ( this->map.tiles[relatedToWinConditionLocX + (relatedToWinConditionLocY - 1) * this->map.width].objType == 170 )
+    else if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * (relatedToWinConditionLocY - 1) * this->map.width) == 170 )
     {
-      this->mapHeader.winConditionArgumentOrLocX = (this->map.tiles[relatedToWinConditionLocX + (relatedToWinConditionLocY - 1) * this->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
+                                                                                       + 6
+                                                                                       * (relatedToWinConditionLocY - 1)
+                                                                                       * this->map.width) >> 8) >> -5);
     }
     else
     {
@@ -24832,7 +24961,7 @@ LABEL_196:
     {
       if ( this->players[playerIdxn].numCastles )
       {
-        playerIdxnFaction = gpGame->castles[BYTE2(this->players[playerIdxn].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].factionID;
+        playerIdxnFaction = gpGame->castles[this->players[playerIdxn].castlesOwned[0]].factionID;
       }
       else if ( this->players[playerIdxn].numHeroes )
       {
@@ -24847,13 +24976,9 @@ LABEL_196:
                                             || playerIdxnFaction == FACTION_WARLOCK
                                             || playerIdxnFaction == FACTION_NECROMANCER;// playerData->_4_1 changed to hasEvilFaction
     if ( gbInCampaign && !playerIdxn )          // constants for factions above
-      this->players[0].hasEvilFaction = this->relatedToCurViewSideOrCampaign == 1;// field_2 changed to relatedToCurViewSideOrCampaign
+      this->players[0].hasEvilFaction = this->relatedToCurViewSideOrCampaign == 1;// this->field_2 changed to relatedToCurViewSideOrCampaign
     for ( castlesOwnedIdx = 0; gpGame->players[playerIdxn].numCastles > castlesOwnedIdx; ++castlesOwnedIdx )
-      town::GiveSpells(
-        &gpGame->castles[*((_BYTE *)&gpGame->players[playerIdxn].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                         + castlesOwnedIdx
-                         + 2)],
-        0);
+      town::GiveSpells(&gpGame->castles[gpGame->players[playerIdxn].castlesOwned[castlesOwnedIdx]], 0);
     gpGame->players[playerIdxn].relatedToMaxOrNumHeroes = gpGame->players[playerIdxn].numHeroes;// playerData->_2 changed to relatedToMaxOrNumHeroes
   }
   philAI::GetGameAIVars(gpPhilAI);
@@ -25540,7 +25665,7 @@ LABEL_178:
             v68 = 0;
         }
         if ( v68 )
-          cell->displayFlags |= 0x80u;
+          cell->flags |= 0x80u;
       }
     }
   }
@@ -25554,22 +25679,19 @@ LABEL_178:
       cell = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
       if ( (cell->objType & 0x7F) == LOCATION_ROCK
         && (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 62 )
-        cell->displayFlags |= 8u;
-      if ( cell->objectIndex != 255
-        && !(cell->objType & 0x80)
-        && !(cell->displayFlags & 0x80)
-        && cell->overlayIndex != 255 )
-        cell->displayFlags |= 8u;
+        cell->flags |= 8u;
+      if ( cell->objectIndex != 255 && !(cell->objType & 0x80) && !(cell->flags & 0x80) && cell->overlayIndex != 255 )
+        cell->flags |= 8u;
       v45 = 0;
       v44 = 0;
-      if ( !(cell->displayFlags & 8)
+      if ( !(cell->flags & 8)
         && MAP_HEIGHT - 1 > cellYCoord
         && cell->objectIndex != 255
         && !(cell->objType & 0x80)
-        && !(cell->displayFlags & 0x80)
+        && !(cell->flags & 0x80)
         && *(&this->map.tiles[cellXCoord].objectIndex + 12 * (cellYCoord + 1) * this->map.width) != 255
         && !(*(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) & 0x80)
-        && !(*(&this->map.tiles[cellXCoord].displayFlags + 12 * (cellYCoord + 1) * this->map.width) & 0x80) )
+        && !(*(&this->map.tiles[cellXCoord].flags + 12 * (cellYCoord + 1) * this->map.width) & 0x80) )
       {
         if ( !((cell->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
         {
@@ -25619,7 +25741,7 @@ LABEL_178:
           for ( m = 0; v44 > m; ++m )
           {
             if ( v46[m] == v41[l] || v41[l] >= 35 && v41[l] <= 38 && v46[m] >= 35 && v46[m] <= 38 )
-              cell->displayFlags |= 8u;
+              cell->flags |= 8u;
           }
         }
       }
@@ -25627,13 +25749,13 @@ LABEL_178:
         && (*(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) == 163
          || *(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) == 176
          || *(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) == 177) )
-        cell->displayFlags |= 8u;
+        cell->flags |= 8u;
       if ( cell->objectIndex != 255
         && !(cell->objType & 0x80)
-        && !(cell->displayFlags & 0x80)
+        && !(cell->flags & 0x80)
         && (MAP_HEIGHT - 1 == cellYCoord
-         || *(&this->map.tiles[cellXCoord].displayFlags + 12 * (cellYCoord + 1) * this->map.width) & 4) )
-        cell->displayFlags |= 8u;
+         || *(&this->map.tiles[cellXCoord].flags + 12 * (cellYCoord + 1) * this->map.width) & 4) )
+        cell->flags |= 8u;
     }
   }
   return result;
@@ -25719,7 +25841,7 @@ int __thiscall game::LoadMap(game *ecx0, char *nam)
       ecx0->castles[i].y = y;
       ecx0->castles[i].factionID = alignmentAndCastle & 0x7F;
       if ( alignmentAndCastle >= 0 )
-        ecx0->castles[i].buildingsBuiltFlags |= BUILDING_SPECIAL_DEFENSE_BUILT;
+        ecx0->castles[i].buildingsBuiltFlags |= BUILDING_TENT_BUILT;
       else
         ecx0->castles[i].buildingsBuiltFlags |= 0x40u;
     }
@@ -25794,11 +25916,7 @@ void __thiscall game::ClaimTown(game *this, int castleIdx, int playerIdx, int a4
       this->castles[castleIdx].field_55 = 0;
     this->castles[castleIdx].ownerIdx = playerIdx;
     this->field_2773[castleIdx] = playerIdx;
-    *((_BYTE *)&this->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-    + 284 * playerIdx
-    + this->players[playerIdx].numCastles++
-    - playerIdx
-    + 2) = castleIdx;
+    *(&this->players[0].castlesOwned[284 * playerIdx] + this->players[playerIdx].numCastles++ - playerIdx) = castleIdx;
     fullMap::ChangeTilesetIndex(
       &this->map,
       (mapCell *)((char *)&this->map.tiles[this->map.width * this->castles[castleIdx].y]
@@ -26393,7 +26511,7 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
   {
     for ( i = 20; i <= 24; ++i )
     {
-      if ( LOBYTE((&gTownObjNames[3 * *(_BYTE *)(a6 + 3) + 27])[i + 1]) == creat )
+      if ( *(_BYTE *)(i + 12 * *(_BYTE *)(a6 + 3) + 5193085) == creat )
       {
         if ( (1 << (i + 5)) & *(_DWORD *)(a6 + 24) )
         {
@@ -26658,7 +26776,6 @@ BOOL __thiscall game::ViewArmy(game *this, int a2, int a3, CREATURES creat, sign
   return operator delete(*(void **)&thisa->mapEventIndices[50]);
 }
 // 4EF4B0: using guessed type __int16 word_4EF4B0;
-// 4F3D10: using guessed type char *gTownObjNames[32];
 // 4F627C: using guessed type char *off_4F627C[4];
 // 4F629C: using guessed type char *off_4F629C[4];
 // 4F64E0: using guessed type char *cArmyDetail[9];
@@ -27302,11 +27419,11 @@ void __thiscall game::PerDay(game *this)
         ++this->players[playerIdxd].resources[2];
       }
       if ( gpGame->difficulty >= 3 && this->day >= 1 && this->day <= 6 )
-        ++*(_DWORD *)&this->players[playerIdxd].gap_49[4 * this->day + 66];
+        ++*(_DWORD *)&this->players[playerIdxd].castlesOwned[4 * this->day + 68];
       if ( gpGame->difficulty >= 4 && this->day >= 1 && this->day <= 6 )
-        ++*(_DWORD *)&this->players[playerIdxd].gap_49[4 * this->day + 66];
+        ++*(_DWORD *)&this->players[playerIdxd].castlesOwned[4 * this->day + 68];
       if ( gpGame->players[playerIdxd].personality == 1 && this->day >= 1 && this->day <= 6 )
-        ++*(_DWORD *)&this->players[playerIdxd].gap_49[4 * this->day + 66];
+        ++*(_DWORD *)&this->players[playerIdxd].castlesOwned[4 * this->day + 68];
     }
   }
   ++this->day;
@@ -27442,7 +27559,7 @@ void __thiscall game::PerWeek(game *this)
     {
       if ( (1 << i) & this->castles[playerIdx].buildingsBuiltFlags )
       {
-        growth = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * this->castles[playerIdx].factionID + 27])[i + 1])].growth;
+        growth = gMonsterDatabase[*(_BYTE *)(i + 12 * this->castles[playerIdx].factionID + 5193085)].growth;
         if ( this->castles[playerIdx].buildingsBuiltFlags & BUILDING_EXT_0 )
           growth += 2;
         if ( i == 19 && BYTE1(this->castles[playerIdx].buildingsBuiltFlags) & 8 )
@@ -27462,7 +27579,7 @@ void __thiscall game::PerWeek(game *this)
         }
         if ( giWeekType == 1 )
         {
-          if ( LOBYTE((&gTownObjNames[3 * this->castles[playerIdx].factionID + 27])[i + 1]) == giWeekTypeExtra )
+          if ( *(_BYTE *)(i + 12 * this->castles[playerIdx].factionID + 5193085) == giWeekTypeExtra )
             LOWORD(growth) = growth + 5;
         }
         *(_WORD *)&cstl[-1].name[2 * i + 5] += growth;
@@ -27802,7 +27919,6 @@ void __thiscall game::PerWeek(game *this)
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
-// 4F3D10: using guessed type char *gTownObjNames[32];
 
 //----- (00426B80) --------------------------------------------------------
 __int16 __stdcall game::WeeklyRecruitSite(int a1)
@@ -27893,13 +28009,12 @@ void __thiscall game::PerMonth(game *this)
       v3 = (char *)&this->castles[i];
       if ( (1 << j) & this->castles[i].buildingsBuiltFlags )
       {
-        v10 = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * this->castles[i].factionID + 27])[j + 1])].growth;
+        v10 = gMonsterDatabase[*(_BYTE *)(j + 12 * this->castles[i].factionID + 5193085)].growth;
         if ( this->castles[i].buildingsBuiltFlags & 0x10 )
           v10 += 2;
         if ( j == 19 && BYTE1(this->castles[i].buildingsBuiltFlags) & 8 )
           v10 += 8;
-        if ( giMonthType == 1
-          && LOBYTE((&gTownObjNames[3 * this->castles[i].factionID + 27])[j + 1]) == giMonthTypeExtra )
+        if ( giMonthType == 1 && *(_BYTE *)(j + 12 * this->castles[i].factionID + 5193085) == giMonthTypeExtra )
           *(_WORD *)&v3[2 * j - 8] *= 2;
         if ( giMonthType == 2 )
         {
@@ -27947,7 +28062,6 @@ void __thiscall game::PerMonth(game *this)
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
-// 4F3D10: using guessed type char *gTownObjNames[32];
 
 //----- (004270A0) --------------------------------------------------------
 void __thiscall game::ConvertObject(game *this, int x1, int y1, int x2, int y2, int fromObjTileset, signed int fromObjIndexLow, signed int fromObjIndexHigh, char toObjTileset, char toObjectIndexLow, int fromObjType, char toObjType)
@@ -28026,7 +28140,7 @@ void __thiscall game::ConvertObject(game *this, int x1, int y1, int x2, int y2, 
 // 4F0A04: using guessed type int MAP_HEIGHT;
 
 //----- (00427520) --------------------------------------------------------
-int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUseless) // Check this function
+int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUseless)
 {
   int result; // eax@4
   game *thisa; // [sp+Ch] [bp-1Ch]@1
@@ -28036,7 +28150,8 @@ int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUs
 
   thisa = this;
   townID = game::GetTownId(this, argX, argY);
-  probablyRandomTown = (TownExtra *)ppMapExtra[(thisa->map.tiles[argX + argY * thisa->map.width].field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF];
+  probablyRandomTown = (TownExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(*(&thisa->map.tiles[argX].field_4_1_1_isShadow_1_13_extraInfo
+                                                                                   + 6 * argY * thisa->map.width) >> 8) >> -5)];
   if ( probablyRandomTown->color == -1 )
     faction = Random(0, 5);                     // Constant here (faction bounds need to be generalized)
   else
@@ -28302,7 +28417,7 @@ bool __fastcall IsCursedItem(int art)
 // Check this function
 void __thiscall game::RandomizeHeroPool(game *this)
 {
-  signed int heroIdx; // [sp+10h] [bp-4h]@1
+  int heroIdx; // [sp+10h] [bp-4h]@1
 
   for ( heroIdx = 0; heroIdx < 54; ++heroIdx )
   {
@@ -28332,40 +28447,104 @@ void __thiscall game::RandomizeHeroPool(game *this)
 
 //----- (004281E0) --------------------------------------------------------
 // Check this function (Design question on how to handle new factions, since they will break this logic)
-int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, unsigned int isAI) {
+int __thiscall game::SetRandomHeroArmies(game *this, int heroIdx, bool arg3)
+{
   int randomizedValue; // eax@1
-  int randomizedValue2;
-  game *pointerToGame = this; // [sp+Ch] [bp-90h]@1
-  int creatureTier2 = 0; // [sp+10h] [bp-8Ch]@1
+  game *pointerToGame; // [sp+Ch] [bp-90h]@1
+  int creatureTier2; // [sp+10h] [bp-8Ch]@1
   int randomUpperBound; // [sp+14h] [bp-88h]@9
   signed int armySlotIdx; // [sp+18h] [bp-84h]@3
   signed int creatureTier; // [sp+18h] [bp-84h]@6
   int randomLowerBound; // [sp+1Ch] [bp-80h]@9
-  //__int16 randomHeroArmyBounds[54]; // [sp+20h] [bp-7Ch]@1
-  armyGroup *pointerToArmyOfHeroIdx = &this->heroes[heroIdx].army; // [sp+8Ch] [bp-10h]@1
+  __int16 creatureTypesAndQuantities[54]; // [sp+20h] [bp-7Ch]@1
+  armyGroup *pointerToArmyOfHeroIdx; // [sp+8Ch] [bp-10h]@1
   bool hasTier[3]; // [sp+90h] [bp-Ch]@1
-  int TIER_ONE = 0;
-  int TIER_TWO = 1;
-  int TIER_THREE = 2;
 
-  hasTier[TIER_ONE] = 1;
-  hasTier[TIER_TWO] = Random(0, 99) < (isAI < 1 ? 50 : 80);// If isAI, there is a ~20% chance that this hero will get Tier 2 creatures; if not, then a ~50% chance
-  randomizedValue2 = Random(0, 99);
-  hasTier[TIER_THREE] = (isAI < 1 ? 25 : 65) > randomizedValue2;// If isAI, there is a ~65% chance that this hero will get Tier 3 creatures; if not, then a ~25% chance
-  if ( (isAI < 1 ? 25 : 65) <= randomizedValue2 )// If isAI, there is a ~35% chance that this hero will get Tier 2 creatures; if not, then a ~75% chance
-    hasTier[TIER_TWO] = 1;
-  for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx ) {
+  pointerToGame = this;
+  pointerToArmyOfHeroIdx = &this->heroes[heroIdx].army;
+  creatureTier2 = 0;
+  creatureTypesAndQuantities[0] = CREATURE_PEASANT;
+  creatureTypesAndQuantities[1] = 30;
+  creatureTypesAndQuantities[2] = 50;
+  creatureTypesAndQuantities[3] = 1;
+  creatureTypesAndQuantities[4] = 3;
+  creatureTypesAndQuantities[5] = 5;
+  creatureTypesAndQuantities[6] = CREATURE_PIKEMAN;
+  creatureTypesAndQuantities[7] = 2;
+  creatureTypesAndQuantities[8] = 4;
+  creatureTypesAndQuantities[9] = CREATURE_GOBLIN;
+  creatureTypesAndQuantities[10] = 15;
+  creatureTypesAndQuantities[11] = 25;
+  creatureTypesAndQuantities[12] = 12;
+  creatureTypesAndQuantities[13] = 3;
+  creatureTypesAndQuantities[14] = 5;
+  creatureTypesAndQuantities[15] = CREATURE_WOLF;
+  creatureTypesAndQuantities[16] = 2;
+  creatureTypesAndQuantities[17] = 3;
+  creatureTypesAndQuantities[18] = CREATURE_SPRITE;
+  creatureTypesAndQuantities[19] = 10;
+  creatureTypesAndQuantities[20] = 20;
+  creatureTypesAndQuantities[21] = 21;
+  creatureTypesAndQuantities[22] = 2;
+  creatureTypesAndQuantities[23] = 4;
+  creatureTypesAndQuantities[24] = CREATURE_ELF;
+  creatureTypesAndQuantities[25] = 1;
+  creatureTypesAndQuantities[26] = 2;
+  creatureTypesAndQuantities[27] = CREATURE_CENTAUR;
+  creatureTypesAndQuantities[28] = 6;
+  creatureTypesAndQuantities[29] = 10;
+  creatureTypesAndQuantities[30] = 30;
+  creatureTypesAndQuantities[31] = 2;
+  creatureTypesAndQuantities[32] = 4;
+  creatureTypesAndQuantities[33] = CREATURE_GRIFFIN;
+  creatureTypesAndQuantities[34] = 1;
+  creatureTypesAndQuantities[35] = 2;
+  creatureTypesAndQuantities[36] = CREATURE_HALFLING;
+  creatureTypesAndQuantities[37] = 6;
+  creatureTypesAndQuantities[38] = 10;
+  creatureTypesAndQuantities[39] = 39;
+  creatureTypesAndQuantities[40] = 2;
+  creatureTypesAndQuantities[41] = 4;
+  creatureTypesAndQuantities[42] = CREATURE_IRON_GOLEM;
+  creatureTypesAndQuantities[43] = 1;
+  creatureTypesAndQuantities[44] = 2;
+  creatureTypesAndQuantities[45] = CREATURE_SKELETON;
+  creatureTypesAndQuantities[46] = 6;
+  creatureTypesAndQuantities[47] = 10;
+  creatureTypesAndQuantities[48] = 48;
+  creatureTypesAndQuantities[49] = 2;
+  creatureTypesAndQuantities[50] = 4;
+  creatureTypesAndQuantities[51] = CREATURE_MUMMY;
+  creatureTypesAndQuantities[52] = 1;
+  creatureTypesAndQuantities[53] = 2;
+  hasTier[0] = 1;
+  hasTier[1] = Random(0, 99) < ((unsigned int)arg3 < 1 ? 50 : 80);// If arg3 < 1, there is a ~50% chance that this line will assign a "true" value; if not, then a ~20% chance
+  randomizedValue = Random(0, 99);
+  hasTier[2] = ((unsigned int)arg3 < 1 ? 25 : 65) > randomizedValue;// If arg3 < 1, there is a ~25% chance that this line will assign a "true" value; if not, then a ~65% chance
+  if ( ((unsigned int)arg3 < 1 ? 25 : 65) <= randomizedValue )// If arg3 < 1, there is a ~75% chance that this line will be "true"; if not, then a ~35% chance
+    hasTier[1] = 1;
+  for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx )
+  {
     pointerToArmyOfHeroIdx->creatureTypes[armySlotIdx] = -1;
+    randomizedValue = armySlotIdx;
     pointerToArmyOfHeroIdx->quantities[armySlotIdx] = -1;
   }
-  for ( creatureTier = 0; creatureTier < 2; ++creatureTier ) {
-    if ( hasTier[creatureTier] ) {
-      pointerToArmyOfHeroIdx->creatureTypes[creatureTier2] = randomHeroArmyBounds[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_ONE];
-      randomLowerBound = 10 * randomHeroArmyBounds[pointerToGame->heroes[heroIdx].factionID][creatureTier][TIER_TWO];
-      randomUpperBound = 10 * randomHeroArmyBounds[pointerToGame->heroes[heroIdx].factionID ][creatureTier][TIER_THREE] + 9;
-      if (isAI) {                              //  If isAI, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
+  for ( creatureTier = 0; creatureTier < 2; ++creatureTier )// "creatureTier" is only a multiplier to the creature/quantity offsets on the second pass of the for loop, assuming that the IF statement condition is "true" on the second pass
+  {
+    randomizedValue = creatureTier;
+    if ( hasTier[creatureTier] )
+    {
+      pointerToArmyOfHeroIdx->creatureTypes[creatureTier2] = *((_BYTE *)&creatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID]
+                                                             + 6 * creatureTier);
+      randomLowerBound = 10
+                       * *(&creatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID + 1]
+                         + 3 * creatureTier);
+      randomUpperBound = 10
+                       * *(&creatureTypesAndQuantities[9 * pointerToGame->heroes[heroIdx].factionID + 2]
+                         + 3 * creatureTier)
+                       + 9;
+      if ( arg3 )                               //  If arg3, randomLowerBound is assigned the average of the bounds and results in the probability of higher random values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
-      }
       randomizedValue = Random(randomLowerBound, randomUpperBound) / 10;
       pointerToArmyOfHeroIdx->quantities[creatureTier2++] = randomizedValue;
     }
@@ -28794,9 +28973,7 @@ int __stdcall game::GetLuck(hero *hro, army *stack, town *castle)
     if ( hero::HasArtifact(hro, ARTIFACT_MASTHEAD) && hro->flags & HERO_AT_SEA )
       ++artifactLuck;
     totLuck = hro->secondarySkillLevel[9] + hro->tempLuckBonuses + artifactLuck;
-    if ( castle
-      && castle->factionID == FACTION_SORCERESS
-      && BYTE1(castle->buildingsBuiltFlags) & BUILDING_SPECIAL_DEFENSE_BUILT )
+    if ( castle && castle->factionID == FACTION_SORCERESS && BYTE1(castle->buildingsBuiltFlags) & BUILDING_TENT_BUILT )
       totLuck += 2;
     if ( totLuck < -3 )
       totLuck = -3;
@@ -29155,7 +29332,7 @@ void __thiscall game::SetupTowns(game *this)
       }
       if ( pTown->customBuildings )
       {
-        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | pTown->buildingsBuilt & gTownEligibleBuildMask[castle->factionID]; // Generalize Structure gTownEligibleBuildMask
+        castle->buildingsBuiltFlags = castle->buildingsBuiltFlags & 0x60 | pTown->buildingsBuilt & gTownEligibleBuildMask[castle->factionID];
         castle->mageGuildLevel = pTown->mageGuildLevel;
       }
       else
@@ -29195,15 +29372,16 @@ void __thiscall game::SetupTowns(game *this)
       for ( overusedIdx = BUILDING_DWELLING_1; overusedIdx <= BUILDING_UPGRADE_5B; ++overusedIdx )
       {
         if ( (1 << overusedIdx) & castle->buildingsBuiltFlags )
-          *(_WORD *)&castle[-1].name[2 * overusedIdx + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * castle->factionID + 27])[overusedIdx + 1])].growth;// Right value ends up amongst gDwellingType values; Generalize Structure Maybe??
+          *(_WORD *)&castle[-1].name[2 * overusedIdx + 5] = gMonsterDatabase[*(_BYTE *)(overusedIdx
+                                                                                      + 12 * castle->factionID
+                                                                                      + 5193085)].growth;// Right value ends up amongst gDwellingType values
       }
       if ( castle->buildingsBuiltFlags & 1 )
       {
         for ( overusedIdx = 1; castle->mageGuildLevel >= overusedIdx; ++overusedIdx )
         {
           castle->mageGuildSpells[4][overusedIdx + 3] = gpcBeforeGSpellLimits[overusedIdx];// byte_4F29FF changed to beforeGSpellLimits
-          if ( castle->factionID == FACTION_WIZARD
-            && BYTE1(castle->buildingsBuiltFlags) & BUILDING_SPECIAL_DEFENSE_BUILT )
+          if ( castle->factionID == FACTION_WIZARD && BYTE1(castle->buildingsBuiltFlags) & BUILDING_TENT_BUILT )
             ++castle->mageGuildSpells[4][overusedIdx + 3];
         }
       }
@@ -29298,7 +29476,7 @@ void __thiscall game::SetupTowns(game *this)
                 relatedToSpellAppearingChance = 1500;
               if ( hasAdventureSpellAtLevel != 1 || !(gsSpellInfo[spell].attributes & ATTR_ADVENTURE_SPELL) )
               {
-                if ( gsSpellInfo[spell].nonMagicFactionAppearanceChance[castle->factionID] >= Random(0, 10) )// Generalize Structure nonMagicFactionAppearanceChance (Maybe??)
+                if ( gsSpellInfo[spell].nonMagicFactionAppearanceChance[castle->factionID] >= Random(0, 10) )
                 {
                   ++tries;
                   if ( tries <= 500 )
@@ -29326,12 +29504,12 @@ void __thiscall game::SetupTowns(game *this)
   }
 }
 // 4EF67C: using guessed type __int16 word_4EF67C;
-// 4F3D10: using guessed type char *gTownObjNames[32];
 // 429E30: using guessed type char spellPresent[68];
 // 429E30: using guessed type int numSpellsOfLevel[5];
 
 //----- (0042A730) --------------------------------------------------------
-void* game::ProcessOnMapHeroes() {
+void *__thiscall game::ProcessOnMapHeroes(game *this)
+{
   void *result; // eax@1
   int faction; // [sp+18h] [bp-70h]@20
   signed int randomHeroIdx; // [sp+24h] [bp-64h]@25
@@ -29349,120 +29527,162 @@ void* game::ProcessOnMapHeroes() {
   char isJail; // [sp+80h] [bp-8h]@9
   int i; // [sp+84h] [bp-4h]@1
 
-  result = memset(mightBeHeroAlreadyExists, 0, 54u);// Only 54 out of 56 bytes set to zero, for whatever reason.
-  for (i = 0; i < 3; ++i) {
-    for (coordYForRandomHero = 0; ; ++coordYForRandomHero) {
+  result = memset(mightBeHeroAlreadyExists, 0, 54u);// Only 54 out of 56 bytes set to zero???
+  for ( i = 0; i < 3; ++i )
+  {
+    for ( coordYForRandomHero = 0; ; ++coordYForRandomHero )
+    {
       result = (void *)MAP_HEIGHT;
-      if (coordYForRandomHero >= MAP_HEIGHT)
+      if ( coordYForRandomHero >= MAP_HEIGHT )
         break;
-      for (coordXForRandomHero = 0; coordXForRandomHero < MAP_WIDTH; ++coordXForRandomHero) {
+      for ( coordXForRandomHero = 0; coordXForRandomHero < MAP_WIDTH; ++coordXForRandomHero )
+      {
         loc = &this->map.tiles[coordYForRandomHero * this->map.width] + coordXForRandomHero;
-        if ((loc->objType & 0x7F) == 55 || loc->objType == 251) {
+        if ( (loc->objType & 0x7F) == 55 || loc->objType == 251 )
+        {
           isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
-          someSortOfMapExtraIdx = (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1FFF;
+          someSortOfMapExtraIdx = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
           mapExtraHero = (heroMapExtra *)ppMapExtra[someSortOfMapExtraIdx];
-
-          if (!i) {                           // 1st iteration
-            if (!mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID]) {
-              mapExtraHero->hasFaction = 0;
-            } else {
-              mightBeHeroAlreadyExists[mapExtraHero->heroID] = 1;
-              mapExtraHero->hasFaction = 1;
+          if ( !i )                             // 1st iteration
+          {
+            if ( !mapExtraHero->field_11 || mapExtraHero->heroID >= 54 || mightBeHeroAlreadyExists[mapExtraHero->heroID] )
+            {
+              mapExtraHero->couldBeHasFaction = 0;
             }
-            if (isJail) {
+            else
+            {
+              mightBeHeroAlreadyExists[mapExtraHero->heroID] = 1;
+              mapExtraHero->couldBeHasFaction = 1;
+            }
+            if ( isJail )
+            {
               mapExtraHero->owner = -1;
-            } else {
+            }
+            else
+            {
               mapExtraHero->owner = loc->objectIndex / 7;
               mapExtraHero->owner = gcColorToPlayerPos[mapExtraHero->owner];
             }
           }
-
-          if (i == 1) {                       // 2nd iteration
-            if (isJail) {
+          if ( i == 1 )                         // 2nd iteration
+          {
+            if ( isJail )
+            {
               faction = mapExtraHero->factionID;
-            } else {
-              faction = loc->objectIndex % 7; // Constant here (needs to be generalized)
-              if (faction == FACTION_MULTIPLE)// Constant here (faction related)
-                faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];// Constant here (most likely faction related)
             }
-            if (mapExtraHero->hasFaction) {
+            else
+            {
+              faction = loc->objectIndex % 7;
+              if ( faction == FACTION_MULTIPLE )// Constant here (faction related)
+                faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];
+            }
+            if ( mapExtraHero->couldBeHasFaction )// field_3D changed to couldBeHasFaction
+            {
               this->heroes[mapExtraHero->heroID].factionID = faction;
-            } else {
+            }
+            else
+            {
               randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-              if (randomHeroIdx == -1) { //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
+              if ( randomHeroIdx == -1 )
+              {
                 randomHeroIdx = game::RandomScan((int)mightBeHeroAlreadyExists, 0, 54, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-                faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes)
+                faction = randomHeroIdx / 9;
               }
               mightBeHeroAlreadyExists[randomHeroIdx] = 1;
               this->heroes[randomHeroIdx].factionID = faction;
-              if (mapExtraHero->field_11 && mapExtraHero->heroID >= 54)
+              if ( mapExtraHero->field_11 && mapExtraHero->heroID >= 54 )
                 this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
               mapExtraHero->heroID = randomHeroIdx;
             }
           }
-
-          if (i == 2) {                        // 3rd iteration
+          if ( i == 2 )                         // 3rd iteration
+          {
             randomHero = &this->heroes[mapExtraHero->heroID];
-            if (!isJail && mapExtraHero->name[19]) {
-              LOBYTE(this->heroes[mapExtraHero->heroID].relatedTo_HIBYTE_y_LOBYTE_x) = coordXForRandomHero;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
-              HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x) = coordYForRandomHero;
-              LOBYTE(randomHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
+            if ( !isJail && mapExtraHero->relatedToJailCondition )// field_28 changed to relatedToName
+            {
+              this->heroes[mapExtraHero->heroID].relatedToX = coordXForRandomHero;// field_29 changed to relatedTo_HIBYTE_y_LOBYTE_x
+              randomHero->relatedToY = coordYForRandomHero;
+              randomHero->relatedToFactionID = mapExtraHero->factionID;// field_3C changed to relatedTo_HIBYTE_Unknown_LOBYTE_factionID
             }
-            if (mapExtraHero->hasArmy) {
-              for (armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx) {
+            if ( mapExtraHero->hasArmy )        // field_1 changed to hasArmy
+            {
+              for ( armySlotIdx = 0; armySlotIdx < 5; ++armySlotIdx )
+              {
                 randomHero->army.quantities[armySlotIdx] = mapExtraHero->army.quantities[armySlotIdx];
-                if (randomHero->army.quantities[armySlotIdx] <= 0)
+                if ( randomHero->army.quantities[armySlotIdx] <= 0 )
                   randomHero->army.creatureTypes[armySlotIdx] = -1;
                 else
                   randomHero->army.creatureTypes[armySlotIdx] = mapExtraHero->army.creatureTypes[armySlotIdx];
               }
             }
-            for (artifactIdx = 0; artifactIdx < 3; ++artifactIdx) {
-              if (mapExtraHero->artifacts[artifactIdx] >= 0)
-                GiveArtifact(randomHero, mapExtraHero->artifacts[artifactIdx], 1, -1);
+            for ( artifactIdx = 0; artifactIdx < 3; ++artifactIdx )
+            {
+              if ( mapExtraHero->artifacts[artifactIdx] >= 0 )
+                GiveArtifact(randomHero, (ARTIFACT)mapExtraHero->artifacts[artifactIdx], 1, -1);
             }
-            if (mapExtraHero->hasName)
-              strcpy(randomHero->name, &mapExtraHero->name[6]);
+            if ( mapExtraHero->hasName )
+              strcpy(randomHero->name, mapExtraHero->name);
             randomHero->experience = 0;
-            gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
-            randomHero->CheckLevel();       // Check this function (design question based on generalizing hardcoded, faction-specific data structure information related to skills)
+            advManager::GiveExperience(randomHero, mapExtraHero->experience, 1);// field_17 changed to experience
+            hero::CheckLevel(randomHero);       // Check this function (design question based on generalizing hardcoded, faction-specific data structure information related to skills)
             randomHero->x = coordXForRandomHero;
             randomHero->y = coordYForRandomHero;
-            if (isJail) {
+            if ( isJail )
+            {
               randomHero->ownerIdx = -1;
               this->relatedToHeroForHireStatus[mapExtraHero->heroID] = 65;
-            } else {
+            }
+            else
+            {
               randomHero->ownerIdx = mapExtraHero->owner;
               this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
-              this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
+              *(&this->players[0].heroesOwned[284 * randomHero->ownerIdx]
+              + this->players[randomHero->ownerIdx].numHeroes++
+              - randomHero->ownerIdx) = randomHero->idx;
             }
-            if (!isJail && coordYForRandomHero > 0 && (this->map.tiles[coordXForRandomHero + ((coordYForRandomHero - 1) * this->map.width)].objType) == 163) {
-              --HIBYTE(randomHero->relatedTo_HIBYTE_y_LOBYTE_x);
+            if ( !isJail
+              && coordYForRandomHero > 0
+              && *(&this->map.tiles[coordXForRandomHero].objType + 12 * (coordYForRandomHero - 1) * this->map.width) == 163 )
+            {
+              --randomHero->relatedToY;
               --randomHero->y;
-              this->castles[this->GetTownId(coordXForRandomHero, coordYForRandomHero - 1)].visitingHeroIdx = randomHero->idx;
+              this->castles[game::GetTownId(this, coordXForRandomHero, coordYForRandomHero - 1)].visitingHeroIdx = randomHero->idx;
             }
-            if (isJail) {
+            if ( isJail )
+            {
               loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * mapExtraHero->heroID;
-            } else {
-              loc->bitfield_1_hasObject_1_isRoad_6_objTileset &= ;
+            }
+            else
+            {
+              loc->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
               loc->objectIndex = -1;
               loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
               loc->objType = 0;
             }
-            if (mapExtraHero->hasSecondarySkills) {
+            if ( mapExtraHero->hasSecondarySkills )// field_1B changed to couldBeHasSecondarySkills
+            {
               randomHero->numSecSkillsKnown = 0;
-              for (secondarySkillIdxA = 0; secondarySkillIdxA < 14; ++secondarySkillIdxA) {
+              for ( secondarySkillIdxA = 0; secondarySkillIdxA < 14; ++secondarySkillIdxA )
+              {
                 randomHero->secondarySkillLevel[secondarySkillIdxA] = 0;
                 randomHero->skillIndex[secondarySkillIdxA] = 0;
               }
-              for (secondarySkillIdxB = 0; secondarySkillIdxB < 8; ++secondarySkillIdxB) {
-                if (mapExtraHero->secondarySkills[secondarySkillIdxB] != -1)
-                  randomHero->GiveSS(mapExtraHero->secondarySkills[secondarySkillIdxB],
-                                     *(&mapExtraHero->secondarySkillLevel + secondarySkillIdxB));
+              for ( secondarySkillIdxB = 0; secondarySkillIdxB < 8; ++secondarySkillIdxB )
+              {
+                if ( mapExtraHero->secondarySkills[secondarySkillIdxB] != -1 )
+                  hero::GiveSS(
+                    randomHero,
+                    mapExtraHero->secondarySkills[secondarySkillIdxB],
+                    mapExtraHero->secondarySkillLevel[secondarySkillIdxB]);
               }
             }
-            if (!isJail)
-              this->SetVisibility(randomHero->x, randomHero->y, randomHero->ownerIdx, giVisRange[randomHero->secondarySkillLevel[3]]);
+            if ( !isJail )
+              game::SetVisibility(
+                this,
+                randomHero->x,
+                randomHero->y,
+                randomHero->ownerIdx,
+                giVisRange[randomHero->secondarySkillLevel[3]]);
             BaseFree(ppMapExtra[someSortOfMapExtraIdx], (int)"F:\\h2xsrc\\Source\\GAME.CPP", word_4EF69C + 221);
             ppMapExtra[someSortOfMapExtraIdx] = 0;
           }
@@ -29919,9 +30139,7 @@ void __thiscall game::DoNewTurn(game *this)
     if ( gpCurPlayer->numHeroes <= 0 )
     {
       if ( gpCurPlayer->numCastles > 0 )
-        advManager::SetTownContext(
-          gpAdvManager,
-          BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx));
+        advManager::SetTownContext(gpAdvManager, gpCurPlayer->castlesOwned[0]);
     }
     else
     {
@@ -30020,11 +30238,7 @@ int __thiscall game::getNumberOfThievesGuilds(game *this, int playerIdx)
   v3 = 0;
   for ( i = 0; this->players[playerIdx].numCastles > i; ++i )
   {
-    if ( gpGame->castles[*((_BYTE *)&this->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                         + 284 * playerIdx
-                         + i
-                         - playerIdx
-                         + 2)].buildingsBuiltFlags & 2 )
+    if ( gpGame->castles[*(&this->players[0].castlesOwned[284 * playerIdx] + i - playerIdx)].buildingsBuiltFlags & 2 )
       ++v3;
   }
   return v3;
@@ -30473,7 +30687,7 @@ signed int __stdcall getCastleOwnedIdx(playerData *player, int castleIdx)
 
   for ( i = 0; player->numCastles > i; ++i )
   {
-    if ( *((_BYTE *)&player->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2) == castleIdx )
+    if ( player->castlesOwned[i] == castleIdx )
       return i;
   }
   return -1;
@@ -30899,7 +31113,7 @@ int __thiscall game::CountShrines(game *this, int a2)
         {
           v7 = &gpGame->castles[gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
         }
-        if ( v7 && v7->ownerIdx == a2 && v7->buildingsBuiltFlags & 4 )
+        if ( v7 && v7->ownerIdx == a2 && v7->buildingsBuiltFlags & BUILDING_TAVERN_BUILT )
         {
           if ( v7->factionID == FACTION_NECROMANCER )
             ++v6;
@@ -32072,10 +32286,10 @@ signed int __thiscall InitMenuHandler(tag_message *msg)
   int v2; // ST48_4@29
   int v3; // [sp+Ch] [bp-24h]@27
   signed int v5; // [sp+1Ch] [bp-14h]@40
-  signed int v6; // [sp+20h] [bp-10h]@4
+  signed int buttonType; // [sp+20h] [bp-10h]@4
   signed int v7; // [sp+24h] [bp-Ch]@1
   int highID; // [sp+2Ch] [bp-4h]@32
-  signed int highIDa; // [sp+2Ch] [bp-4h]@40
+  signed int i; // [sp+2Ch] [bp-4h]@40
 
   v7 = 0;
   PollSound();
@@ -32083,29 +32297,29 @@ signed int __thiscall InitMenuHandler(tag_message *msg)
   {
     if ( msg->xCoordOrKeycode == 12 || msg->xCoordOrKeycode == 14 )
     {
-      v6 = -1;
+      buttonType = -1;
       switch ( msg->yCoordOrFieldID )
       {
         case 101:
-          v6 = 0;                               // new game
+          buttonType = 0;                       // new game
           break;
         case 102:
-          v6 = 1;                               // load game
+          buttonType = 1;                       // load game
           break;
         case 103:                               // high scores
-          v6 = 2;
+          buttonType = 2;
           break;
         case 104:                               // credits
-          v6 = 3;
+          buttonType = 3;
           break;
         case 105:                               // quit
-          v6 = 4;
+          buttonType = 4;
           break;
         default:
           break;
       }
-      if ( v6 >= 0 )
-        NormalDialog(gEventText[v6 + 116], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      if ( buttonType >= 0 )
+        NormalDialog(gEventText[buttonType + 116], 4, -1, -1, -1, 0, -1, 0, -1, 0);
     }
   }
   else
@@ -32156,10 +32370,10 @@ signed int __thiscall InitMenuHandler(tag_message *msg)
             heroWindow::DrawWindow(gpInitWin, 0, v2 + 11, v2 + 11);
             heroWindowManager::UpdateScreenRegion(
               gpWindowManager,
-              (unsigned __int16)IMHotSpots[4 * v2],
-              (unsigned __int16)word_50CFEA[4 * v2],
-              (unsigned __int16)word_50CFEC[4 * v2],
-              (unsigned __int16)word_50CFEE[4 * v2]);
+              IMHotSpots[v2][0],
+              IMHotSpots[v2][1],
+              IMHotSpots[v2][2],
+              IMHotSpots[v2][3]);
           }
         }
         else if ( v3 == 13 )
@@ -32191,13 +32405,13 @@ signed int __thiscall InitMenuHandler(tag_message *msg)
         break;
       case INPUT_MOUSEMOVE_EVENT_CODE:
         v5 = -1;
-        for ( highIDa = 0; highIDa < 5; ++highIDa )
+        for ( i = 0; i < 5; ++i )
         {
-          if ( (unsigned __int16)IMHotSpots[4 * highIDa] <= msg->altXCoord
-            && (unsigned __int16)word_50CFEA[4 * highIDa] <= msg->altYCoord
-            && (unsigned __int16)IMHotSpots[4 * highIDa] + (unsigned __int16)word_50CFEC[4 * highIDa] > msg->altXCoord
-            && (unsigned __int16)word_50CFEE[4 * highIDa] + (unsigned __int16)word_50CFEA[4 * highIDa] > msg->altYCoord )
-            v5 = highIDa;
+          if ( IMHotSpots[i][0] <= msg->altXCoord
+            && IMHotSpots[i][1] <= msg->altYCoord
+            && IMHotSpots[i][0] + IMHotSpots[i][2] > msg->altXCoord
+            && IMHotSpots[i][3] + IMHotSpots[i][1] > msg->altYCoord )
+            v5 = i;
         }
         if ( v5 != lastIMHoverID )
         {
@@ -32211,10 +32425,10 @@ signed int __thiscall InitMenuHandler(tag_message *msg)
             heroWindow::DrawWindow(gpInitWin, 0, lastIMHoverID + 11, lastIMHoverID + 11);
             heroWindowManager::UpdateScreenRegion(
               gpWindowManager,
-              (unsigned __int16)IMHotSpots[4 * lastIMHoverID],
-              (unsigned __int16)word_50CFEA[4 * lastIMHoverID],
-              (unsigned __int16)word_50CFEC[4 * lastIMHoverID],
-              (unsigned __int16)word_50CFEE[4 * lastIMHoverID]);
+              IMHotSpots[lastIMHoverID][0],
+              IMHotSpots[lastIMHoverID][1],
+              IMHotSpots[lastIMHoverID][2],
+              IMHotSpots[lastIMHoverID][3]);
           }
           if ( v5 != -1 )
           {
@@ -32226,10 +32440,10 @@ signed int __thiscall InitMenuHandler(tag_message *msg)
             heroWindow::DrawWindow(gpInitWin, 0, v5 + 11, v5 + 11);
             heroWindowManager::UpdateScreenRegion(
               gpWindowManager,
-              (unsigned __int16)IMHotSpots[4 * v5],
-              (unsigned __int16)word_50CFEA[4 * v5],
-              (unsigned __int16)word_50CFEC[4 * v5],
-              (unsigned __int16)word_50CFEE[4 * v5]);
+              IMHotSpots[v5][0],
+              IMHotSpots[v5][1],
+              IMHotSpots[v5][2],
+              IMHotSpots[v5][3]);
           }
           lastIMHoverID = v5;
         }
@@ -32252,10 +32466,6 @@ LABEL_54:
   return result;
 }
 // 4F19A8: using guessed type int giMenuCommand;
-// 50CFE8: using guessed type __int16 IMHotSpots[];
-// 50CFEA: using guessed type __int16 word_50CFEA[];
-// 50CFEC: using guessed type __int16 word_50CFEC[];
-// 50CFEE: using guessed type __int16 word_50CFEE[];
 // 50D010: using guessed type int lastIMHoverID;
 // 5240A8: using guessed type int gpSoundManager;
 
@@ -32341,7 +32551,7 @@ char *__fastcall GetBuildingInfo(int faction, signed int building, int withTitle
     {
       if ( building >= BUILDING_DWELLING_1 )
       {
-        v5 = gArmyNamesPlural[LOBYTE((&gTownObjNames[3 * faction + 27])[building + 1])];
+        v5 = gArmyNamesPlural[*(_BYTE *)(building + 12 * faction + 5193085)];
         v6 = GetBuildingName(faction, building);
         sprintf(gText, "The %s produces %s.", v6, v5);
         return gText;
@@ -32364,7 +32574,6 @@ char *__fastcall GetBuildingInfo(int faction, signed int building, int withTitle
   }
   return gText;
 }
-// 4F3D10: using guessed type char *gTownObjNames[32];
 
 //----- (00432070) --------------------------------------------------------
 char *__fastcall GetBuildingName(int faction, signed int building)
@@ -32411,11 +32620,11 @@ void *__fastcall GetBuildingCost(int a1, signed int a2, void *a3, int a4)
       {
         if ( a2 == 13 )
         {
-          result = memcpy(a3, (char *)&gSpecialBuildingCosts + 28 * a1, 0x1Cu);
+          result = memcpy(a3, &gSpecialBuildingCosts[a1], 0x1Cu);
         }
         else if ( a2 < 16 )
         {
-          result = memcpy(a3, (char *)&gNeutralBuildingCosts + 28 * a2, 0x1Cu);
+          result = memcpy(a3, &gNeutralBuildingCosts[a2], 0x1Cu);
         }
       }
       else
@@ -32480,61 +32689,65 @@ void __fastcall GetMonsterCost(int mon, int *const costs)
 }
 
 //----- (004323C0) --------------------------------------------------------
-bool __fastcall CanBuild(unsigned int *a1, signed int a2)
+bool __fastcall CanBuild(town *castle, signed int buildingCode)
 {
   bool result; // eax@2
   int v3; // ST20_4@51
-  signed int v4; // [sp+Ch] [bp-10h]@1
-  unsigned int *this; // [sp+10h] [bp-Ch]@1
   unsigned int v6; // [sp+14h] [bp-8h]@39
 
-  v4 = a2;
-  this = a1;
-  if ( BitTest(gpGame->field_27BB, *(_BYTE *)a1) )
+  if ( BitTest(gpGame->field_27BB, castle->idx) )
   {
     result = 0;
   }
-  else if ( v4 == 6 || *((_BYTE *)this + 24) & 0x40 )
+  else if ( buildingCode == BUILDING_CASTLE || castle->buildingsBuiltFlags & 0x40 )
   {
-    if ( xIsExpansionMap || v4 != 2 || *((_BYTE *)this + 3) != 5 )
+    if ( xIsExpansionMap || buildingCode != 2 || castle->factionID != 5 )
     {
-      if ( v4 == 3 )
+      if ( buildingCode == BUILDING_DOCK )
       {
-        result = town::CanBuildDock((town *)this) != 0;
+        result = town::CanBuildDock(castle) != 0;
       }
-      else if ( v4 || (signed int)*((_BYTE *)this + 28) < 5 )
+      else if ( buildingCode || castle->mageGuildLevel < 5 )
       {
-        if ( v4 != 5 && v4 != 14 && v4 != 16 && v4 != 17 && v4 != 18 && v4 != 31 )
+        if ( buildingCode != BUILDING_TENT
+          && buildingCode != BUILDING_BOAT
+          && buildingCode != BUILDING_EXT_0
+          && buildingCode != BUILDING_EXT_1
+          && buildingCode != BUILDING_EXT_2
+          && buildingCode != BUILDING_EXT_3 )
         {
-          if ( v4 >= 19 && v4 <= 30 )
+          if ( buildingCode >= BUILDING_DWELLING_1 && buildingCode <= BUILDING_UPGRADE_5B )
           {
-            if ( v4 == 20 && *((_BYTE *)this + 27) & 2
-              || v4 == 21 && *((_BYTE *)this + 27) & 4
-              || v4 == 22 && *((_BYTE *)this + 27) & 8
-              || v4 == 23 && *((_BYTE *)this + 27) & 0x10
-              || v4 == 24 && (*((_BYTE *)this + 27) & 0x20 || *((_BYTE *)this + 27) & 0x40)
-              || v4 == 29 && *((_BYTE *)this + 27) & 0x40 )
+            if ( buildingCode == BUILDING_DWELLING_2 && BYTE3(castle->buildingsBuiltFlags) & 2
+              || buildingCode == BUILDING_DWELLING_3 && BYTE3(castle->buildingsBuiltFlags) & BUILDING_TAVERN_BUILT
+              || buildingCode == BUILDING_DWELLING_4 && BYTE3(castle->buildingsBuiltFlags) & 8
+              || buildingCode == BUILDING_DWELLING_5 && BYTE3(castle->buildingsBuiltFlags) & 0x10
+              || buildingCode == BUILDING_DWELLING_6
+              && (BYTE3(castle->buildingsBuiltFlags) & 0x20 || BYTE3(castle->buildingsBuiltFlags) & 0x40)
+              || buildingCode == BUILDING_UPGRADE_5 && BYTE3(castle->buildingsBuiltFlags) & 0x40 )
             {
               result = 0;
             }
             else
             {
-              v6 = this[6];
+              v6 = castle->buildingsBuiltFlags;
               if ( BYTE3(v6) & 2 )
                 v6 |= 0x100000u;
               if ( BYTE3(v6) & 4 )
                 v6 |= 0x200000u;
               if ( BYTE3(v6) & 8 )
-                v6 |= 0x400000u;
+                v6 |= (unsigned int)&stru_400000;
               if ( BYTE3(v6) & 0x10 )
                 v6 |= 0x800000u;
               if ( BYTE3(v6) & 0x40 )
                 v6 |= 0x20000000u;
               if ( BYTE3(v6) & 0x20 )
                 v6 |= 0x1000000u;
-              v3 = *(&stru_4F4A14.ore + 12 * *((_BYTE *)this + 3) + v4);
+              v3 = *(&stru_4F4A14.ore + 12 * castle->factionID + buildingCode);
               if ( (v6 & v3) == v3 )
-                result = *((_BYTE *)this + 3) != 5 || v4 != 28 || (signed int)*((_BYTE *)this + 28) > 1;
+                result = castle->factionID != FACTION_NECROMANCER
+                      || buildingCode != BUILDING_UPGRADE_4
+                      || castle->mageGuildLevel > 1;
               else
                 result = 0;
             }
@@ -32565,6 +32778,7 @@ bool __fastcall CanBuild(unsigned int *a1, signed int a2)
   }
   return result;
 }
+// 400000: using guessed type IMAGE_DOS_HEADER stru_400000;
 // 4F4A14: using guessed type building_cost stru_4F4A14;
 
 //----- (00432680) --------------------------------------------------------
@@ -33059,7 +33273,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       {
         if ( !gpGame->playerDead[playerNo] )
         {
-          if ( gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) )
+          if ( gpGame->players[playerNo].color >= gpGame->mapHeader.relatedToPlayerColorOrSide )
             ++v25;
           else
             ++v24;
@@ -33073,7 +33287,7 @@ void __fastcall CheckEndGame(int a1, int a2)
           {
             if ( gbThisNetHumanPlayer[playerNo]
               && !gpGame->playerDead[playerNo]
-              && gpGame->players[playerNo].color < (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) )
+              && gpGame->players[playerNo].color < gpGame->mapHeader.relatedToPlayerColorOrSide )
               v30 = 1;
           }
         }
@@ -33084,7 +33298,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           if ( gbThisNetHumanPlayer[playerNo]
             && !gpGame->playerDead[playerNo]
-            && gpGame->players[playerNo].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) )
+            && gpGame->players[playerNo].color >= gpGame->mapHeader.relatedToPlayerColorOrSide )
             v30 = 1;
         }
       }
@@ -33132,7 +33346,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       v3 = game::GetTownId(
              gpGame,
              *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX,
-             LOWORD(gpGame->mapHeader.lossConditionArgumentOrLocY));
+             gpGame->mapHeader.lossConditionArgumentOrLocY);
       v22 = &gpGame->castles[v3];
       if ( gpGame->castles[v3].ownerIdx == -1 || !gbHumanPlayer[v22->ownerIdx] )
       {
@@ -33264,7 +33478,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           if ( gpGame->mapHeader.winConditionArgumentOrLocX )
-            sprintf(&v15, dword_4F55F4[gpGame->mapHeader.winConditionArgumentOrLocX]);
+            sprintf(&v15, oneBeforeGArtifactNames[gpGame->mapHeader.winConditionArgumentOrLocX]);
           else
             sprintf(&v15, "Ultimate Artifact");
           if ( v30 )
@@ -33280,9 +33494,7 @@ void __fastcall CheckEndGame(int a1, int a2)
       hasDwarfTown = 0;
       for ( playerNo = 0; gpGame->players[0].numCastles > playerNo; ++playerNo )
       {
-        if ( gpGame->castles[*((_BYTE *)&gpGame->players[0].relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                             + playerNo
-                             + 2)].factionID == FACTION_SORCERESS )
+        if ( gpGame->castles[gpGame->players[0].castlesOwned[playerNo]].factionID == FACTION_SORCERESS )
           hasDwarfTown = 1;
       }
       if ( !hasDwarfTown )
@@ -33547,7 +33759,7 @@ void __cdecl InitVars()
 // 524C43: using guessed type char byte_524C43;
 
 //----- (00434D70) --------------------------------------------------------
-heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
+heroWindow *__stdcall game::ShowMoraleInfo(hero *hro, int a2)
 {
   town *v2; // eax@1
   town *v3; // eax@3
@@ -33560,11 +33772,11 @@ heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
   int v11; // [sp+E8h] [bp-4h]@11
 
   v7 = 0;
-  v2 = hero::GetOccupiedTown((hero *)a1);
-  if ( armyGroup::GetMorale((armyGroup *)(a1 + 101), (hero *)a1, v2, 0) <= 0 )
+  v2 = hero::GetOccupiedTown(hro);
+  if ( armyGroup::GetMorale(&hro->army, hro, v2, 0) <= 0 )
   {
-    v3 = hero::GetOccupiedTown((hero *)a1);
-    if ( armyGroup::GetMorale((armyGroup *)(a1 + 101), (hero *)a1, v3, 0) )
+    v3 = hero::GetOccupiedTown(hro);
+    if ( armyGroup::GetMorale(&hro->army, hro, v3, 0) )
       sprintf(&v8, off_4F68A0);
     else
       sprintf(&v8, off_4F689C);
@@ -33575,18 +33787,18 @@ heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
   }
   sprintf(gText, off_4F68A4, &v8);
   v10 = strlen(gText);
-  if ( armyGroup::HasAllUndead((armyGroup *)(a1 + 101)) )
+  if ( armyGroup::HasAllUndead(&hro->army) )
   {
     strcat(gText, off_4F68EC);
   }
   else
   {
-    if ( armyGroup::HasSomeUndead((armyGroup *)(a1 + 101)) || hero::HasArtifact((hero *)a1, 87) )
+    if ( armyGroup::HasSomeUndead(&hro->army) || hero::HasArtifact(hro, 87) )
     {
       strcat(gText, off_4F68F0);
       v7 = 1;
     }
-    v11 = armyGroup::IsHomogeneous((armyGroup *)(a1 + 101), -1);
+    v11 = armyGroup::IsHomogeneous(&hro->army, -1);
     if ( v7 && v11 > 0 )
       v11 = 0;
     if ( v11 > 0 )
@@ -33594,8 +33806,8 @@ heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
       v6 = 0;
       for ( i = 0; i < 5; ++i )
       {
-        if ( *(_BYTE *)(i + a1 + 101) != -1 )
-          v6 = gMonsterDatabase[*(_BYTE *)(i + a1 + 101)].faction;
+        if ( hro->army.creatureTypes[i] != -1 )
+          v6 = gMonsterDatabase[hro->army.creatureTypes[i]].faction;
       }
       sprintf(&v8, off_4F68AC, gAlignmentNames[v6]);
       strcat(gText, &v8);
@@ -33615,45 +33827,45 @@ heroWindow *__stdcall game::ShowMoraleInfo(int a1, int a2)
       sprintf(&v8, off_4F68E8);
       strcat(gText, &v8);
     }
-    if ( hero::GetOccupiedTown((hero *)a1)
-      && hero::GetOccupiedTown((hero *)a1)->factionID == 1
-      && BYTE1(hero::GetOccupiedTown((hero *)a1)->buildingsBuiltFlags) & 0x20 )
+    if ( hero::GetOccupiedTown(hro)
+      && hero::GetOccupiedTown(hro)->factionID == 1
+      && BYTE1(hero::GetOccupiedTown(hro)->buildingsBuiltFlags) & 0x20 )
       strcat(gText, off_4F68FC);
-    if ( hero::GetOccupiedTown((hero *)a1) && hero::GetOccupiedTown((hero *)a1)->buildingsBuiltFlags & 4 )
+    if ( hero::GetOccupiedTown(hro) && hero::GetOccupiedTown(hro)->buildingsBuiltFlags & BUILDING_TAVERN_BUILT )
       strcat(gText, off_4F6900);
-    if ( hero::HasArtifact((hero *)a1, 12) )
+    if ( hero::HasArtifact(hro, 12) )
       strcat(gText, off_4F68B8);
-    if ( hero::HasArtifact((hero *)a1, 13) )
+    if ( hero::HasArtifact(hro, 13) )
       strcat(gText, off_4F68BC);
-    if ( hero::HasArtifact((hero *)a1, 14) )
+    if ( hero::HasArtifact(hro, 14) )
       strcat(gText, off_4F68C0);
-    if ( hero::HasArtifact((hero *)a1, 15) )
+    if ( hero::HasArtifact(hro, 15) )
       strcat(gText, off_4F68C4);
-    if ( hero::HasArtifact((hero *)a1, 16) )
+    if ( hero::HasArtifact(hro, 16) )
       strcat(gText, off_4F68C8);
-    if ( *(_BYTE *)(a1 + 227) & 2 )
+    if ( hro->flags & 2 )
       strcat(gText, off_4F68CC);
-    if ( *(_BYTE *)(a1 + 227) & 8 )
+    if ( hro->flags & 8 )
       strcat(gText, off_4F68D0);
-    if ( *(_BYTE *)(a1 + 228) & 1 )
+    if ( BYTE1(hro->flags) & 1 )
       strcat(gText, off_4F68D4);
-    if ( *(_BYTE *)(a1 + 227) & 0x20 )
+    if ( hro->flags & 0x20 )
       strcat(gText, off_4F68D8);
-    if ( *(_BYTE *)(a1 + 227) & 0x40 )
+    if ( hro->flags & 0x40 )
       strcat(gText, off_4F68DC);
-    if ( *(_BYTE *)(a1 + 228) & 2 )
+    if ( BYTE1(hro->flags) & 2 )
       strcat(gText, off_4F68F4);
-    if ( *(_BYTE *)(a1 + 228) & 4 )
+    if ( BYTE1(hro->flags) & 4 )
       strcat(gText, off_4F68F8);
-    if ( *(_BYTE *)(a1 + 122) == 1 )
+    if ( hro->secondarySkillLevel[6] == 1 )
       strcat(gText, off_4F6904);
-    if ( *(_BYTE *)(a1 + 122) == 2 )
+    if ( hro->secondarySkillLevel[6] == 2 )
       strcat(gText, off_4F6908);
-    if ( *(_BYTE *)(a1 + 122) == 3 )
+    if ( hro->secondarySkillLevel[6] == 3 )
       strcat(gText, off_4F690C);
-    if ( hero::HasArtifact((hero *)a1, 97) && *(_BYTE *)(a1 + 227) & 0x80 )
+    if ( hero::HasArtifact(hro, 97) && hro->flags & 0x80 )
       strcat(gText, off_4F6910);
-    if ( hero::HasArtifact((hero *)a1, 90) )
+    if ( hero::HasArtifact(hro, 90) )
       strcat(gText, off_4F6914);
     v4 = strlen(gText);
     if ( v4 == v10 )
@@ -34531,15 +34743,15 @@ const void *__cdecl CongratsWait()
 }
 
 //----- (004374E0) --------------------------------------------------------
-__int64 __thiscall LoadPlaySample(const char *this)
+SAMPLE2 __thiscall LoadPlaySample(const char *this)
 {
-  __int64 res; // [sp+10h] [bp-8h]@0
+  SAMPLE2 res; // [sp+10h] [bp-8h]@0
 
-  LODWORD(res) = resourceManager::GetSample(gpResourceManager, this);
-  if ( (_DWORD)res )
+  res.file = resourceManager::GetSample(gpResourceManager, this);
+  if ( (_DWORD)res.file )
   {
-    *(_DWORD *)(res + 28) = 2;
-    HIDWORD(res) = soundManager::MemorySample((soundManager *)gpSoundManager, (sample *)res);
+    res.file->codeThing = 2;
+    res.sample = soundManager::MemorySample((soundManager *)gpSoundManager, res.file);
   }
   return res;
 }
@@ -36477,64 +36689,59 @@ bool __thiscall combatManager::ValidHexToStandOn(combatManager *this, signed int
 // 4F0A00: using guessed type int MAP_WIDTH;
 
 //----- (0043B590) --------------------------------------------------------
-combatManager *__thiscall combatManager::SetCombatDirections(combatManager *this, int hexIdx)
+void __thiscall combatManager::SetCombatDirections(combatManager *this, int hexIdx)
 {
-  combatManager *result; // eax@1
-  combatManager *thisa; // [sp+Ch] [bp-7Ch]@1
-  int v4; // [sp+10h] [bp-78h]@2
-  int v5[8]; // [sp+14h] [bp-74h]@31
-  int v6; // [sp+34h] [bp-54h]@108
+  int v3; // [sp+10h] [bp-78h]@2
+  int v4[8]; // [sp+14h] [bp-74h]@31
+  int v5; // [sp+34h] [bp-54h]@108
   army *thisb; // [sp+38h] [bp-50h]@2
-  int v8; // [sp+3Ch] [bp-4Ch]@108
+  int v7; // [sp+3Ch] [bp-4Ch]@108
   int i; // [sp+40h] [bp-48h]@2
-  char v10[6]; // [sp+44h] [bp-44h]@53
-  char v11; // [sp+4Ah] [bp-3Eh]@71
-  int v12; // [sp+4Ch] [bp-3Ch]@103
-  int v13; // [sp+50h] [bp-38h]@2
-  int v14; // [sp+54h] [bp-34h]@74
-  army *v15; // [sp+58h] [bp-30h]@2
+  char v9[8]; // [sp+44h] [bp-44h]@53
+  int v10; // [sp+4Ch] [bp-3Ch]@103
+  int v11; // [sp+50h] [bp-38h]@2
+  int v12; // [sp+54h] [bp-34h]@74
+  army *v13; // [sp+58h] [bp-30h]@2
   int a2[8]; // [sp+5Ch] [bp-2Ch]@9
-  int v17; // [sp+7Ch] [bp-Ch]@75
-  char v18[8]; // [sp+80h] [bp-8h]@47
+  int v15; // [sp+7Ch] [bp-Ch]@75
+  char v16[8]; // [sp+80h] [bp-8h]@47
 
-  thisa = this;
-  result = this;
   if ( !this->field_F2B3 )
   {
     thisb = &this->creatures[this->activeStackOwner][this->activeStack];
-    v4 = thisb->targetOwner;
-    v13 = thisb->targetStackIdx;
+    v3 = thisb->targetOwner;
+    v11 = thisb->targetStackIdx;
     thisb->targetOwner = -1;
     thisb->targetStackIdx = -1;
-    v15 = &this->creatures[v4][v13];
+    v13 = &this->creatures[v3][v11];
     for ( i = 0; i < 8; ++i )
     {
       if ( i != 6 && i != 7 )
       {
-        a2[i] = thisa->hexNeighbors[hexIdx][i];
+        a2[i] = this->hexNeighbors[hexIdx][i];
       }
-      else if ( thisb->creature.creature_flags & 1 )
+      else if ( thisb->creature.creature_flags & TWO_HEXER )
       {
         if ( thisb->facingRight == 1 )
         {
           if ( i == 6 )
-            a2[6] = thisa->hexNeighbors[hexIdx][5];
+            a2[6] = this->hexNeighbors[hexIdx][5];
           if ( i == 7 )
-            a2[7] = thisa->hexNeighbors[hexIdx][3];
+            a2[7] = this->hexNeighbors[hexIdx][3];
         }
         else
         {
           if ( i == 6 )
-            a2[6] = thisa->hexNeighbors[hexIdx][0];
+            a2[6] = this->hexNeighbors[hexIdx][0];
           if ( i == 7 )
-            a2[7] = thisa->hexNeighbors[hexIdx][2];
+            a2[7] = this->hexNeighbors[hexIdx][2];
         }
       }
       else
       {
         a2[i] = -1;
       }
-      if ( thisb->creature.creature_flags & 1 && a2[i] != -1 )
+      if ( thisb->creature.creature_flags & TWO_HEXER && a2[i] != -1 )
       {
         if ( thisb->facingRight == 1 )
         {
@@ -36546,9 +36753,9 @@ combatManager *__thiscall combatManager::SetCombatDirections(combatManager *this
               --a2[i];
           }
           if ( a2[i] % 13 == 11 )
-            v5[i] = -1;
+            v4[i] = -1;
           else
-            v5[i] = a2[i] + 1;
+            v4[i] = a2[i] + 1;
         }
         else
         {
@@ -36560,154 +36767,149 @@ combatManager *__thiscall combatManager::SetCombatDirections(combatManager *this
               ++a2[i];
           }
           if ( a2[i] % 13 == 1 )
-            v5[i] = -1;
+            v4[i] = -1;
           else
-            v5[i] = a2[i] - 1;
+            v4[i] = a2[i] - 1;
         }
       }
       else
       {
-        v5[i] = -2;
+        v4[i] = -2;
       }
-      v18[i] = combatManager::ValidHexToStandOn(thisa, a2[i]) && combatManager::ValidHexToStandOn(thisa, v5[i]);
+      v16[i] = combatManager::ValidHexToStandOn(this, a2[i]) && combatManager::ValidHexToStandOn(this, v4[i]);
     }
-    if ( thisb->creature.creature_flags & 2 )
+    if ( thisb->creature.creature_flags & FLYER )
     {
       for ( i = 0; i < 8; ++i )
-        v10[i] = v18[i];
+        v9[i] = v16[i];
     }
     else
     {
       for ( i = 0; i < 8; ++i )
       {
-        if ( v18[i] )
-          v10[i] = a2[i] == thisb->occupiedHex || army::ValidPath(thisb, a2[i], 1);
+        if ( v16[i] )
+          v9[i] = a2[i] == thisb->occupiedHex || army::ValidPath(thisb, a2[i], 1);
         else
-          v10[i] = 0;
+          v9[i] = 0;
       }
     }
-    *(_DWORD *)&thisa->_15[64] = 0;
+    this->field_F51F = 0;
     for ( i = 0; i < 8; ++i )
     {
-      if ( v10[i] )
-        ++*(_DWORD *)&thisa->_15[64];
+      if ( v9[i] )
+        ++this->field_F51F;
     }
-    if ( !*(_DWORD *)&thisa->_15[64] )
-      v11 = 1;
-    memset(&thisa->_15[36], 0xFFu, 0x18u);
+    if ( !this->field_F51F )
+      v9[6] = 1;
+    memset(this->field_F503, 0xFFu, 0x18u);
     for ( i = 0; i < 8; ++i )
     {
-      v14 = i;
+      v12 = i;
       if ( i >= 6 )
       {
         if ( i == 6 )
-          v17 = 7;
+          v15 = 7;
         else
-          v17 = 6;
+          v15 = 6;
       }
       else
       {
-        v17 = (i + 3) % 6;
+        v15 = (i + 3) % 6;
       }
-      if ( v10[v17] )
+      if ( v9[v15] )
       {
-        if ( v15->creature.creature_flags & 1 )
+        if ( v13->creature.creature_flags & 1 )
         {
-          if ( i || thisa->combatGrid[hexIdx - 1].unitOwner != v4 || thisa->combatGrid[hexIdx - 1].stackIdx != v13 )
+          if ( i || this->combatGrid[hexIdx - 1].unitOwner != v3 || this->combatGrid[hexIdx - 1].stackIdx != v11 )
           {
-            if ( i != 5
-              || thisa->combatGrid[hexIdx + 1].unitOwner != v4
-              || thisa->combatGrid[hexIdx + 1].stackIdx != v13 )
+            if ( i != 5 || this->combatGrid[hexIdx + 1].unitOwner != v3 || this->combatGrid[hexIdx + 1].stackIdx != v11 )
             {
               if ( i != 2
-                || thisa->combatGrid[hexIdx - 1].unitOwner != v4
-                || thisa->combatGrid[hexIdx - 1].stackIdx != v13 )
+                || this->combatGrid[hexIdx - 1].unitOwner != v3
+                || this->combatGrid[hexIdx - 1].stackIdx != v11 )
               {
                 if ( i == 3
-                  && thisa->combatGrid[hexIdx + 1].unitOwner == v4
-                  && thisa->combatGrid[hexIdx + 1].stackIdx == v13 )
-                  v14 = 7;
+                  && this->combatGrid[hexIdx + 1].unitOwner == v3
+                  && this->combatGrid[hexIdx + 1].stackIdx == v11 )
+                  v12 = 7;
               }
               else
               {
-                v14 = 7;
+                v12 = 7;
               }
             }
             else
             {
-              v14 = 6;
+              v12 = 6;
             }
           }
           else
           {
-            v14 = 6;
+            v12 = 6;
           }
         }
         if ( i >= 6 )
         {
           if ( i == 6 )
           {
-            thisa->_15[47] = v14;
-            thisa->_15[48] = v14;
-            thisa->_15[49] = v14;
+            this->field_F503[11] = v12;
+            this->field_F503[12] = v12;
+            this->field_F503[13] = v12;
           }
           else
           {
-            thisa->_15[36] = v14;
-            thisa->_15[37] = v14;
-            thisa->_15[59] = v14;
+            this->field_F503[0] = v12;
+            this->field_F503[1] = v12;
+            this->field_F503[23] = v12;
           }
         }
         else
         {
-          memset(&thisa->_15[4 * v17 + 36], v14, 4u);
+          memset(&this->field_F503[4 * v15], v12, 4u);
         }
       }
     }
-    v12 = 24;
-    while ( v12 > 0 )
+    v10 = 24;
+    while ( v10 > 0 )
     {
       for ( i = 0; i < 24; ++i )
       {
-        if ( thisa->_15[i + 36] == -1 )
+        if ( this->field_F503[i] == -1 )
         {
-          v6 = (i + 1) % 24;
-          v8 = (i + 23) % 24;
-          if ( thisa->_15[(i + 1) % 24 + 36] < 0 || thisa->_15[v6 + 36] > 7 )
+          v5 = (i + 1) % 24;
+          v7 = (i + 23) % 24;
+          if ( this->field_F503[(i + 1) % 24] < 0 || this->field_F503[v5] > 7 )
           {
-            if ( thisa->_15[v8 + 36] >= 0 && thisa->_15[v8 + 36] <= 7 )
-              thisa->_15[i + 36] = thisa->_15[v8 + 36] + 10;
+            if ( this->field_F503[v7] >= 0 && this->field_F503[v7] <= 7 )
+              this->field_F503[i] = this->field_F503[v7] + 10;
           }
           else
           {
-            thisa->_15[i + 36] = thisa->_15[v6 + 36] + 10;
+            this->field_F503[i] = this->field_F503[v5] + 10;
           }
         }
       }
-      v12 = 0;
+      v10 = 0;
       for ( i = 0; i < 24; ++i )
       {
-        if ( thisa->_15[i + 36] < 10 )
+        if ( this->field_F503[i] < 10 )
         {
-          if ( thisa->_15[i + 36] == -1 )
-            ++v12;
+          if ( this->field_F503[i] == -1 )
+            ++v10;
         }
         else
         {
-          thisa->_15[i + 36] -= 10;
+          this->field_F503[i] -= 10;
         }
       }
     }
-    thisb->targetOwner = v4;
-    result = (combatManager *)v13;
-    thisb->targetStackIdx = v13;
+    thisb->targetOwner = v3;
+    thisb->targetStackIdx = v11;
   }
-  return result;
 }
 // 43B590: using guessed type int a2[8];
 // 43B590: using guessed type int var_74[8];
 // 43B590: using guessed type char var_8[8];
-// 43B590: using guessed type char var_44[6];
 
 //----- (0043BE40) --------------------------------------------------------
 void __thiscall combatManager::CheckSetMouseDirection(combatManager *this, int a2, int a3, signed int a4)
@@ -36726,7 +36928,7 @@ void __thiscall combatManager::CheckSetMouseDirection(combatManager *this, int a
   int v15; // [sp+3Ch] [bp-4h]@6
 
   thisa = this;
-  if ( !this->field_F2B3 && (*(_DWORD *)&this->_15[64] > 1 || *(_DWORD *)&this->_15[60] < 0) )
+  if ( !this->field_F2B3 && (this->field_F51F > 1 || this->field_F51B < 0) )
   {
     v14 = a2 - 44 * (a4 % 13 - 1) - 67;
     if ( !(a4 / 13 & 1) )
@@ -36812,10 +37014,10 @@ void __thiscall combatManager::CheckSetMouseDirection(combatManager *this, int a
     {
       v11 += 5;
     }
-    if ( thisa->_15[v11 + 36] != *(_DWORD *)&thisa->_15[60] )
+    if ( thisa->field_F503[v11] != thisa->field_F51B )
     {
-      *(_DWORD *)&thisa->_15[60] = thisa->_15[v11 + 36];
-      v13 = OppositeDirection(thisa->_15[v11 + 36]);
+      thisa->field_F51B = thisa->field_F503[v11];
+      v13 = OppositeDirection(thisa->field_F503[v11]);
       v10 = v13;
       v8 = -1;
       v7 = &thisa->creatures[thisa->activeStackOwner][thisa->activeStack];
@@ -36893,7 +37095,7 @@ void __thiscall combatManager::CheckSetMouseDirection(combatManager *this, int a
           thisa->field_F2C7 = thisa->hexNeighbors[a4][v8];
         }
       }
-      mouseManager::SetPointer(gpMouseManager, *(_DWORD *)&thisa->_15[60] + 7);
+      mouseManager::SetPointer(gpMouseManager, thisa->field_F51B + 7);
     }
   }
 }
@@ -37140,7 +37342,7 @@ signed int __thiscall combatManager::ProcessCombatMsg(combatManager *this, tag_m
       thisa->field_F2C3 = hexIdx;
       thisa->field_F2CB = -99;
       thisa->field_F2CF = combatManager::GetCommand((int)thisa, thisa->field_F2C3);
-      *(_DWORD *)&thisa->_15[60] = -1;
+      thisa->field_F51B = -1;
       if ( thisa->field_F2CF == 7 )
       {
         combatManager::SetCombatDirections(thisa, hexIdx);
@@ -37856,35 +38058,68 @@ void __thiscall combatManager::ShowWinLoseArtifact(combatManager *this, int a2, 
   heroWindow::BroadcastMessage(this->combatEndWindow, (tag_message *)&evt);
   v7 = (iconWidget *)operator new(45);
   if ( v7 )
-    *(_DWORD *)&this->_14[0] = iconWidget::iconWidget(v7, 136, 310, 80, 80, "winloseb.icn", 0, 0, 2001, 16, 1);
+    this->casualtyRelatedTextWidgets[0] = (int)iconWidget::iconWidget(
+                                                 v7,
+                                                 136,
+                                                 310,
+                                                 80,
+                                                 80,
+                                                 "winloseb.icn",
+                                                 0,
+                                                 0,
+                                                 2001,
+                                                 16,
+                                                 1);
   else
-    *(_DWORD *)&this->_14[0] = 0;
-  if ( !*(_DWORD *)&this->_14[0] )
+    this->casualtyRelatedTextWidgets[0] = 0;
+  if ( !this->casualtyRelatedTextWidgets[0] )
     MemError();
-  heroWindow::AddWidget((heroWindow *)a2, *(widget **)&this->_14[0], -1);
+  heroWindow::AddWidget((heroWindow *)a2, (widget *)this->casualtyRelatedTextWidgets[0], -1);
   v6 = (iconWidget *)operator new(45);
   if ( v6 )
-    *(_DWORD *)&this->_14[4] = iconWidget::iconWidget(v6, 144, 318, 64, 64, "artifact.icn", a3 + 1, 0, 2002, 16, 1);
+    this->casualtyRelatedTextWidgets[1] = (int)iconWidget::iconWidget(
+                                                 v6,
+                                                 144,
+                                                 318,
+                                                 64,
+                                                 64,
+                                                 "artifact.icn",
+                                                 a3 + 1,
+                                                 0,
+                                                 2002,
+                                                 16,
+                                                 1);
   else
-    *(_DWORD *)&this->_14[4] = 0;
-  if ( !*(_DWORD *)&this->_14[4] )
+    this->casualtyRelatedTextWidgets[1] = 0;
+  if ( !this->casualtyRelatedTextWidgets[1] )
     MemError();
-  heroWindow::AddWidget((heroWindow *)a2, *(widget **)&this->_14[4], -1);
+  heroWindow::AddWidget((heroWindow *)a2, (widget *)this->casualtyRelatedTextWidgets[1], -1);
   content = (char *)BaseAlloc(0x3Cu, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E34C + 43);
   sprintf(content, gArtifactNames[a3]);
   v5 = (textWidget *)operator new(43);
   if ( v5 )
-    *(_DWORD *)&this->_14[100] = textWidget::textWidget(v5, 16, 397, 320, 12, content, "smalfont.fnt", 1, 2101, 512, 1);
+    this->casualtyRelatedTextWidgets[25] = (int)textWidget::textWidget(
+                                                  v5,
+                                                  16,
+                                                  397,
+                                                  320,
+                                                  12,
+                                                  content,
+                                                  "smalfont.fnt",
+                                                  1,
+                                                  2101,
+                                                  512,
+                                                  1);
   else
-    *(_DWORD *)&this->_14[100] = 0;
-  if ( !*(_DWORD *)&this->_14[100] )
+    this->casualtyRelatedTextWidgets[25] = 0;
+  if ( !this->casualtyRelatedTextWidgets[25] )
     MemError();
-  heroWindow::AddWidget((heroWindow *)a2, *(widget **)&this->_14[100], -1);
+  heroWindow::AddWidget((heroWindow *)a2, (widget *)this->casualtyRelatedTextWidgets[25], -1);
   heroWindow::DrawWindow(gpCombatManager->combatEndWindow);
   res = NULL_SAMPLE2;
   v3 = SRandom(1, 5);
   sprintf(gText, "pickup%02d.82M", v3);
-  res = (SAMPLE2)LoadPlaySample(gText);
+  res = LoadPlaySample(gText);
   WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
 }
 // 50E34C: using guessed type __int16 word_50E34C;
@@ -37907,22 +38142,44 @@ void __thiscall combatManager::ShowSkeletons(combatManager *this, int a2)
   v3 = this;
   v5 = (iconWidget *)operator new(45);
   if ( v5 )
-    *(_DWORD *)&v3->_14[0] = iconWidget::iconWidget(v5, 173, 270, 32, 30, "mons32.icn", 47, 0, 900, 16, 1);
+    v3->casualtyRelatedTextWidgets[0] = (int)iconWidget::iconWidget(
+                                               v5,
+                                               173,
+                                               270,
+                                               32,
+                                               30,
+                                               "mons32.icn",
+                                               47,
+                                               0,
+                                               900,
+                                               16,
+                                               1);
   else
-    *(_DWORD *)&v3->_14[0] = 0;
-  if ( !*(_DWORD *)&v3->_14[0] )
+    v3->casualtyRelatedTextWidgets[0] = 0;
+  if ( !v3->casualtyRelatedTextWidgets[0] )
     MemError();
   content = (char *)BaseAlloc(9u, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E3D8 + 19);
   sprintf(content, "%d", *(_DWORD *)&giSkeletonsCreated);
   v4 = (textWidget *)operator new(43);
   if ( v4 )
-    *(_DWORD *)&v3->_14[100] = textWidget::textWidget(v4, 165, 300, 32, 12, content, "smalfont.fnt", 1, 901, 512, 1);
+    v3->casualtyRelatedTextWidgets[25] = (int)textWidget::textWidget(
+                                                v4,
+                                                165,
+                                                300,
+                                                32,
+                                                12,
+                                                content,
+                                                "smalfont.fnt",
+                                                1,
+                                                901,
+                                                512,
+                                                1);
   else
-    *(_DWORD *)&v3->_14[100] = 0;
-  if ( !*(_DWORD *)&v3->_14[100] )
+    v3->casualtyRelatedTextWidgets[25] = 0;
+  if ( !v3->casualtyRelatedTextWidgets[25] )
     MemError();
-  heroWindow::AddWidget((heroWindow *)a2, *(widget **)&v3->_14[0], -1);
-  heroWindow::AddWidget((heroWindow *)a2, *(widget **)&v3->_14[100], -1);
+  heroWindow::AddWidget((heroWindow *)a2, (widget *)v3->casualtyRelatedTextWidgets[0], -1);
+  heroWindow::AddWidget((heroWindow *)a2, (widget *)v3->casualtyRelatedTextWidgets[25], -1);
   if ( *(_DWORD *)&giSkeletonsCreated <= 1 )
     sprintf(
       gText,
@@ -37941,7 +38198,7 @@ void __thiscall combatManager::ShowSkeletons(combatManager *this, int a2)
   res = NULL_SAMPLE2;
   v2 = SRandom(1, 5);
   sprintf(gText, "pickup%02d.82M", v2);
-  res = (SAMPLE2)LoadPlaySample(gText);
+  res = LoadPlaySample(gText);
   WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
 }
 // 50E3D8: using guessed type __int16 word_50E3D8;
@@ -38018,7 +38275,7 @@ void __thiscall combatManager::ShowEagleEyeSpell(int this, int a2)
   res = NULL_SAMPLE2;
   v2 = SRandom(1, 5);
   sprintf(gText, "pickup%02d.82M", v2);
-  res = (SAMPLE2)LoadPlaySample(gText);
+  res = LoadPlaySample(gText);
   WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
 }
 // 50E530: using guessed type __int16 word_50E530;
@@ -38060,8 +38317,8 @@ void __thiscall combatManager::ShowDeadArmies(combatManager *ecx0, heroWindow *w
   v26 = 458;
   for ( i = 0; i < 25; ++i )
   {
-    *(_DWORD *)&ecx0->_14[4 * i] = 0;
-    *(_DWORD *)&ecx0->_14[4 * i + 100] = 0;
+    ecx0->casualtyRelatedTextWidgets[i] = 0;
+    ecx0->casualtyRelatedTextWidgets[i + 25] = 0;
   }
   for ( i = 0; i < 2; ++i )
   {
@@ -38083,23 +38340,23 @@ void __thiscall combatManager::ShowDeadArmies(combatManager *ecx0, heroWindow *w
   sprintf(content, "Battlefield Casualties");
   v14 = (textWidget *)operator new(43);
   if ( v14 )
-    ecx0->battlefieldCasualtiesTextWidget = textWidget::textWidget(
-                                              v14,
-                                              16,
-                                              263,
-                                              320,
-                                              20,
-                                              content,
-                                              "smalfont.fnt",
-                                              1,
-                                              2110,
-                                              512,
-                                              1);
+    ecx0->casualtyRelatedTextWidgets[42] = (int)textWidget::textWidget(
+                                                  v14,
+                                                  16,
+                                                  263,
+                                                  320,
+                                                  20,
+                                                  content,
+                                                  "smalfont.fnt",
+                                                  1,
+                                                  2110,
+                                                  512,
+                                                  1);
   else
-    ecx0->battlefieldCasualtiesTextWidget = 0;
-  if ( !ecx0->battlefieldCasualtiesTextWidget )
+    ecx0->casualtyRelatedTextWidgets[42] = 0;
+  if ( !ecx0->casualtyRelatedTextWidgets[42] )
     MemError();
-  heroWindow::AddWidget(window, (widget *)ecx0->battlefieldCasualtiesTextWidget, -1);
+  heroWindow::AddWidget(window, (widget *)ecx0->casualtyRelatedTextWidgets[42], -1);
   for ( i = 0; i < 2; ++i )
   {
     if ( i )
@@ -38110,46 +38367,46 @@ void __thiscall combatManager::ShowDeadArmies(combatManager *ecx0, heroWindow *w
     sprintf(contenta, &aAttacker[("Defender" - "Attacker") & ((i == 0) - 1)]);
     v13 = (textWidget *)operator new(43);
     if ( v13 )
-      ecx0->sideCasualtiesTitleTextWidget[i] = (int)textWidget::textWidget(
-                                                      v13,
-                                                      16,
-                                                      v25 + 3,
-                                                      320,
-                                                      20,
-                                                      contenta,
-                                                      "smalfont.fnt",
-                                                      1,
-                                                      2110,
-                                                      512,
-                                                      1);
+      ecx0->casualtyRelatedTextWidgets[i + 40] = (int)textWidget::textWidget(
+                                                        v13,
+                                                        16,
+                                                        v25 + 3,
+                                                        320,
+                                                        20,
+                                                        contenta,
+                                                        "smalfont.fnt",
+                                                        1,
+                                                        2110,
+                                                        512,
+                                                        1);
     else
-      ecx0->sideCasualtiesTitleTextWidget[i] = 0;
-    if ( !ecx0->sideCasualtiesTitleTextWidget[i] )
+      ecx0->casualtyRelatedTextWidgets[i + 40] = 0;
+    if ( !ecx0->casualtyRelatedTextWidgets[i + 40] )
       MemError();
-    heroWindow::AddWidget(window, (widget *)ecx0->sideCasualtiesTitleTextWidget[i], -1);
+    heroWindow::AddWidget(window, (widget *)ecx0->casualtyRelatedTextWidgets[i + 40], -1);
     if ( distinctCreaturesLost[i] <= 0 )
     {
       contentb = (char *)BaseAlloc(0xAu, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E5E0 + 75);
       sprintf(contentb, "None");
       v12 = (textWidget *)operator new(43);
       if ( v12 )
-        *(_DWORD *)&ecx0->_14[28 * i + 100] = textWidget::textWidget(
-                                                v12,
-                                                16,
-                                                v25 + 21,
-                                                320,
-                                                20,
-                                                contentb,
-                                                "smalfont.fnt",
-                                                1,
-                                                5 * i + 2100,
-                                                512,
-                                                1);
+        ecx0->casualtyRelatedTextWidgets[7 * i + 25] = (int)textWidget::textWidget(
+                                                              v12,
+                                                              16,
+                                                              v25 + 21,
+                                                              320,
+                                                              20,
+                                                              contentb,
+                                                              "smalfont.fnt",
+                                                              1,
+                                                              5 * i + 2100,
+                                                              512,
+                                                              1);
       else
-        *(_DWORD *)&ecx0->_14[28 * i + 100] = 0;
-      if ( !*(_DWORD *)&ecx0->_14[28 * i + 100] )
+        ecx0->casualtyRelatedTextWidgets[7 * i + 25] = 0;
+      if ( !ecx0->casualtyRelatedTextWidgets[7 * i + 25] )
         MemError();
-      heroWindow::AddWidget(window, *(widget **)&ecx0->_14[28 * i + 100], -1);
+      heroWindow::AddWidget(window, (widget *)ecx0->casualtyRelatedTextWidgets[7 * i + 25], -1);
     }
     res = resourceManager::GetIcon(gpResourceManager, "mons32.icn");
     v2 = distinctCreaturesLost[i];
@@ -38169,47 +38426,47 @@ void __thiscall combatManager::ShowDeadArmies(combatManager *ecx0, heroWindow *w
         v6 = v5 - GetIconEntry(res, idxOfLostCreature[i][j])->height + 32;
         v7 = v17 + v30 * j + 16 - GetIconEntry(res, idxOfLostCreature[i][j])->offsetX;
         v8 = GetIconEntry(res, idxOfLostCreature[i][j]);
-        *(_DWORD *)&ecx0->_14[4 * (j + 7 * i)] = iconWidget::iconWidget(
-                                                   this,
-                                                   (32 - v8->width) / 2 + (_WORD)v7 + 1,
-                                                   v6,
-                                                   32,
-                                                   28,
-                                                   "mons32.icn",
-                                                   v4,
-                                                   0,
-                                                   v3,
-                                                   16,
-                                                   1);
+        ecx0->casualtyRelatedTextWidgets[j + 7 * i] = (int)iconWidget::iconWidget(
+                                                             this,
+                                                             (32 - v8->width) / 2 + (_WORD)v7 + 1,
+                                                             v6,
+                                                             32,
+                                                             28,
+                                                             "mons32.icn",
+                                                             v4,
+                                                             0,
+                                                             v3,
+                                                             16,
+                                                             1);
       }
       else
       {
-        *(_DWORD *)&ecx0->_14[4 * (j + 7 * i)] = 0;
+        ecx0->casualtyRelatedTextWidgets[j + 7 * i] = 0;
       }
-      if ( !*(_DWORD *)&ecx0->_14[4 * (j + 7 * i)] )
+      if ( !ecx0->casualtyRelatedTextWidgets[j + 7 * i] )
         MemError();
       contentc = (char *)BaseAlloc(9u, "F:\\h2xsrc\\Source\\COMMAND.CPP", word_50E5E0 + 119);
       sprintf(contentc, "%d", numLostCreature[i][j]);
       v10 = (textWidget *)operator new(43);
       if ( v10 )
-        *(_DWORD *)&ecx0->_14[4 * (j + 7 * i) + 100] = textWidget::textWidget(
-                                                         v10,
-                                                         (_WORD)v17 + v30 * (_WORD)j + 16,
-                                                         v25 + 53,
-                                                         32,
-                                                         12,
-                                                         contentc,
-                                                         "smalfont.fnt",
-                                                         1,
-                                                         (_WORD)j + 5 * i + 2100,
-                                                         512,
-                                                         1);
+        ecx0->casualtyRelatedTextWidgets[j + 7 * i + 25] = (int)textWidget::textWidget(
+                                                                  v10,
+                                                                  (_WORD)v17 + v30 * (_WORD)j + 16,
+                                                                  v25 + 53,
+                                                                  32,
+                                                                  12,
+                                                                  contentc,
+                                                                  "smalfont.fnt",
+                                                                  1,
+                                                                  (_WORD)j + 5 * i + 2100,
+                                                                  512,
+                                                                  1);
       else
-        *(_DWORD *)&ecx0->_14[4 * (j + 7 * i) + 100] = 0;
-      if ( !*(_DWORD *)&ecx0->_14[4 * (j + 7 * i) + 100] )
+        ecx0->casualtyRelatedTextWidgets[j + 7 * i + 25] = 0;
+      if ( !ecx0->casualtyRelatedTextWidgets[j + 7 * i + 25] )
         MemError();
-      heroWindow::AddWidget(window, *(widget **)&ecx0->_14[4 * (j + 7 * i)], -1);
-      heroWindow::AddWidget(window, *(widget **)&ecx0->_14[4 * (j + 7 * i) + 100], -1);
+      heroWindow::AddWidget(window, (widget *)ecx0->casualtyRelatedTextWidgets[j + 7 * i], -1);
+      heroWindow::AddWidget(window, (widget *)ecx0->casualtyRelatedTextWidgets[j + 7 * i + 25], -1);
     }
     resourceManager::Dispose(gpResourceManager, (resource *)res);
   }
@@ -38724,27 +38981,24 @@ void __thiscall combatManager::CheckGetAIMove(combatManager *this)
 //----- (00440D40) --------------------------------------------------------
 void __thiscall combatManager::GetControl(combatManager *this)
 {
-  combatManager *thisa; // [sp+Ch] [bp-4h]@1
-
-  thisa = this;
   this->field_F2C3 = -1;
   this->field_F2CB = -99;
   this->field_F2CB = -99;
   if ( gpCombatManager->ready == 1 )
     mouseManager::SetPointer(gpMouseManager, 6);
-  combatManager::CheckChangeSelector(thisa);
+  combatManager::CheckChangeSelector(this);
   if ( gbRemoteOn
-    && *(_QWORD *)&thisa->playerID[0] >= 0i64
-    && gbHumanPlayer[thisa->playerID[1]]
-    && (gbHumanPlayer[thisa->playerID[0]] || !gbHumanPlayer[thisa->playerID[0]] && thisa->playerID[1]) )
-    gbThisNetHasControl = thisa->playerID[thisa->currentActionSide] == -1
-                       || !gbHumanPlayer[thisa->playerID[thisa->currentActionSide]]
-                       || gbThisNetHumanPlayer[thisa->playerID[thisa->currentActionSide]];
+    && *(_QWORD *)&this->playerID[0] >= 0i64
+    && gbHumanPlayer[this->playerID[1]]
+    && (gbHumanPlayer[this->playerID[0]] || !gbHumanPlayer[this->playerID[0]] && this->playerID[1]) )
+    gbThisNetHasControl = this->playerID[this->currentActionSide] == -1
+                       || !gbHumanPlayer[this->playerID[this->currentActionSide]]
+                       || gbThisNetHumanPlayer[this->playerID[this->currentActionSide]];
   else
     gbThisNetHasControl = 1;
-  *(_DWORD *)&thisa->_15[104] = -1;
-  combatManager::SetupSmallView(thisa);
-  combatManager::ResetMouse(thisa);
+  this->field_F547 = -1;
+  combatManager::SetupSmallView(this);
+  combatManager::ResetMouse(this);
 }
 // 4F7494: using guessed type int gbRemoteOn;
 // 524C60: using guessed type int gbThisNetHasControl;
@@ -38805,10 +39059,10 @@ int __thiscall combatManager::ProcessNextAction(combatManager *this, tag_message
   v13 = 1;
   v14 = 0;
   gbProcessingCombatAction = 1;
-  if ( *(_DWORD *)&thisa->_15[100] != -1 || *(_DWORD *)&thisa->_15[104] != -1 )
+  if ( thisa->field_F543 != -1 || thisa->field_F547 != -1 )
   {
-    *(_DWORD *)&thisa->_15[104] = -1;
-    *(_DWORD *)&thisa->_15[100] = *(_DWORD *)&thisa->_15[104];
+    thisa->field_F547 = -1;
+    thisa->field_F543 = thisa->field_F547;
     v14 = 1;
   }
   if ( giNextAction )
@@ -39333,30 +39587,30 @@ void __thiscall combatManager::SetupSmallView(combatManager *this)
   combatManager *thisa; // [sp+Ch] [bp-Ch]@1
 
   thisa = this;
-  if ( *(_DWORD *)&this->_15[104] == -1 && this->field_F557 != -1 )
+  if ( this->field_F547 == -1 && this->field_F557 != -1 )
     combatManager::DrawSmallView(this, 1, 1);
   if ( gbThisNetHasControl
     && thisa->playerID[thisa->currentActionSide] != -1
     && gbHumanPlayer[thisa->playerID[thisa->currentActionSide]] )
   {
-    if ( *(_DWORD *)&thisa->_15[100] != thisa->currentActionSide || *(_DWORD *)&thisa->_15[108] != thisa->activeStack )
+    if ( thisa->field_F543 != thisa->currentActionSide || thisa->field_F54B[0] != thisa->activeStack )
     {
-      if ( *(_DWORD *)&thisa->_15[100] != -1 && *(_DWORD *)&thisa->_15[100] != thisa->currentActionSide )
+      if ( thisa->field_F543 != -1 && thisa->field_F543 != thisa->currentActionSide )
       {
         if ( thisa->field_F553 != -1 )
         {
-          *(_DWORD *)&thisa->_15[100] = -1;
+          thisa->field_F543 = -1;
           combatManager::DrawSmallView(thisa, 0, 1);
         }
       }
-      *(_DWORD *)&thisa->_15[100] = thisa->currentActionSide;
-      *(_DWORD *)&thisa->_15[108] = thisa->activeStack;
+      thisa->field_F543 = thisa->currentActionSide;
+      thisa->field_F54B[0] = thisa->activeStack;
       combatManager::DrawSmallView(thisa, 0, 1);
     }
   }
   else
   {
-    *(_DWORD *)&thisa->_15[100] = -1;
+    thisa->field_F543 = -1;
     if ( thisa->field_F553 != -1 )
       combatManager::DrawSmallView(thisa, 0, 1);
   }
@@ -39453,8 +39707,8 @@ advManager *__thiscall advManager::advManager(advManager *this)
   thisa->radarIcon = 0;
   thisa->viewX = 0;
   thisa->viewY = 0;
-  thisa->field_1F6 = 0;
-  thisa->field_1FA = 0;
+  thisa->mapPortLeftX = 0;
+  thisa->mapPortTopY = 0;
   thisa->field_1FE = 0;
   thisa->field_202 = 0;
   thisa->field_206 = 0;
@@ -39464,13 +39718,13 @@ advManager *__thiscall advManager::advManager(advManager *this)
   thisa->field_276 = 1;
   thisa->field_BA = 0;
   for ( i = 0; i < 64; ++i )
-    thisa->field_CE[i] = 0;
+    thisa->tilesetIcns[i] = 0;
   for ( j = 0; j < 8; ++j )
     thisa->heroIcons[j] = 0;
   for ( k = 0; k < 6; ++k )
   {
-    thisa->flagIcons1[k] = 0;
-    thisa->flagIcons2[k] = 0;
+    thisa->flagIconsHero[k] = 0;
+    thisa->flagIconsBoat[k] = 0;
   }
   for ( l = 0; l < 28; ++l )
     thisa->loopSamples[l] = 0;
@@ -39497,7 +39751,7 @@ advManager *__thiscall advManager::advManager(advManager *this)
   thisa->map = game::GetWorldMapData(gpGame);
   gMapX = 0;
   gMapY = 0;
-  thisa->field_286 = 0;
+  thisa->mobilizedHeroAnimPos = 0;
   thisa->field_28A = 0;
   thisa->field_28E = 0;
   return thisa;
@@ -39579,10 +39833,10 @@ int __thiscall advManager::Open(advManager *this, int idx)
     this->clopIcon = resourceManager::GetIcon(gpResourceManager, "clop32.icn");
   for ( j = 0; j < 64; ++j )
   {
-    if ( strlen(gTilesetFiles[j]) > 1 && !this->field_CE[j] && j != 21 )
+    if ( strlen(gTilesetFiles[j]) > 1 && !this->tilesetIcns[j] && j != 21 )
     {
       if ( j != 38 )
-        this->field_CE[j] = (int)resourceManager::GetIcon(gpResourceManager, gTilesetFiles[j]);
+        this->tilesetIcns[j] = (int)resourceManager::GetIcon(gpResourceManager, gTilesetFiles[j]);
     }
   }
   if ( !this->heroIcons[0] )
@@ -39607,30 +39861,30 @@ int __thiscall advManager::Open(advManager *this, int idx)
   if ( !this->boatShadowIcon )
     this->boatShadowIcon = resourceManager::GetIcon(gpResourceManager, "boatshad.icn");
   gbLoadingMonoIcon = 0;
-  if ( !this->flagIcons1[0] )
-    this->flagIcons1[0] = resourceManager::GetIcon(gpResourceManager, "b-flag32.icn");
-  if ( !this->flagIcons1[1] )
-    this->flagIcons1[1] = resourceManager::GetIcon(gpResourceManager, "g-flag32.icn");
-  if ( !this->flagIcons1[2] )
-    this->flagIcons1[2] = resourceManager::GetIcon(gpResourceManager, "r-flag32.icn");
-  if ( !this->flagIcons1[3] )
-    this->flagIcons1[3] = resourceManager::GetIcon(gpResourceManager, "y-flag32.icn");
-  if ( !this->flagIcons1[4] )
-    this->flagIcons1[4] = resourceManager::GetIcon(gpResourceManager, "o-flag32.icn");
-  if ( !this->flagIcons1[5] )
-    this->flagIcons1[5] = resourceManager::GetIcon(gpResourceManager, "p-flag32.icn");
-  if ( !this->flagIcons2[0] )
-    this->flagIcons2[0] = resourceManager::GetIcon(gpResourceManager, "b-bflg32.icn");
-  if ( !this->flagIcons2[1] )
-    this->flagIcons2[1] = resourceManager::GetIcon(gpResourceManager, "g-bflg32.icn");
-  if ( !this->flagIcons2[2] )
-    this->flagIcons2[2] = resourceManager::GetIcon(gpResourceManager, "r-bflg32.icn");
-  if ( !this->flagIcons2[3] )
-    this->flagIcons2[3] = resourceManager::GetIcon(gpResourceManager, "y-bflg32.icn");
-  if ( !this->flagIcons2[4] )
-    this->flagIcons2[4] = resourceManager::GetIcon(gpResourceManager, "o-bflg32.icn");
-  if ( !this->flagIcons2[5] )
-    this->flagIcons2[5] = resourceManager::GetIcon(gpResourceManager, "p-bflg32.icn");
+  if ( !this->flagIconsHero[0] )
+    this->flagIconsHero[0] = resourceManager::GetIcon(gpResourceManager, "b-flag32.icn");
+  if ( !this->flagIconsHero[1] )
+    this->flagIconsHero[1] = resourceManager::GetIcon(gpResourceManager, "g-flag32.icn");
+  if ( !this->flagIconsHero[2] )
+    this->flagIconsHero[2] = resourceManager::GetIcon(gpResourceManager, "r-flag32.icn");
+  if ( !this->flagIconsHero[3] )
+    this->flagIconsHero[3] = resourceManager::GetIcon(gpResourceManager, "y-flag32.icn");
+  if ( !this->flagIconsHero[4] )
+    this->flagIconsHero[4] = resourceManager::GetIcon(gpResourceManager, "o-flag32.icn");
+  if ( !this->flagIconsHero[5] )
+    this->flagIconsHero[5] = resourceManager::GetIcon(gpResourceManager, "p-flag32.icn");
+  if ( !this->flagIconsBoat[0] )
+    this->flagIconsBoat[0] = resourceManager::GetIcon(gpResourceManager, "b-bflg32.icn");
+  if ( !this->flagIconsBoat[1] )
+    this->flagIconsBoat[1] = resourceManager::GetIcon(gpResourceManager, "g-bflg32.icn");
+  if ( !this->flagIconsBoat[2] )
+    this->flagIconsBoat[2] = resourceManager::GetIcon(gpResourceManager, "r-bflg32.icn");
+  if ( !this->flagIconsBoat[3] )
+    this->flagIconsBoat[3] = resourceManager::GetIcon(gpResourceManager, "y-bflg32.icn");
+  if ( !this->flagIconsBoat[4] )
+    this->flagIconsBoat[4] = resourceManager::GetIcon(gpResourceManager, "o-bflg32.icn");
+  if ( !this->flagIconsBoat[5] )
+    this->flagIconsBoat[5] = resourceManager::GetIcon(gpResourceManager, "p-bflg32.icn");
   gbLoadingMonoIcon = 1;
   if ( !this->radarIcon )
     this->radarIcon = resourceManager::GetIcon(gpResourceManager, "radar.icn");
@@ -39808,7 +40062,7 @@ void __thiscall advManager::GetCursorSampleSet(advManager *this, signed int spee
   {
     sprintf(gText, "wsnd%1d%1d.82M", speed, v4[i]);
     thisa->walkSamples[i] = resourceManager::GetSample(gpResourceManager, gText);
-    thisa->walkSamples[i]->field_28 = 64;
+    thisa->walkSamples[i]->volume = 64;
     thisa->walkSamples[i]->codeThing = 2;
   }
 }
@@ -39948,9 +40202,9 @@ LABEL_34:
       mouseManager::SetPointer(gpMouseManager, 0);
       loc = advManager::GetCell(
               this,
-              gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x,
-              gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].y);
-      town::View(&gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)], 0);
+              gpGame->castles[gpCurPlayer->mightBeCurCastleIdx].x,
+              gpGame->castles[gpCurPlayer->mightBeCurCastleIdx].y);
+      town::View(&gpGame->castles[gpCurPlayer->mightBeCurCastleIdx], 0);
       loc = 0;
       break;
     case 3:
@@ -40337,21 +40591,21 @@ LABEL_143:
           case 20:
             if ( gpCurPlayer->numCastles >= 0 )
             {
-              if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == -1 )
+              if ( gpCurPlayer->mightBeCurCastleIdx == -1 )
               {
-                v17 = BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
+                v17 = gpCurPlayer->castlesOwned[0];
               }
               else
               {
                 v17 = 0;
                 for ( i = 0; gpCurPlayer->numCastles > i; ++i )
                 {
-                  if ( *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2) == LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) )
+                  if ( gpCurPlayer->castlesOwned[i] == gpCurPlayer->mightBeCurCastleIdx )
                   {
                     if ( gpCurPlayer->numCastles - 1 == i )
-                      v17 = BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
+                      v17 = gpCurPlayer->castlesOwned[0];
                     else
-                      v17 = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 3);
+                      v17 = gpCurPlayer->castlesOwned[i + 1];
                   }
                 }
               }
@@ -40363,7 +40617,7 @@ LABEL_143:
             advManager::SetHeroContext(this, v5, 0);
             break;
           case 28:
-            if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == -1 )
+            if ( gpCurPlayer->mightBeCurCastleIdx == -1 )
             {
               if ( gpCurPlayer->curHeroIdx != -1 )
               {
@@ -40555,8 +40809,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
     case 0x11:
     case 0x12:
     case 0x13:
-      objOrHeroIdx = *(&gpCurPlayer->_3[evt->yCoordOrFieldID + 36]
-                     + BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx));
+      objOrHeroIdx = *(&gpCurPlayer->_3[evt->yCoordOrFieldID + 36] + gpCurPlayer->relatedToUnknown);
       if ( BYTE1(evt->inputTypeBitmask) & 2 )
       {
         advManager::TownQuickView((void *)this, objOrHeroIdx, evt->yCoordOrFieldID - 16, -1, -1);
@@ -40564,7 +40817,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
       else
       {
         advManager::HideRoute((advManager *)this, 1, 0, 1);
-        if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == objOrHeroIdx )
+        if ( gpCurPlayer->mightBeCurCastleIdx == objOrHeroIdx )
         {
           thisa->field_36 = 3;
           *(_DWORD *)a3 = advManager::DoAdvCommand(thisa);
@@ -40608,7 +40861,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
         if ( gpCurPlayer->numCastles - 4 < v20 )
           v20 = gpCurPlayer->numCastles - 4;
       }
-      BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v20;
+      gpCurPlayer->relatedToUnknown = v20;
       advManager::UpdateTownLocators((advManager *)this, 1, 1);
       break;
     case 0xA:
@@ -40721,7 +40974,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
           }
           if ( objOrHeroIdx == 35 )
           {
-            if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == v18 )
+            if ( gpCurPlayer->mightBeCurCastleIdx == v18 )
             {
               thisa->field_36 = 3;
               *(_DWORD *)a3 = advManager::DoAdvCommand(thisa);
@@ -40960,16 +41213,16 @@ signed int __thiscall advManager::ProcessDeSelect(advManager *this, GUIMessage *
   switch ( evt->fieldID )
   {
     case 0x17:
-      if ( (signed int)BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) > 0 )
+      if ( gpCurPlayer->relatedToUnknown > 0 )
       {
-        --BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
+        --gpCurPlayer->relatedToUnknown;
         advManager::UpdateTownLocators(this, 1, 1);
       }
       break;
     case 0x18:
-      if ( BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) + 4 < gpCurPlayer->numCastles )
+      if ( gpCurPlayer->relatedToUnknown + 4 < gpCurPlayer->numCastles )
       {
-        ++BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
+        ++gpCurPlayer->relatedToUnknown;
         advManager::UpdateTownLocators(this, 1, 1);
       }
       break;
@@ -41096,10 +41349,10 @@ signed int __thiscall advManager::ProcessSearch(advManager *this, __int64 a2)
   char v6; // [sp+1Ch] [bp-34h]@29
   mapCell *v7; // [sp+3Ch] [bp-14h]@9
   int i; // [sp+40h] [bp-10h]@48
-  __int64 res; // [sp+44h] [bp-Ch]@1
+  SAMPLE2 res; // [sp+44h] [bp-Ch]@1
   char *hro; // [sp+4Ch] [bp-4h]@1
 
-  res = (__int64)NULL_SAMPLE2;
+  res = NULL_SAMPLE2;
   hro = (char *)&gpGame->heroes[gpCurPlayer->curHeroIdx];
   if ( gpGame->heroes[gpCurPlayer->curHeroIdx].remainingMobility != gpGame->heroes[gpCurPlayer->curHeroIdx].mobility )
   {
@@ -41171,7 +41424,7 @@ LABEL_52:
     v4 = v7->field_4_1_1_isShadow_1_13_extraInfo;
     LOBYTE(v4) = v4 | 2;
     v7->field_4_1_1_isShadow_1_13_extraInfo = v4;
-    v7->displayFlags |= 0x80u;
+    v7->flags |= 0x80u;
   }
   advManager::CompleteDraw(this, 0);
   advManager::UpdateScreen(this, 0, 0);
@@ -41222,7 +41475,7 @@ LABEL_52:
     NormalDialog("You have no room to carry another artifact!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   if ( gbHumanPlayer[giCurPlayer] )
-    WaitEndSample((void *)0xFFFFFFFF, (resource *)res, HIDWORD(res));
+    WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
   for ( i = 0; gpGame->numPlayers > i; ++i )
     ComputeUALoc(i);
   *(_DWORD *)(hro + 53) = 0;
@@ -41478,8 +41731,8 @@ void __thiscall advManager::UpdateScreen(advManager *this, int a2, int a3)
   if ( a3 || bShowIt )
   {
     PollSound();
-    giScrollX = this->field_1F6;
-    giScrollY = this->field_1FA;
+    giScrollX = this->mapPortLeftX;
+    giScrollY = this->mapPortTopY;
     if ( giLimitUpdMinX == -1 )
       BlitBitmapToScreen(gpWindowManager->screenBuffer, 16, 16, 0x1C0u, 448, 16, 16);
     else
@@ -41564,7 +41817,7 @@ void __thiscall advManager::CompleteDraw(advManager *ecx0, int left, int top, in
       ecx0->viewX = ecx0->viewY;
     }
     gpMouseManager->couldBeShowMouse = 0;
-    ecx0->field_2A2 = 0;
+    ecx0->hasDrawnCursor = 0;
     ecx0->field_2AE = 0;
     for ( a4 = 0; a4 < 15; ++a4 )
     {
@@ -41574,7 +41827,7 @@ void __thiscall advManager::CompleteDraw(advManager *ecx0, int left, int top, in
     for ( a4a = 0; a4a < 15; ++a4a )
     {
       for ( a3a = 0; a3a < 15; ++a3a )
-        advManager::DrawCell(ecx0, a3a + left, top + a4a, a3a, a4a, -128, a6);
+        advManager::DrawCell(ecx0, a3a + left, top + a4a, a3a, a4a, 128, a6);
     }
     for ( a3b = 0; a3b < 15; ++a3b )
       advManager::DrawCell(ecx0, a3b + left, top, a3b, 0, 2, a6);
@@ -41703,7 +41956,10 @@ int __stdcall advManager::GetCloudLookup(int a1, int a2)
 // 5306F0: using guessed type char giCurWatchPlayerBit;
 
 //----- (00448500) --------------------------------------------------------
-void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int a4, char a5, int a6)
+// Called many times with different flags.
+// 
+// Rough order of flags: 1 ,128, 8, 4, 2, 64, 32
+void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6)
 {
   signed int v8; // [sp+10h] [bp-18h]@201
   signed int v9; // [sp+14h] [bp-14h]@194
@@ -41713,8 +41969,8 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
 
   if ( !a6 && !bShowIt )
     return;
-  dword_524D10 = 32 * a3;
-  ::y = 32 * a4;
+  drawX = 32 * cellCol;
+  drawY = 32 * cellRow;
   currentlyDrawnMapTile = advManager::GetCell(this, x, y);
   if ( !gbAllBlack && ((signed __int64)__PAIR__(y, x) < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT) )
   {
@@ -41762,7 +42018,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
       idx = (((unsigned __int64)(x + 16) >> 32) ^ abs(x + 16) & 3)
           + 4 * ((((unsigned __int64)(y + 16) >> 32) ^ abs(y + 16) & 3) - ((unsigned __int64)(y + 16) >> 32))
           - ((unsigned __int64)(x + 16) >> 32);
-    TileToBitmap(this->stonTileset, idx, gpWindowManager->screenBuffer, dword_524D10, ::y);
+    TileToBitmap(this->stonTileset, idx, gpWindowManager->screenBuffer, drawX, drawY);
     return;
   }
   if ( !gbAllBlack && (unsigned __int8)(*(&mapRevealed[x] + MAP_WIDTH * y) & giCurWatchPlayerBit) || gbDrawingPuzzle )
@@ -41778,8 +42034,8 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
       dword_524D24 = advManager::GetCloudLookup(x, y);
     if ( !dword_524D24 )
     {
-      if ( a5 & 0x20 )
-        TileToBitmap(this->clofTileset, ((_BYTE)x + (_BYTE)y) & 3, gpWindowManager->screenBuffer, dword_524D10, ::y);
+      if ( cellDrawingPhaseFlags & 0x20 )
+        TileToBitmap(this->clofTileset, ((_BYTE)x + (_BYTE)y) & 3, gpWindowManager->screenBuffer, drawX, drawY);
       return;
     }
     if ( dword_524D24 < 100 )
@@ -41796,14 +42052,14 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
     if ( dword_524D24 == 3 && y & 1 )
       ++dword_524D24;
   }
-  if ( !(a5 & 0x20) || gbDrawingPuzzle )
+  if ( !(cellDrawingPhaseFlags & 0x20) || gbDrawingPuzzle )
   {
-    if ( a5 & 1 )
+    if ( cellDrawingPhaseFlags & 1 )
     {
-      LOWORD(word_524CAC) = currentlyDrawnMapTile->displayFlags;
-      LOWORD(word_524CAC) = (_WORD)word_524CAC << 14;
-      LOWORD(word_524CAC) = word_524CAC | currentlyDrawnMapTile->groundIndex;
-      TileToBitmap(this->groundTileset, (unsigned __int16)word_524CAC, gpWindowManager->screenBuffer, dword_524D10, ::y);
+      word_524CAC = currentlyDrawnMapTile->flags;
+      word_524CAC <<= 14;
+      word_524CAC |= currentlyDrawnMapTile->groundIndex;
+      TileToBitmap(this->groundTileset, (unsigned __int16)word_524CAC, gpWindowManager->screenBuffer, drawX, drawY);
       if ( currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo & 1
         && (!gbDrawingPuzzle
          || (((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 56
@@ -41813,10 +42069,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F] )
         {
           IconToBitmap(
-            (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+            (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             currentlyDrawnMapTile->objectIndex,
             0,
             0,
@@ -41827,13 +42083,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           if ( currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset & 1 )
           {
             dword_524CE4 = GetIconEntry(
-                             (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+                             (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
                              currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
-              (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+              (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawnMapTile->objectIndex + this->field_202 % dword_524CE4 + 1,
               0,
               0,
@@ -41857,10 +42113,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
         {
           IconToBitmap(
-            (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+            (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             currentlyDrawingMapCellExtra->objectIndex,
             0,
             0,
@@ -41871,13 +42127,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           if ( currentlyDrawingMapCellExtra->_1_q_7_objTileset & 1 )
           {
             dword_524CE4 = GetIconEntry(
-                             (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+                             (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
                              currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
-              (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+              (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
               0,
               0,
@@ -41903,10 +42159,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
          || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F]) )
       {
         IconToBitmap(
-          (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+          (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
           gpWindowManager->screenBuffer,
-          dword_524D10,
-          ::y,
+          drawX,
+          drawY,
           currentlyDrawnMapTile->objectIndex,
           0,
           0,
@@ -41917,13 +42173,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         if ( currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset & 1 )
         {
           dword_524CE4 = GetIconEntry(
-                           (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+                           (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
                            currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
           IconToBitmap(
-            (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+            (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             currentlyDrawnMapTile->objectIndex + this->field_202 % dword_524CE4 + 1,
             0,
             0,
@@ -41947,10 +42203,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
         {
           IconToBitmap(
-            (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+            (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             currentlyDrawingMapCellExtra->objectIndex,
             0,
             0,
@@ -41961,13 +42217,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           if ( currentlyDrawingMapCellExtra->_1_q_7_objTileset & 1 )
           {
             dword_524CE4 = GetIconEntry(
-                             (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+                             (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
                              currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
-              (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+              (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
               0,
               0,
@@ -41988,7 +42244,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           currentlyDrawingMapCellExtra = 0;
       }
     }
-    if ( a5 & 2 )
+    if ( cellDrawingPhaseFlags & 2 )
     {
       if ( currentlyDrawnMapTile->objectIndex != 255
         && !(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo & 1)
@@ -41999,10 +42255,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
          || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F]) )
       {
         IconToBitmap(
-          (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+          (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
           gpWindowManager->screenBuffer,
-          dword_524D10,
-          ::y,
+          drawX,
+          drawY,
           currentlyDrawnMapTile->objectIndex,
           0,
           0,
@@ -42013,7 +42269,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         if ( currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset & 1 )
         {
           dword_524CE4 = GetIconEntry(
-                           (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+                           (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
                            currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
           v12 = this->field_202 % dword_524CE4;
           if ( currentlyDrawnMapTile->objType == 223 )
@@ -42024,10 +42280,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
               v12 = dword_524CE4 - 1;
           }
           IconToBitmap(
-            (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+            (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             v12 + currentlyDrawnMapTile->objectIndex + 1,
             0,
             0,
@@ -42053,10 +42309,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
         {
           IconToBitmap(
-            (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+            (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             currentlyDrawingMapCellExtra->objectIndex,
             0,
             0,
@@ -42067,13 +42323,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           if ( currentlyDrawingMapCellExtra->_1_q_7_objTileset & 1 )
           {
             dword_524CE4 = GetIconEntry(
-                             (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+                             (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
                              currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
-              (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+              (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
               0,
               0,
@@ -42094,11 +42350,11 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           currentlyDrawingMapCellExtra = 0;
       }
     }
-    if ( (a5 & 8 || a5 & 0x80) && !gbDrawingPuzzle )
+    if ( (cellDrawingPhaseFlags & 8 || cellDrawingPhaseFlags & 0x80) && !gbDrawingPuzzle )
     {
-      dword_524D04 = 0;
-      dword_524CDC = 0;
-      if ( a5 & 8 )
+      isDrawingHeroOrBoat = 0;
+      curDrawingHero = 0;
+      if ( cellDrawingPhaseFlags & 8 )
       {
         if ( x > 0 )
         {
@@ -42109,10 +42365,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             if ( *(_BYTE *)(dword_524EA8 + 3) == 59 )
             {
               IconToBitmap(
-                (icon *)this->field_CE[10],
+                (icon *)this->tilesetIcns[10],
                 gpWindowManager->screenBuffer,
-                dword_524D10 - 16,
-                ::y,
+                drawX - 16,
+                drawY,
                 (x + y + this->field_202) % 15,
                 1,
                 0,
@@ -42124,10 +42380,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             else if ( *(_BYTE *)(dword_524EA8 + 3) != -1 )
             {
               IconToBitmap(
-                (icon *)this->field_CE[39],
+                (icon *)this->tilesetIcns[39],
                 gpWindowManager->screenBuffer,
-                dword_524D10 - 32,
-                ::y,
+                drawX - 32,
+                drawY,
                 *(_BYTE *)(dword_524EA8 + 3) - 62,
                 1,
                 0,
@@ -42143,10 +42399,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           if ( this->field_2B2 != x || this->field_2B6 != y )
           {
             IconToBitmap(
-              (icon *)this->field_CE[20],
+              (icon *)this->tilesetIcns[20],
               gpWindowManager->screenBuffer,
-              dword_524D10 + 16,
-              ::y + 30,
+              drawX + 16,
+              drawY + 30,
               9 * currentlyDrawnMapTile->objectIndex,
               1,
               0,
@@ -42159,10 +42415,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             else
               dword_524D14 = *(&this->field_20A + (x & 3)) % 6;
             IconToBitmap(
-              (icon *)this->field_CE[20],
+              (icon *)this->tilesetIcns[20],
               gpWindowManager->screenBuffer,
-              dword_524D10 + 16,
-              ::y + 30,
+              drawX + 16,
+              drawY + 30,
               dword_524D14 + 9 * currentlyDrawnMapTile->objectIndex + 1,
               1,
               0,
@@ -42174,10 +42430,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           else
           {
             IconToBitmap(
-              (icon *)this->field_CE[20],
+              (icon *)this->tilesetIcns[20],
               gpWindowManager->screenBuffer,
-              dword_524D10 + 16,
-              ::y + 30,
+              drawX + 16,
+              drawY + 30,
               8 - (this->field_2BA < 1u) + 9 * currentlyDrawnMapTile->objectIndex,
               1,
               0,
@@ -42190,10 +42446,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
       }
       if ( currentlyDrawnMapTile->objType == 171 )
       {
-        dword_524E74 = -1;
-        dword_524EA0 = 6;
+        curDrawingHeroColor = -1;
+        curDrawingHeroFaction = 6;
         spriteIdx = advManager::GetCursorBaseFrame(gpGame->boats[(unsigned __int8)((unsigned __int8)(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].field_3);
-        dword_524D04 = 1;
+        isDrawingHeroOrBoat = 1;
         dword_524D2C = -10;
       }
       else
@@ -42201,22 +42457,22 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         dword_524D2C = 0;
         if ( currentlyDrawnMapTile->objType == 170 )
         {
-          dword_524CDC = (int)&gpGame->heroes[(unsigned __int8)((unsigned __int8)(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
-          dword_524E74 = gpGame->players[*(_BYTE *)(dword_524CDC + 3)].color;
-          dword_524EA0 = *(_BYTE *)(dword_524CDC + 227) & 0x80 ? 6 : *(_BYTE *)(dword_524CDC + 23);
-          spriteIdx = advManager::GetCursorBaseFrame(*(_BYTE *)(dword_524CDC + 44));
-          dword_524D04 = 1;
-          if ( *(_BYTE *)(dword_524CDC + 227) & 0x80 )
+          curDrawingHero = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          curDrawingHeroColor = gpGame->players[curDrawingHero->ownerIdx].color;
+          curDrawingHeroFaction = curDrawingHero->flags & HERO_AT_SEA ? 6 : curDrawingHero->factionID;
+          spriteIdx = advManager::GetCursorBaseFrame(curDrawingHero->directionFacing);
+          isDrawingHeroOrBoat = 1;
+          if ( curDrawingHero->flags & 0x80 )
             dword_524D2C = -10;
         }
       }
-      if ( dword_524D04 )
+      if ( isDrawingHeroOrBoat )
       {
         if ( spriteIdx & 0x80 )
         {
-          if ( a5 & 0x80 )
+          if ( cellDrawingPhaseFlags & 0x80 )
           {
-            if ( this->field_276 && dword_524EA0 != 6 )
+            if ( this->field_276 && curDrawingHeroFaction != 6 )
             {
               v11 = spriteIdx & 0x7F;
               if ( v11 == 51 )
@@ -42236,8 +42492,8 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
               IconToBitmap(
                 this->shadowIcon,
                 gpWindowManager->screenBuffer,
-                dword_524D10,
-                ::y + 31,
+                drawX,
+                drawY + 31,
                 v9 + v11,
                 1,
                 0,
@@ -42246,7 +42502,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
                 480,
                 0);
             }
-            if ( this->field_276 && dword_524EA0 == 6 )
+            if ( this->field_276 && curDrawingHeroFaction == 6 )
             {
               v10 = spriteIdx & 0x7F;
               if ( v10 < 9 || v10 >= 36 )
@@ -42256,8 +42512,8 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
               IconToBitmap(
                 this->boatShadowIcon,
                 gpWindowManager->screenBuffer,
-                dword_524D10,
-                dword_524D2C + ::y + 31,
+                drawX,
+                dword_524D2C + drawY + 31,
                 v8 + v10,
                 1,
                 0,
@@ -42269,12 +42525,12 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           }
           else
           {
-            if ( dword_524EA0 == 6 && !(currentlyDrawnMapTile->displayFlags & 4) )
+            if ( curDrawingHeroFaction == 6 && !(currentlyDrawnMapTile->flags & 4) )
               FlipIconToBitmap(
                 this->frothIcon,
                 gpWindowManager->screenBuffer,
-                dword_524D10 + 32,
-                dword_524D2C + ::y + 31,
+                drawX + 32,
+                dword_524D2C + drawY + 31,
                 spriteIdx & 0x7F,
                 1,
                 0,
@@ -42283,10 +42539,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
                 480,
                 0);
             FlipIconToBitmap(
-              (icon *)this->heroIcons[dword_524EA0],
+              (icon *)this->heroIcons[curDrawingHeroFaction],
               gpWindowManager->screenBuffer,
-              dword_524D10 + 32,
-              dword_524D2C + ::y + 31,
+              drawX + 32,
+              dword_524D2C + drawY + 31,
               spriteIdx & 0x7F,
               1,
               0,
@@ -42294,14 +42550,14 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
               480,
               480,
               0);
-            if ( dword_524E74 != -1 )
+            if ( curDrawingHeroColor != -1 )
             {
-              if ( dword_524EA0 == 6 )
+              if ( curDrawingHeroFaction == 6 )
                 FlipIconToBitmap(
-                  (icon *)this->flagIcons2[dword_524E74],
+                  (icon *)this->flagIconsBoat[curDrawingHeroColor],
                   gpWindowManager->screenBuffer,
-                  dword_524D10 + 32,
-                  dword_524D2C + ::y + 31,
+                  drawX + 32,
+                  dword_524D2C + drawY + 31,
                   spriteIdx & 0x7F,
                   1,
                   0,
@@ -42311,10 +42567,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
                   0);
               else
                 FlipIconToBitmap(
-                  (icon *)this->flagIcons1[dword_524E74],
+                  (icon *)this->flagIconsHero[curDrawingHeroColor],
                   gpWindowManager->screenBuffer,
-                  dword_524D10 + 32,
-                  ::y + 31,
+                  drawX + 32,
+                  drawY + 31,
                   (spriteIdx & 0x7F)
                 + (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
                 - ((unsigned __int64)this->field_202 >> 32)
@@ -42328,14 +42584,14 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             }
           }
         }
-        else if ( a5 & 0x80 )
+        else if ( cellDrawingPhaseFlags & 0x80 )
         {
-          if ( this->field_276 && dword_524EA0 != 6 && a5 & 0x80 )
+          if ( this->field_276 && curDrawingHeroFaction != 6 && cellDrawingPhaseFlags & 0x80 )
             IconToBitmap(
               this->shadowIcon,
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y + 31,
+              drawX,
+              drawY + 31,
               spriteIdx,
               1,
               0,
@@ -42343,12 +42599,12 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
               0x1E0u,
               480,
               0);
-          if ( this->field_276 && dword_524EA0 == 6 )
+          if ( this->field_276 && curDrawingHeroFaction == 6 )
             IconToBitmap(
               this->boatShadowIcon,
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              dword_524D2C + ::y + 31,
+              drawX,
+              dword_524D2C + drawY + 31,
               spriteIdx,
               1,
               0,
@@ -42359,12 +42615,12 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         }
         else
         {
-          if ( dword_524EA0 == 6 && !(currentlyDrawnMapTile->displayFlags & 4) )
+          if ( curDrawingHeroFaction == 6 && !(currentlyDrawnMapTile->flags & 4) )
             IconToBitmap(
               this->frothIcon,
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              dword_524D2C + ::y + 31,
+              drawX,
+              dword_524D2C + drawY + 31,
               spriteIdx,
               1,
               0,
@@ -42373,10 +42629,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
               480,
               0);
           IconToBitmap(
-            (icon *)this->heroIcons[dword_524EA0],
+            (icon *)this->heroIcons[curDrawingHeroFaction],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            dword_524D2C + ::y + 31,
+            drawX,
+            dword_524D2C + drawY + 31,
             spriteIdx,
             1,
             0,
@@ -42384,14 +42640,14 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             0x1E0u,
             480,
             0);
-          if ( dword_524E74 != -1 )
+          if ( curDrawingHeroColor != -1 )
           {
-            if ( dword_524EA0 == 6 )
+            if ( curDrawingHeroFaction == 6 )
               IconToBitmap(
-                (icon *)this->flagIcons2[dword_524E74],
+                (icon *)this->flagIconsBoat[curDrawingHeroColor],
                 gpWindowManager->screenBuffer,
-                dword_524D10,
-                dword_524D2C + ::y + 31,
+                drawX,
+                dword_524D2C + drawY + 31,
                 spriteIdx & 0x7F,
                 1,
                 0,
@@ -42401,10 +42657,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
                 0);
             else
               IconToBitmap(
-                (icon *)this->flagIcons1[dword_524E74],
+                (icon *)this->flagIconsHero[curDrawingHeroColor],
                 gpWindowManager->screenBuffer,
-                dword_524D10,
-                ::y + 31,
+                drawX,
+                drawY + 31,
                 (spriteIdx & 0x7F)
               + (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
               - ((unsigned __int64)this->field_202 >> 32)
@@ -42419,30 +42675,30 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         }
       }
       if ( this->field_272
-        && currentlyDrawnMapTile->displayFlags & 0x40
-        && (!this->field_2A2 || a5 & 0x80)
+        && currentlyDrawnMapTile->flags & MAP_CELL_HAS_ACTIVE_HERO
+        && (!this->hasDrawnCursor || cellDrawingPhaseFlags & 0x80)
         && this->viewX + 7 == x
         && this->viewY + 7 == y
-        && !(a5 & 0x80) )
+        && !(cellDrawingPhaseFlags & 0x80) )
       {
         advManager::DrawCursorShadow(this);
         advManager::DrawCursor(this);
-        this->field_2A2 = 1;
+        this->hasDrawnCursor = 1;
       }
     }
-    if ( a5 & 4 || a5 & 0x40 )
+    if ( cellDrawingPhaseFlags & 4 || cellDrawingPhaseFlags & 0x40 )
     {
-      if ( a5 & 4 && currentlyDrawnMapTile->objectIndex != 255 )
+      if ( cellDrawingPhaseFlags & 4 && currentlyDrawnMapTile->objectIndex != 255 )
       {
         if ( (currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 2) & 1
           && (!gbDrawingPuzzle
            || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F]) )
         {
           IconToBitmap(
-            (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+            (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             currentlyDrawnMapTile->objectIndex,
             0,
             0,
@@ -42453,13 +42709,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           if ( currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset & 1 )
           {
             dword_524CE4 = GetIconEntry(
-                             (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+                             (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
                              currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
-              (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
+              (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawnMapTile->objectIndex + this->field_202 % dword_524CE4 + 1,
               0,
               0,
@@ -42484,10 +42740,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             && (!gbDrawingPuzzle || bPuzzleDraw[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F]) )
           {
             IconToBitmap(
-              (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+              (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawingMapCellExtra->objectIndex,
               0,
               0,
@@ -42498,13 +42754,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             if ( currentlyDrawingMapCellExtra->_1_q_7_objTileset & 1 )
             {
               dword_524CE4 = GetIconEntry(
-                               (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+                               (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
                                currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
               IconToBitmap(
-                (icon *)this->field_CE[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
+                (icon *)this->tilesetIcns[(currentlyDrawingMapCellExtra->_1_q_7_objTileset >> 1) & 0x7F],
                 gpWindowManager->screenBuffer,
-                dword_524D10,
-                ::y,
+                drawX,
+                drawY,
                 currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
                 0,
                 0,
@@ -42526,19 +42782,19 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         }
       }
       if ( currentlyDrawnMapTile->overlayIndex != 255
-        && (a5 & 4
+        && (cellDrawingPhaseFlags & 4
          && !(((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 1) & 1)
-         || a5 & 0x40
+         || cellDrawingPhaseFlags & 0x40
          && ((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 1) & 1) )
       {
         if ( !gbDrawingPuzzle
           || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F] )
         {
           IconToBitmap(
-            (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F],
+            (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
-            dword_524D10,
-            ::y,
+            drawX,
+            drawY,
             currentlyDrawnMapTile->overlayIndex,
             (((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F) == 14,
             0,
@@ -42549,13 +42805,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
           if ( currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset & 1 )
           {
             dword_524CE4 = GetIconEntry(
-                             (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F],
+                             (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F],
                              currentlyDrawnMapTile->overlayIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
-              (icon *)this->field_CE[((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F],
+              (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawnMapTile->overlayIndex + this->field_202 % dword_524CE4 + 1,
               0,
               0,
@@ -42575,17 +42831,19 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         currentlyDrawingMapCellExtra = 0;
       while ( currentlyDrawingMapCellExtra )
       {
-        if ( a5 & 4 && !(((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 1) & 1)
-          || a5 & 0x40 && ((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 1) & 1 )
+        if ( cellDrawingPhaseFlags & 4
+          && !(((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 1) & 1)
+          || cellDrawingPhaseFlags & 0x40
+          && ((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 1) & 1 )
         {
           if ( !gbDrawingPuzzle
             || bPuzzleDraw[((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F] )
           {
             IconToBitmap(
-              (icon *)this->field_CE[((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F],
+              (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F],
               gpWindowManager->screenBuffer,
-              dword_524D10,
-              ::y,
+              drawX,
+              drawY,
               currentlyDrawingMapCellExtra->field_6,
               (((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F) == 14,
               0,
@@ -42596,13 +42854,13 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
             if ( currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q & 1 )
             {
               dword_524CE4 = GetIconEntry(
-                               (icon *)this->field_CE[((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F],
+                               (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F],
                                currentlyDrawingMapCellExtra->field_6)->someSortOfLength & 0x1F;
               IconToBitmap(
-                (icon *)this->field_CE[((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F],
+                (icon *)this->tilesetIcns[((unsigned __int8)currentlyDrawingMapCellExtra->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F],
                 gpWindowManager->screenBuffer,
-                dword_524D10,
-                ::y,
+                drawX,
+                drawY,
                 currentlyDrawingMapCellExtra->field_6 + this->field_202 % dword_524CE4 + 1,
                 0,
                 0,
@@ -42631,8 +42889,8 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
       FlipIconToBitmap(
         this->clopIcon,
         gpWindowManager->screenBuffer,
-        dword_524D10 + 31,
-        ::y,
+        drawX + 31,
+        drawY,
         dword_524D24 - 1,
         0,
         0,
@@ -42641,16 +42899,16 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         0,
         0);
     else
-      IconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, dword_524D10, ::y, dword_524D24 - 1, 0, 0, 0, 0, 0, 0);
+      IconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, drawX, drawY, dword_524D24 - 1, 0, 0, 0, 0, 0, 0);
   }
   else if ( this->field_A2 && *(_WORD *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) )
   {
     if ( (*(_WORD *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) >> 8) & 1 )
       IconToBitmapColorTable(
-        (icon *)this->field_CE[17],
+        (icon *)this->tilesetIcns[17],
         gpWindowManager->screenBuffer,
-        dword_524D10 - 12,
-        ::y + 2,
+        drawX - 12,
+        drawY + 2,
         (unsigned __int8)(*(_WORD *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) - 1),
         1,
         0,
@@ -42662,10 +42920,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
         1);
     else
       IconToBitmap(
-        (icon *)this->field_CE[17],
+        (icon *)this->tilesetIcns[17],
         gpWindowManager->screenBuffer,
-        dword_524D10 - 12,
-        ::y + 2,
+        drawX - 12,
+        drawY + 2,
         (unsigned __int8)(*(_WORD *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) - 1),
         1,
         0,
@@ -42682,16 +42940,15 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int a3, int
 // 4F7470: using guessed type int gbAllBlack;
 // 524C14: using guessed type int bShowIt;
 // 524CD4: using guessed type int dword_524CD4;
-// 524CDC: using guessed type int dword_524CDC;
 // 524CE4: using guessed type int dword_524CE4;
 // 524CF8: using guessed type int dword_524CF8;
-// 524D04: using guessed type int dword_524D04;
+// 524D04: using guessed type int isDrawingHeroOrBoat;
 // 524D08: using guessed type int dword_524D08;
 // 524D14: using guessed type int dword_524D14;
 // 524D24: using guessed type int dword_524D24;
 // 524D2C: using guessed type int dword_524D2C;
-// 524E74: using guessed type int dword_524E74;
-// 524EA0: using guessed type int dword_524EA0;
+// 524E74: using guessed type int curDrawingHeroColor;
+// 524EA0: using guessed type int curDrawingHeroFaction;
 // 524EA8: using guessed type int dword_524EA8;
 // 5306F0: using guessed type char giCurWatchPlayerBit;
 
@@ -43530,7 +43787,7 @@ LABEL_145:
       v22->objectIndex,
       v22->objType,
       (unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
-      v22->displayFlags & 8,
+      v22->flags & 8,
       &a1,
       a2 + v9->viewX,
       a3 + v9->viewY);
@@ -43681,15 +43938,10 @@ void __thiscall advManager::UpdateTownLocators(advManager *this, int a2, int a3)
     evt = 512;
     for ( j = 0; j < 4; ++j )
     {
-      i = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-          + j
-          + BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)
-          + 2);
+      i = *(&gpCurPlayer->castlesOwned[j] + gpCurPlayer->relatedToUnknown);
       v5 = 8;
       v6 = j + 32;
-      if ( LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) == -1
-        || LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) != i
-        || gbAllBlack )
+      if ( gpCurPlayer->mightBeCurCastleIdx == -1 || gpCurPlayer->mightBeCurCastleIdx != i || gbAllBlack )
         v7 = 36;
       else
         v7 = 153;
@@ -43727,7 +43979,7 @@ void __thiscall advManager::UpdateTownLocators(advManager *this, int a2, int a3)
         heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 154), (tag_message *)&evt);
       }
     }
-    *(_WORD *)&(*(heroWindow **)((char *)v3 + 182))->filename[14] = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) * (74.0 / (double)((signed int)gpCurPlayer->numCastles - 4)) + 195.0) : 232;
+    *(_WORD *)&(*(heroWindow **)((char *)v3 + 182))->filename[14] = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)gpCurPlayer->relatedToUnknown * (74.0 / (double)((signed int)gpCurPlayer->numCastles - 4)) + 195.0) : 232;
     if ( a2 )
       heroWindow::DrawWindow(*(heroWindow **)((char *)v3 + 154), a3);
   }
@@ -44335,7 +44587,7 @@ signed int __thiscall advManager::UpdBottomViewKingdom(advManager *this)
     heroWindow::AddWidget(this->adventureScreen, this->someComponents[0][1], -1);
     for ( i = 0; gpCurPlayer->numCastles > i; ++i )
     {
-      if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].buildingsBuiltFlags & 0x40 )
+      if ( gpGame->castles[gpCurPlayer->castlesOwned[i]].buildingsBuiltFlags & 0x40 )
         ++v27;
       else
         ++v6;
@@ -45418,7 +45670,7 @@ playerData *__cdecl advManager::DeactivateCurrTown()
   playerData *result; // eax@1
 
   result = gpCurPlayer;
-  LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = -1;
+  gpCurPlayer->mightBeCurCastleIdx = -1;
   return result;
 }
 
@@ -45457,12 +45709,12 @@ void __thiscall advManager::DemobilizeCurrHero(advManager *thisa)
     tile = advManager::GetCell(thisa, hro->x, hro->y);
     hro->occupiedObjType = tile->objType;
     hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-    HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = LOBYTE(thisa->field_27E);
-    if ( thisa->field_27A == 6 )
+    hro->directionFacing = LOBYTE(thisa->field_27E);
+    if ( thisa->mobilizedHeroFactionOrBoat == 6 )
       hro->flags |= 0x80u;
     tile->objType = 170;
     tile->field_4_1_1_isShadow_1_13_extraInfo = tile->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * hro->idx;
-    tile->displayFlags &= 0xBFu;
+    tile->flags &= 0xBFu;
     thisa->field_272 = 0;
     advManager::CompleteDraw(thisa, thisa->viewX, thisa->viewY, 0, 1);
     advManager::UpdateScreen(thisa, 0, 0);
@@ -45479,24 +45731,24 @@ advManager *__thiscall advManager::SetTownContext(advManager *this, int a2)
   char *v7; // [sp+18h] [bp-4h]@1
 
   advManager::DeactivateCurrHero(this);
-  LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = a2;
-  v7 = (char *)&gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
-  this->viewX = gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - 7;
+  gpCurPlayer->mightBeCurCastleIdx = a2;
+  v7 = (char *)&gpGame->castles[gpCurPlayer->mightBeCurCastleIdx];
+  this->viewX = gpGame->castles[gpCurPlayer->mightBeCurCastleIdx].x - 7;
   this->viewY = (unsigned __int8)v7[5] - 7;
   v4 = 0;
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    if ( *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2) == a2 )
+    if ( gpCurPlayer->castlesOwned[i] == a2 )
       v4 = i;
   }
-  if ( SBYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) <= v4 )
+  if ( gpCurPlayer->relatedToUnknown <= v4 )
   {
-    if ( BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) + 3 < v4 )
-      BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v4 - 3;
+    if ( gpCurPlayer->relatedToUnknown + 3 < v4 )
+      gpCurPlayer->relatedToUnknown = v4 - 3;
   }
   else
   {
-    BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v4;
+    gpCurPlayer->relatedToUnknown = v4;
   }
   advManager::UpdateHeroLocators(this, 1, 1);
   advManager::UpdateTownLocators(this, 1, 1);
@@ -45545,13 +45797,13 @@ void __thiscall advManager::SetHeroContext(advManager *this, int heroIdx, int a3
     this->field_29E = -1;
     this->field_296 = this->field_29E;
     if ( hro->flags & HERO_AT_SEA )
-      this->field_27A = 6;
+      this->mobilizedHeroFactionOrBoat = 6;
     else
-      this->field_27A = hro->factionID;
-    this->field_27E = HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID);
-    this->field_282 = advManager::GetCursorBaseFrame(this->field_27E);
+      this->mobilizedHeroFactionOrBoat = hro->factionID;
+    this->field_27E = hro->directionFacing;
+    this->mobilizedHeroBaseFrameBit8IsFlip = advManager::GetCursorBaseFrame(this->field_27E);
     v4 = advManager::GetCell(this, hro->x, hro->y);
-    v4->displayFlags |= 0x40u;
+    v4->flags |= 0x40u;
     game::RestoreCell(hro->x, hro->y, hro->occupiedObjType, hro->occupiedObjVal, 0, 4);
     heroOwnedIdx = 0;
     for ( i = 0; gpCurPlayer->numHeroes > i; ++i )
@@ -45674,7 +45926,7 @@ void __thiscall advManager::DoTownKnob(void *this)
   double v12; // [sp+84h] [bp-8h]@1
 
   v1 = this;
-  v11 = BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx);
+  v11 = gpCurPlayer->relatedToUnknown;
   v10 = gpCurPlayer->numCastles;
   v12 = 73.0 / (double)(v10 - 4);
   mouseManager::MouseCoords(&x, &y);
@@ -45697,7 +45949,7 @@ void __thiscall advManager::DoTownKnob(void *this)
         v4 = (signed __int64)((double)((signed int)*(_WORD *)(*(_DWORD *)((char *)v1 + 182) + 26) - 195) / v12);
         if ( v4 != v11 )
         {
-          BYTE1(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) = v4;
+          gpCurPlayer->relatedToUnknown = v4;
           if ( v10 - 3 < v4 )
             v4 = v10 - 3;
           advManager::UpdateTownLocators((advManager *)v1, 0, 1);
@@ -45967,7 +46219,7 @@ signed int __thiscall DimensionDoorHandler(void *this)
       gpAdvManager->xOff = v10;
       gpAdvManager->yOff = v8;
       v6 = advManager::GetCell(gpAdvManager, v10 + gpAdvManager->viewX, v8 + gpAdvManager->viewY);
-      if ( v6->objType & 0x80 || v6->displayFlags & 8 )
+      if ( v6->objType & 0x80 || v6->flags & 8 )
       {
         gpWindowManager->buttonPressedCode = 0;
         mouseManager::SetPointer(gpMouseManager, 0);
@@ -46069,7 +46321,7 @@ signed int __thiscall advManager::ComboDraw(advManager *this, int a2, int a3, in
   this->field_1DE = this->viewX;
   this->field_1E2 = this->viewY;
   memset(&bComboDraw, 0, 0x100u);
-  this->field_2A2 = 0;
+  this->hasDrawnCursor = 0;
   for ( a4a = 0; a4a < 15; ++a4a )
   {
     for ( a3a = 0; a3a < 15; ++a3a )
@@ -46187,7 +46439,7 @@ signed int __thiscall advManager::ComboDraw(advManager *this, int a2, int a3, in
         ++*((_BYTE *)&bComboDraw + 18 * a3c + a4c);
     }
   }
-  if ( this->field_27A == 6 )
+  if ( this->mobilizedHeroFactionOrBoat == 6 )
   {
     ++byte_524DA1;
     ++byte_524DB3;
@@ -46273,7 +46525,7 @@ signed int __thiscall advManager::ComboDraw(advManager *this, int a2, int a3, in
     for ( a3g = 0; a3g < 15; ++a3g )
     {
       if ( *((_BYTE *)&bComboDraw + 18 * a3g + a4g) )
-        advManager::DrawCell(this, a2 + a3g, a3 + a4g, a3g, a4g, -128, 0);
+        advManager::DrawCell(this, a2 + a3g, a3 + a4g, a3g, a4g, 128, 0);
     }
   }
   for ( a3h = 0; a3h < 15; ++a3h )
@@ -46723,9 +46975,9 @@ signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x,
   if ( hro->occupiedObjType == 163 )
     gpGame->castles[hro->occupiedObjVal].visitingHeroIdx = -1;
   v12 = 0;
-  if ( v11->displayFlags & 0x40 )
+  if ( v11->flags & MAP_CELL_HAS_ACTIVE_HERO )
   {
-    v11->displayFlags -= 64;
+    v11->flags -= MAP_CELL_HAS_ACTIVE_HERO;
     v12 = 1;
   }
   else
@@ -46747,11 +46999,11 @@ signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x,
   hro->x = x;
   hro->y = y;
   v6 = giVisRange[hro->secondarySkillLevel[3]];
-  v7 = hero::HasArtifact(hro, 64);
+  v7 = hero::HasArtifact(hro, ARTIFACT_TELESCOPE);
   game::SetVisibility(gpGame, this->viewX + 7, this->viewY + 7, giCurPlayer, ((unsigned int)v7 >= 1) + v6);
   if ( bShowIt )
   {
-    v10->displayFlags |= 0x40u;
+    v10->flags |= MAP_CELL_HAS_ACTIVE_HERO;
     heroWindowManager::SaveFizzleSource(gpWindowManager, 16, 16, 448, 448);
     advManager::CompleteDraw(this, 0);
     PollSound();
@@ -46764,14 +47016,14 @@ signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x,
     hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(v10->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
     if ( v12 )
     {
-      v10->displayFlags |= 0x40u;
+      v10->flags |= MAP_CELL_HAS_ACTIVE_HERO;
     }
     else
     {
-      v10->objType = -86;
+      v10->objType = 170;
       v10->field_4_1_1_isShadow_1_13_extraInfo = v10->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * hro->idx;
     }
-    if ( this->field_27A == 6 )
+    if ( this->mobilizedHeroFactionOrBoat == 6 )
       hro->flags |= 0x80u;
     this->field_272 = 0;
   }
@@ -46907,9 +47159,8 @@ void __thiscall advManager::TownGate(advManager *ecx0, int spell)
   {
     for ( i = 0; gpCurPlayer->numCastles > i; ++i )
     {
-      xdist = abs(gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].x - hro->x);
-      dist = abs(gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].y - hro->y)
-           + xdist;
+      xdist = abs(gpGame->castles[gpCurPlayer->castlesOwned[i]].x - hro->x);
+      dist = abs(gpGame->castles[gpCurPlayer->castlesOwned[i]].y - hro->y) + xdist;
       if ( dist < smallestDist )
       {
         smallestDist = dist;
@@ -46931,9 +47182,7 @@ void __thiscall advManager::TownGate(advManager *ecx0, int spell)
   heroWindow::BroadcastMessage(townPortalWin, &evt);
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    sprintf(
-      gText,
-      gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].name);
+    sprintf(gText, gpGame->castles[gpCurPlayer->castlesOwned[i]].name);
     evt.eventCode = INPUT_GUI_MESSAGE_CODE;
     evt.xCoordOrKeycode = GUI_MESSAGE_DROPLIST_ADD;
     evt.yCoordOrFieldID = 100;
@@ -46949,25 +47198,21 @@ void __thiscall advManager::TownGate(advManager *ecx0, int spell)
   if ( gpWindowManager->buttonPressedCode != BUTTON_CANCEL )
   {
 LABEL_19:
-    if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].visitingHeroIdx == -1 )
+    if ( gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].visitingHeroIdx == -1 )
     {
       soundManager::SwitchAmbientMusic((soundManager *)gpSoundManager, 1);
       advManager::TeleportTo(
         ecx0,
         hro,
-        gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].x,
-        gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].y,
+        gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].x,
+        gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].y,
         0,
         0);
       hero::UseSpell(hro, spell);
-      gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)].visitingHeroIdx = hro->idx;
-      town::GiveSpells(
-        &gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + targetCastle + 2)],
-        0);
+      gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]].visitingHeroIdx = hro->idx;
+      town::GiveSpells(&gpGame->castles[gpCurPlayer->castlesOwned[targetCastle]], 0);
       hro->occupiedObjType = 163;
-      hro->occupiedObjVal = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                            + targetCastle
-                            + 2);
+      hro->occupiedObjVal = gpCurPlayer->castlesOwned[targetCastle];
       soundManager::SwitchAmbientMusic(
         (soundManager *)gpSoundManager,
         (unsigned __int8)giTerrainToMusicTrack[ecx0->currentTerrain]);
@@ -47009,7 +47254,7 @@ void __thiscall advManager::SummonBoat(advManager *this)
     for ( i = 0; i < 8; ++i )
     {
       col = this->viewX + normalDirTable[4 * i] + 7;
-      row = this->viewY + byte_4F1DC1[4 * i] + 7;
+      row = this->viewY + normalDirTable[4 * i + 1] + 7;
       if ( col >= 0 )
       {
         if ( MAP_WIDTH > col )
@@ -47091,7 +47336,7 @@ void __thiscall advManager::SummonBoat(advManager *this)
           heroWindowManager::FizzleForward(gpWindowManager, x, y, width, height, -1, 0, 0);
         }
         *(_BYTE *)(v8 + 1) = LOBYTE(this->viewX) + normalDirTable[4 * i] + 7;
-        *(_BYTE *)(v8 + 2) = LOBYTE(this->viewY) + byte_4F1DC1[4 * i] + 7;
+        *(_BYTE *)(v8 + 2) = LOBYTE(this->viewY) + normalDirTable[4 * i + 1] + 7;
         *(_BYTE *)(v8 + 4) = v15->objType;
         *(_BYTE *)(v8 + 5) = v15->field_4_1_1_isShadow_1_13_extraInfo >> 3;
         v15->objType = -85;
@@ -47169,7 +47414,7 @@ void __thiscall advManager::ShowRoute(void *this, int a2, int a3, int a4)
             v9 = *((_BYTE *)&gpSearchArray->field_2418 + i);
             v4 = advManager::GetCell((advManager *)thisa, col, row);
             col += normalDirTable[4 * v9];
-            row += byte_4F1DC1[4 * v9];
+            row += normalDirTable[4 * v9 + 1];
             v5 = advManager::GetCell((advManager *)thisa, col, row);
             v6 = (unsigned __int8)giGroundToTerrain[v4->groundIndex];
             v15 = CalcTerrainCost(
@@ -47564,11 +47809,10 @@ int __thiscall advManager::SetInitialMapOrigin(advManager *this)
   this->xOff = this->yOff;
   this->field_272 = 0;
   gbHeroMoving = 0;
-  if ( gbThisNetHumanPlayer[giCurPlayer]
-    && LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx) != -1 )
+  if ( gbThisNetHumanPlayer[giCurPlayer] && gpCurPlayer->mightBeCurCastleIdx != -1 )
   {
-    v1 = (char *)&gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
-    this->viewX = gpGame->castles[LOBYTE(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - 7;
+    v1 = (char *)&gpGame->castles[gpCurPlayer->mightBeCurCastleIdx];
+    this->viewX = gpGame->castles[gpCurPlayer->mightBeCurCastleIdx].x - 7;
     this->viewY = (unsigned __int8)v1[5] - 7;
   }
   else if ( gbThisNetHumanPlayer[giCurPlayer] && gpCurPlayer->curHeroIdx != -1 )
@@ -47590,8 +47834,8 @@ int __thiscall advManager::SetInitialMapOrigin(advManager *this)
       }
       else
       {
-        v3 = (char *)&gpGame->castles[BYTE2(v6->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
-        this->viewX = gpGame->castles[BYTE2(v6->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - 7;
+        v3 = (char *)&gpGame->castles[v6->castlesOwned[0]];
+        this->viewX = gpGame->castles[v6->castlesOwned[0]].x - 7;
         this->viewY = (unsigned __int8)v3[5] - 7;
       }
     }
@@ -47998,7 +48242,7 @@ signed int __thiscall advManager::FindAdjacentMonster(advManager *this, int argX
           }
           else if ( (advManager::GetCell(thisa, argX, argY)->objectIndex == 255
    || (((unsigned __int8)advManager::GetCell(thisa, argX, argY)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47
-   || advManager::GetCell(thisa, argX, argY)->displayFlags & 0x80)
+   || advManager::GetCell(thisa, argX, argY)->flags & 0x80)
   && (giAdjacentMonsterX != unwantedCoordX || giAdjacentMonsterY != unwantedCoordY) )
           {
             goto LABEL_53;
@@ -48042,7 +48286,7 @@ LABEL_50:
   }
   if ( advManager::GetCell(thisa, argX, argY)->objectIndex != 255
     && (((unsigned __int8)advManager::GetCell(thisa, argX, argY)->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 47
-    && !(advManager::GetCell(thisa, argX, argY)->displayFlags & 0x80)
+    && !(advManager::GetCell(thisa, argX, argY)->flags & 0x80)
     || giAdjacentMonsterX == unwantedCoordX && giAdjacentMonsterY == unwantedCoordY )
     goto LABEL_50;
 LABEL_53:
@@ -48340,7 +48584,7 @@ int __thiscall advManager::PuzzleDraw(advManager *this, int a2, int a3, int a4, 
   advManager::CompleteDraw(this, a2, a3, 0, 0);
   gbDrawingPuzzle = 0;
   return IconToBitmap(
-           (icon *)this->field_CE[17],
+           (icon *)this->tilesetIcns[17],
            gpWindowManager->screenBuffer,
            32 * (a4 - a2) - 12,
            32 * (a5 - a3),
@@ -48994,7 +49238,7 @@ signed int __thiscall SystemOptionsHandler(void *this)
                 if ( !*(_DWORD *)(gpSoundManager + 1706) )
                   soundManager::MIDIStartup((soundManager *)gpSoundManager);
                 if ( *(_DWORD *)(gpSoundManager + 1698) )
-                  soundManager::SetMusicQuality(gpSoundManager, 0);
+                  soundManager::SetMusicQuality((soundManager *)gpSoundManager, 0);
                 else
                   *(_DWORD *)&useOpera = 1 - *(_DWORD *)&useOpera;
               }
@@ -49022,7 +49266,7 @@ signed int __thiscall SystemOptionsHandler(void *this)
                   0);
                 break;
               }
-              soundManager::SetMusicQuality(gpSoundManager, 1);
+              soundManager::SetMusicQuality((soundManager *)gpSoundManager, 1);
               *(_DWORD *)&useOpera = 0;
             }
             v6 = 1;
@@ -51758,7 +52002,7 @@ char *__thiscall game::GetLossConditionText(game *this, char *a2)
         v3 = game::GetTownId(
                this,
                *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX,
-               LOWORD(this->mapHeader.lossConditionArgumentOrLocY));
+               this->mapHeader.lossConditionArgumentOrLocY);
         result = (char *)sprintf(
                            a2,
                            "Lose the %s '%s'.",
@@ -51822,7 +52066,7 @@ void __thiscall game::GetVictoryConditionText(game *thisa, char *buf)
         break;
       case WIN_CONDITION_FIND_ARTIFACT:
         if ( thisa->mapHeader.winConditionArgumentOrLocX )
-          sprintf(buf, "Find the %s", dword_4F55F4[thisa->mapHeader.winConditionArgumentOrLocX]);
+          sprintf(buf, "Find the %s", oneBeforeGArtifactNames[thisa->mapHeader.winConditionArgumentOrLocX]);
         else
           sprintf(buf, "Find the ultimate artifact");
         break;
@@ -52602,20 +52846,9 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
       heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j), -1);
       if ( giOverviewType == 1 )
       {
-        v54 = (int)((char *)v13
-                  + 100
-                  * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                    + j
-                    + giOverviewTop[giOverviewType]
-                    + 2)
-                  + 2899);
+        v54 = (int)((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2899);
         v5 = word_511E74 + 79;
-        v6 = strlen((char *)v13 + 100
-                                * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                  + j
-                                  + giOverviewTop[giOverviewType]
-                                  + 2)
-                                + 2986);
+        v6 = strlen((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2986);
         content = (char *)BaseAlloc(v6 + 1, "F:\\h2xsrc\\Source\\Overview.cpp", v5);
         strcpy(content, (char *)(v54 + 87));
         v40 = (textWidget *)operator new(43);
@@ -53803,31 +54036,16 @@ signed int __thiscall game::ProcessIconSelect(void *this, signed int a2, unsigne
     }
     if ( giOverviewType == 1 )
     {
-      castle = (int)((char *)v6
-                   + 100
-                   * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                     + v9
-                     + giOverviewTop[giOverviewType]
-                     + 2)
-                   + 2899);
+      castle = (int)((char *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2899);
       if ( v14 == 4 )
       {
         giOverviewReturnAction = 2;
-        giOverviewReturnActionExtra = *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                      + v9
-                                      + giOverviewTop[giOverviewType]
-                                      + 2);
+        giOverviewReturnActionExtra = *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]);
         return 1;
       }
       if ( v14 >= 39
         && v14 <= 43
-        && *((_BYTE *)v6
-           + 100
-           * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-             + v9
-             + giOverviewTop[giOverviewType]
-             + 2)
-           + 2922) != -1 )
+        && *((_BYTE *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2922) != -1 )
       {
         giOverviewReturnAction = 1;
         giOverviewReturnActionExtra = *(_BYTE *)(castle + 23);
@@ -53844,41 +54062,17 @@ signed int __thiscall game::ProcessIconSelect(void *this, signed int a2, unsigne
             119,
             20,
             (CREATURES)*((_BYTE *)v6
-                       + 100
-                       * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                         + v9
-                         + giOverviewTop[giOverviewType]
-                         + 2)
+                       + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType])
                        + v14
                        + 2902),
-            *((_WORD *)v6
-            + 50
-            * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-              + v9
-              + giOverviewTop[giOverviewType]
-              + 2)
-            + v14
-            - 5
-            + 1456),
-            (int)((char *)v6
-                + 100
-                * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                  + v9
-                  + giOverviewTop[giOverviewType]
-                  + 2)
-                + 2899),
+            *((_WORD *)v6 + 50 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + v14 - 5 + 1456),
+            (int)((char *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2899),
             0,
             1u,
             a3,
             0,
             0,
-            (armyGroup *)((char *)v6
-                        + 100
-                        * *((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                          + v9
-                          + giOverviewTop[giOverviewType]
-                          + 2)
-                        + 2907),
+            (armyGroup *)((char *)v6 + 100 * *(&gpCurPlayer->castlesOwned[v9] + giOverviewTop[giOverviewType]) + 2907),
             v14 - 5);
           if ( !a3 )
             game::SetupDynamicStuff(v6, 1, 1, 1);
@@ -54834,7 +55028,7 @@ char __thiscall searchArray::PushPoint(searchArray *this, int a2, int a3, int a4
                   *((_BYTE *)Src + 4) |= 8u;
                   v19 = a4;
                   *((_BYTE *)Src + 7) = a2 - normalDirTable[4 * a4];
-                  *((_BYTE *)Src + 8) = a3 - byte_4F1DC1[4 * a4];
+                  *((_BYTE *)Src + 8) = a3 - normalDirTable[4 * a4 + 1];
                 }
                 *(_BYTE *)Src = a2;
                 *((_BYTE *)Src + 1) = a3;
@@ -54888,7 +55082,7 @@ signed int __thiscall searchArray::TestPossibleDirections(searchArray *this, __i
   do
   {
     v8 = a2 + normalDirTable[4 * dword_526B8C];
-    result = HIDWORD(a2) + byte_4F1DC1[4 * dword_526B8C];
+    result = HIDWORD(a2) + normalDirTable[4 * dword_526B8C + 1];
     dword_526B88 = v8;
     ::a3 = result;
     if ( v8 < 0
@@ -54944,12 +55138,15 @@ LABEL_49:
           v10 = normalDirTable[4 * dword_526B8C];
           if ( v10 )
           {
-            if ( byte_4F1DC1[4 * dword_526B8C] )
+            if ( normalDirTable[4 * dword_526B8C + 1] )
             {
               result = (signed int)advManager::GetCell(gpAdvManager, a2 + v10, SHIDWORD(a2));
               if ( giGroundToTerrain[*(_WORD *)result] )
                 goto LABEL_49;
-              result = (signed int)advManager::GetCell(gpAdvManager, a2, HIDWORD(a2) + byte_4F1DC1[4 * dword_526B8C]);
+              result = (signed int)advManager::GetCell(
+                                     gpAdvManager,
+                                     a2,
+                                     HIDWORD(a2) + normalDirTable[4 * dword_526B8C + 1]);
               if ( giGroundToTerrain[*(_WORD *)result] )
                 goto LABEL_49;
             }
@@ -56806,7 +57003,7 @@ int __thiscall searchArray::BuildPath(searchArray *this, int a2, int a3, int a4,
   v6 = (char *)&this->field_2418;
   this->field_8 = 0;
   v7 = a4;
-  for ( i = a5; a2 != v7 || a3 != i; i += byte_4F1DC1[4 * v11] )
+  for ( i = a5; a2 != v7 || a3 != i; i += normalDirTable[4 * v11 + 1] )
   {
     v9 = &this->field_2414[v7 + i * MAP_WIDTH];
     if ( v9->field_0 != v7 && v9->field_1 != i )
@@ -57042,7 +57239,7 @@ LABEL_55:
           {
             if ( byte_526C30[dword_526C9C] != -1 )
             {
-              v24 = byte_4F1DC1[4 * dword_526C9C];
+              v24 = normalDirTable[4 * dword_526C9C + 1];
               dword_526C38 = (unsigned __int8)byte_526C58 + normalDirTable[4 * dword_526C9C];
               dword_526C6C = (unsigned __int8)byte_526C59 + v24;
               v25 = dword_526C38 + dword_526C6C * MAP_WIDTH;
@@ -57143,7 +57340,7 @@ LABEL_72:
             dword_526C9C = 0;
             do
             {
-              v39 = byte_4F1DC1[4 * dword_526C9C];
+              v39 = normalDirTable[4 * dword_526C9C + 1];
               dword_526C50 = dword_526C8C + normalDirTable[4 * dword_526C9C];
               dword_526C88 = dword_526C64 + v39;
               if ( dword_526C50 >= 0 && dword_526C50 < MAP_WIDTH && dword_526C88 >= 0 && MAP_HEIGHT > dword_526C88 )
@@ -57391,7 +57588,7 @@ void __thiscall town::BuildBuilding(town *this, signed int buildingCode)
   }
   thisa->buildingsBuiltFlags |= 1 << buildingCode;
   if ( buildingCode == BUILDING_UPGRADE_1 )
-    thisa->buildingsBuiltFlags &= 0xFFEFFFFFu;
+    thisa->buildingsBuiltFlags &= 0xFFEFFFFFu;  // Turns off the code for dwelling 2
   if ( buildingCode == BUILDING_UPGRADE_2 )
     thisa->buildingsBuiltFlags &= 0xFFDFFFFFu;
   if ( buildingCode == BUILDING_UPGRADE_3 )
@@ -57402,11 +57599,13 @@ void __thiscall town::BuildBuilding(town *this, signed int buildingCode)
     thisa->buildingsBuiltFlags &= 0xFEFFFFFFu;
   if ( buildingCode == BUILDING_UPGRADE_5B )
     thisa->buildingsBuiltFlags &= 0xDEFFFFFFu;
-  if ( buildingCode >= 19 && buildingCode <= 24 )
-    *(_WORD *)&thisa[-1].name[2 * buildingCode + 5] = gMonsterDatabase[LOBYTE((&gTownObjNames[3 * thisa->factionID + 27])[buildingCode + 1])].growth;
-  if ( buildingCode >= 25 && buildingCode <= 29 )
+  if ( buildingCode >= BUILDING_DWELLING_1 && buildingCode <= BUILDING_DWELLING_6 )
+    *(_WORD *)&thisa[-1].name[2 * buildingCode + 5] = gMonsterDatabase[*(_BYTE *)(buildingCode
+                                                                                + 12 * thisa->factionID
+                                                                                + 0x4F3D7D)].growth;
+  if ( buildingCode >= BUILDING_UPGRADE_1 && buildingCode <= BUILDING_UPGRADE_5 )
     *(_WORD *)&thisa[-1].name[2 * buildingCode + 5] = *(_WORD *)&thisa[-1].numSpellsOfLevel[2 * buildingCode + 2];
-  if ( buildingCode == 30 )
+  if ( buildingCode == BUILDING_UPGRADE_5B )
     thisa->numCreaturesInDwelling[11] = thisa->numCreaturesInDwelling[10];
   if ( buildingCode == BUILDING_CASTLE )
   {
@@ -57416,7 +57615,6 @@ void __thiscall town::BuildBuilding(town *this, signed int buildingCode)
   town::GiveSpells(thisa, 0);
   BitSet(gpGame->field_27BB, thisa->idx);
 }
-// 4F3D10: using guessed type char *gTownObjNames[32];
 
 //----- (00469EC0) --------------------------------------------------------
 bool __thiscall town::CanBuildDock(town *this)
@@ -59602,9 +59800,7 @@ signed int __thiscall armyGroup::GetMorale(armyGroup *this, hero *hro, town *cas
   totMorale = v11 + artifactMorale;
   if ( castle && castle->factionID != FACTION_NECROMANCER && castle->buildingsBuiltFlags & 4 )
     ++totMorale;
-  if ( castle
-    && castle->factionID == FACTION_BARBARIAN
-    && BYTE1(castle->buildingsBuiltFlags) & BUILDING_SPECIAL_DEFENSE_BUILT )
+  if ( castle && castle->factionID == FACTION_BARBARIAN && BYTE1(castle->buildingsBuiltFlags) & BUILDING_TENT_BUILT )
     totMorale += 2;
   if ( totMorale >= -3 )
   {
@@ -62265,8 +62461,8 @@ combatManager *__thiscall combatManager::SetupCombat(combatManager *this, __int6
   thisa = this;
   giSeed = a10;
   SRand(a9 + 100 * a8);
-  *(_DWORD *)&thisa->_15[28] = a8;
-  *(_DWORD *)&thisa->_15[32] = a9;
+  thisa->field_F4FB = a8;
+  thisa->field_F4FF = a9;
   if ( a2 < 0 )
     thisa->field_327B = 0;
   else
@@ -62403,7 +62599,7 @@ void __thiscall combatManager::InitNonVisualVars(combatManager *this)
       this->heroSpellpowers[i] = hero::Stats(this->heroes[i], PRIMARY_SKILL_SPELLPOWER);
     if ( this->castles[i] && this->castles[i]->factionID == FACTION_NECROMANCER )
     {
-      if ( BYTE1(this->castles[i]->buildingsBuiltFlags) & BUILDING_SPECIAL_DEFENSE_BUILT )
+      if ( BYTE1(this->castles[i]->buildingsBuiltFlags) & BUILDING_TENT_BUILT )
         this->heroSpellpowers[i] += 2;
     }
   }
@@ -62527,7 +62723,7 @@ int __thiscall combatManager::Open(combatManager *this, int a2)
   heroWindow *window; // [sp+10h] [bp-20h]@7
   bitmap *v8; // [sp+1Ch] [bp-14h]@4
   bitmap *thisb; // [sp+20h] [bp-10h]@1
-  __int64 res; // [sp+24h] [bp-Ch]@7
+  SAMPLE2 res; // [sp+24h] [bp-Ch]@7
   int oldShowCombatMouse; // [sp+2Ch] [bp-4h]@1
 
   LogStr("Op1");
@@ -62592,7 +62788,7 @@ int __thiscall combatManager::Open(combatManager *this, int a2)
     memmove(v3, v2, this->palette->contents, gpBufferPalette->contents, 768u);
   heroWindowManager::FadeScreen(gpWindowManager, 0, 8, this->palette);
   gbLimitedCombatUpdatePalette = 1;
-  WaitEndSample((void *)0xFFFFFFFF, (resource *)res, HIDWORD(res));
+  WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
   LogStr("Op3");
   v4 = SRandom(2, 4);
   soundManager::SwitchAmbientMusic((soundManager *)gpSoundManager, v4);
@@ -62853,14 +63049,14 @@ bool __thiscall combatManager::MoreTreesNear(combatManager *this)
 
   thisa = this;
   memset(v3, 0xFFu, 0x18u);
-  v9 = *(_DWORD *)&thisa->_15[28];
-  v6 = *(_DWORD *)&thisa->_15[32];
+  v9 = thisa->field_F4FB;
+  v6 = thisa->field_F4FF;
   for ( i = 0; i < 3; ++i )
   {
     for ( j = 0; j < 8; ++j )
     {
       col = v9 + i * normalDirTable[4 * j];
-      row = v6 + i * byte_4F1DC1[4 * j];
+      row = v6 + i * normalDirTable[4 * j + 1];
       if ( col >= 0 && MAP_WIDTH > col && row >= 0 && row < MAP_HEIGHT )
       {
         v4 = advManager::GetCell(gpAdvManager, col, row);
@@ -63151,7 +63347,7 @@ void __thiscall combatManager::CheckApplyGoodMorale(combatManager *this, int sid
 {
   combatManager *thisa; // [sp+Ch] [bp-18h]@1
   army *v4; // [sp+18h] [bp-Ch]@6
-  __int64 res; // [sp+1Ch] [bp-8h]@0
+  SAMPLE2 res; // [sp+1Ch] [bp-8h]@0
 
   thisa = this;
   if ( side >= 0 && stackIdx >= 0 )
@@ -63191,7 +63387,7 @@ void __thiscall combatManager::CheckApplyGoodMorale(combatManager *this, int sid
           *(_DWORD *)&thisa->creatures[side][stackIdx].creature.creature_flags -= MAYBE_NOT_LOST_TURN;
         *(_DWORD *)&thisa->creatures[side][stackIdx].creature.creature_flags |= HAS_GOOD_MORALE;
         if ( !gbNoShowCombat )
-          WaitEndSample((void *)0xFFFFFFFF, (resource *)res, HIDWORD(res));
+          WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
       }
     }
   }
@@ -63205,7 +63401,7 @@ signed int __thiscall combatManager::CheckApplyBadMorale(combatManager *this, in
   signed int result; // eax@3
   combatManager *thisa; // [sp+Ch] [bp-18h]@1
   army *creature; // [sp+18h] [bp-Ch]@4
-  __int64 res; // [sp+1Ch] [bp-8h]@0
+  SAMPLE2 res; // [sp+1Ch] [bp-8h]@0
 
   thisa = this;
   if ( side >= 0 && stackIdx >= 0 )
@@ -63237,7 +63433,7 @@ signed int __thiscall combatManager::CheckApplyBadMorale(combatManager *this, in
         army::SpellEffect(creature, ANIM_MORALE_BAD_IDX, 180, 1);
         *(_DWORD *)&thisa->creatures[side][stackIdx].creature.creature_flags |= MAYBE_NOT_LOST_TURN;
         if ( !gbNoShowCombat )
-          WaitEndSample((void *)0xFFFFFFFF, (resource *)res, HIDWORD(res));
+          WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
         result = 1;
       }
       else
@@ -63394,7 +63590,7 @@ void __thiscall combatManager::CatAttack(combatManager *this, int side)
   int garrisonIsTarget; // [sp+9Ch] [bp-64h]@5
   int numTurrets; // [sp+A0h] [bp-60h]@5
   int targetTurret; // [sp+A4h] [bp-5Ch]@5
-  __int64 v20; // [sp+A8h] [bp-58h]@43
+  SAMPLE2 v20; // [sp+A8h] [bp-58h]@43
   int catDamage; // [sp+B0h] [bp-50h]@5
   int targY; // [sp+B4h] [bp-4Ch]@43
   float v23; // [sp+B8h] [bp-48h]@83
@@ -63417,10 +63613,10 @@ void __thiscall combatManager::CatAttack(combatManager *this, int side)
   if ( this->isCastleBattle )
   {
     LogStr("CA1");
-    if ( *(_DWORD *)&this->_15[100] != -1 || *(_DWORD *)&this->_15[104] != -1 )
+    if ( this->field_F543 != -1 || this->field_F547 != -1 )
     {
-      *(_DWORD *)&this->_15[104] = -1;
-      *(_DWORD *)&this->_15[100] = *(_DWORD *)&this->_15[104];
+      this->field_F547 = -1;
+      this->field_F543 = this->field_F547;
       combatManager::DrawSmallView(this, 0, 1);
       combatManager::DrawSmallView(this, 1, 1);
     }
@@ -63656,7 +63852,7 @@ LABEL_79:
           ++this->probablyCatapultImgIdx[side];
       }
       sprintf(gText, "catsnd%02d.82M", 2);
-      res = (SAMPLE2)LoadPlaySample(gText);
+      res = LoadPlaySample(gText);
       this->zeroedInHandleCatapult1 = 0;
       this->zeroedInHandleCatapult2 = 0;
       giMinExtentX = targX - 75;
@@ -63762,7 +63958,7 @@ LABEL_79:
       combatManager::DrawFrame(this, 1, 0, 0, 0, 75, 1, 1);
       resourceManager::Dispose(gpResourceManager, (resource *)boulderICN);
       WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
-      WaitEndSample((void *)0xFFFFFFFF, (resource *)v20, HIDWORD(v20));
+      WaitEndSample((void *)0xFFFFFFFF, (resource *)v20.file, v20.sample);
       if ( catapultSound )
         resourceManager::Dispose(gpResourceManager, catapultSound);
       LogStr("CA2");
@@ -63846,7 +64042,7 @@ void __thiscall combatManager::KeepAttack(combatManager *this, int towerIdx)
     {
       targStack = (army *)((char *)gpCombatManager->creatures + 1154 * targetIdx);
       sprintf(gText, "keepshot.82M");
-      res = (SAMPLE2)LoadPlaySample(gText);
+      res = LoadPlaySample(gText);
       *(_QWORD *)&v6[0][0].x = 16890336860242506i64;
       v6[0][2] = (Point16)20578732;
       *(_QWORD *)&v6[1][0].x = 16890336860242506i64;
@@ -63999,14 +64195,14 @@ void __thiscall combatManager::SetupAndLoadObstacles(combatManager *this)
       this->wallStatus[i] = 0;
       if ( !this->castles[1]->factionID )
       {
-        if ( BYTE1(this->castles[1]->buildingsBuiltFlags) & BUILDING_SPECIAL_DEFENSE_BUILT )
+        if ( BYTE1(this->castles[1]->buildingsBuiltFlags) & BUILDING_TENT_BUILT )
           this->wallStatus[i] = 3;
       }
       this->turretStatus[i] = 0;
     }
-    if ( BYTE1(this->castles[1]->buildingsBuiltFlags) & BUILDING_RIGHT_TURRET_BUILT )
+    if ( BYTE1(this->castles[1]->buildingsBuiltFlags) & 1 )
       this->turretStatus[0] = 1;
-    if ( BYTE1(this->castles[1]->buildingsBuiltFlags) & BUILDING_LEFT_TURRET_BUILT )
+    if ( BYTE1(this->castles[1]->buildingsBuiltFlags) & BUILDING_THIEVES_GUILD_BUILT )
       this->turretStatus[3] = 1;
     this->combatGrid[9].isBlocked = 1;
     this->combatGrid[22].isBlocked = 1;
@@ -64158,7 +64354,7 @@ void __thiscall combatManager::LowerDoor(combatManager *this)
 {
   combatManager *thisa; // [sp+Ch] [bp-18h]@1
   int i; // [sp+18h] [bp-Ch]@1
-  __int64 res; // [sp+1Ch] [bp-8h]@1
+  SAMPLE2 res; // [sp+1Ch] [bp-8h]@1
 
   thisa = this;
   res = LoadPlaySample("drawbrg.82m");
@@ -64171,7 +64367,7 @@ void __thiscall combatManager::LowerDoor(combatManager *this)
     thisa->drawBridgePosition = i;
     combatManager::DrawFrame(thisa, 1, 0, 1, 0, 75, 1, 1);
   }
-  WaitEndSample((void *)0xFFFFFFFF, (resource *)res, HIDWORD(res));
+  WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
 }
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
 // 524734: using guessed type int giMaxExtentX;
@@ -64181,7 +64377,7 @@ void __thiscall combatManager::LowerDoor(combatManager *this)
 void __thiscall combatManager::RaiseDoor(combatManager *this)
 {
   combatManager *thisa; // ST28_4@1
-  __int64 v2; // ST34_8@1
+  SAMPLE2 v2; // ST34_8@1
 
   thisa = this;
   v2 = LoadPlaySample("drawbrg.82m");
@@ -64195,7 +64391,7 @@ void __thiscall combatManager::RaiseDoor(combatManager *this)
   combatManager::DrawFrame(thisa, 1, 0, 1, 0, 75, 1, 1);
   thisa->drawBridgePosition = 4;
   combatManager::DrawFrame(thisa, 1, 0, 1, 0, 75, 1, 1);
-  WaitEndSample((void *)0xFFFFFFFF, (resource *)v2, HIDWORD(v2));
+  WaitEndSample((void *)0xFFFFFFFF, (resource *)v2.file, v2.sample);
 }
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
 // 524734: using guessed type int giMaxExtentX;
@@ -64878,7 +65074,7 @@ void __thiscall army::LoadResources(army *this)
     {
       if ( thisa->combatSounds[i] )
       {
-        thisa->combatSounds[i]->field_28 = 64;
+        thisa->combatSounds[i]->volume = 64;
         thisa->combatSounds[i]->codeThing = 3;
         thisa->combatSounds[i]->loopCount = 1;
       }
@@ -66549,7 +66745,7 @@ void __thiscall army::CheckLuck(army *this)
   double v2; // st7@0
   char *v4; // [sp+10h] [bp-18h]@18
   char *v5; // [sp+14h] [bp-14h]@14
-  __int64 samp; // [sp+20h] [bp-8h]@12
+  SAMPLE2 samp; // [sp+20h] [bp-8h]@12
 
   this->luckStatus = 0;
   if ( gpCombatManager->heroes[this->owningSide] )
@@ -66585,7 +66781,7 @@ void __thiscall army::CheckLuck(army *this)
         combatManager::CombatMessage(gpCombatManager, gText, 1, 1, 0);
         army::SpellEffect(this, ANIM_CLOUD_LUCK_IDX, 180, 0);
       }
-      WaitEndSample((void *)0xFFFFFFFF, (resource *)samp, HIDWORD(samp));
+      WaitEndSample((void *)0xFFFFFFFF, (resource *)samp.file, samp.sample);
       if ( this->luckStatus > 0 )
       {
         combatManager::DrawFrame(gpCombatManager, 1, 0, 0, 0, 75, 1, 1);
@@ -69726,11 +69922,11 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         hero->flags &= 0xFFFFFF7Fu;
         hero->remainingMobility = 0;
-        HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = LOBYTE(this->field_27E);
-        this->field_27A = hero->factionID;
-        this->field_282 = advManager::GetCursorBaseFrame(this->field_27E);
+        hero->directionFacing = LOBYTE(this->field_27E);
+        this->mobilizedHeroFactionOrBoat = hero->factionID;
+        this->mobilizedHeroBaseFrameBit8IsFlip = advManager::GetCursorBaseFrame(this->field_27E);
         this->field_272 = 1;
-        res1 = (SAMPLE2)LoadPlaySample("killfade.82m");
+        res1 = LoadPlaySample("killfade.82m");
         heroWindowManager::SaveFizzleSource(gpWindowManager, 192, 192, 96, 96);
         advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
         heroWindowManager::FizzleForward(gpWindowManager, 192, 192, 96, 96, -1, 0, 0);
@@ -69745,9 +69941,9 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       hero->remainingMobility = 0;
       v69->field_6 = hero->idx;
       v69->owner = hero->ownerIdx;
-      this->field_27A = 6;
+      this->mobilizedHeroFactionOrBoat = 6;
       this->field_27E = v69->field_3;
-      this->field_282 = advManager::GetCursorBaseFrame(this->field_27E);
+      this->mobilizedHeroBaseFrameBit8IsFlip = advManager::GetCursorBaseFrame(this->field_27E);
       this->field_272 = 1;
       advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
       advManager::UpdateScreen(this, 0, 0);
@@ -71802,8 +71998,8 @@ LABEL_445:
         {
           a3 = (int)advManager::GetCell(
                       this,
-                      locX - normalDirTable[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)],
-                      locY - byte_4F1DC1[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)]);
+                      locX - normalDirTable[4 * hero->directionFacing],
+                      locY - normalDirTable[4 * hero->directionFacing + 1]);
           if ( advManager::ZombieEvent(this, hero, (mapCell *)a3, gEventText[22], locX, locY) )
           {
             v45 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
@@ -71851,8 +72047,8 @@ LABEL_445:
         {
           v54 = (int)advManager::GetCell(
                        this,
-                       locX - normalDirTable[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)],
-                       locY - byte_4F1DC1[4 * HIBYTE(hero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID)]);
+                       locX - normalDirTable[4 * hero->directionFacing],
+                       locY - normalDirTable[4 * hero->directionFacing + 1]);
           if ( advManager::SkeletonEvent(
                  (int)this,
                  (int)hero,
@@ -72076,81 +72272,83 @@ LABEL_445:
 // 5304CC: using guessed type int xTheSpell;
 
 //----- (0048BA30) --------------------------------------------------------
-void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, int a4)
+void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int col, int row)
 {
-  __int64 v5; // [sp+18h] [bp-48h]@43
+  __int64 xyShadowCell; // [sp+18h] [bp-48h]@43
   signed int i; // [sp+28h] [bp-38h]@1
   signed int j; // [sp+28h] [bp-38h]@35
   signed int k; // [sp+28h] [bp-38h]@71
   signed int l; // [sp+28h] [bp-38h]@87
-  char v10; // [sp+2Ch] [bp-34h]@1
+  char isJail; // [sp+2Ch] [bp-34h]@1
   mapCell *v11; // [sp+30h] [bp-30h]@75
   mapCell *v12; // [sp+30h] [bp-30h]@91
-  mapCell *v13[5]; // [sp+34h] [bp-2Ch]@1
-  mapCellExtra *v14; // [sp+48h] [bp-18h]@81
-  int v15[4]; // [sp+4Ch] [bp-14h]@3
-  int v16; // [sp+5Ch] [bp-4h]@1
+  int shadowIdx; // [sp+34h] [bp-2Ch]@1
+  mapCell *shadowCell[4]; // [sp+38h] [bp-28h]@3
+  mapCellExtra *cellExtra; // [sp+48h] [bp-18h]@81
+  mapCellExtra *v16[4]; // [sp+4Ch] [bp-14h]@3
+  int v17; // [sp+5Ch] [bp-4h]@1
 
-  v16 = 0;
-  v13[0] = (mapCell *)-1;
-  v10 = 0;
+  v17 = 0;
+  shadowIdx = -1;
+  isJail = 0;
   for ( i = 0; i < 4; ++i )
   {
-    v13[i + 1] = 0;
-    v15[i] = 0;
+    shadowCell[i] = 0;
+    v16[i] = 0;
   }
-  v16 = 1;
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 11 )
-    v13[0] = (mapCell *)(cell->objectIndex - 1);
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 63 )
-    v13[0] = (mapCell *)(cell->objectIndex - 1);
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 62 && cell->objectIndex == 9 )
+  v17 = 1;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_ARTIFACT )
+    shadowIdx = cell->objectIndex - 1;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_EXPANSION_3 )
+    shadowIdx = cell->objectIndex - 1;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_EXPANSION_2
+    && cell->objectIndex == 9 )
   {
-    v13[0] = (mapCell *)9;
-    v10 = 1;
+    shadowIdx = 9;
+    isJail = 1;
   }
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 59
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_MULTIPLE
     && cell->objectIndex == 131 )
-    v13[0] = (mapCell *)124;
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 55
-    && cell->objectIndex == 61 )
-    v13[0] = (mapCell *)54;
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 50
-    && cell->objectIndex == 45 )
-    v13[0] = (mapCell *)38;
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 50
-    && cell->objectIndex == 19 )
-    v13[0] = (mapCell *)12;
-  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 46 )
+    shadowIdx = 124;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_DESERT
+    && cell->objectIndex == 61 )                // Campfire?
+    shadowIdx = 54;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_WATER
+    && cell->objectIndex == 45 )                // flotsam?
+    shadowIdx = 38;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_WATER
+    && cell->objectIndex == 19 )                // treasure chest?
+    shadowIdx = 12;
+  if ( (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_RESOURCE )
   {
     switch ( cell->objectIndex )
     {
       case 1:
-        v13[0] = 0;
+        shadowIdx = 0;
         break;
       case 3:
-        v13[0] = (mapCell *)2;
+        shadowIdx = 2;
         break;
       case 5:
-        v13[0] = (mapCell *)4;
+        shadowIdx = 4;
         break;
       case 7:
-        v13[0] = (mapCell *)6;
+        shadowIdx = 6;
         break;
       case 9:
-        v13[0] = (mapCell *)8;
+        shadowIdx = 8;
         break;
       case 11:
-        v13[0] = (mapCell *)10;
+        shadowIdx = 10;
         break;
       case 13:
-        v13[0] = (mapCell *)12;
+        shadowIdx = 12;
         break;
-      case 15:
-        v13[0] = (mapCell *)14;
+      case 15:                                  // Genie
+        shadowIdx = 14;
         break;
-      case 19:
-        v13[0] = (mapCell *)18;
+      case 19:                                  // Chest
+        shadowIdx = 18;
         break;
       default:
         break;
@@ -72158,64 +72356,64 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, in
   }
   for ( j = 0; j < 4; ++j )
   {
-    if ( v10 )
+    if ( isJail )
     {
-      --v13[0];
+      --shadowIdx;
     }
     else if ( j > 0 )
     {
       break;
     }
-    if ( v13[0] != (mapCell *)-1 )
+    if ( shadowIdx != -1 )
     {
-      if ( v10 )
+      if ( isJail )
       {
-        HIDWORD(v5) = (signed int)v13[0] <= 6 ? &v13[0][-1].field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset + a3 : &v13[0][-1].objectIndex + a3;
-        LODWORD(v5) = (signed int)v13[0] <= 6 ? a4 - 1 : a4;
+        HIDWORD(xyShadowCell) = shadowIdx <= 6 ? col + shadowIdx - 6 : col + shadowIdx - 9;
+        LODWORD(xyShadowCell) = shadowIdx <= 6 ? row - 1 : row;
       }
       else
       {
-        HIDWORD(v5) = a3 - 1;
-        LODWORD(v5) = a4;
+        HIDWORD(xyShadowCell) = col - 1;
+        LODWORD(xyShadowCell) = row;
       }
-      if ( v5 >= 0 )
+      if ( xyShadowCell >= 0 )
       {
-        v13[j + 1] = &gpGame->map.tiles[v5 * gpGame->map.width] + HIDWORD(v5);
+        shadowCell[j] = &gpGame->map.tiles[xyShadowCell * gpGame->map.width] + HIDWORD(xyShadowCell);
         if ( j <= 1 )
         {
-          if ( v13[j + 1]->objectIndex != 255 )
+          if ( shadowCell[j]->objectIndex != 255 )
           {
-            if ( (mapCell *)v13[j + 1]->objectIndex == v13[0]
-              && (((unsigned __int8)v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
+            if ( shadowCell[j]->objectIndex == shadowIdx
+              && (((unsigned __int8)shadowCell[j]->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
             {
-              v13[j + 1]->objectIndex = 0;
-              v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset = v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 0xBC;
-              v13[j + 1]->bitfield_1_hasObject_1_isRoad_6_objTileset &= 0xFEu;
+              shadowCell[j]->objectIndex = 0;
+              shadowCell[j]->bitfield_1_hasObject_1_isRoad_6_objTileset = shadowCell[j]->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 0xBC;
+              shadowCell[j]->bitfield_1_hasObject_1_isRoad_6_objTileset &= 0xFEu;
             }
-            if ( v13[j + 1]->extraIdx && this->map->cellExtras[v13[j + 1]->extraIdx].objectIndex != 255 )
-              v15[j] = (int)&this->map->cellExtras[v13[j + 1]->extraIdx];
+            if ( shadowCell[j]->extraIdx && this->map->cellExtras[shadowCell[j]->extraIdx].objectIndex != 255 )
+              v16[j] = &this->map->cellExtras[shadowCell[j]->extraIdx];
             else
-              v15[j] = 0;
-            while ( v15[j] )
+              v16[j] = 0;
+            while ( v16[j] )
             {
-              if ( (mapCell *)*(_BYTE *)(v15[j] + 3) == v13[0]
-                && ((*(_BYTE *)(v15[j] + 2) >> 1) & 0x7F) == (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
+              if ( v16[j]->objectIndex == shadowIdx
+                && ((v16[j]->_1_q_7_objTileset >> 1) & 0x7F) == (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) )
               {
-                *(_BYTE *)(v15[j] + 3) = 0;
-                *(_BYTE *)(v15[j] + 2) = *(_BYTE *)(v15[j] + 2) & 1 | 0x5E;
-                *(_BYTE *)(v15[j] + 2) &= 0xFEu;
+                v16[j]->objectIndex = 0;
+                v16[j]->_1_q_7_objTileset = v16[j]->_1_q_7_objTileset & 1 | 0x5E;
+                v16[j]->_1_q_7_objTileset &= 0xFEu;
               }
-              if ( *(_WORD *)v15[j] && this->map->cellExtras[*(_WORD *)v15[j]].objectIndex != 255 )
-                v15[j] = (int)&this->map->cellExtras[*(_WORD *)v15[j]];
+              if ( v16[j]->nextIdx && this->map->cellExtras[v16[j]->nextIdx].objectIndex != 255 )
+                v16[j] = &this->map->cellExtras[v16[j]->nextIdx];
               else
-                v15[j] = 0;
+                v16[j] = 0;
             }
           }
         }
         else
         {
-          v13[j + 1]->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset &= 3u;
-          v13[j + 1]->overlayIndex = -1;
+          shadowCell[j]->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset &= 3u;
+          shadowCell[j]->overlayIndex = -1;
         }
       }
     }
@@ -72227,28 +72425,28 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, in
   for ( k = 0; k < 5; ++k )
   {
     if ( k )
-      v11 = v13[k];
+      v11 = (mapCell *)*(&shadowIdx + k);
     else
       v11 = cell;
     if ( v11 )
     {
-      if ( (((unsigned __int8)v11->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47 )
+      if ( (((unsigned __int8)v11->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_OBJECT_DUMMY )
       {
         if ( v11->extraIdx )
         {
           if ( *(&this->map->cellExtras->objectIndex + 8 * v11->extraIdx - v11->extraIdx) != 255 )
           {
-            v14 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v11->extraIdx - v11->extraIdx);
-            if ( ((v14->_1_q_7_objTileset >> 1) & 0x7F) != 47 && v14->objectIndex != 255 )
+            cellExtra = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v11->extraIdx - v11->extraIdx);
+            if ( ((cellExtra->_1_q_7_objTileset >> 1) & 0x7F) != 47 && cellExtra->objectIndex != 255 )
             {
-              v11->objectIndex = v14->objectIndex;
-              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 4 * (v14->_1_q_7_objTileset >> 1);
-              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 0xFE | v14->_1_q_7_objTileset & 1;
-              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFE | v14->field_4_1_1_1_isShadow_5 & 1;
-              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFD | 2 * (((unsigned __int8)v14->field_4_1_1_1_isShadow_5 >> 1) & 1);
-              v14->objectIndex = 0;
-              v14->_1_q_7_objTileset = v14->_1_q_7_objTileset & 1 | 0x5E;
-              v14->_1_q_7_objTileset &= 0xFEu;
+              v11->objectIndex = cellExtra->objectIndex;
+              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 4 * (cellExtra->_1_q_7_objTileset >> 1);
+              v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 0xFE | cellExtra->_1_q_7_objTileset & 1;
+              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFE | cellExtra->field_4_1_1_1_isShadow_5 & 1;
+              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFD | 2 * (((unsigned __int8)cellExtra->field_4_1_1_1_isShadow_5 >> 1) & 1);
+              cellExtra->objectIndex = 0;
+              cellExtra->_1_q_7_objTileset = cellExtra->_1_q_7_objTileset & 1 | 0x5E;
+              cellExtra->_1_q_7_objTileset &= 0xFEu;
             }
           }
         }
@@ -72258,7 +72456,7 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, in
   for ( l = 0; l < 5; ++l )
   {
     if ( l )
-      v12 = v13[l];
+      v12 = (mapCell *)*(&shadowIdx + l);
     else
       v12 = cell;
     if ( v12
@@ -72267,30 +72465,30 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int a3, in
        || (v12->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
     {
       if ( v12->extraIdx && *(&this->map->cellExtras->objectIndex + 8 * v12->extraIdx - v12->extraIdx) != 255 )
-        v14 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v12->extraIdx - v12->extraIdx);
+        cellExtra = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v12->extraIdx - v12->extraIdx);
       else
-        v14 = 0;
-      while ( v14 )
+        cellExtra = 0;
+      while ( cellExtra )
       {
-        if ( ((v14->_1_q_7_objTileset >> 1) & 0x7F) != 47
-          && v14->objectIndex != 255
-          && !(((unsigned __int8)v14->field_4_1_1_1_isShadow_5 >> 1) & 1) )
+        if ( ((cellExtra->_1_q_7_objTileset >> 1) & 0x7F) != 47
+          && cellExtra->objectIndex != 255
+          && !(((unsigned __int8)cellExtra->field_4_1_1_1_isShadow_5 >> 1) & 1) )
           goto LABEL_88;
-        if ( v14->nextIdx && *(&this->map->cellExtras->objectIndex + 8 * v14->nextIdx - v14->nextIdx) != 255 )
-          v14 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v14->nextIdx - v14->nextIdx);
+        if ( cellExtra->nextIdx
+          && *(&this->map->cellExtras->objectIndex + 8 * cellExtra->nextIdx - cellExtra->nextIdx) != 255 )
+          cellExtra = (mapCellExtra *)((char *)this->map->cellExtras + 8 * cellExtra->nextIdx - cellExtra->nextIdx);
         else
-          v14 = 0;
+          cellExtra = 0;
       }
-      v12->displayFlags |= 0x80u;
+      v12->flags |= 0x80u;
     }
 LABEL_88:
     ;
   }
-  SendMapChange(5, 0, a3, a4, -999, 0, 0);
+  SendMapChange(5, 0, col, row, -999, 0, 0);
   advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 1);
   game::SetupAdjacentMons(gpGame);
 }
-// 48BA30: using guessed type int var_14[4];
 
 //----- (0048C430) --------------------------------------------------------
 void __thiscall advManager::HeroSwap(void *this, int a2, int a3)
@@ -72860,11 +73058,11 @@ void __thiscall advManager::TownEvent(int this, int a2, __int64 a3)
 void __thiscall advManager::EventSound(advManager *this, int locType, int a2, SAMPLE2 *res)
 {
   int trackNum; // [sp+30h] [bp-30h]@1
-  char a1; // [sp+3Ch] [bp-24h]@1
+  char thisa; // [sp+3Ch] [bp-24h]@1
   int v6; // [sp+5Ch] [bp-4h]@1
 
   v6 = 22;
-  strcpy(&a1, byte_5184CC);
+  strcpy(&thisa, byte_5184CC);
   trackNum = -1;
   switch ( locType )
   {
@@ -73011,29 +73209,29 @@ LABEL_36:
     switch ( trackNum )
     {
       case 19:
-        strcpy(&a1, "treasure.82m");
+        strcpy(&thisa, "treasure.82m");
         break;
       case 22:
-        strcpy(&a1, "expernce.82m");
+        strcpy(&thisa, "expernce.82m");
         break;
       case 100:
-        strcpy(&a1, "goodmrle.82m");
+        strcpy(&thisa, "goodmrle.82m");
         break;
       case 101:
-        strcpy(&a1, "goodluck.82m");
+        strcpy(&thisa, "goodluck.82m");
         break;
       case 102:
-        strcpy(&a1, "pickup01.82m");
+        strcpy(&thisa, "pickup01.82m");
         break;
       case 103:
-        strcpy(&a1, "h2mine.82m");
+        strcpy(&thisa, "h2mine.82m");
         break;
       default:
         soundManager::SwitchAmbientMusic((soundManager *)gpSoundManager, trackNum);
         break;
     }
-    if ( strlen(&a1) > 1 )
-      *res = (SAMPLE2)LoadPlaySample(&a1);
+    if ( strlen(&thisa) > 1 )
+      *res = LoadPlaySample(&thisa);
   }
 }
 // 5240A8: using guessed type int gpSoundManager;
@@ -74040,7 +74238,7 @@ int __thiscall advManager::DoWhirlpool(advManager *a1, hero *hro)
 void __thiscall advManager::FizzleCenter(void *this, int a2)
 {
   int v2; // eax@4
-  __int64 v3; // ST3C_8@8
+  SAMPLE2 v3; // ST3C_8@8
   void *thisa; // [sp+10h] [bp-18h]@1
 
   thisa = this;
@@ -74063,7 +74261,7 @@ void __thiscall advManager::FizzleCenter(void *this, int a2)
     advManager::CompleteDraw((advManager *)thisa, 0);
     heroWindowManager::FizzleForward(gpWindowManager, 168, 160, 132, 132, 65, 0, 0);
     mouseManager::ShowColorPointer(gpMouseManager);
-    WaitEndSample((void *)0xFFFFFFFF, (resource *)v3, HIDWORD(v3));
+    WaitEndSample((void *)0xFFFFFFFF, (resource *)v3.file, v3.sample);
   }
 }
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
@@ -74163,7 +74361,7 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
       {
         hro->flags &= 0xFFFFFF7Fu;
         hro->remainingMobility = 0;
-        HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = *(_BYTE *)(this + 638);
+        hro->directionFacing = *(_BYTE *)(this + 638);
         *(_DWORD *)(this + 634) = hro->factionID;
         *(_DWORD *)(this + 642) = advManager::GetCursorBaseFrame(*(_DWORD *)(this + 638));
         *(_DWORD *)(thisa + 626) = 1;
@@ -76426,9 +76624,9 @@ int __thiscall hero::CalcMobility(hero *this)
     }
     points = speedToMovementPoints[minSpeed];
     points = (signed __int64)((double)points * gfSSLogisticsMod[this->secondarySkillLevel[2]]);
-    if ( hero::HasArtifact(this, 33) )
+    if ( hero::HasArtifact(this, ARTIFACT_NOMAD_BOOTS_OF_MOBILITY) )
       points += 600;
-    if ( hero::HasArtifact(this, 34) )
+    if ( hero::HasArtifact(this, ARTIFACT_TRAVELERS_BOOTS_OF_MOBILITY) )
       points += 300;
     if ( BYTE2(this->flags) & 0x80 )
       points += 400;
@@ -76769,7 +76967,7 @@ void __thiscall hero::Deallocate(hero *this, int a2)
     {
       gpAdvManager->field_272 = 0;
       v2 = &gpGame->map.tiles[this->x] + this->y * gpGame->map.width;
-      v2->displayFlags &= 0xBFu;
+      v2->flags &= 0xBFu;
     }
     if ( giCurPlayer == v11 )
       gpAdvManager->heroMobilized = 0;
@@ -76811,23 +77009,24 @@ void __thiscall hero::Deallocate(hero *this, int a2)
 int __stdcall hero::GetExperience(signed int level)
 {
   int result; // eax@2
-  signed int v2; // [sp+18h] [bp-Ch]@3
-  int exp; // [sp+1Ch] [bp-8h]@3
-  signed int v4; // [sp+20h] [bp-4h]@3
+  signed int i; // [sp+18h] [bp-Ch]@3
+  int resultExp; // [sp+1Ch] [bp-8h]@3
+  signed int experience; // [sp+20h] [bp-4h]@3
 
   if ( level > 12 )
   {
-    v2 = 13;
-    v4 = (signed __int64)((double)((signed int)experienceForLevelTable[12] - (signed int)experienceForLevelTable[11])
-                        * 1.2);
-    exp = v4 + experienceForLevelTable[12];
-    while ( v2 < level )
+    i = 13;
+    experience = (signed __int64)((double)((signed int)experienceForLevelTable[12]
+                                         - (signed int)experienceForLevelTable[11])
+                                * 1.2);
+    resultExp = experience + experienceForLevelTable[12];
+    while ( i < level )
     {
-      v4 = (signed __int64)((double)v4 * 1.2);
-      exp += v4;
-      ++v2;
+      experience = (signed __int64)((double)experience * 1.2);
+      resultExp += experience;
+      ++i;
     }
-    result = exp;
+    result = resultExp;
   }
   else
   {
@@ -77061,7 +77260,7 @@ void __thiscall hero::CheckLevel(hero *this)
       }
       else
       {
-        res = (SAMPLE2)LoadPlaySample("nwherolv.82m");
+        res = LoadPlaySample("nwherolv.82m");
         if ( secSkillOptions[0] == -1 )
         {
           NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
@@ -77433,7 +77632,7 @@ LABEL_109:
         case 0xC8:
         case 0xC9:
         case 0xCA:
-          game::ShowMoraleInfo((int)gpHVHero, (unsigned int)a2 < 1 ? 1 : 4);
+          game::ShowMoraleInfo(gpHVHero, (unsigned int)a2 < 1 ? 1 : 4);
           break;
         case 0xCB:
         case 0xCC:
@@ -78551,9 +78750,9 @@ void __thiscall advManager::VWCompleteDraw(void *this)
           default:
             break;
         }
-        if ( v18->displayFlags & 2 )
+        if ( v18->flags & 2 )
           mirror = 1;
-        if ( v18->displayFlags & 1 )
+        if ( v18->flags & 1 )
           spriteIdx += 9;
         if ( spriteIdx )
           spriteIdx += 3;
@@ -80989,7 +81188,7 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
     sprintf(buf, "%s.82M", &gsSpellInfo[spell]);
   if ( isCreatureAbility || !stack || army::SpellCastWorks(stack, proto_spell) )
   {
-    res = (SAMPLE2)LoadPlaySample(buf);
+    res = LoadPlaySample(buf);
     switch ( proto_spell )
     {
       case SPELL_TELEPORT:
@@ -81016,7 +81215,7 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
         if ( !gbNoShowCombat )
         {
           sprintf(gText, "telptin.82m");
-          res = (SAMPLE2)LoadPlaySample(gText);
+          res = LoadPlaySample(gText);
         }
         if ( thisb->creature.creature_flags & TWO_HEXER )
         {
@@ -83481,7 +83680,7 @@ bool __thiscall combatManager::SpaceForElementalExists(combatManager *this)
 void __stdcall combatManager::ShowSpellCastFailure(army *a1, int a2)
 {
   char *v2; // [sp+10h] [bp-14h]@2
-  __int64 res; // [sp+1Ch] [bp-8h]@1
+  SAMPLE2 res; // [sp+1Ch] [bp-8h]@1
 
   res = LoadPlaySample("rsbryfzl.82m");
   if ( a1->quantity == 1 )
@@ -83490,7 +83689,7 @@ void __stdcall combatManager::ShowSpellCastFailure(army *a1, int a2)
     v2 = gArmyNamesPlural[a1->creatureIdx];
   sprintf(gText, "The %s %s the spell!", v2, &aResists[("resist" - "resists") & ((a1->quantity == 1) - 1)]);
   combatManager::CombatMessage(gpCombatManager, gText, 1, 1, 0);
-  WaitEndSample((void *)0xFFFFFFFF, (resource *)res, HIDWORD(res));
+  WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
 }
 // 5230F8: using guessed type struct SAMPLE2 NULL_SAMPLE2;
 
@@ -83499,22 +83698,25 @@ void __stdcall combatManager::ModifyDamageForArtifacts(int *damage, Spell spell,
 {
   if ( thisHero )
   {
-    if ( hero::HasArtifact(thisHero, 48) && (spell == SPELL_COLD_RAY || spell == SPELL_COLD_RING) )
+    if ( hero::HasArtifact(thisHero, ARTIFACT_EVERCOLD_ICICLE) && (spell == SPELL_COLD_RAY || spell == SPELL_COLD_RING) )
       *damage = (signed __int64)((double)*damage * 1.5);
-    if ( hero::HasArtifact(thisHero, 49) && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST) )
+    if ( hero::HasArtifact(thisHero, ARTIFACT_EVERHOT_LAVA_ROCK)
+      && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST) )
       *damage = (signed __int64)((double)*damage * 1.5);
-    if ( hero::HasArtifact(thisHero, 50) && (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING) )
+    if ( hero::HasArtifact(thisHero, ARTIFACT_LIGHTNING_ROD)
+      && (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING) )
       *damage = (signed __int64)((double)*damage * 1.5);
   }
   if ( enemyHero )
   {
-    if ( hero::HasArtifact(enemyHero, 45) && (spell == SPELL_COLD_RAY || spell == SPELL_COLD_RING) )
+    if ( hero::HasArtifact(enemyHero, ARTIFACT_ICE_CLOAK) && (spell == SPELL_COLD_RAY || spell == SPELL_COLD_RING) )
       *damage = (signed __int64)((double)*damage * 0.5);
-    if ( hero::HasArtifact(enemyHero, 46) && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST) )
+    if ( hero::HasArtifact(enemyHero, ARTIFACT_FIRE_CLOAK) && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST) )
       *damage = (signed __int64)((double)*damage * 0.5);
-    if ( hero::HasArtifact(enemyHero, 47) && (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING) )
+    if ( hero::HasArtifact(enemyHero, ARTIFACT_LIGHTNING_HELM)
+      && (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING) )
       *damage = (signed __int64)((double)*damage * 0.5);
-    if ( hero::HasArtifact(enemyHero, 92) )
+    if ( hero::HasArtifact(enemyHero, ARTIFACT_HEART_OF_FIRE) )
     {
       if ( spell != SPELL_COLD_RAY && spell != SPELL_COLD_RING )
       {
@@ -83526,7 +83728,7 @@ void __stdcall combatManager::ModifyDamageForArtifacts(int *damage, Spell spell,
         *damage *= 2;
       }
     }
-    if ( hero::HasArtifact(enemyHero, 93) )
+    if ( hero::HasArtifact(enemyHero, ARTIFACT_HEART_OF_ICE) )
     {
       if ( spell != SPELL_COLD_RAY && spell != SPELL_COLD_RING )
       {
@@ -85220,11 +85422,9 @@ int __thiscall philAI::DoAllHeroInteractions(int this)
     result = gpCurPlayer->numCastles;
     if ( result <= i )
       break;
-    if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)].visitingHeroIdx != -1 )
+    if ( gpGame->castles[gpCurPlayer->castlesOwned[i]].visitingHeroIdx != -1 )
     {
-      v2 = (signed int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx
-                                        + i
-                                        + 2)];
+      v2 = (signed int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
       philAI::HeroInteractionAtTown((void *)v3, (int)&gpGame->heroes[*(_BYTE *)(v2 + 23)], v2, 0, (int)&unk_5305C8);
     }
   }
@@ -85254,7 +85454,7 @@ LABEL_2:
   result = gpCurPlayer->numCastles;
   if ( result > v9 )
   {
-    v4 = (char *)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + v9 + 2)];
+    v4 = (char *)&gpGame->castles[gpCurPlayer->castlesOwned[v9]];
     for ( i = 0; ; ++i )
     {
       if ( i >= 2 )
@@ -85279,7 +85479,7 @@ LABEL_2:
           v10 = 0;
           for ( k = 20; k <= 24; ++k )
           {
-            if ( LOBYTE((&gTownObjNames[3 * v4[3] + 27])[k + 1]) == *(_BYTE *)(j + v11) )
+            if ( *(_BYTE *)(k + 12 * v4[3] + 5193085) == *(_BYTE *)(j + v11) )
             {
               if ( (1 << (k + 5)) & *((_DWORD *)v4 + 6) )
               {
@@ -85336,7 +85536,6 @@ LABEL_2:
   }
   return result;
 }
-// 4F3D10: using guessed type char *gTownObjNames[32];
 
 //----- (004AADD0) --------------------------------------------------------
 void __thiscall philAI::CheckBuyStuff(void *this)
@@ -85384,7 +85583,7 @@ void __thiscall philAI::CheckBuyStuff(void *this)
     }
     if ( giBuildShipyard[giCurPlayer] >= 0 )
     {
-      if ( CanBuy((int)v6, 3) && CanBuild((unsigned int *)v6, 3) )
+      if ( CanBuy((int)v6, 3) && CanBuild(v6, 3) )
       {
         philAI::BuildBuilding((signed int)v6, 3);
         giBuildShipyard[giCurPlayer] = -1;
@@ -85491,11 +85690,11 @@ signed int __thiscall philAI::GoodAdjacent(void *this, int a1)
       if ( advManager::ValidMoveWithEvent((int)gpAdvManager, (int)gpCurAIHero, i) )
       {
         col = gpCurAIHero->x + normalDirTable[4 * i];
-        row = gpCurAIHero->y + byte_4F1DC1[4 * i];
+        row = gpCurAIHero->y + normalDirTable[4 * i + 1];
         if ( advManager::GetCell(
                gpAdvManager,
                gpCurAIHero->x + normalDirTable[4 * i],
-               gpCurAIHero->y + byte_4F1DC1[4 * i])->objType & 0x80 )
+               gpCurAIHero->y + normalDirTable[4 * i + 1])->objType & 0x80 )
         {
           if ( !(*(&mapRevealed[col] + row * MAP_WIDTH) & 0x80)
             && (advManager::GetCell(gpAdvManager, col, row)->objType & 0x7F) != 36
@@ -85565,7 +85764,7 @@ void __cdecl philAI::CheckReload()
     gpSearchArray,
     gpCurAIHero->x,
     gpCurAIHero->y,
-    HIBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID),
+    gpCurAIHero->directionFacing,
     4 * gpCurAIHero->mobility,
     gpCurAIHero->flags & 0x80,
     0,
@@ -85822,9 +86021,9 @@ signed int __thiscall philAI::DoAnywhereDDoorTownGate(void *this, signed int a1)
                             v7 = advManager::GetCell(gpAdvManager, a2, v12);
                             if ( giGroundToTerrain[v7->groundIndex] )
                             {
-                              if ( !(v7->displayFlags & 8)
+                              if ( !(v7->flags & 8)
                                 && !(v7->objType & 0x80)
-                                && (v7->objectIndex == 255 || v7->displayFlags & 0x80) )
+                                && (v7->objectIndex == 255 || v7->flags & 0x80) )
                               {
                                 v14 = a2;
                                 v13 = v12;
@@ -85879,7 +86078,7 @@ signed int __stdcall philAI::DoDimensionDoor(int a1)
     for ( i = gpSearchArray->field_8 - 1; i >= 1; --i )
     {
       col += normalDirTable[4 * *((_BYTE *)&gpSearchArray->field_2418 + i)];
-      row += byte_4F1DC1[4 * *((_BYTE *)&gpSearchArray->field_2418 + i)];
+      row += normalDirTable[4 * *((_BYTE *)&gpSearchArray->field_2418 + i) + 1];
       if ( abs(col - *(_DWORD *)(a1 + 25)) <= 7 )
       {
         if ( abs(row - *(_DWORD *)(a1 + 29)) <= 7 )
@@ -85887,7 +86086,7 @@ signed int __stdcall philAI::DoDimensionDoor(int a1)
           v2 = advManager::GetCell(gpAdvManager, col, row);
           if ( !(v2->objType & 0x80) )
           {
-            if ( !(v2->displayFlags & 8) )
+            if ( !(v2->flags & 8) )
             {
               v8 = col;
               v7 = row;
@@ -86021,8 +86220,7 @@ mouseManager *__thiscall philAI::DoAI(void *this, int a2)
         break;
       ValidateHero(thisa);
       gpCurAIHero = thisa;
-      if ( LOBYTE(thisa->relatedTo_HIBYTE_y_LOBYTE_x) == 255
-        || LOBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) )
+      if ( thisa->relatedToX == 255 || gpCurAIHero->relatedToFactionID )
       {
         giCurAIHeroMorale = armyGroup::GetMorale(&gpCurAIHero->army, gpCurAIHero, 0, 0);
         giCurAIHeroLuck = game::GetLuck(gpCurAIHero, 0, 0);
@@ -86072,8 +86270,8 @@ LABEL_27:
             break;
           if ( gpCurAIHero->remainingMobility == gpCurAIHero->mobility
             && gpCurPlayer->field_40 > 15
-            && LOBYTE(gpCurPlayer->field_41) == gpCurAIHero->x
-            && HIBYTE(gpCurPlayer->field_41) == gpCurAIHero->y )
+            && gpCurPlayer->field_41 == gpCurAIHero->x
+            && gpCurPlayer->field_42 == gpCurAIHero->y )
             advManager::ProcessSearch(gpAdvManager, *(_QWORD *)&gpCurAIHero->x);
           do
           {
@@ -86209,8 +86407,8 @@ LABEL_79:
           }
           if ( i < 0
             && gpCurPlayer->field_40 > 15
-            && LOBYTE(gpCurPlayer->field_41) == gpCurAIHero->x
-            && HIBYTE(gpCurPlayer->field_41) == gpCurAIHero->y )
+            && gpCurPlayer->field_41 == gpCurAIHero->x
+            && gpCurPlayer->field_42 == gpCurAIHero->y )
           {
             if ( gpCurAIHero->remainingMobility == gpCurAIHero->mobility )
               advManager::ProcessSearch(gpAdvManager, -1i64);
@@ -86358,7 +86556,7 @@ playerData *__stdcall philAI::GetTurnAIVars(int a1)
     dword_51D58C = 0;
     for ( i = 0; gpCurPlayer->numCastles > i; ++i )
     {
-      v34 = &gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
+      v34 = &gpGame->castles[gpCurPlayer->castlesOwned[i]];
       for ( j = 0; j < 54; ++j )
       {
         hro = &gpGame->heroes[j];
@@ -86391,7 +86589,7 @@ LABEL_17:
   }
   for ( k = 0; gpCurPlayer->numCastles > k; ++k )
   {
-    v34 = &gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + k + 2)];
+    v34 = &gpGame->castles[gpCurPlayer->castlesOwned[k]];
     v32 = (double)philAI::FightValueOfStack(&v34->garrison, 0, 0, 0, 0, 0);
     v37 = (signed __int64)((double)v37 + v32);
   }
@@ -86408,7 +86606,7 @@ LABEL_17:
   for ( k = 0; k < 72; ++k )
     gpGame->castles[k].alignment = 0;
   for ( k = 0; gpCurPlayer->numCastles > k; ++k )
-    gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + k + 2)].alignment = 0;
+    gpGame->castles[gpCurPlayer->castlesOwned[k]].alignment = 0;
   memset(gaiEnemyHeroReachable, 0, MAP_HEIGHT * MAP_WIDTH);
   for ( l = 0; gpGame->numPlayers > l; ++l )
   {
@@ -86540,7 +86738,7 @@ LABEL_17:
   v17 = 0.1;
   for ( k = 0; gpCurPlayer->numCastles > k; ++k )
   {
-    if ( gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + k + 2)].buildingsBuiltFlags & 0x40 )
+    if ( gpGame->castles[gpCurPlayer->castlesOwned[k]].buildingsBuiltFlags & 0x40 )
       v17 = v17 + 1.0;
     else
       v17 = v17 + 0.5;
@@ -86573,8 +86771,8 @@ LABEL_17:
       if ( gpCurPlayer->numHeroes == 1 )
       {
         v6 = (char *)&gpGame->heroes[gpCurPlayer->heroesOwned[0]];
-        v7 = (char *)&gpGame->castles[BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)];
-        v8 = abs(gpGame->castles[BYTE2(gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx)].x - gpGame->heroes[gpCurPlayer->heroesOwned[0]].x);
+        v7 = (char *)&gpGame->castles[gpCurPlayer->castlesOwned[0]];
+        v8 = abs(gpGame->castles[gpCurPlayer->castlesOwned[0]].x - gpGame->heroes[gpCurPlayer->heroesOwned[0]].x);
         if ( abs((unsigned __int8)v7[5] - *(_DWORD *)(v6 + 29)) + v8 < 18 )
           giMaxHeroesForThisPlayer = 1;
       }
@@ -86633,7 +86831,7 @@ void __thiscall philAI::GetBestBHC(void *this, int a2, int a3)
   v19 = 0;
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    v12 = (int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
+    v12 = (int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
     v3 = philAI::FightValueOfStack((armyGroup *)(v12 + 8), 0, 0, 0, 0, 0);
     v8[i] = v3 + 400;
     v18 += v8[i];
@@ -86647,12 +86845,12 @@ void __thiscall philAI::GetBestBHC(void *this, int a2, int a3)
   v11 = v18 / v19;
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    v12 = (int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
+    v12 = (int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
     v13[i] = v11 * ((*(_DWORD *)(v12 + 24) & 0x40u) < 1 ? 7 : 10) + 400;
   }
   for ( i = 0; gpCurPlayer->numCastles > i; ++i )
   {
-    v12 = (int)&gpGame->castles[*((_BYTE *)&gpCurPlayer->relatedTo_HIBYTE_Unknown_LOBYTE_mightBeCurCastleIdx + i + 2)];
+    v12 = (int)&gpGame->castles[gpCurPlayer->castlesOwned[i]];
     LogInt((int)"Turns Owned", *(_WORD *)(v12 + 85), -999, -999, -999, -999, -999, -999);
     if ( giCurTurn <= 3 || (signed int)*(_WORD *)(v12 + 85) >= 3 )
     {
@@ -86795,7 +86993,7 @@ signed int __thiscall philAI::DetermineTargetPosition(void *this, int *a2, int *
   if ( philAI::GoodAdjacent(this, (int)&v19) )
   {
     *a2 = gpCurAIHero->x + normalDirTable[4 * v19];
-    *a3 = gpCurAIHero->y + byte_4F1DC1[4 * v19];
+    *a3 = gpCurAIHero->y + normalDirTable[4 * v19 + 1];
     *(_DWORD *)a5 = v19;
     result = 1000;
   }
@@ -86844,7 +87042,7 @@ signed int __thiscall philAI::DetermineTargetPosition(void *this, int *a2, int *
       gpSearchArray,
       gpCurAIHero->x,
       gpCurAIHero->y,
-      HIBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID),
+      gpCurAIHero->directionFacing,
       2 * a4,
       gpCurAIHero->flags & 0x80,
       1,
@@ -86912,7 +87110,7 @@ signed int __thiscall philAI::DetermineTargetPosition(void *this, int *a2, int *
                      && !(row % v29)
                      && (gpCurAIHero->flags & 0x80 && !giGroundToTerrain[v15->groundIndex]
                       || !(gpCurAIHero->flags & 0x80) && giGroundToTerrain[v15->groundIndex])
-                     || LOBYTE(gpCurPlayer->field_41) == col && HIBYTE(gpCurPlayer->field_41) == row;
+                     || gpCurPlayer->field_41 == col && gpCurPlayer->field_42 == row;
                 }
                 else if ( *(__int16 *)((char *)&gpSearchArray->field_2414[col].field_2 + 9 * row * MAP_WIDTH) <= a5a )
                 {
@@ -86926,11 +87124,11 @@ signed int __thiscall philAI::DetermineTargetPosition(void *this, int *a2, int *
                 }
                 if ( v32 )
                 {
-                  if ( LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x) != 255 )
+                  if ( gpCurAIHero->relatedToX != 255 )
                   {
-                    v8 = abs(row - HIBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x));
-                    v20 = abs(col - LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x)) + v8;
-                    if ( SLOBYTE(gpCurAIHero->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) < v20 )
+                    v8 = abs(row - gpCurAIHero->relatedToY);
+                    v20 = abs(col - gpCurAIHero->relatedToX) + v8;
+                    if ( gpCurAIHero->relatedToFactionID < v20 )
                       v32 = 0;
                   }
                 }
@@ -87028,10 +87226,10 @@ LABEL_107:
     }
     *a2 = v27;
     *a3 = v24;
-    if ( LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x) != 255 && v14 <= 0 )
+    if ( gpCurAIHero->relatedToX != 255 && v14 <= 0 )
     {
-      *a2 = LOBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x);
-      *a3 = HIBYTE(gpCurAIHero->relatedTo_HIBYTE_y_LOBYTE_x);
+      *a2 = gpCurAIHero->relatedToX;
+      *a3 = gpCurAIHero->relatedToY;
     }
     LogInt(
       (int)"Hero, Best RV target XY  current XY",
@@ -87382,7 +87580,7 @@ LABEL_63:
         v27 = 0;
         for ( i = 0; i < 5; ++i )
         {
-          if ( LOBYTE((&gTownObjNames[3 * *(_BYTE *)(a1 + 3) + 27])[a2 + 1]) == *(_BYTE *)(i + a1 + 8) )
+          if ( *(_BYTE *)(a2 + 12 * *(_BYTE *)(a1 + 3) + 5193085) == *(_BYTE *)(i + a1 + 8) )
             v27 = 1;
         }
         if ( !v27 )
@@ -87390,7 +87588,7 @@ LABEL_63:
       }
       v37 = (*(float *)&gpCurPlayer->_4_2[18] + 0.66) * v37;
       v37 = (*(float *)&gpCurPlayer->_4_2[22] * 2.0 + 0.33) * v37;
-      v37 = (1.0 - (double)playerData::BuildingsOwned((int)gpCurPlayer, v31, a2, 0) * 0.05) * v37;
+      v37 = (1.0 - (double)playerData::BuildingsOwned(gpCurPlayer, v31, a2, 0) * 0.05) * v37;
       if ( a2 - 19 < v22 )
         v37 = (1.66 - (double)v33 * 0.33) * v37;
       if ( *(_BYTE *)(a1 + 24) & 0x10 )
@@ -87405,7 +87603,7 @@ LABEL_63:
     v24 = *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(a1 + 3)] + v35);
     if ( (1 << (v35 + 19)) & *(_DWORD *)(a1 + 24)
       && (signed int)*(_WORD *)(a1 + 2 * v35 + 30) > 0
-      && (double)gMonsterDatabase[LOBYTE((&gTownObjNames[3 * *(_BYTE *)(a1 + 3) + 27])[a2 + 1])].fight_value_aux < (double)gMonsterDatabase[v24].fight_value_aux * 1.2 )
+      && (double)gMonsterDatabase[*(_BYTE *)(a2 + 12 * *(_BYTE *)(a1 + 3) + 5193085)].fight_value_aux < (double)gMonsterDatabase[v24].fight_value_aux * 1.2 )
     {
       v37 = 0.0;
       break;
@@ -87434,7 +87632,6 @@ LABEL_105:
   *(float *)a4 = v18;
   return result;
 }
-// 4F3D10: using guessed type char *gTownObjNames[32];
 // 532C54: using guessed type int giCurTurn;
 
 //----- (004B03D0) --------------------------------------------------------
@@ -87466,7 +87663,7 @@ int __thiscall philAI::GetBestBuilding(void *this, int a2, int a3, int a4)
   for ( building = 0; building < 32; ++building )
   {
     if ( (!((1 << building) & *(_DWORD *)(a2 + 24)) || !building && (signed int)*(_BYTE *)(a2 + 28) < 5)
-      && CanBuild((unsigned int *)a2, building) )
+      && CanBuild((town *)a2, building) )
     {
       philAI::ValueOfBuyingBuilding(
         a2,
@@ -88050,7 +88247,7 @@ int __thiscall philAI::RVOfPosition(int col, int a2, int col_4, int arg8, int a5
         v25 = v30 * v25 / 100;
     }
   }
-  if ( v21 & 0x80 || LOBYTE(gpCurPlayer->field_41) == a2 && HIBYTE(gpCurPlayer->field_41) == col_4 )
+  if ( v21 & 0x80 || gpCurPlayer->field_41 == a2 && gpCurPlayer->field_42 == col_4 )
     v19 = philAI::ValueOfEventAtPosition((void *)v14, __PAIR__(col_4, a2), a10, (int)&v28);
   else
     v19 = 0;
@@ -88383,7 +88580,7 @@ int __stdcall philAI::ValueOfTown(town *twn)
   v4 = (unsigned __int64)(signed __int64)(flt_530730 * 1250.0 * 1.5 + (double)v3) + 750;
   if ( gpGame->mapHeader.lossConditionType == 1
     && twn->x == *(_WORD *)&gpGame->mapHeader.lossConditionArgumentOrLocX
-    && LOWORD(gpGame->mapHeader.lossConditionArgumentOrLocY) == twn->y )
+    && gpGame->mapHeader.lossConditionArgumentOrLocY == twn->y )
     v4 += 50000;
   if ( gpGame->mapHeader.winConditionType == 1
     && gpGame->mapHeader.winConditionArgumentOrLocX == twn->x
@@ -89725,7 +89922,7 @@ void __thiscall philAI::BuildHero(void *this, signed int a1, int a2)
   v3 = *(_BYTE *)(a1 + 4);
   v4 = *(_BYTE *)(a1 + 5);
   v5 = (int)&gpGame->heroes[gpCurPlayer->heroesForPurchase[a2]];
-  game::SetRandomHeroArmies(gpGame, gpGame->heroes[gpCurPlayer->heroesForPurchase[a2]].idx, 1u);
+  game::SetRandomHeroArmies(gpGame, gpGame->heroes[gpCurPlayer->heroesForPurchase[a2]].idx, 1);
   *(_WORD *)(v5 + 4) = -99;
   *(_WORD *)(v5 + 7) = -99;
   *(_BYTE *)(v5 + 3) = giCurPlayer;
@@ -90243,18 +90440,18 @@ void __thiscall philAI::TownEvent(void *ecx0, int a1, int a2, __int64 a3)
 // 5305C4: using guessed type int dword_5305C4;
 
 //----- (004B6790) --------------------------------------------------------
-signed int __stdcall philAI::ComputeUpgradeValue(int a1, int a2)
+signed int __stdcall philAI::ComputeUpgradeValue(int creat1, int creat2)
 {
   signed int result; // eax@2
   signed int v3; // [sp+18h] [bp-8h]@3
   int v4; // [sp+1Ch] [bp-4h]@1
 
-  v4 = hero::CreatureTypeCount(gpCurAIHero, a1);
+  v4 = hero::CreatureTypeCount(gpCurAIHero, creat1);
   if ( v4 )
   {
-    v3 = (signed __int64)((double)(v4 * (gMonsterDatabase[a2].fight_value - gMonsterDatabase[a1].fight_value))
+    v3 = (signed __int64)((double)(v4 * (gMonsterDatabase[creat2].fight_value - gMonsterDatabase[creat1].fight_value))
                         * gpCurPlayer->field_10F);
-    if ( hero::CreatureTypeCount(gpCurAIHero, a2) )
+    if ( hero::CreatureTypeCount(gpCurAIHero, creat2) )
       v3 = (signed __int64)((double)v3 * 1.2);
     result = v3;
   }
@@ -90400,9 +90597,7 @@ int __thiscall philAI::ValueOfEventAtPosition(void *this, __int64 a1, int a2, in
     *(_DWORD *)a3 = 100;
     v33 = 0;
     v34 = (unsigned int)advManager::GetCell(gpAdvManager, a1, SHIDWORD(a1));
-    if ( gpCurPlayer->field_40 <= 15
-      || LOBYTE(gpCurPlayer->field_41) != (_DWORD)a1
-      || HIBYTE(gpCurPlayer->field_41) != HIDWORD(a1) )
+    if ( gpCurPlayer->field_40 <= 15 || gpCurPlayer->field_41 != (_DWORD)a1 || gpCurPlayer->field_42 != HIDWORD(a1) )
     {
       if ( *(_BYTE *)(v34 + 9) & 0x80 )
       {
@@ -91056,14 +91251,14 @@ LABEL_131:
 // 4B6B60: using guessed type int var_C8[7];
 
 //----- (004B8610) --------------------------------------------------------
-signed int __stdcall philAI::EvaluateGenericSite(int a1)
+int __stdcall philAI::EvaluateGenericSite(int a1)
 {
   signed int v1; // ST20_4@21
   signed int v3; // [sp+28h] [bp-24h]@18
   int v4; // [sp+2Ch] [bp-20h]@20
   signed int i; // [sp+38h] [bp-14h]@2
   signed int j; // [sp+38h] [bp-14h]@18
-  signed int v7; // [sp+40h] [bp-Ch]@1
+  int v7; // [sp+40h] [bp-Ch]@1
   int v8; // [sp+44h] [bp-8h]@1
 
   v8 = 0;
@@ -91238,10 +91433,10 @@ bool __fastcall OnMySide(int a1)
        || gpGame->mapHeader.winConditionType == WIN_CONDITION_DEFEAT_COLOR
        && (gpGame->mapHeader.winConditionArgumentOrLocX == 99 && a1
         || gpGame->mapHeader.winConditionArgumentOrLocX != 99
-        && (gpGame->players[giCurPlayer].color < (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)
-         && gpGame->players[a1].color < (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)
-         || gpGame->players[giCurPlayer].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)
-         && gpGame->players[a1].color >= (signed int)HIWORD(gpGame->mapHeader.lossConditionArgumentOrLocY)))
+        && (gpGame->players[giCurPlayer].color < gpGame->mapHeader.relatedToPlayerColorOrSide
+         && gpGame->players[a1].color < gpGame->mapHeader.relatedToPlayerColorOrSide
+         || gpGame->players[giCurPlayer].color >= gpGame->mapHeader.relatedToPlayerColorOrSide
+         && gpGame->players[a1].color >= gpGame->mapHeader.relatedToPlayerColorOrSide))
        || gbInCampaign
        && !gpGame->relatedToCurViewSideOrCampaign
        && gpGame->relatedToCampaignMap == 8
@@ -94760,7 +94955,7 @@ int __thiscall advManager::StartCursor(int this, signed int a2)
   else
     *(_DWORD *)(v5 + 650) = 1;
   v2 = normalDirTable[4 * a2];
-  v3 = byte_4F1DC1[4 * a2];
+  v3 = normalDirTable[4 * a2 + 1];
   *(_DWORD *)(v5 + 662) = *(_DWORD *)(v5 + 658);
   *(_DWORD *)(v5 + 670) = *(_DWORD *)(v5 + 666);
   *(_DWORD *)(v5 + 658) += v2;
@@ -94780,8 +94975,8 @@ void __thiscall advManager::StopCursor(advManager *this, int a2)
   if ( a2 )
   {
     bMoveSoundMade = 1;
-    this->field_282 = advManager::GetCursorBaseFrame(this->field_27E);
-    this->field_286 = 0;
+    this->mobilizedHeroBaseFrameBit8IsFlip = advManager::GetCursorBaseFrame(this->field_27E);
+    this->mobilizedHeroAnimPos = 0;
     EveryOther = 0;
     hOldWalkSample = 0;
     hNewWalkSample = 0;
@@ -94790,7 +94985,7 @@ void __thiscall advManager::StopCursor(advManager *this, int a2)
   if ( this->field_296 != -1 )
   {
     v2 = &this->map->tiles[this->viewX + this->field_296] + this->map->width * (this->viewY + this->field_29E);
-    v2->displayFlags &= 0xBFu;
+    v2->flags &= 0xBFu;
     this->field_29E = -1;
     this->field_296 = this->field_29E;
   }
@@ -94816,23 +95011,24 @@ void __thiscall advManager::DrawCursor(advManager *this)
     if ( gbDrawSavedCursor )
     {
       this->field_27E = S1cursorDirection;
-      this->field_282 = S1cursorBaseFrame;
-      this->field_286 = S1cursorFrameCount;
+      this->mobilizedHeroBaseFrameBit8IsFlip = S1cursorBaseFrame;
+      this->mobilizedHeroAnimPos = S1cursorFrameCount;
       this->field_28A = S1cursorCycle;
       this->field_28E = S1cursorTurning;
     }
-    a3 = this->field_1F6 + 224;
-    a4 = this->field_1FA + 255;
-    if ( this->field_27A == 6 )
-      a4 = this->field_1FA + 245;
-    if ( this->field_282 & 0x80 )
+    a3 = this->mapPortLeftX + 224;
+    a4 = this->mapPortTopY + 255;
+    if ( this->mobilizedHeroFactionOrBoat == 6 )
+      a4 = this->mapPortTopY + 245;
+    if ( this->mobilizedHeroBaseFrameBit8IsFlip & 0x80 )
     {
-      a3a = this->field_1F6 + 256;
-      spriteIdx = this->field_286 + (this->field_282 & 0x7F);
-      if ( this->field_27A == 6 && !(advManager::GetCell(this, this->viewX + 7, this->viewY + 7)->displayFlags & 4) )
+      a3a = this->mapPortLeftX + 256;
+      spriteIdx = this->mobilizedHeroAnimPos + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F);
+      if ( this->mobilizedHeroFactionOrBoat == 6
+        && !(advManager::GetCell(this, this->viewX + 7, this->viewY + 7)->flags & 4) )
         FlipIconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, a3a, a4, spriteIdx, 1, 0, 0, 480, 480, 0);
       FlipIconToBitmap(
-        (icon *)this->heroIcons[this->field_27A],
+        (icon *)this->heroIcons[this->mobilizedHeroFactionOrBoat],
         gpWindowManager->screenBuffer,
         a3a,
         a4,
@@ -94843,10 +95039,10 @@ void __thiscall advManager::DrawCursor(advManager *this)
         480,
         480,
         0);
-      if ( this->field_27A == 6 )
+      if ( this->mobilizedHeroFactionOrBoat == 6 )
       {
         FlipIconToBitmap(
-          (icon *)this->flagIcons2[gpCurPlayer->color],
+          (icon *)this->flagIconsBoat[gpCurPlayer->color],
           gpWindowManager->screenBuffer,
           a3a,
           a4,
@@ -94862,11 +95058,11 @@ void __thiscall advManager::DrawCursor(advManager *this)
       {
         if ( !this->field_28A )
           spriteIdx = (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
-                    + (this->field_282 & 0x7F)
+                    + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F)
                     - ((unsigned __int64)this->field_202 >> 32)
                     + 56;
         FlipIconToBitmap(
-          (icon *)this->flagIcons1[gpCurPlayer->color],
+          (icon *)this->flagIconsHero[gpCurPlayer->color],
           gpWindowManager->screenBuffer,
           a3a,
           a4,
@@ -94882,11 +95078,12 @@ void __thiscall advManager::DrawCursor(advManager *this)
     }
     else
     {
-      spriteIdxa = this->field_286 + this->field_282;
-      if ( this->field_27A == 6 && !(advManager::GetCell(this, this->viewX + 7, this->viewY + 7)->displayFlags & 4) )
+      spriteIdxa = this->mobilizedHeroAnimPos + this->mobilizedHeroBaseFrameBit8IsFlip;
+      if ( this->mobilizedHeroFactionOrBoat == 6
+        && !(advManager::GetCell(this, this->viewX + 7, this->viewY + 7)->flags & 4) )
         IconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, a3, a4, spriteIdxa, 1, 0, 0, 0x1E0u, 480, 0);
       IconToBitmap(
-        (icon *)this->heroIcons[this->field_27A],
+        (icon *)this->heroIcons[this->mobilizedHeroFactionOrBoat],
         gpWindowManager->screenBuffer,
         a3,
         a4,
@@ -94897,10 +95094,10 @@ void __thiscall advManager::DrawCursor(advManager *this)
         0x1E0u,
         480,
         0);
-      if ( this->field_27A == 6 )
+      if ( this->mobilizedHeroFactionOrBoat == 6 )
       {
         IconToBitmap(
-          (icon *)this->flagIcons2[gpCurPlayer->color],
+          (icon *)this->flagIconsBoat[gpCurPlayer->color],
           gpWindowManager->screenBuffer,
           a3,
           a4,
@@ -94916,11 +95113,11 @@ void __thiscall advManager::DrawCursor(advManager *this)
       {
         if ( !this->field_28A )
           spriteIdxa = (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
-                     + (this->field_282 & 0x7F)
+                     + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F)
                      - ((unsigned __int64)this->field_202 >> 32)
                      + 56;
         IconToBitmap(
-          (icon *)this->flagIcons1[gpCurPlayer->color],
+          (icon *)this->flagIconsHero[gpCurPlayer->color],
           gpWindowManager->screenBuffer,
           a3,
           a4,
@@ -94936,24 +95133,25 @@ void __thiscall advManager::DrawCursor(advManager *this)
     }
     if ( this->field_28A && *((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer]) != 4 )
     {
-      ++this->field_286;
+      ++this->mobilizedHeroAnimPos;
       if ( *((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer]) == 3
-        && (this->field_286 == 4 || this->field_286 == 1) )
-        ++this->field_286;
+        && (this->mobilizedHeroAnimPos == 4 || this->mobilizedHeroAnimPos == 1) )
+        ++this->mobilizedHeroAnimPos;
       if ( !*((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer]) )
       {
         EveryOther = 1 - EveryOther;
         if ( EveryOther )
-          --this->field_286;
+          --this->mobilizedHeroAnimPos;
       }
     }
-    if ( this->field_286 >= 8 )
-      this->field_286 = 0;
+    if ( this->mobilizedHeroAnimPos >= 8 )
+      this->mobilizedHeroAnimPos = 0;
     if ( !this->field_28E )
     {
-      if ( !this->field_286 )
+      if ( !this->mobilizedHeroAnimPos )
         hOldWalkSample = hNewWalkSample;
-      if ( this->field_286 == 3 || *((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer]) == 4 && !bMoveSoundMade )
+      if ( this->mobilizedHeroAnimPos == 3
+        || *((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer]) == 4 && !bMoveSoundMade )
       {
         bMoveSoundMade = 1;
         if ( !EveryOther )
@@ -94968,8 +95166,8 @@ void __thiscall advManager::DrawCursor(advManager *this)
     if ( !gbDrawSavedCursor )
     {
       S1cursorDirection = this->field_27E;
-      S1cursorBaseFrame = this->field_282;
-      S1cursorFrameCount = this->field_286;
+      S1cursorBaseFrame = this->mobilizedHeroBaseFrameBit8IsFlip;
+      S1cursorFrameCount = this->mobilizedHeroAnimPos;
       S1cursorCycle = this->field_28A;
       S1cursorTurning = this->field_28E;
     }
@@ -95006,19 +95204,19 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
     if ( gbDrawSavedCursor )
     {
       this->field_27E = S1cursorDirection;
-      this->field_282 = S1cursorBaseFrame;
-      this->field_286 = S1cursorFrameCount;
+      this->mobilizedHeroBaseFrameBit8IsFlip = S1cursorBaseFrame;
+      this->mobilizedHeroAnimPos = S1cursorFrameCount;
       this->field_28A = S1cursorCycle;
       this->field_28E = S1cursorTurning;
     }
-    a3 = this->field_1F6 + 224;
-    a4 = this->field_1FA + 255;
-    if ( this->field_27A == 6 )
-      a4 = this->field_1FA + 245;
-    if ( this->field_282 & 0x80 )
+    a3 = this->mapPortLeftX + 224;
+    a4 = this->mapPortTopY + 255;
+    if ( this->mobilizedHeroFactionOrBoat == 6 )
+      a4 = this->mapPortTopY + 245;
+    if ( this->mobilizedHeroBaseFrameBit8IsFlip & 0x80 )
     {
-      spriteIdx = this->field_286 + (this->field_282 & 0x7F);
-      if ( this->field_276 && this->field_27A == 6 )
+      spriteIdx = this->mobilizedHeroAnimPos + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F);
+      if ( this->field_276 && this->mobilizedHeroFactionOrBoat == 6 )
       {
         if ( spriteIdx < 9 || spriteIdx >= 36 )
           v4 = 0;
@@ -95027,7 +95225,7 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
         result = IconToBitmap(
                    this->boatShadowIcon,
                    gpWindowManager->screenBuffer,
-                   this->field_1F6 + 224,
+                   this->mapPortLeftX + 224,
                    a4,
                    v4 + spriteIdx,
                    1,
@@ -95043,9 +95241,9 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
         if ( this->field_276 )
         {
           result = (int)this;
-          if ( this->field_27A != 6 )
+          if ( this->mobilizedHeroFactionOrBoat != 6 )
           {
-            v5 = this->field_286 + (this->field_282 & 0x7F);
+            v5 = this->mobilizedHeroAnimPos + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F);
             if ( spriteIdx == 51 )
               v5 = 56;
             if ( v5 == 50 )
@@ -95063,7 +95261,7 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
             result = IconToBitmap(
                        this->shadowIcon,
                        gpWindowManager->screenBuffer,
-                       this->field_1F6 + 224,
+                       this->mapPortLeftX + 224,
                        a4,
                        v3 + v5,
                        1,
@@ -95078,8 +95276,8 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
     }
     else
     {
-      spriteIdxa = this->field_286 + this->field_282;
-      if ( this->field_276 && this->field_27A == 6 )
+      spriteIdxa = this->mobilizedHeroAnimPos + this->mobilizedHeroBaseFrameBit8IsFlip;
+      if ( this->field_276 && this->mobilizedHeroFactionOrBoat == 6 )
       {
         result = IconToBitmap(
                    this->boatShadowIcon,
@@ -95100,7 +95298,7 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
         if ( this->field_276 )
         {
           result = (int)this;
-          if ( this->field_27A != 6 )
+          if ( this->mobilizedHeroFactionOrBoat != 6 )
             result = IconToBitmap(
                        this->shadowIcon,
                        gpWindowManager->screenBuffer,
@@ -95119,8 +95317,8 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
     if ( !gbDrawSavedCursor )
     {
       S1cursorDirection = this->field_27E;
-      S1cursorBaseFrame = this->field_282;
-      S1cursorFrameCount = this->field_286;
+      S1cursorBaseFrame = this->mobilizedHeroBaseFrameBit8IsFlip;
+      S1cursorFrameCount = this->mobilizedHeroAnimPos;
       S1cursorCycle = this->field_28A;
       result = this->field_28E;
       S1cursorTurning = this->field_28E;
@@ -95138,17 +95336,19 @@ int __thiscall advManager::DrawCursorShadow(advManager *this)
 // 532DEC: using guessed type int S1cursorTurning;
 
 //----- (004C0550) --------------------------------------------------------
-int __stdcall advManager::GetCursorBaseFrame(signed int a1)
+// // Frame to render hero/boat/thing depending on direction
+// // Top bit is whether to flip
+int __stdcall advManager::GetCursorBaseFrame(signed int direction)
 {
   int result; // eax@3
 
-  if ( a1 <= 4 )
+  if ( direction <= 4 )
   {
-    result = 9 * a1;
+    result = 9 * direction;
   }
   else
   {
-    switch ( a1 )
+    switch ( direction )
     {
       case 5:
         result = 155;
@@ -95233,7 +95433,7 @@ bool __stdcall advManager::GetMoveShowIt(int a1, int a2)
   int v4; // [sp+14h] [bp-4h]@1
 
   v4 = normalDirTable[4 * a2];
-  v3 = byte_4F1DC1[4 * a2];
+  v3 = normalDirTable[4 * a2 + 1];
   return (gbThisNetHumanPlayer[giCurPlayer] || !*(_DWORD *)&blackoutComputer)
       && (MapExtraPosAndAdjacentsSet(*(_DWORD *)(a1 + 25), *(_DWORD *)(a1 + 29), giCurWatchPlayerBit)
        || MapExtraPosAndAdjacentsSet(v4 + *(_DWORD *)(a1 + 25), v3 + *(_DWORD *)(a1 + 29), giCurWatchPlayerBit));
@@ -95248,7 +95448,7 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6
   signed int terrain; // ST74_4@5
   boat *boat; // ST5C_4@16
   mapCell *v13; // eax@16
-  __int64 v14; // ST98_8@21
+  SAMPLE2 v14; // ST98_8@21
   int v15; // ebx@46
   int v16; // eax@46
   int v17; // edx@64
@@ -95292,7 +95492,7 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6
   v32 = *(_DWORD *)(v9 + 10205);
   v30 = *(_DWORD *)(v9 + 10209);
   deltaX = normalDirTable[4 * a7];
-  deltaY = byte_4F1DC1[4 * a7];
+  deltaY = normalDirTable[4 * a7 + 1];
   bShowIt = advManager::GetMoveShowIt(v9 + 10180, a7);
   if ( bShowIt )
     gbMoveShown = 1;
@@ -95326,7 +95526,7 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6
   *trigY = deltaY + hro->y;
   if ( this->field_27E != a7 )
     advManager::TurnTo((int)this, a7);
-  HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = a7;
+  hro->directionFacing = a7;
   if ( hro->flags & 0x80 && toCell->objType == 28 )
   {
     for ( i = 0; i < 48 && gpGame->boats[i].field_6 != hro->idx; ++i )
@@ -95376,7 +95576,7 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6
         (unsigned int)gbThisNetHumanPlayer[giCurPlayer] < 1 ? 50 : -1,
         0,
         0);
-      WaitEndSample((void *)0xFFFFFFFF, (resource *)v14, HIDWORD(v14));
+      WaitEndSample((void *)0xFFFFFFFF, (resource *)v14.file, v14.sample);
     }
     else if ( StopOnTrigger((int)toCell) )
     {
@@ -95402,8 +95602,8 @@ LABEL_41:
         gpGame->castles[hro->occupiedObjVal].visitingHeroIdx = -1;
       if ( this->field_A2 )
         *(_WORD *)(2 * (deltaX + hro->x) + 2 * MAP_WIDTH * (deltaY + hro->y) + this->sizeOfSomethingMapRelated) = 0;
-      this->field_1FA = 0;
-      this->field_1F6 = this->field_1FA;
+      this->mapPortTopY = 0;
+      this->mapPortLeftX = this->mapPortTopY;
       v15 = giVisRange[hro->secondarySkillLevel[3]];
       v16 = hero::HasArtifact(hro, 64);
       game::SetVisibility(
@@ -95419,7 +95619,7 @@ LABEL_41:
       if ( *((_DWORD *)&gConfig + gbThisNetHumanPlayer[giCurPlayer]) == 4 )
       {
         if ( EveryOther )
-          --this->field_282;
+          --this->mobilizedHeroBaseFrameBit8IsFlip;
         bMoveSoundMade = 0;
         advManager::MoveOrigin((int)this, deltaX, deltaY);
         hro->x += deltaX;
@@ -95470,19 +95670,19 @@ LABEL_41:
             advManager::MoveOrigin((int)this, deltaX, deltaY);
             hro->x += deltaX;
             hro->y += deltaY;
-            this->field_1F6 = dword_51E1C4[deltaX];
-            this->field_1FA = dword_51E1C4[deltaY];
+            this->mapPortLeftX = dword_51E1C4[deltaX];
+            this->mapPortTopY = dword_51E1C4[deltaY];
           }
           v27 = KBTickCount();
           if ( j + 1 == 2 * v45 )
           {
-            this->field_1F6 = 0;
-            this->field_1FA = 0;
+            this->mapPortLeftX = 0;
+            this->mapPortTopY = 0;
           }
           else
           {
-            this->field_1F6 += deltaX * v28;
-            this->field_1FA += deltaY * v28;
+            this->mapPortLeftX += deltaX * v28;
+            this->mapPortTopY += deltaY * v28;
           }
           if ( advManager::ComboDraw(this, 0) )
           {
@@ -95520,8 +95720,8 @@ LABEL_41:
             (soundManager *)gpSoundManager,
             (unsigned __int8)giTerrainToMusicTrack[this->currentTerrain]);
       }
-      this->field_1FA = 0;
-      this->field_1F6 = this->field_1FA;
+      this->mapPortTopY = 0;
+      this->mapPortLeftX = this->mapPortTopY;
       v37 = advManager::GetCell(this, this->viewX + this->field_292, this->viewY + this->field_29A);
       *trigX = this->viewX + this->field_292;
       *trigY = this->viewY + this->field_29A;
@@ -95668,7 +95868,7 @@ LABEL_95:
 //----- (004C1B30) --------------------------------------------------------
 signed int __thiscall advManager::CheckAdjacentMon(void *this, signed int a2)
 {
-  char *v2; // eax@1
+  int v2; // eax@1
   signed int result; // eax@1
   void *thisa; // [sp+Ch] [bp-1Ch]@1
   mapCell *cell; // [sp+10h] [bp-18h]@2
@@ -95676,17 +95876,17 @@ signed int __thiscall advManager::CheckAdjacentMon(void *this, signed int a2)
   signed int a5; // [sp+18h] [bp-10h]@1
   int a4; // [sp+1Ch] [bp-Ch]@1
   int row; // [sp+20h] [bp-8h]@1
-  int a8; // [sp+24h] [bp-4h]@1
+  int col; // [sp+24h] [bp-4h]@1
 
   thisa = this;
-  v2 = (char *)gpGame + 250 * gpCurPlayer->curHeroIdx;
-  a4 = (int)(v2 + 10180);
+  v2 = (int)(&gpGame->gameDifficulty + 125 * gpCurPlayer->curHeroIdx);
+  a4 = v2 + 10180;
   a5 = 0;
   result = advManager::FindAdjacentMonster(
              (advManager *)this,
              *(_DWORD *)(v2 + 10205),
              *(_DWORD *)(v2 + 10209),
-             &a8,
+             &col,
              &row,
              -1,
              -1);
@@ -95700,7 +95900,7 @@ signed int __thiscall advManager::CheckAdjacentMon(void *this, signed int a2)
       0,
       1);
     advManager::UpdateScreen((advManager *)thisa, 0, 0);
-    cell = advManager::GetCell((advManager *)thisa, a8, row);
+    cell = advManager::GetCell((advManager *)thisa, col, row);
     a3 = advManager::GetCell((advManager *)thisa, *(_DWORD *)(a4 + 25), *(_DWORD *)(a4 + 29));
     if ( gbThisNetHumanPlayer[giCurPlayer] )
       advManager::PlayerMonsterInteract(
@@ -95711,12 +95911,12 @@ signed int __thiscall advManager::CheckAdjacentMon(void *this, signed int a2)
         (heroWindow *)&a5,
         *(_QWORD *)(a4 + 25),
         1,
-        __PAIR__(row, a8));
+        __PAIR__(row, col));
     else
       advManager::ComputerMonsterInteract((int)cell, a4, (int)&a5);
     if ( a5 )
     {
-      advManager::EraseObj((advManager *)thisa, cell, a8, row);
+      advManager::EraseObj((advManager *)thisa, cell, col, row);
       if ( gbThisNetHumanPlayer[giCurPlayer] )
         advManager::FizzleCenter(thisa, 0);
     }
@@ -95735,7 +95935,7 @@ signed int __thiscall advManager::ValidMoveWithEvent(int this, int a2, int a3)
   int v6; // [sp+24h] [bp-4h]@6
 
   v5 = normalDirTable[4 * a3] + *(_DWORD *)(a2 + 25);
-  v4 = byte_4F1DC1[4 * a3] + *(_DWORD *)(a2 + 29);
+  v4 = normalDirTable[4 * a3 + 1] + *(_DWORD *)(a2 + 29);
   if ( v5 >= 0 && MAP_WIDTH - 1 >= v5 && v4 >= 0 && MAP_HEIGHT - 1 >= v4 )
   {
     v6 = **(_DWORD **)(this + 174) + 12 * v4 * *(_DWORD *)(*(_DWORD *)(this + 174) + 8) + 12 * v5;
@@ -95767,73 +95967,73 @@ signed int __thiscall advManager::ValidMove(advManager *this, int a2, int a3)
   advManager *v4; // [sp+Ch] [bp-3Ch]@1
   int v5; // [sp+10h] [bp-38h]@45
   mapCell *v6; // [sp+14h] [bp-34h]@31
-  int v7; // [sp+18h] [bp-30h]@1
+  int centerY; // [sp+18h] [bp-30h]@1
   int v8; // [sp+1Ch] [bp-2Ch]@1
-  int v9; // [sp+20h] [bp-28h]@1
+  int centerX; // [sp+20h] [bp-28h]@1
   int v10; // [sp+24h] [bp-24h]@1
   mapCell *v11; // [sp+28h] [bp-20h]@7
   int v12; // [sp+34h] [bp-14h]@1
   int v13; // [sp+38h] [bp-10h]@1
   int v14; // [sp+40h] [bp-8h]@1
-  int v15; // [sp+44h] [bp-4h]@7
+  mapCell *v15; // [sp+44h] [bp-4h]@7
 
   v4 = this;
   v10 = normalDirTable[4 * a2];
-  v8 = byte_4F1DC1[4 * a2];
+  v8 = normalDirTable[4 * a2 + 1];
   v12 = v10 + this->viewX;
   v14 = v8 + this->viewY;
-  v9 = this->viewX + 7;
-  v7 = this->viewY + 7;
+  centerX = this->viewX + 7;
+  centerY = this->viewY + 7;
   v13 = v12 + 7;
   if ( v12 < -7 || MAP_WIDTH - 8 < v12 )
     return 0;
   if ( v14 < -7 || MAP_HEIGHT - 8 < v14 )
     return 0;
-  v15 = (int)(&this->map->tiles[(v14 + 7) * this->map->width] + v13);
-  v11 = &this->map->tiles[v7 * this->map->width] + v9;
-  if ( *(_BYTE *)(v15 + 8) & 8 )
+  v15 = &this->map->tiles[(v14 + 7) * this->map->width] + v13;
+  v11 = &this->map->tiles[centerY * this->map->width] + centerX;
+  if ( v15->flags & 8 )
     return 0;
-  if ( giGroundToTerrain[*(_WORD *)v15] )
+  if ( giGroundToTerrain[v15->groundIndex] )
   {
-    if ( this->field_27A == 6 && *(_BYTE *)(v15 + 9) != 28 )
+    if ( this->mobilizedHeroFactionOrBoat == 6 && v15->objType != 28 )
       return 0;
   }
   else
   {
-    if ( this->field_27A != 6 && *(_BYTE *)(v15 + 9) != 171 && *(_BYTE *)(v15 + 9) != 160 )
+    if ( this->mobilizedHeroFactionOrBoat != 6 && v15->objType != 171 && v15->objType != 160 )
       return 0;
     if ( !giGroundToTerrain[v11->groundIndex]
       && normalDirTable[4 * a2]
-      && byte_4F1DC1[4 * a2]
-      && (giGroundToTerrain[*(&this->map->tiles[v7 * this->map->width].groundIndex + 6 * (v10 + v9))]
-       || giGroundToTerrain[*(&this->map->tiles[(v7 + v8) * this->map->width].groundIndex + 6 * v9)]) )
+      && normalDirTable[4 * a2 + 1]
+      && (giGroundToTerrain[*(&this->map->tiles[centerY * this->map->width].groundIndex + 6 * (v10 + centerX))]
+       || giGroundToTerrain[*(&this->map->tiles[(centerY + v8) * this->map->width].groundIndex + 6 * centerX)]) )
       return 0;
   }
   if ( (1 << a2) & 0x83 )
   {
     if ( v11->objectIndex != 255
       && (((unsigned __int8)v11->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 47
-      && !(v11->displayFlags & 0x80)
+      && !(v11->flags & 0x80)
       && v11->objType != 167 )
       return 0;
-    if ( *(_BYTE *)(v15 + 7) != 255 )
+    if ( v15->overlayIndex != 255 )
     {
       v6 = &this->map->tiles[(v14 + 8) * this->map->width] + v13;
       if ( v6->objectIndex != 255 )
       {
         if ( (((unsigned __int8)v6->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 47
-          && !(v6->displayFlags & 0x80) )
+          && !(v6->flags & 0x80) )
           return 0;
       }
     }
   }
   if ( !((1 << a2) & 0x38) )
     goto LABEL_53;
-  if ( *(_BYTE *)(v15 + 3) != 255
-    && ((*(_BYTE *)(v15 + 2) >> 2) & 0x3F) != 47
-    && !(*(_BYTE *)(v15 + 8) & 0x80)
-    && *(_BYTE *)(v15 + 9) != 167
-    && (!a3 || !(*(_BYTE *)(v15 + 9) & 0x80) || !StopOnTrigger(v15)) )
+  if ( v15->objectIndex != 255
+    && (((unsigned __int8)v15->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 47
+    && !(v15->flags & 0x80)
+    && v15->objType != 167
+    && (!a3 || !(v15->objType & 0x80) || !StopOnTrigger((int)v15)) )
     return 0;
   if ( v11->overlayIndex == 255
     || (v5 = (int)(&v4->map->tiles[v4->viewX + v4->field_292] + v4->map->width * (v4->viewY + v4->field_29A + 1)),
@@ -96020,7 +96220,7 @@ void __thiscall advManager::ProcessMapChange(void *ecx0, unsigned int arg0, __in
       gpGame->heroes[SBYTE1(arg0)].x = BYTE2(arg0);
       hro->y = BYTE3(arg0);
       hro->flags = 0;
-      HIBYTE(hro->relatedTo_HIBYTE_Unknown_LOBYTE_factionID) = 2;
+      hro->directionFacing = 2;
       hro->occupiedObjType = *(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].objType + 12 * BYTE2(arg0));
       hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].field_4_1_1_isShadow_1_13_extraInfo
                                                                 + 6 * BYTE2(arg0)) >> 8) >> -5);
@@ -96549,15 +96749,13 @@ void __thiscall combatManager::SetupGridForArmy(combatManager *this, army *stack
 {
   int v2; // ST24_4@3
   int v3; // ST28_4@3
-  combatManager *thisa; // [sp+Ch] [bp-14h]@1
   int v5; // [sp+10h] [bp-10h]@3
   signed int i; // [sp+14h] [bp-Ch]@3
 
-  thisa = this;
   if ( !gbNoShowCombat && combatShadeLevel >= 1 )
   {
     v5 = army::GetAttackMask(stack, stack->occupiedHex, 2, -1);
-    memset(thisa->field_49F, 0, 0x75u);
+    memset(this->field_49F, 0, 0x75u);
     v2 = stack->targetOwner;
     v3 = stack->targetStackIdx;
     stack->targetOwner = -1;
@@ -96569,24 +96767,24 @@ void __thiscall combatManager::SetupGridForArmy(combatManager *this, army *stack
     {
       if ( stack->occupiedHex == i )
       {
-        thisa->field_49F[i] = 1;
+        this->field_49F[i] = 1;
       }
-      else if ( thisa->combatGrid[i].field_41 )
+      else if ( this->combatGrid[i].field_41 )
       {
-        if ( thisa->combatGrid[i].unitOwner == -1 )
+        if ( this->combatGrid[i].unitOwner == -1 )
         {
-          thisa->field_49F[i] = 3;
+          this->field_49F[i] = 3;
         }
-        else if ( thisa->combatGrid[i].unitOwner != stack->owningSide )
+        else if ( this->combatGrid[i].unitOwner != stack->owningSide )
         {
-          thisa->field_49F[i] = 1;
+          this->field_49F[i] = 1;
         }
       }
-      else if ( thisa->combatGrid[i].unitOwner != -1
-  && thisa->combatGrid[i].unitOwner != 1 - thisa->currentActionSide
-  && (1 << thisa->combatGrid[i].stackIdx) & v5 )
+      else if ( this->combatGrid[i].unitOwner != -1
+  && this->combatGrid[i].unitOwner != 1 - this->currentActionSide
+  && (1 << this->combatGrid[i].stackIdx) & v5 )
       {
-        thisa->field_49F[i] = 1;
+        this->field_49F[i] = 1;
       }
     }
   }
@@ -96596,7 +96794,6 @@ void __thiscall combatManager::SetupGridForArmy(combatManager *this, army *stack
 //----- (004C3FF0) --------------------------------------------------------
 signed int __fastcall combatManager::UpdateGrid(combatManager *this, int edx0, int a2, int a3)
 {
-  combatManager *thisa; // [sp+Ch] [bp-28h]@1
   signed int v6; // [sp+10h] [bp-24h]@14
   signed int i; // [sp+14h] [bp-20h]@15
   signed int j; // [sp+14h] [bp-20h]@30
@@ -96610,7 +96807,6 @@ signed int __fastcall combatManager::UpdateGrid(combatManager *this, int edx0, i
   int targY; // [sp+2Ch] [bp-8h]@14
   int targX; // [sp+30h] [bp-4h]@14
 
-  thisa = this;
   if ( gbNoShowCombat )
     return 0;
   if ( a3 )
@@ -96638,11 +96834,11 @@ signed int __fastcall combatManager::UpdateGrid(combatManager *this, int edx0, i
     goto LABEL_58;
   for ( i = 0; i < 117; ++i )
   {
-    if ( thisa->field_42A[i] != thisa->field_49F[i] )
+    if ( this->field_42A[i] != this->field_49F[i] )
       v15 = 1;
-    if ( thisa->field_49F[i] )
+    if ( this->field_49F[i] )
       v6 = 1;
-    if ( thisa->field_42A[i] )
+    if ( this->field_42A[i] )
       v12 = 1;
   }
   if ( !a2 )
@@ -96653,16 +96849,16 @@ signed int __fastcall combatManager::UpdateGrid(combatManager *this, int edx0, i
     {
       for ( j = 0; j < 117; ++j )
       {
-        if ( thisa->field_42A[j] != thisa->field_49F[j] || thisa->field_49F[j] )
+        if ( this->field_42A[j] != this->field_49F[j] || this->field_49F[j] )
         {
-          if ( thisa->combatGrid[j].leftX < targX )
-            targX = thisa->combatGrid[j].leftX;
-          if ( thisa->combatGrid[j].topY < targY )
-            targY = thisa->combatGrid[j].topY;
-          if ( thisa->combatGrid[j].rightX > v14 )
-            v14 = thisa->combatGrid[j].rightX;
-          if ( thisa->combatGrid[j].otherY2 > v13 )
-            v13 = thisa->combatGrid[j].otherY2;
+          if ( this->combatGrid[j].leftX < targX )
+            targX = this->combatGrid[j].leftX;
+          if ( this->combatGrid[j].topY < targY )
+            targY = this->combatGrid[j].topY;
+          if ( this->combatGrid[j].rightX > v14 )
+            v14 = this->combatGrid[j].rightX;
+          if ( this->combatGrid[j].otherY2 > v13 )
+            v13 = this->combatGrid[j].otherY2;
         }
       }
       if ( targX < 67 )
@@ -96674,8 +96870,8 @@ signed int __fastcall combatManager::UpdateGrid(combatManager *this, int edx0, i
       if ( v13 > 442 )
         v13 = 442;
       bitmap::CopyToCareful(
-        thisa->couldBeBitmapForFieldItself,
-        thisa->probablyBitmapForCombatScreen,
+        this->couldBeBitmapForFieldItself,
+        this->probablyBitmapForCombatScreen,
         targX,
         targY,
         targX - 67,
@@ -96693,15 +96889,15 @@ LABEL_52:
     {
       for ( k = 0; k < 117; ++k )
       {
-        if ( thisa->field_49F[k] )
+        if ( this->field_49F[k] )
         {
           DimIconToBitmap(
-            thisa->combatScreenIcons[9],
-            (int)thisa->probablyBitmapForCombatScreen,
-            thisa->combatGrid[k].leftX,
-            thisa->combatGrid[k].topY,
+            this->combatScreenIcons[9],
+            (int)this->probablyBitmapForCombatScreen,
+            this->combatGrid[k].leftX,
+            this->combatGrid[k].topY,
             1,
-            thisa->field_49F[k] - 1,
+            this->field_49F[k] - 1,
             1,
             0,
             0,
@@ -96719,10 +96915,10 @@ LABEL_58:
     {
       if ( l % 13 && l % 13 != 12 )
         MonoIconToBitmap(
-          thisa->combatScreenIcons[9],
-          thisa->probablyBitmapForCombatScreen,
-          thisa->combatGrid[l].leftX,
-          thisa->combatGrid[l].topY,
+          this->combatScreenIcons[9],
+          this->probablyBitmapForCombatScreen,
+          this->combatGrid[l].leftX,
+          this->combatGrid[l].topY,
           0,
           -30,
           1,
@@ -96734,7 +96930,7 @@ LABEL_58:
     v11 = 1;
     bGridWasShowing = 1;
   }
-  memcpy(thisa->field_42A, thisa->field_49F, 0x75u);
+  memcpy(this->field_42A, this->field_49F, 0x75u);
   return v11;
 }
 // 518CFC: using guessed type int gbNoShowCombat;
@@ -97408,7 +97604,7 @@ LABEL_150:
 LABEL_151:
     v19 = 0;
   }
-  if ( *(_DWORD *)&combatArmyInfoLevel > 0 && *(_DWORD *)&thisa->_15[100] != -1 )
+  if ( *(_DWORD *)&combatArmyInfoLevel > 0 && thisa->field_F543 != -1 )
   {
     combatManager::DrawSmallView(thisa, 0, 0);
     combatManager::DrawSmallView(thisa, 1, 0);
@@ -97637,9 +97833,9 @@ void __thiscall combatManager::DrawSmallView(combatManager *this, int a2, int a3
   if ( !gbNoShowCombat && this->field_F42F && *(_DWORD *)&combatArmyInfoLevel && !gbInDrawSmallView )
   {
     gbInDrawSmallView = 1;
-    if ( *(_DWORD *)&this->_15[4 * a2 + 100] != -1
-      && (*(&this->field_F553 + a2) != 5 || *(_DWORD *)&this->_15[4 * a2 + 100] != 1)
-      && (*(&this->field_F553 + a2) != 555 || *(_DWORD *)&this->_15[4 * a2 + 100]) )
+    if ( *(&this->field_F543 + a2) != -1
+      && (*(&this->field_F553 + a2) != 5 || *(&this->field_F543 + a2) != 1)
+      && (*(&this->field_F553 + a2) != 555 || *(&this->field_F543 + a2)) )
       goto LABEL_88;
     if ( *(&this->field_F553 + a2) >= 0 )
     {
@@ -97658,25 +97854,25 @@ void __thiscall combatManager::DrawSmallView(combatManager *this, int a2, int a3
       gbLimitToExtent = 0;
       *(&this->field_F553 + a2) = -1;
     }
-    if ( *(_DWORD *)&this->_15[4 * a2 + 100] != -1 )
+    if ( *(&this->field_F543 + a2) != -1 )
     {
 LABEL_88:
       if ( *(_DWORD *)&combatArmyInfoLevel == 2 )
       {
         if ( a2 )
         {
-          if ( *(_DWORD *)&this->_15[4 * a2 + 100] )
+          if ( *(&this->field_F543 + a2) )
             offsetX = 555;
           else
             offsetX = 5;
-          if ( *(_DWORD *)&this->_15[104] == *(_DWORD *)&this->_15[100] )
+          if ( this->field_F547 == this->field_F543 )
             offsetY = 154;
           else
             offsetY = 299;
         }
         else
         {
-          if ( *(_DWORD *)&this->_15[100] )
+          if ( this->field_F543 )
             offsetX = 555;
           else
             offsetX = 5;
@@ -97689,18 +97885,18 @@ LABEL_88:
       {
         if ( a2 )
         {
-          if ( *(_DWORD *)&this->_15[4 * a2 + 100] )
+          if ( *(&this->field_F543 + a2) )
             offsetX = 555;
           else
             offsetX = 5;
-          if ( *(_DWORD *)&this->_15[104] == *(_DWORD *)&this->_15[100] )
+          if ( this->field_F547 == this->field_F543 )
             offsetY = 288;
           else
             offsetY = 366;
         }
         else
         {
-          if ( *(_DWORD *)&this->_15[100] )
+          if ( this->field_F543 )
             offsetX = 555;
           else
             offsetX = 5;
@@ -97714,13 +97910,13 @@ LABEL_88:
       v94 = gbLimitToExtent;
       if ( a3 )
         gbLimitToExtent = 0;
-      v21 = (char *)&this->creatures[*(_DWORD *)&this->_15[4 * a2 + 100]][*(_DWORD *)&this->_15[4 * a2 + 108]];
+      v21 = (char *)&this->creatures[*(&this->field_F543 + a2)][this->field_F54B[a2]];
       v3 = icon::CombatClipDrawToBuffer(
              this->combatScreenIcons[10],
              offsetX,
              offsetY,
              *(_DWORD *)&combatArmyInfoLevel != 2,
-             (H2RECT *)&this->_15[68],
+             &this->field_F523,
              0,
              0,
              0,
@@ -101489,7 +101685,7 @@ sample *__thiscall resourceManager::GetSample(resourceManager *this, const char 
   {
     sample = (sample *)operator new(sizeof(sample));
     if ( sample )
-      sample = sample::sample(sample, filename, 0, 127, 1);
+      sample = sample::sample(sample, filename, 0, 0x7Fu, 1);
     else
       sample = NULL;
     resourceManager::AddResource(this, (resource *)sample);
@@ -108102,7 +108298,7 @@ char __cdecl TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y)
   unsigned int v7; // ecx@1
   int v8; // ebx@1
   int v9; // edx@1
-  char *curSrc; // esi@1
+  int *curSrc; // esi@1
   int v11; // eax@3
   const void *v12; // esi@4
   void *v13; // edi@4
@@ -108134,13 +108330,13 @@ char __cdecl TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y)
   void *v39; // edi@4
   const void *v40; // esi@4
   void *v41; // edi@4
-  int v42; // esi@6
+  const void *v42; // esi@6
   __int16 v43; // dx@6
   int v44; // edi@10
   int v45; // ebx@10
   unsigned int v46; // edx@10
   unsigned int v47; // ecx@11
-  int v48; // esi@12
+  char *v48; // esi@12
   int v49; // edi@12
   int v50; // esi@15
   unsigned int v51; // edx@15
@@ -108157,12 +108353,12 @@ char __cdecl TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y)
   v8 = width - v7;
   HIWORD(v9) = (unsigned int)idxa * (unsigned __int64)(tiles->field_14 * (unsigned int)tiles->field_12) >> 48;
   LOWORD(v9) = tiles->field_14;
-  curSrc = (char *)tiles->contents + idxa * tiles->field_14 * tiles->field_12;
+  curSrc = (int *)((char *)tiles->contents + idxa * tiles->field_14 * tiles->field_12);
   if ( dword_5206C4 & 0x8000 )
   {
     if ( dword_5206C4 & 0x4000 )
     {
-      v50 = (int)&curSrc[v7 * v7 - 1];
+      v50 = (int)((char *)curSrc + v7 * v7 - 1);
       v51 = v7 >> 3;
       dword_5206C8 = tiles->field_12;
       do
@@ -108209,24 +108405,24 @@ char __cdecl TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y)
         v47 = v46;
         do
         {
-          LOBYTE(v11) = *curSrc;
-          v48 = (int)(curSrc + 1);
+          LOBYTE(v11) = *(_BYTE *)curSrc;
+          v48 = (char *)curSrc + 1;
           *(_BYTE *)v44 = v11;
           v49 = v44 - 1;
-          LOBYTE(v11) = *(_BYTE *)v48++;
+          LOBYTE(v11) = *v48++;
           *(_BYTE *)v49-- = v11;
-          LOBYTE(v11) = *(_BYTE *)v48++;
+          LOBYTE(v11) = *v48++;
           *(_BYTE *)v49-- = v11;
-          LOBYTE(v11) = *(_BYTE *)v48++;
+          LOBYTE(v11) = *v48++;
           *(_BYTE *)v49-- = v11;
-          LOBYTE(v11) = *(_BYTE *)v48++;
+          LOBYTE(v11) = *v48++;
           *(_BYTE *)v49-- = v11;
-          LOBYTE(v11) = *(_BYTE *)v48++;
+          LOBYTE(v11) = *v48++;
           *(_BYTE *)v49-- = v11;
-          LOBYTE(v11) = *(_BYTE *)v48++;
+          LOBYTE(v11) = *v48++;
           *(_BYTE *)v49-- = v11;
-          LOBYTE(v11) = *(_BYTE *)v48;
-          curSrc = (char *)(v48 + 1);
+          LOBYTE(v11) = *v48;
+          curSrc = (int *)(v48 + 1);
           *(_BYTE *)v49 = v11;
           v44 = v49 - 1;
           --v47;
@@ -108240,14 +108436,14 @@ char __cdecl TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y)
   }
   else if ( dword_5206C4 & 0x4000 )
   {
-    v42 = (int)&curSrc[v7 * (v7 - 1)];
+    v42 = (char *)curSrc + v7 * (v7 - 1);
     v11 = tiles->field_12;
     v43 = tiles->field_12;
     do
     {
-      memcpy(curDest, (const void *)v42, 4 * ((unsigned int)v11 >> 2));
+      memcpy(curDest, v42, 4 * ((unsigned int)v11 >> 2));
       curDest += 4 * ((unsigned int)v11 >> 2) + v8;
-      v42 = v42 + 4 * ((unsigned int)v11 >> 2) - v11 - v11;
+      v42 = (char *)v42 + 4 * ((unsigned int)v11 >> 2) - v11 - v11;
       --v43;
     }
     while ( v43 );
@@ -108258,7 +108454,7 @@ char __cdecl TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y)
     do
     {
       memcpy(curDest, curSrc, 4 * v11);
-      v12 = &curSrc[4 * v11];
+      v12 = &curSrc[v11];
       v13 = &curDest[4 * v11] + v8;
       memcpy(v13, v12, 4 * v11);
       v14 = (char *)v12 + 4 * v11;
@@ -108303,7 +108499,7 @@ char __cdecl TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y)
       v40 = (char *)v38 + 4 * v11;
       v41 = (char *)v39 + 4 * v11 + v8;
       memcpy(v41, v40, 4 * v11);
-      curSrc = (char *)v40 + 4 * v11;
+      curSrc = (int *)((char *)v40 + 4 * v11);
       curDest = (unsigned __int8 *)((char *)v41 + 4 * v11 + v8);
       LOWORD(v9) = v9 - 16;
     }
@@ -111896,7 +112092,7 @@ tileset *__thiscall tileset::_scalar_deleting_destructor_(tileset *this, char a2
 // 4EB014: using guessed type int (__thiscall *tileset___vftable_[3])(void *, int);
 
 //----- (004DC9B0) --------------------------------------------------------
-sample *__thiscall sample::sample(sample *this, const char *filename, int a3, int a4, int a5)
+sample *__thiscall sample::sample(sample *this, const char *filename, int a3, unsigned int volume, int loopCount)
 {
   sample *thisa; // ebx@1
   int fileID; // eax@1
@@ -111915,8 +112111,8 @@ sample *__thiscall sample::sample(sample *this, const char *filename, int a3, in
   v7 = 2;
   thisa->vtable = &sample::_vftable_;
   thisa->codeThing = a3;
-  thisa->field_28 = a4;
-  thisa->loopCount = a5;
+  thisa->volume = volume;
+  thisa->loopCount = loopCount;
   strcpy(v15, filename);
   _strrev((unsigned int)v15);
   v8 = 0;
@@ -111973,7 +112169,7 @@ sample *__thiscall sample::_scalar_deleting_destructor_(sample *this, char a2)
   BaseFree(this->contents, (int)"F:\\h2xsrc\\Base\\SAMPLE.CPP", 97);
   thisa->contents = 0;
   thisa->nbytes = 0;
-  thisa->field_28 = 0;
+  thisa->volume = 0;
   resource::_resource(thisa);
   if ( a2 & 1 )
     operator delete(thisa);

@@ -1,4 +1,5 @@
-#include<string>
+#include <string>
+#include <vector>
 
 #include "analytics.h"
 #include "base.h"
@@ -7,6 +8,7 @@
 #include "prefs.h"
 #include "scripting/callback.h"
 #include "scripting/scripting.h"
+#include "skills.h"
 #include "spell/spells.h"
 
 
@@ -26,9 +28,11 @@ void __fastcall CheckShingleUpdate() {
 
 
 
-char* gAlignmentNames[13] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
-                             "Multiple", "Random", NULL, NULL, NULL, NULL,
-                             "Cyborg"};
+char* gAlignmentNames[MAX_FACTIONS] = {"Knight", "Barbarian", "Sorceress", "Warlock", "Wizard", "Necromancer",
+                                       "Multiple", "Random", NULL, NULL, NULL, NULL,
+                                       "Cyborg"};
+
+H2RECT gMapViewportRegion = H2RECT(top(16), bottom(464), left(16), right(464));
 
 int game::GetRandomNumTroops(int creat) {
 	return Random(gMonRandBound[creat][0], gMonRandBound[creat][1]);
@@ -36,22 +40,36 @@ int game::GetRandomNumTroops(int creat) {
 
 extern int gbNoCDRom;
 
-randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2] = {
+randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2] = {
   {{CREATURE_PEASANT,  30, 50},{CREATURE_ARCHER,   3, 5}},
   {{CREATURE_GOBLIN,   15, 25},{CREATURE_ORC,      3, 5}},
   {{CREATURE_SPRITE,   10, 20},{CREATURE_DWARF,    2, 4}},
   {{CREATURE_CENTAUR,  6,  10},{CREATURE_GARGOYLE, 2, 4}},
   {{CREATURE_HALFLING, 6,  10},{CREATURE_BOAR,     2, 4}},
-  {{CREATURE_SKELETON, 6,  10},{CREATURE_ZOMBIE,   2, 4}}
+  {{CREATURE_SKELETON, 6,  10},{CREATURE_ZOMBIE,   2, 4}},
+  {{CREATURE_INVALID,  0,  0} ,{CREATURE_INVALID,  0, 0}},
+  {{CREATURE_INVALID,  0,  0} ,{CREATURE_INVALID,  0, 0}},
+  {{CREATURE_INVALID,  0,  0} ,{CREATURE_INVALID,  0, 0}},
+  {{CREATURE_INVALID,  0,  0} ,{CREATURE_INVALID,  0, 0}},
+  {{CREATURE_INVALID,  0,  0} ,{CREATURE_INVALID,  0, 0}},
+  {{CREATURE_INVALID,  0,  0} ,{CREATURE_INVALID,  0, 0}},
+  {{CREATURE_CYBER_KOBOLD_SPEARMAN, 6, 10},{CREATURE_CYBER_PLASMA_BERSERKER, 2, 4}}
 };
 
-int neutralTownCreatureTypes[NUM_FACTIONS][5] = {
+int neutralTownCreatureTypes[MAX_FACTIONS][5] = {
   {CREATURE_PEASANT,  CREATURE_ARCHER,   CREATURE_PIKEMAN,    CREATURE_SWORDSMAN, CREATURE_CAVALRY},
   {CREATURE_GOBLIN,   CREATURE_ORC,      CREATURE_WOLF,       CREATURE_OGRE,      CREATURE_TROLL},
   {CREATURE_SPRITE,   CREATURE_DWARF,    CREATURE_ELF,        CREATURE_DRUID,     CREATURE_UNICORN},
   {CREATURE_CENTAUR,  CREATURE_GARGOYLE, CREATURE_GRIFFIN,    CREATURE_MINOTAUR,  CREATURE_HYDRA},
   {CREATURE_HALFLING, CREATURE_BOAR,     CREATURE_IRON_GOLEM, CREATURE_ROC,       CREATURE_MAGE},
-  {CREATURE_SKELETON, CREATURE_ZOMBIE,   CREATURE_MUMMY,      CREATURE_VAMPIRE,   CREATURE_LICH}
+  {CREATURE_SKELETON, CREATURE_ZOMBIE,   CREATURE_MUMMY,      CREATURE_VAMPIRE,   CREATURE_LICH},
+  {CREATURE_INVALID,  CREATURE_INVALID,  CREATURE_INVALID,    CREATURE_INVALID,   CREATURE_INVALID},
+  {CREATURE_INVALID,  CREATURE_INVALID,  CREATURE_INVALID,    CREATURE_INVALID,   CREATURE_INVALID},
+  {CREATURE_INVALID,  CREATURE_INVALID,  CREATURE_INVALID,    CREATURE_INVALID,   CREATURE_INVALID},
+  {CREATURE_INVALID,  CREATURE_INVALID,  CREATURE_INVALID,    CREATURE_INVALID,   CREATURE_INVALID},
+  {CREATURE_INVALID,  CREATURE_INVALID,  CREATURE_INVALID,    CREATURE_INVALID,   CREATURE_INVALID},
+  {CREATURE_INVALID,  CREATURE_INVALID,  CREATURE_INVALID,    CREATURE_INVALID,   CREATURE_INVALID},
+  {CREATURE_CYBER_KOBOLD_SPEARMAN, CREATURE_CYBER_PLASMA_BERSERKER, CREATURE_CYBER_PLASMA_LANCER, CREATURE_CYBER_INDIGO_PANTHER, CREATURE_CYBER_SHADOW_ASSASSIN},
 };
 
 int game::SetupGame() {
@@ -101,9 +119,10 @@ void game::InitNewGame(struct SMapHeader *a) {
 		else
 			lastPlayed = read_pref<std::string>("Last Map");
 
-		if (lastPlayed.length() < 20) { // otherwise means no registry keys exist yet
-			strcpy(gMapName, lastPlayed.c_str());
-			strcpy(this->mapFilename, lastPlayed.c_str());
+		const int mapNameSize = 13;  // DOS 8+3 format
+		if (lastPlayed.length() < mapNameSize) { // otherwise means no registry keys exist yet
+			strcpy_s(gMapName, mapNameSize, lastPlayed.c_str());
+			strcpy_s(this->mapFilename, sizeof(mapFilename), lastPlayed.c_str());
 		}
 	}
 	this->InitNewGame_orig(a);
@@ -272,6 +291,60 @@ void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int 
 	}
 }
 
+void game::InitRandomArtifacts() {
+  ResetGeneratedArtifacts();
+  for (int i = 0; i < MAP_WIDTH; ++i) {
+    for (int j = 0; j < MAP_HEIGHT; ++j) {
+      const auto &tile = map.tiles[j * MAP_WIDTH + i];
+      if (tile.objType == (TILE_HAS_EVENT | LOCATION_ARTIFACT)) {
+        // Each artifact has two tiles. Convert from tile id to the artifact id.
+        const int artifactId = static_cast<unsigned char>(tile.objectIndex) / 2;
+        GenerateArtifact(artifactId);
+      }
+    }
+  }
+}
+
+int game::GetRandomArtifactId(int allowedLevels, int allowNegatives) {
+  int winConditionArtifact = -1;
+  if (mapHeader.winConditionType == WIN_CONDITION_FIND_ARTIFACT) {
+    winConditionArtifact = mapHeader.winConditionArgumentOrLocX - 1;
+  }
+
+  // Cursed artifacts are allowed 70% of the time, every time.
+  const bool allowCursed = (allowNegatives && Random(0, 100) >= 30);
+
+  std::vector<int> choices;
+  const int numArtifacts = (xIsExpansionMap ? NUM_SUPPORTED_ARTIFACTS : MAX_BASE_ARTIFACT + 1);
+
+  for (int i = 0; i < numArtifacts; ++i) {
+    if ((GetArtifactLevel(i) & allowedLevels) == 0) {
+      continue;
+    }
+    if (!IsArtifactGenerationAllowed(i)) {
+      continue;
+    }
+    if (!allowCursed && IsCursedItem(i)) {
+      continue;
+    }
+    if (i == winConditionArtifact) {
+      continue;
+    }
+
+    choices.push_back(i);
+  }
+
+  // Ran out of artifacts (how'd you manage that?), so reset and try again.
+  if (choices.empty()) {
+    ResetGeneratedArtifacts(allowedLevels);
+    return GetRandomArtifactId(allowedLevels, allowNegatives);
+  }
+
+  const auto artifactId = choices[Random(0, choices.size() - 1)];
+  GenerateArtifact(artifactId);
+  return artifactId;
+}
+
 void game::SetRandomHeroArmies(int heroIdx, int isAI) {
   double randomUpperBound;
   double randomLowerBound;
@@ -290,7 +363,8 @@ void game::SetRandomHeroArmies(int heroIdx, int isAI) {
       if (isAI) { //  If isAI, randomLowerBound is assigned the average of the bounds and this results in the probability of higher values
         randomLowerBound = (randomUpperBound + randomLowerBound) / 2;
       }
-      this->GiveArmy(heroArmy, creatureFaction[creatureTier].creatureType, (int)Random(randomLowerBound, randomUpperBound), creatureTier);
+      const int numCreatures = Random(static_cast<int>(randomLowerBound), static_cast<int>(randomUpperBound));
+      this->GiveArmy(heroArmy, creatureFaction[creatureTier].creatureType, numCreatures, creatureTier);
     }
   }
 }
@@ -411,7 +485,7 @@ void game::ProcessOnMapHeroes() {
           }
         }
         if (mapExtraHero->hasName) {
-          strcpy(randomHero->name, mapExtraHero->name);
+          strcpy_s(randomHero->name, sizeof(randomHero->name), mapExtraHero->name);
         }
         randomHero->experience = 0;
         gpAdvManager->GiveExperience(randomHero, mapExtraHero->experience, 1);
@@ -427,7 +501,7 @@ void game::ProcessOnMapHeroes() {
           randomHero->ownerIdx = mapExtraHero->owner;
           this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
-          if (y > 0 && (this->map.tiles[x + ((y - 1) * this->map.width)].objType) == TILE_HAS_EVENT | LOCATION_TOWN) {
+          if (y > 0 && this->map.tiles[x + ((y - 1) * this->map.width)].objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
             --randomHero->relatedToY;
             --randomHero->y;
             this->castles[this->GetTownId(x, y - 1)].visitingHeroIdx = randomHero->idx;

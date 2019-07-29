@@ -12,56 +12,61 @@ extern "C" {
 #include "town/town.h"
 #include "artifacts.h"
 
+#include "scripting/deepbinding.h"
 #include "scripting/register.h"
 
+#include "sound/sound.h"
+
+enum SoundEffectWait { SND_DO_WAIT, SND_DONT_WAIT };
+
+static bool PlaySoundEffect(std::string snd, SoundEffectWait wait, SAMPLE2* samp) {
+	SAMPLE2 res = NULL_SAMPLE2;
+	if (!snd.empty()) {
+		char* src;
+		snd += ".82m";
+		src = strdup(snd.c_str());
+		res = LoadPlaySample(src);
+		if (samp != NULL) {
+			memcpy(samp, &res, sizeof(SAMPLE2));
+		}
+		if (wait == SND_DO_WAIT) {
+			WaitEndSample(res, res.sample);
+		}
+		free(src);
+		return true;
+	}
+	return false;
+}
+
+static bool CheckLocationItem(mapCell *loc) {
+	if (!(loc->objType&TILE_HAS_EVENT)) {
+		return false;
+	}
+	switch (loc->objType^TILE_HAS_EVENT) {
+		case LOCATION_ANCIENT_LAMP:
+		case LOCATION_ARTIFACT:
+		case LOCATION_RESOURCE:
+		case LOCATION_CAMPFIRE:
+		case LOCATION_TREASURE_CHEST:
+		case LOCATION_SHIPWRECK_SURVIVOR:
+		case LOCATION_FLOTSAM:
+		case LOCATION_SEA_CHEST:
+			return true;
+	}
+	return false;
+}
+
+static bool CheckBoolean(lua_State *L, int pos) {
+	if (lua_isboolean(L, pos)) {
+		return lua_toboolean(L, pos);
+	}
+	const char *msg = lua_pushfstring(L, "%s expected, got %s", lua_typename(L, LUA_TBOOLEAN), luaL_typename(L, pos));
+	luaL_argerror(L, pos, msg);
+	return false;
+}
+
 static int StackIndexOfArg(int argNumber, int numArgs) {
-  return (numArgs - (argNumber - 1));
-}
-
-/************************************************ Deep binded objects ********************************************************/
-
-static void MakeLuaHeroTable(lua_State *L, void *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "hero_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void MakeLuaTownTable(lua_State *L, void *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "town_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void MakeLuaPlayerTable(lua_State *L, void *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "player_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void MakeLuaBattleStackTable(lua_State *L, void *ptrAddr) {
-  lua_newtable(L);
-  lua_pushstring(L, "ptr");
-  lua_pushinteger(L, (int)ptrAddr);
-  lua_settable(L, -3);
-  lua_getglobal(L, "battleStack_mt");
-  lua_setmetatable(L, -2);
-}
-
-static void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex) {
-  lua_pushstring(L, "ptr");
-  lua_gettable(L, -1 - stackIndex);
-  void* ret = (void*)(int)lua_tonumber(L, -1);
-  lua_pop(L, 1);
-  return ret;
+	return (numArgs - (argNumber - 1));
 }
 
 /************************************************ Dialogs ********************************************************/
@@ -149,12 +154,12 @@ static void register_date_funcs(lua_State *L) {
 
 static int l_getPlayer(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
-  MakeLuaPlayerTable(L, &gpGame->players[n]);
+  deepbound_push(L, deepbind<playerData*>(&gpGame->players[n]));
   return 1;
 }
 
 static int l_getCurrentPlayer(lua_State *L) {
-  MakeLuaPlayerTable(L, gpCurPlayer);
+  deepbound_push(L, deepbind<playerData*>(gpCurPlayer));
   return 1;
 }
 
@@ -173,14 +178,14 @@ static int l_getNumHeroes(lua_State *L) {
 static int l_getHero(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int n = (int)luaL_checknumber(L, 2);
-  MakeLuaHeroTable(L, &gpGame->heroes[p->heroesOwned[n]]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[p->heroesOwned[n]]));
   return 1;
 }
 
 static int l_getHeroForHire(lua_State *L) {
   playerData* p = (playerData*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
   int n = (int)luaL_checknumber(L, 2);
-  MakeLuaHeroTable(L, &gpGame->heroes[p->heroesForPurchase[n]]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[p->heroesForPurchase[n]]));
   return 1;
 }
 
@@ -269,7 +274,7 @@ static void register_player_funcs(lua_State *L) {
 /************************************************ Heroes ********************************************************/
 
 static int l_getCurrentHero(lua_State *L) {
-  MakeLuaHeroTable(L, GetCurrentHero());
+  deepbound_push(L, deepbind<hero*>(GetCurrentHero()));
   return 1;
 }
 
@@ -292,7 +297,7 @@ static int l_hasTroop(lua_State *L) {
   int creature = (int)luaL_checknumber(L, 2);
   int quantity = (int)luaL_checknumber(L, 3);
   for (int i = 0; i < CREATURES_IN_ARMY; i++) {
-    if (hro->army.creatureTypes[i] && hro->army.creatureTypes[i] == creature && hro->army.quantities[i] >= quantity) {
+    if (hro->army.creatureTypes[i] == creature && hro->army.quantities[i] >= quantity) {
       lua_pushboolean(L, true);
       return 1;
     }
@@ -341,6 +346,12 @@ static int l_teleportHero(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
   int x = (int)luaL_checknumber(L, 2);
   int y = (int)luaL_checknumber(L, 3);
+
+  // Working around a bug where TeleportTo will erroneously call
+  // gpGame->SetVisibility(hero, viewX, viewY, heroViewingRadius)
+  gpAdvManager->viewX = x;
+  gpAdvManager->viewY = y;
+
   gpAdvManager->TeleportTo(hro, x, y, 0, 0);
   return 0;
 }
@@ -360,13 +371,19 @@ static int l_setHeroName(lua_State *L) {
 
 static int l_getHeroInPool(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
-  MakeLuaHeroTable(L, &gpGame->heroes[n]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[n]));
   return 1;
 }
 
 static int l_getHeroOwner(lua_State *L) {
   hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-  lua_pushinteger(L, hro->ownerIdx);
+  
+  if (hro->ownerIdx < 0) {
+    lua_pushnil(L);
+  } else {
+    deepbound_push(L, deepbind<playerData*>(&gpGame->players[hro->ownerIdx]));
+  }
+
   return 1;
 }
 
@@ -545,6 +562,19 @@ static int l_grantSpellScroll(lua_State *L) {
   return 0;
 }
 
+static int l_getHeroFaction(lua_State *L) {
+  hero *hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, hro->factionID);
+  return 1;
+}
+
+static int l_setHeroFaction(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int newFaction = (int)luaL_checknumber(L, 2);
+  hro->factionID = newFaction;
+  return 0;
+}
+
 static void register_hero_funcs(lua_State *L) {
   lua_register(L, "GetCurrentHero", l_getCurrentHero);
   lua_register(L, "GrantSpell", l_grantSpell);
@@ -583,6 +613,8 @@ static void register_hero_funcs(lua_State *L) {
   lua_register(L, "GetHeroTempLuckBonuses", l_getHeroTempLuckBonuses);
   lua_register(L, "SetHeroTempLuckBonuses", l_setHeroTempLuckBonuses);
   lua_register(L, "GrantSpellScroll", l_grantSpellScroll);
+  lua_register(L, "GetHeroFaction", l_getHeroFaction);
+  lua_register(L, "SetHeroFaction", l_setHeroFaction);
 }
 
 /************************************** Map *******************************************/
@@ -630,6 +662,29 @@ static int l_mapEraseObj(lua_State *L) {
   return 0;
 }
 
+static int l_mapFizzleObj(lua_State *L) {
+	SAMPLE2 res;
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	bool snd = CheckBoolean(L, 3);
+	mapCell *cell = gpAdvManager->GetCell(x, y);
+	gpAdvManager->CompleteDraw(0);
+	gpWindowManager->SaveFizzleSource(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight());
+	if (snd) {
+		if (!PlaySoundEffect((!CheckLocationItem(cell)?"killfade":("pickup0"+std::to_string(Random(1, 7)))), SND_DONT_WAIT, &res)) {
+			snd = false;
+		}
+	}
+	gpAdvManager->EraseObj(cell, x, y);
+	gpAdvManager->CompleteDraw(0);
+	PollSound();
+	gpWindowManager->FizzleForward(gMapViewportRegion._left, gMapViewportRegion._top, gMapViewportRegion.getWidth(), gMapViewportRegion.getHeight(), -1, 0, 0);
+	if (snd) {
+		WaitEndSample(res, res.sample);
+	}
+	return 0;
+}
+
 static int l_mapSetTerrainTile(lua_State *L) {
   int x = (int)luaL_checknumber(L, 1);
   int y = (int)luaL_checknumber(L, 2);
@@ -651,13 +706,14 @@ static void register_map_funcs(lua_State *L) {
   lua_register(L, "MapSetObject", l_mapSetObject);
   lua_register(L, "MapPutArmy", l_mapPutArmy);
   lua_register(L, "MapEraseSquare", l_mapEraseObj);
+  lua_register(L, "MapFizzle", l_mapFizzleObj);
   lua_register(L, "MapSetTileTerrain", l_mapSetTerrainTile);
 }
 
 /************************************** Town *******************************************/
 
 static int l_getCurrentTown(lua_State *L) {
-  MakeLuaTownTable(L, gpTownManager->castle);
+  deepbound_push(L, deepbind<town*>(gpTownManager->castle));
   return 1;
 }
 
@@ -669,7 +725,7 @@ static int l_hasVisitingHero(lua_State *L) {
 
 static int l_getVisitingHero(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
-  MakeLuaHeroTable(L, &gpGame->heroes[twn->visitingHeroIdx]);
+  deepbound_push(L, deepbind<hero*>(&gpGame->heroes[twn->visitingHeroIdx]));
   return 1;
 }
 
@@ -682,7 +738,7 @@ static int l_buildInCurrentTown(lua_State *L) {
 static int l_getTown(lua_State *L) {
   int index = (int)luaL_checknumber(L, 1);
   if (index < MAX_TOWNS) {
-    MakeLuaTownTable(L, &gpGame->castles[index]);
+    deepbound_push(L, deepbind<town*>(&gpGame->castles[index]));
   }
   return 1;
 }
@@ -703,7 +759,7 @@ static int l_getTownByName(lua_State *L) {
   char *name = (char*)luaL_checkstring(L, 1);
   for (int i = 0; i < MAX_TOWNS; i++) {
     if (strcmp(gpGame->castles[i].name, name) == 0) {
-      MakeLuaTownTable(L, &gpGame->castles[i]);
+      deepbound_push(L, deepbind<town*>(&gpGame->castles[i]));
       return 1;
     }
   }
@@ -716,7 +772,7 @@ static int l_getPlayerTown(lua_State *L) {
   int index = (int)luaL_checknumber(L, 2);
 
   if (index < MAX_TOWNS) {
-    MakeLuaTownTable(L, &gpGame->castles[player->castlesOwned[index]]);
+    deepbound_push(L, deepbind<town*>(&gpGame->castles[player->castlesOwned[index]]));
   }
   return 1;
 }
@@ -878,7 +934,7 @@ static int l_battleHasHero(lua_State *L) {
 
 static int l_battleGetHero(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
-  MakeLuaHeroTable(L, gpCombatManager->heroes[side]);
+  deepbound_push(L, deepbind<hero*>(gpCombatManager->heroes[side]));
   return 1;
 }
 
@@ -897,7 +953,7 @@ static int l_battleGetNumStacks(lua_State *L) {
 static int l_battleGetStack(lua_State *L) {
   int side = (int)luaL_checknumber(L, 1);
   int idx = (int)luaL_checknumber(L, 2);
-  MakeLuaBattleStackTable(L, &gpCombatManager->creatures[side][idx]);
+  deepbound_push(L, deepbind<army*>(&gpCombatManager->creatures[side][idx]));
   return 1;
 }
 
@@ -971,6 +1027,71 @@ static int l_setStackLuck(lua_State *L) {
   return 0;
 }
 
+static int l_getStackAttack(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.attack);
+  return 1;
+}
+
+static int l_setStackAttack(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int attack = (int)luaL_checknumber(L, 2);
+  creat->creature.attack = attack;
+  return 0;
+}
+
+static int l_getStackDefense(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.defense);
+  return 1;
+}
+
+static int l_setStackDefense(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int defense = (int)luaL_checknumber(L, 2);
+  creat->creature.defense = defense;
+  return 0;
+}
+
+static int l_getStackSpeed(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.speed);
+  return 1;
+}
+
+static int l_setStackSpeed(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int speed = (int)luaL_checknumber(L, 2);
+  creat->creature.speed = speed;
+  return 0;
+}
+
+static int l_getStackShots(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.shots);
+  return 1;
+}
+
+static int l_setStackShots(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int shots = (int)luaL_checknumber(L, 2);
+  creat->creature.shots = shots;
+  return 0;
+}
+
+static int l_getStackHp(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  lua_pushinteger(L, creat->creature.hp - creat->damage);
+  return 1;
+}
+
+static int l_setStackHp(lua_State *L) {
+  army *creat = (army*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
+  int hp = (int)luaL_checknumber(L, 2);
+  creat->damage = creat->creature.hp - hp;
+  return 0;
+}
+
 static void register_battle_funcs(lua_State *L) {
   lua_register(L, "BattleSummonCreature", l_battleSummonCreature);
   lua_register(L, "IsHexEmpty", l_isHexEmpty);
@@ -990,9 +1111,63 @@ static void register_battle_funcs(lua_State *L) {
   lua_register(L, "SetStackMorale", l_setStackMorale);
   lua_register(L, "GetStackLuck", l_getStackLuck);
   lua_register(L, "SetStackLuck", l_setStackLuck);
+  lua_register(L, "GetStackAttack", l_getStackAttack);
+  lua_register(L, "SetStackAttack", l_setStackAttack);
+  lua_register(L, "GetStackDefense", l_getStackDefense);
+  lua_register(L, "SetStackDefense", l_setStackDefense);
+  lua_register(L, "GetStackSpeed", l_getStackSpeed);
+  lua_register(L, "SetStackSpeed", l_setStackSpeed);
+  lua_register(L, "GetStackShots", l_getStackShots);
+  lua_register(L, "SetStackShots", l_setStackShots);
+  lua_register(L, "GetStackHp", l_getStackHp);
+  lua_register(L, "SetStackHp", l_setStackHp);
 }
 
 /************************************** Uncategorized ******************************************/
+
+static int l_playsoundeffect(lua_State *L) {
+	std::string snd = std::string(luaL_checkstring(L, 1));
+	PlaySoundEffect(snd, SND_DO_WAIT, NULL);
+	return 0;
+}
+
+static int l_getinclinedtojoin(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	int inclinedToJoin = 0;
+	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
+		int cellIdx = y * gpGame->map.height + x;
+		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+			// This uses the correct WillJoin bit, but does not mean that the army at the map cell here will not fight a hero (see "l_setinclinedtojoin").
+			inclinedToJoin = (gpGame->map.tiles[cellIdx].extraInfo & (1 << 12));
+		}
+	}
+	if (inclinedToJoin) {
+		lua_pushinteger(L, 1);
+	} else {
+		lua_pushinteger(L, 0);
+	}
+	return 1;
+}
+
+static int l_setinclinedtojoin(lua_State *L) {
+	int x = (int)luaL_checknumber(L, 1);
+	int y = (int)luaL_checknumber(L, 2);
+	bool inclinedToJoin = CheckBoolean(L, 3);
+	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
+		int cellIdx = y * gpGame->map.height + x;
+		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+			// These are using the correct WillJoin bit, but it is not guaranteed to make every army join any hero no matter what.
+			// This condition also depends on the ratio of the hero's power to the army's power, among other variables.
+			if (inclinedToJoin) {
+				gpGame->map.tiles[cellIdx].extraInfo |= (1 << 12);
+			} else {
+				gpGame->map.tiles[cellIdx].extraInfo &= ~(1 << 12);
+			}
+		}
+	}
+	return 0;
+}
 
 static int l_startbattle(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 4));
@@ -1006,12 +1181,15 @@ static int l_startbattle(lua_State *L) {
 }
 
 static int l_toggleAIArmySharing(lua_State *L) {
-  bool toggle = luaL_checknumber(L, 1);
+  bool toggle = CheckBoolean(L, 1);
   gpGame->allowAIArmySharing = toggle;
   return 0;
 }
 
 static void register_uncategorized_funcs(lua_State *L) {
+  lua_register(L, "PlaySoundEffect", l_playsoundeffect);
+  lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
+  lua_register(L, "SetInclinedToJoin", l_setinclinedtojoin);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
 }

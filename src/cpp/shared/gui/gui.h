@@ -75,6 +75,10 @@ public:
 
   int DoDialog(heroWindow *,int (__fastcall*)(tag_message &),int);
   void UpdateScreenRegion(int, int, int, int);
+  void AddWindow(heroWindow*, int, int);
+  void RemoveWindow(heroWindow*);
+  void SaveFizzleSource(int, int, int, int);
+  void FizzleForward(int, int, int, int, int, signed char *, signed char *);
 };
 
 extern heroWindowManager* gpWindowManager;
@@ -88,6 +92,7 @@ enum GENERAL_GUI_FIELD_IDS {
   FIELD_TOP_BANNER = 2,
   BUTTON_CANCEL = 30721,
   BUTTON_OK = 30722,
+  BUTTON_YES = 30725,
 };
 
 /* These functions provide a simpler API to parts of the old GUI "BroadcastMessage" API */
@@ -101,9 +106,11 @@ void GUISetText(heroWindow*, int, char*);
 void GUISetText(heroWindow*, int, std::string&);
 void GUIDroplistAdd(heroWindow*, int, char*);
 void GUIDroplistAdd(heroWindow*, int, std::string&);
+void GUIDroplistClear(heroWindow*, int);
 
 void GUIBroadcastMessage(heroWindow*, int, int, void*);
-int GUIGetDropdownSelection(heroWindow*, void*);
+int GUIGetDropdownSelection(heroWindow*, int);
+void GUISetDropdownSelection(heroWindow*, int, int);
 
 void __fastcall SetupRecruitWin(heroWindow *,int,int,int,int,int);
 void __fastcall QuickViewWait(void);

@@ -69,6 +69,8 @@
     </Filter>
     <Filter Include="Header Files\editor">
       <UniqueIdentifier>{eaf9e0d9-ab79-446a-9ba4-eae04699006e}</UniqueIdentifier>
+    <Filter Include="Source Files\shared\town">
+      <UniqueIdentifier>{d965efce-eef7-4af4-bd93-b85979ebae44}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -224,6 +226,8 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\editor\overlay\overlay.cpp">
       <Filter>Source Files\overlay</Filter>
+    <ClCompile Include="..\..\cpp\shared\town\buildings.cpp">
+      <Filter>Source Files\shared\town</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -384,6 +388,11 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\editor\overlay\overlays_xml.hxx">
       <Filter>Header Files\editor</Filter>
+    <ClInclude Include="..\..\cpp\editor\hero_edit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\town\buildings.h">
+      <Filter>Header Files\shared\town</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

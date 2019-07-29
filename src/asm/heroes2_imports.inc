@@ -156,6 +156,9 @@ IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
 ?Process1WindowsMessage@@YIXXZ_clone EQU ?Process1WindowsMessage_orig@@YIXXZ
 
+;; Timing
+IMPORT_?DelayTilMilli@@YIXJ@Z = 1
+
 ;;sound
 ;;IMPORT___imp__AIL_redbook_play@12 = 1
 IMPORT_?CDPlay@soundManager@@QAEXHHHH@Z = 1
@@ -175,6 +178,9 @@ IMPORT_?CDIsPlaying@soundManager@@QAEHXZ = 1
 useOpera EQU ?useOpera@@3HA
 IMPORT_?Open@soundManager@@UAEHH@Z = 1
 ?Open@soundManager@@UAEHH@Z_clone EQU ?Open_orig@soundManager@@QAEHH@Z
+IMPORT_?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z = 1
+?SetupGridForArmy@combatManager@@QAEXPAVarmy@@@Z_clone EQU ?SetupGridForArmy_orig@combatManager@@QAEXPAVarmy@@@Z
+IMPORT_?townTheme@@3PACA = 1
 
 ;;hero
 IMPORT_??0hero@@QAE@XZ = 1
@@ -191,6 +197,9 @@ IMPORT_?gArtifactNames@@3PAPADA = 1
 IMPORT_?gArtifactDesc@@3PAPADA = 1
 IMPORT_?gArtifactEvents@@3PAPADA = 1
 IMPORT_?gArtifactLevel@@3PAEA = 1
+IMPORT_?IsCursedItem@@YIHH@Z = 1
+IMPORT_?InitRandomArtifacts@game@@QAEXXZ = 1
+IMPORT_?GetRandomArtifactId@game@@QAEHHH@Z = 1
 
 ;;combat
 IMPORT_?gCombatFxNames@@3PAPADA = 1
@@ -229,13 +238,21 @@ IMPORT_?ResetRound@combatManager@@QAEXXZ = 1
 IMPORT_?Init@army@@QAEXHHHHHH@Z = 1
 ?Init@army@@QAEXHHHHHH@Z_clone EQU ?Init_orig@army@@QAEXHHHHHH@Z
 IMPORT_?AttackTo@army@@QAEHH@Z = 1
-?AttackTo@army@@QAEHH@Z_clone EQU IMPORT_?AttackTo_orig@army@@QAEHH@Z
+IMPORT_?CombatMessage@combatManager@@QAEXPADHHH@Z = 1
+?CombatMessage@combatManager@@QAEXPADHHH@Z_clone EQU ?CombatMessage_orig@combatManager@@QAEXPADHHH@Z
+?AttackTo@army@@QAEHH@Z_clone EQU ?AttackTo_orig@army@@QAEHH@Z
+IMPORT_?GetCommand@combatManager@@QAEHH@Z = 1
+?GetCommand@combatManager@@QAEHH@Z_clone EQU ?GetCommand_orig@combatManager@@QAEHH@Z
+IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
+?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
 IMPORT_?sCmbtHero@@3PAUSCmbtHero@@A = 1
 IMPORT_?gAlignmentNames@@3PAPADA = 1
 IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
+IMPORT_?cHeroTypeShortName@@3PAPADA = 1
+IMPORT_?captainStats@@3PAY03CA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
@@ -248,11 +265,18 @@ IMPORT_?MoveHero@advManager@@QAEPAVmapCell@@HHPAH00H0H@Z = 1
 
 IMPORT_?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z = 1
 ?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z_clone EQU ?DoEvent_orig@advManager@@QAEXPAVmapCell@@HH@Z
+IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
+?QuickInfo@advManager@@QAEXHH@Z_clone EQU ?QuickInfo_orig@advManager@@QAEXHH@Z
 
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
 ?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z
 
+;; will join
+IMPORT_?PlayerMonsterInteract@advManager@@QAEXPAVmapCell@@0PAVhero@@PAHHHHHH@Z = 1
+?PlayerMonsterInteract@advManager@@QAEXPAVmapCell@@0PAVhero@@PAHHHHHH@Z_clone EQU ?PlayerMonsterInteract_orig@advManager@@QAEXPAVmapCell@@0PAVhero@@PAHHHHHH@Z
+IMPORT_?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z = 1
+?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z_clone EQU ?ComputerMonsterInteract_orig@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
@@ -284,6 +308,16 @@ IMPORT_?ValidSpellTarget@combatManager@@QAEHHH@Z = 1
 
 ;;towns
 IMPORT_?gTownEligibleBuildMask@@3PAKA = 1
+IMPORT_?gTownObjNames@@3PAPADA = 1
+IMPORT_?gDwellingType@@3PAY0M@EA = 1
+IMPORT_?gWellExtraNames@@3PAPADA = 1
+IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
+IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
+IMPORT_?gBuildingsToDraw@@3PAY0CA@W4BUILDING_CODE@@A = 1
+IMPORT_?gTownPrefixNames@@3PAPADA = 1
+IMPORT_?gSpecialBuildingCosts@@3PAUSBuildingCost@@A = 1
+IMPORT_?gDwellingCosts@@3PAY0M@USBuildingCost@@A = 1
+IMPORT_?gStartingHeroStats@@3PAUstartingPrimarySkills@@A = 1
 
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
