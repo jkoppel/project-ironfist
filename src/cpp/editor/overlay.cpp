@@ -183,7 +183,7 @@ TownExtra* MakeTownExtra(int color, int idx) {
 
     if (idx < 939 || idx > 954) {
         int offset = 835;
-        townMapExtra->faction = (idx - offset) % MAX_FACTIONS / 2;        
+        townMapExtra->faction = (idx - offset) % 12 / 2;        
         townMapExtra->isCastle = 1
         - ((((unsigned __int64)(idx - offset) >> 32) ^ abs(LOBYTE(idx) - 67) & 1)
         - ((unsigned __int64)(idx - offset) >> 32));
