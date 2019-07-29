@@ -49,6 +49,11 @@ public:
   char field_41;
   H2RECT drawingBounds;
   char field_52[16];
+
+  void DrawOccupant(int a2, int a3);
+  void DrawLowerDeadOccupants();
+  void DrawUpperDeadOccupant();
+  void DrawObstacle();
 };
 
 int __fastcall ValidHex(int);
@@ -151,14 +156,16 @@ public:
   int field_F373;
   int field_F377[2];
   int limitCreature[2][20];
-  int field_F41F;
-  int field_F423;
+  int field_F41F[2];
   int field_F427[2];
   int field_F42F;
   char _14[160];
   int sideCasualtiesTitleTextWidget[2];
   textWidget *battlefieldCasualtiesTextWidget;
-  char _15[116];
+  char _15[100];
+  int field_F543;
+  int field_F547;
+  int field_F54B[2];
   int field_F553;
   int field_F557;
   char _16[28];
@@ -232,12 +239,13 @@ public:
   void SetCombatDirections(int hexIdx);
   void SetCombatDirections_orig(int hex);
   int ValidHexToStandOn(signed int a2);
+  void DrawBackground();
 };
 
 extern combatManager* gpCombatManager;
 
 extern int gbNoShowCombat;
-
+extern SCmbtHero sCmbtHero[];
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 bool IsCastleWall(int hexIdx);
 bool IsAICombatTurn();
