@@ -345,6 +345,7 @@ IMPORT_?Main@townManager@@UAEHAAUtag_message@@@Z = 1
 IMPORT_?SetupCastle@townManager@@QAEXPAVheroWindow@@H@Z = 1
 IMPORT_?gHierarchyMask@@3PAY0M@KA = 1
 IMPORT_?CanBuild@@YIHPAVtown@@H@Z = 1
+IMPORT_?getCastleOwnedIdx@@YAHPAVplayerData@@H@Z = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1
