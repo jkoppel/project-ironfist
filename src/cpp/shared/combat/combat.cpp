@@ -1051,8 +1051,8 @@ void combatManager::DrawHero(int side, bool checkCaptain, bool mirrored) {
     y = 148;
   }
 
-  if(checkCaptain && side == 1 && !this->heroes[side]->isCaptain) {
-    x = 103;
+  if(checkCaptain && side == 1 && this->heroes[side]->isCaptain) {
+    x = 615;
     y = 135;
   }
 
