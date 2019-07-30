@@ -169,7 +169,7 @@ function TreeHouseEvent()
         MessageBox("In the distance you notice a small tree house, getting closer an old druid comes down from the tree, he looks at you with his one good eye, while his other eye travels away randomly.");
         MessageBox("\"The one that will save us all from the tyrant Archibald.\"");
         MessageBox("\"For this you may take one of my precious beloved items:\"");
-        choice = QuestionBox("YES: Giant Flail of Dominion\nNO: Armored Gauntlets of Protection");
+        choice = AdvancedMessageBox("Giant Flail of Dominion or Armored Gauntlets of Protection", 7, -1, -1, 7, ARTIFACT_GIANT_FLAIL_OF_DOMINION, 7, ARTIFACT_ARMORED_GAUNTLETS_OF_PROTECTION, 1, 0);
         if (choice) then
             TryGrantArtifact(hero, ARTIFACT_GIANT_FLAIL_OF_DOMINION);
         else
