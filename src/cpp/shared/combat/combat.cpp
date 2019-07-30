@@ -958,7 +958,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
       }
     }
 
-    if(this->isCastleBattle && *((unsigned char*)&(this->castles[1]->buildingsBuiltFlags)+1) & 0x10 && (row != 4 || this->drawBridgePosition == BRIDGE_CLOSED)) {
+    if(this->isCastleBattle && this->castles[1]->buildingsBuiltFlags & BUILDING_MOAT && (row != 4 || this->drawBridgePosition == BRIDGE_CLOSED)) {
       int moatHex = moatCell[row];
       if(moatHex != giWalkingTo && moatHex != giWalkingTo2 && moatHex != giWalkingFrom && moatHex != giWalkingFrom2) {
         if(this->combatGrid[moatHex].unitOwner != -1) {

@@ -975,7 +975,7 @@ int townManager::Main(tag_message &evt) {
                 int numMarkets = 0;
                 for(int buildingCode = 0; gpCurPlayer->numCastles > buildingCode; ++buildingCode) {
                   unsigned int builtFlags = gpGame->castles[gpCurPlayer->castlesOwned[buildingCode]].buildingsBuiltFlags;
-                  if((*((unsigned char*)&(builtFlags)+1)) & 4)
+                  if(builtFlags & (1 << BUILDING_MARKET))
                     ++numMarkets;
                 }
                 if(numMarkets > 10)
@@ -1082,13 +1082,12 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     castleSlotsUse[i] = castleSlotsBase[i];
     if(castleSlotsBase[i] >= 20 && castleSlotsBase[i] <= 24
-      && ((1 << castleSlotsBase[i]) & this->castle->buildingsBuiltFlags
-        || (1 << (castleSlotsBase[i] + 5)) & this->castle->buildingsBuiltFlags
-        || castleSlotsBase[i] == 24 && this->castle->factionID == FACTION_WARLOCK && (*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x40)
-      && (1 << (castleSlotsBase[i] + 5)) & gTownEligibleBuildMask[this->castle->factionID]) {
-      if(castleSlotsBase[i] == 24
-        && this->castle->factionID == FACTION_WARLOCK
-        && ((*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x20 || (*((unsigned char*)&(this->castle->buildingsBuiltFlags)+3)) & 0x40))
+    && ((1 << castleSlotsBase[i]) & this->castle->buildingsBuiltFlags
+    || (1 << (castleSlotsBase[i] + 5)) & this->castle->buildingsBuiltFlags
+    || castleSlotsBase[i] == 24 && this->castle->factionID == FACTION_WARLOCK && this->castle->buildingsBuiltFlags & (1 << BUILDING_UPGRADE_5B))
+    && (1 << (castleSlotsBase[i] + 5)) & gTownEligibleBuildMask[this->castle->factionID]) {
+      if(castleSlotsBase[i] == 24 && this->castle->factionID == FACTION_WARLOCK
+        && (this->castle->buildingsBuiltFlags & (1 << BUILDING_UPGRADE_5) || this->castle->buildingsBuiltFlags & (1 << BUILDING_UPGRADE_5B)))
         castleSlotsUse[i] = 30;
       else
         castleSlotsUse[i] = castleSlotsBase[i] + 5;
@@ -1154,7 +1153,7 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     }
   }
 
-  int hasCaptain = this->castle->buildingsBuiltFlags & 0x8000;
+  int hasCaptain = this->castle->buildingsBuiltFlags & (1 << BUILDING_CAPTAIN);
   if(hasCaptain) {
     GUIRemoveFlag(casWin, 1101, 6);
     GUISetImgIdx(casWin, 1100, 1);
@@ -1294,7 +1293,7 @@ int __fastcall CanBuild(town *twn, int building) {
   }
 
   unsigned int builtFlags = twn->buildingsBuiltFlags;
-  if(!(builtFlags & 0x40) && building != BUILDING_CASTLE)
+  if(!(builtFlags & (1 << BUILDING_CASTLE)) && building != BUILDING_CASTLE)
     return 0;
 
   if(twn->factionID == FACTION_NECROMANCER && building == BUILDING_TAVERN && !xIsExpansionMap)
@@ -1313,28 +1312,27 @@ int __fastcall CanBuild(town *twn, int building) {
     return 0;
 
   if(building >= BUILDING_DWELLING_1 && building <= BUILDING_UPGRADE_5B) {
-    unsigned int byte3 = *((unsigned char*)&(builtFlags)+3);
-    if(building == BUILDING_DWELLING_2 && byte3 & 2
-      || building == BUILDING_DWELLING_3 && byte3 & 4
-      || building == BUILDING_DWELLING_4 && byte3 & 8
-      || building == BUILDING_DWELLING_5 && byte3 & 0x10
-      || building == BUILDING_DWELLING_6 && (byte3 & 0x20 || byte3 & 0x40)
-      || building == BUILDING_UPGRADE_5 && byte3 & 0x40) {
+    if(building == BUILDING_DWELLING_2 && builtFlags & (1 << BUILDING_UPGRADE_1)
+      || building == BUILDING_DWELLING_3 && builtFlags & (1 << BUILDING_UPGRADE_2)
+      || building == BUILDING_DWELLING_4 && builtFlags & (1 << BUILDING_UPGRADE_3)
+      || building == BUILDING_DWELLING_5 && builtFlags & (1 << BUILDING_UPGRADE_4)
+      || building == BUILDING_DWELLING_6 && (builtFlags & (1 << BUILDING_UPGRADE_5) || builtFlags & (1 << BUILDING_UPGRADE_5B))
+      || building == BUILDING_UPGRADE_5 && builtFlags & (1 << BUILDING_UPGRADE_5B)) {
       return 0;
     }
 
-    if(byte3 & 2)
-      builtFlags |= 0x100000u;
-    if(byte3 & 4)
-      builtFlags |= 0x200000u;
-    if(byte3 & 8)
-      builtFlags |= 0x400000u;
-    if(byte3 & 0x10)
-      builtFlags |= 0x800000u;
-    if(byte3 & 0x40)
-      builtFlags |= 0x20000000u;
-    if(byte3 & 0x20)
-      builtFlags |= 0x1000000u;
+    if(builtFlags & (1 << BUILDING_UPGRADE_1))
+      builtFlags |= (1 << BUILDING_DWELLING_2);
+    if(builtFlags & (1 << BUILDING_UPGRADE_2))
+      builtFlags |= (1 << BUILDING_DWELLING_3);
+    if(builtFlags & (1 << BUILDING_UPGRADE_3))
+      builtFlags |= (1 << BUILDING_DWELLING_4);
+    if(builtFlags & (1 << BUILDING_UPGRADE_4))
+      builtFlags |= (1 << BUILDING_DWELLING_5);
+    if(builtFlags & (1 << BUILDING_UPGRADE_5))
+      builtFlags |= (1 << BUILDING_DWELLING_6);
+    if(builtFlags & (1 << BUILDING_UPGRADE_5B))
+      builtFlags |= (1 << BUILDING_UPGRADE_5);
     int mask = gHierarchyMask[twn->factionID][building - 19];
     if((builtFlags & mask) == mask)
       return twn->factionID != FACTION_NECROMANCER || building != BUILDING_UPGRADE_4 || twn->mageGuildLevel > 1;
