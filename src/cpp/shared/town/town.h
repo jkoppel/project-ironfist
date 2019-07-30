@@ -48,6 +48,7 @@ public:
   void SelectSpells();
   void SetNumSpellsOfLevel(int,int);
   int CanBuildDock();
+  void CalcNumLevelArchers(int *numArchers, int *attack);
 
   void BuildBuilding(int);
   bool BuildingBuilt(int) const;

@@ -23,7 +23,6 @@ extern int gCurLoadedSpellEffect;
 extern int gCurSpellEffectFrame;
 extern int gbGenieHalf;
 extern int gbRemoteOn;
-extern float gfBattleStat[];
 extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack

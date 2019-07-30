@@ -247,6 +247,7 @@ IMPORT_?GetCommand@combatManager@@QAEHH@Z = 1
 IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
 IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
+IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

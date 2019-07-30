@@ -240,6 +240,7 @@ public:
   void SetCombatDirections_orig(int hex);
   int ValidHexToStandOn(signed int a2);
   void DrawBackground();
+  void KeepAttack(int towerIdx);
 
   void DrawMoat(int hexIdx);
   void DrawHero(int side, bool checkCaptain, bool mirrored);

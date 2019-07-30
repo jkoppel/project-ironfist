@@ -59,6 +59,7 @@ extern signed char gbThisNetHumanPlayer[];
 extern int gbAllBlack;
 extern int giDebugLevel;
 extern int combatArmyInfoLevel;
+extern float gfBattleStat[];
 /*
  * Updates sound, graphics if needed.
  *
