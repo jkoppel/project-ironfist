@@ -8,6 +8,7 @@
 unsigned long gTownEligibleBuildMask[];
 
 #define MAX_CASTLES 72
+#define NUM_ORIG_FACTIONS 6
 
 enum HERO_TYPE
 {
