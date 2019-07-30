@@ -137,7 +137,7 @@ function CaveEvent()
     if (not caveVisited) then
         caveVisited = true;
         MessageBox("Hidden in the cave is a witch that offers you either great riches or a powerful spell.");
-        choice = QuestionBox("YES: Mass Invisibility\nNO: 1000 gold & 10 gems");
+        choice = QuestionBox("Will you accept the spell?");
         if (choice) then 
             GrantSpell(hero, SPELL_TELEPORT);
         else
