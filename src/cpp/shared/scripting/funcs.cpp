@@ -167,6 +167,11 @@ static void register_date_funcs(lua_State *L) {
 
 /************************************************ Player ********************************************************/
 
+static int l_getNumPlayers(lua_State *L) {
+	lua_pushinteger(L, gpGame->numPlayers);
+	return 1;
+}
+
 static int l_getPlayer(lua_State *L) {
   int n = (int)luaL_checknumber(L, 1);
   deepbound_push(L, deepbind<playerData*>(&gpGame->players[n]));
@@ -278,6 +283,7 @@ int l_SetBarrierTentVisited(lua_State *L) {
 }
 
 static void register_player_funcs(lua_State *L) {
+  lua_register(L, "GetNumPlayers", l_getNumPlayers);
   lua_register(L, "GetPlayer", l_getPlayer);
   lua_register(L, "GetCurrentPlayer", l_getCurrentPlayer);
   lua_register(L, "GetPlayerColor", l_getPlayerColor);
@@ -1210,12 +1216,21 @@ static int l_toggleAIArmySharing(lua_State *L) {
   return 0;
 }
 
+static int l_forceComputerPlayerChase(lua_State *L) {
+	hero* src = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
+	hero* dst = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(2, 3));
+	bool force = CheckBoolean(L, 3);
+	gpGame->ForceComputerPlayerChase(src, dst, force);
+	return 0;
+}
+
 static void register_uncategorized_funcs(lua_State *L) {
   lua_register(L, "PlaySoundEffect", l_playsoundeffect);
   lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
   lua_register(L, "SetInclinedToJoin", l_setinclinedtojoin);
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
+  lua_register(L, "ForceComputerPlayerChase", l_forceComputerPlayerChase);
 }
 
 /****************************************************************************************************************/

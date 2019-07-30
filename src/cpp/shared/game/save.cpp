@@ -819,6 +819,20 @@ static void WriteMapVariablesXML(ironfist_save::save_t& m) {
 
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
 
+  for (int i = 0; i != MAX_HEROES; ++i) {
+    for (int j = 0; j != MAX_HEROES; ++j) {
+      if (gpGame->forcedComputerPlayerChases[i][j]) {
+        std::string mapVariableId = "_AICHASE_" + std::to_string(i) + "_" + std::to_string(j) + "_";
+        mapVariable mapVar;
+        mapVar.singleValue = nullptr;
+        mapVar.type = MAPVAR_TYPE_BOOLEAN;
+        mapVariables[mapVariableId] = mapVar;
+        mapVariables[mapVariableId].type = MAPVAR_TYPE_BOOLEAN;
+        mapVariables[mapVariableId].singleValue = new std::string("true");
+      }
+    }
+  }
+
   for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
     ironfist_save::mapVariable_t mapVar;
     mapVar.id(it->first);
@@ -900,9 +914,14 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       std::map<std::string, mapVariable> mapVariables;
       for (ironfist_save::save_t::mapVariable_const_iterator it = mp->mapVariable().begin();
         it != mp->mapVariable().end(); it++) {
-        mapVariable *mapVar = new mapVariable;
         std::string mapVariableId = it->id().get();
         MapVarType mapVariableType = StringToMapVarType(it->type());
+        int x;
+        int y;
+        if ((mapVariableType == MAPVAR_TYPE_BOOLEAN) && (it->value().get() == "true") && (sscanf(mapVariableId.c_str(), "_AICHASE_%d_%d_", &x, &y))) {
+          gpGame->forcedComputerPlayerChases[x][y] = true;
+        }
+        mapVariable *mapVar = new mapVariable;
         mapVar->type = mapVariableType;
         if (isTable(mapVariableType)) {
           mapVar->tableValue = ReadMapVarXML(it->table().get());
