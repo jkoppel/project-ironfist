@@ -861,16 +861,16 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
         }
 
       if(row == 7)
-          this->combatScreenIcons[3]->CombatClipDrawToBuffer(22, 390, this->probablyCatapultImgIdx[0], &this->catapultBounds, 0, 0, 0, 0);
+          this->combatScreenIcons[COMBAT_ICON_IDX_CATAPULT]->CombatClipDrawToBuffer(22, 390, this->probablyCatapultImgIdx[0], &this->catapultBounds, 0, 0, 0, 0);
 
       if(row == 4 && this->drawBridgePosition != BRIDGE_CLOSED)
-        this->combatScreenIcons[5]->CombatClipDrawToBuffer(0, 0, this->drawBridgePosition + 21, &this->drawbridgeBounds, 0, 0, 0, 0);
+        this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(0, 0, this->drawBridgePosition + 21, &this->drawbridgeBounds, 0, 0, 0, 0);
 
       if(row == 5 && this->drawBridgePosition == BRIDGE_OPEN)
-        this->combatScreenIcons[5]->CombatClipDrawToBuffer(0, 0, 25, &this->field_F303, 0, 0, 0, 0);
+        this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(0, 0, 25, &this->field_F303, 0, 0, 0, 0);
 
       if(row == 6)
-        this->combatScreenIcons[5]->CombatClipDrawToBuffer(0, 0, (unsigned int)this->ballistaDestroyed < 1 ? 20 : 26,
+        this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(0, 0, (unsigned int)this->ballistaDestroyed < 1 ? 20 : 26,
           &this->ballistaBounds,
           0, 0, 0, 0);
       
@@ -950,7 +950,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
               break;
           }
           if(imageIdx)
-            this->combatScreenIcons[5]->CombatClipDrawToBuffer(offX, offY, imageIdx,
+            this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(offX, offY, imageIdx,
               (H2RECT *)((char *)&this->combatGrid[13 * row].drawingBounds + 98 * k), 0, 0, 0, 0);
         }
         if(!v21 || hexIdx != 114 && hexIdx != 115)
@@ -979,7 +979,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
             if(giWalkingFrom <= giWalkingTo)
               destHex = giWalkingTo;
             int v9 = giWalkingYMod + this->combatGrid[giWalkingFrom].occupyingCreatureBottomY - 9;
-            IconToBitmap(this->combatScreenIcons[14], gpWindowManager->screenBuffer, 0, 0, 0, 1, 0, v9, 640, this->combatGrid[destHex].occupyingCreatureBottomY + 5 - v9 + 1, 0);
+            IconToBitmap(this->combatScreenIcons[COMBAT_ICON_MOAT_WHOLE], gpWindowManager->screenBuffer, 0, 0, 0, 1, 0, v9, 640, this->combatGrid[destHex].occupyingCreatureBottomY + 5 - v9 + 1, 0);
           } else if((giWalkingTo / 13 != 4 || giWalkingFrom / 13 != 3) && (giWalkingTo / 13 != 3 || giWalkingFrom / 13 != 4)){
             if(giWalkingFrom <= giWalkingTo) {
               if(moatHex == giWalkingTo || moatHex == giWalkingTo2) {
@@ -1035,7 +1035,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
 }
 
 void combatManager::DrawMoat(int hexIdx) {
-  this->combatScreenIcons[13]->CombatClipDrawToBuffer(0, 0, hexIdx, &this->moatPartBounds[hexIdx], 0, 0, 0, 0);
+  this->combatScreenIcons[COMBAT_ICON_MOAT_PART]->CombatClipDrawToBuffer(0, 0, hexIdx, &this->moatPartBounds[hexIdx], 0, 0, 0, 0);
   this->combatGrid[moatCell[hexIdx] - 1].DrawOccupant(100, 1);
   this->combatGrid[moatCell[hexIdx]].DrawOccupant(100, 1);
   this->combatGrid[moatCell[hexIdx] + 1].DrawOccupant(100, 1);
@@ -1092,117 +1092,92 @@ void combatManager::SetRenderExtentFlags(bool state) {
 }
 
 void combatManager::KeepAttack(int towerIdx) {
-  char v2; // al@32
-  combatManager *v3; // [sp+10h] [bp-D4h]@1
-  char *creatureName; // [sp+18h] [bp-CCh]@46
-  signed int v5; // [sp+24h] [bp-C0h]@9
-  int v7; // [sp+74h] [bp-70h]@9
-  int yFrom; // [sp+78h] [bp-6Ch]@31
-  int xFrom; // [sp+8Ch] [bp-58h]@31
-  signed int baseDam; // [sp+90h] [bp-54h]@39
-  int creaturesKilled; // [sp+94h] [bp-50h]@44
-  int i; // [sp+98h] [bp-4Ch]@9
-  int v13; // [sp+9Ch] [bp-48h]@19
-  int v14; // [sp+A0h] [bp-44h]@9
-  army *target; // [sp+A4h] [bp-40h]@14
-  SAMPLE2 res; // [sp+A8h] [bp-3Ch]@31
-  int attack; // [sp+B0h] [bp-34h]@31
-  int yTarg; // [sp+B4h] [bp-30h]@31
-  int xTarg; // [sp+B8h] [bp-2Ch]@31
-  float anglesOfImgIdxs[9]; // [sp+BCh] [bp-28h]@31
-  int numArchers; // [sp+E0h] [bp-4h]@31
+  if(!this->isCastleBattle)
+    return;
 
-  if(this->isCastleBattle
-    && (towerIdx || !this->ballistaDestroyed)
-    && (towerIdx != 1 || this->turretStatus[0] == 1)
-    && (towerIdx != 2 || this->turretStatus[3] == 1)) {
-    v5 = -1;
-    v7 = 0;
-    v14 = -1;
-    for(i = 0; i < 20; ++i) {
-      if(this->creatures[0][i].creatureIdx >= 0 && this->creatures[0][i].quantity > 0) {
-        target = (army *)((char *)this->creatures + 1154 * i);
-        if(this->creatures[0][i].effectStrengths[2]
-          || target->effectStrengths[6]
-          || target->effectStrengths[11]
-          || target->effectStrengths[5]
-          || target->effectStrengths[7]) {
-          v13 = 0;
-        } else {
-          if(target->creature.creature_flags & 4) {
-            v13 = 3;
-          } else {
-            if(target->creature.creature_flags & 2)
-              v13 = 2;
-            else
-              v13 = 1;
-          }
-        }
-        if(v5 < v13
-          || v5 == v13 && target->quantity * gMonsterDatabase[target->creatureIdx].cost > v7) {
-          v7 = target->quantity * gMonsterDatabase[target->creatureIdx].cost;
-          v5 = v13;
-          v14 = i;
-        }
+  if((towerIdx == 0 && this->ballistaDestroyed)    ||
+     (towerIdx == 1 && this->turretStatus[0] != 1) ||
+     (towerIdx == 2 && this->turretStatus[3] != 1))
+    return;
+
+  army *target;
+  int topPriority = -1;
+  int goldCost = 0;
+  int targetIdx = -1;
+  int priority;
+  for(int i = 0; i < 20; ++i) {
+    if(this->creatures[0][i].creatureIdx >= 0 && this->creatures[0][i].quantity > 0) {
+      target = &this->creatures[0][i];
+      if(target->effectStrengths[EFFECT_BLIND]     ||
+         target->effectStrengths[EFFECT_PARALYZE]  ||
+         target->effectStrengths[EFFECT_PETRIFY]   ||
+         target->effectStrengths[EFFECT_BERSERKER] ||
+         target->effectStrengths[EFFECT_HYPNOTIZE])
+        priority = 0;
+      else if(target->creature.creature_flags & SHOOTER)
+        priority = 3;
+      else if(target->creature.creature_flags & FLYER)
+        priority = 2;
+      else
+        priority = 1;
+
+      if(topPriority < priority || topPriority == priority && target->quantity * gMonsterDatabase[target->creatureIdx].cost > goldCost) {
+        goldCost = target->quantity * gMonsterDatabase[target->creatureIdx].cost;
+        topPriority = priority;
+        targetIdx = i;
       }
-    }
-    if(v14 != -1) {
-      target = (army *)((char *)gpCombatManager->creatures + 1154 * v14);
-      sprintf(gText, "keepshot.82M");
-      res = LoadPlaySample(gText);
-      int towers[3][2] = {{586, 177}, {428, 60}, {428, 314}};
-      xFrom = towers[towerIdx][0];
-      yFrom = towers[towerIdx][1];
-      xTarg = target->MidX();
-      yTarg = target->MidY();
-      float angles[9] = {90.0, 68.5, 45.0, 20.8, 0.0, -20.8, -45.0, -68.5, -90.0};
-      combatManager::ShootMissile(xFrom, yFrom, xTarg, yTarg, angles, this->combatScreenIcons[7]);
-      this->castles[1]->CalcNumLevelArchers(&numArchers, &attack);
-      attack += 2;
-      if(this->heroes[1]) {
-        v2 = this->heroes[1]->Stats(0);
-        attack += v2;
-      }
-      attack -= target->creature.defense;
-      if(attack > 20)
-        attack = 20;
-      if(attack < -20)
-        attack = -20;
-      if(towerIdx)
-        numArchers /= 2;
-      baseDam = 0;
-      for(i = 0; numArchers > i; ++i)
-        baseDam += SRandom(2, 3);
-      baseDam = (signed __int64)((double)baseDam * gfBattleStat[attack]);
-      if(baseDam <= 0)
-        baseDam = 1;
-      creaturesKilled = target->Damage(baseDam, SPELL_NONE);
-      if(creaturesKilled <= 0) {
-        sprintf(
-          gText,
-          "%s %d %s.",
-          towerIdx ? "Tower does" : "Garrison does",
-          baseDam,
-          "damage");
-      } else {
-        if(creaturesKilled <= 1)
-          creatureName = GetCreatureName(target->creatureIdx);
-        else
-          creatureName = GetCreaturePluralName(target->creatureIdx);
-        sprintf(
-          gText,
-          "%s %d %s.\n%d %s %s.",
-          towerIdx ? "Tower does" : "Garrison does",
-          baseDam,
-          "damage",
-          creaturesKilled,
-          creatureName,
-          (creaturesKilled > 1) ? "perish" : "perishes");
-      }
-      gpCombatManager->CombatMessage(gText, 1, 1, 0);
-      target->CancelSpellType(EFFECT_BLIND);
-      target->PowEffect(-1, 1, -1, -1);
-      WaitEndSample(res, -1);
     }
   }
+
+  if(targetIdx == -1)
+    return;  
+ 
+  SAMPLE2 res = LoadPlaySample("keepshot.82M");
+
+  int towers[3][2] = {{586, 177}, {428, 60}, {428, 314}};
+  int xFrom = towers[towerIdx][0];
+  int yFrom = towers[towerIdx][1];
+  target = &this->creatures[0][targetIdx];
+  int xTarg = target->MidX();
+  int yTarg = target->MidY();
+  float angles[9] = {90.0, 68.5, 45.0, 20.8, 0.0, -20.8, -45.0, -68.5, -90.0};
+  combatManager::ShootMissile(xFrom, yFrom, xTarg, yTarg, angles, this->combatScreenIcons[COMBAT_ICON_IDX_KEEP]);
+  
+  int attack, numArchers;
+  this->castles[1]->CalcNumLevelArchers(&numArchers, &attack);
+  attack += 2;
+  if(this->heroes[1])
+    attack += this->heroes[1]->Stats(PRIMARY_SKILL_ATTACK);
+  attack -= target->creature.defense;
+  if(attack > 20)
+    attack = 20;
+  if(attack < -20)
+    attack = -20;
+  if(towerIdx)
+    numArchers /= 2;
+  int baseDam = 0;
+  for(int i = 0; numArchers > i; ++i)
+    baseDam += SRandom(2, 3);
+  baseDam = (signed __int64)((double)baseDam * gfBattleStat[attack]);
+  if(baseDam <= 0)
+    baseDam = 1;
+
+  int creaturesKilled = target->Damage(baseDam, SPELL_NONE);
+  if(creaturesKilled <= 0) {
+    sprintf(gText, "%s %d damage.", towerIdx ? "Tower does" : "Garrison does", baseDam);
+  } else {
+    char *creatureName;
+    if(creaturesKilled <= 1)
+      creatureName = GetCreatureName(target->creatureIdx);
+    else
+      creatureName = GetCreaturePluralName(target->creatureIdx);
+    sprintf(gText, "%s %d damage.\n%d %s %s.",
+      towerIdx ? "Tower does" : "Garrison does", baseDam,
+      creaturesKilled, creatureName, (creaturesKilled > 1) ? "perish" : "perishes");
+  }
+  gpCombatManager->CombatMessage(gText, 1, 1, 0);
+
+  target->CancelSpellType(EFFECT_BLIND);
+  target->PowEffect(-1, 1, -1, -1);
+  WaitEndSample(res, -1);
 }
