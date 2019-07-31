@@ -625,10 +625,12 @@ void game::RandomizeTown(int argX, int argY, int mightBeUseless) {
   else
     faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[twn->color]];
   this->castles[townID].field_55 = 10;
+  this->castles[townID].factionID = faction;
+  
+  if(faction == FACTION_CYBORG)
+    faction = 6; // follows the order from OBJNTOWN.ICN
   this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 0, 31, 35, 32 * faction, 48, 35);
   this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 48, 35);
   this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 0, 31, 35, 32 * faction, 49, 35);
   this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 49, 35);
-
-  this->castles[townID].factionID = faction;
 }
