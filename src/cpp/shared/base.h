@@ -60,6 +60,8 @@ extern int gbAllBlack;
 extern int giDebugLevel;
 extern int combatArmyInfoLevel;
 extern float gfBattleStat[];
+extern int gbNewGameShadowHidden;
+extern int gbRemoteOn;
 /*
  * Updates sound, graphics if needed.
  *

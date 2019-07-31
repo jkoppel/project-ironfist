@@ -547,3 +547,68 @@ int game::getNumberOfThievesGuilds(int playerIdx) {
   }
   return numGuilds;
 }
+
+int __fastcall NewGameHandler(tag_message &msg) {
+  return NewGameHandler_orig(msg);
+
+  if(!gbNewGameShadowHidden) {
+    gbNewGameShadowHidden = 1;
+    GUIRemoveFlag(gpGame->someMenuWindow, 73, 6);
+  }
+  
+  int keycode = msg.xCoordOrKeycode;
+  if(keycode != GUI_MESSAGE_MOUSE_CLICK)
+    return NewGameHandler_orig(msg);
+  
+  int field;
+  switch(msg.yCoordOrFieldID) {
+    case 0x24:
+    case 0x25:
+    case 0x26:
+    case 0x27:
+    case 0x28:
+    case 0x29:
+      field = msg.yCoordOrFieldID - 36;
+      break;
+    case 0x1E:
+    case 0x1F:
+    case 0x20:
+    case 0x21:
+    case 0x22:
+    case 0x23:
+      field = msg.yCoordOrFieldID - 30;
+      break;
+    default:
+      return NewGameHandler_orig(msg);
+  }
+
+  bool windowUpdate = false;
+  bool remoteUpdate = false;
+  if(gpGame->mapHeader.playerFactions[gpGame->relatedToPlayerPosAndColor[field]] == 7) {
+    if(gpGame->relatedToColorOfPlayerOrFaction[field] == 7) {
+      gpGame->relatedToColorOfPlayerOrFaction[field] = 0;
+    } else {
+      if(gpGame->relatedToColorOfPlayerOrFaction[field] == 5)
+        gpGame->relatedToColorOfPlayerOrFaction[field] = 7;
+      else
+        ++gpGame->relatedToColorOfPlayerOrFaction[field];
+    }
+    remoteUpdate = true;
+    windowUpdate = true;
+  }
+
+  if(windowUpdate) {
+    gpGame->UpdateNewGameWindow();
+    gpGame->someMenuWindow->DrawWindow();
+  }
+
+  if(remoteUpdate && gbRemoteOn) {
+    char v6[60];
+    char v7[65];
+    memcpy(&v6, gpGame->mapHeader.name, 0x3Cu);
+    memcpy(&v7, &gpGame->relatedToPlayerPosAndColor, 0x41u);
+    if(!TransmitRemoteData(v6, 127, 125, 51, 1, 1, -1))
+      ShutDown(0);
+  }
+  return 1;
+}

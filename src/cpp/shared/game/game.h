@@ -194,7 +194,7 @@ public:
 	char ultimateArtifactLocX;
 	char ultimateArtifactLocY;
 	char ultimateArtifactIdx;
-	int field_6398;
+	heroWindow* someMenuWindow;
 	char _B[14];
 	char currentRumor[301];
 	__int16 numRumors;
@@ -274,6 +274,7 @@ public:
   int CreateBoat(int x, int y, int doSend);
   void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
   int getNumberOfThievesGuilds(int playerIdx);
+  void UpdateNewGameWindow();
 
 private:
   void PropagateVision();
@@ -334,6 +335,9 @@ extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
 extern int getCastleOwnedIdx(playerData *player, int castleIdx);
+int __fastcall NewGameHandler(tag_message &msg);
+extern int __fastcall NewGameHandler_orig(tag_message &msg);
+int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a5, signed char a6, signed char a7);
 
 #pragma pack(pop)
 

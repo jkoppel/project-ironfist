@@ -34,7 +34,6 @@ extern unsigned char giCurPlayerBit;
 extern int giCurWatchPlayer;
 extern unsigned char giCurWatchPlayerBit;
 
-extern int gbRemoteOn;
 extern int giThisGamePos;
 
 extern void __fastcall FileError(char*);
