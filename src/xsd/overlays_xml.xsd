@@ -26,6 +26,7 @@
         <xs:attribute name="tileset" type="tileset_t" use="required" />
         <xs:attribute name="category" type="category_t" use="required"/>
         <xs:attribute name="color" type="player_color_t" default="PLAYER_BLUE" />
+        <xs:attribute name="location" type="location_t" default="LOCATION_NONE" />
         
         <xs:attribute name="animationLength" type="xs:int" default="0" />
     </xs:complexType>
@@ -45,6 +46,9 @@
         <xs:enumeration value="TERRAIN_DIRT" />
         <xs:enumeration value="TERRAIN_WASTELAND" />
         <xs:enumeration value="TERRAIN_SAND" />
+        <xs:enumeration value="TERRAIN_9" />
+        <xs:enumeration value="TERRAIN_10" />
+        <xs:enumeration value="TERRAIN_11" />
       </xs:restriction>
     </xs:simpleType>
 
@@ -130,7 +134,8 @@
     </xs:simpleType>
 
     <xs:simpleType name="location_t">
-        <xs:restriction base="xs:string">
+      <xs:restriction base="xs:string">
+          <xs:enumeration value="LOCATION_NONE" />
            <xs:enumeration value="LOCATION_ALCHEMIST_LAB" />
            <xs:enumeration value="LOCATION_SIGN" />
            <xs:enumeration value="LOCATION_BUOY" />

@@ -2,6 +2,7 @@
 #WARNING: This uses eval to parse strings
 
 LOCATION_TYPES = {
+  0 => "LOCATION_NONE",
   1 => "LOCATION_ALCHEMIST_LAB",
   2 => "LOCATION_SIGN",
   3 => "LOCATION_BUOY",
@@ -197,7 +198,17 @@ TERRAIN_TYPES = {
   5 => "TERRAIN_DESERT",
   6 => "TERRAIN_DIRT",
   7 => "TERRAIN_WASTELAND",
-  8 => "TERRAIN_SAND"
+  8 => "TERRAIN_SAND",
+
+  # These next three fields only exist because of bitfields that, as far as I can tell
+  #, only have these bits set because it's easier to write 0xFFF than 0x1FF
+  #
+  # If we can confirm dropping them has no effect, then we should do so
+
+  9  => "TERRAIN_9",
+  10 => "TERRAIN_10",
+  11 => "TERRAIN_11"
+  
 }
 
 #TODO: Check
@@ -337,7 +348,8 @@ end
 
 #FIXME: What do 9, 10, 11 mean?
 def terrainMaskToTags(mask)
-  intToSet(mask).keys.map {|t| Tag.new("validTerrain").body(TERRAIN_TYPES[t]) }
+  intToSet(mask).keys.map {|t|
+    Tag.new("validTerrain").body(TERRAIN_TYPES[t]) }
 end
 
 #Notes on overlay
@@ -370,6 +382,7 @@ class Overlay
       Tileset: #{TILESETS[self.tileset]}
       Category: #{OVERLAY_CATEGORIES[self.category]}
       Color: #{self.townColorOrMineColor}
+      Location type: #{self.locationType}
       field_4E: #{self.field_4E}
       Intersects:
 #{displayMask(self.intersectsTileMask)}
@@ -391,6 +404,7 @@ class Overlay
       .attr("category", OVERLAY_CATEGORIES[@category])
       .attr("animationLength", @animationLength)
       .attr("color", PLAYER_COLORS[@townColorOrMineColor])
+      .attr("location", LOCATION_TYPES[@locationType])
       .body(TagSeq.new
               .append(Tag.new("tiles").body(displayMask(@intersectsTileMask)))
               .append(Tag.new("animatedTiles").body(displayMask(@animatedLateOverlay)))
@@ -424,10 +438,12 @@ def parse_overlay(str)
   overlay.field_42 = read_char(fields[15])
   overlay.interactionPointMask = read_i64(fields[16])
   overlay.field_4B = read_char(fields[17])
-  overlay.locationType = fields[18].to_i
+  overlay.locationType = fields[18].to_i # check
   overlay.field_4D = read_char(fields[19])
   overlay.field_4E = fields[20].to_i
   overlay.fullGridIconIndices = read_str(fields[21])
+
+  puts "#{overlay.idx}: #{overlay.field_4B}"
   
   overlay
 end
@@ -449,5 +465,5 @@ end
 
 if __FILE__ == $0
   ovr = read_overlays(ARGV[0])
-  puts overlays_to_xml(ovr).to_s
+#  puts overlays_to_xml(ovr).to_s
 end
