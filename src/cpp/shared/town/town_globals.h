@@ -1,6 +1,7 @@
 #ifndef TOWN_GLOBALS_H
 #define TOWN_GLOBALS_H
 
+#include <vector>
 #include "adventure/adv.h"
 
 #pragma pack(push,1)
@@ -99,6 +100,8 @@ enum DWELLING_TYPE
   DWELLING_6_UPGRADE2,
   NUM_DWELLINGS
 };
+
+extern std::vector<FACTION> FACTIONS_ACTUAL;
 
 // Order matters here. The original game indexes into gTownObjNames to
 // access elements of gDwellingType.

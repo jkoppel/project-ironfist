@@ -614,3 +614,21 @@ int __fastcall NewGameHandler(tag_message &msg) {
   }
   return 1;
 }
+
+void game::RandomizeTown(int argX, int argY, int mightBeUseless) {
+  int townID = this->GetTownId(argX, argY);
+  TownExtra *twn = (TownExtra *)ppMapExtra[this->map.tiles[argX + argY * this->map.width].extraInfo];
+
+  char faction;
+  if(twn->color == -1)
+    faction = FACTIONS_ACTUAL[Random(0, FACTIONS_ACTUAL.size() - 1)];
+  else
+    faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[twn->color]];
+  this->castles[townID].field_55 = 10;
+  this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 0, 31, 35, 32 * faction, 48, 35);
+  this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 48, 35);
+  this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 0, 31, 35, 32 * faction, 49, 35);
+  this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 49, 35);
+
+  this->castles[townID].factionID = faction;
+}

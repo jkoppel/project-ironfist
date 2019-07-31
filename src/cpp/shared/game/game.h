@@ -275,6 +275,8 @@ public:
   void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
   int getNumberOfThievesGuilds(int playerIdx);
   void UpdateNewGameWindow();
+  void RandomizeTown(int argX, int argY, int mightBeUseless);
+  void ConvertObject(int x1, int y1, int x2, int y2, int fromObjTileset, signed int fromObjIndexLow, signed int fromObjIndexHigh, int toObjTileset, int toObjectIndexLow, int fromObjType, int toObjType);
 
 private:
   void PropagateVision();
