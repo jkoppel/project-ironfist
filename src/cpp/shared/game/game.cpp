@@ -549,8 +549,6 @@ int game::getNumberOfThievesGuilds(int playerIdx) {
 }
 
 int __fastcall NewGameHandler(tag_message &msg) {
-  return NewGameHandler_orig(msg);
-
   if(!gbNewGameShadowHidden) {
     gbNewGameShadowHidden = 1;
     GUIRemoveFlag(gpGame->someMenuWindow, 73, 6);
@@ -589,9 +587,13 @@ int __fastcall NewGameHandler(tag_message &msg) {
       gpGame->relatedToColorOfPlayerOrFaction[field] = 0;
     } else {
       if(gpGame->relatedToColorOfPlayerOrFaction[field] == 5)
-        gpGame->relatedToColorOfPlayerOrFaction[field] = 7;
-      else
-        ++gpGame->relatedToColorOfPlayerOrFaction[field];
+        gpGame->relatedToColorOfPlayerOrFaction[field] = 12;
+      else {
+        if(gpGame->relatedToColorOfPlayerOrFaction[field] == 12)
+          gpGame->relatedToColorOfPlayerOrFaction[field] = 7;
+        else
+          ++gpGame->relatedToColorOfPlayerOrFaction[field];
+      }
     }
     remoteUpdate = true;
     windowUpdate = true;
