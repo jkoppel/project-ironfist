@@ -1241,7 +1241,8 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   // Drawing castle and terrain underneath
   if(!a3) {
     // find terrain id under castle
-    int terrain = giGroundToTerrain[gpGame->map.tiles[this->castle->y * gpGame->map.width + this->castle->x].groundIndex];
+    int index = (unsigned char)this->castle->y * gpGame->map.width + (unsigned char)this->castle->x;
+    int terrain = giGroundToTerrain[gpGame->map.tiles[index].groundIndex];
     // find correct frame offset
     int frameOffset = 2 * (5 * terrain - 5);
 
