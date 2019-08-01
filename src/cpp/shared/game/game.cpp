@@ -736,18 +736,6 @@ void game::UpdateNewGameWindow() {
 }
 
 void game::ShowScenInfo() {
-  heroWindow *win; // [sp+38h] [bp-58h]@1
-  signed int v15; // [sp+44h] [bp-4Ch]@50
-  tag_message evt; // [sp+48h] [bp-48h]@6
-  int v17; // [sp+64h] [bp-2Ch]@12
-  widget *guiObj; // [sp+6Ch] [bp-24h]@12
-  int v20; // [sp+70h] [bp-20h]@12
-  int i; // [sp+74h] [bp-1Ch]@12
-  int v22; // [sp+78h] [bp-18h]@6
-  textWidget *v24; // [sp+80h] [bp-10h]@12
-  int v25; // [sp+84h] [bp-Ch]@12
-  unsigned int v26; // [sp+88h] [bp-8h]@78  
-
   gpMouseManager->SetPointer("advmice.mse", 0, -999);
 
   heroWindow *window = new heroWindow(90, 4, "sceninfo.bin");
@@ -755,156 +743,81 @@ void game::ShowScenInfo() {
     MemError();
   SetWinText(window, 23);
 
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 3;
-  evt.yCoordOrFieldID = 64;
-  evt.payload = this->mapHeader.name;
-  window->BroadcastMessage(evt);
+  GUISetText(window, 64, this->mapHeader.name);
+  GUISetText(window, 200, cDifficulty[LOBYTE(this->mapHeader.field_4)]);
+  GUISetText(window, 201, cDifficulty[this->difficulty]);
+  sprintf(gText, "%d%%", this->CalcDifficultyRating());
+  GUISetText(window, 202, gText);
 
-  evt.yCoordOrFieldID = 200;
-  evt.payload = cDifficulty[LOBYTE(this->mapHeader.field_4)];
-  window->BroadcastMessage(evt);
-
-  evt.yCoordOrFieldID = 201;
-  evt.payload = cDifficulty[this->difficulty];
-  window->BroadcastMessage(evt);
-
-  signed int v1 = this->CalcDifficultyRating();
-  sprintf(gText, "%d", v1);
-  strcat(gText, "%");
-  evt.yCoordOrFieldID = 202;
-  evt.payload = gText;
-  window->BroadcastMessage(evt);
-  v22 = 0;
-  switch(this->mapHeader.width) {
-    case 0x48:
-      v22 = 1;
+  char *mapSizeStr;
+  switch((unsigned char)this->mapHeader.width) {
+    case 36:
+      mapSizeStr = cMapSize[0];
       break;
-    case 0x6C:
-      v22 = 2;
+    case 72:
+      mapSizeStr = cMapSize[1];
       break;
-    case 0x90:
-      v22 = 3;
+    case 108:
+      mapSizeStr = cMapSize[2];
       break;
+    case 144:
+      mapSizeStr = cMapSize[3];
+      break;
+    default:
+      mapSizeStr = cMapSize[0];
   }
-  evt.yCoordOrFieldID = 203;
-  evt.payload = cMapSize[v22];
-  window->BroadcastMessage(evt);
+  GUISetText(window, 203, mapSizeStr);
 
-  evt.yCoordOrFieldID = 204;
-  evt.payload = this->mapHeader.description;
-  window->BroadcastMessage(evt);
-
+  GUISetText(window, 204, this->mapHeader.description);
   this->GetVictoryConditionText(gText);
-  evt.yCoordOrFieldID = 205;
-  evt.payload = gText;
-  window->BroadcastMessage(evt);
-
+  GUISetText(window, 205, gText);
   this->GetLossConditionText(gText);
-  evt.yCoordOrFieldID = 206;
-  evt.payload = gText;
-  window->BroadcastMessage(evt);
-
-  guiObj = 0;
-  v24 = 0;
-  v20 = 372 - 62 * this->mapHeader.numPlayers;
-  v25 = v20 / (this->mapHeader.numPlayers + 1);
-  int v23 = v25 + 24;
-  int v18 = v25 + 62;
-  v17 = 0;
-  for(i = 0; this->mapHeader.numPlayers > i; ++i) {
+  GUISetText(window, 206, gText);
+  
+  int offX_all = 372 - 62 * this->mapHeader.numPlayers;
+  int margin = offX_all / (this->mapHeader.numPlayers + 1);
+  int offsetX = margin + 24;
+  int itemWidth = margin + 62; // includes space between
+  widget *guiObj = nullptr;
+  for(int i = 0; this->mapHeader.numPlayers > i; ++i) {
     if(iLastMsgNumHumanPlayers > 1) {
-      guiObj = new iconWidget(v23 + i * v18 + 13,
-                            v17 + 309,
-                            64,
-                            28,
-                            "ngextra.icn",
-                            59,
-                            0,
-                            i + 42,
-                            16,
-                            1);
+      guiObj = new iconWidget(offsetX + i * itemWidth + 13, 309, 64, 28, "ngextra.icn", 59, 0, i + 42, 16, 1);
       if(!guiObj)
         MemError();
       window->AddWidget(guiObj, -1);
 
-      guiObj = new iconWidget(v23 + i * v18 + 16,
-                            v17 + 306,
-                            62,
-                            26,
-                            "ngextra.icn",
-                            0,
-                            0,
-                            i + 48,
-                            16,
-                            1);
-
+      guiObj = new iconWidget(offsetX + i * itemWidth + 16, 306, 62, 26, "ngextra.icn", 0, 0, i + 48, 16, 1);
       if(!guiObj)
         MemError();
       window->AddWidget(guiObj, -1);
     }
-    guiObj = new iconWidget(v23 + i * v18 + 11,
-                          163,
-                          68,
-                          (((iLastMsgNumHumanPlayers <= 1) - 1) & 0x11) + 47,
-                          "ngextra.icn",
-                          (((iLastMsgNumHumanPlayers <= 1) - 1) & 0xFFED) + 79,
-                          0,
-                          i + 6,
-                          16,
-                          1);
-
+    int someCondition = ((iLastMsgNumHumanPlayers <= 1) - 1);
+    guiObj = new iconWidget(offsetX + i * itemWidth + 11, 163, 68, (someCondition & 0x11) + 47, "ngextra.icn", (someCondition & 0xFFED) + 79, 0, i + 6, 16, 1);
     if(!guiObj)
       MemError();
     window->AddWidget(guiObj, -1);
 
-    guiObj = new iconWidget(v23 + i * v18 + 16,
-                          160,
-                          62,
-                          58,
-                          "ngextra.icn",
-                          (((iLastMsgNumHumanPlayers <= 1) - 1) & 0x18) + 3,
-                          0,
-                          i + 12,
-                          16,
-                          1);
+    guiObj = new iconWidget(offsetX + i * itemWidth + 16, 160, 62, 58, "ngextra.icn", (someCondition & 0x18) + 3, 0, i + 12, 16, 1);
     if(!guiObj)
       MemError();
     window->AddWidget(guiObj, -1);
 
+    textWidget *textWidg = nullptr;
     if(iLastMsgNumHumanPlayers > 1) {
       void *content = ALLOC(2u);
       sprintf((char *)content, " ");
-      v24 = new textWidget(v23 + i * v18 + 19,
-              206,
-              56,
-              9,
-              (char *)content,
-              "smalfont.fnt",
-              1,
-              i + 24,
-              512,
-              1);
-      if(!v24)
+      textWidg = new textWidget(offsetX + i * itemWidth + 19, 206, 56, 9, (char *)content, "smalfont.fnt", 1, i + 24, 512, 1);
+      if(!textWidg)
         MemError();
-      window->AddWidget((widget *)v24, -1);
+      window->AddWidget(textWidg, -1);
     }
 
-    guiObj = new iconWidget(v23 + i * v18 + 11,
-                          v17 + 243,
-                          64,
-                          47,
-                          "ngextra.icn",
-                          61,
-                          0,
-                          i + 30,
-                          16,
-                          1);
-
+    guiObj = new iconWidget(offsetX + i * itemWidth + 11, 243, 64, 47, "ngextra.icn", 61, 0, i + 30, 16, 1);
     if(!guiObj)
       MemError();
     window->AddWidget(guiObj, -1);
     
+    int v15;
     if(this->mapHeader.numPlayers < 5) {
       v15 = 26;
     } else {
@@ -915,34 +828,17 @@ void game::ShowScenInfo() {
     }
     void *content = ALLOC(2u);
     sprintf((char *)content, "A");
-    v24 = new textWidget(v23 + i * v18 + 15 - v15 / 2,
-            v17 + 288,
-            v15 + 64,
-            12,
-            (char *)content,
-            "smalfont.fnt",
-            1,
-            i + 78,
-            512,
-            1);
-    if(!v24)
+    textWidg = new textWidget(offsetX + i * itemWidth + 15 - v15 / 2, 288, v15 + 64, 12, (char *)content, "smalfont.fnt", 1, 78 + i, 512,  1);
+    if(!textWidg)
       MemError();
-    window->AddWidget((widget *)v24, -1);
-    guiObj = new iconWidget(v23 + i * v18 + 16,
-                          v17 + 240,
-                          62,
-                          45,
-                          "ngextra.icn",
-                          51,
-                          0,
-                          i + 36,
-                          16,
-                          1);
+    window->AddWidget(textWidg, -1);
+    guiObj = new iconWidget(offsetX + i * itemWidth + 16, 240, 62, 45, "ngextra.icn", 51, 0, i + 36, 16, 1);
     if(!guiObj)
       MemError();
     window->AddWidget(guiObj, -1);
   }
-  for(i = 0; this->mapHeader.numPlayers > i; ++i) {
+
+  for(int i = 0; this->mapHeader.numPlayers > i; ++i) {
     if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10) {
       sprintf(gText, "");
     } else {
@@ -951,49 +847,38 @@ void game::ShowScenInfo() {
       else
         sprintf(gText, "Player %d", this->somePlayerCodeOr10IfMayBeHuman[i] + 1);
     }
-    evt.xCoordOrKeycode = 3;
-    evt.yCoordOrFieldID = i + 24;
-    evt.payload = gText;
-    window->BroadcastMessage(evt);
+    GUISetText(window, 24 + i, gText);
+
     if(this->mapFilename[19] == i)
-      evt.xCoordOrKeycode = 5;
+      GUIAddFlag(window, 18 + i, 4);
     else
-      evt.xCoordOrKeycode = 6;
-    evt.yCoordOrFieldID = i + 18;
-    evt.payload = (void *)4;
-    window->BroadcastMessage(evt);
-    v26 = !this->mapFilename[i + 13]
-      && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = i + 12;
-    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
-      evt.payload = (void *)((v26 < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i]);
-    else
-      evt.payload = (void *)((v26 < 1 ? 9 : 21) + this->relatedToPlayerPosAndColor[i]);
-    if(iLastMsgNumHumanPlayers > 1)
-      evt.payload = (char *)evt.payload + 24;
-    window->BroadcastMessage(evt);
-    if(v26)
-      evt.xCoordOrKeycode = 6;
-    else
-      evt.xCoordOrKeycode = 5;
-    evt.payload = (void *)2;
-    window->BroadcastMessage(evt);
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = i + 48;
-    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
-      evt.payload = (void *)78;
-    else
-      evt.payload = (void *)this->playerHandicap[i];
-    window->BroadcastMessage(evt);
-    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
-      evt.xCoordOrKeycode = 6;
-    else
-      evt.xCoordOrKeycode = 5;
-    evt.payload = (void *)2;
-    window->BroadcastMessage(evt);
+      GUIRemoveFlag(window, 18 + i, 4);
 
     int imgIdx;
+    unsigned int v26 = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
+    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
+      imgIdx = (v26 < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i];
+    else
+      imgIdx = (v26 < 1 ? 9 : 21) + this->relatedToPlayerPosAndColor[i];
+    if(iLastMsgNumHumanPlayers > 1)
+      imgIdx += 24;
+    GUISetImgIdx(window, 12 + i, imgIdx);
+
+    if(v26)
+      GUIRemoveFlag(window, 12 + i, 2);
+    else
+      GUIAddFlag(window, 12 + i, 2);
+
+    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
+      GUISetImgIdx(window, 48 + i, 78);
+    else
+      GUISetImgIdx(window, 48 + i, this->playerHandicap[i]);
+
+    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
+      GUIRemoveFlag(window, 48 + i, 2);
+    else
+      GUIAddFlag(window, 48 + i, 2);
+
     if(v26 < 1)
       imgIdx = factionPortraitIconIdx[this->newGameSelectedFaction[i]][0];
     else
@@ -1001,10 +886,7 @@ void game::ShowScenInfo() {
     GUISetImgIdx(window, 36 + i, imgIdx);
 
     sprintf(gText, gAlignmentNames[this->newGameSelectedFaction[i]]);
-    evt.xCoordOrKeycode = 3;
-    evt.yCoordOrFieldID = i + 78;
-    evt.payload = gText;
-    window->BroadcastMessage(evt);
+    GUISetText(window, 78 + i, gText);
   }
   gpWindowManager->DoDialog(window, EventWindowHandler, 0);
   delete window;
