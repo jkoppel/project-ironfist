@@ -992,10 +992,14 @@ void game::ShowScenInfo() {
       evt.xCoordOrKeycode = 5;
     evt.payload = (void *)2;
     window->BroadcastMessage(evt);
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = i + 36;
-    evt.payload = (void *)((v26 < 1 ? 51 : 70) + this->newGameSelectedFaction[i]);
-    window->BroadcastMessage(evt);
+
+    int imgIdx;
+    if(v26 < 1)
+      imgIdx = factionPortraitIconIdx[this->newGameSelectedFaction[i]][0];
+    else
+      imgIdx = factionPortraitIconIdx[this->newGameSelectedFaction[i]][1];
+    GUISetImgIdx(window, 36 + i, imgIdx);
+
     sprintf(gText, gAlignmentNames[this->newGameSelectedFaction[i]]);
     evt.xCoordOrKeycode = 3;
     evt.yCoordOrFieldID = i + 78;
