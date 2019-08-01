@@ -855,16 +855,16 @@ void game::ShowScenInfo() {
       GUIRemoveFlag(window, 18 + i, 4);
 
     int imgIdx;
-    unsigned int v26 = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
+    unsigned int canChooseFaction = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
     if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
-      imgIdx = (v26 < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i];
+      imgIdx = (canChooseFaction < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i];
     else
-      imgIdx = (v26 < 1 ? 9 : 21) + this->relatedToPlayerPosAndColor[i];
+      imgIdx = (canChooseFaction < 1 ? 9 : 21) + this->relatedToPlayerPosAndColor[i];
     if(iLastMsgNumHumanPlayers > 1)
       imgIdx += 24;
     GUISetImgIdx(window, 12 + i, imgIdx);
 
-    if(v26)
+    if(canChooseFaction)
       GUIRemoveFlag(window, 12 + i, 2);
     else
       GUIAddFlag(window, 12 + i, 2);
@@ -879,7 +879,7 @@ void game::ShowScenInfo() {
     else
       GUIAddFlag(window, 48 + i, 2);
 
-    if(v26 < 1)
+    if(canChooseFaction < 1)
       imgIdx = factionPortraitIconIdx[this->newGameSelectedFaction[i]][0];
     else
       imgIdx = factionPortraitIconIdx[this->newGameSelectedFaction[i]][1];
