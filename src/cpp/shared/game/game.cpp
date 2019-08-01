@@ -72,6 +72,22 @@ int neutralTownCreatureTypes[MAX_FACTIONS][5] = {
   {CREATURE_CYBER_KOBOLD_SPEARMAN, CREATURE_CYBER_PLASMA_BERSERKER, CREATURE_CYBER_PLASMA_LANCER, CREATURE_CYBER_INDIGO_PANTHER, CREATURE_CYBER_SHADOW_ASSASSIN},
 };
 
+int factionPortraitIconIdx[MAX_FACTIONS][2] = {
+  {51, 70},
+  {52, 71},
+  {53, 72},
+  {54, 73},
+  {55, 74},
+  {56, 75},
+  {57, 76},
+  {58, 77},
+  {0, 0},
+  {0, 0},
+  {0, 0},
+  {0, 0},
+  {82, 83}
+};
+
 int game::SetupGame() {
 	int oldNoCDRom = gbNoCDRom;
 	gbNoCDRom = 0;
@@ -720,7 +736,10 @@ void game::UpdateNewGameWindow() {
     this->newGameWindow->BroadcastMessage(evt);
     evt.xCoordOrKeycode = 4;
     evt.yCoordOrFieldID = i + 36;
-    evt.payload = (void *)((v5 < 1 ? 51 : 70) + this->newGameSelectedFaction[i]);
+    if(v5 < 1)
+      evt.payload = (void*)factionPortraitIconIdx[this->newGameSelectedFaction[i]][0];
+    else
+      evt.payload = (void*)factionPortraitIconIdx[this->newGameSelectedFaction[i]][1];
     this->newGameWindow->BroadcastMessage(evt);
     sprintf(gText, gAlignmentNames[this->newGameSelectedFaction[i]]);
     evt.xCoordOrKeycode = 3;

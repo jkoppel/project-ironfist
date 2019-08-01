@@ -166,7 +166,7 @@ public:
 	SMapHeader mapHeader;
 	char relatedToPlayerPosAndColor[NUM_PLAYERS];
 	char playerHandicap[NUM_PLAYERS];
-	char relatedToColorOfPlayerOrFaction[NUM_PLAYERS];
+	char newGameSelectedFaction[NUM_PLAYERS];
 	char somePlayerCodeOr10IfMayBeHuman[NUM_PLAYERS];
 	char difficulty;
 	char mapFilename[40];

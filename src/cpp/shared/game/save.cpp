@@ -114,7 +114,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
 
   ReadArrayFromXML(gam->relatedToPlayerPosAndColor, gs.relatedToPlayerPosAndColor());
   ReadArrayFromXML(gam->playerHandicap, gs.playerHandicap());
-  ReadArrayFromXML(gam->relatedToColorOfPlayerOrFaction, gs.relatedToColorOfPlayerOrFaction());
+  ReadArrayFromXML(gam->newGameSelectedFaction, gs.relatedToColorOfPlayerOrFaction());
   ReadArrayFromXML(gam->somePlayerCodeOr10IfMayBeHuman, gs.somePlayerCodeOr10IfMayBeHuman());
 
   gam->difficulty = gs.difficulty();
@@ -425,7 +425,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.heroHireStatus(), gam->relatedToHeroForHireStatus);
   WriteArrayToXML(gs.relatedToPlayerPosAndColor(), gam->relatedToPlayerPosAndColor);
   WriteArrayToXML(gs.playerHandicap(), gam->playerHandicap);
-  WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
+  WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->newGameSelectedFaction);
   WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
   WriteArrayToXML(gs.field_2773(), gam->field_2773);
   WriteArrayToXML(gs.field_27BB(), gam->builtToday);
