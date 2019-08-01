@@ -551,7 +551,7 @@ int game::getNumberOfThievesGuilds(int playerIdx) {
 int __fastcall NewGameHandler(tag_message &msg) {
   if(!gbNewGameShadowHidden) {
     gbNewGameShadowHidden = 1;
-    GUIRemoveFlag(gpGame->someMenuWindow, 73, 6);
+    GUIRemoveFlag(gpGame->newGameWindow, 73, 6);
   }
   
   int keycode = msg.xCoordOrKeycode;
@@ -601,7 +601,7 @@ int __fastcall NewGameHandler(tag_message &msg) {
 
   if(windowUpdate) {
     gpGame->UpdateNewGameWindow();
-    gpGame->someMenuWindow->DrawWindow();
+    gpGame->newGameWindow->DrawWindow();
   }
 
   if(remoteUpdate && gbRemoteOn) {

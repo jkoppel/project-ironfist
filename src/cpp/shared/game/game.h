@@ -194,7 +194,7 @@ public:
 	char ultimateArtifactLocX;
 	char ultimateArtifactLocY;
 	char ultimateArtifactIdx;
-	heroWindow* someMenuWindow;
+	heroWindow* newGameWindow;
 	char _B[14];
 	char currentRumor[301];
 	__int16 numRumors;
