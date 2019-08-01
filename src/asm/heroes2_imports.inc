@@ -155,6 +155,7 @@ IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
 IMPORT_?NewGameHandler@@YIHAAUtag_message@@@Z = 1
 ?NewGameHandler@@YIHAAUtag_message@@@Z_clone EQU ?NewGameHandler_orig@@YIHAAUtag_message@@@Z
 IMPORT_?RandomizeTown@game@@QAEXHHH@Z = 1
+IMPORT_?UpdateNewGameWindow@game@@QAEXXZ = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1

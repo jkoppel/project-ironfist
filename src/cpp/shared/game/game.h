@@ -277,6 +277,8 @@ public:
   void UpdateNewGameWindow();
   void RandomizeTown(int argX, int argY, int mightBeUseless);
   void ConvertObject(int x1, int y1, int x2, int y2, int fromObjTileset, signed int fromObjIndexLow, signed int fromObjIndexHigh, int toObjTileset, int toObjectIndexLow, int fromObjType, int toObjType);
+  int CalcDifficultyRating();
+  void DrawNGKPDisplayString(int updateScreen);
 
 private:
   void PropagateVision();

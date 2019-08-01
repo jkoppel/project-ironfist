@@ -62,6 +62,9 @@ extern int combatArmyInfoLevel;
 extern float gfBattleStat[];
 extern int gbNewGameShadowHidden;
 extern int gbRemoteOn;
+extern char cPlayerNames[6][21];
+extern char *cTextReceivedBuffer[];
+
 /*
  * Updates sound, graphics if needed.
  *

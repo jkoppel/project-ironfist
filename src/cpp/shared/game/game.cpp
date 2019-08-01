@@ -442,7 +442,7 @@ void game::ProcessOnMapHeroes() {
           mapExtraHero->owner = gcColorToPlayerPos[loc->objectIndex / 7];
           faction = loc->objectIndex % 7; // Constant here (needs to be generalized)
           if (faction == FACTION_MULTIPLE) { // Constant here (faction related)
-            faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];// Constant here (I think this is a faction-related structure)
+            faction = this->newGameSelectedFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];// Constant here (I think this is a faction-related structure)
           }
         }
 
@@ -583,16 +583,16 @@ int __fastcall NewGameHandler(tag_message &msg) {
   bool windowUpdate = false;
   bool remoteUpdate = false;
   if(gpGame->mapHeader.playerFactions[gpGame->relatedToPlayerPosAndColor[field]] == 7) {
-    if(gpGame->relatedToColorOfPlayerOrFaction[field] == 7) {
-      gpGame->relatedToColorOfPlayerOrFaction[field] = 0;
+    if(gpGame->newGameSelectedFaction[field] == 7) {
+      gpGame->newGameSelectedFaction[field] = 0;
     } else {
-      if(gpGame->relatedToColorOfPlayerOrFaction[field] == 5)
-        gpGame->relatedToColorOfPlayerOrFaction[field] = 12;
+      if(gpGame->newGameSelectedFaction[field] == 5)
+        gpGame->newGameSelectedFaction[field] = 12;
       else {
-        if(gpGame->relatedToColorOfPlayerOrFaction[field] == 12)
-          gpGame->relatedToColorOfPlayerOrFaction[field] = 7;
+        if(gpGame->newGameSelectedFaction[field] == 12)
+          gpGame->newGameSelectedFaction[field] = 7;
         else
-          ++gpGame->relatedToColorOfPlayerOrFaction[field];
+          ++gpGame->newGameSelectedFaction[field];
       }
     }
     remoteUpdate = true;
@@ -623,7 +623,7 @@ void game::RandomizeTown(int argX, int argY, int mightBeUseless) {
   if(twn->color == -1)
     faction = FACTIONS_ACTUAL[Random(0, FACTIONS_ACTUAL.size() - 1)];
   else
-    faction = this->relatedToColorOfPlayerOrFaction[gcColorToSetupPos[twn->color]];
+    faction = this->newGameSelectedFaction[gcColorToSetupPos[twn->color]];
   this->castles[townID].field_55 = 10;
   this->castles[townID].factionID = faction;
   
@@ -633,4 +633,113 @@ void game::RandomizeTown(int argX, int argY, int mightBeUseless) {
   this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 48, 35);
   this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 0, 31, 35, 32 * faction, 49, 35);
   this->ConvertObject(argX - 5, argY - 3, argX + 2, argY + 1, 38, 32, 255, 37, 32 * faction, 49, 35);
+}
+
+void game::UpdateNewGameWindow() {
+  tag_message evt; // [sp+10h] [bp-28h]@1
+  unsigned int v5; // [sp+34h] [bp-4h]@21
+
+  strcpy(gText, this->mapHeader.name);
+  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+  evt.xCoordOrKeycode = 3;
+  evt.yCoordOrFieldID = 64;
+  evt.payload = gText;
+  this->newGameWindow->BroadcastMessage(evt);
+  evt.xCoordOrKeycode = 6;
+  evt.payload = (void *)4;
+  for(int i = 0; i < 5; ++i) {
+    evt.yCoordOrFieldID = i + 67;
+    this->newGameWindow->BroadcastMessage(evt);
+  }
+  evt.xCoordOrKeycode = 5;
+  evt.yCoordOrFieldID = this->difficulty + 67;
+  this->newGameWindow->BroadcastMessage(evt);
+  if(iLastMsgNumHumanPlayers > 1) {
+    for(int i = 0; i < 3; ++i) {
+      sprintf(gText, cTextReceivedBuffer[i]);
+      evt.xCoordOrKeycode = 3;
+      evt.yCoordOrFieldID = i + 74;
+      evt.payload = gText;
+      this->newGameWindow->BroadcastMessage(evt);
+    }
+  }
+
+  for(int i = 0; this->mapHeader.numPlayers > i; ++i) {
+    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10) {
+      sprintf(gText, "");
+    } else {
+      if(strlen(cPlayerNames[this->somePlayerCodeOr10IfMayBeHuman[i]]))
+        sprintf(gText, cPlayerNames[this->somePlayerCodeOr10IfMayBeHuman[i]]);
+      else
+        sprintf(gText, "Player %d", this->somePlayerCodeOr10IfMayBeHuman[i] + 1);
+    }
+
+    evt.xCoordOrKeycode = 3;
+    evt.yCoordOrFieldID = i + 24;
+    evt.payload = gText;
+    this->newGameWindow->BroadcastMessage(evt);
+    if(this->mapFilename[19] == i)
+      evt.xCoordOrKeycode = 5;
+    else
+      evt.xCoordOrKeycode = 6;
+    evt.yCoordOrFieldID = i + 18;
+    evt.payload = (void *)4;
+    this->newGameWindow->BroadcastMessage(evt);
+    v5 = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
+    evt.xCoordOrKeycode = 4;
+    evt.yCoordOrFieldID = i + 12;
+    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
+      evt.payload = (void *)((v5 < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i]);
+    else
+      evt.payload = (void *)((v5 < 1 ? 9 : 21) + this->relatedToPlayerPosAndColor[i]);
+    if(iLastMsgNumHumanPlayers > 1)
+      evt.payload = (char *)evt.payload + 24;
+    this->newGameWindow->BroadcastMessage(evt);
+    if(v5)
+      evt.xCoordOrKeycode = 6;
+    else
+      evt.xCoordOrKeycode = 5;
+    evt.payload = (void *)2;
+    this->newGameWindow->BroadcastMessage(evt);
+    evt.xCoordOrKeycode = 4;
+    evt.yCoordOrFieldID = i + 48;
+    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
+      evt.payload = (void *)78;
+    else
+      evt.payload = (void *)this->playerHandicap[i];
+    this->newGameWindow->BroadcastMessage(evt);
+    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
+      evt.xCoordOrKeycode = 6;
+    else
+      evt.xCoordOrKeycode = 5;
+    evt.payload = (void *)2;
+    this->newGameWindow->BroadcastMessage(evt);
+    v5 = this->mapHeader.playerFactions[this->relatedToPlayerPosAndColor[i]] != 7;
+    evt.xCoordOrKeycode = 5;
+    evt.payload = (void *)2;
+    this->newGameWindow->BroadcastMessage(evt);
+    evt.xCoordOrKeycode = 4;
+    evt.yCoordOrFieldID = i + 36;
+    evt.payload = (void *)((v5 < 1 ? 51 : 70) + this->newGameSelectedFaction[i]);
+    this->newGameWindow->BroadcastMessage(evt);
+    sprintf(gText, gAlignmentNames[this->newGameSelectedFaction[i]]);
+    evt.xCoordOrKeycode = 3;
+    evt.yCoordOrFieldID = i + 78;
+    evt.payload = gText;
+    this->newGameWindow->BroadcastMessage(evt);
+    if(v5)
+      evt.xCoordOrKeycode = 6;
+    else
+      evt.xCoordOrKeycode = 5;
+    evt.payload = (void *)2;
+    this->newGameWindow->BroadcastMessage(evt);
+  }
+
+  gpGame->gameDifficulty = this->CalcDifficultyRating();
+  evt.xCoordOrKeycode = 3;
+  evt.yCoordOrFieldID = 66;
+  sprintf(gText, "%s %d%%", "Rating", gpGame->gameDifficulty);
+  evt.payload = gText;
+  this->newGameWindow->BroadcastMessage(evt);
+  this->DrawNGKPDisplayString(false);
 }
