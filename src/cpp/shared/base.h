@@ -64,7 +64,8 @@ extern int gbNewGameShadowHidden;
 extern int gbRemoteOn;
 extern char cPlayerNames[6][21];
 extern char *cTextReceivedBuffer[];
-
+extern char *cDifficulty[5];
+extern char *cMapSize[9];
 /*
  * Updates sound, graphics if needed.
  *

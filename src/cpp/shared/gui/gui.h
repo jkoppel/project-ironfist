@@ -196,6 +196,7 @@ extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,in
 void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
+extern int __fastcall EventWindowHandler(tag_message &evt);
 extern heroWindow* casWin;
 
 #pragma pack(pop)
