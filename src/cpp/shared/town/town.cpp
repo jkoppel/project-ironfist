@@ -1081,26 +1081,28 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
 
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     castleSlotsUse[i] = castleSlotsBase[i];
-    if(castleSlotsBase[i] >= 20 && castleSlotsBase[i] <= 24
-    && ((1 << castleSlotsBase[i]) & this->castle->buildingsBuiltFlags
-    || (1 << (castleSlotsBase[i] + 5)) & this->castle->buildingsBuiltFlags
-    || castleSlotsBase[i] == 24 && this->castle->factionID == FACTION_WARLOCK && this->castle->buildingsBuiltFlags & (1 << BUILDING_UPGRADE_5B))
-    && (1 << (castleSlotsBase[i] + 5)) & gTownEligibleBuildMask[this->castle->factionID]) {
-      if(castleSlotsBase[i] == 24 && this->castle->factionID == FACTION_WARLOCK
-        && (this->castle->buildingsBuiltFlags & (1 << BUILDING_UPGRADE_5) || this->castle->buildingsBuiltFlags & (1 << BUILDING_UPGRADE_5B)))
-        castleSlotsUse[i] = 30;
-      else
-        castleSlotsUse[i] = castleSlotsBase[i] + 5;
+    town *twn = this->castle;
+    unsigned int builtFlags = twn->buildingsBuiltFlags;
+    int bld = castleSlotsBase[i];
+    int bldUpgr = bld + 5;
+    int faction = twn->factionID;
+    if(bld >= BUILDING_DWELLING_2 && bld <= BUILDING_DWELLING_6 && gTownEligibleBuildMask[faction] & (1 << (bldUpgr))) {
+      if(twn->BuildingBuilt(bld) || twn->BuildingBuilt(bldUpgr) || bld == BUILDING_DWELLING_6 && faction == FACTION_WARLOCK && twn->BuildingBuilt(BUILDING_UPGRADE_5B)) {
+        if(bld == BUILDING_DWELLING_6 && faction == FACTION_WARLOCK && (twn->BuildingBuilt(BUILDING_UPGRADE_5) || twn->BuildingBuilt(BUILDING_UPGRADE_5B)))
+          castleSlotsUse[i] = BUILDING_UPGRADE_5B;
+        else
+          castleSlotsUse[i] = bldUpgr;
+      }
     }
   }
 
-  this->field_156 = 0;
-  this->field_152 = this->field_156;
+  this->canBuildFlags = 0;
+  this->canBuyFlags = this->canBuildFlags;
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
     if(CanBuy(this->castle, castleSlotsUse[i]))
-      this->field_152 |= 1 << castleSlotsUse[i];
+      this->canBuyFlags |= 1 << castleSlotsUse[i];
     if(CanBuild(this->castle, castleSlotsUse[i]))
-      this->field_156 |= 1 << castleSlotsUse[i];
+      this->canBuildFlags |= 1 << castleSlotsUse[i];
   }
   
   for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i)
@@ -1129,8 +1131,8 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       && (castleSlotsUse[i] || this->castle->mageGuildLevel == 5)) {
       imgIdx = 11;
     } else {
-      if((1 << castleSlotsUse[i]) & this->field_156) {
-        if(!((1 << castleSlotsUse[i]) & this->field_152))
+      if((1 << castleSlotsUse[i]) & this->canBuildFlags) {
+        if(!((1 << castleSlotsUse[i]) & this->canBuyFlags))
           imgIdx = 13;
       } else {
         imgIdx = 12;
@@ -1201,9 +1203,9 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       imgIdx = 12;
     }
     if(CanBuild(this->castle, BUILDING_CAPTAIN))
-      this->field_156 |= 0x8000u;
+      this->canBuildFlags |= BUILDING_CAPTAIN;
     if(CanBuy(this->castle, BUILDING_CAPTAIN))
-      this->field_152 |= 0x8000u;
+      this->canBuyFlags |= BUILDING_CAPTAIN;
   }
 
   if(imgIdx == -1) {
