@@ -652,113 +652,85 @@ void game::RandomizeTown(int argX, int argY, int mightBeUseless) {
 }
 
 void game::UpdateNewGameWindow() {
-  tag_message evt; // [sp+10h] [bp-28h]@1
-  unsigned int v5; // [sp+34h] [bp-4h]@21
-
   strcpy(gText, this->mapHeader.name);
-  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-  evt.xCoordOrKeycode = 3;
-  evt.yCoordOrFieldID = 64;
-  evt.payload = gText;
-  this->newGameWindow->BroadcastMessage(evt);
-  evt.xCoordOrKeycode = 6;
-  evt.payload = (void *)4;
+  GUISetText(this->newGameWindow, 64, gText);
+
   for(int i = 0; i < 5; ++i) {
-    evt.yCoordOrFieldID = i + 67;
-    this->newGameWindow->BroadcastMessage(evt);
+    GUIRemoveFlag(this->newGameWindow, 67 + i, 4);
   }
-  evt.xCoordOrKeycode = 5;
-  evt.yCoordOrFieldID = this->difficulty + 67;
-  this->newGameWindow->BroadcastMessage(evt);
+  GUIAddFlag(this->newGameWindow, 67 + this->difficulty, 4);
+
   if(iLastMsgNumHumanPlayers > 1) {
     for(int i = 0; i < 3; ++i) {
       sprintf(gText, cTextReceivedBuffer[i]);
-      evt.xCoordOrKeycode = 3;
-      evt.yCoordOrFieldID = i + 74;
-      evt.payload = gText;
-      this->newGameWindow->BroadcastMessage(evt);
+      GUISetText(this->newGameWindow, 74 + i, gText);
     }
   }
 
   for(int i = 0; this->mapHeader.numPlayers > i; ++i) {
-    if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10) {
+    char playerID = this->somePlayerCodeOr10IfMayBeHuman[i];
+    if(playerID == 10) {
       sprintf(gText, "");
     } else {
-      if(strlen(cPlayerNames[this->somePlayerCodeOr10IfMayBeHuman[i]]))
-        sprintf(gText, cPlayerNames[this->somePlayerCodeOr10IfMayBeHuman[i]]);
+      if(strlen(cPlayerNames[playerID]))
+        sprintf(gText, cPlayerNames[playerID]);
       else
-        sprintf(gText, "Player %d", this->somePlayerCodeOr10IfMayBeHuman[i] + 1);
+        sprintf(gText, "Player %d", playerID + 1);
     }
 
-    evt.xCoordOrKeycode = 3;
-    evt.yCoordOrFieldID = i + 24;
-    evt.payload = gText;
-    this->newGameWindow->BroadcastMessage(evt);
+    GUISetText(this->newGameWindow, 24 + i, gText);
+
     if(this->mapFilename[19] == i)
-      evt.xCoordOrKeycode = 5;
+      GUIAddFlag(this->newGameWindow, 18 + i, 4);
     else
-      evt.xCoordOrKeycode = 6;
-    evt.yCoordOrFieldID = i + 18;
-    evt.payload = (void *)4;
-    this->newGameWindow->BroadcastMessage(evt);
-    v5 = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = i + 12;
+      GUIRemoveFlag(this->newGameWindow, 18 + i, 4);
+
+    unsigned canChangeOpponent = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
+
+    int imgIdx;
     if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
-      evt.payload = (void *)((v5 < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i]);
+      imgIdx = (canChangeOpponent < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i];
     else
-      evt.payload = (void *)((v5 < 1 ? 9 : 21) + this->relatedToPlayerPosAndColor[i]);
+      imgIdx = (canChangeOpponent < 1 ? 9 : 21) + this->relatedToPlayerPosAndColor[i];
     if(iLastMsgNumHumanPlayers > 1)
-      evt.payload = (char *)evt.payload + 24;
-    this->newGameWindow->BroadcastMessage(evt);
-    if(v5)
-      evt.xCoordOrKeycode = 6;
+      imgIdx = imgIdx + 24;
+    GUISetImgIdx(this->newGameWindow, 12 + i, imgIdx);
+    
+    if(canChangeOpponent)
+      GUIRemoveFlag(this->newGameWindow, 12 + i, 2);
     else
-      evt.xCoordOrKeycode = 5;
-    evt.payload = (void *)2;
-    this->newGameWindow->BroadcastMessage(evt);
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = i + 48;
+      GUIAddFlag(this->newGameWindow, 12 + i, 2);
+    
     if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
-      evt.payload = (void *)78;
+      GUISetImgIdx(this->newGameWindow, 48 + i, 78);
     else
-      evt.payload = (void *)this->playerHandicap[i];
-    this->newGameWindow->BroadcastMessage(evt);
+      GUISetImgIdx(this->newGameWindow, 48 + i, this->playerHandicap[i]);
+   
     if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
-      evt.xCoordOrKeycode = 6;
+      GUIRemoveFlag(this->newGameWindow, 48 + i, 2);
     else
-      evt.xCoordOrKeycode = 5;
-    evt.payload = (void *)2;
-    this->newGameWindow->BroadcastMessage(evt);
-    v5 = this->mapHeader.playerFactions[this->relatedToPlayerPosAndColor[i]] != 7;
-    evt.xCoordOrKeycode = 5;
-    evt.payload = (void *)2;
-    this->newGameWindow->BroadcastMessage(evt);
-    evt.xCoordOrKeycode = 4;
-    evt.yCoordOrFieldID = i + 36;
-    if(v5 < 1)
-      evt.payload = (void*)factionPortraitIconIdx[this->newGameSelectedFaction[i]][0];
+      GUIAddFlag(this->newGameWindow, 48 + i, 2);
+    
+    GUIAddFlag(this->newGameWindow, 48 + i, 2);
+
+    unsigned canChooseFaction = this->mapHeader.playerFactions[this->relatedToPlayerPosAndColor[i]] != 7;
+    if(canChooseFaction < 1)
+      imgIdx = factionPortraitIconIdx[this->newGameSelectedFaction[i]][0];
     else
-      evt.payload = (void*)factionPortraitIconIdx[this->newGameSelectedFaction[i]][1];
-    this->newGameWindow->BroadcastMessage(evt);
+      imgIdx = factionPortraitIconIdx[this->newGameSelectedFaction[i]][1];
+    GUISetImgIdx(this->newGameWindow, 36 + i, imgIdx);
+
     sprintf(gText, gAlignmentNames[this->newGameSelectedFaction[i]]);
-    evt.xCoordOrKeycode = 3;
-    evt.yCoordOrFieldID = i + 78;
-    evt.payload = gText;
-    this->newGameWindow->BroadcastMessage(evt);
-    if(v5)
-      evt.xCoordOrKeycode = 6;
+    GUISetText(this->newGameWindow, i + 78, gText);
+
+    if(canChooseFaction)
+      GUIRemoveFlag(this->newGameWindow, i + 78, 2);
     else
-      evt.xCoordOrKeycode = 5;
-    evt.payload = (void *)2;
-    this->newGameWindow->BroadcastMessage(evt);
+      GUIAddFlag(this->newGameWindow, i + 78, 2);
   }
 
   gpGame->gameDifficulty = this->CalcDifficultyRating();
-  evt.xCoordOrKeycode = 3;
-  evt.yCoordOrFieldID = 66;
   sprintf(gText, "%s %d%%", "Rating", gpGame->gameDifficulty);
-  evt.payload = gText;
-  this->newGameWindow->BroadcastMessage(evt);
+  GUISetText(this->newGameWindow, 66, gText);
   this->DrawNGKPDisplayString(false);
 }
