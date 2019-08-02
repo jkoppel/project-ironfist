@@ -157,6 +157,7 @@ IMPORT_?NewGameHandler@@YIHAAUtag_message@@@Z = 1
 IMPORT_?RandomizeTown@game@@QAEXHHH@Z = 1
 IMPORT_?ShowScenInfo@game@@QAEXXZ = 1
 IMPORT_?UpdateNewGameWindow@game@@QAEXXZ = 1
+IMPORT_?ProcessRandomObjects@game@@QAEXXZ = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1

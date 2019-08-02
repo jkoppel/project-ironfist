@@ -282,6 +282,7 @@ public:
   void DrawNGKPDisplayString(int updateScreen);
   void GetLossConditionText(char *text);
   void GetVictoryConditionText(char *text);
+  void RandomizeMine(int x, int y);
 
 private:
   void PropagateVision();
