@@ -167,6 +167,7 @@ public:
 	char field_660E;
 
   // New state
+  bool onMapEndCallbackStatus = false;
   bool forcedComputerPlayerChases[MAX_HEROES][MAX_HEROES];
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
 	// AI redistribute troops toggle
