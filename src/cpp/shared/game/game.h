@@ -336,6 +336,7 @@ extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
+extern unsigned char randomMineResources[NUM_RESOURCES];
 
 extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
 extern int neutralTownCreatureTypes[MAX_FACTIONS][5];

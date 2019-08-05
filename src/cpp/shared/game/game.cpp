@@ -148,8 +148,8 @@ void game::ProcessRandomObjects() {
   giUltimateArtifactBaseX = -1;
   giUltimateArtifactBaseY = -1;
   giUltimateArtifactRadius = 0;
-  //for(int resourceIdx = 0; resourceIdx < 7; ++resourceIdx)
-  //  randomMineResources[resourceIdx] = 0;
+  for(int resourceIdx = 0; resourceIdx < 7; ++resourceIdx)
+    randomMineResources[resourceIdx] = 0;
   for(int y = 0; y < MAP_HEIGHT; ++y) {
     for(int x = 0; x < MAP_WIDTH; ++x) {
       mapCell *cell = &this->map.tiles[y * this->map.width] + x;
@@ -1029,6 +1029,3 @@ void game::ShowScenInfo() {
   gpWindowManager->DoDialog(window, EventWindowHandler, 0);
   delete window;
 }
-
-extern short randomMineResources[];
-
