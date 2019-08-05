@@ -144,105 +144,65 @@ void game::InitNewGame(struct SMapHeader *a) {
 	this->InitNewGame_orig(a);
 }
 
-int game::ProcessRandomObjects() {
-  int result; // eax@5
-  char randomArtifactID; // ST70_1@40
-  char randomArtifactIDTreasure; // ST70_1@41
-  char randomArtifactIDMinor; // ST70_1@42
-  char randomArtifactIDMajor; // ST70_1@43
-  int randomResource; // [sp+2Ch] [bp-20h]@32
-  mapCell *cell; // [sp+30h] [bp-1Ch]@9
-  int maxFightValue; // [sp+34h] [bp-18h]@13
-  int cellYCoord; // [sp+38h] [bp-14h]@4
-  signed int resourceIdx; // [sp+3Ch] [bp-10h]@1
-  int cellXCoord; // [sp+40h] [bp-Ch]@6
-  int minFightValue; // [sp+48h] [bp-4h]@13
-
+void game::ProcessRandomObjects() {
   giUltimateArtifactBaseX = -1;
   giUltimateArtifactBaseY = -1;
   giUltimateArtifactRadius = 0;
-  //for(resourceIdx = 0; resourceIdx < 7; ++resourceIdx)
+  //for(int resourceIdx = 0; resourceIdx < 7; ++resourceIdx)
   //  randomMineResources[resourceIdx] = 0;
-  for(cellYCoord = 0; ; ++cellYCoord) {
-    result = MAP_HEIGHT;
-    if(cellYCoord >= MAP_HEIGHT)
-      break;
-    for(cellXCoord = 0; cellXCoord < MAP_WIDTH; ++cellXCoord) {
-      cell = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
+  for(int y = 0; y < MAP_HEIGHT; ++y) {
+    for(int x = 0; x < MAP_WIDTH; ++x) {
+      mapCell *cell = &this->map.tiles[y * this->map.width] + x;
+      int minFightValue, maxFightValue;
+      bool randomSpawn = false;
       switch(cell->objType) {
         case TILE_HAS_EVENT | LOCATION_WINDMILL | LOCATION_SKELETON:
-          giUltimateArtifactBaseX = cellXCoord;
-          giUltimateArtifactBaseY = cellYCoord;
+          giUltimateArtifactBaseX = x;
+          giUltimateArtifactBaseY = y;
           giUltimateArtifactRadius = (unsigned __int8)((unsigned __int8)(cell->extraInfo >> 8) >> -5);
           cell->objType = 0;
           cell->objTileset &= 3u;
           cell->objectIndex = -1;
           continue;
         case TILE_HAS_EVENT | LOCATION_RANDOM_TOWN:
-          this->RandomizeTown(cellXCoord, cellYCoord, 0);
+          this->RandomizeTown(x, y, 0);
           continue;
         case TILE_HAS_EVENT | LOCATION_RANDOM_CASTLE:
-          this->RandomizeTown(cellXCoord, cellYCoord, 1);
+          this->RandomizeTown(x, y, 1);
           continue;
         case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER:
           minFightValue = 80;
           maxFightValue = 2000;
-          goto LABEL_18;
+          randomSpawn = true;
+          break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_WEAK:
           minFightValue = 0;
           maxFightValue = 400;
-          goto LABEL_18;
+          randomSpawn = true;
+          break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_MEDIUM:
           minFightValue = 400;
           maxFightValue = 1000;
-          goto LABEL_18;
+          randomSpawn = true;
+          break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_STRONG:
           minFightValue = 1000;
           maxFightValue = 2500;
-          goto LABEL_18;
+          randomSpawn = true;
+          break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_VERY_STRONG:
           minFightValue = 2500;
           maxFightValue = 100000;
-        LABEL_18:
-          if((((unsigned __int8)cell->objTileset >> 2) & 0x3F) == 12
-            && cell->objectIndex >= 67
-            && cell->objectIndex <= 70) {
-            switch(cell->objectIndex) {
-              case 67:
-                minFightValue = 0;
-                maxFightValue = 400;
-                break;
-              case 68:
-                minFightValue = 400;
-                maxFightValue = 1000;
-                break;
-              case 69:
-                minFightValue = 1000;
-                maxFightValue = 2500;
-                break;
-              case 70:
-                minFightValue = 2500;
-                maxFightValue = 100000;
-                break;
-              default:
-                break;
-            }
-          }
-          cell->objType = -104;
-          for(cell->objectIndex = Random(0, 65);// Constant here
-                gMonsterDatabase[cell->objectIndex].fight_value <= minFightValue
-             || gMonsterDatabase[cell->objectIndex].fight_value >= maxFightValue;
-                cell->objectIndex = Random(0, 65))// It uses the fight value ranges to pick a random creature whose fight value satisfies the range
-            ;                                   // If a new creature doesn't satisfy any of these fight value ranges, it will never be selected for a random monster object
+          randomSpawn = true;          
           break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_RESOURCE:
-          cell->objType = -101;
-          randomResource = Random(0, 6);
-          this->ConvertObject(cellXCoord - 1, cellYCoord, cellXCoord - 1, cellYCoord, 46, 16, 16, 46, 2 * randomResource, -1, -1);
-          this->ConvertObject(cellXCoord, cellYCoord, cellXCoord, cellYCoord, 46, 17, 17, 46, 2 * randomResource + 1, -1, -1);
-          if(randomResource && randomResource != RESOURCE_ORE)// RESOURCE_ORE
+          cell->objType = 155;
+          int randomResource = Random(0, NUM_RESOURCES - 1);
+          this->ConvertObject(x - 1, y, x - 1, y, 46, 16, 16, 46, 2 * randomResource, -1, -1);
+          this->ConvertObject(x, y, x, y, 46, 17, 17, 46, 2 * randomResource + 1, -1, -1);
+          if(randomResource && randomResource != RESOURCE_ORE)
           {
-            if(randomResource == RESOURCE_GOLD)          // RESOURCE_GOLD
+            if(randomResource == RESOURCE_GOLD)
               cell->extraInfo = cell->extraInfo & 7 | 8 * Random(5, 10);
             else
               cell->extraInfo = cell->extraInfo & 7 | 8 * Random(3, 7);
@@ -251,78 +211,69 @@ int game::ProcessRandomObjects() {
           }
           break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT:
-          randomArtifactID = this->GetRandomArtifactId(14, 0);
-          cell->objType = -87;
-          this->ConvertObject(cellXCoord - 1, cellYCoord, cellXCoord - 1, cellYCoord, 11, 162, 162, 11, 2 * randomArtifactID, -1, -1);
-          this->ConvertObject(cellXCoord, cellYCoord, cellXCoord, cellYCoord, 11, 163, 163, 11, 2 * randomArtifactID + 1, -1, -1);
+          int artIdx = this->GetRandomArtifactId(14, 0);
+          cell->objType = 169;
+          this->ConvertObject(x - 1, y, x - 1, y, 11, 162, 162, 11, 2 * artIdx, -1, -1);
+          this->ConvertObject(x, y, x, y, 11, 163, 163, 11, 2 * artIdx + 1, -1, -1);
           break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_TREASURE:
-          randomArtifactIDTreasure = this->GetRandomArtifactId(8, 0);
-          cell->objType = -87;
-          this->ConvertObject(cellXCoord - 1, cellYCoord, cellXCoord - 1, cellYCoord, 11, 166, 166, 11, 2 * randomArtifactIDTreasure, -1, -1);
-          this->ConvertObject(cellXCoord, cellYCoord, cellXCoord, cellYCoord, 11, 167, 167, 11, 2 * randomArtifactIDTreasure + 1, -1, -1);
+          int artIdx = this->GetRandomArtifactId(8, 0);
+          cell->objType = 169;
+          this->ConvertObject(x - 1, y, x - 1, y, 11, 166, 166, 11, 2 * artIdx, -1, -1);
+          this->ConvertObject(x, y, x, y, 11, 167, 167, 11, 2 * artIdx + 1, -1, -1);
           break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MINOR:
-          randomArtifactIDMinor = this->GetRandomArtifactId(4, 0);
-          cell->objType = -87;
-          this->ConvertObject(cellXCoord - 1,
-            cellYCoord,
-            cellXCoord - 1,
-            cellYCoord,
-            11,
-            168,
-            168,
-            11,
-            2 * randomArtifactIDMinor,
-            -1,
-            -1);
-          this->ConvertObject(cellXCoord,
-            cellYCoord,
-            cellXCoord,
-            cellYCoord,
-            11,
-            169,
-            169,
-            11,
-            2 * randomArtifactIDMinor + 1,
-            -1,
-            -1);
+          int artIdx = this->GetRandomArtifactId(4, 0);
+          cell->objType = 169;
+          this->ConvertObject(x - 1, y, x - 1, y, 11, 168, 168, 11, 2 * artIdx, -1, -1);
+          this->ConvertObject(x, y, x, y, 11, 169, 169, 11, 2 * artIdx + 1, -1, -1);
           break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MAJOR:
-          randomArtifactIDMajor = this->GetRandomArtifactId(2, 0);
-          cell->objType = -87;
-          this->ConvertObject(cellXCoord - 1,
-            cellYCoord,
-            cellXCoord - 1,
-            cellYCoord,
-            11,
-            170,
-            170,
-            11,
-            2 * randomArtifactIDMajor,
-            -1,
-            -1);
-          this->ConvertObject(cellXCoord,
-            cellYCoord,
-            cellXCoord,
-            cellYCoord,
-            11,
-            171,
-            171,
-            11,
-            2 * randomArtifactIDMajor + 1,
-            -1,
-            -1);
+          int artIdx = this->GetRandomArtifactId(2, 0);
+          cell->objType = 169;
+          this->ConvertObject(x - 1, y, x - 1, y, 11, 170, 170, 11, 2 * artIdx, -1, -1);
+          this->ConvertObject(x, y, x, y, 11, 171, 171, 11, 2 * artIdx + 1, -1, -1);
           break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_TOWN | LOCATION_SIGN:
-          this->RandomizeMine(cellXCoord, cellYCoord);
+          this->RandomizeMine(x, y);
           break;
         default:
           continue;
       }
+      if(randomSpawn) {
+        if((((unsigned __int8)cell->objTileset >> 2) & 0x3F) == 12 && cell->objectIndex >= CREATURE_RANDMON_1 && cell->objectIndex <= CREATURE_RANDMON_4) {
+          switch(cell->objectIndex) {
+            case CREATURE_RANDMON_1:
+              minFightValue = 0;
+              maxFightValue = 400;
+              break;
+            case CREATURE_RANDMON_2:
+              minFightValue = 400;
+              maxFightValue = 1000;
+              break;
+            case CREATURE_RANDMON_3:
+              minFightValue = 1000;
+              maxFightValue = 2500;
+              break;
+            case CREATURE_RANDMON_4:
+              minFightValue = 2500;
+              maxFightValue = 100000;
+              break;
+            default:
+              break;
+          }
+        }
+        cell->objType = 152;
+        int randMon;
+        int fightval;
+        do {
+          randMon = Random(0, MAX_BASE_CREATURE);
+          fightval = gMonsterDatabase[randMon].fight_value;
+        } while(fightval <= minFightValue && fightval >= maxFightValue);
+        cell->objectIndex = randMon;
+      }
     }
   }
-  return result;
 }
 
 

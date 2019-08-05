@@ -258,7 +258,7 @@ public:
   void InitRandomArtifacts();
   int GetRandomArtifactId(int allowedLevels, int allowNegatives);
   int LoadMap(char *nam);
-  int ProcessRandomObjects();
+  void ProcessRandomObjects();
   int ProcessMapExtra();
   void __cdecl InitializePasswords();
   int RandomizeEvents();
