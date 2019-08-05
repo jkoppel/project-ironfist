@@ -152,7 +152,7 @@ void game::ProcessRandomObjects() {
     randomMineResources[resourceIdx] = 0;
   for(int y = 0; y < MAP_HEIGHT; ++y) {
     for(int x = 0; x < MAP_WIDTH; ++x) {
-      mapCell *cell = &this->map.tiles[y * this->map.width] + x;
+      mapCell *cell = &this->map.tiles[y * this->map.width + x];
       int minFightValue, maxFightValue;
       bool randomSpawn = false;
       switch(cell->objType) {
