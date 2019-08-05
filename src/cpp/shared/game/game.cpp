@@ -195,7 +195,7 @@ void game::ProcessRandomObjects() {
           maxFightValue = 100000;
           randomSpawn = true;          
           break;
-        case TILE_HAS_EVENT | LOCATION_RANDOM_RESOURCE:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_RESOURCE: {
           cell->objType = 155;
           int randomResource = Random(0, NUM_RESOURCES - 1);
           this->ConvertObject(x - 1, y, x - 1, y, 46, 16, 16, 46, 2 * randomResource, -1, -1);
@@ -210,30 +210,35 @@ void game::ProcessRandomObjects() {
             cell->extraInfo = cell->extraInfo & 7 | 8 * Random(8, 16);
           }
           break;
-        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT:
+        }
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT: {
           int artIdx = this->GetRandomArtifactId(14, 0);
           cell->objType = 169;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 162, 162, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 163, 163, 11, 2 * artIdx + 1, -1, -1);
           break;
-        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_TREASURE:
+        }
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_TREASURE: {
           int artIdx = this->GetRandomArtifactId(8, 0);
           cell->objType = 169;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 166, 166, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 167, 167, 11, 2 * artIdx + 1, -1, -1);
           break;
-        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MINOR:
+        }
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MINOR: {
           int artIdx = this->GetRandomArtifactId(4, 0);
           cell->objType = 169;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 168, 168, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 169, 169, 11, 2 * artIdx + 1, -1, -1);
           break;
-        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MAJOR:
+        }
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MAJOR: {
           int artIdx = this->GetRandomArtifactId(2, 0);
           cell->objType = 169;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 170, 170, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 171, 171, 11, 2 * artIdx + 1, -1, -1);
           break;
+        }
         case TILE_HAS_EVENT | LOCATION_RANDOM_TOWN | LOCATION_SIGN:
           this->RandomizeMine(x, y);
           break;
@@ -267,7 +272,7 @@ void game::ProcessRandomObjects() {
         int randMon;
         int fightval;
         do {
-          randMon = Random(0, MAX_BASE_CREATURE);
+          randMon = CREATURES_RANDOMIZABLE.at(Random(0, CREATURES_RANDOMIZABLE.size()-1));
           fightval = gMonsterDatabase[randMon].fight_value;
         } while(fightval <= minFightValue && fightval >= maxFightValue);
         cell->objectIndex = randMon;
