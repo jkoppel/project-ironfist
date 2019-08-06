@@ -330,7 +330,6 @@ void game::PerDay() {
 }
 
 void game::PerWeek() {
-  giWeekType = 0;
   giWeekType = WEEK_REGULAR;
   giWeekTypeExtra = Random(0, 14);
 
