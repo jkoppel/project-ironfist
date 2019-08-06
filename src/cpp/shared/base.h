@@ -72,7 +72,13 @@ enum WEEK_TYPES {
   WEEK_REGULAR,
   WEEK_CREATURE
 };
-
+extern int giMonthType;
+extern int giMonthTypeExtra;
+enum MONTH_TYPES {
+  MONTH_REGULAR,
+  MONTH_CREATURE,
+  MONTH_PLAGUE
+};
 /*
  * Updates sound, graphics if needed.
  *

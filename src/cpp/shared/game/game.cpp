@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "analytics.h"
+#include "adventure/terrain.h"
 #include "base.h"
 #include "combat/creatures.h"
 #include "game/game.h"
@@ -86,6 +87,21 @@ int factionPortraitIconIdx[MAX_FACTIONS][2] = {
   {0, 0},
   {0, 0},
   {82, 83}
+};
+
+std::vector<CREATURES> monthSpecificCreatures = {
+  CREATURE_PEASANT,
+  CREATURE_TROLL,
+  CREATURE_DWARF,
+  CREATURE_ROC,
+  CREATURE_OGRE,
+  CREATURE_DRUID,
+  CREATURE_VAMPIRE,
+  CREATURE_WOLF,
+  CREATURE_CENTAUR,
+  CREATURE_GARGOYLE,
+  CREATURE_UNICORN,
+  CREATURE_LICH
 };
 
 int game::SetupGame() {
@@ -641,7 +657,67 @@ void game::PerMonth() {
   }
 
   PerMonth_orig();
-  if (!IsWellDisabled() || giMonthType != 2) {
+  this->month++;
+  int rand = Random(1, 10);
+  if(rand > 5) {
+    if(rand > 9) {
+      giMonthType = MONTH_PLAGUE;
+    } else {
+      giMonthType = MONTH_CREATURE;
+      giMonthTypeExtra = monthSpecificCreatures[Random(0, monthSpecificCreatures.size()-1)];
+    }
+  } else {
+    giMonthType = MONTH_REGULAR;
+    giMonthTypeExtra = Random(0, 9);
+  }
+
+  for(int townIdx = 0; townIdx < MAX_TOWNS; ++townIdx) {
+    for(int i = BUILDING_DWELLING_1; i <= BUILDING_UPGRADE_5B; ++i) {
+      town* twn = &this->castles[townIdx];
+      if(!twn->BuildingBuilt(i))
+        continue;
+      int growth = gMonsterDatabase[gDwellingType[twn->factionID][i - 19]].growth;
+      if(twn->BuildingBuilt(BUILDING_EXT_0)) // ?? maybe a mistake
+        growth += 2;
+      if(i == BUILDING_DWELLING_1 && twn->BuildingBuilt(BUILDING_SPECIAL_GROWTH))
+        growth += 8;
+      if(giMonthType == MONTH_CREATURE && gDwellingType[twn->factionID][i - 19] == giMonthTypeExtra)
+        growth *= 2;
+      if(giMonthType == MONTH_PLAGUE) {
+        twn->numCreaturesInDwelling[i - 19] -= growth;
+        if(twn->numCreaturesInDwelling[i - 19] < 0)
+          twn->numCreaturesInDwelling[i - 19] = 0;
+        twn->numCreaturesInDwelling[i - 19] /= 2;
+      }
+    }
+  }
+
+  if(giMonthType == MONTH_CREATURE) {
+    for(int x = 0; x < MAP_WIDTH; ++x) {
+      for(int y = 0; y < MAP_HEIGHT; ++y) {
+        mapCell *tile = gpAdvManager->GetCell(x, y);
+        if(tile->objType)
+          continue;
+        if((((unsigned __int16)tile->extraInfo >> 1) & 1))
+          continue;
+        if((tile->extraInfo & 1))
+          continue;
+        if(giGroundToTerrain[tile->groundIndex]) {
+          if(Random(0, 360) == 10) {
+            tile->objType = TILE_HAS_EVENT | LOCATION_ARMY_CAMP;
+            tile->objTileset = TILESET_MONSTER;
+            tile->objectIndex = giMonthTypeExtra;
+            tile->extraInfo = this->GetRandomNumTroops(giMonthTypeExtra) * 2;
+            if(Random(0, 100) < 20)
+              tile->extraInfo |= (0x1000 >> 3); // not sure what this line does
+          }
+        }        
+      }
+    }
+  }
+  gpAdvManager->CompleteDraw(0);
+
+  if (!IsWellDisabled() || giMonthType != MONTH_PLAGUE) {
     return;
   }
 
@@ -656,7 +732,7 @@ void game::PerMonth() {
   }
 
   // One of the benign month types that don't do anything.
-  giMonthType = 0;
+  giMonthType = MONTH_REGULAR;
   giMonthTypeExtra = Random(0, 9);
 }
 
