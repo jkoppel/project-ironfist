@@ -283,6 +283,9 @@ public:
   void GetLossConditionText(char *text);
   void GetVictoryConditionText(char *text);
   void RandomizeMine(int x, int y);
+  void WeeklyGenericSite(mapCell *a1);
+  void WeeklyRecruitSite(mapCell *a1);
+  void GiveTroopsToNeutralTowns();
 
 private:
   void PropagateVision();

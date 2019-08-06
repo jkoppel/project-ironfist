@@ -66,6 +66,8 @@ extern char cPlayerNames[6][21];
 extern char *cTextReceivedBuffer[];
 extern char *cDifficulty[5];
 extern char *cMapSize[9];
+extern int giWeekType;
+extern int giWeekTypeExtra;
 /*
  * Updates sound, graphics if needed.
  *

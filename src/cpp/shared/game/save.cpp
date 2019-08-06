@@ -18,8 +18,6 @@
 
 extern int giMonthType;
 extern int giMonthTypeExtra;
-extern int giWeekType;
-extern int giWeekTypeExtra;
 extern char cPlayerNames[6][21];
 
 extern int giCurPlayer;

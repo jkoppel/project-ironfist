@@ -314,7 +314,294 @@ void game::PerDay() {
 }
 
 void game::PerWeek() {
-  PerWeek_orig();
+  giWeekType = 0;
+  giWeekTypeExtra = Random(0, 14);
+  if(this->week != 4 && Random(1, 4) == 1) {
+    giWeekType = 1;
+    giWeekTypeExtra = Random(0, 56);
+  }
+
+  for(int playerIdx = 0; playerIdx < 72; ++playerIdx) {
+    town *cstl = &this->castles[playerIdx];
+    for(int i = 19; i <= 30; ++i) {
+      if((1 << i) & this->castles[playerIdx].buildingsBuiltFlags) {
+        int growth = gMonsterDatabase[gDwellingType[cstl->factionID][i - 19]].growth;
+        if(this->castles[playerIdx].buildingsBuiltFlags & BUILDING_EXT_0)
+          growth += 2;
+        if(i == 19 && this->castles[playerIdx].buildingsBuiltFlags & (1 << BUILDING_SPECIAL_GROWTH))
+          growth += 8;
+        if(this->castles[playerIdx].ownerIdx == -1)
+          growth /= 2;
+        if(this->castles[playerIdx].ownerIdx >= 0 && !cstl->numCreaturesInDwelling[i - 19] && !gbHumanPlayer[this->castles[playerIdx].ownerIdx]) {
+          if(gpGame->difficulty == 2)
+            growth = (signed __int64)((double)growth * 1.2);
+          if(gpGame->difficulty == 3)
+            growth = (signed __int64)((double)growth * 1.32);
+          if(gpGame->difficulty == 4)
+            growth = (signed __int64)((double)growth * 1.44);
+        }
+        if(giWeekType == 1) {
+          if(gDwellingType[cstl->factionID][i - 19] == giWeekTypeExtra)
+            growth += 5;
+        }
+        cstl->numCreaturesInDwelling[i - 19] += growth;
+      }
+    }
+  }
+
+  for(int playerIdx = 0; playerIdx < 6; ++playerIdx) {
+    for(int j = 0; j < 2; ++j) {
+      int heroIdx = gpGame->players[playerIdx].heroesForPurchase[j];
+      int v44 = 0;
+      if(j == 1)
+        v44 = this->heroes[heroIdx].factionID;
+      v44 = (v44 + Random(1, 5)) % 6;
+      int faction = v44;
+      int fact = this->newGameSelectedFaction[gcColorToSetupPos[this->players[playerIdx].color]];
+      if(!j && faction < 6)
+        faction = fact;
+
+      char hire = gpGame->relatedToHeroForHireStatus[heroIdx];
+      if(hire != 64 || !(gpGame->heroes[heroIdx].flags) & (1 << 16)) {
+        if(hire == 64)
+          hire = -1;
+        if(j == 1 && !gbHumanPlayer[playerIdx])
+          faction = -1;
+        int getPowerfulHero = !gbHumanPlayer[playerIdx] && gpGame->difficulty > 0;
+        gpGame->players[playerIdx].heroesForPurchase[j] = gpGame->GetNewHeroId(playerIdx, faction, getPowerfulHero);
+        this->relatedToHeroForHireStatus[heroIdx] = 64;
+      }
+    }
+  }
+
+  for(int j = 0; MAP_HEIGHT > j; ++j) {
+    for(int i = 0; i < MAP_WIDTH; ++i) {
+      mapCell *tile = &this->map.tiles[j * this->map.width + i];
+      switch(tile->objType) {
+        case TILE_HAS_EVENT | LOCATION_ARMY_CAMP: {
+          int v32 = (unsigned char)((tile->extraInfo >> 3) & 0x1FFF);
+          int v31 = v32 / 7;
+          if(Random(1, 7) <= v32 % 7)
+            ++v31;
+          int v33 = v31 + v32;
+          if(v33 > 4000)
+            v33 = 4000;
+          tile->extraInfo += v33;
+          break;
+        }
+        case TILE_HAS_EVENT | LOCATION_ARTESIAN_SPRING:
+          tile->extraInfo = (tile->extraInfo & 7) | 8;
+          break;
+        case TILE_HAS_EVENT | LOCATION_WATERWHEEL:
+          if(((tile->extraInfo >> 3) & 0x1FFF) != 255) {
+            tile->extraInfo = (tile->extraInfo & 7) | 0x10;
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_MAGIC_GARDEN:
+          if(Random(0, 1)) {
+            tile->extraInfo = (tile->extraInfo & 7) | 0x38;
+          } else {
+            tile->extraInfo = (tile->extraInfo & 7) | 0x30;
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_WINDMILL:
+          tile->extraInfo = tile->extraInfo & 7 | 8 * Random(1, 5);
+          break;
+        case TILE_HAS_EVENT | LOCATION_ARCHERS_HOUSE:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(2, 4));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_GOBLIN_HUT:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_DWARF_COTTAGE:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(2, 4));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_PEASANT_HUT:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(5, 10));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_LOG_CABIN:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(5, 10));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_DESERT_TENT:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_WAGON_CAMP:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_TREE_HOUSE:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(4, 8));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_DWARF_CABIN:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_WATCH_TOWER:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 4));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_RUINS:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_TREE_CITY:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8161) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(10, 20));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_CAVE:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_EXCAVATION:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(4, 8));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_HALFLING_HOLE:
+          if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(5, 10));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_TROLL_BRIDGE:
+          if(!((tile->extraInfo >> 3) & 0x80) && ((tile->extraInfo >> 3) & 0x1FFF) < 220) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_CITY_OF_DEAD:
+          if(!((tile->extraInfo >> 3) & 0x80) && ((tile->extraInfo >> 3) & 0x1FFF) < 220) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_DRAGON_CITY:
+          if(!((tile->extraInfo >> 3) & 0x80) && ((tile->extraInfo >> 3) & 0x1FFF) < 220) {
+            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + 1);
+          }
+          break;
+        case TILE_HAS_EVENT | LOCATION_EXPANSION_DWELLING:
+          this->WeeklyRecruitSite(tile);
+          break;
+        case TILE_HAS_EVENT | LOCATION_ALCHEMIST_TOWER:
+          this->WeeklyGenericSite(tile);
+          break;
+        case TILE_HAS_EVENT | LOCATION_ROAD:
+        case TILE_HAS_EVENT | LOCATION_EVENT:
+        case TILE_HAS_EVENT | LOCATION_LIGHTHOUSE:
+        case TILE_HAS_EVENT | LOCATION_MINE:
+        case TILE_HAS_EVENT | LOCATION_OBELISK:
+        case TILE_HAS_EVENT | LOCATION_OASIS:
+        case TILE_HAS_EVENT | LOCATION_RESOURCE:
+        case TILE_HAS_EVENT | LOCATION_ARMY_CAMP | LOCATION_SKELETON:
+        case TILE_HAS_EVENT | LOCATION_SAWMILL:
+        case TILE_HAS_EVENT | LOCATION_ORACLE:
+        case TILE_HAS_EVENT | LOCATION_SHRINE_FIRST_ORDER:
+        case TILE_HAS_EVENT | LOCATION_SHIPWRECK:
+        case TILE_HAS_EVENT | LOCATION_SEA_CHEST:
+        case TILE_HAS_EVENT | LOCATION_TOWN:
+        case TILE_HAS_EVENT | LOCATION_STONE_LITHS:
+        case TILE_HAS_EVENT | LOCATION_WELL:
+        case TILE_HAS_EVENT | LOCATION_WHIRLPOOL:
+        case TILE_HAS_EVENT | LOCATION_ARTIFACT:
+        case TILE_HAS_EVENT | LOCATION_HERO:
+        case TILE_HAS_EVENT | LOCATION_BOAT:
+        case TILE_HAS_EVENT | LOCATION_WINDMILL | LOCATION_SKELETON:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_RESOURCE:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_TOWN:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_CASTLE:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_TOWN | LOCATION_SIGN:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_WEAK:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_MEDIUM:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_STRONG:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_MONSTER_VERY_STRONG:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_HERO:
+        case TILE_HAS_EVENT | LOCATION_NOTHING_SPECIAL:
+        case TILE_HAS_EVENT | LOCATION_NOTHING_SPECIAL | LOCATION_ALCHEMIST_LAB:
+        case TILE_HAS_EVENT | LOCATION_FORT:
+        case TILE_HAS_EVENT | LOCATION_TRADING_POST:
+        case TILE_HAS_EVENT | LOCATION_ABANDONED_MINE:
+        case TILE_HAS_EVENT | LOCATION_STANDING_STONES:
+        case TILE_HAS_EVENT | LOCATION_IDOL:
+        case TILE_HAS_EVENT | LOCATION_TREE_OF_KNOWLEDGE:
+        case TILE_HAS_EVENT | LOCATION_WITCH_DOCTORS_HUT:
+        case TILE_HAS_EVENT | LOCATION_TEMPLE:
+        case TILE_HAS_EVENT | LOCATION_HILL_FORT:
+        case TILE_HAS_EVENT | LOCATION_MERCENARY_CAMP:
+        case TILE_HAS_EVENT | LOCATION_SHRINE_SECOND_ORDER:
+        case TILE_HAS_EVENT | LOCATION_SHRINE_THIRD_ORDER:
+        case TILE_HAS_EVENT | LOCATION_PYRAMID:
+        case TILE_HAS_EVENT | LOCATION_SPHINX:
+        case TILE_HAS_EVENT | LOCATION_WAGON:
+        case TILE_HAS_EVENT | LOCATION_TAR_PIT:
+        case TILE_HAS_EVENT | LOCATION_WATERING_HOLE:
+        case TILE_HAS_EVENT | LOCATION_WITCH_HUT:
+        case TILE_HAS_EVENT | LOCATION_XANADU:
+        case TILE_HAS_EVENT | LOCATION_LEAN_TO:
+        case TILE_HAS_EVENT | LOCATION_MAGELLANS_MAPS:
+        case TILE_HAS_EVENT | LOCATION_FLOTSAM:
+        case TILE_HAS_EVENT | LOCATION_DERELICT_SHIP:
+        case TILE_HAS_EVENT | LOCATION_SHIPWRECK_SURVIVOR:
+        case TILE_HAS_EVENT | LOCATION_BOTTLE:
+        case TILE_HAS_EVENT | LOCATION_MAGIC_WELL:
+        case TILE_HAS_EVENT | LOCATION_OBSERVATION_TOWER:
+        case TILE_HAS_EVENT | LOCATION_FREEMANS_FOUNDRY:
+        case TILE_HAS_EVENT | LOCATION_STREAM:
+        case TILE_HAS_EVENT | LOCATION_TREES:
+        case TILE_HAS_EVENT | LOCATION_MOUNTAINS:
+        case TILE_HAS_EVENT | LOCATION_VOLCANO:
+        case TILE_HAS_EVENT | LOCATION_FLOWERS:
+        case TILE_HAS_EVENT | LOCATION_ROCK:
+        case TILE_HAS_EVENT | LOCATION_LAKE:
+        case TILE_HAS_EVENT | LOCATION_MANDRAKE:
+        case TILE_HAS_EVENT | LOCATION_DEAD_TREE:
+        case TILE_HAS_EVENT | LOCATION_STUMP:
+        case TILE_HAS_EVENT | LOCATION_CRATER:
+        case TILE_HAS_EVENT | LOCATION_CACTUS:
+        case TILE_HAS_EVENT | LOCATION_MOUND:
+        case TILE_HAS_EVENT | LOCATION_DUNE:
+        case TILE_HAS_EVENT | LOCATION_LAVA_POOL:
+        case TILE_HAS_EVENT | LOCATION_SHRUB:
+        case TILE_HAS_EVENT | LOCATION_HOLE:
+        case TILE_HAS_EVENT | LOCATION_OUTCROPPING:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_TREASURE:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MINOR:
+        case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MAJOR:
+        case TILE_HAS_EVENT | LOCATION_BARRIER:
+        case TILE_HAS_EVENT | LOCATION_TRAVELLER_TENT:
+          continue;
+      }
+    }
+  }
+
+  for(int playerIdxb = 0; playerIdxb < 54; ++playerIdxb) {
+    if(this->heroes[playerIdxb].flags & (HERO_AT_SEA << 16))
+      this->heroes[playerIdxb].flags -= 0x800000;
+  }
+
+  this->week++;
+  this->SetupNewRumour();
+  this->GiveTroopsToNeutralTowns();
+
   if (!IsWellDisabled()) {
     return;
   }
