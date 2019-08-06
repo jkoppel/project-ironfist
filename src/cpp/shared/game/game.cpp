@@ -318,7 +318,7 @@ void game::PerWeek() {
   giWeekTypeExtra = Random(0, 14);
   if(this->week != 4 && Random(1, 4) == 1) {
     giWeekType = 1;
-    giWeekTypeExtra = Random(0, 56);
+    giWeekTypeExtra = CREATURES_RANDOMIZABLE.at(Random(0, CREATURES_RANDOMIZABLE.size()-1));
   }
 
   for(int playerIdx = 0; playerIdx < 72; ++playerIdx) {
