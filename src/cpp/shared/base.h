@@ -68,6 +68,11 @@ extern char *cDifficulty[5];
 extern char *cMapSize[9];
 extern int giWeekType;
 extern int giWeekTypeExtra;
+enum WEEK_TYPES {
+  WEEK_REGULAR,
+  WEEK_CREATURE
+};
+
 /*
  * Updates sound, graphics if needed.
  *

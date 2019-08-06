@@ -315,51 +315,54 @@ void game::PerDay() {
 
 void game::PerWeek() {
   giWeekType = 0;
+  giWeekType = WEEK_REGULAR;
   giWeekTypeExtra = Random(0, 14);
+
+  // 25% chance for creature specific week when it's not new month
   if(this->week != 4 && Random(1, 4) == 1) {
-    giWeekType = 1;
+    giWeekType = WEEK_CREATURE;
     giWeekTypeExtra = CREATURES_RANDOMIZABLE.at(Random(0, CREATURES_RANDOMIZABLE.size()-1));
   }
 
-  for(int playerIdx = 0; playerIdx < 72; ++playerIdx) {
-    town *cstl = &this->castles[playerIdx];
-    for(int i = 19; i <= 30; ++i) {
-      if((1 << i) & this->castles[playerIdx].buildingsBuiltFlags) {
-        int growth = gMonsterDatabase[gDwellingType[cstl->factionID][i - 19]].growth;
-        if(this->castles[playerIdx].buildingsBuiltFlags & BUILDING_EXT_0)
-          growth += 2;
-        if(i == 19 && this->castles[playerIdx].buildingsBuiltFlags & (1 << BUILDING_SPECIAL_GROWTH))
-          growth += 8;
-        if(this->castles[playerIdx].ownerIdx == -1)
-          growth /= 2;
-        if(this->castles[playerIdx].ownerIdx >= 0 && !cstl->numCreaturesInDwelling[i - 19] && !gbHumanPlayer[this->castles[playerIdx].ownerIdx]) {
-          if(gpGame->difficulty == 2)
-            growth = (signed __int64)((double)growth * 1.2);
-          if(gpGame->difficulty == 3)
-            growth = (signed __int64)((double)growth * 1.32);
-          if(gpGame->difficulty == 4)
-            growth = (signed __int64)((double)growth * 1.44);
-        }
-        if(giWeekType == 1) {
-          if(gDwellingType[cstl->factionID][i - 19] == giWeekTypeExtra)
-            growth += 5;
-        }
-        cstl->numCreaturesInDwelling[i - 19] += growth;
+  for(int townIdx = 0; townIdx < MAX_TOWNS; ++townIdx) {
+    town *twn = &this->castles[townIdx];
+    for(int i = BUILDING_DWELLING_1; i <= BUILDING_UPGRADE_5B; ++i) {
+      if(!twn->BuildingBuilt(i))
+        continue;
+      int growth = gMonsterDatabase[gDwellingType[twn->factionID][i - 19]].growth;
+      if(twn->BuildingBuilt(BUILDING_EXT_0)) // ?? maybe a mistake
+        growth += 2;
+      if(i == BUILDING_DWELLING_1 && twn->BuildingBuilt(BUILDING_SPECIAL_GROWTH))
+        growth += 8;
+      int owner = twn->ownerIdx;
+      if(owner == -1)
+        growth /= 2;
+      if(owner >= 0 && !twn->numCreaturesInDwelling[i - 19] && !gbHumanPlayer[owner]) {
+        if(gpGame->difficulty == 2)
+          growth = (signed __int64)((double)growth * 1.2);
+        if(gpGame->difficulty == 3)
+          growth = (signed __int64)((double)growth * 1.32);
+        if(gpGame->difficulty == 4)
+          growth = (signed __int64)((double)growth * 1.44);
       }
+      if(giWeekType == WEEK_CREATURE) {
+        if(gDwellingType[twn->factionID][i - 19] == giWeekTypeExtra)
+          growth += 5;
+      }
+      twn->numCreaturesInDwelling[i - 19] += growth;
     }
   }
 
-  for(int playerIdx = 0; playerIdx < 6; ++playerIdx) {
+  for(int playerIdx = 0; playerIdx < NUM_PLAYERS; ++playerIdx) {
     for(int j = 0; j < 2; ++j) {
       int heroIdx = gpGame->players[playerIdx].heroesForPurchase[j];
-      int v44 = 0;
+      int randomFactionIdx = NULL;
       if(j == 1)
-        v44 = this->heroes[heroIdx].factionID;
-      v44 = (v44 + Random(1, 5)) % 6;
-      int faction = v44;
-      int fact = this->newGameSelectedFaction[gcColorToSetupPos[this->players[playerIdx].color]];
-      if(!j && faction < 6)
-        faction = fact;
+        randomFactionIdx = this->heroes[heroIdx].factionID;
+      randomFactionIdx = (randomFactionIdx + Random(1, 5)) % NUM_ORIG_FACTIONS;
+      int faction = randomFactionIdx;
+      if(j == 0 && faction < FACTION_MULTIPLE)
+        faction = this->newGameSelectedFaction[gcColorToSetupPos[this->players[playerIdx].color]];
 
       char hire = gpGame->relatedToHeroForHireStatus[heroIdx];
       if(hire != 64 || !(gpGame->heroes[heroIdx].flags) & (1 << 16)) {
