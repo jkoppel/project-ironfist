@@ -390,18 +390,18 @@ void game::PerWeek() {
           break;
         }
         case TILE_HAS_EVENT | LOCATION_ARTESIAN_SPRING:
-          tile->extraInfo = (tile->extraInfo & 7) | 8;
+          tile->extraInfo |= 1;
           break;
         case TILE_HAS_EVENT | LOCATION_WATERWHEEL:
           if(((tile->extraInfo >> 3) & 0x1FFF) != 255) {
-            tile->extraInfo = (tile->extraInfo & 7) | 0x10;
+            tile->extraInfo |= 2;
           }
           break;
         case TILE_HAS_EVENT | LOCATION_MAGIC_GARDEN:
           if(Random(0, 1)) {
-            tile->extraInfo = (tile->extraInfo & 7) | 0x38;
+            tile->extraInfo = 6;
           } else {
-            tile->extraInfo = (tile->extraInfo & 7) | 0x30;
+            tile->extraInfo = 7;
           }
           break;
         case TILE_HAS_EVENT | LOCATION_WINDMILL:
@@ -410,92 +410,92 @@ void game::PerWeek() {
           break;
         case TILE_HAS_EVENT | LOCATION_ARCHERS_HOUSE:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(2, 4));
+            tile->extraInfo += Random(2, 4);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_GOBLIN_HUT:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+            tile->extraInfo += Random(3, 6);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_DWARF_COTTAGE:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(2, 4));
+            tile->extraInfo += Random(2, 4);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_PEASANT_HUT:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(5, 10));
+            tile->extraInfo += Random(5, 10);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_LOG_CABIN:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(5, 10));
+            tile->extraInfo += Random(5, 10);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_DESERT_TENT:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+            tile->extraInfo += Random(1, 3);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_WAGON_CAMP:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+            tile->extraInfo += Random(3, 6);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_TREE_HOUSE:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(4, 8));
+            tile->extraInfo += Random(4, 8);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_DWARF_CABIN:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+            tile->extraInfo += Random(3, 6);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_WATCH_TOWER:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 4));
+            tile->extraInfo += Random(1, 4);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_RUINS:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+            tile->extraInfo += Random(1, 3);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_TREE_CITY:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8161) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(10, 20));
+            tile->extraInfo += Random(10, 20);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_CAVE:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(3, 6));
+            tile->extraInfo += Random(3, 6);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_EXCAVATION:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(4, 8));
+            tile->extraInfo += Random(4, 8);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_HALFLING_HOLE:
           if(((tile->extraInfo >> 3) & 0x1FFF) < 8171) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(5, 10));
+            tile->extraInfo += Random(5, 10);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_TROLL_BRIDGE:
           if(!((tile->extraInfo >> 3) & 0x80) && ((tile->extraInfo >> 3) & 0x1FFF) < 220) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+            tile->extraInfo += Random(1, 3);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_CITY_OF_DEAD:
           if(!((tile->extraInfo >> 3) & 0x80) && ((tile->extraInfo >> 3) & 0x1FFF) < 220) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + (unsigned __int16)Random(1, 3));
+            tile->extraInfo += Random(1, 3);
           }
           break;
         case TILE_HAS_EVENT | LOCATION_DRAGON_CITY:
           if(!((tile->extraInfo >> 3) & 0x80) && ((tile->extraInfo >> 3) & 0x1FFF) < 220) {
-            tile->extraInfo = tile->extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(tile->extraInfo >> 3) & 0x1FFF) + 1);
+            tile->extraInfo += 1;
           }
           break;
         case TILE_HAS_EVENT | LOCATION_EXPANSION_DWELLING:
