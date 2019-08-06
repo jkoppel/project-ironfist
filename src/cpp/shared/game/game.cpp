@@ -175,7 +175,7 @@ void game::ProcessRandomObjects() {
         case TILE_HAS_EVENT | LOCATION_WINDMILL | LOCATION_SKELETON:
           giUltimateArtifactBaseX = x;
           giUltimateArtifactBaseY = y;
-          giUltimateArtifactRadius = (unsigned __int8)((unsigned __int8)(cell->extraInfo >> 8) >> -5);
+          giUltimateArtifactRadius = (unsigned __int8)((unsigned __int8)(cell->extraInfo >> 3) && 0x1FFF);
           cell->objType = 0;
           cell->objTileset &= 3u;
           cell->objectIndex = -1;
@@ -284,7 +284,7 @@ void game::ProcessRandomObjects() {
               break;
           }
         }
-        cell->objType = 152;
+        cell->objType = TILE_HAS_EVENT | LOCATION_ARMY_CAMP;
         int randMon;
         int fightval;
         do {
