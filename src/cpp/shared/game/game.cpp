@@ -172,10 +172,10 @@ void game::ProcessRandomObjects() {
       int minFightValue, maxFightValue;
       bool randomSpawn = false;
       switch(cell->objType) {
-        case TILE_HAS_EVENT | LOCATION_WINDMILL | LOCATION_SKELETON:
+        case TILE_HAS_EVENT | LOCATION_ULTIMATE_ARTIFACT:
           giUltimateArtifactBaseX = x;
           giUltimateArtifactBaseY = y;
-          giUltimateArtifactRadius = (unsigned __int8)((unsigned __int8)(cell->extraInfo >> 3) && 0x1FFF);
+          giUltimateArtifactRadius = cell->extraInfo;
           cell->objType = 0;
           cell->objTileset &= 3u;
           cell->objectIndex = -1;
@@ -212,45 +212,45 @@ void game::ProcessRandomObjects() {
           randomSpawn = true;          
           break;
         case TILE_HAS_EVENT | LOCATION_RANDOM_RESOURCE: {
-          cell->objType = 155;
+          cell->objType = TILE_HAS_EVENT | LOCATION_RESOURCE;
           int randomResource = Random(0, NUM_RESOURCES - 1);
           this->ConvertObject(x - 1, y, x - 1, y, 46, 16, 16, 46, 2 * randomResource, -1, -1);
           this->ConvertObject(x, y, x, y, 46, 17, 17, 46, 2 * randomResource + 1, -1, -1);
           if(randomResource && randomResource != RESOURCE_ORE)
           {
             if(randomResource == RESOURCE_GOLD)
-              cell->extraInfo = cell->extraInfo & 7 | 8 * Random(5, 10);
+              cell->extraInfo = Random(5, 10);
             else
-              cell->extraInfo = cell->extraInfo & 7 | 8 * Random(3, 7);
+              cell->extraInfo = Random(3, 7);
           } else {
-            cell->extraInfo = cell->extraInfo & 7 | 8 * Random(8, 16);
+            cell->extraInfo = Random(8, 16);
           }
           break;
         }
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT: {
           int artIdx = this->GetRandomArtifactId(14, 0);
-          cell->objType = 169;
+          cell->objType = TILE_HAS_EVENT | LOCATION_ARTIFACT;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 162, 162, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 163, 163, 11, 2 * artIdx + 1, -1, -1);
           break;
         }
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_TREASURE: {
           int artIdx = this->GetRandomArtifactId(8, 0);
-          cell->objType = 169;
+          cell->objType = TILE_HAS_EVENT | LOCATION_ARTIFACT;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 166, 166, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 167, 167, 11, 2 * artIdx + 1, -1, -1);
           break;
         }
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MINOR: {
           int artIdx = this->GetRandomArtifactId(4, 0);
-          cell->objType = 169;
+          cell->objType = TILE_HAS_EVENT | LOCATION_ARTIFACT;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 168, 168, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 169, 169, 11, 2 * artIdx + 1, -1, -1);
           break;
         }
         case TILE_HAS_EVENT | LOCATION_RANDOM_ARTIFACT_MAJOR: {
           int artIdx = this->GetRandomArtifactId(2, 0);
-          cell->objType = 169;
+          cell->objType = TILE_HAS_EVENT | LOCATION_ARTIFACT;
           this->ConvertObject(x - 1, y, x - 1, y, 11, 170, 170, 11, 2 * artIdx, -1, -1);
           this->ConvertObject(x, y, x, y, 11, 171, 171, 11, 2 * artIdx + 1, -1, -1);
           break;
