@@ -656,7 +656,6 @@ void game::PerMonth() {
     }
   }
 
-  PerMonth_orig();
   this->month++;
   int rand = Random(1, 10);
   if(rand > 5) {
