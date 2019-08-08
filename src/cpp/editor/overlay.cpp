@@ -20,6 +20,7 @@ void overlayManager::sub_4230AC(int draw) {
   const int NUM_OVERLAYS_ON_SCREEN = NUM_ROWS * NUM_COLS;
 
   char selBoxColorIdx[NUM_ROWS][NUM_COLS];
+  memset(selBoxColorIdx, 1, sizeof(selBoxColorIdx));
 
   for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < NUM_OVERLAYS_ON_SCREEN; ++i) {
     int overlayIdx = i + giOverlaySelectMaybeNumUnseen;
