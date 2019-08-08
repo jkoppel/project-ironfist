@@ -940,6 +940,30 @@ void game::ProcessOnMapHeroes() {
   HeroExtra *mapExtraHero;
   char isJail;
 
+  struct heroData {
+    FACTION faction;
+    bool randomizable;
+    bool exists;
+    std::string name;
+  };
+
+  std::vector<heroData> heroesAvailable;
+  for(int i = 0; i < TOTAL_AVAILABLE_HEROES; i++) {
+    heroData data;
+    data.exists = false;
+    if(i < 54) {
+      data.randomizable = true;
+      data.faction = (FACTION)(i / 9);
+    } else if(i < 71) {
+      data.randomizable = false;
+      data.faction = FACTION_KNIGHT; // doesn't matter since not randomizable
+    } else {
+      data.randomizable = true;
+      data.faction = FACTION_CYBORG;
+    }    
+    heroesAvailable.push_back(data);
+  }
+
   memset(heroExists, 0, MAX_HEROES);
   for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
@@ -948,10 +972,13 @@ void game::ProcessOnMapHeroes() {
         isJail = loc->getLocationType() == LOCATION_JAIL;
         ppMapExtraHeroIdx = loc->extraInfo;
         mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
+        // handle non-default heroes
         if (!mapExtraHero->field_11 || mapExtraHero->heroID >= MAX_HEROES || heroExists[mapExtraHero->heroID]) {
           mapExtraHero->hasFaction = 0;
         } else {
-          heroExists[mapExtraHero->heroID] = 1;
+        // handle default 54 heroes
+          heroesAvailable[mapExtraHero->heroID].exists = true;
+          heroExists[mapExtraHero->heroID] = true;
           mapExtraHero->hasFaction = 1;
         }
 
@@ -969,12 +996,43 @@ void game::ProcessOnMapHeroes() {
         if (mapExtraHero->hasFaction) {
           this->heroes[mapExtraHero->heroID].factionID = faction;
         } else {
-          randomHeroIdx = this->RandomScan((signed char *)heroExists, 9 * faction, 9, 1000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-          if (randomHeroIdx == -1) { //  I think RandomScan is just a strange way of trying to return a random Idx that will correspond to a hero that satisfies a particular criterion, yet I think there is a better way of accomplishing this.
-            randomHeroIdx = this->RandomScan((signed char *)heroExists, 0, MAX_HEROES, 10000, 0);// Constant here (the game might depend on the number of heroes as it relates to the number of factions)
-            faction = randomHeroIdx / 9; // Constant here (relies on relation between number of factions and number of heroes); perhaps define HEROES_PER_FACTION?
-          }                              // NOTE: Hardcoded heroes may need to be generalized?!
-          heroExists[randomHeroIdx] = 1;
+          // find a free hero with specific faction
+          std::vector<int> neededFactionHeroes;
+          for(int i = 0; i < heroesAvailable.size(); i++) {
+            heroData *hro = &heroesAvailable[i];
+            if(hro->randomizable && !hro->exists && hro->faction == faction)
+              neededFactionHeroes.push_back(i);
+          }
+
+          if(neededFactionHeroes.size())
+            randomHeroIdx = neededFactionHeroes[Random(0, neededFactionHeroes.size()-1)];
+          else { // if none from this faction are available, choose a random one from any faction
+            std::vector<int> allFreeHeroes;
+            for(int i = 0; i < heroesAvailable.size(); i++) {
+              heroData *hro = &heroesAvailable[i];
+              if(hro->randomizable && !hro->exists)
+                allFreeHeroes.push_back(i);
+            }
+            randomHeroIdx = allFreeHeroes[Random(0, allFreeHeroes.size()-1)];
+            faction = heroesAvailable[randomHeroIdx].faction;
+          }
+
+          heroesAvailable[randomHeroIdx].exists = true;
+
+          // overwrite first free slot from a default hero for cyborg faction
+          // and set a correct ID for the portrait
+          if(randomHeroIdx >= MAX_HEROES)
+            for(int i = 0; i < MAX_HEROES; i++)
+              if(!heroExists[i]) {
+                mapExtraHero->field_11 = 1;
+                mapExtraHero->heroID = randomHeroIdx;
+                randomHeroIdx = i;                
+                break;
+              }
+
+          heroExists[randomHeroIdx] = true;
+
+          // this sets IDs and portraits for campaign heroes (and cyborg too)
           this->heroes[randomHeroIdx].factionID = faction;
           if (mapExtraHero->field_11 && mapExtraHero->heroID >= MAX_HEROES) {
             this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;

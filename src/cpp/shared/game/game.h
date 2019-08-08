@@ -13,6 +13,9 @@
 #define MAX_BOATS 48
 #define NUM_DIFFICULTIES 5
 
+// those that have portraits and names (?) not including captains
+#define TOTAL_AVAILABLE_HEROES 73 
+
 extern signed char gcColorToPlayerPos[];
 
 extern int gbHumanPlayer[];
