@@ -1019,16 +1019,20 @@ void game::ProcessOnMapHeroes() {
 
           heroesAvailable[randomHeroIdx].exists = true;
 
-          // overwrite first free slot from a default hero for cyborg faction
+          // overwrite a random free slot from a default hero for cyborg faction
           // and set a correct ID for the portrait
-          if(randomHeroIdx >= MAX_HEROES)
+          if(randomHeroIdx >= MAX_HEROES) {
+            std::vector<int> freeHeroes;
             for(int i = 0; i < MAX_HEROES; i++)
-              if(!heroExists[i]) {
-                mapExtraHero->field_11 = 1;
-                mapExtraHero->heroID = randomHeroIdx;
-                randomHeroIdx = i;                
-                break;
-              }
+              if(!heroExists[i])
+                freeHeroes.push_back(i);
+
+            int overwrittenIdx = freeHeroes[Random(0, freeHeroes.size()-1)];
+              mapExtraHero->field_11 = 1;
+              mapExtraHero->heroID = randomHeroIdx;
+              randomHeroIdx = overwrittenIdx;
+          }
+            
 
           heroExists[randomHeroIdx] = true;
 
