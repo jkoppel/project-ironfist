@@ -15,47 +15,49 @@ extern "C" int giOverlaySelectMaybeNumUnseen;
 extern "C" int giOverlaySelectNRows;
 
 void overlayManager::sub_4230AC(int draw) {
-  overlay *ovr; // ST3C_4@25
-  char cellFilled[9][9]; // [sp+20h] [bp-60h]@1
-  int row; // [sp+74h] [bp-Ch]@4
-  int col; // [sp+78h] [bp-8h]@4
+  const int NUM_ROWS = 9;
+  const int NUM_COLS = 9;
+  const int NUM_OVERLAYS_ON_SCREEN = NUM_ROWS * NUM_COLS;
 
-  memset(cellFilled, 1, 0x51u);
-  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < 81; ++i) {
-    ovr = &this->availOverlays[i + giOverlaySelectMaybeNumUnseen];
-    col = i % 9;
-    row = i / 9;
-    if(this->availOverlays[i + giOverlaySelectMaybeNumUnseen].locationType == LOCATION_TOWN
-      || this->availOverlays[i + giOverlaySelectMaybeNumUnseen].locationType == LOCATION_RANDOM_TOWN
-      || this->availOverlays[i + giOverlaySelectMaybeNumUnseen].locationType == LOCATION_RANDOM_CASTLE) {
-      if(this->availOverlays[i + giOverlaySelectMaybeNumUnseen].townColorOrMineColor == 6)
-        cellFilled[col][row] = 1;
+  char selBoxColorIdx[NUM_ROWS][NUM_COLS];
+
+  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < NUM_OVERLAYS_ON_SCREEN; ++i) {
+    int overlayIdx = i + giOverlaySelectMaybeNumUnseen;
+    overlay *ovr = &this->availOverlays[overlayIdx];
+    int col = i % NUM_COLS;
+    int row = i / NUM_ROWS;
+    char locationType = ovr->locationType;
+    if(locationType == LOCATION_TOWN || locationType == LOCATION_RANDOM_TOWN || locationType == LOCATION_RANDOM_CASTLE) {
+      if(ovr->townColorOrMineColor == 6)
+        selBoxColorIdx[col][row] = 1;
       else
-        cellFilled[col][row] = this->availOverlays[i + giOverlaySelectMaybeNumUnseen].townColorOrMineColor + 2;
+        selBoxColorIdx[col][row] = ovr->townColorOrMineColor + 2;
     }
-    if(ovr->locationType == 55)
-      cellFilled[col][row] = ovr->fullGridIconIndices[47] / 7 + 2;
+    if(ovr->locationType == LOCATION_RANDOM_HERO)
+      selBoxColorIdx[col][row] = ovr->fullGridIconIndices[47] / 7 + 2;
   }
+
   if(giOverlaySelectNRows <= 9)
     this->slider->offsetY = 215;
   else
-    this->slider->offsetY = (signed __int64)(393.0
-                                           / ((double)(giOverlaySelectNRows - 8) - 1.0)
-                                           * (double)(giOverlaySelectMaybeNumUnseen / 9)
-                                           + 19.0);
+    this->slider->offsetY = (signed __int64)(393.0 / ((double)(giOverlaySelectNRows - 8) - 1.0)
+                                           * (double)(giOverlaySelectMaybeNumUnseen / 9) + 19.0);
+  
   this->selectionWindow->DrawWindow(0); 
   
-  for(col = 0; col < 9; ++col) {
-    for(row = 0; row < 9; ++row)
-     this->overlaySelectBoxes->DrawToBuffer(69 * col, 53 * row, cellFilled[col][row], 0);
+  for(int col = 0; col < NUM_COLS; ++col) {
+    for(int row = 0; row < NUM_ROWS; ++row)
+     this->overlaySelectBoxes->DrawToBuffer(69 * col, 53 * row, selBoxColorIdx[col][row], 0);
   }
-  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < 81; ++i) {
-    ovr = &this->availOverlays[i + giOverlaySelectMaybeNumUnseen];
-    col = 69 * (i % 9) + 2;
-    row = 53 * (i / 9) + 2;
-    this->DrawAffectedTileGrid(69 * (i % 9) + 2, row, 4, 3, &this->availOverlays[i] + giOverlaySelectMaybeNumUnseen, 0);
+
+  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < NUM_OVERLAYS_ON_SCREEN; ++i) {
+    overlay *ovr = &this->availOverlays[i + giOverlaySelectMaybeNumUnseen];
+    int col = 69 * (i % NUM_COLS) + 2;
+    int row = 53 * (i / NUM_ROWS) + 2;
+    this->DrawAffectedTileGrid(69 * (i % NUM_ROWS) + 2, row, 4, 3, &this->availOverlays[i] + giOverlaySelectMaybeNumUnseen, 0);
     this->DrawOverlay(ovr, col, row, 0, 4, 3, 0, -1, -1);
   }
+
   if(draw)
     gpWindowManager->UpdateScreen();
 }
