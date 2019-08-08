@@ -24313,7 +24313,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   { // cyborg heroes
     987,
     987,
-    392,
+    355,
     21,
     7,
     0,
@@ -24337,7 +24337,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     988,
     988,
-    363,
+    362,
     21,
     7,
     0,
@@ -24361,7 +24361,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     989,
     989,
-    370,
+    369,
     21,
     7,
     0,
@@ -24385,7 +24385,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     990,
     990,
-    377,
+    376,
     21,
     7,
     0,
@@ -24409,7 +24409,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     991,
     991,
-    384,
+    383,
     21,
     7,
     0,
@@ -24433,7 +24433,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
   {
     992,
     992,
-    391,
+    390,
     21,
     7,
     0,
