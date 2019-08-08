@@ -10,6 +10,56 @@
 #include "overlay.h"
 #include "town/town.h"
 
+
+extern "C" int giOverlaySelectMaybeNumUnseen;
+extern "C" int giOverlaySelectNRows;
+
+void overlayManager::sub_4230AC(int draw) {
+  overlay *ovr; // ST3C_4@25
+  char cellFilled[9][9]; // [sp+20h] [bp-60h]@1
+  int row; // [sp+74h] [bp-Ch]@4
+  int col; // [sp+78h] [bp-8h]@4
+
+  memset(cellFilled, 1, 0x51u);
+  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < 81; ++i) {
+    ovr = &this->availOverlays[i + giOverlaySelectMaybeNumUnseen];
+    col = i % 9;
+    row = i / 9;
+    if(this->availOverlays[i + giOverlaySelectMaybeNumUnseen].locationType == LOCATION_TOWN
+      || this->availOverlays[i + giOverlaySelectMaybeNumUnseen].locationType == LOCATION_RANDOM_TOWN
+      || this->availOverlays[i + giOverlaySelectMaybeNumUnseen].locationType == LOCATION_RANDOM_CASTLE) {
+      if(this->availOverlays[i + giOverlaySelectMaybeNumUnseen].townColorOrMineColor == 6)
+        cellFilled[col][row] = 1;
+      else
+        cellFilled[col][row] = this->availOverlays[i + giOverlaySelectMaybeNumUnseen].townColorOrMineColor + 2;
+    }
+    if(ovr->locationType == 55)
+      cellFilled[col][row] = ovr->fullGridIconIndices[47] / 7 + 2;
+  }
+  if(giOverlaySelectNRows <= 9)
+    this->slider->offsetY = 215;
+  else
+    this->slider->offsetY = (signed __int64)(393.0
+                                           / ((double)(giOverlaySelectNRows - 8) - 1.0)
+                                           * (double)(giOverlaySelectMaybeNumUnseen / 9)
+                                           + 19.0);
+  this->selectionWindow->DrawWindow(0); 
+  
+  for(col = 0; col < 9; ++col) {
+    for(row = 0; row < 9; ++row)
+     this->overlaySelectBoxes->DrawToBuffer(69 * col, 53 * row, cellFilled[col][row], 0);
+  }
+  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < 81; ++i) {
+    ovr = &this->availOverlays[i + giOverlaySelectMaybeNumUnseen];
+    col = 69 * (i % 9) + 2;
+    row = 53 * (i / 9) + 2;
+    this->DrawAffectedTileGrid(69 * (i % 9) + 2, row, 4, 3, &this->availOverlays[i] + giOverlaySelectMaybeNumUnseen, 0);
+    this->DrawOverlay(ovr, col, row, 0, 4, 3, 0, -1, -1);
+  }
+  if(draw)
+    gpWindowManager->UpdateScreen();
+}
+
 int NumTownsOfColor(int color) {
     int n = 0;
 
@@ -24253,6 +24303,150 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     '\0',
     35,
+    '\b',
+    9999,
+    ""
+  },
+  { // cyborg heroes
+    987,
+    987,
+    392,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    988,
+    988,
+    363,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    989,
+    989,
+    370,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    990,
+    990,
+    377,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    991,
+    991,
+    384,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    992,
+    992,
+    391,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
     '\b',
     9999,
     ""

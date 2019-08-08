@@ -2,7 +2,7 @@
 #define OVERLAY_H
 
 
-#define NUM_OVERLAYS 987 // must be also changed in asm!
+#define NUM_OVERLAYS 993 // must be also changed in asm!
 #define NUM_TILESETS 64
 
 enum OVERLAY_CATEGORY : __int8 {
@@ -42,6 +42,37 @@ struct overlay
 };
 #pragma pack(pop)
 
+#pragma pack(push, 1)
+class overlayManager : public baseManager
+{
+public:
+  int field_36;
+  icon *overlayTiles;
+  icon *overlaySelectBoxes;
+  overlay availOverlays[956];
+  int nAvailOverlays;
+  int field_1E5BE;
+  int field_1E5C2;
+  widget *selectionHighlight;
+  textWidget *textWid;
+  void *objTypeButtons[14];
+  heroWindow *selectionWindow;
+  widget *scrollBar;
+  widget *slider;
+  int field_1E612;
+  int Open(int);
+  int Open_orig(int);
+  int SelectObject(int objType);
+  int SelectObject_orig(int objType);
+  int PopulateAvailOverlays(int ovrType);
+  int PopulateAvailOverlays_orig(int ovrType);
+  void sub_4230AC(int draw);
+  void sub_4230AC_orig(int draw);
+  void DrawAffectedTileGrid(int x, int y, int width, int height, overlay *ovr, signed int a7);
+  void DrawOverlay(overlay *ovr, int xoff, int yoff, int a4, int width, int height, int draw, signed int a8, int a9);
+
+};
+#pragma pack(pop)
 
 extern signed int __fastcall OverlayMaskBitSet(__int64 *mask, int x, int y);
 overlay gOverlayDatabase[];

@@ -89,6 +89,7 @@ public:
   void FizzleForward(int, int, int, int, int, signed char *, signed char *);
   int BroadcastMessage(int code, int messageType, int fieldID, int payload);
   int ConvertToHover(tag_message &msg);
+  void UpdateScreen();
 };
 
 class border : public widget {
