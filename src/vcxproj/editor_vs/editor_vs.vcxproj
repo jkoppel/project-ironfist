@@ -89,6 +89,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\editor\hero_edit.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
@@ -154,6 +155,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\editor\hero_edit.h" />
+    <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />

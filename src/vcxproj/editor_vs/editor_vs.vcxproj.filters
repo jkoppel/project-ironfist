@@ -67,6 +67,9 @@
     <Filter Include="Source Files\shared\town">
       <UniqueIdentifier>{d965efce-eef7-4af4-bd93-b85979ebae44}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\shared\adventure">
+      <UniqueIdentifier>{80429edc-65a2-49c2-ab1a-30ea26f2a63a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp">
@@ -224,6 +227,9 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp">
       <Filter>Source Files\shared\town</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp">
+      <Filter>Source Files\shared\adventure</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -390,6 +396,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h">
       <Filter>Header Files\shared\town</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h">
+      <Filter>Header Files\shared\adventure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

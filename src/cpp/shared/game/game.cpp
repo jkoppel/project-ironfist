@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "analytics.h"
+#include "adventure/hero_globals.h"
 #include "adventure/terrain.h"
 #include "base.h"
 #include "combat/creatures.h"
@@ -958,10 +959,10 @@ void game::ProcessOnMapHeroes() {
           mapExtraHero->owner = -1;
           faction = mapExtraHero->factionID;
         } else {
-          mapExtraHero->owner = gcColorToPlayerPos[loc->objectIndex / 7];
-          faction = loc->objectIndex % 7; // Constant here (needs to be generalized)
-          if (faction == FACTION_MULTIPLE) { // Constant here (faction related)
-            faction = this->newGameSelectedFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];// Constant here (I think this is a faction-related structure)
+          mapExtraHero->owner = gcColorToPlayerPos[GetHeroOverlayColor(loc->objectIndex)];
+          faction = GetHeroOverlayFaction(loc->objectIndex);
+          if (faction == FACTION_MULTIPLE) {
+            faction = this->newGameSelectedFaction[gcColorToSetupPos[gpGame->players[mapExtraHero->owner].color]];
           }
         }
 

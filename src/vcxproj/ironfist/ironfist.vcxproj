@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\cpp\shared\adventure\adv.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\hero.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\map.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\map_events.cpp" />
     <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
@@ -175,6 +176,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />

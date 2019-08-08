@@ -4,7 +4,7 @@
 
 #include "artifacts.h"
 #include "skills.h"
-
+#include "adventure/hero_globals.h"
 #include "adventure/map.h"
 #include "editor.h"
 #include "overlay.h"
@@ -529,7 +529,7 @@ int __fastcall PlaceOverlay(overlay *ovr, int left, int top, int userDemanded) {
                 faction = 0;
             }
             else {
-                faction = tile->objectIndex % 7;
+                faction = GetHeroOverlayFaction(tile->objectIndex);
             }
 
             AddMapExtra(tile, MakeHeroMapExtra(faction));
