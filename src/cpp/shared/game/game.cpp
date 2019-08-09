@@ -1028,9 +1028,9 @@ void game::ProcessOnMapHeroes() {
                 freeHeroes.push_back(i);
 
             int overwrittenIdx = freeHeroes[Random(0, freeHeroes.size()-1)];
-              mapExtraHero->field_11 = 1;
-              mapExtraHero->heroID = randomHeroIdx;
-              randomHeroIdx = overwrittenIdx;
+            mapExtraHero->field_11 = 1;
+            mapExtraHero->heroID = randomHeroIdx;
+            randomHeroIdx = overwrittenIdx;
           }
             
 
