@@ -718,13 +718,13 @@ namespace ironfist_save
     typedef ::xsd::cxx::tree::traits< relatedToUnknown_type, char > relatedToUnknown_traits;
 
     const relatedToUnknown_type&
-    relatedToUnknown () const;
+    directionFacing () const;
 
     relatedToUnknown_type&
-    relatedToUnknown ();
+    directionFacing ();
 
     void
-    relatedToUnknown (const relatedToUnknown_type& x);
+    directionFacing (const relatedToUnknown_type& x);
 
     // occupiedObjType
     // 
@@ -4756,13 +4756,13 @@ namespace ironfist_save
     typedef ::xsd::cxx::tree::traits< relatedToUnknown_type, char > relatedToUnknown_traits;
 
     const relatedToUnknown_type&
-    relatedToUnknown () const;
+    directionFacing () const;
 
     relatedToUnknown_type&
-    relatedToUnknown ();
+    directionFacing ();
 
     void
-    relatedToUnknown (const relatedToUnknown_type& x);
+    directionFacing (const relatedToUnknown_type& x);
 
     // barrierTentsVisited
     // 

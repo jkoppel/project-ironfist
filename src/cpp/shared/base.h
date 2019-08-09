@@ -26,6 +26,8 @@ extern void __fastcall ProcessAssert(int,char *,int);
 extern void __fastcall ShutDown(char *);
 extern void __fastcall EarlyShutdown(char*, char*);
 
+extern unsigned char giCurWatchPlayerBit;
+extern int bShowIt;
 const int gTextSize = 300;
 extern char gText[];
 extern void __fastcall LogStr(char *);

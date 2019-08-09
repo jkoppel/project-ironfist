@@ -76,7 +76,7 @@ public:
   __int8 relatedToX;
   __int8 relatedToY;
   __int8 relatedToFactionID;
-  __int8 relatedToUnknown;
+  __int8 directionFacing;
   __int16 occupiedObjType;
   __int16 occupiedObjVal;
   int mobility;
@@ -184,7 +184,7 @@ public:
   tileset *groundTileset;
   tileset *clofTileset;
   tileset *stonTileset;
-  int field_CE[64];
+  icon *tilesetIcns[64];
   icon *radarIcon;
   icon *clopIcon;
   int viewX;
@@ -193,13 +193,55 @@ public:
   int field_1E2;
   int xOff;
   int yOff;
-  char _2[0xB8];
+  //char _2[0xB8]; // 184
+  int field_1EE;
+  int field_1F2;
+  int mapPortLeftX;
+  int mapPortTopY;
+  int field_1FE;
+  int field_202;
+  int field_206;
+  int field_20A;
+  int field_20E;
+  int field_212;
+  int field_216;
+  void *heroIcons[6];
+  icon *boatIcon;
+  icon *frothIcon;
+  icon *shadowIcon;
+  icon *boatShadowIcon;
+  void *flagIconsHero[6];
+  void *flagIconsBoat[6];
+  int field_272;
+  int field_276;
+  int mobilizedHeroFactionOrBoat;
+  int field_27E;
+  int mobilizedHeroBaseFrameBit8IsFlip;
+  int mobilizedHeroAnimPos;
+  int field_28A;
+  int field_28E;
+  int field_292;
+  int field_296;
+  int field_29A;
+  int field_29E;
+  int hasDrawnCursor;
   int heroMobilized;
-  char _3[0xD4];
+  int field_2AA;
+  int field_2AE;
+  int field_2B2;
+  int field_2B6;
+  int field_2BA;
+  int field_2BE;
+  int field_2C2[4][2];
+  void *loopSamples[28];
+  sample *walkSamples[9];
+  int identifyCast;
+  int field_37A;
 
   advManager();
 
   mapCell *GetCell(int x, int y);
+  void DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6);
 
   void EraseObj(mapCell*, int x, int y);
 
@@ -265,6 +307,10 @@ public:
   void SetTownContext(int townID);
   char * GetArmySizeName(signed int amt, int queryType);
   char * GetQuantityString(int thievesGuildsLevel, town* town, int garrisonIdx);
+  void DrawCursor();
+  void DrawCursorShadow();
+  int GetCloudLookup(int a1, int a2);
+  int GetCursorBaseFrame(int direction);
 };
 
 class ExpCampaign {

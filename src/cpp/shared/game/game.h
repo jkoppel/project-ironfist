@@ -96,7 +96,7 @@ public:
 	char daysLeftWithoutCastle;
 	char numCastles;
   __int8 mightBeCurCastleIdx;
-  __int8 relatedToUnknown;
+  __int8 directionFacing;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
   char hasEvilFaction;
