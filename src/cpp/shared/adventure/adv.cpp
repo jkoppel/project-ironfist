@@ -51,6 +51,8 @@ int townIconFrames[MAX_FACTIONS] = {
   26
 };
 
+icon* ironfistHeroMapIcons[MAX_FACTIONS];
+
 int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
   extern int giBottomViewOverrideEndTime;
 
@@ -159,6 +161,12 @@ int advManager::Open(int idx) {
     this->heroIcons[4] = gpResourceManager->GetIcon("wzrd32.icn");
   if(!this->heroIcons[5])
     this->heroIcons[5] = gpResourceManager->GetIcon("necr32.icn");
+
+  for(int i = 0; i < NUM_ORIG_FACTIONS; i++)
+    ironfistHeroMapIcons[i] = this->heroIcons[i];
+  if(!ironfistHeroMapIcons[FACTION_CYBORG])
+    ironfistHeroMapIcons[FACTION_CYBORG] = gpResourceManager->GetIcon("cbrg32.icn");
+
   if(!this->boatIcon)
     this->boatIcon = gpResourceManager->GetIcon("boat32.icn");
   if(!this->frothIcon)
@@ -1034,7 +1042,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
           } else {
             if(curHeroFaction == FACTION_MULTIPLE && !(curTile->flags & 4))
               FlipIconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX + 32, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
-            FlipIconToBitmap(this->heroIcons[curHeroFaction], gpWindowManager->screenBuffer, drawX + 32, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
+            FlipIconToBitmap(ironfistHeroMapIcons[curHeroFaction], gpWindowManager->screenBuffer, drawX + 32, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
             if(curHeroColor != -1) {
               if(curHeroFaction == FACTION_MULTIPLE)
                 FlipIconToBitmap(this->flagIconsBoat[curHeroColor], gpWindowManager->screenBuffer, drawX + 32, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
@@ -1052,7 +1060,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
         } else {
           if(curHeroFaction == FACTION_MULTIPLE && !(curTile->flags & 4))
             IconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx, 1, 0, 0, 480, 480, 0);
-          IconToBitmap(this->heroIcons[curHeroFaction], gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx, 1, 0, 0, 480, 480, 0);
+          IconToBitmap(ironfistHeroMapIcons[curHeroFaction], gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx, 1, 0, 0, 480, 480, 0);
           if(curHeroColor != -1) {
             if(curHeroFaction == FACTION_MULTIPLE)
               IconToBitmap(this->flagIconsBoat[curHeroColor], gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
