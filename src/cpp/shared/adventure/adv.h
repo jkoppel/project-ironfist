@@ -204,13 +204,13 @@ public:
   int field_20E;
   int field_212;
   int field_216;
-  void *heroIcons[6];
+  icon *heroIcons[6];
   icon *boatIcon;
   icon *frothIcon;
   icon *shadowIcon;
   icon *boatShadowIcon;
-  void *flagIconsHero[6];
-  void *flagIconsBoat[6];
+  icon *flagIconsHero[6];
+  icon *flagIconsBoat[6];
   int field_272;
   int field_276;
   int mobilizedHeroFactionOrBoat;

@@ -193,7 +193,7 @@ void GUIBroadcastMessage(heroWindow*, int, int, void*);
 int GUIGetDropdownSelection(heroWindow*, int);
 void GUISetDropdownSelection(heroWindow*, int, int);
 
-extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,int,int);
+extern void __fastcall IconToBitmap(icon* icn, bitmap* bmp, int drawX, int drawY, int spriteIdx,int,int,int,int,int,int);
 void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
