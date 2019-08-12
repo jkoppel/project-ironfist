@@ -193,7 +193,6 @@ public:
   int field_1E2;
   int xOff;
   int yOff;
-  //char _2[0xB8]; // 184
   int field_1EE;
   int field_1F2;
   int mapPortLeftX;

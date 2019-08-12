@@ -81,6 +81,10 @@ enum MONTH_TYPES {
   MONTH_CREATURE,
   MONTH_PLAGUE
 };
+extern unsigned char bPuzzleDraw[];
+extern unsigned char gColorTableRed[];
+extern int gbDrawingPuzzle;
+extern unsigned char monAnimDrawFrame[];
 /*
  * Updates sound, graphics if needed.
  *

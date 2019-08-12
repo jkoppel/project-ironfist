@@ -630,53 +630,15 @@ bool GetMapCellXY(mapCell* cell, int* x, int* y) {
 	return false;
 }
 
-extern "C" char TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y);
-extern unsigned char bPuzzleDraw[];
-
-
-//extern "C" int spriteIdx;
-
-extern unsigned char gColorTableRed[];
-extern int gbDrawingPuzzle;
-
-extern unsigned char monAnimDrawFrame[];
-
 void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6) {
-  hero *curDrawingHero;
-  mapCell *currentlyDrawnMapTile;
-  mapCell* dword_524D08;
-  int curDrawingHeroColor;
-  int curDrawingHeroFaction;
-  int dword_524CD4;
-  int dword_524CE4;
-  int dword_524CF8;
-  int dword_524D14;
-  int dword_524D24;
-  int isDrawingHeroOrBoat;
-  __int16 word_524CAC;
-  mapCellExtra *currentlyDrawingMapCellExtra;
-  mine* dword_524EA8;
-
-  int dword_524D2C;
-  
-  int spriteIdx;
-
-  signed int v8; // [sp+10h] [bp-18h]@201
-  signed int v9; // [sp+14h] [bp-14h]@194
-  int v10; // [sp+1Ch] [bp-Ch]@199
-  int v11; // [sp+20h] [bp-8h]@182
-  int v12; // [sp+24h] [bp-4h]@127
-
   if(!a6 && !bShowIt)
     return;
 
   int drawX = 32 * cellCol;
   int drawY = 32 * cellRow;
-  currentlyDrawnMapTile = this->GetCell(x, y);
 
   // Draw stone outline
   if(!gbAllBlack && (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT)) {
-  //if(!gbAllBlack && ((signed __int64)__PAIR__(y, x) < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT)) {
     idx = -1;
     if(x == -1) {
       if(y == -1) {
@@ -708,66 +670,71 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
     return;
   }
 
+
+  bool unknownFlag;
+  bool unknownFlag2;
+  int unknownTerraIncognita;
   // Draw Terra Incognita
   if(!gbAllBlack && (unsigned __int8)(*(&mapRevealed[x] + MAP_WIDTH * y) & giCurWatchPlayerBit) || gbDrawingPuzzle) {
-    dword_524CF8 = 0;
+    unknownFlag2 = false;
   } else {
-    dword_524CF8 = 1;
+    unknownFlag2 = true;
     if(gbAllBlack)
-      dword_524D24 = 0;
+      unknownTerraIncognita = 0;
     else
-      dword_524D24 = advManager::GetCloudLookup(x, y);
-    if(!dword_524D24) {
+      unknownTerraIncognita = advManager::GetCloudLookup(x, y);
+    if(!unknownTerraIncognita) {
       if(cellDrawingPhaseFlags & 0x20)
-        //TileToBitmap(this->clofTileset, ((_BYTE)x + (_BYTE)y) & 3, gpWindowManager->screenBuffer, drawX, drawY);
         TileToBitmap(this->clofTileset, (x + y) & 3, gpWindowManager->screenBuffer, drawX, drawY);
       return;
     }
-    if(dword_524D24 < 100) {
-      dword_524CD4 = 0;
+    if(unknownTerraIncognita < 100) {
+      unknownFlag = false;
     } else {
-      dword_524CD4 = 1;
-      dword_524D24 -= 100;
+      unknownFlag = true;
+      unknownTerraIncognita -= 100;
     }
-    if((dword_524D24 == 1 || dword_524D24 == 5) && x & 1)
-      ++dword_524D24;
-    if(dword_524D24 == 3 && y & 1)
-      ++dword_524D24;
+    if((unknownTerraIncognita == 1 || unknownTerraIncognita == 5) && x & 1)
+      ++unknownTerraIncognita;
+    if(unknownTerraIncognita == 3 && y & 1)
+      ++unknownTerraIncognita;
   }
-
   
-  // DRAW SHITTON OF CRAP
-
+  // Drawing everything else
+  int curDrawingHeroColor;
+  int curDrawingHeroFaction;
+  mapCellExtra *currentlyDrawingMapCellExtra;
+  mapCell *currentTile = this->GetCell(x, y);
   if(!(cellDrawingPhaseFlags & 0x20) || gbDrawingPuzzle) {
     if(cellDrawingPhaseFlags & 1) {
-      word_524CAC = currentlyDrawnMapTile->flags;
-      word_524CAC <<= 14;
-      word_524CAC |= currentlyDrawnMapTile->groundIndex;
-      TileToBitmap(this->groundTileset, (unsigned __int16)word_524CAC, gpWindowManager->screenBuffer, drawX, drawY);
-      if(currentlyDrawnMapTile->field_4_1 && (!gbDrawingPuzzle || (currentlyDrawnMapTile->objTileset != 56 || (unsigned char)currentlyDrawnMapTile->objectIndex != 140))) {
-        if(!gbDrawingPuzzle || bPuzzleDraw[currentlyDrawnMapTile->objTileset]) {
-          // draw roads
+      short groundIdx = currentTile->flags;
+      groundIdx <<= 14;
+      groundIdx |= currentTile->groundIndex;
+      TileToBitmap(this->groundTileset, (unsigned __int16)groundIdx, gpWindowManager->screenBuffer, drawX, drawY);
+      if(currentTile->field_4_1 && (!gbDrawingPuzzle || (currentTile->objTileset != 56 || (unsigned char)currentTile->objectIndex != 140))) {
+        if(!gbDrawingPuzzle || bPuzzleDraw[currentTile->objTileset]) {
+          // Drawing roads and terrain
           IconToBitmap(
-            this->tilesetIcns[currentlyDrawnMapTile->objTileset],
+            this->tilesetIcns[currentTile->objTileset],
             gpWindowManager->screenBuffer,
             drawX,
             drawY,
-            (unsigned char)currentlyDrawnMapTile->objectIndex,
+            (unsigned char)currentTile->objectIndex,
             0,
             0,
             0,
             0x1E0u,
             480,
             0);
-          //  Draw campfires (???)
-          if(currentlyDrawnMapTile->hasObject) {            
-            dword_524CE4 = GetIconEntry(this->tilesetIcns[currentlyDrawnMapTile->objTileset], (unsigned char)currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
+          
+          if(currentTile->hasObject) {            
+            int someOffset = GetIconEntry(this->tilesetIcns[currentTile->objTileset], (unsigned char)currentTile->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
-              this->tilesetIcns[currentlyDrawnMapTile->objTileset],
+              this->tilesetIcns[currentTile->objTileset],
               gpWindowManager->screenBuffer,
               drawX,
               drawY,
-              (unsigned char)currentlyDrawnMapTile->objectIndex + this->field_202 % dword_524CE4 + 1,
+              (unsigned char)currentTile->objectIndex + this->field_202 % someOffset + 1,
               0,
               0,
               0,
@@ -778,13 +745,12 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
         }
       }
 
-      // Draw some objects like water wheel thing?
-      if ( currentlyDrawnMapTile->extraIdx && (unsigned char)this->map->cellExtras[currentlyDrawnMapTile->extraIdx].nextIdx != 255 )
-        currentlyDrawingMapCellExtra = &this->map->cellExtras[currentlyDrawnMapTile->extraIdx];
+      if ( currentTile->extraIdx && (unsigned char)this->map->cellExtras[currentTile->extraIdx].objectIndex != 255 )
+        currentlyDrawingMapCellExtra = &this->map->cellExtras[currentTile->extraIdx];
       else
-        currentlyDrawingMapCellExtra = 0;
+        currentlyDrawingMapCellExtra = nullptr;
       while(currentlyDrawingMapCellExtra) {
-        if(currentlyDrawingMapCellExtra->animatedObject
+        if(currentlyDrawingMapCellExtra->field_4_1
           && (!gbDrawingPuzzle || bPuzzleDraw[currentlyDrawingMapCellExtra->objTileset])) {
           IconToBitmap(
             this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
@@ -799,13 +765,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
             480,
             0);
           if(currentlyDrawingMapCellExtra->animatedObject) {
-            dword_524CE4 = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset], currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
+            int someOffset = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset], currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
               this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
               gpWindowManager->screenBuffer,
               drawX,
               drawY,
-              currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
+              currentlyDrawingMapCellExtra->objectIndex + this->field_202 % someOffset + 1,
               0,
               0,
               0,
@@ -814,34 +780,34 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               0);
           }
         }
-        if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[currentlyDrawingMapCellExtra->objectIndex].nextIdx != 255 )
-          currentlyDrawingMapCellExtra = &this->map->cellExtras[currentlyDrawingMapCellExtra->objectIndex];
+        if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx].objectIndex != 255 )
+          currentlyDrawingMapCellExtra = &this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx];
         else
-          currentlyDrawingMapCellExtra = 0;
+          currentlyDrawingMapCellExtra = nullptr;
       }
 
       // Drawing shadows
-      if((currentlyDrawnMapTile->isShadow) && !(currentlyDrawnMapTile->field_4_1) && (!gbDrawingPuzzle || bPuzzleDraw[currentlyDrawnMapTile->objTileset])) {
+      if((currentTile->isShadow) && !(currentTile->field_4_1) && (!gbDrawingPuzzle || bPuzzleDraw[currentTile->objTileset])) {
         IconToBitmap(
-          this->tilesetIcns[currentlyDrawnMapTile->objTileset],
+          this->tilesetIcns[currentTile->objTileset],
           gpWindowManager->screenBuffer,
           drawX,
           drawY,
-          (unsigned char)currentlyDrawnMapTile->objectIndex,
+          (unsigned char)currentTile->objectIndex,
           0,
           0,
           0,
           0x1E0u,
           480,
           0);
-        if(currentlyDrawnMapTile->hasObject) {
-          dword_524CE4 = GetIconEntry(this->tilesetIcns[currentlyDrawnMapTile->objTileset], (unsigned char)currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
+        if(currentTile->hasObject) {
+          int someOffset = GetIconEntry(this->tilesetIcns[currentTile->objTileset], (unsigned char)currentTile->objectIndex)->someSortOfLength & 0x1F;
           IconToBitmap(
-            this->tilesetIcns[currentlyDrawnMapTile->objTileset],
+            this->tilesetIcns[currentTile->objTileset],
             gpWindowManager->screenBuffer,
             drawX,
             drawY,
-            (unsigned char)currentlyDrawnMapTile->objectIndex + this->field_202 % dword_524CE4 + 1,
+            (unsigned char)currentTile->objectIndex + this->field_202 % someOffset + 1,
             0,
             0,
             0,
@@ -851,14 +817,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
         }
       }
 
-      if ( currentlyDrawnMapTile->extraIdx && (unsigned char)this->map->cellExtras[currentlyDrawnMapTile->extraIdx].nextIdx != 255 )
-        currentlyDrawingMapCellExtra = &this->map->cellExtras[currentlyDrawnMapTile->extraIdx];
+      if ( currentTile->extraIdx && (unsigned char)this->map->cellExtras[currentTile->extraIdx].objectIndex != 255 )
+        currentlyDrawingMapCellExtra = &this->map->cellExtras[currentTile->extraIdx];
       else
-        currentlyDrawingMapCellExtra = 0;
+        currentlyDrawingMapCellExtra = nullptr;
 
-      // Drawing more shadows ??
       while(currentlyDrawingMapCellExtra) {
-        if((currentlyDrawingMapCellExtra->field_4_2) && !(currentlyDrawingMapCellExtra->field_4_4) // ???
+        if((currentlyDrawingMapCellExtra->field_4_2) && !(currentlyDrawingMapCellExtra->field_4_1)
           && (!gbDrawingPuzzle || bPuzzleDraw[currentlyDrawingMapCellExtra->objTileset])) {
           IconToBitmap(
             this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
@@ -873,13 +838,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
             480,
             0);
           if(currentlyDrawingMapCellExtra->animatedObject) {
-            dword_524CE4 = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset], currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
+            int someOffset = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset], currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
               this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
               gpWindowManager->screenBuffer,
               drawX,
               drawY,
-              currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
+              currentlyDrawingMapCellExtra->objectIndex + this->field_202 % someOffset + 1,
               0,
               0,
               0,
@@ -888,47 +853,47 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               0);
           }
         }
-        if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[currentlyDrawingMapCellExtra->objectIndex].nextIdx != 255 )
-          currentlyDrawingMapCellExtra = &this->map->cellExtras[currentlyDrawingMapCellExtra->objectIndex];
+        if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx].objectIndex != 255 )
+          currentlyDrawingMapCellExtra = &this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx];
         else
-          currentlyDrawingMapCellExtra = 0;
+          currentlyDrawingMapCellExtra = nullptr;
       }
     }
     if(cellDrawingPhaseFlags & 2) {
       // Drawing treasures / resources / main tiles of those
-      if((unsigned char)currentlyDrawnMapTile->objectIndex != 255
-        && !(currentlyDrawnMapTile->field_4_1)
-        && !(currentlyDrawnMapTile->isShadow)
-        && !(currentlyDrawnMapTile->field_4_3)
-        && (currentlyDrawnMapTile->objTileset) != 12
-        && (!gbDrawingPuzzle || bPuzzleDraw[currentlyDrawnMapTile->objTileset])) {
+      if((unsigned char)currentTile->objectIndex != 255
+        && !(currentTile->field_4_1)
+        && !(currentTile->isShadow)
+        && !(currentTile->field_4_3)
+        && (currentTile->objTileset) != 12
+        && (!gbDrawingPuzzle || bPuzzleDraw[currentTile->objTileset])) {
         IconToBitmap(
-          this->tilesetIcns[currentlyDrawnMapTile->objTileset],
+          this->tilesetIcns[currentTile->objTileset],
           gpWindowManager->screenBuffer,
           drawX,
           drawY,
-          (unsigned char)currentlyDrawnMapTile->objectIndex,
+          (unsigned char)currentTile->objectIndex,
           0,
           0,
           0,
           0x1E0u,
           480,
           0);
-        if(currentlyDrawnMapTile->hasObject) {
-          dword_524CE4 = GetIconEntry(this->tilesetIcns[currentlyDrawnMapTile->objTileset], (unsigned char)currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
-          v12 = this->field_202 % dword_524CE4;
-          if(currentlyDrawnMapTile->objType == 223) {
-            if(currentlyDrawnMapTile->extraInfo)
-              v12 = this->field_202 % (dword_524CE4 - 1);
+        if(currentTile->hasObject) {
+          int someOffset = GetIconEntry(this->tilesetIcns[currentTile->objTileset], (unsigned char)currentTile->objectIndex)->someSortOfLength & 0x1F;
+          int idxOffset = this->field_202 % someOffset;
+          if(currentTile->objType == 223) {
+            if(currentTile->extraInfo)
+              idxOffset = this->field_202 % (someOffset - 1);
             else
-              v12 = dword_524CE4 - 1;
+              idxOffset = someOffset - 1;
           }
           IconToBitmap(
-            this->tilesetIcns[currentlyDrawnMapTile->objTileset],
+            this->tilesetIcns[currentTile->objTileset],
             gpWindowManager->screenBuffer,
             drawX,
             drawY,
-            v12 + (unsigned char)currentlyDrawnMapTile->objectIndex + 1,
+            idxOffset + (unsigned char)currentTile->objectIndex + 1,
             0,
             0,
             0,
@@ -937,13 +902,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
             0);
         }
       }
-      if (currentlyDrawnMapTile->extraIdx && (unsigned char)this->map->cellExtras[currentlyDrawnMapTile->extraIdx].nextIdx != 255)
-        currentlyDrawingMapCellExtra = &this->map->cellExtras[currentlyDrawnMapTile->extraIdx];
+      if (currentTile->extraIdx && (unsigned char)this->map->cellExtras[currentTile->extraIdx].objectIndex != 255)
+        currentlyDrawingMapCellExtra = &this->map->cellExtras[currentTile->extraIdx];
       else
-        currentlyDrawingMapCellExtra = 0;
+        currentlyDrawingMapCellExtra = nullptr;
 
       while(currentlyDrawingMapCellExtra) {
-        if(!(currentlyDrawingMapCellExtra->field_4_4) // ??? should be 4_1 but it crashes!?
+        if(!(currentlyDrawingMapCellExtra->field_4_1)
           && !(currentlyDrawingMapCellExtra->field_4_2)
           && !(currentlyDrawingMapCellExtra->field_4_3)
           && (currentlyDrawingMapCellExtra->objTileset) != 12
@@ -961,13 +926,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
             480,
             0);
           if(currentlyDrawingMapCellExtra->animatedObject) {
-            dword_524CE4 = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset], (unsigned char)currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
+            int someOffset = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset], (unsigned char)currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
             IconToBitmap(
               this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
               gpWindowManager->screenBuffer,
               drawX,
               drawY,
-              (unsigned char)currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
+              (unsigned char)currentlyDrawingMapCellExtra->objectIndex + this->field_202 % someOffset + 1,
               0,
               0,
               0,
@@ -976,22 +941,22 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               0);
           }
         }
-        if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned char)currentlyDrawingMapCellExtra->objectIndex].nextIdx != 255 )
-          currentlyDrawingMapCellExtra = &this->map->cellExtras[(unsigned char)currentlyDrawingMapCellExtra->objectIndex];
+        if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx].objectIndex != 255 )
+          currentlyDrawingMapCellExtra = &this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx];
         else
-          currentlyDrawingMapCellExtra = 0;
+          currentlyDrawingMapCellExtra = nullptr;
       }
     }
     if((cellDrawingPhaseFlags & 8 || cellDrawingPhaseFlags & 0x80) && !gbDrawingPuzzle) {
-      isDrawingHeroOrBoat = 0;
-      curDrawingHero = 0;
-      // Drawing creatures?!
+      int isDrawingHeroOrBoat = 0;
+      hero *curDrawingHero = nullptr;
+      // Drawing creatures
       if(cellDrawingPhaseFlags & 8) {
         if(x > 0) {
-          dword_524D08 = this->GetCell(x - 1, y);
-          if(dword_524D08->objType == 151) {
-            dword_524EA8 = &gpGame->mines[dword_524D08->extraInfo];
-            if(dword_524EA8->guardianType == 59) {
+          mapCell* creatureTile = this->GetCell(x - 1, y);
+          if(creatureTile->objType == 151) {
+            mine* currentMine = &gpGame->mines[creatureTile->extraInfo];
+            if(currentMine->guardianType == 59) {
               IconToBitmap(
                 this->tilesetIcns[10],
                 gpWindowManager->screenBuffer,
@@ -1004,13 +969,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
                 0x1E0u,
                 480,
                 0);
-            } else if(dword_524EA8->guardianType != -1) {
+            } else if(currentMine->guardianType != -1) {
               IconToBitmap(
                 this->tilesetIcns[39],
                 gpWindowManager->screenBuffer,
                 drawX - 32,
                 drawY,
-                dword_524EA8->guardianType - 62,
+                currentMine->guardianType - 62,
                 1,
                 0,
                 0,
@@ -1020,30 +985,31 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
             }
           }
         }
-        if(currentlyDrawnMapTile->objTileset == 12) {
+        if(currentTile->objTileset == 12) {
           if(this->field_2B2 != x || this->field_2B6 != y) {
             IconToBitmap(
               this->tilesetIcns[20],
               gpWindowManager->screenBuffer,
               drawX + 16,
               drawY + 30,
-              9 * (signed char)currentlyDrawnMapTile->objectIndex,
+              9 * (unsigned char)currentTile->objectIndex,
               1,
               0,
               0,
               0x1E0u,
               480,
               0);
-            if((signed char)currentlyDrawnMapTile->objectIndex != 59 && (signed char)currentlyDrawnMapTile->objectIndex != 60)
-              dword_524D14 = (unsigned __int8)monAnimDrawFrame[*(&this->field_20A + (x & 3))];
+            int frameOffset;
+            if((unsigned char)currentTile->objectIndex != 59 && (unsigned char)currentTile->objectIndex != 60)
+              frameOffset = (unsigned __int8)monAnimDrawFrame[*(&this->field_20A + (x & 3))];
             else
-              dword_524D14 = *(&this->field_20A + (x & 3)) % 6;
+              frameOffset = *(&this->field_20A + (x & 3)) % 6;
             IconToBitmap(
               this->tilesetIcns[20],
               gpWindowManager->screenBuffer,
               drawX + 16,
               drawY + 30,
-              dword_524D14 + 9 * (signed char)currentlyDrawnMapTile->objectIndex + 1,
+              frameOffset + 9 * (unsigned char)currentTile->objectIndex + 1,
               1,
               0,
               0,
@@ -1056,7 +1022,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               gpWindowManager->screenBuffer,
               drawX + 16,
               drawY + 30,
-              8 - (this->field_2BA < 1u) + 9 * (signed char)currentlyDrawnMapTile->objectIndex,
+              8 - (this->field_2BA < 1u) + 9 * (unsigned char)currentTile->objectIndex,
               1,
               0,
               0,
@@ -1066,51 +1032,55 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
           }
         }
       }
-      // boats or smth?
-      if(currentlyDrawnMapTile->objType == 171) {
+
+      int heroBoatYOffset;
+      int heroBoatSpriteIdx;
+      // Drawing boats and heroes
+      if(currentTile->objType == TILE_HAS_EVENT | LOCATION_BOAT) {
         curDrawingHeroColor = -1;
         curDrawingHeroFaction = 6;
-        spriteIdx = this->GetCursorBaseFrame(gpGame->boats[currentlyDrawnMapTile->extraInfo].field_3);
+        heroBoatSpriteIdx = this->GetCursorBaseFrame(gpGame->boats[currentTile->extraInfo].field_3);
         isDrawingHeroOrBoat = 1;
-        dword_524D2C = -10;
+        heroBoatYOffset = -10;
       } else {
-        dword_524D2C = 0;
-        if(currentlyDrawnMapTile->objType == 170) {
-          curDrawingHero = &gpGame->heroes[currentlyDrawnMapTile->extraInfo];
+        heroBoatYOffset = 0;
+        if(currentTile->objType == TILE_HAS_EVENT | LOCATION_HERO) {
+          curDrawingHero = &gpGame->heroes[currentTile->extraInfo];
           curDrawingHeroColor = gpGame->players[curDrawingHero->ownerIdx].color;
           curDrawingHeroFaction = curDrawingHero->flags & HERO_AT_SEA ? 6 : curDrawingHero->factionID;
-          spriteIdx = advManager::GetCursorBaseFrame(curDrawingHero->directionFacing);
+          heroBoatSpriteIdx = advManager::GetCursorBaseFrame(curDrawingHero->directionFacing);
           isDrawingHeroOrBoat = 1;
           if(curDrawingHero->flags & 0x80)
-            dword_524D2C = -10;
+            heroBoatYOffset = -10;
         }
       }
 
       if(isDrawingHeroOrBoat) {
-        if(spriteIdx & 0x80) {
+        if(heroBoatSpriteIdx & 0x80) {
           if(cellDrawingPhaseFlags & 0x80) {
             if(this->field_276 && curDrawingHeroFaction != 6) {
-              v11 = spriteIdx & 0x7F;
-              if(v11 == 51)
-                v11 = 56;
-              if(v11 == 50)
-                v11 = 57;
-              if(v11 == 49)
-                v11 = 58;
-              if(v11 == 47)
-                v11 = 55;
-              if(v11 == 46)
-                v11 = 55;
-              if(v11 < 9 || v11 >= 36)
-                v9 = 0;
+              signed int idxOffset;
+              int idxOffset2 = heroBoatSpriteIdx & 0x7F;
+              if(idxOffset2 == 51)
+                idxOffset2 = 56;
+              if(idxOffset2 == 50)
+                idxOffset2 = 57;
+              if(idxOffset2 == 49)
+                idxOffset2 = 58;
+              if(idxOffset2 == 47)
+                idxOffset2 = 55;
+              if(idxOffset2 == 46)
+                idxOffset2 = 55;
+              if(idxOffset2 < 9 || idxOffset2 >= 36)
+                idxOffset = 0;
               else
-                v9 = 50;
+                idxOffset = 50;
               IconToBitmap(
                 this->shadowIcon,
                 gpWindowManager->screenBuffer,
                 drawX,
                 drawY + 31,
-                v9 + v11,
+                idxOffset + idxOffset2,
                 1,
                 0,
                 0,
@@ -1119,17 +1089,18 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
                 0);
             }
             if(this->field_276 && curDrawingHeroFaction == 6) {
-              v10 = spriteIdx & 0x7F;
-              if(v10 < 9 || v10 >= 36)
-                v8 = 0;
+              int xOffset;
+              int xOffset2 = heroBoatSpriteIdx & 0x7F;
+              if(xOffset2 < 9 || xOffset2 >= 36)
+                xOffset = 0;
               else
-                v8 = 36;
+                xOffset = 36;
               IconToBitmap(
                 this->boatShadowIcon,
                 gpWindowManager->screenBuffer,
                 drawX,
-                dword_524D2C + drawY + 31,
-                v8 + v10,
+                heroBoatYOffset + drawY + 31,
+                xOffset + xOffset2,
                 1,
                 0,
                 0,
@@ -1138,13 +1109,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
                 0);
             }
           } else {
-            if(curDrawingHeroFaction == 6 && !(currentlyDrawnMapTile->flags & 4))
+            if(curDrawingHeroFaction == 6 && !(currentTile->flags & 4))
               FlipIconToBitmap(
                 this->frothIcon,
                 gpWindowManager->screenBuffer,
                 drawX + 32,
-                dword_524D2C + drawY + 31,
-                spriteIdx & 0x7F,
+                heroBoatYOffset + drawY + 31,
+                heroBoatSpriteIdx & 0x7F,
                 1,
                 0,
                 0,
@@ -1155,8 +1126,8 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               (icon *)this->heroIcons[curDrawingHeroFaction],
               gpWindowManager->screenBuffer,
               drawX + 32,
-              dword_524D2C + drawY + 31,
-              spriteIdx & 0x7F,
+              heroBoatYOffset + drawY + 31,
+              heroBoatSpriteIdx & 0x7F,
               1,
               0,
               0,
@@ -1169,8 +1140,8 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
                 (icon *)this->flagIconsBoat[curDrawingHeroColor],
                   gpWindowManager->screenBuffer,
                   drawX + 32,
-                  dword_524D2C + drawY + 31,
-                  spriteIdx & 0x7F,
+                  heroBoatYOffset + drawY + 31,
+                  heroBoatSpriteIdx & 0x7F,
                   1,
                   0,
                   0,
@@ -1183,7 +1154,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
                   gpWindowManager->screenBuffer,
                   drawX + 32,
                   drawY + 31,
-                  (spriteIdx & 0x7F)
+                  (heroBoatSpriteIdx & 0x7F)
                 + (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
                 - ((unsigned __int64)this->field_202 >> 32)
                 + 56,
@@ -1202,7 +1173,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               gpWindowManager->screenBuffer,
               drawX,
               drawY + 31,
-              spriteIdx,
+              heroBoatSpriteIdx,
               1,
               0,
               0,
@@ -1214,8 +1185,8 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               this->boatShadowIcon,
               gpWindowManager->screenBuffer,
               drawX,
-              dword_524D2C + drawY + 31,
-              spriteIdx,
+              heroBoatYOffset + drawY + 31,
+              heroBoatSpriteIdx,
               1,
               0,
               0,
@@ -1223,13 +1194,13 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               480,
               0);
         } else {
-          if(curDrawingHeroFaction == 6 && !(currentlyDrawnMapTile->flags & 4))
+          if(curDrawingHeroFaction == 6 && !(currentTile->flags & 4))
             IconToBitmap(
               this->frothIcon,
               gpWindowManager->screenBuffer,
               drawX,
-              dword_524D2C + drawY + 31,
-              spriteIdx,
+              heroBoatYOffset + drawY + 31,
+              heroBoatSpriteIdx,
               1,
               0,
               0,
@@ -1240,8 +1211,8 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
             (icon *)this->heroIcons[curDrawingHeroFaction],
             gpWindowManager->screenBuffer,
             drawX,
-            dword_524D2C + drawY + 31,
-            spriteIdx,
+            heroBoatYOffset + drawY + 31,
+            heroBoatSpriteIdx,
             1,
             0,
             0,
@@ -1254,8 +1225,8 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
               (icon *)this->flagIconsBoat[curDrawingHeroColor],
                 gpWindowManager->screenBuffer,
                 drawX,
-                dword_524D2C + drawY + 31,
-                spriteIdx & 0x7F,
+                heroBoatYOffset + drawY + 31,
+                heroBoatSpriteIdx & 0x7F,
                 1,
                 0,
                 0,
@@ -1268,7 +1239,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
                 gpWindowManager->screenBuffer,
                 drawX,
                 drawY + 31,
-                (spriteIdx & 0x7F)
+                (heroBoatSpriteIdx & 0x7F)
               + (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
               - ((unsigned __int64)this->field_202 >> 32)
               + 56,
@@ -1282,7 +1253,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
         }
       }
       if(this->field_272
-        && currentlyDrawnMapTile->flags & MAP_CELL_HAS_ACTIVE_HERO
+        && currentTile->flags & MAP_CELL_HAS_ACTIVE_HERO
         && (!this->hasDrawnCursor || cellDrawingPhaseFlags & 0x80)
         && this->viewX + 7 == x
         && this->viewY + 7 == y
@@ -1293,190 +1264,160 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
       }
     }
     if(cellDrawingPhaseFlags & 4 || cellDrawingPhaseFlags & 0x40) {
-      //if(cellDrawingPhaseFlags & 4 && currentlyDrawnMapTile->objectIndex != 255) {
-      //  if((currentlyDrawnMapTile->field_4_3)
-      //    && (!gbDrawingPuzzle
-      //      || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->objTileset])) {
-      //    IconToBitmap(
-      //      this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->objTileset],
-      //      gpWindowManager->screenBuffer,
-      //      drawX,
-      //      drawY,
-      //      currentlyDrawnMapTile->objectIndex,
-      //      0,
-      //      0,
-      //      0,
-      //      0x1E0u,
-      //      480,
-      //      0);
-      //    if(currentlyDrawnMapTile->hasObject) {
-      //      dword_524CE4 = GetIconEntry(
-      //        this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->objTileset],
-      //                       currentlyDrawnMapTile->objectIndex)->someSortOfLength & 0x1F;
-      //      IconToBitmap(
-      //        this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->objTileset],
-      //        gpWindowManager->screenBuffer,
-      //        drawX,
-      //        drawY,
-      //        currentlyDrawnMapTile->objectIndex + this->field_202 % dword_524CE4 + 1,
-      //        0,
-      //        0,
-      //        0,
-      //        0x1E0u,
-      //        480,
-      //        0);
-      //    }
-      //  }
-      //  if(currentlyDrawnMapTile->extraIdx
-      //    //&& *(&this->map->cellExtras->objectIndex + 8 * currentlyDrawnMapTile->extraIdx - currentlyDrawnMapTile->extraIdx) != 255)
-      //    && this->map->cellExtras->objectIndex != 255)
-      //    currentlyDrawingMapCellExtra = (mapCellExtra *)((char *)this->map->cellExtras
-      //                                                  + 8 * currentlyDrawnMapTile->extraIdx
-      //                                                  - currentlyDrawnMapTile->extraIdx);
-      //  else
-      //    currentlyDrawingMapCellExtra = 0;
-      //  while(currentlyDrawingMapCellExtra) {
-      //    if(((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 2) & 1
-      //      && (!gbDrawingPuzzle || bPuzzleDraw[currentlyDrawingMapCellExtra->objTileset])) {
-      //      IconToBitmap(
-      //        this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
-      //        gpWindowManager->screenBuffer,
-      //        drawX,
-      //        drawY,
-      //        currentlyDrawingMapCellExtra->objectIndex,
-      //        0,
-      //        0,
-      //        0,
-      //        0x1E0u,
-      //        480,
-      //        0);
-      //      if(currentlyDrawingMapCellExtra->hasObject) {
-      //        dword_524CE4 = GetIconEntry(
-      //          this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
-      //                         currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
-      //        IconToBitmap(
-      //          this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
-      //          gpWindowManager->screenBuffer,
-      //          drawX,
-      //          drawY,
-      //          currentlyDrawingMapCellExtra->objectIndex + this->field_202 % dword_524CE4 + 1,
-      //          0,
-      //          0,
-      //          0,
-      //          0x1E0u,
-      //          480,
-      //          0);
-      //      }
-      //    }
-      //    if(currentlyDrawingMapCellExtra->nextIdx
-      //      //&& *(&this->map->cellExtras->objectIndex + 8 * currentlyDrawingMapCellExtra->nextIdx - currentlyDrawingMapCellExtra->nextIdx) != 255)
-      //      && this->map->cellExtras->objectIndex != 255)
-      //      currentlyDrawingMapCellExtra = (mapCellExtra *)((char *)this->map->cellExtras
-      //                                                    + 8 * currentlyDrawingMapCellExtra->nextIdx
-      //                                                    - currentlyDrawingMapCellExtra->nextIdx);
-      //    else
-      //      currentlyDrawingMapCellExtra = 0;
-      //  }
-      //}
-      //if(currentlyDrawnMapTile->overlayIndex != 255
-      //  && (cellDrawingPhaseFlags & 4
-      //    && !(((unsigned __int8)currentlyDrawnMapTile->overlayTileset >> 1) & 1)
-      //    || cellDrawingPhaseFlags & 0x40
-      //    && ((unsigned __int8)currentlyDrawnMapTile->overlayTileset >> 1) & 1)) {
-      //  if(!gbDrawingPuzzle
-      //    || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->overlayTileset >> 2) & 0x3F]) {
-      //    IconToBitmap(
-      //      this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->overlayTileset >> 2) & 0x3F],
-      //      gpWindowManager->screenBuffer,
-      //      drawX,
-      //      drawY,
-      //      currentlyDrawnMapTile->overlayIndex,
-      //      (((unsigned __int8)currentlyDrawnMapTile->overlayTileset >> 2) & 0x3F) == 14,
-      //      0,
-      //      0,
-      //      0x1E0u,
-      //      480,
-      //      0);
-      //    if(currentlyDrawnMapTile->overlayTileset & 1) {
-      //      dword_524CE4 = GetIconEntry(
-      //        this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->overlayTileset >> 2) & 0x3F],
-      //                       currentlyDrawnMapTile->overlayIndex)->someSortOfLength & 0x1F;
-      //      IconToBitmap(
-      //        this->tilesetIcns[((unsigned __int8)currentlyDrawnMapTile->overlayTileset >> 2) & 0x3F],
-      //        gpWindowManager->screenBuffer,
-      //        drawX,
-      //        drawY,
-      //        currentlyDrawnMapTile->overlayIndex + this->field_202 % dword_524CE4 + 1,
-      //        0,
-      //        0,
-      //        0,
-      //        0x1E0u,
-      //        480,
-      //        0);
-      //    }
-      //  }
-      //}
-      //if(currentlyDrawnMapTile->extraIdx
-      //  // && *(&this->map->cellExtras->tileset + 8 * currentlyDrawnMapTile->extraIdx - currentlyDrawnMapTile->extraIdx) != 255)
-      //  && this->map->cellExtras->tileset != 255)
-      //  currentlyDrawingMapCellExtra = (mapCellExtra *)((char *)this->map->cellExtras
-      //                                                + 8 * currentlyDrawnMapTile->extraIdx
-      //                                                - currentlyDrawnMapTile->extraIdx);
-      //else
-      //  currentlyDrawingMapCellExtra = 0;
-      //while(currentlyDrawingMapCellExtra) {
-      //  if(cellDrawingPhaseFlags & 4
-      //    && !(((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 1) & 1)
-      //    || cellDrawingPhaseFlags & 0x40
-      //    && ((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 1) & 1) {
-      //    if(!gbDrawingPuzzle
-      //      || bPuzzleDraw[((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 2) & 0x3F]) {
-      //      IconToBitmap(
-      //        this->tilesetIcns[((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 2) & 0x3F],
-      //        gpWindowManager->screenBuffer,
-      //        drawX,
-      //        drawY,
-      //        currentlyDrawingMapCellExtra->tileset,
-      //        (((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 2) & 0x3F) == 14,
-      //        0,
-      //        0,
-      //        0x1E0u,
-      //        480,
-      //        0);
-      //      if(currentlyDrawingMapCellExtra->animatedObject) {
-      //        dword_524CE4 = GetIconEntry(
-      //          this->tilesetIcns[((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 2) & 0x3F],
-      //                         currentlyDrawingMapCellExtra->tileset)->someSortOfLength & 0x1F;
-      //        IconToBitmap(
-      //          this->tilesetIcns[((unsigned __int8)currentlyDrawingMapCellExtra->tileset >> 2) & 0x3F],
-      //          gpWindowManager->screenBuffer,
-      //          drawX,
-      //          drawY,
-      //          currentlyDrawingMapCellExtra->tileset + this->field_202 % dword_524CE4 + 1,
-      //          0,
-      //          0,
-      //          0,
-      //          0x1E0u,
-      //          480,
-      //          0);
-      //      }
-      //    }
-      //  }
-      //  if(currentlyDrawingMapCellExtra->nextIdx
-      //    //&& *(&this->map->cellExtras->tileset + 8 * currentlyDrawingMapCellExtra->nextIdx- currentlyDrawingMapCellExtra->nextIdx) != 255)
-      //    && this->map->cellExtras->tileset != 255)
-      //    currentlyDrawingMapCellExtra = (mapCellExtra *)((char *)this->map->cellExtras
-      //                                                  + 8 * currentlyDrawingMapCellExtra->nextIdx
-      //                                                  - currentlyDrawingMapCellExtra->nextIdx);
-      //  else
-      //    currentlyDrawingMapCellExtra = 0;
-      //}
+      if(cellDrawingPhaseFlags & 4 && (unsigned char)currentTile->objectIndex != 255) {
+        if((currentTile->field_4_3) && (!gbDrawingPuzzle || bPuzzleDraw[currentTile->objTileset])) {
+          IconToBitmap(
+            this->tilesetIcns[currentTile->objTileset],
+            gpWindowManager->screenBuffer,
+            drawX,
+            drawY,
+            (unsigned char)currentTile->objectIndex,
+            0,
+            0,
+            0,
+            0x1E0u,
+            480,
+            0);
+          if(currentTile->hasObject) {
+            int someOffset = GetIconEntry(this->tilesetIcns[currentTile->objTileset], (unsigned char)currentTile->objectIndex)->someSortOfLength & 0x1F;
+            IconToBitmap(
+              this->tilesetIcns[currentTile->objTileset],
+              gpWindowManager->screenBuffer,
+              drawX,
+              drawY,
+              (unsigned char)currentTile->objectIndex + this->field_202 % someOffset + 1,
+              0,
+              0,
+              0,
+              0x1E0u,
+              480,
+              0);
+          }
+        }
+        if (currentTile->extraIdx && (unsigned char)this->map->cellExtras[currentTile->extraIdx].objectIndex != 255)
+          currentlyDrawingMapCellExtra = &this->map->cellExtras[currentTile->extraIdx];
+        else
+          currentlyDrawingMapCellExtra = nullptr;
+        while(currentlyDrawingMapCellExtra) {
+          if(currentlyDrawingMapCellExtra->field_4_3
+            && (!gbDrawingPuzzle || bPuzzleDraw[currentlyDrawingMapCellExtra->objTileset])) {
+            IconToBitmap(
+              this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
+              gpWindowManager->screenBuffer,
+              drawX,
+              drawY,
+              (unsigned char)currentlyDrawingMapCellExtra->objectIndex,
+              0,
+              0,
+              0,
+              0x1E0u,
+              480,
+              0);
+            if(currentlyDrawingMapCellExtra->animatedObject) {
+              int someOffset = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset], (unsigned char)currentlyDrawingMapCellExtra->objectIndex)->someSortOfLength & 0x1F;
+              IconToBitmap(
+                this->tilesetIcns[currentlyDrawingMapCellExtra->objTileset],
+                gpWindowManager->screenBuffer,
+                drawX,
+                drawY,
+                (unsigned char)currentlyDrawingMapCellExtra->objectIndex + this->field_202 % someOffset + 1,
+                0,
+                0,
+                0,
+                0x1E0u,
+                480,
+                0);
+            }
+          }
+          if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx].objectIndex != 255 )
+            currentlyDrawingMapCellExtra = &this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx];
+          else
+            currentlyDrawingMapCellExtra = nullptr;
+        }
+      }
+      if((unsigned char)currentTile->overlayIndex != 255
+        && (cellDrawingPhaseFlags & 4 && !(currentTile->hasLateOverlay) || cellDrawingPhaseFlags & 0x40 && currentTile->hasLateOverlay)) {
+        if(!gbDrawingPuzzle || bPuzzleDraw[currentTile->overlayTileset]) {
+          IconToBitmap(
+            this->tilesetIcns[currentTile->overlayTileset],
+            gpWindowManager->screenBuffer,
+            drawX,
+            drawY,
+            (unsigned char)currentTile->overlayIndex,
+            currentTile->overlayTileset == 14,
+            0,
+            0,
+            0x1E0u,
+            480,
+            0);
+          if(currentTile->hasOverlay) {
+            int someOffset = GetIconEntry(this->tilesetIcns[currentTile->overlayTileset], (unsigned char)currentTile->overlayIndex)->someSortOfLength & 0x1F;
+            IconToBitmap(
+              this->tilesetIcns[currentTile->overlayTileset],
+              gpWindowManager->screenBuffer,
+              drawX,
+              drawY,
+              (unsigned char)currentTile->overlayIndex + this->field_202 % someOffset + 1,
+              0,
+              0,
+              0,
+              0x1E0u,
+              480,
+              0);
+          }
+        }
+      }
+      if (currentTile->extraIdx && (unsigned char)this->map->cellExtras[currentTile->extraIdx].overlayIndex != 255)
+        currentlyDrawingMapCellExtra = &this->map->cellExtras[currentTile->extraIdx];
+      else
+        currentlyDrawingMapCellExtra = nullptr;
+      while(currentlyDrawingMapCellExtra) {
+        if(cellDrawingPhaseFlags & 4
+          && !(currentlyDrawingMapCellExtra->hasLateOverlay)
+          || cellDrawingPhaseFlags & 0x40
+          && currentlyDrawingMapCellExtra->hasLateOverlay) {
+          if(!gbDrawingPuzzle
+            || bPuzzleDraw[currentlyDrawingMapCellExtra->tileset]) {
+            IconToBitmap(
+              this->tilesetIcns[currentlyDrawingMapCellExtra->tileset],
+              gpWindowManager->screenBuffer,
+              drawX,
+              drawY,
+              (unsigned char)currentlyDrawingMapCellExtra->overlayIndex,
+              currentlyDrawingMapCellExtra->tileset == 14,
+              0,
+              0,
+              0x1E0u,
+              480,
+              0);
+            if(currentlyDrawingMapCellExtra->animatedLateOverlay) {
+              int someOffset = GetIconEntry(this->tilesetIcns[currentlyDrawingMapCellExtra->tileset], currentlyDrawingMapCellExtra->overlayIndex)->someSortOfLength & 0x1F;
+              IconToBitmap(
+                this->tilesetIcns[currentlyDrawingMapCellExtra->tileset],
+                gpWindowManager->screenBuffer,
+                drawX,
+                drawY,
+                (unsigned char)currentlyDrawingMapCellExtra->overlayIndex + this->field_202 % someOffset + 1,
+                0,
+                0,
+                0,
+                0x1E0u,
+                480,
+                0);
+            }
+          }
+        }
+        if((unsigned char)currentlyDrawingMapCellExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx].overlayIndex != 255 )
+            currentlyDrawingMapCellExtra = &this->map->cellExtras[(unsigned short)currentlyDrawingMapCellExtra->nextIdx];
+          else
+            currentlyDrawingMapCellExtra = nullptr;
+      }
     }
-  } else if(dword_524CF8) { // Draw Terra Incognita borders
-    if(dword_524CD4)
-      FlipIconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, drawX + 31, drawY, dword_524D24 - 1, 0, 0, 0, 0, 0, 0);
+  } else if(unknownFlag2) { // Draw Terra Incognita borders
+    if(unknownFlag)
+      FlipIconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, drawX + 31, drawY, unknownTerraIncognita - 1, 0, 0, 0, 0, 0, 0);
     else
-      IconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, drawX, drawY, dword_524D24 - 1, 0, 0, 0, 0, 0, 0);
+      IconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, drawX, drawY, unknownTerraIncognita - 1, 0, 0, 0, 0, 0, 0);
   } else if(this->field_A2 && *(unsigned short *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated)) {
     if((*(unsigned short *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) >> 8) & 1)
       IconToBitmapColorTable(this->tilesetIcns[17], gpWindowManager->screenBuffer, drawX - 12, drawY + 2,
