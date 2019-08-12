@@ -1036,7 +1036,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
       int heroBoatYOffset;
       int heroBoatSpriteIdx;
       // Drawing boats and heroes
-      if(currentTile->objType == TILE_HAS_EVENT | LOCATION_BOAT) {
+      if(currentTile->objType == (TILE_HAS_EVENT | LOCATION_BOAT)) {
         curDrawingHeroColor = -1;
         curDrawingHeroFaction = 6;
         heroBoatSpriteIdx = this->GetCursorBaseFrame(gpGame->boats[currentTile->extraInfo].field_3);
@@ -1044,7 +1044,7 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
         heroBoatYOffset = -10;
       } else {
         heroBoatYOffset = 0;
-        if(currentTile->objType == TILE_HAS_EVENT | LOCATION_HERO) {
+        if(currentTile->objType == (TILE_HAS_EVENT | LOCATION_HERO)) {
           curDrawingHero = &gpGame->heroes[currentTile->extraInfo];
           curDrawingHeroColor = gpGame->players[curDrawingHero->ownerIdx].color;
           curDrawingHeroFaction = curDrawingHero->flags & HERO_AT_SEA ? 6 : curDrawingHero->factionID;
