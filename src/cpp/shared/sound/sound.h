@@ -55,6 +55,7 @@ public:
   void AllocateSampleHandles();
   int Open(int);
   int Open_orig(int);
+  void AdjustSoundVolumes();
 };
 
 #pragma pack(pop)

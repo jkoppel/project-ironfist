@@ -28,8 +28,6 @@ extern int giCurTurn;
 extern playerData* gpCurPlayer;
 extern unsigned char giCurPlayerBit;
 
-extern int giCurWatchPlayer;
-
 extern int giThisGamePos;
 
 extern void __fastcall FileError(char*);

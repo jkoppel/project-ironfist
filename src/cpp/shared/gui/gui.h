@@ -90,6 +90,7 @@ public:
   int BroadcastMessage(int code, int messageType, int fieldID, int payload);
   int ConvertToHover(tag_message &msg);
   void UpdateScreen();
+  void FadeScreen(int flag, signed int a3, palette *pal);
 };
 
 class border : public widget {

@@ -85,6 +85,12 @@ extern unsigned char bPuzzleDraw[];
 extern unsigned char gColorTableRed[];
 extern int gbDrawingPuzzle;
 extern unsigned char monAnimDrawFrame[];
+extern int iCurBottomView;
+extern int gbLoadingMonoIcon;
+extern "C" int walkSpeed;
+extern int giBottomViewOverride;
+extern int giCurWatchPlayer;
+extern "C" int soundVolume;
 /*
  * Updates sound, graphics if needed.
  *

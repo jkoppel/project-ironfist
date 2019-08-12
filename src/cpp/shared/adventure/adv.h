@@ -271,7 +271,6 @@ public:
   int ProcessDeSelect_orig(struct tag_message *, int *, class mapCell **);
 
   virtual int Open(int);
-  int Open_orig(int);
 
   void PasswordEvent(mapCell *tile, hero *hero);
   int BarrierEvent(mapCell *tile, hero *hero);
@@ -310,6 +309,10 @@ public:
   void DrawCursorShadow();
   int GetCloudLookup(int a1, int a2);
   int GetCursorBaseFrame(int direction);
+  void ForceNewHover();
+  void GetCursorSampleSet(int speed);
+  void SetInitialMapOrigin();
+  
 };
 
 class ExpCampaign {
@@ -330,6 +333,7 @@ extern int giMapChangeCtr;
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;
 
+extern char *gTilesetFiles[];
 extern int giAdjacentMonsterUpperBoundX;
 extern int giAdjacentMonsterUpperBoundY;
 extern int giAdjacentMonsterX;

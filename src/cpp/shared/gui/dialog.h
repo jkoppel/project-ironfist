@@ -43,8 +43,11 @@ enum MESSAGEBOX_IMAGES{
 const int BUTTON_CODE_OKAY = 30725;
 const int BUTTON_CODE_CANCEL = 30726;
 
+extern void* hmnuAdv;
+
 extern void __fastcall NormalDialog(char * msg,int,int x,int y,int img1Type,int img1Arg,int img2Type,int img2Arg,int writeOr,int);
 void __fastcall GetDataEntry(char *,char *,int,char *,int,int);
+extern void __fastcall SetNoDialogMenus(int a1);
 
 void H2MessageBox(char* msg);
 void H2MessageBox(std::string &msg);

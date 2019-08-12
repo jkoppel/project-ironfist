@@ -52,8 +52,6 @@ int townIconFrames[MAX_FACTIONS] = {
 };
 
 int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
-  extern int giBottomViewOverride;
-  extern int iCurBottomView;
   extern int giBottomViewOverrideEndTime;
 
   if (evt->yCoordOrFieldID == END_TURN_BUTTON) {
@@ -102,8 +100,145 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
 
 
 int advManager::Open(int idx) {
-  int res = this->Open_orig(idx);
-  return res;
+  iCurBottomView = 0;
+  this->field_37A = 0;
+  bShowIt = 0;
+  this->field_BA = 0;
+  for(int i = 0; i < 12; ++i) {
+    this->someComponents[0][i] = 0;
+    this->someComponents[1][i] = 0;
+  }
+  if(!this->adventureScreen) {
+    this->adventureScreen = new heroWindow(0, 0, "adv_wind.bin");
+    if(!this->adventureScreen)
+      MemError();
+    this->heroScrollbarKnob = new iconWidget(540, 195, 8, 17, "scroll.icn", 4, 0, 26, 16, 1);
+    if(!this->heroScrollbarKnob)
+      MemError();
+    this->adventureScreen->AddWidget(this->heroScrollbarKnob, -1);
+
+    this->castleScrollbarKnob = new iconWidget(612, 195, 8, 17, "scroll.icn", 4, 0, 27, 16, 1);
+    if(!this->castleScrollbarKnob)
+      MemError();
+    this->adventureScreen->AddWidget(this->castleScrollbarKnob, -1);
+  }
+  if(gbThisNetHumanPlayer[giCurPlayer])
+    gpMouseManager->SetPointer("advmice.mse", 0, -999);
+  else
+    gpMouseManager->SetPointer("advmice.mse", 1, -999);
+  if(!this->sizeOfSomethingMapRelated) {
+    this->sizeOfSomethingMapRelated = (int)operator new(2 * MAP_HEIGHT * MAP_WIDTH);
+    if(!this->sizeOfSomethingMapRelated)
+      MemError();
+  }
+  this->field_A2 = 0;
+  gpWindowManager->AddWindow(this->adventureScreen, 0, 1);
+  if(!this->groundTileset)
+    this->groundTileset = gpResourceManager->GetTileset("ground32.til");
+  if(!this->clofTileset)
+    this->clofTileset = gpResourceManager->GetTileset("clof32.til");
+  if(!this->stonTileset)
+    this->stonTileset = gpResourceManager->GetTileset("ston.til");
+  if(!this->clopIcon)
+    this->clopIcon = gpResourceManager->GetIcon("clop32.icn");
+  for(int i = 0; i < NUM_TILESETS; ++i) {
+    if(strlen(gTilesetFiles[i]) > 1 && !this->tilesetIcns[i] && i != TILESET_HERO) {
+      if(i != TILESET_TOWN_RANDOM)
+        this->tilesetIcns[i] = gpResourceManager->GetIcon(gTilesetFiles[i]);
+    }
+  }
+  if(!this->heroIcons[0])
+    this->heroIcons[0] = gpResourceManager->GetIcon("kngt32.icn");
+  if(!this->heroIcons[1])
+    this->heroIcons[1] = gpResourceManager->GetIcon("barb32.icn");
+  if(!this->heroIcons[2])
+    this->heroIcons[2] = gpResourceManager->GetIcon("sorc32.icn");
+  if(!this->heroIcons[3])
+    this->heroIcons[3] = gpResourceManager->GetIcon("wrlk32.icn");
+  if(!this->heroIcons[4])
+    this->heroIcons[4] = gpResourceManager->GetIcon("wzrd32.icn");
+  if(!this->heroIcons[5])
+    this->heroIcons[5] = gpResourceManager->GetIcon("necr32.icn");
+  if(!this->boatIcon)
+    this->boatIcon = gpResourceManager->GetIcon("boat32.icn");
+  if(!this->frothIcon)
+    this->frothIcon = gpResourceManager->GetIcon("froth.icn");
+  gbLoadingMonoIcon = 1;
+  if(!this->shadowIcon)
+    this->shadowIcon = gpResourceManager->GetIcon("shadow32.icn");
+  if(!this->boatShadowIcon)
+    this->boatShadowIcon = gpResourceManager->GetIcon("boatshad.icn");
+  gbLoadingMonoIcon = 0;
+  if(!this->flagIconsHero[0])
+    this->flagIconsHero[0] = gpResourceManager->GetIcon("b-flag32.icn");
+  if(!this->flagIconsHero[1])
+    this->flagIconsHero[1] = gpResourceManager->GetIcon("g-flag32.icn");
+  if(!this->flagIconsHero[2])
+    this->flagIconsHero[2] = gpResourceManager->GetIcon("r-flag32.icn");
+  if(!this->flagIconsHero[3])
+    this->flagIconsHero[3] = gpResourceManager->GetIcon("y-flag32.icn");
+  if(!this->flagIconsHero[4])
+    this->flagIconsHero[4] = gpResourceManager->GetIcon("o-flag32.icn");
+  if(!this->flagIconsHero[5])
+    this->flagIconsHero[5] = gpResourceManager->GetIcon("p-flag32.icn");
+  if(!this->flagIconsBoat[0])
+    this->flagIconsBoat[0] = gpResourceManager->GetIcon("b-bflg32.icn");
+  if(!this->flagIconsBoat[1])
+    this->flagIconsBoat[1] = gpResourceManager->GetIcon("g-bflg32.icn");
+  if(!this->flagIconsBoat[2])
+    this->flagIconsBoat[2] = gpResourceManager->GetIcon("r-bflg32.icn");
+  if(!this->flagIconsBoat[3])
+    this->flagIconsBoat[3] = gpResourceManager->GetIcon("y-bflg32.icn");
+  if(!this->flagIconsBoat[4])
+    this->flagIconsBoat[4] = gpResourceManager->GetIcon("o-bflg32.icn");
+  if(!this->flagIconsBoat[5])
+    this->flagIconsBoat[5] = gpResourceManager->GetIcon("p-bflg32.icn");
+  gbLoadingMonoIcon = 1;
+  if(!this->radarIcon)
+    this->radarIcon = gpResourceManager->GetIcon("radar.icn");
+  gbLoadingMonoIcon = 0;
+  for(int i = 0; i < 28; ++i)
+    this->loopSamples[i] = 0;
+  for(int i = 0; i < 4; ++i) {
+    this->field_2C2[i][0] = -1;
+    this->field_2C2[i][1] = 127;
+    this->field_2BE = 0;
+  }
+  this->GetCursorSampleSet(walkSpeed);
+  if(gbThisNetHumanPlayer[giCurPlayer]) {
+    SetNoDialogMenus(1);
+  } else {
+    gpGame->TurnOnAIMusic();
+    SetNoDialogMenus(0);
+  }
+  glTimers = KBTickCount() + 120;
+  int tmpVolume = soundVolume;
+  if(soundVolume)
+    soundVolume = 10;
+  this->SetInitialMapOrigin();
+  bShowIt = gbThisNetHumanPlayer[giCurPlayer];
+  int tmpCurPlayer = giCurPlayer;
+  int tmpbShowIt = bShowIt;
+  giCurPlayer = giCurWatchPlayer;
+  gpCurPlayer = &gpGame->players[giCurWatchPlayer];
+  bShowIt = 1;
+  this->RedrawAdvScreen(1, 0);
+  giCurPlayer = tmpCurPlayer;
+  bShowIt = tmpbShowIt;
+  gpCurPlayer = &gpGame->players[tmpCurPlayer];
+  if(!gbThisNetHumanPlayer[tmpCurPlayer])
+    gpGame->ShowComputerScreen();
+  KBChangeMenu(hmnuAdv);
+  this->ForceNewHover();
+  gpWindowManager->FadeScreen(0, 8, gPalette);
+  giBottomViewOverride = 0;
+  soundVolume = tmpVolume;
+  gpSoundManager->AdjustSoundVolumes();
+  this->type = MANAGER_TYPE_ADVMAP_MANAGER;
+  this->idx = idx;
+  this->ready = 1;
+  strcpy(this->name, "advManager");
+  return 0;
 }
 
 mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9) {

@@ -289,6 +289,8 @@ public:
   void WeeklyGenericSite(mapCell *a1);
   void WeeklyRecruitSite(mapCell *a1);
   void GiveTroopsToNeutralTowns();
+  void ShowComputerScreen();
+  void TurnOnAIMusic();
 
 private:
   void PropagateVision();
