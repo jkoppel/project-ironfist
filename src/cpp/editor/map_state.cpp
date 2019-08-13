@@ -130,3 +130,20 @@ void __fastcall CalculatePlayerNumbers() {
     }
   }
 }
+
+void __fastcall ResetPlayerAvailability() {
+  memset(gpMapHeader.hasPlayer, 0, 6u);
+  for(int i = 0; i < MAP_WIDTH; ++i) {
+    for(int j = 0; j < MAP_HEIGHT; ++j) {
+      mapCell *cell = &gpMap.tiles[j * (unsigned int)gpMap.width + i];
+      if(cell->objType == (TILE_HAS_EVENT | LOCATION_RANDOM_HERO))
+        gpMapHeader.hasPlayer[cell->objectIndex / 7] = 1;
+      if(cell->objType == (TILE_HAS_EVENT | LOCATION_RANDOM_CASTLE) || cell->objType == (TILE_HAS_EVENT | LOCATION_RANDOM_TOWN) || cell->objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
+        TownExtra *twn = (TownExtra *)gpEditManager->mapExtra[cell->extraInfo];
+        if(twn->color != -1)
+          gpMapHeader.hasPlayer[twn->color] = 1;
+      }
+    }
+  }
+  CalculatePlayerNumbers();
+}
