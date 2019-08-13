@@ -87,14 +87,14 @@ void __fastcall CalculatePlayerNumbers() {
   for(int i = 0; i < 6; ++i)
     gpMapHeader.playerFactions[i] = -1;
 
-  char playerHasFaction[6][NUM_ORIG_FACTIONS+1];
-  memset(playerHasFaction, 0, 6 * (NUM_ORIG_FACTIONS + 1));
+  char playerHasFaction[6][MAX_FACTIONS];
+  memset(playerHasFaction, 0, 6 * MAX_FACTIONS);
   for(int x = 0; x < MAP_WIDTH; ++x) {
     for(int y = 0; y < MAP_HEIGHT; ++y) {
       mapCell *cell = &gpMap.tiles[y * (unsigned int)gpMap.width  + x];
       if(cell->objType == (TILE_HAS_EVENT | LOCATION_RANDOM_HERO)) {
-        int player = cell->objectIndex / 7;
-        int faction = cell->objectIndex % 7;
+        int player = GetHeroOverlayColor(cell->objectIndex);
+        int faction = GetHeroOverlayFaction(cell->objectIndex);
         playerHasFaction[player][faction] = true;
       }
       if(cell->objType == (TILE_HAS_EVENT | LOCATION_RANDOM_CASTLE) || cell->objType == (TILE_HAS_EVENT | LOCATION_RANDOM_TOWN) || cell->objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
@@ -116,7 +116,7 @@ void __fastcall CalculatePlayerNumbers() {
         gpMapHeader.playerFactions[i] = FACTION_RANDOM;
       } else {
         numFactions = 0;
-        for(int faction = 0; faction < NUM_ORIG_FACTIONS; ++faction) {
+        for(int faction = 0; faction < MAX_FACTIONS; ++faction) {
           if(playerHasFaction[i][faction]) {
             ++numFactions;
             lastFaction = faction;
