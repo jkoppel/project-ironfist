@@ -214,11 +214,11 @@ public:
   int field_272;
   int field_276;
   int mobilizedHeroFactionOrBoat;
-  int field_27E;
+  int mobilizedHeroDirection;
   int mobilizedHeroBaseFrameBit8IsFlip;
   int mobilizedHeroAnimPos;
-  int field_28A;
-  int field_28E;
+  int mobilizedHeroCycle;
+  int mobilizedHeroTurning;
   int field_292;
   int field_296;
   int field_29A;
