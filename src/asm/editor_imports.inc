@@ -152,6 +152,7 @@ IMPORT_?WinConditionHandler@@YAHXZ = 1
 ?WinConditionHandler@@YAHXZ_clone EQU ?WinConditionHandler_orig@@YAHXZ
 IMPORT_?FillInWinCondition@@YIHH@Z = 1
 ?FillInWinCondition@@YIHH@Z_clone EQU ?FillInWinCondition_orig@@YIHH@Z
+IMPORT_?CalculatePlayerNumbers@@YIXXZ = 1
 
 ;;spells
 IMPORT_?gSpellNames@@3PAPADA = 1
