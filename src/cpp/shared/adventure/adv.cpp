@@ -1182,7 +1182,7 @@ void advManager::DrawCursor() {
     int spriteIdx = this->mobilizedHeroAnimPos + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F);
     if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE && !(this->GetCell(this->viewX + 7, this->viewY + 7)->flags & 4))
       FlipIconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
-    FlipIconToBitmap(this->heroIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+    FlipIconToBitmap(ironfistHeroMapIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
     if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE) {
       FlipIconToBitmap(this->flagIconsBoat[gpCurPlayer->color], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 0, 0, 0);
     } else {
@@ -1198,7 +1198,7 @@ void advManager::DrawCursor() {
     int spriteIdx = this->mobilizedHeroAnimPos + this->mobilizedHeroBaseFrameBit8IsFlip;
     if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE && !(this->GetCell(this->viewX + 7, this->viewY + 7)->flags & 4))
       IconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
-    IconToBitmap(this->heroIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+    IconToBitmap(ironfistHeroMapIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
     if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE) {
       IconToBitmap(this->flagIconsBoat[gpCurPlayer->color], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 0, 0, 0);
     } else {
