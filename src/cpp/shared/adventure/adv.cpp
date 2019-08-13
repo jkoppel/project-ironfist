@@ -12,6 +12,7 @@
 #include "spell/spells.h"
 #include "prefs.h"
 #include "skills.h"
+#include "terrain.h"
 
 #include "optional.hpp"
 #include <sstream>
@@ -1158,4 +1159,161 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
         1, 0, 0, 480, 480, 0);
   }
 
+}
+
+void advManager::DrawCursor() {
+  int v1; // ecx@44
+  int spriteIdx; // [sp+18h] [bp-Ch]@9
+  int spriteIdxa; // [sp+18h] [bp-Ch]@18
+  int a4; // [sp+1Ch] [bp-8h]@6
+  int a3; // [sp+20h] [bp-4h]@6
+  int a3a; // [sp+20h] [bp-4h]@9
+
+  if(bShowIt && !bSpecialHideCursor) {
+    if(gbDrawSavedCursor) {
+      this->field_27E = S1cursorDirection;
+      this->mobilizedHeroBaseFrameBit8IsFlip = S1cursorBaseFrame;
+      this->mobilizedHeroAnimPos = S1cursorFrameCount;
+      this->field_28A = S1cursorCycle;
+      this->field_28E = S1cursorTurning;
+    }
+    a3 = this->mapPortLeftX + 224;
+    a4 = this->mapPortTopY + 255;
+    if(this->mobilizedHeroFactionOrBoat == 6)
+      a4 = this->mapPortTopY + 245;
+    if(this->mobilizedHeroBaseFrameBit8IsFlip & 0x80) {
+      a3a = this->mapPortLeftX + 256;
+      spriteIdx = this->mobilizedHeroAnimPos + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F);
+      if(this->mobilizedHeroFactionOrBoat == 6
+        && !(this->GetCell(this->viewX + 7, this->viewY + 7)->flags & 4))
+        FlipIconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, a3a, a4, spriteIdx, 1, 0, 0, 480, 480, 0);
+      FlipIconToBitmap(
+        (icon *)this->heroIcons[this->mobilizedHeroFactionOrBoat],
+        gpWindowManager->screenBuffer,
+        a3a,
+        a4,
+        spriteIdx,
+        1,
+        0,
+        0,
+        480,
+        480,
+        0);
+      if(this->mobilizedHeroFactionOrBoat == 6) {
+        FlipIconToBitmap(
+          (icon *)this->flagIconsBoat[gpCurPlayer->color],
+          gpWindowManager->screenBuffer,
+          a3a,
+          a4,
+          spriteIdx,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0);
+      } else {
+        if(!this->field_28A)
+          spriteIdx = (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
+          + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F)
+          - ((unsigned __int64)this->field_202 >> 32)
+          + 56;
+        FlipIconToBitmap(
+          (icon *)this->flagIconsHero[gpCurPlayer->color],
+          gpWindowManager->screenBuffer,
+          a3a,
+          a4,
+          spriteIdx,
+          1,
+          0,
+          0,
+          480,
+          480,
+          0);
+        ++this->field_206;
+      }
+    } else {
+      spriteIdxa = this->mobilizedHeroAnimPos + this->mobilizedHeroBaseFrameBit8IsFlip;
+      if(this->mobilizedHeroFactionOrBoat == 6
+        && !(this->GetCell(this->viewX + 7, this->viewY + 7)->flags & 4))
+        IconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, a3, a4, spriteIdxa, 1, 0, 0, 0x1E0u, 480, 0);
+      IconToBitmap(
+        (icon *)this->heroIcons[this->mobilizedHeroFactionOrBoat],
+        gpWindowManager->screenBuffer,
+        a3,
+        a4,
+        spriteIdxa,
+        1,
+        0,
+        0,
+        0x1E0u,
+        480,
+        0);
+      if(this->mobilizedHeroFactionOrBoat == 6) {
+        IconToBitmap(
+          (icon *)this->flagIconsBoat[gpCurPlayer->color],
+          gpWindowManager->screenBuffer,
+          a3,
+          a4,
+          spriteIdxa,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0);
+      } else {
+        if(!this->field_28A)
+          spriteIdxa = (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
+          + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F)
+          - ((unsigned __int64)this->field_202 >> 32)
+          + 56;
+        IconToBitmap(
+          (icon *)this->flagIconsHero[gpCurPlayer->color],
+          gpWindowManager->screenBuffer,
+          a3,
+          a4,
+          spriteIdxa,
+          1,
+          0,
+          0,
+          0x1E0u,
+          480,
+          0);
+        ++this->field_206;
+      }
+    }
+    if(this->field_28A && gConfig.data[gbThisNetHumanPlayer[giCurPlayer]] != 4) {
+      ++this->mobilizedHeroAnimPos;
+      if(gConfig.data[gbThisNetHumanPlayer[giCurPlayer]] == 3
+        && (this->mobilizedHeroAnimPos == 4 || this->mobilizedHeroAnimPos == 1))
+        ++this->mobilizedHeroAnimPos;
+      if(!gConfig.data[gbThisNetHumanPlayer[giCurPlayer]]) {
+        EveryOther = 1 - EveryOther;
+        if(EveryOther)
+          --this->mobilizedHeroAnimPos;
+      }
+    }
+    if(this->mobilizedHeroAnimPos >= 8)
+      this->mobilizedHeroAnimPos = 0;
+    if(!this->field_28E) {
+      if(!this->mobilizedHeroAnimPos)
+        hOldWalkSample = hNewWalkSample;
+      if(this->mobilizedHeroAnimPos == 3
+        || gConfig.data[gbThisNetHumanPlayer[giCurPlayer]] == 4 && !bMoveSoundMade) {
+        bMoveSoundMade = 1;
+        if(!EveryOther) {
+          v1 = this->GetCell(this->viewX + 7, this->viewY + 7)->groundIndex;
+          hNewWalkSample = gpSoundManager->MemorySample(this->walkSamples[(unsigned __int8)giGroundToTerrain[v1]]);
+        }
+      }
+    }
+    if(!gbDrawSavedCursor) {
+      S1cursorDirection = this->field_27E;
+      S1cursorBaseFrame = this->mobilizedHeroBaseFrameBit8IsFlip;
+      S1cursorFrameCount = this->mobilizedHeroAnimPos;
+      S1cursorCycle = this->field_28A;
+      S1cursorTurning = this->field_28E;
+    }
+  }
 }

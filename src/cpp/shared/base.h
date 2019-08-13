@@ -91,6 +91,22 @@ extern "C" int walkSpeed;
 extern int giBottomViewOverride;
 extern int giCurWatchPlayer;
 extern "C" int soundVolume;
+extern int bMoveSoundMade;
+extern int bSpecialHideCursor;
+extern int gbDrawSavedCursor;
+extern int EveryOther;
+extern int S1cursorDirection;
+extern int S1cursorBaseFrame;
+extern int S1cursorFrameCount;
+extern int S1cursorCycle;
+extern int S1cursorTurning;
+
+struct configStruct {
+  int data[103];
+};
+
+extern configStruct gConfig;
+
 /*
  * Updates sound, graphics if needed.
  *

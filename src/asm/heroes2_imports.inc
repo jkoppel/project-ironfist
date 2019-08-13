@@ -280,6 +280,7 @@ IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
 IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
 IMPORT_?DrawCell@advManager@@QAEXHHHHHH@Z = 1
+IMPORT_?DrawCursor@advManager@@QAEXXZ = 1
 
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1

@@ -64,6 +64,8 @@ extern soundManager *gpSoundManager;
 
 extern unsigned char giTerrainToMusicTrack[];
 extern signed char townTheme[];
+extern _SAMPLE *hNewWalkSample;
+extern _SAMPLE *hOldWalkSample;
 
 extern struct SAMPLE2 __fastcall LoadPlaySample(char *);
 extern void __fastcall WaitEndSample(struct SAMPLE2, int);
