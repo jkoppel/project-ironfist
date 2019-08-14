@@ -45,7 +45,7 @@ public:
 	char heroesForPurchase[2];
 	char relatedToMaxOrNumHeroes;
 	int personality;
-	char _3[45];
+	char puzzlePiecesAndSomething[45];
 	char field_40;
 	__int16 field_41;
 	char daysLeftWithoutCastle;

@@ -172,7 +172,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     ReadArrayFromXML(pdata->heroesOwned, pdata_xml->heroesOwned());
 
     gam->_B[1] = pdata_xml->game_B();
-    pdata->_3[0] = pdata_xml->_3();
+    pdata->puzzlePiecesAndSomething[0] = pdata_xml->_3();
     pdata->personality = pdata_xml->personality();
     pdata->relatedToMaxOrNumHeroes = pdata_xml->relatedToMaxOrNumHeroes();
     pdata->hasEvilFaction = pdata_xml->hasEvilFaction();
@@ -469,7 +469,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       player.curHeroIdx,
       player.relatedToSomeSortOfHeroCountOrIdx,
       gam->_B[1],
-      player._3[0],
+      player.puzzlePiecesAndSomething[0],
       player.personality,
       player.relatedToMaxOrNumHeroes,
       player.hasEvilFaction,
