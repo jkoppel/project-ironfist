@@ -243,17 +243,6 @@ public:
   void ComputerMonsterInteract_orig(mapCell *cell, hero *computer, int *a1);
 };
 
-class ExpCampaign {
-public:
-
-  ExpCampaign();
-
-  char HasAward(int a2);
-  char *JosephName();
-  char *IvanName();
-  
-};
-
 extern advManager* gpAdvManager;
 
 extern int giMapChangeCtr;
@@ -267,7 +256,6 @@ extern int giAdjacentMonsterX;
 extern int giAdjacentMonsterY;
 extern int giAdjacentMonsterLowerBoundX;
 extern int giAdjacentMonsterLowerBoundY;
-extern ExpCampaign xCampaign;
 
 hero* GetCurrentHero();
 bool GetMapCellXY(mapCell* cell, int* x, int* y);

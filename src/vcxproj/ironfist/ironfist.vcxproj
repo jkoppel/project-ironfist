@@ -106,6 +106,7 @@
     <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
+    <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
@@ -174,6 +175,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
+    <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />

@@ -355,3 +355,6 @@ IMPORT_?InitNewGame@game@@QAEXPAUSMapHeader@@@Z = 1
 ;; AI
 IMPORT_?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z = 1
 ?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z_clone EQU ?RedistributeTroops_orig@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z
+
+;; Campaigns
+IMPORT_?InitNewCampaign@ExpCampaign@@QAEXH@Z = 1
