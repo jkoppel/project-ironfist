@@ -106,6 +106,10 @@ char* GetCreaturePluralName(int id) {
 	return gArmyNamesPlural[id];
 }
 
+char *__fastcall GetMonsterName(int id) {
+  return GetCreatureName(id);
+}
+
 int GetNumCreatures() {
 	return giNumCreatures;
 }

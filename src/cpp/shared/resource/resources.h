@@ -147,7 +147,7 @@ public:
 };
 
 extern font* smallFont;
-
+IconEntry *__fastcall GetIconEntry(icon *a1, int idx);
 
 #define NUM_GOOD_EVIL_ICONS 37
 

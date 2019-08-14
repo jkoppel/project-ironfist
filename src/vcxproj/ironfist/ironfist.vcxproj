@@ -122,6 +122,7 @@
     <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\recruit_unit.cpp" />
     <ClCompile Include="..\..\cpp\shared\init.cpp" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lauxlib.c" />
@@ -171,10 +172,12 @@
     <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\buildings.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
+    <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
@@ -182,6 +185,7 @@
     <ClInclude Include="..\..\cpp\shared\scripting\lua_utils.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
     <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
+    <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\map.h" />

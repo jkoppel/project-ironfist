@@ -1,6 +1,14 @@
 #ifndef BUILDINGS_H
 #define BUILDINGS_H
 
+struct SBuildingInfo {
+  char animationLength;
+  short x;
+  short y;
+  short width;
+  short height;
+};
+
 struct SBuildingCost {
   int wood;
   int mercury;

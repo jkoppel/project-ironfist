@@ -135,6 +135,7 @@ IMPORT_?gArmyNames@@3PAPADA = 1
 IMPORT_?gArmyNamesPlural@@3PAPADA = 1
 IMPORT_?gMonsterDatabase@@3PAUtag_monsterInfo@@A = 1
 IMPORT_?GetMonsterCost@@YIXHQAH@Z = 1
+IMPORT_?GetMonsterName@@YIPADH@Z = 1
 
 ;;armies
 
@@ -245,6 +246,8 @@ IMPORT_?GetCommand@combatManager@@QAEHH@Z = 1
 ?GetCommand@combatManager@@QAEHH@Z_clone EQU ?GetCommand_orig@combatManager@@QAEHH@Z
 IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
+IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
+IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
@@ -267,6 +270,9 @@ IMPORT_?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z = 1
 ?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z_clone EQU ?DoEvent_orig@advManager@@QAEXPAVmapCell@@HH@Z
 IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 ?QuickInfo@advManager@@QAEXHH@Z_clone EQU ?QuickInfo_orig@advManager@@QAEXHH@Z
+
+IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
+IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
 
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
@@ -322,7 +328,13 @@ IMPORT_?gTownPrefixNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingCosts@@3PAUSBuildingCost@@A = 1
 IMPORT_?gDwellingCosts@@3PAY0M@USBuildingCost@@A = 1
 IMPORT_?gStartingHeroStats@@3PAUstartingPrimarySkills@@A = 1
+IMPORT_??0townObject@@QAE@HHPAD@Z = 1
 
+IMPORT_??_7recruitUnit@@6B@ = 1
+IMPORT_??0recruitUnit@@QAE@PAVarmyGroup@@HPAF@Z = 1
+IMPORT_??0recruitUnit@@QAE@PAVtown@@HH@Z = 1
+IMPORT_?Update@recruitUnit@@QAEXXZ = 1
+IMPORT_?SetupRecruitWin@@YIXPAVheroWindow@@HHHHH@Z = 1
 IMPORT_?SetupTowns@game@@QAEXXZ = 1
 IMPORT_?SetupMage@townManager@@QAEXPAVheroWindow@@@Z = 1
 IMPORT_?SetupWell@townManager@@QAEXPAVheroWindow@@@Z = 1
@@ -335,6 +347,11 @@ IMPORT_?Open@recruitUnit@@UAEHH@Z = 1
 ?Open@recruitUnit@@UAEHH@Z_clone EQU ?Open_orig@recruitUnit@@QAEHH@Z
 IMPORT_?GetBuildingInfo@@YIPADHHH@Z = 1
 ?GetBuildingInfo@@YIPADHHH@Z_clone EQU ?GetBuildingInfo_orig@@YIPADHHH@Z
+IMPORT_?Main@townManager@@UAEHAAUtag_message@@@Z = 1
+IMPORT_?SetupCastle@townManager@@QAEXPAVheroWindow@@H@Z = 1
+IMPORT_?gHierarchyMask@@3PAY0M@KA = 1
+IMPORT_?CanBuild@@YIHPAVtown@@H@Z = 1
+IMPORT_?getCastleOwnedIdx@@YAHPAVplayerData@@H@Z = 1
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1

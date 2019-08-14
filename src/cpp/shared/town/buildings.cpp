@@ -66,8 +66,7 @@ namespace {
     "Cyborg Level 3 Upgrade",
     "Cyborg Level 4 Upgrade",
     "Cyborg Level 5 Upgrade",
-    "Cyborg Level 6 Upgrade",
-    "Cyborg Level 6 Upgrade 2"
+    "Cyborg Level 6 Upgrade"
   };
 
   bool IsFactionValid(int faction) {
@@ -357,7 +356,7 @@ char * GetSpecialBuildingDesc(int faction) {
 
 char * GetIronfistDwellingName(int faction, int dwelling) {
   ASSERT(IsFactionValid(faction));
-  ASSERT(dwelling > 0 && dwelling < NUM_DWELLINGS);
+  ASSERT(dwelling >= 0 && dwelling < NUM_DWELLINGS);
 
   if (faction == FACTION_CYBORG) {
     return &cyborgDwellings[dwelling][0];
@@ -437,4 +436,9 @@ void InitDwellingCosts() {
   gDwellingCosts[FACTION_CYBORG][DWELLING_4] = {10, 0, 10, 0, 0, 0, 2000};
   gDwellingCosts[FACTION_CYBORG][DWELLING_5] = {20, 0, 0, 0, 0, 0, 3000};
   gDwellingCosts[FACTION_CYBORG][DWELLING_6] = {20, 0, 0, 0, 20, 0, 5000};
+  gDwellingCosts[FACTION_CYBORG][DWELLING_2_UPGRADE] = { 0, 0, 0, 0, 0, 0, 200 };
+  gDwellingCosts[FACTION_CYBORG][DWELLING_3_UPGRADE] = { 0, 0, 0, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_CYBORG][DWELLING_4_UPGRADE] = { 0, 0, 5, 0, 0, 0, 1000 };
+  gDwellingCosts[FACTION_CYBORG][DWELLING_5_UPGRADE] = {10, 0, 10, 0, 0, 0, 2000};
+  gDwellingCosts[FACTION_CYBORG][DWELLING_6_UPGRADE] = {20, 0, 0, 0, 0, 0, 3000};
 }

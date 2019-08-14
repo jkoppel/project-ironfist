@@ -5,16 +5,11 @@
 #include "artifacts.h"
 #include "editor.h"
 #include "gui/gui.h"
+#include "manager.h"
 #include "resource/resources.h"
 
 
 #pragma pack(push,1)
-
-class executive {
-public:
-	char _[16];
-	executive();
-};
 
 class inputManager {
 public:
@@ -35,7 +30,6 @@ public:
 	soundManager();
 };
 
-extern executive* gpExec;
 extern inputManager* gpInputManager;
 extern mouseManager* gpMouseManager;
 extern heroWindowManager* gpWindowManager;
