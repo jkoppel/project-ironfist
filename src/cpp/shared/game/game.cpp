@@ -735,25 +735,34 @@ void game::PerMonth() {
 }
 
 void game::ResetIronfistGameState() {
+	this->onMapEndCallbackStatus = false;
     for (int i = 0; i < NUM_PLAYERS; i++) {
         for (int j = 0; j < NUM_PLAYERS; j++) {
             this->sharePlayerVision[i][j] = false;
         }
     }
+	for (int i = 0; i < MAX_HEROES; i++) {
+		for (int j = 0; j < MAX_HEROES; j++) {
+			this->forcedComputerPlayerChases[i][j] = false;
+		}
+	}
 }
 
 extern int gbGameOver;
 extern int giEndSequence;
 
 void __fastcall CheckEndGame(int a, int b) {
-  CheckEndGame_orig(a, b);
-  if (gbGameOver) {
-    if (giEndSequence) {
-      ScriptCallback("OnMapVictory");
-    } else {
-      ScriptCallback("OnMapLoss");
-    }
-  }
+	CheckEndGame_orig(a, b);
+	if (gbGameOver) {
+		if (!gpGame->onMapEndCallbackStatus) {
+			gpGame->onMapEndCallbackStatus = true;
+			if (giEndSequence) {
+				ScriptCallback("OnMapVictory");
+			} else {
+				ScriptCallback("OnMapLoss");
+			}
+		}
+	}
 }
 
 int __fastcall HandleAppSpecificMenuCommands(int a1) {
@@ -802,12 +811,24 @@ class philAI {
 public:
 	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
 	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
+
+	int EvaluateHeroEvent_orig(int, int, int, int, int *);
+	int EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5);
 };
 
 void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5) {
 	if (gpGame->allowAIArmySharing) {
 		RedistributeTroops_orig(army1, army2, a1, a2, a3, a4, a5);
 	}
+}
+
+int philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5) {
+	hero *src = GetCurrentHero();
+	hero *dst = &gpGame->heroes[a1];
+	if (gpGame->forcedComputerPlayerChases[src->idx][dst->idx]) {
+		return AI_VALUE_CAP;
+	}
+	return EvaluateHeroEvent_orig(a1, a2, a3, a4, a5);
 }
 
 void game::InitRandomArtifacts() {

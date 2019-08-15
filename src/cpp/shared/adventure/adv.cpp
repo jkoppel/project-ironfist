@@ -257,6 +257,10 @@ mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7,
   return res;
 }
 
+void game::ForceComputerPlayerChase(hero *source, hero *dest, bool force) {
+	this->forcedComputerPlayerChases[source->idx][dest->idx] = force;
+}
+
 void game::ShareVision(int sourcePlayer, int destPlayer) {
   this->sharePlayerVision[sourcePlayer][destPlayer] = true;
   this->PropagateVision();
@@ -428,13 +432,14 @@ void advManager::HandlePyramid(class mapCell *cell,int locType, hero *hro, SAMPL
 
 int advManager::MapPutArmy(int x, int y, int monIdx, int monQty) {
   int cellIdx = y * gpGame->map.height + x;
-  gpGame->map.tiles[cellIdx].objectIndex = monIdx;
-  gpGame->map.tiles[cellIdx].extraInfo = monQty;
-  gpGame->map.tiles[cellIdx].objTileset = TILESET_MONSTER;
-  gpGame->map.tiles[cellIdx].objType = TILE_HAS_EVENT | LOCATION_ARMY_CAMP;
-  gpGame->map.tiles[cellIdx].overlayIndex = -1;
-  gpGame->map.tiles[cellIdx].field_4_1 = 0;
-  gpGame->map.tiles[cellIdx].isShadow = 0;
+  mapCell * loc = &gpGame->map.tiles[cellIdx];
+  loc->objectIndex = monIdx;
+  loc->extraInfo = monQty;
+  loc->objTileset = TILESET_MONSTER;
+  loc->objType = TILE_HAS_EVENT | LOCATION_ARMY_CAMP;
+  loc->overlayIndex = -1;
+  loc->field_4_1 = 0;
+  loc->isShadow = 0;
   return 0;
 }
 

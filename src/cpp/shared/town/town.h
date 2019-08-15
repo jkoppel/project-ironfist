@@ -95,8 +95,8 @@ public:
   int field_146;
   int field_14A;
   int isRecruitingHero;
-  int field_152;
-  int field_156;
+  int canBuyFlags;
+  int canBuildFlags;
   int field_15A;
   int buildingToBuild;
   heroWindow *curScreen;
