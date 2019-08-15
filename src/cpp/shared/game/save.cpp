@@ -170,7 +170,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     ReadArrayFromXML(pdata->heroesForPurchase, pdata_xml->heroesForPurchase());
     ReadArrayFromXML(pdata->heroesOwned, pdata_xml->heroesOwned());
 
-    gam->_B[1] = pdata_xml->game_B();
+    gam->hasCheated = pdata_xml->game_B();
     pdata->puzzlePiecesAndSomething[0] = pdata_xml->_3();
     pdata->personality = pdata_xml->personality();
     pdata->relatedToMaxOrNumHeroes = pdata_xml->relatedToMaxOrNumHeroes();

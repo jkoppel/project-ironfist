@@ -13,6 +13,8 @@
 #define MAX_TOWNS 72
 #define MAX_BOATS 48
 #define NUM_DIFFICULTIES 5
+#define MAX_ORIG_CAMPAIGNS 2
+#define MAX_MAPS_IN_ORIG_CAMPAIGN 12
 
 extern signed char gcColorToPlayerPos[];
 
@@ -146,24 +148,23 @@ struct randomHeroCreatureInfo {
 class game {
 public:
 	__int16 gameDifficulty;
-	char relatedToCurViewSideOrCampaign;
-	char field_3;
-	char relatedToCampaignMap;
-	char _1[120];
-	char field_7D;
-	char hasDwarfAlliance;
-	char maybeIsGoodCampaign;
-	char field_80;
-	char field_81;
-	char field_82;
-	char field_83;
-	char field_84;
-	char field_85;
-	char isDwarfbane;
-	char hasDragonAlliance;
-	char field_88;
-	char _11[193];
-	char lastSaveFile[251];
+	char campID;
+	char campIDanother;
+	char campMapID;
+  char campMapsWon[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  short campDaysPlayed[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  short campDaysPlayed2[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  char campUnknown;
+  char campBonuses[MAX_MAPS_IN_ORIG_CAMPAIGN];
+  char campChoices[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  char campMapsPlayed[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  short campDaysPlayedCurrent;
+  short campPlayerCreatures[CREATURES_IN_ARMY];
+  short campPlayerCreatureQuantities[CREATURES_IN_ARMY];
+  char campMaybeWon;
+  char campHasCheated;
+  char unknown[120];
+  char lastSaveFile[251];
 	char _12[100];
 	SMapHeader mapHeader;
 	char relatedToPlayerPosAndColor[NUM_PLAYERS];
@@ -197,7 +198,9 @@ public:
 	char ultimateArtifactLocY;
 	char ultimateArtifactIdx;
 	int field_6398;
-	char _B[14];
+  char field_639C;
+	char hasCheated;
+  char _B[12];
 	char currentRumor[301];
 	__int16 numRumors;
 	__int16 rumorIndices[30];
