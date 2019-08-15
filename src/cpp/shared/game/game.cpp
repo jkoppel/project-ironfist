@@ -112,7 +112,7 @@ extern char gLastFilename[];
 extern signed char xIsExpansionMap;
 
 void game::InitNewGame(struct SMapHeader *a) {
-	if (!strlen(gLastFilename)) { // game just started, no map was played yet
+	if(!gbInCampaign && !xIsPlayingExpansionCampaign && !strlen(gLastFilename)) { // game just started, no map was played yet
 		std::string lastPlayed;
 		if (xIsExpansionMap)
 			lastPlayed = read_pref<std::string>("Last Map expansion");
@@ -130,10 +130,12 @@ void game::InitNewGame(struct SMapHeader *a) {
 
 void game::NewMap(char* mapname) {
   send_event(mapAction, mapname);
-  if (xIsExpansionMap)
-	  write_pref("Last Map expansion", std::string(gMapName));
-  else
-	  write_pref("Last Map", std::string(gMapName));
+  if(!gbInCampaign && !xIsPlayingExpansionCampaign) {
+    if(xIsExpansionMap)
+      write_pref("Last Map expansion", std::string(gMapName));
+    else
+      write_pref("Last Map", std::string(gMapName));
+  }
   this->ResetIronfistGameState();
   this->NewMap_orig(mapname);
   ScriptingInit(std::string(mapname));
