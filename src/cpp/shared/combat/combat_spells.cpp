@@ -10,11 +10,8 @@
 #include "skills.h"
 #include "sound/sound.h"
 
-extern SCmbtHero sCmbtHero[13];
 extern int castX;
 extern int castY;
-
-extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,int,int);
 
 extern heroWindowManager *gpWindowManager;
 
@@ -417,7 +414,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
         creatureName = GetCreaturePluralName(stack->creatureIdx);
       sprintf(gText, "The magic arrow does %d\n damage to the %s.", damage, creatureName);
       this->CombatMessage(gText, 1, 1, 0);
-      float angles[9] = {90.000000,45.000038,26.565073,18.262905,0.000000,-18.262905,-26.565073,-45.000038,-90.000000};
+      float angles[9] = {90.0, 68.5, 45.0, 20.8, 0.0, -20.8, -45.0, -68.5, -90.0};
       icon *arrowIcon = gpResourceManager->GetIcon("keep.icn");
       this->ShootMissile(castX, castY, stack->MidX(), stack->MidY(), angles, arrowIcon);
       gpResourceManager->Dispose(arrowIcon);

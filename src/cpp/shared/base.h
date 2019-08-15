@@ -37,10 +37,29 @@ extern int giMinExtentX;
 extern int giMinExtentY;
 extern int giMaxExtentX;
 extern int giMaxExtentY;
+extern int giWalkingFrom;
+extern int giWalkingFrom2;
+extern int giWalkingTo;
+extern int giWalkingTo2;
+extern int giWalkingYMod;
+extern int gbComputeExtent;
+extern int gbSaveBiggestExtent;
+extern int gbReturnAfterComputeExtent;
+extern int gbCurrArmyDrawn;
+extern int gbLimitToExtent;
+extern int gbFullCombatScreenDrawn;
+extern int gbEnlargeScreenBlit;
+extern unsigned __int8 moatCell[];
 extern void __fastcall DelayTil(int *);
 extern void __fastcall DelayMilli(long);
 extern signed char gArmyEffected[2][20];
 extern int bSecondAttack;
+extern int giDebugBuildingToBuild;
+extern signed char gbThisNetHumanPlayer[];
+extern int gbAllBlack;
+extern int giDebugLevel;
+extern int combatArmyInfoLevel;
+extern float gfBattleStat[];
 /*
  * Updates sound, graphics if needed.
  *

@@ -551,3 +551,20 @@ void game::ProcessOnMapHeroes() {
     }
   }
 }
+
+int getCastleOwnedIdx(playerData *player, int castleIdx) {
+  for (int i = 0; player->numCastles > i; ++i ) {
+    if (player->castlesOwned[i] == castleIdx )
+      return i;
+  }
+  return -1;
+}
+
+int game::getNumberOfThievesGuilds(int playerIdx) {
+  int numGuilds = 0;
+  for(int i = 0; this->players[playerIdx].numCastles > i; ++i) {
+    if(gpGame->castles[this->players[playerIdx].castlesOwned[i]].buildingsBuiltFlags & BUILDING_TAVERN)
+      ++numGuilds;
+  }
+  return numGuilds;
+}

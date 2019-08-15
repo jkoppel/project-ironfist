@@ -8,6 +8,8 @@
 #include "skills.h"
 
 class mapCell;
+extern class town;
+extern class fullMap;
 
 #define ORIG_SPELLS 65
 
@@ -151,6 +153,7 @@ public:
   void SetPrimarySkill(int, int);
   int GetLevel();
   void Clear();
+  int NumArtifacts();
 };
 
 enum HERO_FLAGS {
@@ -166,9 +169,24 @@ class mapCell;
 
 class advManager : public baseManager {
 public:
-  char _[0xA6 - sizeof(baseManager)];
+  int field_36;
+  widget *someComponents[2][12];
+  heroWindow *adventureScreen;
+  int sizeOfSomethingMapRelated;
+  int field_A2;
   int currentTerrain;
-  char _1[0x12C];
+  int field_AA;
+  fullMap *map;
+  iconWidget *heroScrollbarKnob;
+  iconWidget *castleScrollbarKnob;
+  int field_BA;
+  int field_BE;
+  tileset *groundTileset;
+  tileset *clofTileset;
+  tileset *stonTileset;
+  int field_CE[64];
+  icon *radarIcon;
+  icon *clopIcon;
   int viewX;
   int viewY;
   int field_1DE;
@@ -206,7 +224,7 @@ public:
   void __thiscall EventWindow(int, int, char *, int, int, int, int, int);
   void __thiscall UpdateHeroLocators(int, int);
   void __thiscall UpdateScreen(int, int);
-  void __thiscall UpdateTownLocators(int, int);
+  void UpdateTownLocators(int a2, int updateScreen);
 
   int ProcessDeSelect(struct tag_message *GUIMessage_evt, int *a3, class mapCell **a4);
   int ProcessDeSelect_orig(struct tag_message *, int *, class mapCell **);
@@ -241,6 +259,12 @@ public:
 
   void ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1);
   void ComputerMonsterInteract_orig(mapCell *cell, hero *computer, int *a1);
+
+  void TownQuickView(int a2, int a3, int a4, int a5);
+  int IsCrystalBallInEffect(int x, int y, int a3);
+  void SetTownContext(int townID);
+  char * GetArmySizeName(signed int amt, int queryType);
+  char * GetQuantityString(int thievesGuildsLevel, town* town, int garrisonIdx);
 };
 
 extern advManager* gpAdvManager;

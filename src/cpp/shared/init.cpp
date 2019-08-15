@@ -15,27 +15,10 @@
 
 #pragma pack(push,1)
 
-class executive {
-public:
-  char _[16];
-  executive();
-
-  int DoDialog(baseManager *a2);
-  int AddManager(baseManager *mgr, int argIdx);
-  int AddManager_orig(baseManager *mgr, int argIdx);
-};
-
 class inputManager {
 public:
 	char _[2154];
 	inputManager();
-};
-
-class mouseManager {
-public:
-	char _[138];
-	mouseManager();
-	void ShowColorPointer();
 };
 
 class highScoreManager {
@@ -56,9 +39,7 @@ public:
 	philAI();
 };
 
-extern executive* gpExec;
 extern inputManager* gpInputManager;
-extern mouseManager* gpMouseManager;
 extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
 extern soundManager* gpSoundManager;

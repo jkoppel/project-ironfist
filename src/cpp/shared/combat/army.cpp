@@ -23,18 +23,6 @@ extern int gCurLoadedSpellEffect;
 extern int gCurSpellEffectFrame;
 extern int gbGenieHalf;
 extern int gbRemoteOn;
-extern int giWalkingFrom;
-extern int giWalkingFrom2;
-extern int giWalkingTo;
-extern int giWalkingTo2;
-extern int giWalkingYMod;
-extern int gbComputeExtent;
-extern int gbSaveBiggestExtent;
-extern int gbReturnAfterComputeExtent;
-extern int gbCurrArmyDrawn;
-extern int gbLimitToExtent;
-extern unsigned __int8 moatCell[];
-extern float gfBattleStat[];
 extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
@@ -633,13 +621,9 @@ void army::Walk(signed int dir, int last, int notFirst) {
     giMinExtentX = 640;
     giMaxExtentY = 0;
     giMaxExtentX = 0;
-    gbComputeExtent = 1;
-    gbSaveBiggestExtent = 1;
-    gbReturnAfterComputeExtent = 1;
+    gpCombatManager->SetRenderExtentFlags(true);
     this->DrawToBuffer(gpCombatManager->combatGrid[this->occupiedHex].centerX, gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY, 0);
-    gbReturnAfterComputeExtent = 0;
-    gbSaveBiggestExtent = 0;
-    gbComputeExtent = 0;
+    gpCombatManager->SetRenderExtentFlags(false);
   }
   if (giMinExtentX < 0)
     giMinExtentX = 0;
@@ -712,16 +696,12 @@ void army::Walk(signed int dir, int last, int notFirst) {
       giMinExtentX = 640;
       giMaxExtentY = 0;
       giMaxExtentX = 0;
-      gbComputeExtent = 1;
-      gbSaveBiggestExtent = 1;
-      gbReturnAfterComputeExtent = 1;
+      gpCombatManager->SetRenderExtentFlags(true);
       this->DrawToBuffer(
         gpCombatManager->combatGrid[this->occupiedHex].centerX,
         gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY,
         0);
-      gbReturnAfterComputeExtent = 0;
-      gbComputeExtent = 0;
-      gbSaveBiggestExtent = 0;
+      gpCombatManager->SetRenderExtentFlags(false);
       if (giMinExtentX < 0)
         giMinExtentX = 0;
       if (giMinExtentY < 0)

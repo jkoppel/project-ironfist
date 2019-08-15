@@ -31,7 +31,6 @@ extern int giCurTurn;
 extern playerData* gpCurPlayer;
 extern unsigned char giCurPlayerBit;
 
-extern signed char gbThisNetHumanPlayer[];
 extern int giCurWatchPlayer;
 extern unsigned char giCurWatchPlayerBit;
 
@@ -205,7 +204,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     twn->x = twn_xml->x();
     twn->y = twn_xml->y();
     twn->buildDockRelated = twn_xml->buildDockRelated();
-    twn->field_7 = twn_xml->field_7();
+    twn->boatCell = twn_xml->field_7();
     twn->visitingHeroIdx = twn_xml->visitingHeroIdx();
     twn->buildingsBuiltFlags = twn_xml->buildingsBuiltFlags();
     twn->mageGuildLevel = twn_xml->mageGuildLevel();
@@ -231,7 +230,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   }
 
   ReadArrayFromXML(gam->field_2773, gs.field_2773());
-  ReadArrayFromXML(gam->field_27BB, gs.field_27BB());
+  ReadArrayFromXML(gam->builtToday, gs.field_27BB());
 
   for (int i = 0; i < gs.mine().size(); i++) {
     mine *mn = &gam->mines[i];
@@ -430,7 +429,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
   WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
   WriteArrayToXML(gs.field_2773(), gam->field_2773);
-  WriteArrayToXML(gs.field_27BB(), gam->field_27BB);
+  WriteArrayToXML(gs.field_27BB(), gam->builtToday);
   WriteArrayToXML(gs.field_60A6(), gam->field_60A6);
   WriteArrayToXML(gs.randomArtifacts(), SerializeGeneratedArtifacts());
   WriteArrayToXML(gs.boatBuilt(), gam->boatBuilt);
@@ -501,7 +500,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       twn.x,
       twn.y,
       twn.buildDockRelated,
-      twn.field_7,
+      twn.boatCell,
       twn.visitingHeroIdx,
       (int)twn.buildingsBuiltFlags,
       twn.mageGuildLevel,
