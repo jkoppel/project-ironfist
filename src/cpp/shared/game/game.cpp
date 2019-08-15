@@ -424,8 +424,7 @@ void game::PerWeek() {
           }
           break;
         case TILE_HAS_EVENT | LOCATION_WINDMILL:
-          tile->extraInfo = 0;
-          tile->extraInfo &= Random(1, 5);
+          tile->extraInfo = Random(1, 5);
           break;
         case TILE_HAS_EVENT | LOCATION_ARCHERS_HOUSE:
           if(tile->extraInfo < 8171) {
