@@ -467,7 +467,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       player.numHeroes,
       player.curHeroIdx,
       player.relatedToSomeSortOfHeroCountOrIdx,
-      gam->_B[1],
+      gam->hasCheated,
       player.puzzlePiecesAndSomething[0],
       player.personality,
       player.relatedToMaxOrNumHeroes,
