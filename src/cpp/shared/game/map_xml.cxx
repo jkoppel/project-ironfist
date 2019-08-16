@@ -2019,22 +2019,22 @@ namespace ironfist_save
     this->field_2773_ = s;
   }
 
-  const gamestate_t::field_27BB_sequence& gamestate_t::
-  field_27BB () const
+  const gamestate_t::builtToday_sequence& gamestate_t::
+  builtToday () const
   {
-    return this->field_27BB_;
+    return this->builtToday_;
   }
 
-  gamestate_t::field_27BB_sequence& gamestate_t::
-  field_27BB ()
+  gamestate_t::builtToday_sequence& gamestate_t::
+  builtToday ()
   {
-    return this->field_27BB_;
+    return this->builtToday_;
   }
 
   void gamestate_t::
-  field_27BB (const field_27BB_sequence& s)
+  builtToday (const builtToday_sequence& s)
   {
-    this->field_27BB_ = s;
+    this->builtToday_ = s;
   }
 
   const gamestate_t::field_60A6_sequence& gamestate_t::
@@ -3971,22 +3971,22 @@ namespace ironfist_save
     this->buildDockRelated_.set (x);
   }
 
-  const town_t::field_7_type& town_t::
-  field_7 () const
+  const town_t::boatcell_type& town_t::
+  boatcell () const
   {
-    return this->field_7_.get ();
+    return this->boatcell_.get ();
   }
 
-  town_t::field_7_type& town_t::
-  field_7 ()
+  town_t::boatcell_type& town_t::
+  boatcell ()
   {
-    return this->field_7_.get ();
+    return this->boatcell_.get ();
   }
 
   void town_t::
-  field_7 (const field_7_type& x)
+  boatcell (const boatcell_type& x)
   {
-    this->field_7_.set (x);
+    this->boatcell_.set (x);
   }
 
   const town_t::visitingHeroIdx_type& town_t::
@@ -4359,40 +4359,40 @@ namespace ironfist_save
     this->relatedToSomeSortOfHeroCountOrIdx_.set (x);
   }
 
-  const playerData_t::game_B_type& playerData_t::
-  game_B () const
+  const playerData_t::hasCheated_type& playerData_t::
+  hasCheated () const
   {
-    return this->game_B_.get ();
+    return this->hasCheated_.get ();
   }
 
-  playerData_t::game_B_type& playerData_t::
-  game_B ()
+  playerData_t::hasCheated_type& playerData_t::
+  hasCheated ()
   {
-    return this->game_B_.get ();
-  }
-
-  void playerData_t::
-  game_B (const game_B_type& x)
-  {
-    this->game_B_.set (x);
-  }
-
-  const playerData_t::_3_type& playerData_t::
-  _3 () const
-  {
-    return this->_3_.get ();
-  }
-
-  playerData_t::_3_type& playerData_t::
-  _3 ()
-  {
-    return this->_3_.get ();
+    return this->hasCheated_.get ();
   }
 
   void playerData_t::
-  _3 (const _3_type& x)
+  hasCheated (const hasCheated_type& x)
   {
-    this->_3_.set (x);
+    this->hasCheated_.set (x);
+  }
+
+  const playerData_t::puzzlePieces_type& playerData_t::
+  puzzlePieces () const
+  {
+    return this->puzzlePieces_.get ();
+  }
+
+  playerData_t::puzzlePieces_type& playerData_t::
+  puzzlePieces ()
+  {
+    return this->puzzlePieces_.get ();
+  }
+
+  void playerData_t::
+  puzzlePieces (const puzzlePieces_type& x)
+  {
+    this->puzzlePieces_.set (x);
   }
 
   const playerData_t::personality_type& playerData_t::
@@ -6955,7 +6955,7 @@ namespace ironfist_save
     difficulty_ (difficulty, ::xml_schema::flags (), this),
     mapFilename_ (mapFilename, ::xml_schema::flags (), this),
     field_2773_ (::xml_schema::flags (), this),
-    field_27BB_ (::xml_schema::flags (), this),
+    builtToday_ (::xml_schema::flags (), this),
     field_60A6_ (::xml_schema::flags (), this),
     randomArtifacts_ (::xml_schema::flags (), this),
     boatBuilt_ (::xml_schema::flags (), this),
@@ -7015,7 +7015,7 @@ namespace ironfist_save
     difficulty_ (x.difficulty_, f, this),
     mapFilename_ (x.mapFilename_, f, this),
     field_2773_ (x.field_2773_, f, this),
-    field_27BB_ (x.field_27BB_, f, this),
+    builtToday_ (x.builtToday_, f, this),
     field_60A6_ (x.field_60A6_, f, this),
     randomArtifacts_ (x.randomArtifacts_, f, this),
     boatBuilt_ (x.boatBuilt_, f, this),
@@ -7075,7 +7075,7 @@ namespace ironfist_save
     difficulty_ (f, this),
     mapFilename_ (f, this),
     field_2773_ (f, this),
-    field_27BB_ (f, this),
+    builtToday_ (f, this),
     field_60A6_ (f, this),
     randomArtifacts_ (f, this),
     boatBuilt_ (f, this),
@@ -7501,14 +7501,14 @@ namespace ironfist_save
         continue;
       }
 
-      // field_27BB
+      // builtToday
       //
-      if (n.name () == "field_27BB" && n.namespace_ ().empty ())
+      if (n.name () == "builtToday" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< field_27BB_type > r (
-          field_27BB_traits::create (i, f, this));
+        ::std::auto_ptr< builtToday_type > r (
+          builtToday_traits::create (i, f, this));
 
-        this->field_27BB_.push_back (r);
+        this->builtToday_.push_back (r);
         continue;
       }
 
@@ -9814,7 +9814,7 @@ namespace ironfist_save
           const x_type& x,
           const y_type& y,
           const buildDockRelated_type& buildDockRelated,
-          const field_7_type& field_7,
+          const boatcell_type& boatcell,
           const visitingHeroIdx_type& visitingHeroIdx,
           const buildingsBuiltFlags_type& buildingsBuiltFlags,
           const mageGuildLevel_type& mageGuildLevel,
@@ -9835,7 +9835,7 @@ namespace ironfist_save
     x_ (x, ::xml_schema::flags (), this),
     y_ (y, ::xml_schema::flags (), this),
     buildDockRelated_ (buildDockRelated, ::xml_schema::flags (), this),
-    field_7_ (field_7, ::xml_schema::flags (), this),
+    boatcell_ (boatcell, ::xml_schema::flags (), this),
     visitingHeroIdx_ (visitingHeroIdx, ::xml_schema::flags (), this),
     buildingsBuiltFlags_ (buildingsBuiltFlags, ::xml_schema::flags (), this),
     mageGuildLevel_ (mageGuildLevel, ::xml_schema::flags (), this),
@@ -9867,7 +9867,7 @@ namespace ironfist_save
     x_ (x.x_, f, this),
     y_ (x.y_, f, this),
     buildDockRelated_ (x.buildDockRelated_, f, this),
-    field_7_ (x.field_7_, f, this),
+    boatcell_ (x.boatcell_, f, this),
     visitingHeroIdx_ (x.visitingHeroIdx_, f, this),
     buildingsBuiltFlags_ (x.buildingsBuiltFlags_, f, this),
     mageGuildLevel_ (x.mageGuildLevel_, f, this),
@@ -9899,7 +9899,7 @@ namespace ironfist_save
     x_ (f, this),
     y_ (f, this),
     buildDockRelated_ (f, this),
-    field_7_ (f, this),
+    boatcell_ (f, this),
     visitingHeroIdx_ (f, this),
     buildingsBuiltFlags_ (f, this),
     mageGuildLevel_ (f, this),
@@ -10011,13 +10011,13 @@ namespace ironfist_save
         }
       }
 
-      // field_7
+      // boatcell
       //
-      if (n.name () == "field_7" && n.namespace_ ().empty ())
+      if (n.name () == "boatcell" && n.namespace_ ().empty ())
       {
-        if (!field_7_.present ())
+        if (!boatcell_.present ())
         {
-          this->field_7_.set (field_7_traits::create (i, f, this));
+          this->boatcell_.set (boatcell_traits::create (i, f, this));
           continue;
         }
       }
@@ -10253,10 +10253,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_7_.present ())
+    if (!boatcell_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_7",
+        "boatcell",
         "");
     }
 
@@ -10365,8 +10365,8 @@ namespace ironfist_save
                 const numHeroes_type& numHeroes,
                 const curHeroIdx_type& curHeroIdx,
                 const relatedToSomeSortOfHeroCountOrIdx_type& relatedToSomeSortOfHeroCountOrIdx,
-                const game_B_type& game_B,
-                const _3_type& _3,
+                const hasCheated_type& hasCheated,
+                const puzzlePieces_type& puzzlePieces,
                 const personality_type& personality,
                 const relatedToMaxOrNumHeroes_type& relatedToMaxOrNumHeroes,
                 const hasEvilFaction_type& hasEvilFaction,
@@ -10382,8 +10382,8 @@ namespace ironfist_save
     numHeroes_ (numHeroes, ::xml_schema::flags (), this),
     curHeroIdx_ (curHeroIdx, ::xml_schema::flags (), this),
     relatedToSomeSortOfHeroCountOrIdx_ (relatedToSomeSortOfHeroCountOrIdx, ::xml_schema::flags (), this),
-    game_B_ (game_B, ::xml_schema::flags (), this),
-    _3_ (_3, ::xml_schema::flags (), this),
+    hasCheated_ (hasCheated, ::xml_schema::flags (), this),
+    puzzlePieces_ (puzzlePieces, ::xml_schema::flags (), this),
     personality_ (personality, ::xml_schema::flags (), this),
     relatedToMaxOrNumHeroes_ (relatedToMaxOrNumHeroes, ::xml_schema::flags (), this),
     hasEvilFaction_ (hasEvilFaction, ::xml_schema::flags (), this),
@@ -10412,8 +10412,8 @@ namespace ironfist_save
     numHeroes_ (x.numHeroes_, f, this),
     curHeroIdx_ (x.curHeroIdx_, f, this),
     relatedToSomeSortOfHeroCountOrIdx_ (x.relatedToSomeSortOfHeroCountOrIdx_, f, this),
-    game_B_ (x.game_B_, f, this),
-    _3_ (x._3_, f, this),
+    hasCheated_ (x.hasCheated_, f, this),
+    puzzlePieces_ (x.puzzlePieces_, f, this),
     personality_ (x.personality_, f, this),
     relatedToMaxOrNumHeroes_ (x.relatedToMaxOrNumHeroes_, f, this),
     hasEvilFaction_ (x.hasEvilFaction_, f, this),
@@ -10442,8 +10442,8 @@ namespace ironfist_save
     numHeroes_ (f, this),
     curHeroIdx_ (f, this),
     relatedToSomeSortOfHeroCountOrIdx_ (f, this),
-    game_B_ (f, this),
-    _3_ (f, this),
+    hasCheated_ (f, this),
+    puzzlePieces_ (f, this),
     personality_ (f, this),
     relatedToMaxOrNumHeroes_ (f, this),
     hasEvilFaction_ (f, this),
@@ -10522,24 +10522,24 @@ namespace ironfist_save
         }
       }
 
-      // game_B
+      // hasCheated
       //
-      if (n.name () == "game_B" && n.namespace_ ().empty ())
+      if (n.name () == "hasCheated" && n.namespace_ ().empty ())
       {
-        if (!game_B_.present ())
+        if (!hasCheated_.present ())
         {
-          this->game_B_.set (game_B_traits::create (i, f, this));
+          this->hasCheated_.set (hasCheated_traits::create (i, f, this));
           continue;
         }
       }
 
-      // _3
+      // puzzlePieces
       //
-      if (n.name () == "_3" && n.namespace_ ().empty ())
+      if (n.name () == "puzzlePieces" && n.namespace_ ().empty ())
       {
-        if (!_3_.present ())
+        if (!puzzlePieces_.present ())
         {
-          this->_3_.set (_3_traits::create (i, f, this));
+          this->puzzlePieces_.set (puzzlePieces_traits::create (i, f, this));
           continue;
         }
       }
@@ -10751,17 +10751,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!game_B_.present ())
+    if (!hasCheated_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "game_B",
+        "hasCheated",
         "");
     }
 
-    if (!_3_.present ())
+    if (!puzzlePieces_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "_3",
+        "puzzlePieces",
         "");
     }
 
@@ -14768,15 +14768,15 @@ namespace ironfist_save
       s << *b;
     }
 
-    // field_27BB
+    // builtToday
     //
-    for (gamestate_t::field_27BB_const_iterator
-         b (i.field_27BB ().begin ()), n (i.field_27BB ().end ());
+    for (gamestate_t::builtToday_const_iterator
+         b (i.builtToday ().begin ()), n (i.builtToday ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_27BB",
+          "builtToday",
           e));
 
       s << *b;
@@ -16054,15 +16054,15 @@ namespace ironfist_save
       s << i.buildDockRelated ();
     }
 
-    // field_7
+    // boatcell
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_7",
+          "boatcell",
           e));
 
-      s << i.field_7 ();
+      s << i.boatcell ();
     }
 
     // visitingHeroIdx
@@ -16303,26 +16303,26 @@ namespace ironfist_save
       s << i.relatedToSomeSortOfHeroCountOrIdx ();
     }
 
-    // game_B
+    // hasCheated
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "game_B",
+          "hasCheated",
           e));
 
-      s << i.game_B ();
+      s << i.hasCheated ();
     }
 
-    // _3
+    // puzzlePieces
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_3",
+          "puzzlePieces",
           e));
 
-      s << i._3 ();
+      s << i.puzzlePieces ();
     }
 
     // personality

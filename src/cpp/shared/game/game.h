@@ -91,7 +91,8 @@ public:
 	char heroesForPurchase[2];
 	char relatedToMaxOrNumHeroes;
 	int personality;
-	char puzzlePiecesAndSomething[45];
+	char puzzlePieces;
+  char _3[44];
 	char field_40;
 	__int16 field_41;
 	char daysLeftWithoutCastle;
@@ -172,7 +173,12 @@ public:
 	char relatedToColorOfPlayerOrFaction[NUM_PLAYERS];
 	char somePlayerCodeOr10IfMayBeHuman[NUM_PLAYERS];
 	char difficulty;
-	char mapFilename[40];
+	char mapFilename[13];
+  char somePlayerNumData[NUM_PLAYERS];
+  char relatedToNewGameSelection;
+  char relatedToNewGameInit;
+  char numHumanPlayers;
+  char field_47C[18];
 	char numPlayers;
 	char couldBeNumDefeatedPlayers;
 	char playerDead[NUM_PLAYERS];

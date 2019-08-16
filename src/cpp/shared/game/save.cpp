@@ -170,8 +170,8 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     ReadArrayFromXML(pdata->heroesForPurchase, pdata_xml->heroesForPurchase());
     ReadArrayFromXML(pdata->heroesOwned, pdata_xml->heroesOwned());
 
-    gam->hasCheated = pdata_xml->game_B();
-    pdata->puzzlePiecesAndSomething[0] = pdata_xml->_3();
+    gam->hasCheated = pdata_xml->hasCheated();
+    pdata->puzzlePieces = pdata_xml->puzzlePieces();
     pdata->personality = pdata_xml->personality();
     pdata->relatedToMaxOrNumHeroes = pdata_xml->relatedToMaxOrNumHeroes();
     pdata->hasEvilFaction = pdata_xml->hasEvilFaction();
@@ -204,7 +204,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     twn->x = twn_xml->x();
     twn->y = twn_xml->y();
     twn->buildDockRelated = twn_xml->buildDockRelated();
-    twn->boatCell = twn_xml->field_7();
+    twn->boatCell = twn_xml->boatcell();
     twn->visitingHeroIdx = twn_xml->visitingHeroIdx();
     twn->buildingsBuiltFlags = twn_xml->buildingsBuiltFlags();
     twn->mageGuildLevel = twn_xml->mageGuildLevel();
@@ -230,7 +230,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   }
 
   ReadArrayFromXML(gam->field_2773, gs.field_2773());
-  ReadArrayFromXML(gam->builtToday, gs.field_27BB());
+  ReadArrayFromXML(gam->builtToday, gs.builtToday());
 
   for (int i = 0; i < gs.mine().size(); i++) {
     mine *mn = &gam->mines[i];
@@ -429,7 +429,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
   WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
   WriteArrayToXML(gs.field_2773(), gam->field_2773);
-  WriteArrayToXML(gs.field_27BB(), gam->builtToday);
+  WriteArrayToXML(gs.builtToday(), gam->builtToday);
   WriteArrayToXML(gs.field_60A6(), gam->field_60A6);
   WriteArrayToXML(gs.randomArtifacts(), SerializeGeneratedArtifacts());
   WriteArrayToXML(gs.boatBuilt(), gam->boatBuilt);
@@ -468,7 +468,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       player.curHeroIdx,
       player.relatedToSomeSortOfHeroCountOrIdx,
       gam->hasCheated,
-      player.puzzlePiecesAndSomething[0],
+      player.puzzlePieces,
       player.personality,
       player.relatedToMaxOrNumHeroes,
       player.hasEvilFaction,

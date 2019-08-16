@@ -119,10 +119,10 @@ void game::InitNewGame(struct SMapHeader *a) {
 		else
 			lastPlayed = read_pref<std::string>("Last Map");
 
-		const int mapNameSize = 13;  // DOS 8+3 format
+		const int mapNameSize = sizeof(mapFilename); // DOS 8+3 format
 		if (lastPlayed.length() < mapNameSize) { // otherwise means no registry keys exist yet
 			strcpy_s(gMapName, mapNameSize, lastPlayed.c_str());
-			strcpy_s(this->mapFilename, sizeof(mapFilename), lastPlayed.c_str());
+			strcpy_s(this->mapFilename, mapNameSize, lastPlayed.c_str());
 		}
 	}
 	this->InitNewGame_orig(a);

@@ -2180,22 +2180,22 @@ namespace ironfist_save
     void
     field_2773 (const field_2773_sequence& s);
 
-    // field_27BB
+    // builtToday
     // 
-    typedef ::ironfist_save::arrayInt_t field_27BB_type;
-    typedef ::xsd::cxx::tree::sequence< field_27BB_type > field_27BB_sequence;
-    typedef field_27BB_sequence::iterator field_27BB_iterator;
-    typedef field_27BB_sequence::const_iterator field_27BB_const_iterator;
-    typedef ::xsd::cxx::tree::traits< field_27BB_type, char > field_27BB_traits;
+    typedef ::ironfist_save::arrayInt_t builtToday_type;
+    typedef ::xsd::cxx::tree::sequence< builtToday_type > builtToday_sequence;
+    typedef builtToday_sequence::iterator builtToday_iterator;
+    typedef builtToday_sequence::const_iterator builtToday_const_iterator;
+    typedef ::xsd::cxx::tree::traits< builtToday_type, char > builtToday_traits;
 
-    const field_27BB_sequence&
-    field_27BB () const;
+    const builtToday_sequence&
+    builtToday () const;
 
-    field_27BB_sequence&
-    field_27BB ();
+    builtToday_sequence&
+    builtToday ();
 
     void
-    field_27BB (const field_27BB_sequence& s);
+    builtToday (const builtToday_sequence& s);
 
     // field_60A6
     // 
@@ -2556,7 +2556,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< difficulty_type > difficulty_;
     ::xsd::cxx::tree::one< mapFilename_type > mapFilename_;
     field_2773_sequence field_2773_;
-    field_27BB_sequence field_27BB_;
+    builtToday_sequence builtToday_;
     field_60A6_sequence field_60A6_;
     randomArtifacts_sequence randomArtifacts_;
     boatBuilt_sequence boatBuilt_;
@@ -4226,19 +4226,19 @@ namespace ironfist_save
     void
     buildDockRelated (const buildDockRelated_type& x);
 
-    // field_7
+    // boatcell
     // 
-    typedef ::xml_schema::int_ field_7_type;
-    typedef ::xsd::cxx::tree::traits< field_7_type, char > field_7_traits;
+    typedef ::xml_schema::int_ boatcell_type;
+    typedef ::xsd::cxx::tree::traits< boatcell_type, char > boatcell_traits;
 
-    const field_7_type&
-    field_7 () const;
+    const boatcell_type&
+    boatcell () const;
 
-    field_7_type&
-    field_7 ();
+    boatcell_type&
+    boatcell ();
 
     void
-    field_7 (const field_7_type& x);
+    boatcell (const boatcell_type& x);
 
     // visitingHeroIdx
     // 
@@ -4488,7 +4488,7 @@ namespace ironfist_save
             const x_type&,
             const y_type&,
             const buildDockRelated_type&,
-            const field_7_type&,
+            const boatcell_type&,
             const visitingHeroIdx_type&,
             const buildingsBuiltFlags_type&,
             const mageGuildLevel_type&,
@@ -4532,7 +4532,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< x_type > x_;
     ::xsd::cxx::tree::one< y_type > y_;
     ::xsd::cxx::tree::one< buildDockRelated_type > buildDockRelated_;
-    ::xsd::cxx::tree::one< field_7_type > field_7_;
+    ::xsd::cxx::tree::one< boatcell_type > boatcell_;
     ::xsd::cxx::tree::one< visitingHeroIdx_type > visitingHeroIdx_;
     ::xsd::cxx::tree::one< buildingsBuiltFlags_type > buildingsBuiltFlags_;
     ::xsd::cxx::tree::one< mageGuildLevel_type > mageGuildLevel_;
@@ -4610,33 +4610,33 @@ namespace ironfist_save
     void
     relatedToSomeSortOfHeroCountOrIdx (const relatedToSomeSortOfHeroCountOrIdx_type& x);
 
-    // game_B
+    // hasCheated
     // 
-    typedef ::xml_schema::int_ game_B_type;
-    typedef ::xsd::cxx::tree::traits< game_B_type, char > game_B_traits;
+    typedef ::xml_schema::int_ hasCheated_type;
+    typedef ::xsd::cxx::tree::traits< hasCheated_type, char > hasCheated_traits;
 
-    const game_B_type&
-    game_B () const;
+    const hasCheated_type&
+    hasCheated () const;
 
-    game_B_type&
-    game_B ();
+    hasCheated_type&
+    hasCheated ();
 
     void
-    game_B (const game_B_type& x);
+    hasCheated (const hasCheated_type& x);
 
-    // _3
+    // puzzlePieces
     // 
-    typedef ::xml_schema::int_ _3_type;
-    typedef ::xsd::cxx::tree::traits< _3_type, char > _3_traits;
+    typedef ::xml_schema::int_ puzzlePieces_type;
+    typedef ::xsd::cxx::tree::traits< puzzlePieces_type, char > puzzlePieces_traits;
 
-    const _3_type&
-    _3 () const;
+    const puzzlePieces_type&
+    puzzlePieces () const;
 
-    _3_type&
-    _3 ();
+    puzzlePieces_type&
+    puzzlePieces ();
 
     void
-    _3 (const _3_type& x);
+    puzzlePieces (const puzzlePieces_type& x);
 
     // personality
     // 
@@ -4886,8 +4886,8 @@ namespace ironfist_save
                   const numHeroes_type&,
                   const curHeroIdx_type&,
                   const relatedToSomeSortOfHeroCountOrIdx_type&,
-                  const game_B_type&,
-                  const _3_type&,
+                  const hasCheated_type&,
+                  const puzzlePieces_type&,
                   const personality_type&,
                   const relatedToMaxOrNumHeroes_type&,
                   const hasEvilFaction_type&,
@@ -4926,8 +4926,8 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< numHeroes_type > numHeroes_;
     ::xsd::cxx::tree::one< curHeroIdx_type > curHeroIdx_;
     ::xsd::cxx::tree::one< relatedToSomeSortOfHeroCountOrIdx_type > relatedToSomeSortOfHeroCountOrIdx_;
-    ::xsd::cxx::tree::one< game_B_type > game_B_;
-    ::xsd::cxx::tree::one< _3_type > _3_;
+    ::xsd::cxx::tree::one< hasCheated_type > hasCheated_;
+    ::xsd::cxx::tree::one< puzzlePieces_type > puzzlePieces_;
     ::xsd::cxx::tree::one< personality_type > personality_;
     ::xsd::cxx::tree::one< relatedToMaxOrNumHeroes_type > relatedToMaxOrNumHeroes_;
     ::xsd::cxx::tree::one< hasEvilFaction_type > hasEvilFaction_;
