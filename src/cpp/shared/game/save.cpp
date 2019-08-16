@@ -950,17 +950,32 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
   char path[100];
   char v9[100];
   if (autosave) {
-    if (!xIsExpansionMap || baseGame) {
-      sprintf(path, "%s.GM1", saveFile);
-    } else {
-      sprintf(path, "%s.GX1", saveFile);
+    if (gbInCampaign)
+      sprintf(path, "%s.%s", saveFile, "GMC");
+    else if (xIsPlayingExpansionCampaign)
+      sprintf(path, "%s.%s", saveFile, "GXC");
+    else {
+      numPlayers = 0;
+      for(int i = 0; i < NUM_PLAYERS; ++i)
+        if(!this->playerDead[i] && gbHumanPlayer[i])
+          ++numPlayers;
+      if(!xIsExpansionMap || baseGame) {
+        sprintf(path, "%s.GM1", saveFile);
+      } else {
+        sprintf(path, "%s.GX1", saveFile);
+      }
     }
   } else {
     sprintf(path, saveFile);
   }
-  sprintf(v9, "%s%s", ".\\GAMES\\", &path);
-  if (strnicmp(path, "AUTOSAVE", 8) && strnicmp(path, "PLYREXIT", 8))
-    strcpy(gpGame->lastSaveFile, saveFile);
+
+  if(strnicmp(path, "RMT", 3)) {
+    sprintf(v9, "%s%s", ".\\GAMES\\", &path);
+    if(strnicmp(path, "AUTOSAVE", 8) && strnicmp(path, "PLYREXIT", 8))
+      strcpy(gpGame->lastSaveFile, saveFile);
+  } else {
+    sprintf(v9, "%s%s", ".\\DATA\\", path);
+  }  
 
   std::ofstream os(v9);
 
