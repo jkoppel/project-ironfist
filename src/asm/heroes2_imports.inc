@@ -86,6 +86,7 @@ IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 ;;allowing play without CD
 IMPORT_?SetupCDDrive@@YIHXZ = 1
+?SetupCDDrive@@YIHXZ_clone EQU ?SetupCDDrive_orig@@YIHXZ
 IMPORT_?SetupCDRom@@YIXXZ = 1
 IMPORT_?SetupGame@game@@QAEHXZ = 1
 ?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ

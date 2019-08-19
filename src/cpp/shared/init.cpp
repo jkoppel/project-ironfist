@@ -95,6 +95,7 @@ extern int gbNoSound;
 
 extern void __fastcall SetFullScreenStatus(int);
 extern void __fastcall ResizeWindow(int,int,int,int);
+extern int __fastcall SetupCDDrive_orig();
 
 void __fastcall SetupCDRom() {
 	
@@ -148,7 +149,10 @@ void __fastcall SetupCDRom() {
 }
 
 int __fastcall SetupCDDrive() {
-	return 1;
+  int res = SetupCDDrive_orig();
+  if(res)
+    return 1;
+  return res;
 }
 
 int executive::AddManager(baseManager *mgr, int argIdx) {
