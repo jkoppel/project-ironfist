@@ -82,6 +82,74 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="origCampaign_t">
+    <xs:sequence>
+      <xs:element name="campID" type="xs:int"/>
+      <xs:element name="campIDanother" type="xs:int"/>
+      <xs:element name="campMapID" type="xs:int"/>
+      <xs:element name="campUnknown" type="xs:int"/>
+      <xs:element name="campDaysPlayedCurrent" type="xs:int"/>
+      <xs:element name="campMaybeWon" type="xs:int"/>
+      <xs:element name="campHasCheated" type="xs:int"/>
+      <xs:element name="campMapsWon" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="won" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="campDaysPlayed" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="daysPlayed" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="campDaysPlayed2" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="daysPlayed" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>  
+      <xs:element name="campBonuses" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campChoices" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="choice" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>  
+      <xs:element name="campMapsPlayed" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="played" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>  
+      <xs:element name="campPlayerCreatures" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campPlayerCreatureQuantities" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="relatedToCampaign" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="expCampaign_t">
+    <xs:sequence>
+      <xs:element name="mapChoice" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mapsPlayed" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="daysPlayed" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="awards" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="bonusChoices" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campaignID" type="xs:int"/>
+      <xs:element name="currentMapID" type="xs:int"/>
+      <xs:element name="numMaps" type="xs:int"/>
+      <xs:element name="unknownVariable" type="xs:int"/>
+      <xs:element name="mightBeScenarioID" type="xs:int"/>
+      <xs:element name="window" type="xs:int"/>
+      <xs:element name="anIntVariable" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  
   <xs:complexType name="tableElement_t">
     <xs:attribute name="key" type="xs:string"/>
     <xs:attribute name="value" type="xs:string"/>
@@ -165,6 +233,9 @@
       <xs:element name="mine" type="mine_t" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="boat" type="boat_t" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="map" type="map_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campaignType" type="xs:int" default="0"/>
+      <xs:element ref="origCampaign" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="expCampaign" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
   
@@ -372,6 +443,8 @@
   <xs:element name="mapVariable" type="mapVariable_t"/>
   <xs:element name="raw" type="xs:base64Binary"/>
   <xs:element name="army" type="army_t"/>
+  <xs:element name="origCampaign" type="origCampaign_t"/>
+  <xs:element name="expCampaign" type="expCampaign_t"/>
   <xs:element name="script" type="xs:string"/>
 
 </xs:schema>

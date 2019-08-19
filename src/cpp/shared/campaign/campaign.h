@@ -7,6 +7,12 @@
 #define MAX_CAMPAIGNS 4
 #define MAX_CAMPAIGN_CHOICES 3
 
+enum CAMPAIGN_TYPE {
+  CAMPAIGN_TYPE_NONE = 0,
+  CAMPAIGN_TYPE_ORIGINAL = 1,
+  CAMPAIGN_TYPE_EXPANSION = 2
+};
+
 enum CAMPAIGN_CHOICE_TYPES {
   CAMPAIGN_CHOICE_RESOURCE = 0,
   CAMPAIGN_CHOICE_ARTIFACT = 1,
@@ -32,11 +38,11 @@ public:
   int campaignID;
   int currentMapID;
   int numMaps;
-  char mapChoice[8];
+  char mapChoice[MAX_MAPS_IN_CAMPAIGN];
   char mapsPlayed[MAX_MAPS_IN_CAMPAIGN];
-  short daysPlayed[8];
+  short daysPlayed[MAX_MAPS_IN_CAMPAIGN];
   char awards[11];
-  char bonusChoices[8];
+  char bonusChoices[MAX_MAPS_IN_CAMPAIGN];
   int unknownVariable;
   int mightBeScenarioID;
   int window;
@@ -56,7 +62,7 @@ public:
   
 };
 
-
+CAMPAIGN_TYPE GetCurrentCampaignType();
 extern ExpCampaign xCampaign;
 extern SCampaignChoice xCampaignChoice[MAX_CAMPAIGNS][MAX_MAPS_IN_CAMPAIGN][MAX_CAMPAIGN_CHOICES];
 

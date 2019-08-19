@@ -2,6 +2,7 @@
 #include "artifacts.h"
 #include "base.h"
 #include "adventure/map.h"
+#include "campaign/campaign.h"
 #include "game/game.h"
 
 #include "game/map_xml.hxx"
@@ -70,6 +71,56 @@ void WriteArrayToXML(xsd::cxx::tree::sequence<ironfist_save::arrayInt_t> &dest, 
 
 static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   ClearMapExtra();
+
+  int campaignType = gs.campaignType();
+  if(campaignType == CAMPAIGN_TYPE_ORIGINAL) {
+    ironfist_save::origCampaign_t *camp_xml = &gs.origCampaign().get();
+    gam->campID = camp_xml->campID();
+    gam->campIDanother = camp_xml->campIDanother();
+    gam->campMapID = camp_xml->campMapID();
+    gam->campUnknown = camp_xml->campUnknown();
+    gam->campDaysPlayedCurrent = camp_xml->campDaysPlayedCurrent();
+    gam->campMaybeWon = camp_xml->campMaybeWon();
+    gam->campHasCheated = camp_xml->campHasCheated();
+    ReadArrayFromXML(gam->campBonuses, camp_xml->campBonuses());
+    ReadArrayFromXML(gam->campPlayerCreatures, camp_xml->campPlayerCreatures());
+    ReadArrayFromXML(gam->campPlayerCreatureQuantities, camp_xml->campPlayerCreatureQuantities());
+    ReadArrayFromXML(gam->relatedToCampaign, camp_xml->relatedToCampaign());
+
+    for(int i = 0; i < camp_xml->campMapsWon().size(); i++) {
+      auto item = &camp_xml->campMapsWon().at(i);
+      gam->campMapsWon[item->campID()][item->mapID()] = item->won();
+    }
+    for(int i = 0; i < camp_xml->campDaysPlayed().size(); i++) {
+      auto item = &camp_xml->campDaysPlayed().at(i);
+      gam->campDaysPlayed[item->campID()][item->mapID()] = item->daysPlayed();
+    }
+    for(int i = 0; i < camp_xml->campDaysPlayed2().size(); i++) {
+      auto item = &camp_xml->campDaysPlayed2().at(i);
+      gam->campDaysPlayed2[item->campID()][item->mapID()] = item->daysPlayed();
+    }
+    for(int i = 0; i < camp_xml->campChoices().size(); i++) {
+      auto item = &camp_xml->campChoices().at(i);
+      gam->campChoices[item->campID()][item->mapID()] = item->choice();
+    }
+    for(int i = 0; i < camp_xml->campMapsPlayed().size(); i++) {
+      auto item = &camp_xml->campMapsPlayed().at(i);
+      gam->campMapsPlayed[item->campID()][item->mapID()] = item->played();
+    }
+  } else if(campaignType == CAMPAIGN_TYPE_EXPANSION) {
+    ironfist_save::expCampaign_t *camp_xml = &gs.expCampaign().get();
+    xCampaign.campaignID = camp_xml->campaignID();
+    xCampaign.currentMapID = camp_xml->currentMapID();
+    xCampaign.numMaps = camp_xml->numMaps();
+    xCampaign.unknownVariable = camp_xml->unknownVariable();
+    xCampaign.window = camp_xml->window();
+    xCampaign.anIntVariable = camp_xml->anIntVariable();
+    ReadArrayFromXML(xCampaign.mapChoice, camp_xml->mapChoice());
+    ReadArrayFromXML(xCampaign.mapsPlayed, camp_xml->mapsPlayed());
+    ReadArrayFromXML(xCampaign.daysPlayed, camp_xml->daysPlayed());
+    ReadArrayFromXML(xCampaign.bonusChoices, camp_xml->bonusChoices());
+    ReadArrayFromXML(xCampaign.awards, camp_xml->awards());    
+  }
 
   gam->allowAIArmySharing = gs.allowAIArmySharing();
   gam->map.width = gs.mapWidth();
@@ -343,6 +394,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
 }
 
 ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
+  CAMPAIGN_TYPE campaignType = GetCurrentCampaignType();
   ironfist_save::gamestate_t gs(
     (int)gam->allowAIArmySharing,
     gam->map.width,
@@ -369,8 +421,80 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     (int)gam->field_657B,
     iMaxMapExtra,
     gam->difficulty,
-    gam->mapFilename
+    gam->mapFilename,
+    (int)campaignType
   );
+
+  if(campaignType) {
+    if(campaignType == CAMPAIGN_TYPE_ORIGINAL) {
+      ironfist_save::origCampaign_t camp_xml(
+        (int)gam->campID,
+        (int)gam->campIDanother,
+        (int)gam->campMapID,
+        (int)gam->campUnknown,
+        (int)gam->campDaysPlayedCurrent,
+        (int)gam->campMaybeWon,
+        (int)gam->campHasCheated
+      );
+
+      for(int i = 0; i < ELEMENTS_IN(gam->campMapsWon); i++)
+        for(int j = 0; j < ELEMENTS_IN(gam->campMapsWon[i]); j++)
+          camp_xml.campMapsWon().push_back(ironfist_save::origCampaign_t::campMapsWon_type(
+            i,
+            j,
+            gam->campMapsWon[i][j]));
+
+      for(int i = 0; i < ELEMENTS_IN(gam->campDaysPlayed); i++)
+        for(int j = 0; j < ELEMENTS_IN(gam->campDaysPlayed[i]); j++)
+          camp_xml.campDaysPlayed().push_back(ironfist_save::origCampaign_t::campDaysPlayed_type(
+            i,
+            j,
+            gam->campDaysPlayed[i][j]));
+
+      for(int i = 0; i < ELEMENTS_IN(gam->campDaysPlayed2); i++)
+        for(int j = 0; j < ELEMENTS_IN(gam->campDaysPlayed2[i]); j++)
+          camp_xml.campDaysPlayed2().push_back(ironfist_save::origCampaign_t::campDaysPlayed2_type(
+            i,
+            j,
+            gam->campDaysPlayed2[i][j]));
+
+      for(int i = 0; i < ELEMENTS_IN(gam->campChoices); i++)
+        for(int j = 0; j < ELEMENTS_IN(gam->campChoices[i]); j++)
+          camp_xml.campChoices().push_back(ironfist_save::origCampaign_t::campChoices_type(
+            i,
+            j,
+            gam->campChoices[i][j]));
+
+      for(int i = 0; i < ELEMENTS_IN(gam->campMapsPlayed); i++)
+        for(int j = 0; j < ELEMENTS_IN(gam->campMapsPlayed[i]); j++)
+          camp_xml.campMapsPlayed().push_back(ironfist_save::origCampaign_t::campMapsPlayed_type(
+            i,
+            j,
+            gam->campMapsPlayed[i][j]));
+
+      WriteArrayToXML(camp_xml.campBonuses(), gam->campBonuses);
+      WriteArrayToXML(camp_xml.campPlayerCreatures(), gam->campPlayerCreatures);
+      WriteArrayToXML(camp_xml.campPlayerCreatureQuantities(), gam->campPlayerCreatureQuantities);
+      WriteArrayToXML(camp_xml.relatedToCampaign(), gam->relatedToCampaign);
+      gs.origCampaign().set(camp_xml);
+    } else if(campaignType == CAMPAIGN_TYPE_EXPANSION) {
+      ironfist_save::expCampaign_t camp_xml(
+        xCampaign.campaignID,
+        xCampaign.currentMapID,
+        xCampaign.numMaps,
+        xCampaign.unknownVariable,
+        xCampaign.mightBeScenarioID,
+        xCampaign.window,
+        xCampaign.anIntVariable
+      );
+      WriteArrayToXML(camp_xml.mapChoice(), xCampaign.mapChoice);
+      WriteArrayToXML(camp_xml.mapsPlayed(), xCampaign.mapsPlayed);
+      WriteArrayToXML(camp_xml.daysPlayed(), xCampaign.daysPlayed);
+      WriteArrayToXML(camp_xml.bonusChoices(), xCampaign.bonusChoices);
+      WriteArrayToXML(camp_xml.awards(), xCampaign.awards);
+      gs.expCampaign().set(camp_xml);
+    }
+  }
 
   SMapHeader *mh = &gam->mapHeader;
   gs.mapHeader().push_back(ironfist_save::gamestate_t::mapHeader_type(

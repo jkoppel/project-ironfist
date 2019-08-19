@@ -164,7 +164,8 @@ public:
   short campPlayerCreatureQuantities[CREATURES_IN_ARMY];
   char campMaybeWon;
   char campHasCheated;
-  char unknown[120];
+  char relatedToCampaign[119];
+  char unknown;
   char lastSaveFile[251];
 	char _12[100];
 	SMapHeader mapHeader;
