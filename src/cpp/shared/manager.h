@@ -50,6 +50,15 @@ public:
 
 extern executive* gpExec;
 
+class inputManager {
+public:
+	char _[2154];
+	inputManager();
+  tag_message GetEvent();
+};
+
+extern inputManager* gpInputManager;
+
 #pragma pack(pop)
 
 #endif

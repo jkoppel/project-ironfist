@@ -55,6 +55,7 @@ public:
   void AllocateSampleHandles();
   int Open(int);
   int Open_orig(int);
+  void PlayAmbientMusic(int,long,int);
 };
 
 #pragma pack(pop)
@@ -67,11 +68,23 @@ extern signed char townTheme[];
 extern struct SAMPLE2 __fastcall LoadPlaySample(char *);
 extern void __fastcall WaitEndSample(struct SAMPLE2, int);
 
+struct SmackTag;
+struct SmackSumTag;
+
 // Audio Interface Library calls in mss32.dll
 extern "C" {
+  int __stdcall AIL_get_preference(unsigned int number);
   int __stdcall AIL_set_preference(unsigned int number, int value);
   int __stdcall AIL_waveOutOpen(HDIGDRIVER *drv, void *phWaveOut, int wDeviceID, WAVEFORMATEX *pFormat);
   char * __stdcall AIL_last_error();
+  
+  int __stdcall SmackSummary(SmackTag*, SmackSumTag*);
+  int __stdcall SmackSoundUseDirectSound(int);
+  int __stdcall SmackSoundUseMSS(HDIGDRIVER);
+  int __stdcall SmackToBuffer(struct SmackTag*, int, int, int, int, int, int);
+  int __stdcall SmackWait(SmackTag*);
+  int __stdcall SmackClose(SmackTag*);
+  SmackTag * __stdcall SmackOpen(HANDLE *SmackFile, UINT32 flags, INT32 unknown);
 }
 
 #endif

@@ -3,9 +3,13 @@
 
 #include "analytics.h"
 #include "base.h"
+#include "campaign/campaign.h"
 #include "combat/creatures.h"
 #include "game/game.h"
+#include "gui/dialog.h"
 #include "prefs.h"
+#include "resource/resourceManager.h"
+#include "sound/sound.h"
 #include "scripting/callback.h"
 #include "scripting/scripting.h"
 #include "skills.h"
@@ -569,4 +573,404 @@ int game::getNumberOfThievesGuilds(int playerIdx) {
       ++numGuilds;
   }
   return numGuilds;
+}
+
+extern int gbCampaignSideChoice;
+
+extern icon* brotherIcon;
+extern icon* backImage;
+extern signed char bMainDone;
+extern int gbNoSound;
+extern unsigned long giSoundVolume;
+extern unsigned long giMusicVolume;
+
+extern int slowVideo;
+extern int gbLowMemory;
+extern int gbPlayedThrough;
+extern int bTesting;
+
+extern int gbLastFramePlayed;
+
+extern int xLastChoice;
+extern char byte_50FF36[];
+extern char byte_50FF34[];
+extern char byte_50FF35[];
+extern char byte_50FF37[];
+extern char byte_50FF38[];
+extern char byte_524F14;
+extern short word_50FF39;
+extern short word_50FF3B;
+extern int byte_4F74B8;
+
+void __fastcall ConvertSmackerPalette(unsigned char *);
+void __fastcall UpdatePalette(signed char *);
+void __fastcall DoAdvance(struct SmackTag *,int,int,int,int);
+extern struct SmackSumTag smksum;
+extern struct SSmackOptions * SmackOptions;
+extern SmackTag* smk1;
+extern SmackTag* smk2;
+extern int bSmackSound;
+extern signed char bSmackNum;
+
+void __fastcall SmackManagerMain() {
+  int v0; // eax@43
+  int v1; // eax@121
+  signed int v3; // [sp+10h] [bp-510h]@141
+  int v4; // [sp+14h] [bp-50Ch]@70
+  int v7; // [sp+50h] [bp-4D0h]@117
+  int v8; // [sp+54h] [bp-4CCh]@117
+  int v9; // [sp+58h] [bp-4C8h]@117
+  int v10; // [sp+5Ch] [bp-4C4h]@109
+  int v11; // [sp+60h] [bp-4C0h]@108
+  int v12; // [sp+64h] [bp-4BCh]@108
+  int v13; // [sp+68h] [bp-4B8h]@92
+  int v14; // [sp+6Ch] [bp-4B4h]@90
+  tag_message v15; // [sp+70h] [bp-4B0h]@106
+  int v17; // [sp+8Ch] [bp-494h]@52
+  int y; // [sp+90h] [bp-490h]@2
+  int x; // [sp+94h] [bp-48Ch]@2
+  int v20; // [sp+98h] [bp-488h]@26
+  int v21; // [sp+9Ch] [bp-484h]@1
+  int v22; // [sp+A0h] [bp-480h]@49
+  const int paletteSize = 768;
+  char v23[paletteSize]; // [sp+A8h] [bp-478h]@5
+  int v24; // [sp+3ACh] [bp-174h]@1
+  int v25; // [sp+3B4h] [bp-16Ch]@49
+  int v26; // [sp+3B8h] [bp-168h]@49
+  unsigned int v27; // [sp+3BCh] [bp-164h]@23
+  char a1[100]; // [sp+3C0h] [bp-160h]@15
+
+  v21 = 1;
+  gbLastFramePlayed = 0;
+  v24 = 0;
+
+  if(bSmackNum == 35) {
+    brotherIcon = gpResourceManager->GetIcon("brothers.icn");
+    gpMouseManager->MouseCoords(x, y);
+    gbCampaignSideChoice = x < 320;
+  }      
+
+  KBChangeMenu(hmnuDflt);
+  gpMouseManager->HideColorPointer();
+  bMainDone = 1;
+  memcpy(&v23, gPalette->contents, paletteSize);
+
+
+  if(!gbNoSound && gpSoundManager->hdidriver && giSoundVolume && bSmackNum != 36) {
+    bSmackSound = 1;
+    if(AIL_get_preference(15)) {
+      SmackSoundUseMSS(gpSoundManager->hdidriver);
+      LogStr("SSSS 1");
+    } else {
+      SmackSoundUseDirectSound(*((unsigned *)gpSoundManager->hdidriver + 19));
+      LogStr("SSSS 2");
+    }
+  } else {
+    bSmackSound = 0;
+  }
+  
+  if(byte_4F74B8 && bSmackNum > 38) {
+    strcpy(a1, "i:\\projects\\heroes\\art\\fin3d\\");
+  } else {
+    if(bSmackNum == 67)
+      strcpy(a1, ".\\DATA\\");
+    else
+      strcpy(a1, ".\\\\HEROES2\\ANIM\\");
+  }
+
+  if(slowVideo)
+    sprintf(gText, "%s%s.SMK", &a1, (char *)&SmackOptions + 45 * bSmackNum + 18);
+  else
+    sprintf(gText, "%s%s.SMK", &a1, (char *)&SmackOptions + 45 * bSmackNum);
+  if(bSmackSound)
+    v27 = 1040384;
+  else
+    v27 = 0;
+  if(byte_50FF36[45 * bSmackNum])
+    v20 = 512;
+  else
+    v20 = 0;
+  if(gbLowMemory && bSmackNum == 30 && !slowVideo)
+    v20 = 0;
+  smk1 = 0;
+  
+  if(bSmackNum != 67) {
+    while(!smk1) {
+      smk1 = SmackOpen((HANDLE*)gText, v27 + v20, -1);
+      if(!smk1) {
+        gpWindowManager->FadeScreen(0, 128, 0);
+        NormalDialog("Error reading the Heroes 2 Expansion CD.  Retry?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+        if(gpWindowManager->buttonPressedCode == 30726)
+          ShutDown("CDROM drive error.  Exiting.");
+      }
+    }
+    SmackToBuffer(smk1, 0, 0, 640, 480, *(unsigned *)((char *)gpWindowManager->screenBuffer + 22), 0);
+  }
+  
+  if(strlen((char *)&SmackOptions + 45 * bSmackNum + 9) > 1) {
+    if(slowVideo)
+      sprintf(gText, "%s%s.SMK", &a1, (char *)&SmackOptions + 45 * bSmackNum + 27);
+    else
+      sprintf(gText, "%s%s.SMK", &a1, (char *)&SmackOptions + 45 * bSmackNum + 9);
+    v0 = ((unsigned int)bSmackSound < 1) - 1;
+    smk2 = SmackOpen((HANDLE*)gText, v0 & 0xFE000, -1);
+    if(byte_50FF38[45 * bSmackNum]) {
+      if(!slowVideo && bSmackNum != 67)
+        SmackToBuffer(
+          smk2,
+          *(__int16 *)((char *)&word_50FF39 + 45 * bSmackNum),
+          *(__int16 *)((char *)&word_50FF3B + 45 * bSmackNum),
+          640,
+          480,
+          *(int *)((char *)gpWindowManager->screenBuffer + 22),
+          0);
+    }
+  }
+
+  FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 0x280u, 480, 0);
+  BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 0x280u, 480, 0, 0);
+  if(byte_50FF34[45 * bSmackNum])
+    gpWindowManager->FadeScreen(1, 128, 0);
+  v26 = 1;
+  v25 = 0;
+  v22 = 0;
+  if(bSmackNum == 35) {
+    Process1WindowsMessage();
+    while(gpInputManager->GetEvent().eventCode)
+      v17 = 0;
+  }
+      
+  while(v26) {
+    if(bSmackNum == 67) {
+      if(!v25) {
+        gpMouseManager->SetPointer("advmice.mse", 40, -999);
+        gpMouseManager->ReallyShowPointer();
+        gpSoundManager->PlayAmbientMusic(42, 0, -1);
+        backImage = gpResourceManager->GetIcon("x_ivy.icn");
+        if(!backImage)
+          MemError();
+        backImage->DrawToBuffer(0, 0, 0, 0);
+        backImage->DrawToBuffer(0, 0, 1, 0);
+        sprintf(gText, "%s%s.SMK", &a1, "IVYPOL");
+        smk2 = SmackOpen((HANDLE*)gText, 0, -1);
+        memcpy(gPalette->contents, (char *)smk2 + 108, 0x300u);
+        SmackClose(smk2);
+        smk2 = 0;
+        ConvertSmackerPalette((unsigned char*)gPalette->contents);
+        UpdatePalette(gPalette->contents);
+        memcpy(gpBufferPalette->contents, gPalette->contents, 0x300u);
+        gpWindowManager->FadeScreen(0, 4, 0);
+        v25 = 1;
+      }
+    } else {
+      if(!SmackWait(smk1)) {
+        if(bSmackNum == 3 && !v24) {
+          v24 = 1;
+          gpSoundManager->PlayAmbientMusic(19, 0, -1);
+        }
+        if((!v25 || *((unsigned *)smk1 + 3) > 1u)
+          && (bSmackNum != 2 || *((unsigned *)smk1 + 3) - 1 != *((unsigned *)smk1 + 221))) {
+          v4 = v25 || !byte_50FF34[45 * bSmackNum];
+          DoAdvance(smk1, 1, 1, v4, 0);
+        }
+        if(*((unsigned *)smk1 + 221) || *((unsigned *)smk1 + 3) <= 1u) {
+          if(!v25) {
+            if(bSmackNum == 35) {
+              gpMouseManager->SetPointer("advmice.mse", 40, -999);
+              gpMouseManager->ReallyShowPointer();
+            }
+            if(byte_50FF34[45 * bSmackNum]) {
+              memcpy(gpBufferPalette->contents, gPalette->contents, 0x300u);
+              gpWindowManager->FadeScreen(0, 4, 0);
+            }
+            if(bSmackNum == 36)
+              gpSoundManager->PlayAmbientMusic(42, 0, -1);
+            if(bSmackNum == 72)
+              gpSoundManager->PlayAmbientMusic(42, 0, -1);
+          }
+          v25 = 1;
+        }
+      }
+    }
+    if(smk2 && v25 && !SmackWait(smk2)) {
+      if(v22 && *((unsigned *)smk2 + 3) - 1 == *((unsigned *)smk2 + 221)) {
+        v14 = 0;
+        if(!byte_50FF38[45 * bSmackNum] || slowVideo) {
+          if(bSmackNum == 67) {
+            v13 = 1;
+            v14 = 1;
+          } else {
+            v13 = 0;
+          }
+        } else {
+          v13 = 1;
+        }
+        DoAdvance(smk2, v13, v14, 0, 1);
+        gbLastFramePlayed = 1;
+        while(SmackWait(smk2))
+          Process1WindowsMessage();
+      } else {
+        if(bSmackNum == 67)
+          DoAdvance(smk2, 1, 1, 0, 1);
+        else
+          DoAdvance(smk2, byte_50FF38[45 * bSmackNum], 1, 0, 1);
+      }
+      if(smk2 && *((unsigned *)smk2 + 221))
+        v22 = 1;
+    }
+    Process1WindowsMessage();
+    tag_message msg = gpInputManager->GetEvent();
+    memcpy(&v15, &msg, sizeof(tag_message));
+    if((unsigned int)(v15.eventCode - 1) <= 0x1F) {
+      switch(v15.eventCode) {
+        case 4:
+          if(bSmackNum == 35) {
+            gpMouseManager->MouseCoords(v12, v11);
+            v10 = v12 < 320;
+            if(v10 != gbCampaignSideChoice) {
+              gbCampaignSideChoice = v10;
+              if(v10 == 1) {
+                brotherIcon->DrawToBuffer(0, 0, 0, 0);
+                brotherIcon->DrawToBuffer(0, 0, 3, 0);
+              } else {
+                brotherIcon->DrawToBuffer(0, 0, 1, 0);
+                brotherIcon->DrawToBuffer(0, 0, 2, 0);
+              }
+              BlitBitmapToScreen(gpWindowManager->screenBuffer, 49, 78, 0x21Au, 258, 49, 78);
+            }
+          } else {
+            if(bSmackNum == 67) {
+              gpMouseManager->MouseCoords(v9, v7);
+              v8 = ExpansionCampaignRect(v9, v7);
+              if(v8 != xLastChoice) {
+                backImage->DrawToBuffer(0, 0, 0, 0);
+                BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 0x280u, 480, 0, 0);
+                xLastChoice = v8;
+                if(smk2) {
+                  SmackClose(smk2);
+                  smk2 = 0;
+                }
+                if(v8 != -1) {
+                  byte_524F14 = v8 + 68;
+                  sprintf(gText, "%s%s.SMK", &a1, (char *)&SmackOptions + 45 * (char)(v8 + 68));
+                  v1 = ((unsigned int)bSmackSound < 1) - 1;
+                  smk2 = SmackOpen((HANDLE*)gText, v1 & 0xFE000, -1);
+                  SmackToBuffer(
+                    smk2,
+                    *(__int16 *)((char *)&word_50FF39 + 45 * byte_524F14),
+                    *(__int16 *)((char *)&word_50FF3B + 45 * byte_524F14),
+                    640,
+                    480,
+                    *(unsigned *)((char *)gpWindowManager->screenBuffer + 22),
+                    0);
+                  backImage->DrawToBuffer(0, 0, 1, 0);
+                }
+              }
+            }
+          }
+          break;
+        case 1:
+          if(v15.xCoordOrKeycode != 62)
+            goto LABEL_124;
+          break;
+        case 32:
+        LABEL_124:
+          if(bSmackNum != 35 && bSmackNum != 67)
+            goto LABEL_126;
+          break;
+        case 8:
+        LABEL_126:
+          if(bSmackNum != 37 && (bSmackNum != 67 || xLastChoice != -1))
+            goto LABEL_156;
+          break;
+        case 2:
+        case 3:
+        case 5:
+        case 6:
+        case 7:
+        case 9:
+        case 10:
+        case 11:
+        case 12:
+        case 13:
+        case 14:
+        case 15:
+        case 16:
+        case 17:
+        case 18:
+        case 19:
+        case 20:
+        case 21:
+        case 22:
+        case 23:
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+        case 28:
+        case 29:
+        case 30:
+        case 31:
+          break;
+      }
+    }
+    if(bSmackNum == 2 && *((unsigned *)smk1 + 221) + 1 == *((unsigned *)smk1 + 3) && !v24) {
+      v24 = 1;
+      gpSoundManager->PlayAmbientMusic(43, 0, -1);
+    }
+    if(!byte_50FF37[45 * bSmackNum]) {
+      if(gbLastFramePlayed
+        || smk2
+        && (bSmackNum < 39 ? (*((unsigned *)smk2 + 221) < *((unsigned *)smk2 + 3) ? (v3 = 0) : (v3 = 1)) : (unsigned int)(*((unsigned *)smk2 + 3) - 1) > *((unsigned *)smk2 + 221) ? (v3 = 0) : (v3 = 1),
+          v3 || !*((unsigned *)smk2 + 221) && v22)
+        || !smk2 && (*((unsigned *)smk1 + 221) >= *((unsigned *)smk1 + 3) || !*((unsigned *)smk1 + 221) && v25)) {
+        v26 = 0;
+        gbPlayedThrough = 1;
+      }
+    }
+  }
+LABEL_156:
+  if(bSmackNum == 35) {
+    gpMouseManager->HideColorPointer();
+    gpMouseManager->SetPointer("advmice.mse", 0, -999);
+  }
+  if(byte_50FF35[45 * bSmackNum]) {
+    memcpy(gpBufferPalette->contents, gPalette->contents, 0x300u);
+    gpWindowManager->FadeScreen(1, 8, 0);
+    FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 0x280u, 480, 36);
+    BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 0x280u, 480, 0, 0);
+  } else {
+    if(!gbPlayedThrough && bSmackNum != 2) {
+      memcpy(gpBufferPalette->contents, gPalette->contents, 0x300u);
+      gpWindowManager->FadeScreen(1, 128, 0);
+      FillBitmapArea((bitmap *)gpWindowManager->screenBuffer, 0, 0, 0x280u, 480, 36);
+      BlitBitmapToScreen((bitmap *)gpWindowManager->screenBuffer, 0, 0, 0x280u, 480, 0, 0);
+    }
+  }
+
+  if(bTesting)
+    SmackSummary(smk1, &smksum);
+
+  if(smk1)
+    SmackClose(smk1);
+
+  smk1 = 0;
+  if(smk2)
+    SmackClose(smk2);
+
+  smk2 = 0;
+  if(bSmackNum != 2) {
+    memcpy(gPalette->contents, &v23, 0x300u);
+    UpdatePalette(gPalette->contents);
+  }
+
+  gpMouseManager->ShowColorPointer();
+  if(brotherIcon)
+    gpResourceManager->Dispose(brotherIcon);
+
+  brotherIcon = 0;
+  if(backImage)
+    gpResourceManager->Dispose(backImage);
+
+  backImage = 0;
 }

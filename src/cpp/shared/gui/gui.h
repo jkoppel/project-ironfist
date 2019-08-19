@@ -89,6 +89,7 @@ public:
   void FizzleForward(int, int, int, int, int, signed char *, signed char *);
   int BroadcastMessage(int code, int messageType, int fieldID, int payload);
   int ConvertToHover(tag_message &msg);
+  void FadeScreen(int,int,palette *);
 };
 
 class border : public widget {
@@ -196,6 +197,9 @@ extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,in
 void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
+void __fastcall FillBitmapArea(bitmap *,int,int,int,int,int);
+void __fastcall BlitBitmapToScreen(bitmap *,int,int,int,int,int,int);
+
 extern heroWindow* casWin;
 
 #pragma pack(pop)

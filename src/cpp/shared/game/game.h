@@ -77,6 +77,9 @@ public:
 	mouseManager();
 	void ShowColorPointer();
   void SetPointer(char *mse, int spriteIdx, int protoCategory);
+  void MouseCoords(int &x, int &y);
+  void HideColorPointer();
+  void ReallyShowPointer();
 };
 
 extern mouseManager* gpMouseManager;
@@ -349,6 +352,7 @@ extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
 extern int getCastleOwnedIdx(playerData *player, int castleIdx);
+extern void __fastcall Process1WindowsMessage();
 
 #pragma pack(pop)
 

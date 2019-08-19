@@ -376,3 +376,4 @@ IMPORT_?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z = 1
 
 ;; Campaigns
 IMPORT_?InitNewCampaign@ExpCampaign@@QAEXH@Z = 1
+IMPORT_?SmackManagerMain@@YIXXZ = 1
