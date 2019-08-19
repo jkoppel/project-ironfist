@@ -6,6 +6,7 @@
 #pragma pack(push,1)
 
 #define MAX_FILENAME_LENGTH 13
+#define PALETTE_SIZE 768
 
 enum RESOURCE_TYPE : short
 {
