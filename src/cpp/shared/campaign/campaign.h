@@ -66,7 +66,7 @@ CAMPAIGN_TYPE GetCurrentCampaignType();
 extern ExpCampaign xCampaign;
 extern SCampaignChoice xCampaignChoice[MAX_CAMPAIGNS][MAX_MAPS_IN_CAMPAIGN][MAX_CAMPAIGN_CHOICES];
 
-extern int __fastcall ExpansionCampaignRect(int,int);
+int __fastcall ExpansionCampaignRect(int x, int y);
 
 #pragma pack(pop)
 
