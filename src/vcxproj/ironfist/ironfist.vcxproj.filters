@@ -539,6 +539,9 @@
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h">
       <Filter>Header Files\gui</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\smacker.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\heroes2_imports.inc">

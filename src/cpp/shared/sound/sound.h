@@ -81,7 +81,7 @@ extern "C" {
   int __stdcall SmackSummary(SmackTag*, SmackSumTag*);
   int __stdcall SmackSoundUseDirectSound(int);
   int __stdcall SmackSoundUseMSS(HDIGDRIVER);
-  int __stdcall SmackToBuffer(struct SmackTag*, int, int, int, int, int, int);
+  int __stdcall SmackToBuffer(struct SmackTag*, int, int, int, int, void*, int);
   int __stdcall SmackWait(SmackTag*);
   int __stdcall SmackClose(SmackTag*);
   SmackTag * __stdcall SmackOpen(HANDLE *SmackFile, UINT32 flags, INT32 unknown);
