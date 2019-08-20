@@ -596,7 +596,7 @@ extern int byte_4F74B8;
 void __fastcall SmackManagerMain() {
   gbLastFramePlayed = 0;
 
-  if(bSmackNum == 35) {
+  if(bSmackNum == SMACKER_ORIG_CAMPAIGN_SELECTION) {
     brotherIcon = gpResourceManager->GetIcon("brothers.icn");
     int x, y;
     gpMouseManager->MouseCoords(x, y);
@@ -610,7 +610,7 @@ void __fastcall SmackManagerMain() {
   char tmpPalette[PALETTE_SIZE];
   memcpy(&tmpPalette, gPalette->contents, PALETTE_SIZE);
 
-  if(!gbNoSound && gpSoundManager->hdidriver && giSoundVolume && bSmackNum != 36) {
+  if(!gbNoSound && gpSoundManager->hdidriver && giSoundVolume && bSmackNum != SMACKER_CREDITS) {
     bSmackSound = 1;
     if(AIL_get_preference(15)) {
       SmackSoundUseMSS(gpSoundManager->hdidriver);
@@ -624,10 +624,10 @@ void __fastcall SmackManagerMain() {
   }
   
   char tmpStr[100];
-  if(byte_4F74B8 && bSmackNum > 38) {
+  if(byte_4F74B8 && bSmackNum > SMACKER_MM6) {
     strcpy(tmpStr, "i:\\projects\\heroes\\art\\fin3d\\");
   } else {
-    if(bSmackNum == 67)
+    if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION)
       strcpy(tmpStr, ".\\DATA\\");
     else
       strcpy(tmpStr, ".\\\\HEROES2\\ANIM\\");
@@ -649,11 +649,11 @@ void __fastcall SmackManagerMain() {
     smackFlag = 512;
   else
     smackFlag = 0;
-  if(gbLowMemory && bSmackNum == 30 && !slowVideo)
+  if(gbLowMemory && bSmackNum == SMACKER_ORIG_CAMPAIGN_ARCHIBALD_11 && !slowVideo)
     smackFlag = 0;
   smk1 = nullptr;
   
-  if(bSmackNum != 67) {
+  if(bSmackNum != SMACKER_XCAMPAIGN_SELECTION) {
     while(!smk1) {
       smk1 = SmackOpen((HANDLE*)gText, smackSoundFlag + smackFlag, -1);
       if(!smk1) {
@@ -674,7 +674,7 @@ void __fastcall SmackManagerMain() {
     int v0 = ((unsigned int)bSmackSound < 1) - 1;
     smk2 = SmackOpen((HANDLE*)gText, v0 & 0xFE000, -1);
     if(SmackOptions[bSmackNum].flag5) {
-      if(!slowVideo && bSmackNum != 67)
+      if(!slowVideo && bSmackNum != SMACKER_XCAMPAIGN_SELECTION)
         SmackToBuffer(smk2, SmackOptions[bSmackNum].offsetX, SmackOptions[bSmackNum].offsetY, 640, 480, gpWindowManager->screenBuffer->contents, 0);
     }
   }
@@ -684,7 +684,7 @@ void __fastcall SmackManagerMain() {
   if(SmackOptions[bSmackNum].fadeFlag)
     gpWindowManager->FadeScreen(1, 128, 0);
 
-  if(bSmackNum == 35) {
+  if(bSmackNum == SMACKER_ORIG_CAMPAIGN_SELECTION) {
     Process1WindowsMessage();
     while(gpInputManager->GetEvent().eventCode != NULL){
     
@@ -696,7 +696,7 @@ void __fastcall SmackManagerMain() {
   int breakFlag = 1;
   int v24 = 0;
   while(breakFlag) {
-    if(bSmackNum == 67) {
+    if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION) {
       if(!v25) {
         gpMouseManager->SetPointer("advmice.mse", 40, -999);
         gpMouseManager->ReallyShowPointer();
@@ -719,18 +719,18 @@ void __fastcall SmackManagerMain() {
       }
     } else {
       if(!SmackWait(smk1)) {
-        if(bSmackNum == 3 && !v24) {
+        if(bSmackNum == SMACKER_LOSE && !v24) {
           v24 = 1;
           gpSoundManager->PlayAmbientMusic(19, 0, -1);
         }
         if((!v25 || smk1->Frames > 1)
-          && (bSmackNum != 2 || smk1->Frames - 1 != smk1->FrameNum)) {
+          && (bSmackNum != SMACKER_WIN || smk1->Frames - 1 != smk1->FrameNum)) {
           int v4 = v25 || !SmackOptions[bSmackNum].fadeFlag;
           DoAdvance(smk1, 1, 1, v4, 0);
         }
         if(smk1->FrameNum || smk1->Frames <= 1u) {
           if(!v25) {
-            if(bSmackNum == 35) {
+            if(bSmackNum == SMACKER_ORIG_CAMPAIGN_SELECTION) {
               gpMouseManager->SetPointer("advmice.mse", 40, -999);
               gpMouseManager->ReallyShowPointer();
             }
@@ -738,9 +738,7 @@ void __fastcall SmackManagerMain() {
               memcpy(gpBufferPalette->contents, gPalette->contents, PALETTE_SIZE);
               gpWindowManager->FadeScreen(0, 4, 0);
             }
-            if(bSmackNum == 36)
-              gpSoundManager->PlayAmbientMusic(42, 0, -1);
-            if(bSmackNum == 72)
+            if(bSmackNum == SMACKER_CREDITS || bSmackNum == SMACKER_CREDITS_CYBERLORE)
               gpSoundManager->PlayAmbientMusic(42, 0, -1);
           }
           v25 = 1;
@@ -752,7 +750,7 @@ void __fastcall SmackManagerMain() {
         int v14 = 0;
         int v13;
         if(!SmackOptions[bSmackNum].flag5 || slowVideo) {
-          if(bSmackNum == 67) {
+          if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION) {
             v13 = 1;
             v14 = 1;
           } else {
@@ -766,7 +764,7 @@ void __fastcall SmackManagerMain() {
         while(SmackWait(smk2))
           Process1WindowsMessage();
       } else {
-        if(bSmackNum == 67)
+        if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION)
           DoAdvance(smk2, 1, 1, 0, 1);
         else
         DoAdvance(smk2, SmackOptions[bSmackNum].flag5, 1, 0, 1);
@@ -780,8 +778,8 @@ void __fastcall SmackManagerMain() {
     if((unsigned int)(msg.eventCode - 1) <= 0x1F) {
       bool shouldBreak = false;
       switch(msg.eventCode) {
-        case 4:
-          if(bSmackNum == 35) {
+        case INPUT_MOUSEMOVE_EVENT_CODE:
+          if(bSmackNum == SMACKER_ORIG_CAMPAIGN_SELECTION) {
             int mouseX, mouseY;
             gpMouseManager->MouseCoords(mouseX, mouseY);
             int sideChoice = 0;
@@ -799,7 +797,7 @@ void __fastcall SmackManagerMain() {
               BlitBitmapToScreen(gpWindowManager->screenBuffer, 49, 78, 538, 258, 49, 78);
             }
           } else {
-            if(bSmackNum == 67) {
+            if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION) {
               int mouseX, mouseY;
               gpMouseManager->MouseCoords(mouseX, mouseY);
               int selectedCampaignRect = ExpansionCampaignRect(mouseX, mouseY);
@@ -812,8 +810,8 @@ void __fastcall SmackManagerMain() {
                   smk2 = nullptr;
                 }
                 if(selectedCampaignRect != -1) {
-                  int smkNeeded = selectedCampaignRect + 68;
-                  sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[selectedCampaignRect + 68].name);
+                  int smkNeeded = selectedCampaignRect + SMACKER_XCAMPAIGN_PREVIEW_PRICE_OF_LOALTY;
+                  sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[smkNeeded].name);
                   int v1 = ((unsigned int)bSmackSound < 1) - 1;
                   smk2 = SmackOpen((HANDLE*)gText, v1 & 0xFE000, -1);
                   SmackToBuffer(smk2, SmackOptions[smkNeeded].offsetX, SmackOptions[smkNeeded].offsetY, 640, 480, gpWindowManager->screenBuffer->contents, 0);
@@ -823,29 +821,29 @@ void __fastcall SmackManagerMain() {
             }
           }
           break;
-        case 1:
-          if(msg.xCoordOrKeycode != 62 && bSmackNum != 35 && bSmackNum != 67 && bSmackNum != 37 && (bSmackNum != 67 || xLastChoice != -1))
+        case INPUT_KEYDOWN_EVENT_CODE:
+          if(msg.xCoordOrKeycode != 62 && bSmackNum != SMACKER_ORIG_CAMPAIGN_SELECTION && bSmackNum != SMACKER_XCAMPAIGN_SELECTION && bSmackNum != SMACKER_EARTH && (bSmackNum != SMACKER_XCAMPAIGN_SELECTION || xLastChoice != -1))
             shouldBreak = true;
           break;
-        case 32:
-          if(bSmackNum != 35 && bSmackNum != 67 && bSmackNum != 37 && (bSmackNum != 67 || xLastChoice != -1))
+        case INPUT_RIGHT_CLICK:
+          if(bSmackNum != SMACKER_ORIG_CAMPAIGN_SELECTION && bSmackNum != SMACKER_XCAMPAIGN_SELECTION && bSmackNum != SMACKER_EARTH && (bSmackNum != SMACKER_XCAMPAIGN_SELECTION || xLastChoice != -1))
             shouldBreak = true;
           break;
-        case 8:
-          if(bSmackNum != 37 && (bSmackNum != 67 || xLastChoice != -1))
+        case INPUT_LEFT_CLICK_EVENT_CODE:
+          if(bSmackNum != SMACKER_EARTH && (bSmackNum != SMACKER_XCAMPAIGN_SELECTION || xLastChoice != -1))
             shouldBreak = true;
           break;
       }
       if(shouldBreak)
         break;
     }
-    if(bSmackNum == 2 && smk1->FrameNum + 1 == smk1->Frames && !v24) {
+    if(bSmackNum == SMACKER_WIN && smk1->FrameNum + 1 == smk1->Frames && !v24) {
       v24 = 1;
       gpSoundManager->PlayAmbientMusic(43, 0, -1);
     }
     if(!SmackOptions[bSmackNum].flag4) {
       int v3;
-      if(gbLastFramePlayed || smk2 && (bSmackNum < 39 ? (smk2->FrameNum < smk2->Frames ? (v3 = 0) : (v3 = 1)) : (unsigned int)(smk2->Frames - 1) > smk2->FrameNum ? (v3 = 0) : (v3 = 1),
+      if(gbLastFramePlayed || smk2 && (bSmackNum < SMACKER_XCAMPAIGN_PRICE_OF_LOALTY_INTRO ? (smk2->FrameNum < smk2->Frames ? (v3 = 0) : (v3 = 1)) : (unsigned int)(smk2->Frames - 1) > smk2->FrameNum ? (v3 = 0) : (v3 = 1),
           v3 || !smk2->FrameNum && v22) || !smk2 && (smk1->FrameNum >= smk1->Frames || !smk1->FrameNum && v25)) {
         breakFlag = 0;
         gbPlayedThrough = 1;
@@ -853,7 +851,7 @@ void __fastcall SmackManagerMain() {
     }
   }
 
-  if(bSmackNum == 35) {
+  if(bSmackNum == SMACKER_ORIG_CAMPAIGN_SELECTION) {
     gpMouseManager->HideColorPointer();
     gpMouseManager->SetPointer("advmice.mse", 0, -999);
   }
@@ -864,7 +862,7 @@ void __fastcall SmackManagerMain() {
     FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 640, 480, 36);
     BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0, 0);
   } else {
-    if(!gbPlayedThrough && bSmackNum != 2) {
+    if(!gbPlayedThrough && bSmackNum != SMACKER_WIN) {
       memcpy(gpBufferPalette->contents, gPalette->contents, PALETTE_SIZE);
       gpWindowManager->FadeScreen(1, 128, 0);
       FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 640, 480, 36);
@@ -883,7 +881,7 @@ void __fastcall SmackManagerMain() {
     SmackClose(smk2);
   smk2 = nullptr;
 
-  if(bSmackNum != 2) {
+  if(bSmackNum != SMACKER_WIN) {
     memcpy(gPalette->contents, &tmpPalette, PALETTE_SIZE);
     UpdatePalette(gPalette->contents);
   }
