@@ -810,7 +810,7 @@ void __fastcall SmackManagerMain() {
                   smk2 = nullptr;
                 }
                 if(selectedCampaignRect != -1) {
-                  int smkNeeded = selectedCampaignRect + SMACKER_XCAMPAIGN_PREVIEW_PRICE_OF_LOALTY;
+                  SMACKER_VIDEOS smkNeeded = GetCampaignRectangleSmackerVideo(selectedCampaignRect);
                   sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[smkNeeded].name);
                   int v1 = ((unsigned int)bSmackSound < 1) - 1;
                   smk2 = SmackOpen((HANDLE*)gText, v1 & 0xFE000, -1);

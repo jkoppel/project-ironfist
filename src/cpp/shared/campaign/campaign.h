@@ -1,6 +1,8 @@
 #ifndef CAMPAIGN_H
 #define CAMPAIGN_H
 
+#include "smacker.h"
+
 #pragma pack(push, 1)
 
 #define MAX_MAPS_IN_CAMPAIGN 8
@@ -63,6 +65,7 @@ public:
 };
 
 CAMPAIGN_TYPE GetCurrentCampaignType();
+SMACKER_VIDEOS GetCampaignRectangleSmackerVideo(int rectID);
 extern ExpCampaign xCampaign;
 extern SCampaignChoice xCampaignChoice[MAX_CAMPAIGNS][MAX_MAPS_IN_CAMPAIGN][MAX_CAMPAIGN_CHOICES];
 

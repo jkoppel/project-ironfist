@@ -3,11 +3,12 @@
 
 extern int expCampaignNumMaps[MAX_CAMPAIGNS];
 
-tag_rect xCampaignSelectionRects[MAX_CAMPAIGNS] = {
+tag_rect xCampaignSelectionRects[] = {
   {215, 49, 230, 150},
   {217, 275, 230, 150},
   {475, 132, 120, 180},
-  {41, 132, 120, 180}
+  {41, 132, 120, 180},
+  {480, 380, 120, 180} // right bottom corner
 };
 
 void ExpCampaign::InitNewCampaign(int var) {
@@ -35,4 +36,15 @@ int __fastcall ExpansionCampaignRect(int x, int y) {
       return i;
   }
   return -1;
+}
+
+SMACKER_VIDEOS GetCampaignRectangleSmackerVideo(int rectID) {
+  SMACKER_VIDEOS rectToSMK[] = {
+    SMACKER_XCAMPAIGN_PREVIEW_PRICE_OF_LOALTY,
+    SMACKER_XCAMPAIGN_PREVIEW_DESCENDANTS,
+    SMACKER_XCAMPAIGN_PREVIEW_WIZARDS_ISLE,
+    SMACKER_XCAMPAIGN_PREVIEW_VOYAGE_HOME,
+    SMACKER_XCAMPAIGN_PREVIEW_WIZARDS_ISLE // dummy
+  };
+  return rectToSMK[rectID];
 }
