@@ -61,7 +61,14 @@ public:
   char HasAward(int a2);
   char *JosephName();
   char *IvanName();
-  
+  int HandleVictory();
+  void HandleVictory1();
+  void HandleVictory2();
+  void HandleVictory3();
+  void HandleVictory4();
+  unsigned char IsCompleted();
+  short Days();
+  void ShowInfo(int inGame, int unused);
 };
 
 CAMPAIGN_TYPE GetCurrentCampaignType();
