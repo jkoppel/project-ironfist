@@ -265,6 +265,7 @@ public:
   void SetTownContext(int townID);
   char * GetArmySizeName(signed int amt, int queryType);
   char * GetQuantityString(int thievesGuildsLevel, town* town, int garrisonIdx);
+  void SetInitialMapOrigin();
 };
 
 extern advManager* gpAdvManager;

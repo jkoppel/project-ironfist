@@ -54,6 +54,7 @@ struct SmackTag {
 
 #pragma pack(pop)
 
+extern int __fastcall PlaySmacker(int smkID);
 extern void __fastcall ConvertSmackerPalette(unsigned char *);
 extern void __fastcall UpdatePalette(signed char *);
 extern void __fastcall DoAdvance(struct SmackTag *,int,int,int,int);

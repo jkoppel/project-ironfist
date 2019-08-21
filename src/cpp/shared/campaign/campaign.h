@@ -1,13 +1,15 @@
 #ifndef CAMPAIGN_H
 #define CAMPAIGN_H
 
+#include "gui/gui.h"
 #include "smacker.h"
 
 #pragma pack(push, 1)
 
 #define MAX_MAPS_IN_CAMPAIGN 8
-#define MAX_CAMPAIGNS 4
+#define MAX_CAMPAIGNS 5
 #define MAX_CAMPAIGN_CHOICES 3
+#define MAPS_IN_CYBORG_CAMPAIGN 8
 
 enum CAMPAIGN_TYPE {
   CAMPAIGN_TYPE_NONE = 0,
@@ -47,7 +49,7 @@ public:
   char bonusChoices[MAX_MAPS_IN_CAMPAIGN];
   int unknownVariable;
   int mightBeScenarioID;
-  int window;
+  heroWindow* window;
   int anIntVariable;
 
   ExpCampaign();
@@ -66,15 +68,20 @@ public:
   void HandleVictory2();
   void HandleVictory3();
   void HandleVictory4();
+  void HandleVictoryCyborg();
   unsigned char IsCompleted();
   short Days();
   void ShowInfo(int inGame, int unused);
+  void InitMap();
+  void UpdateInfo(int);
+
+private:
+    static int __fastcall MessageHandler(struct tag_message &);
 };
 
 CAMPAIGN_TYPE GetCurrentCampaignType();
 SMACKER_VIDEOS GetCampaignRectangleSmackerVideo(int rectID);
 extern ExpCampaign xCampaign;
-extern SCampaignChoice xCampaignChoice[MAX_CAMPAIGNS][MAX_MAPS_IN_CAMPAIGN][MAX_CAMPAIGN_CHOICES];
 
 int __fastcall ExpansionCampaignRect(int x, int y);
 

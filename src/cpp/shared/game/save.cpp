@@ -113,7 +113,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     xCampaign.currentMapID = camp_xml->currentMapID();
     xCampaign.numMaps = camp_xml->numMaps();
     xCampaign.unknownVariable = camp_xml->unknownVariable();
-    xCampaign.window = camp_xml->window();
+    xCampaign.window = (heroWindow*)camp_xml->window();
     xCampaign.anIntVariable = camp_xml->anIntVariable();
     ReadArrayFromXML(xCampaign.mapChoice, camp_xml->mapChoice());
     ReadArrayFromXML(xCampaign.mapsPlayed, camp_xml->mapsPlayed());
@@ -484,7 +484,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
         xCampaign.numMaps,
         xCampaign.unknownVariable,
         xCampaign.mightBeScenarioID,
-        xCampaign.window,
+        (int)xCampaign.window,
         xCampaign.anIntVariable
       );
       WriteArrayToXML(camp_xml.mapChoice(), xCampaign.mapChoice);

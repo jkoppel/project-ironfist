@@ -53,4 +53,8 @@ extern signed char __fastcall PointInRect(int x, int y,struct tag_rect *rect);
 
 #pragma pack(pop)
 
+extern int gbUseEvilInterface;
+extern int gbLowMemory;
+extern int giBottomViewOverride;
+
 #endif
