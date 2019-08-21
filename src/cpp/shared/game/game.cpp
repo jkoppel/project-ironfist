@@ -593,6 +593,8 @@ extern int gbLastFramePlayed;
 extern int xLastChoice;
 extern int byte_4F74B8;
 
+static icon* cmpnNoCD;
+
 void __fastcall SmackManagerMain() {
   gbLastFramePlayed = 0;
 
@@ -657,16 +659,15 @@ void __fastcall SmackManagerMain() {
     while(!smk1) {
       smk1 = SmackOpen((HANDLE*)gText, smackSoundFlag + smackFlag, -1);
       if(!smk1) {
-        gpWindowManager->FadeScreen(0, 128, 0);
-        NormalDialog("Error reading the Heroes 2 Expansion CD.  Retry?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
-        if(gpWindowManager->buttonPressedCode == 30726)
-          ShutDown("CDROM drive error.  Exiting.");
+        cmpnNoCD = gpResourceManager->GetIcon("CMPNNOCD.icn");
+        break;
       }
     }
-    SmackToBuffer(smk1, 0, 0, 640, 480, gpWindowManager->screenBuffer->contents, 0);
+    if(smk1)
+      SmackToBuffer(smk1, 0, 0, 640, 480, gpWindowManager->screenBuffer->contents, 0);
   }
   
-  if(strlen(SmackOptions[bSmackNum].name2) > 1) {
+  if(smk1 && strlen(SmackOptions[bSmackNum].name2) > 1) {
     if(slowVideo)
       sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[bSmackNum].slowName2);
     else
@@ -681,10 +682,16 @@ void __fastcall SmackManagerMain() {
 
   FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0);
   BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0, 0);
+
   if(SmackOptions[bSmackNum].fadeFlag)
     gpWindowManager->FadeScreen(1, 128, 0);
 
   if(bSmackNum == SMACKER_ORIG_CAMPAIGN_SELECTION) {
+    if(!smk1) {
+      gpWindowManager->FadeScreen(0, 4, 0);
+      cmpnNoCD->DrawToBuffer(0, 0, 0, 0);
+      BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0, 0);
+    }
     Process1WindowsMessage();
     while(gpInputManager->GetEvent().eventCode != NULL){
     
@@ -696,6 +703,8 @@ void __fastcall SmackManagerMain() {
   int breakFlag = 1;
   int v24 = 0;
   while(breakFlag) {
+    if(!smk1 && bSmackNum != SMACKER_ORIG_CAMPAIGN_SELECTION && bSmackNum != SMACKER_XCAMPAIGN_SELECTION)
+      break;
     if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION) {
       if(!v25) {
         gpMouseManager->SetPointer("advmice.mse", 40, -999);
@@ -718,7 +727,7 @@ void __fastcall SmackManagerMain() {
         v25 = 1;
       }
     } else {
-      if(!SmackWait(smk1)) {
+      if(smk1 && !SmackWait(smk1)) {
         if(bSmackNum == SMACKER_LOSE && !v24) {
           v24 = 1;
           gpSoundManager->PlayAmbientMusic(19, 0, -1);
@@ -767,7 +776,7 @@ void __fastcall SmackManagerMain() {
         if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION)
           DoAdvance(smk2, 1, 1, 0, 1);
         else
-        DoAdvance(smk2, SmackOptions[bSmackNum].flag5, 1, 0, 1);
+          DoAdvance(smk2, SmackOptions[bSmackNum].flag5, 1, 0, 1);
       }
       if(smk2 && smk2->FrameNum)
         v22 = 1;
@@ -787,6 +796,10 @@ void __fastcall SmackManagerMain() {
               sideChoice = 1;
             if(sideChoice != gbCampaignSideChoice) {
               gbCampaignSideChoice = sideChoice;
+              if(!smk1) {
+                cmpnNoCD->DrawToBuffer(0, 0, 0, 0);
+                BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0, 0);
+              }
               if(sideChoice == 1) {
                 brotherIcon->DrawToBuffer(0, 0, 0, 0);
                 brotherIcon->DrawToBuffer(0, 0, 3, 0);
@@ -844,7 +857,7 @@ void __fastcall SmackManagerMain() {
     if(!SmackOptions[bSmackNum].flag4) {
       int v3;
       if(gbLastFramePlayed || smk2 && (bSmackNum < SMACKER_XCAMPAIGN_PRICE_OF_LOALTY_INTRO ? (smk2->FrameNum < smk2->Frames ? (v3 = 0) : (v3 = 1)) : (unsigned int)(smk2->Frames - 1) > smk2->FrameNum ? (v3 = 0) : (v3 = 1),
-          v3 || !smk2->FrameNum && v22) || !smk2 && (smk1->FrameNum >= smk1->Frames || !smk1->FrameNum && v25)) {
+          v3 || !smk2->FrameNum && v22) || !smk2 && smk1 && (smk1->FrameNum >= smk1->Frames || !smk1->FrameNum && v25)) {
         breakFlag = 0;
         gbPlayedThrough = 1;
       }
@@ -861,13 +874,11 @@ void __fastcall SmackManagerMain() {
     gpWindowManager->FadeScreen(1, 8, 0);
     FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 640, 480, 36);
     BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0, 0);
-  } else {
-    if(!gbPlayedThrough && bSmackNum != SMACKER_WIN) {
-      memcpy(gpBufferPalette->contents, gPalette->contents, PALETTE_SIZE);
-      gpWindowManager->FadeScreen(1, 128, 0);
-      FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 640, 480, 36);
-      BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0, 0);
-    }
+  } else if(!gbPlayedThrough && bSmackNum != SMACKER_WIN) {
+    memcpy(gpBufferPalette->contents, gPalette->contents, PALETTE_SIZE);
+    gpWindowManager->FadeScreen(1, 128, 0);
+    FillBitmapArea(gpWindowManager->screenBuffer, 0, 0, 640, 480, 36);
+    BlitBitmapToScreen(gpWindowManager->screenBuffer, 0, 0, 640, 480, 0, 0);
   }
 
   if(bTesting)
@@ -890,6 +901,10 @@ void __fastcall SmackManagerMain() {
   if(brotherIcon)
     gpResourceManager->Dispose(brotherIcon);
   brotherIcon = nullptr;
+
+  if(cmpnNoCD)
+    gpResourceManager->Dispose(cmpnNoCD);
+  cmpnNoCD = nullptr;
 
   if(backImage)
     gpResourceManager->Dispose(backImage);
