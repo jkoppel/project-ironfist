@@ -2513,19 +2513,19 @@ namespace ironfist_save
     void
     numEvents (const numEvents_type& x);
 
-    // field_657B
+    // numMapEvents
     // 
-    typedef ::xml_schema::int_ field_657B_type;
-    typedef ::xsd::cxx::tree::traits< field_657B_type, char > field_657B_traits;
+    typedef ::xml_schema::int_ numMapEvents_type;
+    typedef ::xsd::cxx::tree::traits< numMapEvents_type, char > numMapEvents_traits;
 
-    const field_657B_type&
-    field_657B () const;
+    const numMapEvents_type&
+    numMapEvents () const;
 
-    field_657B_type&
-    field_657B ();
+    numMapEvents_type&
+    numMapEvents ();
 
     void
-    field_657B (const field_657B_type& x);
+    numMapEvents (const numMapEvents_type& x);
 
     // maxMapExtra
     // 
@@ -2708,6 +2708,96 @@ namespace ironfist_save
     void
     mapFilename (::std::auto_ptr< mapFilename_type > p);
 
+    // somePlayerNumData
+    // 
+    typedef ::ironfist_save::arrayInt_t somePlayerNumData_type;
+    typedef ::xsd::cxx::tree::sequence< somePlayerNumData_type > somePlayerNumData_sequence;
+    typedef somePlayerNumData_sequence::iterator somePlayerNumData_iterator;
+    typedef somePlayerNumData_sequence::const_iterator somePlayerNumData_const_iterator;
+    typedef ::xsd::cxx::tree::traits< somePlayerNumData_type, char > somePlayerNumData_traits;
+
+    const somePlayerNumData_sequence&
+    somePlayerNumData () const;
+
+    somePlayerNumData_sequence&
+    somePlayerNumData ();
+
+    void
+    somePlayerNumData (const somePlayerNumData_sequence& s);
+
+    // relatedToNewGameSelection
+    // 
+    typedef ::xml_schema::int_ relatedToNewGameSelection_type;
+    typedef ::xsd::cxx::tree::traits< relatedToNewGameSelection_type, char > relatedToNewGameSelection_traits;
+
+    const relatedToNewGameSelection_type&
+    relatedToNewGameSelection () const;
+
+    relatedToNewGameSelection_type&
+    relatedToNewGameSelection ();
+
+    void
+    relatedToNewGameSelection (const relatedToNewGameSelection_type& x);
+
+    // relatedToNewGameInit
+    // 
+    typedef ::xml_schema::int_ relatedToNewGameInit_type;
+    typedef ::xsd::cxx::tree::traits< relatedToNewGameInit_type, char > relatedToNewGameInit_traits;
+
+    const relatedToNewGameInit_type&
+    relatedToNewGameInit () const;
+
+    relatedToNewGameInit_type&
+    relatedToNewGameInit ();
+
+    void
+    relatedToNewGameInit (const relatedToNewGameInit_type& x);
+
+    // numHumanPlayers
+    // 
+    typedef ::xml_schema::int_ numHumanPlayers_type;
+    typedef ::xsd::cxx::tree::traits< numHumanPlayers_type, char > numHumanPlayers_traits;
+
+    const numHumanPlayers_type&
+    numHumanPlayers () const;
+
+    numHumanPlayers_type&
+    numHumanPlayers ();
+
+    void
+    numHumanPlayers (const numHumanPlayers_type& x);
+
+    // field_47C
+    // 
+    typedef ::ironfist_save::arrayInt_t field_47C_type;
+    typedef ::xsd::cxx::tree::sequence< field_47C_type > field_47C_sequence;
+    typedef field_47C_sequence::iterator field_47C_iterator;
+    typedef field_47C_sequence::const_iterator field_47C_const_iterator;
+    typedef ::xsd::cxx::tree::traits< field_47C_type, char > field_47C_traits;
+
+    const field_47C_sequence&
+    field_47C () const;
+
+    field_47C_sequence&
+    field_47C ();
+
+    void
+    field_47C (const field_47C_sequence& s);
+
+    // gbIAmGreatest
+    // 
+    typedef ::xml_schema::int_ gbIAmGreatest_type;
+    typedef ::xsd::cxx::tree::traits< gbIAmGreatest_type, char > gbIAmGreatest_traits;
+
+    const gbIAmGreatest_type&
+    gbIAmGreatest () const;
+
+    gbIAmGreatest_type&
+    gbIAmGreatest ();
+
+    void
+    gbIAmGreatest (const gbIAmGreatest_type& x);
+
     // field_2773
     // 
     typedef ::ironfist_save::arrayInt_t field_2773_type;
@@ -2861,22 +2951,22 @@ namespace ironfist_save
     void
     eventIndices (const eventIndices_sequence& s);
 
-    // _D
+    // mapEventIndices
     // 
-    typedef ::ironfist_save::arrayInt_t _D_type;
-    typedef ::xsd::cxx::tree::sequence< _D_type > _D_sequence;
-    typedef _D_sequence::iterator _D_iterator;
-    typedef _D_sequence::const_iterator _D_const_iterator;
-    typedef ::xsd::cxx::tree::traits< _D_type, char > _D_traits;
+    typedef ::ironfist_save::arrayInt_t mapEventIndices_type;
+    typedef ::xsd::cxx::tree::sequence< mapEventIndices_type > mapEventIndices_sequence;
+    typedef mapEventIndices_sequence::iterator mapEventIndices_iterator;
+    typedef mapEventIndices_sequence::const_iterator mapEventIndices_const_iterator;
+    typedef ::xsd::cxx::tree::traits< mapEventIndices_type, char > mapEventIndices_traits;
 
-    const _D_sequence&
-    _D () const;
+    const mapEventIndices_sequence&
+    mapEventIndices () const;
 
-    _D_sequence&
-    _D ();
+    mapEventIndices_sequence&
+    mapEventIndices ();
 
     void
-    _D (const _D_sequence& s);
+    mapEventIndices (const mapEventIndices_sequence& s);
 
     // mapRevealed
     // 
@@ -3097,10 +3187,14 @@ namespace ironfist_save
                  const currentRumor_type&,
                  const numRumors_type&,
                  const numEvents_type&,
-                 const field_657B_type&,
+                 const numMapEvents_type&,
                  const maxMapExtra_type&,
                  const difficulty_type&,
                  const mapFilename_type&,
+                 const relatedToNewGameSelection_type&,
+                 const relatedToNewGameInit_type&,
+                 const numHumanPlayers_type&,
+                 const gbIAmGreatest_type&,
                  const campaignType_type&);
 
     gamestate_t (const ::xercesc::DOMElement& e,
@@ -3148,7 +3242,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< currentRumor_type > currentRumor_;
     ::xsd::cxx::tree::one< numRumors_type > numRumors_;
     ::xsd::cxx::tree::one< numEvents_type > numEvents_;
-    ::xsd::cxx::tree::one< field_657B_type > field_657B_;
+    ::xsd::cxx::tree::one< numMapEvents_type > numMapEvents_;
     ::xsd::cxx::tree::one< maxMapExtra_type > maxMapExtra_;
     playerNames_sequence playerNames_;
     deadPlayers_sequence deadPlayers_;
@@ -3160,6 +3254,12 @@ namespace ironfist_save
     somePlayerCodeOr10IfMayBeHuman_sequence somePlayerCodeOr10IfMayBeHuman_;
     ::xsd::cxx::tree::one< difficulty_type > difficulty_;
     ::xsd::cxx::tree::one< mapFilename_type > mapFilename_;
+    somePlayerNumData_sequence somePlayerNumData_;
+    ::xsd::cxx::tree::one< relatedToNewGameSelection_type > relatedToNewGameSelection_;
+    ::xsd::cxx::tree::one< relatedToNewGameInit_type > relatedToNewGameInit_;
+    ::xsd::cxx::tree::one< numHumanPlayers_type > numHumanPlayers_;
+    field_47C_sequence field_47C_;
+    ::xsd::cxx::tree::one< gbIAmGreatest_type > gbIAmGreatest_;
     field_2773_sequence field_2773_;
     builtToday_sequence builtToday_;
     field_60A6_sequence field_60A6_;
@@ -3169,7 +3269,7 @@ namespace ironfist_save
     field_637D_sequence field_637D_;
     rumorIndices_sequence rumorIndices_;
     eventIndices_sequence eventIndices_;
-    _D_sequence _D_;
+    mapEventIndices_sequence mapEventIndices_;
     mapRevealed_sequence mapRevealed_;
     mapHeader_sequence mapHeader_;
     mapExtra_sequence mapExtra_;

@@ -197,7 +197,7 @@
       <xs:element name="currentRumor" type="xs:string"/>
       <xs:element name="numRumors" type="xs:int"/>
       <xs:element name="numEvents" type="xs:int"/>
-      <xs:element name="field_657B" type="xs:int"/>
+      <xs:element name="numMapEvents" type="xs:int"/>
       <xs:element name="maxMapExtra" type="xs:int"/>
       <xs:element name="playerNames" type="arrayString_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="deadPlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
@@ -209,6 +209,12 @@
       <xs:element name="somePlayerCodeOr10IfMayBeHuman" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="difficulty" type="xs:int"/>
       <xs:element name="mapFilename" type="xs:string"/>
+      <xs:element name="somePlayerNumData" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="relatedToNewGameSelection" type="xs:int"/>
+      <xs:element name="relatedToNewGameInit" type="xs:int"/>
+      <xs:element name="numHumanPlayers" type="xs:int"/>
+      <xs:element name="field_47C" type="arrayInt_t" minOccurs="18" maxOccurs="unbounded"/>
+      <xs:element name="gbIAmGreatest" type="xs:int"/>
       <xs:element name="field_2773" type="arrayInt_t" minOccurs="72" maxOccurs="unbounded"/>
       <xs:element name="builtToday" type="arrayInt_t" minOccurs="9" maxOccurs="unbounded"/>
       <xs:element name="field_60A6" type="arrayInt_t" minOccurs="144" maxOccurs="unbounded"/>
@@ -218,7 +224,7 @@
       <xs:element name="field_637D" type="arrayInt_t" minOccurs="24" maxOccurs="unbounded"/>
       <xs:element name="rumorIndices" type="arrayInt_t" minOccurs="30" maxOccurs="unbounded"/>
       <xs:element name="eventIndices" type="arrayInt_t" minOccurs="60" maxOccurs="unbounded"/>
-      <xs:element name="_D" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mapEventIndices" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="mapRevealed" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
           <xs:attribute name="x" type="xs:int" use="required"/>

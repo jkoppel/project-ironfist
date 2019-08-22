@@ -169,7 +169,8 @@ public:
   char campHasCheated;
   char relatedToCampaign[119];
   char unknown;
-  char lastSaveFile[251];
+  char lastSaveFile[14];
+  char _11[237];
 	char _12[100];
 	SMapHeader mapHeader;
 	char relatedToPlayerPosAndColor[NUM_PLAYERS];
@@ -196,7 +197,7 @@ public:
 	char field_2773[72];
 	char builtToday[9];
 	hero heroes[MAX_HEROES];
-	char relatedToHeroForHireStatus[54];
+	char heroHireStatus[MAX_HEROES];
 	mine mines[144];
 	char field_60A6[144];
 	char artifactGeneratedRandomly[103];
@@ -217,8 +218,8 @@ public:
 	__int16 numEvents;
 	char eventIndices[60];
 	char _C[40];
-	__int16 field_657B;
-	char _D[140];
+	short numMapEvents;
+	short mapEventIndices[70];
 	int (__thiscall *callback)(tag_message *);
 	char field_660D;
 	char field_660E;

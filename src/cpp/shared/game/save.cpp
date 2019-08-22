@@ -17,6 +17,7 @@
 #include<fcntl.h>
 #include<sys/stat.h>
 
+extern int gbIAmGreatest;
 extern int giMonthType;
 extern int giMonthTypeExtra;
 extern int giWeekType;
@@ -172,6 +173,13 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   gam->difficulty = gs.difficulty();
   strcpy(gam->mapFilename, gs.mapFilename().c_str());
   gam->gameDifficulty = gs.gameDifficulty();
+  ReadArrayFromXML(gam->somePlayerNumData, gs.somePlayerNumData());
+  gam->relatedToNewGameSelection = gs.relatedToNewGameSelection();
+  gam->relatedToNewGameInit = gs.relatedToNewGameInit();
+  gam->numHumanPlayers = gs.numHumanPlayers();
+  ReadArrayFromXML(gam->field_47C, gs.field_47C());
+  gbIAmGreatest = gs.gbIAmGreatest();
+
   giMonthType = gs.monthType();
   giMonthTypeExtra = gs.monthTypeExtra();
   giWeekType = gs.weekType();
@@ -242,7 +250,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
   }
   gam->numObelisks = gs.numObelisks();
   
-  ReadArrayFromXML(gam->relatedToHeroForHireStatus, gs.heroHireStatus());
+  ReadArrayFromXML(gam->heroHireStatus, gs.heroHireStatus());
 
   for (int i = 0; i < gs.towns().size(); i++) {
     town *twn = &gam->castles[i];
@@ -325,9 +333,9 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
 
   gam->numRumors = gs.numRumors();
   gam->numEvents = gs.numEvents();
-  gam->field_657B = gs.field_657B();
-  for (int i = 0; i < 2 * gam->field_657B; i++)
-    gam->_D[i] = gs._D().at(i).value();
+  gam->numMapEvents = gs.numMapEvents();
+  for (int i = 0; i < 2 * gam->numMapEvents; i++)
+    gam->mapEventIndices[i] = gs.mapEventIndices().at(i).value();
 
   // Reading map cells and their extra data
   iMaxMapExtra = gs.maxMapExtra();
@@ -418,10 +426,14 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
     gam->currentRumor,
     (int)gam->numRumors,
     (int)gam->numEvents,
-    (int)gam->field_657B,
+    (int)gam->numMapEvents,
     iMaxMapExtra,
     gam->difficulty,
     gam->mapFilename,
+    gam->relatedToNewGameSelection,
+    gam->relatedToNewGameInit,
+    gam->numHumanPlayers,
+    gbIAmGreatest,
     (int)campaignType
   );
 
@@ -547,11 +559,13 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   }
 
   WriteArrayToXML(gs.alivePlayers(), playerAlive);
-  WriteArrayToXML(gs.heroHireStatus(), gam->relatedToHeroForHireStatus);
+  WriteArrayToXML(gs.heroHireStatus(), gam->heroHireStatus);
   WriteArrayToXML(gs.relatedToPlayerPosAndColor(), gam->relatedToPlayerPosAndColor);
   WriteArrayToXML(gs.playerHandicap(), gam->playerHandicap);
   WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
   WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
+  WriteArrayToXML(gs.somePlayerNumData(), gam->somePlayerNumData);
+  WriteArrayToXML(gs.field_47C(), gam->field_47C);
   WriteArrayToXML(gs.field_2773(), gam->field_2773);
   WriteArrayToXML(gs.builtToday(), gam->builtToday);
   WriteArrayToXML(gs.field_60A6(), gam->field_60A6);
@@ -561,7 +575,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.field_637D(), gam->field_637D);
   WriteArrayToXML(gs.rumorIndices(), gam->rumorIndices);
   WriteArrayToXML(gs.eventIndices(), gam->eventIndices);
-  WriteArrayToXML(gs._D(), gam->_D);
+  WriteArrayToXML(gs.mapEventIndices(), gam->mapEventIndices);
 
   for (int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
     int x = i % MAP_HEIGHT;
@@ -1013,8 +1027,13 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
         ReadHeroXML(hx, &this->heroes[i]);
       }
 
+      gpAdvManager->PurgeMapChangeQueue();
+
       if (mp->gamestate())
         ReadGameStateXML(*mp->gamestate(), gpGame);
+
+      if(strnicmp(filnam, "RMT", 3))
+        sprintf(gpGame->lastSaveFile, filnam);
 
       gpAdvManager->heroMobilized = 0;
       gpCurPlayer = &gpGame->players[giCurPlayer];

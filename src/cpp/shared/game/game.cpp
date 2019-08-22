@@ -522,11 +522,11 @@ void game::ProcessOnMapHeroes() {
 
         if (isJail) {
           randomHero->ownerIdx = -1;
-          this->relatedToHeroForHireStatus[mapExtraHero->heroID] = 65;
+          this->heroHireStatus[mapExtraHero->heroID] = 65;
           loc->extraInfo = mapExtraHero->heroID;
         } else {
           randomHero->ownerIdx = mapExtraHero->owner;
-          this->relatedToHeroForHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
+          this->heroHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
           if (y > 0 && this->map.tiles[x + ((y - 1) * this->map.width)].objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
             --randomHero->relatedToY;

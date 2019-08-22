@@ -2291,22 +2291,22 @@ namespace ironfist_save
     this->numEvents_.set (x);
   }
 
-  const gamestate_t::field_657B_type& gamestate_t::
-  field_657B () const
+  const gamestate_t::numMapEvents_type& gamestate_t::
+  numMapEvents () const
   {
-    return this->field_657B_.get ();
+    return this->numMapEvents_.get ();
   }
 
-  gamestate_t::field_657B_type& gamestate_t::
-  field_657B ()
+  gamestate_t::numMapEvents_type& gamestate_t::
+  numMapEvents ()
   {
-    return this->field_657B_.get ();
+    return this->numMapEvents_.get ();
   }
 
   void gamestate_t::
-  field_657B (const field_657B_type& x)
+  numMapEvents (const numMapEvents_type& x)
   {
-    this->field_657B_.set (x);
+    this->numMapEvents_.set (x);
   }
 
   const gamestate_t::maxMapExtra_type& gamestate_t::
@@ -2513,6 +2513,114 @@ namespace ironfist_save
     this->mapFilename_.set (x);
   }
 
+  const gamestate_t::somePlayerNumData_sequence& gamestate_t::
+  somePlayerNumData () const
+  {
+    return this->somePlayerNumData_;
+  }
+
+  gamestate_t::somePlayerNumData_sequence& gamestate_t::
+  somePlayerNumData ()
+  {
+    return this->somePlayerNumData_;
+  }
+
+  void gamestate_t::
+  somePlayerNumData (const somePlayerNumData_sequence& s)
+  {
+    this->somePlayerNumData_ = s;
+  }
+
+  const gamestate_t::relatedToNewGameSelection_type& gamestate_t::
+  relatedToNewGameSelection () const
+  {
+    return this->relatedToNewGameSelection_.get ();
+  }
+
+  gamestate_t::relatedToNewGameSelection_type& gamestate_t::
+  relatedToNewGameSelection ()
+  {
+    return this->relatedToNewGameSelection_.get ();
+  }
+
+  void gamestate_t::
+  relatedToNewGameSelection (const relatedToNewGameSelection_type& x)
+  {
+    this->relatedToNewGameSelection_.set (x);
+  }
+
+  const gamestate_t::relatedToNewGameInit_type& gamestate_t::
+  relatedToNewGameInit () const
+  {
+    return this->relatedToNewGameInit_.get ();
+  }
+
+  gamestate_t::relatedToNewGameInit_type& gamestate_t::
+  relatedToNewGameInit ()
+  {
+    return this->relatedToNewGameInit_.get ();
+  }
+
+  void gamestate_t::
+  relatedToNewGameInit (const relatedToNewGameInit_type& x)
+  {
+    this->relatedToNewGameInit_.set (x);
+  }
+
+  const gamestate_t::numHumanPlayers_type& gamestate_t::
+  numHumanPlayers () const
+  {
+    return this->numHumanPlayers_.get ();
+  }
+
+  gamestate_t::numHumanPlayers_type& gamestate_t::
+  numHumanPlayers ()
+  {
+    return this->numHumanPlayers_.get ();
+  }
+
+  void gamestate_t::
+  numHumanPlayers (const numHumanPlayers_type& x)
+  {
+    this->numHumanPlayers_.set (x);
+  }
+
+  const gamestate_t::field_47C_sequence& gamestate_t::
+  field_47C () const
+  {
+    return this->field_47C_;
+  }
+
+  gamestate_t::field_47C_sequence& gamestate_t::
+  field_47C ()
+  {
+    return this->field_47C_;
+  }
+
+  void gamestate_t::
+  field_47C (const field_47C_sequence& s)
+  {
+    this->field_47C_ = s;
+  }
+
+  const gamestate_t::gbIAmGreatest_type& gamestate_t::
+  gbIAmGreatest () const
+  {
+    return this->gbIAmGreatest_.get ();
+  }
+
+  gamestate_t::gbIAmGreatest_type& gamestate_t::
+  gbIAmGreatest ()
+  {
+    return this->gbIAmGreatest_.get ();
+  }
+
+  void gamestate_t::
+  gbIAmGreatest (const gbIAmGreatest_type& x)
+  {
+    this->gbIAmGreatest_.set (x);
+  }
+
   const gamestate_t::field_2773_sequence& gamestate_t::
   field_2773 () const
   {
@@ -2675,22 +2783,22 @@ namespace ironfist_save
     this->eventIndices_ = s;
   }
 
-  const gamestate_t::_D_sequence& gamestate_t::
-  _D () const
+  const gamestate_t::mapEventIndices_sequence& gamestate_t::
+  mapEventIndices () const
   {
-    return this->_D_;
+    return this->mapEventIndices_;
   }
 
-  gamestate_t::_D_sequence& gamestate_t::
-  _D ()
+  gamestate_t::mapEventIndices_sequence& gamestate_t::
+  mapEventIndices ()
   {
-    return this->_D_;
+    return this->mapEventIndices_;
   }
 
   void gamestate_t::
-  _D (const _D_sequence& s)
+  mapEventIndices (const mapEventIndices_sequence& s)
   {
-    this->_D_ = s;
+    this->mapEventIndices_ = s;
   }
 
   const gamestate_t::mapRevealed_sequence& gamestate_t::
@@ -8415,10 +8523,14 @@ namespace ironfist_save
                const currentRumor_type& currentRumor,
                const numRumors_type& numRumors,
                const numEvents_type& numEvents,
-               const field_657B_type& field_657B,
+               const numMapEvents_type& numMapEvents,
                const maxMapExtra_type& maxMapExtra,
                const difficulty_type& difficulty,
                const mapFilename_type& mapFilename,
+               const relatedToNewGameSelection_type& relatedToNewGameSelection,
+               const relatedToNewGameInit_type& relatedToNewGameInit,
+               const numHumanPlayers_type& numHumanPlayers,
+               const gbIAmGreatest_type& gbIAmGreatest,
                const campaignType_type& campaignType)
   : ::xml_schema::type (),
     allowAIArmySharing_ (allowAIArmySharing, ::xml_schema::flags (), this),
@@ -8443,7 +8555,7 @@ namespace ironfist_save
     currentRumor_ (currentRumor, ::xml_schema::flags (), this),
     numRumors_ (numRumors, ::xml_schema::flags (), this),
     numEvents_ (numEvents, ::xml_schema::flags (), this),
-    field_657B_ (field_657B, ::xml_schema::flags (), this),
+    numMapEvents_ (numMapEvents, ::xml_schema::flags (), this),
     maxMapExtra_ (maxMapExtra, ::xml_schema::flags (), this),
     playerNames_ (::xml_schema::flags (), this),
     deadPlayers_ (::xml_schema::flags (), this),
@@ -8455,6 +8567,12 @@ namespace ironfist_save
     somePlayerCodeOr10IfMayBeHuman_ (::xml_schema::flags (), this),
     difficulty_ (difficulty, ::xml_schema::flags (), this),
     mapFilename_ (mapFilename, ::xml_schema::flags (), this),
+    somePlayerNumData_ (::xml_schema::flags (), this),
+    relatedToNewGameSelection_ (relatedToNewGameSelection, ::xml_schema::flags (), this),
+    relatedToNewGameInit_ (relatedToNewGameInit, ::xml_schema::flags (), this),
+    numHumanPlayers_ (numHumanPlayers, ::xml_schema::flags (), this),
+    field_47C_ (::xml_schema::flags (), this),
+    gbIAmGreatest_ (gbIAmGreatest, ::xml_schema::flags (), this),
     field_2773_ (::xml_schema::flags (), this),
     builtToday_ (::xml_schema::flags (), this),
     field_60A6_ (::xml_schema::flags (), this),
@@ -8464,7 +8582,7 @@ namespace ironfist_save
     field_637D_ (::xml_schema::flags (), this),
     rumorIndices_ (::xml_schema::flags (), this),
     eventIndices_ (::xml_schema::flags (), this),
-    _D_ (::xml_schema::flags (), this),
+    mapEventIndices_ (::xml_schema::flags (), this),
     mapRevealed_ (::xml_schema::flags (), this),
     mapHeader_ (::xml_schema::flags (), this),
     mapExtra_ (::xml_schema::flags (), this),
@@ -8506,7 +8624,7 @@ namespace ironfist_save
     currentRumor_ (x.currentRumor_, f, this),
     numRumors_ (x.numRumors_, f, this),
     numEvents_ (x.numEvents_, f, this),
-    field_657B_ (x.field_657B_, f, this),
+    numMapEvents_ (x.numMapEvents_, f, this),
     maxMapExtra_ (x.maxMapExtra_, f, this),
     playerNames_ (x.playerNames_, f, this),
     deadPlayers_ (x.deadPlayers_, f, this),
@@ -8518,6 +8636,12 @@ namespace ironfist_save
     somePlayerCodeOr10IfMayBeHuman_ (x.somePlayerCodeOr10IfMayBeHuman_, f, this),
     difficulty_ (x.difficulty_, f, this),
     mapFilename_ (x.mapFilename_, f, this),
+    somePlayerNumData_ (x.somePlayerNumData_, f, this),
+    relatedToNewGameSelection_ (x.relatedToNewGameSelection_, f, this),
+    relatedToNewGameInit_ (x.relatedToNewGameInit_, f, this),
+    numHumanPlayers_ (x.numHumanPlayers_, f, this),
+    field_47C_ (x.field_47C_, f, this),
+    gbIAmGreatest_ (x.gbIAmGreatest_, f, this),
     field_2773_ (x.field_2773_, f, this),
     builtToday_ (x.builtToday_, f, this),
     field_60A6_ (x.field_60A6_, f, this),
@@ -8527,7 +8651,7 @@ namespace ironfist_save
     field_637D_ (x.field_637D_, f, this),
     rumorIndices_ (x.rumorIndices_, f, this),
     eventIndices_ (x.eventIndices_, f, this),
-    _D_ (x._D_, f, this),
+    mapEventIndices_ (x.mapEventIndices_, f, this),
     mapRevealed_ (x.mapRevealed_, f, this),
     mapHeader_ (x.mapHeader_, f, this),
     mapExtra_ (x.mapExtra_, f, this),
@@ -8569,7 +8693,7 @@ namespace ironfist_save
     currentRumor_ (f, this),
     numRumors_ (f, this),
     numEvents_ (f, this),
-    field_657B_ (f, this),
+    numMapEvents_ (f, this),
     maxMapExtra_ (f, this),
     playerNames_ (f, this),
     deadPlayers_ (f, this),
@@ -8581,6 +8705,12 @@ namespace ironfist_save
     somePlayerCodeOr10IfMayBeHuman_ (f, this),
     difficulty_ (f, this),
     mapFilename_ (f, this),
+    somePlayerNumData_ (f, this),
+    relatedToNewGameSelection_ (f, this),
+    relatedToNewGameInit_ (f, this),
+    numHumanPlayers_ (f, this),
+    field_47C_ (f, this),
+    gbIAmGreatest_ (f, this),
     field_2773_ (f, this),
     builtToday_ (f, this),
     field_60A6_ (f, this),
@@ -8590,7 +8720,7 @@ namespace ironfist_save
     field_637D_ (f, this),
     rumorIndices_ (f, this),
     eventIndices_ (f, this),
-    _D_ (f, this),
+    mapEventIndices_ (f, this),
     mapRevealed_ (f, this),
     mapHeader_ (f, this),
     mapExtra_ (f, this),
@@ -8865,13 +8995,13 @@ namespace ironfist_save
         }
       }
 
-      // field_657B
+      // numMapEvents
       //
-      if (n.name () == "field_657B" && n.namespace_ ().empty ())
+      if (n.name () == "numMapEvents" && n.namespace_ ().empty ())
       {
-        if (!field_657B_.present ())
+        if (!numMapEvents_.present ())
         {
-          this->field_657B_.set (field_657B_traits::create (i, f, this));
+          this->numMapEvents_.set (numMapEvents_traits::create (i, f, this));
           continue;
         }
       }
@@ -9000,6 +9130,72 @@ namespace ironfist_save
         }
       }
 
+      // somePlayerNumData
+      //
+      if (n.name () == "somePlayerNumData" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< somePlayerNumData_type > r (
+          somePlayerNumData_traits::create (i, f, this));
+
+        this->somePlayerNumData_.push_back (r);
+        continue;
+      }
+
+      // relatedToNewGameSelection
+      //
+      if (n.name () == "relatedToNewGameSelection" && n.namespace_ ().empty ())
+      {
+        if (!relatedToNewGameSelection_.present ())
+        {
+          this->relatedToNewGameSelection_.set (relatedToNewGameSelection_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToNewGameInit
+      //
+      if (n.name () == "relatedToNewGameInit" && n.namespace_ ().empty ())
+      {
+        if (!relatedToNewGameInit_.present ())
+        {
+          this->relatedToNewGameInit_.set (relatedToNewGameInit_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numHumanPlayers
+      //
+      if (n.name () == "numHumanPlayers" && n.namespace_ ().empty ())
+      {
+        if (!numHumanPlayers_.present ())
+        {
+          this->numHumanPlayers_.set (numHumanPlayers_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_47C
+      //
+      if (n.name () == "field_47C" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_47C_type > r (
+          field_47C_traits::create (i, f, this));
+
+        this->field_47C_.push_back (r);
+        continue;
+      }
+
+      // gbIAmGreatest
+      //
+      if (n.name () == "gbIAmGreatest" && n.namespace_ ().empty ())
+      {
+        if (!gbIAmGreatest_.present ())
+        {
+          this->gbIAmGreatest_.set (gbIAmGreatest_traits::create (i, f, this));
+          continue;
+        }
+      }
+
       // field_2773
       //
       if (n.name () == "field_2773" && n.namespace_ ().empty ())
@@ -9099,14 +9295,14 @@ namespace ironfist_save
         continue;
       }
 
-      // _D
+      // mapEventIndices
       //
-      if (n.name () == "_D" && n.namespace_ ().empty ())
+      if (n.name () == "mapEventIndices" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< _D_type > r (
-          _D_traits::create (i, f, this));
+        ::std::auto_ptr< mapEventIndices_type > r (
+          mapEventIndices_traits::create (i, f, this));
 
-        this->_D_.push_back (r);
+        this->mapEventIndices_.push_back (r);
         continue;
       }
 
@@ -9394,10 +9590,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_657B_.present ())
+    if (!numMapEvents_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_657B",
+        "numMapEvents",
         "");
     }
 
@@ -9419,6 +9615,34 @@ namespace ironfist_save
     {
       throw ::xsd::cxx::tree::expected_element< char > (
         "mapFilename",
+        "");
+    }
+
+    if (!relatedToNewGameSelection_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToNewGameSelection",
+        "");
+    }
+
+    if (!relatedToNewGameInit_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToNewGameInit",
+        "");
+    }
+
+    if (!numHumanPlayers_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numHumanPlayers",
+        "");
+    }
+
+    if (!gbIAmGreatest_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "gbIAmGreatest",
         "");
     }
 
@@ -17596,15 +17820,15 @@ namespace ironfist_save
       s << i.numEvents ();
     }
 
-    // field_657B
+    // numMapEvents
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_657B",
+          "numMapEvents",
           e));
 
-      s << i.field_657B ();
+      s << i.numMapEvents ();
     }
 
     // maxMapExtra
@@ -17752,6 +17976,78 @@ namespace ironfist_save
       s << i.mapFilename ();
     }
 
+    // somePlayerNumData
+    //
+    for (gamestate_t::somePlayerNumData_const_iterator
+         b (i.somePlayerNumData ().begin ()), n (i.somePlayerNumData ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "somePlayerNumData",
+          e));
+
+      s << *b;
+    }
+
+    // relatedToNewGameSelection
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToNewGameSelection",
+          e));
+
+      s << i.relatedToNewGameSelection ();
+    }
+
+    // relatedToNewGameInit
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToNewGameInit",
+          e));
+
+      s << i.relatedToNewGameInit ();
+    }
+
+    // numHumanPlayers
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numHumanPlayers",
+          e));
+
+      s << i.numHumanPlayers ();
+    }
+
+    // field_47C
+    //
+    for (gamestate_t::field_47C_const_iterator
+         b (i.field_47C ().begin ()), n (i.field_47C ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_47C",
+          e));
+
+      s << *b;
+    }
+
+    // gbIAmGreatest
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "gbIAmGreatest",
+          e));
+
+      s << i.gbIAmGreatest ();
+    }
+
     // field_2773
     //
     for (gamestate_t::field_2773_const_iterator
@@ -17878,15 +18174,15 @@ namespace ironfist_save
       s << *b;
     }
 
-    // _D
+    // mapEventIndices
     //
-    for (gamestate_t::_D_const_iterator
-         b (i._D ().begin ()), n (i._D ().end ());
+    for (gamestate_t::mapEventIndices_const_iterator
+         b (i.mapEventIndices ().begin ()), n (i.mapEventIndices ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_D",
+          "mapEventIndices",
           e));
 
       s << *b;
