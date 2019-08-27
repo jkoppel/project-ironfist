@@ -118,6 +118,7 @@
     <ClCompile Include="..\..\cpp\shared\expansions.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
+    <ClCompile Include="..\..\cpp\shared\game\ironfist_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
     <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
@@ -159,6 +160,7 @@
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lutf8lib.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lvm.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp" />
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\callback.cpp" />
@@ -179,6 +181,7 @@
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
+    <ClInclude Include="..\..\cpp\shared\game\ironfist_xml.h" />
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />
