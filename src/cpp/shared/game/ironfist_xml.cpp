@@ -15,118 +15,118 @@ void IronfistXML::Save(const char* fileName) {
   tinyxml2::XMLNode * pRoot = tempDoc.NewElement("ironfist_save");
   tempDoc.InsertFirstChild(pRoot);
 
-  XMLPushBack(pRoot, "allowAIArmySharing", gpGame->allowAIArmySharing);
-  XMLPushBack(pRoot, "mapWidth", gpGame->map.width);
-  XMLPushBack(pRoot, "mapHeight", gpGame->map.height);
-  XMLPushBack(pRoot, "gameDifficulty", gpGame->gameDifficulty);
-  XMLPushBack(pRoot, "monthType", giMonthType);
-  XMLPushBack(pRoot, "monthTypeExtra", giMonthTypeExtra);
-  XMLPushBack(pRoot, "weekType", giWeekType);
-  XMLPushBack(pRoot, "weekTypeExtra", giWeekTypeExtra);
-  XMLPushBack(pRoot, "giMapChangeCtr", giMapChangeCtr);
-  XMLPushBack(pRoot, "numPlayers", (int)gpGame->numPlayers);
-  XMLPushBack(pRoot, "giCurPlayer", giCurPlayer);
-  XMLPushBack(pRoot, "couldBeNumDefeatedPlayers", (int)gpGame->couldBeNumDefeatedPlayers);
-  XMLPushBack(pRoot, "day", gpGame->day);
-  XMLPushBack(pRoot, "week", gpGame->week);
-  XMLPushBack(pRoot, "month", gpGame->month);
-  XMLPushBack(pRoot, "numObelisks", (int)gpGame->numObelisks);
-  XMLPushBack(pRoot, "ultimateArtifactLocX", (int)gpGame->ultimateArtifactLocX);
-  XMLPushBack(pRoot, "ultimateArtifactLocY", (int)gpGame->ultimateArtifactLocY);
-  XMLPushBack(pRoot, "ultimateArtifactIdx", (int)gpGame->ultimateArtifactIdx);
-  XMLPushBack(pRoot, "currentRumor", gpGame->currentRumor);
-  XMLPushBack(pRoot, "numRumors", gpGame->numRumors);
-  XMLPushBack(pRoot, "numEvents", gpGame->numEvents);
-  XMLPushBack(pRoot, "numMapEvents", gpGame->numMapEvents);
-  XMLPushBack(pRoot, "iMaxMapExtra", iMaxMapExtra);
-  XMLPushBack(pRoot, "difficulty", (int)gpGame->difficulty);
-  XMLPushBack(pRoot, "mapFilename", gpGame->mapFilename);
-  XMLPushBack(pRoot, "relatedToNewGameSelection", (int)gpGame->relatedToNewGameSelection);
-  XMLPushBack(pRoot, "relatedToNewGameInit", (int)gpGame->relatedToNewGameInit);
-  XMLPushBack(pRoot, "numHumanPlayers", (int)gpGame->numHumanPlayers);
-  XMLPushBack(pRoot, "gbIAmGreatest", gbIAmGreatest);
+  PushBack(pRoot, "allowAIArmySharing", gpGame->allowAIArmySharing);
+  PushBack(pRoot, "mapWidth", gpGame->map.width);
+  PushBack(pRoot, "mapHeight", gpGame->map.height);
+  PushBack(pRoot, "gameDifficulty", gpGame->gameDifficulty);
+  PushBack(pRoot, "monthType", giMonthType);
+  PushBack(pRoot, "monthTypeExtra", giMonthTypeExtra);
+  PushBack(pRoot, "weekType", giWeekType);
+  PushBack(pRoot, "weekTypeExtra", giWeekTypeExtra);
+  PushBack(pRoot, "giMapChangeCtr", giMapChangeCtr);
+  PushBack(pRoot, "numPlayers", (int)gpGame->numPlayers);
+  PushBack(pRoot, "giCurPlayer", giCurPlayer);
+  PushBack(pRoot, "couldBeNumDefeatedPlayers", (int)gpGame->couldBeNumDefeatedPlayers);
+  PushBack(pRoot, "day", gpGame->day);
+  PushBack(pRoot, "week", gpGame->week);
+  PushBack(pRoot, "month", gpGame->month);
+  PushBack(pRoot, "numObelisks", (int)gpGame->numObelisks);
+  PushBack(pRoot, "ultimateArtifactLocX", (int)gpGame->ultimateArtifactLocX);
+  PushBack(pRoot, "ultimateArtifactLocY", (int)gpGame->ultimateArtifactLocY);
+  PushBack(pRoot, "ultimateArtifactIdx", (int)gpGame->ultimateArtifactIdx);
+  PushBack(pRoot, "currentRumor", gpGame->currentRumor);
+  PushBack(pRoot, "numRumors", gpGame->numRumors);
+  PushBack(pRoot, "numEvents", gpGame->numEvents);
+  PushBack(pRoot, "numMapEvents", gpGame->numMapEvents);
+  PushBack(pRoot, "iMaxMapExtra", iMaxMapExtra);
+  PushBack(pRoot, "difficulty", (int)gpGame->difficulty);
+  PushBack(pRoot, "mapFilename", gpGame->mapFilename);
+  PushBack(pRoot, "relatedToNewGameSelection", (int)gpGame->relatedToNewGameSelection);
+  PushBack(pRoot, "relatedToNewGameInit", (int)gpGame->relatedToNewGameInit);
+  PushBack(pRoot, "numHumanPlayers", (int)gpGame->numHumanPlayers);
+  PushBack(pRoot, "gbIAmGreatest", gbIAmGreatest);
   CAMPAIGN_TYPE campaignType = GetCurrentCampaignType();
-  XMLPushBack(pRoot, "campaignType", campaignType);
+  PushBack(pRoot, "campaignType", campaignType);
 
   tinyxml2::XMLElement *pElement;
   if(campaignType) {
     pElement = tempDoc.NewElement("campaign");
     if(campaignType == CAMPAIGN_TYPE_ORIGINAL) {      
-      XMLPushBack(pElement, "campID", gpGame->campID);
-      XMLPushBack(pElement, "campIDanother", gpGame->campIDanother);
-      XMLPushBack(pElement, "campMapID", gpGame->campMapID);
-      XMLPushBack(pElement, "campUnknown", gpGame->campUnknown);
-      XMLPushBack(pElement, "campDaysPlayedCurrent", gpGame->campDaysPlayedCurrent);
-      XMLPushBack(pElement, "campMaybeWon", gpGame->campMaybeWon);
-      XMLPushBack(pElement, "campHasCheated", gpGame->campHasCheated);
+      PushBack(pElement, "campID", gpGame->campID);
+      PushBack(pElement, "campIDanother", gpGame->campIDanother);
+      PushBack(pElement, "campMapID", gpGame->campMapID);
+      PushBack(pElement, "campUnknown", gpGame->campUnknown);
+      PushBack(pElement, "campDaysPlayedCurrent", gpGame->campDaysPlayedCurrent);
+      PushBack(pElement, "campMaybeWon", gpGame->campMaybeWon);
+      PushBack(pElement, "campHasCheated", gpGame->campHasCheated);
 
-      WriteCampaignDDArrayToTinyXML(pElement, "campMapsWon", gpGame->campMapsWon);
-      WriteCampaignDDArrayToTinyXML(pElement, "campDaysPlayed", gpGame->campDaysPlayed);
-      WriteCampaignDDArrayToTinyXML(pElement, "campDaysPlayed2", gpGame->campDaysPlayed2);
-      WriteCampaignDDArrayToTinyXML(pElement, "campChoices", gpGame->campChoices);
-      WriteCampaignDDArrayToTinyXML(pElement, "campMapsPlayed", gpGame->campMapsPlayed);
+      WriteCampaignDDArray(pElement, "campMapsWon", gpGame->campMapsWon);
+      WriteCampaignDDArray(pElement, "campDaysPlayed", gpGame->campDaysPlayed);
+      WriteCampaignDDArray(pElement, "campDaysPlayed2", gpGame->campDaysPlayed2);
+      WriteCampaignDDArray(pElement, "campChoices", gpGame->campChoices);
+      WriteCampaignDDArray(pElement, "campMapsPlayed", gpGame->campMapsPlayed);
 
-      WriteArrayToTinyXML(pElement, "campBonuses", gpGame->campBonuses);
-      WriteArrayToTinyXML(pElement, "campPlayerCreatures", gpGame->campPlayerCreatures);
-      WriteArrayToTinyXML(pElement, "campPlayerCreatureQuantities", gpGame->campPlayerCreatureQuantities);
-      WriteArrayToTinyXML(pElement, "relatedToCampaign", gpGame->relatedToCampaign);
+      WriteArray(pElement, "campBonuses", gpGame->campBonuses);
+      WriteArray(pElement, "campPlayerCreatures", gpGame->campPlayerCreatures);
+      WriteArray(pElement, "campPlayerCreatureQuantities", gpGame->campPlayerCreatureQuantities);
+      WriteArray(pElement, "relatedToCampaign", gpGame->relatedToCampaign);
     } else if(campaignType == CAMPAIGN_TYPE_EXPANSION) {
-      XMLPushBack(pElement, "campaignID", xCampaign.campaignID);
-      XMLPushBack(pElement, "currentMapID", xCampaign.currentMapID);
-      XMLPushBack(pElement, "numMaps", xCampaign.numMaps);
-      XMLPushBack(pElement, "unknownVariable", xCampaign.unknownVariable);
-      XMLPushBack(pElement, "mightBeScenarioID", xCampaign.mightBeScenarioID);
-      XMLPushBack(pElement, "window", (int)xCampaign.window);
-      XMLPushBack(pElement, "anIntVariable", xCampaign.anIntVariable);
+      PushBack(pElement, "campaignID", xCampaign.campaignID);
+      PushBack(pElement, "currentMapID", xCampaign.currentMapID);
+      PushBack(pElement, "numMaps", xCampaign.numMaps);
+      PushBack(pElement, "unknownVariable", xCampaign.unknownVariable);
+      PushBack(pElement, "mightBeScenarioID", xCampaign.mightBeScenarioID);
+      PushBack(pElement, "window", (int)xCampaign.window);
+      PushBack(pElement, "anIntVariable", xCampaign.anIntVariable);
 
-      WriteArrayToTinyXML(pElement, "mapChoice", xCampaign.mapChoice);
-      WriteArrayToTinyXML(pElement, "mapsPlayed", xCampaign.mapsPlayed);
-      WriteArrayToTinyXML(pElement, "daysPlayed", xCampaign.daysPlayed);
-      WriteArrayToTinyXML(pElement, "awards", xCampaign.awards);
-      WriteArrayToTinyXML(pElement, "bonusChoices", xCampaign.bonusChoices);      
+      WriteArray(pElement, "mapChoice", xCampaign.mapChoice);
+      WriteArray(pElement, "mapsPlayed", xCampaign.mapsPlayed);
+      WriteArray(pElement, "daysPlayed", xCampaign.daysPlayed);
+      WriteArray(pElement, "awards", xCampaign.awards);
+      WriteArray(pElement, "bonusChoices", xCampaign.bonusChoices);      
     }
     pRoot->InsertEndChild(pElement);
   }
 
   pElement = tempDoc.NewElement("mapHeader");
   SMapHeader *mh = &gpGame->mapHeader;
-  XMLPushBack(pElement, "field_0", mh->field_0);
-  XMLPushBack(pElement, "field_4", mh->field_4);
-  XMLPushBack(pElement, "width", (unsigned char)mh->width);
-  XMLPushBack(pElement, "height", (unsigned char)mh->height);
-  XMLPushBack(pElement, "numPlayers", mh->numPlayers);
-  XMLPushBack(pElement, "minHumans", mh->minHumans);
-  XMLPushBack(pElement, "maxHumans", mh->maxHumans);
-  XMLPushBack(pElement, "winConditionType", mh->winConditionType);
-  XMLPushBack(pElement, "relatedToWinConditionType", mh->relatedToWinConditionType);
-  XMLPushBack(pElement, "allowDefeatAllVictory", mh->allowDefeatAllVictory);
-  XMLPushBack(pElement, "winConditionArgumentOrLocX", mh->winConditionArgumentOrLocX);
-  XMLPushBack(pElement, "lossConditionType", mh->lossConditionType);
-  XMLPushBack(pElement, "lossConditionArgumentOrLocX", mh->lossConditionArgumentOrLocX);
-  XMLPushBack(pElement, "field_24", mh->field_24);
-  XMLPushBack(pElement, "noStartingHeroInCastle", mh->noStartingHeroInCastle);
-  XMLPushBack(pElement, "winConditionArgumentOrLocY", mh->winConditionArgumentOrLocY);
-  XMLPushBack(pElement, "lossConditionArgumentOrLocY", mh->lossConditionArgumentOrLocY);
-  XMLPushBack(pElement, "relatedToPlayerColorOrSide", mh->relatedToPlayerColorOrSide);
-  XMLPushBack(pElement, "field_32", mh->field_32);
-  XMLPushBack(pElement, "field_36", mh->field_36);
-  XMLPushBack(pElement, "field_37", mh->field_37);
-  XMLPushBack(pElement, "nextTownName", mh->nextTownName);
-  XMLPushBack(pElement, "field_39", mh->field_39);
-  XMLPushBack(pElement, "name", mh->name);
-  XMLPushBack(pElement, "description", mh->description);
-  XMLPushBack(pElement, "field_1A0", mh->field_1A0);
-  XMLPushBack(pElement, "field_1A1", mh->field_1A1);
-  XMLPushBack(pElement, "numRumors", mh->numRumors);
-  XMLPushBack(pElement, "numEvents", mh->numEvents);
-  WriteArrayToTinyXML(pElement, "hasPlayer", mh->hasPlayer);
-  WriteArrayToTinyXML(pElement, "playerMayBeHuman", mh->playerMayBeHuman);
-  WriteArrayToTinyXML(pElement, "playerMayBeComp", mh->playerMayBeComp);
-  WriteArrayToTinyXML(pElement, "playerFactions", mh->playerFactions);
+  PushBack(pElement, "field_0", mh->field_0);
+  PushBack(pElement, "field_4", mh->field_4);
+  PushBack(pElement, "width", (unsigned char)mh->width);
+  PushBack(pElement, "height", (unsigned char)mh->height);
+  PushBack(pElement, "numPlayers", mh->numPlayers);
+  PushBack(pElement, "minHumans", mh->minHumans);
+  PushBack(pElement, "maxHumans", mh->maxHumans);
+  PushBack(pElement, "winConditionType", mh->winConditionType);
+  PushBack(pElement, "relatedToWinConditionType", mh->relatedToWinConditionType);
+  PushBack(pElement, "allowDefeatAllVictory", mh->allowDefeatAllVictory);
+  PushBack(pElement, "winConditionArgumentOrLocX", mh->winConditionArgumentOrLocX);
+  PushBack(pElement, "lossConditionType", mh->lossConditionType);
+  PushBack(pElement, "lossConditionArgumentOrLocX", mh->lossConditionArgumentOrLocX);
+  PushBack(pElement, "field_24", mh->field_24);
+  PushBack(pElement, "noStartingHeroInCastle", mh->noStartingHeroInCastle);
+  PushBack(pElement, "winConditionArgumentOrLocY", mh->winConditionArgumentOrLocY);
+  PushBack(pElement, "lossConditionArgumentOrLocY", mh->lossConditionArgumentOrLocY);
+  PushBack(pElement, "relatedToPlayerColorOrSide", mh->relatedToPlayerColorOrSide);
+  PushBack(pElement, "field_32", mh->field_32);
+  PushBack(pElement, "field_36", mh->field_36);
+  PushBack(pElement, "field_37", mh->field_37);
+  PushBack(pElement, "nextTownName", mh->nextTownName);
+  PushBack(pElement, "field_39", mh->field_39);
+  PushBack(pElement, "name", mh->name);
+  PushBack(pElement, "description", mh->description);
+  PushBack(pElement, "field_1A0", mh->field_1A0);
+  PushBack(pElement, "field_1A1", mh->field_1A1);
+  PushBack(pElement, "numRumors", mh->numRumors);
+  PushBack(pElement, "numEvents", mh->numEvents);
+  WriteArray(pElement, "hasPlayer", mh->hasPlayer);
+  WriteArray(pElement, "playerMayBeHuman", mh->playerMayBeHuman);
+  WriteArray(pElement, "playerMayBeComp", mh->playerMayBeComp);
+  WriteArray(pElement, "playerFactions", mh->playerFactions);
   pRoot->InsertEndChild(pElement);
 
-  WriteArrayToTinyXML(pRoot, "playerNames", cPlayerNames);
-  WriteArrayToTinyXML(pRoot, "deadPlayers", gpGame->playerDead);
+  WriteArray(pRoot, "playerNames", cPlayerNames);
+  WriteArray(pRoot, "deadPlayers", gpGame->playerDead);
 
   char playerAlive[NUM_PLAYERS];
   for (int i = 0; i < NUM_PLAYERS; ++i) {
@@ -135,24 +135,24 @@ void IronfistXML::Save(const char* fileName) {
       playerAlive[i] = 0;
   }
 
-  WriteArrayToTinyXML(pRoot, "alivePlayers", playerAlive);
-  WriteArrayToTinyXML(pRoot, "heroHireStatus", gpGame->heroHireStatus);
-  WriteArrayToTinyXML(pRoot, "relatedToPlayerPosAndColor", gpGame->relatedToPlayerPosAndColor);
-  WriteArrayToTinyXML(pRoot, "playerHandicap", gpGame->playerHandicap);
-  WriteArrayToTinyXML(pRoot, "relatedToColorOfPlayerOrFaction", gpGame->relatedToColorOfPlayerOrFaction);
-  WriteArrayToTinyXML(pRoot, "somePlayerCodeOr10IfMayBeHuman", gpGame->somePlayerCodeOr10IfMayBeHuman);
-  WriteArrayToTinyXML(pRoot, "somePlayerNumData", gpGame->somePlayerNumData);
-  WriteArrayToTinyXML(pRoot, "field_47C", gpGame->field_47C);
-  WriteArrayToTinyXML(pRoot, "field_2773", gpGame->field_2773);
-  WriteArrayToTinyXML(pRoot, "builtToday", gpGame->builtToday);
-  WriteArrayToTinyXML(pRoot, "field_60A6", gpGame->field_60A6);
-  WriteArrayToTinyXML(pRoot, "randomArtifacts", SerializeGeneratedArtifacts());
-  WriteArrayToTinyXML(pRoot, "boatBuilt", gpGame->boatBuilt);
-  WriteArrayToTinyXML(pRoot, "obeliskVisitedMasks", gpGame->obeliskVisitedMasks);
-  WriteArrayToTinyXML(pRoot, "field_637D", gpGame->field_637D);
-  WriteArrayToTinyXML(pRoot, "rumorIndices", gpGame->rumorIndices);
-  WriteArrayToTinyXML(pRoot, "eventIndices", gpGame->eventIndices);
-  WriteArrayToTinyXML(pRoot, "mapEventIndices", gpGame->mapEventIndices);
+  WriteArray(pRoot, "alivePlayers", playerAlive);
+  WriteArray(pRoot, "heroHireStatus", gpGame->heroHireStatus);
+  WriteArray(pRoot, "relatedToPlayerPosAndColor", gpGame->relatedToPlayerPosAndColor);
+  WriteArray(pRoot, "playerHandicap", gpGame->playerHandicap);
+  WriteArray(pRoot, "relatedToColorOfPlayerOrFaction", gpGame->relatedToColorOfPlayerOrFaction);
+  WriteArray(pRoot, "somePlayerCodeOr10IfMayBeHuman", gpGame->somePlayerCodeOr10IfMayBeHuman);
+  WriteArray(pRoot, "somePlayerNumData", gpGame->somePlayerNumData);
+  WriteArray(pRoot, "field_47C", gpGame->field_47C);
+  WriteArray(pRoot, "field_2773", gpGame->field_2773);
+  WriteArray(pRoot, "builtToday", gpGame->builtToday);
+  WriteArray(pRoot, "field_60A6", gpGame->field_60A6);
+  WriteArray(pRoot, "randomArtifacts", SerializeGeneratedArtifacts());
+  WriteArray(pRoot, "boatBuilt", gpGame->boatBuilt);
+  WriteArray(pRoot, "obeliskVisitedMasks", gpGame->obeliskVisitedMasks);
+  WriteArray(pRoot, "field_637D", gpGame->field_637D);
+  WriteArray(pRoot, "rumorIndices", gpGame->rumorIndices);
+  WriteArray(pRoot, "eventIndices", gpGame->eventIndices);
+  WriteArray(pRoot, "mapEventIndices", gpGame->mapEventIndices);
 
   for (int i = 1; i < iMaxMapExtra; i++) {
     tinyxml2::XMLElement *extraElem = tempDoc.NewElement("mapExtra");
@@ -175,29 +175,29 @@ void IronfistXML::Save(const char* fileName) {
     tinyxml2::XMLElement *playerElem = tempDoc.NewElement("playerData");
     playerElem->SetAttribute("index", i);
 
-    XMLPushBack(playerElem, "color", player->color);
-    XMLPushBack(playerElem, "numHeroes", player->numHeroes);
-    XMLPushBack(playerElem, "curHeroIdx", player->curHeroIdx);
-    XMLPushBack(playerElem, "relatedToSomeSortOfHeroCountOrIdx", player->relatedToSomeSortOfHeroCountOrIdx);
-    XMLPushBack(playerElem, "hasCheated", gpGame->hasCheated);
-    XMLPushBack(playerElem, "puzzlePieces", player->puzzlePieces);
-    XMLPushBack(playerElem, "personality", player->personality);
-    XMLPushBack(playerElem, "relatedToMaxOrNumHeroes", player->relatedToMaxOrNumHeroes);
-    XMLPushBack(playerElem, "hasEvilFaction", player->hasEvilFaction);
-    XMLPushBack(playerElem, "field_40", player->field_40);
-    XMLPushBack(playerElem, "field_41", player->field_41);
-    XMLPushBack(playerElem, "daysLeftWithoutCastle", player->daysLeftWithoutCastle);
-    XMLPushBack(playerElem, "numCastles", player->numCastles);
-    XMLPushBack(playerElem, "mightBeCurCastleIdx", player->mightBeCurCastleIdx);
-    XMLPushBack(playerElem, "relatedToUnknown", player->relatedToUnknown);
-    XMLPushBack(playerElem, "barrierTentsVisited", player->barrierTentsVisited);
+    PushBack(playerElem, "color", player->color);
+    PushBack(playerElem, "numHeroes", player->numHeroes);
+    PushBack(playerElem, "curHeroIdx", player->curHeroIdx);
+    PushBack(playerElem, "relatedToSomeSortOfHeroCountOrIdx", player->relatedToSomeSortOfHeroCountOrIdx);
+    PushBack(playerElem, "hasCheated", gpGame->hasCheated);
+    PushBack(playerElem, "puzzlePieces", player->puzzlePieces);
+    PushBack(playerElem, "personality", player->personality);
+    PushBack(playerElem, "relatedToMaxOrNumHeroes", player->relatedToMaxOrNumHeroes);
+    PushBack(playerElem, "hasEvilFaction", player->hasEvilFaction);
+    PushBack(playerElem, "field_40", player->field_40);
+    PushBack(playerElem, "field_41", player->field_41);
+    PushBack(playerElem, "daysLeftWithoutCastle", player->daysLeftWithoutCastle);
+    PushBack(playerElem, "numCastles", player->numCastles);
+    PushBack(playerElem, "mightBeCurCastleIdx", player->mightBeCurCastleIdx);
+    PushBack(playerElem, "relatedToUnknown", player->relatedToUnknown);
+    PushBack(playerElem, "barrierTentsVisited", player->barrierTentsVisited);
 
-    WriteArrayToTinyXML(playerElem, "heroesOwned", player->heroesOwned);
-    WriteArrayToTinyXML(playerElem, "heroesForPurchase", player->heroesForPurchase);
-    WriteArrayToTinyXML(playerElem, "castlesOwned", player->castlesOwned);
-    WriteArrayToTinyXML(playerElem, "resources", player->resources);
-    WriteArrayToTinyXML(playerElem, "field_E7", player->field_E7);
-    WriteArrayToTinyXML(playerElem, "_4_2", player->_4_2);
+    WriteArray(playerElem, "heroesOwned", player->heroesOwned);
+    WriteArray(playerElem, "heroesForPurchase", player->heroesForPurchase);
+    WriteArray(playerElem, "castlesOwned", player->castlesOwned);
+    WriteArray(playerElem, "resources", player->resources);
+    WriteArray(playerElem, "field_E7", player->field_E7);
+    WriteArray(playerElem, "_4_2", player->_4_2);
 
     pRoot->InsertEndChild(playerElem);
   }
@@ -206,29 +206,29 @@ void IronfistXML::Save(const char* fileName) {
     town *twn = &gpGame->castles[i];
     tinyxml2::XMLElement *townElem = tempDoc.NewElement("town");
     townElem->SetAttribute("index", i);
-    XMLPushBack(townElem, "idx", twn->idx);
-    XMLPushBack(townElem, "ownerIdx", twn->ownerIdx);
-    XMLPushBack(townElem, "alignment", twn->alignment);
-    XMLPushBack(townElem, "factionID", twn->factionID);
-    XMLPushBack(townElem, "x", twn->x);
-    XMLPushBack(townElem, "y", twn->y);
-    XMLPushBack(townElem, "buildDockRelated", twn->buildDockRelated);
-    XMLPushBack(townElem, "boatCell", twn->boatCell);
-    XMLPushBack(townElem, "visitingHeroIdx", twn->visitingHeroIdx);
-    XMLPushBack(townElem, "buildingsBuiltFlags", (int)twn->buildingsBuiltFlags);
-    XMLPushBack(townElem, "mageGuildLevel", twn->mageGuildLevel);
-    XMLPushBack(townElem, "field_1D", twn->field_1D);
-    XMLPushBack(townElem, "exists", twn->exists);
-    XMLPushBack(townElem, "mayNotBeUpgradedToCastle", twn->mayNotBeUpgradedToCastle);
-    XMLPushBack(townElem, "field_38", twn->field_38);
-    XMLPushBack(townElem, "playerPos", twn->playerPos);
-    XMLPushBack(townElem, "extraIdx", twn->extraIdx);
-    XMLPushBack(townElem, "field_55", twn->field_55);
-    XMLPushBack(townElem, "field_63", twn->field_63);
-    XMLPushBack(townElem, "name", twn->name);
+    PushBack(townElem, "idx", twn->idx);
+    PushBack(townElem, "ownerIdx", twn->ownerIdx);
+    PushBack(townElem, "alignment", twn->alignment);
+    PushBack(townElem, "factionID", twn->factionID);
+    PushBack(townElem, "x", twn->x);
+    PushBack(townElem, "y", twn->y);
+    PushBack(townElem, "buildDockRelated", twn->buildDockRelated);
+    PushBack(townElem, "boatCell", twn->boatCell);
+    PushBack(townElem, "visitingHeroIdx", twn->visitingHeroIdx);
+    PushBack(townElem, "buildingsBuiltFlags", (int)twn->buildingsBuiltFlags);
+    PushBack(townElem, "mageGuildLevel", twn->mageGuildLevel);
+    PushBack(townElem, "field_1D", twn->field_1D);
+    PushBack(townElem, "exists", twn->exists);
+    PushBack(townElem, "mayNotBeUpgradedToCastle", twn->mayNotBeUpgradedToCastle);
+    PushBack(townElem, "field_38", twn->field_38);
+    PushBack(townElem, "playerPos", twn->playerPos);
+    PushBack(townElem, "extraIdx", twn->extraIdx);
+    PushBack(townElem, "field_55", twn->field_55);
+    PushBack(townElem, "field_63", twn->field_63);
+    PushBack(townElem, "name", twn->name);
 
-    WriteArrayToTinyXML(townElem, "numCreaturesInDwelling", twn->numCreaturesInDwelling);
-    WriteArrayToTinyXML(townElem, "numSpellsOfLevel", twn->numSpellsOfLevel);
+    WriteArray(townElem, "numCreaturesInDwelling", twn->numCreaturesInDwelling);
+    WriteArray(townElem, "numSpellsOfLevel", twn->numSpellsOfLevel);
 
     for (int j = 0; j < 20; j++) {      
       int x = j % 5;
@@ -345,54 +345,54 @@ void IronfistXML::Save(const char* fileName) {
     hero* hro = &gpGame->heroes[i];
     tinyxml2::XMLElement *heroElement = tempDoc.NewElement("hero");
     heroElement->SetAttribute("index", i);
-    XMLPushBack(heroElement, "idx", hro->idx);
-    XMLPushBack(heroElement, "spellpoints", hro->spellpoints);
-    XMLPushBack(heroElement, "ownerIdx", hro->ownerIdx);
-    XMLPushBack(heroElement, "field_4", hro->field_4);
-    XMLPushBack(heroElement, "field_5", hro->field_5);
-    XMLPushBack(heroElement, "field_6", hro->field_6);
-    XMLPushBack(heroElement, "field_7", hro->field_7);
-    XMLPushBack(heroElement, "field_8", hro->field_8);
-    XMLPushBack(heroElement, "field_9", hro->field_9);
-    XMLPushBack(heroElement, "name", hro->name);
-    XMLPushBack(heroElement, "experience", hro->experience);
-    XMLPushBack(heroElement, "factionID", hro->factionID);
-    XMLPushBack(heroElement, "heroID", hro->heroID);
-    XMLPushBack(heroElement, "x", hro->x);
-    XMLPushBack(heroElement, "y", hro->y);
-    XMLPushBack(heroElement, "field_21", hro->field_21);
-    XMLPushBack(heroElement, "field_23", hro->field_23);
-    XMLPushBack(heroElement, "field_25", hro->field_25);
-    XMLPushBack(heroElement, "field_27", hro->field_27);
-    XMLPushBack(heroElement, "relatedToX", hro->relatedToX);
-    XMLPushBack(heroElement, "relatedToY", hro->relatedToY);
-    XMLPushBack(heroElement, "relatedToFactionID", hro->relatedToFactionID);
-    XMLPushBack(heroElement, "relatedToUnknown", hro->relatedToUnknown);
-    XMLPushBack(heroElement, "occupiedObjType", hro->occupiedObjType);
-    XMLPushBack(heroElement, "occupiedObjVal", hro->occupiedObjVal);
-    XMLPushBack(heroElement, "mobility", hro->mobility);
-    XMLPushBack(heroElement, "remainingMobility", hro->remainingMobility);
-    XMLPushBack(heroElement, "oldLevel", hro->oldLevel);
-    XMLPushBack(heroElement, "attack", hro->primarySkills[PRIMARY_SKILL_ATTACK]);
-    XMLPushBack(heroElement, "defense", hro->primarySkills[PRIMARY_SKILL_DEFENSE]);
-    XMLPushBack(heroElement, "spellpower", hro->primarySkills[PRIMARY_SKILL_SPELLPOWER]);
-    XMLPushBack(heroElement, "knowledge", hro->primarySkills[PRIMARY_SKILL_KNOWLEDGE]);
-    XMLPushBack(heroElement, "field_43", hro->field_43);
-    XMLPushBack(heroElement, "tempMoraleBonuses", hro->tempMoraleBonuses);
-    XMLPushBack(heroElement, "tempLuckBonuses", hro->tempLuckBonuses);
-    XMLPushBack(heroElement, "field_46", hro->field_46);
-    XMLPushBack(heroElement, "gazeboesVisited", hro->gazeboesVisited);
-    XMLPushBack(heroElement, "fortsVisited", hro->fortsVisited);
-    XMLPushBack(heroElement, "witchDoctorHutsVisited", hro->witchDoctorHutsVisited);
-    XMLPushBack(heroElement, "mercenaryCampsVisited", hro->mercenaryCampsVisited);
-    XMLPushBack(heroElement, "standingStonesVisited", hro->standingStonesVisited);
-    XMLPushBack(heroElement, "treesOfKnowledgeVisited", hro->treesOfKnowledgeVisited);
-    XMLPushBack(heroElement, "xanadusVisited", hro->xanadusVisited);
-    XMLPushBack(heroElement, "randomSeed", hro->randomSeed);
-    XMLPushBack(heroElement, "wisdomLastOffered", hro->wisdomLastOffered);
-    XMLPushBack(heroElement, "flags", hro->flags);
-    XMLPushBack(heroElement, "isCaptain", hro->isCaptain);
-    XMLPushBack(heroElement, "field_E8", hro->field_E8);
+    PushBack(heroElement, "idx", hro->idx);
+    PushBack(heroElement, "spellpoints", hro->spellpoints);
+    PushBack(heroElement, "ownerIdx", hro->ownerIdx);
+    PushBack(heroElement, "field_4", hro->field_4);
+    PushBack(heroElement, "field_5", hro->field_5);
+    PushBack(heroElement, "field_6", hro->field_6);
+    PushBack(heroElement, "field_7", hro->field_7);
+    PushBack(heroElement, "field_8", hro->field_8);
+    PushBack(heroElement, "field_9", hro->field_9);
+    PushBack(heroElement, "name", hro->name);
+    PushBack(heroElement, "experience", hro->experience);
+    PushBack(heroElement, "factionID", hro->factionID);
+    PushBack(heroElement, "heroID", hro->heroID);
+    PushBack(heroElement, "x", hro->x);
+    PushBack(heroElement, "y", hro->y);
+    PushBack(heroElement, "field_21", hro->field_21);
+    PushBack(heroElement, "field_23", hro->field_23);
+    PushBack(heroElement, "field_25", hro->field_25);
+    PushBack(heroElement, "field_27", hro->field_27);
+    PushBack(heroElement, "relatedToX", hro->relatedToX);
+    PushBack(heroElement, "relatedToY", hro->relatedToY);
+    PushBack(heroElement, "relatedToFactionID", hro->relatedToFactionID);
+    PushBack(heroElement, "relatedToUnknown", hro->relatedToUnknown);
+    PushBack(heroElement, "occupiedObjType", hro->occupiedObjType);
+    PushBack(heroElement, "occupiedObjVal", hro->occupiedObjVal);
+    PushBack(heroElement, "mobility", hro->mobility);
+    PushBack(heroElement, "remainingMobility", hro->remainingMobility);
+    PushBack(heroElement, "oldLevel", hro->oldLevel);
+    PushBack(heroElement, "attack", hro->primarySkills[PRIMARY_SKILL_ATTACK]);
+    PushBack(heroElement, "defense", hro->primarySkills[PRIMARY_SKILL_DEFENSE]);
+    PushBack(heroElement, "spellpower", hro->primarySkills[PRIMARY_SKILL_SPELLPOWER]);
+    PushBack(heroElement, "knowledge", hro->primarySkills[PRIMARY_SKILL_KNOWLEDGE]);
+    PushBack(heroElement, "field_43", hro->field_43);
+    PushBack(heroElement, "tempMoraleBonuses", hro->tempMoraleBonuses);
+    PushBack(heroElement, "tempLuckBonuses", hro->tempLuckBonuses);
+    PushBack(heroElement, "field_46", hro->field_46);
+    PushBack(heroElement, "gazeboesVisited", hro->gazeboesVisited);
+    PushBack(heroElement, "fortsVisited", hro->fortsVisited);
+    PushBack(heroElement, "witchDoctorHutsVisited", hro->witchDoctorHutsVisited);
+    PushBack(heroElement, "mercenaryCampsVisited", hro->mercenaryCampsVisited);
+    PushBack(heroElement, "standingStonesVisited", hro->standingStonesVisited);
+    PushBack(heroElement, "treesOfKnowledgeVisited", hro->treesOfKnowledgeVisited);
+    PushBack(heroElement, "xanadusVisited", hro->xanadusVisited);
+    PushBack(heroElement, "randomSeed", hro->randomSeed);
+    PushBack(heroElement, "wisdomLastOffered", hro->wisdomLastOffered);
+    PushBack(heroElement, "flags", hro->flags);
+    PushBack(heroElement, "isCaptain", hro->isCaptain);
+    PushBack(heroElement, "field_E8", hro->field_E8);
 
     for (int j = 0; j < ELEMENTS_IN(hro->army.creatureTypes); j++) {
       tinyxml2::XMLElement *armyElem = tempDoc.NewElement("army");
@@ -431,18 +431,18 @@ void IronfistXML::Save(const char* fileName) {
     pRoot->InsertEndChild(heroElement);
   }
 
-  WriteMapVariablesTinyXML(&tempDoc, pRoot);
-  XMLPushBack(pRoot, "script", GetScriptContents().c_str());
+  WriteMapVariables(&tempDoc, pRoot);
+  PushBack(pRoot, "script", GetScriptContents().c_str());
   tempDoc.SaveFile(fileName);
 }
 
 void IronfistXML::Read(const char* fileName) {
   tinyxml2::XMLError eResult = tempDoc.LoadFile(fileName);
   tinyxml2::XMLNode *pRoot = tempDoc.FirstChild();
-  READNEW(pRoot);
+  ReadRoot(pRoot);
 }
 
-luaTable* IronfistXML::READTABLE(tinyxml2::XMLNode *root) {
+luaTable* IronfistXML::ReadTable(tinyxml2::XMLNode *root) {
   luaTable *lt = new luaTable;
 
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
@@ -463,7 +463,7 @@ luaTable* IronfistXML::READTABLE(tinyxml2::XMLNode *root) {
         else if(name == "table") {
           mapVariable *mapVar = new mapVariable;
           mapVar->type = MAPVAR_TYPE_TABLE;
-          mapVar->tableValue = READTABLE(tableElement);
+          mapVar->tableValue = ReadTable(tableElement);
           (*lt)[tableElement->Attribute("tableId")] = *mapVar;
         }
       }
@@ -472,14 +472,14 @@ luaTable* IronfistXML::READTABLE(tinyxml2::XMLNode *root) {
   return lt;
 }
 
-void IronfistXML::WriteMapVariableTableTinyXML(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, std::string id, luaTable *lt) {
+void IronfistXML::WriteMapVarTable(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, std::string id, luaTable *lt) {
   tinyxml2::XMLElement *tableElem = doc->NewElement("table");
   tableElem->SetAttribute("tableId", id.c_str());
 
   for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
     tinyxml2::XMLElement *elem = tableElem;
     if (it->second.type == MAPVAR_TYPE_TABLE) {
-      WriteMapVariableTableTinyXML(doc, tableElem, it->first, it->second.tableValue);
+      WriteMapVarTable(doc, tableElem, it->first, it->second.tableValue);
     } else {
       elem = doc->NewElement("tableElement");
       elem->SetAttribute("key", it->first.c_str());
@@ -491,7 +491,7 @@ void IronfistXML::WriteMapVariableTableTinyXML(tinyxml2::XMLDocument *doc, tinyx
   dest->InsertEndChild(tableElem);
 }
 
-void IronfistXML::WriteMapVariablesTinyXML(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest) {
+void IronfistXML::WriteMapVariables(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest) {
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
   for (int i = 0; i != MAX_HEROES; ++i) {
     for (int j = 0; j != MAX_HEROES; ++j) {
@@ -511,7 +511,7 @@ void IronfistXML::WriteMapVariablesTinyXML(tinyxml2::XMLDocument *doc, tinyxml2:
     elem->SetAttribute("id", it->first.c_str());
     elem->SetAttribute("type", MapVarTypeToString(it->second.type).c_str());
     if (isTable(it->second.type)) {
-      WriteMapVariableTableTinyXML(doc, elem, it->first, it->second.tableValue);
+      WriteMapVarTable(doc, elem, it->first, it->second.tableValue);
     } else if (isStringNumBool(it->second.type)) {
       elem->SetAttribute("value", (*it->second.singleValue).c_str());
     } else {
@@ -543,7 +543,7 @@ void IronfistXML::QueryText(tinyxml2::XMLElement *el, char *dest) {
     strcpy(dest, "");
 }
 
-void IronfistXML::READCAMPAIGN(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignType) {
+void IronfistXML::ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignType) {
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
     std::string name = elem->Name();
@@ -583,7 +583,7 @@ void IronfistXML::READCAMPAIGN(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignTy
   }
 }
 
-void IronfistXML::READMAPHEADER(tinyxml2::XMLNode* root) {
+void IronfistXML::ReadMapHeader(tinyxml2::XMLNode* root) {
   SMapHeader *mh = &gpGame->mapHeader;
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
@@ -626,7 +626,7 @@ void IronfistXML::READMAPHEADER(tinyxml2::XMLNode* root) {
   }
 }
 
-void IronfistXML::READMAP(tinyxml2::XMLNode* root) {
+void IronfistXML::ReadMap(tinyxml2::XMLNode* root) {
   gpGame->map.width = root->ToElement()->IntAttribute("width");
   gpGame->map.height = root->ToElement()->IntAttribute("height");
   gpGame->map.Init(gpGame->map.width, gpGame->map.height); 
@@ -676,7 +676,7 @@ void IronfistXML::READMAP(tinyxml2::XMLNode* root) {
   }
 }
 
-void IronfistXML::READMAPEXTRA(tinyxml2::XMLNode* root) {
+void IronfistXML::ReadMapExtra(tinyxml2::XMLNode* root) {
   int size = 0;
   int index = root->ToElement()->IntAttribute("index");
   std::vector<int> values;
@@ -697,7 +697,7 @@ void IronfistXML::READMAPEXTRA(tinyxml2::XMLNode* root) {
   }
 }
 
-void IronfistXML::READPLAYERDATA(tinyxml2::XMLNode* root, int dataIndex) {
+void IronfistXML::ReadPlayerData(tinyxml2::XMLNode* root, int dataIndex) {
   playerData *pdata = &gpGame->players[dataIndex];
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
@@ -729,7 +729,7 @@ void IronfistXML::READPLAYERDATA(tinyxml2::XMLNode* root, int dataIndex) {
   }
 }
 
-void IronfistXML::READHERO(tinyxml2::XMLNode* root, int heroIndex) {
+void IronfistXML::ReadHero(tinyxml2::XMLNode* root, int heroIndex) {
   hero* hro = &gpGame->heroes[heroIndex];
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
@@ -800,7 +800,7 @@ void IronfistXML::READHERO(tinyxml2::XMLNode* root, int heroIndex) {
   }
 }
 
-void IronfistXML::READTOWN(tinyxml2::XMLNode* root, int townIdx) {
+void IronfistXML::ReadTown(tinyxml2::XMLNode* root, int townIdx) {
   town* twn = &gpGame->castles[townIdx];
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
@@ -842,7 +842,7 @@ void IronfistXML::READTOWN(tinyxml2::XMLNode* root, int townIdx) {
   }
 }
 
-void IronfistXML::READNEW(tinyxml2::XMLNode* root) {
+void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
   int campaignType;
   char hasPlayer[NUM_PLAYERS];
   std::vector<int> xmlArtifacts;
@@ -895,7 +895,7 @@ void IronfistXML::READNEW(tinyxml2::XMLNode* root) {
     else if(name == "numHumanPlayers") QueryCharText(elem, &gpGame->numHumanPlayers);
     else if(name == "gbIAmGreatest") elem->QueryIntText(&gbIAmGreatest);
     else if(name == "campaignType") elem->QueryIntText((int*)&campaignType);
-    else if(name == "mapHeader") READMAPHEADER(elem);
+    else if(name == "mapHeader") ReadMapHeader(elem);
     else if(name == "playerNames") QueryText(elem, cPlayerNames[index]);
     else if(name == "deadPlayers") gpGame->playerDead[index] = value;
     else if(name == "alivePlayers") hasPlayer[index] = value;
@@ -945,12 +945,12 @@ void IronfistXML::READNEW(tinyxml2::XMLNode* root) {
         ScriptingInitFromString(std::string(script));
       }
     }
-    else if(name == "mapExtra") READMAPEXTRA(elem);
-    else if(name == "playerData") READPLAYERDATA(elem, index);
-    else if(name == "town") READTOWN(elem, index);
-    else if(name == "map") READMAP(elem);      
-    else if(name == "hero") READHERO(elem, index);
-    else if(name == "campaign") READCAMPAIGN(elem, (CAMPAIGN_TYPE)campaignType);
+    else if(name == "mapExtra") ReadMapExtra(elem);
+    else if(name == "playerData") ReadPlayerData(elem, index);
+    else if(name == "town") ReadTown(elem, index);
+    else if(name == "map") ReadMap(elem);      
+    else if(name == "hero") ReadHero(elem, index);
+    else if(name == "campaign") ReadCampaign(elem, (CAMPAIGN_TYPE)campaignType);
     else if(name == "mapVariable") {
       std::string mapVariableId = elem->Attribute("id");
       
@@ -963,7 +963,7 @@ void IronfistXML::READNEW(tinyxml2::XMLNode* root) {
       mapVariable *mapVar = new mapVariable;
       mapVar->type = mapVariableType;
       if (isTable(mapVariableType)) {
-        mapVar->tableValue = READTABLE(elem);
+        mapVar->tableValue = ReadTable(elem);
       } else if (isStringNumBool(mapVariableType)) {
         std::string *sV = new std::string;
         *sV = elem->Attribute("value");
