@@ -974,7 +974,7 @@ void game::ProcessOnMapHeroes() {
     if(i < 54) {
       data.randomizable = true;
       data.faction = (FACTION)(i / 9);
-    } else if(i < 71) {
+    } else if(i < 72) {
       data.randomizable = false;
       data.faction = FACTION_KNIGHT; // doesn't matter since not randomizable
     } else {
