@@ -698,7 +698,7 @@ void IronfistXML::ReadMapExtra(tinyxml2::XMLNode* root) {
   ppMapExtra[index] = ALLOC(pwSizeOfMapExtra[index]);
 
   for (int j = 0; j < pwSizeOfMapExtra[index]; j++) {
-    *((char*)ppMapExtra[index] + j) = (char)values.at(index - 1);
+    *((char*)ppMapExtra[index] + j) = (char)values.at(j);
   }
 }
 
