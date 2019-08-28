@@ -163,13 +163,15 @@ int advManager::Open(int idx) {
   if(!this->heroIcons[5])
     this->heroIcons[5] = gpResourceManager->GetIcon("necr32.icn");
 
+  if(!this->boatIcon)
+    this->boatIcon = gpResourceManager->GetIcon("boat32.icn");
+
   for(int i = 0; i < NUM_ORIG_FACTIONS; i++)
     ironfistHeroMapIcons[i] = this->heroIcons[i];
+  ironfistHeroMapIcons[6] = this->boatIcon;
   if(!ironfistHeroMapIcons[FACTION_CYBORG])
     ironfistHeroMapIcons[FACTION_CYBORG] = gpResourceManager->GetIcon("cbrg32.icn");
 
-  if(!this->boatIcon)
-    this->boatIcon = gpResourceManager->GetIcon("boat32.icn");
   if(!this->frothIcon)
     this->frothIcon = gpResourceManager->GetIcon("froth.icn");
   gbLoadingMonoIcon = 1;
