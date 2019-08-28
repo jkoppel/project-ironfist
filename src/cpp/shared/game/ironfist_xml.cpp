@@ -431,8 +431,10 @@ void IronfistXML::Save(const char* fileName) {
     pRoot->InsertEndChild(heroElement);
   }
 
-  PushBack(pRoot, "script", GetScriptContents().c_str());
   WriteMapVariables(pRoot);
+  std::string script = GetScriptContents();
+  if(script.length())
+    PushBack(pRoot, "script", script.c_str());
   tempDoc.SaveFile(fileName);
 }
 
