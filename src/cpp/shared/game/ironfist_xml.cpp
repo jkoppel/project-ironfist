@@ -899,7 +899,7 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
     else if(name == "relatedToNewGameInit") QueryCharText(elem, &gpGame->relatedToNewGameInit);
     else if(name == "numHumanPlayers") QueryCharText(elem, &gpGame->numHumanPlayers);
     else if(name == "gbIAmGreatest") elem->QueryIntText(&gbIAmGreatest);
-    else if(name == "campaignType") elem->QueryIntText((int*)&campaignType);
+    else if(name == "campaignType") elem->QueryIntText(&campaignType);
     else if(name == "mapHeader") ReadMapHeader(elem);
     else if(name == "playerNames") QueryText(elem, cPlayerNames[index]);
     else if(name == "deadPlayers") gpGame->playerDead[index] = value;
