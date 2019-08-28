@@ -99,14 +99,14 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
     else if(xIsPlayingExpansionCampaign)
       sprintf(path, "%s.%s", saveFile, "GXC");
     else {
-      numPlayers = 0;
+      int aliveHumanPlayers = 0;
       for(int i = 0; i < NUM_PLAYERS; ++i)
         if(!this->playerDead[i] && gbHumanPlayer[i])
-          ++numPlayers;
+          ++aliveHumanPlayers;
       if(!xIsExpansionMap || baseGame) {
-        sprintf(path, "%s.GM1", saveFile);
+        sprintf(path, "%s.GM%d", saveFile, aliveHumanPlayers);
       } else {
-        sprintf(path, "%s.GX1", saveFile);
+        sprintf(path, "%s.GX%d", saveFile, aliveHumanPlayers);
       }
     }
   } else {
