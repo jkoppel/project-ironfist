@@ -306,6 +306,10 @@ void game::NewMap(char* mapname) {
   else
 	  write_pref("Last Map", std::string(gMapName));
   this->ResetIronfistGameState();
+  for(int i = 0; i < NUM_PLAYERS; i++) {
+    if(gpGame->newGameSelectedFaction[i] == FACTION_RANDOM)
+      gpGame->newGameSelectedFaction[i] = FACTIONS_ACTUAL[Random(0, FACTIONS_ACTUAL.size() - 1)];;
+  }
   this->NewMap_orig(mapname);
   ScriptingInit(std::string(mapname));
   gpGame->firstDayEventDone = false;
