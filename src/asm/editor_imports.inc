@@ -166,5 +166,4 @@ IMPORT_?gWellExtraNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
 IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
 IMPORT_?gTownPrefixNames@@3PAPADA = 1
-IMPORT_?sub_4230AC@overlayManager@@QAEXH@Z = 1
-?sub_4230AC@overlayManager@@QAEXH@Z_clone EQU ?sub_4230AC_orig@overlayManager@@QAEXH@Z
+IMPORT_?SetupOverlayWindow@overlayManager@@QAEXH@Z = 1

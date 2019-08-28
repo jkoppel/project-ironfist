@@ -66,8 +66,7 @@ public:
   int SelectObject_orig(int objType);
   int PopulateAvailOverlays(int ovrType);
   int PopulateAvailOverlays_orig(int ovrType);
-  void sub_4230AC(int draw);
-  void sub_4230AC_orig(int draw);
+  void SetupOverlayWindow(int draw);
   void DrawAffectedTileGrid(int x, int y, int width, int height, overlay *ovr, signed int a7);
   void DrawOverlay(overlay *ovr, int xoff, int yoff, int a4, int width, int height, int draw, signed int a8, int a9);
 

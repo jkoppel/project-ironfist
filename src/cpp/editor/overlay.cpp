@@ -14,7 +14,7 @@
 extern "C" int giOverlaySelectMaybeNumUnseen;
 extern "C" int giOverlaySelectNRows;
 
-void overlayManager::sub_4230AC(int draw) {
+void overlayManager::SetupOverlayWindow(int draw) {
   const int NUM_ROWS = 9;
   const int NUM_COLS = 9;
   const int NUM_OVERLAYS_ON_SCREEN = NUM_ROWS * NUM_COLS;
