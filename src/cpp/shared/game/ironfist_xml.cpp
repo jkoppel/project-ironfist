@@ -431,8 +431,8 @@ void IronfistXML::Save(const char* fileName) {
     pRoot->InsertEndChild(heroElement);
   }
 
-  WriteMapVariables(&tempDoc, pRoot);
   PushBack(pRoot, "script", GetScriptContents().c_str());
+  WriteMapVariables(pRoot);
   tempDoc.SaveFile(fileName);
 }
 
@@ -472,16 +472,16 @@ luaTable* IronfistXML::ReadTable(tinyxml2::XMLNode *root) {
   return lt;
 }
 
-void IronfistXML::WriteMapVarTable(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, std::string id, luaTable *lt) {
-  tinyxml2::XMLElement *tableElem = doc->NewElement("table");
+void IronfistXML::WriteMapVarTable(tinyxml2::XMLNode *dest, std::string id, luaTable *lt) {
+  tinyxml2::XMLElement *tableElem = tempDoc.NewElement("table");
   tableElem->SetAttribute("tableId", id.c_str());
 
   for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
     tinyxml2::XMLElement *elem = tableElem;
     if (it->second.type == MAPVAR_TYPE_TABLE) {
-      WriteMapVarTable(doc, tableElem, it->first, it->second.tableValue);
+      WriteMapVarTable(tableElem, it->first, it->second.tableValue);
     } else {
-      elem = doc->NewElement("tableElement");
+      elem = tempDoc.NewElement("tableElement");
       elem->SetAttribute("key", it->first.c_str());
       elem->SetAttribute("type", MapVarTypeToString(it->second.type).c_str());
       elem->SetAttribute("value", (*it->second.singleValue).c_str());
@@ -491,7 +491,7 @@ void IronfistXML::WriteMapVarTable(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode
   dest->InsertEndChild(tableElem);
 }
 
-void IronfistXML::WriteMapVariables(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest) {
+void IronfistXML::WriteMapVariables(tinyxml2::XMLNode *dest) {
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
   for (int i = 0; i != MAX_HEROES; ++i) {
     for (int j = 0; j != MAX_HEROES; ++j) {
@@ -507,11 +507,11 @@ void IronfistXML::WriteMapVariables(tinyxml2::XMLDocument *doc, tinyxml2::XMLNod
     }
   }
   for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
-    tinyxml2::XMLElement *elem = doc->NewElement("mapVariable");
+    tinyxml2::XMLElement *elem = tempDoc.NewElement("mapVariable");
     elem->SetAttribute("id", it->first.c_str());
     elem->SetAttribute("type", MapVarTypeToString(it->second.type).c_str());
     if (isTable(it->second.type)) {
-      WriteMapVarTable(doc, elem, it->first, it->second.tableValue);
+      WriteMapVarTable(elem, it->first, it->second.tableValue);
     } else if (isStringNumBool(it->second.type)) {
       elem->SetAttribute("value", (*it->second.singleValue).c_str());
     } else {
