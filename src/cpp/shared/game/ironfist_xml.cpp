@@ -495,6 +495,9 @@ void IronfistXML::WriteMapVarTable(tinyxml2::XMLNode *dest, std::string id, luaT
 
 void IronfistXML::WriteMapVariables(tinyxml2::XMLNode *dest) {
   std::map<std::string, mapVariable> mapVariables = LoadMapVariablesFromLUA();
+  if(!mapVariables.size())
+    return;
+
   for (int i = 0; i != MAX_HEROES; ++i) {
     for (int j = 0; j != MAX_HEROES; ++j) {
       if (gpGame->forcedComputerPlayerChases[i][j]) {
@@ -992,5 +995,6 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
   }
   giCurTurn = gpGame->day + 7 * (gpGame->week - 1) + 28 * (gpGame->month - 1);
   DeserializeGeneratedArtifacts(xmlArtifacts);
-  WriteMapVariablesToLUA(mapVariables);
+  if(mapVariables.size())
+    WriteMapVariablesToLUA(mapVariables);
 }
