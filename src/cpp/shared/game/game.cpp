@@ -997,7 +997,7 @@ void game::ProcessOnMapHeroes() {
         ppMapExtraHeroIdx = loc->extraInfo;
         mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
         // handle non-default heroes
-        if (!mapExtraHero->field_11 || mapExtraHero->heroID >= MAX_HEROES || heroExists[mapExtraHero->heroID]) {
+        if (!mapExtraHero->customPortrait || mapExtraHero->heroID >= MAX_HEROES || heroExists[mapExtraHero->heroID]) {
           mapExtraHero->hasFaction = 0;
         } else {
         // handle default 54 heroes
@@ -1028,9 +1028,11 @@ void game::ProcessOnMapHeroes() {
               neededFactionHeroes.push_back(i);
           }
 
-          if(neededFactionHeroes.size())
-            randomHeroIdx = neededFactionHeroes[Random(0, neededFactionHeroes.size()-1)];
-          else { // if none from this faction are available, choose a random one from any faction
+          if(neededFactionHeroes.size()) {
+            randomHeroIdx = neededFactionHeroes[Random(0, neededFactionHeroes.size() - 1)];
+            if(!mapExtraHero->customPortrait) // do not overwrite portrait placed in editor
+              mapExtraHero->heroID = randomHeroIdx;            
+          } else { // if none from this faction are available, choose a random one from any faction
             std::vector<int> allFreeHeroes;
             for(int i = 0; i < heroesAvailable.size(); i++) {
               heroData *hro = &heroesAvailable[i];
@@ -1038,13 +1040,12 @@ void game::ProcessOnMapHeroes() {
                 allFreeHeroes.push_back(i);
             }
             randomHeroIdx = allFreeHeroes[Random(0, allFreeHeroes.size()-1)];
-            faction = heroesAvailable[randomHeroIdx].faction;
           }
 
           heroesAvailable[randomHeroIdx].exists = true;
 
           // overwrite a random free slot from a default hero for cyborg faction
-          // and set a correct ID for the portrait
+          // and use portrait from mapExtraHero->heroID
           if(randomHeroIdx >= MAX_HEROES) {
             std::vector<int> freeHeroes;
             for(int i = 0; i < MAX_HEROES; i++)
@@ -1052,21 +1053,20 @@ void game::ProcessOnMapHeroes() {
                 freeHeroes.push_back(i);
 
             int overwrittenIdx = freeHeroes[Random(0, freeHeroes.size()-1)];
-            mapExtraHero->field_11 = 1;
-            mapExtraHero->heroID = randomHeroIdx;
+            mapExtraHero->customPortrait = true;
             randomHeroIdx = overwrittenIdx;
           }
-            
 
           heroExists[randomHeroIdx] = true;
 
           // this sets IDs and portraits for campaign heroes (and cyborg too)
           this->heroes[randomHeroIdx].factionID = faction;
-          if (mapExtraHero->field_11 && mapExtraHero->heroID >= MAX_HEROES) {
+          if (mapExtraHero->customPortrait && mapExtraHero->heroID >= MAX_HEROES) {
             this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
           }
           mapExtraHero->heroID = randomHeroIdx;
         }
+
         randomHero = &this->heroes[mapExtraHero->heroID];
 
         if (!isJail && mapExtraHero->relatedToJailCondition) {

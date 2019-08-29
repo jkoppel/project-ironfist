@@ -102,6 +102,7 @@ enum DWELLING_TYPE
 };
 
 extern std::vector<FACTION> FACTIONS_ACTUAL;
+extern std::vector<std::string> FACTIONS_ACTUAL_NAMES;
 
 // Order matters here. The original game indexes into gTownObjNames to
 // access elements of gDwellingType.

@@ -97,6 +97,16 @@ std::vector<FACTION> FACTIONS_ACTUAL = {
   FACTION_CYBORG
 };
 
+std::vector<std::string> FACTIONS_ACTUAL_NAMES = {
+  "Knight",
+  "Barbarian",
+  "Sorceress",
+  "Warlock",
+  "Wizard",
+  "Necromancer",
+  "Cyborg"
+};
+
 void InitTownObjNames() {
   for (auto i = 0u; i < objectNames.size(); ++i) {
     gTownObjNames[i] = &objectNames[i][0];

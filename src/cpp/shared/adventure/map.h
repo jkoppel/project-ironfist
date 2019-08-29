@@ -238,7 +238,7 @@ public:
   char owner;
   char hasArmy;
   armyGroup army;
-  char field_11;
+  char customPortrait;
   char heroID;
   char artifacts[3];
   char field_16;
