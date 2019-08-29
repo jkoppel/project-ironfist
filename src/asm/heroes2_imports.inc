@@ -85,8 +85,6 @@ IMPORT_?InitMainClasses@@YIXXZ = 1
 IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 ;;allowing play without CD
-IMPORT_?SetupCDDrive@@YIHXZ = 1
-?SetupCDDrive@@YIHXZ_clone EQU ?SetupCDDrive_orig@@YIHXZ
 IMPORT_?SetupCDRom@@YIXXZ = 1
 IMPORT_?SetupGame@game@@QAEHXZ = 1
 ?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ
@@ -297,6 +295,8 @@ IMPORT_?PasswordEvent@advManager@@QAEXPAVmapCell@@PAVhero@@@Z = 1
 IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
 ?LoadGame@game@@QAEXPADHH@Z_clone EQU ?LoadGame_orig@game@@QAEXPADHH@Z
 IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
+?SaveGame@game@@QAEHPADHC@Z_clone EQU ?SaveGame_orig@game@@QAEHPADHC@Z
+
 IMPORT_?Read@hero@@QAEXHC@Z = 1
 IMPORT_?RandomizeHeroPool@game@@QAEXXZ = 1
 
