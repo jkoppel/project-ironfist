@@ -34,6 +34,10 @@ void deepbound_push(lua_State *L, deepbind<town*> ptrAddr) {
   make_deepbound_object(L, (int)ptrAddr.get(), "town_mt");
 }
 
+void deepbound_push(lua_State *L, deepbind<SCampaignChoice*> ptrAddr) {
+  make_deepbound_object(L, (int)ptrAddr.get(), "campaignChoice_mt");
+}
+
 void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex) {
   lua_pushstring(L, "ptr");
   lua_gettable(L, -1 - stackIndex);

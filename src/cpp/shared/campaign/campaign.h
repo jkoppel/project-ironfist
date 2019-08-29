@@ -82,6 +82,7 @@ private:
 CAMPAIGN_TYPE GetCurrentCampaignType();
 SMACKER_VIDEOS GetCampaignRectangleSmackerVideo(int rectID);
 extern ExpCampaign xCampaign;
+extern SCampaignChoice xCampaignChoices[MAX_CAMPAIGNS][MAX_MAPS_IN_CAMPAIGN][MAX_CAMPAIGN_CHOICES];
 
 int __fastcall ExpansionCampaignRect(int x, int y);
 
