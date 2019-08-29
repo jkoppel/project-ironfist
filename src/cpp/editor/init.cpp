@@ -11,12 +11,6 @@
 
 #pragma pack(push,1)
 
-class inputManager {
-public:
-	char _[2154];
-	inputManager();
-};
-
 class mouseManager {
 public:
 	char _[138];

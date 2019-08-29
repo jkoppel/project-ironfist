@@ -8,6 +8,7 @@ extern "C" {
 }
 
 #include "adventure/adv.h"
+#include "campaign/campaign.h"
 #include "combat/army.h"
 #include "game/game.h"
 #include "town/town.h"
@@ -26,6 +27,7 @@ void deepbound_push(lua_State *L, deepbind<army*> x);
 void deepbound_push(lua_State *L, deepbind<playerData*> x);
 void deepbound_push(lua_State *L, deepbind<hero*> x);
 void deepbound_push(lua_State *L, deepbind<town*> x);
+void deepbound_push(lua_State *L, deepbind<SCampaignChoice*> x);
 
 void* GetPointerFromLuaClassTable(lua_State *L, int stackIndex);
 
