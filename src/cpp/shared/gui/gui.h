@@ -37,6 +37,7 @@ public:
   char field_2A;
 
   __fastcall textWidget(short a2, short a3, short a4, short a5, char *content, char *fontName, short a8, short a9, short a10, short a11);
+  ~textWidget();
 };
 
 class heroWindow {
@@ -100,6 +101,7 @@ public:
   short color;
 
   border(short x, short y, short width, short height, short fieldID, short a7, short color, char *filename);
+  ~border();
 };
 
 extern heroWindowManager* gpWindowManager;
@@ -162,6 +164,7 @@ public:
   int iconFileID;
 
   iconWidget(short x, short y, short width, short height, char *filename, short imgIdx, signed char mirror, short fieldID, short a10, short a11);
+  ~iconWidget();
 };
 
 enum ICON_GUI_FLAGS
