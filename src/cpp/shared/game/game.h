@@ -94,13 +94,13 @@ public:
 	__int16 field_41;
 	char daysLeftWithoutCastle;
 	char numCastles;
-  __int8 mightBeCurCastleIdx;
-  __int8 relatedToUnknown;
+	__int8 mightBeCurCastleIdx;
+	__int8 relatedToUnknown;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-  char hasEvilFaction;
-  char barrierTentsVisited;
-  char _4_2[58];
+	char hasEvilFaction;
+	char barrierTentsVisited;
+	char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -109,6 +109,7 @@ public:
 
 	void Read(int);
 	void Write(int);
+	void SetBarrierTentVisited(int);
 };
 
 extern int giCurPlayer;
@@ -214,10 +215,11 @@ public:
   bool onMapEndCallbackStatus = false;
   bool forcedComputerPlayerChases[MAX_HEROES][MAX_HEROES];
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+  
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
-  // Used for OnMapStart
-  bool firstDayEventDone = false;
+	// Used for OnMapStart
+	bool firstDayEventDone = false;
 
 	int SetupGame();
 	int SetupGame_orig();
@@ -237,16 +239,19 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
-  void SetVisibility_orig(int, int, int, int);
+	void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
-  int GetTownId(int,int);
-  
+	void ClaimTown_orig(int, int, int);
+	int GetTownId(int,int);
+
+
 	void NextPlayer();
 	void NextPlayer_orig();
 
 	void PerDay();
 	void PerDay_orig();
+  
   void PerWeek();
   void PerWeek_orig();
   void PerMonth();
@@ -293,10 +298,10 @@ enum GAME_DIFFICULTY {
 };
 
 enum PERSONALITY_TYPE {
-  PERSONALITY_WARRIOR = 0,
-  PERSONALITY_BUILDER = 1,
-  PERSONALITY_EXPLORER = 2,
-  PERSONALITY_HUMAN = 3,
+	PERSONALITY_WARRIOR = 0,
+	PERSONALITY_BUILDER = 1,
+	PERSONALITY_EXPLORER = 2,
+	PERSONALITY_HUMAN = 3,
 };
 
 extern void __fastcall CheckEndGame_orig(int a, int b);
