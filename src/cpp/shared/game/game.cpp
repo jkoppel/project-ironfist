@@ -216,6 +216,7 @@ void game::PerMonth() {
 }
 
 void game::ResetIronfistGameState() {
+	this->onMapEndCallbackStatus = false;
     for (int i = 0; i < NUM_PLAYERS; i++) {
         for (int j = 0; j < NUM_PLAYERS; j++) {
             this->sharePlayerVision[i][j] = false;
@@ -232,14 +233,17 @@ extern int gbGameOver;
 extern int giEndSequence;
 
 void __fastcall CheckEndGame(int a, int b) {
-  CheckEndGame_orig(a, b);
-  if (gbGameOver) {
-    if (giEndSequence) {
-      ScriptCallback("OnMapVictory");
-    } else {
-      ScriptCallback("OnMapLoss");
-    }
-  }
+	CheckEndGame_orig(a, b);
+	if (gbGameOver) {
+		if (!gpGame->onMapEndCallbackStatus) {
+			gpGame->onMapEndCallbackStatus = true;
+			if (giEndSequence) {
+				ScriptCallback("OnMapVictory");
+			} else {
+				ScriptCallback("OnMapLoss");
+			}
+		}
+	}
 }
 
 int __fastcall HandleAppSpecificMenuCommands(int a1) {
@@ -546,4 +550,21 @@ void game::ProcessOnMapHeroes() {
       }
     }
   }
+}
+
+int getCastleOwnedIdx(playerData *player, int castleIdx) {
+  for (int i = 0; player->numCastles > i; ++i ) {
+    if (player->castlesOwned[i] == castleIdx )
+      return i;
+  }
+  return -1;
+}
+
+int game::getNumberOfThievesGuilds(int playerIdx) {
+  int numGuilds = 0;
+  for(int i = 0; this->players[playerIdx].numCastles > i; ++i) {
+    if(gpGame->castles[this->players[playerIdx].castlesOwned[i]].buildingsBuiltFlags & BUILDING_TAVERN)
+      ++numGuilds;
+  }
+  return numGuilds;
 }

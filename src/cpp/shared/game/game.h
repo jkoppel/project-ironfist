@@ -4,12 +4,14 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
 #include "artifacts.h"
+#include "combat/army.h"
 #include "town/town.h"
 
 #define AI_VALUE_CAP 32000
 #define NUM_PLAYERS 6
 #define MAX_HEROES 54
 #define MAX_TOWNS 72
+#define MAX_BOATS 48
 #define NUM_DIFFICULTIES 5
 
 extern signed char gcColorToPlayerPos[];
@@ -34,6 +36,48 @@ enum WIN_CONDITION_TYPES {
   WIN_CONDITION_DEFEAT_COLOR = 0x4,
   WIN_CONDITION_ACCUMULATE_GOLD = 0x5,
 };
+
+extern void __fastcall KBChangeMenu(void*);
+extern void *hmnuRecruitSave;
+extern void *hmnuCurrent;
+extern void *hmnuDflt;
+
+enum MOUSE_CURSOR_CATEGORY {
+  MOUSE_CURSOR_CATEGORY_ADVENTURE = 0x0,
+  MOUSE_CURSOR_CATEGORY_COMBAT = 0x1,
+  MOUSE_CURSOR_CATEGORY_SPELL = 0x2,
+};
+
+class mouseManager : public baseManager {
+public:
+	bitmap *bitmap;
+  int spriteIdx;
+  icon *cursorIcon;
+  MOUSE_CURSOR_CATEGORY cursorCategory;
+  int cursorIdx;
+  int field_4A;
+  int field_4E;
+  int field_52;
+  int field_56;
+  int field_5A;
+  int cursorTopLeftX;
+  int cursorTopLeftY;
+  int field_66;
+  int field_6A;
+  int field_6E;
+  int field_72;
+  int cursorWidth;
+  int cursorHeight;
+  int field_7E;
+  int couldBeShowMouse;
+  int cursorDisabled;
+
+	mouseManager();
+	void ShowColorPointer();
+  void SetPointer(char *mse, int spriteIdx, int protoCategory);
+};
+
+extern mouseManager* gpMouseManager;
 
 class playerData {
 public:
@@ -140,7 +184,7 @@ public:
 	char numObelisks;
 	town castles[MAX_TOWNS];
 	char field_2773[72];
-	char field_27BB[9];
+	char builtToday[9];
 	hero heroes[MAX_HEROES];
 	char relatedToHeroForHireStatus[54];
 	mine mines[144];
@@ -167,9 +211,11 @@ public:
 	char field_660D;
 	char field_660E;
 
-    // New state
-    bool forcedComputerPlayerChases[MAX_HEROES][MAX_HEROES];
-    bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+  // New state
+  bool onMapEndCallbackStatus = false;
+  bool forcedComputerPlayerChases[MAX_HEROES][MAX_HEROES];
+  bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+  
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
 	// Used for OnMapStart
@@ -205,34 +251,39 @@ public:
 
 	void PerDay();
 	void PerDay_orig();
-    void PerWeek();
-    void PerWeek_orig();
-    void PerMonth();
-    void PerMonth_orig();
+  
+  void PerWeek();
+  void PerWeek_orig();
+  void PerMonth();
+  void PerMonth_orig();
 
-    void ResetIronfistGameState();
-    void ForceComputerPlayerChase(hero *source, hero *dest, bool force);
-    void ShareVision(int sourcePlayer, int destPlayer);
-    void CancelShareVision(int sourcePlayer, int destPlayer);
+  void ResetIronfistGameState();
+  void ForceComputerPlayerChase(hero *source, hero *dest, bool force);
+  void ShareVision(int sourcePlayer, int destPlayer);
+  void CancelShareVision(int sourcePlayer, int destPlayer);
+	
+  void MakeAllWaterVisible(int player);
+  void MakeAllWaterVisible_orig(int player);
 
-	void MakeAllWaterVisible(int player);
-	void MakeAllWaterVisible_orig(int player);
+  void InitRandomArtifacts();
+  int GetRandomArtifactId(int allowedLevels, int allowNegatives);
+  int LoadMap(char *nam);
+  int ProcessRandomObjects();
+  int ProcessMapExtra();
+  void __cdecl InitializePasswords();
+  int RandomizeEvents();
+  void ProcessOnMapHeroes();
+  int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
+  void SetupNewRumour();
+  void GiveArmy(class armyGroup *, int, int, int);
 
-	void InitRandomArtifacts();
-	int GetRandomArtifactId(int allowedLevels, int allowNegatives);
-	int LoadMap(char *nam);
-	int ProcessRandomObjects();
-	int ProcessMapExtra();
-	void __cdecl InitializePasswords();
-	int RandomizeEvents();
-	void ProcessOnMapHeroes();
-	int GetNewHeroId(int playerIdx, signed int faction, int getPowerfulHero);
-	void SetupNewRumour();
-	void GiveArmy(class armyGroup *, int, int, int);
-
-	void SetRandomHeroArmies(int heroIdx, int isAI);
-	void GiveTroopsToNeutralTown(int castleIdx);
-	int RandomScan(signed char*, int, int, int, signed char);
+  void SetRandomHeroArmies(int heroIdx, int isAI);
+  void GiveTroopsToNeutralTown(int castleIdx);
+  int RandomScan(signed char*, int, int, int, signed char);
+  int GetBoatsBuilt();
+  int CreateBoat(int x, int y, int doSend);
+  void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
+  int getNumberOfThievesGuilds(int playerIdx);
 
 private:
   void PropagateVision();
@@ -291,6 +342,8 @@ extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
 extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
 extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
+
+extern int getCastleOwnedIdx(playerData *player, int castleIdx);
 
 #pragma pack(pop)
 
