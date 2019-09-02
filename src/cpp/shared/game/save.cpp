@@ -61,10 +61,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       gpAdvManager->PurgeMapChangeQueue();
 
       ClearMapExtra();
-      auto ticks = KBTickCount();
       IronfistXML xmlDoc;
       xmlDoc.Read(v8);
-      DisplayError(std::to_string(KBTickCount() - ticks), "time");
       if(strnicmp(filnam, "RMT", 3))
         sprintf(gpGame->lastSaveFile, filnam);
 
@@ -121,9 +119,7 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
     sprintf(v9, "%s%s", ".\\DATA\\", path);
   }
 
-  auto ticks = KBTickCount();
   IronfistXML xml;
   xml.Save(v9);
-  DisplayError(std::to_string(KBTickCount() - ticks), "time");
   return 1;
 }
