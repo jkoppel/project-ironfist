@@ -388,3 +388,6 @@ IMPORT_?xShortCampaignNames@@3PAPADA = 1
 IMPORT_?xScenarioDescription@@3PAY07PADA = 1
 IMPORT_?xScenarioName@@3PAY07PADA = 1
 IMPORT_?xCampaignDifficulties@@3PAY07DA = 1
+IMPORT_?PlaySmacker@@YIHH@Z = 1
+?PlaySmacker@@YIHH@Z_clone EQU ?PlaySmacker_orig@@YIHH@Z
+IMPORT_?ReplaySmacker@ExpCampaign@@QAEXXZ = 1

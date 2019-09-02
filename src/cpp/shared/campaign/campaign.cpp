@@ -400,3 +400,61 @@ void ExpCampaign::ShowInfo(int inGame, int unused) {
     }
   }
 }
+
+void ExpCampaign::ReplaySmacker() {
+  if(this->campaignID < MAX_CAMPAIGNS) {
+    switch(this->campaignID) {
+      case 0:
+        this->ReplaySmacker1();
+        break;
+      case 1:
+        this->ReplaySmacker2();
+        break;
+      case 2:
+        this->ReplaySmacker3();
+        break;
+      case 3:
+        this->ReplaySmacker4();
+        break;
+      case 4:
+        this->ReplaySmackerCyborg();
+        break;
+      default:
+        break;
+    }
+  }
+  gpWindowManager->cycleColors = 1;
+};
+
+void ExpCampaign::ReplaySmackerCyborg() {
+  if(this->mightBeScenarioID < MAX_MAPS_IN_CAMPAIGN) {
+    switch(this->mightBeScenarioID) {
+      case 0:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_INTRO);
+        break;
+      case 1:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_1);
+        break;
+      case 2:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_2);
+        break;
+      case 3:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_2);
+        break;
+      case 4:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_3);
+        break;
+      case 5:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_4);
+        break;
+      case 6:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_4);
+        break;
+      case 7:
+        PlaySmacker(SMACKER_XCAMPAIGN_DESCENDANTS_5);
+        break;
+      default:
+        return;
+    }
+  }
+}
