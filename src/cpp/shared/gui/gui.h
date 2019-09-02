@@ -74,7 +74,7 @@ public:
   bitmap *fizzleSource;
   bitmap *field_4E;
   int numScreenshots;
-  int field_56;
+  int cycleColors;
   int buttonPressedCode;
   int hoveredFieldID;
 

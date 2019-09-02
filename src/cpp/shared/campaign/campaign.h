@@ -69,6 +69,12 @@ public:
   void HandleVictory3();
   void HandleVictory4();
   void HandleVictoryCyborg();
+  void ReplaySmacker();
+  void ReplaySmacker1();
+  void ReplaySmacker2();
+  void ReplaySmacker3();
+  void ReplaySmacker4();
+  void ReplaySmackerCyborg();
   unsigned char IsCompleted();
   short Days();
   void ShowInfo(int inGame, int unused);

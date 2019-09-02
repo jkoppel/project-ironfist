@@ -910,3 +910,12 @@ void __fastcall SmackManagerMain() {
     gpResourceManager->Dispose(backImage);
   backImage = nullptr;
 }
+
+int __fastcall PlaySmacker(int smkID) {
+  int tmpgbNoCDRom = gbNoCDRom;
+  if(gbNoCDRom) 
+    gbNoCDRom = false;
+  int res = PlaySmacker_orig(smkID);
+  gbNoCDRom = tmpgbNoCDRom;
+  return res;
+}
