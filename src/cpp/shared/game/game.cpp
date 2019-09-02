@@ -1085,7 +1085,10 @@ void game::ProcessOnMapHeroes() {
               randomHero->army.creatureTypes[armySlotIdx] = mapExtraHero->army.creatureTypes[armySlotIdx];
             }
           }
+        } else {
+          this->SetRandomHeroArmies(mapExtraHero->heroID, 0);
         }
+
         for (int i = 0; i < 3; ++i) {
           if (mapExtraHero->artifacts[i] >= 0) {
             GiveArtifact(randomHero, mapExtraHero->artifacts[i], 1, -1);
