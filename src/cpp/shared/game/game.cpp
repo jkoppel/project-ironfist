@@ -968,7 +968,6 @@ void game::ProcessOnMapHeroes() {
     FACTION faction;
     bool randomizable;
     bool exists;
-    std::string name;
   };
 
   std::vector<heroData> heroesAvailable;
@@ -1064,6 +1063,8 @@ void game::ProcessOnMapHeroes() {
           if (mapExtraHero->customPortrait && mapExtraHero->heroID >= MAX_HEROES) {
             this->heroes[randomHeroIdx].heroID = mapExtraHero->heroID;
           }
+          if(heroNames[mapExtraHero->heroID].length())
+            strcpy(heroes[randomHeroIdx].name, heroNames[mapExtraHero->heroID].c_str());
           mapExtraHero->heroID = randomHeroIdx;
         }
 
