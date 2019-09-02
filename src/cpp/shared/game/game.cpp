@@ -350,7 +350,7 @@ void game::PerWeek() {
       if(!twn->BuildingBuilt(i))
         continue;
       int growth = gMonsterDatabase[gDwellingType[twn->factionID][i - 19]].growth;
-      if(twn->BuildingBuilt(BUILDING_EXT_0)) // ?? maybe a mistake
+      if(twn->BuildingBuilt(BUILDING_WELL))
         growth += 2;
       if(i == BUILDING_DWELLING_1 && twn->BuildingBuilt(BUILDING_SPECIAL_GROWTH))
         growth += 8;
@@ -679,7 +679,7 @@ void game::PerMonth() {
       if(!twn->BuildingBuilt(i))
         continue;
       int growth = gMonsterDatabase[gDwellingType[twn->factionID][i - 19]].growth;
-      if(twn->BuildingBuilt(BUILDING_EXT_0)) // ?? maybe a mistake
+      if(twn->BuildingBuilt(BUILDING_WELL))
         growth += 2;
       if(i == BUILDING_DWELLING_1 && twn->BuildingBuilt(BUILDING_SPECIAL_GROWTH))
         growth += 8;
@@ -700,9 +700,9 @@ void game::PerMonth() {
         mapCell *tile = gpAdvManager->GetCell(x, y);
         if(tile->objType)
           continue;
-        if((((unsigned __int16)tile->extraInfo >> 1) & 1))
+        if(tile->isShadow)
           continue;
-        if((tile->extraInfo & 1))
+        if(tile->field_4_1)
           continue;
         if(giGroundToTerrain[tile->groundIndex]) {
           if(Random(0, 360) == 10) {
@@ -711,7 +711,7 @@ void game::PerMonth() {
             tile->objectIndex = giMonthTypeExtra;
             tile->extraInfo = this->GetRandomNumTroops(giMonthTypeExtra) * 2;
             if(Random(0, 100) < 20)
-              tile->extraInfo |= (0x1000 >> 3); // not sure what this line does
+              tile->extraInfo |= 0x1000; // will join
           }
         }        
       }
