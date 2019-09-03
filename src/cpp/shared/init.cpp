@@ -1,3 +1,5 @@
+#include <io.h>
+#include <fcntl.h>
 #include "adventure/adv.h"
 #include "analytics.h"
 #include "base.h"
@@ -6,6 +8,7 @@
 #include "gui/dialog.h"
 #include "gui/gui.h"
 #include "manager.h"
+#include "prefs.h"
 #include "registry_prefs.h"
 #include "resource/resourceManager.h"
 #include "resource/resources.h"
@@ -86,7 +89,8 @@ void __fastcall DeleteMainClasses() {
 extern int iCDRomErr;
 extern int gbNoCDRom;
 extern int gbNoSound;
-
+std::string RegAppPath;
+std::string RegCDRomPath;
 extern void __fastcall SetFullScreenStatus(int);
 extern void __fastcall ResizeWindow(int,int,int,int);
 
@@ -107,7 +111,7 @@ void __fastcall SetupCDRom() {
 	 */
 
 	// Sending an Open event to Google Analytics
-	send_event(gameAction, open);
+	send_event(gameAction, analytics_open);
 
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
@@ -120,6 +124,9 @@ void __fastcall SetupCDRom() {
 		old_width == (DWORD)(-1) ? 640 : old_width,
 		old_height == (DWORD)(-1) ? 480 : old_height);
 	
+  RegAppPath = read_pref<std::string>("AppPath");
+  RegCDRomPath = read_pref<std::string>("CDDrive");
+
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
 		SetPalette(gPalette->contents, 1);
@@ -127,9 +134,16 @@ void __fastcall SetupCDRom() {
 		gbNoCDRom = 1;
 		int oldNoSound = gbNoSound;
 		gbNoSound = 1;
-		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
-						"but otherwise, have fun!");
+
+    std::string fileToCheck = RegAppPath + "\\HEROES2\\ANIM\\intro.smk";
+    int fd = _open(fileToCheck.c_str(), O_BINARY);
+    if(fd == -1) {
+      H2MessageBox("Welcome to no-CD mode. Videos will not work, "
+            "but otherwise, have fun!");
+    } else
+      close(fd);
 		gbNoSound = oldNoSound;
+    
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
 						"  Please run the installation program.");

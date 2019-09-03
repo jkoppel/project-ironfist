@@ -575,6 +575,9 @@ int game::getNumberOfThievesGuilds(int playerIdx) {
   return numGuilds;
 }
 
+extern int iCDRomErr;
+extern std::string RegAppPath;
+extern std::string RegCDRomPath;
 extern int gbCampaignSideChoice;
 
 extern icon* brotherIcon;
@@ -625,20 +628,28 @@ void __fastcall SmackManagerMain() {
     bSmackSound = 0;
   }
   
-  char tmpStr[100];
+  std::string actualFolder;
+  
+  if(!iCDRomErr)
+    actualFolder = RegCDRomPath;
+  else
+    actualFolder = RegAppPath;
+
+  std::string smkPath;
   if(byte_4F74B8 && bSmackNum > SMACKER_MM6) {
-    strcpy(tmpStr, "i:\\projects\\heroes\\art\\fin3d\\");
+    smkPath = "i:\\projects\\heroes\\art\\fin3d\\";
   } else {
-    if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION)
-      strcpy(tmpStr, ".\\DATA\\");
+    if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION) {
+      smkPath = RegAppPath + "\\DATA\\";
+    }
     else
-      strcpy(tmpStr, ".\\\\HEROES2\\ANIM\\");
+      smkPath = actualFolder + "\\HEROES2\\ANIM\\";
   }
 
   if(slowVideo)
-    sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[bSmackNum].slowName);
+    sprintf(gText, "%s%s.SMK", smkPath.c_str(), &SmackOptions[bSmackNum].slowName);
   else
-    sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[bSmackNum].name);
+    sprintf(gText, "%s%s.SMK", smkPath.c_str(), &SmackOptions[bSmackNum].name);
 
   unsigned int smackSoundFlag;
   if(bSmackSound)
@@ -669,9 +680,9 @@ void __fastcall SmackManagerMain() {
   
   if(smk1 && strlen(SmackOptions[bSmackNum].name2) > 1) {
     if(slowVideo)
-      sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[bSmackNum].slowName2);
+      sprintf(gText, "%s%s.SMK", smkPath.c_str(), &SmackOptions[bSmackNum].slowName2);
     else
-      sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[bSmackNum].name2);
+      sprintf(gText, "%s%s.SMK", smkPath.c_str(), &SmackOptions[bSmackNum].name2);
     int v0 = ((unsigned int)bSmackSound < 1) - 1;
     smk2 = SmackOpen((HANDLE*)gText, v0 & 0xFE000, -1);
     if(SmackOptions[bSmackNum].flag5) {
@@ -715,7 +726,7 @@ void __fastcall SmackManagerMain() {
           MemError();
         backImage->DrawToBuffer(0, 0, 0, 0);
         backImage->DrawToBuffer(0, 0, 1, 0);
-        sprintf(gText, "%s%s.SMK", &tmpStr, "IVYPOL");
+        sprintf(gText, "%s%s.SMK", smkPath.c_str(), "IVYPOL");
         smk2 = SmackOpen((HANDLE*)gText, 0, -1);
         memcpy(gPalette->contents, smk2->Palette, PALETTE_SIZE);
         SmackClose(smk2);
@@ -824,7 +835,7 @@ void __fastcall SmackManagerMain() {
                 }
                 if(selectedCampaignRect != -1) {
                   SMACKER_VIDEOS smkNeeded = GetCampaignRectangleSmackerVideo(selectedCampaignRect);
-                  sprintf(gText, "%s%s.SMK", &tmpStr, &SmackOptions[smkNeeded].name);
+                  sprintf(gText, "%s%s.SMK", smkPath.c_str(), &SmackOptions[smkNeeded].name);
                   int v1 = ((unsigned int)bSmackSound < 1) - 1;
                   smk2 = SmackOpen((HANDLE*)gText, v1 & 0xFE000, -1);
                   SmackToBuffer(smk2, SmackOptions[smkNeeded].offsetX, SmackOptions[smkNeeded].offsetY, 640, 480, gpWindowManager->screenBuffer->contents, 0);
