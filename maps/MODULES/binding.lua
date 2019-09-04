@@ -162,3 +162,20 @@ battleStack_mt = {
 		end
 	end
 }
+
+campaignChoice_mt = {
+	__newindex = function (table, key, value)
+		MessageBox("Setting campaign choice is not supported")
+	end,
+	__index = function (t, k)
+		if k == "type" then
+			return GetCampaignChoiceType()
+		elseif k == "field" then
+			return GetCampaignChoiceField()
+		elseif k == "amount" then
+			return GetCampaignChoiceAmount(t)
+		else
+			MessageBox("This field is not supported")
+		end
+	end
+}

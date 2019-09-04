@@ -12,7 +12,7 @@
 
 extern const std::string gameAction = "gameAction";
 extern const std::string mapAction = "mapAction";
-extern const std::string open = "open";
+extern const std::string analytics_open = "open";
 
 static const std::string IRONFIST_TRACKER_ID("UA-24357556-4");
 static bool analyticsEnabled = true;

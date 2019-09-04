@@ -1132,6 +1132,27 @@ static void register_battle_funcs(lua_State *L) {
 
 /**************************************** Campaign *********************************************/
 
+static int l_getCampaignChoiceType(lua_State *L) {
+  int curMapID = xCampaign.currentMapID;
+  SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
+  lua_pushinteger(L, curChoice->type);
+	return 1;
+}
+
+static int l_getCampaignChoiceField(lua_State *L) {
+  int curMapID = xCampaign.currentMapID;
+  SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
+  lua_pushinteger(L, curChoice->field);
+	return 1;
+}
+
+static int l_getCampaignChoiceAmount(lua_State *L) {
+  int curMapID = xCampaign.currentMapID;
+  SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
+  lua_pushinteger(L, curChoice->amount);
+	return 1;
+}
+
 static int l_getCampaignChoice(lua_State *L) {
   int curMapID = xCampaign.currentMapID;
   SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
@@ -1140,6 +1161,9 @@ static int l_getCampaignChoice(lua_State *L) {
 }
 
 static void register_campaign_funcs(lua_State *L) {
+  lua_register(L, "GetCampaignChoiceType", l_getCampaignChoiceType);
+  lua_register(L, "GetCampaignChoiceField", l_getCampaignChoiceField);
+  lua_register(L, "GetCampaignChoiceAmount", l_getCampaignChoiceAmount);
   lua_register(L, "GetCampaignChoice", l_getCampaignChoice);
 }
 

@@ -2,7 +2,7 @@
 
 extern const std::string gameAction;
 extern const std::string mapAction;
-extern const std::string open;
+extern const std::string analytics_open;
 
 // Category and action describe the event sent to Google Analytics.
 // Both are strings, and should be lowerCamelCase
