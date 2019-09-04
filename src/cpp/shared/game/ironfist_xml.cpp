@@ -390,6 +390,7 @@ void IronfistXML::Save(const char* fileName) {
     PushBack(heroElement, "xanadusVisited", hro->xanadusVisited);
     PushBack(heroElement, "randomSeed", hro->randomSeed);
     PushBack(heroElement, "wisdomLastOffered", hro->wisdomLastOffered);
+    PushBack(heroElement, "numSecSkillsKnown", hro->numSecSkillsKnown);
     PushBack(heroElement, "flags", hro->flags);
     PushBack(heroElement, "isCaptain", hro->isCaptain);
     PushBack(heroElement, "field_E8", hro->field_E8);
@@ -799,6 +800,7 @@ void IronfistXML::ReadHero(tinyxml2::XMLNode* root, int heroIndex) {
       hro->secondarySkillLevel[index] = elem->IntAttribute("level");
       hro->skillIndex[index] = elem->IntAttribute("idx");
     }
+    else if(name == "numSecSkillsKnown") elem->QueryIntText(&hro->numSecSkillsKnown);
     else if(name == "spell") hro->spellsLearned[elem->IntAttribute("idx")] = 1;
     else if(name == "artifact") {
       hro->artifacts[index] = elem->IntAttribute("id");
