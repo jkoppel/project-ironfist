@@ -737,6 +737,7 @@ void IronfistXML::ReadPlayerData(tinyxml2::XMLNode* root, int dataIndex) {
 
 void IronfistXML::ReadHero(tinyxml2::XMLNode* root, int heroIndex) {
   hero* hro = &gpGame->heroes[heroIndex];
+  hro->Clear();
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
     std::string name = elem->Name();
