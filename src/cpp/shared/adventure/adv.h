@@ -148,6 +148,7 @@ public:
   int CalcMobility_orig();
 
   void Read(int, signed char);
+  void Write(int, signed char);
   void ResetSpellsLearned();
 
   void SetPrimarySkill(int, int);

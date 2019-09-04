@@ -297,6 +297,7 @@ IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
 IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
 
 IMPORT_?Read@hero@@QAEXHC@Z = 1
+IMPORT_?Write@hero@@QAEXHC@Z = 1
 IMPORT_?RandomizeHeroPool@game@@QAEXXZ = 1
 
 ;;maps
