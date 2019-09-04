@@ -453,27 +453,24 @@ luaTable* IronfistXML::ReadTable(tinyxml2::XMLNode *root) {
     tinyxml2::XMLElement *elem = child->ToElement();
     std::string name = elem->Name();
     if(name == "table") {
-      for(tinyxml2::XMLNode* tableEl = elem->FirstChild(); tableEl; tableEl = tableEl->NextSibling()) {
-        tinyxml2::XMLElement *tableElement = tableEl->ToElement();
-        name = tableElement->Name();
-        if(name == "tableElement") {
-          mapVariable *mapVar = new mapVariable;
-          mapVar->type = StringToMapVarType(tableElement->Attribute("type"));
-
-          std::string *sV = new std::string(tableElement->Attribute("value"));
-          mapVar->singleValue = sV;
-          (*lt)[tableElement->Attribute("key")] = *mapVar;
-        }
-        else if(name == "table") {
-          mapVariable *mapVar = new mapVariable;
-          mapVar->type = MAPVAR_TYPE_TABLE;
-          mapVar->tableValue = ReadTable(tableElement);
-          (*lt)[tableElement->Attribute("tableId")] = *mapVar;
-        }
-      }
+      mapVariable *mapVar = new mapVariable;
+      mapVar->type = MAPVAR_TYPE_TABLE;
+      mapVar->tableValue = ReadTable(elem);
+      std::string tableId = elem->Attribute("tableId");
+      (*lt)[tableId] = *mapVar;
     }
+    else if(name == "tableElement")
+      this->ReadTableElement(elem, lt);
   }
   return lt;
+}
+
+void IronfistXML::ReadTableElement(tinyxml2::XMLElement *elem, luaTable *lt) {
+  mapVariable *mapVar = new mapVariable;
+  mapVar->type = StringToMapVarType(elem->Attribute("type"));
+  std::string *sV = new std::string(elem->Attribute("value"));
+  mapVar->singleValue = sV;
+  (*lt)[elem->Attribute("key")] = *mapVar;
 }
 
 void IronfistXML::WriteMapVarTable(tinyxml2::XMLNode *dest, std::string id, luaTable *lt) {
@@ -972,7 +969,7 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
       mapVariable *mapVar = new mapVariable;
       mapVar->type = mapVariableType;
       if (isTable(mapVariableType)) {
-        mapVar->tableValue = ReadTable(elem);
+        mapVar->tableValue = ReadTable(elem->FirstChild());
       } else if (isStringNumBool(mapVariableType)) {
         std::string *sV = new std::string;
         *sV = elem->Attribute("value");

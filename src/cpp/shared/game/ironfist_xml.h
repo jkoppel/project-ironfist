@@ -49,6 +49,7 @@ public:
             }
     }
     luaTable *ReadTable(tinyxml2::XMLNode *root);
+    void ReadTableElement(tinyxml2::XMLElement *elem, luaTable *lt);
     void WriteMapVarTable(tinyxml2::XMLNode *dest, std::string id, luaTable *lt);
     void WriteMapVariables(tinyxml2::XMLNode *dest);
     tinyxml2::XMLError QueryShortText(tinyxml2::XMLElement *el, short *dest);
