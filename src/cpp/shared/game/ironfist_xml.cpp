@@ -417,6 +417,7 @@ void IronfistXML::Save(const char* fileName) {
         tinyxml2::XMLElement *spellElem = tempDoc.NewElement("spell");
         //spellElem->SetAttribute("heroIdx", i);
         spellElem->SetAttribute("idx", j);
+        heroElement->InsertEndChild(spellElem);
       }
     }
 
