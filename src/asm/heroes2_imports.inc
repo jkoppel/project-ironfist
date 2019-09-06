@@ -155,6 +155,12 @@ IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
 IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
 IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
+IMPORT_?NewGameHandler@@YIHAAUtag_message@@@Z = 1
+?NewGameHandler@@YIHAAUtag_message@@@Z_clone EQU ?NewGameHandler_orig@@YIHAAUtag_message@@@Z
+IMPORT_?RandomizeTown@game@@QAEXHHH@Z = 1
+IMPORT_?ShowScenInfo@game@@QAEXXZ = 1
+IMPORT_?UpdateNewGameWindow@game@@QAEXXZ = 1
+IMPORT_?ProcessRandomObjects@game@@QAEXXZ = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
@@ -278,6 +284,8 @@ IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 
 IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
 IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
+IMPORT_?DrawCell@advManager@@QAEXHHHHHH@Z = 1
+IMPORT_?DrawCursor@advManager@@QAEXXZ = 1
 
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
@@ -366,7 +374,6 @@ IMPORT_?PerWeek@game@@QAEXXZ = 1
 IMPORT_?PerMonth@game@@QAEXXZ = 1
 ?PerMonth@game@@QAEXXZ_clone EQU ?PerMonth_orig@game@@QAEXXZ
 IMPORT_?Open@advManager@@UAEHH@Z = 1
-?Open@advManager@@UAEHH@Z_clone EQU ?Open_orig@advManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@townManager@@UAEHH@Z = 1
 ?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?CheckEndGame@@YIXHH@Z = 1

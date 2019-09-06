@@ -12,6 +12,7 @@
 #include "spell/spells.h"
 #include "prefs.h"
 #include "skills.h"
+#include "terrain.h"
 
 #include "optional.hpp"
 #include <sstream>
@@ -51,9 +52,9 @@ int townIconFrames[MAX_FACTIONS] = {
   26
 };
 
+icon* ironfistHeroMapIcons[MAX_FACTIONS];
+
 int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
-  extern int giBottomViewOverride;
-  extern int iCurBottomView;
   extern int giBottomViewOverrideEndTime;
 
   if (evt->yCoordOrFieldID == END_TURN_BUTTON) {
@@ -102,8 +103,153 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
 
 
 int advManager::Open(int idx) {
-  int res = this->Open_orig(idx);
-  return res;
+  iCurBottomView = 0;
+  this->field_37A = 0;
+  bShowIt = 0;
+  this->field_BA = 0;
+  for(int i = 0; i < 12; ++i) {
+    this->someComponents[0][i] = 0;
+    this->someComponents[1][i] = 0;
+  }
+  if(!this->adventureScreen) {
+    this->adventureScreen = new heroWindow(0, 0, "adv_wind.bin");
+    if(!this->adventureScreen)
+      MemError();
+    this->heroScrollbarKnob = new iconWidget(540, 195, 8, 17, "scroll.icn", 4, 0, 26, 16, 1);
+    if(!this->heroScrollbarKnob)
+      MemError();
+    this->adventureScreen->AddWidget(this->heroScrollbarKnob, -1);
+
+    this->castleScrollbarKnob = new iconWidget(612, 195, 8, 17, "scroll.icn", 4, 0, 27, 16, 1);
+    if(!this->castleScrollbarKnob)
+      MemError();
+    this->adventureScreen->AddWidget(this->castleScrollbarKnob, -1);
+  }
+  if(gbThisNetHumanPlayer[giCurPlayer])
+    gpMouseManager->SetPointer("advmice.mse", 0, -999);
+  else
+    gpMouseManager->SetPointer("advmice.mse", 1, -999);
+  if(!this->sizeOfSomethingMapRelated) {
+    this->sizeOfSomethingMapRelated = (int)operator new(2 * MAP_HEIGHT * MAP_WIDTH);
+    if(!this->sizeOfSomethingMapRelated)
+      MemError();
+  }
+  this->field_A2 = 0;
+  gpWindowManager->AddWindow(this->adventureScreen, 0, 1);
+  if(!this->groundTileset)
+    this->groundTileset = gpResourceManager->GetTileset("ground32.til");
+  if(!this->clofTileset)
+    this->clofTileset = gpResourceManager->GetTileset("clof32.til");
+  if(!this->stonTileset)
+    this->stonTileset = gpResourceManager->GetTileset("ston.til");
+  if(!this->clopIcon)
+    this->clopIcon = gpResourceManager->GetIcon("clop32.icn");
+  for(int i = 0; i < NUM_TILESETS; ++i) {
+    if(strlen(gTilesetFiles[i]) > 1 && !this->tilesetIcns[i] && i != TILESET_HERO) {
+      if(i != TILESET_TOWN_RANDOM)
+        this->tilesetIcns[i] = gpResourceManager->GetIcon(gTilesetFiles[i]);
+    }
+  }
+  if(!this->heroIcons[0])
+    this->heroIcons[0] = gpResourceManager->GetIcon("kngt32.icn");
+  if(!this->heroIcons[1])
+    this->heroIcons[1] = gpResourceManager->GetIcon("barb32.icn");
+  if(!this->heroIcons[2])
+    this->heroIcons[2] = gpResourceManager->GetIcon("sorc32.icn");
+  if(!this->heroIcons[3])
+    this->heroIcons[3] = gpResourceManager->GetIcon("wrlk32.icn");
+  if(!this->heroIcons[4])
+    this->heroIcons[4] = gpResourceManager->GetIcon("wzrd32.icn");
+  if(!this->heroIcons[5])
+    this->heroIcons[5] = gpResourceManager->GetIcon("necr32.icn");
+
+  if(!this->boatIcon)
+    this->boatIcon = gpResourceManager->GetIcon("boat32.icn");
+
+  for(int i = 0; i < NUM_ORIG_FACTIONS; i++)
+    ironfistHeroMapIcons[i] = this->heroIcons[i];
+  ironfistHeroMapIcons[6] = this->boatIcon;
+  if(!ironfistHeroMapIcons[FACTION_CYBORG])
+    ironfistHeroMapIcons[FACTION_CYBORG] = gpResourceManager->GetIcon("cbrg32.icn");
+
+  if(!this->frothIcon)
+    this->frothIcon = gpResourceManager->GetIcon("froth.icn");
+  gbLoadingMonoIcon = 1;
+  if(!this->shadowIcon)
+    this->shadowIcon = gpResourceManager->GetIcon("shadow32.icn");
+  if(!this->boatShadowIcon)
+    this->boatShadowIcon = gpResourceManager->GetIcon("boatshad.icn");
+  gbLoadingMonoIcon = 0;
+  if(!this->flagIconsHero[0])
+    this->flagIconsHero[0] = gpResourceManager->GetIcon("b-flag32.icn");
+  if(!this->flagIconsHero[1])
+    this->flagIconsHero[1] = gpResourceManager->GetIcon("g-flag32.icn");
+  if(!this->flagIconsHero[2])
+    this->flagIconsHero[2] = gpResourceManager->GetIcon("r-flag32.icn");
+  if(!this->flagIconsHero[3])
+    this->flagIconsHero[3] = gpResourceManager->GetIcon("y-flag32.icn");
+  if(!this->flagIconsHero[4])
+    this->flagIconsHero[4] = gpResourceManager->GetIcon("o-flag32.icn");
+  if(!this->flagIconsHero[5])
+    this->flagIconsHero[5] = gpResourceManager->GetIcon("p-flag32.icn");
+  if(!this->flagIconsBoat[0])
+    this->flagIconsBoat[0] = gpResourceManager->GetIcon("b-bflg32.icn");
+  if(!this->flagIconsBoat[1])
+    this->flagIconsBoat[1] = gpResourceManager->GetIcon("g-bflg32.icn");
+  if(!this->flagIconsBoat[2])
+    this->flagIconsBoat[2] = gpResourceManager->GetIcon("r-bflg32.icn");
+  if(!this->flagIconsBoat[3])
+    this->flagIconsBoat[3] = gpResourceManager->GetIcon("y-bflg32.icn");
+  if(!this->flagIconsBoat[4])
+    this->flagIconsBoat[4] = gpResourceManager->GetIcon("o-bflg32.icn");
+  if(!this->flagIconsBoat[5])
+    this->flagIconsBoat[5] = gpResourceManager->GetIcon("p-bflg32.icn");
+  gbLoadingMonoIcon = 1;
+  if(!this->radarIcon)
+    this->radarIcon = gpResourceManager->GetIcon("radar.icn");
+  gbLoadingMonoIcon = 0;
+  for(int i = 0; i < 28; ++i)
+    this->loopSamples[i] = 0;
+  for(int i = 0; i < 4; ++i) {
+    this->field_2C2[i][0] = -1;
+    this->field_2C2[i][1] = 127;
+    this->field_2BE = 0;
+  }
+  this->GetCursorSampleSet(walkSpeed);
+  if(gbThisNetHumanPlayer[giCurPlayer]) {
+    SetNoDialogMenus(1);
+  } else {
+    gpGame->TurnOnAIMusic();
+    SetNoDialogMenus(0);
+  }
+  glTimers = KBTickCount() + 120;
+  int tmpVolume = soundVolume;
+  if(soundVolume)
+    soundVolume = 10;
+  this->SetInitialMapOrigin();
+  bShowIt = gbThisNetHumanPlayer[giCurPlayer];
+  int tmpCurPlayer = giCurPlayer;
+  int tmpbShowIt = bShowIt;
+  giCurPlayer = giCurWatchPlayer;
+  gpCurPlayer = &gpGame->players[giCurWatchPlayer];
+  bShowIt = 1;
+  this->RedrawAdvScreen(1, 0);
+  giCurPlayer = tmpCurPlayer;
+  bShowIt = tmpbShowIt;
+  gpCurPlayer = &gpGame->players[tmpCurPlayer];
+  if(!gbThisNetHumanPlayer[tmpCurPlayer])
+    gpGame->ShowComputerScreen();
+  KBChangeMenu(hmnuAdv);
+  this->ForceNewHover();
+  gpWindowManager->FadeScreen(0, 8, gPalette);
+  giBottomViewOverride = 0;
+  soundVolume = tmpVolume;
+  gpSoundManager->AdjustSoundVolumes();
+  this->type = MANAGER_TYPE_ADVMAP_MANAGER;
+  this->idx = idx;
+  this->ready = 1;
+  strcpy(this->name, "advManager");
+  return 0;
 }
 
 mapCell* advManager::MoveHero(int a2, int a3, int *a4, int *a5, int *a6, int a7, int *a8, int a9) {
@@ -390,7 +536,7 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
 
   const int NUM_GUI_ROWS = 4;
   for(int guiRow = 0; guiRow < NUM_GUI_ROWS; ++guiRow) {
-    int townID = *(&gpCurPlayer->castlesOwned[guiRow] + gpCurPlayer->relatedToUnknown);
+    int townID = *(&gpCurPlayer->castlesOwned[guiRow] + gpCurPlayer->directionFacing);
     tag_message evt;
     evt.eventCode = INPUT_GUI_MESSAGE_CODE;
     evt.xCoordOrKeycode = 8;
@@ -424,7 +570,7 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
         GUIRemoveFlag(this->adventureScreen, guiField, 4);
     }
   }
-  this->castleScrollbarKnob->offsetY = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)gpCurPlayer->relatedToUnknown * 74.0 / (double)((signed int)gpCurPlayer->numCastles - 4) + 195.0) : 232;
+  this->castleScrollbarKnob->offsetY = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)gpCurPlayer->directionFacing * 74.0 / (double)((signed int)gpCurPlayer->numCastles - 4) + 195.0) : 232;
   if(a2)
     this->adventureScreen->DrawWindow(updateScreen);
 }
@@ -638,4 +784,477 @@ bool GetMapCellXY(mapCell* cell, int* x, int* y) {
 		}
 	}
 	return false;
+}
+
+void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6) {
+  if(!a6 && !bShowIt)
+    return;
+
+  int drawX = 32 * cellCol;
+  int drawY = 32 * cellRow;
+
+  // Draw stone outline
+  if(!gbAllBlack && (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT)) {
+    idx = -1;
+    if(x == -1) {
+      if(y == -1) {
+        idx = 16;
+      } else if(y == MAP_HEIGHT) {
+        idx = 19;
+      } else if(y >= 0 && y < MAP_HEIGHT) {
+        idx = (y & 3) + 32;
+      }
+    } else if(x == MAP_WIDTH) {
+      if(y == -1) {
+        idx = 17;
+      } else if(y == MAP_HEIGHT) {
+        idx = 18;
+      } else if(y >= 0 && y < MAP_HEIGHT) {
+        idx = (y & 3) + 24;
+      }
+    } else if(y == -1) {
+      if(x >= 0 && x < MAP_WIDTH)
+        idx = (x & 3) + 20;
+    } else if(y == MAP_HEIGHT && x >= 0 && x < MAP_WIDTH) {
+      idx = (x & 3) + 28;
+    }
+    if(idx == -1)
+      idx = (((unsigned __int64)(x + 16) >> 32) ^ abs(x + 16) & 3)
+      + 4 * ((((unsigned __int64)(y + 16) >> 32) ^ abs(y + 16) & 3) - ((unsigned __int64)(y + 16) >> 32))
+      - ((unsigned __int64)(x + 16) >> 32);
+    TileToBitmap(this->stonTileset, idx, gpWindowManager->screenBuffer, drawX, drawY);
+    return;
+  }
+
+
+  bool unknownFlag;
+  bool unknownFlag2;
+  int unknownTerraIncognita;
+  // Draw Terra Incognita
+  if(!gbAllBlack && (mapRevealed[x + MAP_WIDTH * y] & giCurWatchPlayerBit) || gbDrawingPuzzle) {
+    unknownFlag2 = false;
+  } else {
+    unknownFlag2 = true;
+    if(gbAllBlack)
+      unknownTerraIncognita = 0;
+    else
+      unknownTerraIncognita = advManager::GetCloudLookup(x, y);
+    if(!unknownTerraIncognita) {
+      if(cellDrawingPhaseFlags & 0x20)
+        TileToBitmap(this->clofTileset, (x + y) & 3, gpWindowManager->screenBuffer, drawX, drawY);
+      return;
+    }
+    if(unknownTerraIncognita < 100) {
+      unknownFlag = false;
+    } else {
+      unknownFlag = true;
+      unknownTerraIncognita -= 100;
+    }
+    if((unknownTerraIncognita == 1 || unknownTerraIncognita == 5) && x & 1)
+      ++unknownTerraIncognita;
+    if(unknownTerraIncognita == 3 && y & 1)
+      ++unknownTerraIncognita;
+  }
+
+  // Drawing everything else
+  int curHeroColor;
+  int curHeroFaction;
+  mapCell *curTile = this->GetCell(x, y);
+  mapCellExtra *curExtra;
+  icon* const tileIcon = this->tilesetIcns[curTile->objTileset];
+  unsigned int const extraIdx = curTile->extraIdx;
+  unsigned char const objectIndex = curTile->objectIndex;
+  if(!(cellDrawingPhaseFlags & 0x20) || gbDrawingPuzzle) {
+    if(cellDrawingPhaseFlags & 1) {
+      short groundIdx = curTile->flags;
+      groundIdx <<= 14;
+      groundIdx |= curTile->groundIndex;
+      TileToBitmap(this->groundTileset, (unsigned __int16)groundIdx, gpWindowManager->screenBuffer, drawX, drawY);
+      if(curTile->field_4_1 && (!gbDrawingPuzzle || (curTile->objTileset != TILESET_OBJECT_DIRT || objectIndex != 140))) {
+        if(!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset]) {
+          // Drawing roads and terrain
+          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
+          if(curTile->hasObject) {
+            int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
+            int spriteIdx = objectIndex + this->field_202 % someOffset + 1;
+            IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+          }
+        }
+      }
+
+      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
+        curExtra = &this->map->cellExtras[extraIdx];
+      else
+        curExtra = nullptr;
+      while(curExtra) {
+        unsigned char tileExtraObjectIndex = curExtra->objectIndex;
+        if(curExtra->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
+          icon* const extraIcon = this->tilesetIcns[curExtra->objTileset];
+          IconToBitmap(extraIcon, gpWindowManager->screenBuffer, drawX, drawY, tileExtraObjectIndex, 0, 0, 0, 480, 480, 0);
+          if(curExtra->animatedObject) {
+            int someOffset = GetIconEntry(extraIcon, tileExtraObjectIndex)->someSortOfLength & 0x1F;
+            int spriteIdx = tileExtraObjectIndex + this->field_202 % someOffset + 1;
+            IconToBitmap(extraIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+          }
+        }
+        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
+          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
+        else
+          curExtra = nullptr;
+      }
+
+      // Drawing shadows
+      if(curTile->isShadow && !curTile->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset])) {
+        IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
+        if(curTile->hasObject) {
+          int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
+          int spriteIdx = objectIndex + this->field_202 % someOffset + 1;
+          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+        }
+      }
+
+      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
+        curExtra = &this->map->cellExtras[extraIdx];
+      else
+        curExtra = nullptr;
+      while(curExtra) {
+        if(curExtra->field_4_2 && !curExtra->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
+          IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, curExtra->objectIndex, 0, 0, 0, 480, 480, 0);
+          if(curExtra->animatedObject) {
+            int someOffset = GetIconEntry(this->tilesetIcns[curExtra->objTileset], curExtra->objectIndex)->someSortOfLength & 0x1F;
+            int spriteIdx = curExtra->objectIndex + this->field_202 % someOffset + 1;
+            IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+          }
+        }
+        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
+          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
+        else
+          curExtra = nullptr;
+      }
+    }
+    if(cellDrawingPhaseFlags & 2) {
+      // Drawing treasures / resources / main tiles of those
+      if(objectIndex != 255 && !curTile->field_4_1 && !curTile->isShadow && !curTile->field_4_3 && curTile->objTileset != TILESET_MONSTER && (!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset])) {
+        IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
+        if(curTile->hasObject) {
+          int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
+          int idxOffset = this->field_202 % someOffset;
+          if(curTile->objType == (TILE_HAS_EVENT | LOCATION_MAGIC_GARDEN)) {
+            if(curTile->extraInfo)
+              idxOffset = this->field_202 % (someOffset - 1);
+            else
+              idxOffset = someOffset - 1;
+          }
+          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, idxOffset + objectIndex + 1, 0, 0, 0, 480, 480, 0);
+        }
+      }
+
+      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
+        curExtra = &this->map->cellExtras[extraIdx];
+      else
+        curExtra = nullptr;
+      while(curExtra) {
+        if(!curExtra->field_4_1 && !curExtra->field_4_2 && !curExtra->field_4_3 && curExtra->objTileset != TILESET_MONSTER && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
+          IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, (unsigned char)curExtra->objectIndex, 0, 0, 0, 480, 480, 0);
+          if(curExtra->animatedObject) {
+            int someOffset = GetIconEntry(this->tilesetIcns[curExtra->objTileset], (unsigned char)curExtra->objectIndex)->someSortOfLength & 0x1F;
+            int spriteIdx = (unsigned char)curExtra->objectIndex + this->field_202 % someOffset + 1;
+            IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+          }
+        }
+        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
+          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
+        else
+          curExtra = nullptr;
+      }
+    }
+    if((cellDrawingPhaseFlags & 8 || cellDrawingPhaseFlags & 0x80) && !gbDrawingPuzzle) {
+      bool isDrawingHeroOrBoat = false;
+      hero *curDrawingHero = nullptr;
+      // Drawing creatures
+      if(cellDrawingPhaseFlags & 8) {
+        if(x > 0) {
+          mapCell* creatureTile = this->GetCell(x - 1, y);
+          if(creatureTile->objType == (TILE_HAS_EVENT | LOCATION_MINE)) {
+            mine* currentMine = &gpGame->mines[creatureTile->extraInfo];
+            if(currentMine->guardianType == CREATURE_GHOST) {
+              IconToBitmap(this->tilesetIcns[10], gpWindowManager->screenBuffer, drawX - 16, drawY, (x + y + this->field_202) % 15, 1, 0, 0, 480, 480, 0);
+            } else if(currentMine->guardianType != -1) {
+              IconToBitmap(this->tilesetIcns[39], gpWindowManager->screenBuffer, drawX - 32, drawY, currentMine->guardianType - 62, 1, 0, 0, 480, 480, 0);
+            }
+          }
+        }
+        if(curTile->objTileset == TILESET_MONSTER) {
+          if(this->field_2B2 != x || this->field_2B6 != y) {
+            IconToBitmap(this->tilesetIcns[20], gpWindowManager->screenBuffer, drawX + 16, drawY + 30, 9 * objectIndex, 1, 0, 0, 480, 480, 0);
+            int frameOffset;
+            if(objectIndex != 59 && objectIndex != 60)
+              frameOffset = (unsigned __int8)monAnimDrawFrame[*(&this->field_20A + (x & 3))];
+            else
+              frameOffset = *(&this->field_20A + (x & 3)) % 6;
+            IconToBitmap(this->tilesetIcns[20], gpWindowManager->screenBuffer, drawX + 16, drawY + 30, frameOffset + 9 * objectIndex + 1, 1, 0, 0, 480, 480, 0);
+          } else {
+            IconToBitmap(this->tilesetIcns[20], gpWindowManager->screenBuffer, drawX + 16, drawY + 30, 8 - (this->field_2BA < 1u) + 9 * objectIndex, 1, 0, 0, 480, 480, 0);
+          }
+        }
+      }
+
+      int heroBoatYOffset;
+      int heroBoatSpriteIdx;
+      // Drawing boats and heroes
+      if(curTile->objType == (TILE_HAS_EVENT | LOCATION_BOAT)) {
+        curHeroColor = -1;
+        curHeroFaction = FACTION_MULTIPLE;
+        heroBoatSpriteIdx = this->GetCursorBaseFrame(gpGame->boats[curTile->extraInfo].field_3);
+        isDrawingHeroOrBoat = true;
+        heroBoatYOffset = -10;
+      } else {
+        heroBoatYOffset = 0;
+        if(curTile->objType == (TILE_HAS_EVENT | LOCATION_HERO)) {
+          curDrawingHero = &gpGame->heroes[curTile->extraInfo];
+          curHeroColor = gpGame->players[curDrawingHero->ownerIdx].color;
+          curHeroFaction = curDrawingHero->flags & HERO_AT_SEA ? 6 : curDrawingHero->factionID;
+          heroBoatSpriteIdx = advManager::GetCursorBaseFrame(curDrawingHero->directionFacing);
+          isDrawingHeroOrBoat = true;
+          if(curDrawingHero->flags & 0x80)
+            heroBoatYOffset = -10;
+        }
+      }
+
+      if(isDrawingHeroOrBoat) {
+        if(heroBoatSpriteIdx & 0x80) {
+          if(cellDrawingPhaseFlags & 0x80) {
+            if(this->field_276 && curHeroFaction != FACTION_MULTIPLE) {
+              signed int idxOffset;
+              int idxOffset2 = heroBoatSpriteIdx & 0x7F;
+              if(idxOffset2 == 51)
+                idxOffset2 = 56;
+              if(idxOffset2 == 50)
+                idxOffset2 = 57;
+              if(idxOffset2 == 49)
+                idxOffset2 = 58;
+              if(idxOffset2 == 47)
+                idxOffset2 = 55;
+              if(idxOffset2 == 46)
+                idxOffset2 = 55;
+              if(idxOffset2 < 9 || idxOffset2 >= 36)
+                idxOffset = 0;
+              else
+                idxOffset = 50;
+              IconToBitmap(this->shadowIcon, gpWindowManager->screenBuffer, drawX, drawY + 31, idxOffset + idxOffset2, 1, 0, 0, 480, 480, 0);
+            }
+            if(this->field_276 && curHeroFaction == FACTION_MULTIPLE) {
+              int xOffset;
+              int xOffset2 = heroBoatSpriteIdx & 0x7F;
+              if(xOffset2 < 9 || xOffset2 >= 36)
+                xOffset = 0;
+              else
+                xOffset = 36;
+              IconToBitmap(this->boatShadowIcon, gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, xOffset + xOffset2, 1, 0, 0, 480, 480, 0);
+            }
+          } else {
+            if(curHeroFaction == FACTION_MULTIPLE && !(curTile->flags & 4))
+              FlipIconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX + 32, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
+            FlipIconToBitmap(ironfistHeroMapIcons[curHeroFaction], gpWindowManager->screenBuffer, drawX + 32, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
+            if(curHeroColor != -1) {
+              if(curHeroFaction == FACTION_MULTIPLE)
+                FlipIconToBitmap(this->flagIconsBoat[curHeroColor], gpWindowManager->screenBuffer, drawX + 32, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
+              else {
+                int spriteIdx = (heroBoatSpriteIdx & 0x7F) + (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7) - ((unsigned __int64)this->field_202 >> 32) + 56;
+                FlipIconToBitmap(this->flagIconsHero[curHeroColor], gpWindowManager->screenBuffer, drawX + 32, drawY + 31, spriteIdx, 1, 0, 0, 480, 480, 0);
+              }
+            }
+          }
+        } else if(cellDrawingPhaseFlags & 0x80) {
+          if(this->field_276 && curHeroFaction != FACTION_MULTIPLE && cellDrawingPhaseFlags & 0x80)
+            IconToBitmap(this->shadowIcon, gpWindowManager->screenBuffer, drawX, drawY + 31, heroBoatSpriteIdx, 1, 0, 0, 480, 480, 0);
+          if(this->field_276 && curHeroFaction == FACTION_MULTIPLE)
+            IconToBitmap(this->boatShadowIcon, gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx, 1, 0, 0, 480, 480, 0);
+        } else {
+          if(curHeroFaction == FACTION_MULTIPLE && !(curTile->flags & 4))
+            IconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx, 1, 0, 0, 480, 480, 0);
+          IconToBitmap(ironfistHeroMapIcons[curHeroFaction], gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx, 1, 0, 0, 480, 480, 0);
+          if(curHeroColor != -1) {
+            if(curHeroFaction == FACTION_MULTIPLE)
+              IconToBitmap(this->flagIconsBoat[curHeroColor], gpWindowManager->screenBuffer, drawX, heroBoatYOffset + drawY + 31, heroBoatSpriteIdx & 0x7F, 1, 0, 0, 480, 480, 0);
+            else {
+              int spriteIdx = (heroBoatSpriteIdx & 0x7F) + (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7) - ((unsigned __int64)this->field_202 >> 32) + 56;
+              IconToBitmap(this->flagIconsHero[curHeroColor], gpWindowManager->screenBuffer, drawX, drawY + 31, spriteIdx, 1, 0, 0, 480, 480, 0);
+            }
+          }
+        }
+      }
+      if(this->field_272 && curTile->flags & MAP_CELL_HAS_ACTIVE_HERO && (!this->hasDrawnCursor || cellDrawingPhaseFlags & 0x80) && this->viewX + 7 == x && this->viewY + 7 == y && !(cellDrawingPhaseFlags & 0x80)) {
+        this->DrawCursorShadow();
+        this->DrawCursor();
+        this->hasDrawnCursor = 1;
+      }
+    }
+    if(cellDrawingPhaseFlags & 4 || cellDrawingPhaseFlags & 0x40) {
+      if(cellDrawingPhaseFlags & 4 && objectIndex != 255) {
+        if(curTile->field_4_3 && (!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset])) {
+          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
+          if(curTile->hasObject) {
+            int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
+            int spriteIdx = objectIndex + this->field_202 % someOffset + 1;
+            IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+          }
+        }
+
+        if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
+          curExtra = &this->map->cellExtras[extraIdx];
+        else
+          curExtra = nullptr;
+        while(curExtra) {
+          if(curExtra->field_4_3 && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
+            IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, (unsigned char)curExtra->objectIndex, 0, 0, 0, 480, 480, 0);
+            if(curExtra->animatedObject) {
+              int someOffset = GetIconEntry(this->tilesetIcns[curExtra->objTileset], (unsigned char)curExtra->objectIndex)->someSortOfLength & 0x1F;
+              int spriteIdx = (unsigned char)curExtra->objectIndex + this->field_202 % someOffset + 1;
+              IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+            }
+          }
+          if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
+            curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
+          else
+            curExtra = nullptr;
+        }
+      }
+      if((unsigned char)curTile->overlayIndex != 255
+        && (cellDrawingPhaseFlags & 4 && !curTile->hasLateOverlay || cellDrawingPhaseFlags & 0x40 && curTile->hasLateOverlay)) {
+        if(!gbDrawingPuzzle || bPuzzleDraw[curTile->overlayTileset]) {
+          int spriteIdx = (unsigned char)curTile->overlayIndex;
+          IconToBitmap(this->tilesetIcns[curTile->overlayTileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, curTile->overlayTileset == TILESET_FLAG, 0, 0, 480, 480, 0);
+          if(curTile->hasOverlay) {
+            int someOffset = GetIconEntry(this->tilesetIcns[curTile->overlayTileset], (unsigned char)curTile->overlayIndex)->someSortOfLength & 0x1F;
+            spriteIdx = (unsigned char)curTile->overlayIndex + this->field_202 % someOffset + 1;
+            IconToBitmap(this->tilesetIcns[curTile->overlayTileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+          }
+        }
+      }
+
+      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].overlayIndex != 255)
+        curExtra = &this->map->cellExtras[extraIdx];
+      else
+        curExtra = nullptr;
+      while(curExtra) {
+        if(cellDrawingPhaseFlags & 4 && !curExtra->hasLateOverlay || cellDrawingPhaseFlags & 0x40 && curExtra->hasLateOverlay) {
+          if(!gbDrawingPuzzle || bPuzzleDraw[curExtra->tileset]) {
+            int spriteIdx = (unsigned char)curExtra->overlayIndex;
+            IconToBitmap(this->tilesetIcns[curExtra->tileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, curExtra->tileset == TILESET_FLAG, 0, 0, 480, 480, 0);
+            if(curExtra->animatedLateOverlay) {
+              int someOffset = GetIconEntry(this->tilesetIcns[curExtra->tileset], curExtra->overlayIndex)->someSortOfLength & 0x1F;
+              spriteIdx = (unsigned char)curExtra->overlayIndex + this->field_202 % someOffset + 1;
+              IconToBitmap(this->tilesetIcns[curExtra->tileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
+            }
+          }
+        }
+        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].overlayIndex != 255)
+          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
+        else
+          curExtra = nullptr;
+      }
+    }
+  } else if(unknownFlag2) { // Draw Terra Incognita borders
+    if(unknownFlag)
+      FlipIconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, drawX + 31, drawY, unknownTerraIncognita - 1, 0, 0, 0, 0, 0, 0);
+    else
+      IconToBitmap(this->clopIcon, gpWindowManager->screenBuffer, drawX, drawY, unknownTerraIncognita - 1, 0, 0, 0, 0, 0, 0);
+  } else if(this->field_A2 && *(unsigned short *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated)) {
+    if((*(unsigned short *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) >> 8) & 1)
+      IconToBitmapColorTable(this->tilesetIcns[17], gpWindowManager->screenBuffer, drawX - 12, drawY + 2,
+      (unsigned __int8)(*(unsigned short *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) - 1),
+        1, 0, 0, 480, 480, 0, gColorTableRed, 1);
+    else
+      IconToBitmap(this->tilesetIcns[17], gpWindowManager->screenBuffer, drawX - 12, drawY + 2,
+      (unsigned __int8)(*(unsigned short *)(2 * x + 2 * MAP_WIDTH * y + this->sizeOfSomethingMapRelated) - 1),
+        1, 0, 0, 480, 480, 0);
+  }
+
+}
+
+void advManager::DrawCursor() {
+  if(!bShowIt || bSpecialHideCursor)
+    return;
+
+  if(gbDrawSavedCursor) {
+    this->mobilizedHeroDirection = S1cursorDirection;
+    this->mobilizedHeroBaseFrameBit8IsFlip = S1cursorBaseFrame;
+    this->mobilizedHeroAnimPos = S1cursorFrameCount;
+    this->mobilizedHeroCycle = S1cursorCycle;
+    this->mobilizedHeroTurning = S1cursorTurning;
+  }
+
+  int drawX = this->mapPortLeftX + 224;
+  int drawY = this->mapPortTopY + 255;
+  if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE)
+    drawY = this->mapPortTopY + 245;
+  if(this->mobilizedHeroBaseFrameBit8IsFlip & 0x80) {
+    drawX = this->mapPortLeftX + 256;
+    int spriteIdx = this->mobilizedHeroAnimPos + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F);
+    if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE && !(this->GetCell(this->viewX + 7, this->viewY + 7)->flags & 4))
+      FlipIconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+    FlipIconToBitmap(ironfistHeroMapIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+    if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE) {
+      FlipIconToBitmap(this->flagIconsBoat[gpCurPlayer->color], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 0, 0, 0);
+    } else {
+      if(!this->mobilizedHeroCycle)
+        spriteIdx = (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
+        + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F)
+        - ((unsigned __int64)this->field_202 >> 32)
+        + 56;
+      FlipIconToBitmap(this->flagIconsHero[gpCurPlayer->color], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+      ++this->field_206;
+    }
+  } else {
+    int spriteIdx = this->mobilizedHeroAnimPos + this->mobilizedHeroBaseFrameBit8IsFlip;
+    if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE && !(this->GetCell(this->viewX + 7, this->viewY + 7)->flags & 4))
+      IconToBitmap(this->frothIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+    IconToBitmap(ironfistHeroMapIcons[this->mobilizedHeroFactionOrBoat], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+    if(this->mobilizedHeroFactionOrBoat == FACTION_MULTIPLE) {
+      IconToBitmap(this->flagIconsBoat[gpCurPlayer->color], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 0, 0, 0);
+    } else {
+      if(!this->mobilizedHeroCycle)
+        spriteIdx = (((unsigned __int64)this->field_202 >> 32) ^ abs(this->field_202) & 7)
+        + (this->mobilizedHeroBaseFrameBit8IsFlip & 0x7F)
+        - ((unsigned __int64)this->field_202 >> 32)
+        + 56;
+      IconToBitmap(this->flagIconsHero[gpCurPlayer->color], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 1, 0, 0, 480, 480, 0);
+      ++this->field_206;
+    }
+  }
+
+  if(this->mobilizedHeroCycle && gConfig.data[gbThisNetHumanPlayer[giCurPlayer]] != 4) {
+    ++this->mobilizedHeroAnimPos;
+    if(gConfig.data[gbThisNetHumanPlayer[giCurPlayer]] == 3 && (this->mobilizedHeroAnimPos == 4 || this->mobilizedHeroAnimPos == 1))
+      ++this->mobilizedHeroAnimPos;
+    if(!gConfig.data[gbThisNetHumanPlayer[giCurPlayer]]) {
+      EveryOther = 1 - EveryOther;
+      if(EveryOther)
+        --this->mobilizedHeroAnimPos;
+    }
+  }
+
+  if(this->mobilizedHeroAnimPos >= 8)
+    this->mobilizedHeroAnimPos = 0;
+
+  if(!this->mobilizedHeroTurning) {
+    if(!this->mobilizedHeroAnimPos)
+      hOldWalkSample = hNewWalkSample;
+    if(this->mobilizedHeroAnimPos == 3 || gConfig.data[gbThisNetHumanPlayer[giCurPlayer]] == 4 && !bMoveSoundMade) {
+      bMoveSoundMade = 1;
+      if(!EveryOther) {
+        int cell = this->GetCell(this->viewX + 7, this->viewY + 7)->groundIndex;
+        hNewWalkSample = gpSoundManager->MemorySample(this->walkSamples[giGroundToTerrain[cell]]);
+      }
+    }
+  }
+
+  if(!gbDrawSavedCursor) {
+    S1cursorDirection = this->mobilizedHeroDirection;
+    S1cursorBaseFrame = this->mobilizedHeroBaseFrameBit8IsFlip;
+    S1cursorFrameCount = this->mobilizedHeroAnimPos;
+    S1cursorCycle = this->mobilizedHeroCycle;
+    S1cursorTurning = this->mobilizedHeroTurning;
+  }
 }

@@ -504,19 +504,19 @@ namespace ironfist_save
   }
 
   const hero_t::relatedToUnknown_type& hero_t::
-  relatedToUnknown () const
+  directionFacing () const
   {
     return this->relatedToUnknown_.get ();
   }
 
   hero_t::relatedToUnknown_type& hero_t::
-  relatedToUnknown ()
+  directionFacing ()
   {
     return this->relatedToUnknown_.get ();
   }
 
   void hero_t::
-  relatedToUnknown (const relatedToUnknown_type& x)
+  directionFacing (const relatedToUnknown_type& x)
   {
     this->relatedToUnknown_.set (x);
   }
@@ -4540,19 +4540,19 @@ namespace ironfist_save
   }
 
   const playerData_t::relatedToUnknown_type& playerData_t::
-  relatedToUnknown () const
+  directionFacing () const
   {
     return this->relatedToUnknown_.get ();
   }
 
   playerData_t::relatedToUnknown_type& playerData_t::
-  relatedToUnknown ()
+  directionFacing ()
   {
     return this->relatedToUnknown_.get ();
   }
 
   void playerData_t::
-  relatedToUnknown (const relatedToUnknown_type& x)
+  directionFacing (const relatedToUnknown_type& x)
   {
     this->relatedToUnknown_.set (x);
   }
@@ -5305,7 +5305,7 @@ namespace ironfist_save
           const relatedToX_type& relatedToX,
           const relatedToY_type& relatedToY,
           const relatedToFactionID_type& relatedToFactionID,
-          const relatedToUnknown_type& relatedToUnknown,
+          const relatedToUnknown_type& directionFacing,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5355,7 +5355,7 @@ namespace ironfist_save
     relatedToX_ (relatedToX, ::xml_schema::flags (), this),
     relatedToY_ (relatedToY, ::xml_schema::flags (), this),
     relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
-    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
+    relatedToUnknown_ (directionFacing, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -5411,7 +5411,7 @@ namespace ironfist_save
           const relatedToX_type& relatedToX,
           const relatedToY_type& relatedToY,
           const relatedToFactionID_type& relatedToFactionID,
-          const relatedToUnknown_type& relatedToUnknown,
+          const relatedToUnknown_type& directionFacing,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5461,7 +5461,7 @@ namespace ironfist_save
     relatedToX_ (relatedToX, ::xml_schema::flags (), this),
     relatedToY_ (relatedToY, ::xml_schema::flags (), this),
     relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
-    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
+    relatedToUnknown_ (directionFacing, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -10375,7 +10375,7 @@ namespace ironfist_save
                 const daysLeftWithoutCastle_type& daysLeftWithoutCastle,
                 const numCastles_type& numCastles,
                 const mightBeCurCastleIdx_type& mightBeCurCastleIdx,
-                const relatedToUnknown_type& relatedToUnknown,
+                const relatedToUnknown_type& directionFacing,
                 const barrierTentsVisited_type& barrierTentsVisited)
   : ::xml_schema::type (),
     color_ (color, ::xml_schema::flags (), this),
@@ -10392,7 +10392,7 @@ namespace ironfist_save
     daysLeftWithoutCastle_ (daysLeftWithoutCastle, ::xml_schema::flags (), this),
     numCastles_ (numCastles, ::xml_schema::flags (), this),
     mightBeCurCastleIdx_ (mightBeCurCastleIdx, ::xml_schema::flags (), this),
-    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
+    relatedToUnknown_ (directionFacing, ::xml_schema::flags (), this),
     barrierTentsVisited_ (barrierTentsVisited, ::xml_schema::flags (), this),
     heroesOwned_ (::xml_schema::flags (), this),
     heroesForPurchase_ (::xml_schema::flags (), this),
@@ -13867,7 +13867,7 @@ namespace ironfist_save
           "relatedToUnknown",
           e));
 
-      s << i.relatedToUnknown ();
+      s << i.directionFacing ();
     }
 
     // occupiedObjType
@@ -16421,7 +16421,7 @@ namespace ironfist_save
           "relatedToUnknown",
           e));
 
-      s << i.relatedToUnknown ();
+      s << i.directionFacing ();
     }
 
     // barrierTentsVisited
