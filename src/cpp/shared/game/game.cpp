@@ -1039,6 +1039,7 @@ void game::ProcessOnMapHeroes() {
                 allFreeHeroes.push_back(i);
             }
             randomHeroIdx = allFreeHeroes[Random(0, allFreeHeroes.size()-1)];
+            mapExtraHero->heroID = randomHeroIdx;
           }
 
           heroesAvailable[randomHeroIdx].exists = true;
@@ -1047,9 +1048,10 @@ void game::ProcessOnMapHeroes() {
           // and use portrait from mapExtraHero->heroID
           if(randomHeroIdx >= MAX_HEROES) {
             std::vector<int> freeHeroes;
-            for(int i = 0; i < MAX_HEROES; i++)
+            for(int i = 0; i < MAX_HEROES; i++) {
               if(!heroExists[i])
                 freeHeroes.push_back(i);
+            }
 
             int overwrittenIdx = freeHeroes[Random(0, freeHeroes.size()-1)];
             mapExtraHero->customPortrait = true;
