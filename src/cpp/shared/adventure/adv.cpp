@@ -536,7 +536,7 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
 
   const int NUM_GUI_ROWS = 4;
   for(int guiRow = 0; guiRow < NUM_GUI_ROWS; ++guiRow) {
-    int townID = *(&gpCurPlayer->castlesOwned[guiRow] + gpCurPlayer->directionFacing);
+    int townID = *(&gpCurPlayer->castlesOwned[guiRow] + gpCurPlayer->relatedToUnknown);
     tag_message evt;
     evt.eventCode = INPUT_GUI_MESSAGE_CODE;
     evt.xCoordOrKeycode = 8;
@@ -570,7 +570,7 @@ void advManager::UpdateTownLocators(int a2, int updateScreen) {
         GUIRemoveFlag(this->adventureScreen, guiField, 4);
     }
   }
-  this->castleScrollbarKnob->offsetY = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)gpCurPlayer->directionFacing * 74.0 / (double)((signed int)gpCurPlayer->numCastles - 4) + 195.0) : 232;
+  this->castleScrollbarKnob->offsetY = gpCurPlayer->numCastles >= 5 ? (unsigned __int16)(signed __int64)((double)gpCurPlayer->relatedToUnknown * 74.0 / (double)((signed int)gpCurPlayer->numCastles - 4) + 195.0) : 232;
   if(a2)
     this->adventureScreen->DrawWindow(updateScreen);
 }

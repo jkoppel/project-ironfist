@@ -503,22 +503,22 @@ namespace ironfist_save
     this->relatedToFactionID_.set (x);
   }
 
-  const hero_t::relatedToUnknown_type& hero_t::
+  const hero_t::directionFacing_type& hero_t::
   directionFacing () const
   {
-    return this->relatedToUnknown_.get ();
+    return this->directionFacing_.get ();
   }
 
-  hero_t::relatedToUnknown_type& hero_t::
+  hero_t::directionFacing_type& hero_t::
   directionFacing ()
   {
-    return this->relatedToUnknown_.get ();
+    return this->directionFacing_.get ();
   }
 
   void hero_t::
-  directionFacing (const relatedToUnknown_type& x)
+  directionFacing (const directionFacing_type& x)
   {
-    this->relatedToUnknown_.set (x);
+    this->directionFacing_.set (x);
   }
 
   const hero_t::occupiedObjType_type& hero_t::
@@ -4540,19 +4540,19 @@ namespace ironfist_save
   }
 
   const playerData_t::relatedToUnknown_type& playerData_t::
-  directionFacing () const
+  relatedToUnknown () const
   {
     return this->relatedToUnknown_.get ();
   }
 
   playerData_t::relatedToUnknown_type& playerData_t::
-  directionFacing ()
+  relatedToUnknown ()
   {
     return this->relatedToUnknown_.get ();
   }
 
   void playerData_t::
-  directionFacing (const relatedToUnknown_type& x)
+  relatedToUnknown (const relatedToUnknown_type& x)
   {
     this->relatedToUnknown_.set (x);
   }
@@ -5305,7 +5305,7 @@ namespace ironfist_save
           const relatedToX_type& relatedToX,
           const relatedToY_type& relatedToY,
           const relatedToFactionID_type& relatedToFactionID,
-          const relatedToUnknown_type& directionFacing,
+          const directionFacing_type& directionFacing,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5355,7 +5355,7 @@ namespace ironfist_save
     relatedToX_ (relatedToX, ::xml_schema::flags (), this),
     relatedToY_ (relatedToY, ::xml_schema::flags (), this),
     relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
-    relatedToUnknown_ (directionFacing, ::xml_schema::flags (), this),
+    directionFacing_ (directionFacing, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -5411,7 +5411,7 @@ namespace ironfist_save
           const relatedToX_type& relatedToX,
           const relatedToY_type& relatedToY,
           const relatedToFactionID_type& relatedToFactionID,
-          const relatedToUnknown_type& directionFacing,
+          const directionFacing_type& directionFacing,
           const occupiedObjType_type& occupiedObjType,
           const occupiedObjVal_type& occupiedObjVal,
           const mobility_type& mobility,
@@ -5461,7 +5461,7 @@ namespace ironfist_save
     relatedToX_ (relatedToX, ::xml_schema::flags (), this),
     relatedToY_ (relatedToY, ::xml_schema::flags (), this),
     relatedToFactionID_ (relatedToFactionID, ::xml_schema::flags (), this),
-    relatedToUnknown_ (directionFacing, ::xml_schema::flags (), this),
+    directionFacing_ (directionFacing, ::xml_schema::flags (), this),
     occupiedObjType_ (occupiedObjType, ::xml_schema::flags (), this),
     occupiedObjVal_ (occupiedObjVal, ::xml_schema::flags (), this),
     mobility_ (mobility, ::xml_schema::flags (), this),
@@ -5521,7 +5521,7 @@ namespace ironfist_save
     relatedToX_ (x.relatedToX_, f, this),
     relatedToY_ (x.relatedToY_, f, this),
     relatedToFactionID_ (x.relatedToFactionID_, f, this),
-    relatedToUnknown_ (x.relatedToUnknown_, f, this),
+    directionFacing_ (x.directionFacing_, f, this),
     occupiedObjType_ (x.occupiedObjType_, f, this),
     occupiedObjVal_ (x.occupiedObjVal_, f, this),
     mobility_ (x.mobility_, f, this),
@@ -5581,7 +5581,7 @@ namespace ironfist_save
     relatedToX_ (f, this),
     relatedToY_ (f, this),
     relatedToFactionID_ (f, this),
-    relatedToUnknown_ (f, this),
+    directionFacing_ (f, this),
     occupiedObjType_ (f, this),
     occupiedObjVal_ (f, this),
     mobility_ (f, this),
@@ -5864,13 +5864,13 @@ namespace ironfist_save
         }
       }
 
-      // relatedToUnknown
+      // directionFacing
       //
-      if (n.name () == "relatedToUnknown" && n.namespace_ ().empty ())
+      if (n.name () == "directionFacing" && n.namespace_ ().empty ())
       {
-        if (!relatedToUnknown_.present ())
+        if (!directionFacing_.present ())
         {
-          this->relatedToUnknown_.set (relatedToUnknown_traits::create (i, f, this));
+          this->directionFacing_.set (directionFacing_traits::create (i, f, this));
           continue;
         }
       }
@@ -6355,10 +6355,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!relatedToUnknown_.present ())
+    if (!directionFacing_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "relatedToUnknown",
+        "directionFacing",
         "");
     }
 
@@ -10375,7 +10375,7 @@ namespace ironfist_save
                 const daysLeftWithoutCastle_type& daysLeftWithoutCastle,
                 const numCastles_type& numCastles,
                 const mightBeCurCastleIdx_type& mightBeCurCastleIdx,
-                const relatedToUnknown_type& directionFacing,
+                const relatedToUnknown_type& relatedToUnknown,
                 const barrierTentsVisited_type& barrierTentsVisited)
   : ::xml_schema::type (),
     color_ (color, ::xml_schema::flags (), this),
@@ -10392,7 +10392,7 @@ namespace ironfist_save
     daysLeftWithoutCastle_ (daysLeftWithoutCastle, ::xml_schema::flags (), this),
     numCastles_ (numCastles, ::xml_schema::flags (), this),
     mightBeCurCastleIdx_ (mightBeCurCastleIdx, ::xml_schema::flags (), this),
-    relatedToUnknown_ (directionFacing, ::xml_schema::flags (), this),
+    relatedToUnknown_ (relatedToUnknown, ::xml_schema::flags (), this),
     barrierTentsVisited_ (barrierTentsVisited, ::xml_schema::flags (), this),
     heroesOwned_ (::xml_schema::flags (), this),
     heroesForPurchase_ (::xml_schema::flags (), this),
@@ -13859,12 +13859,12 @@ namespace ironfist_save
       s << i.relatedToFactionID ();
     }
 
-    // relatedToUnknown
+    // directionFacing
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "relatedToUnknown",
+          "directionFacing",
           e));
 
       s << i.directionFacing ();
@@ -16421,7 +16421,7 @@ namespace ironfist_save
           "relatedToUnknown",
           e));
 
-      s << i.directionFacing ();
+      s << i.relatedToUnknown ();
     }
 
     // barrierTentsVisited

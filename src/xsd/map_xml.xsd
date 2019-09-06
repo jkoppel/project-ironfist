@@ -37,7 +37,7 @@
       <xs:element name="relatedToX" type="xs:int"/>
       <xs:element name="relatedToY" type="xs:int"/>
       <xs:element name="relatedToFactionID" type="xs:int"/>
-      <xs:element name="relatedToUnknown" type="xs:int"/>
+      <xs:element name="directionFacing" type="xs:int"/>
       <xs:element name="occupiedObjType" type="xs:int"/>
       <xs:element name="occupiedObjVal" type="xs:int"/>
       <xs:element name="mobility" type="xs:int"/>

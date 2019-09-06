@@ -173,7 +173,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
     pdata->daysLeftWithoutCastle = pdata_xml->daysLeftWithoutCastle();
     pdata->numCastles = pdata_xml->numCastles();
     pdata->mightBeCurCastleIdx = pdata_xml->mightBeCurCastleIdx();
-    pdata->directionFacing = pdata_xml->directionFacing();
+    pdata->relatedToUnknown = pdata_xml->relatedToUnknown();
 
     ReadArrayFromXML(pdata->castlesOwned, pdata_xml->castlesOwned());
     ReadArrayFromXML(pdata->resources, pdata_xml->resources());
@@ -470,7 +470,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
       player.daysLeftWithoutCastle,
       player.numCastles,
       player.mightBeCurCastleIdx,
-      player.directionFacing,
+      player.relatedToUnknown,
       player.barrierTentsVisited
     );
     gs.playerData().push_back(data);
