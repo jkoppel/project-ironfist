@@ -1,5 +1,6 @@
 #include <string>
 #include <vector>
+#include <Windows.h>
 
 #include "analytics.h"
 #include "adventure/hero_globals.h"
@@ -769,6 +770,9 @@ void __fastcall CheckEndGame(int a, int b) {
 	}
 }
 
+bool dbgAutoWinBattles = false;
+extern void *hmnuAdv;
+
 int __fastcall HandleAppSpecificMenuCommands(int a1) {
   int spell; // [sp+24h] [bp-8h]@55
   hero *hro; // [sp+28h] [bp-4h]@1
@@ -785,6 +789,15 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
         for (spell = 0; spell < NUM_SPELLS; ++spell)
           hro->AddSpell(spell, 10); // Knowledge argument "10" is redundant due to zeroing out of value in modified AddSpell
         hro->spellpoints = 999;
+      }
+      return 0;
+    case 40145:
+      if(!dbgAutoWinBattles) {
+        dbgAutoWinBattles = true;
+        CheckMenuItem((HMENU)hmnuAdv, 40145, MF_CHECKED);
+      } else {
+        dbgAutoWinBattles = false;
+        CheckMenuItem((HMENU)hmnuAdv, 40145, MF_UNCHECKED);
       }
       return 0;
     default:

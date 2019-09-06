@@ -4,10 +4,18 @@
 #include<string>
 
 enum DIALOG_TYPE {
-  DIALOG_OKAY = 1,
-  DIALOG_YES_NO = 2,
   DIALOG_OR = 1,
   DIALOG_EMPTY = 0,
+};
+
+enum NormalDialogType {
+  DIALOG_OKAY = 1,
+  DIALOG_YES_NO = 2,
+  DIALOG_CANCEL = 3,
+  DIALOG_RIGHT_CLICK = 4,
+
+  DIALOG_CANCEL_ALT = 6, // seems to be for network stuff
+  DIALOG_LEARN_CHOICE = 7
 };
 
 enum MESSAGEBOX_IMAGES{
@@ -42,6 +50,9 @@ enum MESSAGEBOX_IMAGES{
 
 const int BUTTON_CODE_OKAY = 30725;
 const int BUTTON_CODE_CANCEL = 30726;
+const int BUTTON_CODE_LEARN_LEFT = 30727;
+
+
 
 extern void* hmnuAdv;
 

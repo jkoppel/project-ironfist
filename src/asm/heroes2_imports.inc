@@ -146,6 +146,9 @@ IMPORT_?Walk@army@@QAEXHHH@Z = 1
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
+IMPORT_?ClaimTown@game@@QAEXHHH@Z = 1
+?ClaimTown@game@@QAEXHHH@Z_clone EQU ?ClaimTown_orig@game@@QAEXHHH@Z
+
 
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
@@ -254,6 +257,8 @@ IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
 IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
 IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
+IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1
+?CheckWin@combatManager@@QAEHPAUtag_message@@@Z_clone EQU ?CheckWin_orig@combatManager@@QAEHPAUtag_message@@@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

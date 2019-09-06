@@ -37,14 +37,21 @@ namespace {
 
 /******************************* GUI *****************************************************/
 
-
 void set_dialog_consts(lua_State *L) {
-	lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
-	lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
-	lua_setconst(L, "DIALOG_OR", DIALOG_OR);
-	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
+  lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
+  lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
+  lua_setconst(L, "DIALOG_CANCEL", DIALOG_CANCEL);
+  lua_setconst(L, "DIALOG_RIGHT_CLICK", DIALOG_RIGHT_CLICK);
+  lua_setconst(L, "DIALOG_LEARN_CHOICE", DIALOG_LEARN_CHOICE);
+
+  lua_setconst(L, "DIALOG_OR", DIALOG_OR);
+  lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
 }
 
+
+void set_barriercolor_consts(lua_State *L){
+	lua_setconst(L, "AQUA_BARRIER", AQUA_BARRIER);
+}
 void set_messageboxgroups_consts(lua_State *L) {
 	lua_setconst(L, "IMAGE_EMPTY", IMAGE_EMPTY);
 	lua_setconst(L, "IMAGE_WOOD", IMAGE_WOOD);
@@ -475,6 +482,8 @@ void set_scripting_consts(lua_State* L) {
   set_faction_consts(L);
   set_skill_consts(L);
   set_creature_consts(L);
+  set_location_consts(L);  
+  set_barriercolor_consts(L);
   set_resources_consts(L); 
   set_map_consts(L);
 }
