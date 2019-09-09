@@ -349,7 +349,6 @@ void ExpCampaign::HandleVictoryCyborg() {
 }
 
 void ExpCampaign::ShowInfo(int inGame, int unused) {
-  const int CAMP_NAME_WIDGET_OFFSET = 18;
   this->anIntVariable = inGame;
   gpMouseManager->SetPointer("advmice.mse", 0, -999);
   gpMouseManager->ReallyShowPointer();
@@ -370,7 +369,7 @@ void ExpCampaign::ShowInfo(int inGame, int unused) {
     this->window->AddWidget(guiObj, -1);
   }
 
-  iconWidget* campNameWidget = new iconWidget(24, 25, 376, 49, "x_cmpext.icn", CAMP_NAME_WIDGET_OFFSET + this->campaignID, 0, -1, 16, 1);
+  iconWidget* campNameWidget = new iconWidget(24, 25, 376, 49, "x_cmphdr.icn", this->campaignID, 0, -1, 16, 1);
   if(!campNameWidget)
     MemError();
   this->window->AddWidget(campNameWidget, -1);
