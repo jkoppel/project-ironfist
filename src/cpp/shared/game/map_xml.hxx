@@ -719,19 +719,19 @@ namespace ironfist_save
     void
     relatedToFactionID (const relatedToFactionID_type& x);
 
-    // relatedToUnknown
+    // directionFacing
     // 
-    typedef ::xml_schema::int_ relatedToUnknown_type;
-    typedef ::xsd::cxx::tree::traits< relatedToUnknown_type, char > relatedToUnknown_traits;
+    typedef ::xml_schema::int_ directionFacing_type;
+    typedef ::xsd::cxx::tree::traits< directionFacing_type, char > directionFacing_traits;
 
-    const relatedToUnknown_type&
-    relatedToUnknown () const;
+    const directionFacing_type&
+    directionFacing () const;
 
-    relatedToUnknown_type&
-    relatedToUnknown ();
+    directionFacing_type&
+    directionFacing ();
 
     void
-    relatedToUnknown (const relatedToUnknown_type& x);
+    directionFacing (const directionFacing_type& x);
 
     // occupiedObjType
     // 
@@ -1188,7 +1188,7 @@ namespace ironfist_save
             const relatedToX_type&,
             const relatedToY_type&,
             const relatedToFactionID_type&,
-            const relatedToUnknown_type&,
+            const directionFacing_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
             const mobility_type&,
@@ -1238,7 +1238,7 @@ namespace ironfist_save
             const relatedToX_type&,
             const relatedToY_type&,
             const relatedToFactionID_type&,
-            const relatedToUnknown_type&,
+            const directionFacing_type&,
             const occupiedObjType_type&,
             const occupiedObjVal_type&,
             const mobility_type&,
@@ -1311,7 +1311,7 @@ namespace ironfist_save
     ::xsd::cxx::tree::one< relatedToX_type > relatedToX_;
     ::xsd::cxx::tree::one< relatedToY_type > relatedToY_;
     ::xsd::cxx::tree::one< relatedToFactionID_type > relatedToFactionID_;
-    ::xsd::cxx::tree::one< relatedToUnknown_type > relatedToUnknown_;
+    ::xsd::cxx::tree::one< directionFacing_type > directionFacing_;
     ::xsd::cxx::tree::one< occupiedObjType_type > occupiedObjType_;
     ::xsd::cxx::tree::one< occupiedObjVal_type > occupiedObjVal_;
     ::xsd::cxx::tree::one< mobility_type > mobility_;

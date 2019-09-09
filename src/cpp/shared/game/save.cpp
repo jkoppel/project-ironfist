@@ -19,10 +19,7 @@
 #include<sys/stat.h>
 #include <map>
 
-extern int bShowIt;
 extern unsigned char giCurPlayerBit;
-extern int giCurWatchPlayer;
-extern unsigned char giCurWatchPlayerBit;
 extern void __fastcall GenerateStandardFileName(char*, char*);
 
 

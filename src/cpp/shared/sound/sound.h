@@ -56,6 +56,7 @@ public:
   int Open(int);
   int Open_orig(int);
   void PlayAmbientMusic(int,long,int);
+  void AdjustSoundVolumes();
 };
 
 #pragma pack(pop)
@@ -64,6 +65,8 @@ extern soundManager *gpSoundManager;
 
 extern unsigned char giTerrainToMusicTrack[];
 extern signed char townTheme[];
+extern _SAMPLE *hNewWalkSample;
+extern _SAMPLE *hOldWalkSample;
 
 extern struct SAMPLE2 __fastcall LoadPlaySample(char *);
 extern void __fastcall WaitEndSample(struct SAMPLE2, int);

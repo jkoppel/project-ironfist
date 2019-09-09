@@ -16,6 +16,9 @@
 #define MAX_ORIG_CAMPAIGNS 2
 #define MAX_MAPS_IN_ORIG_CAMPAIGN 12
 
+// those that have portraits and names (?) not including captains
+#define TOTAL_AVAILABLE_HEROES 73 
+
 extern signed char gcColorToPlayerPos[];
 
 extern int gbHumanPlayer[];
@@ -104,9 +107,9 @@ public:
   __int8 relatedToUnknown;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-  char hasEvilFaction;
-  char barrierTentsVisited;
-  char _4_2[58];
+	char hasEvilFaction;
+	char barrierTentsVisited;
+	char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -115,6 +118,7 @@ public:
 
 	void Read(int);
 	void Write(int);
+	void SetBarrierTentVisited(int);
 };
 
 extern int giCurPlayer;
@@ -175,7 +179,7 @@ public:
 	SMapHeader mapHeader;
 	char relatedToPlayerPosAndColor[NUM_PLAYERS];
 	char playerHandicap[NUM_PLAYERS];
-	char relatedToColorOfPlayerOrFaction[NUM_PLAYERS];
+	char newGameSelectedFaction[NUM_PLAYERS];
 	char somePlayerCodeOr10IfMayBeHuman[NUM_PLAYERS];
 	char difficulty;
 	char mapFilename[13];
@@ -208,7 +212,7 @@ public:
 	char ultimateArtifactLocX;
 	char ultimateArtifactLocY;
 	char ultimateArtifactIdx;
-	int field_6398;
+	heroWindow* newGameWindow;
   char field_639C;
 	char hasCheated;
   char _B[12];
@@ -228,10 +232,11 @@ public:
   bool onMapEndCallbackStatus = false;
   bool forcedComputerPlayerChases[MAX_HEROES][MAX_HEROES];
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+  
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
-  // Used for OnMapStart
-  bool firstDayEventDone = false;
+	// Used for OnMapStart
+	bool firstDayEventDone = false;
 
 	int SetupGame();
 	int SetupGame_orig();
@@ -251,16 +256,19 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
-  void SetVisibility_orig(int, int, int, int);
+	void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
-  int GetTownId(int,int);
-  
+	void ClaimTown_orig(int, int, int);
+	int GetTownId(int,int);
+
+
 	void NextPlayer();
 	void NextPlayer_orig();
 
 	void PerDay();
 	void PerDay_orig();
+  
   void PerWeek();
   void PerWeek_orig();
   void PerMonth();
@@ -277,7 +285,7 @@ public:
   void InitRandomArtifacts();
   int GetRandomArtifactId(int allowedLevels, int allowNegatives);
   int LoadMap(char *nam);
-  int ProcessRandomObjects();
+  void ProcessRandomObjects();
   int ProcessMapExtra();
   void __cdecl InitializePasswords();
   int RandomizeEvents();
@@ -293,6 +301,20 @@ public:
   int CreateBoat(int x, int y, int doSend);
   void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
   int getNumberOfThievesGuilds(int playerIdx);
+  void UpdateNewGameWindow();
+  void RandomizeTown(int argX, int argY, int mightBeUseless);
+  void ConvertObject(int x1, int y1, int x2, int y2, int fromObjTileset, signed int fromObjIndexLow, signed int fromObjIndexHigh, int toObjTileset, int toObjectIndexLow, int fromObjType, int toObjType);
+  void ShowScenInfo();
+  int CalcDifficultyRating();
+  void DrawNGKPDisplayString(int updateScreen);
+  void GetLossConditionText(char *text);
+  void GetVictoryConditionText(char *text);
+  void RandomizeMine(int x, int y);
+  void WeeklyGenericSite(mapCell *a1);
+  void WeeklyRecruitSite(mapCell *a1);
+  void GiveTroopsToNeutralTowns();
+  void ShowComputerScreen();
+  void TurnOnAIMusic();
 
 private:
   void PropagateVision();
@@ -307,10 +329,10 @@ enum GAME_DIFFICULTY {
 };
 
 enum PERSONALITY_TYPE {
-  PERSONALITY_WARRIOR = 0,
-  PERSONALITY_BUILDER = 1,
-  PERSONALITY_EXPLORER = 2,
-  PERSONALITY_HUMAN = 3,
+	PERSONALITY_WARRIOR = 0,
+	PERSONALITY_BUILDER = 1,
+	PERSONALITY_EXPLORER = 2,
+	PERSONALITY_HUMAN = 3,
 };
 
 extern void __fastcall CheckEndGame_orig(int a, int b);
@@ -346,6 +368,7 @@ extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
+extern unsigned char randomMineResources[NUM_RESOURCES];
 
 extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
 extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
@@ -354,6 +377,9 @@ extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
 extern int getCastleOwnedIdx(playerData *player, int castleIdx);
 extern void __fastcall Process1WindowsMessage();
+int __fastcall NewGameHandler(tag_message &msg);
+extern int __fastcall NewGameHandler_orig(tag_message &msg);
+int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a5, signed char a6, signed char a7);
 
 #pragma pack(pop)
 

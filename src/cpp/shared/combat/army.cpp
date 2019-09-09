@@ -833,6 +833,7 @@ public:
 	int field_2418;
 	int field_241C[63];
 	searchArray();
+  ~searchArray();
 };
 #pragma pack(pop)
 

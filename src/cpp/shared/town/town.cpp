@@ -1203,9 +1203,9 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       imgIdx = 12;
     }
     if(CanBuild(this->castle, BUILDING_CAPTAIN))
-      this->canBuildFlags |= BUILDING_CAPTAIN;
+      this->canBuildFlags |= 1 << BUILDING_CAPTAIN;
     if(CanBuy(this->castle, BUILDING_CAPTAIN))
-      this->canBuyFlags |= BUILDING_CAPTAIN;
+      this->canBuyFlags |= 1 << BUILDING_CAPTAIN;
   }
 
   if(imgIdx == -1) {

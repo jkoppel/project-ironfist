@@ -108,6 +108,7 @@ BEGIN
         MENUITEM "Extra Hero Mobility",         40142
         MENUITEM "Free Spells",                 40143
         MENUITEM "Free Resources",              40144
+        MENUITEM "Auto-win Battles",            40145
         POPUP "Free Creatures"
         BEGIN
             POPUP "Knight"

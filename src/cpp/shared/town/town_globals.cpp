@@ -87,6 +87,26 @@ std::vector<std::string> objectNames = {
   "ext3"
 };
 
+std::vector<FACTION> FACTIONS_ACTUAL = {
+  FACTION_KNIGHT,
+  FACTION_BARBARIAN,
+  FACTION_SORCERESS,
+  FACTION_WARLOCK,
+  FACTION_WIZARD,
+  FACTION_NECROMANCER,
+  FACTION_CYBORG
+};
+
+std::vector<std::string> FACTIONS_ACTUAL_NAMES = {
+  "Knight",
+  "Barbarian",
+  "Sorceress",
+  "Warlock",
+  "Wizard",
+  "Necromancer",
+  "Cyborg"
+};
+
 void InitTownObjNames() {
   for (auto i = 0u; i < objectNames.size(); ++i) {
     gTownObjNames[i] = &objectNames[i][0];

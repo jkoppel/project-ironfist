@@ -4,11 +4,64 @@
 
 #include "artifacts.h"
 #include "skills.h"
-
+#include "adventure/hero_globals.h"
 #include "adventure/map.h"
 #include "editor.h"
 #include "overlay.h"
 #include "town/town.h"
+
+
+extern "C" int giOverlaySelectMaybeNumUnseen;
+extern "C" int giOverlaySelectNRows;
+
+void overlayManager::SetupOverlayWindow(int draw) {
+  const int NUM_ROWS = 9;
+  const int NUM_COLS = 9;
+  const int NUM_OVERLAYS_ON_SCREEN = NUM_ROWS * NUM_COLS;
+
+  char selBoxColorIdx[NUM_ROWS][NUM_COLS];
+  memset(selBoxColorIdx, 1, sizeof(selBoxColorIdx));
+
+  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < NUM_OVERLAYS_ON_SCREEN; ++i) {
+    int overlayIdx = i + giOverlaySelectMaybeNumUnseen;
+    overlay *ovr = &this->availOverlays[overlayIdx];
+    int col = i % NUM_COLS;
+    int row = i / NUM_ROWS;
+    char locationType = ovr->locationType;
+    if(locationType == LOCATION_TOWN || locationType == LOCATION_RANDOM_TOWN || locationType == LOCATION_RANDOM_CASTLE) {
+      if(ovr->townColorOrMineColor == 6)
+        selBoxColorIdx[col][row] = 1;
+      else
+        selBoxColorIdx[col][row] = ovr->townColorOrMineColor + 2;
+    }
+    if(ovr->locationType == LOCATION_RANDOM_HERO)
+      selBoxColorIdx[col][row] = ovr->townColorOrMineColor + 2;
+  }
+
+  if(giOverlaySelectNRows <= 9)
+    this->slider->offsetY = 215;
+  else
+    this->slider->offsetY = (signed __int64)(393.0 / ((double)(giOverlaySelectNRows - 8) - 1.0)
+                                           * (double)(giOverlaySelectMaybeNumUnseen / 9) + 19.0);
+  
+  this->selectionWindow->DrawWindow(0); 
+  
+  for(int col = 0; col < NUM_COLS; ++col) {
+    for(int row = 0; row < NUM_ROWS; ++row)
+     this->overlaySelectBoxes->DrawToBuffer(69 * col, 53 * row, selBoxColorIdx[col][row], 0);
+  }
+
+  for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < NUM_OVERLAYS_ON_SCREEN; ++i) {
+    overlay *ovr = &this->availOverlays[i + giOverlaySelectMaybeNumUnseen];
+    int col = 69 * (i % NUM_COLS) + 2;
+    int row = 53 * (i / NUM_ROWS) + 2;
+    this->DrawAffectedTileGrid(69 * (i % NUM_ROWS) + 2, row, 4, 3, &this->availOverlays[i] + giOverlaySelectMaybeNumUnseen, 0);
+    this->DrawOverlay(ovr, col, row, 0, 4, 3, 0, -1, -1);
+  }
+
+  if(draw)
+    gpWindowManager->UpdateScreen();
+}
 
 int NumTownsOfColor(int color) {
     int n = 0;
@@ -476,7 +529,7 @@ int __fastcall PlaceOverlay(overlay *ovr, int left, int top, int userDemanded) {
                 faction = 0;
             }
             else {
-                faction = tile->objectIndex % 7;
+                faction = GetHeroOverlayFaction(tile->objectIndex);
             }
 
             AddMapExtra(tile, MakeHeroMapExtra(faction));
@@ -9313,7 +9366,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x01',
     '\0',
     4294967296i64,
     '\0',
@@ -9337,7 +9390,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x01',
     '\0',
     4294967296i64,
     '\0',
@@ -9361,7 +9414,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x01',
     '\0',
     4294967296i64,
     '\0',
@@ -9385,7 +9438,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x01',
     '\0',
     4294967296i64,
     '\0',
@@ -9409,7 +9462,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x01',
     '\0',
     4294967296i64,
     '\0',
@@ -9433,7 +9486,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x01',
     '\0',
     4294967296i64,
     '\0',
@@ -9457,7 +9510,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x01',
     '\0',
     4294967296i64,
     '\0',
@@ -9481,7 +9534,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x02',
     '\0',
     4294967296i64,
     '\0',
@@ -9505,7 +9558,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x02',
     '\0',
     4294967296i64,
     '\0',
@@ -9529,7 +9582,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x02',
     '\0',
     4294967296i64,
     '\0',
@@ -9553,7 +9606,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x02',
     '\0',
     4294967296i64,
     '\0',
@@ -9577,7 +9630,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x02',
     '\0',
     4294967296i64,
     '\0',
@@ -9601,7 +9654,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x02',
     '\0',
     4294967296i64,
     '\0',
@@ -9625,7 +9678,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x02',
     '\0',
     4294967296i64,
     '\0',
@@ -9649,7 +9702,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x03',
     '\0',
     4294967296i64,
     '\0',
@@ -9673,7 +9726,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x03',
     '\0',
     4294967296i64,
     '\0',
@@ -9697,7 +9750,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x03',
     '\0',
     4294967296i64,
     '\0',
@@ -9721,7 +9774,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x03',
     '\0',
     4294967296i64,
     '\0',
@@ -9745,7 +9798,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x03',
     '\0',
     4294967296i64,
     '\0',
@@ -9769,7 +9822,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x03',
     '\0',
     4294967296i64,
     '\0',
@@ -9793,7 +9846,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x03',
     '\0',
     4294967296i64,
     '\0',
@@ -9817,7 +9870,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x04',
     '\0',
     4294967296i64,
     '\0',
@@ -9841,7 +9894,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x04',
     '\0',
     4294967296i64,
     '\0',
@@ -9865,7 +9918,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x04',
     '\0',
     4294967296i64,
     '\0',
@@ -9889,7 +9942,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x04',
     '\0',
     4294967296i64,
     '\0',
@@ -9913,7 +9966,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x04',
     '\0',
     4294967296i64,
     '\0',
@@ -9937,7 +9990,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x04',
     '\0',
     4294967296i64,
     '\0',
@@ -9961,7 +10014,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x04',
     '\0',
     4294967296i64,
     '\0',
@@ -9985,7 +10038,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x05',
     '\0',
     4294967296i64,
     '\0',
@@ -10009,7 +10062,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x05',
     '\0',
     4294967296i64,
     '\0',
@@ -10033,7 +10086,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x05',
     '\0',
     4294967296i64,
     '\0',
@@ -10057,7 +10110,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x05',
     '\0',
     4294967296i64,
     '\0',
@@ -10081,7 +10134,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x05',
     '\0',
     4294967296i64,
     '\0',
@@ -10105,7 +10158,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x05',
     '\0',
     4294967296i64,
     '\0',
@@ -10129,7 +10182,7 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     0i64,
     0i64,
-    '\0',
+    '\x05',
     '\0',
     4294967296i64,
     '\0',
@@ -24253,6 +24306,150 @@ overlay gOverlayDatabase[NUM_OVERLAYS] =
     0i64,
     '\0',
     35,
+    '\b',
+    9999,
+    ""
+  },
+  { // cyborg heroes
+    987,
+    987,
+    355,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\0',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    988,
+    988,
+    362,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\x01',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    989,
+    989,
+    369,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\x02',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    990,
+    990,
+    376,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\x03',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    991,
+    991,
+    383,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\x04',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
+    '\b',
+    9999,
+    ""
+  },
+  {
+    992,
+    992,
+    390,
+    21,
+    7,
+    0,
+    '\x06',
+    4294967296i64,
+    4094,
+    4094,
+    0i64,
+    0i64,
+    0i64,
+    0i64,
+    '\x05',
+    '\0',
+    4294967296i64,
+    '\0',
+    55,
     '\b',
     9999,
     ""

@@ -139,7 +139,7 @@ void IronfistXML::Save(const char* fileName) {
   WriteArray(pRoot, "heroHireStatus", gpGame->heroHireStatus);
   WriteArray(pRoot, "relatedToPlayerPosAndColor", gpGame->relatedToPlayerPosAndColor);
   WriteArray(pRoot, "playerHandicap", gpGame->playerHandicap);
-  WriteArray(pRoot, "relatedToColorOfPlayerOrFaction", gpGame->relatedToColorOfPlayerOrFaction);
+  WriteArray(pRoot, "newGameSelectedFaction", gpGame->newGameSelectedFaction);
   WriteArray(pRoot, "somePlayerCodeOr10IfMayBeHuman", gpGame->somePlayerCodeOr10IfMayBeHuman);
   WriteArray(pRoot, "somePlayerNumData", gpGame->somePlayerNumData);
   WriteArray(pRoot, "field_47C", gpGame->field_47C);
@@ -367,7 +367,7 @@ void IronfistXML::Save(const char* fileName) {
     PushBack(heroElement, "relatedToX", hro->relatedToX);
     PushBack(heroElement, "relatedToY", hro->relatedToY);
     PushBack(heroElement, "relatedToFactionID", hro->relatedToFactionID);
-    PushBack(heroElement, "relatedToUnknown", hro->relatedToUnknown);
+    PushBack(heroElement, "directionFacing", hro->directionFacing);
     PushBack(heroElement, "occupiedObjType", hro->occupiedObjType);
     PushBack(heroElement, "occupiedObjVal", hro->occupiedObjVal);
     PushBack(heroElement, "mobility", hro->mobility);
@@ -763,7 +763,7 @@ void IronfistXML::ReadHero(tinyxml2::XMLNode* root, int heroIndex) {
     else if(name == "relatedToX") QueryCharText(elem, &hro->relatedToX);
     else if(name == "relatedToY") QueryCharText(elem, &hro->relatedToY);
     else if(name == "relatedToFactionID") QueryCharText(elem, &hro->relatedToFactionID);
-    else if(name == "relatedToUnknown") QueryCharText(elem, &hro->relatedToUnknown);
+    else if(name == "directionFacing") QueryCharText(elem, &hro->directionFacing);
     else if(name == "occupiedObjType") QueryShortText(elem, &hro->occupiedObjType);
     else if(name == "occupiedObjVal") QueryShortText(elem, &hro->occupiedObjVal);
     else if(name == "mobility") elem->QueryIntText(&hro->mobility);
@@ -908,7 +908,7 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
     else if(name == "heroHireStatus") gpGame->heroHireStatus[index] = value;
     else if(name == "relatedToPlayerPosAndColor") gpGame->relatedToPlayerPosAndColor[index] = value;
     else if(name == "playerHandicap") gpGame->playerHandicap[index] = value;
-    else if(name == "relatedToColorOfPlayerOrFaction") gpGame->relatedToColorOfPlayerOrFaction[index] = value;
+    else if(name == "newGameSelectedFaction") gpGame->newGameSelectedFaction[index] = value;
     else if(name == "somePlayerCodeOr10IfMayBeHuman") gpGame->somePlayerCodeOr10IfMayBeHuman[index] = value;
     else if(name == "somePlayerNumData") gpGame->somePlayerNumData[index] = value;
     else if(name == "field_47C") gpGame->field_47C[index] = value;
