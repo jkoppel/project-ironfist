@@ -403,14 +403,14 @@ void game::PerWeek() {
       mapCell *tile = &this->map.tiles[j * this->map.width + i];
       switch(tile->objType) {
         case TILE_HAS_EVENT | LOCATION_ARMY_CAMP: {
-          int v32 = (unsigned char)tile->extraInfo;
-          int v31 = v32 / 7;
-          if(Random(1, 7) <= v32 % 7)
-            ++v31;
-          int v33 = v31 + v32;
-          if(v33 > 4000)
-            v33 = 4000;
-          tile->extraInfo += v33;
+          int currentQty = (unsigned char)tile->extraInfo;
+          int addQty = currentQty / 7;
+          if(Random(1, 7) <= currentQty % 7)
+            ++addQty;
+          int newQty = addQty + currentQty;
+          if(tile->extraInfo & 0x1000)
+            newQty |= 0x1000;
+          tile->extraInfo = newQty;
           break;
         }
         case TILE_HAS_EVENT | LOCATION_ARTESIAN_SPRING:
