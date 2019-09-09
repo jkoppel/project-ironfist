@@ -37,6 +37,7 @@ public:
   char field_2A;
 
   __fastcall textWidget(short a2, short a3, short a4, short a5, char *content, char *fontName, short a8, short a9, short a10, short a11);
+  ~textWidget();
 };
 
 class heroWindow {
@@ -89,7 +90,8 @@ public:
   void FizzleForward(int, int, int, int, int, signed char *, signed char *);
   int BroadcastMessage(int code, int messageType, int fieldID, int payload);
   int ConvertToHover(tag_message &msg);
-  void FadeScreen(int,int,palette *);
+  void UpdateScreen();
+  void FadeScreen(int flag, signed int a3, palette *pal);
 };
 
 class border : public widget {
@@ -99,6 +101,7 @@ public:
   short color;
 
   border(short x, short y, short width, short height, short fieldID, short a7, short color, char *filename);
+  ~border();
 };
 
 extern heroWindowManager* gpWindowManager;
@@ -161,6 +164,7 @@ public:
   int iconFileID;
 
   iconWidget(short x, short y, short width, short height, char *filename, short imgIdx, signed char mirror, short fieldID, short a10, short a11);
+  ~iconWidget();
 };
 
 enum ICON_GUI_FLAGS
@@ -193,11 +197,12 @@ void GUIBroadcastMessage(heroWindow*, int, int, void*);
 int GUIGetDropdownSelection(heroWindow*, int);
 void GUISetDropdownSelection(heroWindow*, int, int);
 
-extern void __fastcall IconToBitmap(icon*,bitmap*,int,int,int,int,int,int,int,int,int);
+extern void __fastcall IconToBitmap(icon* icn, bitmap* bmp, int drawX, int drawY, int spriteIdx,int,int,int,int,int,int);
 void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
 void __fastcall FillBitmapArea(bitmap *,int,int,int,int,int);
+extern int __fastcall EventWindowHandler(tag_message &evt);
 void __fastcall BlitBitmapToScreen(bitmap *,int,int,int,int,int,int);
 
 extern heroWindow* casWin;

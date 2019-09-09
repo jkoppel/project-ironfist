@@ -145,12 +145,21 @@ IMPORT_?Walk@army@@QAEXHHH@Z = 1
 IMPORT_?GetRandomNumTroops@game@@QAEHH@Z = 1
 IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
+IMPORT_?ClaimTown@game@@QAEXHHH@Z = 1
+?ClaimTown@game@@QAEXHHH@Z_clone EQU ?ClaimTown_orig@game@@QAEXHHH@Z
+
 
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
 IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
 IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
 IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
+IMPORT_?NewGameHandler@@YIHAAUtag_message@@@Z = 1
+?NewGameHandler@@YIHAAUtag_message@@@Z_clone EQU ?NewGameHandler_orig@@YIHAAUtag_message@@@Z
+IMPORT_?RandomizeTown@game@@QAEXHHH@Z = 1
+IMPORT_?ShowScenInfo@game@@QAEXXZ = 1
+IMPORT_?UpdateNewGameWindow@game@@QAEXXZ = 1
+IMPORT_?ProcessRandomObjects@game@@QAEXXZ = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
@@ -247,6 +256,8 @@ IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
 IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
 IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
+IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1
+?CheckWin@combatManager@@QAEHPAUtag_message@@@Z_clone EQU ?CheckWin_orig@combatManager@@QAEHPAUtag_message@@@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
@@ -272,6 +283,8 @@ IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 
 IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
 IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
+IMPORT_?DrawCell@advManager@@QAEXHHHHHH@Z = 1
+IMPORT_?DrawCursor@advManager@@QAEXXZ = 1
 
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
@@ -362,7 +375,6 @@ IMPORT_?PerWeek@game@@QAEXXZ = 1
 IMPORT_?PerMonth@game@@QAEXXZ = 1
 ?PerMonth@game@@QAEXXZ_clone EQU ?PerMonth_orig@game@@QAEXXZ
 IMPORT_?Open@advManager@@UAEHH@Z = 1
-?Open@advManager@@UAEHH@Z_clone EQU ?Open_orig@advManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?Open@townManager@@UAEHH@Z = 1
 ?Open@townManager@@UAEHH@Z_clone EQU ?Open_orig@townManager@@QAEHH@Z ; Changing U to Q changes virtual method to non
 IMPORT_?CheckEndGame@@YIXHH@Z = 1

@@ -318,6 +318,9 @@
     <ClCompile Include="..\..\cpp\shared\gui\recruit_unit.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp">
+      <Filter>Source Files\adventure</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\stdafx.h">
@@ -538,6 +541,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h">
       <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h">
+      <Filter>Header Files\adventure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\smacker.h">
       <Filter>Header Files</Filter>

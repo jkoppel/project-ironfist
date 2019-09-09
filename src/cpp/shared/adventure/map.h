@@ -8,6 +8,7 @@
 #define MAX_MINES 144
 #define NUM_SECONDARY_SKILLS 8
 #define MAX_TOTAL_SECONDARY_SKILLS 14
+#define NUM_TILESETS 64
 
 #pragma pack(push, 1)
 
@@ -237,7 +238,7 @@ public:
   char owner;
   char hasArmy;
   armyGroup army;
-  char field_11;
+  char customPortrait;
   char heroID;
   char artifacts[3];
   char field_16;
@@ -389,6 +390,18 @@ enum ADVENTURE_MAP_LOCATION {
   LOCATION_ALCHEMIST_TOWER = 122,
   LOCATION_JAIL = 123,
   TILE_HAS_EVENT = 128,
+};
+
+
+enum barriercolors {
+	AQUA_BARRIER = 0,
+	BLUE_BARRIER,
+	BROWN_BARRIER,
+	GOLD_BARRIER,
+	GREEN_BARRIER,
+	ORANGE_BARRIER,
+	PURPLE_BARRIER,
+	RED_BARRIER,
 };
 
 enum OBJ_TILESET : __int8 {

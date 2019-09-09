@@ -1181,3 +1181,21 @@ void combatManager::KeepAttack(int towerIdx) {
   target->PowEffect(-1, 1, -1, -1);
   WaitEndSample(res, -1);
 }
+
+extern bool dbgAutoWinBattles;
+
+int combatManager::CheckWin(tag_message *msg) {
+  if(dbgAutoWinBattles) {
+    if(this->playerID[0] != -1 && gbHumanPlayer[this->playerID[0]])
+      this->winningSide = 0;
+    else if(this->playerID[1] != -1 && gbHumanPlayer[this->playerID[1]])
+      this->winningSide = 1;
+    this->DoVictory(this->winningSide);
+    if(!gbNoShowCombat) {
+      msg->eventCode = (INPUT_EVENT_CODE)0x4000u;
+      msg->xCoordOrKeycode = 1;
+    }
+    return 1;
+  }
+  return CheckWin_orig(msg);
+}

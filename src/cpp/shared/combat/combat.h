@@ -255,6 +255,9 @@ public:
   int ValidHexToStandOn(signed int a2);
   void DrawBackground();
   void KeepAttack(int towerIdx);
+  int CheckWin(struct tag_message *msg);
+  int CheckWin_orig(struct tag_message *msg);
+  void DoVictory(int side);
 
   void DrawMoat(int hexIdx);
   void DrawHero(int side, bool checkCaptain, bool mirrored);

@@ -20,23 +20,16 @@
 extern int gbIAmGreatest;
 extern int giMonthType;
 extern int giMonthTypeExtra;
-extern int giWeekType;
-extern int giWeekTypeExtra;
 extern char cPlayerNames[6][21];
 
 extern int giCurPlayer;
 extern int iLastMsgNumHumanPlayers;
-extern int bShowIt;
 
 extern int giCurTurn;
 
 extern playerData* gpCurPlayer;
 extern unsigned char giCurPlayerBit;
 
-extern int giCurWatchPlayer;
-extern unsigned char giCurWatchPlayerBit;
-
-extern int gbRemoteOn;
 extern int giThisGamePos;
 
 extern void __fastcall FileError(char*);
@@ -167,7 +160,7 @@ static void ReadGameStateXML(ironfist_save::gamestate_t& gs, game* gam) {
 
   ReadArrayFromXML(gam->relatedToPlayerPosAndColor, gs.relatedToPlayerPosAndColor());
   ReadArrayFromXML(gam->playerHandicap, gs.playerHandicap());
-  ReadArrayFromXML(gam->relatedToColorOfPlayerOrFaction, gs.relatedToColorOfPlayerOrFaction());
+  ReadArrayFromXML(gam->newGameSelectedFaction, gs.relatedToColorOfPlayerOrFaction());
   ReadArrayFromXML(gam->somePlayerCodeOr10IfMayBeHuman, gs.somePlayerCodeOr10IfMayBeHuman());
 
   gam->difficulty = gs.difficulty();
@@ -562,7 +555,7 @@ ironfist_save::gamestate_t WriteGameStateXML(game* gam) {
   WriteArrayToXML(gs.heroHireStatus(), gam->heroHireStatus);
   WriteArrayToXML(gs.relatedToPlayerPosAndColor(), gam->relatedToPlayerPosAndColor);
   WriteArrayToXML(gs.playerHandicap(), gam->playerHandicap);
-  WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->relatedToColorOfPlayerOrFaction);
+  WriteArrayToXML(gs.relatedToColorOfPlayerOrFaction(), gam->newGameSelectedFaction);
   WriteArrayToXML(gs.somePlayerCodeOr10IfMayBeHuman(), gam->somePlayerCodeOr10IfMayBeHuman);
   WriteArrayToXML(gs.somePlayerNumData(), gam->somePlayerNumData);
   WriteArrayToXML(gs.field_47C(), gam->field_47C);
@@ -783,7 +776,7 @@ static void ReadHeroXML(ironfist_save::hero_t& hx, hero* hro) {
   hro->relatedToX = hx.relatedToX();
   hro->relatedToY = hx.relatedToY();
   hro->relatedToFactionID = hx.relatedToFactionID();
-  hro->relatedToUnknown = hx.relatedToUnknown();
+  hro->directionFacing = hx.directionFacing();
   hro->field_4 = hx.field_4();
   hro->field_43 = hx.field_43();
   hro->field_46 = hx.field_46();
@@ -885,7 +878,7 @@ ironfist_save::hero_t WriteHeroXML(hero* hro) {
     hro->relatedToX,
     hro->relatedToY,
     hro->relatedToFactionID,
-    hro->relatedToUnknown,
+    hro->directionFacing,
     hro->occupiedObjType,
     hro->occupiedObjVal,
     hro->mobility,
