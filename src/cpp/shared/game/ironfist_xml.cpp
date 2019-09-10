@@ -947,7 +947,6 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
     else if(name == "script") {
       const char *script = elem->GetText();
       if(script) {
-        gpGame->ResetIronfistGameState();
         ScriptingInitFromString(std::string(script));
       }
     }
