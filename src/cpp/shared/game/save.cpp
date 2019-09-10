@@ -57,6 +57,8 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 
       gpAdvManager->PurgeMapChangeQueue();
 
+	  gpGame->ResetIronfistGameState();
+
       ClearMapExtra();
       IronfistXML xmlDoc;
       xmlDoc.Read(v8);
@@ -73,7 +75,7 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       giCurWatchPlayerBit = 1 << giCurWatchPlayer;
       bShowIt = gbThisNetHumanPlayer[giCurPlayer];
       this->SetupAdjacentMons();
-      gpAdvManager->CheckSetEvilInterface(0, -1);         
+      gpAdvManager->CheckSetEvilInterface(0, -1);
     }
     catch (xml_schema::exception& e) {
       DisplayError("Error parsing save file", "Fatal Error");
