@@ -184,6 +184,7 @@
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\game\ironfist_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />
