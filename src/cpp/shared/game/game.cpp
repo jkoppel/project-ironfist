@@ -786,6 +786,16 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
   hro = 0;
   if (gpCurPlayer && gpCurPlayer->curHeroIdx != -1)
     hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
+  if(a1 >= 41000 && a1 <= 41083) {
+    gpGame->hasCheated = true;
+    if(gbInCampaign)
+      gpGame->campHasCheated = true;
+    if(gpCurPlayer->curHeroIdx != -1) {
+      gpGame->GiveArmy(&gpGame->heroes[gpCurPlayer->curHeroIdx].army, a1 - 41000, 5, -1);
+      gpAdvManager->UpdBottomView(1, 1, 1);
+    }
+    return 0;
+  }
   switch (a1) {
     case 40143: // MENUITEM "Free Spells"
       gpGame->hasCheated = 1;
