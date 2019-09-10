@@ -1139,8 +1139,13 @@ int army::FlyTo(int hexIdx) {
         int moveLen = 0;
         int moveAndSubEndMoveLen;
         if (numFrames) {
-          if (i <= 0 && (!closeMove && teleporter))
-            startMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
+          if(i <= 0) {
+            if(closeMove && teleporter)
+              startMoveLen = 0;
+            else
+              startMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
+          } else
+            startMoveLen = 0;
           moveAndSubEndMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           moveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           if (i + 1 < numFrames)
