@@ -284,6 +284,7 @@ IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
 IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
 IMPORT_?DrawCell@advManager@@QAEXHHHHHH@Z = 1
+?DrawCell@advManager@@QAEXHHHHHH@Z_clone EQU ?DrawCell_orig@advManager@@QAEXHHHHHH@Z
 IMPORT_?DrawCursor@advManager@@QAEXXZ = 1
 
 ;;hero movement reminder

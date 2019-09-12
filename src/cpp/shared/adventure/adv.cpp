@@ -786,15 +786,6 @@ bool GetMapCellXY(mapCell* cell, int* x, int* y) {
 	return false;
 }
 
-#include <iostream>
-
-char TileToBitmap_orig(tileset *tiles, int idx, bitmap *targ, int x, int y) {
-  if(x == -1) { // if this is removed the release build crashes
-    std::cout << idx << std::endl;
-  }
-  return TileToBitmap(tiles, idx, targ, x, y);
-}
-
 void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6) {
   if(!a6 && !bShowIt)
     return;
@@ -875,8 +866,11 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
   unsigned char const objectIndex = curTile->objectIndex;
   if(!(cellDrawingPhaseFlags & 0x20) || gbDrawingPuzzle) {
     if(cellDrawingPhaseFlags & 1) {
+      // temporary fix for Release build crashing because of TileToBitmap in this scope
+      DrawCell_orig(x, y, cellCol, cellRow, cellDrawingPhaseFlags, a6);
+      return;
       int groundIdx = curTile->flags << 14 | curTile->groundIndex;
-      TileToBitmap_orig(this->groundTileset, groundIdx, gpWindowManager->screenBuffer, drawX, drawY);
+      TileToBitmap(this->groundTileset, groundIdx, gpWindowManager->screenBuffer, drawX, drawY);
       if(curTile->field_4_1 && (!gbDrawingPuzzle || (curTile->objTileset != TILESET_OBJECT_DIRT || objectIndex != 140))) {
         if(!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset]) {
           // Drawing roads and terrain

@@ -242,7 +242,7 @@ public:
 
   mapCell *GetCell(int x, int y);
   void DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6);
-
+  void DrawCell_orig(int x, int y, int cellCol, int cellRow, int cellDrawingPhaseFlags, int a6);
   void EraseObj(mapCell*, int x, int y);
 
   void PurgeMapChangeQueue();
