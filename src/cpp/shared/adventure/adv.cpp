@@ -804,34 +804,34 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
 
   // Draw stone outline
   if(!gbAllBlack && (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT)) {
-    idx = -1;
+    int outlineIdx = -1;
     if(x == -1) {
       if(y == -1) {
-        idx = 16;
+        outlineIdx = 16;
       } else if(y == MAP_HEIGHT) {
-        idx = 19;
+        outlineIdx = 19;
       } else if(y >= 0 && y < MAP_HEIGHT) {
-        idx = (y & 3) + 32;
+        outlineIdx = (y & 3) + 32;
       }
     } else if(x == MAP_WIDTH) {
       if(y == -1) {
-        idx = 17;
+        outlineIdx = 17;
       } else if(y == MAP_HEIGHT) {
-        idx = 18;
+        outlineIdx = 18;
       } else if(y >= 0 && y < MAP_HEIGHT) {
-        idx = (y & 3) + 24;
+        outlineIdx = (y & 3) + 24;
       }
     } else if(y == -1) {
       if(x >= 0 && x < MAP_WIDTH)
-        idx = (x & 3) + 20;
+        outlineIdx = (x & 3) + 20;
     } else if(y == MAP_HEIGHT && x >= 0 && x < MAP_WIDTH) {
-      idx = (x & 3) + 28;
+      outlineIdx = (x & 3) + 28;
     }
-    if(idx == -1)
-      idx = (((unsigned __int64)(x + 16) >> 32) ^ abs(x + 16) & 3)
+    if(outlineIdx == -1)
+      outlineIdx = (((unsigned __int64)(x + 16) >> 32) ^ abs(x + 16) & 3)
       + 4 * ((((unsigned __int64)(y + 16) >> 32) ^ abs(y + 16) & 3) - ((unsigned __int64)(y + 16) >> 32))
       - ((unsigned __int64)(x + 16) >> 32);
-    TileToBitmap(this->stonTileset, idx, gpWindowManager->screenBuffer, drawX, drawY);
+    TileToBitmap(this->stonTileset, outlineIdx, gpWindowManager->screenBuffer, drawX, drawY);
     return;
   }
 
