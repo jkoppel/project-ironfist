@@ -11,7 +11,7 @@ extern char cPlayerNames[6][21];
 extern int gbRemoteOn;
 extern int giThisGamePos;
 
-void IronfistXML::Save(const char* fileName) {
+tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
   tinyxml2::XMLNode * pRoot = tempDoc.NewElement("ironfist_save");
   tempDoc.InsertFirstChild(pRoot);
 
@@ -437,13 +437,16 @@ void IronfistXML::Save(const char* fileName) {
   std::string script = GetScriptContents();
   if(script.length())
     PushBack(pRoot, "script", script.c_str());
-  tempDoc.SaveFile(fileName);
+  return tempDoc.SaveFile(fileName);
 }
 
-void IronfistXML::Read(const char* fileName) {
+tinyxml2::XMLError IronfistXML::Read(const char* fileName) {
   tinyxml2::XMLError eResult = tempDoc.LoadFile(fileName);
-  tinyxml2::XMLNode *pRoot = tempDoc.FirstChild();
-  ReadRoot(pRoot);
+  if(!eResult) {
+    tinyxml2::XMLNode *pRoot = tempDoc.FirstChild();
+    ReadRoot(pRoot);
+  }
+  return eResult;
 }
 
 luaTable* IronfistXML::ReadTable(tinyxml2::XMLNode *root) {
@@ -997,4 +1000,8 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
   DeserializeGeneratedArtifacts(xmlArtifacts);
   if(mapVariables.size())
     WriteMapVariablesToLUA(mapVariables);
+}
+
+const char* IronfistXML::GetError() {
+  return tempDoc.ErrorStr();
 }

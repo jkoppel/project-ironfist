@@ -35,53 +35,51 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       this->heroes[i].ResetSpellsLearned();
     }
   } else {
-    try {
-      char v8[100];
-      int v14 = 0;
-      gbGameOver = 0;
-      this->field_660E = 1;
-      sprintf(v8, "%s%s", ".\\GAMES\\", filnam);
+    char v8[100];
+    int v14 = 0;
+    gbGameOver = 0;
+    this->field_660E = 1;
+    sprintf(v8, "%s%s", ".\\GAMES\\", filnam);
 
-      /*
-       * Check if original save format
-       */
-      int fd = _open(v8, O_BINARY);
-      char first_byte;
-      _read(fd, &first_byte, sizeof(first_byte));
-      _close(fd);
+    /*
+      * Check if original save format
+      */
+    int fd = _open(v8, O_BINARY);
+    char first_byte;
+    _read(fd, &first_byte, sizeof(first_byte));
+    _close(fd);
 
-      if (first_byte != '<') {
-        this->LoadGame_orig(filnam, newGame, a3);
-        return;
-      }
-
-      gpAdvManager->PurgeMapChangeQueue();
-
-	  gpGame->ResetIronfistGameState();
-
-      ClearMapExtra();
-      IronfistXML xmlDoc;
-      xmlDoc.Read(v8);
-      if(strnicmp(filnam, "RMT", 3))
-        sprintf(gpGame->lastSaveFile, filnam);
-
-      gpAdvManager->heroMobilized = 0;
-      gpCurPlayer = &gpGame->players[giCurPlayer];
-      giCurPlayerBit = 1 << giCurPlayer;
-      for (giCurWatchPlayer = giCurPlayer;
-        !gbThisNetHumanPlayer[giCurWatchPlayer];
-        giCurWatchPlayer = (giCurWatchPlayer + 1) % this->numPlayers)
-        ;
-      giCurWatchPlayerBit = 1 << giCurWatchPlayer;
-      bShowIt = gbThisNetHumanPlayer[giCurPlayer];
-      this->SetupAdjacentMons();
-      gpAdvManager->CheckSetEvilInterface(0, -1);
+    if(first_byte != '<') {
+      this->LoadGame_orig(filnam, newGame, a3);
+      return;
     }
-    catch (xml_schema::exception& e) {
-      DisplayError("Error parsing save file", "Fatal Error");
-      std::cerr << e << std::endl;
+
+    gpAdvManager->PurgeMapChangeQueue();
+
+    gpGame->ResetIronfistGameState();
+
+    ClearMapExtra();
+    IronfistXML xmlDoc;
+    tinyxml2::XMLError err = xmlDoc.Read(v8);
+    if(err) {
+      H2MessageBox("Could not load XML. " + std::string(xmlDoc.GetError()));
       exit(1);
     }
+
+    if(strnicmp(filnam, "RMT", 3))
+      sprintf(gpGame->lastSaveFile, filnam);
+
+    gpAdvManager->heroMobilized = 0;
+    gpCurPlayer = &gpGame->players[giCurPlayer];
+    giCurPlayerBit = 1 << giCurPlayer;
+    for(giCurWatchPlayer = giCurPlayer;
+      !gbThisNetHumanPlayer[giCurWatchPlayer];
+      giCurWatchPlayer = (giCurWatchPlayer + 1) % this->numPlayers)
+      ;
+    giCurWatchPlayerBit = 1 << giCurWatchPlayer;
+    bShowIt = gbThisNetHumanPlayer[giCurPlayer];
+    this->SetupAdjacentMons();
+    gpAdvManager->CheckSetEvilInterface(0, -1);
   }
 }
 
@@ -119,6 +117,10 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
   }
 
   IronfistXML xml;
-  xml.Save(v9);
+  tinyxml2::XMLError err = xml.Save(v9);
+  if(err) {
+    H2MessageBox("Could not save XML. " + std::string(xml.GetError()));
+    exit(1);
+  }
   return 1;
 }
