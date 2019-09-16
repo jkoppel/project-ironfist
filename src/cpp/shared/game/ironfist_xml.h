@@ -10,8 +10,9 @@ class IronfistXML {
 private:
   tinyxml2::XMLDocument tempDoc = nullptr;
 public:
-  void Save(const char* fileName);
-  void Read(const char* fileName);
+  tinyxml2::XMLError Save(const char* fileName);
+  tinyxml2::XMLError Read(const char* fileName);
+  const char* GetError();
   private:
     template<typename T>
     void PushBack(tinyxml2::XMLNode *dest, const char* name, const T &val) {
