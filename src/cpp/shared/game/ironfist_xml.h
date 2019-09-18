@@ -8,22 +8,24 @@
 
 class IronfistXML {
 private:
-  tinyxml2::XMLDocument tempDoc = nullptr;
+  tinyxml2::XMLDocument *tempDoc = nullptr;
 public:
+  IronfistXML();
+  ~IronfistXML();
   tinyxml2::XMLError Save(const char* fileName);
   tinyxml2::XMLError Read(const char* fileName);
   const char* GetError();
   private:
     template<typename T>
     void PushBack(tinyxml2::XMLNode *dest, const char* name, const T &val) {
-      tinyxml2::XMLElement *elem = tempDoc.NewElement(name);
+      tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
       elem->SetText(val);
       dest->InsertEndChild(elem);
     }
     template<typename T>
     void WriteArray(tinyxml2::XMLNode *dest, const char* name, const T &src) {
       for(int i = 0; i < ELEMENTS_IN(src); i++) {
-          tinyxml2::XMLElement *elem = tempDoc.NewElement(name);
+          tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
           elem->SetAttribute("index", i);
           elem->SetAttribute("value", src[i]);
           dest->InsertEndChild(elem);
@@ -32,7 +34,7 @@ public:
     template<>
     void WriteArray(tinyxml2::XMLNode *dest, const char* name, const std::vector<int> &src) {
       for(int i = 0; i < src.size(); i++) {
-          tinyxml2::XMLElement *elem = tempDoc.NewElement(name);
+          tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
           elem->SetAttribute("index", i);
           elem->SetAttribute("value", src[i]);
           dest->InsertEndChild(elem);
@@ -42,7 +44,7 @@ public:
     void WriteCampaignDDArray(tinyxml2::XMLNode *dest, const char* name, const T &src) {
       for(int i = 0; i < ELEMENTS_IN(src); i++)
           for(int j = 0; j < ELEMENTS_IN(src[i]); j++) {
-              tinyxml2::XMLElement *elem = tempDoc.NewElement(name);
+              tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
               elem->SetAttribute("campID", i);
               elem->SetAttribute("mapID", j);
               elem->SetAttribute("value", (int)src[i][j]);

@@ -11,9 +11,18 @@ extern char cPlayerNames[6][21];
 extern int gbRemoteOn;
 extern int giThisGamePos;
 
+IronfistXML::IronfistXML() {
+  tempDoc = new tinyxml2::XMLDocument(true);
+}
+
+IronfistXML::~IronfistXML() {
+  if(tempDoc)
+    delete tempDoc;
+}
+
 tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
-  tinyxml2::XMLNode * pRoot = tempDoc.NewElement("ironfist_save");
-  tempDoc.InsertFirstChild(pRoot);
+  tinyxml2::XMLNode * pRoot = tempDoc->NewElement("ironfist_save");
+  tempDoc->InsertFirstChild(pRoot);
 
   PushBack(pRoot, "allowAIArmySharing", gpGame->allowAIArmySharing);
   PushBack(pRoot, "mapWidth", gpGame->map.width);
@@ -50,7 +59,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
   tinyxml2::XMLElement *pElement;
   if(campaignType) {
-    pElement = tempDoc.NewElement("campaign");
+    pElement = tempDoc->NewElement("campaign");
     if(campaignType == CAMPAIGN_TYPE_ORIGINAL) {      
       PushBack(pElement, "campID", gpGame->campID);
       PushBack(pElement, "campIDanother", gpGame->campIDanother);
@@ -88,7 +97,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     pRoot->InsertEndChild(pElement);
   }
 
-  pElement = tempDoc.NewElement("mapHeader");
+  pElement = tempDoc->NewElement("mapHeader");
   SMapHeader *mh = &gpGame->mapHeader;
   PushBack(pElement, "field_0", mh->field_0);
   PushBack(pElement, "field_4", mh->field_4);
@@ -155,10 +164,10 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
   WriteArray(pRoot, "mapEventIndices", gpGame->mapEventIndices);
 
   for (int i = 1; i < iMaxMapExtra; i++) {
-    tinyxml2::XMLElement *extraElem = tempDoc.NewElement("mapExtra");
+    tinyxml2::XMLElement *extraElem = tempDoc->NewElement("mapExtra");
     extraElem->SetAttribute("index", i);
     for (int j = 0; j < pwSizeOfMapExtra[i]; j++) {
-      tinyxml2::XMLElement *ppMapExtraElem = tempDoc.NewElement("ppMapExtra");
+      tinyxml2::XMLElement *ppMapExtraElem = tempDoc->NewElement("ppMapExtra");
       //ppMapExtraElem->SetAttribute("index", j);
       if (ppMapExtra[i]) {
         ppMapExtraElem->SetAttribute("value", *((char*)ppMapExtra[i] + j));
@@ -172,7 +181,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
   for (int i = 0; i < NUM_PLAYERS; i++) {
     playerData *player = &gpGame->players[i];
-    tinyxml2::XMLElement *playerElem = tempDoc.NewElement("playerData");
+    tinyxml2::XMLElement *playerElem = tempDoc->NewElement("playerData");
     playerElem->SetAttribute("index", i);
 
     PushBack(playerElem, "color", player->color);
@@ -204,7 +213,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
   for (int i = 0; i < ELEMENTS_IN(gpGame->castles); i++) {
     town *twn = &gpGame->castles[i];
-    tinyxml2::XMLElement *townElem = tempDoc.NewElement("town");
+    tinyxml2::XMLElement *townElem = tempDoc->NewElement("town");
     townElem->SetAttribute("index", i);
     PushBack(townElem, "idx", twn->idx);
     PushBack(townElem, "ownerIdx", twn->ownerIdx);
@@ -233,7 +242,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     for (int j = 0; j < 20; j++) {      
       int x = j % 5;
       int y = j / 5;
-      tinyxml2::XMLElement *spellElem = tempDoc.NewElement("mageGuildSpell");
+      tinyxml2::XMLElement *spellElem = tempDoc->NewElement("mageGuildSpell");
       //spellElem->SetAttribute("townIdx", i);
       spellElem->SetAttribute("level", x);
       spellElem->SetAttribute("idx", y);
@@ -242,7 +251,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     }
 
     for (int j = 0; j < ELEMENTS_IN(twn->garrison.creatureTypes); j++) {
-      tinyxml2::XMLElement *creatElem = tempDoc.NewElement("garrisonCreature");
+      tinyxml2::XMLElement *creatElem = tempDoc->NewElement("garrisonCreature");
       creatElem->SetAttribute("index", j);
       //creatElem->SetAttribute("townIdx", i);
       creatElem->SetAttribute("type", twn->garrison.creatureTypes[j]);
@@ -255,7 +264,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
   for(int i = 0; i < ELEMENTS_IN(gpGame->mines); i++) {
     mine *m = &gpGame->mines[i];
-    tinyxml2::XMLElement *mineElem = tempDoc.NewElement("mine");
+    tinyxml2::XMLElement *mineElem = tempDoc->NewElement("mine");
     mineElem->SetAttribute("index", i);
     mineElem->SetAttribute("x", m->x);
     mineElem->SetAttribute("y", m->y);
@@ -269,7 +278,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
   for(int i = 0; i < ELEMENTS_IN(gpGame->boats); i++) {
     boat *b = &gpGame->boats[i];
-    tinyxml2::XMLElement *boatElem = tempDoc.NewElement("boat");
+    tinyxml2::XMLElement *boatElem = tempDoc->NewElement("boat");
     boatElem->SetAttribute("index", i);
     boatElem->SetAttribute("idx", b->idx);
     boatElem->SetAttribute("x", b->x);
@@ -282,14 +291,14 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     pRoot->InsertEndChild(boatElem);
   }
 
-  pElement = tempDoc.NewElement("map");
+  pElement = tempDoc->NewElement("map");
   fullMap *map = &gpGame->map;
   pElement->SetAttribute("width", map->width);
   pElement->SetAttribute("height", map->height);
   pElement->SetAttribute("numCellExtras", map->numCellExtras);
   for(int i = 0; i < map->height * map->width; i++) {
     mapCell *c = &map->tiles[i];
-    tinyxml2::XMLElement *mapElement = tempDoc.NewElement("mapCell");
+    tinyxml2::XMLElement *mapElement = tempDoc->NewElement("mapCell");
     mapElement->SetAttribute("index", i);
     mapElement->SetAttribute("groundIndex", c->groundIndex);
     mapElement->SetAttribute("hasObject", c->hasObject);
@@ -312,7 +321,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
   for(int i = 0; i < map->numCellExtras; i++) {
     mapCellExtra *e = &map->cellExtras[i];
-    tinyxml2::XMLElement *mapElement = tempDoc.NewElement("mapCellExtra");
+    tinyxml2::XMLElement *mapElement = tempDoc->NewElement("mapCellExtra");
     mapElement->SetAttribute("index", i);
     mapElement->SetAttribute("nextIdx", e->nextIdx);
     mapElement->SetAttribute("animatedObject", e->animatedObject);
@@ -331,7 +340,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
   pRoot->InsertEndChild(pElement);
 
   for(int i = 0; i < MAP_WIDTH * MAP_HEIGHT; i++) {
-    tinyxml2::XMLElement *elem = tempDoc.NewElement("mapRevealed");
+    tinyxml2::XMLElement *elem = tempDoc->NewElement("mapRevealed");
     elem->SetAttribute("index", i);
     int x = i % MAP_HEIGHT;
     int y = i / MAP_HEIGHT;
@@ -343,7 +352,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
   for (int i = 0; i < ELEMENTS_IN(gpGame->heroes); i++) {
     hero* hro = &gpGame->heroes[i];
-    tinyxml2::XMLElement *heroElement = tempDoc.NewElement("hero");
+    tinyxml2::XMLElement *heroElement = tempDoc->NewElement("hero");
     heroElement->SetAttribute("index", i);
     PushBack(heroElement, "idx", hro->idx);
     PushBack(heroElement, "spellpoints", hro->spellpoints);
@@ -396,7 +405,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     PushBack(heroElement, "field_E8", hro->field_E8);
 
     for (int j = 0; j < ELEMENTS_IN(hro->army.creatureTypes); j++) {
-      tinyxml2::XMLElement *armyElem = tempDoc.NewElement("army");
+      tinyxml2::XMLElement *armyElem = tempDoc->NewElement("army");
       //armyElem->SetAttribute("heroIdx", i);
       armyElem->SetAttribute("index", j);
       armyElem->SetAttribute("type", hro->army.creatureTypes[j]);
@@ -405,7 +414,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     }
     
     for (int j = 0; j < ELEMENTS_IN(hro->secondarySkillLevel); j++) {
-      tinyxml2::XMLElement *ssElem = tempDoc.NewElement("secondarySkill");
+      tinyxml2::XMLElement *ssElem = tempDoc->NewElement("secondarySkill");
       //ssElem->SetAttribute("heroIdx", i);
       ssElem->SetAttribute("index", j);
       ssElem->SetAttribute("level", hro->secondarySkillLevel[j]);
@@ -415,7 +424,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
 
     for (int j = 0; j < NUM_SPELLS; j++) {
       if(hro->spellsLearned[j]) {
-        tinyxml2::XMLElement *spellElem = tempDoc.NewElement("spell");
+        tinyxml2::XMLElement *spellElem = tempDoc->NewElement("spell");
         //spellElem->SetAttribute("heroIdx", i);
         spellElem->SetAttribute("idx", j);
         heroElement->InsertEndChild(spellElem);
@@ -423,7 +432,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     }
 
     for (int j = 0; j < ELEMENTS_IN(hro->artifacts); j++) {
-      tinyxml2::XMLElement *artElem = tempDoc.NewElement("artifact");
+      tinyxml2::XMLElement *artElem = tempDoc->NewElement("artifact");
       //artElem->SetAttribute("heroIdx", i);
       artElem->SetAttribute("index", j);
       artElem->SetAttribute("id", hro->artifacts[j]);
@@ -437,13 +446,13 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
   std::string script = GetScriptContents();
   if(script.length())
     PushBack(pRoot, "script", script.c_str());
-  return tempDoc.SaveFile(fileName);
+  return tempDoc->SaveFile(fileName);
 }
 
 tinyxml2::XMLError IronfistXML::Read(const char* fileName) {
-  tinyxml2::XMLError eResult = tempDoc.LoadFile(fileName);
+  tinyxml2::XMLError eResult = tempDoc->LoadFile(fileName);
   if(!eResult) {
-    tinyxml2::XMLNode *pRoot = tempDoc.FirstChild();
+    tinyxml2::XMLNode *pRoot = tempDoc->FirstChild();
     ReadRoot(pRoot);
   }
   return eResult;
@@ -477,7 +486,7 @@ void IronfistXML::ReadTableElement(tinyxml2::XMLElement *elem, luaTable *lt) {
 }
 
 void IronfistXML::WriteMapVarTable(tinyxml2::XMLNode *dest, std::string id, luaTable *lt) {
-  tinyxml2::XMLElement *tableElem = tempDoc.NewElement("table");
+  tinyxml2::XMLElement *tableElem = tempDoc->NewElement("table");
   tableElem->SetAttribute("tableId", id.c_str());
 
   for (luaTable::const_iterator it = (*lt).begin(); it != (*lt).end(); ++it) {
@@ -485,7 +494,7 @@ void IronfistXML::WriteMapVarTable(tinyxml2::XMLNode *dest, std::string id, luaT
     if (it->second.type == MAPVAR_TYPE_TABLE) {
       WriteMapVarTable(tableElem, it->first, it->second.tableValue);
     } else {
-      elem = tempDoc.NewElement("tableElement");
+      elem = tempDoc->NewElement("tableElement");
       elem->SetAttribute("key", it->first.c_str());
       elem->SetAttribute("type", MapVarTypeToString(it->second.type).c_str());
       elem->SetAttribute("value", (*it->second.singleValue).c_str());
@@ -514,7 +523,7 @@ void IronfistXML::WriteMapVariables(tinyxml2::XMLNode *dest) {
     }
   }
   for (std::map<std::string, mapVariable>::const_iterator it = mapVariables.begin(); it != mapVariables.end(); ++it) {
-    tinyxml2::XMLElement *elem = tempDoc.NewElement("mapVariable");
+    tinyxml2::XMLElement *elem = tempDoc->NewElement("mapVariable");
     elem->SetAttribute("id", it->first.c_str());
     elem->SetAttribute("type", MapVarTypeToString(it->second.type).c_str());
     if (isTable(it->second.type)) {
@@ -1003,5 +1012,5 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
 }
 
 const char* IronfistXML::GetError() {
-  return tempDoc.ErrorStr();
+  return tempDoc->ErrorStr();
 }
