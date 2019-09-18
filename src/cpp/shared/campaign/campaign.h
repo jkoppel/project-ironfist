@@ -1,15 +1,17 @@
 #ifndef CAMPAIGN_H
 #define CAMPAIGN_H
 
+#include <vector>
+#include <map>
+
 #include "gui/gui.h"
 #include "smacker.h"
 
 #pragma pack(push, 1)
 
 #define MAX_MAPS_IN_CAMPAIGN 8
-#define MAX_CAMPAIGNS 5
 #define MAX_CAMPAIGN_CHOICES 3
-#define MAPS_IN_CYBORG_CAMPAIGN 8
+#define MAX_CAMPAIGN_AWARDS 11
 
 enum CAMPAIGN_TYPE {
   CAMPAIGN_TYPE_NONE = 0,
@@ -28,7 +30,8 @@ enum CAMPAIGN_CHOICE_TYPES {
   CAMPAIGN_CHOICE_NOT_AVAILABLE = 7,
   CAMPAIGN_CHOICE_ALIGNMENT = 8,
   CAMPAIGN_CHOICE_PRIMARY_SKILL = 9,
-  CAMPAIGN_CHOICE_SPELL_SCROLL = 10
+  CAMPAIGN_CHOICE_SPELL_SCROLL = 10,
+  NUM_CAMPAIGN_CHOICE_TYPES = 11
 };
 
 struct SCampaignChoice {
@@ -45,7 +48,7 @@ public:
   char mapChoice[MAX_MAPS_IN_CAMPAIGN];
   char mapsPlayed[MAX_MAPS_IN_CAMPAIGN];
   short daysPlayed[MAX_MAPS_IN_CAMPAIGN];
-  char awards[11];
+  char awards[MAX_CAMPAIGN_AWARDS];
   char bonusChoices[MAX_MAPS_IN_CAMPAIGN];
   int unknownVariable;
   int mightBeScenarioID;
@@ -68,18 +71,19 @@ public:
   void HandleVictory2();
   void HandleVictory3();
   void HandleVictory4();
-  void HandleVictoryCyborg();
+  void HandleVictoryCustomCampaign();
   void ReplaySmacker();
   void ReplaySmacker1();
   void ReplaySmacker2();
   void ReplaySmacker3();
   void ReplaySmacker4();
-  void ReplaySmackerCyborg();
+  void ReplaySmackerCustomCampaign();
   unsigned char IsCompleted();
   short Days();
   void ShowInfo(int inGame, int unused);
   void InitMap();
   void UpdateInfo(int);
+  void Autosave();
 
 private:
     static int __fastcall MessageHandler(struct tag_message &);
@@ -88,9 +92,24 @@ private:
 CAMPAIGN_TYPE GetCurrentCampaignType();
 SMACKER_VIDEOS GetCampaignRectangleSmackerVideo(int rectID);
 extern ExpCampaign xCampaign;
-extern SCampaignChoice xCampaignChoices[MAX_CAMPAIGNS][MAX_MAPS_IN_CAMPAIGN][MAX_CAMPAIGN_CHOICES];
 
 int __fastcall ExpansionCampaignRect(int x, int y);
+void LoadCustomCampaigns();
+
+extern std::map<int, std::string> xCampaignNames;
+extern std::map<int, std::string> xShortCampaignNames;
+extern std::map<int, std::map<int, Point>> scenarioIconOffsets;
+extern std::map<int, SMACKER_VIDEOS> rectToSMK;
+extern std::map<int, tag_rect> xCampaignSelectionRects;
+extern std::map<int, std::map<int, std::map<int, SCampaignChoice>>> xCampaignChoices;
+extern std::map<int, int> expCampaignNumMaps;
+extern std::map<int, std::map<int, std::string>> xScenarioName;
+extern std::map<int, std::map<int, std::string>> xScenarioDescription;
+extern std::map<int, std::map<int, char>> xCampaignDifficulties;
+extern std::map<int, std::map<int, std::vector<int>>> mapsToComplete;
+extern std::map<int, std::map<int, SMACKER_VIDEOS>> replaySMK;
+extern std::map<int, std::map<int, SMACKER_VIDEOS>> victorySMK;
+extern std::map<int, std::map<int, int>> awardsToGive;
 
 #pragma pack(pop)
 

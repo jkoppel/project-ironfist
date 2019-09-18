@@ -145,7 +145,6 @@ void game::RandomizeHeroPool() {
 	}
 }
 
-extern char gMapName[]; // the map selected in the list
 extern char gLastFilename[];
 extern signed char xIsExpansionMap;
 
@@ -1871,4 +1870,11 @@ int __fastcall PlaySmacker(int smkID) {
   int res = PlaySmacker_orig(smkID);
   gbNoCDRom = tmpgbNoCDRom;
   return res;
+}
+
+int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type, char *name) {
+  // This is here because it's complicated to change xHSCampaignNames on the fly
+  if(type == CAMPAIGN_TYPE_EXPANSION)
+    name = (char*)xCampaignNames[xCampaign.campaignID].c_str();
+  return AddScoreToHighScore_orig(score, days, difficulty, type, name);
 }

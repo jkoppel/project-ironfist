@@ -1,0 +1,76 @@
+<campaign>
+	<id>4</id>
+	<name>Cyborg Campaign</name>
+	<shortName>CYB</shortName>
+	<numMaps>8</numMaps>
+	<hover smk="69" x="480" y="380" width="120" height="180"/>
+	<scenarioName index="0">Cyborg campaign map 1</scenarioName>
+	<scenarioName index="1">Cyborg campaign map 2</scenarioName>
+	<scenarioName index="2">Cyborg campaign map 3</scenarioName>
+	<scenarioName index="3">Cyborg campaign map 4</scenarioName>
+	<scenarioName index="4">Cyborg campaign map 5</scenarioName>
+	<scenarioName index="5">Cyborg campaign map 6</scenarioName>
+	<scenarioName index="6">Cyborg campaign map 7</scenarioName>
+	<scenarioName index="7">Cyborg campaign map 8</scenarioName>
+	<scenarioDescription index="0">Cyborg campaign description 1</scenarioDescription>	
+	<scenarioDescription index="1">Cyborg campaign description 2</scenarioDescription>	
+	<scenarioDescription index="2">Cyborg campaign description 3</scenarioDescription>	
+	<scenarioDescription index="3">Cyborg campaign description 4</scenarioDescription>	
+	<scenarioDescription index="4">Cyborg campaign description 5</scenarioDescription>	
+	<scenarioDescription index="5">Cyborg campaign description 6</scenarioDescription>	
+	<scenarioDescription index="6">Cyborg campaign description 7</scenarioDescription>	
+	<scenarioDescription index="7">Cyborg campaign description 8</scenarioDescription>	
+	<scenarioIcon scenarioID="0" x="111" y="331"/>
+	<scenarioIcon scenarioID="1" x="185" y="331"/>
+	<scenarioIcon scenarioID="2" x="259" y="289"/>
+	<scenarioIcon scenarioID="3" x="259" y="373"/>
+	<scenarioIcon scenarioID="4" x="333" y="331"/>
+	<scenarioIcon scenarioID="5" x="407" y="373"/>
+	<scenarioIcon scenarioID="6" x="407" y="289"/>
+	<scenarioIcon scenarioID="7" x="481" y="331"/>
+	<scenarioDifficulty index="0" value="0"/>
+	<scenarioDifficulty index="1" value="1"/>
+	<scenarioDifficulty index="2" value="1"/>
+	<scenarioDifficulty index="3" value="1"/>
+	<scenarioDifficulty index="4" value="2"/>
+	<scenarioDifficulty index="5" value="2"/>
+	<scenarioDifficulty index="6" value="2"/>
+	<scenarioDifficulty index="7" value="3"/>
+	<choice scenarioID="0" id="0" type="0" field="6" amount="1000"/>
+	<choice scenarioID="0" id="1" type="0" field="0" amount="50"/>
+	<choice scenarioID="0" id="2" type="0" field="4" amount="10"/>
+	<choice scenarioID="1" id="0" type="9" field="0" amount="1"/>
+	<choice scenarioID="1" id="1" type="9" field="1" amount="1"/>
+	<choice scenarioID="1" id="2" type="0" field="6" amount="1000"/>
+	<replaySMK index="0" value="47"/>
+	<replaySMK index="1" value="48"/>
+	<replaySMK index="2" value="48"/>
+	<replaySMK index="3" value="49"/>
+	<replaySMK index="4" value="50"/>
+	<replaySMK index="5" value="51"/>
+	<replaySMK index="6" value="51"/>
+	<replaySMK index="7" value="52"/>
+	<victorySMK index="0" value="47"/>
+	<victorySMK index="1" value="48"/>
+	<victorySMK index="2" value="49"/>
+	<victorySMK index="3" value="49"/>
+	<victorySMK index="4" value="50"/>
+	<victorySMK index="5" value="51"/>
+	<victorySMK index="6" value="52"/>
+	<victorySMK index="7" value="52"/>
+	<victorySMK index="8" value="53"/>
+	<mapToComplete index="0" value="0"/>
+	<mapToComplete index="1" value="1"/>
+	<mapToComplete index="2" value="2"/>
+	<mapToComplete index="2" value="3"/>
+	<mapToComplete index="3" value="4"/>
+	<mapToComplete index="4" value="4"/>
+	<mapToComplete index="5" value="5"/>
+	<mapToComplete index="5" value="6"/>
+	<mapToComplete index="6" value="7"/>
+	<mapToComplete index="7" value="7"/>
+	<award index="3" value="6"/>
+	<award index="4" value="7"/>
+	<award index="6" value="8"/>
+	<award index="7" value="0"/>
+</campaign>

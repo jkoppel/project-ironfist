@@ -311,7 +311,7 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp">
       <Filter>Source Files\campaign</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp">
       <Filter>Source Files\town</Filter>
     </ClCompile>
@@ -326,6 +326,9 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\game\ironfist_xml.cpp">
       <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\campaign\campaign_xml.cpp">
+      <Filter>Source Files\campaign</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,7 +544,7 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h">
       <Filter>Header Files\campaign</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h">
       <Filter>Header Files\town</Filter>
     </ClInclude>
@@ -559,6 +562,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\gui\msg.h">
       <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\campaign\campaign_xml.h">
+      <Filter>Header Files\campaign</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

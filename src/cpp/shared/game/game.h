@@ -359,6 +359,7 @@ extern int giPlayerInitialResourcesAI[NUM_DIFFICULTIES][NUM_RESOURCES];
 extern int __fastcall FindLastToken(const char *a1, char a2);
 extern char __fastcall StrEqNoCase(int *a1, int *a2);
 
+extern char gMapName[];
 extern int gbInNewGameSetup;
 extern int iLastMsgNumHumanPlayers;
 extern bool gbSetupGamePosToRealGamePos[];
@@ -368,6 +369,7 @@ extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
+extern signed char gbRetreatWin;
 extern unsigned char randomMineResources[NUM_RESOURCES];
 
 extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
@@ -380,6 +382,8 @@ extern void __fastcall Process1WindowsMessage();
 int __fastcall NewGameHandler(tag_message &msg);
 extern int __fastcall NewGameHandler_orig(tag_message &msg);
 int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a5, signed char a6, signed char a7);
+int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type, char *name);
+extern int __fastcall AddScoreToHighScore_orig(int score, int days, int difficulty, int type, char *name);
 
 #pragma pack(pop)
 

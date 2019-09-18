@@ -35,4 +35,7 @@ struct startingPrimarySkills {
   __int8 unused;
 };
 
+extern char *gSecondarySkills[];
+extern char *secondarySkillLevels[];
+
 #endif
