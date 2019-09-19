@@ -176,6 +176,7 @@ void ExpCampaign::InitNewCampaign(int var) {
   this->ResetMapsPlayed();
   this->ResetAwards();
   this->ResetBonusChoices();
+  gIronfistExtra.campaign.savedHeroData.clear();
 }
 
 void ExpCampaign::InitMap() {
@@ -335,12 +336,12 @@ void ExpCampaign::Autosave() {
   if(this->currentMapID != -1) {
     this->mapsPlayed[this->currentMapID] = 1;
     sprintf(gText, "%s_%d", xShortCampaignNames[this->campaignID].c_str(), this->currentMapID + 1);
-    gpGame->SaveGame(gText, 1, 0);
     int saveIdx = 0;
     for(auto data : xCampaignHeroesToSave[this->campaignID][this->currentMapID]) {
       SaveCampaignHero(data.first, data.second, saveIdx);
       saveIdx++;
     }
+    gpGame->SaveGame(gText, 1, 0);
   }
 }
 
@@ -718,14 +719,14 @@ void LoadCampaignSavedHero(int playerID, int ownedHeroIdx, int saveIdx) {
     hro->skillIndex[i] = savedHero->skillIndex[i];
     hro->secondarySkillLevel[i] = savedHero->secondarySkillLevel[i];
   }
-  for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++)
-    hro->artifacts[i] = savedHero->artifacts[i];
-  for(int i = 0; i < ELEMENTS_IN(hro->scrollSpell); i++)
-    hro->scrollSpell[i] = savedHero->scrollSpell[i];
+  //for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++)
+  //  hro->artifacts[i] = savedHero->artifacts[i];
+  //for(int i = 0; i < ELEMENTS_IN(hro->scrollSpell); i++)
+  //  hro->scrollSpell[i] = savedHero->scrollSpell[i];
   for(int i = 0; i < NUM_SPELLS; i++)
     hro->spellsLearned[i] = savedHero->spellsLearned[i];
   hro->numSecSkillsKnown = savedHero->numSecSkillsKnown;
-  hro->army = savedHero->army;
+  //hro->army = savedHero->army;
   hro->experience = savedHero->experience;
 }
 
@@ -740,13 +741,13 @@ void SaveCampaignHero(int playerID, int ownedHeroIdx, int saveIdx) {
     savedHero->skillIndex[i] = hro->skillIndex[i];
     savedHero->secondarySkillLevel[i] = hro->secondarySkillLevel[i];
   }
-  for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++)
-    savedHero->artifacts[i] = hro->artifacts[i];
-  for(int i = 0; i < ELEMENTS_IN(hro->scrollSpell); i++)
-    savedHero->scrollSpell[i] = hro->scrollSpell[i];
+  //for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++)
+  //  savedHero->artifacts[i] = hro->artifacts[i];
+  //for(int i = 0; i < ELEMENTS_IN(hro->scrollSpell); i++)
+  //  savedHero->scrollSpell[i] = hro->scrollSpell[i];
   for(int i = 0; i < NUM_SPELLS; i++)
     savedHero->spellsLearned[i] = hro->spellsLearned[i];
   savedHero->numSecSkillsKnown = hro->numSecSkillsKnown;
-  savedHero->army = hro->army;
+  //savedHero->army = hro->army;
   savedHero->experience = hro->experience;
 }

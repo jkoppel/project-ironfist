@@ -1,4 +1,6 @@
 #include "game/ironfist_xml.h"
+
+#include "expansions.h"
 #include "game/game.h"
 #include "gui/dialog.h"
 
@@ -92,7 +94,38 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
       WriteArray(pElement, "mapsPlayed", xCampaign.mapsPlayed);
       WriteArray(pElement, "daysPlayed", xCampaign.daysPlayed);
       WriteArray(pElement, "awards", xCampaign.awards);
-      WriteArray(pElement, "bonusChoices", xCampaign.bonusChoices);      
+      WriteArray(pElement, "bonusChoices", xCampaign.bonusChoices);
+
+      // saved hero for autosaved saves
+      for (auto &i : gIronfistExtra.campaign.savedHeroData) {
+        campaignExtra::partialHeroData *savedHero = &i.second;
+        tinyxml2::XMLElement *savedHeroElem = tempDoc->NewElement("savedHero");
+        savedHeroElem->SetAttribute("index", i.first);
+        WriteArray(savedHeroElem, "primarySkills", savedHero->primarySkills);
+        WriteArray(savedHeroElem, "skillIndex", savedHero->skillIndex);
+        WriteArray(savedHeroElem, "secondarySkillLevel", savedHero->secondarySkillLevel);
+        //WriteArray(savedHeroElem, "artifacts", savedHero->artifacts);
+        //WriteArray(savedHeroElem, "scrollSpell", savedHero->scrollSpell);
+        for (int j = 0; j < NUM_SPELLS; j++) {
+          if(savedHero->spellsLearned[j]) {
+            tinyxml2::XMLElement *spellElem = tempDoc->NewElement("spell");
+            spellElem->SetAttribute("idx", j);
+            savedHeroElem->InsertEndChild(spellElem);
+          }
+        }
+        //for (int j = 0; j < ELEMENTS_IN(savedHero->army.creatureTypes); j++) {
+        //  tinyxml2::XMLElement *armyElem = tempDoc->NewElement("army");
+        //  //armyElem->SetAttribute("heroIdx", i);
+        //  armyElem->SetAttribute("index", j);
+        //  armyElem->SetAttribute("type", savedHero->army.creatureTypes[j]);
+        //  armyElem->SetAttribute("quantity", savedHero->army.quantities[j]);
+        //  savedHeroElem->InsertEndChild(armyElem);
+        //}        
+        PushBack(savedHeroElem, "numSecSkillsKnown", savedHero->numSecSkillsKnown);
+        PushBack(savedHeroElem, "experience", savedHero->experience);
+
+        pElement->InsertEndChild(savedHeroElem);
+      }
     }
     pRoot->InsertEndChild(pElement);
   }
@@ -560,6 +593,7 @@ void IronfistXML::QueryText(tinyxml2::XMLElement *el, char *dest) {
 }
 
 void IronfistXML::ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignType) {
+  gIronfistExtra.campaign.savedHeroData.clear();
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
     std::string name = elem->Name();
@@ -595,7 +629,31 @@ void IronfistXML::ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignTy
       else if(name == "daysPlayed") xCampaign.daysPlayed[index] = value;
       else if(name == "awards") xCampaign.awards[index] = value;
       else if(name == "bonusChoices") xCampaign.bonusChoices[index] = value;
+      else if(name == "savedHero") ReadCampaignSavedHero(elem);
     }
+  }
+}
+
+void IronfistXML::ReadCampaignSavedHero(tinyxml2::XMLNode* root) {
+  int savedHeroIdx = root->ToElement()->IntAttribute("index");
+  campaignExtra::partialHeroData *savedHero = &gIronfistExtra.campaign.savedHeroData[savedHeroIdx];
+  for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
+    tinyxml2::XMLElement *elem = child->ToElement();
+    std::string name = elem->Name();
+    int index = elem->IntAttribute("index"); // used for arrays
+    int value = elem->IntAttribute("value"); // used for arrays
+    if(name == "primarySkills") savedHero->primarySkills[index] = value;
+    if(name == "skillIndex") savedHero->skillIndex[index] = value;
+    if(name == "secondarySkillLevel") savedHero->secondarySkillLevel[index] = value;
+    //if(name == "artifacts") savedHero->artifacts[index] = value;
+    //if(name == "scrollSpell") savedHero->scrollSpell[index] = value;
+    if(name == "spell") savedHero->spellsLearned[elem->IntAttribute("idx")] = 1;
+    else if(name == "numSecSkillsKnown") elem->QueryIntText(&savedHero->numSecSkillsKnown);
+    /*else if(name == "army") {
+      savedHero->army.creatureTypes[index] = elem->IntAttribute("type");
+      savedHero->army.quantities[index] = elem->IntAttribute("quantity");
+    }*/
+    else if(name == "experience") elem->QueryIntText(&savedHero->experience);
   }
 }
 
