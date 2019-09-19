@@ -93,6 +93,20 @@ std::string RegAppPath;
 std::string RegCDRomPath;
 extern void __fastcall SetFullScreenStatus(int);
 extern void __fastcall ResizeWindow(int,int,int,int);
+extern int __fastcall SetupCDDrive_orig();
+
+int __fastcall SetupCDDrive() {
+  RegAppPath = read_pref<std::string>("AppPath");
+  std::string fileToCheck = RegAppPath + "\\HEROES2\\ANIM\\intro.smk";
+  // Check if a folder with videos exists in game's folder
+  int fd = _open(fileToCheck.c_str(), O_BINARY);
+  if(fd == -1) {
+    return SetupCDDrive_orig();
+  } else {
+    close(fd);
+    return 1;
+  }
+}
 
 void __fastcall SetupCDRom() {
 	
@@ -124,7 +138,6 @@ void __fastcall SetupCDRom() {
 		old_width == (DWORD)(-1) ? 640 : old_width,
 		old_height == (DWORD)(-1) ? 480 : old_height);
 	
-  RegAppPath = read_pref<std::string>("AppPath");
   RegCDRomPath = read_pref<std::string>("CDDrive");
 
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
@@ -135,15 +148,12 @@ void __fastcall SetupCDRom() {
 		int oldNoSound = gbNoSound;
 		gbNoSound = 1;
 
-    std::string fileToCheck = RegAppPath + "\\HEROES2\\ANIM\\intro.smk";
-    int fd = _open(fileToCheck.c_str(), O_BINARY);
-    if(fd == -1) {
+    // Neither CD exists nor HEROES2 folder exists in game's folder
+    if(iCDRomErr != 1)
       H2MessageBox("Welcome to no-CD mode. Videos will not work, "
             "but otherwise, have fun!");
-    } else
-      close(fd);
-		gbNoSound = oldNoSound;
-    
+
+		gbNoSound = oldNoSound;    
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
 						"  Please run the installation program.");
