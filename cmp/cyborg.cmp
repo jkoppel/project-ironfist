@@ -73,6 +73,6 @@
 	<award index="4" value="7"/>
 	<award index="6" value="8"/>
 	<award index="7" value="0"/>
-	<saveHero index="0" index="7">
-	<loadHero index="1" index="7">
+	<saveHero scenarioID="0" playerID="0" ownedHeroID="0"/>
+	<loadHero scenarioID="1" playerID="0" ownedHeroID="0"/>
 </campaign>
