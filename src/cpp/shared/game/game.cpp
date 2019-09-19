@@ -764,7 +764,7 @@ extern int giEndSequence;
 void __fastcall CheckEndGame(int a, int b) {
 	CheckEndGame_orig(a, b);
 	if (gbGameOver) {
-		if (!gpGame->onMapEndCallbackStatus) {
+		if (!gpGame->onMapEndCallbackStatus && !gbInNewGameSetup) {
 			gpGame->onMapEndCallbackStatus = true;
 			if (giEndSequence) {
 				ScriptCallback("OnMapVictory");
