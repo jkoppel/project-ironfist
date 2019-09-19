@@ -701,8 +701,8 @@ void LoadCustomCampaigns() {
     CampaignXML xml;
     tinyxml2::XMLError err = xml.Read(i.c_str());
     if(err) {
-      H2MessageBox("Could not load XML. " + std::string(xml.GetError()));
-      exit(1);
+      std::string error_message = "Could not load " + i + "\n" + std::string(xml.GetError());
+      EarlyShutdown("Campaign XML Error", &error_message[0u]);
     }
   }
 }
