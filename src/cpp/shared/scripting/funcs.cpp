@@ -6,6 +6,7 @@ extern "C" {
 
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "campaign/campaign.h"
 #include "combat/combat.h"
 #include "game/game.h"
 #include "gui/dialog.h"
@@ -1153,6 +1154,43 @@ static void register_battle_funcs(lua_State *L) {
   lua_register(L, "SetStackHp", l_setStackHp);
 }
 
+/**************************************** Campaign *********************************************/
+
+static int l_getCampaignChoiceType(lua_State *L) {
+  int curMapID = xCampaign.currentMapID;
+  SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
+  lua_pushinteger(L, curChoice->type);
+	return 1;
+}
+
+static int l_getCampaignChoiceField(lua_State *L) {
+  int curMapID = xCampaign.currentMapID;
+  SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
+  lua_pushinteger(L, curChoice->field);
+	return 1;
+}
+
+static int l_getCampaignChoiceAmount(lua_State *L) {
+  int curMapID = xCampaign.currentMapID;
+  SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
+  lua_pushinteger(L, curChoice->amount);
+	return 1;
+}
+
+static int l_getCampaignChoice(lua_State *L) {
+  int curMapID = xCampaign.currentMapID;
+  SCampaignChoice *curChoice = &xCampaignChoices[xCampaign.campaignID][curMapID][xCampaign.bonusChoices[curMapID]];
+  deepbound_push(L, deepbind<SCampaignChoice*>(curChoice));
+	return 1;
+}
+
+static void register_campaign_funcs(lua_State *L) {
+  lua_register(L, "GetCampaignChoiceType", l_getCampaignChoiceType);
+  lua_register(L, "GetCampaignChoiceField", l_getCampaignChoiceField);
+  lua_register(L, "GetCampaignChoiceAmount", l_getCampaignChoiceAmount);
+  lua_register(L, "GetCampaignChoice", l_getCampaignChoice);
+}
+
 /************************************** Uncategorized ******************************************/
 
 static int l_playsoundeffect(lua_State *L) {
@@ -1244,5 +1282,6 @@ void set_scripting_funcs(lua_State *L) {
   register_map_funcs(L);
   register_town_funcs(L);
   register_battle_funcs(L);
+  register_campaign_funcs(L);
   register_uncategorized_funcs(L);
 }

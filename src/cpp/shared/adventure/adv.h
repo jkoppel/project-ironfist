@@ -305,24 +305,13 @@ public:
   void SetTownContext(int townID);
   char * GetArmySizeName(signed int amt, int queryType);
   char * GetQuantityString(int thievesGuildsLevel, town* town, int garrisonIdx);
+  void SetInitialMapOrigin();
   void DrawCursor();
   void DrawCursorShadow();
   int GetCloudLookup(int a1, int a2);
   int GetCursorBaseFrame(int direction);
   void ForceNewHover();
   void GetCursorSampleSet(int speed);
-  void SetInitialMapOrigin();
-  
-};
-
-class ExpCampaign {
-public:
-
-  ExpCampaign();
-
-  char HasAward(int a2);
-  char *JosephName();
-  char *IvanName();
   
 };
 
@@ -340,7 +329,6 @@ extern int giAdjacentMonsterX;
 extern int giAdjacentMonsterY;
 extern int giAdjacentMonsterLowerBoundX;
 extern int giAdjacentMonsterLowerBoundY;
-extern ExpCampaign xCampaign;
 
 hero* GetCurrentHero();
 bool GetMapCellXY(mapCell* cell, int* x, int* y);

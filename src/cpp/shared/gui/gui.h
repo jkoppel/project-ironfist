@@ -75,7 +75,7 @@ public:
   bitmap *fizzleSource;
   bitmap *field_4E;
   int numScreenshots;
-  int field_56;
+  int cycleColors;
   int buttonPressedCode;
   int hoveredFieldID;
 
@@ -201,7 +201,10 @@ extern void __fastcall IconToBitmap(icon* icn, bitmap* bmp, int drawX, int drawY
 void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
+void __fastcall FillBitmapArea(bitmap *,int,int,int,int,int);
 extern int __fastcall EventWindowHandler(tag_message &evt);
+void __fastcall BlitBitmapToScreen(bitmap *,int,int,int,int,int,int);
+
 extern heroWindow* casWin;
 
 #pragma pack(pop)

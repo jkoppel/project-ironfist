@@ -82,6 +82,74 @@
     </xs:sequence>
   </xs:complexType>
 
+  <xs:complexType name="origCampaign_t">
+    <xs:sequence>
+      <xs:element name="campID" type="xs:int"/>
+      <xs:element name="campIDanother" type="xs:int"/>
+      <xs:element name="campMapID" type="xs:int"/>
+      <xs:element name="campUnknown" type="xs:int"/>
+      <xs:element name="campDaysPlayedCurrent" type="xs:int"/>
+      <xs:element name="campMaybeWon" type="xs:int"/>
+      <xs:element name="campHasCheated" type="xs:int"/>
+      <xs:element name="campMapsWon" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="won" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="campDaysPlayed" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="daysPlayed" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="campDaysPlayed2" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="daysPlayed" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>  
+      <xs:element name="campBonuses" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campChoices" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="choice" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>  
+      <xs:element name="campMapsPlayed" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:attribute name="campID" type="xs:int" use="required"/>
+          <xs:attribute name="mapID" type="xs:int" use="required"/>
+          <xs:attribute name="played" type="xs:int" use="required"/>
+        </xs:complexType>
+      </xs:element>  
+      <xs:element name="campPlayerCreatures" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campPlayerCreatureQuantities" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="relatedToCampaign" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+  <xs:complexType name="expCampaign_t">
+    <xs:sequence>
+      <xs:element name="mapChoice" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mapsPlayed" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="daysPlayed" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="awards" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="bonusChoices" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campaignID" type="xs:int"/>
+      <xs:element name="currentMapID" type="xs:int"/>
+      <xs:element name="numMaps" type="xs:int"/>
+      <xs:element name="unknownVariable" type="xs:int"/>
+      <xs:element name="mightBeScenarioID" type="xs:int"/>
+      <xs:element name="window" type="xs:int"/>
+      <xs:element name="anIntVariable" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  
   <xs:complexType name="tableElement_t">
     <xs:attribute name="key" type="xs:string"/>
     <xs:attribute name="value" type="xs:string"/>
@@ -129,7 +197,7 @@
       <xs:element name="currentRumor" type="xs:string"/>
       <xs:element name="numRumors" type="xs:int"/>
       <xs:element name="numEvents" type="xs:int"/>
-      <xs:element name="field_657B" type="xs:int"/>
+      <xs:element name="numMapEvents" type="xs:int"/>
       <xs:element name="maxMapExtra" type="xs:int"/>
       <xs:element name="playerNames" type="arrayString_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="deadPlayers" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
@@ -141,8 +209,14 @@
       <xs:element name="somePlayerCodeOr10IfMayBeHuman" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
       <xs:element name="difficulty" type="xs:int"/>
       <xs:element name="mapFilename" type="xs:string"/>
+      <xs:element name="somePlayerNumData" type="arrayInt_t" minOccurs="6" maxOccurs="unbounded"/>
+      <xs:element name="relatedToNewGameSelection" type="xs:int"/>
+      <xs:element name="relatedToNewGameInit" type="xs:int"/>
+      <xs:element name="numHumanPlayers" type="xs:int"/>
+      <xs:element name="field_47C" type="arrayInt_t" minOccurs="18" maxOccurs="unbounded"/>
+      <xs:element name="gbIAmGreatest" type="xs:int"/>
       <xs:element name="field_2773" type="arrayInt_t" minOccurs="72" maxOccurs="unbounded"/>
-      <xs:element name="field_27BB" type="arrayInt_t" minOccurs="9" maxOccurs="unbounded"/>
+      <xs:element name="builtToday" type="arrayInt_t" minOccurs="9" maxOccurs="unbounded"/>
       <xs:element name="field_60A6" type="arrayInt_t" minOccurs="144" maxOccurs="unbounded"/>
       <xs:element name="randomArtifacts" type="arrayInt_t" minOccurs="103" maxOccurs="unbounded"/>
       <xs:element name="boatBuilt" type="arrayInt_t" minOccurs="48" maxOccurs="unbounded"/>
@@ -150,7 +224,7 @@
       <xs:element name="field_637D" type="arrayInt_t" minOccurs="24" maxOccurs="unbounded"/>
       <xs:element name="rumorIndices" type="arrayInt_t" minOccurs="30" maxOccurs="unbounded"/>
       <xs:element name="eventIndices" type="arrayInt_t" minOccurs="60" maxOccurs="unbounded"/>
-      <xs:element name="_D" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mapEventIndices" type="arrayInt_t" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="mapRevealed" minOccurs="0" maxOccurs="unbounded">
         <xs:complexType>
           <xs:attribute name="x" type="xs:int" use="required"/>
@@ -165,6 +239,9 @@
       <xs:element name="mine" type="mine_t" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="boat" type="boat_t" minOccurs="0" maxOccurs="unbounded"/>
       <xs:element name="map" type="map_t" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="campaignType" type="xs:int" default="0"/>
+      <xs:element ref="origCampaign" minOccurs="0" maxOccurs="1"/>
+      <xs:element ref="expCampaign" minOccurs="0" maxOccurs="1"/>
     </xs:sequence>
   </xs:complexType>
   
@@ -291,7 +368,7 @@
       <xs:element name="x" type="xs:int"/>
       <xs:element name="y" type="xs:int"/>
       <xs:element name="buildDockRelated" type="xs:int"/>
-      <xs:element name="field_7" type="xs:int"/>
+      <xs:element name="boatcell" type="xs:int"/>
       <xs:element name="visitingHeroIdx" type="xs:int"/>
       <xs:element name="buildingsBuiltFlags" type="xs:int"/>
       <xs:element name="mageGuildLevel" type="xs:int"/>
@@ -317,8 +394,8 @@
       <xs:element name="numHeroes" type="xs:int"/>
       <xs:element name="curHeroIdx" type="xs:int"/>
       <xs:element name="relatedToSomeSortOfHeroCountOrIdx" type="xs:int"/>
-      <xs:element name="game_B" type="xs:int"/>
-      <xs:element name="_3" type="xs:int"/>
+      <xs:element name="hasCheated" type="xs:int"/>
+      <xs:element name="puzzlePieces" type="xs:int"/>
       <xs:element name="personality" type="xs:int"/>
       <xs:element name="relatedToMaxOrNumHeroes" type="xs:int"/>
       <xs:element name="hasEvilFaction" type="xs:int"/>
@@ -372,6 +449,8 @@
   <xs:element name="mapVariable" type="mapVariable_t"/>
   <xs:element name="raw" type="xs:base64Binary"/>
   <xs:element name="army" type="army_t"/>
+  <xs:element name="origCampaign" type="origCampaign_t"/>
+  <xs:element name="expCampaign" type="expCampaign_t"/>
   <xs:element name="script" type="xs:string"/>
 
 </xs:schema>

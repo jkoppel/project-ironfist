@@ -86,6 +86,7 @@ IMPORT_?DeleteMainClasses@@YIXXZ = 1
 
 ;;allowing play without CD
 IMPORT_?SetupCDDrive@@YIHXZ = 1
+?SetupCDDrive@@YIHXZ_clone EQU ?SetupCDDrive_orig@@YIHXZ 
 IMPORT_?SetupCDRom@@YIXXZ = 1
 IMPORT_?SetupGame@game@@QAEHXZ = 1
 ?SetupGame@game@@QAEHXZ_clone EQU ?SetupGame_orig@game@@QAEHXZ
@@ -309,6 +310,8 @@ IMPORT_?PasswordEvent@advManager@@QAEXPAVmapCell@@PAVhero@@@Z = 1
 IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
 ?LoadGame@game@@QAEXPADHH@Z_clone EQU ?LoadGame_orig@game@@QAEXPADHH@Z
 IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
+?SaveGame@game@@QAEHPADHC@Z_clone EQU ?SaveGame_orig@game@@QAEHPADHC@Z
+
 IMPORT_?Read@hero@@QAEXHC@Z = 1
 IMPORT_?RandomizeHeroPool@game@@QAEXXZ = 1
 
@@ -384,3 +387,21 @@ IMPORT_?InitNewGame@game@@QAEXPAUSMapHeader@@@Z = 1
 ;; AI
 IMPORT_?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z = 1
 ?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z_clone EQU ?RedistributeTroops_orig@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z
+
+;; Campaigns
+IMPORT_?InitNewCampaign@ExpCampaign@@QAEXH@Z = 1
+IMPORT_?SmackManagerMain@@YIXXZ = 1
+IMPORT_?xCampaignSelectionRects@@3PAUtag_rect@@A = 1
+IMPORT_?ExpansionCampaignRect@@YIHHH@Z = 1
+IMPORT_?expCampaignNumMaps@@3PAHA = 1
+IMPORT_?xCampaignChoices@@3PAY172USCampaignChoice@@A = 1
+IMPORT_?HandleVictory@ExpCampaign@@QAEHXZ = 1
+IMPORT_?ShowInfo@ExpCampaign@@QAEXHH@Z = 1
+IMPORT_?xHSCampaignNames@@3PAPADA = 1
+IMPORT_?xShortCampaignNames@@3PAPADA = 1
+IMPORT_?xScenarioDescription@@3PAY07PADA = 1
+IMPORT_?xScenarioName@@3PAY07PADA = 1
+IMPORT_?xCampaignDifficulties@@3PAY07DA = 1
+IMPORT_?PlaySmacker@@YIHH@Z = 1
+?PlaySmacker@@YIHH@Z_clone EQU ?PlaySmacker_orig@@YIHH@Z
+IMPORT_?ReplaySmacker@ExpCampaign@@QAEXXZ = 1

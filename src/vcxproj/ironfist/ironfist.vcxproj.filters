@@ -85,6 +85,12 @@
     <Filter Include="Source Files\spell">
       <UniqueIdentifier>{edd91aef-5ca2-4247-8d6b-261477fd98a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\campaign">
+      <UniqueIdentifier>{000262e0-8762-4dc8-915d-3653671fda96}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\campaign">
+      <UniqueIdentifier>{dfdbcac3-d0b6-4cb6-8459-3d5559be70f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\shared\init.cpp">
@@ -303,6 +309,9 @@
     <ClCompile Include="..\..\cpp\shared\graphics.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp">
+      <Filter>Source Files\campaign</Filter>
+	</ClCompile>
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp">
       <Filter>Source Files\town</Filter>
     </ClCompile>
@@ -524,6 +533,9 @@
     <ClInclude Include="..\..\cpp\shared\scripting\deepbinding.h">
       <Filter>Header Files\scripting</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\campaign\campaign.h">
+      <Filter>Header Files\campaign</Filter>
+	</ClInclude>
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h">
       <Filter>Header Files\town</Filter>
     </ClInclude>
@@ -532,6 +544,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h">
       <Filter>Header Files\adventure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\smacker.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

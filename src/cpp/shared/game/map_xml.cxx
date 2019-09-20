@@ -1068,6 +1068,518 @@ namespace ironfist_save
   }
 
 
+  // origCampaign_t
+  // 
+
+  const origCampaign_t::campID_type& origCampaign_t::
+  campID () const
+  {
+    return this->campID_.get ();
+  }
+
+  origCampaign_t::campID_type& origCampaign_t::
+  campID ()
+  {
+    return this->campID_.get ();
+  }
+
+  void origCampaign_t::
+  campID (const campID_type& x)
+  {
+    this->campID_.set (x);
+  }
+
+  const origCampaign_t::campIDanother_type& origCampaign_t::
+  campIDanother () const
+  {
+    return this->campIDanother_.get ();
+  }
+
+  origCampaign_t::campIDanother_type& origCampaign_t::
+  campIDanother ()
+  {
+    return this->campIDanother_.get ();
+  }
+
+  void origCampaign_t::
+  campIDanother (const campIDanother_type& x)
+  {
+    this->campIDanother_.set (x);
+  }
+
+  const origCampaign_t::campMapID_type& origCampaign_t::
+  campMapID () const
+  {
+    return this->campMapID_.get ();
+  }
+
+  origCampaign_t::campMapID_type& origCampaign_t::
+  campMapID ()
+  {
+    return this->campMapID_.get ();
+  }
+
+  void origCampaign_t::
+  campMapID (const campMapID_type& x)
+  {
+    this->campMapID_.set (x);
+  }
+
+  const origCampaign_t::campUnknown_type& origCampaign_t::
+  campUnknown () const
+  {
+    return this->campUnknown_.get ();
+  }
+
+  origCampaign_t::campUnknown_type& origCampaign_t::
+  campUnknown ()
+  {
+    return this->campUnknown_.get ();
+  }
+
+  void origCampaign_t::
+  campUnknown (const campUnknown_type& x)
+  {
+    this->campUnknown_.set (x);
+  }
+
+  const origCampaign_t::campDaysPlayedCurrent_type& origCampaign_t::
+  campDaysPlayedCurrent () const
+  {
+    return this->campDaysPlayedCurrent_.get ();
+  }
+
+  origCampaign_t::campDaysPlayedCurrent_type& origCampaign_t::
+  campDaysPlayedCurrent ()
+  {
+    return this->campDaysPlayedCurrent_.get ();
+  }
+
+  void origCampaign_t::
+  campDaysPlayedCurrent (const campDaysPlayedCurrent_type& x)
+  {
+    this->campDaysPlayedCurrent_.set (x);
+  }
+
+  const origCampaign_t::campMaybeWon_type& origCampaign_t::
+  campMaybeWon () const
+  {
+    return this->campMaybeWon_.get ();
+  }
+
+  origCampaign_t::campMaybeWon_type& origCampaign_t::
+  campMaybeWon ()
+  {
+    return this->campMaybeWon_.get ();
+  }
+
+  void origCampaign_t::
+  campMaybeWon (const campMaybeWon_type& x)
+  {
+    this->campMaybeWon_.set (x);
+  }
+
+  const origCampaign_t::campHasCheated_type& origCampaign_t::
+  campHasCheated () const
+  {
+    return this->campHasCheated_.get ();
+  }
+
+  origCampaign_t::campHasCheated_type& origCampaign_t::
+  campHasCheated ()
+  {
+    return this->campHasCheated_.get ();
+  }
+
+  void origCampaign_t::
+  campHasCheated (const campHasCheated_type& x)
+  {
+    this->campHasCheated_.set (x);
+  }
+
+  const origCampaign_t::campMapsWon_sequence& origCampaign_t::
+  campMapsWon () const
+  {
+    return this->campMapsWon_;
+  }
+
+  origCampaign_t::campMapsWon_sequence& origCampaign_t::
+  campMapsWon ()
+  {
+    return this->campMapsWon_;
+  }
+
+  void origCampaign_t::
+  campMapsWon (const campMapsWon_sequence& s)
+  {
+    this->campMapsWon_ = s;
+  }
+
+  const origCampaign_t::campDaysPlayed_sequence& origCampaign_t::
+  campDaysPlayed () const
+  {
+    return this->campDaysPlayed_;
+  }
+
+  origCampaign_t::campDaysPlayed_sequence& origCampaign_t::
+  campDaysPlayed ()
+  {
+    return this->campDaysPlayed_;
+  }
+
+  void origCampaign_t::
+  campDaysPlayed (const campDaysPlayed_sequence& s)
+  {
+    this->campDaysPlayed_ = s;
+  }
+
+  const origCampaign_t::campDaysPlayed2_sequence& origCampaign_t::
+  campDaysPlayed2 () const
+  {
+    return this->campDaysPlayed2_;
+  }
+
+  origCampaign_t::campDaysPlayed2_sequence& origCampaign_t::
+  campDaysPlayed2 ()
+  {
+    return this->campDaysPlayed2_;
+  }
+
+  void origCampaign_t::
+  campDaysPlayed2 (const campDaysPlayed2_sequence& s)
+  {
+    this->campDaysPlayed2_ = s;
+  }
+
+  const origCampaign_t::campBonuses_sequence& origCampaign_t::
+  campBonuses () const
+  {
+    return this->campBonuses_;
+  }
+
+  origCampaign_t::campBonuses_sequence& origCampaign_t::
+  campBonuses ()
+  {
+    return this->campBonuses_;
+  }
+
+  void origCampaign_t::
+  campBonuses (const campBonuses_sequence& s)
+  {
+    this->campBonuses_ = s;
+  }
+
+  const origCampaign_t::campChoices_sequence& origCampaign_t::
+  campChoices () const
+  {
+    return this->campChoices_;
+  }
+
+  origCampaign_t::campChoices_sequence& origCampaign_t::
+  campChoices ()
+  {
+    return this->campChoices_;
+  }
+
+  void origCampaign_t::
+  campChoices (const campChoices_sequence& s)
+  {
+    this->campChoices_ = s;
+  }
+
+  const origCampaign_t::campMapsPlayed_sequence& origCampaign_t::
+  campMapsPlayed () const
+  {
+    return this->campMapsPlayed_;
+  }
+
+  origCampaign_t::campMapsPlayed_sequence& origCampaign_t::
+  campMapsPlayed ()
+  {
+    return this->campMapsPlayed_;
+  }
+
+  void origCampaign_t::
+  campMapsPlayed (const campMapsPlayed_sequence& s)
+  {
+    this->campMapsPlayed_ = s;
+  }
+
+  const origCampaign_t::campPlayerCreatures_sequence& origCampaign_t::
+  campPlayerCreatures () const
+  {
+    return this->campPlayerCreatures_;
+  }
+
+  origCampaign_t::campPlayerCreatures_sequence& origCampaign_t::
+  campPlayerCreatures ()
+  {
+    return this->campPlayerCreatures_;
+  }
+
+  void origCampaign_t::
+  campPlayerCreatures (const campPlayerCreatures_sequence& s)
+  {
+    this->campPlayerCreatures_ = s;
+  }
+
+  const origCampaign_t::campPlayerCreatureQuantities_sequence& origCampaign_t::
+  campPlayerCreatureQuantities () const
+  {
+    return this->campPlayerCreatureQuantities_;
+  }
+
+  origCampaign_t::campPlayerCreatureQuantities_sequence& origCampaign_t::
+  campPlayerCreatureQuantities ()
+  {
+    return this->campPlayerCreatureQuantities_;
+  }
+
+  void origCampaign_t::
+  campPlayerCreatureQuantities (const campPlayerCreatureQuantities_sequence& s)
+  {
+    this->campPlayerCreatureQuantities_ = s;
+  }
+
+  const origCampaign_t::relatedToCampaign_sequence& origCampaign_t::
+  relatedToCampaign () const
+  {
+    return this->relatedToCampaign_;
+  }
+
+  origCampaign_t::relatedToCampaign_sequence& origCampaign_t::
+  relatedToCampaign ()
+  {
+    return this->relatedToCampaign_;
+  }
+
+  void origCampaign_t::
+  relatedToCampaign (const relatedToCampaign_sequence& s)
+  {
+    this->relatedToCampaign_ = s;
+  }
+
+
+  // expCampaign_t
+  // 
+
+  const expCampaign_t::mapChoice_sequence& expCampaign_t::
+  mapChoice () const
+  {
+    return this->mapChoice_;
+  }
+
+  expCampaign_t::mapChoice_sequence& expCampaign_t::
+  mapChoice ()
+  {
+    return this->mapChoice_;
+  }
+
+  void expCampaign_t::
+  mapChoice (const mapChoice_sequence& s)
+  {
+    this->mapChoice_ = s;
+  }
+
+  const expCampaign_t::mapsPlayed_sequence& expCampaign_t::
+  mapsPlayed () const
+  {
+    return this->mapsPlayed_;
+  }
+
+  expCampaign_t::mapsPlayed_sequence& expCampaign_t::
+  mapsPlayed ()
+  {
+    return this->mapsPlayed_;
+  }
+
+  void expCampaign_t::
+  mapsPlayed (const mapsPlayed_sequence& s)
+  {
+    this->mapsPlayed_ = s;
+  }
+
+  const expCampaign_t::daysPlayed_sequence& expCampaign_t::
+  daysPlayed () const
+  {
+    return this->daysPlayed_;
+  }
+
+  expCampaign_t::daysPlayed_sequence& expCampaign_t::
+  daysPlayed ()
+  {
+    return this->daysPlayed_;
+  }
+
+  void expCampaign_t::
+  daysPlayed (const daysPlayed_sequence& s)
+  {
+    this->daysPlayed_ = s;
+  }
+
+  const expCampaign_t::awards_sequence& expCampaign_t::
+  awards () const
+  {
+    return this->awards_;
+  }
+
+  expCampaign_t::awards_sequence& expCampaign_t::
+  awards ()
+  {
+    return this->awards_;
+  }
+
+  void expCampaign_t::
+  awards (const awards_sequence& s)
+  {
+    this->awards_ = s;
+  }
+
+  const expCampaign_t::bonusChoices_sequence& expCampaign_t::
+  bonusChoices () const
+  {
+    return this->bonusChoices_;
+  }
+
+  expCampaign_t::bonusChoices_sequence& expCampaign_t::
+  bonusChoices ()
+  {
+    return this->bonusChoices_;
+  }
+
+  void expCampaign_t::
+  bonusChoices (const bonusChoices_sequence& s)
+  {
+    this->bonusChoices_ = s;
+  }
+
+  const expCampaign_t::campaignID_type& expCampaign_t::
+  campaignID () const
+  {
+    return this->campaignID_.get ();
+  }
+
+  expCampaign_t::campaignID_type& expCampaign_t::
+  campaignID ()
+  {
+    return this->campaignID_.get ();
+  }
+
+  void expCampaign_t::
+  campaignID (const campaignID_type& x)
+  {
+    this->campaignID_.set (x);
+  }
+
+  const expCampaign_t::currentMapID_type& expCampaign_t::
+  currentMapID () const
+  {
+    return this->currentMapID_.get ();
+  }
+
+  expCampaign_t::currentMapID_type& expCampaign_t::
+  currentMapID ()
+  {
+    return this->currentMapID_.get ();
+  }
+
+  void expCampaign_t::
+  currentMapID (const currentMapID_type& x)
+  {
+    this->currentMapID_.set (x);
+  }
+
+  const expCampaign_t::numMaps_type& expCampaign_t::
+  numMaps () const
+  {
+    return this->numMaps_.get ();
+  }
+
+  expCampaign_t::numMaps_type& expCampaign_t::
+  numMaps ()
+  {
+    return this->numMaps_.get ();
+  }
+
+  void expCampaign_t::
+  numMaps (const numMaps_type& x)
+  {
+    this->numMaps_.set (x);
+  }
+
+  const expCampaign_t::unknownVariable_type& expCampaign_t::
+  unknownVariable () const
+  {
+    return this->unknownVariable_.get ();
+  }
+
+  expCampaign_t::unknownVariable_type& expCampaign_t::
+  unknownVariable ()
+  {
+    return this->unknownVariable_.get ();
+  }
+
+  void expCampaign_t::
+  unknownVariable (const unknownVariable_type& x)
+  {
+    this->unknownVariable_.set (x);
+  }
+
+  const expCampaign_t::mightBeScenarioID_type& expCampaign_t::
+  mightBeScenarioID () const
+  {
+    return this->mightBeScenarioID_.get ();
+  }
+
+  expCampaign_t::mightBeScenarioID_type& expCampaign_t::
+  mightBeScenarioID ()
+  {
+    return this->mightBeScenarioID_.get ();
+  }
+
+  void expCampaign_t::
+  mightBeScenarioID (const mightBeScenarioID_type& x)
+  {
+    this->mightBeScenarioID_.set (x);
+  }
+
+  const expCampaign_t::window_type& expCampaign_t::
+  window () const
+  {
+    return this->window_.get ();
+  }
+
+  expCampaign_t::window_type& expCampaign_t::
+  window ()
+  {
+    return this->window_.get ();
+  }
+
+  void expCampaign_t::
+  window (const window_type& x)
+  {
+    this->window_.set (x);
+  }
+
+  const expCampaign_t::anIntVariable_type& expCampaign_t::
+  anIntVariable () const
+  {
+    return this->anIntVariable_.get ();
+  }
+
+  expCampaign_t::anIntVariable_type& expCampaign_t::
+  anIntVariable ()
+  {
+    return this->anIntVariable_.get ();
+  }
+
+  void expCampaign_t::
+  anIntVariable (const anIntVariable_type& x)
+  {
+    this->anIntVariable_.set (x);
+  }
+
+
   // tableElement_t
   // 
 
@@ -1779,22 +2291,22 @@ namespace ironfist_save
     this->numEvents_.set (x);
   }
 
-  const gamestate_t::field_657B_type& gamestate_t::
-  field_657B () const
+  const gamestate_t::numMapEvents_type& gamestate_t::
+  numMapEvents () const
   {
-    return this->field_657B_.get ();
+    return this->numMapEvents_.get ();
   }
 
-  gamestate_t::field_657B_type& gamestate_t::
-  field_657B ()
+  gamestate_t::numMapEvents_type& gamestate_t::
+  numMapEvents ()
   {
-    return this->field_657B_.get ();
+    return this->numMapEvents_.get ();
   }
 
   void gamestate_t::
-  field_657B (const field_657B_type& x)
+  numMapEvents (const numMapEvents_type& x)
   {
-    this->field_657B_.set (x);
+    this->numMapEvents_.set (x);
   }
 
   const gamestate_t::maxMapExtra_type& gamestate_t::
@@ -2001,6 +2513,114 @@ namespace ironfist_save
     this->mapFilename_.set (x);
   }
 
+  const gamestate_t::somePlayerNumData_sequence& gamestate_t::
+  somePlayerNumData () const
+  {
+    return this->somePlayerNumData_;
+  }
+
+  gamestate_t::somePlayerNumData_sequence& gamestate_t::
+  somePlayerNumData ()
+  {
+    return this->somePlayerNumData_;
+  }
+
+  void gamestate_t::
+  somePlayerNumData (const somePlayerNumData_sequence& s)
+  {
+    this->somePlayerNumData_ = s;
+  }
+
+  const gamestate_t::relatedToNewGameSelection_type& gamestate_t::
+  relatedToNewGameSelection () const
+  {
+    return this->relatedToNewGameSelection_.get ();
+  }
+
+  gamestate_t::relatedToNewGameSelection_type& gamestate_t::
+  relatedToNewGameSelection ()
+  {
+    return this->relatedToNewGameSelection_.get ();
+  }
+
+  void gamestate_t::
+  relatedToNewGameSelection (const relatedToNewGameSelection_type& x)
+  {
+    this->relatedToNewGameSelection_.set (x);
+  }
+
+  const gamestate_t::relatedToNewGameInit_type& gamestate_t::
+  relatedToNewGameInit () const
+  {
+    return this->relatedToNewGameInit_.get ();
+  }
+
+  gamestate_t::relatedToNewGameInit_type& gamestate_t::
+  relatedToNewGameInit ()
+  {
+    return this->relatedToNewGameInit_.get ();
+  }
+
+  void gamestate_t::
+  relatedToNewGameInit (const relatedToNewGameInit_type& x)
+  {
+    this->relatedToNewGameInit_.set (x);
+  }
+
+  const gamestate_t::numHumanPlayers_type& gamestate_t::
+  numHumanPlayers () const
+  {
+    return this->numHumanPlayers_.get ();
+  }
+
+  gamestate_t::numHumanPlayers_type& gamestate_t::
+  numHumanPlayers ()
+  {
+    return this->numHumanPlayers_.get ();
+  }
+
+  void gamestate_t::
+  numHumanPlayers (const numHumanPlayers_type& x)
+  {
+    this->numHumanPlayers_.set (x);
+  }
+
+  const gamestate_t::field_47C_sequence& gamestate_t::
+  field_47C () const
+  {
+    return this->field_47C_;
+  }
+
+  gamestate_t::field_47C_sequence& gamestate_t::
+  field_47C ()
+  {
+    return this->field_47C_;
+  }
+
+  void gamestate_t::
+  field_47C (const field_47C_sequence& s)
+  {
+    this->field_47C_ = s;
+  }
+
+  const gamestate_t::gbIAmGreatest_type& gamestate_t::
+  gbIAmGreatest () const
+  {
+    return this->gbIAmGreatest_.get ();
+  }
+
+  gamestate_t::gbIAmGreatest_type& gamestate_t::
+  gbIAmGreatest ()
+  {
+    return this->gbIAmGreatest_.get ();
+  }
+
+  void gamestate_t::
+  gbIAmGreatest (const gbIAmGreatest_type& x)
+  {
+    this->gbIAmGreatest_.set (x);
+  }
+
   const gamestate_t::field_2773_sequence& gamestate_t::
   field_2773 () const
   {
@@ -2019,22 +2639,22 @@ namespace ironfist_save
     this->field_2773_ = s;
   }
 
-  const gamestate_t::field_27BB_sequence& gamestate_t::
-  field_27BB () const
+  const gamestate_t::builtToday_sequence& gamestate_t::
+  builtToday () const
   {
-    return this->field_27BB_;
+    return this->builtToday_;
   }
 
-  gamestate_t::field_27BB_sequence& gamestate_t::
-  field_27BB ()
+  gamestate_t::builtToday_sequence& gamestate_t::
+  builtToday ()
   {
-    return this->field_27BB_;
+    return this->builtToday_;
   }
 
   void gamestate_t::
-  field_27BB (const field_27BB_sequence& s)
+  builtToday (const builtToday_sequence& s)
   {
-    this->field_27BB_ = s;
+    this->builtToday_ = s;
   }
 
   const gamestate_t::field_60A6_sequence& gamestate_t::
@@ -2163,22 +2783,22 @@ namespace ironfist_save
     this->eventIndices_ = s;
   }
 
-  const gamestate_t::_D_sequence& gamestate_t::
-  _D () const
+  const gamestate_t::mapEventIndices_sequence& gamestate_t::
+  mapEventIndices () const
   {
-    return this->_D_;
+    return this->mapEventIndices_;
   }
 
-  gamestate_t::_D_sequence& gamestate_t::
-  _D ()
+  gamestate_t::mapEventIndices_sequence& gamestate_t::
+  mapEventIndices ()
   {
-    return this->_D_;
+    return this->mapEventIndices_;
   }
 
   void gamestate_t::
-  _D (const _D_sequence& s)
+  mapEventIndices (const mapEventIndices_sequence& s)
   {
-    this->_D_ = s;
+    this->mapEventIndices_ = s;
   }
 
   const gamestate_t::mapRevealed_sequence& gamestate_t::
@@ -2323,6 +2943,90 @@ namespace ironfist_save
   map (const map_sequence& s)
   {
     this->map_ = s;
+  }
+
+  const gamestate_t::campaignType_type& gamestate_t::
+  campaignType () const
+  {
+    return this->campaignType_.get ();
+  }
+
+  gamestate_t::campaignType_type& gamestate_t::
+  campaignType ()
+  {
+    return this->campaignType_.get ();
+  }
+
+  void gamestate_t::
+  campaignType (const campaignType_type& x)
+  {
+    this->campaignType_.set (x);
+  }
+
+  gamestate_t::campaignType_type gamestate_t::
+  campaignType_default_value ()
+  {
+    return campaignType_type (0);
+  }
+
+  const gamestate_t::origCampaign_optional& gamestate_t::
+  origCampaign () const
+  {
+    return this->origCampaign_;
+  }
+
+  gamestate_t::origCampaign_optional& gamestate_t::
+  origCampaign ()
+  {
+    return this->origCampaign_;
+  }
+
+  void gamestate_t::
+  origCampaign (const origCampaign_type& x)
+  {
+    this->origCampaign_.set (x);
+  }
+
+  void gamestate_t::
+  origCampaign (const origCampaign_optional& x)
+  {
+    this->origCampaign_ = x;
+  }
+
+  void gamestate_t::
+  origCampaign (::std::auto_ptr< origCampaign_type > x)
+  {
+    this->origCampaign_.set (x);
+  }
+
+  const gamestate_t::expCampaign_optional& gamestate_t::
+  expCampaign () const
+  {
+    return this->expCampaign_;
+  }
+
+  gamestate_t::expCampaign_optional& gamestate_t::
+  expCampaign ()
+  {
+    return this->expCampaign_;
+  }
+
+  void gamestate_t::
+  expCampaign (const expCampaign_type& x)
+  {
+    this->expCampaign_.set (x);
+  }
+
+  void gamestate_t::
+  expCampaign (const expCampaign_optional& x)
+  {
+    this->expCampaign_ = x;
+  }
+
+  void gamestate_t::
+  expCampaign (::std::auto_ptr< expCampaign_type > x)
+  {
+    this->expCampaign_.set (x);
   }
 
 
@@ -3971,22 +4675,22 @@ namespace ironfist_save
     this->buildDockRelated_.set (x);
   }
 
-  const town_t::field_7_type& town_t::
-  field_7 () const
+  const town_t::boatcell_type& town_t::
+  boatcell () const
   {
-    return this->field_7_.get ();
+    return this->boatcell_.get ();
   }
 
-  town_t::field_7_type& town_t::
-  field_7 ()
+  town_t::boatcell_type& town_t::
+  boatcell ()
   {
-    return this->field_7_.get ();
+    return this->boatcell_.get ();
   }
 
   void town_t::
-  field_7 (const field_7_type& x)
+  boatcell (const boatcell_type& x)
   {
-    this->field_7_.set (x);
+    this->boatcell_.set (x);
   }
 
   const town_t::visitingHeroIdx_type& town_t::
@@ -4359,40 +5063,40 @@ namespace ironfist_save
     this->relatedToSomeSortOfHeroCountOrIdx_.set (x);
   }
 
-  const playerData_t::game_B_type& playerData_t::
-  game_B () const
+  const playerData_t::hasCheated_type& playerData_t::
+  hasCheated () const
   {
-    return this->game_B_.get ();
+    return this->hasCheated_.get ();
   }
 
-  playerData_t::game_B_type& playerData_t::
-  game_B ()
+  playerData_t::hasCheated_type& playerData_t::
+  hasCheated ()
   {
-    return this->game_B_.get ();
-  }
-
-  void playerData_t::
-  game_B (const game_B_type& x)
-  {
-    this->game_B_.set (x);
-  }
-
-  const playerData_t::_3_type& playerData_t::
-  _3 () const
-  {
-    return this->_3_.get ();
-  }
-
-  playerData_t::_3_type& playerData_t::
-  _3 ()
-  {
-    return this->_3_.get ();
+    return this->hasCheated_.get ();
   }
 
   void playerData_t::
-  _3 (const _3_type& x)
+  hasCheated (const hasCheated_type& x)
   {
-    this->_3_.set (x);
+    this->hasCheated_.set (x);
+  }
+
+  const playerData_t::puzzlePieces_type& playerData_t::
+  puzzlePieces () const
+  {
+    return this->puzzlePieces_.get ();
+  }
+
+  playerData_t::puzzlePieces_type& playerData_t::
+  puzzlePieces ()
+  {
+    return this->puzzlePieces_.get ();
+  }
+
+  void playerData_t::
+  puzzlePieces (const puzzlePieces_type& x)
+  {
+    this->puzzlePieces_.set (x);
   }
 
   const playerData_t::personality_type& playerData_t::
@@ -4975,6 +5679,296 @@ namespace ironfist_save
   spell_default_value ()
   {
     return spell_type (-1);
+  }
+
+
+  // campMapsWon
+  // 
+
+  const campMapsWon::campID_type& campMapsWon::
+  campID () const
+  {
+    return this->campID_.get ();
+  }
+
+  campMapsWon::campID_type& campMapsWon::
+  campID ()
+  {
+    return this->campID_.get ();
+  }
+
+  void campMapsWon::
+  campID (const campID_type& x)
+  {
+    this->campID_.set (x);
+  }
+
+  const campMapsWon::mapID_type& campMapsWon::
+  mapID () const
+  {
+    return this->mapID_.get ();
+  }
+
+  campMapsWon::mapID_type& campMapsWon::
+  mapID ()
+  {
+    return this->mapID_.get ();
+  }
+
+  void campMapsWon::
+  mapID (const mapID_type& x)
+  {
+    this->mapID_.set (x);
+  }
+
+  const campMapsWon::won_type& campMapsWon::
+  won () const
+  {
+    return this->won_.get ();
+  }
+
+  campMapsWon::won_type& campMapsWon::
+  won ()
+  {
+    return this->won_.get ();
+  }
+
+  void campMapsWon::
+  won (const won_type& x)
+  {
+    this->won_.set (x);
+  }
+
+
+  // campDaysPlayed
+  // 
+
+  const campDaysPlayed::campID_type& campDaysPlayed::
+  campID () const
+  {
+    return this->campID_.get ();
+  }
+
+  campDaysPlayed::campID_type& campDaysPlayed::
+  campID ()
+  {
+    return this->campID_.get ();
+  }
+
+  void campDaysPlayed::
+  campID (const campID_type& x)
+  {
+    this->campID_.set (x);
+  }
+
+  const campDaysPlayed::mapID_type& campDaysPlayed::
+  mapID () const
+  {
+    return this->mapID_.get ();
+  }
+
+  campDaysPlayed::mapID_type& campDaysPlayed::
+  mapID ()
+  {
+    return this->mapID_.get ();
+  }
+
+  void campDaysPlayed::
+  mapID (const mapID_type& x)
+  {
+    this->mapID_.set (x);
+  }
+
+  const campDaysPlayed::daysPlayed_type& campDaysPlayed::
+  daysPlayed () const
+  {
+    return this->daysPlayed_.get ();
+  }
+
+  campDaysPlayed::daysPlayed_type& campDaysPlayed::
+  daysPlayed ()
+  {
+    return this->daysPlayed_.get ();
+  }
+
+  void campDaysPlayed::
+  daysPlayed (const daysPlayed_type& x)
+  {
+    this->daysPlayed_.set (x);
+  }
+
+
+  // campDaysPlayed2
+  // 
+
+  const campDaysPlayed2::campID_type& campDaysPlayed2::
+  campID () const
+  {
+    return this->campID_.get ();
+  }
+
+  campDaysPlayed2::campID_type& campDaysPlayed2::
+  campID ()
+  {
+    return this->campID_.get ();
+  }
+
+  void campDaysPlayed2::
+  campID (const campID_type& x)
+  {
+    this->campID_.set (x);
+  }
+
+  const campDaysPlayed2::mapID_type& campDaysPlayed2::
+  mapID () const
+  {
+    return this->mapID_.get ();
+  }
+
+  campDaysPlayed2::mapID_type& campDaysPlayed2::
+  mapID ()
+  {
+    return this->mapID_.get ();
+  }
+
+  void campDaysPlayed2::
+  mapID (const mapID_type& x)
+  {
+    this->mapID_.set (x);
+  }
+
+  const campDaysPlayed2::daysPlayed_type& campDaysPlayed2::
+  daysPlayed () const
+  {
+    return this->daysPlayed_.get ();
+  }
+
+  campDaysPlayed2::daysPlayed_type& campDaysPlayed2::
+  daysPlayed ()
+  {
+    return this->daysPlayed_.get ();
+  }
+
+  void campDaysPlayed2::
+  daysPlayed (const daysPlayed_type& x)
+  {
+    this->daysPlayed_.set (x);
+  }
+
+
+  // campChoices
+  // 
+
+  const campChoices::campID_type& campChoices::
+  campID () const
+  {
+    return this->campID_.get ();
+  }
+
+  campChoices::campID_type& campChoices::
+  campID ()
+  {
+    return this->campID_.get ();
+  }
+
+  void campChoices::
+  campID (const campID_type& x)
+  {
+    this->campID_.set (x);
+  }
+
+  const campChoices::mapID_type& campChoices::
+  mapID () const
+  {
+    return this->mapID_.get ();
+  }
+
+  campChoices::mapID_type& campChoices::
+  mapID ()
+  {
+    return this->mapID_.get ();
+  }
+
+  void campChoices::
+  mapID (const mapID_type& x)
+  {
+    this->mapID_.set (x);
+  }
+
+  const campChoices::choice_type& campChoices::
+  choice () const
+  {
+    return this->choice_.get ();
+  }
+
+  campChoices::choice_type& campChoices::
+  choice ()
+  {
+    return this->choice_.get ();
+  }
+
+  void campChoices::
+  choice (const choice_type& x)
+  {
+    this->choice_.set (x);
+  }
+
+
+  // campMapsPlayed
+  // 
+
+  const campMapsPlayed::campID_type& campMapsPlayed::
+  campID () const
+  {
+    return this->campID_.get ();
+  }
+
+  campMapsPlayed::campID_type& campMapsPlayed::
+  campID ()
+  {
+    return this->campID_.get ();
+  }
+
+  void campMapsPlayed::
+  campID (const campID_type& x)
+  {
+    this->campID_.set (x);
+  }
+
+  const campMapsPlayed::mapID_type& campMapsPlayed::
+  mapID () const
+  {
+    return this->mapID_.get ();
+  }
+
+  campMapsPlayed::mapID_type& campMapsPlayed::
+  mapID ()
+  {
+    return this->mapID_.get ();
+  }
+
+  void campMapsPlayed::
+  mapID (const mapID_type& x)
+  {
+    this->mapID_.set (x);
+  }
+
+  const campMapsPlayed::played_type& campMapsPlayed::
+  played () const
+  {
+    return this->played_.get ();
+  }
+
+  campMapsPlayed::played_type& campMapsPlayed::
+  played ()
+  {
+    return this->played_.get ();
+  }
+
+  void campMapsPlayed::
+  played (const played_type& x)
+  {
+    this->played_.set (x);
   }
 
 
@@ -6564,6 +7558,620 @@ namespace ironfist_save
   {
   }
 
+  // origCampaign_t
+  //
+
+  origCampaign_t::
+  origCampaign_t (const campID_type& campID,
+                  const campIDanother_type& campIDanother,
+                  const campMapID_type& campMapID,
+                  const campUnknown_type& campUnknown,
+                  const campDaysPlayedCurrent_type& campDaysPlayedCurrent,
+                  const campMaybeWon_type& campMaybeWon,
+                  const campHasCheated_type& campHasCheated)
+  : ::xml_schema::type (),
+    campID_ (campID, ::xml_schema::flags (), this),
+    campIDanother_ (campIDanother, ::xml_schema::flags (), this),
+    campMapID_ (campMapID, ::xml_schema::flags (), this),
+    campUnknown_ (campUnknown, ::xml_schema::flags (), this),
+    campDaysPlayedCurrent_ (campDaysPlayedCurrent, ::xml_schema::flags (), this),
+    campMaybeWon_ (campMaybeWon, ::xml_schema::flags (), this),
+    campHasCheated_ (campHasCheated, ::xml_schema::flags (), this),
+    campMapsWon_ (::xml_schema::flags (), this),
+    campDaysPlayed_ (::xml_schema::flags (), this),
+    campDaysPlayed2_ (::xml_schema::flags (), this),
+    campBonuses_ (::xml_schema::flags (), this),
+    campChoices_ (::xml_schema::flags (), this),
+    campMapsPlayed_ (::xml_schema::flags (), this),
+    campPlayerCreatures_ (::xml_schema::flags (), this),
+    campPlayerCreatureQuantities_ (::xml_schema::flags (), this),
+    relatedToCampaign_ (::xml_schema::flags (), this)
+  {
+  }
+
+  origCampaign_t::
+  origCampaign_t (const origCampaign_t& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    campID_ (x.campID_, f, this),
+    campIDanother_ (x.campIDanother_, f, this),
+    campMapID_ (x.campMapID_, f, this),
+    campUnknown_ (x.campUnknown_, f, this),
+    campDaysPlayedCurrent_ (x.campDaysPlayedCurrent_, f, this),
+    campMaybeWon_ (x.campMaybeWon_, f, this),
+    campHasCheated_ (x.campHasCheated_, f, this),
+    campMapsWon_ (x.campMapsWon_, f, this),
+    campDaysPlayed_ (x.campDaysPlayed_, f, this),
+    campDaysPlayed2_ (x.campDaysPlayed2_, f, this),
+    campBonuses_ (x.campBonuses_, f, this),
+    campChoices_ (x.campChoices_, f, this),
+    campMapsPlayed_ (x.campMapsPlayed_, f, this),
+    campPlayerCreatures_ (x.campPlayerCreatures_, f, this),
+    campPlayerCreatureQuantities_ (x.campPlayerCreatureQuantities_, f, this),
+    relatedToCampaign_ (x.relatedToCampaign_, f, this)
+  {
+  }
+
+  origCampaign_t::
+  origCampaign_t (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    campID_ (f, this),
+    campIDanother_ (f, this),
+    campMapID_ (f, this),
+    campUnknown_ (f, this),
+    campDaysPlayedCurrent_ (f, this),
+    campMaybeWon_ (f, this),
+    campHasCheated_ (f, this),
+    campMapsWon_ (f, this),
+    campDaysPlayed_ (f, this),
+    campDaysPlayed2_ (f, this),
+    campBonuses_ (f, this),
+    campChoices_ (f, this),
+    campMapsPlayed_ (f, this),
+    campPlayerCreatures_ (f, this),
+    campPlayerCreatureQuantities_ (f, this),
+    relatedToCampaign_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void origCampaign_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // campID
+      //
+      if (n.name () == "campID" && n.namespace_ ().empty ())
+      {
+        if (!campID_.present ())
+        {
+          this->campID_.set (campID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // campIDanother
+      //
+      if (n.name () == "campIDanother" && n.namespace_ ().empty ())
+      {
+        if (!campIDanother_.present ())
+        {
+          this->campIDanother_.set (campIDanother_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // campMapID
+      //
+      if (n.name () == "campMapID" && n.namespace_ ().empty ())
+      {
+        if (!campMapID_.present ())
+        {
+          this->campMapID_.set (campMapID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // campUnknown
+      //
+      if (n.name () == "campUnknown" && n.namespace_ ().empty ())
+      {
+        if (!campUnknown_.present ())
+        {
+          this->campUnknown_.set (campUnknown_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // campDaysPlayedCurrent
+      //
+      if (n.name () == "campDaysPlayedCurrent" && n.namespace_ ().empty ())
+      {
+        if (!campDaysPlayedCurrent_.present ())
+        {
+          this->campDaysPlayedCurrent_.set (campDaysPlayedCurrent_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // campMaybeWon
+      //
+      if (n.name () == "campMaybeWon" && n.namespace_ ().empty ())
+      {
+        if (!campMaybeWon_.present ())
+        {
+          this->campMaybeWon_.set (campMaybeWon_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // campHasCheated
+      //
+      if (n.name () == "campHasCheated" && n.namespace_ ().empty ())
+      {
+        if (!campHasCheated_.present ())
+        {
+          this->campHasCheated_.set (campHasCheated_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // campMapsWon
+      //
+      if (n.name () == "campMapsWon" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campMapsWon_type > r (
+          campMapsWon_traits::create (i, f, this));
+
+        this->campMapsWon_.push_back (r);
+        continue;
+      }
+
+      // campDaysPlayed
+      //
+      if (n.name () == "campDaysPlayed" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campDaysPlayed_type > r (
+          campDaysPlayed_traits::create (i, f, this));
+
+        this->campDaysPlayed_.push_back (r);
+        continue;
+      }
+
+      // campDaysPlayed2
+      //
+      if (n.name () == "campDaysPlayed2" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campDaysPlayed2_type > r (
+          campDaysPlayed2_traits::create (i, f, this));
+
+        this->campDaysPlayed2_.push_back (r);
+        continue;
+      }
+
+      // campBonuses
+      //
+      if (n.name () == "campBonuses" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campBonuses_type > r (
+          campBonuses_traits::create (i, f, this));
+
+        this->campBonuses_.push_back (r);
+        continue;
+      }
+
+      // campChoices
+      //
+      if (n.name () == "campChoices" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campChoices_type > r (
+          campChoices_traits::create (i, f, this));
+
+        this->campChoices_.push_back (r);
+        continue;
+      }
+
+      // campMapsPlayed
+      //
+      if (n.name () == "campMapsPlayed" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campMapsPlayed_type > r (
+          campMapsPlayed_traits::create (i, f, this));
+
+        this->campMapsPlayed_.push_back (r);
+        continue;
+      }
+
+      // campPlayerCreatures
+      //
+      if (n.name () == "campPlayerCreatures" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campPlayerCreatures_type > r (
+          campPlayerCreatures_traits::create (i, f, this));
+
+        this->campPlayerCreatures_.push_back (r);
+        continue;
+      }
+
+      // campPlayerCreatureQuantities
+      //
+      if (n.name () == "campPlayerCreatureQuantities" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< campPlayerCreatureQuantities_type > r (
+          campPlayerCreatureQuantities_traits::create (i, f, this));
+
+        this->campPlayerCreatureQuantities_.push_back (r);
+        continue;
+      }
+
+      // relatedToCampaign
+      //
+      if (n.name () == "relatedToCampaign" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< relatedToCampaign_type > r (
+          relatedToCampaign_traits::create (i, f, this));
+
+        this->relatedToCampaign_.push_back (r);
+        continue;
+      }
+
+      break;
+    }
+
+    if (!campID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campID",
+        "");
+    }
+
+    if (!campIDanother_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campIDanother",
+        "");
+    }
+
+    if (!campMapID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campMapID",
+        "");
+    }
+
+    if (!campUnknown_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campUnknown",
+        "");
+    }
+
+    if (!campDaysPlayedCurrent_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campDaysPlayedCurrent",
+        "");
+    }
+
+    if (!campMaybeWon_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campMaybeWon",
+        "");
+    }
+
+    if (!campHasCheated_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campHasCheated",
+        "");
+    }
+  }
+
+  origCampaign_t* origCampaign_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class origCampaign_t (*this, f, c);
+  }
+
+  origCampaign_t::
+  ~origCampaign_t ()
+  {
+  }
+
+  // expCampaign_t
+  //
+
+  expCampaign_t::
+  expCampaign_t (const campaignID_type& campaignID,
+                 const currentMapID_type& currentMapID,
+                 const numMaps_type& numMaps,
+                 const unknownVariable_type& unknownVariable,
+                 const mightBeScenarioID_type& mightBeScenarioID,
+                 const window_type& window,
+                 const anIntVariable_type& anIntVariable)
+  : ::xml_schema::type (),
+    mapChoice_ (::xml_schema::flags (), this),
+    mapsPlayed_ (::xml_schema::flags (), this),
+    daysPlayed_ (::xml_schema::flags (), this),
+    awards_ (::xml_schema::flags (), this),
+    bonusChoices_ (::xml_schema::flags (), this),
+    campaignID_ (campaignID, ::xml_schema::flags (), this),
+    currentMapID_ (currentMapID, ::xml_schema::flags (), this),
+    numMaps_ (numMaps, ::xml_schema::flags (), this),
+    unknownVariable_ (unknownVariable, ::xml_schema::flags (), this),
+    mightBeScenarioID_ (mightBeScenarioID, ::xml_schema::flags (), this),
+    window_ (window, ::xml_schema::flags (), this),
+    anIntVariable_ (anIntVariable, ::xml_schema::flags (), this)
+  {
+  }
+
+  expCampaign_t::
+  expCampaign_t (const expCampaign_t& x,
+                 ::xml_schema::flags f,
+                 ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    mapChoice_ (x.mapChoice_, f, this),
+    mapsPlayed_ (x.mapsPlayed_, f, this),
+    daysPlayed_ (x.daysPlayed_, f, this),
+    awards_ (x.awards_, f, this),
+    bonusChoices_ (x.bonusChoices_, f, this),
+    campaignID_ (x.campaignID_, f, this),
+    currentMapID_ (x.currentMapID_, f, this),
+    numMaps_ (x.numMaps_, f, this),
+    unknownVariable_ (x.unknownVariable_, f, this),
+    mightBeScenarioID_ (x.mightBeScenarioID_, f, this),
+    window_ (x.window_, f, this),
+    anIntVariable_ (x.anIntVariable_, f, this)
+  {
+  }
+
+  expCampaign_t::
+  expCampaign_t (const ::xercesc::DOMElement& e,
+                 ::xml_schema::flags f,
+                 ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    mapChoice_ (f, this),
+    mapsPlayed_ (f, this),
+    daysPlayed_ (f, this),
+    awards_ (f, this),
+    bonusChoices_ (f, this),
+    campaignID_ (f, this),
+    currentMapID_ (f, this),
+    numMaps_ (f, this),
+    unknownVariable_ (f, this),
+    mightBeScenarioID_ (f, this),
+    window_ (f, this),
+    anIntVariable_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, true, false);
+      this->parse (p, f);
+    }
+  }
+
+  void expCampaign_t::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    for (; p.more_elements (); p.next_element ())
+    {
+      const ::xercesc::DOMElement& i (p.cur_element ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      // mapChoice
+      //
+      if (n.name () == "mapChoice" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapChoice_type > r (
+          mapChoice_traits::create (i, f, this));
+
+        this->mapChoice_.push_back (r);
+        continue;
+      }
+
+      // mapsPlayed
+      //
+      if (n.name () == "mapsPlayed" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< mapsPlayed_type > r (
+          mapsPlayed_traits::create (i, f, this));
+
+        this->mapsPlayed_.push_back (r);
+        continue;
+      }
+
+      // daysPlayed
+      //
+      if (n.name () == "daysPlayed" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< daysPlayed_type > r (
+          daysPlayed_traits::create (i, f, this));
+
+        this->daysPlayed_.push_back (r);
+        continue;
+      }
+
+      // awards
+      //
+      if (n.name () == "awards" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< awards_type > r (
+          awards_traits::create (i, f, this));
+
+        this->awards_.push_back (r);
+        continue;
+      }
+
+      // bonusChoices
+      //
+      if (n.name () == "bonusChoices" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< bonusChoices_type > r (
+          bonusChoices_traits::create (i, f, this));
+
+        this->bonusChoices_.push_back (r);
+        continue;
+      }
+
+      // campaignID
+      //
+      if (n.name () == "campaignID" && n.namespace_ ().empty ())
+      {
+        if (!campaignID_.present ())
+        {
+          this->campaignID_.set (campaignID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // currentMapID
+      //
+      if (n.name () == "currentMapID" && n.namespace_ ().empty ())
+      {
+        if (!currentMapID_.present ())
+        {
+          this->currentMapID_.set (currentMapID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numMaps
+      //
+      if (n.name () == "numMaps" && n.namespace_ ().empty ())
+      {
+        if (!numMaps_.present ())
+        {
+          this->numMaps_.set (numMaps_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // unknownVariable
+      //
+      if (n.name () == "unknownVariable" && n.namespace_ ().empty ())
+      {
+        if (!unknownVariable_.present ())
+        {
+          this->unknownVariable_.set (unknownVariable_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // mightBeScenarioID
+      //
+      if (n.name () == "mightBeScenarioID" && n.namespace_ ().empty ())
+      {
+        if (!mightBeScenarioID_.present ())
+        {
+          this->mightBeScenarioID_.set (mightBeScenarioID_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // window
+      //
+      if (n.name () == "window" && n.namespace_ ().empty ())
+      {
+        if (!window_.present ())
+        {
+          this->window_.set (window_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // anIntVariable
+      //
+      if (n.name () == "anIntVariable" && n.namespace_ ().empty ())
+      {
+        if (!anIntVariable_.present ())
+        {
+          this->anIntVariable_.set (anIntVariable_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      break;
+    }
+
+    if (!campaignID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campaignID",
+        "");
+    }
+
+    if (!currentMapID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "currentMapID",
+        "");
+    }
+
+    if (!numMaps_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numMaps",
+        "");
+    }
+
+    if (!unknownVariable_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "unknownVariable",
+        "");
+    }
+
+    if (!mightBeScenarioID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "mightBeScenarioID",
+        "");
+    }
+
+    if (!window_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "window",
+        "");
+    }
+
+    if (!anIntVariable_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "anIntVariable",
+        "");
+    }
+  }
+
+  expCampaign_t* expCampaign_t::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class expCampaign_t (*this, f, c);
+  }
+
+  expCampaign_t::
+  ~expCampaign_t ()
+  {
+  }
+
   // tableElement_t
   //
 
@@ -6915,10 +8523,15 @@ namespace ironfist_save
                const currentRumor_type& currentRumor,
                const numRumors_type& numRumors,
                const numEvents_type& numEvents,
-               const field_657B_type& field_657B,
+               const numMapEvents_type& numMapEvents,
                const maxMapExtra_type& maxMapExtra,
                const difficulty_type& difficulty,
-               const mapFilename_type& mapFilename)
+               const mapFilename_type& mapFilename,
+               const relatedToNewGameSelection_type& relatedToNewGameSelection,
+               const relatedToNewGameInit_type& relatedToNewGameInit,
+               const numHumanPlayers_type& numHumanPlayers,
+               const gbIAmGreatest_type& gbIAmGreatest,
+               const campaignType_type& campaignType)
   : ::xml_schema::type (),
     allowAIArmySharing_ (allowAIArmySharing, ::xml_schema::flags (), this),
     mapWidth_ (mapWidth, ::xml_schema::flags (), this),
@@ -6942,7 +8555,7 @@ namespace ironfist_save
     currentRumor_ (currentRumor, ::xml_schema::flags (), this),
     numRumors_ (numRumors, ::xml_schema::flags (), this),
     numEvents_ (numEvents, ::xml_schema::flags (), this),
-    field_657B_ (field_657B, ::xml_schema::flags (), this),
+    numMapEvents_ (numMapEvents, ::xml_schema::flags (), this),
     maxMapExtra_ (maxMapExtra, ::xml_schema::flags (), this),
     playerNames_ (::xml_schema::flags (), this),
     deadPlayers_ (::xml_schema::flags (), this),
@@ -6954,8 +8567,14 @@ namespace ironfist_save
     somePlayerCodeOr10IfMayBeHuman_ (::xml_schema::flags (), this),
     difficulty_ (difficulty, ::xml_schema::flags (), this),
     mapFilename_ (mapFilename, ::xml_schema::flags (), this),
+    somePlayerNumData_ (::xml_schema::flags (), this),
+    relatedToNewGameSelection_ (relatedToNewGameSelection, ::xml_schema::flags (), this),
+    relatedToNewGameInit_ (relatedToNewGameInit, ::xml_schema::flags (), this),
+    numHumanPlayers_ (numHumanPlayers, ::xml_schema::flags (), this),
+    field_47C_ (::xml_schema::flags (), this),
+    gbIAmGreatest_ (gbIAmGreatest, ::xml_schema::flags (), this),
     field_2773_ (::xml_schema::flags (), this),
-    field_27BB_ (::xml_schema::flags (), this),
+    builtToday_ (::xml_schema::flags (), this),
     field_60A6_ (::xml_schema::flags (), this),
     randomArtifacts_ (::xml_schema::flags (), this),
     boatBuilt_ (::xml_schema::flags (), this),
@@ -6963,7 +8582,7 @@ namespace ironfist_save
     field_637D_ (::xml_schema::flags (), this),
     rumorIndices_ (::xml_schema::flags (), this),
     eventIndices_ (::xml_schema::flags (), this),
-    _D_ (::xml_schema::flags (), this),
+    mapEventIndices_ (::xml_schema::flags (), this),
     mapRevealed_ (::xml_schema::flags (), this),
     mapHeader_ (::xml_schema::flags (), this),
     mapExtra_ (::xml_schema::flags (), this),
@@ -6971,7 +8590,10 @@ namespace ironfist_save
     towns_ (::xml_schema::flags (), this),
     mine_ (::xml_schema::flags (), this),
     boat_ (::xml_schema::flags (), this),
-    map_ (::xml_schema::flags (), this)
+    map_ (::xml_schema::flags (), this),
+    campaignType_ (campaignType, ::xml_schema::flags (), this),
+    origCampaign_ (::xml_schema::flags (), this),
+    expCampaign_ (::xml_schema::flags (), this)
   {
   }
 
@@ -7002,7 +8624,7 @@ namespace ironfist_save
     currentRumor_ (x.currentRumor_, f, this),
     numRumors_ (x.numRumors_, f, this),
     numEvents_ (x.numEvents_, f, this),
-    field_657B_ (x.field_657B_, f, this),
+    numMapEvents_ (x.numMapEvents_, f, this),
     maxMapExtra_ (x.maxMapExtra_, f, this),
     playerNames_ (x.playerNames_, f, this),
     deadPlayers_ (x.deadPlayers_, f, this),
@@ -7014,8 +8636,14 @@ namespace ironfist_save
     somePlayerCodeOr10IfMayBeHuman_ (x.somePlayerCodeOr10IfMayBeHuman_, f, this),
     difficulty_ (x.difficulty_, f, this),
     mapFilename_ (x.mapFilename_, f, this),
+    somePlayerNumData_ (x.somePlayerNumData_, f, this),
+    relatedToNewGameSelection_ (x.relatedToNewGameSelection_, f, this),
+    relatedToNewGameInit_ (x.relatedToNewGameInit_, f, this),
+    numHumanPlayers_ (x.numHumanPlayers_, f, this),
+    field_47C_ (x.field_47C_, f, this),
+    gbIAmGreatest_ (x.gbIAmGreatest_, f, this),
     field_2773_ (x.field_2773_, f, this),
-    field_27BB_ (x.field_27BB_, f, this),
+    builtToday_ (x.builtToday_, f, this),
     field_60A6_ (x.field_60A6_, f, this),
     randomArtifacts_ (x.randomArtifacts_, f, this),
     boatBuilt_ (x.boatBuilt_, f, this),
@@ -7023,7 +8651,7 @@ namespace ironfist_save
     field_637D_ (x.field_637D_, f, this),
     rumorIndices_ (x.rumorIndices_, f, this),
     eventIndices_ (x.eventIndices_, f, this),
-    _D_ (x._D_, f, this),
+    mapEventIndices_ (x.mapEventIndices_, f, this),
     mapRevealed_ (x.mapRevealed_, f, this),
     mapHeader_ (x.mapHeader_, f, this),
     mapExtra_ (x.mapExtra_, f, this),
@@ -7031,7 +8659,10 @@ namespace ironfist_save
     towns_ (x.towns_, f, this),
     mine_ (x.mine_, f, this),
     boat_ (x.boat_, f, this),
-    map_ (x.map_, f, this)
+    map_ (x.map_, f, this),
+    campaignType_ (x.campaignType_, f, this),
+    origCampaign_ (x.origCampaign_, f, this),
+    expCampaign_ (x.expCampaign_, f, this)
   {
   }
 
@@ -7062,7 +8693,7 @@ namespace ironfist_save
     currentRumor_ (f, this),
     numRumors_ (f, this),
     numEvents_ (f, this),
-    field_657B_ (f, this),
+    numMapEvents_ (f, this),
     maxMapExtra_ (f, this),
     playerNames_ (f, this),
     deadPlayers_ (f, this),
@@ -7074,8 +8705,14 @@ namespace ironfist_save
     somePlayerCodeOr10IfMayBeHuman_ (f, this),
     difficulty_ (f, this),
     mapFilename_ (f, this),
+    somePlayerNumData_ (f, this),
+    relatedToNewGameSelection_ (f, this),
+    relatedToNewGameInit_ (f, this),
+    numHumanPlayers_ (f, this),
+    field_47C_ (f, this),
+    gbIAmGreatest_ (f, this),
     field_2773_ (f, this),
-    field_27BB_ (f, this),
+    builtToday_ (f, this),
     field_60A6_ (f, this),
     randomArtifacts_ (f, this),
     boatBuilt_ (f, this),
@@ -7083,7 +8720,7 @@ namespace ironfist_save
     field_637D_ (f, this),
     rumorIndices_ (f, this),
     eventIndices_ (f, this),
-    _D_ (f, this),
+    mapEventIndices_ (f, this),
     mapRevealed_ (f, this),
     mapHeader_ (f, this),
     mapExtra_ (f, this),
@@ -7091,7 +8728,10 @@ namespace ironfist_save
     towns_ (f, this),
     mine_ (f, this),
     boat_ (f, this),
-    map_ (f, this)
+    map_ (f, this),
+    campaignType_ (f, this),
+    origCampaign_ (f, this),
+    expCampaign_ (f, this)
   {
     if ((f & ::xml_schema::flags::base) == 0)
     {
@@ -7355,13 +8995,13 @@ namespace ironfist_save
         }
       }
 
-      // field_657B
+      // numMapEvents
       //
-      if (n.name () == "field_657B" && n.namespace_ ().empty ())
+      if (n.name () == "numMapEvents" && n.namespace_ ().empty ())
       {
-        if (!field_657B_.present ())
+        if (!numMapEvents_.present ())
         {
-          this->field_657B_.set (field_657B_traits::create (i, f, this));
+          this->numMapEvents_.set (numMapEvents_traits::create (i, f, this));
           continue;
         }
       }
@@ -7490,6 +9130,72 @@ namespace ironfist_save
         }
       }
 
+      // somePlayerNumData
+      //
+      if (n.name () == "somePlayerNumData" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< somePlayerNumData_type > r (
+          somePlayerNumData_traits::create (i, f, this));
+
+        this->somePlayerNumData_.push_back (r);
+        continue;
+      }
+
+      // relatedToNewGameSelection
+      //
+      if (n.name () == "relatedToNewGameSelection" && n.namespace_ ().empty ())
+      {
+        if (!relatedToNewGameSelection_.present ())
+        {
+          this->relatedToNewGameSelection_.set (relatedToNewGameSelection_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // relatedToNewGameInit
+      //
+      if (n.name () == "relatedToNewGameInit" && n.namespace_ ().empty ())
+      {
+        if (!relatedToNewGameInit_.present ())
+        {
+          this->relatedToNewGameInit_.set (relatedToNewGameInit_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // numHumanPlayers
+      //
+      if (n.name () == "numHumanPlayers" && n.namespace_ ().empty ())
+      {
+        if (!numHumanPlayers_.present ())
+        {
+          this->numHumanPlayers_.set (numHumanPlayers_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // field_47C
+      //
+      if (n.name () == "field_47C" && n.namespace_ ().empty ())
+      {
+        ::std::auto_ptr< field_47C_type > r (
+          field_47C_traits::create (i, f, this));
+
+        this->field_47C_.push_back (r);
+        continue;
+      }
+
+      // gbIAmGreatest
+      //
+      if (n.name () == "gbIAmGreatest" && n.namespace_ ().empty ())
+      {
+        if (!gbIAmGreatest_.present ())
+        {
+          this->gbIAmGreatest_.set (gbIAmGreatest_traits::create (i, f, this));
+          continue;
+        }
+      }
+
       // field_2773
       //
       if (n.name () == "field_2773" && n.namespace_ ().empty ())
@@ -7501,14 +9207,14 @@ namespace ironfist_save
         continue;
       }
 
-      // field_27BB
+      // builtToday
       //
-      if (n.name () == "field_27BB" && n.namespace_ ().empty ())
+      if (n.name () == "builtToday" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< field_27BB_type > r (
-          field_27BB_traits::create (i, f, this));
+        ::std::auto_ptr< builtToday_type > r (
+          builtToday_traits::create (i, f, this));
 
-        this->field_27BB_.push_back (r);
+        this->builtToday_.push_back (r);
         continue;
       }
 
@@ -7589,14 +9295,14 @@ namespace ironfist_save
         continue;
       }
 
-      // _D
+      // mapEventIndices
       //
-      if (n.name () == "_D" && n.namespace_ ().empty ())
+      if (n.name () == "mapEventIndices" && n.namespace_ ().empty ())
       {
-        ::std::auto_ptr< _D_type > r (
-          _D_traits::create (i, f, this));
+        ::std::auto_ptr< mapEventIndices_type > r (
+          mapEventIndices_traits::create (i, f, this));
 
-        this->_D_.push_back (r);
+        this->mapEventIndices_.push_back (r);
         continue;
       }
 
@@ -7686,6 +9392,45 @@ namespace ironfist_save
 
         this->map_.push_back (r);
         continue;
+      }
+
+      // campaignType
+      //
+      if (n.name () == "campaignType" && n.namespace_ ().empty ())
+      {
+        if (!campaignType_.present ())
+        {
+          this->campaignType_.set (campaignType_traits::create (i, f, this));
+          continue;
+        }
+      }
+
+      // origCampaign
+      //
+      if (n.name () == "origCampaign" && n.namespace_ () == "ironfist_save")
+      {
+        ::std::auto_ptr< origCampaign_type > r (
+          origCampaign_traits::create (i, f, this));
+
+        if (!this->origCampaign_)
+        {
+          this->origCampaign_.set (r);
+          continue;
+        }
+      }
+
+      // expCampaign
+      //
+      if (n.name () == "expCampaign" && n.namespace_ () == "ironfist_save")
+      {
+        ::std::auto_ptr< expCampaign_type > r (
+          expCampaign_traits::create (i, f, this));
+
+        if (!this->expCampaign_)
+        {
+          this->expCampaign_.set (r);
+          continue;
+        }
       }
 
       break;
@@ -7845,10 +9590,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_657B_.present ())
+    if (!numMapEvents_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_657B",
+        "numMapEvents",
         "");
     }
 
@@ -7870,6 +9615,41 @@ namespace ironfist_save
     {
       throw ::xsd::cxx::tree::expected_element< char > (
         "mapFilename",
+        "");
+    }
+
+    if (!relatedToNewGameSelection_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToNewGameSelection",
+        "");
+    }
+
+    if (!relatedToNewGameInit_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "relatedToNewGameInit",
+        "");
+    }
+
+    if (!numHumanPlayers_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "numHumanPlayers",
+        "");
+    }
+
+    if (!gbIAmGreatest_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "gbIAmGreatest",
+        "");
+    }
+
+    if (!campaignType_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_element< char > (
+        "campaignType",
         "");
     }
   }
@@ -9814,7 +11594,7 @@ namespace ironfist_save
           const x_type& x,
           const y_type& y,
           const buildDockRelated_type& buildDockRelated,
-          const field_7_type& field_7,
+          const boatcell_type& boatcell,
           const visitingHeroIdx_type& visitingHeroIdx,
           const buildingsBuiltFlags_type& buildingsBuiltFlags,
           const mageGuildLevel_type& mageGuildLevel,
@@ -9835,7 +11615,7 @@ namespace ironfist_save
     x_ (x, ::xml_schema::flags (), this),
     y_ (y, ::xml_schema::flags (), this),
     buildDockRelated_ (buildDockRelated, ::xml_schema::flags (), this),
-    field_7_ (field_7, ::xml_schema::flags (), this),
+    boatcell_ (boatcell, ::xml_schema::flags (), this),
     visitingHeroIdx_ (visitingHeroIdx, ::xml_schema::flags (), this),
     buildingsBuiltFlags_ (buildingsBuiltFlags, ::xml_schema::flags (), this),
     mageGuildLevel_ (mageGuildLevel, ::xml_schema::flags (), this),
@@ -9867,7 +11647,7 @@ namespace ironfist_save
     x_ (x.x_, f, this),
     y_ (x.y_, f, this),
     buildDockRelated_ (x.buildDockRelated_, f, this),
-    field_7_ (x.field_7_, f, this),
+    boatcell_ (x.boatcell_, f, this),
     visitingHeroIdx_ (x.visitingHeroIdx_, f, this),
     buildingsBuiltFlags_ (x.buildingsBuiltFlags_, f, this),
     mageGuildLevel_ (x.mageGuildLevel_, f, this),
@@ -9899,7 +11679,7 @@ namespace ironfist_save
     x_ (f, this),
     y_ (f, this),
     buildDockRelated_ (f, this),
-    field_7_ (f, this),
+    boatcell_ (f, this),
     visitingHeroIdx_ (f, this),
     buildingsBuiltFlags_ (f, this),
     mageGuildLevel_ (f, this),
@@ -10011,13 +11791,13 @@ namespace ironfist_save
         }
       }
 
-      // field_7
+      // boatcell
       //
-      if (n.name () == "field_7" && n.namespace_ ().empty ())
+      if (n.name () == "boatcell" && n.namespace_ ().empty ())
       {
-        if (!field_7_.present ())
+        if (!boatcell_.present ())
         {
-          this->field_7_.set (field_7_traits::create (i, f, this));
+          this->boatcell_.set (boatcell_traits::create (i, f, this));
           continue;
         }
       }
@@ -10253,10 +12033,10 @@ namespace ironfist_save
         "");
     }
 
-    if (!field_7_.present ())
+    if (!boatcell_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "field_7",
+        "boatcell",
         "");
     }
 
@@ -10365,8 +12145,8 @@ namespace ironfist_save
                 const numHeroes_type& numHeroes,
                 const curHeroIdx_type& curHeroIdx,
                 const relatedToSomeSortOfHeroCountOrIdx_type& relatedToSomeSortOfHeroCountOrIdx,
-                const game_B_type& game_B,
-                const _3_type& _3,
+                const hasCheated_type& hasCheated,
+                const puzzlePieces_type& puzzlePieces,
                 const personality_type& personality,
                 const relatedToMaxOrNumHeroes_type& relatedToMaxOrNumHeroes,
                 const hasEvilFaction_type& hasEvilFaction,
@@ -10382,8 +12162,8 @@ namespace ironfist_save
     numHeroes_ (numHeroes, ::xml_schema::flags (), this),
     curHeroIdx_ (curHeroIdx, ::xml_schema::flags (), this),
     relatedToSomeSortOfHeroCountOrIdx_ (relatedToSomeSortOfHeroCountOrIdx, ::xml_schema::flags (), this),
-    game_B_ (game_B, ::xml_schema::flags (), this),
-    _3_ (_3, ::xml_schema::flags (), this),
+    hasCheated_ (hasCheated, ::xml_schema::flags (), this),
+    puzzlePieces_ (puzzlePieces, ::xml_schema::flags (), this),
     personality_ (personality, ::xml_schema::flags (), this),
     relatedToMaxOrNumHeroes_ (relatedToMaxOrNumHeroes, ::xml_schema::flags (), this),
     hasEvilFaction_ (hasEvilFaction, ::xml_schema::flags (), this),
@@ -10412,8 +12192,8 @@ namespace ironfist_save
     numHeroes_ (x.numHeroes_, f, this),
     curHeroIdx_ (x.curHeroIdx_, f, this),
     relatedToSomeSortOfHeroCountOrIdx_ (x.relatedToSomeSortOfHeroCountOrIdx_, f, this),
-    game_B_ (x.game_B_, f, this),
-    _3_ (x._3_, f, this),
+    hasCheated_ (x.hasCheated_, f, this),
+    puzzlePieces_ (x.puzzlePieces_, f, this),
     personality_ (x.personality_, f, this),
     relatedToMaxOrNumHeroes_ (x.relatedToMaxOrNumHeroes_, f, this),
     hasEvilFaction_ (x.hasEvilFaction_, f, this),
@@ -10442,8 +12222,8 @@ namespace ironfist_save
     numHeroes_ (f, this),
     curHeroIdx_ (f, this),
     relatedToSomeSortOfHeroCountOrIdx_ (f, this),
-    game_B_ (f, this),
-    _3_ (f, this),
+    hasCheated_ (f, this),
+    puzzlePieces_ (f, this),
     personality_ (f, this),
     relatedToMaxOrNumHeroes_ (f, this),
     hasEvilFaction_ (f, this),
@@ -10522,24 +12302,24 @@ namespace ironfist_save
         }
       }
 
-      // game_B
+      // hasCheated
       //
-      if (n.name () == "game_B" && n.namespace_ ().empty ())
+      if (n.name () == "hasCheated" && n.namespace_ ().empty ())
       {
-        if (!game_B_.present ())
+        if (!hasCheated_.present ())
         {
-          this->game_B_.set (game_B_traits::create (i, f, this));
+          this->hasCheated_.set (hasCheated_traits::create (i, f, this));
           continue;
         }
       }
 
-      // _3
+      // puzzlePieces
       //
-      if (n.name () == "_3" && n.namespace_ ().empty ())
+      if (n.name () == "puzzlePieces" && n.namespace_ ().empty ())
       {
-        if (!_3_.present ())
+        if (!puzzlePieces_.present ())
         {
-          this->_3_.set (_3_traits::create (i, f, this));
+          this->puzzlePieces_.set (puzzlePieces_traits::create (i, f, this));
           continue;
         }
       }
@@ -10751,17 +12531,17 @@ namespace ironfist_save
         "");
     }
 
-    if (!game_B_.present ())
+    if (!hasCheated_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "game_B",
+        "hasCheated",
         "");
     }
 
-    if (!_3_.present ())
+    if (!puzzlePieces_.present ())
     {
       throw ::xsd::cxx::tree::expected_element< char > (
-        "_3",
+        "puzzlePieces",
         "");
     }
 
@@ -11341,6 +13121,526 @@ namespace ironfist_save
 
   artifact::
   ~artifact ()
+  {
+  }
+
+  // campMapsWon
+  //
+
+  campMapsWon::
+  campMapsWon (const campID_type& campID,
+               const mapID_type& mapID,
+               const won_type& won)
+  : ::xml_schema::type (),
+    campID_ (campID, ::xml_schema::flags (), this),
+    mapID_ (mapID, ::xml_schema::flags (), this),
+    won_ (won, ::xml_schema::flags (), this)
+  {
+  }
+
+  campMapsWon::
+  campMapsWon (const campMapsWon& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    campID_ (x.campID_, f, this),
+    mapID_ (x.mapID_, f, this),
+    won_ (x.won_, f, this)
+  {
+  }
+
+  campMapsWon::
+  campMapsWon (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    campID_ (f, this),
+    mapID_ (f, this),
+    won_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void campMapsWon::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "campID" && n.namespace_ ().empty ())
+      {
+        this->campID_.set (campID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "mapID" && n.namespace_ ().empty ())
+      {
+        this->mapID_.set (mapID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "won" && n.namespace_ ().empty ())
+      {
+        this->won_.set (won_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!campID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "campID",
+        "");
+    }
+
+    if (!mapID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "mapID",
+        "");
+    }
+
+    if (!won_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "won",
+        "");
+    }
+  }
+
+  campMapsWon* campMapsWon::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class campMapsWon (*this, f, c);
+  }
+
+  campMapsWon::
+  ~campMapsWon ()
+  {
+  }
+
+  // campDaysPlayed
+  //
+
+  campDaysPlayed::
+  campDaysPlayed (const campID_type& campID,
+                  const mapID_type& mapID,
+                  const daysPlayed_type& daysPlayed)
+  : ::xml_schema::type (),
+    campID_ (campID, ::xml_schema::flags (), this),
+    mapID_ (mapID, ::xml_schema::flags (), this),
+    daysPlayed_ (daysPlayed, ::xml_schema::flags (), this)
+  {
+  }
+
+  campDaysPlayed::
+  campDaysPlayed (const campDaysPlayed& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    campID_ (x.campID_, f, this),
+    mapID_ (x.mapID_, f, this),
+    daysPlayed_ (x.daysPlayed_, f, this)
+  {
+  }
+
+  campDaysPlayed::
+  campDaysPlayed (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    campID_ (f, this),
+    mapID_ (f, this),
+    daysPlayed_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void campDaysPlayed::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "campID" && n.namespace_ ().empty ())
+      {
+        this->campID_.set (campID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "mapID" && n.namespace_ ().empty ())
+      {
+        this->mapID_.set (mapID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "daysPlayed" && n.namespace_ ().empty ())
+      {
+        this->daysPlayed_.set (daysPlayed_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!campID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "campID",
+        "");
+    }
+
+    if (!mapID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "mapID",
+        "");
+    }
+
+    if (!daysPlayed_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "daysPlayed",
+        "");
+    }
+  }
+
+  campDaysPlayed* campDaysPlayed::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class campDaysPlayed (*this, f, c);
+  }
+
+  campDaysPlayed::
+  ~campDaysPlayed ()
+  {
+  }
+
+  // campDaysPlayed2
+  //
+
+  campDaysPlayed2::
+  campDaysPlayed2 (const campID_type& campID,
+                   const mapID_type& mapID,
+                   const daysPlayed_type& daysPlayed)
+  : ::xml_schema::type (),
+    campID_ (campID, ::xml_schema::flags (), this),
+    mapID_ (mapID, ::xml_schema::flags (), this),
+    daysPlayed_ (daysPlayed, ::xml_schema::flags (), this)
+  {
+  }
+
+  campDaysPlayed2::
+  campDaysPlayed2 (const campDaysPlayed2& x,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    campID_ (x.campID_, f, this),
+    mapID_ (x.mapID_, f, this),
+    daysPlayed_ (x.daysPlayed_, f, this)
+  {
+  }
+
+  campDaysPlayed2::
+  campDaysPlayed2 (const ::xercesc::DOMElement& e,
+                   ::xml_schema::flags f,
+                   ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    campID_ (f, this),
+    mapID_ (f, this),
+    daysPlayed_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void campDaysPlayed2::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "campID" && n.namespace_ ().empty ())
+      {
+        this->campID_.set (campID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "mapID" && n.namespace_ ().empty ())
+      {
+        this->mapID_.set (mapID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "daysPlayed" && n.namespace_ ().empty ())
+      {
+        this->daysPlayed_.set (daysPlayed_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!campID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "campID",
+        "");
+    }
+
+    if (!mapID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "mapID",
+        "");
+    }
+
+    if (!daysPlayed_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "daysPlayed",
+        "");
+    }
+  }
+
+  campDaysPlayed2* campDaysPlayed2::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class campDaysPlayed2 (*this, f, c);
+  }
+
+  campDaysPlayed2::
+  ~campDaysPlayed2 ()
+  {
+  }
+
+  // campChoices
+  //
+
+  campChoices::
+  campChoices (const campID_type& campID,
+               const mapID_type& mapID,
+               const choice_type& choice)
+  : ::xml_schema::type (),
+    campID_ (campID, ::xml_schema::flags (), this),
+    mapID_ (mapID, ::xml_schema::flags (), this),
+    choice_ (choice, ::xml_schema::flags (), this)
+  {
+  }
+
+  campChoices::
+  campChoices (const campChoices& x,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    campID_ (x.campID_, f, this),
+    mapID_ (x.mapID_, f, this),
+    choice_ (x.choice_, f, this)
+  {
+  }
+
+  campChoices::
+  campChoices (const ::xercesc::DOMElement& e,
+               ::xml_schema::flags f,
+               ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    campID_ (f, this),
+    mapID_ (f, this),
+    choice_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void campChoices::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "campID" && n.namespace_ ().empty ())
+      {
+        this->campID_.set (campID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "mapID" && n.namespace_ ().empty ())
+      {
+        this->mapID_.set (mapID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "choice" && n.namespace_ ().empty ())
+      {
+        this->choice_.set (choice_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!campID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "campID",
+        "");
+    }
+
+    if (!mapID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "mapID",
+        "");
+    }
+
+    if (!choice_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "choice",
+        "");
+    }
+  }
+
+  campChoices* campChoices::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class campChoices (*this, f, c);
+  }
+
+  campChoices::
+  ~campChoices ()
+  {
+  }
+
+  // campMapsPlayed
+  //
+
+  campMapsPlayed::
+  campMapsPlayed (const campID_type& campID,
+                  const mapID_type& mapID,
+                  const played_type& played)
+  : ::xml_schema::type (),
+    campID_ (campID, ::xml_schema::flags (), this),
+    mapID_ (mapID, ::xml_schema::flags (), this),
+    played_ (played, ::xml_schema::flags (), this)
+  {
+  }
+
+  campMapsPlayed::
+  campMapsPlayed (const campMapsPlayed& x,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (x, f, c),
+    campID_ (x.campID_, f, this),
+    mapID_ (x.mapID_, f, this),
+    played_ (x.played_, f, this)
+  {
+  }
+
+  campMapsPlayed::
+  campMapsPlayed (const ::xercesc::DOMElement& e,
+                  ::xml_schema::flags f,
+                  ::xml_schema::container* c)
+  : ::xml_schema::type (e, f | ::xml_schema::flags::base, c),
+    campID_ (f, this),
+    mapID_ (f, this),
+    played_ (f, this)
+  {
+    if ((f & ::xml_schema::flags::base) == 0)
+    {
+      ::xsd::cxx::xml::dom::parser< char > p (e, false, true);
+      this->parse (p, f);
+    }
+  }
+
+  void campMapsPlayed::
+  parse (::xsd::cxx::xml::dom::parser< char >& p,
+         ::xml_schema::flags f)
+  {
+    while (p.more_attributes ())
+    {
+      const ::xercesc::DOMAttr& i (p.next_attribute ());
+      const ::xsd::cxx::xml::qualified_name< char > n (
+        ::xsd::cxx::xml::dom::name< char > (i));
+
+      if (n.name () == "campID" && n.namespace_ ().empty ())
+      {
+        this->campID_.set (campID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "mapID" && n.namespace_ ().empty ())
+      {
+        this->mapID_.set (mapID_traits::create (i, f, this));
+        continue;
+      }
+
+      if (n.name () == "played" && n.namespace_ ().empty ())
+      {
+        this->played_.set (played_traits::create (i, f, this));
+        continue;
+      }
+    }
+
+    if (!campID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "campID",
+        "");
+    }
+
+    if (!mapID_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "mapID",
+        "");
+    }
+
+    if (!played_.present ())
+    {
+      throw ::xsd::cxx::tree::expected_attribute< char > (
+        "played",
+        "");
+    }
+  }
+
+  campMapsPlayed* campMapsPlayed::
+  _clone (::xml_schema::flags f,
+          ::xml_schema::container* c) const
+  {
+    return new class campMapsPlayed (*this, f, c);
+  }
+
+  campMapsPlayed::
+  ~campMapsPlayed ()
   {
   }
 
@@ -13286,6 +15586,566 @@ namespace ironfist_save
       "ironfist_save");
   }
 
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (const ::std::string& u,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+      ::ironfist_save::origCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (const ::std::string& u,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+      ::ironfist_save::origCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (const ::std::string& u,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+      ::ironfist_save::origCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::std::istream& is,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_save::origCampaign (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::std::istream& is,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_save::origCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::std::istream& is,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_save::origCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::std::istream& is,
+                const ::std::string& sid,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_save::origCampaign (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::std::istream& is,
+                const ::std::string& sid,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_save::origCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::std::istream& is,
+                const ::std::string& sid,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_save::origCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::xercesc::InputSource& i,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+      ::ironfist_save::origCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::xercesc::InputSource& i,
+                ::xml_schema::error_handler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+      ::ironfist_save::origCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::xercesc::InputSource& i,
+                ::xercesc::DOMErrorHandler& h,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+      ::ironfist_save::origCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (const ::xercesc::DOMDocument& d,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties& p)
+  {
+    if (f & ::xml_schema::flags::keep_dom)
+    {
+      ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+        static_cast< ::xercesc::DOMDocument* > (d.cloneNode (true)));
+
+      ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+        ::ironfist_save::origCampaign (
+          c, f | ::xml_schema::flags::own_dom, p));
+
+      return r;
+    }
+
+    const ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "origCampaign" &&
+        n.namespace_ () == "ironfist_save")
+    {
+      ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+        ::xsd::cxx::tree::traits< ::ironfist_save::origCampaign_t, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "origCampaign",
+      "ironfist_save");
+  }
+
+  ::std::auto_ptr< ::ironfist_save::origCampaign_t >
+  origCampaign (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+                ::xml_schema::flags f,
+                const ::xml_schema::properties&)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+      ((f & ::xml_schema::flags::keep_dom) &&
+       !(f & ::xml_schema::flags::own_dom))
+      ? static_cast< ::xercesc::DOMDocument* > (d->cloneNode (true))
+      : 0);
+
+    ::xercesc::DOMDocument& doc (c.get () ? *c : *d);
+    const ::xercesc::DOMElement& e (*doc.getDocumentElement ());
+
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (f & ::xml_schema::flags::keep_dom)
+      doc.setUserData (::xml_schema::dom::tree_node_key,
+                       (c.get () ? &c : &d),
+                       0);
+
+    if (n.name () == "origCampaign" &&
+        n.namespace_ () == "ironfist_save")
+    {
+      ::std::auto_ptr< ::ironfist_save::origCampaign_t > r (
+        ::xsd::cxx::tree::traits< ::ironfist_save::origCampaign_t, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "origCampaign",
+      "ironfist_save");
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (const ::std::string& u,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+      ::ironfist_save::expCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (const ::std::string& u,
+               ::xml_schema::error_handler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+      ::ironfist_save::expCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (const ::std::string& u,
+               ::xercesc::DOMErrorHandler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        u, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+      ::ironfist_save::expCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::std::istream& is,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_save::expCampaign (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::std::istream& is,
+               ::xml_schema::error_handler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_save::expCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::std::istream& is,
+               ::xercesc::DOMErrorHandler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is);
+    return ::ironfist_save::expCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::std::istream& is,
+               const ::std::string& sid,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_save::expCampaign (isrc, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::std::istream& is,
+               const ::std::string& sid,
+               ::xml_schema::error_handler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0,
+      (f & ::xml_schema::flags::keep_dom) == 0);
+
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_save::expCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::std::istream& is,
+               const ::std::string& sid,
+               ::xercesc::DOMErrorHandler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::xml::sax::std_input_source isrc (is, sid);
+    return ::ironfist_save::expCampaign (isrc, h, f, p);
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::xercesc::InputSource& i,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    h.throw_if_failed< ::xsd::cxx::tree::parsing< char > > ();
+
+    ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+      ::ironfist_save::expCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::xercesc::InputSource& i,
+               ::xml_schema::error_handler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+      ::ironfist_save::expCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::xercesc::InputSource& i,
+               ::xercesc::DOMErrorHandler& h,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::parse< char > (
+        i, h, p, f));
+
+    if (!d.get ())
+      throw ::xsd::cxx::tree::parsing< char > ();
+
+    ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+      ::ironfist_save::expCampaign (
+        d, f | ::xml_schema::flags::own_dom, p));
+
+    return r;
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (const ::xercesc::DOMDocument& d,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties& p)
+  {
+    if (f & ::xml_schema::flags::keep_dom)
+    {
+      ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+        static_cast< ::xercesc::DOMDocument* > (d.cloneNode (true)));
+
+      ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+        ::ironfist_save::expCampaign (
+          c, f | ::xml_schema::flags::own_dom, p));
+
+      return r;
+    }
+
+    const ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "expCampaign" &&
+        n.namespace_ () == "ironfist_save")
+    {
+      ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+        ::xsd::cxx::tree::traits< ::ironfist_save::expCampaign_t, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "expCampaign",
+      "ironfist_save");
+  }
+
+  ::std::auto_ptr< ::ironfist_save::expCampaign_t >
+  expCampaign (::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >& d,
+               ::xml_schema::flags f,
+               const ::xml_schema::properties&)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > c (
+      ((f & ::xml_schema::flags::keep_dom) &&
+       !(f & ::xml_schema::flags::own_dom))
+      ? static_cast< ::xercesc::DOMDocument* > (d->cloneNode (true))
+      : 0);
+
+    ::xercesc::DOMDocument& doc (c.get () ? *c : *d);
+    const ::xercesc::DOMElement& e (*doc.getDocumentElement ());
+
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (f & ::xml_schema::flags::keep_dom)
+      doc.setUserData (::xml_schema::dom::tree_node_key,
+                       (c.get () ? &c : &d),
+                       0);
+
+    if (n.name () == "expCampaign" &&
+        n.namespace_ () == "ironfist_save")
+    {
+      ::std::auto_ptr< ::ironfist_save::expCampaign_t > r (
+        ::xsd::cxx::tree::traits< ::ironfist_save::expCampaign_t, char >::create (
+          e, f, 0));
+      return r;
+    }
+
+    throw ::xsd::cxx::tree::unexpected_element < char > (
+      n.name (),
+      n.namespace_ (),
+      "expCampaign",
+      "ironfist_save");
+  }
+
   ::std::auto_ptr< ::xml_schema::string >
   script (const ::std::string& u,
           ::xml_schema::flags f,
@@ -14212,6 +17072,368 @@ namespace ironfist_save
   }
 
   void
+  operator<< (::xercesc::DOMElement& e, const origCampaign_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // campID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campID",
+          e));
+
+      s << i.campID ();
+    }
+
+    // campIDanother
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campIDanother",
+          e));
+
+      s << i.campIDanother ();
+    }
+
+    // campMapID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campMapID",
+          e));
+
+      s << i.campMapID ();
+    }
+
+    // campUnknown
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campUnknown",
+          e));
+
+      s << i.campUnknown ();
+    }
+
+    // campDaysPlayedCurrent
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campDaysPlayedCurrent",
+          e));
+
+      s << i.campDaysPlayedCurrent ();
+    }
+
+    // campMaybeWon
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campMaybeWon",
+          e));
+
+      s << i.campMaybeWon ();
+    }
+
+    // campHasCheated
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campHasCheated",
+          e));
+
+      s << i.campHasCheated ();
+    }
+
+    // campMapsWon
+    //
+    for (origCampaign_t::campMapsWon_const_iterator
+         b (i.campMapsWon ().begin ()), n (i.campMapsWon ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campMapsWon",
+          e));
+
+      s << *b;
+    }
+
+    // campDaysPlayed
+    //
+    for (origCampaign_t::campDaysPlayed_const_iterator
+         b (i.campDaysPlayed ().begin ()), n (i.campDaysPlayed ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campDaysPlayed",
+          e));
+
+      s << *b;
+    }
+
+    // campDaysPlayed2
+    //
+    for (origCampaign_t::campDaysPlayed2_const_iterator
+         b (i.campDaysPlayed2 ().begin ()), n (i.campDaysPlayed2 ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campDaysPlayed2",
+          e));
+
+      s << *b;
+    }
+
+    // campBonuses
+    //
+    for (origCampaign_t::campBonuses_const_iterator
+         b (i.campBonuses ().begin ()), n (i.campBonuses ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campBonuses",
+          e));
+
+      s << *b;
+    }
+
+    // campChoices
+    //
+    for (origCampaign_t::campChoices_const_iterator
+         b (i.campChoices ().begin ()), n (i.campChoices ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campChoices",
+          e));
+
+      s << *b;
+    }
+
+    // campMapsPlayed
+    //
+    for (origCampaign_t::campMapsPlayed_const_iterator
+         b (i.campMapsPlayed ().begin ()), n (i.campMapsPlayed ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campMapsPlayed",
+          e));
+
+      s << *b;
+    }
+
+    // campPlayerCreatures
+    //
+    for (origCampaign_t::campPlayerCreatures_const_iterator
+         b (i.campPlayerCreatures ().begin ()), n (i.campPlayerCreatures ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campPlayerCreatures",
+          e));
+
+      s << *b;
+    }
+
+    // campPlayerCreatureQuantities
+    //
+    for (origCampaign_t::campPlayerCreatureQuantities_const_iterator
+         b (i.campPlayerCreatureQuantities ().begin ()), n (i.campPlayerCreatureQuantities ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campPlayerCreatureQuantities",
+          e));
+
+      s << *b;
+    }
+
+    // relatedToCampaign
+    //
+    for (origCampaign_t::relatedToCampaign_const_iterator
+         b (i.relatedToCampaign ().begin ()), n (i.relatedToCampaign ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToCampaign",
+          e));
+
+      s << *b;
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const expCampaign_t& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // mapChoice
+    //
+    for (expCampaign_t::mapChoice_const_iterator
+         b (i.mapChoice ().begin ()), n (i.mapChoice ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapChoice",
+          e));
+
+      s << *b;
+    }
+
+    // mapsPlayed
+    //
+    for (expCampaign_t::mapsPlayed_const_iterator
+         b (i.mapsPlayed ().begin ()), n (i.mapsPlayed ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mapsPlayed",
+          e));
+
+      s << *b;
+    }
+
+    // daysPlayed
+    //
+    for (expCampaign_t::daysPlayed_const_iterator
+         b (i.daysPlayed ().begin ()), n (i.daysPlayed ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "daysPlayed",
+          e));
+
+      s << *b;
+    }
+
+    // awards
+    //
+    for (expCampaign_t::awards_const_iterator
+         b (i.awards ().begin ()), n (i.awards ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "awards",
+          e));
+
+      s << *b;
+    }
+
+    // bonusChoices
+    //
+    for (expCampaign_t::bonusChoices_const_iterator
+         b (i.bonusChoices ().begin ()), n (i.bonusChoices ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "bonusChoices",
+          e));
+
+      s << *b;
+    }
+
+    // campaignID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campaignID",
+          e));
+
+      s << i.campaignID ();
+    }
+
+    // currentMapID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "currentMapID",
+          e));
+
+      s << i.currentMapID ();
+    }
+
+    // numMaps
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numMaps",
+          e));
+
+      s << i.numMaps ();
+    }
+
+    // unknownVariable
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "unknownVariable",
+          e));
+
+      s << i.unknownVariable ();
+    }
+
+    // mightBeScenarioID
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "mightBeScenarioID",
+          e));
+
+      s << i.mightBeScenarioID ();
+    }
+
+    // window
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "window",
+          e));
+
+      s << i.window ();
+    }
+
+    // anIntVariable
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "anIntVariable",
+          e));
+
+      s << i.anIntVariable ();
+    }
+  }
+
+  void
   operator<< (::xercesc::DOMElement& e, const tableElement_t& i)
   {
     e << static_cast< const ::xml_schema::type& > (i);
@@ -14598,15 +17820,15 @@ namespace ironfist_save
       s << i.numEvents ();
     }
 
-    // field_657B
+    // numMapEvents
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_657B",
+          "numMapEvents",
           e));
 
-      s << i.field_657B ();
+      s << i.numMapEvents ();
     }
 
     // maxMapExtra
@@ -14754,6 +17976,78 @@ namespace ironfist_save
       s << i.mapFilename ();
     }
 
+    // somePlayerNumData
+    //
+    for (gamestate_t::somePlayerNumData_const_iterator
+         b (i.somePlayerNumData ().begin ()), n (i.somePlayerNumData ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "somePlayerNumData",
+          e));
+
+      s << *b;
+    }
+
+    // relatedToNewGameSelection
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToNewGameSelection",
+          e));
+
+      s << i.relatedToNewGameSelection ();
+    }
+
+    // relatedToNewGameInit
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "relatedToNewGameInit",
+          e));
+
+      s << i.relatedToNewGameInit ();
+    }
+
+    // numHumanPlayers
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "numHumanPlayers",
+          e));
+
+      s << i.numHumanPlayers ();
+    }
+
+    // field_47C
+    //
+    for (gamestate_t::field_47C_const_iterator
+         b (i.field_47C ().begin ()), n (i.field_47C ().end ());
+         b != n; ++b)
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "field_47C",
+          e));
+
+      s << *b;
+    }
+
+    // gbIAmGreatest
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "gbIAmGreatest",
+          e));
+
+      s << i.gbIAmGreatest ();
+    }
+
     // field_2773
     //
     for (gamestate_t::field_2773_const_iterator
@@ -14768,15 +18062,15 @@ namespace ironfist_save
       s << *b;
     }
 
-    // field_27BB
+    // builtToday
     //
-    for (gamestate_t::field_27BB_const_iterator
-         b (i.field_27BB ().begin ()), n (i.field_27BB ().end ());
+    for (gamestate_t::builtToday_const_iterator
+         b (i.builtToday ().begin ()), n (i.builtToday ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_27BB",
+          "builtToday",
           e));
 
       s << *b;
@@ -14880,15 +18174,15 @@ namespace ironfist_save
       s << *b;
     }
 
-    // _D
+    // mapEventIndices
     //
-    for (gamestate_t::_D_const_iterator
-         b (i._D ().begin ()), n (i._D ().end ());
+    for (gamestate_t::mapEventIndices_const_iterator
+         b (i.mapEventIndices ().begin ()), n (i.mapEventIndices ().end ());
          b != n; ++b)
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_D",
+          "mapEventIndices",
           e));
 
       s << *b;
@@ -15004,6 +18298,43 @@ namespace ironfist_save
           e));
 
       s << *b;
+    }
+
+    // campaignType
+    //
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "campaignType",
+          e));
+
+      s << i.campaignType ();
+    }
+
+    // origCampaign
+    //
+    if (i.origCampaign ())
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "origCampaign",
+          "ironfist_save",
+          e));
+
+      s << *i.origCampaign ();
+    }
+
+    // expCampaign
+    //
+    if (i.expCampaign ())
+    {
+      ::xercesc::DOMElement& s (
+        ::xsd::cxx::xml::dom::create_element (
+          "expCampaign",
+          "ironfist_save",
+          e));
+
+      s << *i.expCampaign ();
     }
   }
 
@@ -16054,15 +19385,15 @@ namespace ironfist_save
       s << i.buildDockRelated ();
     }
 
-    // field_7
+    // boatcell
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "field_7",
+          "boatcell",
           e));
 
-      s << i.field_7 ();
+      s << i.boatcell ();
     }
 
     // visitingHeroIdx
@@ -16303,26 +19634,26 @@ namespace ironfist_save
       s << i.relatedToSomeSortOfHeroCountOrIdx ();
     }
 
-    // game_B
+    // hasCheated
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "game_B",
+          "hasCheated",
           e));
 
-      s << i.game_B ();
+      s << i.hasCheated ();
     }
 
-    // _3
+    // puzzlePieces
     //
     {
       ::xercesc::DOMElement& s (
         ::xsd::cxx::xml::dom::create_element (
-          "_3",
+          "puzzlePieces",
           e));
 
-      s << i._3 ();
+      s << i.puzzlePieces ();
     }
 
     // personality
@@ -17525,6 +20856,302 @@ namespace ironfist_save
   }
 
   void
+  origCampaign (::std::ostream& o,
+                const ::ironfist_save::origCampaign_t& s,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::origCampaign (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  origCampaign (::std::ostream& o,
+                const ::ironfist_save::origCampaign_t& s,
+                ::xml_schema::error_handler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::origCampaign (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  origCampaign (::std::ostream& o,
+                const ::ironfist_save::origCampaign_t& s,
+                ::xercesc::DOMErrorHandler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::origCampaign (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  origCampaign (::xercesc::XMLFormatTarget& t,
+                const ::ironfist_save::origCampaign_t& s,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::origCampaign (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  origCampaign (::xercesc::XMLFormatTarget& t,
+                const ::ironfist_save::origCampaign_t& s,
+                ::xml_schema::error_handler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::origCampaign (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  origCampaign (::xercesc::XMLFormatTarget& t,
+                const ::ironfist_save::origCampaign_t& s,
+                ::xercesc::DOMErrorHandler& h,
+                const ::xml_schema::namespace_infomap& m,
+                const ::std::string& e,
+                ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::origCampaign (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  origCampaign (::xercesc::DOMDocument& d,
+                const ::ironfist_save::origCampaign_t& s,
+                ::xml_schema::flags)
+  {
+    ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "origCampaign" &&
+        n.namespace_ () == "ironfist_save")
+    {
+      e << s;
+    }
+    else
+    {
+      throw ::xsd::cxx::tree::unexpected_element < char > (
+        n.name (),
+        n.namespace_ (),
+        "origCampaign",
+        "ironfist_save");
+    }
+  }
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+  origCampaign (const ::ironfist_save::origCampaign_t& s,
+                const ::xml_schema::namespace_infomap& m,
+                ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::serialize< char > (
+        "origCampaign",
+        "ironfist_save",
+        m, f));
+
+    ::ironfist_save::origCampaign (*d, s, f);
+    return d;
+  }
+
+  void
+  expCampaign (::std::ostream& o,
+               const ::ironfist_save::expCampaign_t& s,
+               const ::xml_schema::namespace_infomap& m,
+               const ::std::string& e,
+               ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::expCampaign (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  expCampaign (::std::ostream& o,
+               const ::ironfist_save::expCampaign_t& s,
+               ::xml_schema::error_handler& h,
+               const ::xml_schema::namespace_infomap& m,
+               const ::std::string& e,
+               ::xml_schema::flags f)
+  {
+    ::xsd::cxx::xml::auto_initializer i (
+      (f & ::xml_schema::flags::dont_initialize) == 0);
+
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::expCampaign (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  expCampaign (::std::ostream& o,
+               const ::ironfist_save::expCampaign_t& s,
+               ::xercesc::DOMErrorHandler& h,
+               const ::xml_schema::namespace_infomap& m,
+               const ::std::string& e,
+               ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::expCampaign (s, m, f));
+    ::xsd::cxx::xml::dom::ostream_format_target t (o);
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  expCampaign (::xercesc::XMLFormatTarget& t,
+               const ::ironfist_save::expCampaign_t& s,
+               const ::xml_schema::namespace_infomap& m,
+               const ::std::string& e,
+               ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::expCampaign (s, m, f));
+
+    ::xsd::cxx::tree::error_handler< char > h;
+
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      h.throw_if_failed< ::xsd::cxx::tree::serialization< char > > ();
+    }
+  }
+
+  void
+  expCampaign (::xercesc::XMLFormatTarget& t,
+               const ::ironfist_save::expCampaign_t& s,
+               ::xml_schema::error_handler& h,
+               const ::xml_schema::namespace_infomap& m,
+               const ::std::string& e,
+               ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::expCampaign (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  expCampaign (::xercesc::XMLFormatTarget& t,
+               const ::ironfist_save::expCampaign_t& s,
+               ::xercesc::DOMErrorHandler& h,
+               const ::xml_schema::namespace_infomap& m,
+               const ::std::string& e,
+               ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::ironfist_save::expCampaign (s, m, f));
+    if (!::xsd::cxx::xml::dom::serialize (t, *d, e, h, f))
+    {
+      throw ::xsd::cxx::tree::serialization< char > ();
+    }
+  }
+
+  void
+  expCampaign (::xercesc::DOMDocument& d,
+               const ::ironfist_save::expCampaign_t& s,
+               ::xml_schema::flags)
+  {
+    ::xercesc::DOMElement& e (*d.getDocumentElement ());
+    const ::xsd::cxx::xml::qualified_name< char > n (
+      ::xsd::cxx::xml::dom::name< char > (e));
+
+    if (n.name () == "expCampaign" &&
+        n.namespace_ () == "ironfist_save")
+    {
+      e << s;
+    }
+    else
+    {
+      throw ::xsd::cxx::tree::unexpected_element < char > (
+        n.name (),
+        n.namespace_ (),
+        "expCampaign",
+        "ironfist_save");
+    }
+  }
+
+  ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument >
+  expCampaign (const ::ironfist_save::expCampaign_t& s,
+               const ::xml_schema::namespace_infomap& m,
+               ::xml_schema::flags f)
+  {
+    ::xml_schema::dom::auto_ptr< ::xercesc::DOMDocument > d (
+      ::xsd::cxx::xml::dom::serialize< char > (
+        "expCampaign",
+        "ironfist_save",
+        m, f));
+
+    ::ironfist_save::expCampaign (*d, s, f);
+    return d;
+  }
+
+  void
   script (::std::ostream& o,
           const ::xml_schema::string& s,
           const ::xml_schema::namespace_infomap& m,
@@ -17739,6 +21366,201 @@ namespace ironfist_save
           e));
 
       a << i.spell ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const campMapsWon& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // campID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "campID",
+          e));
+
+      a << i.campID ();
+    }
+
+    // mapID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "mapID",
+          e));
+
+      a << i.mapID ();
+    }
+
+    // won
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "won",
+          e));
+
+      a << i.won ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const campDaysPlayed& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // campID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "campID",
+          e));
+
+      a << i.campID ();
+    }
+
+    // mapID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "mapID",
+          e));
+
+      a << i.mapID ();
+    }
+
+    // daysPlayed
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "daysPlayed",
+          e));
+
+      a << i.daysPlayed ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const campDaysPlayed2& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // campID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "campID",
+          e));
+
+      a << i.campID ();
+    }
+
+    // mapID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "mapID",
+          e));
+
+      a << i.mapID ();
+    }
+
+    // daysPlayed
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "daysPlayed",
+          e));
+
+      a << i.daysPlayed ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const campChoices& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // campID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "campID",
+          e));
+
+      a << i.campID ();
+    }
+
+    // mapID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "mapID",
+          e));
+
+      a << i.mapID ();
+    }
+
+    // choice
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "choice",
+          e));
+
+      a << i.choice ();
+    }
+  }
+
+  void
+  operator<< (::xercesc::DOMElement& e, const campMapsPlayed& i)
+  {
+    e << static_cast< const ::xml_schema::type& > (i);
+
+    // campID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "campID",
+          e));
+
+      a << i.campID ();
+    }
+
+    // mapID
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "mapID",
+          e));
+
+      a << i.mapID ();
+    }
+
+    // played
+    //
+    {
+      ::xercesc::DOMAttr& a (
+        ::xsd::cxx::xml::dom::create_attribute (
+          "played",
+          e));
+
+      a << i.played ();
     }
   }
 
