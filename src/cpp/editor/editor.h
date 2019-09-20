@@ -28,7 +28,7 @@ public:
   widget *verticalScrollBar;
   widget *horizontalScrollHandle;
   widget *verticalScrollHandle;
-  int cursorType;
+  int zoomLevel;
   int setOnEventUpdate;
   int field_26A;
   int field_26E;
