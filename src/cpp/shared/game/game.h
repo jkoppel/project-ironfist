@@ -315,6 +315,8 @@ public:
   void GiveTroopsToNeutralTowns();
   void ShowComputerScreen();
   void TurnOnAIMusic();
+  int SetupCampaignGame();
+  int SetupMultiPlayerGame();
 
 private:
   void PropagateVision();
@@ -345,8 +347,15 @@ bool IsWellDisabled();
 
 extern game* gpGame;
 extern int gbInCampaign;
-
+extern unsigned char giSetupGameType; // 0 - New Game, 1 - Load Game
 extern int gbGameOver;
+extern int iMPExtendedType;
+extern int iMPBaseType;
+extern int gbWaitForRemoteReceive;
+extern int gbDirectConnect;
+extern int gbInSetupDialog;
+extern int giMenuCommand;
+extern int gbCampaignSideChoice;
 
 extern __int16 giUltimateArtifactBaseX;
 extern __int16 giUltimateArtifactBaseY;
@@ -379,8 +388,10 @@ extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
 extern int getCastleOwnedIdx(playerData *player, int castleIdx);
 extern void __fastcall Process1WindowsMessage();
+extern int __fastcall SetupGameHandler(struct tag_message &);
 int __fastcall NewGameHandler(tag_message &msg);
 extern int __fastcall NewGameHandler_orig(tag_message &msg);
+extern void __fastcall RemoteMain(int);
 int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a5, signed char a6, signed char a7);
 int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type, char *name);
 extern int __fastcall AddScoreToHighScore_orig(int score, int days, int difficulty, int type, char *name);

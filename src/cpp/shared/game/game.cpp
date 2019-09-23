@@ -110,12 +110,152 @@ std::vector<CREATURES> monthSpecificCreatures = {
   CREATURE_LICH
 };
 
-int game::SetupGame() {
-	int oldNoCDRom = gbNoCDRom;
-	gbNoCDRom = 0;
-	int res = this->SetupGame_orig();
-	gbNoCDRom = oldNoCDRom;
-	return res;
+int game::SetupGame() {  
+  LogStr("Setup 0");
+  xIsPlayingExpansionCampaign = 0;
+  xIsExpansionMap = 0;
+  gbInCampaign = 0;
+  gbCampaignSideChoice = 0;
+  iMPExtendedType = 10;
+  iMPBaseType = 10;
+  iLastMsgNumHumanPlayers = 1;
+  gbWaitForRemoteReceive = 0;
+  gbDirectConnect = 0;
+  gbInSetupDialog = 1;
+  if(giMenuCommand == -1) {
+    heroWindow *win = new heroWindow(405, 8, "stpnewgm.bin");
+    if ( !win )
+      MemError();
+    gpWindowManager->DoDialog(win, SetupGameHandler, 0);
+    delete win;
+    int code = LOWORD(gpWindowManager->buttonPressedCode);
+    if(code <= BUTTON_CANCEL) {
+      if(code == BUTTON_CANCEL) {
+        gbInSetupDialog = 0;
+        return 0;
+      }
+      if(code != 1) {
+        if(code == 2) {
+          heroWindow *window = new heroWindow(405, 8, "x_loadcm.bin");
+          if(!window)
+            MemError();
+          gpWindowManager->DoDialog(window, ExpLoadCampaignHandler, 0);
+          delete window;
+          int pressedCode = LOWORD(gpWindowManager->buttonPressedCode);
+          switch(pressedCode) {
+            case 1:
+              gbInCampaign = 1;
+              if(giSetupGameType != 1 && !game::SetupCampaignGame()) {
+                gbInSetupDialog = 0;
+                return 0;
+              }
+              break;
+            case 2:
+              xIsPlayingExpansionCampaign = 1;
+              xIsExpansionMap = 1;
+              if(giSetupGameType != 1) {
+                int campID = xCampaign.Choose();
+                xCampaign.InitNewCampaign(campID);
+              }
+              break;
+            case 3:
+              xIsPlayingExpansionCampaign = 1;
+              xIsExpansionMap = 1;
+              if(giSetupGameType != 1)
+                xCampaign.InitNewCampaign(4);
+              break;
+            case BUTTON_CANCEL:
+              gbInSetupDialog = 0;
+              return 0;
+          }
+        } else {
+          if(code == 3) {
+            int oldNoCDRom = gbNoCDRom;
+            gbNoCDRom = 0;
+            int res = this->SetupMultiPlayerGame();
+            gbNoCDRom = oldNoCDRom;
+            if(!res) {
+              gbInSetupDialog = 0;
+              return 0;
+            }
+          }
+        }
+      }
+    }
+    LogStr(" Setup 1");
+    if(iMPBaseType == 1 || !iMPBaseType) {
+      LogStr(" Setup 2");
+      RemoteMain(iMPExtendedType);
+      LogStr(" Setup 3");
+      if(iMPExtendedType == 2 || iMPExtendedType == 4)
+        gbWaitForRemoteReceive = 1;
+    }
+  } else {
+    if((unsigned int)(giMenuCommand - 40102) <= 36) {
+      switch(giMenuCommand) {
+        case 40110:
+        case 40127:
+          iLastMsgNumHumanPlayers = 2;
+          iMPBaseType = 2;
+          break;
+        case 40111:
+        case 40128:
+          iLastMsgNumHumanPlayers = 3;
+          iMPBaseType = 2;
+          break;
+        case 40112:
+        case 40129:
+          iLastMsgNumHumanPlayers = 4;
+          iMPBaseType = 2;
+          break;
+        case 40114:
+        case 40131:
+          iMPBaseType = 1;
+          iMPExtendedType = 1;
+          goto LABEL_12;
+        case 40115:
+        case 40132:
+          iMPBaseType = 1;
+          iMPExtendedType = 2;
+          goto LABEL_12;
+        case 40117:
+        case 40134:
+          iMPBaseType = 0;
+          iMPExtendedType = 3;
+          goto LABEL_12;
+        case 40118:
+        case 40135:
+          iMPBaseType = 0;
+          iMPExtendedType = 4;
+          goto LABEL_12;
+        case 40120:
+        case 40137:
+          iMPBaseType = 0;
+          iMPExtendedType = 3;
+          gbDirectConnect = 1;
+          goto LABEL_12;
+        case 40121:
+        case 40138:
+          iMPBaseType = 0;
+          iMPExtendedType = 4;
+          gbDirectConnect = 1;
+        LABEL_12:
+          LogStr("Setup 0a");
+          RemoteMain(iMPExtendedType);
+          if(iMPExtendedType == 2 || iMPExtendedType == 4)
+            gbWaitForRemoteReceive = 1;
+          break;
+        case 40102:
+        case 40123:
+          break;
+      }
+    }
+    giMenuCommand = -1;
+    gbInSetupDialog = 0;
+    return 1;
+  }
+  gbInSetupDialog = 0;
+  return 1;
 }
 
 void game::RandomizeHeroPool() {
