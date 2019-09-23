@@ -16,13 +16,6 @@ tinyxml2::XMLError CampaignXML::QueryShortText(tinyxml2::XMLElement *el, short *
   return res;
 }
 
-tinyxml2::XMLError CampaignXML::QueryCharText(tinyxml2::XMLElement *el, char *dest) {
-  int val;
-  tinyxml2::XMLError res = el->QueryIntText(&val);
-  *dest = (char)val;
-  return res;
-}
-
 void CampaignXML::QueryText(tinyxml2::XMLElement *el, char *dest) {
   const char* text = el->GetText();
   if(text)
@@ -63,7 +56,7 @@ void CampaignXML::ReadRoot(tinyxml2::XMLNode* root) {
       xCampaignSelectionRects[campaignID] = rect;      
     } else if(name == "scenarioName") QueryText(elem, xScenarioName[campaignID][index]);
     else if(name == "scenarioDescription") QueryText(elem, xScenarioDescription[campaignID][index]);
-    else if(name == "scenarioDifficulty") QueryCharText(elem, &xCampaignDifficulties[campaignID][index]);
+    else if(name == "scenarioDifficulty") elem->QueryIntText(&xCampaignDifficulties[campaignID][index]);
     else if(name == "scenarioIcon") {
       int scenarioID = elem->IntAttribute("scenarioID");
       scenarioIconOffsets[campaignID][scenarioID]._x = elem->IntAttribute("x");

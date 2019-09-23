@@ -107,7 +107,7 @@ extern std::map<int, std::map<int, std::map<int, SCampaignChoice>>> xCampaignCho
 extern std::map<int, int> expCampaignNumMaps;
 extern std::map<int, std::map<int, std::string>> xScenarioName;
 extern std::map<int, std::map<int, std::string>> xScenarioDescription;
-extern std::map<int, std::map<int, char>> xCampaignDifficulties;
+extern std::map<int, std::map<int, int>> xCampaignDifficulties;
 extern std::map<int, std::map<int, std::vector<int>>> mapsToComplete;
 extern std::map<int, std::map<int, SMACKER_VIDEOS>> replaySMK;
 extern std::map<int, std::map<int, SMACKER_VIDEOS>> victorySMK;
