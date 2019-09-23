@@ -110,6 +110,17 @@ void hero::Read(int fd, signed char expansion) {
 	}
 }
 
+void hero::Write(int fd, signed char expansion) {
+	_write(fd, this, offsetof(hero, spellsLearned));
+	_write(fd, this->spellsLearned, ORIG_SPELLS);
+	if(expansion) {
+		_write(fd, &this->FIELD_AFTER_SPELLS_LEARNED, sizeof(hero)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
+	} else {
+		_write(fd, &this->FIELD_AFTER_SPELLS_LEARNED,
+			offsetof(hero, LAST_SW_HERO_FIELD)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
+	}
+}
+
 /*
  *
  * Spells also still missing:

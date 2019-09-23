@@ -318,8 +318,14 @@
     <ClCompile Include="..\..\cpp\shared\gui\recruit_unit.cpp">
       <Filter>Source Files\gui</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\lib\tinyxml2\tinyxml2.cpp">
+      <Filter>Source Files\lib</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp">
       <Filter>Source Files\adventure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\game\ironfist_xml.cpp">
+      <Filter>Source Files\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -547,6 +553,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\smacker.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\game\ironfist_xml.h">
+      <Filter>Header Files\game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
