@@ -14,7 +14,6 @@ public:
   const char* GetError();
   private:
     tinyxml2::XMLError QueryShortText(tinyxml2::XMLElement *el, short *dest);
-    tinyxml2::XMLError QueryCharText(tinyxml2::XMLElement *el, char *dest);
     void QueryText(tinyxml2::XMLElement *el, char *dest);
     void QueryText(tinyxml2::XMLElement *el, std::string &dest);
     void ReadRoot(tinyxml2::XMLNode* root);
