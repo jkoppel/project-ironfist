@@ -1155,7 +1155,7 @@ void game::ProcessOnMapHeroes() {
 
         if (mapExtraHero->hasSecondarySkills) {
           randomHero->ClearSS();
-          for (int i = 0; i < NUM_SECONDARY_SKILLS; ++i) {
+          for (int i = 0; i < MAX_SECONDARY_SKILLS; ++i) {
             if (mapExtraHero->secondarySkills[i] != -1)
               randomHero->GiveSS(mapExtraHero->secondarySkills[i],  mapExtraHero->secondarySkillLevel[i]);
           }
