@@ -320,7 +320,7 @@ hero* GetCurrentHero() {
 }
 
 void hero::CheckLevel() {
-  if(!gbHumanPlayer[this->ownerIdx] || this->factionID != FACTION_CYBORG) {
+  if(this->ownerIdx == -1 || !gbHumanPlayer[this->ownerIdx] || this->factionID != FACTION_CYBORG) {
     CheckLevel_orig();
     return;
   }
