@@ -12,7 +12,6 @@ void IronfistInit() {
   LoadArtifacts();
 #ifndef EDITOR
   InitializeTownConstants();
-  LoadCustomCampaigns();
 #endif
   //LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }

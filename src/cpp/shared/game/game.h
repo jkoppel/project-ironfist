@@ -356,7 +356,7 @@ extern int gbDirectConnect;
 extern int gbInSetupDialog;
 extern int giMenuCommand;
 extern int gbCampaignSideChoice;
-
+extern char gLastFilename[];
 extern __int16 giUltimateArtifactBaseX;
 extern __int16 giUltimateArtifactBaseY;
 extern __int16 giUltimateArtifactRadius;

@@ -96,7 +96,7 @@ extern ExpCampaign xCampaign;
 extern int __fastcall ExpLoadCampaignHandler(struct tag_message &);
 
 int __fastcall ExpansionCampaignRect(int x, int y);
-void LoadCustomCampaigns();
+int LoadCampaignFromFile(std::string filename);
 
 extern std::map<int, std::string> xCampaignNames;
 extern std::map<int, std::string> xShortCampaignNames;

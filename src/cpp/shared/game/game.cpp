@@ -110,7 +110,7 @@ std::vector<CREATURES> monthSpecificCreatures = {
   CREATURE_LICH
 };
 
-int game::SetupGame() {  
+int game::SetupGame() {
   LogStr("Setup 0");
   xIsPlayingExpansionCampaign = 0;
   xIsExpansionMap = 0;
@@ -161,8 +161,46 @@ int game::SetupGame() {
             case 3:
               xIsPlayingExpansionCampaign = 1;
               xIsExpansionMap = 1;
-              if(giSetupGameType != 1)
-                xCampaign.InitNewCampaign(4);
+              if(giSetupGameType != 1) {
+                int campID = LoadCampaignFromFile("cyborg.cmp");
+                if(campID == -1) {
+                  gbInSetupDialog = 0;
+                  return 0;
+                }
+                xCampaign.InitNewCampaign(campID);
+              }
+              break;
+            case 4:
+              xIsPlayingExpansionCampaign = 1;
+              xIsExpansionMap = 1;
+              if(giSetupGameType != 1) {                
+                // This is done in order to avoid error messages hardcoded in fileRequester::Main
+                int tmp = giDebugLevel;
+                int tmp2 = iLastMsgNumHumanPlayers;
+                iLastMsgNumHumanPlayers = 999;
+                giDebugLevel = 3;
+
+                fileRequester* fileChoiceDialog = new fileRequester(200, 58, 2, "*.cmp", ".\\CAMPAIGNS\\", "*.cmp");
+                if(!fileChoiceDialog)
+                  MemError();
+                int buttonPressed = gpExec->DoDialog(fileChoiceDialog);
+                delete fileChoiceDialog;
+
+                giDebugLevel = tmp;
+                iLastMsgNumHumanPlayers = tmp2;
+
+                if(buttonPressed == BUTTON_OK) {
+                  int campID = LoadCampaignFromFile(gLastFilename);
+                  if(campID == -1) {
+                    gbInSetupDialog = 0;
+                    return 0;
+                  }
+                  xCampaign.InitNewCampaign(campID);
+                } else {
+                  gbInSetupDialog = 0;
+                  return 0;
+                }
+              }
               break;
             case BUTTON_CANCEL:
               gbInSetupDialog = 0;
