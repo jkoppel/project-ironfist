@@ -199,7 +199,8 @@ IMPORT_?AddSpell@hero@@QAEXHH@Z = 1
 IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
-
+IMPORT_?CheckLevel@hero@@QAEXXZ = 1
+?CheckLevel@hero@@QAEXXZ_clone EQU ?CheckLevel_orig@hero@@QAEXXZ
 IMPORT_?CalcMobility@hero@@QAEHXZ = 1
 ?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
 
