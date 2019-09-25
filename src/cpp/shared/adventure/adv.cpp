@@ -795,34 +795,34 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
 
   // Draw stone outline
   if(!gbAllBlack && (x < 0 || y < 0 || x >= MAP_WIDTH || y >= MAP_HEIGHT)) {
-    idx = -1;
+    int outlineIdx = -1;
     if(x == -1) {
       if(y == -1) {
-        idx = 16;
+        outlineIdx = 16;
       } else if(y == MAP_HEIGHT) {
-        idx = 19;
+        outlineIdx = 19;
       } else if(y >= 0 && y < MAP_HEIGHT) {
-        idx = (y & 3) + 32;
+        outlineIdx = (y & 3) + 32;
       }
     } else if(x == MAP_WIDTH) {
       if(y == -1) {
-        idx = 17;
+        outlineIdx = 17;
       } else if(y == MAP_HEIGHT) {
-        idx = 18;
+        outlineIdx = 18;
       } else if(y >= 0 && y < MAP_HEIGHT) {
-        idx = (y & 3) + 24;
+        outlineIdx = (y & 3) + 24;
       }
     } else if(y == -1) {
       if(x >= 0 && x < MAP_WIDTH)
-        idx = (x & 3) + 20;
+        outlineIdx = (x & 3) + 20;
     } else if(y == MAP_HEIGHT && x >= 0 && x < MAP_WIDTH) {
-      idx = (x & 3) + 28;
+      outlineIdx = (x & 3) + 28;
     }
-    if(idx == -1)
-      idx = (((unsigned __int64)(x + 16) >> 32) ^ abs(x + 16) & 3)
+    if(outlineIdx == -1)
+      outlineIdx = (((unsigned __int64)(x + 16) >> 32) ^ abs(x + 16) & 3)
       + 4 * ((((unsigned __int64)(y + 16) >> 32) ^ abs(y + 16) & 3) - ((unsigned __int64)(y + 16) >> 32))
       - ((unsigned __int64)(x + 16) >> 32);
-    TileToBitmap(this->stonTileset, idx, gpWindowManager->screenBuffer, drawX, drawY);
+    TileToBitmap(this->stonTileset, outlineIdx, gpWindowManager->screenBuffer, drawX, drawY);
     return;
   }
 
@@ -866,71 +866,10 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
   unsigned char const objectIndex = curTile->objectIndex;
   if(!(cellDrawingPhaseFlags & 0x20) || gbDrawingPuzzle) {
     if(cellDrawingPhaseFlags & 1) {
-      short groundIdx = curTile->flags;
-      groundIdx <<= 14;
-      groundIdx |= curTile->groundIndex;
-      TileToBitmap(this->groundTileset, (unsigned __int16)groundIdx, gpWindowManager->screenBuffer, drawX, drawY);
-      if(curTile->field_4_1 && (!gbDrawingPuzzle || (curTile->objTileset != TILESET_OBJECT_DIRT || objectIndex != 140))) {
-        if(!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset]) {
-          // Drawing roads and terrain
-          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
-          if(curTile->hasObject) {
-            int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
-            int spriteIdx = objectIndex + this->field_202 % someOffset + 1;
-            IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-          }
-        }
-      }
-
-      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
-        curExtra = &this->map->cellExtras[extraIdx];
-      else
-        curExtra = nullptr;
-      while(curExtra) {
-        unsigned char tileExtraObjectIndex = curExtra->objectIndex;
-        if(curExtra->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
-          icon* const extraIcon = this->tilesetIcns[curExtra->objTileset];
-          IconToBitmap(extraIcon, gpWindowManager->screenBuffer, drawX, drawY, tileExtraObjectIndex, 0, 0, 0, 480, 480, 0);
-          if(curExtra->animatedObject) {
-            int someOffset = GetIconEntry(extraIcon, tileExtraObjectIndex)->someSortOfLength & 0x1F;
-            int spriteIdx = tileExtraObjectIndex + this->field_202 % someOffset + 1;
-            IconToBitmap(extraIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-          }
-        }
-        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
-          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
-        else
-          curExtra = nullptr;
-      }
-
-      // Drawing shadows
-      if(curTile->isShadow && !curTile->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset])) {
-        IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
-        if(curTile->hasObject) {
-          int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
-          int spriteIdx = objectIndex + this->field_202 % someOffset + 1;
-          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-        }
-      }
-
-      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
-        curExtra = &this->map->cellExtras[extraIdx];
-      else
-        curExtra = nullptr;
-      while(curExtra) {
-        if(curExtra->field_4_2 && !curExtra->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
-          IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, curExtra->objectIndex, 0, 0, 0, 480, 480, 0);
-          if(curExtra->animatedObject) {
-            int someOffset = GetIconEntry(this->tilesetIcns[curExtra->objTileset], curExtra->objectIndex)->someSortOfLength & 0x1F;
-            int spriteIdx = curExtra->objectIndex + this->field_202 % someOffset + 1;
-            IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-          }
-        }
-        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
-          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
-        else
-          curExtra = nullptr;
-      }
+      // If you need actual code (instead of default behaviour) that was here before check commit 7bbe66a516d79f6aab874d401b0ca65226b851a3
+      // For some reason it crashed Release build, so it was removed
+      DrawCell_orig(x, y, cellCol, cellRow, cellDrawingPhaseFlags, a6);
+      return;
     }
     if(cellDrawingPhaseFlags & 2) {
       // Drawing treasures / resources / main tiles of those

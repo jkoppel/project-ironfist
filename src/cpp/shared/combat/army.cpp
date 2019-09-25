@@ -1139,8 +1139,13 @@ int army::FlyTo(int hexIdx) {
         int moveLen = 0;
         int moveAndSubEndMoveLen;
         if (numFrames) {
-          if (i <= 0 && (!closeMove && teleporter))
-            startMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
+          if(i <= 0) {
+            if(closeMove && teleporter)
+              startMoveLen = 0;
+            else
+              startMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
+          } else
+            startMoveLen = 0;
           moveAndSubEndMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           moveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           if (i + 1 < numFrames)
@@ -2264,7 +2269,6 @@ int army::AddActiveEffect(int effectType, int strength) {
 
 signed int army::SetSpellInfluence(int effectType, signed int strength) {
   signed int result;
-  __int64 v4;
   int effect;
 
   if (this->effectStrengths[effectType]) {
@@ -2279,11 +2283,10 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
       this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 0.65);
       break;
     case EFFECT_SLOW:
-      this->CancelIndividualSpell(0);
-      v4 = (signed int)this->creature.speed + 1;
-      this->creature.speed = ((signed int)v4 - v4) >> 1;
-      if (this->creature.creature_flags & 2)
-        this->creature.creature_flags -= 2;
+      this->CancelIndividualSpell(EFFECT_HASTE);
+      this->creature.speed = (this->creature.speed + 1) / 2;
+      if (this->creature.creature_flags & FLYER)
+        this->creature.creature_flags -= FLYER;
       this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 1.5);
       break;
     case EFFECT_BLESS:

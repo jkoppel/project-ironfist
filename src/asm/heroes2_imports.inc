@@ -268,6 +268,7 @@ IMPORT_?gAlignmentNames@@3PAPADA = 1
 IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
 IMPORT_?cHeroTypeShortName@@3PAPADA = 1
 IMPORT_?captainStats@@3PAY03CA = 1
+IMPORT_?iGetSSByAlignment@@3PAY0N@EA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
@@ -286,6 +287,7 @@ IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
 IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
 IMPORT_?DrawCell@advManager@@QAEXHHHHHH@Z = 1
+?DrawCell@advManager@@QAEXHHHHHH@Z_clone EQU ?DrawCell_orig@advManager@@QAEXHHHHHH@Z
 IMPORT_?DrawCursor@advManager@@QAEXXZ = 1
 
 ;;hero movement reminder

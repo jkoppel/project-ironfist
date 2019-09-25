@@ -1210,9 +1210,10 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
 
   if(imgIdx == -1) {
     GUIRemoveFlag(casWin, 1102, 4);
-    GUISetImgIdx(casWin, 1102, imgIdx);
-  } else
-    GUIAddFlag(casWin, 1102, 4);
+  } else {
+	GUISetImgIdx(casWin, 1102, imgIdx);
+	GUIAddFlag(casWin, 1102, 4);
+  }
 
   if(gpCurPlayer->resources[RESOURCE_GOLD] >= gHeroGoldCost) {
     if(gpCurPlayer->numHeroes != 8 && this->castle->visitingHeroIdx == -1) {

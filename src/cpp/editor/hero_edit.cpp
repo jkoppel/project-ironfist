@@ -147,7 +147,7 @@ void __stdcall FillInHeroEdit(HeroExtra *extra) {
       GUIRemoveFlag(gpCellEditDialog, i, 4);
   }
 
-  for(int i = 0; i < NUM_SECONDARY_SKILLS; ++i) {
+  for(int i = 0; i < MAX_SECONDARY_SKILLS; ++i) {
     int index;
     if(extra->secondarySkills[i] == -1)
       index = 0;

@@ -149,7 +149,7 @@ SSpellInfo gsSpellInfo[] = {
 	//awareness
 	{"", 1, 55, 0, 700, 20, 10, 0x0A0A0A0A, 0x0A, ATTR_ADVENTURE_SPELL},
   //shadow mark
-  {"shdwmark", 2, 66, 33, 150, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL}
+  {"shdwmark", 2, 66, 33, 0, 3, -1, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL}
 };
 
 #define DD_MOVEMENT_COST 225
