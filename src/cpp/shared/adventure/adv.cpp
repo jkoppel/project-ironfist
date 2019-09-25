@@ -866,72 +866,10 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
   unsigned char const objectIndex = curTile->objectIndex;
   if(!(cellDrawingPhaseFlags & 0x20) || gbDrawingPuzzle) {
     if(cellDrawingPhaseFlags & 1) {
-      // temporary fix for Release build crashing because of TileToBitmap in this scope
+      // If you need actual code (instead of default behaviour) that was here before check commit 7bbe66a516d79f6aab874d401b0ca65226b851a3
+      // For some reason it crashed Release build, so it was removed
       DrawCell_orig(x, y, cellCol, cellRow, cellDrawingPhaseFlags, a6);
       return;
-      int groundIdx = curTile->flags << 14 | curTile->groundIndex;
-      TileToBitmap(this->groundTileset, groundIdx, gpWindowManager->screenBuffer, drawX, drawY);
-      if(curTile->field_4_1 && (!gbDrawingPuzzle || (curTile->objTileset != TILESET_OBJECT_DIRT || objectIndex != 140))) {
-        if(!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset]) {
-          // Drawing roads and terrain
-          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
-          if(curTile->hasObject) {
-            int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
-            int spriteIdx = objectIndex + this->field_202 % someOffset + 1;
-            IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-          }
-        }
-      }
-
-      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
-        curExtra = &this->map->cellExtras[extraIdx];
-      else
-        curExtra = nullptr;
-      while(curExtra) {
-        unsigned char tileExtraObjectIndex = curExtra->objectIndex;
-        if(curExtra->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
-          icon* const extraIcon = this->tilesetIcns[curExtra->objTileset];
-          IconToBitmap(extraIcon, gpWindowManager->screenBuffer, drawX, drawY, tileExtraObjectIndex, 0, 0, 0, 480, 480, 0);
-          if(curExtra->animatedObject) {
-            int someOffset = GetIconEntry(extraIcon, tileExtraObjectIndex)->someSortOfLength & 0x1F;
-            int spriteIdx = tileExtraObjectIndex + this->field_202 % someOffset + 1;
-            IconToBitmap(extraIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-          }
-        }
-        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
-          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
-        else
-          curExtra = nullptr;
-      }
-
-      // Drawing shadows
-      if(curTile->isShadow && !curTile->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curTile->objTileset])) {
-        IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, objectIndex, 0, 0, 0, 480, 480, 0);
-        if(curTile->hasObject) {
-          int someOffset = GetIconEntry(tileIcon, objectIndex)->someSortOfLength & 0x1F;
-          int spriteIdx = objectIndex + this->field_202 % someOffset + 1;
-          IconToBitmap(tileIcon, gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-        }
-      }
-
-      if(extraIdx && (unsigned char)this->map->cellExtras[extraIdx].objectIndex != 255)
-        curExtra = &this->map->cellExtras[extraIdx];
-      else
-        curExtra = nullptr;
-      while(curExtra) {
-        if(curExtra->field_4_2 && !curExtra->field_4_1 && (!gbDrawingPuzzle || bPuzzleDraw[curExtra->objTileset])) {
-          IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, curExtra->objectIndex, 0, 0, 0, 480, 480, 0);
-          if(curExtra->animatedObject) {
-            int someOffset = GetIconEntry(this->tilesetIcns[curExtra->objTileset], curExtra->objectIndex)->someSortOfLength & 0x1F;
-            int spriteIdx = curExtra->objectIndex + this->field_202 % someOffset + 1;
-            IconToBitmap(this->tilesetIcns[curExtra->objTileset], gpWindowManager->screenBuffer, drawX, drawY, spriteIdx, 0, 0, 0, 480, 480, 0);
-          }
-        }
-        if((unsigned char)curExtra->nextIdx && (unsigned char)this->map->cellExtras[(unsigned short)curExtra->nextIdx].objectIndex != 255)
-          curExtra = &this->map->cellExtras[(unsigned short)curExtra->nextIdx];
-        else
-          curExtra = nullptr;
-      }
     }
     if(cellDrawingPhaseFlags & 2) {
       // Drawing treasures / resources / main tiles of those

@@ -154,7 +154,7 @@ std::map<int, std::map<int, std::string>> xScenarioDescription = {
   }}
 };
 
-std::map<int, std::map<int, char>> xCampaignDifficulties = {
+std::map<int, std::map<int, int>> xCampaignDifficulties = {
   {0, {{0, 0}, {1, 1}, {2, 1}, {3, 1}, {4, 1}, {5, 2}, {6, 2}, {7, 3}}},
   {1, {{0, 0}, {1, 1}, {2, 1}, {3, 1}, {4, 2}, {5, 2}, {6, 2}, {7, 3}}},
   {2, {{0, 1}, {1, 1}, {2, 1}, {3, 2}}},
@@ -215,18 +215,18 @@ void ExpCampaign::InitMap() {
   CAMPAIGN_CHOICE_TYPES choiceType = (CAMPAIGN_CHOICE_TYPES)campChoice->type;
   if(choiceType < NUM_CAMPAIGN_CHOICE_TYPES) {
     switch(choiceType) {
-      case 0u:
+      case CAMPAIGN_CHOICE_RESOURCE:
         player0->resources[campChoice->field] += campChoice->amount;
         break;
-      case 1u:
+      case CAMPAIGN_CHOICE_ARTIFACT:
         if(player0->numHeroes > 0)
           GiveArtifact(hero0, (ARTIFACT)campChoice->field, 0, -1);
         break;
-      case 2u:
+      case CAMPAIGN_CHOICE_SPELL:
         if(player0->numHeroes > 0)
           hero0->spellsLearned[campChoice->field] = true;
         break;
-      case 3u:
+      case CAMPAIGN_CHOICE_SECONDARY_SKILL:
         if(player0->numHeroes > 0) {
           hero *hro;
           for(int i = 0; player0->numHeroes > i; ++i) {
@@ -242,14 +242,14 @@ void ExpCampaign::InitMap() {
           hro->SetSS(campChoice->field, campChoice->amount);
         }
         break;
-      case 4u:
+      case CAMPAIGN_CHOICE_ARMY:
         if(player0->numHeroes > 0)
           hero0->army.Add(campChoice->field, campChoice->amount, -1);
         break;
-      case 5u:
+      case CAMPAIGN_CHOICE_PUZZLE_PIECES:
         player0->puzzlePieces = LOBYTE(campChoice->field);
         break;
-      case 6u: {
+      case CAMPAIGN_CHOICE_EXPERIENCE: {
         int tempInNewGameSetup = gbInNewGameSetup;
         gbInNewGameSetup = 1;
         if(player0->numHeroes > 0) {
@@ -259,7 +259,7 @@ void ExpCampaign::InitMap() {
         gbInNewGameSetup = tempInNewGameSetup;
         break;
       }
-      case 9u:
+      case CAMPAIGN_CHOICE_PRIMARY_SKILL:
         if(player0->numHeroes > 0) {
           hero *hro;
           for(int i = 0; ; ++i) {
@@ -275,11 +275,11 @@ void ExpCampaign::InitMap() {
           hro->primarySkills[campChoice->field] += campChoice->amount;
         }
         break;    
-      case 10u:
+      case CAMPAIGN_CHOICE_SPELL_SCROLL:
         if(player0->numHeroes > 0)
           GiveArtifact(hero0, ARTIFACT_SPELL_SCROLL, 0, campChoice->field);
         break;
-      case 7u:
+      case CAMPAIGN_CHOICE_NOT_AVAILABLE:
         break;
     }
   }
