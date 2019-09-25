@@ -1095,8 +1095,8 @@ void game::ProcessOnMapHeroes() {
           mapExtraHero->heroID = randomHeroIdx;
         }
         
-        heroExists[randomHeroIdx] = true;        
-        heroesAvailable[randomHeroIdx].exists = true;
+        heroExists[mapExtraHero->heroID] = true;        
+        heroesAvailable[mapExtraHero->heroID].exists = true;
 
         randomHero = &this->heroes[mapExtraHero->heroID];
 
@@ -1139,7 +1139,7 @@ void game::ProcessOnMapHeroes() {
           loc->extraInfo = mapExtraHero->heroID;
         } else {
           randomHero->ownerIdx = mapExtraHero->owner;
-          this->heroHireStatus[randomHeroIdx] = randomHero->ownerIdx;
+          this->heroHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
           if (y > 0 && this->map.tiles[x + ((y - 1) * this->map.width)].objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
             --randomHero->relatedToY;
