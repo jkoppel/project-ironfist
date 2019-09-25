@@ -1581,7 +1581,7 @@ void __fastcall SmackManagerMain() {
     smkPath = "i:\\projects\\heroes\\art\\fin3d\\";
   } else {
     if(bSmackNum == SMACKER_XCAMPAIGN_SELECTION) {
-      smkPath = RegAppPath + "\\DATA\\";
+      smkPath = ".\\DATA\\";
     }
     else
       smkPath = actualFolder + "\\HEROES2\\ANIM\\";
