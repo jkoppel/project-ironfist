@@ -1028,7 +1028,6 @@ void game::ProcessOnMapHeroes() {
           mapExtraHero->hasFaction = 0;
         } else {
         // handle default 54 heroes
-          heroesAvailable[mapExtraHero->heroID].exists = true;
           heroExists[mapExtraHero->heroID] = true;
           mapExtraHero->hasFaction = 1;
         }
@@ -1070,8 +1069,6 @@ void game::ProcessOnMapHeroes() {
             mapExtraHero->heroID = randomHeroIdx;
           }
 
-          heroesAvailable[randomHeroIdx].exists = true;
-
           // overwrite a random free slot from a default hero for cyborg faction
           // and use portrait from mapExtraHero->heroID
           if(randomHeroIdx >= MAX_HEROES) {
@@ -1086,8 +1083,6 @@ void game::ProcessOnMapHeroes() {
             randomHeroIdx = overwrittenIdx;
           }
 
-          heroExists[randomHeroIdx] = true;
-
           // this sets IDs and portraits for campaign heroes (and cyborg too)
           this->heroes[randomHeroIdx].factionID = faction;
           if (mapExtraHero->customPortrait && mapExtraHero->heroID >= MAX_HEROES) {
@@ -1095,8 +1090,12 @@ void game::ProcessOnMapHeroes() {
           }
           if(heroNames[mapExtraHero->heroID].length())
             strcpy(heroes[randomHeroIdx].name, heroNames[mapExtraHero->heroID].c_str());
+          heroesAvailable[mapExtraHero->heroID].exists = true;
           mapExtraHero->heroID = randomHeroIdx;
         }
+        
+        heroExists[randomHeroIdx] = true;        
+        heroesAvailable[randomHeroIdx].exists = true;
 
         randomHero = &this->heroes[mapExtraHero->heroID];
 
@@ -1139,7 +1138,7 @@ void game::ProcessOnMapHeroes() {
           loc->extraInfo = mapExtraHero->heroID;
         } else {
           randomHero->ownerIdx = mapExtraHero->owner;
-          this->heroHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
+          this->heroHireStatus[randomHeroIdx] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
           if (y > 0 && this->map.tiles[x + ((y - 1) * this->map.width)].objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
             --randomHero->relatedToY;
@@ -1154,7 +1153,7 @@ void game::ProcessOnMapHeroes() {
 
         if (mapExtraHero->hasSecondarySkills) {
           randomHero->ClearSS();
-          for (int i = 0; i < NUM_SECONDARY_SKILLS; ++i) {
+          for (int i = 0; i < MAX_SECONDARY_SKILLS; ++i) {
             if (mapExtraHero->secondarySkills[i] != -1)
               randomHero->GiveSS(mapExtraHero->secondarySkills[i],  mapExtraHero->secondarySkillLevel[i]);
           }
