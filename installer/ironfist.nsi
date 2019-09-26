@@ -48,10 +48,6 @@ Section
 	File ..\src\xsd\artifacts_xml.xsd
 	File ..\data\artifacts.xml
 
-	SetOutPath $INSTDIR\GAMES
-
-	File ..\src\xsd\map_xml.xsd
-	
 	SetOutPath $INSTDIR\MAPS
 	
 	File ..\maps\SorrowEn.MX2
@@ -96,8 +92,6 @@ Section "uninstall"
 	Delete "$INSTDIR\DATA\creatures.xml"
 	Delete "$INSTDIR\DATA\artifacts_xml.xsd"
 	Delete "$INSTDIR\DATA\artifacts.xml"
-
-	Delete "$INSTDIR\GAMES\map_xml.xsd"
 
 	Delete "$INSTDIR\MAPS\SorrowEn.MX2"
 	Delete "$INSTDIR\MAPS\LastStan.MX2"

@@ -108,9 +108,6 @@
     <ClCompile Include="..\..\cpp\shared\adventure\hero.cpp">
       <Filter>Source Files\adventure</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx">
-      <Filter>Source Files\game</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\game\save.cpp">
       <Filter>Source Files\game</Filter>
     </ClCompile>
@@ -311,7 +308,7 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp">
       <Filter>Source Files\campaign</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp">
       <Filter>Source Files\town</Filter>
     </ClCompile>
@@ -366,9 +363,6 @@
       <Filter>Header Files\adventure</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\game\game.h">
-      <Filter>Header Files\game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cpp\shared\game\map_xml.hxx">
       <Filter>Header Files\game</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\gui\gui.h">
@@ -541,7 +535,7 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h">
       <Filter>Header Files\campaign</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h">
       <Filter>Header Files\town</Filter>
     </ClInclude>

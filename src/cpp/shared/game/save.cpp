@@ -5,7 +5,6 @@
 #include "campaign/campaign.h"
 #include "game/game.h"
 #include "game/ironfist_xml.h"
-#include "game/map_xml.hxx"
 #include "scripting/scripting.h"
 #include "spell/spells.h"
 #include "gui/dialog.h"
