@@ -13,8 +13,6 @@
 #include <set>
 #include <vector>
 
-extern ironfistExtra gIronfistExtra;
-
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
 extern char *cArmyProjectileFileNames[]; // it's inside creature.cpp

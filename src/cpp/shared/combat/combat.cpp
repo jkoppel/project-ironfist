@@ -15,8 +15,6 @@
 #include <string>
 #include <set>
 
-extern ironfistExtra gIronfistExtra;
-
 int squaresAroundCaster[2][3] = {
   {14,27,40},
   {11,24,37}
