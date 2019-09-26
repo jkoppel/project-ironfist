@@ -984,15 +984,6 @@ void game::GiveTroopsToNeutralTown(int castleIdx) {
 }
 
 void game::ProcessOnMapHeroes() {
-  int faction;
-  signed int randomHeroIdx;
-  mapCell *loc;
-  hero *randomHero;
-  char heroExists[MAX_HEROES];
-  int ppMapExtraHeroIdx;
-  HeroExtra *mapExtraHero;
-  char isJail;
-
   struct heroData {
     FACTION faction;
     bool randomizable;
@@ -1016,14 +1007,15 @@ void game::ProcessOnMapHeroes() {
     heroesAvailable.push_back(data);
   }
 
+  char heroExists[MAX_HEROES];
   memset(heroExists, 0, MAX_HEROES);
   for (int y = 0; y < MAP_HEIGHT; ++y) {
     for (int x = 0; x < MAP_WIDTH; ++x) {
-      loc = &this->map.tiles[(y * this->map.width) + x];
-      if (loc->getLocationType() == LOCATION_RANDOM_HERO || loc->objType == (TILE_HAS_EVENT | LOCATION_JAIL)) {
-        isJail = loc->getLocationType() == LOCATION_JAIL;
-        ppMapExtraHeroIdx = loc->extraInfo;
-        mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
+      mapCell *loc = &this->map.tiles[(y * this->map.width) + x];
+      if (loc->getLocationType() == LOCATION_RANDOM_HERO || loc->objType == (TILE_HAS_EVENT | LOCATION_JAIL)) {        
+        bool isJail = loc->getLocationType() == LOCATION_JAIL;
+        int ppMapExtraHeroIdx = loc->extraInfo;
+        HeroExtra *mapExtraHero = (HeroExtra *)ppMapExtra[ppMapExtraHeroIdx];
         // handle non-default heroes
         if (!mapExtraHero->customPortrait || mapExtraHero->heroID >= MAX_HEROES || heroExists[mapExtraHero->heroID]) {
           mapExtraHero->hasFaction = 0;
@@ -1033,6 +1025,7 @@ void game::ProcessOnMapHeroes() {
           mapExtraHero->hasFaction = 1;
         }
 
+        int faction;
         if (isJail) {
           mapExtraHero->owner = -1;
           faction = mapExtraHero->factionID;
@@ -1055,6 +1048,7 @@ void game::ProcessOnMapHeroes() {
               neededFactionHeroes.push_back(i);
           }
 
+          int randomHeroIdx;
           if(neededFactionHeroes.size()) {
             randomHeroIdx = neededFactionHeroes[Random(0, neededFactionHeroes.size() - 1)];
             if(!mapExtraHero->customPortrait) // do not overwrite portrait placed in editor
@@ -1098,7 +1092,7 @@ void game::ProcessOnMapHeroes() {
         heroExists[mapExtraHero->heroID] = true;        
         heroesAvailable[mapExtraHero->heroID].exists = true;
 
-        randomHero = &this->heroes[mapExtraHero->heroID];
+        hero *randomHero = &this->heroes[mapExtraHero->heroID];
 
         if (!isJail && mapExtraHero->relatedToJailCondition) {
           this->heroes[mapExtraHero->heroID].relatedToX = x;
