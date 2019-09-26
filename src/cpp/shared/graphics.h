@@ -15,7 +15,7 @@ struct Point {
   int _y;
 
   Point(int x, int y) : _x(x), _y(y) {}
-
+  Point() {_x = _y = 0;};
   Point clipToRect(const H2RECT &rect);
 };
 

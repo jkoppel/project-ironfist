@@ -149,8 +149,8 @@ IMPORT_?NextPlayer@game@@QAEXXZ = 1
 ?NextPlayer@game@@QAEXXZ_clone EQU ?NextPlayer_orig@game@@QAEXXZ
 IMPORT_?ClaimTown@game@@QAEXHHH@Z = 1
 ?ClaimTown@game@@QAEXHHH@Z_clone EQU ?ClaimTown_orig@game@@QAEXHHH@Z
-
-
+IMPORT_?AddScoreToHighScore@@YIHHHHHPAD@Z = 1
+?AddScoreToHighScore@@YIHHHHHPAD@Z_clone EQU ?AddScoreToHighScore_orig@@YIHHHHHPAD@Z
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
 IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
@@ -392,18 +392,13 @@ IMPORT_?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z = 1
 
 ;; Campaigns
 IMPORT_?InitNewCampaign@ExpCampaign@@QAEXH@Z = 1
+IMPORT_?InitMap@ExpCampaign@@QAEXXZ = 1
+IMPORT_?Autosave@ExpCampaign@@QAEXXZ = 1
+IMPORT_?UpdateInfo@ExpCampaign@@QAEXH@Z = 1
 IMPORT_?SmackManagerMain@@YIXXZ = 1
-IMPORT_?xCampaignSelectionRects@@3PAUtag_rect@@A = 1
 IMPORT_?ExpansionCampaignRect@@YIHHH@Z = 1
-IMPORT_?expCampaignNumMaps@@3PAHA = 1
-IMPORT_?xCampaignChoices@@3PAY172USCampaignChoice@@A = 1
 IMPORT_?HandleVictory@ExpCampaign@@QAEHXZ = 1
 IMPORT_?ShowInfo@ExpCampaign@@QAEXHH@Z = 1
-IMPORT_?xHSCampaignNames@@3PAPADA = 1
-IMPORT_?xShortCampaignNames@@3PAPADA = 1
-IMPORT_?xScenarioDescription@@3PAY07PADA = 1
-IMPORT_?xScenarioName@@3PAY07PADA = 1
-IMPORT_?xCampaignDifficulties@@3PAY07DA = 1
 IMPORT_?PlaySmacker@@YIHH@Z = 1
 ?PlaySmacker@@YIHH@Z_clone EQU ?PlaySmacker_orig@@YIHH@Z
 IMPORT_?ReplaySmacker@ExpCampaign@@QAEXXZ = 1

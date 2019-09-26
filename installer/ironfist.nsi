@@ -76,6 +76,10 @@ Section
 	File ..\maps\modules\AdvMessageBox.lua
 	File ..\maps\modules\binding.lua
 	
+	SetOutPath $INSTDIR\CAMPAIGNS
+	
+	File ..\cmp\cyborg.cmp
+	
 	SetOutPath $INSTDIR
 	WriteUninstaller "$INSTDIR\uninstall-ironfist.exe"
 
