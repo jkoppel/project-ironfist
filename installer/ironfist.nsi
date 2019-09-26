@@ -102,10 +102,12 @@ Section "uninstall"
 	Delete "$INSTDIR\MAPS\SorrowEn.MX2"
 	Delete "$INSTDIR\MAPS\LastStan.MX2"
 	Delete "$INSTDIR\MAPS\Behemoth.MX2"
+	Delete "$INSTDIR\MAPS\CAMP5_01.HXC"
 	
 	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\CAMP5_01.HXC.lua"
 	
 	RMDIR "$INSTDIR\SCRIPTS"
 
