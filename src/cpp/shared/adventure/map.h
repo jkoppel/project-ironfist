@@ -143,6 +143,8 @@ extern short* pwSizeOfMapExtra;
 
 extern signed char xIsExpansionMap;
 
+extern int __fastcall GetMapHeader(char *,struct SMapHeader *);
+
 extern void __fastcall ClearMapExtra();
 
 

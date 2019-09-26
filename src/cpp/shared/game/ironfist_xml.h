@@ -59,6 +59,7 @@ public:
     tinyxml2::XMLError QueryCharText(tinyxml2::XMLElement *el, char *dest);
     void QueryText(tinyxml2::XMLElement *el, char *dest);
     void ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignType);
+    void ReadCampaignSavedHero(tinyxml2::XMLNode* root);
     void ReadMapHeader(tinyxml2::XMLNode* root);
     void ReadMap(tinyxml2::XMLNode* root);
     void ReadMapExtra(tinyxml2::XMLNode* root);

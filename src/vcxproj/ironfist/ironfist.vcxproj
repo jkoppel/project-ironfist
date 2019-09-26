@@ -112,6 +112,7 @@
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp" />
+    <ClCompile Include="..\..\cpp\shared\campaign\campaign_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
@@ -186,6 +187,7 @@
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
+    <ClInclude Include="..\..\cpp\shared\campaign\campaign_xml.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\game\ironfist_xml.h" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />

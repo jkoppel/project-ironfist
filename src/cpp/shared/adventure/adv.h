@@ -127,6 +127,7 @@ public:
 
   hero();
   ~hero(); //newly added
+  void Deallocate(int);
   void AddSpell(int);
   void AddSpell(int, int);
   int HasSpell(int);
