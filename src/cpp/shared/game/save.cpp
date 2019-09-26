@@ -1,28 +1,17 @@
-#include "adventure/adv.h"
-#include "artifacts.h"
-#include "base.h"
-#include "adventure/map.h"
-#include "campaign/campaign.h"
 #include "game/game.h"
 #include "game/ironfist_xml.h"
-#include "scripting/scripting.h"
-#include "spell/spells.h"
 #include "gui/dialog.h"
-#include "skills.h"
 
 #include "lib/tinyxml2/tinyxml2.h"
-#include<iostream>
-#include<fstream>
+
 #include<io.h>
 #include<fcntl.h>
-#include<sys/stat.h>
-#include <map>
+
 
 extern unsigned char giCurPlayerBit;
-extern void __fastcall GenerateStandardFileName(char*, char*);
 
 
-void game::LoadGame(char* filnam, int newGame, int a3) {   
+void game::LoadGame(char* fileName, int newGame, int a3) {   
   if (newGame) {
     this->SetupOrigData();
 
@@ -34,22 +23,21 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
       this->heroes[i].ResetSpellsLearned();
     }
   } else {
-    char v8[100];
-    int v14 = 0;
     gbGameOver = 0;
     this->field_660E = 1;
-    sprintf(v8, "%s%s", ".\\GAMES\\", filnam);
+    std::string filePath = ".\\GAMES\\";
+    filePath += fileName;
 
     /*
       * Check if original save format
       */
-    int fd = _open(v8, O_BINARY);
+    int fd = _open(filePath.c_str(), O_BINARY);
     char first_byte;
     _read(fd, &first_byte, sizeof(first_byte));
     _close(fd);
 
     if(first_byte != '<') {
-      this->LoadGame_orig(filnam, newGame, a3);
+      this->LoadGame_orig(fileName, newGame, a3);
       return;
     }
 
@@ -59,14 +47,14 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 
     ClearMapExtra();
     IronfistXML xmlDoc;
-    tinyxml2::XMLError err = xmlDoc.Read(v8);
+    tinyxml2::XMLError err = xmlDoc.Read(filePath.c_str());
     if(err) {
       H2MessageBox("Could not load XML. " + std::string(xmlDoc.GetError()));
       exit(1);
     }
 
-    if(strnicmp(filnam, "RMT", 3))
-      sprintf(gpGame->lastSaveFile, filnam);
+    if(strnicmp(fileName, "RMT", 3))
+      sprintf(gpGame->lastSaveFile, fileName);
 
     gpAdvManager->heroMobilized = 0;
     gpCurPlayer = &gpGame->players[giCurPlayer];
@@ -85,38 +73,39 @@ void game::LoadGame(char* filnam, int newGame, int a3) {
 int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
   baseGame = 0;
   gpAdvManager->DemobilizeCurrHero();
-  char path[100];
-  char v9[100];
+  std::string filePath;
+  std::string saveName = saveFile;
+
   if(autosave) {
     if(gbInCampaign)
-      sprintf(path, "%s.%s", saveFile, "GMC");
+      filePath = saveName + ".GMC";
     else if(xIsPlayingExpansionCampaign)
-      sprintf(path, "%s.%s", saveFile, "GXC");
+      filePath = saveName + ".GXC";
     else {
       int aliveHumanPlayers = 0;
       for(int i = 0; i < NUM_PLAYERS; ++i)
         if(!this->playerDead[i] && gbHumanPlayer[i])
           ++aliveHumanPlayers;
       if(!xIsExpansionMap || baseGame) {
-        sprintf(path, "%s.GM%d", saveFile, aliveHumanPlayers);
+        filePath = saveName + ".GM" + std::to_string(aliveHumanPlayers);
       } else {
-        sprintf(path, "%s.GX%d", saveFile, aliveHumanPlayers);
+        filePath = saveName + ".GX" + std::to_string(aliveHumanPlayers);
       }
     }
   } else {
-    sprintf(path, saveFile);
+    filePath = saveName;
   }
 
-  if(strnicmp(path, "RMT", 3)) {
-    sprintf(v9, "%s%s", ".\\GAMES\\", &path);
-    if(strnicmp(path, "AUTOSAVE", 8) && strnicmp(path, "PLYREXIT", 8))
-      strcpy(gpGame->lastSaveFile, saveFile);
+  if(strnicmp(filePath.c_str(), "RMT", 3)) {
+    filePath = ".\\GAMES\\" + filePath;
+    if(strnicmp(filePath.c_str(), "AUTOSAVE", 8) && strnicmp(filePath.c_str(), "PLYREXIT", 8))
+      strcpy(gpGame->lastSaveFile, saveName.c_str());
   } else {
-    sprintf(v9, "%s%s", ".\\DATA\\", path);
+    filePath = ".\\DATA\\" + filePath;
   }
 
   IronfistXML xml;
-  tinyxml2::XMLError err = xml.Save(v9);
+  tinyxml2::XMLError err = xml.Save(filePath.c_str());
   if(err) {
     H2MessageBox("Could not save XML. " + std::string(xml.GetError()));
     exit(1);
