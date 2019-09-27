@@ -125,7 +125,6 @@
     <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\ironfist_xml.cpp" />
-    <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
     <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
@@ -215,7 +214,6 @@
     <ClInclude Include="..\..\cpp\shared\combat\speed.h" />
     <ClInclude Include="..\..\cpp\shared\driver.h" />
     <ClInclude Include="..\..\cpp\shared\game\game.h" />
-    <ClInclude Include="..\..\cpp\shared\game\map_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\graphics.h" />
     <ClInclude Include="..\..\cpp\shared\gui\dialog.h" />
     <ClInclude Include="..\..\cpp\shared\gui\gui.h" />

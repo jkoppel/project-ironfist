@@ -48,16 +48,12 @@ Section
 	File ..\src\xsd\artifacts_xml.xsd
 	File ..\data\artifacts.xml
 
-	SetOutPath $INSTDIR\GAMES
-
-	File ..\src\xsd\map_xml.xsd
-	
 	SetOutPath $INSTDIR\MAPS
 	
 	File ..\maps\SorrowEn.MX2
 	File ..\maps\LastStan.MX2
 	File ..\maps\Behemoth.MX2
-	File ..\maps\Scenari0.MX2
+	File ..\maps\CAMP5_01.HXC
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
@@ -66,7 +62,7 @@ Section
 	File ..\maps\SorrowEn.MX2.lua
 	File ..\maps\LastStan.MX2.lua
 	File ..\maps\Behemoth.MX2.lua
-	File ..\maps\Scenari0.MX2.lua
+	File ..\maps\CAMP5_01.HXC.lua
 
 	CreateDirectory "$INSTDIR\SCRIPTS\MODULES"
 	
@@ -101,15 +97,15 @@ Section "uninstall"
 	Delete "$INSTDIR\DATA\artifacts_xml.xsd"
 	Delete "$INSTDIR\DATA\artifacts.xml"
 
-	Delete "$INSTDIR\GAMES\map_xml.xsd"
-
 	Delete "$INSTDIR\MAPS\SorrowEn.MX2"
 	Delete "$INSTDIR\MAPS\LastStan.MX2"
 	Delete "$INSTDIR\MAPS\Behemoth.MX2"
+	Delete "$INSTDIR\MAPS\CAMP5_01.HXC"
 	
 	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\CAMP5_01.HXC.lua"
 	
 	RMDIR "$INSTDIR\SCRIPTS"
 
