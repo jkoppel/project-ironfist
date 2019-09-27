@@ -85,6 +85,7 @@ public:
   void InitMap();
   void UpdateInfo(int);
   void Autosave();
+  int Choose();
 
 private:
     static int __fastcall MessageHandler(struct tag_message &);
@@ -93,8 +94,10 @@ private:
 CAMPAIGN_TYPE GetCurrentCampaignType();
 SMACKER_VIDEOS GetCampaignRectangleSmackerVideo(int rectID);
 extern ExpCampaign xCampaign;
+extern int __fastcall ExpLoadCampaignHandler(struct tag_message &);
 
 int __fastcall ExpansionCampaignRect(int x, int y);
+int LoadCampaignFromFile(std::string filename);
 void LoadCustomCampaigns();
 void LoadCampaignSavedHero(int playerID, int ownedHeroIdx, int saveIdx);
 void SaveCampaignHero(int playerID, int ownedHeroIdx, int saveIdx);

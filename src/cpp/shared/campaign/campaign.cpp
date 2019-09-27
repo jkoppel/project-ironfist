@@ -674,38 +674,16 @@ void ExpCampaign::ReplaySmackerCustomCampaign() {
   }
 }
 
-// https://stackoverflow.com/a/20847429
-std::vector<std::string> GetListOfCampaignFiles(std::wstring folder) {
-  std::vector<std::string> names;
-  std::wstring search_path = folder + L"/*.cmp";
-  WIN32_FIND_DATA fd;
-  HANDLE hFind = ::FindFirstFile((search_path.c_str()), &fd);
-  if(hFind != INVALID_HANDLE_VALUE) {
-    do {
-      // read all (real) files in current folder
-      // , delete '!' read other 2 default folder . and ..
-      if(!(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) {
-        std::wstring wname = folder + L"//" + fd.cFileName;
-        std::string name(wname.begin(), wname.end());
-        names.push_back(name);
-      }
-    } while(::FindNextFile(hFind, &fd));
-    ::FindClose(hFind);
+int LoadCampaignFromFile(std::string filename) {
+  filename = ".\\CAMPAIGNS\\" + filename;
+  CampaignXML xml;
+  tinyxml2::XMLError err = xml.Read(filename.c_str());
+  if(err) {
+    std::string error_message = "Could not load " + filename + "\n" + std::string(xml.GetError());
+    H2MessageBox(error_message);
+    return -1;
   }
-  return names;
-}
-
-void LoadCustomCampaigns() {
-  std::vector<std::string> campaignFiles;
-  campaignFiles = GetListOfCampaignFiles(L"CAMPAIGNS");
-  for(auto &i : campaignFiles) {
-    CampaignXML xml;
-    tinyxml2::XMLError err = xml.Read(i.c_str());
-    if(err) {
-      std::string error_message = "Could not load " + i + "\n" + std::string(xml.GetError());
-      EarlyShutdown("Campaign XML Error", &error_message[0u]);
-    }
-  }
+  return xml.GetCampaignID();
 }
 
 void LoadCampaignSavedHero(int playerID, int ownedHeroIdx, int saveIdx) {
@@ -751,3 +729,4 @@ void SaveCampaignHero(int playerID, int ownedHeroIdx, int saveIdx) {
   //savedHero->army = hro->army;
   savedHero->experience = hro->experience;
 }
+

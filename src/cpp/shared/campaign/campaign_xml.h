@@ -9,8 +9,10 @@
 class CampaignXML {
 private:
   tinyxml2::XMLDocument tempDoc = nullptr;
+  int campaignID = -1;
 public:
   tinyxml2::XMLError Read(const char* fileName);
+  int GetCampaignID();
   const char* GetError();
   private:
     tinyxml2::XMLError QueryShortText(tinyxml2::XMLElement *el, short *dest);

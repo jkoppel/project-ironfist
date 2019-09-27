@@ -30,7 +30,6 @@ void CampaignXML::QueryText(tinyxml2::XMLElement *el, std::string &dest) {
 }
 
 void CampaignXML::ReadRoot(tinyxml2::XMLNode* root) {
-  int campaignID = -1;
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
     tinyxml2::XMLElement *elem = child->ToElement();
     std::string name = elem->Name();
@@ -90,4 +89,8 @@ void CampaignXML::ReadRoot(tinyxml2::XMLNode* root) {
 
 const char* CampaignXML::GetError() {
   return tempDoc.ErrorStr();
+}
+
+int CampaignXML::GetCampaignID() {
+  return campaignID;
 }
