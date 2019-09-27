@@ -50,15 +50,25 @@ void overlayManager::SetupOverlayWindow(int draw) {
     for(int row = 0; row < NUM_ROWS; ++row)
      this->overlaySelectBoxes->DrawToBuffer(69 * col, 53 * row, selBoxColorIdx[col][row], 0);
   }
-
+ 
+  int originalZoom = gpEditManager->zoomLevel;
+  int category = this->availOverlays[0].category;
+  if(category == OVERLAY_CATEGORY_CREATURE || category == OVERLAY_CATEGORY_ARTIFACT || category == OVERLAY_CATEGORY_TREASURE)
+    gpEditManager->zoomLevel = 0;
   for(int i = 0; i + giOverlaySelectMaybeNumUnseen < this->nAvailOverlays && i < NUM_OVERLAYS_ON_SCREEN; ++i) {
     overlay *ovr = &this->availOverlays[i + giOverlaySelectMaybeNumUnseen];
     int col = 69 * (i % NUM_COLS) + 2;
     int row = 53 * (i / NUM_ROWS) + 2;
-    this->DrawAffectedTileGrid(69 * (i % NUM_ROWS) + 2, row, 4, 3, &this->availOverlays[i] + giOverlaySelectMaybeNumUnseen, 0);
-    this->DrawOverlay(ovr, col, row, 0, 4, 3, 0, -1, -1);
+    int cellOffX = 4;
+    int cellOffY = 3;
+    if(gpEditManager->zoomLevel == 0) {
+      cellOffX = 2;
+      cellOffY = 1;
+    }
+    this->DrawAffectedTileGrid(69 * (i % NUM_ROWS) + 2, row, cellOffX, cellOffY, &this->availOverlays[i] + giOverlaySelectMaybeNumUnseen, 0);
+    this->DrawOverlay(ovr, col, row, 0, cellOffX, cellOffY, 0, -1, -1);
   }
-
+  gpEditManager->zoomLevel = originalZoom;
   if(draw)
     gpWindowManager->UpdateScreen();
 }

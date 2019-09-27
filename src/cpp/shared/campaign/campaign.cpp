@@ -2,6 +2,7 @@
 
 #include "campaign/campaign.h"
 #include "campaign/campaign_xml.h"
+#include "expansions.h"
 #include "game/game.h"
 #include "gui/dialog.h"
 #include "sound/sound.h"
@@ -164,6 +165,8 @@ std::map<int, std::map<int, std::vector<int>>> mapsToComplete;
 std::map<int, std::map<int, SMACKER_VIDEOS>> replaySMK;
 std::map<int, std::map<int, SMACKER_VIDEOS>> victorySMK;
 std::map<int, std::map<int, int>> awardsToGive;
+std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToLoad;
+std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToSave;
 
 void ExpCampaign::InitNewCampaign(int var) {
   this->campaignID = var;
@@ -173,6 +176,7 @@ void ExpCampaign::InitNewCampaign(int var) {
   this->ResetMapsPlayed();
   this->ResetAwards();
   this->ResetBonusChoices();
+  gIronfistExtra.campaign.savedHeroData.clear();
 }
 
 void ExpCampaign::InitMap() {
@@ -211,18 +215,18 @@ void ExpCampaign::InitMap() {
   CAMPAIGN_CHOICE_TYPES choiceType = (CAMPAIGN_CHOICE_TYPES)campChoice->type;
   if(choiceType < NUM_CAMPAIGN_CHOICE_TYPES) {
     switch(choiceType) {
-      case 0u:
+      case CAMPAIGN_CHOICE_RESOURCE:
         player0->resources[campChoice->field] += campChoice->amount;
         break;
-      case 1u:
+      case CAMPAIGN_CHOICE_ARTIFACT:
         if(player0->numHeroes > 0)
           GiveArtifact(hero0, (ARTIFACT)campChoice->field, 0, -1);
         break;
-      case 2u:
+      case CAMPAIGN_CHOICE_SPELL:
         if(player0->numHeroes > 0)
           hero0->spellsLearned[campChoice->field] = true;
         break;
-      case 3u:
+      case CAMPAIGN_CHOICE_SECONDARY_SKILL:
         if(player0->numHeroes > 0) {
           hero *hro;
           for(int i = 0; player0->numHeroes > i; ++i) {
@@ -238,14 +242,14 @@ void ExpCampaign::InitMap() {
           hro->SetSS(campChoice->field, campChoice->amount);
         }
         break;
-      case 4u:
+      case CAMPAIGN_CHOICE_ARMY:
         if(player0->numHeroes > 0)
           hero0->army.Add(campChoice->field, campChoice->amount, -1);
         break;
-      case 5u:
+      case CAMPAIGN_CHOICE_PUZZLE_PIECES:
         player0->puzzlePieces = LOBYTE(campChoice->field);
         break;
-      case 6u: {
+      case CAMPAIGN_CHOICE_EXPERIENCE: {
         int tempInNewGameSetup = gbInNewGameSetup;
         gbInNewGameSetup = 1;
         if(player0->numHeroes > 0) {
@@ -255,7 +259,7 @@ void ExpCampaign::InitMap() {
         gbInNewGameSetup = tempInNewGameSetup;
         break;
       }
-      case 9u:
+      case CAMPAIGN_CHOICE_PRIMARY_SKILL:
         if(player0->numHeroes > 0) {
           hero *hro;
           for(int i = 0; ; ++i) {
@@ -271,11 +275,11 @@ void ExpCampaign::InitMap() {
           hro->primarySkills[campChoice->field] += campChoice->amount;
         }
         break;    
-      case 10u:
+      case CAMPAIGN_CHOICE_SPELL_SCROLL:
         if(player0->numHeroes > 0)
           GiveArtifact(hero0, ARTIFACT_SPELL_SCROLL, 0, campChoice->field);
         break;
-      case 7u:
+      case CAMPAIGN_CHOICE_NOT_AVAILABLE:
         break;
     }
   }
@@ -320,6 +324,11 @@ void ExpCampaign::InitMap() {
       }
     }
   }
+  int saveIdx = 0;
+  for(auto data : xCampaignHeroesToLoad[this->campaignID][this->currentMapID]) {
+    LoadCampaignSavedHero(data.first, data.second, saveIdx);
+    saveIdx++;
+  }
   gbRetreatWin = 1;
 }
 
@@ -327,6 +336,11 @@ void ExpCampaign::Autosave() {
   if(this->currentMapID != -1) {
     this->mapsPlayed[this->currentMapID] = 1;
     sprintf(gText, "%s_%d", xShortCampaignNames[this->campaignID].c_str(), this->currentMapID + 1);
+    int saveIdx = 0;
+    for(auto data : xCampaignHeroesToSave[this->campaignID][this->currentMapID]) {
+      SaveCampaignHero(data.first, data.second, saveIdx);
+      saveIdx++;
+    }
     gpGame->SaveGame(gText, 1, 0);
   }
 }
@@ -671,3 +685,48 @@ int LoadCampaignFromFile(std::string filename) {
   }
   return xml.GetCampaignID();
 }
+
+void LoadCampaignSavedHero(int playerID, int ownedHeroIdx, int saveIdx) {
+  int heroIdx = gpGame->players[playerID].heroesOwned[ownedHeroIdx];
+  hero *hro = &gpGame->heroes[heroIdx];
+  campaignExtra::partialHeroData *savedHero = &gIronfistExtra.campaign.savedHeroData[saveIdx];
+
+  for(int i = 0; i < ELEMENTS_IN(hro->primarySkills); i++)
+    hro->primarySkills[i] = savedHero->primarySkills[i];
+  for(int i = 0; i < ELEMENTS_IN(hro->skillIndex); i++) {
+    hro->skillIndex[i] = savedHero->skillIndex[i];
+    hro->secondarySkillLevel[i] = savedHero->secondarySkillLevel[i];
+  }
+  //for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++)
+  //  hro->artifacts[i] = savedHero->artifacts[i];
+  //for(int i = 0; i < ELEMENTS_IN(hro->scrollSpell); i++)
+  //  hro->scrollSpell[i] = savedHero->scrollSpell[i];
+  for(int i = 0; i < NUM_SPELLS; i++)
+    hro->spellsLearned[i] = savedHero->spellsLearned[i];
+  hro->numSecSkillsKnown = savedHero->numSecSkillsKnown;
+  //hro->army = savedHero->army;
+  hro->experience = savedHero->experience;
+}
+
+void SaveCampaignHero(int playerID, int ownedHeroIdx, int saveIdx) {
+  int heroIdx = gpGame->players[playerID].heroesOwned[ownedHeroIdx];
+  hero *hro = &gpGame->heroes[heroIdx];
+  campaignExtra::partialHeroData *savedHero = &gIronfistExtra.campaign.savedHeroData[saveIdx];
+
+  for(int i = 0; i < ELEMENTS_IN(hro->primarySkills); i++)
+    savedHero->primarySkills[i] = hro->primarySkills[i];
+  for(int i = 0; i < ELEMENTS_IN(hro->skillIndex); i++) {
+    savedHero->skillIndex[i] = hro->skillIndex[i];
+    savedHero->secondarySkillLevel[i] = hro->secondarySkillLevel[i];
+  }
+  //for(int i = 0; i < ELEMENTS_IN(hro->artifacts); i++)
+  //  savedHero->artifacts[i] = hro->artifacts[i];
+  //for(int i = 0; i < ELEMENTS_IN(hro->scrollSpell); i++)
+  //  savedHero->scrollSpell[i] = hro->scrollSpell[i];
+  for(int i = 0; i < NUM_SPELLS; i++)
+    savedHero->spellsLearned[i] = hro->spellsLearned[i];
+  savedHero->numSecSkillsKnown = hro->numSecSkillsKnown;
+  //savedHero->army = hro->army;
+  savedHero->experience = hro->experience;
+}
+

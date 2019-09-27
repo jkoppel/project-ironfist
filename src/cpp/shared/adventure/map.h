@@ -6,7 +6,7 @@
 #define MAX_TOWNS 72
 #define MAX_PLACED_EVENTS 50
 #define MAX_MINES 144
-#define NUM_SECONDARY_SKILLS 8
+#define MAX_SECONDARY_SKILLS 8
 #define MAX_TOTAL_SECONDARY_SKILLS 14
 #define NUM_TILESETS 64
 
@@ -246,8 +246,8 @@ public:
   char field_16;
   int experience;
   char hasSecondarySkills;
-  char secondarySkills[NUM_SECONDARY_SKILLS];
-  char secondarySkillLevel[NUM_SECONDARY_SKILLS];
+  char secondarySkills[MAX_SECONDARY_SKILLS];
+  char secondarySkillLevel[MAX_SECONDARY_SKILLS];
   char field_2C;
   char hasName;
   char name[13];
