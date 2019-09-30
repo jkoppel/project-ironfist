@@ -1344,3 +1344,29 @@ int __fastcall CanBuild(town *twn, int building) {
   }
   return 1;
 }
+
+void town::SetFaction(FACTION faction) {
+  // Shift of town graphics in relation to current graphics
+  // Setting offset in such a way that makes the town have frames from the first faction town/castle
+  int imgOffset = -this->factionID;
+  if(this->factionID == FACTION_CYBORG)
+    imgOffset = -6;
+  
+  // Meanwhile applying some town changes
+  this->field_55 = 10;
+  this->factionID = faction;
+  
+  // Now we set the offset of graphics for requested faction
+  if(faction == FACTION_CYBORG)
+    faction = (FACTION)6;
+
+  imgOffset += faction;
+
+  int xFrom, xTo, yFrom, yTo;
+  xFrom = this->x - 5;
+  xTo   = this->x + 2;
+  yFrom = this->y - 3;
+  yTo   = this->y + 1;
+  gpGame->ConvertObject(xFrom, yFrom, xTo, yTo, TILESET_OBJ_TOWN, 0, 255, TILESET_OBJ_TOWN, 32 * imgOffset, TILESET_OBJ_TOWN, TILESET_OBJ_TOWN);
+  gpGame->ConvertObject(xFrom, yFrom, xTo, yTo, TILESET_TOWN_SHADOW, 0, 255, TILESET_TOWN_SHADOW, 32 * imgOffset, TILESET_OBJ_TOWN, TILESET_OBJ_TOWN);
+}
