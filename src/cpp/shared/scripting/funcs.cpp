@@ -823,8 +823,8 @@ static int l_getTownFaction(lua_State *L) {
 
 static int l_setTownFaction(lua_State *L) {
   town* twn = (town*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 2));
-  int faction = (int)luaL_checknumber(L, 2);
-  twn->factionID = (char)faction;
+  FACTION faction = (FACTION)luaL_checknumber(L, 2);
+  twn->SetFaction(faction);
   return 0;
 }
 
