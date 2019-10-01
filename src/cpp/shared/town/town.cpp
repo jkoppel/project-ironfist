@@ -1348,14 +1348,42 @@ int __fastcall CanBuild(town *twn, int building) {
 void town::SetFaction(FACTION faction) {
   // Shift of town graphics in relation to current graphics
   // Setting offset in such a way that makes the town have frames from the first faction town/castle
-  int imgOffset = -this->factionID;
+  int oldFactionID = this->factionID;
+  int imgOffset = -oldFactionID;
   if(this->factionID == FACTION_CYBORG)
     imgOffset = -6;
   
   // Meanwhile applying some town changes
   this->field_55 = 10;
   this->factionID = faction;
-  
+
+  // Destroying buildings that don't exist in new faction
+  for(int bldIdx = BUILDING_MAX - 1; bldIdx >= 0; bldIdx--) {
+    if(bldIdx == BUILDING_CASTLE)
+      continue;
+
+    unsigned long eligibleBuildMask = gTownEligibleBuildMask[faction];
+    int bldMask = (1 << bldIdx);
+
+    if(bldMask & eligibleBuildMask)
+        continue;
+
+    this->buildingsBuiltFlags &= ~(bldMask);
+
+    // Downgrade buildings if upgraded ones don't exist in new faction
+    if(bldIdx == BUILDING_UPGRADE_5B) {
+      int downgradedBldMask = (1 << BUILDING_UPGRADE_5);
+      if(!(downgradedBldMask & eligibleBuildMask))
+        downgradedBldMask = (1 << BUILDING_DWELLING_6);
+      this->buildingsBuiltFlags |= downgradedBldMask;
+    } else if(bldIdx >= BUILDING_UPGRADE_1 && bldIdx <= BUILDING_UPGRADE_5) {        
+      int downgradedBldIdx = bldIdx - 5;
+      int downgradedBldMask = (1 << downgradedBldIdx);
+      if(downgradedBldMask & eligibleBuildMask)
+        this->buildingsBuiltFlags |= downgradedBldMask;
+    }    
+  }
+
   // Now we set the offset of graphics for requested faction
   if(faction == FACTION_CYBORG)
     faction = (FACTION)6;
