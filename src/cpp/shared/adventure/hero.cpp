@@ -1,3 +1,4 @@
+#include <map>
 #include<stdlib.h>
 
 #include "artifacts.h"
@@ -84,6 +85,11 @@ unsigned char iGetSSByAlignment[NUM_SECONDARY_SKILLS][MAX_FACTIONS] = {
   {1,1,2,3,3,3,0,0,0,0,0,0,1},
   {0,0,0,1,0,10,0,0,0,0,0,0,0},
   {3,2,2,2,2,2,0,0,0,0,0,0,3}
+};
+
+std::map<int, Spell> cyborgLvlUpSpells = {
+  {3, SPELL_ARMAGEDDON},
+  {5, SPELL_BERZERKER}
 };
 
 hero::hero() {
@@ -311,4 +317,24 @@ int hero::CalcMobility() {
 
 hero* GetCurrentHero() {
   return &gpGame->heroes[gpCurPlayer->curHeroIdx];
+}
+
+void hero::CheckLevel() {
+  if(this->ownerIdx == -1 || !gbHumanPlayer[this->ownerIdx] || this->factionID != FACTION_CYBORG) {
+    CheckLevel_orig();
+    return;
+  }
+  int oldLevel = this->GetLevel();
+  CheckLevel_orig();
+  int levelsGained = this->GetLevel() - oldLevel;
+  if(levelsGained > 0) {
+    for(int i = 0; i < levelsGained; i++) {
+      int lvlToCheck = oldLevel + i + 1;
+      if(cyborgLvlUpSpells.find(lvlToCheck) != cyborgLvlUpSpells.end()) {
+        int spell = cyborgLvlUpSpells[lvlToCheck];
+        this->AddSpell(spell);
+        gpAdvManager->EventWindow(-1, 1, "You've learned a new spell!", 8, spell, -1, 0, -1);
+      }
+    }
+  }
 }
