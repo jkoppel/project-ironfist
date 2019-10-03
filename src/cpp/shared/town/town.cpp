@@ -1401,9 +1401,9 @@ void town::SetFaction(FACTION faction) {
   
   // Now we set the offset of graphics for requested faction
   if(faction == FACTION_CYBORG)
-    faction = (FACTION)6;
-
-  imgOffset += faction;
+    imgOffset += 6;
+  else
+    imgOffset += faction;
 
   int xFrom, xTo, yFrom, yTo;
   xFrom = this->x - 5;
