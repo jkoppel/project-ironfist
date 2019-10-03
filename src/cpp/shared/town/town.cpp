@@ -1344,3 +1344,72 @@ int __fastcall CanBuild(town *twn, int building) {
   }
   return 1;
 }
+
+void town::SetFaction(FACTION faction) {
+  // Shift of town graphics in relation to current graphics
+  // Setting offset in such a way that makes the town have frames from the first faction town/castle
+  int oldFactionID = this->factionID;
+  int imgOffset = -oldFactionID;
+  if(this->factionID == FACTION_CYBORG)
+    imgOffset = -6;
+  
+  // Meanwhile applying some town changes
+  this->field_55 = 10;
+  this->factionID = faction;
+
+  // Destroying buildings that don't exist in new faction
+  for(int bldIdx = BUILDING_MAX - 1; bldIdx >= 0; bldIdx--) {
+    unsigned long eligibleBuildMask = gTownEligibleBuildMask[faction];
+    int bldMask = (1 << bldIdx);
+
+    // Skip if building is a castle, not built or can be built
+    if(bldIdx == BUILDING_CASTLE || !(bldMask & this->buildingsBuiltFlags) || (bldMask & eligibleBuildMask))
+      continue;
+
+    // Remove building that can't be built
+    this->buildingsBuiltFlags &= ~(bldMask);
+
+    // Downgrade buildings if upgraded ones don't exist in new faction
+    int dwellingIdx = bldIdx - 19;
+    int numCreatures = this->numCreaturesInDwelling[dwellingIdx];
+    if(bldIdx == BUILDING_UPGRADE_5B) {
+      this->numCreaturesInDwelling[dwellingIdx] = 0;
+      int downgradedBldIdx = BUILDING_UPGRADE_5;
+      int downgradedBldMask = (1 << downgradedBldIdx);
+      dwellingIdx = downgradedBldIdx - 19;
+
+      if(!(downgradedBldMask & eligibleBuildMask)) {
+        this->numCreaturesInDwelling[dwellingIdx] = 0;
+        downgradedBldIdx = BUILDING_DWELLING_6;
+        dwellingIdx = downgradedBldIdx - 19;
+        downgradedBldMask = (1 << downgradedBldIdx);
+      }
+      this->buildingsBuiltFlags |= downgradedBldMask;
+      this->numCreaturesInDwelling[dwellingIdx] = numCreatures;
+    } else if(bldIdx >= BUILDING_UPGRADE_1 && bldIdx <= BUILDING_UPGRADE_5) {
+      this->numCreaturesInDwelling[dwellingIdx] = 0;      
+      int downgradedBldIdx = bldIdx - 5;
+      int downgradedBldMask = (1 << downgradedBldIdx);
+      dwellingIdx = downgradedBldIdx - 19;
+
+      if(downgradedBldMask & eligibleBuildMask) {
+        this->buildingsBuiltFlags |= downgradedBldMask;
+        this->numCreaturesInDwelling[dwellingIdx] = numCreatures;
+      }
+    }    
+  }
+  
+  // Now we set the offset of graphics for requested faction
+  if(faction == FACTION_CYBORG)
+    imgOffset += 6;
+  else
+    imgOffset += faction;
+
+  int xFrom, xTo, yFrom, yTo;
+  xFrom = this->x - 5;
+  xTo   = this->x + 2;
+  yFrom = this->y - 3;
+  yTo   = this->y + 1;
+  gpGame->ConvertObject(xFrom, yFrom, xTo, yTo, TILESET_OBJ_TOWN, 0, 255, TILESET_OBJ_TOWN, 32 * imgOffset, TILESET_OBJ_TOWN, TILESET_OBJ_TOWN);
+  gpGame->ConvertObject(xFrom, yFrom, xTo, yTo, TILESET_TOWN_SHADOW, 0, 255, TILESET_TOWN_SHADOW, 32 * imgOffset, TILESET_OBJ_TOWN, TILESET_OBJ_TOWN);
+}
