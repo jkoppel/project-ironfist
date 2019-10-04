@@ -54,6 +54,10 @@ Section
 	File ..\maps\LastStan.MX2
 	File ..\maps\Behemoth.MX2
 	File ..\maps\CAMP5_01.HXC
+	File ..\maps\CAMP5_02.HXC
+	File ..\maps\CAMP5_03.HXC
+	File ..\maps\CAMP5_04.HXC
+	File ..\maps\CAMP5_05.HXC
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
@@ -63,6 +67,7 @@ Section
 	File ..\maps\LastStan.MX2.lua
 	File ..\maps\Behemoth.MX2.lua
 	File ..\maps\CAMP5_01.HXC.lua
+	File ..\maps\CAMP5_02.HXC.lua
 
 	CreateDirectory "$INSTDIR\SCRIPTS\MODULES"
 	
@@ -101,11 +106,16 @@ Section "uninstall"
 	Delete "$INSTDIR\MAPS\LastStan.MX2"
 	Delete "$INSTDIR\MAPS\Behemoth.MX2"
 	Delete "$INSTDIR\MAPS\CAMP5_01.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_02.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_03.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_04.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_05.HXC"
 	
 	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\CAMP5_01.HXC.lua"
+	Delete "$INSTDIR\SCRIPTS\CAMP5_02.HXC.lua"
 	
 	RMDIR "$INSTDIR\SCRIPTS"
 
