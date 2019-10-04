@@ -1,5 +1,6 @@
 #include "game/ironfist_xml.h"
 
+#include "campaign/campaign_xml.h"
 #include "expansions.h"
 #include "game/game.h"
 #include "gui/dialog.h"
@@ -630,6 +631,7 @@ void IronfistXML::ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignTy
       else if(name == "awards") xCampaign.awards[index] = value;
       else if(name == "bonusChoices") xCampaign.bonusChoices[index] = value;
       else if(name == "savedHero") ReadCampaignSavedHero(elem);
+      else if(name == "metadata") CampaignMetadata::ReadRoot(child);
     }
   }
 }
