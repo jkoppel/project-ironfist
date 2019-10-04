@@ -158,21 +158,23 @@ int game::SetupGame() {
                 xCampaign.InitNewCampaign(campID);
               }
               break;
-            case 3:
+            case 3: {
               xIsPlayingExpansionCampaign = 1;
               xIsExpansionMap = 1;
-              if(giSetupGameType != 1) {
-                int campID = LoadCampaignFromFile("cyborg.cmp");
-                if(campID == -1) {
-                  gbInSetupDialog = 0;
-                  return 0;
-                }
-                xCampaign.InitNewCampaign(campID);
+              int campID = LoadCampaignFromFile("cyborg.cmp");
+              xCampaign.campaignID = campID;
+              if(campID == -1) {
+                gbInSetupDialog = 0;
+                return 0;
               }
+              if(giSetupGameType != 1)
+                xCampaign.InitNewCampaign(campID);
               break;
+            }
             case 4:
               xIsPlayingExpansionCampaign = 1;
               xIsExpansionMap = 1;
+              xCampaign.campaignID = 5;
               if(giSetupGameType != 1) {                
                 // This is done in order to avoid error messages hardcoded in fileRequester::Main
                 int tmp = giDebugLevel;

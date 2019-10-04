@@ -317,6 +317,7 @@ public:
   void TurnOnAIMusic();
   int SetupCampaignGame();
   int SetupMultiPlayerGame();
+  int PickLoadGame();
 
 private:
   void PropagateVision();
@@ -395,6 +396,7 @@ extern void __fastcall RemoteMain(int);
 int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a5, signed char a6, signed char a7);
 int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type, char *name);
 extern int __fastcall AddScoreToHighScore_orig(int score, int days, int difficulty, int type, char *name);
+extern int __fastcall ExpStdGameHandler(struct tag_message &);
 
 #pragma pack(pop)
 
