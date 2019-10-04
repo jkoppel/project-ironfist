@@ -70,19 +70,19 @@ void CampaignXML::ReadRoot(tinyxml2::XMLNode* root) {
       xCampaignChoices[campaignID][scenarioID][choiceID] = choice;
     } else if(name == "replaySMK") replaySMK[campaignID][index] = (SMACKER_VIDEOS)value;
     else if(name == "victorySMK") victorySMK[campaignID][index] = (SMACKER_VIDEOS)value;
-    else if(name == "mapToComplete") mapsToComplete[campaignID][index].push_back(value);
+    else if(name == "mapToComplete") mapsToComplete[campaignID][index].insert(value);
     else if(name == "award") awardsToGive[campaignID][index] = value;
     else if(name == "saveHero") {
       int scenarioID = elem->IntAttribute("scenarioID");
       int playerID = elem->IntAttribute("playerID");
       int ownedHeroID = elem->IntAttribute("ownedHeroID");
-      xCampaignHeroesToSave[campaignID][scenarioID].push_back({playerID, ownedHeroID});
+      xCampaignHeroesToSave[campaignID][scenarioID].insert({playerID, ownedHeroID});
     }
     else if(name == "loadHero") {
       int scenarioID = elem->IntAttribute("scenarioID");
       int playerID = elem->IntAttribute("playerID");
       int ownedHeroID = elem->IntAttribute("ownedHeroID");
-      xCampaignHeroesToLoad[campaignID][scenarioID].push_back({playerID, ownedHeroID});
+      xCampaignHeroesToLoad[campaignID][scenarioID].insert({playerID, ownedHeroID});
     }
   }
 }

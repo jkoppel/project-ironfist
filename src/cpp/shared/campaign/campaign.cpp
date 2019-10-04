@@ -161,12 +161,12 @@ std::map<int, std::map<int, int>> xCampaignDifficulties = {
   {3, {{0, 0}, {1, 1}, {2, 2}, {3, 2}}}
 };
 
-std::map<int, std::map<int, std::vector<int>>> mapsToComplete;
+std::map<int, std::map<int, std::set<int>>> mapsToComplete;
 std::map<int, std::map<int, SMACKER_VIDEOS>> replaySMK;
 std::map<int, std::map<int, SMACKER_VIDEOS>> victorySMK;
 std::map<int, std::map<int, int>> awardsToGive;
-std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToLoad;
-std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToSave;
+std::map<int, std::map<int, std::set<std::pair<int, int>>>> xCampaignHeroesToLoad;
+std::map<int, std::map<int, std::set<std::pair<int, int>>>> xCampaignHeroesToSave;
 
 void ExpCampaign::InitNewCampaign(int var) {
   this->campaignID = var;
