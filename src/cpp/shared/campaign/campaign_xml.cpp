@@ -37,14 +37,14 @@ void CampaignXML::ReadRoot(tinyxml2::XMLNode* root) {
     int value = elem->IntAttribute("value"); // used for arrays
     if(name == "id") elem->QueryIntText(&campaignID);
     else if(name == "name") {
-      const char* text = elem->GetText();      
+      const char* text = elem->GetText();
       if(text)
         xCampaignNames[campaignID] = text;
       else
         xCampaignNames[campaignID] = "empty name";
     }
     else if(name == "shortName") QueryText(elem, xShortCampaignNames[campaignID]);
-    else if(name == "numMaps") elem->QueryIntText(&expCampaignNumMaps[campaignID]);    
+    else if(name == "numMaps") elem->QueryIntText(&expCampaignNumMaps[campaignID]);
     else if(name == "hover") {
       rectToSMK[campaignID] = (SMACKER_VIDEOS)elem->IntAttribute("smk");
       tag_rect rect;
@@ -52,7 +52,7 @@ void CampaignXML::ReadRoot(tinyxml2::XMLNode* root) {
       rect.y = elem->IntAttribute("y");
       rect.width = elem->IntAttribute("width");
       rect.height = elem->IntAttribute("height");
-      xCampaignSelectionRects[campaignID] = rect;      
+      xCampaignSelectionRects[campaignID] = rect;
     } else if(name == "scenarioName") QueryText(elem, xScenarioName[campaignID][index]);
     else if(name == "scenarioDescription") QueryText(elem, xScenarioDescription[campaignID][index]);
     else if(name == "scenarioDifficulty") elem->QueryIntText(&xCampaignDifficulties[campaignID][index]);
