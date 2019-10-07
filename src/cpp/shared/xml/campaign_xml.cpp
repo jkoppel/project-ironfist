@@ -1,4 +1,4 @@
-#include "campaign/campaign_xml.h"
+#include "xml/campaign_xml.h"
 
 namespace CampaignMetadata {
   void QueryText(tinyxml2::XMLElement *el, char *dest) {

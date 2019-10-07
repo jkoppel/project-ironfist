@@ -1,8 +1,8 @@
 #include "game/game.h"
-#include "game/ironfist_xml.h"
+
 #include "gui/dialog.h"
 
-#include "lib/tinyxml2/tinyxml2.h"
+#include "xml/ironfist_xml.h"
 
 #include<io.h>
 #include<fcntl.h>

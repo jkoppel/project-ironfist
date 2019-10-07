@@ -1,6 +1,6 @@
-#include "game/ironfist_xml.h"
+#include "xml/ironfist_xml.h"
 
-#include "campaign/campaign_xml.h"
+#include "xml/campaign_xml.h"
 #include "expansions.h"
 #include "game/game.h"
 #include "gui/dialog.h"

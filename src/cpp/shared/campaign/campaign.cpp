@@ -1,11 +1,11 @@
 #include <fstream>
 
 #include "campaign/campaign.h"
-#include "campaign/campaign_xml.h"
 #include "expansions.h"
 #include "game/game.h"
 #include "gui/dialog.h"
 #include "sound/sound.h"
+#include "xml/campaign_xml.h"
 
 std::map<int, int> expCampaignNumMaps = {
   {0, 8},
