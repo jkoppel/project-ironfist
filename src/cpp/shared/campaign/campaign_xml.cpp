@@ -32,17 +32,15 @@ namespace CampaignMetadata {
       }
       else if(name == "shortName") QueryText(elem, xShortCampaignNames[campaignID]);
       else if(name == "numMaps") elem->QueryIntText(&expCampaignNumMaps[campaignID]);
-      else if(name == "hover") {
-        rectToSMK[campaignID] = (SMACKER_VIDEOS)elem->IntAttribute("smk");
-        tag_rect rect;
-        rect.x = elem->IntAttribute("x");
-        rect.y = elem->IntAttribute("y");
-        rect.width = elem->IntAttribute("width");
-        rect.height = elem->IntAttribute("height");
-        xCampaignSelectionRects[campaignID] = rect;
-      } else if(name == "scenarioName") QueryText(elem, xScenarioName[campaignID][index]);
-      else if(name == "scenarioDescription") QueryText(elem, xScenarioDescription[campaignID][index]);
-      else if(name == "scenarioDifficulty") elem->QueryIntText(&xCampaignDifficulties[campaignID][index]);
+      else if(name == "scenarioName") {
+        const char* text = elem->Attribute("value");
+        if(text) xScenarioName[campaignID][index] = text;
+      }
+      else if(name == "scenarioDescription") {
+        const char* text = elem->Attribute("value");
+        if(text) xScenarioDescription[campaignID][index] = text;
+      }
+      else if(name == "scenarioDifficulty") xCampaignDifficulties[campaignID][index] = value;
       else if(name == "scenarioIcon") {
         int scenarioID = elem->IntAttribute("scenarioID");
         scenarioIconOffsets[campaignID][scenarioID]._x = elem->IntAttribute("x");
