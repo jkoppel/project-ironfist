@@ -413,7 +413,8 @@ void ExpCampaign::HandleVictoryCustomCampaign() {
   PlaySmacker(victorySMK[this->campaignID][mapID]);
   for(auto map : mapsToComplete[this->campaignID][mapID])
     this->mapChoice[map] = 1;
-  this->awards[mapID] = awardsToGive[this->campaignID][mapID];
+  if(awardsToGive[this->campaignID].count(mapID))
+    this->awards[mapID] = awardsToGive[this->campaignID][mapID];
 }
 
 void ExpCampaign::ShowInfo(int inGame, int unused) {
