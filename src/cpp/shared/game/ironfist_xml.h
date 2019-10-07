@@ -40,6 +40,44 @@ public:
           dest->InsertEndChild(elem);
         }
     }
+    template<>
+    void WriteArray(tinyxml2::XMLNode *dest, const char* name, const std::map<int, std::string> &src) {
+      for(auto &i : src) {
+          tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
+          elem->SetAttribute("index", i.first);
+          elem->SetAttribute("value", i.second.c_str());
+          dest->InsertEndChild(elem);
+        }
+    }
+    template<>
+    void WriteArray(tinyxml2::XMLNode *dest, const char* name, const std::map<int, int> &src) {
+      for(auto &i : src) {
+          tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
+          elem->SetAttribute("index", i.first);
+          elem->SetAttribute("value", i.second);
+          dest->InsertEndChild(elem);
+        }
+    }
+    template<>
+    void WriteArray(tinyxml2::XMLNode *dest, const char* name, const std::map<int, SMACKER_VIDEOS> &src) {
+      for(auto &i : src) {
+          tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
+          elem->SetAttribute("index", i.first);
+          elem->SetAttribute("value", i.second);
+          dest->InsertEndChild(elem);
+        }
+    }
+    template<>
+    void WriteArray(tinyxml2::XMLNode *dest, const char* name, const std::map<int, std::set<int>> &src) {
+      for(auto &i : src) {
+        for(auto val : i.second) {
+          tinyxml2::XMLElement *elem = tempDoc->NewElement(name);
+          elem->SetAttribute("index", i.first);
+          elem->SetAttribute("value", val);
+          dest->InsertEndChild(elem);
+        }
+      }
+    }
     template<typename T>
     void WriteCampaignDDArray(tinyxml2::XMLNode *dest, const char* name, const T &src) {
       for(int i = 0; i < ELEMENTS_IN(src); i++)
