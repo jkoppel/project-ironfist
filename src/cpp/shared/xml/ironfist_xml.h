@@ -3,18 +3,14 @@
 
 #include "campaign/campaign.h"
 #include "scripting/scripting.h"
-#include "tinyxml2/tinyxml2.h"
+#include "xml/utils_xml.h"
+#include <set>
 #include <vector>
 
-class IronfistXML {
-private:
-  tinyxml2::XMLDocument *tempDoc = nullptr;
-public:
-  IronfistXML();
-  ~IronfistXML();
-  tinyxml2::XMLError Save(const char* fileName);
-  tinyxml2::XMLError Read(const char* fileName);
-  const char* GetError();
+class IronfistXML : public UtilsXML::XMLFile {
+  public:
+    tinyxml2::XMLError Save(const char* fileName);
+    tinyxml2::XMLError Read(const char* fileName);
   private:
     template<typename T>
     void PushBack(tinyxml2::XMLNode *dest, const char* name, const T &val) {
@@ -93,9 +89,6 @@ public:
     void ReadTableElement(tinyxml2::XMLElement *elem, luaTable *lt);
     void WriteMapVarTable(tinyxml2::XMLNode *dest, std::string id, luaTable *lt);
     void WriteMapVariables(tinyxml2::XMLNode *dest);
-    tinyxml2::XMLError QueryShortText(tinyxml2::XMLElement *el, short *dest);
-    tinyxml2::XMLError QueryCharText(tinyxml2::XMLElement *el, char *dest);
-    void QueryText(tinyxml2::XMLElement *el, char *dest);
     void ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignType);
     void ReadCampaignSavedHero(tinyxml2::XMLNode* root);
     void ReadMapHeader(tinyxml2::XMLNode* root);

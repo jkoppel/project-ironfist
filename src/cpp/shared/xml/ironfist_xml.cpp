@@ -1,6 +1,7 @@
 #include "xml/ironfist_xml.h"
 
 #include "xml/campaign_xml.h"
+#include "xml/utils_xml.h"
 #include "expansions.h"
 #include "game/game.h"
 #include "gui/dialog.h"
@@ -14,14 +15,7 @@ extern char cPlayerNames[6][21];
 extern int gbRemoteOn;
 extern int giThisGamePos;
 
-IronfistXML::IronfistXML() {
-  tempDoc = new tinyxml2::XMLDocument(true);
-}
-
-IronfistXML::~IronfistXML() {
-  if(tempDoc)
-    delete tempDoc;
-}
+using namespace UtilsXML;
 
 tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
   tinyxml2::XMLNode * pRoot = tempDoc->NewElement("ironfist_save");
@@ -630,28 +624,6 @@ void IronfistXML::WriteMapVariables(tinyxml2::XMLNode *dest) {
   }
 }
 
-tinyxml2::XMLError IronfistXML::QueryShortText(tinyxml2::XMLElement *el, short *dest) {
-  int val;
-  tinyxml2::XMLError res = el->QueryIntText(&val);
-  *dest = (short)val;
-  return res;
-}
-
-tinyxml2::XMLError IronfistXML::QueryCharText(tinyxml2::XMLElement *el, char *dest) {
-  int val;
-  tinyxml2::XMLError res = el->QueryIntText(&val);
-  *dest = (char)val;
-  return res;
-}
-
-void IronfistXML::QueryText(tinyxml2::XMLElement *el, char *dest) {
-  const char* text = el->GetText();
-  if(text)
-    strcpy(dest, text);
-  else
-    strcpy(dest, "");
-}
-
 void IronfistXML::ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignType) {
   gIronfistExtra.campaign.savedHeroData.clear();
   for(tinyxml2::XMLNode* child = root->FirstChild(); child; child = child->NextSibling()) {
@@ -690,7 +662,7 @@ void IronfistXML::ReadCampaign(tinyxml2::XMLNode* root, CAMPAIGN_TYPE campaignTy
       else if(name == "awards") xCampaign.awards[index] = value;
       else if(name == "bonusChoices") xCampaign.bonusChoices[index] = value;
       else if(name == "savedHero") ReadCampaignSavedHero(elem);
-      else if(name == "campaignMetadata") CampaignMetadata::ReadRoot(child);
+      else if(name == "campaignMetadata") ReadCampaignMetadata(child);
     }
   }
 }
@@ -1128,8 +1100,4 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
   DeserializeGeneratedArtifacts(xmlArtifacts);
   if(mapVariables.size())
     WriteMapVariablesToLUA(mapVariables);
-}
-
-const char* IronfistXML::GetError() {
-  return tempDoc->ErrorStr();
 }

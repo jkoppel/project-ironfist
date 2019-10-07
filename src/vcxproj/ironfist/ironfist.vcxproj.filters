@@ -333,6 +333,9 @@
     <ClCompile Include="..\..\cpp\shared\xml\ironfist_xml.cpp">
       <Filter>Source Files\xml</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp">
+      <Filter>Source Files\xml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\stdafx.h">
@@ -564,6 +567,9 @@
       <Filter>Header Files\xml</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\xml\ironfist_xml.h">
+      <Filter>Header Files\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h">
       <Filter>Header Files\xml</Filter>
     </ClInclude>
   </ItemGroup>

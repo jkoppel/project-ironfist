@@ -181,6 +181,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\campaign_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\ironfist_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
@@ -200,6 +201,7 @@
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
     <ClInclude Include="..\..\cpp\shared\xml\campaign_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\ironfist_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\map.h" />
