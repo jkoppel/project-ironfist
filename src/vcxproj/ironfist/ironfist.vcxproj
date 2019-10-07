@@ -180,7 +180,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\campaign_xml.cpp" />
-    <ClCompile Include="..\..\cpp\shared\xml\ironfist_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\save_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,7 +200,7 @@
     <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
     <ClInclude Include="..\..\cpp\shared\xml\campaign_xml.h" />
-    <ClInclude Include="..\..\cpp\shared\xml\ironfist_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\save_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />

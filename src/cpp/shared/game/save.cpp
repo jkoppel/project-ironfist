@@ -2,7 +2,7 @@
 
 #include "gui/dialog.h"
 
-#include "xml/ironfist_xml.h"
+#include "xml/save_xml.h"
 
 #include<io.h>
 #include<fcntl.h>

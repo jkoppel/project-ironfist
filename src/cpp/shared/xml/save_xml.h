@@ -1,5 +1,5 @@
-#ifndef IRONFIST_XML_H
-#define IRONFIST_XML_H
+#ifndef SAVE_XML_H
+#define SAVE_XML_H
 
 #include "campaign/campaign.h"
 #include "scripting/scripting.h"
