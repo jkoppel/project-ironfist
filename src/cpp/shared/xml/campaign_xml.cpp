@@ -64,6 +64,68 @@ int ReadCampaignMetadata(tinyxml2::XMLNode* root) {
   return campaignID;
 }
 
+void WriteCampaignMetadata(tinyxml2::XMLDocument* doc, tinyxml2::XMLNode* root) {
+  int campaignID = xCampaign.campaignID;
+  if(campaignID < 4)
+    return;
+
+  tinyxml2::XMLElement *metadata = doc->NewElement("campaignMetadata");
+  PushBack(doc, metadata, "id", campaignID);
+  PushBack(doc, metadata, "name", xCampaignNames[campaignID].c_str());
+  PushBack(doc, metadata, "shortName", xShortCampaignNames[campaignID].c_str());
+  PushBack(doc, metadata, "numMaps", expCampaignNumMaps[campaignID]);
+  WriteArray(doc, metadata, "scenarioName", xScenarioName[campaignID]);
+  WriteArray(doc, metadata, "scenarioDescription", xScenarioDescription[campaignID]);
+  WriteArray(doc, metadata, "scenarioDifficulty", xCampaignDifficulties[campaignID]);
+
+  for(int index = 0u; index < scenarioIconOffsets[campaignID].size(); index++) {
+    tinyxml2::XMLElement *icn = doc->NewElement("scenarioIcon");
+    icn->SetAttribute("scenarioID", index);
+    icn->SetAttribute("x", scenarioIconOffsets[campaignID][index]._x);
+    icn->SetAttribute("y", scenarioIconOffsets[campaignID][index]._y);
+    metadata->InsertEndChild(icn);
+  }
+
+  for(int index = 0u; index < xCampaignChoices[campaignID].size(); index++) {
+    for(int choiceID = 0u; choiceID < MAX_CAMPAIGN_CHOICES; choiceID++) {
+      tinyxml2::XMLElement *choiceElem = doc->NewElement("choice");
+      choiceElem->SetAttribute("scenarioID", index);
+      choiceElem->SetAttribute("id", choiceID);
+      SCampaignChoice choice = xCampaignChoices[campaignID][index][choiceID];
+      choiceElem->SetAttribute("type", choice.type);
+      choiceElem->SetAttribute("field", choice.field);
+      choiceElem->SetAttribute("amount", choice.amount);
+      metadata->InsertEndChild(choiceElem);
+    }
+  }
+
+  WriteArray(doc, metadata, "replaySMK", replaySMK[campaignID]);
+  WriteArray(doc, metadata, "victorySMK", victorySMK[campaignID]);
+  WriteArray(doc, metadata, "mapToComplete", mapsToComplete[campaignID]);
+  WriteArray(doc, metadata, "award", awardsToGive[campaignID]);
+
+  for(int scenario = 0u; scenario < xCampaignHeroesToSave[campaignID].size(); scenario++) {
+    for(auto &heroData : xCampaignHeroesToSave[campaignID][scenario]) {
+      tinyxml2::XMLElement *heroElem = doc->NewElement("saveHero");
+      heroElem->SetAttribute("scenarioID", scenario);
+      heroElem->SetAttribute("playerID", heroData.first);
+      heroElem->SetAttribute("ownedHeroID", heroData.second);
+      metadata->InsertEndChild(heroElem);
+    }
+  }
+
+  for(int scenario = 0u; scenario < xCampaignHeroesToLoad[campaignID].size(); scenario++) {
+    for(auto &heroData : xCampaignHeroesToLoad[campaignID][scenario]) {
+      tinyxml2::XMLElement *heroElem = doc->NewElement("loadHero");
+      heroElem->SetAttribute("scenarioID", scenario);
+      heroElem->SetAttribute("playerID", heroData.first);
+      heroElem->SetAttribute("ownedHeroID", heroData.second);
+      metadata->InsertEndChild(heroElem);
+    }
+  }
+  root->InsertEndChild(metadata);
+}
+
 tinyxml2::XMLError CampaignXML::Read(const char* fileName) {
   tinyxml2::XMLError eResult = tempDoc->LoadFile(fileName);
   if(!eResult) {

@@ -12,5 +12,6 @@ class CampaignXML : public UtilsXML::XMLFile {
 };
 
 int ReadCampaignMetadata(tinyxml2::XMLNode* root);
+void WriteCampaignMetadata(tinyxml2::XMLDocument* doc, tinyxml2::XMLNode* root);
 
 #endif
