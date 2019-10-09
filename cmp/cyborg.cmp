@@ -2,7 +2,7 @@
 	<id>4</id>
 	<name>Cyborg Campaign</name>
 	<shortName>CYB</shortName>
-	<numMaps>5</numMaps>
+	<numMaps>6</numMaps>
 	<scenarioName index="0" value="Cyborg campaign map 1"/>
 	<scenarioName index="1" value="Cyborg campaign map 2"/>
 	<scenarioName index="2" value="Cyborg campaign map 3"/>
