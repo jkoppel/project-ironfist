@@ -58,6 +58,7 @@ Section
 	File ..\maps\CAMP5_03.HXC
 	File ..\maps\CAMP5_04.HXC
 	File ..\maps\CAMP5_05.HXC
+	File ..\maps\CAMP5_06.HXC
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
@@ -110,6 +111,7 @@ Section "uninstall"
 	Delete "$INSTDIR\MAPS\CAMP5_03.HXC"
 	Delete "$INSTDIR\MAPS\CAMP5_04.HXC"
 	Delete "$INSTDIR\MAPS\CAMP5_05.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_06.HXC"
 	
 	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
