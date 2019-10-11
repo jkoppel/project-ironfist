@@ -28,6 +28,53 @@ namespace UtilsXML {
     dest = text;
   }
 
+  void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::vector<int> &src) {
+    for(int i = 0; i < src.size(); i++) {
+        tinyxml2::XMLElement *elem = doc->NewElement(name);
+        elem->SetAttribute("index", i);
+        elem->SetAttribute("value", src[i]);
+        dest->InsertEndChild(elem);
+      }
+  }
+
+  void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::map<int, std::string> &src) {
+    for(auto &i : src) {
+        tinyxml2::XMLElement *elem = doc->NewElement(name);
+        elem->SetAttribute("index", i.first);
+        elem->SetAttribute("value", i.second.c_str());
+        dest->InsertEndChild(elem);
+      }
+  }
+
+  void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::map<int, int> &src) {
+    for(auto &i : src) {
+        tinyxml2::XMLElement *elem = doc->NewElement(name);
+        elem->SetAttribute("index", i.first);
+        elem->SetAttribute("value", i.second);
+        dest->InsertEndChild(elem);
+      }
+  }
+
+  void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::map<int, SMACKER_VIDEOS> &src) {
+    for(auto &i : src) {
+        tinyxml2::XMLElement *elem = doc->NewElement(name);
+        elem->SetAttribute("index", i.first);
+        elem->SetAttribute("value", i.second);
+        dest->InsertEndChild(elem);
+      }
+  }
+
+  void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::map<int, std::set<int>> &src) {
+    for(auto &i : src) {
+      for(auto val : i.second) {
+        tinyxml2::XMLElement *elem = doc->NewElement(name);
+        elem->SetAttribute("index", i.first);
+        elem->SetAttribute("value", val);
+        dest->InsertEndChild(elem);
+      }
+    }
+  }
+
   XMLFile::XMLFile() {
     tempDoc = new tinyxml2::XMLDocument(true);
   }
