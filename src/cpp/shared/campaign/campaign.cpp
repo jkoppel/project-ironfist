@@ -1,11 +1,11 @@
 #include <fstream>
 
 #include "campaign/campaign.h"
-#include "campaign/campaign_xml.h"
 #include "expansions.h"
 #include "game/game.h"
 #include "gui/dialog.h"
 #include "sound/sound.h"
+#include "xml/campaign_xml.h"
 
 std::map<int, int> expCampaignNumMaps = {
   {0, 8},
@@ -161,12 +161,12 @@ std::map<int, std::map<int, int>> xCampaignDifficulties = {
   {3, {{0, 0}, {1, 1}, {2, 2}, {3, 2}}}
 };
 
-std::map<int, std::map<int, std::vector<int>>> mapsToComplete;
+std::map<int, std::map<int, std::set<int>>> mapsToComplete;
 std::map<int, std::map<int, SMACKER_VIDEOS>> replaySMK;
 std::map<int, std::map<int, SMACKER_VIDEOS>> victorySMK;
 std::map<int, std::map<int, int>> awardsToGive;
-std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToLoad;
-std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToSave;
+std::map<int, std::map<int, std::set<std::pair<int, int>>>> xCampaignHeroesToLoad;
+std::map<int, std::map<int, std::set<std::pair<int, int>>>> xCampaignHeroesToSave;
 
 void ExpCampaign::InitNewCampaign(int var) {
   this->campaignID = var;
@@ -413,7 +413,8 @@ void ExpCampaign::HandleVictoryCustomCampaign() {
   PlaySmacker(victorySMK[this->campaignID][mapID]);
   for(auto map : mapsToComplete[this->campaignID][mapID])
     this->mapChoice[map] = 1;
-  this->awards[mapID] = awardsToGive[this->campaignID][mapID];
+  if(awardsToGive[this->campaignID].count(mapID))
+    this->awards[mapID] = awardsToGive[this->campaignID][mapID];
 }
 
 void ExpCampaign::ShowInfo(int inGame, int unused) {

@@ -313,10 +313,11 @@ IMPORT_?PasswordEvent@advManager@@QAEXPAVmapCell@@PAVhero@@@Z = 1
 IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
 ?LoadGame@game@@QAEXPADHH@Z_clone EQU ?LoadGame_orig@game@@QAEXPADHH@Z
 IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
-
+IMPORT_?SaveGame@@YIHXZ = 1
 IMPORT_?Read@hero@@QAEXHC@Z = 1
 IMPORT_?Write@hero@@QAEXHC@Z = 1
 IMPORT_?RandomizeHeroPool@game@@QAEXXZ = 1
+IMPORT_?PickLoadGame@game@@QAEHXZ = 1
 
 ;;maps
 IMPORT_?NewMap@game@@QAEXPAD@Z = 1

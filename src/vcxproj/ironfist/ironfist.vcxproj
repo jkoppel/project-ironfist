@@ -112,7 +112,6 @@
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp" />
-    <ClCompile Include="..\..\cpp\shared\campaign\campaign_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
@@ -124,7 +123,6 @@
     <ClCompile Include="..\..\cpp\shared\expansions.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
-    <ClCompile Include="..\..\cpp\shared\game\ironfist_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
     <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
@@ -181,14 +179,15 @@
     <ClCompile Include="..\..\cpp\shared\town\buildings.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\campaign_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\save_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
-    <ClInclude Include="..\..\cpp\shared\campaign\campaign_xml.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
-    <ClInclude Include="..\..\cpp\shared\game\ironfist_xml.h" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
@@ -200,6 +199,9 @@
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
     <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\campaign_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\save_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\map.h" />

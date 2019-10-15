@@ -1,15 +1,45 @@
 #include "game/game.h"
-#include "game/ironfist_xml.h"
+
 #include "gui/dialog.h"
 
-#include "lib/tinyxml2/tinyxml2.h"
+#include "xml/save_xml.h"
 
 #include<io.h>
 #include<fcntl.h>
 
 
 extern unsigned char giCurPlayerBit;
+extern signed char xNetHasOldPlayers;
+extern int bFreshSave;
 
+static std::string GetSaveFileExtension(bool isPickLoad) {
+  if(gbInCampaign)
+    return ".GMC";
+  else if(xIsPlayingExpansionCampaign) {
+    int campID = xCampaign.campaignID;
+    if(campID <= 3)
+      return ".GXC";
+    else if(campID == 4) // Ironfist campaign
+      return ".GIC";
+    else // Custom campaign
+      return ".GCC";
+  } else {
+    int aliveHumanPlayers = 0;
+    if(isPickLoad)
+      aliveHumanPlayers = iLastMsgNumHumanPlayers;
+    else {
+      for(int i = 0; i < NUM_PLAYERS; ++i)
+        if(!gpGame->playerDead[i] && gbHumanPlayer[i])
+          ++aliveHumanPlayers;
+    }
+
+    std::string ext;
+    if((isPickLoad && gbRemoteOn && xNetHasOldPlayers) || !xIsExpansionMap)
+      return ".GM" + std::to_string(aliveHumanPlayers);
+    else
+      return ".GX" + std::to_string(aliveHumanPlayers);
+  }
+}
 
 void game::LoadGame(char* fileName, int newGame, int a3) {   
   if (newGame) {
@@ -76,25 +106,10 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
   std::string filePath;
   std::string saveName = saveFile;
 
-  if(autosave) {
-    if(gbInCampaign)
-      filePath = saveName + ".GMC";
-    else if(xIsPlayingExpansionCampaign)
-      filePath = saveName + ".GXC";
-    else {
-      int aliveHumanPlayers = 0;
-      for(int i = 0; i < NUM_PLAYERS; ++i)
-        if(!this->playerDead[i] && gbHumanPlayer[i])
-          ++aliveHumanPlayers;
-      if(!xIsExpansionMap || baseGame) {
-        filePath = saveName + ".GM" + std::to_string(aliveHumanPlayers);
-      } else {
-        filePath = saveName + ".GX" + std::to_string(aliveHumanPlayers);
-      }
-    }
-  } else {
+  if(autosave)
+    filePath = saveName + GetSaveFileExtension(false);
+  else
     filePath = saveName;
-  }
 
   if(strnicmp(filePath.c_str(), "RMT", 3)) {
     filePath = ".\\GAMES\\" + filePath;
@@ -111,4 +126,89 @@ int game::SaveGame(char *saveFile, int autosave, signed char baseGame) {
     exit(1);
   }
   return 1;
+}
+
+int game::PickLoadGame() {
+  if(gbWaitForRemoteReceive)
+    return 1;
+
+  if(gbRemoteOn && xNetHasOldPlayers && !gbInCampaign && !xIsPlayingExpansionCampaign) {
+    NormalDialog("At least one player does not have the Heroes II Expansion set.  You will only be able to choose from original Heroes II games.",
+      1, -1, -1, -1, 0, -1, 0, -1, 0);
+  } else if (!gbInCampaign && !xIsPlayingExpansionCampaign) {
+    heroWindow *window = new heroWindow(405, 8, "x_mapmnu.bin");
+    if(!window)
+      MemError();
+
+    gpWindowManager->DoDialog(window, ExpStdGameHandler, 0);
+    delete window;
+    switch(gpWindowManager->buttonPressedCode) {
+      case 1:
+        xIsExpansionMap = 0;
+        break;
+      case 2:
+        xIsExpansionMap = 1;
+        break;
+      case BUTTON_CANCEL:
+        return 0;
+    }    
+  }  
+
+  std::string ext = GetSaveFileExtension(true);
+  std::string ext2 = "*" + ext;
+
+  // This is done in order to avoid error messages hardcoded in fileRequester::Main
+  int tmp = giDebugLevel;
+  int tmp2 = iLastMsgNumHumanPlayers;
+  if(xCampaign.campaignID >= 4) {
+    iLastMsgNumHumanPlayers = 999;
+    giDebugLevel = 3;
+  }
+
+  fileRequester *loadDialog = new fileRequester(200, 58, 2, &ext2[0u], ".\\GAMES\\", &ext[0u]);
+  if(!loadDialog)
+    MemError();
+
+  int buttonCode = gpExec->DoDialog(loadDialog);
+  delete loadDialog;
+
+  iLastMsgNumHumanPlayers = tmp2;
+  giDebugLevel = tmp;
+  if(buttonCode == BUTTON_OK) {
+    gpGame->LoadGame(gLastFilename, 0, 0);
+    return 1;
+  } else
+    return 0;
+}
+
+int __fastcall SaveGame() {  
+  gpAdvManager->DisableButtons();
+  gpMouseManager->SetPointer("advmice.mse", 0, -999);
+
+  int numHumanPlayers = 0;
+  for(int i = 0; i < NUM_PLAYERS; ++i) {
+    if(!gpGame->playerDead[i]) {
+      if(gbHumanPlayer[i])
+        ++numHumanPlayers;
+    }
+  }
+  
+  std::string ext1 = GetSaveFileExtension(false);
+  std::string ext2 = "*" + ext1;
+  fileRequester *saveDialog = new fileRequester(131, 58, 3, &ext2[0u], ".\\GAMES\\", &ext1[0u]);
+  if(!saveDialog)
+    MemError();
+
+  int result = 0;
+  int returnCode = gpExec->DoDialog(saveDialog);
+  if(returnCode == BUTTON_OK) {
+    result = 1;
+    bFreshSave = 1;
+    result = gpGame->SaveGame(gLastFilename, 0, 0);
+    if(result)
+      NormalDialog("Game saved successfully.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+  }
+  delete saveDialog;
+  gpAdvManager->EnableButtons();
+  return result;
 }

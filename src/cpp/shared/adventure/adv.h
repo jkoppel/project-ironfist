@@ -315,7 +315,8 @@ public:
   int GetCursorBaseFrame(int direction);
   void ForceNewHover();
   void GetCursorSampleSet(int speed);
-  
+  void DisableButtons();
+  void EnableButtons();
 };
 
 extern advManager* gpAdvManager;
