@@ -16,7 +16,7 @@
 editManager *__thiscall editManager::editManager(editManager *this);
 int __thiscall editManager::Open(editManager *this, int a2); // idb
 editManager *__thiscall editManager::Close(editManager *this);
-signed int __thiscall sub_401646(int this, int x, int y);
+signed int __thiscall editManager::GetOverlayID(int this, int x, int y);
 void __thiscall sub_401AD9(void *ecx0);
 signed int __thiscall editManager::Main(editManager *this, int a2);
 void *__cdecl CopyMap();
@@ -26391,7 +26391,7 @@ editManager *__thiscall editManager::Close(editManager *this)
 // 432100: using guessed type _DWORD __stdcall heroWindowManager__RemoveWindow(_DWORD);
 
 //----- (00401646) --------------------------------------------------------
-signed int __thiscall sub_401646(int this, int x, int y)
+signed int __thiscall editManager::GetOverlayID(int this, int x, int y)
 {
   unsigned __int16 v3; // ax@23
   signed int result; // eax@41
@@ -26510,7 +26510,7 @@ void __thiscall sub_401AD9(void *ecx0)
   editManager::ToCellIdx((editManager *)this, &x, &y);
   x += *(_DWORD *)(this + 3730);
   y += *(_DWORD *)(this + 3734);
-  v2 = sub_401646(this, x, y);
+  v2 = editManager::GetOverlayID(this, x, y);
   if ( v2 == -1 )
   {
     ShowErrorMessage("Nothing to grab!");
@@ -26819,7 +26819,7 @@ LABEL_204:
           editManager::ToCellIdx(this, &x, &y);
           x += gpEditManager->cellLeft;
           y += gpEditManager->cellTop;
-          v21 = sub_401646((int)this, x, y);
+          v21 = editManager::GetOverlayID((int)this, x, y);
           v20 = -1;
           if ( v21 != -1 )
             v20 = gOverlayDatabase[v21].locationType;
@@ -28624,7 +28624,7 @@ int __thiscall editManager::PrepareSave6(editManager *ecx0)
       }
       else
       {
-        v12 = sub_401646((int)this, xa, ya);
+        v12 = editManager::GetOverlayID((int)this, xa, ya);
         if ( v12 == -1 )
         {
           tile->objType = 0;
@@ -28633,10 +28633,10 @@ int __thiscall editManager::PrepareSave6(editManager *ecx0)
         {
           tile->objType = gOverlayDatabase[v12].locationType;
           if ( (v12 == 462 || v12 == 662 && xa > 0 && MAP_WIDTH - 2 > xa && MAP_HEIGHT - 2 > ya && ya > 0)
-            && sub_401646((int)this, xa - 1, ya) == v12
-            && sub_401646((int)this, xa + 1, ya) == v12
-            && sub_401646((int)this, xa, ya - 1) == v12
-            && sub_401646((int)this, xa, ya + 1) != v12 )
+            && editManager::GetOverlayID((int)this, xa - 1, ya) == v12
+            && editManager::GetOverlayID((int)this, xa + 1, ya) == v12
+            && editManager::GetOverlayID((int)this, xa, ya - 1) == v12
+            && editManager::GetOverlayID((int)this, xa, ya + 1) != v12 )
             tile->objType = gOverlayDatabase[v12].locationType | TILE_HAS_EVENT;
           if ( v12 == 214 )
             tile->objType = gOverlayDatabase[214].locationType | TILE_HAS_EVENT;

@@ -7,6 +7,7 @@
 #include "game/game.h"
 #include "gui/gui.h"
 #include "gui/msg.h"
+#include "overlay.h"
 #include "spell/spell_constants.h"
 
 // That "const" is a fiction -- the original ShowErrorMessage mutates
@@ -165,4 +166,89 @@ int __fastcall FillInWinCondition(int index) {
   // ultimate artifact at index 0.
   gpMapHeader.winConditionArgumentOrLocX = artifactId + 1;
   return 0;
+}
+
+signed int editManager::GetOverlayID(int x, int y) {
+  unsigned __int16 v3; // ax@23
+  signed int result; // eax@41
+  mapCell *tile; // [sp+10h] [bp-20h]@1
+  signed int v6; // [sp+14h] [bp-1Ch]@1
+  signed int j; // [sp+18h] [bp-18h]@46
+  int i; // [sp+1Ch] [bp-14h]@42
+  int v9; // [sp+20h] [bp-10h]@1
+  mapCellExtra *v10; // [sp+24h] [bp-Ch]@7
+  mapCellExtra *v11; // [sp+24h] [bp-Ch]@26
+  signed int objIndex; // [sp+28h] [bp-8h]@1
+  int v13; // [sp+2Ch] [bp-4h]@1
+
+  v6 = -1;
+  v9 = -1;
+  objIndex = -1;
+  v13 = 0;
+  tile = &gpMap.tiles[y * gpMap.width + x];
+  if(gpMap.tiles[y * gpMap.width + x].overlayIndex == -1) {
+    if(tile->objectIndex != 0xFF) {
+      if(!tile->isShadow && tile->objTileset != TILESET_FLAG && tile->objTileset != TILESET_EXTRA_OVERLAY) {
+        v9 = tile->objTileset;
+        objIndex = tile->objectIndex;
+        v3 = tile->extraInfo;
+        v13 = v3 & 1;
+      }
+
+      if(tile->extraIdx && gpMap.cellExtras[tile->extraIdx].objectIndex != 255)
+        v11 = &gpMap.cellExtras[tile->extraIdx];
+      else
+        v11 = nullptr;
+      while(v11) {
+        if((!(v11->field_4_1) || v13)
+          && !v11->field_4_2 && v11->objTileset != TILESET_FLAG && v11->objTileset != TILESET_EXTRA_OVERLAY) {
+          v9 = v11->objTileset;
+          objIndex = v11->objectIndex;
+          v13 = v11->field_4_1;
+        }
+        if(v11->nextIdx && gpMap.cellExtras[v11->nextIdx].objectIndex != 255)
+          v11 = &gpMap.cellExtras[v11->nextIdx];
+        else
+          v11 = nullptr;
+      }
+    }
+  } else {
+    if(tile->overlayTileset != TILESET_FLAG && tile->overlayTileset != TILESET_EXTRA_OVERLAY) {
+      v9 = tile->overlayTileset;
+      objIndex = tile->overlayIndex;
+    }
+
+    if(tile->extraIdx && gpMap.cellExtras[tile->extraIdx].overlayIndex != 255)
+      v10 = &gpMap.cellExtras[tile->extraIdx];
+    else
+      v10 = nullptr;
+    while(v10) {
+      if(v10->tileset != TILESET_FLAG && v10->tileset != TILESET_EXTRA_OVERLAY) {
+        v9 = v10->tileset;
+        objIndex = v10->overlayIndex;
+      }
+      if((unsigned short)v10->nextIdx && gpMap.cellExtras[(unsigned short)v10->nextIdx].overlayIndex != 255)
+        v10 = &gpMap.cellExtras[(unsigned short)v10->nextIdx];
+      else
+        v10 = nullptr;
+    }
+  }
+
+  if(v9 == -1) {
+    result = -1;
+  } else {
+    for(i = 0; i < gNumOverlays; ++i) {
+      if(gOverlayDatabase[i].tileset == v9) {
+        for(j = 0; j < 48; ++j) {
+          if(gOverlayDatabase[i].fullGridIconIndices[j] == objIndex) {
+            v6 = i;
+            goto LABEL_52;
+          }
+        }
+      }
+    }
+  LABEL_52:
+    result = v6;
+  }
+  return result;
 }
