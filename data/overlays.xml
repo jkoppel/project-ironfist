@@ -383,7 +383,7 @@
         <terrainObjCategoryMask>01111111111100000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="6" idx2="5001" ordinal="6" tileset="TILESET_MOUNTAIN_MULTIPLE" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_MINE" townColorOrMineColor="0" field_E="0" field_4E="9999" field_4B="0" field_42="0">
+    <overlay idx="6" idx2="5001" ordinal="6" tileset="TILESET_MOUNTAIN_MULTIPLE" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_MINE" townColorOrMineColor="0" field_E="0" field_4E="9999" field_4B="0" field_42="2">
         <intersectsTileMask>
             00000000
             00000000
