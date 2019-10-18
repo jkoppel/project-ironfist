@@ -79,7 +79,9 @@ extern int gNumOverlays;
 extern char gOverlayTypeCategories[13];
 extern int gObjTypeTerrains[13];
 
-extern signed int __fastcall PlaceOverlay_orig(overlay *ovr, int left, int right, int userDemanded);
+extern signed int __fastcall sub_4291A2(overlay *a1, int a2, int a3, int a4);
+extern int __fastcall sub_429170(overlay *a1, int a2, int a3);
+signed int __stdcall sub_42AAF9(int *a1, int *a2, int a3, int doMountains, char tileset);
 
 //FIXME: Check sig, names
 extern int __fastcall ValidOverlayPlacement(overlay*,int,int,int);

@@ -680,3 +680,52 @@ int __fastcall PlaceOverlay(overlay *ovr, int left, int top, int userDemanded) {
 
   return 1;
 }
+
+extern int dword_485D00[];
+extern int dword_485D04[];
+
+signed int __stdcall sub_42AAF9(int *a1, int *a2, int a3, int doMountains, char tileset) {
+  signed int result; // eax@5
+  int i; // [sp+10h] [bp-14h]@22
+  signed int v7; // [sp+1Ch] [bp-8h]@6
+  overlay *v8; // [sp+20h] [bp-4h]@22
+
+  if(*a1 >= 0 && MAP_WIDTH - 1 >= *a1 && *a2 >= 0 && MAP_HEIGHT - 1 >= *a2) {
+    v7 = 0;
+    ProcessAssert((unsigned int)tileset >= 1, "F:\\h2xsrc\\Editor\\RANDOM.CPP", 750);
+    if(!a3)
+      v7 = 1;
+    if(a3 == 1)
+      v7 = 3;
+    if(a3 == 2)
+      v7 = 2;
+    if(a3 == 3)
+      v7 = 0;
+    if(a3 == 4)
+      v7 = 1;
+    if(a3 == 5)
+      v7 = 3;
+    if(a3 == 6)
+      v7 = 2;
+    if(a3 == 7)
+      v7 = 0;
+    v8 = 0;
+    for(i = 0; i < gNumOverlays; ++i) {
+      if(!v8 && gOverlayDatabase[i].tileset == tileset) {
+        if(((gOverlayDatabase[i].intersectsTileMask & 0xFFFFFFFF00000000) >> 32) == 0xE0F07)
+          v8 = &gOverlayDatabase[i + v7];
+      }
+    }
+    if(sub_4291A2(v8, *a1, *a2, 1)) {
+      sub_429170(v8, *a1, *a2);
+      *a1 += dword_485D00[2 * a3];
+      *a2 += dword_485D04[2 * a3];
+      result = 1;
+    } else {
+      result = 0;
+    }
+  } else {
+    result = 0;
+  }
+  return result;
+}

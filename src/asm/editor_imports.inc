@@ -169,3 +169,5 @@ IMPORT_?gWellExtraNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
 IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
 IMPORT_?gTownPrefixNames@@3PAPADA = 1
+
+IMPORT_?sub_42AAF9@@YGHPAH0HHD@Z = 1
