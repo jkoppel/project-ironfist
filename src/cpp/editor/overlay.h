@@ -3,7 +3,6 @@
 
 
 #define MAX_OVERLAYS 2048
-#define NUM_OVERLAYS 993 // must be also changed in asm!
 #define NUM_TILESETS 64
 
 enum OVERLAY_CATEGORY : __int8 {
@@ -67,7 +66,6 @@ public:
   int SelectObject(int objType);
   int SelectObject_orig(int objType);
   int PopulateAvailOverlays(int ovrType);
-  int PopulateAvailOverlays_orig(int ovrType);
   void SetupOverlayWindow(int draw);
   void DrawAffectedTileGrid(int x, int y, int width, int height, overlay *ovr, signed int a7);
   void DrawOverlay(overlay *ovr, int xoff, int yoff, int a4, int width, int height, int draw, signed int a8, int a9);
@@ -78,6 +76,8 @@ public:
 extern signed int __fastcall OverlayMaskBitSet(__int64 *mask, int x, int y);
 overlay gOverlayDatabase[];
 extern int gNumOverlays;
+extern char gOverlayTypeCategories[13];
+extern int gObjTypeTerrains[13];
 
 extern signed int __fastcall PlaceOverlay_orig(overlay *ovr, int left, int right, int userDemanded);
 

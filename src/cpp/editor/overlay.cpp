@@ -30,6 +30,48 @@ void LoadOverlays() {
   }
 }
 
+int overlayManager::PopulateAvailOverlays(int ovrType) {
+  int k; // [sp+10h] [bp-9Ch]@9
+  int i; // [sp+18h] [bp-94h]@1
+  int j; // [sp+18h] [bp-94h]@7
+  overlay tmp; // [sp+20h] [bp-8Ch]@12
+  int v7; // [sp+A4h] [bp-8h]@9
+  int v8; // [sp+A8h] [bp-4h]@1
+
+  this->nAvailOverlays = 0;
+  v8 = 0;
+  for(i = 0; i < gNumOverlays; ++i) {
+    if(gOverlayDatabase[i].category == gOverlayTypeCategories[ovrType]) {
+      if(gOverlayDatabase[i].terrainObjCategoryMask & gObjTypeTerrains[ovrType])
+        memcpy(&this->availOverlays[this->nAvailOverlays++],
+          &gOverlayDatabase[i],
+          sizeof(this->availOverlays[this->nAvailOverlays++]));
+    }
+  }
+  // bubble sort availOverlays in increasing order of field_8
+  for(j = 0; ; ++j) {
+    if(this->nAvailOverlays > j) {
+      v7 = 0;
+      for(k = this->nAvailOverlays - 1; k > 0; --k) {
+        if(this->availOverlays[k - 1].ordinal > this->availOverlays[k].ordinal) {
+          memcpy(&tmp, &this->availOverlays[k], 128u);
+          tmp.fullGridIconIndices[46] = this->availOverlays[k].fullGridIconIndices[46];
+          tmp.fullGridIconIndices[47] = this->availOverlays[k].fullGridIconIndices[47];
+          memcpy(&this->availOverlays[k], &this->availOverlays[k - 1], sizeof(this->availOverlays[k]));
+          memcpy(&this->availOverlays[k - 1], &tmp, 0x80u);
+          this->availOverlays[k - 1].fullGridIconIndices[46] = tmp.fullGridIconIndices[46];
+          this->availOverlays[k - 1].fullGridIconIndices[47] = tmp.fullGridIconIndices[47];
+          v7 = 1;
+        }
+      }
+      if(v7)
+        continue;
+    }
+    break;
+  }
+  return this->nAvailOverlays != 0;
+}
+
 void overlayManager::SetupOverlayWindow(int draw) {
   const int NUM_ROWS = 9;
   const int NUM_COLS = 9;

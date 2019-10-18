@@ -167,3 +167,4 @@ IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
 IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
 IMPORT_?gTownPrefixNames@@3PAPADA = 1
 IMPORT_?SetupOverlayWindow@overlayManager@@QAEXH@Z = 1
+IMPORT_?PopulateAvailOverlays@overlayManager@@QAEHH@Z = 1
