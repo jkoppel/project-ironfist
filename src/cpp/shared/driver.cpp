@@ -6,6 +6,7 @@
 #include "windows.h"
 
 extern void* hInstApp;
+extern void LoadOverlays();
 
 void IronfistInit() {
   LoadCreatures();
@@ -13,6 +14,10 @@ void IronfistInit() {
 #ifndef EDITOR
   InitializeTownConstants();
 #endif
+#ifdef EDITOR
+  LoadOverlays();
+#endif
+
   //LoadMenu((HINSTANCE)hInstApp, "MNUADV");
 }
 

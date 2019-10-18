@@ -75,6 +75,36 @@ namespace UtilsXML {
     }
   }
 
+  void ReadMask(tinyxml2::XMLElement *src, long long *dest) {
+    std::string text = src->GetText();
+    int i = 0;
+    long long result = 0;
+    for(auto c : text) {
+      if(c == '0' || c == '1') {
+        if(c == '1')
+          result |= (1LL << (sizeof(long long) * 8 - i - 1));
+        i++;
+      }
+    }
+    // flipping
+    result = (result >> 32) | ((result & 0xFFFFFFFF) << 32);
+    *dest = result;
+  }
+
+  void ReadBinary(tinyxml2::XMLElement *src, int *dest) {
+    std::string text = src->GetText();
+    int i = 0;
+    int result = 0;
+    for(auto c : text) {
+      if(c == '0' || c == '1') {
+        if(c == '1')
+          result |= (1 << i);
+        i++;
+      }
+    }
+    *dest = result;
+  }  
+
   XMLFile::XMLFile() {
     tempDoc = new tinyxml2::XMLDocument(true);
   }

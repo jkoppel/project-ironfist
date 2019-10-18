@@ -2,6 +2,7 @@
 #define OVERLAY_H
 
 
+#define MAX_OVERLAYS 2048
 #define NUM_OVERLAYS 993 // must be also changed in asm!
 #define NUM_TILESETS 64
 
@@ -11,6 +12,7 @@ enum OVERLAY_CATEGORY : __int8 {
   OVERLAY_CATEGORY_CREATURE = 2,
   OVERLAY_CATEGORY_ARTIFACT = 3,
   OVERLAY_CATEGORY_TOWN = 5,
+  OVERLAY_CATEGORY_BUILTIN = 6,
   OVERLAY_CATEGORY_HERO = 7,
 };
 
@@ -75,6 +77,7 @@ public:
 
 extern signed int __fastcall OverlayMaskBitSet(__int64 *mask, int x, int y);
 overlay gOverlayDatabase[];
+extern int gNumOverlays;
 
 extern signed int __fastcall PlaceOverlay_orig(overlay *ovr, int left, int right, int userDemanded);
 
@@ -82,5 +85,6 @@ extern signed int __fastcall PlaceOverlay_orig(overlay *ovr, int left, int right
 extern int __fastcall ValidOverlayPlacement(overlay*,int,int,int);
 extern int CountTowns();
 extern int CountPlacedEvents();
+void LoadOverlays();
 
 #endif
