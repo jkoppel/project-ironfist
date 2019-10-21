@@ -168,87 +168,67 @@ int __fastcall FillInWinCondition(int index) {
   return 0;
 }
 
-signed int editManager::GetOverlayID(int x, int y) {
-  unsigned __int16 v3; // ax@23
-  signed int result; // eax@41
-  mapCell *tile; // [sp+10h] [bp-20h]@1
-  signed int v6; // [sp+14h] [bp-1Ch]@1
-  signed int j; // [sp+18h] [bp-18h]@46
-  int i; // [sp+1Ch] [bp-14h]@42
-  int v9; // [sp+20h] [bp-10h]@1
-  mapCellExtra *v10; // [sp+24h] [bp-Ch]@7
-  mapCellExtra *v11; // [sp+24h] [bp-Ch]@26
-  signed int objIndex; // [sp+28h] [bp-8h]@1
-  int v13; // [sp+2Ch] [bp-4h]@1
-
-  v6 = -1;
-  v9 = -1;
-  objIndex = -1;
-  v13 = 0;
-  tile = &gpMap.tiles[y * gpMap.width + x];
-  if(gpMap.tiles[y * gpMap.width + x].overlayIndex == -1) {
-    if(tile->objectIndex != 0xFF) {
+signed int editManager::GetOverlayID(int x, int y) {  
+  int tileset = -1;
+  int objIndex = -1;  
+  mapCell *tile = &gpMap.tiles[y * gpMap.width + x];
+  if(tile->overlayIndex == -1) {
+    if(tile->objectIndex != -1) {
+      int field_4_1 = 0;
       if(!tile->isShadow && tile->objTileset != TILESET_FLAG && tile->objTileset != TILESET_EXTRA_OVERLAY) {
-        v9 = tile->objTileset;
+        tileset = tile->objTileset;
         objIndex = tile->objectIndex;
-        v3 = tile->extraInfo;
-        v13 = v3 & 1;
+        field_4_1 = tile->field_4_1;
       }
 
+      mapCellExtra *cellExtra = nullptr;
       if(tile->extraIdx && gpMap.cellExtras[tile->extraIdx].objectIndex != 255)
-        v11 = &gpMap.cellExtras[tile->extraIdx];
-      else
-        v11 = nullptr;
-      while(v11) {
-        if((!(v11->field_4_1) || v13)
-          && !v11->field_4_2 && v11->objTileset != TILESET_FLAG && v11->objTileset != TILESET_EXTRA_OVERLAY) {
-          v9 = v11->objTileset;
-          objIndex = v11->objectIndex;
-          v13 = v11->field_4_1;
+        cellExtra = &gpMap.cellExtras[tile->extraIdx];
+      while(cellExtra) {
+        if((!cellExtra->field_4_1 || field_4_1) && !cellExtra->field_4_2 && cellExtra->objTileset != TILESET_FLAG && cellExtra->objTileset != TILESET_EXTRA_OVERLAY) {
+          tileset = cellExtra->objTileset;
+          objIndex = cellExtra->objectIndex;
+          field_4_1 = cellExtra->field_4_1;
         }
-        if(v11->nextIdx && gpMap.cellExtras[v11->nextIdx].objectIndex != 255)
-          v11 = &gpMap.cellExtras[v11->nextIdx];
+        if(cellExtra->nextIdx && gpMap.cellExtras[cellExtra->nextIdx].objectIndex != 255)
+          cellExtra = &gpMap.cellExtras[cellExtra->nextIdx];
         else
-          v11 = nullptr;
+          cellExtra = nullptr;
       }
     }
   } else {
     if(tile->overlayTileset != TILESET_FLAG && tile->overlayTileset != TILESET_EXTRA_OVERLAY) {
-      v9 = tile->overlayTileset;
+      tileset = tile->overlayTileset;
       objIndex = tile->overlayIndex;
     }
 
+    mapCellExtra *cellExtra = nullptr;
     if(tile->extraIdx && gpMap.cellExtras[tile->extraIdx].overlayIndex != 255)
-      v10 = &gpMap.cellExtras[tile->extraIdx];
-    else
-      v10 = nullptr;
-    while(v10) {
-      if(v10->tileset != TILESET_FLAG && v10->tileset != TILESET_EXTRA_OVERLAY) {
-        v9 = v10->tileset;
-        objIndex = v10->overlayIndex;
+      cellExtra = &gpMap.cellExtras[tile->extraIdx];
+    while(cellExtra) {
+      if(cellExtra->tileset != TILESET_FLAG && cellExtra->tileset != TILESET_EXTRA_OVERLAY) {
+        tileset = cellExtra->tileset;
+        objIndex = cellExtra->overlayIndex;
       }
-      if((unsigned short)v10->nextIdx && gpMap.cellExtras[(unsigned short)v10->nextIdx].overlayIndex != 255)
-        v10 = &gpMap.cellExtras[(unsigned short)v10->nextIdx];
+      if((unsigned short)cellExtra->nextIdx && gpMap.cellExtras[(unsigned short)cellExtra->nextIdx].overlayIndex != 255)
+        cellExtra = &gpMap.cellExtras[(unsigned short)cellExtra->nextIdx];
       else
-        v10 = nullptr;
+        cellExtra = nullptr;
     }
   }
 
-  if(v9 == -1) {
-    result = -1;
-  } else {
-    for(i = 0; i < gNumOverlays; ++i) {
-      if(gOverlayDatabase[i].tileset == v9) {
-        for(j = 0; j < 48; ++j) {
-          if(gOverlayDatabase[i].fullGridIconIndices[j] == objIndex) {
-            v6 = i;
-            goto LABEL_52;
-          }
+  if(tileset == -1)
+    return -1;  
+
+  for(int i = 0; i < gNumOverlays; ++i) {
+    overlay *ovr = &gOverlayDatabase[i];
+    if(ovr->tileset == tileset) {
+      for(int j = 0; j < ELEMENTS_IN(ovr->fullGridIconIndices); ++j) {
+        if(ovr->fullGridIconIndices[j] == objIndex) {
+          return i;
         }
       }
     }
-  LABEL_52:
-    result = v6;
   }
-  return result;
+  return -1;
 }
