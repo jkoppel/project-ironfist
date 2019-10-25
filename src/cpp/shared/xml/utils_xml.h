@@ -34,6 +34,10 @@ namespace UtilsXML {
   void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::map<int, int> &src);
   void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::map<int, SMACKER_VIDEOS> &src);
   void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::map<int, std::set<int>> &src);
+  
+  void ReadMask(tinyxml2::XMLElement *src, long long *dest);
+  void ReadBinary(tinyxml2::XMLElement *src, int *dest);
+
   class XMLFile {
     public:
       tinyxml2::XMLDocument *tempDoc = nullptr;
