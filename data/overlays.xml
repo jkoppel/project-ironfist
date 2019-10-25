@@ -28735,7 +28735,7 @@
         <terrainObjCategoryMask>10000000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>10000000000000000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="449" idx2="449" ordinal="1" tileset="TILESET_OBJECT_WATER" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="25" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="449" idx2="449" ordinal="1" tileset="TILESET_OBJECT_WATER" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="25" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -28799,7 +28799,7 @@
         <terrainObjCategoryMask>10000000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>10000000000000000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="450" idx2="450" ordinal="2" tileset="TILESET_OBJECT_WATER" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="25" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="450" idx2="450" ordinal="2" tileset="TILESET_OBJECT_WATER" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="25" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -29631,7 +29631,7 @@
         <terrainObjCategoryMask>01000000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="463" idx2="463" ordinal="447" tileset="TILESET_OBJECT_GRASS" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="463" idx2="463" ordinal="447" tileset="TILESET_OBJECT_GRASS" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -32959,7 +32959,7 @@
         <terrainObjCategoryMask>01000000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="515" idx2="515" ordinal="499" tileset="TILESET_OBJECT_SNOW" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="515" idx2="515" ordinal="499" tileset="TILESET_OBJECT_SNOW" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -35775,7 +35775,7 @@
         <terrainObjCategoryMask>01111111111100000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="559" idx2="559" ordinal="540" tileset="TILESET_OBJECT_SWAMP" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="559" idx2="559" ordinal="540" tileset="TILESET_OBJECT_SWAMP" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -36031,7 +36031,7 @@
         <terrainObjCategoryMask>00010000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="563" idx2="563" ordinal="544" tileset="TILESET_OBJECT_SWAMP" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="0" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="563" idx2="563" ordinal="544" tileset="TILESET_OBJECT_SWAMP" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="0" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -36607,7 +36607,7 @@
         <terrainObjCategoryMask>00010000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="572" idx2="572" ordinal="553" tileset="TILESET_OBJECT_SWAMP" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="572" idx2="572" ordinal="553" tileset="TILESET_OBJECT_SWAMP" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -38335,7 +38335,7 @@
         <terrainObjCategoryMask>00010000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="599" idx2="599" ordinal="580" tileset="TILESET_OBJECT_LAVA" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="599" idx2="599" ordinal="580" tileset="TILESET_OBJECT_LAVA" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -39807,7 +39807,7 @@
         <terrainObjCategoryMask>00001000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="622" idx2="622" ordinal="602" tileset="TILESET_OBJECT_DESERT" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="622" idx2="622" ordinal="602" tileset="TILESET_OBJECT_DESERT" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -41407,7 +41407,7 @@
         <terrainObjCategoryMask>00000100000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="647" idx2="647" ordinal="625" tileset="TILESET_OBJECT_DESERT" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="0" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="647" idx2="647" ordinal="625" tileset="TILESET_OBJECT_DESERT" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="0" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -42431,7 +42431,7 @@
         <terrainObjCategoryMask>00000010000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="663" idx2="663" ordinal="642" tileset="TILESET_OBJECT_DIRT" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="663" idx2="663" ordinal="642" tileset="TILESET_OBJECT_DIRT" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
@@ -45503,7 +45503,7 @@
         <terrainObjCategoryMask>00000001000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
     </overlay>
-    <overlay idx="711" idx2="711" ordinal="690" tileset="TILESET_OBJECT_CRACKED" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_WHAT_IS_THIS" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
+    <overlay idx="711" idx2="711" ordinal="690" tileset="TILESET_OBJECT_CRACKED" category="CATEGORY_TERRAIN" animationLength="6" locationType="LOCATION_HOLE_LIKE" townColorOrMineColor="0" field_E="15" field_4E="9999" field_4B="1" field_42="0">
         <intersectsTileMask>
             00000000
             00000000
