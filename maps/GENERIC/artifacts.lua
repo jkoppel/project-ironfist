@@ -14,6 +14,10 @@ function OnCalcManaCost(hero, spell, cost)
 
 end;
 
+function OnCalcSpellChance(army, spell, chance)
+
+end;
+
 -- function OnGetLuck(hero) -- new
 	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
 		-- return 1;

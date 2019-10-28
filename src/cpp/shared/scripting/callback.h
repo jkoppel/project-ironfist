@@ -21,6 +21,7 @@ void ironfist_lua_push(lua_State* ls, bool arg);
 void ironfist_lua_push(lua_State* ls, void *arg);
 void ironfist_lua_push(lua_State* ls, char *arg);
 void ironfist_lua_push(lua_State* ls, std::string arg);
+void ironfist_lua_push(lua_State* ls, double arg);
 
 template <typename T>
 void ironfist_lua_push(lua_State* ls, deepbind<T> t) {

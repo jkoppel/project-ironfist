@@ -25,6 +25,10 @@ void ironfist_lua_push(lua_State* ls, char *arg) {
   lua_pushstring(ls, arg);
 }
 
+void ironfist_lua_push(lua_State* ls, double arg) {
+  lua_pushnumber(ls, arg);
+}
+
 void ironfist_lua_pushmulti(lua_State* ls) {
 }
 
@@ -64,6 +68,18 @@ nonstd::optional<int> PopLuaResult(lua_State *L, int arg) {
     return retVal;
   } else {
     DisplayError("Incorrect return value: expected int; got something else", "Script error");
+    return {};
+  }
+}
+
+template <>
+nonstd::optional<double> PopLuaResult(lua_State *L, int arg) {
+  if (lua_isnumber(L, arg)) {
+    const bool retVal = (lua_tonumber(L, arg) != 0);
+    lua_remove(L, arg);
+    return retVal;
+  } else {
+    DisplayError("Incorrect return value: expected double; got something else", "Script error");
     return {};
   }
 }
