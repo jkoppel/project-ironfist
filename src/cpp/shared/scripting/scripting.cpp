@@ -23,57 +23,64 @@ extern "C" {
 
 using namespace std;
 
-static string script_contents("");
-
 static bool scripting_on = false;
 lua_State* map_lua = NULL;
+lua_State* artifacts_lua = NULL;
 
 void set_lua_globals(lua_State *L) {
   set_scripting_funcs(L);
   set_scripting_consts(L);
 }
 
-static void LoadScriptContents(string &filnam) {
-  ifstream in(filnam);
-  stringstream buffer;
-  buffer << in.rdbuf();
-  script_contents = buffer.str();
+void LoadScript(lua_State** ls, string& script_filename) {
+  *ls = luaL_newstate();
+  scripting_on = true;
+  
+  luaL_openlibs(*ls);
+
+  set_lua_globals(*ls);
+
+  if (luaL_dofile(*ls, ".\\SCRIPTS\\MODULES\\binding.lua")) {
+    DisplayLuaError(*ls);
+  }
+
+  if (luaL_dofile(*ls, script_filename.c_str())) {
+    DisplayLuaError(*ls);
+  }
 }
 
-void RunScript(string& script_filename) {
-  map_lua = luaL_newstate();
-  scripting_on = true;
-
-  luaL_openlibs(map_lua);
-
-  set_lua_globals(map_lua);
-
-  if (luaL_dofile(map_lua, ".\\SCRIPTS\\MODULES\\binding.lua")) {
-    DisplayLuaError(map_lua);
+void LoadArtifactsScript() {
+  std::string script_file = ".\\SCRIPTS\\GENERIC\\artifacts.lua";
+  struct stat st;
+  if (stat(script_file.c_str(), &st) == 0) { //script exists
+    LoadScript(&artifacts_lua, script_file);
   }
+}
 
-  LoadScriptContents(script_filename);
-
-  if (luaL_dofile(map_lua, script_filename.c_str())) {
-    DisplayLuaError(map_lua);
-  }
+std::string GetScriptFileName(std::string &mapFileName) {
+  return ".\\SCRIPTS\\" + mapFileName + ".lua";
 }
 
 void ScriptingInit(string& map_filnam) {
   ScriptingShutdown();
 
-  string script_file = ".\\SCRIPTS\\" + map_filnam + ".lua";
+  string script_file = GetScriptFileName(map_filnam);
   struct stat st;
 
   if (stat(script_file.c_str(), &st) == 0) { //script exists
-    RunScript(script_file);
+    LoadScript(&map_lua, script_file);
   }
+
+  LoadArtifactsScript();  
 }
 
 void ScriptingInitFromString(string &script) {
+  ScriptingShutdown();
   string filename = dumpToTemp(string(script));
-  RunScript(filename);
+  LoadScript(&map_lua, filename);
   remove(filename.c_str());
+
+  LoadArtifactsScript();
 }
 
 void ScriptingShutdown() {
@@ -83,12 +90,17 @@ void ScriptingShutdown() {
     scripting_on = false;
   }
 
-  script_contents = "";
+  if (artifacts_lua != NULL) {
+    lua_close(artifacts_lua);
+    artifacts_lua = NULL;
+  }
 }
 
-// Returns "" if none
-string& GetScriptContents() {
-  return script_contents;
+std::string GetScriptContents(std::string mapName) {
+  ifstream in(GetScriptFileName(mapName));
+  stringstream buffer;
+  buffer << in.rdbuf();
+  return buffer.str();
 }
 
 

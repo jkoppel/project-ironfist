@@ -473,7 +473,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
   }
 
   WriteMapVariables(pRoot);
-  std::string script = GetScriptContents();
+  std::string script = GetScriptContents(gMapName);
   if(script.length())
     PushBack(tempDoc, pRoot, "script", script.c_str());
   return tempDoc->SaveFile(fileName);

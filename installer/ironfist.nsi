@@ -72,6 +72,12 @@ Section
 	File ..\maps\modules\AdvMessageBox.lua
 	File ..\maps\modules\binding.lua
 	
+	CreateDirectory "$INSTDIR\SCRIPTS\GENERIC"
+	
+	SetOutPath $INSTDIR\SCRIPTS\GENERIC
+	
+	File ..\maps\generic\artifacts.lua
+	
 	SetOutPath $INSTDIR\CAMPAIGNS
 	
 	File ..\cmp\cyborg.cmp
@@ -102,6 +108,7 @@ Section "uninstall"
 	Delete "$INSTDIR\MAPS\Behemoth.MX2"
 	Delete "$INSTDIR\MAPS\CAMP5_01.HXC"
 	
+	Delete "$INSTDIR\SCRIPTS\GENERIC\artifacts.lua"
 	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
