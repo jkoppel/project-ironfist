@@ -339,6 +339,7 @@ bool GetMapCellXY(mapCell* cell, int* x, int* y);
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
 void __fastcall GiveTakeArtifactStat(hero *h, int art, int take);
+void __fastcall GiveTakeArtifactStat_orig(hero *h, int art, int take);
 void __fastcall GetMonsterCost(int, int * const);
 
 #pragma pack(pop)

@@ -1197,3 +1197,11 @@ void advManager::DrawCursor() {
     S1cursorTurning = this->mobilizedHeroTurning;
   }
 }
+
+void __fastcall GiveTakeArtifactStat(hero *h, int art, int take) {
+  GiveTakeArtifactStat_orig(h, art, take);
+  if(!take)
+    ScriptCallback("OnArtifactGive", deepbind<hero*>(h), art);
+  else
+    ScriptCallback("OnArtifactTake", deepbind<hero*>(h), art);
+}

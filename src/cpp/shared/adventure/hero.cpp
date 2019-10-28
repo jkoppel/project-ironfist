@@ -3,6 +3,8 @@
 
 #include "artifacts.h"
 #include "base.h"
+#include "scripting/callback.h"
+#include "scripting/deepbinding.h"
 #include "skills.h"
 #include "spell/spells.h"
 
@@ -308,10 +310,12 @@ int hero::CalcMobility() {
           }
         }
       }
+      ScriptCallback("OnCalcMobility", deepbind<hero*>(this));
       return points;
     }
   }
 
+  ScriptCallback("OnCalcMobility", deepbind<hero*>(this));
   return this->CalcMobility_orig(); //Default CalcMobility output
 }
 

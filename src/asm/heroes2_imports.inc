@@ -212,6 +212,8 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 IMPORT_?IsCursedItem@@YIHH@Z = 1
 IMPORT_?InitRandomArtifacts@game@@QAEXXZ = 1
 IMPORT_?GetRandomArtifactId@game@@QAEHHH@Z = 1
+IMPORT_?GiveTakeArtifactStat@@YIXPAVhero@@HH@Z = 1
+?GiveTakeArtifactStat@@YIXPAVhero@@HH@Z_clone EQU ?GiveTakeArtifactStat_orig@@YIXPAVhero@@HH@Z
 
 ;;combat
 IMPORT_?gCombatFxNames@@3PAPADA = 1
