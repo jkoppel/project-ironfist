@@ -317,11 +317,11 @@ int hero::CalcMobility() {
     }
   }
 
+  points = this->CalcMobility_orig(); //Default CalcMobility output
   auto res = ScriptCallbackResult<int>("OnCalcMobility", deepbind<hero*>(this), points);
   if(res.has_value())
-    return res.value();
-  else
-    return this->CalcMobility_orig(); //Default CalcMobility output
+    points =  res.value();
+  return points;
 }
 
 hero* GetCurrentHero() {
