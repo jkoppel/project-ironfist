@@ -34,7 +34,6 @@ void set_lua_globals(lua_State *L) {
 
 void LoadScript(lua_State** ls, string& script_filename) {
   *ls = luaL_newstate();
-  scripting_on = true;
   
   luaL_openlibs(*ls);
 
@@ -69,6 +68,7 @@ void ScriptingInit(string& map_filnam) {
 
   if (stat(script_file.c_str(), &st) == 0) { //script exists
     LoadScript(&map_lua, script_file);
+    scripting_on = true;
   }
 
   LoadArtifactsScript();  
@@ -78,6 +78,7 @@ void ScriptingInitFromString(string &script) {
   ScriptingShutdown();
   string filename = dumpToTemp(string(script));
   LoadScript(&map_lua, filename);
+  scripting_on = true;
   remove(filename.c_str());
 
   LoadArtifactsScript();
