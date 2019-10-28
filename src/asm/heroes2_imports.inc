@@ -203,6 +203,8 @@ IMPORT_?CheckLevel@hero@@QAEXXZ = 1
 ?CheckLevel@hero@@QAEXXZ_clone EQU ?CheckLevel_orig@hero@@QAEXXZ
 IMPORT_?CalcMobility@hero@@QAEHXZ = 1
 ?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
+IMPORT_?GetManaCost@@YIHHPAVhero@@@Z = 1
+?GetManaCost@@YIHHPAVhero@@@Z_clone EQU ?GetManaCost_orig@@YIHHPAVhero@@@Z
 
 ;;artifacts
 IMPORT_?gArtifactNames@@3PAPADA = 1

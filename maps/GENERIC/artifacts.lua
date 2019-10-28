@@ -10,6 +10,10 @@ function OnCalcMobility(hero, mobility)
 
 end;
 
+function OnCalcManaCost(hero, spell, cost)
+
+end;
+
 -- function OnGetLuck(hero) -- new
 	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
 		-- return 1;

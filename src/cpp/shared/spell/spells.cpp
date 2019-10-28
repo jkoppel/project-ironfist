@@ -6,6 +6,7 @@
 #include "adventure/terrain.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "scripting/callback.h"
 #include "sound/sound.h"
 
 char *gSpellDesc[] =
@@ -154,8 +155,16 @@ SSpellInfo gsSpellInfo[] = {
 
 #define DD_MOVEMENT_COST 225
 
-int GetManaCost(int s) {
-	return GetManaCost(s, NULL);
+int __fastcall GetManaCost(int spell, hero* hro) {
+  int cost = GetManaCost_orig(spell, hro);
+  auto res = ScriptCallbackResult<int>("OnCalcManaCost", deepbind<hero*>(hro), spell, cost);
+  if(res.has_value())
+    cost = res.value();
+  return cost;
+}
+
+int GetManaCost(int spell) {
+	return GetManaCost(spell, NULL);
 }
 
 void advManager::CastSpell(int spell) {
