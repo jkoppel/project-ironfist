@@ -2051,3 +2051,12 @@ int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type
     name = (char*)xCampaignNames[xCampaign.campaignID].c_str();
   return AddScoreToHighScore_orig(score, days, difficulty, type, name);
 }
+
+int game::GetLuck(hero* hro, army *stack, town *castle) {
+  int luck = GetLuck_orig(hro, stack, castle);
+  auto res = ScriptCallbackResult<int>("OnCalcLuck", deepbind<hero*>(hro), deepbind<army*>(stack), deepbind<town*>(castle), luck);
+  if(res.has_value())
+    luck = res.value();
+  return luck;
+}
+}

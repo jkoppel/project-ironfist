@@ -318,6 +318,8 @@ public:
   int SetupCampaignGame();
   int SetupMultiPlayerGame();
   int PickLoadGame();
+  int GetLuck(hero* hro, army *stack, town *castle);
+  int GetLuck_orig(hero* hro, army *stack, town *castle);
 
 private:
   void PropagateVision();

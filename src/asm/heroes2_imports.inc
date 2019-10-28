@@ -162,6 +162,8 @@ IMPORT_?RandomizeTown@game@@QAEXHHH@Z = 1
 IMPORT_?ShowScenInfo@game@@QAEXXZ = 1
 IMPORT_?UpdateNewGameWindow@game@@QAEXXZ = 1
 IMPORT_?ProcessRandomObjects@game@@QAEXXZ = 1
+IMPORT_?GetLuck@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z = 1
+?GetLuck@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z_clone EQU ?GetLuck_orig@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1

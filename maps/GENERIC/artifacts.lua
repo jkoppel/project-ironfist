@@ -18,6 +18,10 @@ function OnCalcSpellChance(army, spell, chance)
 
 end;
 
+function OnCalcLuck(hero, army, town, luck)
+
+end;
+
 -- function OnGetLuck(hero) -- new
 	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
 		-- return 1;
