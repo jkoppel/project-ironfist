@@ -63,7 +63,7 @@ nonstd::optional<std::string> PopLuaResult(lua_State *L, int arg) {
 template <>
 nonstd::optional<int> PopLuaResult(lua_State *L, int arg) {
   if (lua_isinteger(L, arg)) {
-    const bool retVal = (lua_tointeger(L, arg) != 0);
+    const int retVal = lua_tointeger(L, arg);
     lua_remove(L, arg);
     return retVal;
   } else {
@@ -75,7 +75,7 @@ nonstd::optional<int> PopLuaResult(lua_State *L, int arg) {
 template <>
 nonstd::optional<double> PopLuaResult(lua_State *L, int arg) {
   if (lua_isnumber(L, arg)) {
-    const bool retVal = (lua_tonumber(L, arg) != 0);
+    const double retVal = lua_tonumber(L, arg);
     lua_remove(L, arg);
     return retVal;
   } else {
