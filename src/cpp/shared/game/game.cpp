@@ -2059,4 +2059,11 @@ int game::GetLuck(hero* hro, army *stack, town *castle) {
     luck = res.value();
   return luck;
 }
+
+int armyGroup::GetMorale(hero *hro, town *twn, armyGroup *armyGr) {
+  int morale = GetMorale_orig(hro, twn, armyGr);
+  auto res = ScriptCallbackResult<int>("OnCalcMorale", deepbind<hero*>(hro), deepbind<town*>(twn), morale);
+  if(res.has_value())
+    morale = res.value();
+  return morale;
 }

@@ -33,6 +33,8 @@ enum RESOURCES {
   RESOURCE_GOLD = 6,
 };
 
+class hero;
+
 class armyGroup {
 public:
   char creatureTypes[CREATURES_IN_ARMY];
@@ -50,7 +52,8 @@ public:
 
   int Add(int, int, int);
   void ClearArmy();
-  
+  int GetMorale(hero *hro, town *twn, armyGroup *armyGr);
+  int GetMorale_orig(hero *hro, town *twn, armyGroup *armyGr);
 };
 
 class hero {

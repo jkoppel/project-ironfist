@@ -22,19 +22,9 @@ function OnCalcLuck(hero, army, town, luck)
 
 end;
 
--- function OnGetLuck(hero) -- new
-	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
-		-- return 1;
-	-- end;
-	-- return -1;
--- end;
+function OnCalcMorale(hero, town, morale)
 
--- function OnGetMorale(hero) -- new
-	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
-		-- return 1;
-	-- end;
-	-- return -1;
--- end;
+end;
 
 -- function OnGetLuckInfo(hero) -- new
 	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
