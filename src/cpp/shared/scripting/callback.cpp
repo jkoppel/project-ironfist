@@ -55,3 +55,15 @@ nonstd::optional<std::string> PopLuaResult(lua_State *L, int arg) {
   }
   return {};
 }
+
+template <>
+nonstd::optional<int> PopLuaResult(lua_State *L, int arg) {
+  if (lua_isinteger(L, arg)) {
+    const bool retVal = (lua_tointeger(L, arg) != 0);
+    lua_remove(L, arg);
+    return retVal;
+  } else {
+    DisplayError("Incorrect return value: expected int; got something else", "Script error");
+    return {};
+  }
+}

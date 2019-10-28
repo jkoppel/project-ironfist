@@ -6,7 +6,7 @@ function OnArtifactTake(hero, id)
 
 end;
 
-function OnCalcMobility(hero)
+function OnCalcMobility(hero, mobility)
 
 end;
 

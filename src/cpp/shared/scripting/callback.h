@@ -69,37 +69,48 @@ void ScriptCallback(const char * funcName, Args... args) {
  * of GetLuaResult
  */
 template<typename Res, typename... Args>
-nonstd::optional<Res> ScriptCallbackResult(const char * funcName, Args... args) {
-  if (!map_lua) { // if it's not an ironfist map
+nonstd::optional<Res> CallbackLuaStateResult(lua_State* ls, const char * funcName, Args... args) {
+  if (!ls) { // if it's not an ironfist map
     return nonstd::optional<Res>();
   }
 
-  if (!LuaGlobalExists(map_lua, funcName)) {
+  if (!LuaGlobalExists(ls, funcName)) {
     return nonstd::optional<Res>();
   }
 
-  lua_getglobal(map_lua, funcName);
-  ironfist_lua_pushmulti(map_lua, args...);
+  lua_getglobal(ls, funcName);
+  ironfist_lua_pushmulti(ls, args...);
   const int size = sizeof...(Args);
 
   int nresult;
-  if (lua_pcall_nresult(map_lua, size, &nresult) != LUA_OK) {
-    DisplayLuaError(map_lua);
+  if (lua_pcall_nresult(ls, size, &nresult) != LUA_OK) {
+    DisplayLuaError(ls);
     return nonstd::optional<Res>();
   }
 
   if (nresult == 0) {
     return nonstd::optional<Res>();
   } else if (nresult == 1) {
-    return PopLuaResult<Res>(map_lua, -1);
+    return PopLuaResult<Res>(ls, -1);
   } else {
     std::string s;
     s += funcName;
     s += " should return at most 1 result, but returned ";
     s += std::to_string(nresult);
-    DisplayCustomLuaError(map_lua, s);
+    DisplayCustomLuaError(ls, s);
     return nonstd::optional<Res>();
   }
+}
+
+template<typename Res, typename... Args>
+nonstd::optional<Res> ScriptCallbackResult(const char * funcName, Args... args) {
+  if(map_lua) {
+    auto res = CallbackLuaStateResult<Res>(map_lua, funcName, args...);
+    if(res.has_value())
+      return res.value();
+  }
+  // artifacts callback will not be called if overridden by map script
+  return CallbackLuaStateResult<Res>(artifacts_lua, funcName, args...);
 }
 
 #endif
