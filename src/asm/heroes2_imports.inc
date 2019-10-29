@@ -167,6 +167,7 @@ IMPORT_?GetLuck@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z = 1
 IMPORT_?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z = 1
 ?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z_clone EQU ?GetMorale_orig@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z
 IMPORT_?ShowLuckInfo@game@@QAEXPAVhero@@H@Z = 1
+IMPORT_?ShowMoraleInfo@game@@QAEXPAVhero@@H@Z = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1

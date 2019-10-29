@@ -30,9 +30,6 @@ function OnCalcMorale(hero, town, morale)
 
 end;
 
--- function OnGetMoraleInfo(hero) -- new
-	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
-		-- return "Masthead bonus at sea +1";
-	-- end;
-	-- return '';
--- end;
+function OnShowMoraleInfo(hero)
+
+end;

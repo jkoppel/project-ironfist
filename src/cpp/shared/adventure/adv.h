@@ -54,6 +54,9 @@ public:
   void ClearArmy();
   int GetMorale(hero *hro, town *twn, armyGroup *armyGr);
   int GetMorale_orig(hero *hro, town *twn, armyGroup *armyGr);
+  int HasAllUndead();
+  int HasSomeUndead();
+  int IsHomogeneous(int a2);
 };
 
 class hero {
