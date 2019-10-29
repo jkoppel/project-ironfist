@@ -496,8 +496,8 @@ void game::NewMap(char* mapname) {
     if(gpGame->newGameSelectedFaction[i] == FACTION_RANDOM)
       gpGame->newGameSelectedFaction[i] = FACTIONS_ACTUAL[Random(0, FACTIONS_ACTUAL.size() - 1)];;
   }
-  this->NewMap_orig(mapname);
   ScriptingInit(std::string(mapname));
+  this->NewMap_orig(mapname);  
   gpGame->firstDayEventDone = false;
   gpGame->allowAIArmySharing = true;
 }
