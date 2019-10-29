@@ -320,6 +320,7 @@ public:
   int PickLoadGame();
   int GetLuck(hero* hro, army *stack, town *castle);
   int GetLuck_orig(hero* hro, army *stack, town *castle);
+  void ShowLuckInfo(hero *hro, int dialogType);
 
 private:
   void PropagateVision();

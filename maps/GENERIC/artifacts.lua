@@ -22,16 +22,13 @@ function OnCalcLuck(hero, army, town, luck)
 
 end;
 
-function OnCalcMorale(hero, town, morale)
+function OnShowLuckInfo(hero)
 
 end;
 
--- function OnGetLuckInfo(hero) -- new
-	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then
-		-- return "Masthead bonus at sea +1";
-	-- end;
-	-- return '';
--- end;
+function OnCalcMorale(hero, town, morale)
+
+end;
 
 -- function OnGetMoraleInfo(hero) -- new
 	-- if HasArtifact(h, ARTIFACT_MASTHEAD) then

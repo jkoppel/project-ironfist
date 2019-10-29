@@ -160,6 +160,7 @@ public:
   int GetLevel();
   void Clear();
   int NumArtifacts();
+  town* GetOccupiedTown();
 };
 
 enum HERO_FLAGS {

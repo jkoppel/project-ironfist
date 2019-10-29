@@ -2067,3 +2067,60 @@ int armyGroup::GetMorale(hero *hro, town *twn, armyGroup *armyGr) {
     morale = res.value();
   return morale;
 }
+
+void game::ShowLuckInfo(hero *hro, int dialogType) {
+  std::string msg;
+  town *twn = hro->GetOccupiedTown();
+  int luck = GetLuck(hro, 0, twn);
+  if(luck == 0)
+    msg = "{Neutral Luck}\n\nNeutral luck means your armies will never get lucky or unlucky attacks on the enemy.";
+  else if(luck < 0)
+    msg = "{Bad Luck}\n\nBad luck sometimes falls on your armies in combat, causing their attacks to only do half damage.";
+  else
+    msg = "{Good Luck}\n\nGood luck sometimes lets your armies get lucky attacks (double strength) in combat.";
+
+  sprintf(gText, "%s\n\n\nCurrent Luck Modifiers:", &msg[0u]);
+
+  unsigned len = strlen(gText);
+  if(twn && twn->factionID == FACTION_SORCERESS && twn->BuildingBuilt(BUILDING_SPECIAL))
+    strcat(gText, "\nSorceress Rainbow +2");
+  if(hro->HasArtifact(ARTIFACT_LUCKY_RABBITS_FOOT))
+    strcat(gText, "\nLucky Rabbit's Foot +1");
+  if(hro->HasArtifact(ARTIFACT_GOLDEN_HORSESHOE))
+    strcat(gText, "\nGolden Horseshoe +1");
+  if(hro->HasArtifact(ARTIFACT_GAMBLERS_LUCKY_COIN))
+    strcat(gText, "\nGambler's Lucky Coin +1");
+  if(hro->HasArtifact(ARTIFACT_FOUR_LEAF_CLOVER))
+    strcat(gText, "\nFour-Leaf Clover +1");
+  if(hro->flags & (1 << 4))
+    strcat(gText, "\nFaerie ring visited +1");
+  if(hro->flags & (1 << 13))
+    strcat(gText, "\nIdol visited +1");
+  if(hro->flags & (1 << 2))
+    strcat(gText, "\nFountain visited +1");
+  if(hro->flags & (1 << 14))
+    strcat(gText, "\nPyramid raided -2");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 1)
+    strcat(gText, "\nBasic Luck +1");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 2)
+    strcat(gText, "\nAdvanced Luck +2");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 3)
+    strcat(gText, "\nExpert Luck +3");
+  if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & (1 << 7))
+    strcat(gText, "\nMasthead bonus at sea +1");
+  if(hro->flags & (1 << 20))
+    strcat(gText, "\nMermaid visited +1");
+  if(hro->HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN))
+    strcat(gText, "\nBattle Garb of Anduran gives you maximum luck.");
+
+  auto res = ScriptCallbackResult<std::string>("OnShowLuckInfo", deepbind<hero*>(hro));
+  if(res.has_value()) {
+    strcat(gText, "\n");
+    strcat(gText, res.value().c_str());
+  }
+
+  if(len == strlen(gText))
+    strcat(gText, "\nnone");
+
+  return NormalDialog(gText, dialogType, -1, -1, -1, 0, -1, 0, -1, 0);
+}
