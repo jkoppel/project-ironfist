@@ -429,8 +429,8 @@ void advManager::HandlePyramid(class mapCell *cell,int locType, hero *hro, SAMPL
         "You come upon the pyramid of a great and ancient king.  Routine exploration reveals that the pyramid is completely empty.",
         1, -1, -1,11, 0, 11, 0, -1, 0);
 
-      if (!(hro->flags & HERO_FLAG_RELATED_TO_PYRAMID)) {
-        hro->flags |= HERO_FLAG_RELATED_TO_PYRAMID;
+      if (!(hro->flags & HERO_PYRAMID_RAIDED)) {
+        hro->flags |= HERO_PYRAMID_RAIDED;
         hro->tempLuckBonuses -= 2;
       }
     }

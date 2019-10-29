@@ -2092,13 +2092,13 @@ void game::ShowLuckInfo(hero *hro, int dialogType) {
     strcat(gText, "\nGambler's Lucky Coin +1");
   if(hro->HasArtifact(ARTIFACT_FOUR_LEAF_CLOVER))
     strcat(gText, "\nFour-Leaf Clover +1");
-  if(hro->flags & (1 << 4))
+  if(hro->flags & HERO_FAIRY_RING_VISITED)
     strcat(gText, "\nFaerie ring visited +1");
-  if(hro->flags & (1 << 13))
+  if(hro->flags & HERO_IDOL_VISITED)
     strcat(gText, "\nIdol visited +1");
-  if(hro->flags & (1 << 2))
+  if(hro->flags & HERO_FOUNTAIN_VISITED)
     strcat(gText, "\nFountain visited +1");
-  if(hro->flags & (1 << 14))
+  if(hro->flags & HERO_PYRAMID_RAIDED)
     strcat(gText, "\nPyramid raided -2");
   if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 1)
     strcat(gText, "\nBasic Luck +1");
@@ -2106,9 +2106,9 @@ void game::ShowLuckInfo(hero *hro, int dialogType) {
     strcat(gText, "\nAdvanced Luck +2");
   if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 3)
     strcat(gText, "\nExpert Luck +3");
-  if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & (1 << 7))
+  if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & HERO_AT_SEA)
     strcat(gText, "\nMasthead bonus at sea +1");
-  if(hro->flags & (1 << 20))
+  if(hro->flags & HERO_MERMAID_VISITED)
     strcat(gText, "\nMermaid visited +1");
   if(hro->HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN))
     strcat(gText, "\nBattle Garb of Anduran gives you maximum luck.");
@@ -2181,19 +2181,19 @@ void game::ShowMoraleInfo(hero *hro, int dialogType) {
       strcat(gText, "\nMedal of Distinction +1");
     if(hro->HasArtifact(ARTIFACT_FIZBIN_OF_MISFOURTUNE))
       strcat(gText, "\nFizbin of Misfortune -2");
-    if(hro->flags & (1 << 1))
+    if(hro->flags & HERO_BUOY_VISITED)
       strcat(gText, "\nBuoy visited +1");
-    if(hro->flags & (1 << 3))
+    if(hro->flags & HERO_OASIS_VISITED)
       strcat(gText, "\nOasis visited +1");
-    if(hro->flags & (1 << 8))
+    if(hro->flags & HERO_TEMPLE_VISITED)
       strcat(gText, "\nTemple visited +2");
-    if(hro->flags & (1 << 5))
+    if(hro->flags & HERO_GRAVEYARD_ROBBER)
       strcat(gText, "\nGraveyard robber -1");
-    if(hro->flags & (1 << 6))
+    if(hro->flags & HERO_SHIPWRECK_ROBBER)
       strcat(gText, "\nShipwreck robber -1");
-    if(hro->flags & (1 << 9))
+    if(hro->flags & HERO_WATERING_HOLE_VISITED)
       strcat(gText, "\nWatering hole visited +1");
-    if(hro->flags & (1 << 10))
+    if(hro->flags & HERO_DERELICT_SHIP_ROBBER)
       strcat(gText, "\nDerelict ship robber -1");
     int leadership = hro->secondarySkillLevel[SECONDARY_SKILL_LEADERSHIP];
     if(leadership == 1)
@@ -2202,7 +2202,7 @@ void game::ShowMoraleInfo(hero *hro, int dialogType) {
       strcat(gText, "\nAdvanced Leadership +2");
     if(leadership == 3)
       strcat(gText, "\nExpert Leadership +3");
-    if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & (1 << 7))
+    if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & HERO_AT_SEA)
       strcat(gText, "\nMasthead bonus at sea +1");
     if(hro->HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN))
       strcat(gText, "\nBattle Garb of Anduran gives you maximum morale.");
