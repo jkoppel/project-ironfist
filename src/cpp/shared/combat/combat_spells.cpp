@@ -163,6 +163,7 @@ float army::SpellCastWorkChance(int spell) {
   auto res = ScriptCallbackResult<double>("OnCalcSpellChance", deepbind<army*>(this), spell, chance);
   if(res.has_value())
     chance = res.value();
+  chance = max(0.0, min(chance, 1.0));
   return chance;
 }
 

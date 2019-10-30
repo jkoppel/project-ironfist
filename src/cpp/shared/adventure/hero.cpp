@@ -312,7 +312,7 @@ int hero::CalcMobility() {
       }
       auto res = ScriptCallbackResult<int>("OnCalcMobility", deepbind<hero*>(this), points);
       if(res.has_value())
-        points = res.value();
+        points = max(1, res.value());
       return points;
     }
   }
@@ -320,7 +320,7 @@ int hero::CalcMobility() {
   points = this->CalcMobility_orig(); //Default CalcMobility output
   auto res = ScriptCallbackResult<int>("OnCalcMobility", deepbind<hero*>(this), points);
   if(res.has_value())
-    points =  res.value();
+    points = max(1, res.value());
   return points;
 }
 

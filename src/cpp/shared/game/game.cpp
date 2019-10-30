@@ -2057,6 +2057,7 @@ int game::GetLuck(hero* hro, army *stack, town *castle) {
   auto res = ScriptCallbackResult<int>("OnCalcLuck", deepbind<hero*>(hro), deepbind<army*>(stack), deepbind<town*>(castle), luck);
   if(res.has_value())
     luck = res.value();
+  luck = max(-3, min(luck, 3));
   return luck;
 }
 
@@ -2065,6 +2066,7 @@ int armyGroup::GetMorale(hero *hro, town *twn, armyGroup *armyGr) {
   auto res = ScriptCallbackResult<int>("OnCalcMorale", deepbind<hero*>(hro), deepbind<town*>(twn), morale);
   if(res.has_value())
     morale = res.value();
+  morale = max(-3, min(morale, 3));
   return morale;
 }
 
