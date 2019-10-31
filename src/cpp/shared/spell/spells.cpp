@@ -159,7 +159,7 @@ int __fastcall GetManaCost(int spell, hero* hro) {
   int cost = GetManaCost_orig(spell, hro);
   auto res = ScriptCallbackResult<int>("OnCalcManaCost", deepbind<hero*>(hro), spell, cost);
   if(res.has_value())
-    cost = max(0, res.value());
+    cost = res.value();
   return cost;
 }
 
