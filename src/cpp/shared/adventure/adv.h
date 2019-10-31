@@ -33,6 +33,8 @@ enum RESOURCES {
   RESOURCE_GOLD = 6,
 };
 
+class hero;
+
 class armyGroup {
 public:
   char creatureTypes[CREATURES_IN_ARMY];
@@ -50,7 +52,11 @@ public:
 
   int Add(int, int, int);
   void ClearArmy();
-  
+  int GetMorale(hero *hro, town *twn, armyGroup *armyGr);
+  int GetMorale_orig(hero *hro, town *twn, armyGroup *armyGr);
+  int HasAllUndead();
+  int HasSomeUndead();
+  int IsHomogeneous(int a2);
 };
 
 class hero {
@@ -157,12 +163,30 @@ public:
   int GetLevel();
   void Clear();
   int NumArtifacts();
+  town* GetOccupiedTown();
 };
 
 enum HERO_FLAGS {
+  // 0x1
+  HERO_BUOY_VISITED = 0x2,
+  HERO_FOUNTAIN_VISITED = 0x4,
+  HERO_OASIS_VISITED = 0x8,
+  HERO_FAIRY_RING_VISITED = 0x10,
+  HERO_GRAVEYARD_ROBBER = 0x20,
+  HERO_SHIPWRECK_ROBBER = 0x40,
   HERO_AT_SEA = 0x80,
-  HERO_FLAG_RELATED_TO_PYRAMID = 0x4000,
-  HERO_ARMY_COMPACT = 0x8000
+  HERO_TEMPLE_VISITED = 0x100,
+  HERO_WATERING_HOLE_VISITED = 0x200,
+  HERO_DERELICT_SHIP_ROBBER = 0x400,
+  // 0x800
+  HERO_WELL_VISITED = 0x1000,
+  HERO_IDOL_VISITED = 0x2000,
+  HERO_PYRAMID_RAIDED = 0x4000,
+  HERO_ARMY_COMPACT = 0x8000,
+  HERO_MERMAID_VISITED = 0x100000,
+  HERO_SIRENS_VISITED = 0x200000,
+  HERO_ARENA_VISITED = 0x400000,
+  HERO_STABLE_VISITED = 0x800000
 };
 
 extern char cHeroTypeInitial[];
@@ -339,6 +363,7 @@ bool GetMapCellXY(mapCell* cell, int* x, int* y);
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
 void __fastcall GiveTakeArtifactStat(hero *h, int art, int take);
+void __fastcall GiveTakeArtifactStat_orig(hero *h, int art, int take);
 void __fastcall GetMonsterCost(int, int * const);
 
 #pragma pack(pop)

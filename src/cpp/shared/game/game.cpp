@@ -496,8 +496,8 @@ void game::NewMap(char* mapname) {
     if(gpGame->newGameSelectedFaction[i] == FACTION_RANDOM)
       gpGame->newGameSelectedFaction[i] = FACTIONS_ACTUAL[Random(0, FACTIONS_ACTUAL.size() - 1)];;
   }
-  this->NewMap_orig(mapname);
   ScriptingInit(std::string(mapname));
+  this->NewMap_orig(mapname);  
   gpGame->firstDayEventDone = false;
   gpGame->allowAIArmySharing = true;
 }
@@ -2050,4 +2050,174 @@ int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type
   if(type == CAMPAIGN_TYPE_EXPANSION)
     name = (char*)xCampaignNames[xCampaign.campaignID].c_str();
   return AddScoreToHighScore_orig(score, days, difficulty, type, name);
+}
+
+int game::GetLuck(hero* hro, army *stack, town *castle) {
+  int luck = GetLuck_orig(hro, stack, castle);
+  auto res = ScriptCallbackResult<int>("OnCalcLuck", deepbind<hero*>(hro), deepbind<army*>(stack), deepbind<town*>(castle), luck);
+  if(res.has_value())
+    luck = res.value();
+  luck = max(-3, min(luck, 3));
+  return luck;
+}
+
+int armyGroup::GetMorale(hero *hro, town *twn, armyGroup *armyGr) {
+  int morale = GetMorale_orig(hro, twn, armyGr);
+  auto res = ScriptCallbackResult<int>("OnCalcMorale", deepbind<hero*>(hro), deepbind<town*>(twn), morale);
+  if(res.has_value())
+    morale = res.value();
+  morale = max(-3, min(morale, 3));
+  return morale;
+}
+
+void game::ShowLuckInfo(hero *hro, int dialogType) {
+  std::string msg;
+  town *twn = hro->GetOccupiedTown();
+  int luck = GetLuck(hro, 0, twn);
+  if(luck == 0)
+    msg = "{Neutral Luck}\n\nNeutral luck means your armies will never get lucky or unlucky attacks on the enemy.";
+  else if(luck < 0)
+    msg = "{Bad Luck}\n\nBad luck sometimes falls on your armies in combat, causing their attacks to only do half damage.";
+  else
+    msg = "{Good Luck}\n\nGood luck sometimes lets your armies get lucky attacks (double strength) in combat.";
+
+  sprintf(gText, "%s\n\n\nCurrent Luck Modifiers:", &msg[0u]);
+
+  unsigned len = strlen(gText);
+  if(twn && twn->factionID == FACTION_SORCERESS && twn->BuildingBuilt(BUILDING_SPECIAL))
+    strcat(gText, "\nSorceress Rainbow +2");
+  if(hro->HasArtifact(ARTIFACT_LUCKY_RABBITS_FOOT))
+    strcat(gText, "\nLucky Rabbit's Foot +1");
+  if(hro->HasArtifact(ARTIFACT_GOLDEN_HORSESHOE))
+    strcat(gText, "\nGolden Horseshoe +1");
+  if(hro->HasArtifact(ARTIFACT_GAMBLERS_LUCKY_COIN))
+    strcat(gText, "\nGambler's Lucky Coin +1");
+  if(hro->HasArtifact(ARTIFACT_FOUR_LEAF_CLOVER))
+    strcat(gText, "\nFour-Leaf Clover +1");
+  if(hro->flags & HERO_FAIRY_RING_VISITED)
+    strcat(gText, "\nFaerie ring visited +1");
+  if(hro->flags & HERO_IDOL_VISITED)
+    strcat(gText, "\nIdol visited +1");
+  if(hro->flags & HERO_FOUNTAIN_VISITED)
+    strcat(gText, "\nFountain visited +1");
+  if(hro->flags & HERO_PYRAMID_RAIDED)
+    strcat(gText, "\nPyramid raided -2");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 1)
+    strcat(gText, "\nBasic Luck +1");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 2)
+    strcat(gText, "\nAdvanced Luck +2");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 3)
+    strcat(gText, "\nExpert Luck +3");
+  if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & HERO_AT_SEA)
+    strcat(gText, "\nMasthead bonus at sea +1");
+  if(hro->flags & HERO_MERMAID_VISITED)
+    strcat(gText, "\nMermaid visited +1");
+  if(hro->HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN))
+    strcat(gText, "\nBattle Garb of Anduran gives you maximum luck.");
+
+  auto res = ScriptCallbackResult<std::string>("OnShowLuckInfo", deepbind<hero*>(hro));
+  if(res.has_value()) {
+    strcat(gText, "\n");
+    strcat(gText, res.value().c_str());
+  }
+
+  if(len == strlen(gText))
+    strcat(gText, "\nnone");
+
+  return NormalDialog(gText, dialogType, -1, -1, -1, 0, -1, 0, -1, 0);
+}
+
+void game::ShowMoraleInfo(hero *hro, int dialogType) {
+  std::string msg;
+  town *twn = hro->GetOccupiedTown();
+  int morale = hro->army.GetMorale(hro, twn, NULL);
+  if(morale == 0)
+    msg = "{Neutral Morale}\n\nNeutral morale means your armies will never be blessed with extra attacks or freeze in combat.";
+  else if(morale < 0)
+    msg = "{Bad Morale}\n\nBad morale may cause your armies to freeze in combat.";
+  else
+    msg = "{Good Morale}\n\nGood morale may give your armies extra attacks in combat.";
+
+  sprintf(gText, "%s\n\n\nCurrent Morale Modifiers:", &msg[0u]);
+
+  unsigned len = strlen(gText);
+  if(hro->army.HasAllUndead()) {
+    strcat(gText, "\nEntire unit is undead, so morale does not apply.");
+  } else {
+    bool hasUndead = false;
+    if(hro->army.HasSomeUndead() || hro->HasArtifact(ARTIFACT_ARM_OF_THE_MARTYR)) {
+      strcat(gText, "\nSome undead in group -1");
+      hasUndead = true;
+    }
+    int troopAlignments = hro->army.IsHomogeneous(-1);
+    if(hasUndead && troopAlignments > 0)
+      troopAlignments = 0;
+    int faction = 0;
+    if(troopAlignments > 0) {
+      for(int i = 0; i < CREATURES_IN_ARMY; ++i) {
+        if(hro->army.creatureTypes[i] != -1)
+          faction = gMonsterDatabase[hro->army.creatureTypes[i]].faction;
+      }
+      msg = "\nAll " + std::string(gAlignmentNames[faction]) + " troops +1";
+      strcat(gText, &msg[0]);
+    }
+    if(troopAlignments == -1)
+      strcat(gText, "\nTroops of 3 alignments -1");
+    if(troopAlignments == -2)
+      strcat(gText, "\nTroops of 4 alignments -2");
+    if(troopAlignments == -3)
+      strcat(gText, "\nTroops of 5 alignments -3");
+    if(twn) {
+      if(twn->factionID == FACTION_BARBARIAN && twn->BuildingBuilt(BUILDING_SPECIAL))
+        strcat(gText, "\nBarbarian Coliseum +2");
+      if(twn->BuildingBuilt(BUILDING_TAVERN))
+        strcat(gText, "\nTavern +1");
+    }
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_VALOR))
+      strcat(gText, "\nMedal of Valor +1");
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_COURAGE))
+      strcat(gText, "\nMedal of Courage +1");
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_HONOR))
+      strcat(gText, "\nMedal of Honor +1");
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_DISTINCTION))
+      strcat(gText, "\nMedal of Distinction +1");
+    if(hro->HasArtifact(ARTIFACT_FIZBIN_OF_MISFOURTUNE))
+      strcat(gText, "\nFizbin of Misfortune -2");
+    if(hro->flags & HERO_BUOY_VISITED)
+      strcat(gText, "\nBuoy visited +1");
+    if(hro->flags & HERO_OASIS_VISITED)
+      strcat(gText, "\nOasis visited +1");
+    if(hro->flags & HERO_TEMPLE_VISITED)
+      strcat(gText, "\nTemple visited +2");
+    if(hro->flags & HERO_GRAVEYARD_ROBBER)
+      strcat(gText, "\nGraveyard robber -1");
+    if(hro->flags & HERO_SHIPWRECK_ROBBER)
+      strcat(gText, "\nShipwreck robber -1");
+    if(hro->flags & HERO_WATERING_HOLE_VISITED)
+      strcat(gText, "\nWatering hole visited +1");
+    if(hro->flags & HERO_DERELICT_SHIP_ROBBER)
+      strcat(gText, "\nDerelict ship robber -1");
+    int leadership = hro->secondarySkillLevel[SECONDARY_SKILL_LEADERSHIP];
+    if(leadership == 1)
+      strcat(gText, "\nBasic Leadership +1");
+    if(leadership == 2)
+      strcat(gText, "\nAdvanced Leadership +2");
+    if(leadership == 3)
+      strcat(gText, "\nExpert Leadership +3");
+    if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & HERO_AT_SEA)
+      strcat(gText, "\nMasthead bonus at sea +1");
+    if(hro->HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN))
+      strcat(gText, "\nBattle Garb of Anduran gives you maximum morale.");
+  }
+
+  auto res = ScriptCallbackResult<std::string>("OnShowMoraleInfo", deepbind<hero*>(hro));
+  if(res.has_value()) {
+    strcat(gText, "\n");
+    strcat(gText, res.value().c_str());
+  }
+
+  if(len == strlen(gText))
+    strcat(gText, "\nnone");
+
+  return NormalDialog(gText, dialogType, -1, -1, -1, 0, -1, 0, -1, 0);
 }

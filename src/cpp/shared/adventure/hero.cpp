@@ -3,6 +3,8 @@
 
 #include "artifacts.h"
 #include "base.h"
+#include "scripting/callback.h"
+#include "scripting/deepbinding.h"
 #include "skills.h"
 #include "spell/spells.h"
 
@@ -308,11 +310,18 @@ int hero::CalcMobility() {
           }
         }
       }
+      auto res = ScriptCallbackResult<int>("OnCalcMobility", deepbind<hero*>(this), points);
+      if(res.has_value())
+        points = max(1, res.value());
       return points;
     }
   }
 
-  return this->CalcMobility_orig(); //Default CalcMobility output
+  points = this->CalcMobility_orig(); //Default CalcMobility output
+  auto res = ScriptCallbackResult<int>("OnCalcMobility", deepbind<hero*>(this), points);
+  if(res.has_value())
+    points = max(1, res.value());
+  return points;
 }
 
 hero* GetCurrentHero() {

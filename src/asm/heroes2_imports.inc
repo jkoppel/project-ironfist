@@ -162,6 +162,12 @@ IMPORT_?RandomizeTown@game@@QAEXHHH@Z = 1
 IMPORT_?ShowScenInfo@game@@QAEXXZ = 1
 IMPORT_?UpdateNewGameWindow@game@@QAEXXZ = 1
 IMPORT_?ProcessRandomObjects@game@@QAEXXZ = 1
+IMPORT_?GetLuck@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z = 1
+?GetLuck@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z_clone EQU ?GetLuck_orig@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z
+IMPORT_?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z = 1
+?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z_clone EQU ?GetMorale_orig@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z
+IMPORT_?ShowLuckInfo@game@@QAEXPAVhero@@H@Z = 1
+IMPORT_?ShowMoraleInfo@game@@QAEXPAVhero@@H@Z = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
@@ -203,6 +209,8 @@ IMPORT_?CheckLevel@hero@@QAEXXZ = 1
 ?CheckLevel@hero@@QAEXXZ_clone EQU ?CheckLevel_orig@hero@@QAEXXZ
 IMPORT_?CalcMobility@hero@@QAEHXZ = 1
 ?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
+IMPORT_?GetManaCost@@YIHHPAVhero@@@Z = 1
+?GetManaCost@@YIHHPAVhero@@@Z_clone EQU ?GetManaCost_orig@@YIHHPAVhero@@@Z
 
 ;;artifacts
 IMPORT_?gArtifactNames@@3PAPADA = 1
@@ -212,6 +220,8 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 IMPORT_?IsCursedItem@@YIHH@Z = 1
 IMPORT_?InitRandomArtifacts@game@@QAEXXZ = 1
 IMPORT_?GetRandomArtifactId@game@@QAEHHH@Z = 1
+IMPORT_?GiveTakeArtifactStat@@YIXPAVhero@@HH@Z = 1
+?GiveTakeArtifactStat@@YIXPAVhero@@HH@Z_clone EQU ?GiveTakeArtifactStat_orig@@YIXPAVhero@@HH@Z
 
 ;;combat
 IMPORT_?gCombatFxNames@@3PAPADA = 1

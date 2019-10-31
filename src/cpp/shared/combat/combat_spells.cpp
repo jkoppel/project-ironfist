@@ -7,6 +7,8 @@
 
 #include "artifacts.h"
 #include "base.h"
+#include "scripting/callback.h"
+#include "scripting/deepbinding.h"
 #include "skills.h"
 #include "sound/sound.h"
 
@@ -157,7 +159,12 @@ float army::SpellCastWorkChance(int spell) {
   if (spell == SPELL_SHADOW_MARK && this->dead)
     return 0.0;
 
-	return this->SpellCastWorkChance_orig(spell);
+  double chance = this->SpellCastWorkChance_orig(spell);
+  auto res = ScriptCallbackResult<double>("OnCalcSpellChance", deepbind<army*>(this), spell, chance);
+  if(res.has_value())
+    chance = res.value();
+  chance = max(0.0, min(chance, 1.0));
+  return chance;
 }
 
 void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility, int a5) {

@@ -43,7 +43,7 @@ void ScriptingInit(std::string&);
 void ScriptingInitFromString(std::string&);
 void ScriptingShutdown();
 
-std::string& GetScriptContents();
+std::string GetScriptContents(std::string mapName);
 
 bool isTable(MapVarType);
 bool isStringNumBool(MapVarType);
