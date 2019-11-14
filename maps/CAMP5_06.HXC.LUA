@@ -1,7 +1,7 @@
 mymodule = require "scripts.modules.niftysnippets_1"
 
-bridges = {false, false, false}; 
-locksGet = {false, false};
+bridges = {["1"] = false, ["2"] = false, ["3"] = false}; 
+locksGet = {["1"] = false, ["2"] = false};
 
 mapVariables = {"bridges", "locksGet"};
 
@@ -15,25 +15,25 @@ function OnHeroMove(x, y)
 		return;
 	end
 	
-	if locksGet[1] == false or locksGet[2] == false then
-		if locksGet[1] == false then
+	if locksGet["1"] == false or locksGet["2"] == false then
+		if locksGet["1"] == false then
 			if x == 12 and y == 15 then
-				locksGet[1] = true;
+				locksGet["1"] = true;
 				MessageBox("1st lock GET!");
 			end
 		end
 		
-		if locksGet[2] == false then
+		if locksGet["2"] == false then
 			if x == 96 and y == 18 then
-				locksGet[2] = true;
+				locksGet["2"] = true;
 				MessageBox("2nd lock GET!");
 			end
 		end
 		
-		if locksGet[1] == true and locksGet[2] == true then
-			if bridges[2] == false then
+		if locksGet["1"] == true and locksGet["2"] == true then
+			if bridges["2"] == false then
 				CreateSecondBridge();
-				bridges[2] = true;
+				bridges["2"] = true;
 				MessageBox("built second bridgo");
 			end
 		end
@@ -45,22 +45,22 @@ function OnCastleConquered(CastleId, PlayerId)
 		return;
 	end
 	
-	if bridges[1] == false then
+	if bridges["1"] == false then
 		if GetTownOwner(GetTown(GetTownIdFromPos(50,81))) == 0 and
 		   GetTownOwner(GetTown(GetTownIdFromPos(64,81))) == 0 then		
 				CreateFirstBridge();
-				bridges[1] = true;
+				bridges["1"] = true;
 				MessageBox("built first bridgo");
 		end
 	end
 	
-	if bridges[3] == false then
+	if bridges["3"] == false then
 		if GetTownOwner(GetTown(GetTownIdFromPos(51,17))) == 0 and
 		   GetTownOwner(GetTown(GetTownIdFromPos(54,23))) == 0 and
 		   GetTownOwner(GetTown(GetTownIdFromPos(65,17))) == 0 and
 		   GetTownOwner(GetTown(GetTownIdFromPos(62,23))) == 0 then			
 				CreateThirdBridge();
-				bridges[3] = true;
+				bridges["3"] = true;
 				MessageBox("built third bridgo");
 		end
 	end	
