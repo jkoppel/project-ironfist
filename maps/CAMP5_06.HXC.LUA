@@ -10,7 +10,9 @@ math.randomseed(os.time())
 function OnHeroMove(x, y)
 	if GetHeroOwner(GetCurrentHero()).color ~= 0 then
 		if x == 57 and y == 28 then
-			TeleportHero(GetCurrentHero(), 57, 32);
+			if bridges["2"] == false then
+				TeleportHero(GetCurrentHero(), 57, 32);
+			end
 		end
 		return;
 	end
