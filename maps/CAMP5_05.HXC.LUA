@@ -60,8 +60,8 @@ function OnLocationVisit(type, x, y)
 				MessageBox("Finally you get Iron Fist")
 				GrantArtifact(GetCurrentHero(), 104);				
 			end
-			return true
 		end
+		return true
 	end
 end
 
