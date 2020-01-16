@@ -58,7 +58,7 @@ function OnLocationVisit(type, x, y)
 			
 			if IsEverythingExcavated() or specialSite == site then
 				MessageBox("Finally you get Iron Fist")
-				GrantArtifact(GetCurrentHero(), 104);				
+				GrantArtifact(GetCurrentHero(), ARTIFACT_IRON_FIST);				
 			end
 		end
 		return true
