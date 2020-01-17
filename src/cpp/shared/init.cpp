@@ -1,3 +1,5 @@
+#include <io.h>
+#include <fcntl.h>
 #include "adventure/adv.h"
 #include "analytics.h"
 #include "base.h"
@@ -6,6 +8,7 @@
 #include "gui/dialog.h"
 #include "gui/gui.h"
 #include "manager.h"
+#include "prefs.h"
 #include "registry_prefs.h"
 #include "resource/resourceManager.h"
 #include "resource/resources.h"
@@ -14,29 +17,6 @@
 #include "town/town.h"
 
 #pragma pack(push,1)
-
-class executive {
-public:
-  char _[16];
-  executive();
-
-  int DoDialog(baseManager *a2);
-  int AddManager(baseManager *mgr, int argIdx);
-  int AddManager_orig(baseManager *mgr, int argIdx);
-};
-
-class inputManager {
-public:
-	char _[2154];
-	inputManager();
-};
-
-class mouseManager {
-public:
-	char _[138];
-	mouseManager();
-	void ShowColorPointer();
-};
 
 class highScoreManager {
 public:
@@ -56,9 +36,7 @@ public:
 	philAI();
 };
 
-extern executive* gpExec;
 extern inputManager* gpInputManager;
-extern mouseManager* gpMouseManager;
 extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
 extern soundManager* gpSoundManager;
@@ -111,9 +89,24 @@ void __fastcall DeleteMainClasses() {
 extern int iCDRomErr;
 extern int gbNoCDRom;
 extern int gbNoSound;
-
+std::string RegAppPath;
+std::string RegCDRomPath;
 extern void __fastcall SetFullScreenStatus(int);
 extern void __fastcall ResizeWindow(int,int,int,int);
+extern int __fastcall SetupCDDrive_orig();
+
+int __fastcall SetupCDDrive() {
+  RegAppPath = read_pref<std::string>("AppPath");
+  std::string fileToCheck = RegAppPath + "\\HEROES2\\ANIM\\intro.smk";
+  // Check if a folder with videos exists in game's folder
+  int fd = _open(fileToCheck.c_str(), O_BINARY);
+  if(fd == -1) {
+    return SetupCDDrive_orig();
+  } else {
+    close(fd);
+    return 1;
+  }
+}
 
 void __fastcall SetupCDRom() {
 	
@@ -132,7 +125,7 @@ void __fastcall SetupCDRom() {
 	 */
 
 	// Sending an Open event to Google Analytics
-	send_event(gameAction, open);
+	send_event(gameAction, analytics_open);
 
 	//This was part of the workaround; leaving in,
 	//because not yet tested that it can be removed
@@ -145,6 +138,8 @@ void __fastcall SetupCDRom() {
 		old_width == (DWORD)(-1) ? 640 : old_width,
 		old_height == (DWORD)(-1) ? 480 : old_height);
 	
+  RegCDRomPath = read_pref<std::string>("CDDrive");
+
 	if(iCDRomErr == 1 || iCDRomErr == 2) {
 		//Setting to no-CD mode, but not showing message forbidding play
 		SetPalette(gPalette->contents, 1);
@@ -152,9 +147,13 @@ void __fastcall SetupCDRom() {
 		gbNoCDRom = 1;
 		int oldNoSound = gbNoSound;
 		gbNoSound = 1;
-		H2MessageBox("Welcome to no-CD mode. Video, opera, and the campaign menus will not work, "
-						"but otherwise, have fun!");
-		gbNoSound = oldNoSound;
+
+    // Neither CD exists nor HEROES2 folder exists in game's folder
+    if(iCDRomErr != 1)
+      H2MessageBox("Welcome to no-CD mode. Videos will not work, "
+            "but otherwise, have fun!");
+
+		gbNoSound = oldNoSound;    
 	} else if(iCDRomErr == 3) {
 		EarlyShutdown("Startup Error", "Unable to change to the Heroes II directory."
 						"  Please run the installation program.");
@@ -164,10 +163,6 @@ void __fastcall SetupCDRom() {
 										"Please run the installation program.");
 		exit(0);
 	}
-}
-
-int __fastcall SetupCDDrive() {
-	return 1;
 }
 
 int executive::AddManager(baseManager *mgr, int argIdx) {

@@ -3926,7 +3926,7 @@ struct editManager
   GUIIcon *verticalScrollBar;
   GUIIcon *horizontalScrollHandle;
   GUIIcon *verticalScrollHandle;
-  int cursorType;
+  int zoomLevel;
   int setOnEventUpdate;
   int field_26A;
   int field_26E;
