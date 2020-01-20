@@ -837,12 +837,38 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
       giMaxExtentY = 442;
   }
 
-  giMinExtentY = 0;
-  giMaxExtentY = 442;
+  // Loading Fire Bomb spell icons
+  icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
+
   if(a7) {
     if(this->zeroedAfterAnimatingDeathAndHolySpells) {
       bitmap *combatScreen = this->probablyBitmapForCombatScreen;
-      if(a3 || a4 || gbLimitToExtent)
+      if(a3 || a4 || gbLimitToExtent) {
+        // Find extents for Fire Bomb spell walls
+        for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
+          hexcell *hex = &this->combatGrid[wall.hexIdx];
+          int drawX = hex->centerX;
+          int drawY = hex->topY;
+          int drawXmax = drawX + wallImg->headersAndImageData->width;
+          int drawYmax = drawY + wallImg->headersAndImageData->height;
+          if(giMinExtentX > drawX)
+            giMinExtentX = drawX;
+          if(giMaxExtentX < drawXmax)
+            giMaxExtentX = drawXmax;
+          if(giMinExtentY > drawY)
+            giMinExtentY = drawY;
+          if(giMaxExtentY < drawYmax)
+            giMaxExtentY = drawYmax;
+          if(giMinExtentX < 0)
+            giMinExtentX = 0;
+          if(giMinExtentY < 0)
+            giMinExtentY = 0;
+          if(giMaxExtentX > 639)
+            giMaxExtentX = 639;
+          if(giMaxExtentY > 442)
+            giMaxExtentY = 442;
+        }
+
         combatScreen->CopyTo(
           gpWindowManager->screenBuffer,
           giMinExtentX,
@@ -851,7 +877,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
           giMinExtentY,
           giMaxExtentX - giMinExtentX + 1,
           giMaxExtentY - giMinExtentY + 1);
-      else
+      } else
         combatScreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, 640, 443);
     } else {
       this->DrawBackground();
@@ -864,7 +890,6 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
   }
 
   // Drawing Fire Bomb spell walls if any
-  icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
   for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
     hexcell *hex = &this->combatGrid[wall.hexIdx];
     int drawX = hex->centerX;
