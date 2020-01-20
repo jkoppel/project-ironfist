@@ -7,6 +7,7 @@
 #include "game/game.h"
 #include "gui/gui.h"
 #include "gui/msg.h"
+#include "overlay.h"
 #include "spell/spell_constants.h"
 
 // That "const" is a fiction -- the original ShowErrorMessage mutates
@@ -103,7 +104,7 @@ int __fastcall SpellScrollEditDialogCallback(tag_message& msg) {
   } else if (msg.eventCode == INPUT_GUI_MESSAGE_CODE) {
     if (msg.xCoordOrKeycode == GUI_MESSAGE_MOUSE_CLICK) {
       if (msg.yCoordOrFieldID == FIELD_ID_SPELL_SCROLL_PAYLOAD) {
-        OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, (void *)msg.payload);
+        OriginalSpell = GUIGetDropdownSelection(gpCellEditDialog, FIELD_ID_SPELL_SCROLL_PAYLOAD);
         // "return 1;" will be reached at the end of this function.
       }
     } else if (msg.xCoordOrKeycode == GUI_MESSAGE_BUTTON_PRESSED) {
@@ -165,4 +166,69 @@ int __fastcall FillInWinCondition(int index) {
   // ultimate artifact at index 0.
   gpMapHeader.winConditionArgumentOrLocX = artifactId + 1;
   return 0;
+}
+
+signed int editManager::GetOverlayID(int x, int y) {  
+  int tileset = -1;
+  int objIndex = -1;  
+  mapCell *tile = &gpMap.tiles[y * gpMap.width + x];
+  if(tile->overlayIndex == -1) {
+    if(tile->objectIndex != -1) {
+      int field_4_1 = 0;
+      if(!tile->isShadow && tile->objTileset != TILESET_FLAG && tile->objTileset != TILESET_EXTRA_OVERLAY) {
+        tileset = tile->objTileset;
+        objIndex = tile->objectIndex;
+        field_4_1 = tile->field_4_1;
+      }
+
+      mapCellExtra *cellExtra = nullptr;
+      if(tile->extraIdx && gpMap.cellExtras[tile->extraIdx].objectIndex != 255)
+        cellExtra = &gpMap.cellExtras[tile->extraIdx];
+      while(cellExtra) {
+        if((!cellExtra->field_4_1 || field_4_1) && !cellExtra->field_4_2 && cellExtra->objTileset != TILESET_FLAG && cellExtra->objTileset != TILESET_EXTRA_OVERLAY) {
+          tileset = cellExtra->objTileset;
+          objIndex = cellExtra->objectIndex;
+          field_4_1 = cellExtra->field_4_1;
+        }
+        if(cellExtra->nextIdx && gpMap.cellExtras[cellExtra->nextIdx].objectIndex != 255)
+          cellExtra = &gpMap.cellExtras[cellExtra->nextIdx];
+        else
+          cellExtra = nullptr;
+      }
+    }
+  } else {
+    if(tile->overlayTileset != TILESET_FLAG && tile->overlayTileset != TILESET_EXTRA_OVERLAY) {
+      tileset = tile->overlayTileset;
+      objIndex = tile->overlayIndex;
+    }
+
+    mapCellExtra *cellExtra = nullptr;
+    if(tile->extraIdx && gpMap.cellExtras[tile->extraIdx].overlayIndex != 255)
+      cellExtra = &gpMap.cellExtras[tile->extraIdx];
+    while(cellExtra) {
+      if(cellExtra->tileset != TILESET_FLAG && cellExtra->tileset != TILESET_EXTRA_OVERLAY) {
+        tileset = cellExtra->tileset;
+        objIndex = cellExtra->overlayIndex;
+      }
+      if((unsigned short)cellExtra->nextIdx && gpMap.cellExtras[(unsigned short)cellExtra->nextIdx].overlayIndex != 255)
+        cellExtra = &gpMap.cellExtras[(unsigned short)cellExtra->nextIdx];
+      else
+        cellExtra = nullptr;
+    }
+  }
+
+  if(tileset == -1)
+    return -1;  
+
+  for(int i = 0; i < gNumOverlays; ++i) {
+    overlay *ovr = &gOverlayDatabase[i];
+    if(ovr->tileset == tileset) {
+      for(int j = 0; j < ELEMENTS_IN(ovr->fullGridIconIndices); ++j) {
+        if(ovr->fullGridIconIndices[j] == objIndex) {
+          return i;
+        }
+      }
+    }
+  }
+  return -1;
 }

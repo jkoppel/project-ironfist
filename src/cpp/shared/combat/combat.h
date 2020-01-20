@@ -193,7 +193,7 @@ public:
   char field_F503[24];
   int field_F51B;
   int field_F51F;
-  H2RECT field_F523; // 16
+  H2RECT field_F523;
   char _15[16];
   int field_F543;
   int field_F547;
@@ -280,9 +280,18 @@ public:
   int ViewSpells(int unused);
   signed int HasValidSpellTarget(int spellID);
   int SpaceForElementalExists();
+  void DrawBackground();
+  void KeepAttack(int towerIdx);
+  int CheckWin(struct tag_message *msg);
+  int CheckWin_orig(struct tag_message *msg);
+  void DoVictory(int side);
+
+  void DrawMoat(int hexIdx);
+  void DrawHero(int side, bool checkCaptain, bool mirrored);
+  void DrawHeroFlag(int side, bool checkCaptain, bool mirrored);
+  void SetRenderExtentFlags(bool state);
   void CycleCombatScreen();
   void CycleCombatScreen_orig();
-  void DrawBackground();
   void DrawMoatPart(int row);
   void CheckBurnCreature(army *stack);
   int GetNextArmy(int maybeIsFirstTurn);
@@ -297,6 +306,7 @@ extern combatManager* gpCombatManager;
 
 extern int gbNoShowCombat;
 extern int bInTeleportGetDest;
+extern SCmbtHero sCmbtHero[];
 extern int indexToCastOn;
 extern int giNextActionGridIndex2;
 extern int giNextActionGridIndex;
@@ -324,7 +334,6 @@ extern int giWalkingYMod;
 extern int combatArmyInfoLevel;
 extern int gbFullCombatScreenDrawn;
 extern int gbEnlargeScreenBlit;
-
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);
 bool IsCastleWall(int hexIdx);

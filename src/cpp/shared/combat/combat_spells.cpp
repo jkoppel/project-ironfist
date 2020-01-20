@@ -9,6 +9,9 @@
 #include "artifacts.h"
 #include "base.h"
 #include "expansions.h"
+#include "scripting/callback.h"
+#include "scripting/deepbinding.h"
+#include "skills.h"
 #include "sound/sound.h"
 
 #include <algorithm>
@@ -167,7 +170,12 @@ float army::SpellCastWorkChance(int spell) {
   if(spell == SPELL_MASS_FORCE_SHIELD)
     return 1.0;
 
-	return this->SpellCastWorkChance_orig(spell);
+  double chance = this->SpellCastWorkChance_orig(spell);
+  auto res = ScriptCallbackResult<double>("OnCalcSpellChance", deepbind<army*>(this), spell, chance);
+  if(res.has_value())
+    chance = res.value();
+  chance = max(0.0, min(chance, 1.0));
+  return chance;
 }
 
 void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility, int a5) {
@@ -425,7 +433,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
         creatureName = GetCreaturePluralName(stack->creatureIdx);
       sprintf(gText, "The magic arrow does %d\n damage to the %s.", damage, creatureName);
       this->CombatMessage(gText, 1, 1, 0);
-      float angles[9] = {90.000000,45.000038,26.565073,18.262905,0.000000,-18.262905,-26.565073,-45.000038,-90.000000};
+      float angles[9] = {90.0, 68.5, 45.0, 20.8, 0.0, -20.8, -45.0, -68.5, -90.0};
       icon *arrowIcon = gpResourceManager->GetIcon("keep.icn");
       this->ShootMissile(castX, castY, stack->MidX(), stack->MidY(), angles, arrowIcon);
       gpResourceManager->Dispose(arrowIcon);

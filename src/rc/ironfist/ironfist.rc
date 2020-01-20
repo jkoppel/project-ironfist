@@ -108,6 +108,7 @@ BEGIN
         MENUITEM "Extra Hero Mobility",         40142
         MENUITEM "Free Spells",                 40143
         MENUITEM "Free Resources",              40144
+        MENUITEM "Auto-win Battles",            40145
         POPUP "Free Creatures"
         BEGIN
             POPUP "Knight"
@@ -184,6 +185,15 @@ BEGIN
                 MENUITEM "Lichs",                       41054
                 MENUITEM "Power Lichs",                 41055
                 MENUITEM "Bone Dragons",                41056
+            END
+			POPUP "Cyborg"
+            BEGIN
+                MENUITEM "Cyber Kobold Spearman",       41078
+                MENUITEM "Cyber Plasma Berserker",      41079
+                MENUITEM "Cyber Plasma Lancer",         41080
+                MENUITEM "Cyber Indigo Panther",        41081
+                MENUITEM "Cyber Shadow Assasin",        41082
+                MENUITEM "Cyber Behemoth",              41083
             END
             POPUP "Miscellaneous"
             BEGIN

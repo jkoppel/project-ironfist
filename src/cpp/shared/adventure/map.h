@@ -6,8 +6,9 @@
 #define MAX_TOWNS 72
 #define MAX_PLACED_EVENTS 50
 #define MAX_MINES 144
-#define NUM_SECONDARY_SKILLS 8
+#define MAX_SECONDARY_SKILLS 8
 #define MAX_TOTAL_SECONDARY_SKILLS 14
+#define NUM_TILESETS 64
 
 #pragma pack(push, 1)
 
@@ -142,6 +143,8 @@ extern short* pwSizeOfMapExtra;
 
 extern signed char xIsExpansionMap;
 
+extern int __fastcall GetMapHeader(char *,struct SMapHeader *);
+
 extern void __fastcall ClearMapExtra();
 
 
@@ -237,17 +240,14 @@ public:
   char owner;
   char hasArmy;
   armyGroup army;
-  char field_11;
+  char customPortrait;
   char heroID;
   char artifacts[3];
   char field_16;
-  char experience;
-  char field_18;  // These 3 might also be experience, according to IDA
-  char field_19;
-  char field_1A;
+  int experience;
   char hasSecondarySkills;
-  char secondarySkills[NUM_SECONDARY_SKILLS];
-  char secondarySkillLevel[NUM_SECONDARY_SKILLS];
+  char secondarySkills[MAX_SECONDARY_SKILLS];
+  char secondarySkillLevel[MAX_SECONDARY_SKILLS];
   char field_2C;
   char hasName;
   char name[13];
@@ -325,6 +325,7 @@ enum ADVENTURE_MAP_LOCATION {
   LOCATION_RANDOM_MONSTER_VERY_STRONG = 54,
   LOCATION_RANDOM_HERO = 55,
   LOCATION_NOTHING_SPECIAL = 56,
+  LOCATION_HOLE_LIKE = 57,
   LOCATION_WATCH_TOWER = 58,
   LOCATION_TREE_HOUSE = 59,
   LOCATION_TREE_CITY = 60,
@@ -392,6 +393,18 @@ enum ADVENTURE_MAP_LOCATION {
   LOCATION_ALCHEMIST_TOWER = 122,
   LOCATION_JAIL = 123,
   TILE_HAS_EVENT = 128,
+};
+
+
+enum barriercolors {
+	AQUA_BARRIER = 0,
+	BLUE_BARRIER,
+	BROWN_BARRIER,
+	GOLD_BARRIER,
+	GREEN_BARRIER,
+	ORANGE_BARRIER,
+	PURPLE_BARRIER,
+	RED_BARRIER,
 };
 
 enum OBJ_TILESET : __int8 {

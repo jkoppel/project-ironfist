@@ -174,8 +174,9 @@ enum CREATURE_EFFECT_ANIMATION_INDEX {
   ANIM_STEELSKIN_IDX = 31,
 };
 
-extern int __fastcall GetManaCost(int, class hero*);
-int GetManaCost(int);
+int __fastcall GetManaCost(int spell, hero* hro);
+int __fastcall GetManaCost_orig(int spell, hero* hro);
+int GetManaCost(int spell);
 
 #pragma pack(pop)
 
