@@ -6,6 +6,7 @@
 #include "adventure/terrain.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "scripting/callback.h"
 #include "sound/sound.h"
 
 char *gSpellDesc[] =
@@ -151,9 +152,9 @@ SSpellInfo gsSpellInfo[] = {
 	{"", 4, 55, 0, 700, 15, 0, 0, 0, ATTR_ADVENTURE_SPELL},
 
 	//awareness
-	{"", 1, 55, 0, 700, 20, 10, 0, 0, ATTR_ADVENTURE_SPELL},
+	{"", 1, 55, 0, 700, 20, 10, 0x0A0A0A0A, 0x0A, ATTR_ADVENTURE_SPELL},
   //shadow mark
-  {"shdwmark", 2, 66, 33, 150, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
+  {"shdwmark", 2, 66, 33, 0, 3, -1, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
   {"mrksmprc", 5, 67, 34, 200, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
   {"plsmcone", 5, 68, 35, 50, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
   {"forcshld", 2, 69, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
@@ -162,8 +163,16 @@ SSpellInfo gsSpellInfo[] = {
 
 #define DD_MOVEMENT_COST 225
 
-int GetManaCost(int s) {
-	return GetManaCost(s, NULL);
+int __fastcall GetManaCost(int spell, hero* hro) {
+  int cost = GetManaCost_orig(spell, hro);
+  auto res = ScriptCallbackResult<int>("OnCalcManaCost", deepbind<hero*>(hro), spell, cost);
+  if(res.has_value())
+    cost = res.value();
+  return cost;
+}
+
+int GetManaCost(int spell) {
+	return GetManaCost(spell, NULL);
 }
 
 void advManager::CastSpell(int spell) {

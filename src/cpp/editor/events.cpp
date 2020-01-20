@@ -11,6 +11,7 @@
 #include "events.h"
 #include "hero_edit.h"
 #include "../../rc/editor/resource.h"
+#include "town/buildings.h"
 #include "town/town.h"
 
 namespace {
@@ -193,7 +194,7 @@ void InitializeTownEdit(HWND hwnd) {
 	for(int i = 0; i < ELEMENTS_IN(monTypeFields); i++) {
 		SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"-empty-");
 		for(int j = 0; j < GetNumCreatures(); j++) {
-			snprintf(gText, 300, "%s", GetCreatureName(j));
+			snprintf(gText, gTextSize, "%s", GetCreatureName(j));
 			if(strlen(gText) == 0) {
                 SendDlgItemMessage(hwnd, monTypeFields[i], CB_ADDSTRING, 0, (LPARAM)L"###UNKNOWN CREATURE###");
 				continue; //ghetto way of checking for if creature is real (not random)
@@ -214,8 +215,8 @@ void InitializeTownEdit(HWND hwnd) {
 	SendDlgItemMessage(hwnd, IDC_MAGE_GUILD, CB_ADDSTRING, 0, (LPARAM)L"Level 5");
 
 	int faction = gEditTownExtra.faction;
-	SendDlgItemMessage(hwnd, IDC_SPECIAL_GROWTH_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(gWellExtraNames[faction]).c_str());
-	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(gSpecialBuildingNames[faction]).c_str());
+	SendDlgItemMessage(hwnd, IDC_SPECIAL_GROWTH_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(GetFirstLevelGrowerName(faction)).c_str());
+	SendDlgItemMessage(hwnd, IDC_SPECIAL_BUILDING, WM_SETTEXT, 0, (LPARAM)GetWC(GetSpecialBuildingName(faction)).c_str());
 
 	if(faction == FACTION_NECROMANCER) {
 		SendDlgItemMessage(hwnd, IDC_TAVERN, WM_SETTEXT, 0, (LPARAM)L"Shrine");

@@ -1,15 +1,17 @@
 #include "artifacts.h"
 #include "combat/army.h"
 #include "combat/combat.h"
+#include "graphics.h"
 #include "resource/resourceManager.h"
 #include "scripting/callback.h"
+#include "scripting/deepbinding.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "expansions.h"
+
+#include <limits.h>
 #include <set>
 #include <vector>
-
-extern ironfistExtra gIronfistExtra;
 
 extern char *cMonFilename[]; // it's inside creature.cpp
 extern char *cArmyFrameFileNames[]; // it's inside creature.cpp
@@ -19,18 +21,6 @@ extern int gCurLoadedSpellEffect;
 extern int gCurSpellEffectFrame;
 extern int gbGenieHalf;
 extern int gbRemoteOn;
-extern int giWalkingFrom;
-extern int giWalkingFrom2;
-extern int giWalkingTo;
-extern int giWalkingTo2;
-extern int giWalkingYMod;
-extern int gbComputeExtent;
-extern int gbSaveBiggestExtent;
-extern int gbReturnAfterComputeExtent;
-extern int gbCurrArmyDrawn;
-extern int gbLimitToExtent;
-extern unsigned __int8 moatCell[];
-extern float gfBattleStat[];
 extern float gfSSArcheryMod[];
 
 bool gCloseMove; // ironfist var to differentiate between close/from a distance attack
@@ -340,7 +330,7 @@ void army::DoAttack(int isRetaliation) {
   army* primaryTarget = &gpCombatManager->creatures[gpCombatManager->combatGrid[targetHex].unitOwner][gpCombatManager->combatGrid[targetHex].stackIdx];
   if (gpCombatManager->combatGrid[targetHex].unitOwner < 0 || gpCombatManager->combatGrid[targetHex].stackIdx < 0)
     primaryTarget = this;
-  ScriptCallback("OnBattleMeleeAttack", this, primaryTarget, isRetaliation);
+  ScriptCallback("OnBattleMeleeAttack", deepbind<army*>(this), deepbind<army*>(primaryTarget), (bool)isRetaliation);
 
   if(isRetaliation)
     gCloseMove = true;
@@ -594,6 +584,11 @@ void army::DoAttack(int isRetaliation) {
   this->targetOwner = -1;
   if (isRetaliation)
     gpCombatManager->currentActionSide = 1 - gpCombatManager->currentActionSide;
+
+  if (!isRetaliation) {
+    ScriptCallback("OnBattleMeleeAttackComplete", deepbind<army*>(this), deepbind<army*>(primaryTarget));
+  }
+
 }
 
 void army::Walk(signed int dir, int last, int notFirst) { 
@@ -630,13 +625,9 @@ void army::Walk(signed int dir, int last, int notFirst) {
     giMinExtentX = 640;
     giMaxExtentY = 0;
     giMaxExtentX = 0;
-    gbComputeExtent = 1;
-    gbSaveBiggestExtent = 1;
-    gbReturnAfterComputeExtent = 1;
+    gpCombatManager->SetRenderExtentFlags(true);
     this->DrawToBuffer(gpCombatManager->combatGrid[this->occupiedHex].centerX, gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY, 0);
-    gbReturnAfterComputeExtent = 0;
-    gbSaveBiggestExtent = 0;
-    gbComputeExtent = 0;
+    gpCombatManager->SetRenderExtentFlags(false);
   }
   if (giMinExtentX < 0)
     giMinExtentX = 0;
@@ -709,16 +700,12 @@ void army::Walk(signed int dir, int last, int notFirst) {
       giMinExtentX = 640;
       giMaxExtentY = 0;
       giMaxExtentX = 0;
-      gbComputeExtent = 1;
-      gbSaveBiggestExtent = 1;
-      gbReturnAfterComputeExtent = 1;
+      gpCombatManager->SetRenderExtentFlags(true);
       this->DrawToBuffer(
         gpCombatManager->combatGrid[this->occupiedHex].centerX,
         gpCombatManager->combatGrid[this->occupiedHex].occupyingCreatureBottomY,
         0);
-      gbReturnAfterComputeExtent = 0;
-      gbComputeExtent = 0;
-      gbSaveBiggestExtent = 0;
+      gpCombatManager->SetRenderExtentFlags(false);
       if (giMinExtentX < 0)
         giMinExtentX = 0;
       if (giMinExtentY < 0)
@@ -850,6 +837,7 @@ public:
 	int field_2418;
 	int field_241C[63];
 	searchArray();
+  ~searchArray();
 };
 #pragma pack(pop)
 
@@ -1154,8 +1142,13 @@ int army::FlyTo(int hexIdx) {
         int moveLen = 0;
         int moveAndSubEndMoveLen;
         if (numFrames) {
-          if (i <= 0 && (!closeMove && teleporter))
-            startMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
+          if(i <= 0) {
+            if(closeMove && teleporter)
+              startMoveLen = 0;
+            else
+              startMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_START_MOVE];
+          } else
+            startMoveLen = 0;
           moveAndSubEndMoveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           moveLen = this->frameInfo.animationLengths[ANIMATION_TYPE_MOVE];
           if (i + 1 < numFrames)
@@ -1341,83 +1334,100 @@ void SpecialAttackGraphics(army *attacker, army *target) {
   gpCombatManager->limitCreature[attacker->owningSide][attacker->stackIdx]++;
   gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
 
-  int targMidX = target->MidX();
-  int targMidY = target->MidY();
-  if (attacker->creatureIdx == CREATURE_LICH || attacker->creatureIdx == CREATURE_POWER_LICH) {
-    targMidX = gpCombatManager->combatGrid[target->occupiedHex].centerX;
-    targMidY = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
+  int targMidX, targMidY;
+  int totXDiff, yDiff;
+  char firingLeft;
+  {
+    targMidX = target->MidX();
+    targMidY = target->MidY();
+    if (attacker->creatureIdx == CREATURE_LICH || attacker->creatureIdx == CREATURE_POWER_LICH) {
+      targMidX = gpCombatManager->combatGrid[target->occupiedHex].centerX;
+      targMidY = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
+    }
+    int projStartX;
+    if (attacker->facingRight == 1)
+      projStartX = attacker->frameInfo.projectileStartOffset[1][0] + gpCombatManager->combatGrid[attacker->occupiedHex].centerX;
+    else
+      projStartX = gpCombatManager->combatGrid[attacker->occupiedHex].centerX - attacker->frameInfo.projectileStartOffset[1][0];
+    int projStartY = attacker->frameInfo.projectileStartOffset[1][1] + gpCombatManager->combatGrid[attacker->occupiedHex].occupyingCreatureBottomY;
+    totXDiff = targMidX - projStartX;
+    firingLeft = 0;
+    if (targMidX - projStartX < 0) {
+      firingLeft = 1;
+      totXDiff = -totXDiff;
+    }
+    yDiff = targMidY - projStartY;
   }
-  int projStartX;
-  if (attacker->facingRight == 1)
-    projStartX = attacker->frameInfo.projectileStartOffset[1][0] + gpCombatManager->combatGrid[attacker->occupiedHex].centerX;
-  else
-    projStartX = gpCombatManager->combatGrid[attacker->occupiedHex].centerX - attacker->frameInfo.projectileStartOffset[1][0];
-  int projStartY = attacker->frameInfo.projectileStartOffset[1][1] + gpCombatManager->combatGrid[attacker->occupiedHex].occupyingCreatureBottomY;
-  int totXDiff = targMidX - projStartX;
-  char firingLeft = 0;
-  if (targMidX - projStartX < 0) {
-    firingLeft = 1;
-    totXDiff = -totXDiff;
-  }
-  int yDiff = targMidY - projStartY;
 
   float angleDeg;
   int spriteIdx;
-  if (totXDiff) {
-    float slope = (double)-yDiff / (double)totXDiff;
-    angleDeg = atan(slope) * 180.0 / 3.14159;
-    int i;
-    for (i = 1;  attacker->frameInfo.numMissileDirs > i &&
-      (*(float *)((char *)&attacker->frameInfo.projectileStartOffset[i + 2] + 1) +
-        attacker->frameInfo.projDirAngle[i]) / 2.0 >= angleDeg;  ++i)
-      ;
-    if (attacker->frameInfo.numMissileDirs <= i)
-      spriteIdx = attacker->frameInfo.numMissileDirs - 1;
-    else
-      spriteIdx = i - 1;
-  } else {
-    if (yDiff <= 0)
-      spriteIdx = 0;
-    else
-      spriteIdx = attacker->frameInfo.numMissileDirs - 1;
-    angleDeg = (double)(yDiff <= 0 ? 90 : -90);
+  {
+    if (totXDiff) {
+      float slope = (double)-yDiff / (double)totXDiff;
+      angleDeg = atan(slope) * 180.0 / 3.14159;
+      int i;
+      for (i = 1;  attacker->frameInfo.numMissileDirs > i &&
+        (*(float *)((char *)&attacker->frameInfo.projectileStartOffset[i + 2] + 1) +
+          attacker->frameInfo.projDirAngle[i]) / 2.0 >= angleDeg;  ++i)
+        ;
+      if (attacker->frameInfo.numMissileDirs <= i)
+        spriteIdx = attacker->frameInfo.numMissileDirs - 1;
+      else
+        spriteIdx = i - 1;
+    } else {
+      
+      if (yDiff <= 0)
+        spriteIdx = 0;
+      else
+        spriteIdx = attacker->frameInfo.numMissileDirs - 1;
+      angleDeg = (double)(yDiff <= 0 ? 90 : -90);
+    }
   }
 
   int attackDirectionAnimationIdx;
-  if (angleDeg <= 25.0) {
-    if (angleDeg <= -25.0) {
-      attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS;
-      attackDirectionAnimationIdx = 2;
+  {
+    if (angleDeg <= 25.0) {
+      if (angleDeg <= -25.0) {
+        attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS;
+        attackDirectionAnimationIdx = 2;
+      } else {
+        attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_FORWARDS;
+        attackDirectionAnimationIdx = 1;
+      }
     } else {
-      attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_FORWARDS;
-      attackDirectionAnimationIdx = 1;
+      attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_UPWARDS;
+      attackDirectionAnimationIdx = 0;
     }
-  } else {
-    attacker->animationType = ANIMATION_TYPE_RANGED_ATTACK_UPWARDS;
-    attackDirectionAnimationIdx = 0;
   }
-  for (attacker->animationFrame = 0;
-    attacker->frameInfo.animationLengths[attacker->animationType] > attacker->animationFrame;
-    ++attacker->animationFrame) {
-    if (attacker->frameInfo.animationLengths[attacker->animationType] - 1 == attacker->animationFrame)
-      gpCombatManager->DrawFrame(0, 1, 0, 0, 75, 1, 1);
-    else
-      gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
-    glTimers = (signed __int64)((double)KBTickCount()
-      + (double)attacker->frameInfo.shootingTime
-      * gfCombatSpeedMod[giCombatSpeed]
-      / (double)attacker->frameInfo.animationLengths[attacker->animationType]);
+
+  DrawShootingAnimation: {
+    for (attacker->animationFrame = 0;
+         attacker->frameInfo.animationLengths[attacker->animationType] > attacker->animationFrame;
+         ++attacker->animationFrame) {
+
+      if (attacker->frameInfo.animationLengths[attacker->animationType] - 1 == attacker->animationFrame) {
+        gpCombatManager->DrawFrame(0, 1, 0, 0, 75, 1, 1);
+      } else {
+        gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
+      }
+
+      glTimers = (signed __int64)((double)KBTickCount()
+        + (double)attacker->frameInfo.shootingTime
+        * gfCombatSpeedMod[giCombatSpeed]
+        / (double)attacker->frameInfo.animationLengths[attacker->animationType]);
+    }
+
+    attacker->animationFrame = attacker->frameInfo.animationLengths[attacker->animationType] - 1;
   }
-  attacker->animationFrame = attacker->frameInfo.animationLengths[attacker->animationType] - 1;
-  int projIconWidth = 100;
-  int projIconHeight = 100;
-  int v35 = 31;
+
+
+  int halfProjIconWidth = 100;
+  int halfProjIconHeight = 100;
+  int shotSpeed = 31; // in pixels/frame
   int v22 = 25;
 
-  int v20 = 0;
-  int offsetX = 639;
-  int v15 = 0;
-  int offsetY = 479;
+  H2RECT bounds(top(INT_MAX), bottom(INT_MIN), left(INT_MAX), right(INT_MIN));
+
   int startX;
   if (attacker->facingRight == 1)
     startX = attacker->frameInfo.projectileStartOffset[attackDirectionAnimationIdx][0] + gpCombatManager->combatGrid[attacker->occupiedHex].centerX;
@@ -1431,7 +1441,7 @@ void SpecialAttackGraphics(army *attacker, army *target) {
   int diffX = endX - startX;
   int diffY = endY - startY;
   int distance = (signed __int64)sqrt((double)(diffY * diffY + diffX * diffX));
-  int v52 = (distance + (v35 / 2)) / v35;
+  int numFrames = (distance + (shotSpeed / 2)) / shotSpeed;
 
   if (attacker->creatureIdx == CREATURE_MAGE || attacker->creatureIdx == CREATURE_ARCHMAGE) {
     gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
@@ -1440,85 +1450,64 @@ void SpecialAttackGraphics(army *attacker, army *target) {
   } else if (attacker->creatureIdx == CREATURE_CYBER_BEHEMOTH) {
     gpCombatManager->ArcShot(attacker->missileIcon, startX, startY, endX, endY);
   } else {
-    int v37;
-    int v43;
-    if (v52 <= 1) {
-      v43 = diffX;
-      v37 = diffY;
+    int dx, dy;
+
+    if (numFrames <= 1) {
+      dx = diffX;
+      dy = diffY;
     } else {
-      v43 = diffX / (v52 - 1);
-      v37 = diffY / (v52 - 1);
+      dx = diffX / (numFrames - 1);
+      dy = diffY / (numFrames - 1);
     }
-    int v44 = startX;
-    int v38 = startY;
-    //from = (bitmap *)operator new(26);
-    bitmap *from = nullptr;
-    from = new bitmap(33, 2 * projIconWidth, 2 * projIconHeight);
-    from->GrabBitmapCareful(gpWindowManager->screenBuffer, v44 - projIconWidth, v38 - projIconHeight);
-    int v59 = v44;
-    int v53 = v38;
-    int x = 0;
-    int y = 0;
-    for (int i = 0; i < v52; ++i) {
-      if (v59 - projIconWidth < offsetX)
-        offsetX = v59 - projIconWidth;
-      if (offsetX < 0)
-        offsetX = 0;
-      if (projIconWidth + v59 > v20)
-        v20 = projIconWidth + v59;
-      if (v20 > 639)
-        v20 = 639;
-      if (v53 - projIconHeight < offsetY)
-        offsetY = v53 - projIconHeight;
-      if (offsetY < 0)
-        offsetY = 0;
-      if (projIconHeight + v53 > v15)
-        v15 = projIconHeight + v53;
-      if (v15 > 442)
-        v15 = 442;
-      if (i) {
-        from->DrawToBufferCareful(x, y);
+    int centX = startX;
+    int centY = startY;
+    Point toDrawAt(0, 0);
+
+    bitmap *from = new bitmap(33, 2 * halfProjIconWidth, 2 * halfProjIconHeight);
+    from->GrabBitmapCareful(gpWindowManager->screenBuffer, centX - halfProjIconWidth, centY - halfProjIconHeight);
+    int oldCentX = centX;
+    int oldCentY = centY;
+
+    for (int i = 0; i < numFrames; ++i) {
+      bounds = bounds.unionWith(rectAroundPoint(Point(oldCentX, oldCentY),
+                                                 halfProjIconWidth, halfProjIconHeight));
+
+      bounds = bounds.clipToBounds(H2RECT(top(0), bottom(442), left(0), right(639)));
+
+      if (i > 0) {
+        from->DrawToBufferCareful(toDrawAt._x, toDrawAt._y);
       } else {
-        if (giMinExtentX > offsetX)
-          giMinExtentX = offsetX;
-        if (v20 > giMaxExtentX)
-          giMaxExtentX = v20;
-        if (offsetY < giMinExtentY)
-          giMinExtentY = offsetY;
-        if (v15 > giMaxExtentY)
-          giMaxExtentY = v15;
+        // extent = extent.unionWidth(bounds);
+        giMinExtentX = min(giMinExtentX, bounds._left);
+        giMaxExtentX = max(giMaxExtentX, bounds._right);
+        giMinExtentY = min(giMinExtentY, bounds._top);
+        giMaxExtentY = max(giMaxExtentY, bounds._bottom);
       }
-      x = v44 - projIconWidth;
-      if (v44 - projIconWidth < 0)
-        x = 0;
-      if (x + (signed int)from->width > 640)
-        x = 640 - from->width;
-      y = v38 - projIconHeight;
-      if (v38 - projIconHeight < 0)
-        y = 0;
-      if (y + (signed int)from->height > 640)
-        y = 640 - from->height;
-      from->GrabBitmapCareful(gpWindowManager->screenBuffer, x, y);
-      attacker->missileIcon->DrawToBuffer(v44, v38, spriteIdx, firingLeft);
-      if (i) {
-        DelayTil(&glTimers);
-        gpWindowManager->UpdateScreenRegion(offsetX, offsetY, v20 - offsetX + 1, v15 - offsetY + 1);
-      } else {
+
+      toDrawAt = Point(centX - halfProjIconWidth, centY - halfProjIconHeight);
+      toDrawAt = toDrawAt.clipToRect(H2RECT(top(0), bottom(442 - from->height), left(0), right(640 - from->width)));
+
+      from->GrabBitmapCareful(gpWindowManager->screenBuffer, toDrawAt._x, toDrawAt._y);
+      attacker->missileIcon->DrawToBuffer(centX, centY, spriteIdx, firingLeft);
+      if (i == 0) {
         gpWindowManager->UpdateScreenRegion(giMinExtentX, giMinExtentY, giMaxExtentX - giMinExtentX + 1, giMaxExtentY - giMinExtentY + 1);
+      } else {
+        DelayTil(&glTimers);
+        gpWindowManager->UpdateScreenRegion(bounds._left, bounds._top, bounds.getWidth(), bounds.getHeight());
       }
 
       glTimers = (signed __int64)((double)KBTickCount() + (double)v22 * gfCombatSpeedMod[giCombatSpeed]);
-      v59 = v44;
-      v53 = v38;
-      v44 += v43;
-      v38 += v37;
-      offsetX = v44 - projIconWidth;
-      v20 = projIconWidth + v44;
-      offsetY = v38 - projIconHeight;
-      v15 = projIconHeight + v38;
+      oldCentX = centX;
+      oldCentY = centY;
+      centX += dx;
+      centY += dy;
+
+      bounds = rectAroundPoint(Point(centX, centY),
+                                  halfProjIconWidth, halfProjIconHeight);
     }
-    from->DrawToBuffer(x, y);
-    gpWindowManager->UpdateScreenRegion(v59 - projIconWidth, v53 - projIconHeight, 2 * projIconWidth, 2 * projIconHeight);
+
+    from->DrawToBuffer(toDrawAt._x, toDrawAt._y);
+    gpWindowManager->UpdateScreenRegion(oldCentX - halfProjIconWidth, oldCentY - halfProjIconHeight, 2 * halfProjIconWidth, 2 * halfProjIconHeight);
     if (from)
       from->~bitmap();
   }
@@ -2305,7 +2294,6 @@ int army::AddActiveEffect(int effectType, int strength) {
 
 signed int army::SetSpellInfluence(int effectType, signed int strength) {
   signed int result;
-  __int64 v4;
   int effect;
 
   if (this->effectStrengths[effectType]) {
@@ -2320,11 +2308,10 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
       this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 0.65);
       break;
     case EFFECT_SLOW:
-      this->CancelIndividualSpell(0);
-      v4 = (signed int)this->creature.speed + 1;
-      this->creature.speed = ((signed int)v4 - v4) >> 1;
-      if (this->creature.creature_flags & 2)
-        this->creature.creature_flags -= 2;
+      this->CancelIndividualSpell(EFFECT_HASTE);
+      this->creature.speed = (this->creature.speed + 1) / 2;
+      if (this->creature.creature_flags & FLYER)
+        this->creature.creature_flags -= FLYER;
       this->frameInfo.stepTime = (signed __int64)((double)this->frameInfo.stepTime * 1.5);
       break;
     case EFFECT_BLESS:

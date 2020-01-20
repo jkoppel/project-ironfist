@@ -3,8 +3,7 @@
 
 #pragma pack(push, 1)
 
-enum ANIMATION_TYPE
-{
+enum ANIMATION_TYPE {
   ANIMATION_TYPE_START_MOVE = 0,
   ANIMATION_TYPE_SUB_START_MOVE = 1,
   ANIMATION_TYPE_MOVE = 2,
@@ -41,8 +40,7 @@ enum ANIMATION_TYPE
   ANIMATION_TYPE_RANGED_ATTACK_DOWNWARDS_RETURN = 33,
 };
 
-struct SMonFrameInfo
-{
+struct SMonFrameInfo {
   char firstByteIgnored;
   __int16 offsetForBlind[2];
   char startMoveAnimInfoIgnored[16];
@@ -65,6 +63,19 @@ struct SMonFrameInfo
   int stackNumDispXShift[2];
   char animationLengths[34];
   char animationFrameToImgIdx[34][16];
+};
+
+enum HERO_ANIMATION_TYPE {
+  HERO_STANDING = 0,
+  HERO_CAST_MASS = 3,
+  HERO_CAST_MASS_RETURN = 4,
+  HERO_CAST_FORWARD = 5,
+  HERO_CAST_FORWARD_RETURN = 6,
+  HERO_CAST_DOWN = 7,
+  HERO_CAST_DOWN_RETURN = 8,
+  HERO_FIDGET_1 = 9,
+  HERO_FIDGET_2 = 10,
+  HERO_FIDGET_3 = 11
 };
 
 struct SCmbtHero {

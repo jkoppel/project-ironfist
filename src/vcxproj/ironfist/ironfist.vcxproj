@@ -83,29 +83,35 @@
       <PrecompiledHeader>
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;XERCES_STATIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;xerces-c_3.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmt.lib;PocoFoundationmt.lib;xerces-c_static_3.lib;bass.lib</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <IgnoreSpecificDefaultLibraries>
+      </IgnoreSpecificDefaultLibraries>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\shared\adventure\adv.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\hero.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\map.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\map_events.cpp" />
     <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
+    <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
@@ -117,10 +123,11 @@
     <ClCompile Include="..\..\cpp\shared\expansions.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\event_loop.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
-    <ClCompile Include="..\..\cpp\shared\game\map_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
+    <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\recruit_unit.cpp" />
     <ClCompile Include="..\..\cpp\shared\init.cpp" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lauxlib.c" />
@@ -156,9 +163,11 @@
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lutf8lib.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lvm.c" />
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c" />
+    <ClCompile Include="..\..\cpp\shared\lib\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="..\..\cpp\shared\registry_prefs.cpp" />
     <ClCompile Include="..\..\cpp\shared\resource\resourceManager.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\callback.cpp" />
+    <ClCompile Include="..\..\cpp\shared\scripting\deepbinding.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\funcs.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\lua_utils.cpp" />
     <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp" />
@@ -167,16 +176,32 @@
     <ClCompile Include="..\..\cpp\shared\sound\cd_music.cpp" />
     <ClCompile Include="..\..\cpp\shared\spell\spells.cpp" />
     <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp" />
+    <ClCompile Include="..\..\cpp\shared\town\buildings.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
+    <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\campaign_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\save_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
+    <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
     <ClInclude Include="..\..\cpp\shared\lib\optional.hpp" />
     <ClInclude Include="..\..\cpp\shared\scripting\callback.h" />
+    <ClInclude Include="..\..\cpp\shared\scripting\deepbinding.h" />
     <ClInclude Include="..\..\cpp\shared\scripting\lua_utils.h" />
+    <ClInclude Include="..\..\cpp\shared\smacker.h" />
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
+    <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
+    <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\campaign_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\save_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\map.h" />
@@ -191,7 +216,6 @@
     <ClInclude Include="..\..\cpp\shared\combat\speed.h" />
     <ClInclude Include="..\..\cpp\shared\driver.h" />
     <ClInclude Include="..\..\cpp\shared\game\game.h" />
-    <ClInclude Include="..\..\cpp\shared\game\map_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\graphics.h" />
     <ClInclude Include="..\..\cpp\shared\gui\dialog.h" />
     <ClInclude Include="..\..\cpp\shared\gui\gui.h" />

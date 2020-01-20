@@ -27,8 +27,9 @@ using namespace std;
 * 3) Debug menu free creatures
 */
 
-#define MAX_CREATURES 256
 #define RAND_DEFAULT 3
+
+std::vector<CREATURES> CREATURES_RANDOMIZABLE;
 
 tag_monsterInfo gMonsterDatabase[MAX_CREATURES];
 
@@ -105,6 +106,10 @@ char* GetCreatureName(int id) {
 
 char* GetCreaturePluralName(int id) {
 	return gArmyNamesPlural[id];
+}
+
+char *__fastcall GetMonsterName(int id) {
+  return GetCreatureName(id);
 }
 
 int GetNumCreatures() {
@@ -203,10 +208,15 @@ void LoadCreatures() {
 					0);
 				
 		}
-	} catch(const xml_schema::exception& e) {
+	} catch(const xml_schema::exception&) {
 		EarlyShutdown("Startup Error", "Error loading creatures.xml. Try reinstalling Ironfist.");
 	}
-    giNumCreatures++;
+  giNumCreatures++;
+
+  for(int i = 0; i <= MAX_BASE_CREATURE; i++)
+    CREATURES_RANDOMIZABLE.push_back((CREATURES)i);
+  for(int i = MIN_IRONFIST_CREATURE; i <= MAX_IRONFIST_CREATURE; i++)
+    CREATURES_RANDOMIZABLE.push_back((CREATURES)i);
 }
 
 void UnloadCreatures() {

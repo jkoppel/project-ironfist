@@ -16,7 +16,7 @@
 editManager *__thiscall editManager::editManager(editManager *this);
 int __thiscall editManager::Open(editManager *this, int a2); // idb
 editManager *__thiscall editManager::Close(editManager *this);
-signed int __thiscall sub_401646(int this, int x, int y);
+signed int __thiscall editManager::GetOverlayID(int this, int x, int y);
 void __thiscall sub_401AD9(void *ecx0);
 signed int __thiscall editManager::Main(editManager *this, int a2);
 void *__cdecl CopyMap();
@@ -26269,7 +26269,7 @@ editManager *__thiscall editManager::editManager(editManager *this)
   this->cursorY = 0;
   this->editWindow = 0;
   giCurOverlayIdx = 1;
-  this->cursorType = 0;
+  this->zoomLevel = 0;
   fullMap::Reset(&gpMap, MAP_HEIGHT, MAP_WIDTH);
   fullMap::Reset(&gMap2, MAP_HEIGHT, MAP_WIDTH);
   EraseRegion(0, 0, MAP_WIDTH, MAP_HEIGHT);
@@ -26391,7 +26391,7 @@ editManager *__thiscall editManager::Close(editManager *this)
 // 432100: using guessed type _DWORD __stdcall heroWindowManager__RemoveWindow(_DWORD);
 
 //----- (00401646) --------------------------------------------------------
-signed int __thiscall sub_401646(int this, int x, int y)
+signed int __thiscall editManager::GetOverlayID(int this, int x, int y)
 {
   unsigned __int16 v3; // ax@23
   signed int result; // eax@41
@@ -26510,7 +26510,7 @@ void __thiscall sub_401AD9(void *ecx0)
   editManager::ToCellIdx((editManager *)this, &x, &y);
   x += *(_DWORD *)(this + 3730);
   y += *(_DWORD *)(this + 3734);
-  v2 = sub_401646(this, x, y);
+  v2 = editManager::GetOverlayID(this, x, y);
   if ( v2 == -1 )
   {
     ShowErrorMessage("Nothing to grab!");
@@ -26819,7 +26819,7 @@ LABEL_204:
           editManager::ToCellIdx(this, &x, &y);
           x += gpEditManager->cellLeft;
           y += gpEditManager->cellTop;
-          v21 = sub_401646((int)this, x, y);
+          v21 = editManager::GetOverlayID((int)this, x, y);
           v20 = -1;
           if ( v21 != -1 )
             v20 = gOverlayDatabase[v21].locationType;
@@ -27161,7 +27161,7 @@ void __thiscall editManager::HighlightCoordinates(editManager *this, int left, i
   mouseManager::MouseCoords(&mouseX, &mouseY);
   xa = x - this->cellLeft;
   ya = y - this->cellTop;
-  if ( this->cursorType == 2 )
+  if ( this->zoomLevel == 2 )
   {
     xa &= 0xFFFEu;
     ya &= 0xFFFEu;
@@ -27173,15 +27173,15 @@ void __thiscall editManager::HighlightCoordinates(editManager *this, int left, i
   }
   for ( i = 0; i < 28; ++i )
   {
-    if ( this->cursorType || !(i & 1) )
+    if ( this->zoomLevel || !(i & 1) )
     {
-      if ( this->cursorType )
+      if ( this->zoomLevel )
         icon::DrawToBuffer(16 * i + 16, 0, 32, 0);
       else
         icon::DrawToBuffer(16 * i + 16, 0, 34, 0);
-      if ( this->cursorType )
+      if ( this->zoomLevel )
       {
-        if ( this->cursorType == 1 )
+        if ( this->zoomLevel == 1 )
           v6 = i;
         else
           v6 = 2 * i;
@@ -27196,8 +27196,8 @@ void __thiscall editManager::HighlightCoordinates(editManager *this, int left, i
       else
         sprintf(&a2, "{%02d}", v6 + left);
       v9 = 1;
-      font::DrawString(smalFont, &a2, 16 * i + (this->cursorType < 1u ? 8 : 0) + 19, 5, 1);
-      if ( this->cursorType )
+      font::DrawString(smalFont, &a2, 16 * i + (this->zoomLevel < 1u ? 8 : 0) + 19, 5, 1);
+      if ( this->zoomLevel )
         icon::DrawToBuffer(0, 16 * i + 16, 32, 0);
       else
         icon::DrawToBuffer(0, 16 * i + 16, 33, 0);
@@ -27206,7 +27206,7 @@ void __thiscall editManager::HighlightCoordinates(editManager *this, int left, i
       else
         sprintf(&a2, "{%02d}", v6 + top);
       v9 = 1;
-      font::DrawString(smalFont, &a2, 3, 16 * i + (this->cursorType < 1u ? 8 : 0) + 21, 1);
+      font::DrawString(smalFont, &a2, 3, 16 * i + (this->zoomLevel < 1u ? 8 : 0) + 21, 1);
     }
   }
   heroWindowManager::UpdateScreenRegion(16, 0, 448, 16);
@@ -27220,16 +27220,16 @@ void __thiscall editManager::ToCellIdx(editManager *this, int *x, int *y)
 {
   *x -= 16;
   *y -= 16;
-  *x /= tileSizes[this->cursorType];
+  *x /= tileSizes[this->zoomLevel];
   if ( *x < 0 )
     *x = 0;
-  if ( gCursorPixelSize[this->cursorType] - 1 < *x )
-    *x = gCursorPixelSize[this->cursorType] - 1;
-  *y /= tileSizes[this->cursorType];
+  if ( gCursorPixelSize[this->zoomLevel] - 1 < *x )
+    *x = gCursorPixelSize[this->zoomLevel] - 1;
+  *y /= tileSizes[this->zoomLevel];
   if ( *y < 0 )
     *y = 0;
-  if ( gCursorPixelSize[this->cursorType] - 1 < *y )
-    *y = gCursorPixelSize[this->cursorType] - 1;
+  if ( gCursorPixelSize[this->zoomLevel] - 1 < *y )
+    *y = gCursorPixelSize[this->zoomLevel] - 1;
 }
 // 46B0F0: using guessed type int gCursorPixelSize[];
 // 46B100: using guessed type int tileSizes[];
@@ -27254,10 +27254,10 @@ void __thiscall editManager::UpdateCursorTo(editManager *this, int left, int top
   int jc; // [sp+20h] [bp-8h]@19
   signed int v13; // [sp+24h] [bp-4h]@25
 
-  cursorSize = this->cursorType;
+  cursorSize = this->zoomLevel;
   if ( dword_46B0C0 )
-    this->cursorType = 0;
-  pixelSize = gCursorPixelSize[this->cursorType];
+    this->zoomLevel = 0;
+  pixelSize = gCursorPixelSize[this->zoomLevel];
   for ( i = 0; pixelSize > i; ++i )
   {
     for ( j = 0; pixelSize > j; ++j )
@@ -27282,8 +27282,8 @@ void __thiscall editManager::UpdateCursorTo(editManager *this, int left, int top
     ++this->field_27E;
     this->field_27E %= 6;
   }
-  tileSize = tileSizes[this->cursorType];
-  if ( this->cursorType )
+  tileSize = tileSizes[this->zoomLevel];
+  if ( this->zoomLevel )
     v13 = 1;
   else
     v13 = 2;
@@ -27335,7 +27335,7 @@ void __thiscall editManager::UpdateCursorTo(editManager *this, int left, int top
       448,
       448);
   }
-  this->cursorType = cursorSize;
+  this->zoomLevel = cursorSize;
 }
 // 46B0C0: using guessed type int dword_46B0C0;
 // 46B0F0: using guessed type int gCursorPixelSize[];
@@ -27503,7 +27503,7 @@ void __thiscall sub_40365F(editManager *this, int a2)
   switch ( MAP_HEIGHT )
   {
     case 36:
-      v5 = this->cursorType;
+      v5 = this->zoomLevel;
       if ( v5 )
       {
         if ( v5 == 1 )
@@ -27517,7 +27517,7 @@ void __thiscall sub_40365F(editManager *this, int a2)
       v13 = 4 * this->cellTop;
       break;
     case 72:
-      v4 = this->cursorType;
+      v4 = this->zoomLevel;
       if ( v4 )
       {
         if ( v4 == 1 )
@@ -27537,7 +27537,7 @@ void __thiscall sub_40365F(editManager *this, int a2)
       v13 = 2 * this->cellTop;
       break;
     case 108:
-      v3 = this->cursorType;
+      v3 = this->zoomLevel;
       if ( v3 )
       {
         if ( v3 == 1 )
@@ -27557,7 +27557,7 @@ void __thiscall sub_40365F(editManager *this, int a2)
       v13 = (signed __int64)((double)this->cellTop * 1.3333);
       break;
     default:
-      v2 = this->cursorType;
+      v2 = this->zoomLevel;
       if ( v2 )
       {
         if ( v2 == 1 )
@@ -27587,8 +27587,8 @@ void __thiscall sub_40365F(editManager *this, int a2)
 void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, int editWindowX, int editWindowY, char renderPass)
 {
   gpCurrentlyDrawingMapCell = &gpMap.tiles[mapY * gpMap.width] + mapX;
-  screenX = editWindowX * tileSizes[this->cursorType] + 16;
-  screenY = editWindowY * tileSizes[this->cursorType] + 16;
+  screenX = editWindowX * tileSizes[this->zoomLevel] + 16;
+  screenY = editWindowY * tileSizes[this->zoomLevel] + 16;
   if ( dword_46B0C0 )
   {
     if ( renderPass & 4 )
@@ -27598,7 +27598,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
         (int)gpWindowManager->screenBuffer,
         screenX,
         screenY,
-        dword_46B0D0[this->cursorType]);
+        dword_46B0D0[this->zoomLevel]);
   }
   else
   {
@@ -27613,7 +27613,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
         (int)gpWindowManager->screenBuffer,
         screenX,
         screenY,
-        dword_46B0D0[this->cursorType]);
+        dword_46B0D0[this->zoomLevel]);
     }
     if ( renderPass & 2 )
     {
@@ -27632,14 +27632,14 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
               this->overlayIcons[((unsigned __int8)gpCurrentlyDrawingMapCell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F][0],
               (int)gpWindowManager->screenBuffer,
               screenX,
-              screenY - 5 / dword_46B0D0[this->cursorType],
+              screenY - 5 / dword_46B0D0[this->zoomLevel],
               gpCurrentlyDrawingMapCell->objectIndex,
               1,
               0,
               0,
               480,
               480,
-              dword_46B0E0[this->cursorType]);
+              dword_46B0E0[this->zoomLevel]);
           }
           else if ( (((unsigned __int8)gpCurrentlyDrawingMapCell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == TILESET_HERO )
           {
@@ -27647,14 +27647,14 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
               this->overlayIcons[((unsigned __int8)gpCurrentlyDrawingMapCell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F][0],
               gpWindowManager->screenBuffer,
               screenX,
-              screenY - 14 / dword_46B0D0[this->cursorType],
+              screenY - 14 / dword_46B0D0[this->zoomLevel],
               gpCurrentlyDrawingMapCell->objectIndex,
               1,
               0,
               0,
               0x1E0u,
               480,
-              dword_46B0E0[this->cursorType]);
+              dword_46B0E0[this->zoomLevel]);
           }
           else
           {
@@ -27669,7 +27669,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
               0,
               640,
               480,
-              dword_46B0E0[this->cursorType]);
+              dword_46B0E0[this->zoomLevel]);
           }
           if ( gpCurrentlyDrawingMapCell->bitfield_1_hasObject_1_isRoad_6_objTileset & 1 )
           {
@@ -27689,7 +27689,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
               0,
               640,
               480,
-              dword_46B0E0[this->cursorType]);
+              dword_46B0E0[this->zoomLevel]);
           }
         }
         if ( gpCurrentlyDrawingMapCell->extraIdx
@@ -27711,14 +27711,14 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
                 this->overlayIcons[((unsigned __int8)gpCurrentlyDrawingMapCellExtra->_1_animatedObject_7_objTileset >> 1) & 0x7F][0],
                 (int)gpWindowManager->screenBuffer,
                 screenX,
-                screenY - 5 / dword_46B0D0[this->cursorType],
+                screenY - 5 / dword_46B0D0[this->zoomLevel],
                 gpCurrentlyDrawingMapCellExtra->objectIndex,
                 1,
                 0,
                 0,
                 480,
                 480,
-                dword_46B0E0[this->cursorType]);
+                dword_46B0E0[this->zoomLevel]);
             }
             else if ( (((unsigned __int8)gpCurrentlyDrawingMapCellExtra->_1_animatedObject_7_objTileset >> 1) & 0x7F) == TILESET_HERO )
             {
@@ -27726,14 +27726,14 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
                 this->overlayIcons[((unsigned __int8)gpCurrentlyDrawingMapCellExtra->_1_animatedObject_7_objTileset >> 1) & 0x7F][0],
                 gpWindowManager->screenBuffer,
                 screenX,
-                screenY - 14 / dword_46B0D0[this->cursorType],
+                screenY - 14 / dword_46B0D0[this->zoomLevel],
                 gpCurrentlyDrawingMapCellExtra->objectIndex,
                 1,
                 0,
                 0,
                 480u,
                 480,
-                dword_46B0E0[this->cursorType]);
+                dword_46B0E0[this->zoomLevel]);
             }
             else
             {
@@ -27748,7 +27748,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
                 0,
                 640,
                 480,
-                dword_46B0E0[this->cursorType]);
+                dword_46B0E0[this->zoomLevel]);
             }
             if ( gpCurrentlyDrawingMapCellExtra->_1_animatedObject_7_objTileset & 1 )
             {
@@ -27766,7 +27766,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
                 0,
                 640,
                 480,
-                dword_46B0E0[this->cursorType]);
+                dword_46B0E0[this->zoomLevel]);
             }
           }
           if ( gpCurrentlyDrawingMapCellExtra->nextIdx
@@ -27792,7 +27792,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
           0,
           640,
           480,
-          dword_46B0E0[this->cursorType]);
+          dword_46B0E0[this->zoomLevel]);
         if ( gpCurrentlyDrawingMapCell->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset & 1 )
         {
           dword_48A17C = GetIconEntry(
@@ -27809,7 +27809,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
             0,
             640,
             480,
-            dword_46B0E0[this->cursorType]);
+            dword_46B0E0[this->zoomLevel]);
         }
       }
       if ( gpCurrentlyDrawingMapCell->extraIdx
@@ -27830,7 +27830,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
           0,
           640,
           480,
-          dword_46B0E0[this->cursorType]);
+          dword_46B0E0[this->zoomLevel]);
         if ( gpCurrentlyDrawingMapCellExtra->_1_animatedLateOverlay_1_hasLateOverlay_6_lateOverlayTileset & 1 )
         {
           dword_48A17C = GetIconEntry(
@@ -27847,7 +27847,7 @@ void __thiscall editManager__RenderCell(editManager *this, int mapX, int mapY, i
             0,
             640,
             480,
-            dword_46B0E0[this->cursorType]);
+            dword_46B0E0[this->zoomLevel]);
         }
         if ( gpCurrentlyDrawingMapCellExtra->nextIdx
           && gpMap.cellExtras[gpCurrentlyDrawingMapCellExtra->nextIdx].overlayIndex != 255 )
@@ -27871,27 +27871,27 @@ void __thiscall sub_404A83(editManager *ecx0)
   editManager *this; // [sp+Ch] [bp-4h]@1
 
   this = ecx0;
-  if ( ecx0->cursorType )
+  if ( ecx0->zoomLevel )
   {
-    if ( ecx0->cursorType == 2 )
+    if ( ecx0->zoomLevel == 2 )
     {
-      ecx0->cursorType = 1;
+      ecx0->zoomLevel = 1;
       sub_404EC0((int)ecx0, 14, 14);
     }
     else
     {
-      ecx0->cursorType = 0;
+      ecx0->zoomLevel = 0;
       sub_404EC0((int)ecx0, 7, 7);
     }
   }
   else if ( MAP_HEIGHT == 36 )
   {
-    ecx0->cursorType = 1;
+    ecx0->zoomLevel = 1;
     sub_404EC0((int)ecx0, -7, -7);
   }
   else
   {
-    ecx0->cursorType = 2;
+    ecx0->zoomLevel = 2;
     sub_404EC0((int)ecx0, -21, -21);
   }
   editManager::UpdateCursorTo(this, this->cellLeft, this->cellTop);
@@ -28624,7 +28624,7 @@ int __thiscall editManager::PrepareSave6(editManager *ecx0)
       }
       else
       {
-        v12 = sub_401646((int)this, xa, ya);
+        v12 = editManager::GetOverlayID((int)this, xa, ya);
         if ( v12 == -1 )
         {
           tile->objType = 0;
@@ -28633,10 +28633,10 @@ int __thiscall editManager::PrepareSave6(editManager *ecx0)
         {
           tile->objType = gOverlayDatabase[v12].locationType;
           if ( (v12 == 462 || v12 == 662 && xa > 0 && MAP_WIDTH - 2 > xa && MAP_HEIGHT - 2 > ya && ya > 0)
-            && sub_401646((int)this, xa - 1, ya) == v12
-            && sub_401646((int)this, xa + 1, ya) == v12
-            && sub_401646((int)this, xa, ya - 1) == v12
-            && sub_401646((int)this, xa, ya + 1) != v12 )
+            && editManager::GetOverlayID((int)this, xa - 1, ya) == v12
+            && editManager::GetOverlayID((int)this, xa + 1, ya) == v12
+            && editManager::GetOverlayID((int)this, xa, ya - 1) == v12
+            && editManager::GetOverlayID((int)this, xa, ya + 1) != v12 )
             tile->objType = gOverlayDatabase[v12].locationType | TILE_HAS_EVENT;
           if ( v12 == 214 )
             tile->objType = gOverlayDatabase[214].locationType | TILE_HAS_EVENT;
@@ -30769,12 +30769,12 @@ void __thiscall editManager::ScreenScroll(editManager *this, int a2, int a3)
     mouseManager::SetPointer(a2 + 32);
   if ( v4 < 0 )
     v4 = 0;
-  if ( MAP_WIDTH - gCursorPixelSize[thisa->cursorType] < v4 )
-    v4 = MAP_WIDTH - gCursorPixelSize[thisa->cursorType];
+  if ( MAP_WIDTH - gCursorPixelSize[thisa->zoomLevel] < v4 )
+    v4 = MAP_WIDTH - gCursorPixelSize[thisa->zoomLevel];
   if ( v5 < 0 )
     v5 = 0;
-  if ( MAP_HEIGHT - gCursorPixelSize[thisa->cursorType] < v5 )
-    v5 = MAP_HEIGHT - gCursorPixelSize[thisa->cursorType];
+  if ( MAP_HEIGHT - gCursorPixelSize[thisa->zoomLevel] < v5 )
+    v5 = MAP_HEIGHT - gCursorPixelSize[thisa->zoomLevel];
   if ( thisa->cellLeft != v4 || thisa->cellTop != v5 )
   {
     thisa->cellLeft = v4;
@@ -32548,10 +32548,10 @@ signed int __thiscall lineManager::Main(lineManager *this, tag_message *a2)
         v7 = &gpMap.tiles[cellY * gpMap.width] + cellX;
         cellX -= gpEditManager->cellLeft;
         cellY -= gpEditManager->cellTop;
-        cellX = cellX * tileSizes[gpEditManager->cursorType] + 16;
-        cellY = cellY * tileSizes[gpEditManager->cursorType] + 16;
+        cellX = cellX * tileSizes[gpEditManager->zoomLevel] + 16;
+        cellY = cellY * tileSizes[gpEditManager->zoomLevel] + 16;
         editManager::UpdateCursor(gpEditManager);
-        icon::FillToBuffer(this->cursorOverlay, cellX, cellY, gpEditManager->cursorType, 181, 0, 0);
+        icon::FillToBuffer(this->cursorOverlay, cellX, cellY, gpEditManager->zoomLevel, 181, 0, 0);
         RedrawEditPane();
         editManager::HighlightCursorCoordinates(gpEditManager);
       }
@@ -34044,13 +34044,13 @@ signed int __thiscall eventsManager::Main(eventsManager *this, tag_message *msg)
         cell = &gpMap.tiles[y * gpMap.width] + x;
         x -= gpEditManager->cellLeft;
         y -= gpEditManager->cellTop;
-        x = x * tileSizes[gpEditManager->cursorType] + 16;
-        y = y * tileSizes[gpEditManager->cursorType] + 16;
+        x = x * tileSizes[gpEditManager->zoomLevel] + 16;
+        y = y * tileSizes[gpEditManager->zoomLevel] + 16;
         editManager::UpdateCursor(gpEditManager);
         if ( LocationHasSpecialDetails(cell->objType) )
-          icon::FillToBuffer(this->overlayIcn, x, y, gpEditManager->cursorType, 90, 0, 0);
+          icon::FillToBuffer(this->overlayIcn, x, y, gpEditManager->zoomLevel, 90, 0, 0);
         else
-          icon::FillToBuffer(this->overlayIcn, x, y, gpEditManager->cursorType, 10, 0, 0);
+          icon::FillToBuffer(this->overlayIcn, x, y, gpEditManager->zoomLevel, 10, 0, 0);
         RedrawEditPane();
         editManager::HighlightCursorCoordinates(gpEditManager);
       }
@@ -39150,8 +39150,8 @@ LABEL_42:
         editManager::UpdateCursor(gpEditManager);
         x -= 7;
         y -= 5;
-        x = x * tileSizes[gpEditManager->cursorType] + 16;
-        y = y * tileSizes[gpEditManager->cursorType] + 16;
+        x = x * tileSizes[gpEditManager->zoomLevel] + 16;
+        y = y * tileSizes[gpEditManager->zoomLevel] + 16;
         if ( giSelectedObj != -1 )
         {
           overlayManager::DrawAffectedTileGrid(this, x, y, 8, 6, &this->availOverlays[giSelectedObj], 1);
@@ -39207,7 +39207,7 @@ void __thiscall overlayManager::DrawAffectedTileGrid(overlayManager *this, int x
       v9 = ovr;
     v8 = 6 - height;
     v10 = 8 - width;
-    v14 = tileSizes[gpEditManager->cursorType];
+    v14 = tileSizes[gpEditManager->zoomLevel];
     for ( a3 = 6 - height; a3 < 6; ++a3 )
     {
       for ( a2 = 8 - width; a2 < 8; ++a2 )
@@ -39240,7 +39240,7 @@ void __thiscall overlayManager::DrawAffectedTileGrid(overlayManager *this, int x
               (int)gpWindowManager->screenBuffer,
               x + v14 * (a2 - v10),
               y + v14 * (a3 - v8),
-              gpEditManager->cursorType,
+              gpEditManager->zoomLevel,
               color,
               a7,
               16,
@@ -40025,7 +40025,7 @@ void __thiscall overlayManager::DrawOverlay(overlayManager *this, overlay *ovr, 
     overlayManager::DrawOverlay(this, &gOverlayDatabase[v13], xoff, yoff, a4, width, height, 0, -1, -1);
     overlayManager::DrawOverlay(this, &gOverlayDatabase[v14], xoff, yoff, a4, width, height, 0, -1, -1);
   }
-  sz = tileSizes[gpEditManager->cursorType];
+  sz = tileSizes[gpEditManager->zoomLevel];
   for ( y = 6 - height; y < 6; ++y )
   {
     for ( x = 8 - width; x < 8; ++x )
@@ -40042,14 +40042,14 @@ void __thiscall overlayManager::DrawOverlay(overlayManager *this, overlay *ovr, 
             gpEditManager->overlayIcons[ovr->tileset][0],
             gpWindowManager->screenBuffer,
             xoff + sz * (x - left),
-            yoff + sz * (y - top) - 14 / dword_46B0D0[gpEditManager->cursorType],
+            yoff + sz * (y - top) - 14 / dword_46B0D0[gpEditManager->zoomLevel],
             *(&ovr->fullGridIconIndices[8 * y] + x),
             a4,
             16,
             16,
             0x1C0u,
             448,
-            dword_46B0E0[gpEditManager->cursorType]);
+            dword_46B0E0[gpEditManager->zoomLevel]);
         else
           IconToBitmapScale(
             gpEditManager->overlayIcons[ovr->tileset][0],
@@ -40062,7 +40062,7 @@ void __thiscall overlayManager::DrawOverlay(overlayManager *this, overlay *ovr, 
             16,
             448,
             448,
-            dword_46B0E0[gpEditManager->cursorType]);
+            dword_46B0E0[gpEditManager->zoomLevel]);
         if ( OverlayMaskBitSet(&ovr->animatedLateOverlay, x, y) )
         {
           icnEntry = GetIconEntry(gpEditManager->overlayIcons[ovr->tileset][0], *(&ovr->fullGridIconIndices[8 * y] + x));
@@ -40079,7 +40079,7 @@ void __thiscall overlayManager::DrawOverlay(overlayManager *this, overlay *ovr, 
             16,
             448,
             448,
-            dword_46B0E0[gpEditManager->cursorType]);
+            dword_46B0E0[gpEditManager->zoomLevel]);
         }
         if ( ovr->field_42 & 2 && OverlayMaskBitSet(&ovr->resourceField, x, y) )
           IconToBitmapScale(
@@ -40093,7 +40093,7 @@ void __thiscall overlayManager::DrawOverlay(overlayManager *this, overlay *ovr, 
             16,
             448,
             448,
-            dword_46B0E0[gpEditManager->cursorType]);
+            dword_46B0E0[gpEditManager->zoomLevel]);
         if ( ovr->category == 5 && x == 4 && y == 4 )
           IconToBitmapScale(
             gpEditManager->overlayIcons[14][0],
@@ -40106,7 +40106,7 @@ void __thiscall overlayManager::DrawOverlay(overlayManager *this, overlay *ovr, 
             16,
             448,
             448,
-            dword_46B0E0[gpEditManager->cursorType]);
+            dword_46B0E0[gpEditManager->zoomLevel]);
         if ( ovr->category == OVERLAY_CATEGORY_TOWN && x == 6 && y == 4 )
           IconToBitmapScale(
             gpEditManager->overlayIcons[14][0],
@@ -40119,7 +40119,7 @@ void __thiscall overlayManager::DrawOverlay(overlayManager *this, overlay *ovr, 
             16,
             448,
             448,
-            dword_46B0E0[gpEditManager->cursorType]);
+            dword_46B0E0[gpEditManager->zoomLevel]);
         if ( draw )
           heroWindowManager::UpdateScreenRegion(509, 194, 86, 70);
       }
@@ -40328,7 +40328,7 @@ int __thiscall overlayManager::SelectObject(overlayManager *ecx0, int objType)
   void *buf; // [sp+20h] [bp-30h]@4
   int oldCursorType; // [sp+28h] [bp-28h]@1
 
-  oldCursorType = gpEditManager->cursorType;
+  oldCursorType = gpEditManager->zoomLevel;
   if ( operator new(0x44u) )
     ecx0->selectionWindow = heroWindow::heroWindow(0, 0, "editpalt.bin");
   else
@@ -40345,7 +40345,7 @@ int __thiscall overlayManager::SelectObject(overlayManager *ecx0, int objType)
     ecx0->slider = 0;
   heroWindow::AddWidget(ecx0->selectionWindow, ecx0->scrollBar, -1);
   heroWindow::AddWidget(ecx0->selectionWindow, ecx0->slider, -1);
-  gpEditManager->cursorType = 1;
+  gpEditManager->zoomLevel = 1;
   overlayManager::PopulateAvailOverlays(ecx0, objType);
   if ( giOverlaySelectMaybeNumUnseen + 81 >= ecx0->nAvailOverlays )
   {
@@ -40365,7 +40365,7 @@ int __thiscall overlayManager::SelectObject(overlayManager *ecx0, int objType)
   heroWindowManager::RemoveWindow(ecx0->selectionWindow);
   operator delete(ecx0->selectionWindow);
   inputManager::Flush(gpInputManager);
-  gpEditManager->cursorType = oldCursorType;
+  gpEditManager->zoomLevel = oldCursorType;
   return dword_485570;
 }
 // 432040: using guessed type _DWORD __stdcall heroWindowManager__AddWindow(_DWORD, _DWORD, _DWORD);

@@ -6,6 +6,7 @@
 #pragma pack(push,1)
 
 #define MAX_FILENAME_LENGTH 13
+#define PALETTE_SIZE 768
 
 enum RESOURCE_TYPE : short
 {
@@ -153,6 +154,10 @@ public:
 };
 
 extern font* smallFont;
+IconEntry *__fastcall GetIconEntry(icon *a1, int idx);
+void __fastcall IconToBitmapColorTable(icon *a1, bitmap *buf, int a3, int a4, int a5, signed int a6, int a7, int a8, int a9, int a10, int a11, unsigned char *paletteSubstitution, int a13);
+void __fastcall FlipIconToBitmap(icon *icn, bitmap *buf, int x, int y, int spriteIdx, signed int flag, int a7, int a8, int width, int height, int a11);
+extern "C" char TileToBitmap(tileset *tiles, int idx, bitmap *targ, int x, int y);
 
 #define NUM_GOOD_EVIL_ICONS 37
 
