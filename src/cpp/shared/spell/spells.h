@@ -133,8 +133,9 @@ enum STACK_MODIFYING_EFFECT {
   EFFECT_DAZE = 17
 };
 
-extern int __fastcall GetManaCost(int, class hero*);
-int GetManaCost(int);
+int __fastcall GetManaCost(int spell, hero* hro);
+int __fastcall GetManaCost_orig(int spell, hero* hro);
+int GetManaCost(int spell);
 
 #pragma pack(pop)
 

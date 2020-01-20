@@ -383,9 +383,8 @@
         <creature-attribute name="two-hex"/>
         <random-spawn minimum="3" maximum="11"/>
     </creature>
-    <creature id="77" name-singular="treant" name-plural="treants" icn="treant.icn" frm="dend_frm.bin" projectile="elf__msl.icn" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="120" faction="6" speed="2" attack="6" defense="18" shots="0" short-name="dend">
+    <creature id="77" name-singular="treant" name-plural="treants" icn="treant.icn" frm="dend_frm.bin" projectile="" cost="500" fight-value="1690" fight-value-aux="34" growth="3" hp="120" faction="6" speed="2" attack="6" defense="18" shots="0" short-name="dend">
         <damage minimum="3" maximum="7"/>
-        <creature-attribute name="shoots"/>
         <random-spawn minimum="10" maximum="20"/>
     </creature>
     <creature id="78" name-singular="cyber kobold spearman" name-plural="cyber kobold spearmen" icn="koboldsp.icn" frm="koboldsp.bin" projectile="" cost="100" fight-value="1690" fight-value-aux="34" growth="8" hp="5" faction="6" speed="4" attack="5" defense="3" shots="0" short-name="lich">

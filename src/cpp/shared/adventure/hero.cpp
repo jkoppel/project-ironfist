@@ -1,7 +1,11 @@
+#include <map>
 #include<stdlib.h>
 
 #include "artifacts.h"
 #include "base.h"
+#include "scripting/callback.h"
+#include "scripting/deepbinding.h"
+#include "skills.h"
 #include "spell/spells.h"
 
 #include "adventure/adv.h"
@@ -10,17 +14,84 @@
 #include<io.h>
 #include<stddef.h>
 
-char cHeroTypeInitial[13] ={'k', 'b', 's', 'w', 'z', 'n',
-	                        '\0','\0','\0','\0','\0','\0',
-                            'c'};
+char cHeroTypeInitial[MAX_FACTIONS] = {'k', 'b', 's', 'w', 'z', 'n',
+                                       '\0','\0','\0','\0','\0','\0',
+                                       'c'};
 
-signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4] = {
+extern char* cHeroTypeShortName[MAX_FACTIONS] = {
+  "kngt", "barb", "sorc", "wrlk", "wzrd", "necr",
+  "", "", "", "", "", "",
+  "cbrg"
+};
+
+signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
   {{35, 45, 10, 10}, {25, 25, 25, 25}},
   {{55, 35,  5,  5}, {25, 25, 25, 25}},
   {{10, 10, 30, 50}, {20, 20, 30, 30}},
   {{10, 10, 50, 30}, {20, 20, 30, 30}},
   {{10, 10, 40, 40}, {20, 20, 30, 30}},
-  {{15, 15, 35, 35}, {25, 25, 25, 25}}
+  {{15, 15, 35, 35}, {25, 25, 25, 25}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{ 0,  0,  0,  0}, { 0,  0,  0,  0}},
+  {{15, 15, 35, 35}, {25, 25, 25, 25}},  // TODO: decide on Cyborg skill chances, copied Necromancer for now
+};
+
+signed __int8 captainStats[MAX_FACTIONS][4] = {
+  {1, 1, 1, 1},
+  {1, 1, 1, 1},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 2, 2},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 0, 0},
+  {0, 0, 2, 2}
+};
+
+extern startingPrimarySkills gStartingHeroStats[MAX_FACTIONS] = {
+  {2, 2, 1, 1, 0},
+  {3, 1, 1, 1, 0},
+  {0, 0, 2, 3, 0},
+  {0, 0, 3, 2, 0},
+  {0, 1, 2, 2, 0},
+  {1, 0, 2, 2, 0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {0},
+  {1, 0, 2, 2, 0}  // TODO: Cyborg hero starting stats, copied Necromancer for now
+};
+
+unsigned char iGetSSByAlignment[NUM_SECONDARY_SKILLS][MAX_FACTIONS] = {
+  {3,4,2,2,2,3,0,0,0,0,0,0,3},
+  {2,3,3,1,1,1,0,0,0,0,0,0,2},
+  {3,3,2,2,2,2,0,0,0,0,0,0,3},
+  {2,4,1,4,2,1,0,0,0,0,0,0,2},
+  {3,2,2,2,2,2,0,0,0,0,0,0,3},
+  {2,3,4,2,2,2,0,0,0,0,0,0,2},
+  {5,3,1,1,2,0,0,0,0,0,0,0,5},
+  {2,1,4,5,5,4,0,0,0,0,0,0,2},
+  {1,1,3,3,4,3,0,0,0,0,0,0,1},
+  {1,2,3,1,2,1,0,0,0,0,0,0,1},
+  {4,3,3,3,3,3,0,0,0,0,0,0,4},
+  {1,1,2,3,3,3,0,0,0,0,0,0,1},
+  {0,0,0,1,0,10,0,0,0,0,0,0,0},
+  {3,2,2,2,2,2,0,0,0,0,0,0,3}
+};
+
+std::map<int, Spell> cyborgLvlUpSpells = {
+  {3, SPELL_ARMAGEDDON},
+  {5, SPELL_BERZERKER}
 };
 
 hero::hero() {
@@ -60,6 +131,17 @@ void hero::Read(int fd, signed char expansion) {
 		_read(fd, &this->FIELD_AFTER_SPELLS_LEARNED, sizeof(hero)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
 	} else {
 		_read(fd, &this->FIELD_AFTER_SPELLS_LEARNED,
+			offsetof(hero, LAST_SW_HERO_FIELD)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
+	}
+}
+
+void hero::Write(int fd, signed char expansion) {
+	_write(fd, this, offsetof(hero, spellsLearned));
+	_write(fd, this->spellsLearned, ORIG_SPELLS);
+	if(expansion) {
+		_write(fd, &this->FIELD_AFTER_SPELLS_LEARNED, sizeof(hero)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
+	} else {
+		_write(fd, &this->FIELD_AFTER_SPELLS_LEARNED,
 			offsetof(hero, LAST_SW_HERO_FIELD)-offsetof(hero, FIELD_AFTER_SPELLS_LEARNED));
 	}
 }
@@ -198,7 +280,7 @@ int hero::CalcMobility() {
   int MOVEMENT_POINTS_TERM_CREATURE_MAX = 1500;
   int PLAYER_FIRST = 0;
   int PLAYER_LAST = 5;
-  float gfSSLogisticsMod[] = { 1.0,  1.1,  1.2,  1.3 };
+  float gfSSLogisticsMod[] = { 1.0f,  1.1f,  1.2f,  1.3f };
   
   mapCell* cell = gpAdvManager->GetCell(this->x, this->y);
   if (cell != nullptr) {  //This is here because CalcMobility() is called on the first successive start of a New Game in the current running instance of the program
@@ -228,13 +310,40 @@ int hero::CalcMobility() {
           }
         }
       }
+      auto res = ScriptCallbackResult<int>("OnCalcMobility", deepbind<hero*>(this), points);
+      if(res.has_value())
+        points = max(1, res.value());
       return points;
     }
   }
 
-  return this->CalcMobility_orig(); //Default CalcMobility output
+  points = this->CalcMobility_orig(); //Default CalcMobility output
+  auto res = ScriptCallbackResult<int>("OnCalcMobility", deepbind<hero*>(this), points);
+  if(res.has_value())
+    points = max(1, res.value());
+  return points;
 }
 
 hero* GetCurrentHero() {
   return &gpGame->heroes[gpCurPlayer->curHeroIdx];
+}
+
+void hero::CheckLevel() {
+  if(this->ownerIdx == -1 || !gbHumanPlayer[this->ownerIdx] || this->factionID != FACTION_CYBORG) {
+    CheckLevel_orig();
+    return;
+  }
+  int oldLevel = this->GetLevel();
+  CheckLevel_orig();
+  int levelsGained = this->GetLevel() - oldLevel;
+  if(levelsGained > 0) {
+    for(int i = 0; i < levelsGained; i++) {
+      int lvlToCheck = oldLevel + i + 1;
+      if(cyborgLvlUpSpells.find(lvlToCheck) != cyborgLvlUpSpells.end()) {
+        int spell = cyborgLvlUpSpells[lvlToCheck];
+        this->AddSpell(spell);
+        gpAdvManager->EventWindow(-1, 1, "You've learned a new spell!", 8, spell, -1, 0, -1);
+      }
+    }
+  }
 }

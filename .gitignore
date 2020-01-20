@@ -19,6 +19,7 @@ bld/
 [Ll]og/
 [Bb]in/
 *.obj
+installer/ironfist-install.exe
 
 # Visual C++ cache files
 ipch/
@@ -41,3 +42,4 @@ ipch/
 [Bb]uild/
 
 *.DS_STORE
+*~

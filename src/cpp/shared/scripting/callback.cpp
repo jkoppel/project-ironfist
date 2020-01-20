@@ -5,23 +5,31 @@
 
 #include "optional.hpp"
 
-void ironfist_lua_push(int arg) {
-  lua_pushinteger(map_lua, arg);
+void ironfist_lua_push(lua_State* ls, int arg) {
+  lua_pushinteger(ls, arg);
 }
 
-void ironfist_lua_push(void *arg) {
-  lua_pushlightuserdata(map_lua, arg);
+void ironfist_lua_push(lua_State* ls, void *arg) {
+  lua_pushlightuserdata(ls, arg);
 }
 
-void ironfist_lua_push(bool arg) {
-  lua_pushboolean(map_lua, arg);
+void ironfist_lua_push(lua_State* ls, bool arg) {
+  lua_pushboolean(ls, arg);
 }
 
-void ironfist_lua_push(std::string arg) {
-  lua_pushstring(map_lua, arg.c_str());
+void ironfist_lua_push(lua_State* ls, std::string arg) {
+  lua_pushstring(ls, arg.c_str());
 }
 
-void ironfist_lua_pushmulti() {
+void ironfist_lua_push(lua_State* ls, char *arg) {
+  lua_pushstring(ls, arg);
+}
+
+void ironfist_lua_push(lua_State* ls, double arg) {
+  lua_pushnumber(ls, arg);
+}
+
+void ironfist_lua_pushmulti(lua_State* ls) {
 }
 
 template <>
@@ -50,4 +58,28 @@ nonstd::optional<std::string> PopLuaResult(lua_State *L, int arg) {
     DisplayError("Incorrect return value: expected string; got something else", "Script error");
   }
   return {};
+}
+
+template <>
+nonstd::optional<int> PopLuaResult(lua_State *L, int arg) {
+  if (lua_isinteger(L, arg)) {
+    const int retVal = lua_tointeger(L, arg);
+    lua_remove(L, arg);
+    return retVal;
+  } else {
+    DisplayError("Incorrect return value: expected int; got something else", "Script error");
+    return {};
+  }
+}
+
+template <>
+nonstd::optional<double> PopLuaResult(lua_State *L, int arg) {
+  if (lua_isnumber(L, arg)) {
+    const double retVal = lua_tonumber(L, arg);
+    lua_remove(L, arg);
+    return retVal;
+  } else {
+    DisplayError("Incorrect return value: expected double; got something else", "Script error");
+    return {};
+  }
 }
