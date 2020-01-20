@@ -4,6 +4,7 @@
 #include<string.h>
 #include<stdio.h>
 #include <string>
+#include <vector>
 
 #pragma pack(push, 1)
 
@@ -93,8 +94,16 @@ enum CREATURES
   CREATURE_CYBER_INDIGO_PANTHER = 81,
   CREATURE_CYBER_SHADOW_ASSASSIN = 82,
   CREATURE_CYBER_BEHEMOTH = 83,
+
+  CREATURE_INVALID = 255,
+  MAX_CREATURES
 };
+
+extern std::vector<CREATURES> CREATURES_RANDOMIZABLE;
+
 #define MAX_BASE_CREATURE 65
+#define MIN_IRONFIST_CREATURE 72
+#define MAX_IRONFIST_CREATURE 83
 
 enum CREATURE_FLAGS : __int16 {
   TWO_HEXER = 0x1,
@@ -182,6 +191,7 @@ void UnloadCreatures();
 
 
 void __fastcall GetMonsterCost(int, int *const);
+char *__fastcall GetMonsterName(int id);
 
 #pragma pack(pop)
 

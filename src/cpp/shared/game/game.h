@@ -4,12 +4,20 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
 #include "artifacts.h"
+#include "combat/army.h"
 #include "town/town.h"
 
+#define AI_VALUE_CAP 32000
 #define NUM_PLAYERS 6
 #define MAX_HEROES 54
 #define MAX_TOWNS 72
+#define MAX_BOATS 48
 #define NUM_DIFFICULTIES 5
+#define MAX_ORIG_CAMPAIGNS 2
+#define MAX_MAPS_IN_ORIG_CAMPAIGN 12
+
+// those that have portraits and names (?) not including captains
+#define TOTAL_AVAILABLE_HEROES 73 
 
 extern signed char gcColorToPlayerPos[];
 
@@ -18,6 +26,9 @@ extern int gbHumanPlayer[];
 #pragma pack(push,1)
 
 extern char* gAlignmentNames[];
+extern char* gResourceNames[];
+
+extern H2RECT gMapViewportRegion;
 
 #define BUILDING_RIGHT_TURRET_BUILT     0x1
 #define BUILDING_LEFT_TURRET_BUILT      0x2
@@ -31,6 +42,52 @@ enum WIN_CONDITION_TYPES {
   WIN_CONDITION_ACCUMULATE_GOLD = 0x5,
 };
 
+extern void __fastcall KBChangeMenu(void*);
+extern void *hmnuRecruitSave;
+extern void *hmnuCurrent;
+extern void *hmnuDflt;
+
+enum MOUSE_CURSOR_CATEGORY {
+  MOUSE_CURSOR_CATEGORY_ADVENTURE = 0x0,
+  MOUSE_CURSOR_CATEGORY_COMBAT = 0x1,
+  MOUSE_CURSOR_CATEGORY_SPELL = 0x2,
+};
+
+class mouseManager : public baseManager {
+public:
+	bitmap *bitmap;
+  int spriteIdx;
+  icon *cursorIcon;
+  MOUSE_CURSOR_CATEGORY cursorCategory;
+  int cursorIdx;
+  int field_4A;
+  int field_4E;
+  int field_52;
+  int field_56;
+  int field_5A;
+  int cursorTopLeftX;
+  int cursorTopLeftY;
+  int field_66;
+  int field_6A;
+  int field_6E;
+  int field_72;
+  int cursorWidth;
+  int cursorHeight;
+  int field_7E;
+  int couldBeShowMouse;
+  int cursorDisabled;
+
+	mouseManager();
+	void ShowColorPointer();
+  void SetPointer(char *mse, int spriteIdx, int protoCategory);
+  void SetPointer(int spriteIdxArg);
+  void MouseCoords(int &x, int &y);
+  void HideColorPointer();
+  void ReallyShowPointer();
+};
+
+extern mouseManager* gpMouseManager;
+
 class playerData {
 public:
 	char color;
@@ -41,7 +98,8 @@ public:
 	char heroesForPurchase[2];
 	char relatedToMaxOrNumHeroes;
 	int personality;
-	char _3[45];
+	char puzzlePieces;
+  char _3[44];
 	char field_40;
 	__int16 field_41;
 	char daysLeftWithoutCastle;
@@ -50,9 +108,9 @@ public:
   __int8 relatedToUnknown;
 	char castlesOwned[MAX_TOWNS];
 	int resources[7];
-  char hasEvilFaction;
-  char barrierTentsVisited;
-  char _4_2[58];
+	char hasEvilFaction;
+	char barrierTentsVisited;
+	char _4_2[58];
 	int field_E7[7];
 	char _5[23];
 	char field_11A;
@@ -61,6 +119,7 @@ public:
 
 	void Read(int);
 	void Write(int);
+	void SetBarrierTentVisited(int);
 };
 
 extern int giCurPlayer;
@@ -98,32 +157,38 @@ struct randomHeroCreatureInfo {
 class game {
 public:
 	__int16 gameDifficulty;
-	char relatedToCurViewSideOrCampaign;
-	char field_3;
-	char relatedToCampaignMap;
-	char _1[120];
-	char field_7D;
-	char hasDwarfAlliance;
-	char maybeIsGoodCampaign;
-	char field_80;
-	char field_81;
-	char field_82;
-	char field_83;
-	char field_84;
-	char field_85;
-	char isDwarfbane;
-	char hasDragonAlliance;
-	char field_88;
-	char _11[193];
-	char lastSaveFile[251];
+	char campID;
+	char campIDanother;
+	char campMapID;
+  char campMapsWon[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  short campDaysPlayed[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  short campDaysPlayed2[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  char campUnknown;
+  char campBonuses[MAX_MAPS_IN_ORIG_CAMPAIGN];
+  char campChoices[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  char campMapsPlayed[MAX_ORIG_CAMPAIGNS][MAX_MAPS_IN_ORIG_CAMPAIGN];
+  short campDaysPlayedCurrent;
+  short campPlayerCreatures[CREATURES_IN_ARMY];
+  short campPlayerCreatureQuantities[CREATURES_IN_ARMY];
+  char campMaybeWon;
+  char campHasCheated;
+  char relatedToCampaign[119];
+  char unknown;
+  char lastSaveFile[14];
+  char _11[237];
 	char _12[100];
 	SMapHeader mapHeader;
 	char relatedToPlayerPosAndColor[NUM_PLAYERS];
 	char playerHandicap[NUM_PLAYERS];
-	char relatedToColorOfPlayerOrFaction[NUM_PLAYERS];
+	char newGameSelectedFaction[NUM_PLAYERS];
 	char somePlayerCodeOr10IfMayBeHuman[NUM_PLAYERS];
 	char difficulty;
-	char mapFilename[40];
+	char mapFilename[13];
+  char somePlayerNumData[NUM_PLAYERS];
+  char relatedToNewGameSelection;
+  char relatedToNewGameInit;
+  char numHumanPlayers;
+  char field_47C[18];
 	char numPlayers;
 	char couldBeNumDefeatedPlayers;
 	char playerDead[NUM_PLAYERS];
@@ -135,9 +200,9 @@ public:
 	char numObelisks;
 	town castles[MAX_TOWNS];
 	char field_2773[72];
-	char field_27BB[9];
+	char builtToday[9];
 	hero heroes[MAX_HEROES];
-	char relatedToHeroForHireStatus[54];
+	char heroHireStatus[MAX_HEROES];
 	mine mines[144];
 	char field_60A6[144];
 	char artifactGeneratedRandomly[103];
@@ -148,26 +213,31 @@ public:
 	char ultimateArtifactLocX;
 	char ultimateArtifactLocY;
 	char ultimateArtifactIdx;
-	int field_6398;
-	char _B[14];
+	heroWindow* newGameWindow;
+  char field_639C;
+	char hasCheated;
+  char _B[12];
 	char currentRumor[301];
 	__int16 numRumors;
 	__int16 rumorIndices[30];
 	__int16 numEvents;
 	char eventIndices[60];
 	char _C[40];
-	__int16 field_657B;
-	char _D[140];
+	short numMapEvents;
+	short mapEventIndices[70];
 	int (__thiscall *callback)(tag_message *);
 	char field_660D;
 	char field_660E;
 
   // New state
+  bool onMapEndCallbackStatus = false;
+  bool forcedComputerPlayerChases[MAX_HEROES][MAX_HEROES];
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
+  
 	// AI redistribute troops toggle
 	bool allowAIArmySharing = true;
-  // Used for OnMapStart
-  bool firstDayEventDone = false;
+	// Used for OnMapStart
+	bool firstDayEventDone = false;
 
 	int SetupGame();
 	int SetupGame_orig();
@@ -187,22 +257,26 @@ public:
 	void SetMapSize(int, int);
 	void SetupAdjacentMons();
 	void SetVisibility(int,int,int,int);
-  void SetVisibility_orig(int, int, int, int);
+	void SetVisibility_orig(int, int, int, int);
 
 	void ClaimTown(int,int,int);
-  int GetTownId(int,int);
-  
+	void ClaimTown_orig(int, int, int);
+	int GetTownId(int,int);
+
+
 	void NextPlayer();
 	void NextPlayer_orig();
 
 	void PerDay();
 	void PerDay_orig();
+  
   void PerWeek();
   void PerWeek_orig();
   void PerMonth();
   void PerMonth_orig();
 
   void ResetIronfistGameState();
+  void ForceComputerPlayerChase(hero *source, hero *dest, bool force);
   void ShareVision(int sourcePlayer, int destPlayer);
   void CancelShareVision(int sourcePlayer, int destPlayer);
 	
@@ -212,7 +286,7 @@ public:
   void InitRandomArtifacts();
   int GetRandomArtifactId(int allowedLevels, int allowNegatives);
   int LoadMap(char *nam);
-  int ProcessRandomObjects();
+  void ProcessRandomObjects();
   int ProcessMapExtra();
   void __cdecl InitializePasswords();
   int RandomizeEvents();
@@ -225,6 +299,31 @@ public:
   void GiveTroopsToNeutralTown(int castleIdx);
   int RandomScan(signed char*, int, int, int, signed char);
   int ViewSpells(hero *hris, int a3, int(__fastcall *callback)(struct tag_message &), int a5);
+  int GetBoatsBuilt();
+  int CreateBoat(int x, int y, int doSend);
+  void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
+  int getNumberOfThievesGuilds(int playerIdx);
+  void UpdateNewGameWindow();
+  void RandomizeTown(int argX, int argY, int mightBeUseless);
+  void ConvertObject(int x1, int y1, int x2, int y2, int fromObjTileset, signed int fromObjIndexLow, signed int fromObjIndexHigh, int toObjTileset, int toObjectIndexLow, int fromObjType, int toObjType);
+  void ShowScenInfo();
+  int CalcDifficultyRating();
+  void DrawNGKPDisplayString(int updateScreen);
+  void GetLossConditionText(char *text);
+  void GetVictoryConditionText(char *text);
+  void RandomizeMine(int x, int y);
+  void WeeklyGenericSite(mapCell *a1);
+  void WeeklyRecruitSite(mapCell *a1);
+  void GiveTroopsToNeutralTowns();
+  void ShowComputerScreen();
+  void TurnOnAIMusic();
+  int SetupCampaignGame();
+  int SetupMultiPlayerGame();
+  int PickLoadGame();
+  int GetLuck(hero* hro, army *stack, town *castle);
+  int GetLuck_orig(hero* hro, army *stack, town *castle);
+  void ShowLuckInfo(hero *hro, int dialogType);
+  void ShowMoraleInfo(hero *hro, int dialogType);
 
 private:
   void PropagateVision();
@@ -239,10 +338,10 @@ enum GAME_DIFFICULTY {
 };
 
 enum PERSONALITY_TYPE {
-  PERSONALITY_WARRIOR = 0,
-  PERSONALITY_BUILDER = 1,
-  PERSONALITY_EXPLORER = 2,
-  PERSONALITY_HUMAN = 3,
+	PERSONALITY_WARRIOR = 0,
+	PERSONALITY_BUILDER = 1,
+	PERSONALITY_EXPLORER = 2,
+	PERSONALITY_HUMAN = 3,
 };
 
 extern void __fastcall CheckEndGame_orig(int a, int b);
@@ -255,9 +354,16 @@ bool IsWellDisabled();
 
 extern game* gpGame;
 extern int gbInCampaign;
-
+extern unsigned char giSetupGameType; // 0 - New Game, 1 - Load Game
 extern int gbGameOver;
-
+extern int iMPExtendedType;
+extern int iMPBaseType;
+extern int gbWaitForRemoteReceive;
+extern int gbDirectConnect;
+extern int gbInSetupDialog;
+extern int giMenuCommand;
+extern int gbCampaignSideChoice;
+extern char gLastFilename[];
 extern __int16 giUltimateArtifactBaseX;
 extern __int16 giUltimateArtifactBaseY;
 extern __int16 giUltimateArtifactRadius;
@@ -269,6 +375,7 @@ extern int giPlayerInitialResourcesAI[NUM_DIFFICULTIES][NUM_RESOURCES];
 extern int __fastcall FindLastToken(const char *a1, char a2);
 extern char __fastcall StrEqNoCase(int *a1, int *a2);
 
+extern char gMapName[];
 extern int gbInNewGameSetup;
 extern int iLastMsgNumHumanPlayers;
 extern bool gbSetupGamePosToRealGamePos[];
@@ -279,13 +386,25 @@ extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
 extern int giCurGeneral;
+extern signed char gbRetreatWin;
+extern unsigned char randomMineResources[NUM_RESOURCES];
 
-extern randomHeroCreatureInfo randomHeroArmyBounds[NUM_FACTIONS][2];
-extern int neutralTownCreatureTypes[NUM_FACTIONS][5];
+extern randomHeroCreatureInfo randomHeroArmyBounds[MAX_FACTIONS][2];
+extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
-extern signed __int8 gHeroSkillBonus[NUM_FACTIONS][2][4];
+extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
 extern int __fastcall CombatSpecialHandler(struct tag_message &);
+extern int getCastleOwnedIdx(playerData *player, int castleIdx);
+extern void __fastcall Process1WindowsMessage();
+extern int __fastcall SetupGameHandler(struct tag_message &);
+int __fastcall NewGameHandler(tag_message &msg);
+extern int __fastcall NewGameHandler_orig(tag_message &msg);
+extern void __fastcall RemoteMain(int);
+int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a5, signed char a6, signed char a7);
+int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type, char *name);
+extern int __fastcall AddScoreToHighScore_orig(int score, int days, int difficulty, int type, char *name);
+extern int __fastcall ExpStdGameHandler(struct tag_message &);
 
 #pragma pack(pop)
 

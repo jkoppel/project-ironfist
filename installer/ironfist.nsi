@@ -37,6 +37,7 @@ Section
 	File MSS32.DLL
 	File SMACKW32.DLL
 	File xerces-c_3_1.dll
+	FILE bass.dll
 	File ..\build\bin\editor.exe
 
 	SetOutPath $INSTDIR\DATA
@@ -47,21 +48,27 @@ Section
 	File ..\src\xsd\artifacts_xml.xsd
 	File ..\data\artifacts.xml
 
-	SetOutPath $INSTDIR\GAMES
-
-	File ..\src\xsd\map_xml.xsd
-	
 	SetOutPath $INSTDIR\MAPS
 	
 	File ..\maps\SorrowEn.MX2
-	File ..\maps\LastStand.MX2
+	File ..\maps\LastStan.MX2
+	File ..\maps\Behemoth.MX2
+	File ..\maps\CAMP5_01.HXC
+	File ..\maps\CAMP5_02.HXC
+	File ..\maps\CAMP5_03.HXC
+	File ..\maps\CAMP5_04.HXC
+	File ..\maps\CAMP5_05.HXC
+	File ..\maps\CAMP5_06.HXC
 
 	CreateDirectory "$INSTDIR\SCRIPTS"
 	
 	SetOutPath $INSTDIR\SCRIPTS
 	
 	File ..\maps\SorrowEn.MX2.lua
-	File ..\maps\LastStand.MX2.lua
+	File ..\maps\LastStan.MX2.lua
+	File ..\maps\Behemoth.MX2.lua
+	File ..\maps\CAMP5_01.HXC.lua
+	File ..\maps\CAMP5_02.HXC.lua
 
 	CreateDirectory "$INSTDIR\SCRIPTS\MODULES"
 	
@@ -70,6 +77,16 @@ Section
 	File ..\maps\modules\niftysnippets_1.lua
 	File ..\maps\modules\AdvMessageBox.lua
 	File ..\maps\modules\binding.lua
+	
+	CreateDirectory "$INSTDIR\SCRIPTS\GENERIC"
+	
+	SetOutPath $INSTDIR\SCRIPTS\GENERIC
+	
+	File ..\maps\generic\artifacts.lua
+	
+	SetOutPath $INSTDIR\CAMPAIGNS
+	
+	File ..\cmp\cyborg.cmp
 	
 	SetOutPath $INSTDIR
 	WriteUninstaller "$INSTDIR\uninstall-ironfist.exe"
@@ -92,8 +109,23 @@ Section "uninstall"
 	Delete "$INSTDIR\DATA\artifacts_xml.xsd"
 	Delete "$INSTDIR\DATA\artifacts.xml"
 
-	Delete "$INSTDIR\GAMES\map_xml.xsd"
-
+	Delete "$INSTDIR\MAPS\SorrowEn.MX2"
+	Delete "$INSTDIR\MAPS\LastStan.MX2"
+	Delete "$INSTDIR\MAPS\Behemoth.MX2"
+	Delete "$INSTDIR\MAPS\CAMP5_01.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_02.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_03.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_04.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_05.HXC"
+	Delete "$INSTDIR\MAPS\CAMP5_06.HXC"
+	
+	Delete "$INSTDIR\SCRIPTS\GENERIC\artifacts.lua"
+	Delete "$INSTDIR\SCRIPTS\SorrowEn.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\LastStan.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
+	Delete "$INSTDIR\SCRIPTS\CAMP5_01.HXC.lua"
+	Delete "$INSTDIR\SCRIPTS\CAMP5_02.HXC.lua"
+	
 	RMDIR "$INSTDIR\SCRIPTS"
 
 	Delete "$SMPROGRAMS\Project Ironfist\Ironfist.lnk"
@@ -107,5 +139,7 @@ Section "uninstall"
 	Delete "$SMPROGRAMS\Project Ironfist\Map Editor.lnk"
 	Delete "$SMPROGRAMS\Project Ironfist\Uninstall.lnk"
 	RMDIR "$SMPROGRAMS\Project Ironfist"
+	
+	Delete "$INSTDIR\uninstall-ironfist.exe"
 
 SectionEnd

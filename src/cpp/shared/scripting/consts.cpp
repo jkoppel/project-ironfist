@@ -7,12 +7,14 @@ extern "C" {
 #include "artifacts.h"
 #include "adventure/adv.h"
 #include "adventure/map.h"
+#include "campaign/campaign.h"
 #include "combat/creatures.h"
 #include "spell/spells.h"
 #include "scripting/lua_utils.h"
 #include "scripting/register.h"
 #include "town/town.h"
 #include "gui/dialog.h"
+#include "skills.h"
 #include <algorithm>
 #include <cctype>
 #include <string>
@@ -36,14 +38,21 @@ namespace {
 
 /******************************* GUI *****************************************************/
 
-
 void set_dialog_consts(lua_State *L) {
-	lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
-	lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
-	lua_setconst(L, "DIALOG_OR", DIALOG_OR);
-	lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
+  lua_setconst(L, "DIALOG_OKAY", DIALOG_OKAY);
+  lua_setconst(L, "DIALOG_YES_NO", DIALOG_YES_NO);
+  lua_setconst(L, "DIALOG_CANCEL", DIALOG_CANCEL);
+  lua_setconst(L, "DIALOG_RIGHT_CLICK", DIALOG_RIGHT_CLICK);
+  lua_setconst(L, "DIALOG_LEARN_CHOICE", DIALOG_LEARN_CHOICE);
+
+  lua_setconst(L, "DIALOG_OR", DIALOG_OR);
+  lua_setconst(L, "DIALOG_EMPTY", DIALOG_EMPTY);
 }
 
+
+void set_barriercolor_consts(lua_State *L){
+	lua_setconst(L, "AQUA_BARRIER", AQUA_BARRIER);
+}
 void set_messageboxgroups_consts(lua_State *L) {
 	lua_setconst(L, "IMAGE_EMPTY", IMAGE_EMPTY);
 	lua_setconst(L, "IMAGE_WOOD", IMAGE_WOOD);
@@ -469,6 +478,20 @@ void set_map_consts(lua_State *L) {
   set_tooltip_consts(L);
 }
 
+void set_campaign_choice_consts(lua_State *L) {
+  lua_setconst(L, "CAMPAIGN_CHOICE_RESOURCE", CAMPAIGN_CHOICE_RESOURCE);
+  lua_setconst(L, "CAMPAIGN_CHOICE_ARTIFACT", CAMPAIGN_CHOICE_ARTIFACT);
+  lua_setconst(L, "CAMPAIGN_CHOICE_SPELL", CAMPAIGN_CHOICE_SPELL);
+  lua_setconst(L, "CAMPAIGN_CHOICE_SECONDARY_SKILL", CAMPAIGN_CHOICE_SECONDARY_SKILL);
+  lua_setconst(L, "CAMPAIGN_CHOICE_ARMY", CAMPAIGN_CHOICE_ARMY);
+  lua_setconst(L, "CAMPAIGN_CHOICE_PUZZLE_PIECES", CAMPAIGN_CHOICE_PUZZLE_PIECES);
+  lua_setconst(L, "CAMPAIGN_CHOICE_EXPERIENCE", CAMPAIGN_CHOICE_EXPERIENCE);
+  lua_setconst(L, "CAMPAIGN_CHOICE_NOT_AVAILABLE", CAMPAIGN_CHOICE_NOT_AVAILABLE);
+  lua_setconst(L, "CAMPAIGN_CHOICE_ALIGNMENT", CAMPAIGN_CHOICE_ALIGNMENT);
+  lua_setconst(L, "CAMPAIGN_CHOICE_PRIMARY_SKILL", CAMPAIGN_CHOICE_PRIMARY_SKILL);
+  lua_setconst(L, "CAMPAIGN_CHOICE_SPELL_SCROLL", CAMPAIGN_CHOICE_SPELL_SCROLL);
+}
+
 /*************************************************************************************/
 
 void set_scripting_consts(lua_State* L) {
@@ -479,6 +502,9 @@ void set_scripting_consts(lua_State* L) {
   set_faction_consts(L);
   set_skill_consts(L);
   set_creature_consts(L);
+  set_location_consts(L);  
+  set_barriercolor_consts(L);
   set_resources_consts(L); 
   set_map_consts(L);
+  set_campaign_choice_consts(L);
 }

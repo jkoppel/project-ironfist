@@ -28,7 +28,7 @@ public:
   widget *verticalScrollBar;
   widget *horizontalScrollHandle;
   widget *verticalScrollHandle;
-  int cursorType;
+  int zoomLevel;
   int setOnEventUpdate;
   int field_26A;
   int field_26E;
@@ -54,6 +54,7 @@ public:
   void SpellScrollEditDialog(int *a1);
   void SpellScrollEditDialog_orig(int *RelatedToSpellIdx);
   void __thiscall UpdateCursor();
+  signed int GetOverlayID(int x, int y);
 };
 
 extern editManager* gpEditManager;
