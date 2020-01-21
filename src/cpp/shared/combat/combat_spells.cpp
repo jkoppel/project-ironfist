@@ -927,7 +927,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
                 cursorIdx = 9;
                 break;
             }
-            gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
+            gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
             gpMouseManager->SetPointer(cursorIdx);
 
             // Getting spell direction
