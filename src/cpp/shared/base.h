@@ -100,6 +100,11 @@ extern int S1cursorBaseFrame;
 extern int S1cursorFrameCount;
 extern int S1cursorCycle;
 extern int S1cursorTurning;
+extern int gbInSetPointer;
+extern int gbPutzingWithMouseCtr;
+extern int giCurExe;
+extern int gbColorMice;
+extern signed char iHotSpot[][2];
 
 struct configStruct {
   int data[103];
