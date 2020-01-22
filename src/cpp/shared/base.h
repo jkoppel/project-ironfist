@@ -105,6 +105,8 @@ extern int gbPutzingWithMouseCtr;
 extern int giCurExe;
 extern int gbColorMice;
 extern signed char iHotSpot[][2];
+extern void *cColorBits[];
+extern void *cAndBits[];
 
 struct configStruct {
   int data[103];

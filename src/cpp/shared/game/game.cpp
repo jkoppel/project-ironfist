@@ -2281,23 +2281,23 @@ void mouseManager::SetPointer(int spriteIdxArg) {
       int fileID = gpResourceManager->MakeId(fileNameChar, 1);
       gpResourceManager->PointToFile(fileID);
 
-      LPVOID *cColorBits = (LPVOID *)BaseAlloc(1024, __FILE__, __LINE__);
-      LPVOID *cAndBits = (LPVOID *)BaseAlloc(256, __FILE__, __LINE__);
-      gpResourceManager->ReadBlock((signed char*)cColorBits, 6);
-      gpResourceManager->ReadBlock((signed char*)cColorBits, 1024);
-      memset(cAndBits, 0, 256);
+      cColorBits[this->cursorIdx] = BaseAlloc(1024, __FILE__, __LINE__);
+      cAndBits[this->cursorIdx] = BaseAlloc(256, __FILE__, __LINE__);
+      gpResourceManager->ReadBlock((signed char*)cColorBits[this->cursorIdx], 6);
+      gpResourceManager->ReadBlock((signed char*)cColorBits[this->cursorIdx], 1024);
+      memset(cAndBits[this->cursorIdx], 0, 256);
       
       int cnt, cnt2;
       cnt = cnt2 = 0;
       do {
         int cnt3 = 0;
         do {
-          LPVOID *bits = cColorBits;
+          void *bits = cColorBits[this->cursorIdx];
           if(*((char *)bits + cnt3 + cnt)) {
             if(*((char *)bits + cnt3 + cnt) == 1)
-              *((char *)cAndBits + (cnt3 >> 3) + cnt2 + 128) |= 1 << (7 - (cnt3 & 7));
+              *((char *)cAndBits[this->cursorIdx] + (cnt3 >> 3) + cnt2 + 128) |= 1 << (7 - (cnt3 & 7));
           } else {
-            *((char *)cAndBits + (cnt3 >> 3) + cnt2) |= 1 << (7 - (cnt3 & 7));
+            *((char *)cAndBits[this->cursorIdx] + (cnt3 >> 3) + cnt2) |= 1 << (7 - (cnt3 & 7));
           }
           ++cnt3;
         } while(cnt3 < 32);
@@ -2313,7 +2313,7 @@ void mouseManager::SetPointer(int spriteIdxArg) {
       bmpAndMask.bmPlanes = 1;
       bmpAndMask.bmBitsPixel = 1;
       bmpAndMask.bmWidthBytes = 4;
-      bmpAndMask.bmBits = cAndBits;
+      bmpAndMask.bmBits = cAndBits[this->cursorIdx];
 
       HBITMAP hbmpAndMask = CreateBitmapIndirect(&bmpAndMask);
       ProcessAssert((int)hbmpAndMask, __FILE__, __LINE__);
