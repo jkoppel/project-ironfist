@@ -2221,3 +2221,119 @@ void game::ShowMoraleInfo(hero *hro, int dialogType) {
 
   return NormalDialog(gText, dialogType, -1, -1, -1, 0, -1, 0, -1, 0);
 }
+
+void mouseManager::SetPointer(int spriteIdxArg) {
+  if(this->field_7E || spriteIdxArg < 0)
+    return;
+
+  if(this->ready != 1 || this->spriteIdx == spriteIdxArg || gbInSetPointer)
+    return;
+
+  gbInSetPointer = 1;
+  ++gbPutzingWithMouseCtr;
+  gpResourceManager->SavePosition();
+
+  if(giCurExe == 1)
+    this->cursorCategory = MOUSE_CURSOR_CATEGORY_ADVENTURE;
+
+  int spriteIdx = spriteIdxArg;
+  if(spriteIdxArg == 1000)
+    spriteIdx = this->spriteIdx;
+  else
+    this->spriteIdx = spriteIdxArg;
+
+  int offset = iMouseOffset[this->cursorCategory];
+  int actualIdx = spriteIdx + offset;
+
+  // Fallback to a large cursor slot in various cursor related arrays
+  if(actualIdx >= MAX_MOUSE_CURSORS)
+    actualIdx = 83;
+  this->cursorIdx = actualIdx;
+  ProcessAssert(!(actualIdx < 0 || actualIdx >= MAX_MOUSE_CURSORS), __FILE__, __LINE__);
+
+  if(gbColorMice) {
+    this->NewUpdate(1);
+  } else {
+    if(hMouseCursor[this->cursorIdx]) {
+      SetCursor((HCURSOR)&hMouseCursor[this->cursorIdx]);
+    } else {
+      std::string fileName;
+      int actualSpriteIdx;
+      MOUSE_CURSOR_CATEGORY category = this->cursorCategory;
+      switch(category) {
+        case MOUSE_CURSOR_CATEGORY_ADVENTURE:
+          actualSpriteIdx = spriteIdx + 1;
+          fileName = "ADVMBW";
+          break;
+        case MOUSE_CURSOR_CATEGORY_COMBAT:
+          actualSpriteIdx = spriteIdx + 1;
+          fileName = "CMSEBW";
+          break;
+        case MOUSE_CURSOR_CATEGORY_SPELL:
+          actualSpriteIdx = spriteIdx;
+          fileName = "SPELBW";
+          break;
+      }
+
+      char fileNameChar[FILENAME_MAX];
+      sprintf_s(fileNameChar, "%s%02d.BMP", fileName.c_str(), actualSpriteIdx);
+
+      int fileID = gpResourceManager->MakeId(fileNameChar, 1);
+      gpResourceManager->PointToFile(fileID);
+
+      cColorBits[this->cursorIdx] = BaseAlloc(1024, __FILE__, __LINE__);
+      cAndBits[this->cursorIdx] = BaseAlloc(256, __FILE__, __LINE__);
+      gpResourceManager->ReadBlock((signed char*)cColorBits[this->cursorIdx], 6);
+      gpResourceManager->ReadBlock((signed char*)cColorBits[this->cursorIdx], 1024);
+      memset(cAndBits[this->cursorIdx], 0, 256);
+      
+      int cnt, cnt2;
+      cnt = cnt2 = 0;
+      do {
+        int cnt3 = 0;
+        do {
+          void *bits = cColorBits[this->cursorIdx];
+          if(*((char *)bits + cnt3 + cnt)) {
+            if(*((char *)bits + cnt3 + cnt) == 1)
+              *((char *)cAndBits[this->cursorIdx] + (cnt3 >> 3) + cnt2 + 128) |= 1 << (7 - (cnt3 & 7));
+          } else {
+            *((char *)cAndBits[this->cursorIdx] + (cnt3 >> 3) + cnt2) |= 1 << (7 - (cnt3 & 7));
+          }
+          ++cnt3;
+        } while(cnt3 < 32);
+        cnt2 += 4;
+        cnt += 32;
+      } while(cnt < 1024);
+
+      BITMAP bmpAndMask;
+      bmpAndMask.bmType = 0;
+      bmpAndMask.bmWidth = 32;
+      bmpAndMask.bmHeight = 64;
+      bmpAndMask.bmWidthBytes = 4;
+      bmpAndMask.bmPlanes = 1;
+      bmpAndMask.bmBitsPixel = 1;
+      bmpAndMask.bmWidthBytes = 4;
+      bmpAndMask.bmBits = cAndBits[this->cursorIdx];
+
+      HBITMAP hbmpAndMask = CreateBitmapIndirect(&bmpAndMask);
+      ProcessAssert((int)hbmpAndMask, __FILE__, __LINE__);
+
+      _ICONINFO IconInfo;
+      IconInfo.fIcon = 0;
+      if(this->cursorCategory == MOUSE_CURSOR_CATEGORY_SPELL)
+        IconInfo.xHotspot = IconInfo.yHotspot = 15;
+      else {
+        IconInfo.xHotspot = iHotSpot[this->cursorIdx][0];
+        IconInfo.yHotspot = iHotSpot[this->cursorIdx][1];
+      }
+      IconInfo.hbmMask = hbmpAndMask;
+      IconInfo.hbmColor = 0;
+      hMouseCursor[this->cursorIdx] = (HCURSOR *)CreateIconIndirect(&IconInfo);
+      ProcessAssert((int)hMouseCursor[this->cursorIdx], __FILE__, __LINE__);
+    }    
+  }
+
+  gpResourceManager->RestorePosition();
+  gbInSetPointer = 0;
+  --gbPutzingWithMouseCtr;
+}

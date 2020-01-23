@@ -1048,18 +1048,24 @@ int __fastcall HandleCastSpell(tag_message &evt) {
   switch(msg->inputEvt.eventCode) {
     case INPUT_MOUSEMOVE_EVENT_CODE: {
       int hex = gpCombatManager->GetGridIndex(msg->inputEvt.xCoordOrKeycode, msg->inputEvt.yCoordOrFieldID);
+
+      // save hex colors
+      char savedHexes[NUM_HEXES];
+      for(int i = 0; i < NUM_HEXES; i++)
+        savedHexes[i] = gpCombatManager->field_49F[i];
+
+      // marking all hexes depending on their validity for cast
+      for(int i = 0; i < NUM_HEXES; i++) {
+        if(gpCombatManager->ValidSpellTarget(currentSpell, i)) {
+          gpCombatManager->field_49F[i] = 3;
+          if(gpCombatManager->combatGrid[i].unitOwner != -1)
+            gpCombatManager->field_49F[i] = 1; // for troop hexes make it darker
+        } else if(i % 13 && i % 13 != 12)
+          gpCombatManager->field_49F[i] = 0; // invalid hexes are transparent
+      }
+
       if(gpCombatManager->ValidSpellTarget(currentSpell, hex)) {
-        indexToCastOn = hex;
-
-        // save hex colors
-        char savedHexes[NUM_HEXES];
-        for(int i = 0; i < NUM_HEXES; i++)
-          savedHexes[i] = gpCombatManager->field_49F[i];
-
-        // marking all valid hexes as available to be casted on
-        for(int i = 0; i < NUM_HEXES; i++)
-          if(gpCombatManager->ValidSpellTarget(currentSpell, i))
-            gpCombatManager->field_49F[i] = 3;
+        indexToCastOn = hex;        
 
         std::vector<int> spellMask;
         switch(currentSpell) {
@@ -1088,7 +1094,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
                 cursorIdx = 9;
                 break;
             }
-            gpMouseManager->cursorCategory = MOUSE_CURSOR_CATEGORY_COMBAT;
+            gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
             gpMouseManager->SetPointer(cursorIdx);
 
             // Getting spell direction
@@ -1116,15 +1122,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         
         // marking affected hexes
         for(auto i : spellMask)
-          gpCombatManager->field_49F[i] = 1;
-
-        // showing affected hexes
-        gpCombatManager->UpdateGrid(0, 0);
-        gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
-
-        //reverting hex colors before marking again if needed
-        for(int i = 0; i < NUM_HEXES; i++)
-          gpCombatManager->field_49F[i] = savedHexes[i];
+          gpCombatManager->field_49F[i] = 1; 
 
         gpCombatManager->SpellMessage(currentSpell, hex);
       } else {
@@ -1135,6 +1133,15 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         else
           gpCombatManager->CombatMessage("Select Spell Target", 1, 0, 0);
       }
+
+      // showing affected hexes
+      gbLimitToExtent = 0;
+      gpCombatManager->UpdateGrid(0, 0);
+      gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
+
+      //reverting hex colors to pre-spell-cast state
+      for(int i = 0; i < NUM_HEXES; i++)
+        gpCombatManager->field_49F[i] = savedHexes[i];
       return 1;
     }
     case INPUT_LEFT_CLICK_EVENT_CODE:
@@ -1170,6 +1177,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         bInTeleportGetDest = 0;
         // clear combatfield from marked hexes
         gpCombatManager->UpdateGrid(0, 0);
+        gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
         return 2;
       }
       return 1;
@@ -1181,6 +1189,7 @@ int __fastcall HandleCastSpell(tag_message &evt) {
       bInTeleportGetDest = 0;
       // clear combatfield from marked hexes
       gpCombatManager->UpdateGrid(0, 0);
+      gpCombatManager->DrawFrame(1, 0, 0, 0, 0, 1, 1);
       return 2;
     default:
       return 1;
