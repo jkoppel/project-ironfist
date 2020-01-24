@@ -667,6 +667,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   this->CheckChangeSelector();
 }
 
+// This function copies the functionality needed from CheckSetMouseDirection with everything else removed 
 CURSOR_DIRECTION combatManager::GetCursorDirection(int screenX, int screenY, int hex) {
   int offsetX;
   int offsetY;
