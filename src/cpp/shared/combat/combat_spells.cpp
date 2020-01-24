@@ -601,6 +601,33 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
         stack->SetSpellInfluence(EFFECT_SHADOW_MARK, 1);
         stack->SpellEffect(gsSpellInfo[SPELL_SHADOW_MARK].creatureEffectAnimationIdx, 0, 0);
       break;
+    case SPELL_MARKSMAN_PIERCE: {
+      DelayMilli((signed __int64)(gfCombatSpeedMod[giCombatSpeed] * 100.0));
+      //long damage = 10 * spellpower;
+      long damage = 1000;
+      if(isCastleBattle)
+        if(currentActionSide == 0 && this->InCastle(stack->occupiedHex))
+          damage *= 0.75;
+      //this->ModifyDamageForArtifacts(&damage, SPELL_MARKSMAN_PIERCE, currentHero, enemyHero);
+      char *creatureName;
+      if (stack->quantity <= 1)
+        creatureName = GetCreatureName(stack->creatureIdx);
+      else
+        creatureName = GetCreaturePluralName(stack->creatureIdx);
+      sprintf(gText, "The marksman pierce round does %d\n damage to the %s.", damage, creatureName);
+      this->CombatMessage(gText, 1, 1, 0);
+      float angles[9] = {90.000000,45.000038,26.565073,18.262905,0.000000,-18.262905,-26.565073,-45.000038,-90.000000};
+      icon *arrowIcon = gpResourceManager->GetIcon("keep.icn");
+      this->ShootMissile(castX, castY, stack->MidX(), stack->MidY(), angles, arrowIcon);
+      gpResourceManager->Dispose(arrowIcon);
+      stack->Damage(damage, SPELL_NONE);
+      
+      stack->SetSpellInfluence(EFFECT_DAZE, 1);
+      stack->SpellEffect(gsSpellInfo[SPELL_MARKSMAN_PIERCE].creatureEffectAnimationIdx, 0, 0);
+      
+      stack->PowEffect(-1, 1, -1, -1);
+      break;
+    }
     default:
       this->DefaultSpell(hexIdx);
       break;
@@ -608,16 +635,15 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   } else {
     this->ShowSpellCastFailure(stack, proto_spell);
   }
-  for (int i = 0; i < 2; ++i) {
-    for (int j = 0; this->numCreatures[i] > j; ++j) {
-      void *v14 = (char *)this + 24234 * i + 1154 * j;
-      char *v15 = (char *)v14 + 13647;
-      *(DWORD *)((char *)v14 + 13865) = 0;
-      *(DWORD *)(v15 + 222) = *(DWORD *)(v15 + 218);
-      *(DWORD *)(v15 + 214) = *(DWORD *)(v15 + 222);
-      *(DWORD *)(v15 + 6) = 1;
-      *v15 = 0;
-      *(DWORD *)(v15 + 154) = -1;
+  for (int i = 0; i < 2; i++) {
+    for (int j = 0; this->numCreatures[i] > j; j++) {
+      army *cr = &this->creatures[i][j];
+      cr->hasTakenLosses = 0;
+      cr->dead = cr->hasTakenLosses;
+      cr->damageTakenDuringSomeTimePeriod = cr->dead;
+      cr->field_6 = 1;
+      cr->mightBeIsAttacking = 0;
+      cr->previousQuantity = -1;
     }
   }
   if (!isCreatureAbility) {

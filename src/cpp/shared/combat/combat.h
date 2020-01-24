@@ -253,6 +253,7 @@ public:
   void SetCombatDirections(int hexIdx);
   void SetCombatDirections_orig(int hex);
   int ValidHexToStandOn(signed int a2);
+  int InCastle(int hex);
   void DrawBackground();
   void KeepAttack(int towerIdx);
   int CheckWin(struct tag_message *msg);

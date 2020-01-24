@@ -28,7 +28,7 @@ bool gMoveAttack; // ironfist var to differentiate between move/move and attack
 bool gChargePathDamage;
 bool gCharging;
 
-char *gCombatFxNames[34] =
+char *gCombatFxNames[35] =
 {
   "",
   "magic01.icn",
@@ -63,10 +63,11 @@ char *gCombatFxNames[34] =
   "stonskin.icn",
   "stelskin.icn",
   "plasmblast.icn",
-  "shdwmark.icn"
+  "shdwmark.icn",
+  "mrksmprc.icn"
 };
 
-unsigned __int8 giNumPowFrames[34] =
+unsigned __int8 giNumPowFrames[35] =
 {
   10u,
   10u,
@@ -101,6 +102,7 @@ unsigned __int8 giNumPowFrames[34] =
   11u,
   16u,
   7u,
+  8u,
   8u
 };
 
@@ -1868,7 +1870,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
                 if (creature->animationType != ANIMATION_TYPE_STANDING && creature->animationType != ANIMATION_TYPE_DYING) {
                   creature->animationType = ANIMATION_TYPE_STANDING;
                   creature->animationFrame = 0;
-                  creature->effectStrengths[15] = 1;
+                  creature->field_3 = -1;
                 }
               } else {
                 creature->animationType = creature->field_4;
@@ -1993,7 +1995,15 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if (!targ)
     return;
 
-  int attackDiff = this->creature.attack - targ->creature.defense;
+  char attackerAtk = this->creature.attack;
+  if(this->effectStrengths[EFFECT_DAZE])
+    attackerAtk /= 2;
+  char targetDef = targ->creature.defense;
+  if(targ->effectStrengths[EFFECT_DAZE])
+    targetDef /= 2;
+
+  int attackDiff = attackerAtk - targetDef;
+
   if (this->effectStrengths[EFFECT_DRAGON_SLAYER]
     && (targ->creatureIdx == CREATURE_GREEN_DRAGON
       || targ->creatureIdx == CREATURE_RED_DRAGON
@@ -2324,6 +2334,7 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
     case EFFECT_PETRIFY:
       break;
     case EFFECT_SHADOW_MARK:
+    case EFFECT_DAZE:
       break;
     }
     return this->AddActiveEffect(effectType, strength);
@@ -2351,6 +2362,7 @@ void army::CancelIndividualSpell(int effect) {
       this->creature.defense -= 5;
       break;
     case EFFECT_SHADOW_MARK:
+    case EFFECT_DAZE:
       break;
     case EFFECT_BLIND:
     case EFFECT_BLESS:
