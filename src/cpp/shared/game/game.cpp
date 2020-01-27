@@ -2245,7 +2245,7 @@ void mouseManager::SetPointer(int spriteIdxArg) {
   int offset = iMouseOffset[this->cursorCategory];
   int actualIdx = spriteIdx + offset;
 
-  // Fallback to a large cursor slot in various cursor related arrays
+  // Ironfist fallback to a large cursor slot in various cursor related arrays
   if(actualIdx >= MAX_MOUSE_CURSORS)
     actualIdx = 83;
   this->cursorIdx = actualIdx;
