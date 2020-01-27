@@ -669,82 +669,76 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
 
 // This function copies the functionality needed from CheckSetMouseDirection with everything else removed 
 CURSOR_DIRECTION combatManager::GetCursorDirection(int screenX, int screenY, int hex) {
-  int offsetX;
-  int offsetY;
-
-  offsetX = screenX - 44 * (hex % 13 - 1) - 67;
+  int offsetX = screenX - 44 * (hex % 13 - 1) - 67;
   if ( !(hex / 13 & 1) )
     offsetX = screenX - 44 * (hex % 13 - 1) - 89;
-  
-  offsetY = screenY - 63 - 42 * (hex / 13) - 26;
+  int offsetY = screenY - 63 - 42 * (hex / 13) - 26;
 
-  int clockHour = 0;
-  int v15 = offsetX - 22;
-  if(v15 >= 0) {
+  // Hex is divided into 24 equal parts (triangles)
+  // The code below calculates in which part the cursor is
+  int hexPart = 0;
+  int offsetXfromHexCenter = offsetX - 22;
+  if(offsetXfromHexCenter >= 0) {
     if(offsetY >= 0)
-      clockHour = 6;
+      hexPart = 6;
   } else if(offsetY >= 0) {
-    clockHour = 12;
+    hexPart = 12;
   } else {
-    clockHour = 18;
+    hexPart = 18;
   }
 
-  float v9 = (double)abs(v15) / (double)abs(offsetY);
+  float v9 = (double)abs(offsetXfromHexCenter) / (double)abs(offsetY);
 
-  if(clockHour && clockHour != 12) {
+  if(hexPart && hexPart != 12) {
     if(v9 >= 0.27) {
       if(v9 >= 0.58) {
         if(v9 >= 1.0) {
           if(v9 >= 1.73) {
             if(v9 < 3.73)
-              ++clockHour;
+              ++hexPart;
           } else {
-            clockHour += 2;
+            hexPart += 2;
           }
         } else {
-          clockHour += 3;
+          hexPart += 3;
         }
       } else {
-        clockHour += 4;
+        hexPart += 4;
       }
     } else {
-      clockHour += 5;
+      hexPart += 5;
     }
   } else if(v9 <= 3.73) {
     if(v9 <= 1.73) {
       if(v9 <= 1.0) {
         if(v9 <= 0.58) {
           if(v9 > 0.27)
-            ++clockHour;
+            ++hexPart;
         } else {
-          clockHour += 2;
+          hexPart += 2;
         }
       } else {
-        clockHour += 3;
+        hexPart += 3;
       }
     } else {
-      clockHour += 4;
+      hexPart += 4;
     }
   } else {
-    clockHour += 5;
+    hexPart += 5;
   }
 
-  switch(clockHour) {
-    case 23: case 0: case 1:
-      return CURSOR_DIRECTION_DOWN;
-    case 2: case 3: case 4:
+  switch(hexPart) {
+    case 0: case 1: case 2: case 3:
       return CURSOR_DIRECTION_LEFT_DOWN;
-    case 5: case 6: case 7:
+    case 4: case 5: case 6: case 7:
       return CURSOR_DIRECTION_LEFT;
-    case 8: case 9: case 10:
+    case 8: case 9: case 10: case 11: 
       return CURSOR_DIRECTION_LEFT_UP;
-    case 11: case 12: case 13:
-      return CURSOR_DIRECTION_UP;
-    case 14: case 15: case 16:
+    case 12: case 13: case 14: case 15:
       return CURSOR_DIRECTION_RIGHT_UP;
-    case 17: case 18: case 19:
+    case 16: case 17: case 18: case 19:
       return CURSOR_DIRECTION_RIGHT;
-    case 20: case 21: case 22:
+    case 20: case 21: case 22: case 23:
       return CURSOR_DIRECTION_RIGHT_DOWN;
   }
 }
@@ -768,15 +762,13 @@ int GetHexNeighboursLine(int startingFrom, int neighbDir, int len, std::vector<i
 
 static std::vector<int> GetPlasmaConeSpellMask(int fromHex, int direction) {
   std::vector<int> mask;
-  int spellNeighbourDirections[8][3] = {
+  int spellNeighbourDirections[][3] = {
     {5, 0, 1}, // right up
     {0, 1, 2}, // right
     {1, 2, 3}, // right down
-    {-1, -1, -1}, // UNUSED down
     {2, 3, 4}, // left down
     {3, 4, 5}, // left
     {4, 5, 0},  // left up
-    {-1, -1, -1} // UNUSED up
   };
     
   int leftDirection = spellNeighbourDirections[direction][0];
@@ -915,13 +907,13 @@ int __fastcall HandleCastSpell(tag_message &evt) {
             CURSOR_DIRECTION dir = gpCombatManager->GetCursorDirection(evt.altXCoord, evt.altYCoord, indexToCastOn);
             int cursorIdx = 0;
             switch(dir) {
-              case CURSOR_DIRECTION_LEFT_DOWN: case CURSOR_DIRECTION_DOWN:
+              case CURSOR_DIRECTION_LEFT_DOWN:
                 cursorIdx = 10;
                 break;
               case CURSOR_DIRECTION_LEFT:
                 cursorIdx = 11;
                 break;
-              case CURSOR_DIRECTION_LEFT_UP: case CURSOR_DIRECTION_UP:
+              case CURSOR_DIRECTION_LEFT_UP:
                 cursorIdx = 12;
                 break;
               case CURSOR_DIRECTION_RIGHT_UP:
@@ -934,22 +926,11 @@ int __fastcall HandleCastSpell(tag_message &evt) {
                 cursorIdx = 9;
                 break;
             }
-            gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
-            gpMouseManager->SetPointer(cursorIdx);
+            gpMouseManager->SetPointer("cmbtmous.mse", cursorIdx, -999);
 
             // Getting spell direction
-            gSpellDirection = CURSOR_DIRECTION_RIGHT;
-            switch(dir) {
-              case CURSOR_DIRECTION_DOWN:
-                gSpellDirection = CURSOR_DIRECTION_LEFT_DOWN;
-                break;
-              case CURSOR_DIRECTION_UP:
-                gSpellDirection = CURSOR_DIRECTION_LEFT_UP;
-                break;
-              default:
-                gSpellDirection = dir;
-                break;
-            }
+            gSpellDirection = dir;
+            
             break;
           }
           default: {
