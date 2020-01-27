@@ -68,5 +68,6 @@ char *gSpellNames[] = {
   "Set Water Guardian",
   "Awareness",
   "Shadow Mark",
-  "Marksman Pierce"
+  "Marksman Pierce",
+  "Plasma Cone"
 };

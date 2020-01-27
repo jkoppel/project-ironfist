@@ -128,6 +128,9 @@ IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
 IMPORT_?MAKEFILEID@@YIKPAD@Z = 1
 
+;;mouseManager
+IMPORT_?SetPointer@mouseManager@@QAEXH@Z = 1
+
 ;;creatures
 
 IMPORT_?cArmyFrameFileNames@@3PAPADA = 1
@@ -267,6 +270,8 @@ IMPORT_?GetCommand@combatManager@@QAEHH@Z = 1
 ?GetCommand@combatManager@@QAEHH@Z_clone EQU ?GetCommand_orig@combatManager@@QAEHH@Z
 IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
+IMPORT_?Fireball@combatManager@@QAEXHH@Z = 1
+IMPORT_?HandleCastSpell@@YIHAAUtag_message@@@Z = 1
 IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
 IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
 IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1

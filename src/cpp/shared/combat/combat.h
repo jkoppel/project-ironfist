@@ -26,6 +26,15 @@ enum BRIDGE_STATUS {
   BRIDGE_CLOSED = 0x4,
 };
 
+enum CURSOR_DIRECTION {
+  CURSOR_DIRECTION_RIGHT_UP = 0,
+  CURSOR_DIRECTION_RIGHT = 1,
+  CURSOR_DIRECTION_RIGHT_DOWN = 2,
+  CURSOR_DIRECTION_LEFT_DOWN = 3,
+  CURSOR_DIRECTION_LEFT = 4,
+  CURSOR_DIRECTION_LEFT_UP = 5
+};
+
 enum COMBAT_ICON_INDICES {
   COMBAT_ICON_IDX_TEXTBAR = 0x1,
   COMBAT_ICON_IDX_CATAPULT = 0x3,
@@ -254,6 +263,8 @@ public:
   void SetCombatDirections_orig(int hex);
   int ValidHexToStandOn(signed int a2);
   int InCastle(int hex);
+  void UpdateMouseGrid(signed int hexIdx, int a3);
+  CURSOR_DIRECTION GetCursorDirection(int screenX, int screenY, int hex);
   void DrawBackground();
   void KeepAttack(int towerIdx);
   int CheckWin(struct tag_message *msg);
@@ -269,8 +280,15 @@ public:
 extern combatManager* gpCombatManager;
 
 extern int gbNoShowCombat;
+extern int bInTeleportGetDest;
 extern SCmbtHero sCmbtHero[];
+extern int indexToCastOn;
+extern int giNextActionGridIndex2;
+extern int giNextActionGridIndex;
+extern int giNextAction;
+extern int gbProcessingCombatAction;
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
+signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);
 bool IsCastleWall(int hexIdx);
 bool IsAICombatTurn();
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY);

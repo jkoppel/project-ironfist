@@ -47,6 +47,11 @@ extern void *hmnuRecruitSave;
 extern void *hmnuCurrent;
 extern void *hmnuDflt;
 
+#define MAX_MOUSE_CURSORS 96
+
+extern int iMouseOffset[MAX_MOUSE_CURSORS];
+extern void *hMouseCursor[MAX_MOUSE_CURSORS];
+
 enum MOUSE_CURSOR_CATEGORY {
   MOUSE_CURSOR_CATEGORY_ADVENTURE = 0x0,
   MOUSE_CURSOR_CATEGORY_COMBAT = 0x1,
@@ -80,9 +85,11 @@ public:
 	mouseManager();
 	void ShowColorPointer();
   void SetPointer(char *mse, int spriteIdx, int protoCategory);
+  void SetPointer(int spriteIdxArg);
   void MouseCoords(int &x, int &y);
   void HideColorPointer();
   void ReallyShowPointer();
+  void NewUpdate(int flag);
 };
 
 extern mouseManager* gpMouseManager;

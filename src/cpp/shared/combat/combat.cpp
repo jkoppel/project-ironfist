@@ -248,7 +248,6 @@ void combatManager::ShowSpellMessage(int isCreatureAbility, int spell, army *sta
   this->CombatMessage(gText, 1, 1, 0);
 }
 
-extern int bInTeleportGetDest;
 void combatManager::SpellMessage(int spell, int hex) {
   army *targ; // [sp+18h] [bp-4h]@7
 
@@ -259,6 +258,7 @@ void combatManager::SpellMessage(int spell, int hex) {
       case SPELL_FIREBLAST:
       case SPELL_METEOR_SHOWER:
       case SPELL_COLD_RING:
+      case SPELL_PLASMA_CONE:
         sprintf(gText, "Cast %s", gSpellNames[spell]);
         break;
       case SPELL_TELEPORT: {
@@ -304,8 +304,6 @@ void combatManager::SpellMessage(int spell, int hex) {
     this->CombatMessage(gText, 1, 0, 0);
   }
 }
-
-extern int giNextActionGridIndex;
 
 int combatManager::ValidSpellTarget(int spell, int hexIdx) {
   if (ValidHex(hexIdx)) {
@@ -400,6 +398,7 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_FIREBLAST:
       case SPELL_METEOR_SHOWER:
       case SPELL_COLD_RING:
+      case SPELL_PLASMA_CONE:
         if (hexIdx != -1 && hexIdx % 13 && hexIdx % 13 != 12)
           return 1;
         return 0;
@@ -443,8 +442,6 @@ bool IsAICombatTurn() {
   return 0;
 }
 
-extern int gbProcessingCombatAction;
-extern int giNextAction;
 int combatManager::GetCommand(int hex) {
   int v7 = 0;
   UpdateGrid(0, 0);
