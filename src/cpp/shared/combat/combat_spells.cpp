@@ -164,9 +164,6 @@ float army::SpellCastWorkChance(int spell) {
   if (spell == SPELL_SHADOW_MARK && this->dead)
     return 0.0;
 
-  if(spell == SPELL_MASS_FORCE_SHIELD)
-    return 1.0;
-
   double chance = this->SpellCastWorkChance_orig(spell);
   auto res = ScriptCallbackResult<double>("OnCalcSpellChance", deepbind<army*>(this), spell, chance);
   if(res.has_value())
