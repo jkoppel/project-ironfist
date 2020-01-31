@@ -131,6 +131,7 @@ public:
   int BuyBuild(int building, int a3, int a4);
   void DoCommand(int cmd);
   void ShiftQualChange();
+  void SetupExtraStuff();
 };
 
 void InitializeTownConstants();
