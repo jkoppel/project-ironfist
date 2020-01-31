@@ -2608,6 +2608,18 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
     } else {
       inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 10, &this->stackSizeDispBounds, 0, 0, 0, 0);
     }
+    if(gIronfistExtra.combat.stack.forceShieldHP[this] > 0) {
+      const int FORCE_SHIELD_ICON_X_OFFSET = 2;
+      const int FORCE_SHIELD_ICON_Y_OFFSET = -28;
+      const int FORCE_SHIELD_HP_BOX_Y_OFFSET = -24;
+
+      icon* shieldIcon = gpResourceManager->GetIcon("SPELLINF.ICN");
+      shieldIcon->CombatClipDrawToBuffer(stackNumXOffset + FORCE_SHIELD_ICON_X_OFFSET, offsetY + FORCE_SHIELD_ICON_Y_OFFSET, 10, &this->stackSizeDispBounds, 0, 0, gColorTableRed, 0);
+
+      std::string str = std::to_string(gIronfistExtra.combat.stack.forceShieldHP[this]);
+      smallFont->DrawBoundedString((char*)str.c_str(), stackNumXOffset, offsetY + FORCE_SHIELD_HP_BOX_Y_OFFSET + 2, 20, 12, 1, 1);
+    }
+
     if(inRedrawZone) {
       int quantity;
       if(this->previousQuantity == -1)
