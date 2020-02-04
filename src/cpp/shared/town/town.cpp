@@ -257,7 +257,7 @@ SBuildingInfo sBuildingsInfo[MAX_FACTIONS][BUILDING_MAX] = {
     { '\t', 531, 211, 113, 45 },
     { 0, 220, 110, 59, 45 },
     { 0, 0, 0, 0, 0 },
-    { '\0', 0, 0, 0, 0 },
+    { 4, 0, 0, 0, 0 },
     { '\0', 0, 0, 0, 0 },
     { 5, 230, 165, 90, 60 },
     { 0, 230, 165, 90, 60 },
@@ -1102,6 +1102,9 @@ void townManager::SetupExtraStuff() {
     || this->castle->factionID == FACTION_CYBORG) {
     if(this->castle->CanBuildDock())
       this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_0);
+  }
+  if(this->castle->factionID == FACTION_CYBORG) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
   }
   if(this->castle->buildingsBuiltFlags & (1 << BUILDING_DOCK) && gpAdvManager->GetCell(this->castle->buildDockRelated, this->castle->boatCell)->objType)
     this->castle->buildingsBuiltFlags |= (1 << BUILDING_BOAT);
