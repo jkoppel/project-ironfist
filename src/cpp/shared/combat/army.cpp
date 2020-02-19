@@ -597,6 +597,7 @@ void army::DoAttack(int isRetaliation) {
 
 }
 
+// Only combat message related code is changed here because of special condition when Astral Dodge happens
 void army::DoHydraAttack(int isRetaliation) {
   int totalDamage, totalKilled;
   totalDamage = totalKilled = 0;
