@@ -276,6 +276,7 @@ IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
 IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
 IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1
 ?CheckWin@combatManager@@QAEHPAUtag_message@@@Z_clone EQU ?CheckWin_orig@combatManager@@QAEHPAUtag_message@@@Z
+IMPORT_?DoHydraAttack@army@@QAEXH@Z = 1
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

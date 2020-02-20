@@ -270,6 +270,7 @@ public:
   int CheckWin(struct tag_message *msg);
   int CheckWin_orig(struct tag_message *msg);
   void DoVictory(int side);
+  void ResetHitByCreature();
 
   void DrawMoat(int hexIdx);
   void DrawHero(int side, bool checkCaptain, bool mirrored);
