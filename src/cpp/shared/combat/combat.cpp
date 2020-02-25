@@ -352,10 +352,14 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_BLOOD_LUST:
       case SPELL_SHIELD:
       case SPELL_MASS_SHIELD:
-      case SPELL_FORCE_SHIELD:
-      case SPELL_MASS_FORCE_SHIELD:
         if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
           return 1;
+        return 0;
+      case SPELL_FORCE_SHIELD:
+      case SPELL_MASS_FORCE_SHIELD:
+        if(this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
+          if(gIronfistExtra.combat.stack.forceShieldHP[stack] < gMonsterDatabase[stack->creatureIdx].hp)
+            return 1;
         return 0;
       case SPELL_MIRROR_IMAGE:
         if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide) {
