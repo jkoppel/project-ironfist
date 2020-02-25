@@ -150,26 +150,168 @@ void combatManager::Resurrect(int spell, int hex, int spellpower) {
 }
 
 float army::SpellCastWorkChance(int spell) {
-	if (this->effectStrengths[EFFECT_ANTI_MAGIC])
-		return 0.0;
-
-	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
-		&& spell == SPELL_ELEMENTAL_STORM)
-		return 0.0;
-
-	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
-		&& spell == SPELL_METEOR_SHOWER)
-		return 1.0;
-
+  double chance = 1.0;
   if (spell == SPELL_SHADOW_MARK && this->dead)
-    return 0.0;
+    chance = 0.0;
+  
+  if((spell == SPELL_MIRROR_IMAGE || spell == SPELL_ANTI_MAGIC) && this->creature.creature_flags & ATTR_MIRROR_IMAGE)
+    chance = 0.0;
 
-  double chance = this->SpellCastWorkChance_orig(spell);
+  if(chance > 0.0 && spell == SPELL_DISPEL_MAGIC || spell == SPELL_MASS_DISPEL) {
+    bool hasEffect = false;
+    for(int i = 0; i < NUM_SPELL_EFFECTS; ++i) {
+      if(this->effectStrengths[i]) {
+        hasEffect = true;
+        break;
+      }
+    }
+    if(!hasEffect)
+      chance = 0.0;
+  }
+  
+  bool isUndead = this->creature.creature_flags & ATTR_UNDEAD;
+  if(chance > 0.0 && this->effectStrengths[EFFECT_ANTI_MAGIC] || this->creature.creature_flags & CREATURE_FLAGS::DEAD
+    && spell != SPELL_RESURRECT
+    && spell != SPELL_RESURRECT_TRUE
+    && spell != SPELL_ANIMATE_DEAD
+    || this->dead
+    || creatureIdx == CREATURE_GREEN_DRAGON
+    || creatureIdx == CREATURE_RED_DRAGON
+    || creatureIdx == CREATURE_BLACK_DRAGON)
+    chance = 0.0;
+
+  if(chance > 0.0 && spell == SPELL_MIRROR_IMAGE && this->mirrorIdx != -1)
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_RESURRECT || spell == SPELL_RESURRECT_TRUE) && (isUndead || this->initialQuantity == this->quantity))
+    chance = 0.0;
+  if(chance > 0.0 && spell == SPELL_ANIMATE_DEAD && (!isUndead || this->initialQuantity == this->quantity))
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT) && !isUndead)
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE) && isUndead)
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_PHOENIX
+    && (spell == SPELL_FIREBALL
+      || spell == SPELL_FIREBLAST
+      || spell == SPELL_LIGHTNING_BOLT
+      || spell == SPELL_CHAIN_LIGHTNING
+      || spell == SPELL_COLD_RAY
+      || spell == SPELL_COLD_RING
+      || spell == SPELL_ELEMENTAL_STORM))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_CRUSADER && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE))
+    chance = 0.0;
+  if(chance > 0.0 && (isUndead
+    || creatureIdx == CREATURE_EARTH_ELEMENTAL
+    || creatureIdx == CREATURE_AIR_ELEMENTAL
+    || creatureIdx == CREATURE_FIRE_ELEMENTAL
+    || creatureIdx == CREATURE_WATER_ELEMENTAL
+    || creatureIdx == CREATURE_GIANT
+    || creatureIdx == CREATURE_TITAN)
+    && (spell == SPELL_BERZERKER || spell == SPELL_HYPNOTIZE || spell == SPELL_PARALYZE || spell == SPELL_BLIND))
+    chance = 0.0;
+  if(chance > 0.0 && isUndead && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE || spell == SPELL_BLESS || spell == SPELL_MASS_BLESS))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_EARTH_ELEMENTAL && (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING || spell == SPELL_ELEMENTAL_STORM))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_AIR_ELEMENTAL && spell == SPELL_METEOR_SHOWER)
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_FIRE_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_COLD_RAY || spell == SPELL_COLD_RING))
+    chance = 0.0;
+
+  hero* ownHero = gpCombatManager->heroes[this->owningSide];
+  if(ownHero) {
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_HOLY_PENDANT) && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_FREE_WILL) && spell == SPELL_HYPNOTIZE)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_LIFE) && (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_SERENITY_PENDANT) && spell == SPELL_BERZERKER)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_SEEING_EYE_PENDANT) && spell == SPELL_BLIND)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_KINETIC_PENDANT) && spell == SPELL_PARALYZE)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_DEATH) && (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_WAND_OF_NEGATION) && (spell == SPELL_DISPEL_MAGIC || spell == SPELL_MASS_DISPEL || spell == SPELL_ARCHMAGI_DISPEL)) {
+      chance = 0.0;
+    }
+  } else {
+    hero* curHero = gpCombatManager->heroes[gpCombatManager->currentActionSide];
+    if(chance > 0.0 && spell == SPELL_RESURRECT || spell == SPELL_RESURRECT_TRUE || spell == SPELL_ANIMATE_DEAD) {
+      if(!this->quantity) {
+        int ressurectionStrength = 50 * gpCombatManager->heroSpellpowers[gpCombatManager->currentActionSide];
+        if(curHero && curHero->HasArtifact(ARTIFACT_ANKH))
+          ressurectionStrength *= 2;
+        if(this->creature.hp <= ressurectionStrength)
+          chance = 1.0;
+      } else
+        chance = 0.0;
+    }
+    if(chance > 0.0 && spell == SPELL_HYPNOTIZE) {
+      int hypnotizeStrength = 25 * curHero->Stats(PRIMARY_SKILL_SPELLPOWER);
+      if(curHero->HasArtifact(ARTIFACT_GOLD_WATCH))
+        hypnotizeStrength *= 2;
+      if(this->quantity * this->creature.hp <= hypnotizeStrength)
+        chance = CheckApplyDwarfSpellChance();
+      else
+        chance = 0.0;
+    }
+    if(chance > 0.0 && spell == SPELL_ARCHMAGI_DISPEL) {
+      if(this->effectStrengths[EFFECT_HASTE]
+        || this->effectStrengths[EFFECT_BLESS]
+        || this->effectStrengths[EFFECT_DRAGON_SLAYER]
+        || this->effectStrengths[EFFECT_BLOOD_LUST]
+        || this->effectStrengths[EFFECT_SHIELD]
+        || this->effectStrengths[EFFECT_ANTI_MAGIC]
+        || this->effectStrengths[EFFECT_STONESKIN]
+        || this->effectStrengths[EFFECT_STEELSKIN])
+        chance = 1.0;
+      else
+        chance = 0.0;
+    }
+    if(chance > 0.0) {
+      if(spell == SPELL_TELEPORT
+        || spell == SPELL_CURE
+        || spell == SPELL_MASS_CURE
+        || spell == SPELL_RESURRECT
+        || spell == SPELL_RESURRECT_TRUE
+        || spell == SPELL_HASTE
+        || spell == SPELL_MASS_HASTE
+        || spell == SPELL_BLESS
+        || spell == SPELL_MASS_BLESS
+        || spell == SPELL_STONESKIN
+        || spell == SPELL_STEELSKIN
+        || spell == SPELL_ANTI_MAGIC
+        || spell == SPELL_DRAGON_SLAYER
+        || spell == SPELL_BLOOD_LUST
+        || spell == SPELL_MIRROR_IMAGE
+        || spell == SPELL_SHIELD
+        || spell == SPELL_MASS_SHIELD
+        || spell == SPELL_FORCE_SHIELD
+        || spell == SPELL_MASS_FORCE_SHIELD)
+        chance = 1.0;
+      else
+        chance = CheckApplyDwarfSpellChance();
+    }
+  }
+
   auto res = ScriptCallbackResult<double>("OnCalcSpellChance", deepbind<army*>(this), spell, chance);
   if(res.has_value())
     chance = res.value();
   chance = max(0.0, min(chance, 1.0));
   return chance;
+}
+
+float army::CheckApplyDwarfSpellChance() {
+  if(creatureIdx == CREATURE_DWARF && creatureIdx == CREATURE_BATTLE_DWARF)
+    return 0.75;
+  else
+    return 1.0;
 }
 
 void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility, int a5) {

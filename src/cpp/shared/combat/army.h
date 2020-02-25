@@ -148,6 +148,7 @@ private:
   void ChargingDamage(std::vector<int> affectedHexes);
   bool IsEnemyCreatureHex(int hex);
   void MoveAttackNonFlyer(int startHex, int attackMask);
+  float CheckApplyDwarfSpellChance();
 };
 
 #pragma pack(pop)
