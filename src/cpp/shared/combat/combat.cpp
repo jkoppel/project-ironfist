@@ -355,6 +355,12 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
         if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
           return 1;
         return 0;
+      case SPELL_FORCE_SHIELD:
+      case SPELL_MASS_FORCE_SHIELD:
+        if(this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
+          if(gIronfistExtra.combat.stack.forceShieldHP[stack] < gMonsterDatabase[stack->creatureIdx].hp)
+            return 1;
+        return 0;
       case SPELL_MIRROR_IMAGE:
         if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide) {
           if (this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx].mirrorIdx == -1
@@ -415,6 +421,7 @@ void combatManager::SetupCombat(int arg0, int arg1, hero *h1, armyGroup *a1, tow
     SetupCombat_orig(arg0, arg1, h1, a1, t, h2, a2, arg2, arg3, arg4);
     gIronfistExtra.combat.stack.abilityCounter.clear();
     gIronfistExtra.combat.stack.abilityNowAnimating.clear();
+    gIronfistExtra.combat.stack.forceShieldHP.clear();
 }
 
 void combatManager::ResetRound() {

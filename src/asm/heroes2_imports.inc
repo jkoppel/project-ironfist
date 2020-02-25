@@ -272,6 +272,9 @@ IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
 IMPORT_?Fireball@combatManager@@QAEXHH@Z = 1
 IMPORT_?HandleCastSpell@@YIHAAUtag_message@@@Z = 1
+IMPORT_?CastMassSpell@combatManager@@QAEXHH@Z = 1
+IMPORT_?ViewSpells@combatManager@@QAEHH@Z = 1
+IMPORT_?DrawToBuffer@army@@QAEXHHH@Z = 1
 IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
 IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
 IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1

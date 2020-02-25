@@ -304,6 +304,7 @@ public:
   void SetRandomHeroArmies(int heroIdx, int isAI);
   void GiveTroopsToNeutralTown(int castleIdx);
   int RandomScan(signed char*, int, int, int, signed char);
+  int ViewSpells(hero *hris, int a3, int(__fastcall *callback)(struct tag_message &), int a5);
   int GetBoatsBuilt();
   int CreateBoat(int x, int y, int doSend);
   void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
@@ -390,6 +391,7 @@ extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
+extern int giCurGeneral;
 extern signed char gbRetreatWin;
 extern unsigned char randomMineResources[NUM_RESOURCES];
 
@@ -398,6 +400,7 @@ extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
 extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
+extern int __fastcall CombatSpecialHandler(struct tag_message &);
 extern int getCastleOwnedIdx(playerData *player, int castleIdx);
 extern void __fastcall Process1WindowsMessage();
 extern int __fastcall SetupGameHandler(struct tag_message &);

@@ -2,6 +2,7 @@
 #include "combat\animation.h"
 #include "combat\combat.h"
 #include "combat\speed.h"
+#include "gui\dialog.h"
 #include "resource\resourceManager.h"
 #include "spell\spells.h"
 
@@ -149,26 +150,168 @@ void combatManager::Resurrect(int spell, int hex, int spellpower) {
 }
 
 float army::SpellCastWorkChance(int spell) {
-	if (this->effectStrengths[EFFECT_ANTI_MAGIC])
-		return 0.0;
-
-	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
-		&& spell == SPELL_ELEMENTAL_STORM)
-		return 0.0;
-
-	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
-		&& spell == SPELL_METEOR_SHOWER)
-		return 1.0;
-
+  double chance = 1.0;
   if (spell == SPELL_SHADOW_MARK && this->dead)
-    return 0.0;
+    chance = 0.0;
+  
+  if((spell == SPELL_MIRROR_IMAGE || spell == SPELL_ANTI_MAGIC) && this->creature.creature_flags & ATTR_MIRROR_IMAGE)
+    chance = 0.0;
 
-  double chance = this->SpellCastWorkChance_orig(spell);
+  if(chance > 0.0 && spell == SPELL_DISPEL_MAGIC || spell == SPELL_MASS_DISPEL) {
+    bool hasEffect = false;
+    for(int i = 0; i < NUM_SPELL_EFFECTS; ++i) {
+      if(this->effectStrengths[i]) {
+        hasEffect = true;
+        break;
+      }
+    }
+    if(!hasEffect)
+      chance = 0.0;
+  }
+  
+  bool isUndead = this->creature.creature_flags & ATTR_UNDEAD;
+  if(chance > 0.0 && this->effectStrengths[EFFECT_ANTI_MAGIC] || this->creature.creature_flags & CREATURE_FLAGS::DEAD
+    && spell != SPELL_RESURRECT
+    && spell != SPELL_RESURRECT_TRUE
+    && spell != SPELL_ANIMATE_DEAD
+    || this->dead
+    || creatureIdx == CREATURE_GREEN_DRAGON
+    || creatureIdx == CREATURE_RED_DRAGON
+    || creatureIdx == CREATURE_BLACK_DRAGON)
+    chance = 0.0;
+
+  if(chance > 0.0 && spell == SPELL_MIRROR_IMAGE && this->mirrorIdx != -1)
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_RESURRECT || spell == SPELL_RESURRECT_TRUE) && (isUndead || this->initialQuantity == this->quantity))
+    chance = 0.0;
+  if(chance > 0.0 && spell == SPELL_ANIMATE_DEAD && (!isUndead || this->initialQuantity == this->quantity))
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT) && !isUndead)
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE) && isUndead)
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_PHOENIX
+    && (spell == SPELL_FIREBALL
+      || spell == SPELL_FIREBLAST
+      || spell == SPELL_LIGHTNING_BOLT
+      || spell == SPELL_CHAIN_LIGHTNING
+      || spell == SPELL_COLD_RAY
+      || spell == SPELL_COLD_RING
+      || spell == SPELL_ELEMENTAL_STORM))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_CRUSADER && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE))
+    chance = 0.0;
+  if(chance > 0.0 && (isUndead
+    || creatureIdx == CREATURE_EARTH_ELEMENTAL
+    || creatureIdx == CREATURE_AIR_ELEMENTAL
+    || creatureIdx == CREATURE_FIRE_ELEMENTAL
+    || creatureIdx == CREATURE_WATER_ELEMENTAL
+    || creatureIdx == CREATURE_GIANT
+    || creatureIdx == CREATURE_TITAN)
+    && (spell == SPELL_BERZERKER || spell == SPELL_HYPNOTIZE || spell == SPELL_PARALYZE || spell == SPELL_BLIND))
+    chance = 0.0;
+  if(chance > 0.0 && isUndead && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE || spell == SPELL_BLESS || spell == SPELL_MASS_BLESS))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_EARTH_ELEMENTAL && (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING || spell == SPELL_ELEMENTAL_STORM))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_AIR_ELEMENTAL && spell == SPELL_METEOR_SHOWER)
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_FIRE_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_COLD_RAY || spell == SPELL_COLD_RING))
+    chance = 0.0;
+
+  hero* ownHero = gpCombatManager->heroes[this->owningSide];
+  if(ownHero) {
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_HOLY_PENDANT) && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_FREE_WILL) && spell == SPELL_HYPNOTIZE)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_LIFE) && (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_SERENITY_PENDANT) && spell == SPELL_BERZERKER)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_SEEING_EYE_PENDANT) && spell == SPELL_BLIND)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_KINETIC_PENDANT) && spell == SPELL_PARALYZE)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_DEATH) && (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_WAND_OF_NEGATION) && (spell == SPELL_DISPEL_MAGIC || spell == SPELL_MASS_DISPEL || spell == SPELL_ARCHMAGI_DISPEL)) {
+      chance = 0.0;
+    }
+  } else {
+    hero* curHero = gpCombatManager->heroes[gpCombatManager->currentActionSide];
+    if(chance > 0.0 && spell == SPELL_RESURRECT || spell == SPELL_RESURRECT_TRUE || spell == SPELL_ANIMATE_DEAD) {
+      if(!this->quantity) {
+        int ressurectionStrength = 50 * gpCombatManager->heroSpellpowers[gpCombatManager->currentActionSide];
+        if(curHero && curHero->HasArtifact(ARTIFACT_ANKH))
+          ressurectionStrength *= 2;
+        if(this->creature.hp <= ressurectionStrength)
+          chance = 1.0;
+      } else
+        chance = 0.0;
+    }
+    if(chance > 0.0 && spell == SPELL_HYPNOTIZE) {
+      int hypnotizeStrength = 25 * curHero->Stats(PRIMARY_SKILL_SPELLPOWER);
+      if(curHero->HasArtifact(ARTIFACT_GOLD_WATCH))
+        hypnotizeStrength *= 2;
+      if(this->quantity * this->creature.hp <= hypnotizeStrength)
+        chance = CheckApplyDwarfSpellChance();
+      else
+        chance = 0.0;
+    }
+    if(chance > 0.0 && spell == SPELL_ARCHMAGI_DISPEL) {
+      if(this->effectStrengths[EFFECT_HASTE]
+        || this->effectStrengths[EFFECT_BLESS]
+        || this->effectStrengths[EFFECT_DRAGON_SLAYER]
+        || this->effectStrengths[EFFECT_BLOOD_LUST]
+        || this->effectStrengths[EFFECT_SHIELD]
+        || this->effectStrengths[EFFECT_ANTI_MAGIC]
+        || this->effectStrengths[EFFECT_STONESKIN]
+        || this->effectStrengths[EFFECT_STEELSKIN])
+        chance = 1.0;
+      else
+        chance = 0.0;
+    }
+    if(chance > 0.0) {
+      if(spell == SPELL_TELEPORT
+        || spell == SPELL_CURE
+        || spell == SPELL_MASS_CURE
+        || spell == SPELL_RESURRECT
+        || spell == SPELL_RESURRECT_TRUE
+        || spell == SPELL_HASTE
+        || spell == SPELL_MASS_HASTE
+        || spell == SPELL_BLESS
+        || spell == SPELL_MASS_BLESS
+        || spell == SPELL_STONESKIN
+        || spell == SPELL_STEELSKIN
+        || spell == SPELL_ANTI_MAGIC
+        || spell == SPELL_DRAGON_SLAYER
+        || spell == SPELL_BLOOD_LUST
+        || spell == SPELL_MIRROR_IMAGE
+        || spell == SPELL_SHIELD
+        || spell == SPELL_MASS_SHIELD
+        || spell == SPELL_FORCE_SHIELD
+        || spell == SPELL_MASS_FORCE_SHIELD)
+        chance = 1.0;
+      else
+        chance = CheckApplyDwarfSpellChance();
+    }
+  }
+
   auto res = ScriptCallbackResult<double>("OnCalcSpellChance", deepbind<army*>(this), spell, chance);
   if(res.has_value())
     chance = res.value();
   chance = max(0.0, min(chance, 1.0));
   return chance;
+}
+
+float army::CheckApplyDwarfSpellChance() {
+  if(creatureIdx == CREATURE_DWARF && creatureIdx == CREATURE_BATTLE_DWARF)
+    return 0.75;
+  else
+    return 1.0;
 }
 
 void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility, int a5) {
@@ -227,7 +370,8 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     && proto_spell != SPELL_MASS_SHIELD
     && proto_spell != SPELL_ARMAGEDDON
     && proto_spell != SPELL_ELEMENTAL_STORM
-    && proto_spell != SPELL_MASS_DISPEL) {
+    && proto_spell != SPELL_MASS_DISPEL
+    && proto_spell != SPELL_MASS_FORCE_SHIELD) {
     int targetedUnitOwner = this->combatGrid[hexIdx].unitOwner;
     int targetedUnitStackIdx = this->combatGrid[hexIdx].stackIdx;
     if (ValidHex(hexIdx) && targetedUnitOwner >= 0) {
@@ -465,6 +609,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_DEATH_RIPPLE:
     case SPELL_DEATH_WAVE:
     case SPELL_MASS_SHIELD:
+    case SPELL_MASS_FORCE_SHIELD:
       this->CastMassSpell(proto_spell, spellpower);
       break;
     case SPELL_MIRROR_IMAGE:
@@ -635,6 +780,11 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_PLASMA_CONE:
       this->Fireball(hexIdx, SPELL_PLASMA_CONE);
       break;
+    case SPELL_FORCE_SHIELD:
+      this->ShowSpellMessage(isCreatureAbility, proto_spell, stack);
+      stack->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
+      stack->SpellEffect(gsSpellInfo[SPELL_FORCE_SHIELD].creatureEffectAnimationIdx, 0, 0);
+    break;
     default:
       this->DefaultSpell(hexIdx);
       break;
@@ -665,6 +815,148 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   }
   WaitEndSample(res, res.sample);
   this->CheckChangeSelector();
+}
+
+void combatManager::CastMassSpell(int spell, signed int spellpower) {
+  bool isDamageSpell = false;
+  gpWindowManager->cycleColors = 0;
+  this->ShowSpellMessage(0, spell, 0);
+
+  char stackAffected[2][20];
+  memset(stackAffected, 0, 40u);
+  int thisSide = this->currentActionSide;
+  int othSide = 1 - thisSide;
+  switch(spell) {
+    case SPELL_MASS_SLOW:
+    case SPELL_MASS_CURSE:
+      for(int i = 0; this->numCreatures[othSide] > i; ++i)
+        if(this->creatures[othSide][i].SpellCastWorks(spell))
+          stackAffected[othSide][i] = 1;
+      break;
+    case SPELL_MASS_CURE:
+    case SPELL_MASS_HASTE:
+    case SPELL_MASS_BLESS:
+    case SPELL_MASS_SHIELD:
+    case SPELL_MASS_FORCE_SHIELD:
+      for(int i = 0; this->numCreatures[thisSide] > i; ++i)
+        if(this->creatures[thisSide][i].SpellCastWorks(spell))
+          stackAffected[thisSide][i] = 1;
+      break;
+    case SPELL_MASS_DISPEL:
+      for(int side = 0; side < 2; side++)
+        for(int i = 0; this->numCreatures[side] > i; ++i)
+          if(this->creatures[side][i].SpellCastWorks(spell))
+            stackAffected[side][i] = 1;
+      break;
+    case SPELL_HOLY_WORD:
+    case SPELL_HOLY_SHOUT: {
+      isDamageSpell = true;
+      int damage;
+      if(spell == SPELL_HOLY_WORD)
+        damage = spellpower * 10;
+      else
+        damage = spellpower * 20;
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; ; ++i) {
+          if(this->numCreatures[side] <= i)
+            break;
+          if(HIBYTE(this->creatures[side][i].creature.creature_flags) & ATTR_UNDEAD
+            && this->creatures[side][i].SpellCastWorks(spell))
+            stackAffected[side][i] = 1;
+        }
+      if(spell == SPELL_HOLY_WORD)
+        this->Blur(0, -2, -2);
+      else
+        this->Blur(0, -4, -4);
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; this->numCreatures[side] > i; ++i)
+          if(stackAffected[side][i])
+            this->creatures[side][i].Damage(damage, SPELL_NONE);
+
+      sprintf(gText, "The %s spell does %d damage\nto all undead creatures.", gSpellNames[spell], damage);
+      this->CombatMessage(gText, 1, 1, 0);
+      break;
+    }
+    case SPELL_DEATH_RIPPLE:
+    case SPELL_DEATH_WAVE: {
+      isDamageSpell = true;
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; ; ++i) {
+          if(this->numCreatures[side] <= i)
+            break;
+          if(!(HIBYTE(this->creatures[side][i].creature.creature_flags) & ATTR_UNDEAD)
+            && this->creatures[side][i].SpellCastWorks(spell))
+            stackAffected[side][i] = 1;
+        }
+      int damage;
+      if(spell == SPELL_DEATH_RIPPLE) {
+        damage = spellpower * 5;
+        this->Ripple(1);
+      } else {
+        damage = spellpower * 10;
+        this->Ripple(2);
+      }
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; this->numCreatures[side] > i; ++i)
+          if(stackAffected[side][i])
+            this->creatures[side][i].Damage(damage, SPELL_NONE);
+
+      sprintf(gText, "The Death spell does %d damage\nto all living creatures.", damage);
+      this->CombatMessage(gText, 1, 1, 0);
+      break;
+    }
+    default:
+      break;
+  }
+  if(!gbNoShowCombat) {
+    int anyoneAffected = 0;
+    for(int side = 0; side < 2; ++side)
+      for(int i = 0; this->numCreatures[side] > i; ++i)
+        if(stackAffected[side][i])
+          anyoneAffected = 1;
+
+    if(anyoneAffected) {
+      int animIdx = gsSpellInfo[spell].creatureEffectAnimationIdx;
+      this->ShowMassSpell((signed char(*)[20])stackAffected, animIdx, isDamageSpell);
+    }
+  }
+  for(int affectedSide = 0; affectedSide < 2; ++affectedSide)
+    for(int i = 0; this->numCreatures[affectedSide] > i; ++i)
+      if(stackAffected[affectedSide][i]) {
+        army *creature = &this->creatures[affectedSide][i];
+        switch(spell) {
+          case SPELL_MASS_CURSE:
+            creature->SetSpellInfluence(EFFECT_CURSE, spellpower);
+            break;
+          case SPELL_MASS_SLOW:
+            creature->SetSpellInfluence(EFFECT_SLOW, spellpower);
+            break;
+          case SPELL_MASS_HASTE:
+            creature->SetSpellInfluence(EFFECT_HASTE, spellpower);
+            break;
+          case SPELL_MASS_BLESS:
+            creature->SetSpellInfluence(EFFECT_BLESS, spellpower);
+            break;
+          case SPELL_MASS_SHIELD:
+            creature->SetSpellInfluence(EFFECT_SHIELD, spellpower);
+            break;
+          case SPELL_MASS_FORCE_SHIELD:
+            creature->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
+            break;
+          case SPELL_MASS_CURE:
+            creature->Cure(spellpower);
+            break;
+          case SPELL_MASS_DISPEL:
+            for(int i = 0; i < NUM_SPELL_EFFECTS; i++)
+              creature->CancelIndividualSpell(i);
+            break;
+          case SPELL_DEATH_RIPPLE:
+          case SPELL_DEATH_WAVE:
+            continue;
+        }
+      }
+  this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+  gpWindowManager->cycleColors = 1;
 }
 
 // This function copies the functionality needed from CheckSetMouseDirection with everything else removed 
@@ -1101,5 +1393,107 @@ void combatManager::Fireball(int hexIdx, int spell) {
     }
     this->CombatMessage(gText, 1, 1, 0);
     stack->PowEffect(-1, 1, -1, -1);
+  }
+}
+
+int combatManager::ViewSpells(int unused) {
+  this->current_spell_id = gpGame->ViewSpells(this->heroes[giCurGeneral], SPELL_CATEGORY_COMBAT, CombatSpecialHandler, 0);
+  if(this->current_spell_id == SPELL_NONE)
+    return 0;
+  else {
+    switch(this->current_spell_id) {
+      case SPELL_EARTHQUAKE:
+        if(this->castles[1]) {
+          giNextAction = 1;
+          giNextActionExtra = this->current_spell_id;
+          break;
+        }
+        NormalDialog("An earthquake will do you no good unless there are town walls to damage.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        break;
+      case SPELL_SUMMON_EARTH_ELEMENTAL: case SPELL_SUMMON_AIR_ELEMENTAL: case SPELL_SUMMON_FIRE_ELEMENTAL: case SPELL_SUMMON_WATER_ELEMENTAL: {
+        CREATURES elemental_type;
+        switch(this->current_spell_id) {
+          case SPELL_SUMMON_EARTH_ELEMENTAL:
+            elemental_type = CREATURE_EARTH_ELEMENTAL;
+            break;
+          case SPELL_SUMMON_AIR_ELEMENTAL:
+            elemental_type = CREATURE_AIR_ELEMENTAL;
+            break;
+          case SPELL_SUMMON_FIRE_ELEMENTAL:
+            elemental_type = CREATURE_FIRE_ELEMENTAL;
+            break;
+          case SPELL_SUMMON_WATER_ELEMENTAL:
+            elemental_type = CREATURE_WATER_ELEMENTAL;
+            break;
+        }
+        if(this->summonedCreatureType[this->currentActionSide] && this->summonedCreatureType[this->currentActionSide] != elemental_type) {
+          NormalDialog("You may only summon one type of elemental per combat.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        if(this->numCreatures[this->currentActionSide] >= 20) {
+          sprintf(gText, "You already have %d creatures groups in combat and cannot add any more.", this->numCreatures[this->currentActionSide]);
+          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        if(!this->SpaceForElementalExists()) {
+          NormalDialog("There is no open space adjacent to your hero to summon an Elemental to.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        giNextAction = 1;
+        giNextActionExtra = this->current_spell_id;
+        break;
+      }
+      case SPELL_MASS_CURE:
+      case SPELL_MASS_HASTE:
+      case SPELL_MASS_SLOW:
+      case SPELL_MASS_BLESS:
+      case SPELL_MASS_CURSE:
+      case SPELL_HOLY_WORD:
+      case SPELL_HOLY_SHOUT:
+      case SPELL_MASS_DISPEL:
+      case SPELL_ARMAGEDDON:
+      case SPELL_ELEMENTAL_STORM:
+      case SPELL_DEATH_RIPPLE:
+      case SPELL_DEATH_WAVE:
+      case SPELL_MASS_SHIELD:
+      case SPELL_MASS_FORCE_SHIELD:
+        if(this->HasValidSpellTarget(this->current_spell_id)) {
+          giNextAction = 1;
+          giNextActionExtra = this->current_spell_id;
+          break;
+        }
+        NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        return 0;
+      case SPELL_MIRROR_IMAGE: {
+        if(this->numCreatures[this->currentActionSide] < 20) {
+          if(!this->HasValidSpellTarget(this->current_spell_id)) {
+            NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            return 0;
+          }
+          giNextAction = 1;
+          giNextActionExtra = this->current_spell_id;
+          gpMouseManager->SetPointer("spelmous.mse", gsSpellInfo[this->current_spell_id].magicBookIconIdx, -999);
+          gpWindowManager->DoDialog(0, HandleCastSpell, 0);
+          break;
+        }
+        sprintf(gText, "You already have %d creatures groups in combat and cannot add any more.", this->numCreatures[this->currentActionSide]);
+        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        return 0;
+      }
+      default:
+        if(!this->HasValidSpellTarget(this->current_spell_id)) {
+          NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        giNextAction = 1;
+        giNextActionExtra = this->current_spell_id;
+        gpMouseManager->SetPointer("spelmous.mse", gsSpellInfo[this->current_spell_id].magicBookIconIdx, -999);
+        gpWindowManager->DoDialog(0, HandleCastSpell, 0);
+        break;
+    }
+    gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
+    if(this->current_spell_id == SPELL_NONE)
+      return 0;
+    return 1;
   }
 }
