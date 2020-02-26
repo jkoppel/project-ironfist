@@ -282,6 +282,7 @@ IMPORT_?GetNextArmy@combatManager@@QAEHH@Z = 1
 IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
 IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1
 ?CheckWin@combatManager@@QAEHPAUtag_message@@@Z_clone EQU ?CheckWin_orig@combatManager@@QAEHPAUtag_message@@@Z
+IMPORT_?DoHydraAttack@army@@QAEXH@Z = 1
 IMPORT_?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z = 1
 ?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z_clone EQU ?ProcessNextAction_orig@combatManager@@QAEHAAUtag_message@@@Z
 
