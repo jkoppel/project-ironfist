@@ -290,7 +290,6 @@ public:
   void SetRenderExtentFlags(bool state);
   void CycleCombatScreen();
   void CycleCombatScreen_orig();
-  void DrawMoatPart(int row);
   void CheckBurnCreature(army *stack);
   void BurnCreature(army *stack);
   int GetNextArmy(int maybeIsFirstTurn);

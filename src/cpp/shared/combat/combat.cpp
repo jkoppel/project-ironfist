@@ -763,20 +763,12 @@ void combatManager::SetCombatDirections(int hexIdx) {
   attacker->targetStackIdx = targetStackIdx;
 }
 
-
 void combatManager::CombatMessage(char* msg, int doUpdate, int keepPrevMessage, int a5) {
   // It already does this logging if gbNoShowCombat is true
   if (!gbNoShowCombat) {
     LogStr(msg);
   }
   this->CombatMessage_orig(msg, doUpdate, keepPrevMessage, a5);
-}
-
-void combatManager::DrawMoatPart(int row) {
-  this->combatScreenIcons[COMBAT_ICON_MOAT_PART]->CombatClipDrawToBuffer(0, 0, row, &this->moatPartBounds[row], 0, 0, 0, 0);
-  this->combatGrid[moatCell[row] - 1].DrawOccupant(100, 1);
-  this->combatGrid[moatCell[row]].DrawOccupant(100, 1);
-  this->combatGrid[moatCell[row] + 1].DrawOccupant(100, 1);
 }
 
 void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int delay, int a7, int waitUntilItIsTime) {

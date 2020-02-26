@@ -59,13 +59,6 @@ extern int bSecondAttack;
 extern int giDebugBuildingToBuild;
 extern signed char gbThisNetHumanPlayer[];
 
-#pragma pack(push, 1)
-struct Point16 {
-  __int16 x;
-  __int16 y;
-};
-#pragma pack(pop)
-
 extern int gbAllBlack;
 extern int giDebugLevel;
 extern int combatArmyInfoLevel;
