@@ -58,7 +58,6 @@ extern signed char gArmyEffected[2][20];
 extern int bSecondAttack;
 extern int giDebugBuildingToBuild;
 extern signed char gbThisNetHumanPlayer[];
-
 extern int gbAllBlack;
 extern int giDebugLevel;
 extern int combatArmyInfoLevel;
