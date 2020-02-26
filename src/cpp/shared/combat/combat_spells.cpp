@@ -1367,7 +1367,17 @@ void combatManager::Fireball(int hexIdx, int spell) {
       int wallHex = hex;
       const int turnsLeft = 2;
       int currentFrame = 0;
-      gIronfistExtra.combat.spell.fireBombWalls.push_back({wallHex, turnsLeft, currentFrame});
+      bool wallExists = false;
+      for(auto &wall : gIronfistExtra.combat.spell.fireBombWalls) {
+        if(wall.hexIdx == wallHex) {
+          wallExists = true;
+          wall.turnsLeft = turnsLeft;
+          wall.currentFrame = currentFrame;
+          break;
+        }
+      }
+      if(!wallExists)
+        gIronfistExtra.combat.spell.fireBombWalls.push_back({ wallHex, turnsLeft, currentFrame });
     }
     if(unitOwner == -1)
       continue;
