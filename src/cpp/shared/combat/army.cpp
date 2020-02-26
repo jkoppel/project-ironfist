@@ -2361,6 +2361,8 @@ void army::DecrementSpellRounds() {
     if (this->effectStrengths[effect]) {
       if(effect == EFFECT_FORCE_SHIELD)
         continue;
+      if(effect == EFFECT_BURN)
+        gpCombatManager->BurnCreature(this);
       if (this->effectStrengths[effect] == 1)
         this->CancelIndividualSpell(effect);
       else

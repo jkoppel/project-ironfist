@@ -292,6 +292,7 @@ public:
   void CycleCombatScreen_orig();
   void DrawMoatPart(int row);
   void CheckBurnCreature(army *stack);
+  void BurnCreature(army *stack);
   int GetNextArmy(int maybeIsFirstTurn);
   int CheckApplyBadMorale(int side, int stackIdx);
   void GetControl();

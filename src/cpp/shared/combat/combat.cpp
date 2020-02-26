@@ -1277,42 +1277,46 @@ void combatManager::CycleCombatScreen() {
 
 void combatManager::CheckBurnCreature(army *stack) {
   for(auto wallHex : gIronfistExtra.combat.spell.fireBombWalls) {
-      if(wallHex.hexIdx == stack->occupiedHex) {
-        stack->SetSpellInfluence(EFFECT_BURN, 2);
-        // Must be set before using SpellEffect because walking animation frame has a different offset
-        stack->animationType = ANIMATION_TYPE_WINCE;
-        stack->animationFrame = 0;
-        stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
-
-        int creaturesKilled;
-        int burnDamage = 20;
-        burnDamage += SRandom(0, 5);
-        creaturesKilled = stack->Damage(burnDamage, SPELL_FIRE_BOMB);
-
-        // Save and revert graphics variables to avoid crashing for drawing out of bounds data (?)
-        int minExtentX = giMinExtentX;
-        int minExtentY = giMinExtentY;
-        int maxExtentX = giMaxExtentX;
-        int maxExtentY = giMaxExtentY;
-        stack->PowEffect(-1, 1, -1, -1);
-        giMinExtentX = minExtentX;
-        giMinExtentY = minExtentY;
-        giMaxExtentX = maxExtentX;
-        giMaxExtentY = maxExtentY;
-
-        std::string message;
-        message = "Burning does " + std::to_string(burnDamage) + " damage. ";
-        if(creaturesKilled > 0) {
-          char *targetCreature;
-          if(creaturesKilled <= 1)
-            targetCreature = GetCreatureName(stack->creatureIdx);
-          else
-            targetCreature = GetCreaturePluralName(stack->creatureIdx);
-          message += std::to_string(creaturesKilled) + " " + targetCreature + " " + ((creaturesKilled > 1) ? "perish" : "perishes");
-        }
-        gpCombatManager->CombatMessage((char*)message.c_str(), 1, 1, 0);
-      }
+    if(wallHex.hexIdx == stack->occupiedHex) {
+      stack->SetSpellInfluence(EFFECT_BURN, 2);
+      gpCombatManager->BurnCreature(stack);
     }
+  }
+}
+
+void combatManager::BurnCreature(army *stack) {
+  // Must be set before using SpellEffect because walking animation frame has a different offset
+  stack->animationType = ANIMATION_TYPE_WINCE;
+  stack->animationFrame = 0;
+  stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
+
+  int creaturesKilled;
+  int burnDamage = 20;
+  burnDamage += SRandom(0, 5);
+  creaturesKilled = stack->Damage(burnDamage, SPELL_FIRE_BOMB);
+
+  // Save and revert graphics variables to avoid crashing for drawing out of bounds data (?)
+  int minExtentX = giMinExtentX;
+  int minExtentY = giMinExtentY;
+  int maxExtentX = giMaxExtentX;
+  int maxExtentY = giMaxExtentY;
+  stack->PowEffect(-1, 1, -1, -1);
+  giMinExtentX = minExtentX;
+  giMinExtentY = minExtentY;
+  giMaxExtentX = maxExtentX;
+  giMaxExtentY = maxExtentY;
+
+  std::string message;
+  message = "Burning does " + std::to_string(burnDamage) + " damage. ";
+  if(creaturesKilled > 0) {
+    char *targetCreature;
+    if(creaturesKilled <= 1)
+      targetCreature = GetCreatureName(stack->creatureIdx);
+    else
+      targetCreature = GetCreaturePluralName(stack->creatureIdx);
+    message += std::to_string(creaturesKilled) + " " + targetCreature + " " + ((creaturesKilled > 1) ? "perish" : "perishes");
+  }
+  gpCombatManager->CombatMessage((char*)message.c_str(), 1, 1, 0);
 }
 
 int combatManager::GetNextArmy(int maybeIsFirstTurn) {
