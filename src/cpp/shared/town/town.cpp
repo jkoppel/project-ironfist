@@ -244,27 +244,27 @@ SBuildingInfo sBuildingsInfo[MAX_FACTIONS][BUILDING_MAX] = {
     { '\x05', 0, 130, 53, 63 },
     { '\x05', 345, 114, 83, 62 },
     { '\x05', 531, 214, 113, 42 },
-    { '\0', 188, 214, 39, 42 },
+    { 0, 316, 145, 32, 42 },
     { '\0', 69, 108, 67, 55 },
     { 6, 216, 3, 236, 130 },
     { 0, 380, 172, 40, 80 },
-    { '\x05', 7, 33, 0, 0 },
-    { '\x05', 134, 37, 0, 0 },
-    { '\0', 219, 138, 120, 30 },
+    { 0, 7, 33, 0, 0 }, // ltur
+    { 0, 134, 37, 0, 0 }, // rtur
+    { 0, 527, 104, 80, 50 },
     { '\0', 286, 102, 88, 22 },
-    { '\0', 0, 146, 311, 30 },
-    { '\0', 0, 78, 251, 22 },
+    { 8, 207, 107, 254, 30 },
+    { 7, 200, 7, 105, 58 },
     { '\t', 531, 211, 113, 45 },
     { 0, 220, 110, 59, 45 },
-    { '\x05', 0, 0, 0, 0 },
+    { 4, 0, 0, 0, 0 },
+    { 4, 0, 0, 0, 0 },
     { '\0', 0, 0, 0, 0 },
-    { '\0', 0, 0, 0, 0 },
-    { '\x05', 192, 163, 69, 52 },
+    { 5, 230, 165, 90, 60 },
     { 0, 230, 165, 90, 60 },
     { '\x05', 240, 166, 91, 66 },
-    { '\0', 323, 174, 102, 69 },
-    { '\a', 48, 176, 104, 80 },
-    { 0, 547, 10, 48, 84 },
+    { 5, 495, 184, 147, 75 },
+    { 5, 75, 45, 100, 50 },
+    { 4, 547, 10, 48, 84 },
     { '\0', 135, 149, 73, 32 },
     { '\x05', 240, 166, 91, 66 },
     { '\0', 323, 174, 102, 69 },
@@ -1073,6 +1073,43 @@ int townManager::Main(tag_message &evt) {
   }
   else
     return 1;  
+}
+
+// Set built flags for extra buildings and boat depending on faction and dock creation possibility
+void townManager::SetupExtraStuff() {
+  // remove ext0,ext1,ext2,ext3 and boat building flags
+  this->castle->buildingsBuiltFlags &= 0x7FF8BFFFu;
+
+  if(this->castle->factionID == FACTION_WIZARD)
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_0);
+  if(this->castle->factionID == FACTION_SORCERESS) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_0);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+  }
+  if(this->castle->factionID == FACTION_KNIGHT) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_2);
+  }
+  if(this->castle->factionID == FACTION_BARBARIAN) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_2);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_3);
+  }
+  if(this->castle->factionID == FACTION_WARLOCK
+    || this->castle->factionID == FACTION_KNIGHT
+    || this->castle->factionID == FACTION_BARBARIAN
+    || this->castle->factionID == FACTION_NECROMANCER
+    || this->castle->factionID == FACTION_CYBORG) {
+    if(this->castle->CanBuildDock())
+      this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_0);
+  }
+  if(this->castle->factionID == FACTION_CYBORG) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+  }
+  if(this->castle->buildingsBuiltFlags & (1 << BUILDING_DOCK) && gpAdvManager->GetCell(this->castle->buildDockRelated, this->castle->boatCell)->objType)
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_BOAT);
+  else
+    this->castle->buildingsBuiltFlags &= 0xFFFFBFFFu; // remove boat flag
 }
 
 void townManager::SetupCastle(heroWindow *window, int a3) {
