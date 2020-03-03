@@ -80,8 +80,8 @@ char *gSpellDesc[] =
   "{Shadow Mark}\n\nMarked creature receives 150% damage from your troops for 1 turn",
   "{Marksman Pierce}\n\nTarget creature receives 1000 damage and is dazed for 1 turn",
   "{Plasma Cone}\n\nCreates a cone of hot plasma in the direction of the target",
-  "{Force Shield}\n\nCreates a Kinetic shield over the target ally",
-  "{Mass Force Shield}\n\nCreates a Kinetic shield over all allies",
+  "{Force Shield}\n\nCreates a kinetic shield over the target ally",
+  "{Mass Force Shield}\n\nCreates a kinetic shield over all allies",
   "{Fire Bomb}\n\nSet an area on fire for 2 turns. Creatures will continue burning for 2 turns after leaving the area",
   "{Implosion Grenade}\n\nFires an indirect projectile that explodes inverted dark matter that will suck any creature adjacent to it together."
 };

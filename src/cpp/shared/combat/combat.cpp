@@ -360,7 +360,7 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_FORCE_SHIELD:
       case SPELL_MASS_FORCE_SHIELD:
         if(this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
-          if(gIronfistExtra.combat.stack.forceShieldHP[stack] <= 0)
+          if(gIronfistExtra.combat.stack.forceShieldHP[stack] < gMonsterDatabase[stack->creatureIdx].hp)
             return 1;
         return 0;
       case SPELL_MIRROR_IMAGE:
@@ -765,20 +765,12 @@ void combatManager::SetCombatDirections(int hexIdx) {
   attacker->targetStackIdx = targetStackIdx;
 }
 
-
 void combatManager::CombatMessage(char* msg, int doUpdate, int keepPrevMessage, int a5) {
   // It already does this logging if gbNoShowCombat is true
   if (!gbNoShowCombat) {
     LogStr(msg);
   }
   this->CombatMessage_orig(msg, doUpdate, keepPrevMessage, a5);
-}
-
-void combatManager::DrawMoatPart(int row) {
-  this->combatScreenIcons[COMBAT_ICON_MOAT_PART]->CombatClipDrawToBuffer(0, 0, row, &this->moatPartBounds[row], 0, 0, 0, 0);
-  this->combatGrid[moatCell[row] - 1].DrawOccupant(100, 1);
-  this->combatGrid[moatCell[row]].DrawOccupant(100, 1);
-  this->combatGrid[moatCell[row] + 1].DrawOccupant(100, 1);
 }
 
 void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int delay, int a7, int waitUntilItIsTime) {
@@ -1279,42 +1271,46 @@ void combatManager::CycleCombatScreen() {
 
 void combatManager::CheckBurnCreature(army *stack) {
   for(auto wallHex : gIronfistExtra.combat.spell.fireBombWalls) {
-      if(wallHex.hexIdx == stack->occupiedHex) {
-        stack->SetSpellInfluence(EFFECT_BURN, 2);
-        // Must be set before using SpellEffect because walking animation frame has a different offset
-        stack->animationType = ANIMATION_TYPE_WINCE;
-        stack->animationFrame = 0;
-        stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
-
-        int creaturesKilled;
-        int burnDamage = 20;
-        burnDamage += SRandom(0, 5);
-        creaturesKilled = stack->Damage(burnDamage, SPELL_FIRE_BOMB);
-
-        // Save and revert graphics variables to avoid crashing for drawing out of bounds data (?)
-        int minExtentX = giMinExtentX;
-        int minExtentY = giMinExtentY;
-        int maxExtentX = giMaxExtentX;
-        int maxExtentY = giMaxExtentY;
-        stack->PowEffect(-1, 1, -1, -1);
-        giMinExtentX = minExtentX;
-        giMinExtentY = minExtentY;
-        giMaxExtentX = maxExtentX;
-        giMaxExtentY = maxExtentY;
-
-        std::string message;
-        message = "Burning does " + std::to_string(burnDamage) + " damage. ";
-        if(creaturesKilled > 0) {
-          char *targetCreature;
-          if(creaturesKilled <= 1)
-            targetCreature = GetCreatureName(stack->creatureIdx);
-          else
-            targetCreature = GetCreaturePluralName(stack->creatureIdx);
-          message += std::to_string(creaturesKilled) + " " + targetCreature + " " + ((creaturesKilled > 1) ? "perish" : "perishes");
-        }
-        gpCombatManager->CombatMessage((char*)message.c_str(), 1, 1, 0);
-      }
+    if(wallHex.hexIdx == stack->occupiedHex) {
+      stack->SetSpellInfluence(EFFECT_BURN, 2);
+      gpCombatManager->BurnCreature(stack);
     }
+  }
+}
+
+void combatManager::BurnCreature(army *stack) {
+  // Must be set before using SpellEffect because walking animation frame has a different offset
+  stack->animationType = ANIMATION_TYPE_WINCE;
+  stack->animationFrame = 0;
+  stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
+
+  int creaturesKilled;
+  int burnDamage = 20;
+  burnDamage += SRandom(0, 5);
+  creaturesKilled = stack->Damage(burnDamage, SPELL_FIRE_BOMB);
+
+  // Save and revert graphics variables to avoid crashing for drawing out of bounds data (?)
+  int minExtentX = giMinExtentX;
+  int minExtentY = giMinExtentY;
+  int maxExtentX = giMaxExtentX;
+  int maxExtentY = giMaxExtentY;
+  stack->PowEffect(-1, 1, -1, -1);
+  giMinExtentX = minExtentX;
+  giMinExtentY = minExtentY;
+  giMaxExtentX = maxExtentX;
+  giMaxExtentY = maxExtentY;
+
+  std::string message;
+  message = "Burning does " + std::to_string(burnDamage) + " damage. ";
+  if(creaturesKilled > 0) {
+    char *targetCreature;
+    if(creaturesKilled <= 1)
+      targetCreature = GetCreatureName(stack->creatureIdx);
+    else
+      targetCreature = GetCreaturePluralName(stack->creatureIdx);
+    message += std::to_string(creaturesKilled) + " " + targetCreature + " " + ((creaturesKilled > 1) ? "perish" : "perishes");
+  }
+  gpCombatManager->CombatMessage((char*)message.c_str(), 1, 1, 0);
 }
 
 bool IsOutOfBoundsHex(int hex) {

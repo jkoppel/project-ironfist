@@ -142,7 +142,15 @@ void DoAttackBattleMessage(army *attacker, army *target, int creaturesKilled, in
     attackingCreature = GetCreatureName(attacker->creatureIdx);
   else
     attackingCreature = GetCreaturePluralName(attacker->creatureIdx);
-  if (creaturesKilled <= 1)
+  
+  char* creatureString = "creature";
+  char* creaturesString = "creatures";
+  if(!target) {
+     if (creaturesKilled <= 1)
+       targetCreature = creatureString;
+     else
+       targetCreature = creaturesString;
+  } else if (creaturesKilled <= 1)
     targetCreature = GetCreatureName(target->creatureIdx);
   else
     targetCreature = GetCreaturePluralName(target->creatureIdx);
@@ -593,6 +601,70 @@ void army::DoAttack(int isRetaliation) {
     ScriptCallback("OnBattleMeleeAttackComplete", deepbind<army*>(this), deepbind<army*>(primaryTarget));
   }
 
+}
+
+// Only combat message related code is changed here because of special condition when Astral Dodge happens
+void army::DoHydraAttack(int isRetaliation) {
+  int totalDamage, totalKilled;
+  totalDamage = totalKilled = 0;
+
+  gpCombatManager->ResetHitByCreature();
+
+  __int16 attackMask;
+  if(this->effectStrengths[EFFECT_BERSERKER])
+    attackMask = this->GetAttackMask(this->occupiedHex, 2, -1);
+  else
+    attackMask = this->GetAttackMask(this->occupiedHex, 1, -1);
+
+  this->CheckLuck();
+
+  gpCombatManager->ResetLimitCreature();
+  gpCombatManager->limitCreature[this->owningSide][this->stackIdx]++;
+
+  for(int neighborIdx = 0; neighborIdx < 8; ++neighborIdx) {
+    if(!(attackMask & (1 << neighborIdx))) {
+      int attackFromHex = this->occupiedHex;
+      if(this->creature.creature_flags & TWO_HEXER && (!this->facingRight && neighborIdx > 2 || this->facingRight == 1 && (neighborIdx < 3 || neighborIdx > 5))) {
+        if(this->facingRight)
+          attackFromHex = this->occupiedHex + 1;
+        else
+          attackFromHex = this->occupiedHex - 1;
+      }
+      int attackedToHex = this->GetAdjacentCellIndex(attackFromHex, neighborIdx);
+      if(ValidHex(attackedToHex)) {
+        int owner = gpCombatManager->combatGrid[attackedToHex].unitOwner;
+        int stkIdx = gpCombatManager->combatGrid[attackedToHex].stackIdx;
+        if(owner >= 0 && stkIdx >= 0) {
+          ++gpCombatManager->limitCreature[owner][stkIdx];
+          army *targ = &gpCombatManager->creatures[owner][stkIdx];
+          if(!gpCombatManager->creatures[owner][stkIdx].hitByHydraAttack) {
+            targ->hitByHydraAttack = true;
+            int creaturesKilled, damageDone;
+            this->DamageEnemy(targ, &damageDone, &creaturesKilled, 0, 0);
+            // Don't add to total damage and show special messages
+            if(damageDone < 0) {
+              DoAttackBattleMessage(this, nullptr, creaturesKilled, damageDone);
+            } else {
+              totalDamage += damageDone;
+              totalKilled += creaturesKilled;
+            }
+            ++gpCombatManager->limitCreature[owner][stkIdx];
+          }
+        }
+      }
+    }
+  }
+
+  gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
+  this->mightBeIsAttacking = 1;
+  this->mightBeAttackAnimIdx = 20;
+  gpSoundManager->MemorySample(this->combatSounds[1]);
+
+  if(totalDamage > 0)
+    DoAttackBattleMessage(this, nullptr, totalKilled, totalDamage);
+
+  this->PowEffect(-1, 0, -1, -1);
+  gpCombatManager->limitCreature[this->owningSide][this->stackIdx] = 1;
 }
 
 void army::Walk(signed int dir, int last, int notFirst) { 
@@ -2291,6 +2363,8 @@ void army::DecrementSpellRounds() {
     if (this->effectStrengths[effect]) {
       if(effect == EFFECT_FORCE_SHIELD)
         continue;
+      if(effect == EFFECT_BURN)
+        gpCombatManager->BurnCreature(this);
       if (this->effectStrengths[effect] == 1)
         this->CancelIndividualSpell(effect);
       else
@@ -2625,6 +2699,18 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
     } else {
       inRedrawZone = gpCombatManager->combatScreenIcons[COMBAT_ICON_IDX_TEXTBAR]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 10, &this->stackSizeDispBounds, 0, 0, 0, 0);
     }
+    if(gIronfistExtra.combat.stack.forceShieldHP[this] > 0) {
+      const int FORCE_SHIELD_ICON_X_OFFSET = 2;
+      const int FORCE_SHIELD_ICON_Y_OFFSET = -28;
+      const int FORCE_SHIELD_HP_BOX_Y_OFFSET = -24;
+
+      icon* shieldIcon = gpResourceManager->GetIcon("SPELLINF.ICN");
+      shieldIcon->CombatClipDrawToBuffer(stackNumXOffset + FORCE_SHIELD_ICON_X_OFFSET, offsetY + FORCE_SHIELD_ICON_Y_OFFSET, 10, &this->stackSizeDispBounds, 0, 0, gColorTableRed, 0);
+
+      std::string str = std::to_string(gIronfistExtra.combat.stack.forceShieldHP[this]);
+      smallFont->DrawBoundedString((char*)str.c_str(), stackNumXOffset, offsetY + FORCE_SHIELD_HP_BOX_Y_OFFSET + 2, 20, 12, 1, 1);
+    }
+
     if(inRedrawZone) {
       int quantity;
       if(this->previousQuantity == -1)

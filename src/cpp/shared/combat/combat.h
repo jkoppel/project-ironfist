@@ -33,11 +33,9 @@ enum CURSOR_DIRECTION {
   CURSOR_DIRECTION_RIGHT_UP = 0,
   CURSOR_DIRECTION_RIGHT = 1,
   CURSOR_DIRECTION_RIGHT_DOWN = 2,
-  CURSOR_DIRECTION_DOWN = 3,
-  CURSOR_DIRECTION_LEFT_DOWN = 4,
-  CURSOR_DIRECTION_LEFT = 5,
-  CURSOR_DIRECTION_LEFT_UP = 6,
-  CURSOR_DIRECTION_UP = 7
+  CURSOR_DIRECTION_LEFT_DOWN = 3,
+  CURSOR_DIRECTION_LEFT = 4,
+  CURSOR_DIRECTION_LEFT_UP = 5
 };
 
 enum COMBAT_ICON_INDICES {
@@ -285,6 +283,7 @@ public:
   int CheckWin(struct tag_message *msg);
   int CheckWin_orig(struct tag_message *msg);
   void DoVictory(int side);
+  void ResetHitByCreature();
 
   void DrawMoat(int hexIdx);
   void DrawHero(int side, bool checkCaptain, bool mirrored);
@@ -292,8 +291,8 @@ public:
   void SetRenderExtentFlags(bool state);
   void CycleCombatScreen();
   void CycleCombatScreen_orig();
-  void DrawMoatPart(int row);
   void CheckBurnCreature(army *stack);
+  void BurnCreature(army *stack);
   int GetNextArmy(int maybeIsFirstTurn);
   int CheckApplyBadMorale(int side, int stackIdx);
   void GetControl();
@@ -320,20 +319,6 @@ extern unsigned char gColorTableDarkBrown[];
 extern unsigned char gColorTableGray[];
 extern unsigned char gColorTableLighten[];
 extern char *gCombatFxNames[];
-extern int gbComputeExtent;
-extern int gbSaveBiggestExtent;
-extern int gbReturnAfterComputeExtent;
-extern SCmbtHero sCmbtHero[];
-extern int gbLimitToExtent;
-extern unsigned __int8 moatCell[];
-extern int giWalkingFrom;
-extern int giWalkingFrom2;
-extern int giWalkingTo;
-extern int giWalkingTo2;
-extern int giWalkingYMod;
-extern int combatArmyInfoLevel;
-extern int gbFullCombatScreenDrawn;
-extern int gbEnlargeScreenBlit;
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);
 bool IsCastleWall(int hexIdx);

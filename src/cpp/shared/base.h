@@ -58,14 +58,6 @@ extern signed char gArmyEffected[2][20];
 extern int bSecondAttack;
 extern int giDebugBuildingToBuild;
 extern signed char gbThisNetHumanPlayer[];
-
-#pragma pack(push, 1)
-struct Point16 {
-  __int16 x;
-  __int16 y;
-};
-#pragma pack(pop)
-
 extern int gbAllBlack;
 extern int giDebugLevel;
 extern int combatArmyInfoLevel;
@@ -108,6 +100,13 @@ extern int S1cursorBaseFrame;
 extern int S1cursorFrameCount;
 extern int S1cursorCycle;
 extern int S1cursorTurning;
+extern int gbInSetPointer;
+extern int gbPutzingWithMouseCtr;
+extern int giCurExe;
+extern int gbColorMice;
+extern signed char iHotSpot[][2];
+extern void *cColorBits[];
+extern void *cAndBits[];
 
 struct configStruct {
   int data[103];
