@@ -1622,6 +1622,9 @@ void combatManager::Fireball(int hexIdx, int spell) {
       case SPELL_FIRE_BOMB:
         sprintf(gText, "The fire bomb does %d damage.", spellDamage);
         break;
+      case SPELL_IMPLOSION_GRENADE:
+        sprintf(gText, "The implosion grenade does %d damage.", spellDamage);
+        break;
       default:
          sprintf(gText, "The fireball does %d damage.", spellDamage);
          break;
