@@ -2255,7 +2255,7 @@ void mouseManager::SetPointer(int spriteIdxArg) {
     this->NewUpdate(1);
   } else {
     if(hMouseCursor[this->cursorIdx]) {
-      SetCursor((HCURSOR)&hMouseCursor[this->cursorIdx]);
+      SetCursor((HCURSOR)hMouseCursor[this->cursorIdx]);
     } else {
       std::string fileName;
       int actualSpriteIdx;
