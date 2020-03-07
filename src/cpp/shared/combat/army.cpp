@@ -28,7 +28,7 @@ bool gMoveAttack; // ironfist var to differentiate between move/move and attack
 bool gChargePathDamage;
 bool gCharging;
 
-char *gCombatFxNames[37] =
+char *gCombatFxNames[38] =
 {
   "",
   "magic01.icn",
@@ -66,10 +66,11 @@ char *gCombatFxNames[37] =
   "shdwmark.icn",
   "mrksmprc.icn",
   "plsmcone.icn",
-  "forcshld.icn"
+  "forcshld.icn",
+  "firebomb.icn"
 };
 
-unsigned __int8 giNumPowFrames[37] =
+unsigned __int8 giNumPowFrames[38] =
 {
   10u,
   10u,
@@ -104,6 +105,7 @@ unsigned __int8 giNumPowFrames[37] =
   11u,
   16u,
   7u,
+  8u,
   8u,
   8u,
   8u,
@@ -849,6 +851,7 @@ void army::Walk(signed int dir, int last, int notFirst) {
     this->animationFrame = 0;
     gpCombatManager->DrawFrame(1, 1, 0, 0, 75, 1, 1);
   }
+  gpCombatManager->CheckBurnCreature(this);
 }
 
 int army::FindPath(int knownHex, int targHex, int speed, int flying, int flag) {
@@ -1043,9 +1046,13 @@ int army::WalkTo(int hex) {
           }
         } else {
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+          if(this->animationType == ANIMATION_TYPE_DYING)
+            return 0;
         }
       } else {
         this->Walk(dir, 0, gpSearchArray->field_8 - 1 != hexIdxb);
+        if(this->animationType == ANIMATION_TYPE_DYING)
+          return 0;
       }
       traveledHexes++;
       if(traveledHexes >= this->creature.speed)
@@ -1098,9 +1105,13 @@ int army::AttackTo(int targetHex) {
             break;
           } else {
             this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
+            if(this->animationType == ANIMATION_TYPE_DYING)
+              return 0;
           }
         } else { 
           this->Walk(dir, 0, gpSearchArray->field_8 - 1 != i);
+          if(this->animationType == ANIMATION_TYPE_DYING)
+            return 0;
         }
         ++traveledHexes;
         int a3 = i == 1 || this->creature.speed <= traveledHexes;
@@ -1351,6 +1362,8 @@ int army::FlyTo(int hexIdx) {
     if(CreatureHasAttribute(this->creatureIdx, CHARGER))
         RevertChargingMoveAnimation();
     gpCombatManager->TestRaiseDoor();
+
+    gpCombatManager->CheckBurnCreature(this);
     return 1;
   }
   return 0;
@@ -1885,7 +1898,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
       army *creature = &gpCombatManager->creatures[i][j];
       creature->field_3 = -1;
       creature->field_4 = -1;
-      creature->effectStrengths[15] = 0;
+      //creature->effectStrengths[15] = 0;
       if (creature->damageTakenDuringSomeTimePeriod || creature->mightBeIsAttacking) {
         if (creature->mightBeIsAttacking) {
           creature->field_3 = this->mightBeAttackAnimIdx;
@@ -1931,7 +1944,7 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
           }
         }
         if (creature->field_3 != -1
-          && !creature->effectStrengths[15]
+    //      && !creature->effectStrengths[15]
           && (creature->mightBeIsAttacking
             || creature->field_5 >= maxAnimLen - k - 1
             || maxToAnimLen && maxToAnimLen - 1 <= k
@@ -2071,10 +2084,10 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
     return;
 
   char attackerAtk = this->creature.attack;
-  if(this->effectStrengths[EFFECT_DAZE])
+  if(this->effectStrengths[EFFECT_DAZE] || this->effectStrengths[EFFECT_BURN])
     attackerAtk /= 2;
   char targetDef = targ->creature.defense;
-  if(targ->effectStrengths[EFFECT_DAZE])
+  if(targ->effectStrengths[EFFECT_DAZE] || this->effectStrengths[EFFECT_BURN])
     targetDef /= 2;
 
   int attackDiff = attackerAtk - targetDef;
@@ -2348,6 +2361,8 @@ void army::DecrementSpellRounds() {
     if (this->effectStrengths[effect]) {
       if(effect == EFFECT_FORCE_SHIELD)
         continue;
+      if(effect == EFFECT_BURN)
+        gpCombatManager->BurnCreature(this);
       if (this->effectStrengths[effect] == 1)
         this->CancelIndividualSpell(effect);
       else
@@ -2424,6 +2439,7 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
       break;
     case EFFECT_SHADOW_MARK:
     case EFFECT_DAZE:
+    case EFFECT_BURN:
       break;
     case EFFECT_FORCE_SHIELD:
       gIronfistExtra.combat.stack.forceShieldHP[this] = gMonsterDatabase[this->creatureIdx].hp;
@@ -2455,6 +2471,7 @@ void army::CancelIndividualSpell(int effect) {
       break;
     case EFFECT_SHADOW_MARK:
     case EFFECT_DAZE:
+    case EFFECT_BURN:
       break;
     case EFFECT_FORCE_SHIELD:
       gIronfistExtra.combat.stack.forceShieldHP[this] = 0;
@@ -2666,7 +2683,7 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
     int inRedrawZone;
     if(giSpellEffectShowType && isIdle && this->numActiveEffects > 0) {
       if(giSpellEffectShowType == 1) {
-        inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 11, &this->stackSizeDispBounds, 0, 237, 0, 0);
+        inRedrawZone = gpCombatManager->combatScreenIcons[COMBAT_ICON_IDX_TEXTBAR]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 11, &this->stackSizeDispBounds, 0, 237, 0, 0);
       } else {
         int numImageIdx = 12;
         if(numPosEffects <= 0 || numNegEffects <= 0) {
@@ -2675,10 +2692,10 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
         } else {
           numImageIdx = 13;
         }
-        inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, numImageIdx, &this->stackSizeDispBounds, 0, 0, 0, 0);
+        inRedrawZone = gpCombatManager->combatScreenIcons[COMBAT_ICON_IDX_TEXTBAR]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, numImageIdx, &this->stackSizeDispBounds, 0, 0, 0, 0);
       }
     } else {
-      inRedrawZone = gpCombatManager->combatScreenIcons[1]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 10, &this->stackSizeDispBounds, 0, 0, 0, 0);
+      inRedrawZone = gpCombatManager->combatScreenIcons[COMBAT_ICON_IDX_TEXTBAR]->CombatClipDrawToBuffer(stackNumXOffset, offsetY, 10, &this->stackSizeDispBounds, 0, 0, 0, 0);
     }
     if(gIronfistExtra.combat.stack.forceShieldHP[this] > 0) {
       const int FORCE_SHIELD_ICON_X_OFFSET = 2;

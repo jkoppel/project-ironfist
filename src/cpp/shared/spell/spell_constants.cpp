@@ -71,5 +71,6 @@ char *gSpellNames[] = {
   "Marksman Pierce",
   "Plasma Cone",
   "Force Shield",
-  "Mass Force Shield"
+  "Mass Force Shield",
+  "Fire Bomb"
 };

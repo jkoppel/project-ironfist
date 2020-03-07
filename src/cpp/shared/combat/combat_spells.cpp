@@ -8,6 +8,7 @@
 
 #include "artifacts.h"
 #include "base.h"
+#include "expansions.h"
 #include "scripting/callback.h"
 #include "scripting/deepbinding.h"
 #include "skills.h"
@@ -20,6 +21,7 @@ extern int castY;
 
 extern heroWindowManager *gpWindowManager;
 
+extern ironfistExtra gIronfistExtra;
 int gSpellDirection; // ironfist var. used for plasma cone stream spell
 
 #define RESURRECT_ANIMATION_LENGTH 22
@@ -785,6 +787,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       stack->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
       stack->SpellEffect(gsSpellInfo[SPELL_FORCE_SHIELD].creatureEffectAnimationIdx, 0, 0);
     break;
+    case SPELL_FIRE_BOMB:
+      this->Fireball(hexIdx, SPELL_FIRE_BOMB);
+      break;
     default:
       this->DefaultSpell(hexIdx);
       break;
@@ -1114,7 +1119,7 @@ std::vector<int> GetSpellMask(Spell spell, int fromHex, int direction) {
     case SPELL_PLASMA_CONE:
       mask = GetPlasmaConeSpellMask(fromHex, direction);
       break;
-    case SPELL_FIREBALL:
+    case SPELL_FIREBALL: case SPELL_FIRE_BOMB:
       mask = GetSpellMask(SPELL_COLD_RING, fromHex, direction);
       mask.push_back(fromHex);
       break;
@@ -1317,7 +1322,7 @@ void combatManager::Fireball(int hexIdx, int spell) {
     icon *spellIcon;
     int numSprites = 12;
     switch(spell) {
-      case SPELL_FIREBALL:
+      case SPELL_FIREBALL: case SPELL_FIRE_BOMB:
         spellIcon = gpResourceManager->GetIcon("fireball.icn");
         break;
       case SPELL_FIREBLAST:
@@ -1358,6 +1363,22 @@ void combatManager::Fireball(int hexIdx, int spell) {
     hexcell *curHexcell = &this->combatGrid[hex];
     char unitOwner = curHexcell->unitOwner;
     char stackIdx = curHexcell->stackIdx;
+    if(spell == SPELL_FIRE_BOMB) {
+      int wallHex = hex;
+      const int turnsLeft = 2;
+      int currentFrame = 0;
+      bool wallExists = false;
+      for(auto &wall : gIronfistExtra.combat.spell.fireBombWalls) {
+        if(wall.hexIdx == wallHex) {
+          wallExists = true;
+          wall.turnsLeft = turnsLeft;
+          wall.currentFrame = currentFrame;
+          break;
+        }
+      }
+      if(!wallExists)
+        gIronfistExtra.combat.spell.fireBombWalls.push_back({ wallHex, turnsLeft, currentFrame });
+    }
     if(unitOwner == -1)
       continue;
     stack = &this->creatures[unitOwner][stackIdx];
@@ -1374,7 +1395,10 @@ void combatManager::Fireball(int hexIdx, int spell) {
         damage *= 2;
       if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
         damage /= 2;
-      stack->Damage(damage, spell);
+      if(spell == SPELL_FIRE_BOMB)
+        CheckBurnCreature(stack);
+      else
+        stack->Damage(damage, spell);
       anyoneDamaged = 1;
     }
   }
@@ -1386,6 +1410,9 @@ void combatManager::Fireball(int hexIdx, int spell) {
         break;
       case SPELL_PLASMA_CONE:
         sprintf(gText, "The plasma cone stream does %d damage.", spellDamage);
+        break;
+      case SPELL_FIRE_BOMB:
+        sprintf(gText, "The fire bomb does %d damage.", spellDamage);
         break;
       default:
          sprintf(gText, "The fireball does %d damage.", spellDamage);

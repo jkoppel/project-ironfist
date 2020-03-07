@@ -17,6 +17,8 @@
 
 #define MAX_STACKS 21
 #define NUM_HEXES 117
+#define NUM_COMBAT_FIELD_ROWS 9
+#define NUM_COMBAT_FIELD_COLUMNS 13
 
 enum BRIDGE_STATUS {
   BRIDGE_OPEN = 0x0,
@@ -36,17 +38,17 @@ enum CURSOR_DIRECTION {
 };
 
 enum COMBAT_ICON_INDICES {
-  COMBAT_ICON_IDX_TEXTBAR = 0x1,
-  COMBAT_ICON_IDX_CATAPULT = 0x3,
-  COMBAT_ICON_IDX_CASTLE = 0x5,
-  COMBAT_ICON_IDX_KEEP = 0x7,
-  COMBAT_ICON_SPELLS = 0x8,
-  COMBAT_ICON_MISC = 0x9,
-  COMBAT_ICON_VIEW_ARMY = 0xA,
-  COMBAT_ICON_MINI_LUCK_MORALE = 0xB,
-  COMBAT_ICON_SPELL_INF = 0xC,
-  COMBAT_ICON_MOAT_PART = 0xD,
-  COMBAT_ICON_MOAT_WHOLE = 0xE,
+  COMBAT_ICON_IDX_TEXTBAR = 1,
+  COMBAT_ICON_IDX_CATAPULT = 3,
+  COMBAT_ICON_IDX_CASTLE = 5,
+  COMBAT_ICON_IDX_KEEP = 7,
+  COMBAT_ICON_SPELLS = 8,
+  COMBAT_ICON_MISC = 9,
+  COMBAT_ICON_VIEW_ARMY = 10,
+  COMBAT_ICON_MINI_LUCK_MORALE = 11,
+  COMBAT_ICON_SPELL_INF = 12,
+  COMBAT_ICON_MOAT_PART = 13,
+  COMBAT_ICON_MOAT_WHOLE = 14,
 };
 
 #pragma pack(push, 1)
@@ -182,10 +184,14 @@ public:
   int field_F41F[2];
   int field_F427[2];
   int field_F42F;
-  char _14[160];
-  int sideCasualtiesTitleTextWidget[2];
-  textWidget *battlefieldCasualtiesTextWidget;
-  char _15[100];
+  int casualtyRelatedTextWidgets[50];
+  int field_F4FB;
+  int field_F4FF;
+  char field_F503[24];
+  int field_F51B;
+  int field_F51F;
+  H2RECT field_F523;
+  char _15[16];
   int field_F543;
   int field_F547;
   int field_F54B[2];
@@ -209,7 +215,7 @@ public:
   void CombatMessage(char *msg) { CombatMessage(msg, 1, 1, 0); }
 
   void UpdateCombatArea();
-  void DrawFrame(int redrawAll,int,int,int,int,int,int);
+  void DrawFrame(int redrawAll, int a3, int a4, int a5, signed int delay, int a7, int waitUntilItIsTime);
 
   void HandlePandoraBox(int side);
   void AddArmy(int side, int creat, int qty, int hex, int attrs, int fizzle);
@@ -282,6 +288,16 @@ public:
   void DrawHero(int side, bool checkCaptain, bool mirrored);
   void DrawHeroFlag(int side, bool checkCaptain, bool mirrored);
   void SetRenderExtentFlags(bool state);
+  void CycleCombatScreen();
+  void CycleCombatScreen_orig();
+  void CheckBurnCreature(army *stack);
+  void BurnCreature(army *stack);
+  int GetNextArmy(int maybeIsFirstTurn);
+  int CheckApplyBadMorale(int side, int stackIdx);
+  void GetControl();
+  void CheckCastleAttack();
+  int ProcessNextAction(tag_message &a2);
+  int ProcessNextAction_orig(tag_message &a2);
 };
 
 extern combatManager* gpCombatManager;
@@ -301,6 +317,7 @@ extern unsigned char gColorTableRed[];
 extern unsigned char gColorTableDarkBrown[];
 extern unsigned char gColorTableGray[];
 extern unsigned char gColorTableLighten[];
+extern char *gCombatFxNames[];
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);
 bool IsCastleWall(int hexIdx);
