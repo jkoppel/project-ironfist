@@ -728,13 +728,13 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       this->TurnToStone(stack);
       break;
     case SPELL_COLD_RING:
-      this->Fireball(hexIdx, SPELL_COLD_RING);
+      this->ColdRing(hexIdx);
       break;
     case SPELL_FIREBALL:
-      this->Fireball(hexIdx, SPELL_FIREBALL);
+      this->FireBall(hexIdx);
       break;
     case SPELL_FIREBLAST:
-      this->Fireball(hexIdx, SPELL_FIREBLAST);
+      this->FireBlast(hexIdx);
       break;
     case SPELL_METEOR_SHOWER:
       this->MeteorShower(hexIdx);
@@ -781,7 +781,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       break;
     }
     case SPELL_PLASMA_CONE:
-      this->Fireball(hexIdx, SPELL_PLASMA_CONE);
+      this->PlasmaCone(hexIdx);
       break;
     case SPELL_FORCE_SHIELD:
       this->ShowSpellMessage(isCreatureAbility, proto_spell, stack);
@@ -789,10 +789,10 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       stack->SpellEffect(gsSpellInfo[SPELL_FORCE_SHIELD].creatureEffectAnimationIdx, 0, 0);
     break;
     case SPELL_FIRE_BOMB:
-      this->Fireball(hexIdx, SPELL_FIRE_BOMB);
+      this->FireBomb(hexIdx);
       break;
     case SPELL_IMPLOSION_GRENADE:
-      this->Fireball(hexIdx, SPELL_IMPLOSION_GRENADE);
+      this->ImplosionGrenade(hexIdx);
       break;
     default:
       this->DefaultSpell(hexIdx);
@@ -1336,34 +1336,42 @@ int __fastcall HandleCastSpell(tag_message &evt) {
   }
 }
 
-void combatManager::Fireball(int hexIdx, int spell) {
-  if(!ValidHex(hexIdx))
-    return;
+void combatManager::AreaSpellMessage(Spell spell, long damage) {
+  switch(spell) {
+    case SPELL_FIREBALL:
+      sprintf(gText, "The fireball does %d damage.", damage);
+      break;
+    case SPELL_FIREBLAST:
+      sprintf(gText, "The fireblast does %d damage.", damage);
+      break;
+    case SPELL_COLD_RING:
+      sprintf(gText, "The cold ring does %d damage.", damage);
+      break;
+    case SPELL_PLASMA_CONE:
+      sprintf(gText, "The plasma cone stream does %d damage.", damage);
+      break;
+    case SPELL_FIRE_BOMB:
+      sprintf(gText, "The fire bomb does %d damage.", damage);
+      break;
+    case SPELL_IMPLOSION_GRENADE:
+      sprintf(gText, "The implosion grenade does %d damage.", damage);
+      break;
+    default:
+      sprintf(gText, "Area spell %d does %d damage.", spell, damage);
+      break;
+  }
+  this->CombatMessage(gText, 1, 1, 0);
+}
 
+void combatManager::AreaSpellDrawImpact(int hexIdx, std::string &iconFileName, int numSprites, bool flip) {
   if(!gbNoShowCombat) {
-    icon *spellIcon;
-    int numSprites = 12;
-    switch(spell) {
-      case SPELL_FIREBALL: case SPELL_FIRE_BOMB:
-        spellIcon = gpResourceManager->GetIcon("fireball.icn");
-        break;
-      case SPELL_FIREBLAST:
-        spellIcon = gpResourceManager->GetIcon("firebal2.icn");
-        break;
-      case SPELL_COLD_RING:
-        spellIcon = gpResourceManager->GetIcon("coldring.icn");
-        numSprites = 7;
-        break;
-      default:
-        spellIcon = gpResourceManager->GetIcon("fireball.icn");
-        break;
-    }
+    icon *spellIcon = gpResourceManager->GetIcon(&iconFileName[0u]);
     int x = this->combatGrid[hexIdx].centerX;
     int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
     for(int spriteID = 0; spriteID < numSprites; spriteID++) {
       glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
-      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 0x280u, 443, 0);
-      if(spell == SPELL_COLD_RING)
+      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+      if(flip)
         FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
       this->UpdateCombatArea();
       this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
@@ -1372,15 +1380,21 @@ void combatManager::Fireball(int hexIdx, int spell) {
     gpResourceManager->Dispose((resource *)spellIcon);
   }
   this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+}
 
-  army *stack = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+long combatManager::GetAreaSpellDamage() {
+  return 10 * this->heroSpellpowers[this->currentActionSide];
+}
 
-  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
-  combatManager::ClearEffects();
+void combatManager::AreaSpellDoDamage(long spellDamage, Spell spell, army* target) {
+  this->ModifyDamageForArtifacts(&spellDamage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+  this->AreaSpellMessage(spell, spellDamage);
+  target->PowEffect(-1, 1, -1, -1);
+}
 
-  std::vector<int>affectedHexes = GetSpellMask((Spell)spell, hexIdx, gSpellDirection);
-
-  int anyoneDamaged = 0;
+bool combatManager::AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage, std::vector<int> &affectedHexes) {
+  affectedHexes = GetSpellMask(spell, hexIdx, gSpellDirection);
+  bool anyoneDamaged = false;
   for(auto hex : affectedHexes) {
     hexcell *curHexcell = &this->combatGrid[hex];
     char unitOwner = curHexcell->unitOwner;
@@ -1403,235 +1417,297 @@ void combatManager::Fireball(int hexIdx, int spell) {
     }
     if(unitOwner == -1)
       continue;
-    stack = &this->creatures[unitOwner][stackIdx];
-    if(!stack->SpellCastWorks(spell))
+    target = &this->creatures[unitOwner][stackIdx];
+    if(!target->SpellCastWorks(spell))
       continue;
     if(gArmyEffected[unitOwner][stackIdx])
       continue;
     gArmyEffected[unitOwner][stackIdx] = 1;
-    if(!stack->damageTakenDuringSomeTimePeriod) {
+    if(!target->damageTakenDuringSomeTimePeriod) {
       int damage = spellDamage;
-      if(stack->creatureIdx == CREATURE_FIRE_ELEMENTAL && spell == SPELL_COLD_RING)
+      if(target->creatureIdx == CREATURE_FIRE_ELEMENTAL && spell == SPELL_COLD_RING)
         damage *= 2;
-      if(stack->creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
+      if(target->creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
         damage *= 2;
-      if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
+      if(target->creatureIdx == CREATURE_IRON_GOLEM || target->creatureIdx == CREATURE_STEEL_GOLEM)
         damage /= 2;
       if(spell == SPELL_FIRE_BOMB)
-        CheckBurnCreature(stack);
+        CheckBurnCreature(target);
       else
-        stack->Damage(damage, spell);
-      anyoneDamaged = 1;
+        target->Damage(damage, spell);
+      anyoneDamaged = true;
     }
   }
+  return anyoneDamaged;
+}
 
-  if(spell == SPELL_IMPLOSION_GRENADE) {
-    // Don't do anything with center hex
-    affectedHexes.erase(std::remove(affectedHexes.begin(), affectedHexes.end(), hexIdx), affectedHexes.end());
+bool combatManager::AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage) {
+  std::vector<int> affectedHexes;
+  return AreaSpellAffectHexes(hexIdx, target, spell, spellDamage, affectedHexes);
+}
 
-    // Find creature destination hexes after spell sucking affected creatures to the center
-    std::map<int, int> implosionHexMoveDirections;
-    int rowCentHex = hexIdx / 13;
-    int colCentHex = hexIdx % 13;
-    for(auto affHex : affectedHexes) {
-      int rowAffHex = affHex / 13;
-      int colAffHex = affHex % 13;
-      int rowdiff = rowCentHex - rowAffHex;
-      int coldiff = colCentHex - colAffHex;
-      int resultDir;
-      if(rowdiff < 0) {
-        if(coldiff < 0) {
-          if(abs(coldiff) > abs(rowdiff))
-            resultDir = 4;
-          else
-            resultDir = 5;
-        } else {
-          if(abs(coldiff) > abs(rowdiff))
-            resultDir = 1;
-          else
-            resultDir = 0;
-        }
-      } else {
-        if(coldiff < 0) {
-          if(abs(coldiff) > abs(rowdiff))
-            resultDir = 4;
-          else
-            resultDir = 3;
-        } else {
-          if(abs(coldiff) > abs(rowdiff))
-            resultDir = 1;
-          else
-            resultDir = 2;
-        }
-      }
-      implosionHexMoveDirections[affHex] = GetAdjacentCellIndexNoArmy(affHex, resultDir);
-    }
+void combatManager::FireBall(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  combatManager::ClearEffects();
 
-    // Move every affected creature in the direction of the spell center starting from closest to center
-    hexcell* centerHexcell = &gpCombatManager->combatGrid[hexIdx];
-    // Saving initial hexes of creatures beforehand
-    std::map<army*, int> creatureMovesFrom;
-    for(int size = 1; size <= 5; size++) {
-      double maxDistance = HEX_SIZE_IN_PIXELS * size - HEX_SIZE_IN_PIXELS / 2;
-      auto it = affectedHexes.begin();
-      while(it != affectedHexes.end()) {
-        int affHex = *it;
-        hexcell* movableHexcell = &gpCombatManager->combatGrid[affHex];
-        if(movableHexcell->unitOwner == -1) {
-          it = affectedHexes.erase(it);
-          continue;
-        }
-        double dist = GetDistanceBetweenPoints(centerHexcell->centerX, centerHexcell->otherY2, movableHexcell->centerX, movableHexcell->otherY2);
-        if(dist < maxDistance) {
-          it = affectedHexes.erase(it);
+  long spellDamage = this->GetAreaSpellDamage();
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIREBALL, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_FIREBALL, target);
+}
 
-          int destHex = implosionHexMoveDirections[affHex];
-          if(destHex == -1)
-            continue;
-          hexcell *destHexcell = &this->combatGrid[destHex];
-          army *creatureToMove = &this->creatures[movableHexcell->unitOwner][movableHexcell->stackIdx];
-          // check if hex is occupied by something
-          if(destHexcell->isBlocked)
-            continue;
-          if(!creatureToMove->CanFit(destHex, 0, 0))
-            continue;
-          if(destHexcell->unitOwner != -1)
-            if(!(movableHexcell->unitOwner == destHexcell->unitOwner && movableHexcell->stackIdx == destHexcell->stackIdx))
-              continue;
+void combatManager::FireBlast(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, std::string("firebal2.icn"), 12, false);
+  combatManager::ClearEffects();
 
-          if(creatureToMove->creature.creature_flags & TWO_HEXER) {
-            hexcell *destSecondHexcell;
-            hexcell *movableSecondHexcell;
-            int destHexSecond;
-            int affHexSecond;
-            if(movableHexcell->occupiersOtherHexIsToLeft == 1) {
-              destHexSecond = destHex - 1;
-              affHexSecond = affHex - 1;
-              destSecondHexcell = &this->combatGrid[destHexSecond];
-              movableSecondHexcell = &this->combatGrid[affHexSecond];
+  long spellDamage = this->GetAreaSpellDamage();
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIREBLAST, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_FIREBLAST, target);
+}
 
-              if(destSecondHexcell->isBlocked) 
-                continue;
-              if(destSecondHexcell->unitOwner != -1)
-                if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
-                  continue;
+void combatManager::ColdRing(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, std::string("coldring.icn"), 7, true);
+  combatManager::ClearEffects();
 
-              if(creatureToMove->facingRight) {
-                if(IsOutOfBoundsHex(destHex))
-                  continue;
-                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
-                creatureToMove->occupiedHex = destHexSecond;
-              } else {
-                if(IsOutOfBoundsHex(destHexSecond))
-                  continue;
-                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
-                creatureToMove->occupiedHex = destHex;
-              }
-            } else {
-              destHexSecond = destHex + 1;
-              affHexSecond = affHex + 1;
-              destSecondHexcell = &this->combatGrid[destHexSecond];
-              movableSecondHexcell = &this->combatGrid[affHexSecond];
+  long spellDamage = this->GetAreaSpellDamage();
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_COLD_RING, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_COLD_RING, target);
+}
 
-              if(destSecondHexcell->isBlocked)
-                continue;
-              if(destSecondHexcell->unitOwner != -1)
-                if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
-                  continue;
+void combatManager::PlasmaCone(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
 
-              if(creatureToMove->facingRight) {
-                if(IsOutOfBoundsHex(destHex))
-                  continue;
-                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
-                creatureToMove->occupiedHex = destHex;
-              } else {
-                if(IsOutOfBoundsHex(destHexSecond))
-                  continue;
-                creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
-                creatureToMove->occupiedHex = destHexSecond;
-              }
-            }
-            int stackIdx = movableHexcell->stackIdx;
-            movableHexcell->stackIdx = movableSecondHexcell->stackIdx = -1;
-            destHexcell->stackIdx = destSecondHexcell->stackIdx = stackIdx;
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  combatManager::ClearEffects();
 
-            int unitOwner = movableHexcell->unitOwner;
-            movableHexcell->unitOwner = movableSecondHexcell->unitOwner = -1;
-            destHexcell->unitOwner = destSecondHexcell->unitOwner = unitOwner;
+  long spellDamage = this->GetAreaSpellDamage();
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_PLASMA_CONE, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_PLASMA_CONE, target);
+}
 
-            int occupiersOtherHexIsToLeft = movableHexcell->occupiersOtherHexIsToLeft;
-            int occupiersOtherHexIsToLeft2 = movableSecondHexcell->occupiersOtherHexIsToLeft;
-            movableHexcell->occupiersOtherHexIsToLeft = movableSecondHexcell->occupiersOtherHexIsToLeft = -1;
-            destHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft;
-            destSecondHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft2;
+void combatManager::FireBomb(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
 
-            // erase second hex from looping if it was also affected
-            auto itFound = std::find(affectedHexes.begin(), affectedHexes.end(), affHexSecond);
-            if(itFound != affectedHexes.end())
-              it = affectedHexes.erase(itFound);
-          } else {
-            creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
-            creatureToMove->occupiedHex = destHex;
-            destHexcell->stackIdx = movableHexcell->stackIdx;
-            destHexcell->unitOwner = movableHexcell->unitOwner;
-            movableHexcell->stackIdx = -1;
-            movableHexcell->unitOwner = -1;
-          }
-        }
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  combatManager::ClearEffects();
+
+  long spellDamage = this->GetAreaSpellDamage();
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIRE_BOMB, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_FIRE_BOMB, target);
+}
+
+void combatManager::ImplosionGrenade(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  combatManager::ClearEffects();
+
+  long spellDamage = this->GetAreaSpellDamage();
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  std::vector<int>affectedHexes;
+  bool anyoneDamaged = AreaSpellAffectHexes(hexIdx, target, SPELL_IMPLOSION_GRENADE, spellDamage, affectedHexes);
+  
+  // Don't do anything with center hex
+  affectedHexes.erase(std::remove(affectedHexes.begin(), affectedHexes.end(), hexIdx), affectedHexes.end());
+
+  // Find creature destination hexes after spell sucking affected creatures to the center
+  std::map<int, int> implosionHexMoveDirections;
+  int rowCentHex = hexIdx / 13;
+  int colCentHex = hexIdx % 13;
+  for(auto affHex : affectedHexes) {
+    int rowAffHex = affHex / 13;
+    int colAffHex = affHex % 13;
+    int rowdiff = rowCentHex - rowAffHex;
+    int coldiff = colCentHex - colAffHex;
+    int resultDir;
+    if(rowdiff < 0) {
+      if(coldiff < 0) {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 4;
         else
-          ++it;
+          resultDir = 5;
+      } else {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 1;
+        else
+          resultDir = 0;
+      }
+    } else {
+      if(coldiff < 0) {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 4;
+        else
+          resultDir = 3;
+      } else {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 1;
+        else
+          resultDir = 2;
       }
     }
+    implosionHexMoveDirections[affHex] = GetAdjacentCellIndexNoArmy(affHex, resultDir);
+  }
 
-    // ANIMATING the creatures moving towards the center of the spell
-    const int NUM_FRAMES = 10;
-    for(int frame = 0; frame < NUM_FRAMES; frame++) {
-      for(auto currentlyAnimated : creatureMovesFrom) {
-        army* cr = currentlyAnimated.first;
-        int initialHex = currentlyAnimated.second;
-        cr->animationType = ANIMATION_TYPE_WINCE_RETURN;
-        cr->animationFrame = 0;
-
-        int startX = gpCombatManager->combatGrid[initialHex].centerX;
-        int startY = gpCombatManager->combatGrid[initialHex].occupyingCreatureBottomY;
-        int deltaX = gpCombatManager->combatGrid[cr->occupiedHex].centerX - startX;
-        int deltaY = gpCombatManager->combatGrid[cr->occupiedHex].occupyingCreatureBottomY - startY;
-        int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
-        float stepX = (double)deltaX / (double)NUM_FRAMES;
-        float stepY = (double)deltaY / (double)NUM_FRAMES;
-        double currentDrawX = startX + stepX * frame;
-        double currentDrawY = startY + stepY * frame;
-
-        cr->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
+  // Move every affected creature in the direction of the spell center starting from closest to center
+  hexcell* centerHexcell = &gpCombatManager->combatGrid[hexIdx];
+  // Saving initial hexes of creatures beforehand
+  std::map<army*, int> creatureMovesFrom;
+  for(int size = 1; size <= 5; size++) {
+    double maxDistance = HEX_SIZE_IN_PIXELS * size - HEX_SIZE_IN_PIXELS / 2;
+    auto it = affectedHexes.begin();
+    while(it != affectedHexes.end()) {
+      int affHex = *it;
+      hexcell* movableHexcell = &gpCombatManager->combatGrid[affHex];
+      if(movableHexcell->unitOwner == -1) {
+        it = affectedHexes.erase(it);
+        continue;
       }
-      gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
-      DelayTil(&glTimers);
-      glTimers = (signed __int64)((double)KBTickCount() + 100 * gfCombatSpeedMod[giCombatSpeed] * 1.3);
+      double dist = GetDistanceBetweenPoints(centerHexcell->centerX, centerHexcell->otherY2, movableHexcell->centerX, movableHexcell->otherY2);
+      if(dist < maxDistance) {
+        it = affectedHexes.erase(it);
+
+        int destHex = implosionHexMoveDirections[affHex];
+        if(destHex == -1)
+          continue;
+        hexcell *destHexcell = &this->combatGrid[destHex];
+        army *creatureToMove = &this->creatures[movableHexcell->unitOwner][movableHexcell->stackIdx];
+        // check if hex is occupied by something
+        if(destHexcell->isBlocked)
+          continue;
+        if(!creatureToMove->CanFit(destHex, 0, 0))
+          continue;
+        if(destHexcell->unitOwner != -1)
+          if(!(movableHexcell->unitOwner == destHexcell->unitOwner && movableHexcell->stackIdx == destHexcell->stackIdx))
+            continue;
+
+        if(creatureToMove->creature.creature_flags & TWO_HEXER) {
+          hexcell *destSecondHexcell;
+          hexcell *movableSecondHexcell;
+          int destHexSecond;
+          int affHexSecond;
+          if(movableHexcell->occupiersOtherHexIsToLeft == 1) {
+            destHexSecond = destHex - 1;
+            affHexSecond = affHex - 1;
+            destSecondHexcell = &this->combatGrid[destHexSecond];
+            movableSecondHexcell = &this->combatGrid[affHexSecond];
+
+            if(destSecondHexcell->isBlocked) 
+              continue;
+            if(destSecondHexcell->unitOwner != -1)
+              if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
+                continue;
+
+            if(creatureToMove->facingRight) {
+              if(IsOutOfBoundsHex(destHex))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHexSecond;
+            } else {
+              if(IsOutOfBoundsHex(destHexSecond))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHex;
+            }
+          } else {
+            destHexSecond = destHex + 1;
+            affHexSecond = affHex + 1;
+            destSecondHexcell = &this->combatGrid[destHexSecond];
+            movableSecondHexcell = &this->combatGrid[affHexSecond];
+
+            if(destSecondHexcell->isBlocked)
+              continue;
+            if(destSecondHexcell->unitOwner != -1)
+              if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
+                continue;
+
+            if(creatureToMove->facingRight) {
+              if(IsOutOfBoundsHex(destHex))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHex;
+            } else {
+              if(IsOutOfBoundsHex(destHexSecond))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHexSecond;
+            }
+          }
+          int stackIdx = movableHexcell->stackIdx;
+          movableHexcell->stackIdx = movableSecondHexcell->stackIdx = -1;
+          destHexcell->stackIdx = destSecondHexcell->stackIdx = stackIdx;
+
+          int unitOwner = movableHexcell->unitOwner;
+          movableHexcell->unitOwner = movableSecondHexcell->unitOwner = -1;
+          destHexcell->unitOwner = destSecondHexcell->unitOwner = unitOwner;
+
+          int occupiersOtherHexIsToLeft = movableHexcell->occupiersOtherHexIsToLeft;
+          int occupiersOtherHexIsToLeft2 = movableSecondHexcell->occupiersOtherHexIsToLeft;
+          movableHexcell->occupiersOtherHexIsToLeft = movableSecondHexcell->occupiersOtherHexIsToLeft = -1;
+          destHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft;
+          destSecondHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft2;
+
+          // erase second hex from looping if it was also affected
+          auto itFound = std::find(affectedHexes.begin(), affectedHexes.end(), affHexSecond);
+          if(itFound != affectedHexes.end())
+            it = affectedHexes.erase(itFound);
+        } else {
+          creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+          creatureToMove->occupiedHex = destHex;
+          destHexcell->stackIdx = movableHexcell->stackIdx;
+          destHexcell->unitOwner = movableHexcell->unitOwner;
+          movableHexcell->stackIdx = -1;
+          movableHexcell->unitOwner = -1;
+        }
+      }
+      else
+        ++it;
     }
   }
 
-  if(anyoneDamaged) {
-    this->ModifyDamageForArtifacts(&spellDamage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
-    switch(spell) {
-      case SPELL_COLD_RING:
-        sprintf(gText, "The cold ring does %d damage.", spellDamage);
-        break;
-      case SPELL_PLASMA_CONE:
-        sprintf(gText, "The plasma cone stream does %d damage.", spellDamage);
-        break;
-      case SPELL_FIRE_BOMB:
-        sprintf(gText, "The fire bomb does %d damage.", spellDamage);
-        break;
-      case SPELL_IMPLOSION_GRENADE:
-        sprintf(gText, "The implosion grenade does %d damage.", spellDamage);
-        break;
-      default:
-         sprintf(gText, "The fireball does %d damage.", spellDamage);
-         break;
+  // ANIMATING the creatures moving towards the center of the spell
+  const int NUM_FRAMES = 10;
+  for(int frame = 0; frame < NUM_FRAMES; frame++) {
+    for(auto currentlyAnimated : creatureMovesFrom) {
+      army* cr = currentlyAnimated.first;
+      int initialHex = currentlyAnimated.second;
+      cr->animationType = ANIMATION_TYPE_WINCE_RETURN;
+      cr->animationFrame = 0;
+
+      int startX = gpCombatManager->combatGrid[initialHex].centerX;
+      int startY = gpCombatManager->combatGrid[initialHex].occupyingCreatureBottomY;
+      int deltaX = gpCombatManager->combatGrid[cr->occupiedHex].centerX - startX;
+      int deltaY = gpCombatManager->combatGrid[cr->occupiedHex].occupyingCreatureBottomY - startY;
+      int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
+      float stepX = (double)deltaX / (double)NUM_FRAMES;
+      float stepY = (double)deltaY / (double)NUM_FRAMES;
+      double currentDrawX = startX + stepX * frame;
+      double currentDrawY = startY + stepY * frame;
+
+      cr->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
     }
-    this->CombatMessage(gText, 1, 1, 0);
-    stack->PowEffect(-1, 1, -1, -1);
+    gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+    DelayTil(&glTimers);
+    glTimers = (signed __int64)((double)KBTickCount() + 100 * gfCombatSpeedMod[giCombatSpeed] * 1.3);
   }
+
+  if(anyoneDamaged)
+    AreaSpellDoDamage(spellDamage, SPELL_IMPLOSION_GRENADE, target);
 }
 
 int combatManager::ViewSpells(int unused) {

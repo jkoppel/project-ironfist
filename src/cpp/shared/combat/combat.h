@@ -246,7 +246,6 @@ public:
   void ShowSpellMessage(int isCreatureAbility, int spell, army *stack);
   void BloodLustEffect(army *a2, int flagAdditions);
   void TurnToStone(army *stack);
-  void Fireball(int hexIdx, int spell);
   void MeteorShower(int);
   void ElementalStorm();
   void Armageddon();
@@ -299,6 +298,18 @@ public:
   void CheckCastleAttack();
   int ProcessNextAction(tag_message &a2);
   int ProcessNextAction_orig(tag_message &a2);
+  void AreaSpellDrawImpact(int hexIdx, std::string &iconFileName, int numSprites, bool flip);
+  long GetAreaSpellDamage();
+  bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage, std::vector<int> &affectedHexes);
+  bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage);
+  void AreaSpellDoDamage(long spellDamage, Spell spell, army* target);
+  void AreaSpellMessage(Spell spell, long damage);
+  void FireBall(int hexIdx);
+  void FireBlast(int hexIdx);
+  void ColdRing(int hexIdx);
+  void PlasmaCone(int hexIdx);
+  void FireBomb(int hexIdx);
+  void ImplosionGrenade(int hexIdx);
 };
 
 extern combatManager* gpCombatManager;
