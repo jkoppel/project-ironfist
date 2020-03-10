@@ -246,7 +246,6 @@ public:
   void ShowSpellMessage(int isCreatureAbility, int spell, army *stack);
   void BloodLustEffect(army *a2, int flagAdditions);
   void TurnToStone(army *stack);
-  void MeteorShower(int);
   void ElementalStorm();
   void Armageddon();
   void Earthquake();
@@ -298,8 +297,7 @@ public:
   void CheckCastleAttack();
   int ProcessNextAction(tag_message &a2);
   int ProcessNextAction_orig(tag_message &a2);
-  void AreaSpellDrawImpact(int hexIdx, std::string &iconFileName, int numSprites, bool flip);
-  long GetAreaSpellDamage();
+  void AreaSpellDrawImpact(int hexIdx, std::string &iconFileName, int numSprites, double speedMult, int drawTimes, bool flip);
   bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage, std::vector<int> &affectedHexes);
   bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage);
   void AreaSpellDoDamage(long spellDamage, Spell spell, army* target);
@@ -307,6 +305,7 @@ public:
   void FireBall(int hexIdx);
   void FireBlast(int hexIdx);
   void ColdRing(int hexIdx);
+  void MeteorShower(int hexIdx);
   void PlasmaCone(int hexIdx);
   void FireBomb(int hexIdx);
   void ImplosionGrenade(int hexIdx);

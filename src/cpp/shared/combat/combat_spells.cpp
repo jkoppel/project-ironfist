@@ -1127,7 +1127,7 @@ std::vector<int> GetSpellMask(Spell spell, int fromHex, int direction) {
     case SPELL_PLASMA_CONE:
       mask = GetPlasmaConeSpellMask(fromHex, direction);
       break;
-    case SPELL_FIREBALL: case SPELL_FIRE_BOMB:
+    case SPELL_FIREBALL: case SPELL_FIRE_BOMB: case SPELL_METEOR_SHOWER:
       mask = GetSpellMask(SPELL_COLD_RING, fromHex, direction);
       mask.push_back(fromHex);
       break;
@@ -1347,6 +1347,9 @@ void combatManager::AreaSpellMessage(Spell spell, long damage) {
     case SPELL_COLD_RING:
       sprintf(gText, "The cold ring does %d damage.", damage);
       break;
+    case SPELL_METEOR_SHOWER:
+      sprintf(gText, "The meteor shower does %d damage.", damage);
+      break;
     case SPELL_PLASMA_CONE:
       sprintf(gText, "The plasma cone stream does %d damage.", damage);
       break;
@@ -1363,27 +1366,26 @@ void combatManager::AreaSpellMessage(Spell spell, long damage) {
   this->CombatMessage(gText, 1, 1, 0);
 }
 
-void combatManager::AreaSpellDrawImpact(int hexIdx, std::string &iconFileName, int numSprites, bool flip) {
+void combatManager::AreaSpellDrawImpact(int hexIdx, std::string &iconFileName, int numSprites, double speedMult, int drawTimes, bool flip) {
   if(!gbNoShowCombat) {
     icon *spellIcon = gpResourceManager->GetIcon(&iconFileName[0u]);
     int x = this->combatGrid[hexIdx].centerX;
     int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
-    for(int spriteID = 0; spriteID < numSprites; spriteID++) {
-      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
-      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
-      if(flip)
-        FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
-      this->UpdateCombatArea();
-      this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
-      DelayTil(&glTimers);
+
+    for(int i = 0; i < drawTimes; i++) {
+      for(int spriteID = 0; spriteID < numSprites; spriteID++) {
+        glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * speedMult);
+        IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+        if(flip)
+          FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+        this->UpdateCombatArea();
+        this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
+        DelayTil(&glTimers);
+      }
     }
     gpResourceManager->Dispose((resource *)spellIcon);
   }
   this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
-}
-
-long combatManager::GetAreaSpellDamage() {
-  return 10 * this->heroSpellpowers[this->currentActionSide];
 }
 
 void combatManager::AreaSpellDoDamage(long spellDamage, Spell spell, army* target) {
@@ -1431,6 +1433,8 @@ bool combatManager::AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, 
         damage *= 2;
       if(target->creatureIdx == CREATURE_IRON_GOLEM || target->creatureIdx == CREATURE_STEEL_GOLEM)
         damage /= 2;
+      if(target->creatureIdx == CREATURE_EARTH_ELEMENTAL && spell == SPELL_METEOR_SHOWER)
+        damage *= 2;
       if(spell == SPELL_FIRE_BOMB)
         CheckBurnCreature(target);
       else
@@ -1450,10 +1454,10 @@ void combatManager::FireBall(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
   
-  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, 75.0, 1, false);
   combatManager::ClearEffects();
 
-  long spellDamage = this->GetAreaSpellDamage();
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
   if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIREBALL, spellDamage))
     AreaSpellDoDamage(spellDamage, SPELL_FIREBALL, target);
@@ -1463,10 +1467,10 @@ void combatManager::FireBlast(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
   
-  this->AreaSpellDrawImpact(hexIdx, std::string("firebal2.icn"), 12, false);
+  this->AreaSpellDrawImpact(hexIdx, std::string("firebal2.icn"), 12, 75.0, 1, false);
   combatManager::ClearEffects();
 
-  long spellDamage = this->GetAreaSpellDamage();
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
   if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIREBLAST, spellDamage))
     AreaSpellDoDamage(spellDamage, SPELL_FIREBLAST, target);
@@ -1476,23 +1480,36 @@ void combatManager::ColdRing(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
   
-  this->AreaSpellDrawImpact(hexIdx, std::string("coldring.icn"), 7, true);
+  this->AreaSpellDrawImpact(hexIdx, std::string("coldring.icn"), 7, 75.0, 1, true);
   combatManager::ClearEffects();
 
-  long spellDamage = this->GetAreaSpellDamage();
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
   if(AreaSpellAffectHexes(hexIdx, target, SPELL_COLD_RING, spellDamage))
     AreaSpellDoDamage(spellDamage, SPELL_COLD_RING, target);
+}
+
+void combatManager::MeteorShower(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, std::string("meteor.icn"), 10, 112.5, 2, false);
+  combatManager::ClearEffects();
+
+  long spellDamage = 25 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_METEOR_SHOWER, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_METEOR_SHOWER, target);
 }
 
 void combatManager::PlasmaCone(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, 75.0, 1, false);
   combatManager::ClearEffects();
 
-  long spellDamage = this->GetAreaSpellDamage();
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
   if(AreaSpellAffectHexes(hexIdx, target, SPELL_PLASMA_CONE, spellDamage))
     AreaSpellDoDamage(spellDamage, SPELL_PLASMA_CONE, target);
@@ -1502,10 +1519,10 @@ void combatManager::FireBomb(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, 75.0, 1, false);
   combatManager::ClearEffects();
 
-  long spellDamage = this->GetAreaSpellDamage();
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
   if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIRE_BOMB, spellDamage))
     AreaSpellDoDamage(spellDamage, SPELL_FIRE_BOMB, target);
@@ -1515,10 +1532,10 @@ void combatManager::ImplosionGrenade(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, false);
+  this->AreaSpellDrawImpact(hexIdx, std::string("fireball.icn"), 12, 75.0, 1, false);
   combatManager::ClearEffects();
 
-  long spellDamage = this->GetAreaSpellDamage();
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
   std::vector<int>affectedHexes;
   bool anyoneDamaged = AreaSpellAffectHexes(hexIdx, target, SPELL_IMPLOSION_GRENADE, spellDamage, affectedHexes);
