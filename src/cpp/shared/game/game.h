@@ -335,6 +335,21 @@ private:
   void PropagateVision();
 };
 
+class philAI {
+
+	char _; // Yes, this is a 1-byte object.
+
+public:
+	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
+	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
+
+	int EvaluateHeroEvent_orig(int, int, int, int, int *);
+	int EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5);
+
+  int ValueOfEventAtPosition(int x, int y, int a2, int *a3);
+  int ValueOfEventAtPosition_orig(int x, int y, int a2, int *a3);
+};
+
 enum GAME_DIFFICULTY {
 	DIFFICULTY_EASY = 0,
 	DIFFICULTY_NORMAL = 1,

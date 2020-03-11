@@ -30,12 +30,6 @@ public:
 	searchArray();
 };
 
-class philAI {
-public:
-	char _;
-	philAI();
-};
-
 extern inputManager* gpInputManager;
 extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;

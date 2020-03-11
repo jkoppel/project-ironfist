@@ -326,6 +326,49 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
     case LOCATION_PYRAMID:
       this->HandlePyramid(cell, locationType, hro, &res2, locX, locY);
       break;
+    case LOCATION_SHIPYARD: {
+      gpMouseManager->SetPointer(0);
+
+      // check if there is place for a boat
+      bool boatPossible = false;
+      int boatX, boatY;
+      std::pair<int, int> possibleCellOffsets[] = { {-1, -1}, { 0,-1 }, {1, -1}, {2, -1}, {2, 0}, {2, 1}, {1, 1}, {0, 1}, {-1, 1}, { -1, 0 } };
+      for(auto offset : possibleCellOffsets) {
+        boatX = locX + offset.first;
+        boatY = locY + offset.second;
+        mapCell *cell = gpAdvManager->GetCell(boatX, boatY);
+        // check for water and absense of boats
+        if(!giGroundToTerrain[cell->groundIndex] && !cell->objType) {
+          boatPossible = true;
+          break;
+        }
+      }
+
+      if(gpGame->GetBoatsBuilt() >= MAX_BOATS || !boatPossible) {
+        NormalDialog("Cannot build another boat.", 1, 208, 40, -1, 0, -1, 0, -1, 0);
+      } else {        
+        heroWindow* wind = new heroWindow(177, 20, "shipwind.bin");
+        if(!wind)
+          MemError();
+        SetWinText(wind, 12);
+        if(gpGame->players[giCurPlayer].resources[RESOURCE_GOLD] < 1000 || gpGame->players[giCurPlayer].resources[RESOURCE_WOOD] < 10) {
+          GUIAddFlag(wind, BUTTON_OK, 4096);
+          GUIRemoveFlag(wind, BUTTON_OK, 2);
+        }
+        gpWindowManager->DoDialog(wind, TrueFalseDialogHandler, 0);
+        delete wind;
+
+        if(gpWindowManager->buttonPressedCode == BUTTON_OK) {
+          if(gpGame->CreateBoat(boatX, boatY, 0) == -1) {
+            LogStr("Can't create boat!");
+          } else {
+            gpGame->players[giCurPlayer].resources[RESOURCE_GOLD] -= 1000;
+            gpGame->players[giCurPlayer].resources[RESOURCE_WOOD] -= 10;
+          }
+        }
+      }
+      break;
+    }
     default:
       this->DoEvent_orig(cell, locX, locY);
       return;

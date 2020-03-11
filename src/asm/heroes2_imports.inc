@@ -328,6 +328,8 @@ IMPORT_?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z = 1
 ;; forced ai chase
 IMPORT_?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z = 1
 ?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z_clone EQU ?EvaluateHeroEvent_orig@philAI@@QAEHHHHHPAH@Z
+IMPORT_?ValueOfEventAtPosition@philAI@@QAEHHHHPAH@Z = 1
+?ValueOfEventAtPosition@philAI@@QAEHHHHPAH@Z_clone EQU ?ValueOfEventAtPosition_orig@philAI@@QAEHHHHPAH@Z
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
