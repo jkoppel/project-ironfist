@@ -1366,7 +1366,7 @@ void combatManager::AreaSpellMessage(Spell spell, long damage) {
   this->CombatMessage(gText, 1, 1, 0);
 }
 
-void combatManager::AreaSpellDrawImpact(int hexIdx, icon* spellIcon, int numSprites, double speedMult, int drawTimes, bool flip) {
+void combatManager::AreaSpellDrawImpact(int hexIdx, icon* spellIcon, int numSprites, double speedMult, int drawTimes, AOE_SPELL_DRAW_FLIP_TYPE flip) {
   if(!gbNoShowCombat) {
     int x = this->combatGrid[hexIdx].centerX;
     int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
@@ -1453,7 +1453,7 @@ void combatManager::FireBall(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
   
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, false);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
@@ -1466,7 +1466,7 @@ void combatManager::FireBlast(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
   
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("firebal2.icn"), 12, 75.0, 1, false);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("firebal2.icn"), 12, 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
@@ -1479,7 +1479,7 @@ void combatManager::ColdRing(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
   
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("coldring.icn"), 7, 75.0, 1, true);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("coldring.icn"), 7, 75.0, 1, AOE_SPELL_DRAW_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
@@ -1492,7 +1492,7 @@ void combatManager::MeteorShower(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
   
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("meteor.icn"), 10, 112.5, 2, false);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("meteor.icn"), 10, 112.5, 2, AOE_SPELL_DRAW_NO_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 25 * this->heroSpellpowers[this->currentActionSide];
@@ -1505,7 +1505,7 @@ void combatManager::PlasmaCone(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, false);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
@@ -1518,7 +1518,7 @@ void combatManager::FireBomb(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, false);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
@@ -1531,7 +1531,7 @@ void combatManager::ImplosionGrenade(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, false);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 12, 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];

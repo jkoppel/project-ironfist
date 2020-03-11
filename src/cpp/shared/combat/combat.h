@@ -52,6 +52,11 @@ enum COMBAT_ICON_INDICES {
   COMBAT_ICON_MOAT_WHOLE = 14,
 };
 
+enum AOE_SPELL_DRAW_FLIP_TYPE {
+  AOE_SPELL_DRAW_NO_FLIP,
+  AOE_SPELL_DRAW_FLIP
+};
+
 #pragma pack(push, 1)
 
 class hexcell {
@@ -297,7 +302,7 @@ public:
   void CheckCastleAttack();
   int ProcessNextAction(tag_message &a2);
   int ProcessNextAction_orig(tag_message &a2);
-  void AreaSpellDrawImpact(int hexIdx, icon *spellIcon, int numSprites, double speedMult, int drawTimes, bool flip);
+  void AreaSpellDrawImpact(int hexIdx, icon *spellIcon, int numSprites, double speedMult, int drawTimes, AOE_SPELL_DRAW_FLIP_TYPE flip);
   bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage, std::vector<int> &affectedHexes);
   bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage);
   void AreaSpellDoDamage(long spellDamage, Spell spell, army* target);
