@@ -17,6 +17,7 @@
 
 #define MAX_STACKS 21
 #define NUM_HEXES 117
+#define HEX_SIZE_IN_PIXELS 43 // Not an exact number because it's actually x:44 y:42
 #define NUM_COMBAT_FIELD_ROWS 9
 #define NUM_COMBAT_FIELD_COLUMNS 13
 
@@ -49,6 +50,11 @@ enum COMBAT_ICON_INDICES {
   COMBAT_ICON_SPELL_INF = 12,
   COMBAT_ICON_MOAT_PART = 13,
   COMBAT_ICON_MOAT_WHOLE = 14,
+};
+
+enum AOE_SPELL_DRAW_FLIP_TYPE {
+  AOE_SPELL_DRAW_NO_FLIP,
+  AOE_SPELL_DRAW_FLIP
 };
 
 #pragma pack(push, 1)
@@ -245,8 +251,6 @@ public:
   void ShowSpellMessage(int isCreatureAbility, int spell, army *stack);
   void BloodLustEffect(army *a2, int flagAdditions);
   void TurnToStone(army *stack);
-  void Fireball(int hexIdx, int spell);
-  void MeteorShower(int);
   void ElementalStorm();
   void Armageddon();
   void Earthquake();
@@ -298,6 +302,18 @@ public:
   void CheckCastleAttack();
   int ProcessNextAction(tag_message &a2);
   int ProcessNextAction_orig(tag_message &a2);
+  void AreaSpellDrawImpact(int hexIdx, icon *spellIcon, double speedMult, int drawTimes, AOE_SPELL_DRAW_FLIP_TYPE flip);
+  bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage, std::vector<int> &affectedHexes);
+  bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage);
+  void AreaSpellDoDamage(long spellDamage, Spell spell, army* target);
+  void AreaSpellMessage(Spell spell, long damage);
+  void FireBall(int hexIdx);
+  void FireBlast(int hexIdx);
+  void ColdRing(int hexIdx);
+  void MeteorShower(int hexIdx);
+  void PlasmaCone(int hexIdx);
+  void FireBomb(int hexIdx);
+  void ImplosionGrenade(int hexIdx);
 };
 
 extern combatManager* gpCombatManager;
@@ -325,5 +341,8 @@ bool IsAICombatTurn();
 std::vector<COORD> MakeCatapultArc(int numPoints, bool lefttoright, float fromX, float fromY, float targX, float targY);
 
 #pragma pack(pop)
+
+int __fastcall OppositeDirection(signed int hex);
+bool IsOutOfBoundsHex(int hex);
 
 #endif

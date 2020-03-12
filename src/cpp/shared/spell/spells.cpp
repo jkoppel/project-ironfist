@@ -82,7 +82,8 @@ char *gSpellDesc[] =
   "{Plasma Cone}\n\nCreates a cone of hot plasma in the direction of the target",
   "{Force Shield}\n\nCreates a kinetic shield over the target ally",
   "{Mass Force Shield}\n\nCreates a kinetic shield over all allies",
-  "{Fire Bomb}\n\nSet an area on fire for 2 turns. Creatures will continue burning for 2 turns after leaving the area"
+  "{Fire Bomb}\n\nSet an area on fire for 2 turns. Creatures will continue burning for 2 turns after leaving the area",
+  "{Implosion Grenade}\n\nFires an indirect projectile that explodes inverted dark matter that will suck any creature adjacent to it together."
 };
 
 SSpellInfo gsSpellInfo[] = {
@@ -160,7 +161,8 @@ SSpellInfo gsSpellInfo[] = {
   {"plsmcone", 5, 68, 35, 50, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
   {"forcshld", 2, 69, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
   {"forcshld", 2, 70, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
-  {"firebomb", 3, 71, 37, 500, 9, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL}
+  {"firebomb", 3, 71, 37, 500, 9, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
+  {"implgrnd", 3, 72, 38, 500, 9, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL}
 };
 
 #define DD_MOVEMENT_COST 225

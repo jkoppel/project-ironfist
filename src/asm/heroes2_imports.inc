@@ -270,7 +270,7 @@ IMPORT_?GetCommand@combatManager@@QAEHH@Z = 1
 ?GetCommand@combatManager@@QAEHH@Z_clone EQU ?GetCommand_orig@combatManager@@QAEHH@Z
 IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
-IMPORT_?Fireball@combatManager@@QAEXHH@Z = 1
+IMPORT_?MeteorShower@combatManager@@QAEXH@Z = 1
 IMPORT_?HandleCastSpell@@YIHAAUtag_message@@@Z = 1
 IMPORT_?CastMassSpell@combatManager@@QAEXHH@Z = 1
 IMPORT_?ViewSpells@combatManager@@QAEHH@Z = 1
