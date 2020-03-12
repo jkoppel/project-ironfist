@@ -76,6 +76,10 @@ IMPORT_??2@YAPAXI@Z = 1
 ??3@YAXPAX@Z EQU _op_del
 IMPORT_??3@YAXPAX@Z = 1
 
+;; main loop
+IMPORT_?oldmain@@YIHXZ = 1
+?oldmain@@YIHXZ_clone EQU ?oldmain_orig@@YIHXZ
+
 ;; executive
 IMPORT_?AddManager@executive@@QAEHPAVbaseManager@@H@Z = 1
 ?AddManager@executive@@QAEHPAVbaseManager@@H@Z_clone EQU ?AddManager_orig@executive@@QAEHPAVbaseManager@@H@Z
@@ -156,6 +160,8 @@ IMPORT_?AddScoreToHighScore@@YIHHHHHPAD@Z = 1
 ?AddScoreToHighScore@@YIHHHHHPAD@Z_clone EQU ?AddScoreToHighScore_orig@@YIHHHHHPAD@Z
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
+IMPORT_?UpdateDfltMenu@@YIXPAX@Z = 1
+?UpdateDfltMenu@@YIXPAX@Z_clone EQU ?UpdateDfltMenu_orig@@YIXPAX@Z
 IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
 IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
 IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1

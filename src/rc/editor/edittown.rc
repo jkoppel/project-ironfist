@@ -160,11 +160,13 @@ BEGIN
     END
     POPUP "&Display"
     BEGIN
-        MENUITEM "&640 x 480",                  40005
+        MENUITEM "&640 x 480 (Native)",         40005
         MENUITEM "&800 x 600",                  40006
         MENUITEM "&1024 x 768",                 40007
         MENUITEM "1&280 x 1024",                40008
         MENUITEM "&Full Screen (F4)",           40009
+        MENUITEM "1280 x 960 (Native x2)"       40010
+        MENUITEM "1920 x 1440 (Native x3)"      40011
     END
     POPUP "&Help"
     BEGIN

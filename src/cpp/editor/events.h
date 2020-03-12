@@ -19,6 +19,8 @@ public:
 	int EditEvent_orig(int);
 };
 
+extern void __fastcall ResizeWindow(int x, int y,int width, int height);
+
 void __stdcall FillInEventEdit(EventExtra *);
 extern void __stdcall FillInEventEdit_orig(EventExtra *);
 
