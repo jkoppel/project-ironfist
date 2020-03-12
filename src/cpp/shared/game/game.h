@@ -355,6 +355,7 @@ void __fastcall CheckEndGame(int a, int b);
 
 int __fastcall HandleAppSpecificMenuCommands(int a1);
 int __fastcall HandleAppSpecificMenuCommands_orig(int a1);
+extern void __fastcall ResizeWindow(int x, int y,int width, int height);
 
 bool IsWellDisabled();
 

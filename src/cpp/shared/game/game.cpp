@@ -958,6 +958,14 @@ void __fastcall CheckEndGame(int a, int b) {
 bool dbgAutoWinBattles = false;
 extern void *hmnuAdv;
 
+extern void __fastcall UpdateDfltMenu_orig(void *hMenu);
+
+extern void __fastcall UpdateDfltMenu(void *hMenu) {
+  UpdateDfltMenu_orig(hMenu);
+  EnableMenuItem((HMENU)hMenu, 40010, MF_ENABLED);
+  EnableMenuItem((HMENU)hMenu, 40011, MF_ENABLED);
+}
+
 int __fastcall HandleAppSpecificMenuCommands(int a1) {
   int spell; // [sp+24h] [bp-8h]@55
   hero *hro; // [sp+28h] [bp-4h]@1
@@ -976,6 +984,12 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
     return 0;
   }
   switch (a1) {
+    case 40010: //MENUITEM "1280 x 960 (Native x2)"
+      ResizeWindow(-1, -1, 1280, 960);
+      return 0;
+    case 40011: //MENUITEM "1920 x 1440 (Native x3)"
+      ResizeWindow(-1, -1, 1920, 1440);
+      return 0;
     case 40143: // MENUITEM "Free Spells"
       gpGame->hasCheated = 1;
       if (gbInCampaign)

@@ -171,3 +171,7 @@ IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
 IMPORT_?gTownPrefixNames@@3PAPADA = 1
 
 IMPORT_?sub_42AAF9@@YGHPAH0HHD@Z = 1
+IMPORT_?AppCommand@@YIJPAXIIJ@Z = 1
+?AppCommand@@YIJPAXIIJ@Z_clone EQU ?AppCommand_orig@@YIJPAXIIJ@Z
+IMPORT_?UpdateDfltMenu@@YIXPAX@Z = 1
+?UpdateDfltMenu@@YIXPAX@Z_clone EQU ?UpdateDfltMenu_orig@@YIXPAX@Z
