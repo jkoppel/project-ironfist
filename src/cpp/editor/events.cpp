@@ -469,3 +469,11 @@ extern void __fastcall UpdateDfltMenu(void *hMenu) {
   EnableMenuItem((HMENU)hMenu, 40010, MF_ENABLED);
   EnableMenuItem((HMENU)hMenu, 40011, MF_ENABLED);
 }
+
+extern int __fastcall oldmain_orig();
+
+int __fastcall oldmain() {
+  // Disallow resizing game window using mouse
+  SetWindowLong((HWND)hwndApp, GWL_STYLE, GetWindowLong((HWND)hwndApp, GWL_STYLE) &~ WS_SIZEBOX);
+  return oldmain_orig();
+}

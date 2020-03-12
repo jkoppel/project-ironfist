@@ -175,3 +175,7 @@ IMPORT_?AppCommand@@YIJPAXIIJ@Z = 1
 ?AppCommand@@YIJPAXIIJ@Z_clone EQU ?AppCommand_orig@@YIJPAXIIJ@Z
 IMPORT_?UpdateDfltMenu@@YIXPAX@Z = 1
 ?UpdateDfltMenu@@YIXPAX@Z_clone EQU ?UpdateDfltMenu_orig@@YIXPAX@Z
+
+;; main loop
+IMPORT_?oldmain@@YIHXZ = 1
+?oldmain@@YIHXZ_clone EQU ?oldmain_orig@@YIHXZ
