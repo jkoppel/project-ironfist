@@ -260,6 +260,7 @@ void combatManager::SpellMessage(int spell, int hex) {
       case SPELL_COLD_RING:
       case SPELL_PLASMA_CONE:
       case SPELL_FIRE_BOMB:
+      case SPELL_IMPLOSION_GRENADE:
         sprintf(gText, "Cast %s", gSpellNames[spell]);
         break;
       case SPELL_TELEPORT: {
@@ -407,6 +408,7 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_COLD_RING:
       case SPELL_PLASMA_CONE:
       case SPELL_FIRE_BOMB:
+      case SPELL_IMPLOSION_GRENADE:
         if (hexIdx != -1 && hexIdx % 13 && hexIdx % 13 != 12)
           return 1;
         return 0;
@@ -1309,6 +1311,10 @@ void combatManager::BurnCreature(army *stack) {
     message += std::to_string(creaturesKilled) + " " + targetCreature + " " + ((creaturesKilled > 1) ? "perish" : "perishes");
   }
   gpCombatManager->CombatMessage((char*)message.c_str(), 1, 1, 0);
+}
+
+bool IsOutOfBoundsHex(int hex) {
+  return !ValidHex(hex) || (!(hex % 13 && hex % 13 != 12));
 }
 
 int combatManager::GetNextArmy(int maybeIsFirstTurn) {
