@@ -302,7 +302,7 @@ public:
   void CheckCastleAttack();
   int ProcessNextAction(tag_message &a2);
   int ProcessNextAction_orig(tag_message &a2);
-  void AreaSpellDrawImpact(int hexIdx, icon *spellIcon, int numSprites, double speedMult, int drawTimes, AOE_SPELL_DRAW_FLIP_TYPE flip);
+  void AreaSpellDrawImpact(int hexIdx, icon *spellIcon, double speedMult, int drawTimes, AOE_SPELL_DRAW_FLIP_TYPE flip);
   bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage, std::vector<int> &affectedHexes);
   bool AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage);
   void AreaSpellDoDamage(long spellDamage, Spell spell, army* target);
