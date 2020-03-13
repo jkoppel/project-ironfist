@@ -314,6 +314,7 @@ IMPORT_?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z = 1
 ?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z_clone EQU ?DoEvent_orig@advManager@@QAEXPAVmapCell@@HH@Z
 IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 ?QuickInfo@advManager@@QAEXHH@Z_clone EQU ?QuickInfo_orig@advManager@@QAEXHH@Z
+IMPORT_?adventureMapLocations@@3PAPADA = 1
 
 IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
 IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
@@ -334,6 +335,8 @@ IMPORT_?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z = 1
 ;; forced ai chase
 IMPORT_?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z = 1
 ?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z_clone EQU ?EvaluateHeroEvent_orig@philAI@@QAEHHHHHPAH@Z
+IMPORT_?ValueOfEventAtPosition@philAI@@QAEHHHHPAH@Z = 1
+?ValueOfEventAtPosition@philAI@@QAEHHHHPAH@Z_clone EQU ?ValueOfEventAtPosition_orig@philAI@@QAEHHHHPAH@Z
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1

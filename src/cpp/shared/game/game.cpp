@@ -1030,18 +1030,6 @@ bool IsWellDisabled() {
   return isDisabled;
 }
 
-class philAI {
-
-	char _; // Yes, this is a 1-byte object.
-
-public:
-	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
-	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
-
-	int EvaluateHeroEvent_orig(int, int, int, int, int *);
-	int EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5);
-};
-
 void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5) {
 	if (gpGame->allowAIArmySharing) {
 		RedistributeTroops_orig(army1, army2, a1, a2, a3, a4, a5);
@@ -1055,6 +1043,13 @@ int philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5) {
 		return AI_VALUE_CAP;
 	}
 	return EvaluateHeroEvent_orig(a1, a2, a3, a4, a5);
+}
+
+int philAI::ValueOfEventAtPosition(int x, int y, int a2, int *a3) {
+  if(gpAdvManager->GetCell(x, y)->getLocationType() == LOCATION_SHIPYARD)
+    return 0; // ignore shipyard objects
+  else
+    return ValueOfEventAtPosition_orig(x, y, a2, a3);
 }
 
 void game::InitRandomArtifacts() {
