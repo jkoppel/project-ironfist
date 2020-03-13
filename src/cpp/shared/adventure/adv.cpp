@@ -492,6 +492,14 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
           } else {
             gpGame->players[giCurPlayer].resources[RESOURCE_GOLD] -= 1000;
             gpGame->players[giCurPlayer].resources[RESOURCE_WOOD] -= 10;
+
+            if(bShowIt) {
+              gpMouseManager->HideColorPointer();
+              gpWindowManager->SaveFizzleSource(168, 160, 176, 132);
+              this->CompleteDraw(0);
+              gpWindowManager->FizzleForward(168, 160, 176, 132, 65, 0, 0);
+              gpMouseManager->ShowColorPointer();
+            }
           }
         }
       }
