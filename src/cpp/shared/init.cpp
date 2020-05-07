@@ -30,12 +30,6 @@ public:
 	searchArray();
 };
 
-class philAI {
-public:
-	char _;
-	philAI();
-};
-
 extern inputManager* gpInputManager;
 extern heroWindowManager* gpWindowManager;
 extern resourceManager* gpResourceMAnager;
@@ -174,4 +168,13 @@ int executive::AddManager(baseManager *mgr, int argIdx) {
         gpGame->firstDayEventDone = true;
     }
   return ret;
+}
+
+extern void* hwndApp;
+extern int __fastcall oldmain_orig();
+
+int __fastcall oldmain() {
+  // Disallow resizing game window using mouse
+  SetWindowLong((HWND)hwndApp, GWL_STYLE, GetWindowLong((HWND)hwndApp, GWL_STYLE) &~ WS_SIZEBOX);
+  return oldmain_orig();
 }

@@ -248,7 +248,6 @@ void combatManager::ShowSpellMessage(int isCreatureAbility, int spell, army *sta
   this->CombatMessage(gText, 1, 1, 0);
 }
 
-extern int bInTeleportGetDest;
 void combatManager::SpellMessage(int spell, int hex) {
   army *targ; // [sp+18h] [bp-4h]@7
 
@@ -259,6 +258,9 @@ void combatManager::SpellMessage(int spell, int hex) {
       case SPELL_FIREBLAST:
       case SPELL_METEOR_SHOWER:
       case SPELL_COLD_RING:
+      case SPELL_PLASMA_CONE:
+      case SPELL_FIRE_BOMB:
+      case SPELL_IMPLOSION_GRENADE:
         sprintf(gText, "Cast %s", gSpellNames[spell]);
         break;
       case SPELL_TELEPORT: {
@@ -304,8 +306,6 @@ void combatManager::SpellMessage(int spell, int hex) {
     this->CombatMessage(gText, 1, 0, 0);
   }
 }
-
-extern int giNextActionGridIndex;
 
 int combatManager::ValidSpellTarget(int spell, int hexIdx) {
   if (ValidHex(hexIdx)) {
@@ -357,6 +357,12 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
         if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
           return 1;
         return 0;
+      case SPELL_FORCE_SHIELD:
+      case SPELL_MASS_FORCE_SHIELD:
+        if(this->combatGrid[hexIdx].unitOwner == this->currentActionSide)
+          if(gIronfistExtra.combat.stack.forceShieldHP[stack] < gMonsterDatabase[stack->creatureIdx].hp)
+            return 1;
+        return 0;
       case SPELL_MIRROR_IMAGE:
         if (this->combatGrid[hexIdx].unitOwner == this->currentActionSide) {
           if (this->creatures[this->combatGrid[hexIdx].unitOwner][this->combatGrid[hexIdx].stackIdx].mirrorIdx == -1
@@ -380,6 +386,7 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_COLD_RAY:
       case SPELL_DISRUPTING_RAY:
       case SPELL_SHADOW_MARK:
+      case SPELL_MARKSMAN_PIERCE:
         if (this->combatGrid[hexIdx].unitOwner == 1 - this->currentActionSide)
           return 1;
         return 0;
@@ -399,6 +406,9 @@ int combatManager::ValidSpellTarget(int spell, int hexIdx) {
       case SPELL_FIREBLAST:
       case SPELL_METEOR_SHOWER:
       case SPELL_COLD_RING:
+      case SPELL_PLASMA_CONE:
+      case SPELL_FIRE_BOMB:
+      case SPELL_IMPLOSION_GRENADE:
         if (hexIdx != -1 && hexIdx % 13 && hexIdx % 13 != 12)
           return 1;
         return 0;
@@ -415,6 +425,8 @@ void combatManager::SetupCombat(int arg0, int arg1, hero *h1, armyGroup *a1, tow
     SetupCombat_orig(arg0, arg1, h1, a1, t, h2, a2, arg2, arg3, arg4);
     gIronfistExtra.combat.stack.abilityCounter.clear();
     gIronfistExtra.combat.stack.abilityNowAnimating.clear();
+    gIronfistExtra.combat.stack.forceShieldHP.clear();
+    gIronfistExtra.combat.spell.fireBombWalls.clear();
 }
 
 void combatManager::ResetRound() {
@@ -425,6 +437,16 @@ void combatManager::ResetRound() {
             if(ptr->creatureIdx >= 0 && CreatureHasAttribute(ptr->creatureIdx, ASTRAL_DODGE))
                 gIronfistExtra.combat.stack.abilityCounter[ptr][ASTRAL_DODGE] = 1;
         }
+    }
+
+    auto it = gIronfistExtra.combat.spell.fireBombWalls.begin();
+    while(it != gIronfistExtra.combat.spell.fireBombWalls.end()) {
+      it->turnsLeft--;
+      if(it->turnsLeft < 0) {
+        it = gIronfistExtra.combat.spell.fireBombWalls.erase(it);
+      }
+      else
+        ++it;
     }
 }
 
@@ -442,8 +464,6 @@ bool IsAICombatTurn() {
   return 0;
 }
 
-extern int gbProcessingCombatAction;
-extern int giNextAction;
 int combatManager::GetCommand(int hex) {
   int v7 = 0;
   UpdateGrid(0, 0);
@@ -500,8 +520,8 @@ int combatManager::GetCommand(int hex) {
               v7 = 1;
               if(!gbProcessingCombatAction) {
                 if(!giNextAction) {
-                  *(DWORD *)&this->_15[104] = tempOwner;
-                  *(DWORD *)&this->_15[112] = tempStack;
+                  this->field_F547 = tempOwner;
+                  this->field_F54B[1] = tempStack;
                   this->DrawSmallView(1, 1);
                 }
               }
@@ -531,7 +551,7 @@ int combatManager::GetCommand(int hex) {
   }
   if(!v7) {
     if(!gbProcessingCombatAction) {
-      *(DWORD *)&this->_15[104] = -1;
+      this->field_F547 = -1;
       this->DrawSmallView(1, 1);
     }
   }
@@ -659,14 +679,14 @@ void combatManager::SetCombatDirections(int hexIdx) {
         v10[i] = 0;
     }
   }
-  *(DWORD *)&this->_15[64] = 0;
+  this->field_F51F = 0;
   for(int i = 0; i < 8; ++i) {
     if(v10[i])
-      ++*(DWORD *)&this->_15[64];
+       this->field_F51F++;
   }
-  if(!*(DWORD *)&this->_15[64])
+  if(!this->field_F51F)
     v10[6] = 1;
-  memset(&this->_15[36], 0xFFu, 0x18u);
+  memset(this->field_F503, 0xFFu, 0x18u);
   
   int v17;
   for(int i = 0; i < 8; ++i) {
@@ -704,47 +724,46 @@ void combatManager::SetCombatDirections(int hexIdx) {
       }
       if(i >= 6) {
         if(i == 6) {
-          this->_15[47] = v14;
-          this->_15[48] = v14;
-          this->_15[49] = v14;
+          this->field_F503[11] = v14;
+          this->field_F503[12] = v14;
+          this->field_F503[13] = v14;
         } else {
-          this->_15[36] = v14;
-          this->_15[37] = v14;
-          this->_15[59] = v14;
+          this->field_F503[0] = v14;
+          this->field_F503[1] = v14;
+          this->field_F503[23] = v14;
         }
       } else {
-        memset(&this->_15[4 * v17 + 36], v14, 4u);
+        memset(&this->field_F503[4 * v17], v14, 4u);
       }
     }
   }
   int v12 = 24;
   while(v12 > 0) {
     for(int i = 0; i < 24; ++i) {
-      if(this->_15[i + 36] == -1) {
+      if(this->field_F503[i] == -1) {
         int v6 = (i + 1) % 24;
         int v8 = (i + 23) % 24;
-        if(this->_15[(i + 1) % 24 + 36] < 0 || this->_15[v6 + 36] > 7) {
-          if(this->_15[v8 + 36] >= 0 && this->_15[v8 + 36] <= 7)
-            this->_15[i + 36] = this->_15[v8 + 36] + 10;
+        if(this->field_F503[(i + 1) % 24] < 0 || this->field_F503[v6] > 7) {
+          if(this->field_F503[v8] >= 0 &&  this->field_F503[v8] <= 7)
+            this->field_F503[i] = this->field_F503[v8] + 10;
         } else {
-          this->_15[i + 36] = this->_15[v6 + 36] + 10;
+           this->field_F503[i] = this->field_F503[v6] + 10;
         }
       }
     }
     v12 = 0;
     for(int i = 0; i < 24; ++i) {
-      if(this->_15[i + 36] < 10) {
-        if(this->_15[i + 36] == -1)
+      if(this->field_F503[i] < 10) {
+        if(this->field_F503[i] == -1)
           ++v12;
       } else {
-        this->_15[i + 36] -= 10;
+        this->field_F503[i] -= 10;
       }
     }
   }
   attacker->targetOwner = targetOwner;
   attacker->targetStackIdx = targetStackIdx;
 }
-
 
 void combatManager::CombatMessage(char* msg, int doUpdate, int keepPrevMessage, int a5) {
   // It already does this logging if gbNoShowCombat is true
@@ -812,10 +831,38 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
       giMaxExtentY = 442;
   }
 
+  // Loading Fire Bomb spell icons
+  icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
+
   if(a7) {
     if(this->zeroedAfterAnimatingDeathAndHolySpells) {
       bitmap *combatScreen = this->probablyBitmapForCombatScreen;
-      if(a3 || a4 || gbLimitToExtent)
+      if(a3 || a4 || gbLimitToExtent) {
+        // Find extents for Fire Bomb spell walls
+        for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
+          hexcell *hex = &this->combatGrid[wall.hexIdx];
+          int drawX = hex->centerX;
+          int drawY = hex->topY;
+          int drawXmax = drawX + wallImg->headersAndImageData->width;
+          int drawYmax = drawY + wallImg->headersAndImageData->height;
+          if(giMinExtentX > drawX)
+            giMinExtentX = drawX;
+          if(giMaxExtentX < drawXmax)
+            giMaxExtentX = drawXmax;
+          if(giMinExtentY > drawY)
+            giMinExtentY = drawY;
+          if(giMaxExtentY < drawYmax)
+            giMaxExtentY = drawYmax;
+          if(giMinExtentX < 0)
+            giMinExtentX = 0;
+          if(giMinExtentY < 0)
+            giMinExtentY = 0;
+          if(giMaxExtentX > 639)
+            giMaxExtentX = 639;
+          if(giMaxExtentY > 442)
+            giMaxExtentY = 442;
+        }
+
         combatScreen->CopyTo(
           gpWindowManager->screenBuffer,
           giMinExtentX,
@@ -824,7 +871,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
           giMinExtentY,
           giMaxExtentX - giMinExtentX + 1,
           giMaxExtentY - giMinExtentY + 1);
-      else
+      } else
         combatScreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, 640, 443);
     } else {
       this->DrawBackground();
@@ -836,6 +883,16 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
     gbComputeExtent = 1;
   }
 
+  // Drawing Fire Bomb spell walls if any
+  for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
+    hexcell *hex = &this->combatGrid[wall.hexIdx];
+    int drawX = hex->centerX;
+    int drawY = hex->topY;
+    int frame = wall.currentFrame;
+    H2RECT rect;
+    wallImg->CombatClipDrawToBuffer(drawX, drawY, frame, &rect, 0, 0, 0, 0);
+  }
+  
   for(int row = 0; row < 9; ++row) {
     if(row == 1 && this->heroes[1]) {
       this->DrawHero(1, true, true);
@@ -956,7 +1013,7 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
       }
     }
 
-    if(this->isCastleBattle && this->castles[1]->buildingsBuiltFlags & BUILDING_MOAT && (row != 4 || this->drawBridgePosition == BRIDGE_CLOSED)) {
+    if(this->isCastleBattle && this->castles[1]->BuildingBuilt(BUILDING_MOAT) && (row != 4 || this->drawBridgePosition == BRIDGE_CLOSED)) {
       int moatHex = moatCell[row];
       if(moatHex != giWalkingTo && moatHex != giWalkingTo2 && moatHex != giWalkingFrom && moatHex != giWalkingFrom2) {
         if(this->combatGrid[moatHex].unitOwner != -1) {
@@ -1196,4 +1253,139 @@ int combatManager::CheckWin(tag_message *msg) {
     return 1;
   }
   return CheckWin_orig(msg);
+}
+
+void combatManager::CycleCombatScreen() {
+  this->CycleCombatScreen_orig();
+
+  // Animating Fire Bomb spell walls
+  icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
+  int maxFrames = wallImg->numSprites;
+  for(auto &wall : gIronfistExtra.combat.spell.fireBombWalls) {
+    wall.currentFrame++;
+    if(wall.currentFrame >= maxFrames) {
+      wall.currentFrame = 0;
+    }
+  }
+}
+
+void combatManager::CheckBurnCreature(army *stack) {
+  for(auto wallHex : gIronfistExtra.combat.spell.fireBombWalls) {
+    if(wallHex.hexIdx == stack->occupiedHex) {
+      stack->SetSpellInfluence(EFFECT_BURN, 2);
+      gpCombatManager->BurnCreature(stack);
+    }
+  }
+}
+
+void combatManager::BurnCreature(army *stack) {
+  // Must be set before using SpellEffect because walking animation frame has a different offset
+  stack->animationType = ANIMATION_TYPE_WINCE;
+  stack->animationFrame = 0;
+  stack->SpellEffect(gsSpellInfo[SPELL_FIRE_BOMB].creatureEffectAnimationIdx, 0, 0);
+
+  int creaturesKilled;
+  int burnDamage = 20;
+  burnDamage += SRandom(0, 5);
+  creaturesKilled = stack->Damage(burnDamage, SPELL_FIRE_BOMB);
+
+  // Save and revert graphics variables to avoid crashing for drawing out of bounds data (?)
+  int minExtentX = giMinExtentX;
+  int minExtentY = giMinExtentY;
+  int maxExtentX = giMaxExtentX;
+  int maxExtentY = giMaxExtentY;
+  stack->PowEffect(-1, 1, -1, -1);
+  giMinExtentX = minExtentX;
+  giMinExtentY = minExtentY;
+  giMaxExtentX = maxExtentX;
+  giMaxExtentY = maxExtentY;
+
+  std::string message;
+  message = "Burning does " + std::to_string(burnDamage) + " damage. ";
+  if(creaturesKilled > 0) {
+    char *targetCreature;
+    if(creaturesKilled <= 1)
+      targetCreature = GetCreatureName(stack->creatureIdx);
+    else
+      targetCreature = GetCreaturePluralName(stack->creatureIdx);
+    message += std::to_string(creaturesKilled) + " " + targetCreature + " " + ((creaturesKilled > 1) ? "perish" : "perishes");
+  }
+  gpCombatManager->CombatMessage((char*)message.c_str(), 1, 1, 0);
+}
+
+bool IsOutOfBoundsHex(int hex) {
+  return !ValidHex(hex) || (!(hex % 13 && hex % 13 != 12));
+}
+
+int combatManager::GetNextArmy(int maybeIsFirstTurn) {
+  while(1) {
+    bool unknownDeadFlag = false;
+    int currentSide = this->otherCurrentSideThing;
+    this->field_F2AB = 14;
+    for(int currentSpeed = 0; currentSpeed < 15; ++currentSpeed) {
+      for(int side = 0; side < 2; ++side) {
+        currentSide = 1 - currentSide;
+        int stackIdx;
+        for(stackIdx = 0; ; ++stackIdx) {
+          if(this->numCreatures[currentSide] > stackIdx) {
+            bool skipTurn = false;
+            army *cr = &this->creatures[currentSide][stackIdx];
+            if(cr->creature.creature_flags & (MAYBE_NOT_LOST_TURN | DEAD)
+              || cr->effectStrengths[EFFECT_PARALYZE]
+              || cr->effectStrengths[EFFECT_PETRIFY]
+              || cr->effectStrengths[EFFECT_BLIND]
+              || cr->creature.speed != this->field_F2AB
+              && !(cr->creature.creature_flags & HAS_GOOD_MORALE))
+              skipTurn = true;
+            if(!skipTurn && !currentSpeed && !(cr->creature.creature_flags & HAS_GOOD_MORALE))
+              skipTurn = true;
+            if(HIBYTE(cr->creature.creature_flags) & DEAD) {
+              skipTurn = true;
+              unknownDeadFlag = true;
+            }
+            if(!skipTurn && maybeIsFirstTurn && this->CheckApplyBadMorale(currentSide, stackIdx))
+              skipTurn = true;
+            if(skipTurn)
+              continue;
+          }
+          break;
+        }
+        if(this->numCreatures[currentSide] != stackIdx) {
+          this->otherCurrentSideThing = currentSide;
+          this->someSortOfStackIdx = stackIdx;
+          if(this->creatures[currentSide][stackIdx].effectStrengths[EFFECT_HYPNOTIZE])
+            this->currentActionSide = 1 - currentSide;
+          else
+            this->currentActionSide = currentSide;
+          this->GetControl();
+          return 1;
+        }
+      }
+      if(currentSpeed) {
+        this->field_F2AB--;
+        if(!this->field_F2AB)
+          this->field_F2AB = 15;
+      }
+    }
+    if(!unknownDeadFlag)
+      break;
+    maybeIsFirstTurn = 0;
+    for(int side = 0; side < 2; ++side) {
+      for(int stackIdxa = 0; this->numCreatures[side] > stackIdxa; ++stackIdxa)
+        *(DWORD *)&this->creatures[side][stackIdxa].creature.creature_flags &= 0xFFFFEFFFu;
+    }
+  }
+  this->CheckCastleAttack();
+  this->currentActionSide = 1 - this->currentActionSide;
+  this->CheckCastleAttack();
+  this->currentActionSide = 1 - this->currentActionSide;
+  return 0;
+}
+
+int combatManager::ProcessNextAction(tag_message &a2) {
+  if(giNextAction == 3) { // Pressed skip button
+    army* currentCreature = &this->creatures[this->otherCurrentSideThing][this->someSortOfStackIdx];
+    this->CheckBurnCreature(currentCreature);
+  }
+  return this->ProcessNextAction_orig(a2);
 }

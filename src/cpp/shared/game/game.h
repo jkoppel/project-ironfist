@@ -47,6 +47,11 @@ extern void *hmnuRecruitSave;
 extern void *hmnuCurrent;
 extern void *hmnuDflt;
 
+#define MAX_MOUSE_CURSORS 96
+
+extern int iMouseOffset[MAX_MOUSE_CURSORS];
+extern void *hMouseCursor[MAX_MOUSE_CURSORS];
+
 enum MOUSE_CURSOR_CATEGORY {
   MOUSE_CURSOR_CATEGORY_ADVENTURE = 0x0,
   MOUSE_CURSOR_CATEGORY_COMBAT = 0x1,
@@ -80,9 +85,11 @@ public:
 	mouseManager();
 	void ShowColorPointer();
   void SetPointer(char *mse, int spriteIdx, int protoCategory);
+  void SetPointer(int spriteIdxArg);
   void MouseCoords(int &x, int &y);
   void HideColorPointer();
   void ReallyShowPointer();
+  void NewUpdate(int flag);
 };
 
 extern mouseManager* gpMouseManager;
@@ -297,6 +304,7 @@ public:
   void SetRandomHeroArmies(int heroIdx, int isAI);
   void GiveTroopsToNeutralTown(int castleIdx);
   int RandomScan(signed char*, int, int, int, signed char);
+  int ViewSpells(hero *hris, int a3, int(__fastcall *callback)(struct tag_message &), int a5);
   int GetBoatsBuilt();
   int CreateBoat(int x, int y, int doSend);
   void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
@@ -317,9 +325,29 @@ public:
   void TurnOnAIMusic();
   int SetupCampaignGame();
   int SetupMultiPlayerGame();
+  int PickLoadGame();
+  int GetLuck(hero* hro, army *stack, town *castle);
+  int GetLuck_orig(hero* hro, army *stack, town *castle);
+  void ShowLuckInfo(hero *hro, int dialogType);
+  void ShowMoraleInfo(hero *hro, int dialogType);
 
 private:
   void PropagateVision();
+};
+
+class philAI {
+
+	char _; // Yes, this is a 1-byte object.
+
+public:
+	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
+	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
+
+	int EvaluateHeroEvent_orig(int, int, int, int, int *);
+	int EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5);
+
+  int ValueOfEventAtPosition(int x, int y, int a2, int *a3);
+  int ValueOfEventAtPosition_orig(int x, int y, int a2, int *a3);
 };
 
 enum GAME_DIFFICULTY {
@@ -342,6 +370,7 @@ void __fastcall CheckEndGame(int a, int b);
 
 int __fastcall HandleAppSpecificMenuCommands(int a1);
 int __fastcall HandleAppSpecificMenuCommands_orig(int a1);
+extern void __fastcall ResizeWindow(int x, int y,int width, int height);
 
 bool IsWellDisabled();
 
@@ -378,6 +407,7 @@ extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
+extern int giCurGeneral;
 extern signed char gbRetreatWin;
 extern unsigned char randomMineResources[NUM_RESOURCES];
 
@@ -386,6 +416,7 @@ extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
 extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
+extern int __fastcall CombatSpecialHandler(struct tag_message &);
 extern int getCastleOwnedIdx(playerData *player, int castleIdx);
 extern void __fastcall Process1WindowsMessage();
 extern int __fastcall SetupGameHandler(struct tag_message &);
@@ -395,6 +426,7 @@ extern void __fastcall RemoteMain(int);
 int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a5, signed char a6, signed char a7);
 int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type, char *name);
 extern int __fastcall AddScoreToHighScore_orig(int score, int days, int difficulty, int type, char *name);
+extern int __fastcall ExpStdGameHandler(struct tag_message &);
 
 #pragma pack(pop)
 

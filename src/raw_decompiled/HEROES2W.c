@@ -81004,8 +81004,6 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
   int v11; // eax@135
   int v12; // ST10_4@144
   int v13; // eax@144
-  void *v14; // eax@186
-  char *v15; // ST80_4@186
   int v16; // [sp+14h] [bp-ACh]@111
   combatManager *thisa; // [sp+1Ch] [bp-A4h]@1
   char *v18; // [sp+20h] [bp-A0h]@142
@@ -81544,14 +81542,12 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
   {
     for ( j = 0; thisa->numCreatures[i] > j; ++j )
     {
-      v14 = (char *)thisa + 24234 * i + 1154 * j;
-      v15 = (char *)v14 + 13647;
-      *(_DWORD *)((char *)v14 + 13865) = 0;
-      *(_DWORD *)(v15 + 222) = *(_DWORD *)(v15 + 218);
-      *(_DWORD *)(v15 + 214) = *(_DWORD *)(v15 + 222);
-      *(_DWORD *)(v15 + 6) = 1;
-      *v15 = 0;
-      *(_DWORD *)(v15 + 154) = -1;
+      thisa->creatures[i][j].hasTakenLosses = 0;
+      thisa->creatures[i][j].dead = thisa->creatures[i][j].hasTakenLosses;
+      thisa->creatures[i][j].damageTakenDuringSomeTimePeriod = thisa->creatures[i][j].dead;
+      thisa->creatures[i][j].field_6 = 1;
+      thisa->creatures[i][j].mightBeIsAttacking = 0;
+      thisa->creatures[i][j].previousQuantity = -1;
     }
   }
   if ( !isCreatureAbility )

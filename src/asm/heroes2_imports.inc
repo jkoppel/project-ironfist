@@ -76,6 +76,10 @@ IMPORT_??2@YAPAXI@Z = 1
 ??3@YAXPAX@Z EQU _op_del
 IMPORT_??3@YAXPAX@Z = 1
 
+;; main loop
+IMPORT_?oldmain@@YIHXZ = 1
+?oldmain@@YIHXZ_clone EQU ?oldmain_orig@@YIHXZ
+
 ;; executive
 IMPORT_?AddManager@executive@@QAEHPAVbaseManager@@H@Z = 1
 ?AddManager@executive@@QAEHPAVbaseManager@@H@Z_clone EQU ?AddManager_orig@executive@@QAEHPAVbaseManager@@H@Z
@@ -128,6 +132,9 @@ IMPORT_?Read13@resourceManager@@QAEXPAC@Z = 1
 IMPORT_?ReadBlock@resourceManager@@QAEXPACK@Z = 1
 IMPORT_?MAKEFILEID@@YIKPAD@Z = 1
 
+;;mouseManager
+IMPORT_?SetPointer@mouseManager@@QAEXH@Z = 1
+
 ;;creatures
 
 IMPORT_?cArmyFrameFileNames@@3PAPADA = 1
@@ -153,6 +160,8 @@ IMPORT_?AddScoreToHighScore@@YIHHHHHPAD@Z = 1
 ?AddScoreToHighScore@@YIHHHHHPAD@Z_clone EQU ?AddScoreToHighScore_orig@@YIHHHHHPAD@Z
 IMPORT_?HandleAppSpecificMenuCommands@@YIHH@Z = 1
 ?HandleAppSpecificMenuCommands@@YIHH@Z_clone EQU ?HandleAppSpecificMenuCommands_orig@@YIHH@Z
+IMPORT_?UpdateDfltMenu@@YIXPAX@Z = 1
+?UpdateDfltMenu@@YIXPAX@Z_clone EQU ?UpdateDfltMenu_orig@@YIXPAX@Z
 IMPORT_?SetRandomHeroArmies@game@@QAEXHH@Z = 1
 IMPORT_?GiveTroopsToNeutralTown@game@@QAEXH@Z = 1
 IMPORT_?ProcessOnMapHeroes@game@@QAEXXZ = 1
@@ -162,6 +171,12 @@ IMPORT_?RandomizeTown@game@@QAEXHHH@Z = 1
 IMPORT_?ShowScenInfo@game@@QAEXXZ = 1
 IMPORT_?UpdateNewGameWindow@game@@QAEXXZ = 1
 IMPORT_?ProcessRandomObjects@game@@QAEXXZ = 1
+IMPORT_?GetLuck@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z = 1
+?GetLuck@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z_clone EQU ?GetLuck_orig@game@@QAEHPAVhero@@PAVarmy@@PAVtown@@@Z
+IMPORT_?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z = 1
+?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z_clone EQU ?GetMorale_orig@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z
+IMPORT_?ShowLuckInfo@game@@QAEXPAVhero@@H@Z = 1
+IMPORT_?ShowMoraleInfo@game@@QAEXPAVhero@@H@Z = 1
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
@@ -199,9 +214,12 @@ IMPORT_?AddSpell@hero@@QAEXHH@Z = 1
 IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
-
+IMPORT_?CheckLevel@hero@@QAEXXZ = 1
+?CheckLevel@hero@@QAEXXZ_clone EQU ?CheckLevel_orig@hero@@QAEXXZ
 IMPORT_?CalcMobility@hero@@QAEHXZ = 1
 ?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
+IMPORT_?GetManaCost@@YIHHPAVhero@@@Z = 1
+?GetManaCost@@YIHHPAVhero@@@Z_clone EQU ?GetManaCost_orig@@YIHHPAVhero@@@Z
 
 ;;artifacts
 IMPORT_?gArtifactNames@@3PAPADA = 1
@@ -211,6 +229,8 @@ IMPORT_?gArtifactLevel@@3PAEA = 1
 IMPORT_?IsCursedItem@@YIHH@Z = 1
 IMPORT_?InitRandomArtifacts@game@@QAEXXZ = 1
 IMPORT_?GetRandomArtifactId@game@@QAEHHH@Z = 1
+IMPORT_?GiveTakeArtifactStat@@YIXPAVhero@@HH@Z = 1
+?GiveTakeArtifactStat@@YIXPAVhero@@HH@Z_clone EQU ?GiveTakeArtifactStat_orig@@YIXPAVhero@@HH@Z
 
 ;;combat
 IMPORT_?gCombatFxNames@@3PAPADA = 1
@@ -256,10 +276,21 @@ IMPORT_?GetCommand@combatManager@@QAEHH@Z = 1
 ?GetCommand@combatManager@@QAEHH@Z_clone EQU ?GetCommand_orig@combatManager@@QAEHH@Z
 IMPORT_?SetCombatDirections@combatManager@@QAEXH@Z = 1
 ?SetCombatDirections@combatManager@@QAEXH@Z_clone EQU ?SetCombatDirections_orig@combatManager@@QAEXH@Z
+IMPORT_?MeteorShower@combatManager@@QAEXH@Z = 1
+IMPORT_?HandleCastSpell@@YIHAAUtag_message@@@Z = 1
+IMPORT_?CastMassSpell@combatManager@@QAEXHH@Z = 1
+IMPORT_?ViewSpells@combatManager@@QAEHH@Z = 1
+IMPORT_?DrawToBuffer@army@@QAEXHHH@Z = 1
 IMPORT_?DrawFrame@combatManager@@QAEXHHHHHHH@Z = 1
+IMPORT_?CycleCombatScreen@combatManager@@QAEXXZ = 1
+?CycleCombatScreen@combatManager@@QAEXXZ_clone EQU ?CycleCombatScreen_orig@combatManager@@QAEXXZ
+IMPORT_?GetNextArmy@combatManager@@QAEHH@Z = 1
 IMPORT_?KeepAttack@combatManager@@QAEXH@Z = 1
 IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1
 ?CheckWin@combatManager@@QAEHPAUtag_message@@@Z_clone EQU ?CheckWin_orig@combatManager@@QAEHPAUtag_message@@@Z
+IMPORT_?DoHydraAttack@army@@QAEXH@Z = 1
+IMPORT_?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z = 1
+?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z_clone EQU ?ProcessNextAction_orig@combatManager@@QAEHAAUtag_message@@@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1
@@ -283,6 +314,7 @@ IMPORT_?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z = 1
 ?DoEvent@advManager@@QAEXPAVmapCell@@HH@Z_clone EQU ?DoEvent_orig@advManager@@QAEXPAVmapCell@@HH@Z
 IMPORT_?QuickInfo@advManager@@QAEXHH@Z = 1
 ?QuickInfo@advManager@@QAEXHH@Z_clone EQU ?QuickInfo_orig@advManager@@QAEXHH@Z
+IMPORT_?adventureMapLocations@@3PAPADA = 1
 
 IMPORT_?UpdateTownLocators@advManager@@QAEXHH@Z = 1
 IMPORT_?TownQuickView@advManager@@QAEXHHHH@Z = 1
@@ -303,6 +335,8 @@ IMPORT_?ComputerMonsterInteract@advManager@@QAEXPAVmapCell@@PAVhero@@PAH@Z = 1
 ;; forced ai chase
 IMPORT_?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z = 1
 ?EvaluateHeroEvent@philAI@@QAEHHHHHPAH@Z_clone EQU ?EvaluateHeroEvent_orig@philAI@@QAEHHHHHPAH@Z
+IMPORT_?ValueOfEventAtPosition@philAI@@QAEHHHHPAH@Z = 1
+?ValueOfEventAtPosition@philAI@@QAEHHHHPAH@Z_clone EQU ?ValueOfEventAtPosition_orig@philAI@@QAEHHHHPAH@Z
 
 ;;;; border guards
 IMPORT_?BarrierEvent@advManager@@QAEHPAVmapCell@@PAVhero@@@Z = 1
@@ -312,10 +346,11 @@ IMPORT_?PasswordEvent@advManager@@QAEXPAVmapCell@@PAVhero@@@Z = 1
 IMPORT_?LoadGame@game@@QAEXPADHH@Z = 1
 ?LoadGame@game@@QAEXPADHH@Z_clone EQU ?LoadGame_orig@game@@QAEXPADHH@Z
 IMPORT_?SaveGame@game@@QAEHPADHC@Z = 1
-
+IMPORT_?SaveGame@@YIHXZ = 1
 IMPORT_?Read@hero@@QAEXHC@Z = 1
 IMPORT_?Write@hero@@QAEXHC@Z = 1
 IMPORT_?RandomizeHeroPool@game@@QAEXXZ = 1
+IMPORT_?PickLoadGame@game@@QAEHXZ = 1
 
 ;;maps
 IMPORT_?NewMap@game@@QAEXPAD@Z = 1
@@ -347,6 +382,7 @@ IMPORT_?gSpecialBuildingCosts@@3PAUSBuildingCost@@A = 1
 IMPORT_?gDwellingCosts@@3PAY0M@USBuildingCost@@A = 1
 IMPORT_?gStartingHeroStats@@3PAUstartingPrimarySkills@@A = 1
 IMPORT_??0townObject@@QAE@HHPAD@Z = 1
+IMPORT_?SetupExtraStuff@townManager@@QAEXXZ = 1
 
 IMPORT_??_7recruitUnit@@6B@ = 1
 IMPORT_??0recruitUnit@@QAE@PAVarmyGroup@@HPAF@Z = 1

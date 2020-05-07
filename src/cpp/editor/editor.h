@@ -54,6 +54,7 @@ public:
   void SpellScrollEditDialog(int *a1);
   void SpellScrollEditDialog_orig(int *RelatedToSpellIdx);
   void __thiscall UpdateCursor();
+  signed int GetOverlayID(int x, int y);
 };
 
 extern editManager* gpEditManager;

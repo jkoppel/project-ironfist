@@ -6,6 +6,7 @@
 #include "adventure/terrain.h"
 #include "game/game.h"
 #include "gui/dialog.h"
+#include "scripting/callback.h"
 #include "sound/sound.h"
 
 char *gSpellDesc[] =
@@ -76,7 +77,13 @@ char *gSpellDesc[] =
   "{Set Fire Guardian}\n\nSets Fire Elementals to guard a mine against enemy armies.",
   "{Set Water Guardian}\n\nSets Water Elementals to guard a mine against enemy armies.",
   "{Awareness}\n\nExplores a large area around your hero.",
-  "{Shadow Mark}\n\nMarked creature receives 150% damage from your troops for 1 turn"
+  "{Shadow Mark}\n\nMarked creature receives 150% damage from your troops for 1 turn",
+  "{Marksman Pierce}\n\nTarget creature receives 1000 damage and is dazed for 1 turn",
+  "{Plasma Cone}\n\nCreates a cone of hot plasma in the direction of the target",
+  "{Force Shield}\n\nCreates a kinetic shield over the target ally",
+  "{Mass Force Shield}\n\nCreates a kinetic shield over all allies",
+  "{Fire Bomb}\n\nSet an area on fire for 2 turns. Creatures will continue burning for 2 turns after leaving the area",
+  "{Implosion Grenade}\n\nFires an indirect projectile that explodes inverted dark matter that will suck any creature adjacent to it together."
 };
 
 SSpellInfo gsSpellInfo[] = {
@@ -149,13 +156,27 @@ SSpellInfo gsSpellInfo[] = {
 	//awareness
 	{"", 1, 55, 0, 700, 20, 10, 0x0A0A0A0A, 0x0A, ATTR_ADVENTURE_SPELL},
   //shadow mark
-  {"shdwmark", 2, 66, 33, 0, 3, -1, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL}
+  {"shdwmark", 2, 66, 33, 0, 3, -1, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
+  {"mrksmprc", 5, 67, 34, 200, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL | ATTR_DURATIONED_SPELL},
+  {"plsmcone", 5, 68, 35, 50, 3, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
+  {"forcshld", 2, 69, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
+  {"forcshld", 2, 70, 36, 500, 7, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
+  {"firebomb", 3, 71, 37, 500, 9, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL},
+  {"implgrnd", 3, 72, 38, 500, 9, 10, 0x0A0A0A0A, 0x0A, ATTR_COMMON_SPELL | ATTR_COMBAT_SPELL}
 };
 
 #define DD_MOVEMENT_COST 225
 
-int GetManaCost(int s) {
-	return GetManaCost(s, NULL);
+int __fastcall GetManaCost(int spell, hero* hro) {
+  int cost = GetManaCost_orig(spell, hro);
+  auto res = ScriptCallbackResult<int>("OnCalcManaCost", deepbind<hero*>(hro), spell, cost);
+  if(res.has_value())
+    cost = res.value();
+  return cost;
+}
+
+int GetManaCost(int spell) {
+	return GetManaCost(spell, NULL);
 }
 
 void advManager::CastSpell(int spell) {

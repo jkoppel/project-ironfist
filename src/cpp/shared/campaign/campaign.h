@@ -1,8 +1,8 @@
 #ifndef CAMPAIGN_H
 #define CAMPAIGN_H
 
-#include <vector>
 #include <map>
+#include <set>
 
 #include "adventure/adv.h"
 #include "gui/gui.h"
@@ -98,7 +98,6 @@ extern int __fastcall ExpLoadCampaignHandler(struct tag_message &);
 
 int __fastcall ExpansionCampaignRect(int x, int y);
 int LoadCampaignFromFile(std::string filename);
-void LoadCustomCampaigns();
 void LoadCampaignSavedHero(int playerID, int ownedHeroIdx, int saveIdx);
 void SaveCampaignHero(int playerID, int ownedHeroIdx, int saveIdx);
 
@@ -112,12 +111,12 @@ extern std::map<int, int> expCampaignNumMaps;
 extern std::map<int, std::map<int, std::string>> xScenarioName;
 extern std::map<int, std::map<int, std::string>> xScenarioDescription;
 extern std::map<int, std::map<int, int>> xCampaignDifficulties;
-extern std::map<int, std::map<int, std::vector<int>>> mapsToComplete;
+extern std::map<int, std::map<int, std::set<int>>> mapsToComplete;
 extern std::map<int, std::map<int, SMACKER_VIDEOS>> replaySMK;
 extern std::map<int, std::map<int, SMACKER_VIDEOS>> victorySMK;
 extern std::map<int, std::map<int, int>> awardsToGive;
-extern std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToLoad;
-extern std::map<int, std::map<int, std::vector<std::pair<int, int>>>> xCampaignHeroesToSave;
+extern std::map<int, std::map<int, std::set<std::pair<int, int>>>> xCampaignHeroesToLoad;
+extern std::map<int, std::map<int, std::set<std::pair<int, int>>>> xCampaignHeroesToSave;
 
 #pragma pack(pop)
 

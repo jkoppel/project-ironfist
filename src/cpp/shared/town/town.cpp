@@ -242,29 +242,29 @@ SBuildingInfo sBuildingsInfo[MAX_FACTIONS][BUILDING_MAX] = {
   {
     { '\0', 397, 46, 84, 138 },
     { '\x05', 0, 130, 53, 63 },
-    { '\x05', 345, 114, 83, 62 },
-    { '\x05', 531, 214, 113, 42 },
-    { '\0', 188, 214, 39, 42 },
+    { 0, 560, 130, 83, 52 },
+    { 5, 60, 190, 106, 60 },
+    { 0, 316, 145, 32, 42 },
     { '\0', 69, 108, 67, 55 },
-    { '\x05', 0, 49, 286, 116 },
-    { '\0', 478, 193, 46, 63 },
-    { '\x05', 7, 33, 0, 0 },
-    { '\x05', 134, 37, 0, 0 },
-    { '\0', 219, 138, 120, 30 },
+    { 6, 216, 3, 236, 130 },
+    { 0, 380, 172, 40, 80 },
+    { 0, 7, 33, 0, 0 }, // ltur
+    { 0, 134, 37, 0, 0 }, // rtur
+    { 0, 517, 102, 80, 50 },
     { '\0', 286, 102, 88, 22 },
-    { '\0', 0, 146, 311, 30 },
-    { '\0', 0, 78, 251, 22 },
-    { '\t', 531, 211, 113, 45 },
-    { '\0', 293, 107, 59, 35 },
-    { '\x05', 0, 0, 0, 0 },
+    { 8, 207, 107, 254, 30 },
+    { 7, 200, 7, 105, 58 },
+    { 5, 0, 191, 120, 65 },
+    { 0, 220, 110, 59, 45 },
+    { 4, 0, 0, 0, 0 },
+    { 4, 0, 0, 0, 0 },
     { '\0', 0, 0, 0, 0 },
-    { '\0', 0, 0, 0, 0 },
-    { '\x05', 192, 163, 69, 52 },
-    { '\0', 135, 149, 73, 32 },
+    { 5, 230, 165, 90, 60 },
+    { 0, 230, 165, 90, 60 },
     { '\x05', 240, 166, 91, 66 },
-    { '\0', 323, 174, 102, 69 },
-    { '\a', 48, 176, 104, 80 },
-    { '\0', 445, 50, 195, 157 },
+    { 5, 495, 184, 147, 75 },
+    { 5, 75, 45, 100, 50 },
+    { 4, 547, 10, 48, 84 },
     { '\0', 135, 149, 73, 32 },
     { '\x05', 240, 166, 91, 66 },
     { '\0', 323, 174, 102, 69 },
@@ -1075,6 +1075,43 @@ int townManager::Main(tag_message &evt) {
     return 1;  
 }
 
+// Set built flags for extra buildings and boat depending on faction and dock creation possibility
+void townManager::SetupExtraStuff() {
+  // remove ext0,ext1,ext2,ext3 and boat building flags
+  this->castle->buildingsBuiltFlags &= 0x7FF8BFFFu;
+
+  if(this->castle->factionID == FACTION_WIZARD)
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_0);
+  if(this->castle->factionID == FACTION_SORCERESS) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_0);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+  }
+  if(this->castle->factionID == FACTION_KNIGHT) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_2);
+  }
+  if(this->castle->factionID == FACTION_BARBARIAN) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_2);
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_3);
+  }
+  if(this->castle->factionID == FACTION_WARLOCK
+    || this->castle->factionID == FACTION_KNIGHT
+    || this->castle->factionID == FACTION_BARBARIAN
+    || this->castle->factionID == FACTION_NECROMANCER
+    || this->castle->factionID == FACTION_CYBORG) {
+    if(this->castle->CanBuildDock())
+      this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_0);
+  }
+  if(this->castle->factionID == FACTION_CYBORG) {
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_EXT_1);
+  }
+  if(this->castle->buildingsBuiltFlags & (1 << BUILDING_DOCK) && gpAdvManager->GetCell(this->castle->buildDockRelated, this->castle->boatCell)->objType)
+    this->castle->buildingsBuiltFlags |= (1 << BUILDING_BOAT);
+  else
+    this->castle->buildingsBuiltFlags &= 0xFFFFBFFFu; // remove boat flag
+}
+
 void townManager::SetupCastle(heroWindow *window, int a3) {
   
   casWin = window;
@@ -1343,4 +1380,73 @@ int __fastcall CanBuild(town *twn, int building) {
     return 0;
   }
   return 1;
+}
+
+void town::SetFaction(FACTION faction) {
+  // Shift of town graphics in relation to current graphics
+  // Setting offset in such a way that makes the town have frames from the first faction town/castle
+  int oldFactionID = this->factionID;
+  int imgOffset = -oldFactionID;
+  if(this->factionID == FACTION_CYBORG)
+    imgOffset = -6;
+  
+  // Meanwhile applying some town changes
+  this->field_55 = 10;
+  this->factionID = faction;
+
+  // Destroying buildings that don't exist in new faction
+  for(int bldIdx = BUILDING_MAX - 1; bldIdx >= 0; bldIdx--) {
+    unsigned long eligibleBuildMask = gTownEligibleBuildMask[faction];
+    int bldMask = (1 << bldIdx);
+
+    // Skip if building is a castle, not built or can be built
+    if(bldIdx == BUILDING_CASTLE || !(bldMask & this->buildingsBuiltFlags) || (bldMask & eligibleBuildMask))
+      continue;
+
+    // Remove building that can't be built
+    this->buildingsBuiltFlags &= ~(bldMask);
+
+    // Downgrade buildings if upgraded ones don't exist in new faction
+    int dwellingIdx = bldIdx - 19;
+    int numCreatures = this->numCreaturesInDwelling[dwellingIdx];
+    if(bldIdx == BUILDING_UPGRADE_5B) {
+      this->numCreaturesInDwelling[dwellingIdx] = 0;
+      int downgradedBldIdx = BUILDING_UPGRADE_5;
+      int downgradedBldMask = (1 << downgradedBldIdx);
+      dwellingIdx = downgradedBldIdx - 19;
+
+      if(!(downgradedBldMask & eligibleBuildMask)) {
+        this->numCreaturesInDwelling[dwellingIdx] = 0;
+        downgradedBldIdx = BUILDING_DWELLING_6;
+        dwellingIdx = downgradedBldIdx - 19;
+        downgradedBldMask = (1 << downgradedBldIdx);
+      }
+      this->buildingsBuiltFlags |= downgradedBldMask;
+      this->numCreaturesInDwelling[dwellingIdx] = numCreatures;
+    } else if(bldIdx >= BUILDING_UPGRADE_1 && bldIdx <= BUILDING_UPGRADE_5) {
+      this->numCreaturesInDwelling[dwellingIdx] = 0;      
+      int downgradedBldIdx = bldIdx - 5;
+      int downgradedBldMask = (1 << downgradedBldIdx);
+      dwellingIdx = downgradedBldIdx - 19;
+
+      if(downgradedBldMask & eligibleBuildMask) {
+        this->buildingsBuiltFlags |= downgradedBldMask;
+        this->numCreaturesInDwelling[dwellingIdx] = numCreatures;
+      }
+    }    
+  }
+  
+  // Now we set the offset of graphics for requested faction
+  if(faction == FACTION_CYBORG)
+    imgOffset += 6;
+  else
+    imgOffset += faction;
+
+  int xFrom, xTo, yFrom, yTo;
+  xFrom = this->x - 5;
+  xTo   = this->x + 2;
+  yFrom = this->y - 3;
+  yTo   = this->y + 1;
+  gpGame->ConvertObject(xFrom, yFrom, xTo, yTo, TILESET_OBJ_TOWN, 0, 255, TILESET_OBJ_TOWN, 32 * imgOffset, TILESET_OBJ_TOWN, TILESET_OBJ_TOWN);
+  gpGame->ConvertObject(xFrom, yFrom, xTo, yTo, TILESET_TOWN_SHADOW, 0, 255, TILESET_TOWN_SHADOW, 32 * imgOffset, TILESET_OBJ_TOWN, TILESET_OBJ_TOWN);
 }

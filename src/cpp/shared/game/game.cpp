@@ -158,21 +158,23 @@ int game::SetupGame() {
                 xCampaign.InitNewCampaign(campID);
               }
               break;
-            case 3:
+            case 3: {
               xIsPlayingExpansionCampaign = 1;
               xIsExpansionMap = 1;
-              if(giSetupGameType != 1) {
-                int campID = LoadCampaignFromFile("cyborg.cmp");
-                if(campID == -1) {
-                  gbInSetupDialog = 0;
-                  return 0;
-                }
-                xCampaign.InitNewCampaign(campID);
+              int campID = LoadCampaignFromFile("cyborg.cmp");
+              xCampaign.campaignID = campID;
+              if(campID == -1) {
+                gbInSetupDialog = 0;
+                return 0;
               }
+              if(giSetupGameType != 1)
+                xCampaign.InitNewCampaign(campID);
               break;
+            }
             case 4:
               xIsPlayingExpansionCampaign = 1;
               xIsExpansionMap = 1;
+              xCampaign.campaignID = 5;
               if(giSetupGameType != 1) {                
                 // This is done in order to avoid error messages hardcoded in fileRequester::Main
                 int tmp = giDebugLevel;
@@ -494,8 +496,8 @@ void game::NewMap(char* mapname) {
     if(gpGame->newGameSelectedFaction[i] == FACTION_RANDOM)
       gpGame->newGameSelectedFaction[i] = FACTIONS_ACTUAL[Random(0, FACTIONS_ACTUAL.size() - 1)];;
   }
-  this->NewMap_orig(mapname);
   ScriptingInit(std::string(mapname));
+  this->NewMap_orig(mapname);  
   gpGame->firstDayEventDone = false;
   gpGame->allowAIArmySharing = true;
 }
@@ -956,6 +958,14 @@ void __fastcall CheckEndGame(int a, int b) {
 bool dbgAutoWinBattles = false;
 extern void *hmnuAdv;
 
+extern void __fastcall UpdateDfltMenu_orig(void *hMenu);
+
+extern void __fastcall UpdateDfltMenu(void *hMenu) {
+  UpdateDfltMenu_orig(hMenu);
+  EnableMenuItem((HMENU)hMenu, 40010, MF_ENABLED);
+  EnableMenuItem((HMENU)hMenu, 40011, MF_ENABLED);
+}
+
 int __fastcall HandleAppSpecificMenuCommands(int a1) {
   int spell; // [sp+24h] [bp-8h]@55
   hero *hro; // [sp+28h] [bp-4h]@1
@@ -974,6 +984,12 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
     return 0;
   }
   switch (a1) {
+    case 40010: //MENUITEM "1280 x 960 (Native x2)"
+      ResizeWindow(-1, -1, 1280, 960);
+      return 0;
+    case 40011: //MENUITEM "1920 x 1440 (Native x3)"
+      ResizeWindow(-1, -1, 1920, 1440);
+      return 0;
     case 40143: // MENUITEM "Free Spells"
       gpGame->hasCheated = 1;
       if (gbInCampaign)
@@ -1014,18 +1030,6 @@ bool IsWellDisabled() {
   return isDisabled;
 }
 
-class philAI {
-
-	char _; // Yes, this is a 1-byte object.
-
-public:
-	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
-	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
-
-	int EvaluateHeroEvent_orig(int, int, int, int, int *);
-	int EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5);
-};
-
 void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5) {
 	if (gpGame->allowAIArmySharing) {
 		RedistributeTroops_orig(army1, army2, a1, a2, a3, a4, a5);
@@ -1039,6 +1043,13 @@ int philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5) {
 		return AI_VALUE_CAP;
 	}
 	return EvaluateHeroEvent_orig(a1, a2, a3, a4, a5);
+}
+
+int philAI::ValueOfEventAtPosition(int x, int y, int a2, int *a3) {
+  if(gpAdvManager->GetCell(x, y)->getLocationType() == LOCATION_SHIPYARD)
+    return 0; // ignore shipyard objects
+  else
+    return ValueOfEventAtPosition_orig(x, y, a2, a3);
 }
 
 void game::InitRandomArtifacts() {
@@ -2048,4 +2059,290 @@ int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type
   if(type == CAMPAIGN_TYPE_EXPANSION)
     name = (char*)xCampaignNames[xCampaign.campaignID].c_str();
   return AddScoreToHighScore_orig(score, days, difficulty, type, name);
+}
+
+int game::GetLuck(hero* hro, army *stack, town *castle) {
+  int luck = GetLuck_orig(hro, stack, castle);
+  auto res = ScriptCallbackResult<int>("OnCalcLuck", deepbind<hero*>(hro), deepbind<army*>(stack), deepbind<town*>(castle), luck);
+  if(res.has_value())
+    luck = res.value();
+  luck = max(-3, min(luck, 3));
+  return luck;
+}
+
+int armyGroup::GetMorale(hero *hro, town *twn, armyGroup *armyGr) {
+  int morale = GetMorale_orig(hro, twn, armyGr);
+  auto res = ScriptCallbackResult<int>("OnCalcMorale", deepbind<hero*>(hro), deepbind<town*>(twn), morale);
+  if(res.has_value())
+    morale = res.value();
+  morale = max(-3, min(morale, 3));
+  return morale;
+}
+
+void game::ShowLuckInfo(hero *hro, int dialogType) {
+  std::string msg;
+  town *twn = hro->GetOccupiedTown();
+  int luck = GetLuck(hro, 0, twn);
+  if(luck == 0)
+    msg = "{Neutral Luck}\n\nNeutral luck means your armies will never get lucky or unlucky attacks on the enemy.";
+  else if(luck < 0)
+    msg = "{Bad Luck}\n\nBad luck sometimes falls on your armies in combat, causing their attacks to only do half damage.";
+  else
+    msg = "{Good Luck}\n\nGood luck sometimes lets your armies get lucky attacks (double strength) in combat.";
+
+  sprintf(gText, "%s\n\n\nCurrent Luck Modifiers:", &msg[0u]);
+
+  unsigned len = strlen(gText);
+  if(twn && twn->factionID == FACTION_SORCERESS && twn->BuildingBuilt(BUILDING_SPECIAL))
+    strcat(gText, "\nSorceress Rainbow +2");
+  if(hro->HasArtifact(ARTIFACT_LUCKY_RABBITS_FOOT))
+    strcat(gText, "\nLucky Rabbit's Foot +1");
+  if(hro->HasArtifact(ARTIFACT_GOLDEN_HORSESHOE))
+    strcat(gText, "\nGolden Horseshoe +1");
+  if(hro->HasArtifact(ARTIFACT_GAMBLERS_LUCKY_COIN))
+    strcat(gText, "\nGambler's Lucky Coin +1");
+  if(hro->HasArtifact(ARTIFACT_FOUR_LEAF_CLOVER))
+    strcat(gText, "\nFour-Leaf Clover +1");
+  if(hro->flags & HERO_FAIRY_RING_VISITED)
+    strcat(gText, "\nFaerie ring visited +1");
+  if(hro->flags & HERO_IDOL_VISITED)
+    strcat(gText, "\nIdol visited +1");
+  if(hro->flags & HERO_FOUNTAIN_VISITED)
+    strcat(gText, "\nFountain visited +1");
+  if(hro->flags & HERO_PYRAMID_RAIDED)
+    strcat(gText, "\nPyramid raided -2");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 1)
+    strcat(gText, "\nBasic Luck +1");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 2)
+    strcat(gText, "\nAdvanced Luck +2");
+  if(hro->secondarySkillLevel[SECONDARY_SKILL_LUCK] == 3)
+    strcat(gText, "\nExpert Luck +3");
+  if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & HERO_AT_SEA)
+    strcat(gText, "\nMasthead bonus at sea +1");
+  if(hro->flags & HERO_MERMAID_VISITED)
+    strcat(gText, "\nMermaid visited +1");
+  if(hro->HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN))
+    strcat(gText, "\nBattle Garb of Anduran gives you maximum luck.");
+
+  auto res = ScriptCallbackResult<std::string>("OnShowLuckInfo", deepbind<hero*>(hro));
+  if(res.has_value()) {
+    strcat(gText, "\n");
+    strcat(gText, res.value().c_str());
+  }
+
+  if(len == strlen(gText))
+    strcat(gText, "\nnone");
+
+  return NormalDialog(gText, dialogType, -1, -1, -1, 0, -1, 0, -1, 0);
+}
+
+void game::ShowMoraleInfo(hero *hro, int dialogType) {
+  std::string msg;
+  town *twn = hro->GetOccupiedTown();
+  int morale = hro->army.GetMorale(hro, twn, NULL);
+  if(morale == 0)
+    msg = "{Neutral Morale}\n\nNeutral morale means your armies will never be blessed with extra attacks or freeze in combat.";
+  else if(morale < 0)
+    msg = "{Bad Morale}\n\nBad morale may cause your armies to freeze in combat.";
+  else
+    msg = "{Good Morale}\n\nGood morale may give your armies extra attacks in combat.";
+
+  sprintf(gText, "%s\n\n\nCurrent Morale Modifiers:", &msg[0u]);
+
+  unsigned len = strlen(gText);
+  if(hro->army.HasAllUndead()) {
+    strcat(gText, "\nEntire unit is undead, so morale does not apply.");
+  } else {
+    bool hasUndead = false;
+    if(hro->army.HasSomeUndead() || hro->HasArtifact(ARTIFACT_ARM_OF_THE_MARTYR)) {
+      strcat(gText, "\nSome undead in group -1");
+      hasUndead = true;
+    }
+    int troopAlignments = hro->army.IsHomogeneous(-1);
+    if(hasUndead && troopAlignments > 0)
+      troopAlignments = 0;
+    int faction = 0;
+    if(troopAlignments > 0) {
+      for(int i = 0; i < CREATURES_IN_ARMY; ++i) {
+        if(hro->army.creatureTypes[i] != -1)
+          faction = gMonsterDatabase[hro->army.creatureTypes[i]].faction;
+      }
+      msg = "\nAll " + std::string(gAlignmentNames[faction]) + " troops +1";
+      strcat(gText, &msg[0]);
+    }
+    if(troopAlignments == -1)
+      strcat(gText, "\nTroops of 3 alignments -1");
+    if(troopAlignments == -2)
+      strcat(gText, "\nTroops of 4 alignments -2");
+    if(troopAlignments == -3)
+      strcat(gText, "\nTroops of 5 alignments -3");
+    if(twn) {
+      if(twn->factionID == FACTION_BARBARIAN && twn->BuildingBuilt(BUILDING_SPECIAL))
+        strcat(gText, "\nBarbarian Coliseum +2");
+      if(twn->BuildingBuilt(BUILDING_TAVERN))
+        strcat(gText, "\nTavern +1");
+    }
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_VALOR))
+      strcat(gText, "\nMedal of Valor +1");
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_COURAGE))
+      strcat(gText, "\nMedal of Courage +1");
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_HONOR))
+      strcat(gText, "\nMedal of Honor +1");
+    if(hro->HasArtifact(ARTIFACT_MEDAL_OF_DISTINCTION))
+      strcat(gText, "\nMedal of Distinction +1");
+    if(hro->HasArtifact(ARTIFACT_FIZBIN_OF_MISFOURTUNE))
+      strcat(gText, "\nFizbin of Misfortune -2");
+    if(hro->flags & HERO_BUOY_VISITED)
+      strcat(gText, "\nBuoy visited +1");
+    if(hro->flags & HERO_OASIS_VISITED)
+      strcat(gText, "\nOasis visited +1");
+    if(hro->flags & HERO_TEMPLE_VISITED)
+      strcat(gText, "\nTemple visited +2");
+    if(hro->flags & HERO_GRAVEYARD_ROBBER)
+      strcat(gText, "\nGraveyard robber -1");
+    if(hro->flags & HERO_SHIPWRECK_ROBBER)
+      strcat(gText, "\nShipwreck robber -1");
+    if(hro->flags & HERO_WATERING_HOLE_VISITED)
+      strcat(gText, "\nWatering hole visited +1");
+    if(hro->flags & HERO_DERELICT_SHIP_ROBBER)
+      strcat(gText, "\nDerelict ship robber -1");
+    int leadership = hro->secondarySkillLevel[SECONDARY_SKILL_LEADERSHIP];
+    if(leadership == 1)
+      strcat(gText, "\nBasic Leadership +1");
+    if(leadership == 2)
+      strcat(gText, "\nAdvanced Leadership +2");
+    if(leadership == 3)
+      strcat(gText, "\nExpert Leadership +3");
+    if(hro->HasArtifact(ARTIFACT_MASTHEAD) && hro->flags & HERO_AT_SEA)
+      strcat(gText, "\nMasthead bonus at sea +1");
+    if(hro->HasArtifact(ARTIFACT_BATTLE_GARB_OF_ANDURAN))
+      strcat(gText, "\nBattle Garb of Anduran gives you maximum morale.");
+  }
+
+  auto res = ScriptCallbackResult<std::string>("OnShowMoraleInfo", deepbind<hero*>(hro));
+  if(res.has_value()) {
+    strcat(gText, "\n");
+    strcat(gText, res.value().c_str());
+  }
+
+  if(len == strlen(gText))
+    strcat(gText, "\nnone");
+
+  return NormalDialog(gText, dialogType, -1, -1, -1, 0, -1, 0, -1, 0);
+}
+
+void mouseManager::SetPointer(int spriteIdxArg) {
+  if(this->field_7E || spriteIdxArg < 0)
+    return;
+
+  if(this->ready != 1 || this->spriteIdx == spriteIdxArg || gbInSetPointer)
+    return;
+
+  gbInSetPointer = 1;
+  ++gbPutzingWithMouseCtr;
+  gpResourceManager->SavePosition();
+
+  if(giCurExe == 1)
+    this->cursorCategory = MOUSE_CURSOR_CATEGORY_ADVENTURE;
+
+  int spriteIdx = spriteIdxArg;
+  if(spriteIdxArg == 1000)
+    spriteIdx = this->spriteIdx;
+  else
+    this->spriteIdx = spriteIdxArg;
+
+  int offset = iMouseOffset[this->cursorCategory];
+  int actualIdx = spriteIdx + offset;
+
+  // Ironfist fallback to a large cursor slot in various cursor related arrays
+  if(actualIdx >= MAX_MOUSE_CURSORS)
+    actualIdx = 83;
+  this->cursorIdx = actualIdx;
+  ProcessAssert(!(actualIdx < 0 || actualIdx >= MAX_MOUSE_CURSORS), __FILE__, __LINE__);
+
+  if(gbColorMice) {
+    this->NewUpdate(1);
+  } else {
+    if(hMouseCursor[this->cursorIdx]) {
+      SetCursor((HCURSOR)hMouseCursor[this->cursorIdx]);
+    } else {
+      std::string fileName;
+      int actualSpriteIdx;
+      MOUSE_CURSOR_CATEGORY category = this->cursorCategory;
+      switch(category) {
+        case MOUSE_CURSOR_CATEGORY_ADVENTURE:
+          actualSpriteIdx = spriteIdx + 1;
+          fileName = "ADVMBW";
+          break;
+        case MOUSE_CURSOR_CATEGORY_COMBAT:
+          actualSpriteIdx = spriteIdx + 1;
+          fileName = "CMSEBW";
+          break;
+        case MOUSE_CURSOR_CATEGORY_SPELL:
+          actualSpriteIdx = spriteIdx;
+          fileName = "SPELBW";
+          break;
+      }
+
+      char fileNameChar[FILENAME_MAX];
+      sprintf_s(fileNameChar, "%s%02d.BMP", fileName.c_str(), actualSpriteIdx);
+
+      int fileID = gpResourceManager->MakeId(fileNameChar, 1);
+      gpResourceManager->PointToFile(fileID);
+
+      cColorBits[this->cursorIdx] = BaseAlloc(1024, __FILE__, __LINE__);
+      cAndBits[this->cursorIdx] = BaseAlloc(256, __FILE__, __LINE__);
+      gpResourceManager->ReadBlock((signed char*)cColorBits[this->cursorIdx], 6);
+      gpResourceManager->ReadBlock((signed char*)cColorBits[this->cursorIdx], 1024);
+      memset(cAndBits[this->cursorIdx], 0, 256);
+      
+      int cnt, cnt2;
+      cnt = cnt2 = 0;
+      do {
+        int cnt3 = 0;
+        do {
+          void *bits = cColorBits[this->cursorIdx];
+          if(*((char *)bits + cnt3 + cnt)) {
+            if(*((char *)bits + cnt3 + cnt) == 1)
+              *((char *)cAndBits[this->cursorIdx] + (cnt3 >> 3) + cnt2 + 128) |= 1 << (7 - (cnt3 & 7));
+          } else {
+            *((char *)cAndBits[this->cursorIdx] + (cnt3 >> 3) + cnt2) |= 1 << (7 - (cnt3 & 7));
+          }
+          ++cnt3;
+        } while(cnt3 < 32);
+        cnt2 += 4;
+        cnt += 32;
+      } while(cnt < 1024);
+
+      BITMAP bmpAndMask;
+      bmpAndMask.bmType = 0;
+      bmpAndMask.bmWidth = 32;
+      bmpAndMask.bmHeight = 64;
+      bmpAndMask.bmWidthBytes = 4;
+      bmpAndMask.bmPlanes = 1;
+      bmpAndMask.bmBitsPixel = 1;
+      bmpAndMask.bmWidthBytes = 4;
+      bmpAndMask.bmBits = cAndBits[this->cursorIdx];
+
+      HBITMAP hbmpAndMask = CreateBitmapIndirect(&bmpAndMask);
+      ProcessAssert((int)hbmpAndMask, __FILE__, __LINE__);
+
+      _ICONINFO IconInfo;
+      IconInfo.fIcon = 0;
+      if(this->cursorCategory == MOUSE_CURSOR_CATEGORY_SPELL)
+        IconInfo.xHotspot = IconInfo.yHotspot = 15;
+      else {
+        IconInfo.xHotspot = iHotSpot[this->cursorIdx][0];
+        IconInfo.yHotspot = iHotSpot[this->cursorIdx][1];
+      }
+      IconInfo.hbmMask = hbmpAndMask;
+      IconInfo.hbmColor = 0;
+      hMouseCursor[this->cursorIdx] = (HCURSOR *)CreateIconIndirect(&IconInfo);
+      ProcessAssert((int)hMouseCursor[this->cursorIdx], __FILE__, __LINE__);
+    }    
+  }
+
+  gpResourceManager->RestorePosition();
+  gbInSetPointer = 0;
+  --gbPutzingWithMouseCtr;
 }

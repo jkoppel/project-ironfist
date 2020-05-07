@@ -58,6 +58,8 @@ public:
   // Returns integer in range [0, NUM_DWELLINGS), or -1 for an invalid
   // tier outside range [0, 5].
   int DwellingIndex(int) const;
+
+  void SetFaction(FACTION faction);
 };
 
 class townObject {
@@ -129,6 +131,7 @@ public:
   int BuyBuild(int building, int a3, int a4);
   void DoCommand(int cmd);
   void ShiftQualChange();
+  void SetupExtraStuff();
 };
 
 void InitializeTownConstants();

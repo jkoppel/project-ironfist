@@ -149,6 +149,12 @@ void set_spell_consts(lua_State *L) {
   lua_setconst(L, "SPELL_SET_AIR_GUARDIAN", SPELL_SET_AIR_GUARDIAN);
   lua_setconst(L, "SPELL_SET_FIRE_GUARDIAN", SPELL_SET_FIRE_GUARDIAN);
   lua_setconst(L, "SPELL_SET_WATER_GUARDIAN", SPELL_SET_WATER_GUARDIAN);
+  lua_setconst(L, "SPELL_MARKSMAN_PIERCE", SPELL_MARKSMAN_PIERCE);
+  lua_setconst(L, "SPELL_PLASMA_CONE", SPELL_PLASMA_CONE);
+  lua_setconst(L, "SPELL_FORCE_SHIELD", SPELL_FORCE_SHIELD);
+  lua_setconst(L, "SPELL_MASS_FORCE_SHIELD", SPELL_MASS_FORCE_SHIELD);
+  lua_setconst(L, "SPELL_FIRE_BOMB", SPELL_FIRE_BOMB);
+  lua_setconst(L, "SPELL_IMPLOSION_GRENADE", SPELL_IMPLOSION_GRENADE);
 }
 
 void set_artifact_consts(lua_State* L) {

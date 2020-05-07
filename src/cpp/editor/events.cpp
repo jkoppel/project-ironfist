@@ -446,3 +446,34 @@ void __stdcall FillInEventEdit(EventExtra *extra) {
 void EditEvent_RequestUserDefinedElements() {
   shouldFillInArtifacts = true;
 }
+
+extern long __fastcall AppCommand_orig(void *hMenu, unsigned int a1, unsigned int a2, long a3);
+
+long __fastcall AppCommand(void *hMenu, unsigned int a1, unsigned int a2, long a3) {
+  switch(a2) {
+    case 40010: //MENUITEM "1280 x 960 (Native x2)"
+      ResizeWindow(-1, -1, 1280, 960);
+      return 0;
+    case 40011: //MENUITEM "1920 x 1440 (Native x3)"
+      ResizeWindow(-1, -1, 1920, 1440);
+      return 0;
+    default:
+      return AppCommand_orig(hMenu, a1, a2, a3);
+  }
+}
+
+extern void __fastcall UpdateDfltMenu_orig(void *hMenu);
+
+extern void __fastcall UpdateDfltMenu(void *hMenu) {
+  UpdateDfltMenu_orig(hMenu);
+  EnableMenuItem((HMENU)hMenu, 40010, MF_ENABLED);
+  EnableMenuItem((HMENU)hMenu, 40011, MF_ENABLED);
+}
+
+extern int __fastcall oldmain_orig();
+
+int __fastcall oldmain() {
+  // Disallow resizing game window using mouse
+  SetWindowLong((HWND)hwndApp, GWL_STYLE, GetWindowLong((HWND)hwndApp, GWL_STYLE) &~ WS_SIZEBOX);
+  return oldmain_orig();
+}

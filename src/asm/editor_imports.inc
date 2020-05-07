@@ -135,10 +135,9 @@ IMPORT_?ShowErrorMessage@@YIXPBD@Z = 1
 ;;editManager
 IMPORT_?InitializeMap@editManager@@QAEXHHH@Z = 1
 ?InitializeMap@editManager@@QAEXHHH@Z_clone EQU ?InitializeMap_orig@editManager@@QAEXHHH@Z
-
+IMPORT_?GetOverlayID@editManager@@QAEHHH@Z = 1
 IMPORT_?SpellScrollEditDialog@editManager@@QAEXPAH@Z = 1
 ?SpellScrollEditDialog@editManager@@QAEXPAH@Z_clone EQU ?SpellScrollEditDialog_orig@editManager@@QAEXPAH@Z
-
 IMPORT_?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z = 1
 ?SpellScrollEditDialogCallback@@YIHAAUtag_message@@@Z_clone EQU ?SpellScrollEditDialogCallback_orig@@YIHAAUtag_message@@@Z
 
@@ -155,6 +154,10 @@ IMPORT_?FillInWinCondition@@YIHH@Z = 1
 IMPORT_?CalculatePlayerNumbers@@YIXXZ = 1
 IMPORT_?ResetPlayerAvailability@@YIXXZ = 1
 
+;;overlayManager
+IMPORT_?SetupOverlayWindow@overlayManager@@QAEXH@Z = 1
+IMPORT_?PopulateAvailOverlays@overlayManager@@QAEHH@Z = 1
+
 ;;spells
 IMPORT_?gSpellNames@@3PAPADA = 1
 
@@ -166,4 +169,13 @@ IMPORT_?gWellExtraNames@@3PAPADA = 1
 IMPORT_?gSpecialBuildingNames@@3PAPADA = 1
 IMPORT_?gBuildingInfoSpecial@@3PAPADA = 1
 IMPORT_?gTownPrefixNames@@3PAPADA = 1
-IMPORT_?SetupOverlayWindow@overlayManager@@QAEXH@Z = 1
+
+IMPORT_?sub_42AAF9@@YGHPAH0HHD@Z = 1
+IMPORT_?AppCommand@@YIJPAXIIJ@Z = 1
+?AppCommand@@YIJPAXIIJ@Z_clone EQU ?AppCommand_orig@@YIJPAXIIJ@Z
+IMPORT_?UpdateDfltMenu@@YIXPAX@Z = 1
+?UpdateDfltMenu@@YIXPAX@Z_clone EQU ?UpdateDfltMenu_orig@@YIXPAX@Z
+
+;; main loop
+IMPORT_?oldmain@@YIHXZ = 1
+?oldmain@@YIHXZ_clone EQU ?oldmain_orig@@YIHXZ
