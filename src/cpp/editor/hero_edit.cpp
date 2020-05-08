@@ -98,10 +98,10 @@ void __stdcall FillInHeroEdit(HeroExtra *extra) {
     GUIRemoveFlag(gpCellEditDialog, 802, 4);
     GUIRemoveFlag(gpCellEditDialog, 801, 4);
   } else {
-    if(extra->hasArmy)
-      GUIRemoveFlag(gpCellEditDialog, 802, 4);
-    else
+    if(extra->relatedToJailCondition)
       GUIAddFlag(gpCellEditDialog, 802, 4);
+    else
+      GUIRemoveFlag(gpCellEditDialog, 802, 4);
   }
 
   for(int i = 0; i < CREATURES_IN_ARMY; ++i) {
@@ -117,15 +117,18 @@ void __stdcall FillInHeroEdit(HeroExtra *extra) {
     GUISetDropdownSelection(gpCellEditDialog, 308 + i, artifact);
   }
 
-  int dropdownIndex;
-  auto it = std::find(FACTIONS_ACTUAL.begin(), FACTIONS_ACTUAL.end(), extra->factionID);
-  if (it == FACTIONS_ACTUAL.end())
-  {
-    extra->factionID = 0;
-    dropdownIndex = extra->factionID;
-  } else
-    dropdownIndex = std::distance(FACTIONS_ACTUAL.begin(), it);
-  GUISetDropdownSelection(gpCellEditDialog, 803, dropdownIndex);
+  if(gbModifyingJailedHero) {
+    int dropdownIndex;
+    auto it = std::find(FACTIONS_ACTUAL.begin(), FACTIONS_ACTUAL.end(), extra->factionID);
+    if(it == FACTIONS_ACTUAL.end()) {
+      extra->factionID = 0;
+      dropdownIndex = extra->factionID;
+    } else
+      dropdownIndex = std::distance(FACTIONS_ACTUAL.begin(), it);
+    GUISetDropdownSelection(gpCellEditDialog, 803, dropdownIndex);
+  } else {
+    GUISetDropdownSelection(gpCellEditDialog, 803, extra->factionID);
+  }
 
   sprintf(gText, "%d", extra->experience);
   GUISetText(gpCellEditDialog, 401, gText);
@@ -224,7 +227,7 @@ int __fastcall EditHeroHandler(tag_message& evt) {
       FillInHeroEdit(&gEditedHeroExtra);
       gpCellEditDialog->DrawWindow();
       return 1;
-    } else if(evt.yCoordOrFieldID == JAIL_FACTION_DROPLIST_ITEM) {
+    } else if(evt.yCoordOrFieldID == JAIL_FACTION_DROPLIST_ITEM && gbModifyingJailedHero) {
       int selectedItem = GUIGetDropdownSelection(gpCellEditDialog, JAIL_FACTION_DROPLIST_ITEM);
       gEditedHeroExtra.factionID = FACTIONS_ACTUAL[selectedItem];
 
