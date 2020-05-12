@@ -22,12 +22,6 @@ function OnCastleConquered(CastleId, PlayerId)
 	end
 end
 
-function OnNewDay(month, week, day)
-	if month == 1 and week == 2 and day == 1 then
-		TeleportHero(GetHero(GetPlayer(1), 0), 8, 11);
-	end
-end
-
 function OnLocationVisit(type, x, y)
 	if x == 12 and y == 10 then
 		if peasantsVisited == false then 
