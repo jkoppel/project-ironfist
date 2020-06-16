@@ -32,11 +32,15 @@ function OnLocationVisit(type, x, y)
 			AdvancedMessageBox("{Hill Fort}\n\nAn unusual alliance of Cyborgs to train (upgrade) Pikemen and Goblins.  Unfortunately, you have none with you.",
           1, -1, -1, -1, -1, -1, -1, -1, 0)
 		else
-			TakeTroop(h, CREATURE_GOBLIN, goblins)
-			GrantArmy(h, CREATURE_CYBER_KOBOLD_SPEARMAN, goblins)
+			if goblins > 0 then 
+				TakeTroop(h, CREATURE_GOBLIN, goblins)
+				GrantArmy(h, CREATURE_CYBER_KOBOLD_SPEARMAN, goblins)
+			end
 			-- someone else
-			TakeTroop(h, CREATURE_PIKEMAN, pikemen)
-			GrantArmy(h, CREATURE_CYBER_PLASMA_LANCER, pikemen)
+			if pikemen > 0 then
+				TakeTroop(h, CREATURE_PIKEMAN, pikemen)
+				GrantArmy(h, CREATURE_CYBER_PLASMA_LANCER, pikemen)
+			end
 			PlaySoundEffect('EXPERNCE')
 			if goblins > 0 and pikemen > 0 then
 				AdvancedMessageBox("{Hill Fort}\n\nAll of your Pikemen and Goblins have been upgraded to Cyborg Plasma Lancers and Cyborg Kobold Spearmen", 1, -1, -1, -1, -1, -1, -1, -1, 0)
