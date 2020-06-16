@@ -67,6 +67,9 @@ function OnLocationVisit(type, x, y)
 end
 
 function OnMonsterInteract(x, y)
+	if GetCurrentHero().owner.color ~= 0 then
+		return true
+	end
 	if x == 22 and y == 21 then
 		MessageBox("It's good to see you, sir. We feared you were dead. We haven't seen any of the others, but a nasty looking bunch passed by recently talking about hunting cybernic men. They were headed south. What are your orders?")
 	elseif x == 23 and y == 2 then
