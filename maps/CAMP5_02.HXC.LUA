@@ -1,5 +1,6 @@
 peasantsVisited = false
-mapVariables = {"peasantsVisited"};
+goblinsLeft = 10
+mapVariables = {"peasantsVisited", "goblinsLeft"};
 
 function OnMapStart()
 	SetDaysAfterTownLost(GetPlayer(0), 128)
@@ -49,6 +50,18 @@ function OnLocationVisit(type, x, y)
 			elseif pikemen > 0 then
 				AdvancedMessageBox("{Hill Fort}\n\nAll of your Pikemen have been upgraded to Cyborg Plasma Lancers", 1, -1, -1, -1, -1, -1, -1, -1, 0)
 			end
+		end
+		return true
+	elseif x == 18 and y == 31 then
+		if goblinsLeft > 0 then
+			MessageBox("You can buy goblins here")
+			h = GetCurrentHero()
+			oldGoblins = tonumber(GetCreatureAmount(h, CREATURE_GOBLIN)) or 0
+			RecruitBox(GetCurrentHero(), CREATURE_GOBLIN, goblinsLeft)
+			newGoblins = tonumber(GetCreatureAmount(h, CREATURE_GOBLIN)) or 0
+			goblinsLeft = goblinsLeft - (newGoblins - oldGoblins)
+		else
+			MessageBox("The hut is empty")
 		end
 		return true
 	elseif x == 12 and y == 10 then
