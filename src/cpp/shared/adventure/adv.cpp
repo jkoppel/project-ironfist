@@ -18,6 +18,8 @@
 #include <sstream>
 #include <string>
 
+extern char *gEventText[];
+
 char *adventureMapLocations[] = {
   " ",
   "Alchemist Lab",
@@ -683,17 +685,52 @@ void advManager::QuickInfo(int x, int y) {
   gpWindowManager->RemoveWindow(&tooltip);
 }
 
-void advManager::PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5) {
-	int x;
-	int y;
-	if (cell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
-		this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+void advManager::PlayerMonsterInteract(mapCell *monsterCell, mapCell *anotherCell, hero *hro, int *window, int x1, int y1, int unused, int x2, int y2) {
+	if (monsterCell->objType != (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
+		this->PlayerMonsterInteract_orig(monsterCell, anotherCell, hro, window, x1, y1, unused, x2, y2);
 		return;
 	}
-	if (GetMapCellXY(cell, &x, &y)) {
+
+  int x, y;
+	if (GetMapCellXY(monsterCell, &x, &y)) {
 		ScriptCallback("OnMonsterInteract", x, y);
 	}
-	this->PlayerMonsterInteract_orig(cell, other, player, window, a1, a2, a3, a4, a5);
+
+  bool joinCellFlag = monsterCell->extraInfo & (1 << 12);
+  int creatureIdx = monsterCell->objectIndex;
+  if(!joinCellFlag || !hro->army.CanJoin(creatureIdx) || gbInCampaign || (xIsPlayingExpansionCampaign && xCampaign.campaignID <= 3)) {
+    this->PlayerMonsterInteract_orig(monsterCell, anotherCell, hro, window, x1, y1, unused, x2, y2);
+    return;
+  }
+
+  gpMouseManager->ShowColorPointer();
+  int quantity = (unsigned char)monsterCell->extraInfo;
+  sprintf(gText, gEventText[66], GetCreaturePluralName(creatureIdx));
+  advManager::EventWindow(-1, 2, gText, -1, 0, -1, 0, -1);
+  if(gpWindowManager->buttonPressedCode == BUTTON_YES) {
+    hro->army.Add(creatureIdx, quantity, -1);
+    ((heroWindow*)window)->idx = 1;
+  } else {
+    advManager::EventWindow(67, 1, "", -1, 0, -1, 0, -1);
+    int res = this->CombatMonsterEvent(
+      hro,
+      creatureIdx,
+      quantity,
+      anotherCell,
+      x1,
+      y1,
+      0,
+      x2,
+      y2,
+      -1,
+      0,
+      0,
+      -1,
+      0,
+      0);
+    if(!res || res == -1)
+      ((heroWindow*)window)->idx = 1;
+  }
 }
 
 void advManager::ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1) {

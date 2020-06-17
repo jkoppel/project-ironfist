@@ -57,6 +57,7 @@ public:
   int HasAllUndead();
   int HasSomeUndead();
   int IsHomogeneous(int a2);
+  int CanJoin(int creatureType);
 };
 
 class hero {
@@ -321,7 +322,7 @@ public:
   void QuickInfo(int, int);
   void QuickInfo_orig(int, int);
 
-  void PlayerMonsterInteract(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5);
+  void PlayerMonsterInteract(mapCell *monsterCell, mapCell *anotherCell, hero *hro, int *window, int x1, int y1, int unused, int x2, int y2);
   void PlayerMonsterInteract_orig(mapCell *cell, mapCell *other, hero *player, int *window, int a1, int a2, int a3, int a4, int a5);
 
   void ComputerMonsterInteract(mapCell *cell, hero *computer, int *a1);

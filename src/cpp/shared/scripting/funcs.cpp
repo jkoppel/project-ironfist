@@ -1206,7 +1206,6 @@ static int l_getinclinedtojoin(lua_State *L) {
 	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
 		int cellIdx = y * gpGame->map.height + x;
 		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
-			// This uses the correct WillJoin bit, but does not mean that the army at the map cell here will not fight a hero (see "l_setinclinedtojoin").
 			inclinedToJoin = (gpGame->map.tiles[cellIdx].extraInfo & (1 << 12));
 		}
 	}
@@ -1225,8 +1224,6 @@ static int l_setinclinedtojoin(lua_State *L) {
 	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
 		int cellIdx = y * gpGame->map.height + x;
 		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
-			// These are using the correct WillJoin bit, but it is not guaranteed to make every army join any hero no matter what.
-			// This condition also depends on the ratio of the hero's power to the army's power, among other variables.
 			if (inclinedToJoin) {
 				gpGame->map.tiles[cellIdx].extraInfo |= (1 << 12);
 			} else {
