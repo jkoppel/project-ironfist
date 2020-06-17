@@ -696,7 +696,7 @@ void advManager::PlayerMonsterInteract(mapCell *monsterCell, mapCell *anotherCel
 		ScriptCallback("OnMonsterInteract", x, y);
 	}
 
-  bool joinCellFlag = monsterCell->extraInfo & (1 << 12);
+  bool joinCellFlag = monsterCell->extraInfo & MAP_CELL_EXTRA_MONSTER_AMOUNT;
   int creatureIdx = monsterCell->objectIndex;
   if(!joinCellFlag || !hro->army.CanJoin(creatureIdx) || gbInCampaign || (xIsPlayingExpansionCampaign && xCampaign.campaignID <= 3)) {
     this->PlayerMonsterInteract_orig(monsterCell, anotherCell, hro, window, x1, y1, unused, x2, y2);
@@ -705,13 +705,13 @@ void advManager::PlayerMonsterInteract(mapCell *monsterCell, mapCell *anotherCel
 
   gpMouseManager->ShowColorPointer();
   int quantity = (unsigned char)monsterCell->extraInfo;
-  sprintf(gText, gEventText[66], GetCreaturePluralName(creatureIdx));
+  sprintf(gText, gEventText[EVENT_MONSTER_JOIN], GetCreaturePluralName(creatureIdx));
   advManager::EventWindow(-1, 2, gText, -1, 0, -1, 0, -1);
   if(gpWindowManager->buttonPressedCode == BUTTON_YES) {
     hro->army.Add(creatureIdx, quantity, -1);
     ((heroWindow*)window)->idx = 1;
   } else {
-    advManager::EventWindow(67, 1, "", -1, 0, -1, 0, -1);
+    advManager::EventWindow(EVENT_MONSTER_JOIN_REFUSE, 1, "", -1, 0, -1, 0, -1);
     int res = this->CombatMonsterEvent(
       hro,
       creatureIdx,

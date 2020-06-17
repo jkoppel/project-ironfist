@@ -1206,7 +1206,7 @@ static int l_getinclinedtojoin(lua_State *L) {
 	if ((x >= 0) && (y >= 0) && (x < gpGame->map.width) && (y < gpGame->map.height)) {
 		int cellIdx = y * gpGame->map.height + x;
 		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
-			inclinedToJoin = (gpGame->map.tiles[cellIdx].extraInfo & (1 << 12));
+			inclinedToJoin = (gpGame->map.tiles[cellIdx].extraInfo & MAP_CELL_EXTRA_MONSTER_AMOUNT);
 		}
 	}
 	if (inclinedToJoin) {
@@ -1225,9 +1225,9 @@ static int l_setinclinedtojoin(lua_State *L) {
 		int cellIdx = y * gpGame->map.height + x;
 		if (gpGame->map.tiles[cellIdx].objType == (LOCATION_ARMY_CAMP | TILE_HAS_EVENT)) {
 			if (inclinedToJoin) {
-				gpGame->map.tiles[cellIdx].extraInfo |= (1 << 12);
+				gpGame->map.tiles[cellIdx].extraInfo |= MAP_CELL_EXTRA_MONSTER_AMOUNT;
 			} else {
-				gpGame->map.tiles[cellIdx].extraInfo &= ~(1 << 12);
+				gpGame->map.tiles[cellIdx].extraInfo &= ~MAP_CELL_EXTRA_MONSTER_AMOUNT;
 			}
 		}
 	}

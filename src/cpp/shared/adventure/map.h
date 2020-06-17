@@ -52,6 +52,10 @@ public:
 #endif
 };
 
+enum MAP_CELL_EXTRA_FLAGS : int {
+  MAP_CELL_EXTRA_MONSTER_AMOUNT = 0x1000
+};
+
 struct mapCellExtra {
   __int16 nextIdx;
   unsigned int animatedObject : 1;

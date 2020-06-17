@@ -22,6 +22,10 @@ extern class fullMap;
 #define NUM_RESOURCES 7
 #define NUM_SECONDARY_RESOURCES 6
 
+enum EVENTS {
+  EVENT_MONSTER_JOIN = 66,
+  EVENT_MONSTER_JOIN_REFUSE = 67
+};
 
 enum RESOURCES {
   RESOURCE_WOOD = 0,
