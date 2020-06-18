@@ -33,7 +33,7 @@ QWORD *t_position;            // saved position
 float global_volume = 1.0f;
 bool setup_bass = false;
 
-signed char townTheme[MAX_FACTIONS] = { 8, 9, 5, 6, 10, 7, -1, -1, -1, -1, -1, -1, 43 };
+signed char townTheme[MAX_FACTIONS] = { 8, 9, 5, 6, 10, 7, -1, -1, -1, -1, -1, -1, 44 };
 
 extern void __fastcall Process1WindowsMessage();
 
@@ -97,7 +97,7 @@ void bass_play_track(int trknum) {
   char trkbuf[1024];
   trknum--;
 
-  if (trknum < 1 || trknum > 41)
+  if (trknum < 1)
     return;
 
   if (trknum == now_playing)
