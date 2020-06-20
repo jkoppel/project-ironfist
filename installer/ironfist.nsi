@@ -88,6 +88,10 @@ Section
 	
 	File ..\cmp\cyborg.cmp
 	
+	SetOutPath $INSTDIR\MUSIC
+	
+	File ..\assets\music\homm2_43.ogg
+	
 	SetOutPath $INSTDIR
 	WriteUninstaller "$INSTDIR\uninstall-ironfist.exe"
 
@@ -125,6 +129,8 @@ Section "uninstall"
 	Delete "$INSTDIR\SCRIPTS\Behemoth.MX2.lua"
 	Delete "$INSTDIR\SCRIPTS\CAMP5_01.HXC.lua"
 	Delete "$INSTDIR\SCRIPTS\CAMP5_02.HXC.lua"
+	
+	Delete "$INSTDIR\MUSIC\homm2_43.ogg"
 	
 	RMDIR "$INSTDIR\SCRIPTS"
 
