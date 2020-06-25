@@ -74,6 +74,7 @@ public:
 void __fastcall FlipIconToBitmap(icon *icn, bitmap *buf, int x, int y, int spriteIdx, signed int flag, int a7, int a8, int width, int height, int a11);
 void __fastcall DimIconToBitmap(icon *a1, bitmap *a2, int a3, int a4, int a5, int a6, int a7, int a8, int a9, int a10, int a11);
 void __fastcall MonoIconToBitmap(icon *a1, bitmap *a2, int x, int y, int idx, int color, int a7, int a8, int a9, int a10, int a11);
+void __fastcall IconToBitmap(icon *icn, bitmap *bmp, int a3, int a4, int spriteIdx, int a6, int a7, int a8, int a9, int a10, int a11);
 
 class sample : public resource
 {
@@ -150,6 +151,7 @@ public:
   ~font();
 
   int LineLength(char*, int);
+  void DrawBoundedString(char *str, int x, int y, signed int regionWidth, int regionHeight, int a7, int alignType);
 };
 
 extern font* smallFont;

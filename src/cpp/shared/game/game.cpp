@@ -958,6 +958,14 @@ void __fastcall CheckEndGame(int a, int b) {
 bool dbgAutoWinBattles = false;
 extern void *hmnuAdv;
 
+extern void __fastcall UpdateDfltMenu_orig(void *hMenu);
+
+extern void __fastcall UpdateDfltMenu(void *hMenu) {
+  UpdateDfltMenu_orig(hMenu);
+  EnableMenuItem((HMENU)hMenu, 40010, MF_ENABLED);
+  EnableMenuItem((HMENU)hMenu, 40011, MF_ENABLED);
+}
+
 int __fastcall HandleAppSpecificMenuCommands(int a1) {
   int spell; // [sp+24h] [bp-8h]@55
   hero *hro; // [sp+28h] [bp-4h]@1
@@ -976,6 +984,12 @@ int __fastcall HandleAppSpecificMenuCommands(int a1) {
     return 0;
   }
   switch (a1) {
+    case 40010: //MENUITEM "1280 x 960 (Native x2)"
+      ResizeWindow(-1, -1, 1280, 960);
+      return 0;
+    case 40011: //MENUITEM "1920 x 1440 (Native x3)"
+      ResizeWindow(-1, -1, 1920, 1440);
+      return 0;
     case 40143: // MENUITEM "Free Spells"
       gpGame->hasCheated = 1;
       if (gbInCampaign)
@@ -1016,18 +1030,6 @@ bool IsWellDisabled() {
   return isDisabled;
 }
 
-class philAI {
-
-	char _; // Yes, this is a 1-byte object.
-
-public:
-	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
-	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
-
-	int EvaluateHeroEvent_orig(int, int, int, int, int *);
-	int EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5);
-};
-
 void philAI::RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5) {
 	if (gpGame->allowAIArmySharing) {
 		RedistributeTroops_orig(army1, army2, a1, a2, a3, a4, a5);
@@ -1041,6 +1043,13 @@ int philAI::EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5) {
 		return AI_VALUE_CAP;
 	}
 	return EvaluateHeroEvent_orig(a1, a2, a3, a4, a5);
+}
+
+int philAI::ValueOfEventAtPosition(int x, int y, int a2, int *a3) {
+  if(gpAdvManager->GetCell(x, y)->getLocationType() == LOCATION_SHIPYARD)
+    return 0; // ignore shipyard objects
+  else
+    return ValueOfEventAtPosition_orig(x, y, a2, a3);
 }
 
 void game::InitRandomArtifacts() {
@@ -2255,7 +2264,7 @@ void mouseManager::SetPointer(int spriteIdxArg) {
     this->NewUpdate(1);
   } else {
     if(hMouseCursor[this->cursorIdx]) {
-      SetCursor((HCURSOR)&hMouseCursor[this->cursorIdx]);
+      SetCursor((HCURSOR)hMouseCursor[this->cursorIdx]);
     } else {
       std::string fileName;
       int actualSpriteIdx;

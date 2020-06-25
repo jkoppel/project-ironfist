@@ -2,16 +2,19 @@
 #include "combat\animation.h"
 #include "combat\combat.h"
 #include "combat\speed.h"
+#include "gui\dialog.h"
 #include "resource\resourceManager.h"
 #include "spell\spells.h"
 
 #include "artifacts.h"
 #include "base.h"
+#include "expansions.h"
 #include "scripting/callback.h"
 #include "scripting/deepbinding.h"
 #include "skills.h"
 #include "sound/sound.h"
 
+#include <algorithm>
 #include <set>
 
 extern int castX;
@@ -19,6 +22,7 @@ extern int castY;
 
 extern heroWindowManager *gpWindowManager;
 
+extern ironfistExtra gIronfistExtra;
 int gSpellDirection; // ironfist var. used for plasma cone stream spell
 
 #define RESURRECT_ANIMATION_LENGTH 22
@@ -149,26 +153,168 @@ void combatManager::Resurrect(int spell, int hex, int spellpower) {
 }
 
 float army::SpellCastWorkChance(int spell) {
-	if (this->effectStrengths[EFFECT_ANTI_MAGIC])
-		return 0.0;
-
-	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
-		&& spell == SPELL_ELEMENTAL_STORM)
-		return 0.0;
-
-	if (this->creatureIdx == CREATURE_EARTH_ELEMENTAL
-		&& spell == SPELL_METEOR_SHOWER)
-		return 1.0;
-
+  double chance = 1.0;
   if (spell == SPELL_SHADOW_MARK && this->dead)
-    return 0.0;
+    chance = 0.0;
+  
+  if((spell == SPELL_MIRROR_IMAGE || spell == SPELL_ANTI_MAGIC) && this->creature.creature_flags & ATTR_MIRROR_IMAGE)
+    chance = 0.0;
 
-  double chance = this->SpellCastWorkChance_orig(spell);
+  if(chance > 0.0 && spell == SPELL_DISPEL_MAGIC || spell == SPELL_MASS_DISPEL) {
+    bool hasEffect = false;
+    for(int i = 0; i < NUM_SPELL_EFFECTS; ++i) {
+      if(this->effectStrengths[i]) {
+        hasEffect = true;
+        break;
+      }
+    }
+    if(!hasEffect)
+      chance = 0.0;
+  }
+  
+  bool isUndead = this->creature.creature_flags & ATTR_UNDEAD;
+  if(chance > 0.0 && this->effectStrengths[EFFECT_ANTI_MAGIC] || this->creature.creature_flags & CREATURE_FLAGS::DEAD
+    && spell != SPELL_RESURRECT
+    && spell != SPELL_RESURRECT_TRUE
+    && spell != SPELL_ANIMATE_DEAD
+    || this->dead
+    || creatureIdx == CREATURE_GREEN_DRAGON
+    || creatureIdx == CREATURE_RED_DRAGON
+    || creatureIdx == CREATURE_BLACK_DRAGON)
+    chance = 0.0;
+
+  if(chance > 0.0 && spell == SPELL_MIRROR_IMAGE && this->mirrorIdx != -1)
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_RESURRECT || spell == SPELL_RESURRECT_TRUE) && (isUndead || this->initialQuantity == this->quantity))
+    chance = 0.0;
+  if(chance > 0.0 && spell == SPELL_ANIMATE_DEAD && (!isUndead || this->initialQuantity == this->quantity))
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT) && !isUndead)
+    chance = 0.0;
+  if(chance > 0.0 && (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE) && isUndead)
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_PHOENIX
+    && (spell == SPELL_FIREBALL
+      || spell == SPELL_FIREBLAST
+      || spell == SPELL_LIGHTNING_BOLT
+      || spell == SPELL_CHAIN_LIGHTNING
+      || spell == SPELL_COLD_RAY
+      || spell == SPELL_COLD_RING
+      || spell == SPELL_ELEMENTAL_STORM))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_CRUSADER && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE))
+    chance = 0.0;
+  if(chance > 0.0 && (isUndead
+    || creatureIdx == CREATURE_EARTH_ELEMENTAL
+    || creatureIdx == CREATURE_AIR_ELEMENTAL
+    || creatureIdx == CREATURE_FIRE_ELEMENTAL
+    || creatureIdx == CREATURE_WATER_ELEMENTAL
+    || creatureIdx == CREATURE_GIANT
+    || creatureIdx == CREATURE_TITAN)
+    && (spell == SPELL_BERZERKER || spell == SPELL_HYPNOTIZE || spell == SPELL_PARALYZE || spell == SPELL_BLIND))
+    chance = 0.0;
+  if(chance > 0.0 && isUndead && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE || spell == SPELL_BLESS || spell == SPELL_MASS_BLESS))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_EARTH_ELEMENTAL && (spell == SPELL_LIGHTNING_BOLT || spell == SPELL_CHAIN_LIGHTNING || spell == SPELL_ELEMENTAL_STORM))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_AIR_ELEMENTAL && spell == SPELL_METEOR_SHOWER)
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_FIRE_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
+    chance = 0.0;
+  if(chance > 0.0 && creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_COLD_RAY || spell == SPELL_COLD_RING))
+    chance = 0.0;
+
+  hero* ownHero = gpCombatManager->heroes[this->owningSide];
+  if(ownHero) {
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_HOLY_PENDANT) && (spell == SPELL_CURSE || spell == SPELL_MASS_CURSE))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_FREE_WILL) && spell == SPELL_HYPNOTIZE)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_LIFE) && (spell == SPELL_DEATH_RIPPLE || spell == SPELL_DEATH_WAVE))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_SERENITY_PENDANT) && spell == SPELL_BERZERKER)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_SEEING_EYE_PENDANT) && spell == SPELL_BLIND)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_KINETIC_PENDANT) && spell == SPELL_PARALYZE)
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_PENDANT_OF_DEATH) && (spell == SPELL_HOLY_WORD || spell == SPELL_HOLY_SHOUT))
+      chance = 0.0;
+    if(chance > 0.0 && ownHero->HasArtifact(ARTIFACT_WAND_OF_NEGATION) && (spell == SPELL_DISPEL_MAGIC || spell == SPELL_MASS_DISPEL || spell == SPELL_ARCHMAGI_DISPEL)) {
+      chance = 0.0;
+    }
+  } else {
+    hero* curHero = gpCombatManager->heroes[gpCombatManager->currentActionSide];
+    if(chance > 0.0 && spell == SPELL_RESURRECT || spell == SPELL_RESURRECT_TRUE || spell == SPELL_ANIMATE_DEAD) {
+      if(!this->quantity) {
+        int ressurectionStrength = 50 * gpCombatManager->heroSpellpowers[gpCombatManager->currentActionSide];
+        if(curHero && curHero->HasArtifact(ARTIFACT_ANKH))
+          ressurectionStrength *= 2;
+        if(this->creature.hp <= ressurectionStrength)
+          chance = 1.0;
+      } else
+        chance = 0.0;
+    }
+    if(chance > 0.0 && spell == SPELL_HYPNOTIZE) {
+      int hypnotizeStrength = 25 * curHero->Stats(PRIMARY_SKILL_SPELLPOWER);
+      if(curHero->HasArtifact(ARTIFACT_GOLD_WATCH))
+        hypnotizeStrength *= 2;
+      if(this->quantity * this->creature.hp <= hypnotizeStrength)
+        chance = CheckApplyDwarfSpellChance();
+      else
+        chance = 0.0;
+    }
+    if(chance > 0.0 && spell == SPELL_ARCHMAGI_DISPEL) {
+      if(this->effectStrengths[EFFECT_HASTE]
+        || this->effectStrengths[EFFECT_BLESS]
+        || this->effectStrengths[EFFECT_DRAGON_SLAYER]
+        || this->effectStrengths[EFFECT_BLOOD_LUST]
+        || this->effectStrengths[EFFECT_SHIELD]
+        || this->effectStrengths[EFFECT_ANTI_MAGIC]
+        || this->effectStrengths[EFFECT_STONESKIN]
+        || this->effectStrengths[EFFECT_STEELSKIN])
+        chance = 1.0;
+      else
+        chance = 0.0;
+    }
+    if(chance > 0.0) {
+      if(spell == SPELL_TELEPORT
+        || spell == SPELL_CURE
+        || spell == SPELL_MASS_CURE
+        || spell == SPELL_RESURRECT
+        || spell == SPELL_RESURRECT_TRUE
+        || spell == SPELL_HASTE
+        || spell == SPELL_MASS_HASTE
+        || spell == SPELL_BLESS
+        || spell == SPELL_MASS_BLESS
+        || spell == SPELL_STONESKIN
+        || spell == SPELL_STEELSKIN
+        || spell == SPELL_ANTI_MAGIC
+        || spell == SPELL_DRAGON_SLAYER
+        || spell == SPELL_BLOOD_LUST
+        || spell == SPELL_MIRROR_IMAGE
+        || spell == SPELL_SHIELD
+        || spell == SPELL_MASS_SHIELD
+        || spell == SPELL_FORCE_SHIELD
+        || spell == SPELL_MASS_FORCE_SHIELD)
+        chance = 1.0;
+      else
+        chance = CheckApplyDwarfSpellChance();
+    }
+  }
+
   auto res = ScriptCallbackResult<double>("OnCalcSpellChance", deepbind<army*>(this), spell, chance);
   if(res.has_value())
     chance = res.value();
   chance = max(0.0, min(chance, 1.0));
   return chance;
+}
+
+float army::CheckApplyDwarfSpellChance() {
+  if(creatureIdx == CREATURE_DWARF && creatureIdx == CREATURE_BATTLE_DWARF)
+    return 0.75;
+  else
+    return 1.0;
 }
 
 void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility, int a5) {
@@ -227,7 +373,8 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     && proto_spell != SPELL_MASS_SHIELD
     && proto_spell != SPELL_ARMAGEDDON
     && proto_spell != SPELL_ELEMENTAL_STORM
-    && proto_spell != SPELL_MASS_DISPEL) {
+    && proto_spell != SPELL_MASS_DISPEL
+    && proto_spell != SPELL_MASS_FORCE_SHIELD) {
     int targetedUnitOwner = this->combatGrid[hexIdx].unitOwner;
     int targetedUnitStackIdx = this->combatGrid[hexIdx].stackIdx;
     if (ValidHex(hexIdx) && targetedUnitOwner >= 0) {
@@ -465,6 +612,7 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
     case SPELL_DEATH_RIPPLE:
     case SPELL_DEATH_WAVE:
     case SPELL_MASS_SHIELD:
+    case SPELL_MASS_FORCE_SHIELD:
       this->CastMassSpell(proto_spell, spellpower);
       break;
     case SPELL_MIRROR_IMAGE:
@@ -580,13 +728,13 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       this->TurnToStone(stack);
       break;
     case SPELL_COLD_RING:
-      this->Fireball(hexIdx, SPELL_COLD_RING);
+      this->ColdRing(hexIdx);
       break;
     case SPELL_FIREBALL:
-      this->Fireball(hexIdx, SPELL_FIREBALL);
+      this->FireBall(hexIdx);
       break;
     case SPELL_FIREBLAST:
-      this->Fireball(hexIdx, SPELL_FIREBLAST);
+      this->FireBlast(hexIdx);
       break;
     case SPELL_METEOR_SHOWER:
       this->MeteorShower(hexIdx);
@@ -633,7 +781,18 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
       break;
     }
     case SPELL_PLASMA_CONE:
-      this->Fireball(hexIdx, SPELL_PLASMA_CONE);
+      this->PlasmaCone(hexIdx);
+      break;
+    case SPELL_FORCE_SHIELD:
+      this->ShowSpellMessage(isCreatureAbility, proto_spell, stack);
+      stack->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
+      stack->SpellEffect(gsSpellInfo[SPELL_FORCE_SHIELD].creatureEffectAnimationIdx, 0, 0);
+    break;
+    case SPELL_FIRE_BOMB:
+      this->FireBomb(hexIdx);
+      break;
+    case SPELL_IMPLOSION_GRENADE:
+      this->ImplosionGrenade(hexIdx);
       break;
     default:
       this->DefaultSpell(hexIdx);
@@ -665,6 +824,148 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
   }
   WaitEndSample(res, res.sample);
   this->CheckChangeSelector();
+}
+
+void combatManager::CastMassSpell(int spell, signed int spellpower) {
+  bool isDamageSpell = false;
+  gpWindowManager->cycleColors = 0;
+  this->ShowSpellMessage(0, spell, 0);
+
+  char stackAffected[2][20];
+  memset(stackAffected, 0, 40u);
+  int thisSide = this->currentActionSide;
+  int othSide = 1 - thisSide;
+  switch(spell) {
+    case SPELL_MASS_SLOW:
+    case SPELL_MASS_CURSE:
+      for(int i = 0; this->numCreatures[othSide] > i; ++i)
+        if(this->creatures[othSide][i].SpellCastWorks(spell))
+          stackAffected[othSide][i] = 1;
+      break;
+    case SPELL_MASS_CURE:
+    case SPELL_MASS_HASTE:
+    case SPELL_MASS_BLESS:
+    case SPELL_MASS_SHIELD:
+    case SPELL_MASS_FORCE_SHIELD:
+      for(int i = 0; this->numCreatures[thisSide] > i; ++i)
+        if(this->creatures[thisSide][i].SpellCastWorks(spell))
+          stackAffected[thisSide][i] = 1;
+      break;
+    case SPELL_MASS_DISPEL:
+      for(int side = 0; side < 2; side++)
+        for(int i = 0; this->numCreatures[side] > i; ++i)
+          if(this->creatures[side][i].SpellCastWorks(spell))
+            stackAffected[side][i] = 1;
+      break;
+    case SPELL_HOLY_WORD:
+    case SPELL_HOLY_SHOUT: {
+      isDamageSpell = true;
+      int damage;
+      if(spell == SPELL_HOLY_WORD)
+        damage = spellpower * 10;
+      else
+        damage = spellpower * 20;
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; ; ++i) {
+          if(this->numCreatures[side] <= i)
+            break;
+          if(HIBYTE(this->creatures[side][i].creature.creature_flags) & ATTR_UNDEAD
+            && this->creatures[side][i].SpellCastWorks(spell))
+            stackAffected[side][i] = 1;
+        }
+      if(spell == SPELL_HOLY_WORD)
+        this->Blur(0, -2, -2);
+      else
+        this->Blur(0, -4, -4);
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; this->numCreatures[side] > i; ++i)
+          if(stackAffected[side][i])
+            this->creatures[side][i].Damage(damage, SPELL_NONE);
+
+      sprintf(gText, "The %s spell does %d damage\nto all undead creatures.", gSpellNames[spell], damage);
+      this->CombatMessage(gText, 1, 1, 0);
+      break;
+    }
+    case SPELL_DEATH_RIPPLE:
+    case SPELL_DEATH_WAVE: {
+      isDamageSpell = true;
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; ; ++i) {
+          if(this->numCreatures[side] <= i)
+            break;
+          if(!(HIBYTE(this->creatures[side][i].creature.creature_flags) & ATTR_UNDEAD)
+            && this->creatures[side][i].SpellCastWorks(spell))
+            stackAffected[side][i] = 1;
+        }
+      int damage;
+      if(spell == SPELL_DEATH_RIPPLE) {
+        damage = spellpower * 5;
+        this->Ripple(1);
+      } else {
+        damage = spellpower * 10;
+        this->Ripple(2);
+      }
+      for(int side = 0; side < 2; ++side)
+        for(int i = 0; this->numCreatures[side] > i; ++i)
+          if(stackAffected[side][i])
+            this->creatures[side][i].Damage(damage, SPELL_NONE);
+
+      sprintf(gText, "The Death spell does %d damage\nto all living creatures.", damage);
+      this->CombatMessage(gText, 1, 1, 0);
+      break;
+    }
+    default:
+      break;
+  }
+  if(!gbNoShowCombat) {
+    int anyoneAffected = 0;
+    for(int side = 0; side < 2; ++side)
+      for(int i = 0; this->numCreatures[side] > i; ++i)
+        if(stackAffected[side][i])
+          anyoneAffected = 1;
+
+    if(anyoneAffected) {
+      int animIdx = gsSpellInfo[spell].creatureEffectAnimationIdx;
+      this->ShowMassSpell((signed char(*)[20])stackAffected, animIdx, isDamageSpell);
+    }
+  }
+  for(int affectedSide = 0; affectedSide < 2; ++affectedSide)
+    for(int i = 0; this->numCreatures[affectedSide] > i; ++i)
+      if(stackAffected[affectedSide][i]) {
+        army *creature = &this->creatures[affectedSide][i];
+        switch(spell) {
+          case SPELL_MASS_CURSE:
+            creature->SetSpellInfluence(EFFECT_CURSE, spellpower);
+            break;
+          case SPELL_MASS_SLOW:
+            creature->SetSpellInfluence(EFFECT_SLOW, spellpower);
+            break;
+          case SPELL_MASS_HASTE:
+            creature->SetSpellInfluence(EFFECT_HASTE, spellpower);
+            break;
+          case SPELL_MASS_BLESS:
+            creature->SetSpellInfluence(EFFECT_BLESS, spellpower);
+            break;
+          case SPELL_MASS_SHIELD:
+            creature->SetSpellInfluence(EFFECT_SHIELD, spellpower);
+            break;
+          case SPELL_MASS_FORCE_SHIELD:
+            creature->SetSpellInfluence(EFFECT_FORCE_SHIELD, spellpower);
+            break;
+          case SPELL_MASS_CURE:
+            creature->Cure(spellpower);
+            break;
+          case SPELL_MASS_DISPEL:
+            for(int i = 0; i < NUM_SPELL_EFFECTS; i++)
+              creature->CancelIndividualSpell(i);
+            break;
+          case SPELL_DEATH_RIPPLE:
+          case SPELL_DEATH_WAVE:
+            continue;
+        }
+      }
+  this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+  gpWindowManager->cycleColors = 1;
 }
 
 // This function copies the functionality needed from CheckSetMouseDirection with everything else removed 
@@ -816,13 +1117,17 @@ static std::vector<int> GetPlasmaConeSpellMask(int fromHex, int direction) {
   return mask;
 }
 
+double GetDistanceBetweenPoints(int fromX, int fromY, int toX, int toY) {
+  return sqrt(pow(fromX - toX, 2) + pow(fromY - toY, 2));
+}
+
 std::vector<int> GetSpellMask(Spell spell, int fromHex, int direction) {
   std::vector<int> mask;
   switch(spell) {
     case SPELL_PLASMA_CONE:
       mask = GetPlasmaConeSpellMask(fromHex, direction);
       break;
-    case SPELL_FIREBALL:
+    case SPELL_FIREBALL: case SPELL_FIRE_BOMB: case SPELL_METEOR_SHOWER:
       mask = GetSpellMask(SPELL_COLD_RING, fromHex, direction);
       mask.push_back(fromHex);
       break;
@@ -861,6 +1166,20 @@ std::vector<int> GetSpellMask(Spell spell, int fromHex, int direction) {
         }
       }
       break;
+    case SPELL_IMPLOSION_GRENADE: {
+      const int SPELL_HEX_RADIUS = 5;
+      double maxDistance = HEX_SIZE_IN_PIXELS * SPELL_HEX_RADIUS - HEX_SIZE_IN_PIXELS / 2;
+      for(int i = 0; i < NUM_HEXES; i++) {
+        if(!gpCombatManager->ValidSpellTarget(spell, i))
+          continue;
+        int toHex = i;
+        hexcell* hexcellFrom = &gpCombatManager->combatGrid[fromHex];
+        hexcell* hexcellTo = &gpCombatManager->combatGrid[toHex];
+        double dist = GetDistanceBetweenPoints(hexcellFrom->centerX, hexcellFrom->otherY2, hexcellTo->centerX, hexcellTo->otherY2);
+        if(dist < maxDistance)
+          mask.push_back(i);
+      }
+    }
     default:
       mask.push_back(fromHex);
   }
@@ -1017,89 +1336,495 @@ int __fastcall HandleCastSpell(tag_message &evt) {
   }
 }
 
-void combatManager::Fireball(int hexIdx, int spell) {
-  if(!ValidHex(hexIdx))
-    return;
+void combatManager::AreaSpellMessage(Spell spell, long damage) {
+  switch(spell) {
+    case SPELL_FIREBALL:
+      sprintf(gText, "The fireball does %d damage.", damage);
+      break;
+    case SPELL_FIREBLAST:
+      sprintf(gText, "The fireblast does %d damage.", damage);
+      break;
+    case SPELL_COLD_RING:
+      sprintf(gText, "The cold ring does %d damage.", damage);
+      break;
+    case SPELL_METEOR_SHOWER:
+      sprintf(gText, "The meteor shower does %d damage.", damage);
+      break;
+    case SPELL_PLASMA_CONE:
+      sprintf(gText, "The plasma cone stream does %d damage.", damage);
+      break;
+    case SPELL_FIRE_BOMB:
+      sprintf(gText, "The fire bomb does %d damage.", damage);
+      break;
+    case SPELL_IMPLOSION_GRENADE:
+      sprintf(gText, "The implosion grenade does %d damage.", damage);
+      break;
+    default:
+      sprintf(gText, "Area spell %d does %d damage.", spell, damage);
+      break;
+  }
+  this->CombatMessage(gText, 1, 1, 0);
+}
 
+void combatManager::AreaSpellDrawImpact(int hexIdx, icon* spellIcon, double speedMult, int drawTimes, AOE_SPELL_DRAW_FLIP_TYPE flip) {
   if(!gbNoShowCombat) {
-    icon *spellIcon;
-    int numSprites = 12;
-    switch(spell) {
-      case SPELL_FIREBALL:
-        spellIcon = gpResourceManager->GetIcon("fireball.icn");
-        break;
-      case SPELL_FIREBLAST:
-        spellIcon = gpResourceManager->GetIcon("firebal2.icn");
-        break;
-      case SPELL_COLD_RING:
-        spellIcon = gpResourceManager->GetIcon("coldring.icn");
-        numSprites = 7;
-        break;
-      default:
-        spellIcon = gpResourceManager->GetIcon("fireball.icn");
-        break;
-    }
     int x = this->combatGrid[hexIdx].centerX;
     int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
-    for(int spriteID = 0; spriteID < numSprites; spriteID++) {
-      glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 75.0);
-      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 0x280u, 443, 0);
-      if(spell == SPELL_COLD_RING)
-        FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
-      this->UpdateCombatArea();
-      this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
-      DelayTil(&glTimers);
+
+    int numSprites = spellIcon->numSprites;
+    for(int i = 0; i < drawTimes; i++) {
+      for(int spriteID = 0; spriteID < numSprites; spriteID++) {
+        glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * speedMult);
+        IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+        if(flip)
+          FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+        this->UpdateCombatArea();
+        this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
+        DelayTil(&glTimers);
+      }
     }
     gpResourceManager->Dispose((resource *)spellIcon);
   }
   this->DrawFrame(1, 0, 0, 0, 75, 1, 1);
+}
 
-  army *stack = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+void combatManager::AreaSpellDoDamage(long spellDamage, Spell spell, army* target) {
+  this->ModifyDamageForArtifacts(&spellDamage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
+  this->AreaSpellMessage(spell, spellDamage);
+  target->PowEffect(-1, 1, -1, -1);
+}
 
-  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
-  combatManager::ClearEffects();
-
-  std::vector<int>affectedHexes = GetSpellMask((Spell)spell, hexIdx, gSpellDirection);
-
-  int anyoneDamaged = 0;
+bool combatManager::AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage, std::vector<int> &affectedHexes) {
+  affectedHexes = GetSpellMask(spell, hexIdx, gSpellDirection);
+  bool anyoneDamaged = false;
   for(auto hex : affectedHexes) {
     hexcell *curHexcell = &this->combatGrid[hex];
     char unitOwner = curHexcell->unitOwner;
     char stackIdx = curHexcell->stackIdx;
+    if(spell == SPELL_FIRE_BOMB) {
+      int wallHex = hex;
+      const int turnsLeft = 2;
+      int currentFrame = 0;
+      bool wallExists = false;
+      for(auto &wall : gIronfistExtra.combat.spell.fireBombWalls) {
+        if(wall.hexIdx == wallHex) {
+          wallExists = true;
+          wall.turnsLeft = turnsLeft;
+          wall.currentFrame = currentFrame;
+          break;
+        }
+      }
+      if(!wallExists)
+        gIronfistExtra.combat.spell.fireBombWalls.push_back({ wallHex, turnsLeft, currentFrame });
+    }
     if(unitOwner == -1)
       continue;
-    stack = &this->creatures[unitOwner][stackIdx];
-    if(!stack->SpellCastWorks(spell))
+    target = &this->creatures[unitOwner][stackIdx];
+    if(!target->SpellCastWorks(spell))
       continue;
     if(gArmyEffected[unitOwner][stackIdx])
       continue;
     gArmyEffected[unitOwner][stackIdx] = 1;
-    if(!stack->damageTakenDuringSomeTimePeriod) {
+    if(!target->damageTakenDuringSomeTimePeriod) {
       int damage = spellDamage;
-      if(stack->creatureIdx == CREATURE_FIRE_ELEMENTAL && spell == SPELL_COLD_RING)
+      if(target->creatureIdx == CREATURE_FIRE_ELEMENTAL && spell == SPELL_COLD_RING)
         damage *= 2;
-      if(stack->creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
+      if(target->creatureIdx == CREATURE_WATER_ELEMENTAL && (spell == SPELL_FIREBALL || spell == SPELL_FIREBLAST))
         damage *= 2;
-      if(stack->creatureIdx == CREATURE_IRON_GOLEM || stack->creatureIdx == CREATURE_STEEL_GOLEM)
+      if(target->creatureIdx == CREATURE_IRON_GOLEM || target->creatureIdx == CREATURE_STEEL_GOLEM)
         damage /= 2;
-      stack->Damage(damage, spell);
-      anyoneDamaged = 1;
+      if(target->creatureIdx == CREATURE_EARTH_ELEMENTAL && spell == SPELL_METEOR_SHOWER)
+        damage *= 2;
+      if(spell == SPELL_FIRE_BOMB)
+        CheckBurnCreature(target);
+      else
+        target->Damage(damage, spell);
+      anyoneDamaged = true;
     }
   }
-  if(anyoneDamaged) {
-    this->ModifyDamageForArtifacts(&spellDamage, spell, this->heroes[this->currentActionSide], this->heroes[1 - this->currentActionSide]);
-    switch(spell) {
-      case SPELL_COLD_RING:
-        sprintf(gText, "The cold ring does %d damage.", spellDamage);
-        break;
-      case SPELL_PLASMA_CONE:
-        sprintf(gText, "The plasma cone stream does %d damage.", spellDamage);
-        break;
-      default:
-         sprintf(gText, "The fireball does %d damage.", spellDamage);
-         break;
+  return anyoneDamaged;
+}
+
+bool combatManager::AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, long spellDamage) {
+  std::vector<int> affectedHexes;
+  return AreaSpellAffectHexes(hexIdx, target, spell, spellDamage, affectedHexes);
+}
+
+void combatManager::FireBall(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
+  combatManager::ClearEffects();
+
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIREBALL, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_FIREBALL, target);
+}
+
+void combatManager::FireBlast(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("firebal2.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
+  combatManager::ClearEffects();
+
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIREBLAST, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_FIREBLAST, target);
+}
+
+void combatManager::ColdRing(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("coldring.icn"), 75.0, 1, AOE_SPELL_DRAW_FLIP);
+  combatManager::ClearEffects();
+
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_COLD_RING, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_COLD_RING, target);
+}
+
+void combatManager::MeteorShower(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+  
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("meteor.icn"), 112.5, 2, AOE_SPELL_DRAW_NO_FLIP);
+  combatManager::ClearEffects();
+
+  long spellDamage = 25 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_METEOR_SHOWER, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_METEOR_SHOWER, target);
+}
+
+void combatManager::PlasmaCone(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
+  combatManager::ClearEffects();
+
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_PLASMA_CONE, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_PLASMA_CONE, target);
+}
+
+void combatManager::FireBomb(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
+  combatManager::ClearEffects();
+
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  if(AreaSpellAffectHexes(hexIdx, target, SPELL_FIRE_BOMB, spellDamage))
+    AreaSpellDoDamage(spellDamage, SPELL_FIRE_BOMB, target);
+}
+
+void combatManager::ImplosionGrenade(int hexIdx) {
+  if(!ValidHex(hexIdx))
+    return;
+
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
+  combatManager::ClearEffects();
+
+  long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
+  army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
+  std::vector<int>affectedHexes;
+  bool anyoneDamaged = AreaSpellAffectHexes(hexIdx, target, SPELL_IMPLOSION_GRENADE, spellDamage, affectedHexes);
+  
+  // Don't do anything with center hex
+  affectedHexes.erase(std::remove(affectedHexes.begin(), affectedHexes.end(), hexIdx), affectedHexes.end());
+
+  // Find creature destination hexes after spell sucking affected creatures to the center
+  std::map<int, int> implosionHexMoveDirections;
+  int rowCentHex = hexIdx / 13;
+  int colCentHex = hexIdx % 13;
+  for(auto affHex : affectedHexes) {
+    int rowAffHex = affHex / 13;
+    int colAffHex = affHex % 13;
+    int rowdiff = rowCentHex - rowAffHex;
+    int coldiff = colCentHex - colAffHex;
+    int resultDir;
+    if(rowdiff < 0) {
+      if(coldiff < 0) {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 4;
+        else
+          resultDir = 5;
+      } else {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 1;
+        else
+          resultDir = 0;
+      }
+    } else {
+      if(coldiff < 0) {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 4;
+        else
+          resultDir = 3;
+      } else {
+        if(abs(coldiff) > abs(rowdiff))
+          resultDir = 1;
+        else
+          resultDir = 2;
+      }
     }
-    this->CombatMessage(gText, 1, 1, 0);
-    stack->PowEffect(-1, 1, -1, -1);
+    implosionHexMoveDirections[affHex] = GetAdjacentCellIndexNoArmy(affHex, resultDir);
+  }
+
+  // Move every affected creature in the direction of the spell center starting from closest to center
+  hexcell* centerHexcell = &gpCombatManager->combatGrid[hexIdx];
+  // Saving initial hexes of creatures beforehand
+  std::map<army*, int> creatureMovesFrom;
+  for(int size = 1; size <= 5; size++) {
+    double maxDistance = HEX_SIZE_IN_PIXELS * size - HEX_SIZE_IN_PIXELS / 2;
+    auto it = affectedHexes.begin();
+    while(it != affectedHexes.end()) {
+      int affHex = *it;
+      hexcell* movableHexcell = &gpCombatManager->combatGrid[affHex];
+      if(movableHexcell->unitOwner == -1) {
+        it = affectedHexes.erase(it);
+        continue;
+      }
+      double dist = GetDistanceBetweenPoints(centerHexcell->centerX, centerHexcell->otherY2, movableHexcell->centerX, movableHexcell->otherY2);
+      if(dist < maxDistance) {
+        it = affectedHexes.erase(it);
+
+        int destHex = implosionHexMoveDirections[affHex];
+        if(destHex == -1)
+          continue;
+        hexcell *destHexcell = &this->combatGrid[destHex];
+        army *creatureToMove = &this->creatures[movableHexcell->unitOwner][movableHexcell->stackIdx];
+        // check if hex is occupied by something
+        if(destHexcell->isBlocked)
+          continue;
+        if(!creatureToMove->CanFit(destHex, 0, 0))
+          continue;
+        if(destHexcell->unitOwner != -1)
+          if(!(movableHexcell->unitOwner == destHexcell->unitOwner && movableHexcell->stackIdx == destHexcell->stackIdx))
+            continue;
+
+        if(creatureToMove->creature.creature_flags & TWO_HEXER) {
+          hexcell *destSecondHexcell;
+          hexcell *movableSecondHexcell;
+          int destHexSecond;
+          int affHexSecond;
+          if(movableHexcell->occupiersOtherHexIsToLeft == 1) {
+            destHexSecond = destHex - 1;
+            affHexSecond = affHex - 1;
+            destSecondHexcell = &this->combatGrid[destHexSecond];
+            movableSecondHexcell = &this->combatGrid[affHexSecond];
+
+            if(destSecondHexcell->isBlocked) 
+              continue;
+            if(destSecondHexcell->unitOwner != -1)
+              if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
+                continue;
+
+            if(creatureToMove->facingRight) {
+              if(IsOutOfBoundsHex(destHex))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHexSecond;
+            } else {
+              if(IsOutOfBoundsHex(destHexSecond))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHex;
+            }
+          } else {
+            destHexSecond = destHex + 1;
+            affHexSecond = affHex + 1;
+            destSecondHexcell = &this->combatGrid[destHexSecond];
+            movableSecondHexcell = &this->combatGrid[affHexSecond];
+
+            if(destSecondHexcell->isBlocked)
+              continue;
+            if(destSecondHexcell->unitOwner != -1)
+              if(!(movableSecondHexcell->unitOwner == destSecondHexcell->unitOwner && movableSecondHexcell->stackIdx == destSecondHexcell->stackIdx))
+                continue;
+
+            if(creatureToMove->facingRight) {
+              if(IsOutOfBoundsHex(destHex))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHex;
+            } else {
+              if(IsOutOfBoundsHex(destHexSecond))
+                continue;
+              creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+              creatureToMove->occupiedHex = destHexSecond;
+            }
+          }
+          int stackIdx = movableHexcell->stackIdx;
+          movableHexcell->stackIdx = movableSecondHexcell->stackIdx = -1;
+          destHexcell->stackIdx = destSecondHexcell->stackIdx = stackIdx;
+
+          int unitOwner = movableHexcell->unitOwner;
+          movableHexcell->unitOwner = movableSecondHexcell->unitOwner = -1;
+          destHexcell->unitOwner = destSecondHexcell->unitOwner = unitOwner;
+
+          int occupiersOtherHexIsToLeft = movableHexcell->occupiersOtherHexIsToLeft;
+          int occupiersOtherHexIsToLeft2 = movableSecondHexcell->occupiersOtherHexIsToLeft;
+          movableHexcell->occupiersOtherHexIsToLeft = movableSecondHexcell->occupiersOtherHexIsToLeft = -1;
+          destHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft;
+          destSecondHexcell->occupiersOtherHexIsToLeft = occupiersOtherHexIsToLeft2;
+
+          // erase second hex from looping if it was also affected
+          auto itFound = std::find(affectedHexes.begin(), affectedHexes.end(), affHexSecond);
+          if(itFound != affectedHexes.end())
+            it = affectedHexes.erase(itFound);
+        } else {
+          creatureMovesFrom[creatureToMove] = creatureToMove->occupiedHex;
+          creatureToMove->occupiedHex = destHex;
+          destHexcell->stackIdx = movableHexcell->stackIdx;
+          destHexcell->unitOwner = movableHexcell->unitOwner;
+          movableHexcell->stackIdx = -1;
+          movableHexcell->unitOwner = -1;
+        }
+      }
+      else
+        ++it;
+    }
+  }
+
+  // ANIMATING the creatures moving towards the center of the spell
+  const int NUM_FRAMES = 10;
+  for(int frame = 0; frame < NUM_FRAMES; frame++) {
+    for(auto currentlyAnimated : creatureMovesFrom) {
+      army* cr = currentlyAnimated.first;
+      int initialHex = currentlyAnimated.second;
+      cr->animationType = ANIMATION_TYPE_WINCE_RETURN;
+      cr->animationFrame = 0;
+
+      int startX = gpCombatManager->combatGrid[initialHex].centerX;
+      int startY = gpCombatManager->combatGrid[initialHex].occupyingCreatureBottomY;
+      int deltaX = gpCombatManager->combatGrid[cr->occupiedHex].centerX - startX;
+      int deltaY = gpCombatManager->combatGrid[cr->occupiedHex].occupyingCreatureBottomY - startY;
+      int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
+      float stepX = (double)deltaX / (double)NUM_FRAMES;
+      float stepY = (double)deltaY / (double)NUM_FRAMES;
+      double currentDrawX = startX + stepX * frame;
+      double currentDrawY = startY + stepY * frame;
+
+      cr->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
+    }
+    gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+    DelayTil(&glTimers);
+    glTimers = (signed __int64)((double)KBTickCount() + 100 * gfCombatSpeedMod[giCombatSpeed] * 1.3);
+  }
+
+  if(anyoneDamaged)
+    AreaSpellDoDamage(spellDamage, SPELL_IMPLOSION_GRENADE, target);
+}
+
+int combatManager::ViewSpells(int unused) {
+  this->current_spell_id = gpGame->ViewSpells(this->heroes[giCurGeneral], SPELL_CATEGORY_COMBAT, CombatSpecialHandler, 0);
+  if(this->current_spell_id == SPELL_NONE)
+    return 0;
+  else {
+    switch(this->current_spell_id) {
+      case SPELL_EARTHQUAKE:
+        if(this->castles[1]) {
+          giNextAction = 1;
+          giNextActionExtra = this->current_spell_id;
+          break;
+        }
+        NormalDialog("An earthquake will do you no good unless there are town walls to damage.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        break;
+      case SPELL_SUMMON_EARTH_ELEMENTAL: case SPELL_SUMMON_AIR_ELEMENTAL: case SPELL_SUMMON_FIRE_ELEMENTAL: case SPELL_SUMMON_WATER_ELEMENTAL: {
+        CREATURES elemental_type;
+        switch(this->current_spell_id) {
+          case SPELL_SUMMON_EARTH_ELEMENTAL:
+            elemental_type = CREATURE_EARTH_ELEMENTAL;
+            break;
+          case SPELL_SUMMON_AIR_ELEMENTAL:
+            elemental_type = CREATURE_AIR_ELEMENTAL;
+            break;
+          case SPELL_SUMMON_FIRE_ELEMENTAL:
+            elemental_type = CREATURE_FIRE_ELEMENTAL;
+            break;
+          case SPELL_SUMMON_WATER_ELEMENTAL:
+            elemental_type = CREATURE_WATER_ELEMENTAL;
+            break;
+        }
+        if(this->summonedCreatureType[this->currentActionSide] && this->summonedCreatureType[this->currentActionSide] != elemental_type) {
+          NormalDialog("You may only summon one type of elemental per combat.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        if(this->numCreatures[this->currentActionSide] >= 20) {
+          sprintf(gText, "You already have %d creatures groups in combat and cannot add any more.", this->numCreatures[this->currentActionSide]);
+          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        if(!this->SpaceForElementalExists()) {
+          NormalDialog("There is no open space adjacent to your hero to summon an Elemental to.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        giNextAction = 1;
+        giNextActionExtra = this->current_spell_id;
+        break;
+      }
+      case SPELL_MASS_CURE:
+      case SPELL_MASS_HASTE:
+      case SPELL_MASS_SLOW:
+      case SPELL_MASS_BLESS:
+      case SPELL_MASS_CURSE:
+      case SPELL_HOLY_WORD:
+      case SPELL_HOLY_SHOUT:
+      case SPELL_MASS_DISPEL:
+      case SPELL_ARMAGEDDON:
+      case SPELL_ELEMENTAL_STORM:
+      case SPELL_DEATH_RIPPLE:
+      case SPELL_DEATH_WAVE:
+      case SPELL_MASS_SHIELD:
+      case SPELL_MASS_FORCE_SHIELD:
+        if(this->HasValidSpellTarget(this->current_spell_id)) {
+          giNextAction = 1;
+          giNextActionExtra = this->current_spell_id;
+          break;
+        }
+        NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        return 0;
+      case SPELL_MIRROR_IMAGE: {
+        if(this->numCreatures[this->currentActionSide] < 20) {
+          if(!this->HasValidSpellTarget(this->current_spell_id)) {
+            NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            return 0;
+          }
+          giNextAction = 1;
+          giNextActionExtra = this->current_spell_id;
+          gpMouseManager->SetPointer("spelmous.mse", gsSpellInfo[this->current_spell_id].magicBookIconIdx, -999);
+          gpWindowManager->DoDialog(0, HandleCastSpell, 0);
+          break;
+        }
+        sprintf(gText, "You already have %d creatures groups in combat and cannot add any more.", this->numCreatures[this->currentActionSide]);
+        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        return 0;
+      }
+      default:
+        if(!this->HasValidSpellTarget(this->current_spell_id)) {
+          NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          return 0;
+        }
+        giNextAction = 1;
+        giNextActionExtra = this->current_spell_id;
+        gpMouseManager->SetPointer("spelmous.mse", gsSpellInfo[this->current_spell_id].magicBookIconIdx, -999);
+        gpWindowManager->DoDialog(0, HandleCastSpell, 0);
+        break;
+    }
+    gpMouseManager->SetPointer("cmbtmous.mse", 0, -999);
+    if(this->current_spell_id == SPELL_NONE)
+      return 0;
+    return 1;
   }
 }

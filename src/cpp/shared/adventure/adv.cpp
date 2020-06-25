@@ -18,6 +18,134 @@
 #include <sstream>
 #include <string>
 
+char *adventureMapLocations[] = {
+  " ",
+  "Alchemist Lab",
+  "Sign",
+  "Buoy",
+  "Skeleton",
+  "Daemon Cave",
+  "Treasure Chest",
+  "Faerie Ring",
+  "Campfire",
+  "Fountain",
+  "Gazebo",
+  "Ancient Lamp",
+  "Graveyard",
+  "Archer's House",
+  "Goblin Hut",
+  "Dwarf Cottage",
+  "Peasant Hut",
+  "Log Cabin",
+  "Road",
+  "Event",
+  "Dragon City",
+  "Lighthouse",
+  "Water Wheel",
+  "Mine",
+  "Army Camp",
+  "Obelisk",
+  "Oasis",
+  "Resource",
+  " ",
+  "Sawmill",
+  "Oracle",
+  "Shrine of the First Circle",
+  "Shipwreck",
+  "Sea Chest",
+  "Desert Tent",
+  "Town",
+  "Stone Liths",
+  "Wagon Camp",
+  "Well",
+  "Whirlpool",
+  "Windmill",
+  "Artifact",
+  "Hero",
+  "Boat",
+  " ",
+  "Random Artifact",
+  "Random Resource",
+  "Random Monster",
+  "Random Town",
+  "Random Castle",
+  " ",
+  "Random Monster - weak",
+  "Random Monster - medium",
+  "Random Monster - strong",
+  "Random Monster - very strong",
+  "Random Hero",
+  "Nothing Special",
+  " ",
+  "Watch Tower",
+  "Tree House",
+  "Tree City",
+  "Ruins",
+  "Fort",
+  "Trading Post",
+  "Abandoned Mine",
+  "Dwarf Cabin",
+  "Standing Stones",
+  "Idol",
+  "Tree of Knowledge",
+  "Witch Doctor's Hut",
+  "Temple",
+  "Hill Fort",
+  "Halfling Hole",
+  "Mercenary Camp",
+  "Shrine of the Second Circle",
+  "Shrine of the Third Circle",
+  "Pyramid",
+  "City of the Dead",
+  "Excavation",
+  "Sphinx",
+  "Wagon",
+  "Tar Pit",
+  "Artesian Spring",
+  "Troll Bridge",
+  "Watering Hole",
+  "Witch's Hut",
+  "Xanadu",
+  "Cave",
+  "Lean-To",
+  "Magellan's Maps",
+  "Flotsam",
+  "Derelict Ship",
+  "Shipwreck Survivor",
+  "Bottle",
+  "Magic Well",
+  "Magic Garden",
+  "Observation Tower",
+  "Freeman's Foundry",
+  "Stream",
+  "Trees",
+  "Mountains",
+  "Volcano",
+  "Flowers",
+  "Rock",
+  "Lake",
+  "Mandrake",
+  "Dead Tree",
+  "Stump",
+  "Crater",
+  "Cactus",
+  "Mound",
+  "Dune",
+  "Lava Pool",
+  "Shrub",
+  "Hole",
+  "Outcropping",
+  "Random Artifact - Treasure",
+  "Random Artifact - Minor",
+  "Random Artifact - Major",
+  "%s Barrier",
+  "%s Traveller's Tent",
+  "%s",
+  "%s",
+  "Jail",
+  "Shipyard"
+};
+
 static const int END_TURN_BUTTON = 4;
 
 int castleIconFrames[MAX_FACTIONS] = {
@@ -326,6 +454,57 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
     case LOCATION_PYRAMID:
       this->HandlePyramid(cell, locationType, hro, &res2, locX, locY);
       break;
+    case LOCATION_SHIPYARD: {
+      gpMouseManager->SetPointer(0);
+
+      // check if there is place for a boat
+      bool boatPossible = false;
+      int boatX, boatY;
+      std::pair<int, int> possibleCellOffsets[] = { {-1, -1}, { 0,-1 }, {1, -1}, {2, -1}, {2, 0}, {2, 1}, {1, 1}, {0, 1}, {-1, 1}, { -1, 0 } };
+      for(auto offset : possibleCellOffsets) {
+        boatX = locX + offset.first;
+        boatY = locY + offset.second;
+        mapCell *cell = gpAdvManager->GetCell(boatX, boatY);
+        // check for water and absense of boats
+        if(!giGroundToTerrain[cell->groundIndex] && !cell->objType) {
+          boatPossible = true;
+          break;
+        }
+      }
+
+      if(gpGame->GetBoatsBuilt() >= MAX_BOATS || !boatPossible) {
+        NormalDialog("Cannot build another boat.", 1, 208, 40, -1, 0, -1, 0, -1, 0);
+      } else {        
+        heroWindow* wind = new heroWindow(177, 20, "shipwind.bin");
+        if(!wind)
+          MemError();
+        SetWinText(wind, 12);
+        if(gpGame->players[giCurPlayer].resources[RESOURCE_GOLD] < 1000 || gpGame->players[giCurPlayer].resources[RESOURCE_WOOD] < 10) {
+          GUIAddFlag(wind, BUTTON_OK, 4096);
+          GUIRemoveFlag(wind, BUTTON_OK, 2);
+        }
+        gpWindowManager->DoDialog(wind, TrueFalseDialogHandler, 0);
+        delete wind;
+
+        if(gpWindowManager->buttonPressedCode == BUTTON_OK) {
+          if(gpGame->CreateBoat(boatX, boatY, 0) == -1) {
+            LogStr("Can't create boat!");
+          } else {
+            gpGame->players[giCurPlayer].resources[RESOURCE_GOLD] -= 1000;
+            gpGame->players[giCurPlayer].resources[RESOURCE_WOOD] -= 10;
+
+            if(bShowIt) {
+              gpMouseManager->HideColorPointer();
+              gpWindowManager->SaveFizzleSource(168, 160, 176, 132);
+              this->CompleteDraw(0);
+              gpWindowManager->FizzleForward(168, 160, 176, 132, 65, 0, 0);
+              gpMouseManager->ShowColorPointer();
+            }
+          }
+        }
+      }
+      break;
+    }
     default:
       this->DoEvent_orig(cell, locX, locY);
       return;

@@ -304,6 +304,7 @@ public:
   void SetRandomHeroArmies(int heroIdx, int isAI);
   void GiveTroopsToNeutralTown(int castleIdx);
   int RandomScan(signed char*, int, int, int, signed char);
+  int ViewSpells(hero *hris, int a3, int(__fastcall *callback)(struct tag_message &), int a5);
   int GetBoatsBuilt();
   int CreateBoat(int x, int y, int doSend);
   void ViewArmy(int unused, int unused2, int creature, int numTroops, town *twn, int a7, int a8, int a9, hero *hro, army *arm, armyGroup *armyGr, int creatureType);
@@ -334,6 +335,21 @@ private:
   void PropagateVision();
 };
 
+class philAI {
+
+	char _; // Yes, this is a 1-byte object.
+
+public:
+	void RedistributeTroops_orig(armyGroup *, armyGroup *, int, int, int, int, int);
+	void RedistributeTroops(armyGroup *army1, armyGroup *army2, int a1, int a2, int a3, int a4, int a5);
+
+	int EvaluateHeroEvent_orig(int, int, int, int, int *);
+	int EvaluateHeroEvent(int a1, int a2, int a3, int a4, int *a5);
+
+  int ValueOfEventAtPosition(int x, int y, int a2, int *a3);
+  int ValueOfEventAtPosition_orig(int x, int y, int a2, int *a3);
+};
+
 enum GAME_DIFFICULTY {
 	DIFFICULTY_EASY = 0,
 	DIFFICULTY_NORMAL = 1,
@@ -354,6 +370,7 @@ void __fastcall CheckEndGame(int a, int b);
 
 int __fastcall HandleAppSpecificMenuCommands(int a1);
 int __fastcall HandleAppSpecificMenuCommands_orig(int a1);
+extern void __fastcall ResizeWindow(int x, int y,int width, int height);
 
 bool IsWellDisabled();
 
@@ -390,6 +407,7 @@ extern unsigned char xIsPlayingExpansionCampaign;
 extern int giCurTurn;
 extern int giMonthType;
 extern int giMonthTypeExtra;
+extern int giCurGeneral;
 extern signed char gbRetreatWin;
 extern unsigned char randomMineResources[NUM_RESOURCES];
 
@@ -398,6 +416,7 @@ extern int neutralTownCreatureTypes[MAX_FACTIONS][5];
 
 extern signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4];
 
+extern int __fastcall CombatSpecialHandler(struct tag_message &);
 extern int getCastleOwnedIdx(playerData *player, int castleIdx);
 extern void __fastcall Process1WindowsMessage();
 extern int __fastcall SetupGameHandler(struct tag_message &);
