@@ -1384,3 +1384,8 @@ void __fastcall GiveTakeArtifactStat(hero *h, int art, int take) {
   else
     ScriptCallback("OnArtifactTake", deepbind<hero*>(h), art);
 }
+
+// Bug fix for drawing puzzle when artifact x or y >= 128
+void advManager::PuzzleDraw(int offsetX, int offsetY, int artifactX, int artifactY) {
+  this->PuzzleDraw_orig((unsigned char)offsetX, (unsigned char)offsetY, (unsigned char)artifactX, (unsigned char)artifactY);
+}
