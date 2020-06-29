@@ -642,6 +642,8 @@ void advManager::QuickInfo(int x, int y) {
     return;
   }
 
+  const int pTileSize = 32;
+
   const auto mapCell = GetCell(xLoc, yLoc);
   const int locationType = mapCell->objType & 0x7F;
   auto overrideText = ScriptCallbackResult<std::string>("GetTooltipText", locationType, xLoc, yLoc);
@@ -659,14 +661,12 @@ void advManager::QuickInfo(int x, int y) {
       if(yPos < 0)
         yPos = 0;
 
-      if(artId == ARTIFACT_SPELL_SCROLL) {
-        int spell = mapCell->extraInfo;
-        sprintf(gText, &GetArtifactDescription(artId)[0u], gSpellNames[spell]);
-        NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, IMAGE_GROUP_SPELLS, spell, -1, 0);
-      } else {
+      if(artId == ARTIFACT_SPELL_SCROLL)
+        sprintf(gText, "{Spell Scroll}\n\nGives the hero the ability to cast a specific spell");
+      else
         sprintf(gText, &GetArtifactDescription(artId)[0u]);
-        NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, -1, 0, -1, 0);
-      }
+
+      NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, -1, 0, -1, 0);
       
       return;
     } else {
@@ -676,7 +676,6 @@ void advManager::QuickInfo(int x, int y) {
   }
 
   // Ensure the tooltip box is visible on the screen.
-  const int pTileSize = 32;
   const int pxOffset = -57;  // tooltip is drawn (-57,-25) pixels from the mouse
   const int pyOffset = -25;
   const int pTooltipWidth = 160;
