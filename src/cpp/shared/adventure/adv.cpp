@@ -654,12 +654,8 @@ void advManager::QuickInfo(int x, int y) {
       int artId = (unsigned char)(mapCell->objectIndex) >> 1;
       int xPos = (x - 4) * pTileSize;
       int yPos = (y - 4) * pTileSize;
-      if(xPos < 0)
-        xPos = 0;
-      if(yPos > 160)
-        yPos = 160;
-      if(yPos < 0)
-        yPos = 0;
+      xPos = max(0, xPos);
+      yPos = max(0, min(160, yPos));
 
       if(artId == ARTIFACT_SPELL_SCROLL) {
         int spell = mapCell->extraInfo;
