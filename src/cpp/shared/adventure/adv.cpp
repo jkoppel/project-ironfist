@@ -647,8 +647,32 @@ void advManager::QuickInfo(int x, int y) {
   auto overrideText = ScriptCallbackResult<std::string>("GetTooltipText", locationType, xLoc, yLoc);
   if (!overrideText || overrideText->empty()) {
     // Lua error occurred or tooltip text not overridden.
-    QuickInfo_orig(x, y);
-    return;
+    // Do Ironfist overrides
+    if(locationType == LOCATION_ARTIFACT) {
+      int artId = (unsigned char)(mapCell->objectIndex) >> 1;
+      int xPos = (x - 4) * pTileSize;
+      int yPos = (y - 4) * pTileSize;
+      if(xPos < 0)
+        xPos = 0;
+      if(yPos > 160)
+        yPos = 160;
+      if(yPos < 0)
+        yPos = 0;
+
+      if(artId == ARTIFACT_SPELL_SCROLL) {
+        int spell = mapCell->extraInfo;
+        sprintf(gText, &GetArtifactDescription(artId)[0u], gSpellNames[spell]);
+        NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, IMAGE_GROUP_SPELLS, spell, -1, 0);
+      } else {
+        sprintf(gText, &GetArtifactDescription(artId)[0u]);
+        NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, -1, 0, -1, 0);
+      }
+      
+      return;
+    } else {
+      QuickInfo_orig(x, y);
+      return;
+    }
   }
 
   // Ensure the tooltip box is visible on the screen.
