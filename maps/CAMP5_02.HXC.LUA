@@ -10,7 +10,7 @@ function OnMapStart()
 	ForceComputerPlayerChase(GetHero(GetPlayer(1), 0), GetHero(GetPlayer(0), 0), true)
 	MessageBox("Beset by memories of the future, Lt. John Carver awoke to find himself in a strange new land. Although disoriented, he managed to make out a distant chatter before his cochlear implant shortened out. None of his other implants seemed to fare much better, a likely consequence of whatever magic was used to hurl him through time.")
 	MessageBox("He allowed the rumblings to lead him to a small village. Wary of how frightening he might look with his cybernetic implants, he resisted rushing forward long enough to notice the approach of a robed figure. The warlock demanded to know if the villagers had seen any strangers with metallic body parts. When it became clear they knew nothing, he unleashed great balls of fire and lightning that spared none a painful death.");
-	MessageBox("Getting home would not be as easy as John hoped with a madman like that hunting him, but with any luck, there would be more than a few warlock hating locals about, and perhaps his comrades were also flung through time and were out there somewhere, waiting to be found. This wouldn't be easy, but then nothing in John Carver's life ever was.");
+	MessageBox("Getting home would not be as easy as John hoped with a madman like that hunting him, but with any luck, there would be more than a few warlock-hating locals about, and perhaps his comrades were also flung through time and were out there somewhere, waiting to be found. This wouldn't be easy, but then nothing in John Carver's life ever was.");
 	SetInclinedToJoin(23, 2, true)
 	SetInclinedToJoin(22, 21, true)
 	SetInclinedToJoin(20, 51, true)
@@ -87,7 +87,7 @@ function OnMonsterInteract(x, y)
 		return true
 	end
 	if x == 22 and y == 21 then
-		MessageBox("It's good to see you, sir. We feared you were dead. We haven't seen any of the others, but a nasty looking bunch passed by recently talking about hunting cybernic men. They were headed south. What are your orders?")
+		MessageBox("It's good to see you, sir. We feared you were dead. We haven't seen any of the others, but a nasty looking bunch passed by recently talking about hunting cybernetic men. They were headed south. What are your orders?")
 	elseif x == 23 and y == 2 then
 		MessageBox("Steady your axes men, it's just the lieutenant! Sorry sir, we've all been on edge since waking up in this strange place by ourselves, but if you're here, maybe the others made it too.")
 	elseif x == 20 and y == 51 then
