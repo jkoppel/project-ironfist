@@ -642,6 +642,8 @@ void advManager::QuickInfo(int x, int y) {
     return;
   }
 
+  const int pTileSize = 32;
+
   const auto mapCell = GetCell(xLoc, yLoc);
   const int locationType = mapCell->objType & 0x7F;
   auto overrideText = ScriptCallbackResult<std::string>("GetTooltipText", locationType, xLoc, yLoc);
@@ -676,7 +678,6 @@ void advManager::QuickInfo(int x, int y) {
   }
 
   // Ensure the tooltip box is visible on the screen.
-  const int pTileSize = 32;
   const int pxOffset = -57;  // tooltip is drawn (-57,-25) pixels from the mouse
   const int pyOffset = -25;
   const int pTooltipWidth = 160;
