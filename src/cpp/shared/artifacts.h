@@ -137,6 +137,7 @@ void ResetGeneratedArtifacts();
 void ResetGeneratedArtifacts(int);
 int GetArtifactLevel(int);
 std::string GetArtifactName(int);
+std::string GetArtifactDescription(int id);
 
 void DeserializeGeneratedArtifacts(const std::vector<int> &);
 const std::vector<int> & SerializeGeneratedArtifacts();

@@ -642,17 +642,38 @@ void advManager::QuickInfo(int x, int y) {
     return;
   }
 
+  const int pTileSize = 32;
+
   const auto mapCell = GetCell(xLoc, yLoc);
   const int locationType = mapCell->objType & 0x7F;
   auto overrideText = ScriptCallbackResult<std::string>("GetTooltipText", locationType, xLoc, yLoc);
   if (!overrideText || overrideText->empty()) {
     // Lua error occurred or tooltip text not overridden.
-    QuickInfo_orig(x, y);
-    return;
+    // Do Ironfist overrides
+    if(locationType == LOCATION_ARTIFACT) {
+      int artId = (unsigned char)(mapCell->objectIndex) >> 1;
+      int xPos = (x - 4) * pTileSize;
+      int yPos = (y - 4) * pTileSize;
+      xPos = max(0, xPos);
+      yPos = max(0, min(160, yPos));
+
+      if(artId == ARTIFACT_SPELL_SCROLL) {
+        int spell = mapCell->extraInfo;
+        sprintf(gText, &GetArtifactDescription(artId)[0u], gSpellNames[spell]);
+        NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, IMAGE_GROUP_SPELLS, spell, -1, 0);
+      } else {
+        sprintf(gText, &GetArtifactDescription(artId)[0u]);
+        NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, -1, 0, -1, 0);
+      }
+      
+      return;
+    } else {
+      QuickInfo_orig(x, y);
+      return;
+    }
   }
 
   // Ensure the tooltip box is visible on the screen.
-  const int pTileSize = 32;
   const int pxOffset = -57;  // tooltip is drawn (-57,-25) pixels from the mouse
   const int pyOffset = -25;
   const int pTooltipWidth = 160;

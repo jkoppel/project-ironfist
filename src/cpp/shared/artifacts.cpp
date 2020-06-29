@@ -195,3 +195,7 @@ int GetArtifactLevel(int id) {
 std::string GetArtifactName(int id) {
   return names[id];
 }
+
+std::string GetArtifactDescription(int id) {
+  return gArtifactDesc[id];
+}
