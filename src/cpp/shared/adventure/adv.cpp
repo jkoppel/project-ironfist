@@ -662,7 +662,7 @@ void advManager::QuickInfo(int x, int y) {
         sprintf(gText, &GetArtifactDescription(artId)[0u], gSpellNames[spell]);
         NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, IMAGE_GROUP_SPELLS, spell, -1, 0);
       } else {
-        sprintf(gText, &GetArtifactDescription(artId)[0u]);
+        strcpy(gText, &GetArtifactDescription(artId)[0u]);
         NormalDialog(gText, DIALOG_RIGHT_CLICK, xPos, yPos, IMAGE_GROUP_ARTIFACTS, artId, -1, 0, -1, 0);
       }
       
