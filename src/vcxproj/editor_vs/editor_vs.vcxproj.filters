@@ -93,9 +93,6 @@
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp">
       <Filter>Source Files\shared\combat</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx">
-      <Filter>Source Files\shared\combat</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c">
       <Filter>Source Files\shared\lib\lua\src</Filter>
     </ClCompile>
@@ -255,6 +252,9 @@
     <ClCompile Include="..\..\cpp\editor\overlay_xml.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\xml\creature_xml.cpp">
+      <Filter>Source Files\shared\xml</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\asm\editor_imports.inc">
@@ -279,9 +279,6 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h">
       <Filter>Header Files\shared\adventure</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cpp\shared\combat\creatures_xml.hxx">
-      <Filter>Header Files\shared\combat</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\lib\lua\src\lapi.h">
       <Filter>Source Files\shared\lib\lua\src</Filter>
@@ -432,6 +429,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\lib\tinyxml2\tinyxml2.h">
       <Filter>Header Files\shared\lib\tinyxml2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\xml\creature_xml.h">
+      <Filter>Header Files\shared\xml</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -43,7 +43,6 @@ Section
 	SetOutPath $INSTDIR\DATA
 	
 	File ..\build\ironfist.agg
-	File ..\src\xsd\creatures_xml.xsd
 	File ..\data\creatures.xml
 	File ..\src\xsd\artifacts_xml.xsd
 	File ..\data\artifacts.xml
@@ -108,7 +107,6 @@ Section "uninstall"
 	Delete "$INSTDIR\editor.exe"
 
 	Delete "$INSTDIR\DATA\ironfist.agg"
-	Delete "$INSTDIR\DATA\creatures_xml.xsd"
 	Delete "$INSTDIR\DATA\creatures.xml"
 	Delete "$INSTDIR\DATA\artifacts_xml.xsd"
 	Delete "$INSTDIR\DATA\artifacts.xml"

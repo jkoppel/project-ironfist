@@ -28,6 +28,24 @@ namespace UtilsXML {
     dest = text;
   }
 
+  char* QueryTextAttribute(tinyxml2::XMLElement *el, const char* attribute) {
+    const char* text;
+    el->QueryStringAttribute(attribute, &text);
+    if(text)
+      return (char*)text;
+    else
+      return "invalid name";
+  }
+
+  void QueryTextAttribute(tinyxml2::XMLElement *el, const char* attribute, char **dest) {
+    const char* text;
+    el->QueryStringAttribute(attribute, &text);
+    if(*dest)
+      delete *dest;
+    *dest = new char[strlen(text)];
+    strcpy(*dest, text);
+  }
+
   void WriteArray(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const std::vector<int> &src) {
     for(int i = 0; i < src.size(); i++) {
         tinyxml2::XMLElement *elem = doc->NewElement(name);

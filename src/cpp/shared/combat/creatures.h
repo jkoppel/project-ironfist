@@ -6,6 +6,8 @@
 #include <string>
 #include <vector>
 
+#include "adventure/adv.h"
+
 #pragma pack(push, 1)
 
 enum CREATURES
@@ -178,6 +180,19 @@ struct tag_monsterInfo
 
 
 tag_monsterInfo gMonsterDatabase[];
+struct attributeNameTableEntry{char* name; int flag;};
+struct SecondaryResourceNameTableEntry { std::string name; int resource_id; };
+void GrantCreatureAttribute(int id, std::string name);
+extern int giNumCreatures;
+extern char *cMonFilename[MAX_CREATURES];
+extern char *cArmyFrameFileNames[MAX_CREATURES];
+extern char *gArmyNames[MAX_CREATURES];
+extern char *gArmyNamesPlural[MAX_CREATURES];
+extern char *cArmyProjectileFileNames[MAX_CREATURES];
+extern int gMonSecondaryResourceCost[MAX_CREATURES][NUM_SECONDARY_RESOURCES];
+extern std::vector<std::vector<int>> ironfistAttributeTable;
+extern attributeNameTableEntry creatureAttributeNameTable[5];
+extern SecondaryResourceNameTableEntry SecondaryResourceNameTable[];
 
 int gMonRandBound[][2];
 

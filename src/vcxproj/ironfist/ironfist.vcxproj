@@ -117,7 +117,6 @@
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat_spells.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\compat.cpp" />
     <ClCompile Include="..\..\cpp\shared\driver.cpp" />
     <ClCompile Include="..\..\cpp\shared\expansions.cpp" />
@@ -180,6 +179,7 @@
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\campaign_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\creature_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\save_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
@@ -200,6 +200,7 @@
     <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
     <ClInclude Include="..\..\cpp\shared\xml\campaign_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\creature_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\save_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
@@ -212,7 +213,6 @@
     <ClInclude Include="..\..\cpp\shared\combat\animation.h" />
     <ClInclude Include="..\..\cpp\shared\combat\combat.h" />
     <ClInclude Include="..\..\cpp\shared\combat\creatures.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\creatures_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\combat\speed.h" />
     <ClInclude Include="..\..\cpp\shared\driver.h" />
     <ClInclude Include="..\..\cpp\shared\game\game.h" />

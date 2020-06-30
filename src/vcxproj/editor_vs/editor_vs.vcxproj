@@ -100,7 +100,6 @@
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\compat.cpp" />
     <ClCompile Include="..\..\cpp\shared\driver.cpp" />
     <ClCompile Include="..\..\cpp\editor\editor.cpp" />
@@ -149,6 +148,7 @@
     <ClCompile Include="..\..\cpp\shared\spell\spell_constants.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\buildings.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\creature_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -175,6 +175,7 @@
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
     <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\creature_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h" />
     <ClInclude Include="..\..\rc\editor\resource.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\adv.h" />
@@ -183,7 +184,6 @@
     <ClInclude Include="..\..\cpp\shared\artifacts.h" />
     <ClInclude Include="..\..\cpp\shared\base.h" />
     <ClInclude Include="..\..\cpp\shared\combat\creatures.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\creatures_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\driver.h" />
     <ClInclude Include="..\..\cpp\editor\editor.h" />
     <ClInclude Include="..\..\cpp\editor\events.h" />
