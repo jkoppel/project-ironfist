@@ -231,9 +231,6 @@
     <ClCompile Include="..\..\cpp\editor\hero_edit.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx">
-      <Filter>Source Files\shared</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\town\buildings.cpp">
       <Filter>Source Files\shared\town</Filter>
     </ClCompile>
@@ -253,6 +250,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\xml\creature_xml.cpp">
+      <Filter>Source Files\shared\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\xml\artifact_xml.cpp">
       <Filter>Source Files\shared\xml</Filter>
     </ClCompile>
   </ItemGroup>
@@ -406,9 +406,6 @@
     <ClInclude Include="..\..\cpp\shared\gui\msg.h">
       <Filter>Header Files\shared\gui</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx">
-      <Filter>Header Files\shared</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\cpp\editor\hero_edit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -431,6 +428,9 @@
       <Filter>Header Files\shared\lib\tinyxml2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\xml\creature_xml.h">
+      <Filter>Header Files\shared\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\xml\artifact_xml.h">
       <Filter>Header Files\shared\xml</Filter>
     </ClInclude>
   </ItemGroup>
