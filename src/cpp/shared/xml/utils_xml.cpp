@@ -42,7 +42,7 @@ namespace UtilsXML {
     el->QueryStringAttribute(attribute, &text);
     if(*dest)
       delete *dest;
-    *dest = new char[strlen(text)];
+    *dest = new char[strlen(text) + 1];
     strcpy(*dest, text);
   }
 
