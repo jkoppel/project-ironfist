@@ -841,8 +841,8 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
         // Find extents for Fire Bomb spell walls
         for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
           hexcell *hex = &this->combatGrid[wall.hexIdx];
-          int drawX = hex->centerX;
-          int drawY = hex->topY;
+          int drawX = hex->centerX + wallImg->headersAndImageData->offsetX;
+          int drawY = hex->topY + wallImg->headersAndImageData->offsetY;
           int drawXmax = drawX + wallImg->headersAndImageData->width;
           int drawYmax = drawY + wallImg->headersAndImageData->height;
           if(giMinExtentX > drawX)
