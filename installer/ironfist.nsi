@@ -36,16 +36,13 @@ Section
 	File ..\build\bin\ironfist.exe
 	File MSS32.DLL
 	File SMACKW32.DLL
-	File xerces-c_3_1.dll
 	FILE bass.dll
 	File ..\build\bin\editor.exe
 
 	SetOutPath $INSTDIR\DATA
 	
 	File ..\build\ironfist.agg
-	File ..\src\xsd\creatures_xml.xsd
 	File ..\data\creatures.xml
-	File ..\src\xsd\artifacts_xml.xsd
 	File ..\data\artifacts.xml
 
 	SetOutPath $INSTDIR\MAPS
@@ -108,9 +105,7 @@ Section "uninstall"
 	Delete "$INSTDIR\editor.exe"
 
 	Delete "$INSTDIR\DATA\ironfist.agg"
-	Delete "$INSTDIR\DATA\creatures_xml.xsd"
 	Delete "$INSTDIR\DATA\creatures.xml"
-	Delete "$INSTDIR\DATA\artifacts_xml.xsd"
 	Delete "$INSTDIR\DATA\artifacts.xml"
 
 	Delete "$INSTDIR\MAPS\SorrowEn.MX2"

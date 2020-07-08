@@ -1,6 +1,7 @@
 #ifndef TIED_ARTIFACT_H
 #define TIED_ARTIFACT_H
 
+#include <map>
 #include <vector>
 
 #define MAX_ARTIFACTS 14
@@ -140,8 +141,19 @@ std::string GetArtifactName(int);
 std::string GetArtifactDescription(int id);
 
 void DeserializeGeneratedArtifacts(const std::vector<int> &);
-const std::vector<int> & SerializeGeneratedArtifacts();
+std::vector<int> SerializeGeneratedArtifacts();
+
+extern std::map<int, std::string> artifactNames;
+extern std::map<int, std::string> artifactDescriptions;
+extern std::map<int, std::string> artifactEvents;
+extern std::map<int, int> artifactIsCursed;
+extern std::map<int, int> artifactIsCampaignOnly;
 
 extern char *gArtifactNames[];
+extern char *gArtifactDesc[];
+extern char *gArtifactEvents[];
+extern unsigned char gArtifactLevel[];
+
+
 
 #endif

@@ -14,6 +14,8 @@ namespace UtilsXML {
   tinyxml2::XMLError QueryCharText(tinyxml2::XMLElement *el, char *dest);
   void QueryText(tinyxml2::XMLElement *el, char *dest);
   void QueryText(tinyxml2::XMLElement *el, std::string &dest);
+  char* QueryTextAttribute(tinyxml2::XMLElement *el, const char* attribute);
+  void QueryTextAttribute(tinyxml2::XMLElement *el, const char* attribute, char **dest);
   template<typename T>
   void PushBack(tinyxml2::XMLDocument *doc, tinyxml2::XMLNode *dest, const char* name, const T &val) {
     tinyxml2::XMLElement *elem = doc->NewElement(name);

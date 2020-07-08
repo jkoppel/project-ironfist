@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<artifacts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="artifacts_xml.xsd">
+<artifacts>
     <artifact id="0" name="Ultimate Book of Knowledge" level="ultimate">
         <title>Ultimate Book&#10;(+12 Knowledge)</title>
         <description>The Ultimate Book of Knowledge increases your knowledge by 12.</description>

@@ -9,15 +9,13 @@
 #include "game/game.h"
 #include "gui/dialog.h"
 
-#include "combat/creatures_xml.hxx"
+#include "xml/creature_xml.h"
 
 
 #include<iostream>
 #include<sstream>
 
 using namespace std;
-
-//using namespace tinyxml2;
 
 /*
 * Still missing: 
@@ -44,9 +42,7 @@ int gMonRandBound[MAX_CREATURES][2];
 int gMonSecondaryResourceCost[MAX_CREATURES][NUM_SECONDARY_RESOURCES];
 char *cArmyProjectileFileNames[MAX_CREATURES];
 
-struct attributeNameTableEntry{char* name; int flag;};
-
-attributeNameTableEntry creatureAttributeNameTable[] = {
+attributeNameTableEntry creatureAttributeNameTable[5] = {
 	{"two-hex", TWO_HEXER},
 	{"flies", FLYER},
 	{"shoots", SHOOTER},
@@ -54,7 +50,6 @@ attributeNameTableEntry creatureAttributeNameTable[] = {
 	{"undead", UNDEAD}
 };
 
-struct SecondaryResourceNameTableEntry { string name; int resource_id; };
 SecondaryResourceNameTableEntry SecondaryResourceNameTable[] = {
 	{"wood", RESOURCE_WOOD},
 	{"mercury", RESOURCE_MERCURY},
@@ -117,101 +112,14 @@ int GetNumCreatures() {
 }
 
 void LoadCreatures() {
-
 	ResetCreatureAttributes();
 
-	try {
-		auto_ptr<creatures_t> creats = creatures(string(CREATURE_DATA));
-
-		giNumCreatures = 0;
-
-		for(creatures_t::creature_const_iterator i(creats->creature().begin());
-			i != creats->creature().end();
-			i++) {
-				creature_t c = *i;
-				c.damage().begin()->minimum();
-
-				int id = c.id();
-
-				cMonFilename[id] = strdup(c.icn().c_str());
-				cArmyFrameFileNames[id] = strdup(c.frm().c_str());
-				gArmyNames[id] = strdup(c.name_singular().c_str());
-				gArmyNamesPlural[id] = strdup(c.name_plural().c_str());
-				cArmyProjectileFileNames[id] = strdup(c.projectile().c_str());
-				gMonRandBound[id][0] = c.random_spawn().begin()->minimum();
-				gMonRandBound[id][1] = c.random_spawn().begin()->maximum();
-
-                if (id > giNumCreatures)
-                    giNumCreatures = id;
-
-				int creature_flags = 0;
-				for(creature_t::creature_attribute_const_iterator j = c.creature_attribute().begin();
-					j != c.creature_attribute().end();
-					j++) {
-						bool attr_found = false; 
-						for(int k = 0; k < ELEMENTS_IN(creatureAttributeNameTable); k++) {
-							if(strcmp(creatureAttributeNameTable[k].name,
-								 j->name().c_str())
-								== 0){
-									creature_flags |= creatureAttributeNameTable[k].flag;
-									attr_found = true;
-									break;
-							}
-						}
-
-						if(!attr_found) {
-							//Ironfist-only attribute; using general attribute engine
-							GrantCreatureAttribute(id, j->name());
-						}
-				}
-
-				for (int i = 0; i < NUM_SECONDARY_RESOURCES ; i++) {
-					gMonSecondaryResourceCost[id][i] = 0;
-				}
-
-				bool customed_secondary_cost = false;
-
-				for (creature_t::secondary_cost_iterator i = c.secondary_cost().begin();
-				     i != c.secondary_cost().end();
-					 ++i) {
-					    for (int k = 0; k < NUM_SECONDARY_RESOURCES; k++) {
-						   if (SecondaryResourceNameTable[k].name == i->resource()) {
-							   if (!customed_secondary_cost) {
-								   gMonSecondaryResourceCost[id][SecondaryResourceNameTable[k].resource_id] = i->cost();
-								   customed_secondary_cost = true;
-							   }
-							   else {
-								   string error_message = "Error loading creatures.xml.\nToo many secondary resource costs for creature "
-									                      + c.name_singular() + "!";
-								   EarlyShutdown("Startup Error", (char *)error_message.c_str());
-							   }
-							       
-						   }
-					    }
-				}
-				
-				gMonsterDatabase[id] = tag_monsterInfo(
-					c.cost(),
-					c.fight_value(),
-					c.fight_value_aux(),
-					c.growth(),
-					c.hp(),
-					c.faction(),
-					c.speed(),
-					c.attack(),
-					c.defense(),
-					c.damage().begin()->minimum(),
-					c.damage().begin()->maximum(),
-					c.shots(),
-					c.short_name().c_str(),
-					creature_flags,
-					0);
-				
-		}
-	} catch(const xml_schema::exception&) {
-		EarlyShutdown("Startup Error", "Error loading creatures.xml. Try reinstalling Ironfist.");
-	}
-  giNumCreatures++;
+  CreatureXML xmlDoc;
+  tinyxml2::XMLError err = xmlDoc.Read(CREATURE_DATA);
+  if(err) {
+    H2MessageBox("Could not load XML. " + std::string(xmlDoc.GetError()));
+    exit(1);
+  }
 
   for(int i = 0; i <= MAX_BASE_CREATURE; i++)
     CREATURES_RANDOMIZABLE.push_back((CREATURES)i);

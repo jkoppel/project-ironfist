@@ -1,6 +1,4 @@
-<?xml version="1.0"?>
-<creatures xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xsi:noNamespaceSchemaLocation="creatures_xml.xsd">
+<creatures>
     <creature id="0" name-singular="peasant" name-plural="peasants" icn="peasant.icn" frm="peas_frm.bin" projectile="" cost="20" fight-value="33" fight-value-aux="17" growth="12" hp="1" faction="0" speed="2" attack="1" defense="1" shots="0" short-name="psnt">
         <damage minimum="1" maximum="1"/>
         <random-spawn minimum="40" maximum="80"/>
