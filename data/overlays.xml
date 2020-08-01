@@ -63623,7 +63623,7 @@
             00000000
             00000000
             00000000
-            00000011
+            00000111
             00000111
         </intersectsTileMask>
         <coveredNonObstructedMask>
@@ -63633,7 +63633,7 @@
             00000000
             00000000
             00000000
-            00000011
+            00000111
             00000000
         </coveredNonObstructedMask>
         <shadowsMask>
@@ -63674,7 +63674,7 @@
             00000000
             00000000
             00000000
-            00000001
+            00000010
         </interactionPointMask>
         <terrainObjCategoryMask>01000000000000000000000000000000</terrainObjCategoryMask>
         <allowedTerrainPlacementMask>01111111111100000000000000000000</allowedTerrainPlacementMask>
