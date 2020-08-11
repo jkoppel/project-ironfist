@@ -111,7 +111,7 @@ unsigned __int8 giNumPowFrames[39] =
   8u,
   8u,
   8u,
-  8u
+  21u
 };
 
 void OccupyHexes(army *a) {
