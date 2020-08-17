@@ -44,7 +44,8 @@ Section
 	File ..\build\ironfist.agg
 	File ..\data\creatures.xml
 	File ..\data\artifacts.xml
-
+	File ..\data\overlays.xml
+	
 	SetOutPath $INSTDIR\MAPS
 	
 	File ..\maps\SorrowEn.MX2
@@ -107,7 +108,8 @@ Section "uninstall"
 	Delete "$INSTDIR\DATA\ironfist.agg"
 	Delete "$INSTDIR\DATA\creatures.xml"
 	Delete "$INSTDIR\DATA\artifacts.xml"
-
+	Delete "$INSTDIR\DATA\overlays.xml"
+	
 	Delete "$INSTDIR\MAPS\SorrowEn.MX2"
 	Delete "$INSTDIR\MAPS\LastStan.MX2"
 	Delete "$INSTDIR\MAPS\Behemoth.MX2"
