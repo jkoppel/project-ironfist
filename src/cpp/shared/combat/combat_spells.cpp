@@ -1532,9 +1532,6 @@ void combatManager::ImplosionGrenade(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("implgrnd.icn"), 65.0, 1, AOE_SPELL_DRAW_NO_FLIP);
-  combatManager::ClearEffects();
-
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
   army *target = &this->creatures[this->currentActionSide][this->someSortOfStackIdx];
   std::vector<int>affectedHexes;
@@ -1698,30 +1695,54 @@ void combatManager::ImplosionGrenade(int hexIdx) {
   }
 
   // ANIMATING the creatures moving towards the center of the spell
-  const int NUM_FRAMES = 10;
-  for(int frame = 0; frame < NUM_FRAMES; frame++) {
-    for(auto currentlyAnimated : creatureMovesFrom) {
-      army* cr = currentlyAnimated.first;
-      int initialHex = currentlyAnimated.second;
-      cr->animationType = ANIMATION_TYPE_WINCE_RETURN;
-      cr->animationFrame = 0;
+  // Also drawing explosion
+  const int NUM_FRAMES_MOVE = 18;
+  const int MOVE_FRAME_DELAY = 9;
+  icon* spellIcon = gpResourceManager->GetIcon("implgrnd.icn");
+  int numSprites = spellIcon->numSprites;
+  int totalFrames = max(MOVE_FRAME_DELAY + NUM_FRAMES_MOVE, numSprites);
+  int x = this->combatGrid[hexIdx].centerX;
+  int y = this->combatGrid[hexIdx].occupyingCreatureBottomY - 17;
+  
+  bitmap *savedscreen = new bitmap(0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+  gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+  for(int frame = 0; frame < totalFrames; frame++) {
+    savedscreen->CopyTo(gpWindowManager->screenBuffer, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT); // clear explosion frame
+    
+    if(frame > MOVE_FRAME_DELAY && frame < NUM_FRAMES_MOVE + MOVE_FRAME_DELAY) {
+      for(auto currentlyAnimated : creatureMovesFrom) {
+        army* cr = currentlyAnimated.first;
+        int initialHex = currentlyAnimated.second;
+        cr->animationType = ANIMATION_TYPE_WINCE_RETURN;
+        cr->animationFrame = 0;
 
-      int startX = gpCombatManager->combatGrid[initialHex].centerX;
-      int startY = gpCombatManager->combatGrid[initialHex].occupyingCreatureBottomY;
-      int deltaX = gpCombatManager->combatGrid[cr->occupiedHex].centerX - startX;
-      int deltaY = gpCombatManager->combatGrid[cr->occupiedHex].occupyingCreatureBottomY - startY;
-      int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
-      float stepX = (double)deltaX / (double)NUM_FRAMES;
-      float stepY = (double)deltaY / (double)NUM_FRAMES;
-      double currentDrawX = startX + stepX * frame;
-      double currentDrawY = startY + stepY * frame;
+        int startX = gpCombatManager->combatGrid[initialHex].centerX;
+        int startY = gpCombatManager->combatGrid[initialHex].occupyingCreatureBottomY;
+        int deltaX = gpCombatManager->combatGrid[cr->occupiedHex].centerX - startX;
+        int deltaY = gpCombatManager->combatGrid[cr->occupiedHex].occupyingCreatureBottomY - startY;
+        int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
+        float stepX = (double)deltaX / (double)NUM_FRAMES_MOVE;
+        float stepY = (double)deltaY / (double)NUM_FRAMES_MOVE;
+        double currentDrawX = startX + stepX * frame;
+        double currentDrawY = startY + stepY * frame;
 
-      cr->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
+        cr->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
+      }
     }
-    gpWindowManager->UpdateScreenRegion(0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+
+    if(frame < numSprites) {
+      gpWindowManager->screenBuffer->CopyTo(savedscreen, 0, 0, 0, 0, INTERNAL_WINDOW_WIDTH, INTERNAL_WINDOW_HEIGHT);
+      IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, frame, 1, 0, 0, 640, 443, 0);
+      this->UpdateCombatArea();
+    }
+
+    glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 65.0);
     DelayTil(&glTimers);
-    glTimers = (signed __int64)((double)KBTickCount() + 100 * gfCombatSpeedMod[giCombatSpeed] * 1.3);
   }
+  delete savedscreen;
+
+  gpResourceManager->Dispose((resource *)spellIcon);
+  combatManager::ClearEffects();
 
   if(anyoneDamaged)
     AreaSpellDoDamage(spellDamage, SPELL_IMPLOSION_GRENADE, target);
