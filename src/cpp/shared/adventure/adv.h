@@ -343,6 +343,7 @@ public:
   void EnableButtons();
   void PuzzleDraw(int offsetX, int offsetY, int artifactX, int artifactY);
   void PuzzleDraw_orig(int offsetX, int offsetY, int artifactX, int artifactY);
+  void DrawCreaturesAndHeroes(int cellDrawingPhaseFlags, int x, int y, int drawX, int drawY, mapCell *curTile);
 };
 
 extern advManager* gpAdvManager;
