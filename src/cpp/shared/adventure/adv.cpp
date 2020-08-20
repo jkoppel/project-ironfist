@@ -1179,8 +1179,9 @@ void advManager::DrawCell(int x, int y, int cellCol, int cellRow, int cellDrawin
       // Show hero sprite ontop of overlays/late overlays 
       if(curTile->flags & MAP_CELL_HAS_ACTIVE_HERO) {
         if(!curTile->hasLateOverlay && !(curExtra && curExtra->hasLateOverlay) && (unsigned char)curTile->overlayIndex == 255) {
-          this->DrawCursor();
-          this->hasDrawnCursor = 1;
+          if(!gbHeroMoving) { // temporary bug fix for crashing during slow movement
+            this->DrawCursor();
+          }
         }
       }
       if(!curTile->hasLateOverlay && !(curExtra && curExtra->hasLateOverlay) && (unsigned char)curTile->overlayIndex == 255) {
