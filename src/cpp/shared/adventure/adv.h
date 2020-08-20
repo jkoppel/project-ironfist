@@ -344,11 +344,17 @@ public:
   void PuzzleDraw(int offsetX, int offsetY, int artifactX, int artifactY);
   void PuzzleDraw_orig(int offsetX, int offsetY, int artifactX, int artifactY);
   void DrawCreaturesAndHeroes(int cellDrawingPhaseFlags, int x, int y, int drawX, int drawY, mapCell *curTile);
+  void DrawAdventureBorder();
+  void CompleteDraw(int offsetX, int offsetY, int a6, int updateBottom);
+  int ComboDraw(int offsetX, int offsetY, int a4);
 };
 
 extern advManager* gpAdvManager;
 
 extern int giMapChangeCtr;
+extern int gbHeroMoving;
+extern int giFrameCount;
+extern int giFrameStep;
 
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;

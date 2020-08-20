@@ -323,7 +323,8 @@ IMPORT_?DrawCell@advManager@@QAEXHHHHHH@Z = 1
 IMPORT_?DrawCursor@advManager@@QAEXXZ = 1
 IMPORT_?PuzzleDraw@advManager@@QAEXHHHH@Z = 1
 ?PuzzleDraw@advManager@@QAEXHHHH@Z_clone EQU ?PuzzleDraw_orig@advManager@@QAEXHHHH@Z
-
+IMPORT_?ComboDraw@advManager@@QAEHHHH@Z = 1
+?ComboDraw@advManager@@QAEHHHH@Z_clone EQU ?ComboDraw_orig@advManager@@QAEHHHH@Z
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1
 ?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z_clone EQU ?ProcessDeSelect_orig@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z

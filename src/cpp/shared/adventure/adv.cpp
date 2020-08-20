@@ -1424,3 +1424,38 @@ void __fastcall GiveTakeArtifactStat(hero *h, int art, int take) {
 void advManager::PuzzleDraw(int offsetX, int offsetY, int artifactX, int artifactY) {
   this->PuzzleDraw_orig((unsigned char)offsetX, (unsigned char)offsetY, (unsigned char)artifactX, (unsigned char)artifactY);
 }
+
+signed int advManager::ComboDraw(int offsetX, int offsetY, int a4) {
+  PollSound();
+  if(!bShowIt)
+    return 0;
+  if(this->field_2AE) {
+    this->CompleteDraw(offsetX, offsetY, 0, 1);
+    return 1;
+  }
+
+  this->field_1DE = this->viewX;
+  this->field_1E2 = this->viewY;
+  this->hasDrawnCursor = 0;
+
+  if(a4) {
+    giFrameCount += giFrameStep;
+    if(giFrameCount < 12) {
+      Process1WindowsMessage();
+      int ticks = (int)KBTickCount();
+      if(ticks > glTimers)
+        glTimers = ticks + 120;
+      PollSound();
+      return 0;
+    }
+    giFrameCount = 0;
+  }
+
+  this->CompleteDraw(offsetX, offsetY, 0, 0);
+
+  this->DrawAdventureBorder();
+  gpMouseManager->couldBeShowMouse = 1;
+  PollSound();
+  this->UpdBottomView(0, 1, 1);
+  return 1;
+}
