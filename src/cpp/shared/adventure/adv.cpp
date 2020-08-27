@@ -1459,3 +1459,76 @@ signed int advManager::ComboDraw(int offsetX, int offsetY, int a4) {
   this->UpdBottomView(0, 1, 1);
   return 1;
 }
+
+void advManager::CompleteDraw(int left, int top, int a6, int updateBottom) {
+
+  PollSound();
+  if(!(a6 || bShowIt)) 
+    return;
+
+  giLimitUpdMinX = -1;
+  this->field_1DE = this->viewX;
+  this->field_1E2 = this->viewY;
+
+  if(gbAllBlack) {
+    this->viewY = 0;
+    this->viewX = this->viewY;
+  }
+
+  gpMouseManager->couldBeShowMouse = 0;
+  this->hasDrawnCursor = 0;
+  this->field_2AE = 0;
+
+  // Terrain and shadows
+  for(int y = 0; y < 15; ++y) {
+    for(int x = 0; x < 15; ++x)
+      this->DrawCell(left + x, top + y, x, y, 1, a6);
+  }
+
+  for(int y = 0; y < 15; ++y) {
+    for(int x = 0; x < 15; ++x)
+      this->DrawCell(left + x, top + y, x, y, (1 << 7), a6);
+  }
+
+  for(int x = 0; x < 15; ++x)
+    this->DrawCell(left + x, top, x, 0, (1 << 1), a6);
+
+  for(int y = 1; y < 15; ++y) {
+    PollSound();
+    for(int x = 0; x < 15; ++x)
+      this->DrawCell(left + x, top + y - 1, x, y - 1, (1 << 3), a6);
+    for(int x = 0; x < 15; ++x)
+      this->DrawCell(left + x, top + y - 1, x, y - 1, (1 << 2), a6);
+    for(int x = 0; x < 15; ++x)
+      this->DrawCell(left + x, top + y, x, y, (1 << 1), a6);
+  }
+
+  for(int x = 0; x < 15; ++x)
+    this->DrawCell(left + x, top + 14, x, 14, (1 << 3), a6);
+
+  for(int x = 0; x < 15; ++x)
+    this->DrawCell(left + x, top + 14, x, 14, (1 << 2), a6);
+
+  // Top overlays
+  for(int y = 0; y < 15; ++y) {
+    for(int x = 0; x < 15; ++x)
+      this->DrawCell(left + x, top + y, x, y, (1 << 6), a6);
+  }
+
+  for(int y = 0; y < 15; ++y) {
+    for(int x = 0; x < 15; ++x)
+      this->DrawCell(left + x, top + y, x, y, (1 << 5), a6);
+  }
+
+  this->DrawAdventureBorder();
+  gpMouseManager->couldBeShowMouse = 1;
+  PollSound();
+
+  if(updateBottom)
+    this->UpdBottomView(0, 1, 1);
+
+  if(gbAllBlack) {
+    this->viewX = this->field_1DE;
+    this->viewY = this->field_1E2;
+  }
+}

@@ -355,6 +355,7 @@ extern int giMapChangeCtr;
 extern int gbHeroMoving;
 extern int giFrameCount;
 extern int giFrameStep;
+extern int giLimitUpdMinX;
 
 extern heroWindow* heroWin;
 extern int giHeroScreenSrcIndex;
