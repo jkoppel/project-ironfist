@@ -326,6 +326,7 @@ IMPORT_?PuzzleDraw@advManager@@QAEXHHHH@Z = 1
 IMPORT_?ComboDraw@advManager@@QAEHHHH@Z = 1
 ?ComboDraw@advManager@@QAEHHHH@Z_clone EQU ?ComboDraw_orig@advManager@@QAEHHHH@Z
 IMPORT_?CompleteDraw@advManager@@QAEXHHHH@Z = 1
+IMPORT_?EraseObj@advManager@@QAEXPAVmapCell@@HH@Z = 1
 
 ;;hero movement reminder
 IMPORT_?ProcessDeSelect@advManager@@QAEHPAUtag_message@@PAHPAPAVmapCell@@@Z = 1

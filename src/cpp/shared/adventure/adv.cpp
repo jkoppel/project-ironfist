@@ -1532,3 +1532,183 @@ void advManager::CompleteDraw(int left, int top, int a6, int updateBottom) {
     this->viewY = this->field_1E2;
   }
 }
+
+void advManager::EraseObj(mapCell *cell, int a3, int a4) {
+  mapCell *shadowCells[4];
+  mapCellExtra* shadowCellExtras[4];
+  for(int i = 0; i < 4; ++i) {
+    shadowCells[i] = nullptr;
+    shadowCellExtras[i] = nullptr;
+  }
+
+  int checkedObjectIndex = -1;
+  char isJail = 0;
+  int objectIndex = (unsigned char)cell->objectIndex;
+  int objTileset = cell->objTileset;
+  if(objTileset == TILESET_ARTIFACT)
+    checkedObjectIndex = objectIndex - 1;
+  if(objTileset == TILESET_OBJECT_EXPANSION_3)
+    checkedObjectIndex = objectIndex - 1;
+  if(objTileset == TILESET_OBJECT_EXPANSION_2 && objectIndex == 9) {
+    checkedObjectIndex = 9;
+    isJail = 1;
+  }
+  if(objTileset == TILESET_OBJECT_MULTIPLE && objectIndex == 131)
+    checkedObjectIndex = 124;
+  if(objTileset == TILESET_OBJECT_DESERT && objectIndex == 61)
+    checkedObjectIndex = 54;
+  if(objTileset == TILESET_OBJECT_WATER && objectIndex == 45)
+    checkedObjectIndex = 38;
+  if(objTileset == TILESET_OBJECT_WATER && objectIndex == 19)
+    checkedObjectIndex = 12;
+  if(objTileset == TILESET_OBJECT_RESOURCE && objectIndex - 1 <= 18) {
+    switch(objectIndex) {
+      case 1:
+        checkedObjectIndex = 0;
+        break;
+      case 3:
+        checkedObjectIndex = 2;
+        break;
+      case 5:
+        checkedObjectIndex = 4;
+        break;
+      case 7:
+        checkedObjectIndex = 6;
+        break;
+      case 9:
+        checkedObjectIndex = 8;
+        break;
+      case 11:
+        checkedObjectIndex = 10;
+        break;
+      case 13:
+        checkedObjectIndex = 12;
+        break;
+      case 15:
+        checkedObjectIndex = 14;
+        break;
+      case 19:
+        checkedObjectIndex = 18;
+        break;
+      default:
+        break;
+    }
+  }
+
+  int x, y;
+  for(int j = 0; j < 4; ++j) {
+    if(isJail) {
+      --checkedObjectIndex;
+    } else {
+      if(j > 0)
+        break;
+    }
+    if(checkedObjectIndex != -1) {
+      if(isJail) {
+        x = checkedObjectIndex <= 6 ? a3 + checkedObjectIndex - 6 : a3 + checkedObjectIndex - 9;
+        y = checkedObjectIndex <= 6 ? a4 - 1 : a4;
+      } else {
+        x = a3 - 1;
+        y = a4;
+      }
+      if(y >= 0 && x >= 0) {
+        shadowCells[j] = &gpGame->map.tiles[y * gpGame->map.width + x];
+        if(j <= 1) {
+          // Fixes the graphical bug where some parts of tiles (mostly shadows) weren't dissapearing if there was something else on that tile like an event 
+          // Fix works by not checking against this condition
+          //if((unsigned char)shadowCells[j]->objectIndex != 255) {
+            if((unsigned char)shadowCells[j]->objectIndex == checkedObjectIndex && shadowCells[j]->objTileset == cell->objTileset) {
+              shadowCells[j]->objectIndex = 0;
+              shadowCells[j]->objTileset = TILESET_OBJECT_DUMMY;
+              shadowCells[j]->hasObject = 0;
+            }
+
+            if(shadowCells[j]->extraIdx && this->map->cellExtras[shadowCells[j]->extraIdx].objectIndex != 255)
+              shadowCellExtras[j] = &this->map->cellExtras[shadowCells[j]->extraIdx];
+            else
+              shadowCellExtras[j] = nullptr;
+            while(shadowCellExtras[j]) {
+              if(shadowCellExtras[j]->objectIndex == checkedObjectIndex && shadowCellExtras[j]->objTileset == cell->objTileset) {
+                shadowCellExtras[j]->objectIndex = 0;                
+                shadowCellExtras[j]->objTileset = TILESET_OBJECT_DUMMY;
+                shadowCellExtras[j]->animatedObject = 0;
+              }
+
+              if(shadowCellExtras[j]->nextIdx && this->map->cellExtras[shadowCellExtras[j]->nextIdx].objectIndex != 255)
+                shadowCellExtras[j] = &this->map->cellExtras[shadowCellExtras[j]->nextIdx];
+              else
+                shadowCellExtras[j] = nullptr;
+            }
+          //}
+        } else {
+          shadowCells[j]->hasOverlay = 0;
+          shadowCells[j]->hasLateOverlay = 0;
+          shadowCells[j]->overlayIndex = -1;
+        }
+      }
+    }
+  }
+
+  cell->objType = 0;
+  cell->objectIndex = 0;
+  cell->objTileset = TILESET_OBJECT_DUMMY;
+  cell->hasObject = 0;
+
+  for(int i = 0; i < 5; ++i) {
+    mapCell *currentCell;
+    if(i)
+      currentCell = shadowCells[i-1];
+    else
+      currentCell = cell;
+    if(currentCell) {
+      if(currentCell->objTileset == TILESET_OBJECT_DUMMY) {
+        if(currentCell->extraIdx) {
+          if(this->map->cellExtras[currentCell->extraIdx].objectIndex != 255) {
+            mapCellExtra *cellExtra = &this->map->cellExtras[currentCell->extraIdx];
+            if(cellExtra->objTileset != TILESET_OBJECT_DUMMY && cellExtra->objectIndex != 255) {
+              currentCell->objectIndex = cellExtra->objectIndex;
+              currentCell->objTileset = cellExtra->objTileset;
+              currentCell->hasObject = cellExtra->animatedObject;
+
+              currentCell->field_4_1 = cellExtra->field_4_1;
+              currentCell->isShadow = cellExtra->field_4_2;
+
+              cellExtra->objectIndex = 0;
+              cellExtra->objTileset = TILESET_OBJECT_DUMMY;
+              cellExtra->animatedObject = 0;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  for(int i = 0; i < 5; ++i) {
+    mapCell *currentCell;
+    if(i)
+      currentCell = shadowCells[i-1];
+    else
+      currentCell = cell;
+    if(currentCell && (currentCell->objTileset == TILESET_OBJECT_DUMMY || (unsigned char)currentCell->objectIndex == 255 || currentCell->isShadow)) {
+      mapCellExtra *cellExtra = nullptr;
+      if(currentCell->extraIdx && this->map->cellExtras[currentCell->extraIdx].objectIndex != 255)
+        cellExtra = &this->map->cellExtras[currentCell->extraIdx];
+      bool skip = false;
+      while(cellExtra) {
+        if(cellExtra->objTileset != TILESET_OBJECT_DUMMY && cellExtra->objectIndex != 255 && !cellExtra->field_4_2) {
+          skip = true;
+          break;
+        }
+        if(cellExtra->nextIdx && this->map->cellExtras[cellExtra->nextIdx].objectIndex != 255)
+          cellExtra = &this->map->cellExtras[cellExtra->nextIdx];
+        else
+          cellExtra = nullptr;
+      }
+      if(!skip)
+        currentCell->flags |= 0x80u;
+    }
+  }
+  SendMapChange(5, 0, a3, a4, -999, 0, 0);
+  this->SetEnvironmentOrigin(this->viewX + 7, this->viewY + 7, 1);
+  gpGame->SetupAdjacentMons();
+}

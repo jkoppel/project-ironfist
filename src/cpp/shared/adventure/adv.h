@@ -347,6 +347,7 @@ public:
   void DrawAdventureBorder();
   void CompleteDraw(int offsetX, int offsetY, int a6, int updateBottom);
   int ComboDraw(int offsetX, int offsetY, int a4);
+  void SetEnvironmentOrigin(int a2, int a3, int a4);
 };
 
 extern advManager* gpAdvManager;
