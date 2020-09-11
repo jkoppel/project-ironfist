@@ -1696,8 +1696,8 @@ void combatManager::ImplosionGrenade(int hexIdx) {
 
   // ANIMATING the creatures moving towards the center of the spell
   // Also drawing explosion
-  const int NUM_FRAMES_MOVE = 18;
-  const int MOVE_FRAME_DELAY = 9;
+  const int NUM_FRAMES_MOVE = 11;
+  const int MOVE_FRAME_DELAY = 18;
   icon* spellIcon = gpResourceManager->GetIcon("implgrnd.icn");
   int numSprites = spellIcon->numSprites;
   int totalFrames = max(MOVE_FRAME_DELAY + NUM_FRAMES_MOVE, numSprites);
