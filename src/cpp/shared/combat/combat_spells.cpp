@@ -1723,8 +1723,9 @@ void combatManager::ImplosionGrenade(int hexIdx) {
         int dist = (signed __int64)sqrt((double)(deltaY * deltaY + deltaX * deltaX));
         float stepX = (double)deltaX / (double)NUM_FRAMES_MOVE;
         float stepY = (double)deltaY / (double)NUM_FRAMES_MOVE;
-        double currentDrawX = startX + stepX * frame;
-        double currentDrawY = startY + stepY * frame;
+        const int currentStep = frame - MOVE_FRAME_DELAY - 1;
+        double currentDrawX = startX + stepX * currentStep;
+        double currentDrawY = startY + stepY * currentStep;
 
         cr->DrawToBuffer((int)currentDrawX, (int)currentDrawY, 0);
       }
