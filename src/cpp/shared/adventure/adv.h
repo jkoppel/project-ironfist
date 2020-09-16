@@ -341,6 +341,8 @@ public:
   void GetCursorSampleSet(int speed);
   void DisableButtons();
   void EnableButtons();
+  void PuzzleDraw(int offsetX, int offsetY, int artifactX, int artifactY);
+  void PuzzleDraw_orig(int offsetX, int offsetY, int artifactX, int artifactY);
 };
 
 extern advManager* gpAdvManager;

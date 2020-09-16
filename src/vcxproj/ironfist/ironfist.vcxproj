@@ -57,7 +57,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;XERCES_STATIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <ShowIncludes>false</ShowIncludes>
@@ -67,7 +67,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmtd.lib;PocoFoundationmtd.lib;xerces-c_static_3D.lib;bass.lib;</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmtd.lib;PocoFoundationmtd.lib;bass.lib;</AdditionalDependencies>
       <UACExecutionLevel>RequireAdministrator</UACExecutionLevel>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <OptimizeReferences>true</OptimizeReferences>
@@ -84,7 +84,7 @@
       </PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;XERCES_STATIC_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\cpp\shared;..\..\cpp\shared\lib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
@@ -93,7 +93,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>..\..\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmt.lib;PocoFoundationmt.lib;xerces-c_static_3.lib;bass.lib</AdditionalDependencies>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies);wing32.lib;mss32.lib;smackw32.lib;PocoNetmt.lib;PocoFoundationmt.lib;bass.lib</AdditionalDependencies>
       <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
@@ -110,14 +110,12 @@
     <ClCompile Include="..\..\cpp\shared\adventure\map_events.cpp" />
     <ClCompile Include="..\..\cpp\shared\analytics.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
-    <ClCompile Include="..\..\cpp\shared\artifacts_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\campaign\campaign.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat_spells.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
-    <ClCompile Include="..\..\cpp\shared\combat\creatures_xml.cxx" />
     <ClCompile Include="..\..\cpp\shared\compat.cpp" />
     <ClCompile Include="..\..\cpp\shared\driver.cpp" />
     <ClCompile Include="..\..\cpp\shared\expansions.cpp" />
@@ -179,13 +177,14 @@
     <ClCompile Include="..\..\cpp\shared\town\buildings.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town.cpp" />
     <ClCompile Include="..\..\cpp\shared\town\town_globals.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\artifact_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\campaign_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\xml\creature_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\save_xml.cpp" />
     <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
-    <ClInclude Include="..\..\cpp\shared\artifacts_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
@@ -199,7 +198,9 @@
     <ClInclude Include="..\..\cpp\shared\spell\spell_constants.h" />
     <ClInclude Include="..\..\cpp\shared\town\buildings.h" />
     <ClInclude Include="..\..\cpp\shared\town\town_globals.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\artifact_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\campaign_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\xml\creature_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\save_xml.h" />
     <ClInclude Include="..\..\cpp\shared\xml\utils_xml.h" />
     <ClInclude Include="..\..\rc\ironfist\resource.h" />
@@ -212,7 +213,6 @@
     <ClInclude Include="..\..\cpp\shared\combat\animation.h" />
     <ClInclude Include="..\..\cpp\shared\combat\combat.h" />
     <ClInclude Include="..\..\cpp\shared\combat\creatures.h" />
-    <ClInclude Include="..\..\cpp\shared\combat\creatures_xml.hxx" />
     <ClInclude Include="..\..\cpp\shared\combat\speed.h" />
     <ClInclude Include="..\..\cpp\shared\driver.h" />
     <ClInclude Include="..\..\cpp\shared\game\game.h" />
