@@ -554,6 +554,14 @@ int town::DwellingIndex(int tier) const {
   return dwellingIdx;
 }
 
+bool town::IsDisallowed(int building) const {
+  if (building < 0 || building >= BUILDING_MAX) {
+    return false;
+  }
+
+  return gpGame->disallowedBuildings[this->idx][building];
+}
+
 void townManager::SetupMage(heroWindow *mageGuildWindow) {
 	const int SPELL_SCROLLS = 10;
 	const int SPELL_ICONS = 40;
@@ -1113,10 +1121,22 @@ void townManager::SetupExtraStuff() {
 }
 
 void townManager::SetupCastle(heroWindow *window, int a3) {
-  
+  enum BUILDING_STATUS_IMAGES {
+    IMAGE_CHECKMARK = 11,
+    IMAGE_CROSS = 12,
+    IMAGE_NOT_ENOUGH_RESOURCES = 13
+  };
+
+  enum GUI_FIELDS {
+    GUI_BUILD_SCREEN_BUILDING_TEXTBAR = 400,
+    GUI_BUILD_SCREEN_BUILDING_TEXT = 600,
+    GUI_BUILD_SCREEN_BUILDING_IMAGE = 700,
+    GUI_BUILD_SCREEN_BUILDING_STATUS_ICON = 800
+  };
+
   casWin = window;
 
-  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
+  for(int i = 0; i < NUM_BUILDING_SLOTS; ++i) {
     castleSlotsUse[i] = castleSlotsBase[i];
     town *twn = this->castle;
     unsigned int builtFlags = twn->buildingsBuiltFlags;
@@ -1133,62 +1153,65 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
     }
   }
 
-  this->canBuildFlags = 0;
-  this->canBuyFlags = this->canBuildFlags;
-  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
+  this->canBuildFlags = this->canBuyFlags = 0;
+  for(int i = 0; i < NUM_BUILDING_SLOTS; ++i) {
     if(CanBuy(this->castle, castleSlotsUse[i]))
       this->canBuyFlags |= 1 << castleSlotsUse[i];
     if(CanBuild(this->castle, castleSlotsUse[i]))
       this->canBuildFlags |= 1 << castleSlotsUse[i];
   }
   
-  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i)
-    GUISetImgIdx(casWin, i + 700, castleSlotsUse[i]);
-
   sprintf(gText, "cstl%s.icn", cHeroTypeShortName[this->castle->factionID]);
-  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
-    GUISetIcon(casWin, i + 700, gText);
+  for(int i = 0; i < NUM_BUILDING_SLOTS; ++i) {
+    GUISetIcon(casWin, i + GUI_BUILD_SCREEN_BUILDING_IMAGE, gText);
+    GUISetImgIdx(casWin, i + GUI_BUILD_SCREEN_BUILDING_IMAGE, castleSlotsUse[i]);
   }
 
-  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
-    if(castleSlotsUse[i]) {
-      GUISetText(casWin, i + 600, GetBuildingName(this->castle->factionID, castleSlotsUse[i]));
-    } else {
+  for(int i = 0; i < NUM_BUILDING_SLOTS; ++i) {
+    if(castleSlotsUse[i] == BUILDING_MAGE_GUILD) {
       int mageGuildLevel = this->castle->mageGuildLevel + 1;
       if(mageGuildLevel >= 5)
         mageGuildLevel = 5;
-      GUISetText(casWin, i + 600, "Mage Guild, Level " + std::to_string(mageGuildLevel));
-    }    
+      GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, "Mage Guild, Level " + std::to_string(mageGuildLevel));
+    } else {
+      GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, GetBuildingName(this->castle->factionID, castleSlotsUse[i]));
+    }
   }
 
   int imgIdx;
-  for(int i = 0; i < NUM_NON_DWELLING_BUILDINGS; ++i) {
+  for(int i = 0; i < NUM_BUILDING_SLOTS; ++i) {
     imgIdx = -1;
-    if((1 << castleSlotsUse[i]) & this->castle->buildingsBuiltFlags
+    bool disallowed = false;
+    if(this->castle->IsDisallowed(castleSlotsUse[i])) {
+      disallowed = true;
+      imgIdx = IMAGE_CROSS;
+    } else if((1 << castleSlotsUse[i]) & this->castle->buildingsBuiltFlags
       && (castleSlotsUse[i] || this->castle->mageGuildLevel == 5)) {
-      imgIdx = 11;
+      imgIdx = IMAGE_CHECKMARK;
     } else {
       if((1 << castleSlotsUse[i]) & this->canBuildFlags) {
         if(!((1 << castleSlotsUse[i]) & this->canBuyFlags))
-          imgIdx = 13;
+          imgIdx = IMAGE_NOT_ENOUGH_RESOURCES;
       } else {
-        imgIdx = 12;
+        imgIdx = IMAGE_CROSS;
       }
     }
     if(imgIdx == -1)
-      GUIRemoveFlag(casWin, i + 800, 4);
+      GUIRemoveFlag(casWin, i + GUI_BUILD_SCREEN_BUILDING_STATUS_ICON, 4);
     else {
-      GUIAddFlag(casWin, i + 800, 4);
-      GUISetImgIdx(casWin, i + 800, imgIdx);
+      GUIAddFlag(casWin, i + GUI_BUILD_SCREEN_BUILDING_STATUS_ICON, 4);
+      GUISetImgIdx(casWin, i + GUI_BUILD_SCREEN_BUILDING_STATUS_ICON, imgIdx);
     }
-    if(imgIdx == 11)
-      GUIRemoveFlag(casWin, i + 400, 4);
+    if(imgIdx == IMAGE_CHECKMARK)
+      GUIRemoveFlag(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXTBAR, 4);
     else {
-      GUIAddFlag(casWin, i + 400, 4);
-      if(imgIdx == -1)
-        GUISetImgIdx(casWin, i + 400, 1);
-      else
-        GUISetImgIdx(casWin, i + 400, 2);
+      GUIAddFlag(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXTBAR, 4);
+      if(disallowed) {
+        GUISetImgIdx(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXTBAR, 3);
+      } else if(imgIdx == -1) {
+        GUISetImgIdx(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXTBAR, 1);
+      } else
+        GUISetImgIdx(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXTBAR, 2);
     }
   }
 
@@ -1235,9 +1258,9 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   } else {
     if(CanBuild(this->castle, BUILDING_CAPTAIN)) {
       if(!CanBuy(this->castle, BUILDING_CAPTAIN))
-        imgIdx = 13;
+        imgIdx = IMAGE_NOT_ENOUGH_RESOURCES;
     } else {
-      imgIdx = 12;
+      imgIdx = IMAGE_CROSS;
     }
     if(CanBuild(this->castle, BUILDING_CAPTAIN))
       this->canBuildFlags |= 1 << BUILDING_CAPTAIN;
@@ -1248,21 +1271,21 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
   if(imgIdx == -1) {
     GUIRemoveFlag(casWin, 1102, 4);
   } else {
-	GUISetImgIdx(casWin, 1102, imgIdx);
-	GUIAddFlag(casWin, 1102, 4);
+	  GUISetImgIdx(casWin, 1102, imgIdx);
+	  GUIAddFlag(casWin, 1102, 4);
   }
 
   if(gpCurPlayer->resources[RESOURCE_GOLD] >= gHeroGoldCost) {
     if(gpCurPlayer->numHeroes != 8 && this->castle->visitingHeroIdx == -1) {
       if(this->isRecruitingHero)
-        imgIdx = 11;
+        imgIdx = IMAGE_CHECKMARK;
       else
         imgIdx = -1;
     } else {
-      imgIdx = 12;
+      imgIdx = IMAGE_CROSS;
     }
   } else {
-    imgIdx = 13;
+    imgIdx = IMAGE_NOT_ENOUGH_RESOURCES;
   }
 
   for(int i = 0; i < 2; ++i) {
@@ -1332,6 +1355,9 @@ int __fastcall CanBuild(town *twn, int building) {
   if(BitTest((const LONG*)gpGame->builtToday, twn->idx)) {
     return 0;
   }
+
+  if(twn->IsDisallowed(building))
+    return 0;
 
   unsigned int builtFlags = twn->buildingsBuiltFlags;
   if(!(builtFlags & (1 << BUILDING_CASTLE)) && building != BUILDING_CASTLE)

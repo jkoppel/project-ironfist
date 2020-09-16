@@ -1,6 +1,8 @@
 #ifndef GAME_H
 #define GAME_H
 
+#include <bitset>
+
 #include "adventure/adv.h"
 #include "adventure/map.h"
 #include "artifacts.h"
@@ -244,6 +246,7 @@ public:
 	bool allowAIArmySharing = true;
 	// Used for OnMapStart
 	bool firstDayEventDone = false;
+  std::bitset<BUILDING_MAX> disallowedBuildings[MAX_TOWNS];
 
 	int SetupGame();
 	int SetupGame_orig();
