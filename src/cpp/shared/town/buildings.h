@@ -1,6 +1,9 @@
 #ifndef BUILDINGS_H
 #define BUILDINGS_H
 
+#include <adventure/adv.h>
+#include <town/town_globals.h>
+
 struct SBuildingInfo {
   char animationLength;
   short x;
@@ -24,5 +27,9 @@ char * GetSpecialBuildingName(int faction);
 char * GetSpecialBuildingDesc(int faction);
 char * GetIronfistDwellingName(int faction, int dwelling);
 void InitDwellingCosts();
+void BuildingCostToIntArray(SBuildingCost &cost, int (&arr)[NUM_RESOURCES]);
+
+extern SBuildingCost gSpecialBuildingCosts[];
+extern SBuildingCost gDwellingCosts[MAX_FACTIONS][NUM_DWELLINGS];
 
 #endif

@@ -14,7 +14,9 @@ extern unsigned char castleSlotsBase[NUM_BUILDING_SLOTS];
 extern char* cHeroTypeShortName[MAX_FACTIONS];
 extern char *gStatNames[NUM_PRIMARY_SKILLS];
 extern int gHeroGoldCost;
-
+extern int gMageBuildingCosts[][NUM_RESOURCES];
+extern int gNeutralBuildingCosts[][NUM_RESOURCES];
+extern int xShrineBuildingCost[NUM_RESOURCES];
 
 class town {
 public:
@@ -130,7 +132,8 @@ public:
   void SetupCastle(heroWindow *window, int a3);
   void SetupThievesGuild(heroWindow *window, int strength);
   void DoTavern();
-  int BuyBuild(int building, int a3, int a4);
+  int BuyBuild(int building, int notEnoughResources, int isRightClick);
+  int BuyBuild_orig(int building, int notEnoughResources, int isRightClick);
   void DoCommand(int cmd);
   void ShiftQualChange();
   void SetupExtraStuff();
