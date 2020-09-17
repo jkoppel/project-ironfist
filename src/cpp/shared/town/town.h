@@ -7,13 +7,16 @@
 #pragma pack(push,1)
 
 extern signed char gSpellLimits[];
-#define NUM_NON_DWELLING_BUILDINGS 18
-extern unsigned char castleSlotsUse[NUM_NON_DWELLING_BUILDINGS];
-extern unsigned char castleSlotsBase[NUM_NON_DWELLING_BUILDINGS];
+// Remember build screen 3x9 ?
+#define NUM_BUILDING_SLOTS 18
+extern unsigned char castleSlotsUse[NUM_BUILDING_SLOTS];
+extern unsigned char castleSlotsBase[NUM_BUILDING_SLOTS];
 extern char* cHeroTypeShortName[MAX_FACTIONS];
 extern char *gStatNames[NUM_PRIMARY_SKILLS];
 extern int gHeroGoldCost;
-
+extern int gMageBuildingCosts[][NUM_RESOURCES];
+extern int gNeutralBuildingCosts[][NUM_RESOURCES];
+extern int xShrineBuildingCost[NUM_RESOURCES];
 
 class town {
 public:
@@ -53,6 +56,7 @@ public:
   void BuildBuilding(int);
   bool BuildingBuilt(int) const;
   bool DwellingBuilt(int) const;
+  bool IsDisallowed(int) const;
 
   // Get the index of the most upgraded building built at the given tier.
   // Returns integer in range [0, NUM_DWELLINGS), or -1 for an invalid
@@ -128,7 +132,8 @@ public:
   void SetupCastle(heroWindow *window, int a3);
   void SetupThievesGuild(heroWindow *window, int strength);
   void DoTavern();
-  int BuyBuild(int building, int a3, int a4);
+  int BuyBuild(int building, int notEnoughResources, int isRightClick);
+  int BuyBuild_orig(int building, int notEnoughResources, int isRightClick);
   void DoCommand(int cmd);
   void ShiftQualChange();
   void SetupExtraStuff();
