@@ -107,7 +107,7 @@ unsigned __int8 giNumPowFrames[39] =
   16u,
   7u,
   8u,
-  8u,
+  7u,
   8u,
   8u,
   8u,

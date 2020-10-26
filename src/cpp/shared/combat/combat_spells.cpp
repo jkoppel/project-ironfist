@@ -768,9 +768,9 @@ void combatManager::CastSpell(int proto_spell, int hexIdx, int isCreatureAbility
         creatureName = GetCreaturePluralName(stack->creatureIdx);
       sprintf(gText, "The marksman pierce round does %d\n damage to the %s.", damage, creatureName);
       this->CombatMessage(gText, 1, 1, 0);
-      float angles[9] = {90.000000,45.000038,26.565073,18.262905,0.000000,-18.262905,-26.565073,-45.000038,-90.000000};
-      icon *arrowIcon = gpResourceManager->GetIcon("keep.icn");
-      this->ShootMissile(castX, castY, stack->MidX(), stack->MidY(), angles, arrowIcon);
+
+      icon *arrowIcon = gpResourceManager->GetIcon("MKPARROW.icn");
+      this->MarksmanPierce(castX, castY, stack->MidX(), stack->MidY(), arrowIcon);
       gpResourceManager->Dispose(arrowIcon);
       stack->Damage(damage, SPELL_NONE);
       
@@ -1849,4 +1849,101 @@ int combatManager::ViewSpells(int unused) {
       return 0;
     return 1;
   }
+}
+
+void combatManager::MarksmanPierce(int xFrom, int yFrom, int xTarg, int yTarg, icon *icn) {
+  const int ICN_SIZE = icn->headersAndImageData->width;
+  int deltaX = xTarg - xFrom;
+  int deltaY = yTarg - yFrom;
+  bool mirror = false;
+  if(xTarg - xFrom < 0) {
+    mirror = true;
+    deltaX = -deltaX;
+  } 
+
+  int stepX, stepY;
+  int numSteps = (sqrt(deltaY * deltaY + deltaX * deltaX) + ICN_SIZE) / 31.;
+  if(numSteps <= 1) {
+    stepX = xTarg - xFrom;
+    stepY = yTarg - yFrom;
+  } else {
+    stepX = abs(deltaX / (numSteps - 1));
+    stepY = abs(deltaY / (numSteps - 1));
+  }
+  int x = xFrom;
+  int y = yFrom;
+
+  bitmap* oldRect = new bitmap(33, ICN_SIZE * 2, ICN_SIZE * 2);
+  oldRect->GrabBitmapCareful(gpWindowManager->screenBuffer, xFrom - ICN_SIZE, yFrom - ICN_SIZE);
+  int oldX = xFrom;
+  int oldY = yFrom;
+  int offX_left = 639;
+  int offX_right = 0;
+  int offY_top = 480;
+  int offY_bottom = 0;
+  int spriteIdx = 0;
+  for(int j = 0; j < numSteps; j++) {
+    if(oldX - ICN_SIZE < offX_left)
+      offX_left = oldX - ICN_SIZE;
+    if(offX_left < 0)
+      offX_left = 0;
+    if(oldX + ICN_SIZE > offX_right)
+      offX_right = oldX + ICN_SIZE;
+    if(offX_right > 639)
+      offX_right = 639;
+    if(oldY - ICN_SIZE < offY_top)
+      offY_top = oldY - ICN_SIZE;
+    if(offY_top < 0)
+      offY_top = 0;
+    if(oldY + ICN_SIZE > offY_bottom)
+      offY_bottom = oldY + ICN_SIZE;
+    if(offY_bottom > 442)
+      offY_bottom = 442;
+
+    if(j) {
+      oldRect->DrawToBufferCareful(oldX - ICN_SIZE, oldY - ICN_SIZE);
+      oldRect->GrabBitmapCareful(gpWindowManager->screenBuffer, x - ICN_SIZE, y - ICN_SIZE);
+    } else {
+      if(offX_left < giMinExtentX)
+        giMinExtentX = offX_left;
+      if(offX_right > giMaxExtentX)
+        giMaxExtentX = offX_right;
+      if(offY_top < giMinExtentY)
+        giMinExtentY = offY_top;
+      if(giMaxExtentY < offY_bottom)
+        giMaxExtentY = offY_bottom;
+    }
+    
+    icn->DrawToBuffer(x, y, spriteIdx, mirror);
+    
+    spriteIdx++;
+    if(spriteIdx >= icn->numSprites)
+      spriteIdx = 0;
+
+    if(j) {
+      DelayTil(&glTimers);
+      gpWindowManager->UpdateScreenRegion(offX_left, offY_top, offX_right - offX_left + 1, offY_bottom - offY_top + 1);
+    } else {
+      gpWindowManager->UpdateScreenRegion(
+        giMinExtentX,
+        giMinExtentY,
+        giMaxExtentX - giMinExtentX + 1,
+        giMaxExtentY - giMinExtentY + 1);
+    }
+    glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * 25.0);
+    oldX = x;
+    oldY = y;
+    x += stepX;
+    y += stepY;
+    offX_left = x - ICN_SIZE;
+    offX_right = x + ICN_SIZE;
+    offY_top = y - ICN_SIZE;
+    offY_bottom = y + ICN_SIZE;
+  }
+
+  oldRect->DrawToBuffer(oldX - ICN_SIZE, oldY - ICN_SIZE);
+  gpWindowManager->UpdateScreenRegion(oldX - ICN_SIZE, oldY - ICN_SIZE, ICN_SIZE * 2, ICN_SIZE * 2);
+
+  if(oldRect)
+    delete oldRect;
 }

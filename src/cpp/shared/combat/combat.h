@@ -314,6 +314,7 @@ public:
   void PlasmaCone(int hexIdx);
   void FireBomb(int hexIdx);
   void ImplosionGrenade(int hexIdx);
+  void MarksmanPierce(int xFrom, int yFrom, int xTarg, int yTarg, icon *icn);
 };
 
 extern combatManager* gpCombatManager;
