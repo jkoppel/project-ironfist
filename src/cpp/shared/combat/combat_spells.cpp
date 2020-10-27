@@ -1865,16 +1865,16 @@ void combatManager::MarksmanPierce(int xFrom, int yFrom, int xTarg, int yTarg, i
   int numSteps = (sqrt(deltaY * deltaY + deltaX * deltaX) + ICN_SIZE) / 31.;
   if(numSteps <= 1) {
     stepX = xTarg - xFrom;
-    stepY = yTarg - yFrom;
+    stepY = deltaY;
   } else {
-    stepX = abs(deltaX / (numSteps - 1));
-    stepY = abs(deltaY / (numSteps - 1));
+    stepX = (xTarg - xFrom) / (numSteps - 1);
+    stepY = deltaY / (numSteps - 1);
   }
   int x = xFrom;
   int y = yFrom;
 
   bitmap* oldRect = new bitmap(33, ICN_SIZE * 2, ICN_SIZE * 2);
-  oldRect->GrabBitmapCareful(gpWindowManager->screenBuffer, xFrom - ICN_SIZE, yFrom - ICN_SIZE);
+  oldRect->GrabBitmapCareful(gpWindowManager->screenBuffer, max(0, xFrom - ICN_SIZE), max(0, yFrom - ICN_SIZE));
   int oldX = xFrom;
   int oldY = yFrom;
   int offX_left = 639;
@@ -1901,8 +1901,8 @@ void combatManager::MarksmanPierce(int xFrom, int yFrom, int xTarg, int yTarg, i
       offY_bottom = 442;
 
     if(j) {
-      oldRect->DrawToBufferCareful(oldX - ICN_SIZE, oldY - ICN_SIZE);
-      oldRect->GrabBitmapCareful(gpWindowManager->screenBuffer, x - ICN_SIZE, y - ICN_SIZE);
+      oldRect->DrawToBufferCareful(max(0, oldX - ICN_SIZE), max(0, oldY - ICN_SIZE));
+      oldRect->GrabBitmapCareful(gpWindowManager->screenBuffer, max(0, x - ICN_SIZE), max(0, y - ICN_SIZE));
     } else {
       if(offX_left < giMinExtentX)
         giMinExtentX = offX_left;
@@ -1941,8 +1941,10 @@ void combatManager::MarksmanPierce(int xFrom, int yFrom, int xTarg, int yTarg, i
     offY_bottom = y + ICN_SIZE;
   }
 
-  oldRect->DrawToBuffer(oldX - ICN_SIZE, oldY - ICN_SIZE);
-  gpWindowManager->UpdateScreenRegion(oldX - ICN_SIZE, oldY - ICN_SIZE, ICN_SIZE * 2, ICN_SIZE * 2);
+  int drawX = max(0, oldX - ICN_SIZE);
+  int drawY = max(0, oldY - ICN_SIZE);
+  oldRect->DrawToBuffer(drawX, drawY);
+  gpWindowManager->UpdateScreenRegion(drawX, drawY, ICN_SIZE * 2, ICN_SIZE * 2);
 
   if(oldRect)
     delete oldRect;
