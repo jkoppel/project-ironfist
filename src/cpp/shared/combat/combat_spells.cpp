@@ -1375,9 +1375,11 @@ void combatManager::AreaSpellDrawImpact(int hexIdx, icon* spellIcon, double spee
     for(int i = 0; i < drawTimes; i++) {
       for(int spriteID = 0; spriteID < numSprites; spriteID++) {
         glTimers = (signed __int64)((double)KBTickCount() + gfCombatSpeedMod[giCombatSpeed] * speedMult);
-        IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+        
         if(flip)
           FlipIconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
+        else
+          IconToBitmap(spellIcon, gpWindowManager->screenBuffer, x, y, spriteID, 1, 0, 0, 640, 443, 0);
         this->UpdateCombatArea();
         this->DrawFrame(0, 0, 0, 0, 75, 1, 1);
         DelayTil(&glTimers);
@@ -1506,7 +1508,24 @@ void combatManager::PlasmaCone(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
+  icon* plasmaIcon;
+  AOE_SPELL_DRAW_FLIP_TYPE flip = AOE_SPELL_DRAW_NO_FLIP;
+  if(gSpellDirection == CURSOR_DIRECTION_LEFT_DOWN || gSpellDirection == CURSOR_DIRECTION_LEFT || gSpellDirection == CURSOR_DIRECTION_LEFT_UP)
+    flip = AOE_SPELL_DRAW_FLIP;
+
+  switch(gSpellDirection) {
+    case CURSOR_DIRECTION_LEFT_UP: case CURSOR_DIRECTION_RIGHT_UP:
+      plasmaIcon = gpResourceManager->GetIcon("plsmcon1.icn");
+      break;
+    case CURSOR_DIRECTION_LEFT: case CURSOR_DIRECTION_RIGHT:
+      plasmaIcon = gpResourceManager->GetIcon("plsmcon2.icn");
+      break;
+    case CURSOR_DIRECTION_LEFT_DOWN: case CURSOR_DIRECTION_RIGHT_DOWN:
+      plasmaIcon = gpResourceManager->GetIcon("plsmcon3.icn");
+      break;
+  }
+
+  this->AreaSpellDrawImpact(hexIdx, plasmaIcon, 75.0, 1, flip);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];
