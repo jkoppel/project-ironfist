@@ -1538,7 +1538,7 @@ void combatManager::FireBomb(int hexIdx) {
   if(!ValidHex(hexIdx))
     return;
 
-  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("fireball.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
+  this->AreaSpellDrawImpact(hexIdx, gpResourceManager->GetIcon("firebomb.icn"), 75.0, 1, AOE_SPELL_DRAW_NO_FLIP);
   combatManager::ClearEffects();
 
   long spellDamage = 10 * this->heroSpellpowers[this->currentActionSide];

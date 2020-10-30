@@ -315,6 +315,8 @@ public:
   void FireBomb(int hexIdx);
   void ImplosionGrenade(int hexIdx);
   void MarksmanPierce(int xFrom, int yFrom, int xTarg, int yTarg, icon *icn);
+  bool combatManager::HasFireBombWall(int hexIdx);
+  void combatManager::DrawFireBombWallHex(int hexIdx);
 };
 
 extern combatManager* gpCombatManager;

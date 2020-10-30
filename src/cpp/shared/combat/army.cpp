@@ -67,7 +67,7 @@ char *gCombatFxNames[39] =
   "mrksmprc.icn",
   "plsmcone.icn",
   "forcshld.icn",
-  "firebomb.icn",
+  "fbmbwall.icn",
   "implgrnd.icn"
 };
 

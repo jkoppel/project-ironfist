@@ -877,16 +877,6 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
     gbComputeExtent = 1;
   }
 
-  // Drawing Fire Bomb spell walls if any
-  for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
-    hexcell *hex = &this->combatGrid[wall.hexIdx];
-    int drawX = hex->centerX;
-    int drawY = hex->topY;
-    int frame = wall.currentFrame;
-    H2RECT rect;
-    wallImg->CombatClipDrawToBuffer(drawX, drawY, frame, &rect, 0, 0, 0, 0);
-  }
-  
   for(int row = 0; row < 9; ++row) {
     if(row == 1 && this->heroes[1]) {
       this->DrawHero(1, true, true);
@@ -1002,8 +992,11 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
             this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(offX, offY, imageIdx,
               (H2RECT *)((char *)&this->combatGrid[13 * row].drawingBounds + 98 * k), 0, 0, 0, 0);
         }
-        if(!v21 || hexIdx != 114 && hexIdx != 115)
+        if(!v21 || hexIdx != 114 && hexIdx != 115) {
           this->combatGrid[hexIdx].DrawOccupant(i, 0);
+          if(this->HasFireBombWall(hexIdx))
+            this->DrawFireBombWallHex(hexIdx);
+        }
       }
     }
 
@@ -1382,4 +1375,28 @@ int combatManager::ProcessNextAction(tag_message &a2) {
     this->CheckBurnCreature(currentCreature);
   }
   return this->ProcessNextAction_orig(a2);
+}
+
+bool combatManager::HasFireBombWall(int hexIdx) {
+  for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
+    if(wall.hexIdx == hexIdx) {
+      return true;
+    }
+  }
+  return false;
+}
+
+void combatManager::DrawFireBombWallHex(int hexIdx) {
+  for(auto wall : gIronfistExtra.combat.spell.fireBombWalls) {
+    if(wall.hexIdx == hexIdx) {
+      icon *wallImg = gpResourceManager->GetIcon(gCombatFxNames[37]);
+      hexcell *hex = &this->combatGrid[wall.hexIdx];
+      int drawX = hex->centerX;
+      int drawY = hex->topY;
+      int frame = wall.currentFrame;
+      H2RECT rect;
+      wallImg->CombatClipDrawToBuffer(drawX, drawY, frame, &rect, 0, 0, 0, 0);
+      return;
+    }
+  }
 }
