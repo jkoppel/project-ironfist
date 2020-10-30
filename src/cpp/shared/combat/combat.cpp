@@ -992,11 +992,10 @@ void combatManager::DrawFrame(int redrawAll, int a3, int a4, int a5, signed int 
             this->combatScreenIcons[COMBAT_ICON_IDX_CASTLE]->CombatClipDrawToBuffer(offX, offY, imageIdx,
               (H2RECT *)((char *)&this->combatGrid[13 * row].drawingBounds + 98 * k), 0, 0, 0, 0);
         }
-        if(!v21 || hexIdx != 114 && hexIdx != 115) {
+        if(!v21 || hexIdx != 114 && hexIdx != 115)
           this->combatGrid[hexIdx].DrawOccupant(i, 0);
-          if(this->HasFireBombWall(hexIdx))
-            this->DrawFireBombWallHex(hexIdx);
-        }
+        if(this->HasFireBombWall(hexIdx))
+          this->DrawFireBombWallHex(hexIdx);
       }
     }
 
