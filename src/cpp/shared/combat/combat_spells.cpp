@@ -1406,7 +1406,7 @@ bool combatManager::AreaSpellAffectHexes(int hexIdx, army *target, Spell spell, 
     if(spell == SPELL_FIRE_BOMB) {
       int wallHex = hex;
       const int turnsLeft = 2;
-      int currentFrame = 0;
+      int currentFrame = SRandom(0, gpResourceManager->GetIcon(gCombatFxNames[37])->numSprites - 1);
       bool wallExists = false;
       for(auto &wall : gIronfistExtra.combat.spell.fireBombWalls) {
         if(wall.hexIdx == wallHex) {
