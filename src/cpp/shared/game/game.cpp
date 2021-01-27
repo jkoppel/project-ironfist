@@ -2269,9 +2269,6 @@ void mouseManager::SetPointer(int spriteIdxArg) {
   if(gbColorMice) {
     this->NewUpdate(1);
   } else {
-    if(hMouseCursor[this->cursorIdx]) {
-      SetCursor((HCURSOR)hMouseCursor[this->cursorIdx]);
-    } else {
       std::string fileName;
       int actualSpriteIdx;
       MOUSE_CURSOR_CATEGORY category = this->cursorCategory;
@@ -2296,6 +2293,8 @@ void mouseManager::SetPointer(int spriteIdxArg) {
       int fileID = gpResourceManager->MakeId(fileNameChar, 1);
       gpResourceManager->PointToFile(fileID);
 
+      BaseFree(cColorBits[this->cursorIdx], __FILE__, __LINE__);
+      BaseFree(cAndBits[this->cursorIdx], __FILE__, __LINE__);
       cColorBits[this->cursorIdx] = BaseAlloc(1024, __FILE__, __LINE__);
       cAndBits[this->cursorIdx] = BaseAlloc(256, __FILE__, __LINE__);
       gpResourceManager->ReadBlock((signed char*)cColorBits[this->cursorIdx], 6);
@@ -2343,9 +2342,11 @@ void mouseManager::SetPointer(int spriteIdxArg) {
       }
       IconInfo.hbmMask = hbmpAndMask;
       IconInfo.hbmColor = 0;
+      
+      DestroyIcon((HICON)hMouseCursor[this->cursorIdx]);
       hMouseCursor[this->cursorIdx] = (HCURSOR *)CreateIconIndirect(&IconInfo);
       ProcessAssert((int)hMouseCursor[this->cursorIdx], __FILE__, __LINE__);
-    }    
+      SetCursor((HCURSOR)hMouseCursor[this->cursorIdx]);
   }
 
   gpResourceManager->RestorePosition();
