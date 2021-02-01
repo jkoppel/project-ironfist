@@ -906,6 +906,14 @@ static int l_getGuildSpell(lua_State *L) {
   return 1;
 }
 
+static int l_disallowBuilding(lua_State *L) {
+  int townIdx = (int)luaL_checknumber(L, 1);
+  int building = (int)luaL_checknumber(L, 2);
+  if(building >= 0 && building < BUILDING_MAX && townIdx >= 0 && townIdx < MAX_TOWNS)
+    gpGame->disallowedBuildings[townIdx][building] = true;
+  return 0;
+}
+
 static void register_town_funcs(lua_State *L) {
   lua_register(L, "GetCurrentTown", l_getCurrentTown);
   lua_register(L, "HasVisitingHero", l_hasVisitingHero);
@@ -929,6 +937,7 @@ static void register_town_funcs(lua_State *L) {
   lua_register(L, "SetNumGuildSpells", l_setNumGuildSpells);
   lua_register(L, "SetGuildSpell", l_setGuildSpell);
   lua_register(L, "GetGuildSpell", l_getGuildSpell);
+  lua_register(L, "DisallowBuilding", l_disallowBuilding);
 }
 
 /************************************* Battle ******************************************/

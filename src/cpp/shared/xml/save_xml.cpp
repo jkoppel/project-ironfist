@@ -472,6 +472,20 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     pRoot->InsertEndChild(heroElement);
   }
 
+  pElement = tempDoc->NewElement("disallowedBuildings");
+  int numBits = gpGame->disallowedBuildings[0].size();
+  for(int j = 0; j < (unsigned)gpGame->disallowedBuildings->size(); j++) {
+    for(int bit = 0; bit < numBits; bit++) {
+      if(gpGame->disallowedBuildings[j][bit]) {
+        tinyxml2::XMLElement *buildElem = tempDoc->NewElement("building");
+        buildElem->SetAttribute("town", j);
+        buildElem->SetAttribute("building", bit);
+        pElement->InsertEndChild(buildElem);
+      }
+    }
+  }
+  pRoot->InsertEndChild(pElement);
+
   WriteMapVariables(pRoot);
   std::string script = GetScriptContents(gMapName);
   if(script.length())
@@ -905,6 +919,14 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
     int index = elem->IntAttribute("index"); // used for arrays
     int value = elem->IntAttribute("value"); // used for arrays
     if(name == "allowAIArmySharing") elem->QueryBoolText(&gpGame->allowAIArmySharing);
+    else if(name == "disallowedBuildings") {
+      for(tinyxml2::XMLNode* build = elem->FirstChild(); build; build = build->NextSibling()) {
+        tinyxml2::XMLElement *buildElem = build->ToElement();
+        int town = buildElem->IntAttribute("town");
+        int building = buildElem->IntAttribute("building");
+        gpGame->disallowedBuildings[town][building] = true;
+      }
+    }
     else if(name == "mapWidth") elem->QueryIntText(&gpGame->map.width);
     else if(name == "mapHeight") {
       elem->QueryIntText(&gpGame->map.height);
