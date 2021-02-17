@@ -475,7 +475,7 @@ void game::ProcessRandomObjects() {
         do {
           randMon = CREATURES_RANDOMIZABLE.at(Random(0, CREATURES_RANDOMIZABLE.size()-1));
           fightval = gMonsterDatabase[randMon].fight_value;
-        } while(fightval <= minFightValue && fightval >= maxFightValue);
+        } while(fightval <= minFightValue || fightval >= maxFightValue);
         cell->objectIndex = randMon;
       }
     }
