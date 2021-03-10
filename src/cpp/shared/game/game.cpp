@@ -2288,7 +2288,10 @@ void mouseManager::SetPointer(int spriteIdxArg) {
       }
 
       char fileNameChar[FILENAME_MAX];
-      sprintf_s(fileNameChar, "%s%02d.BMP", fileName.c_str(), actualSpriteIdx);
+      if(spriteIdx == SPELL_PLASMA_CONE)
+        sprintf_s(fileNameChar, "%s%02d_%d.BMP", fileName.c_str(), actualSpriteIdx, gSpellDirection);
+      else
+        sprintf_s(fileNameChar, "%s%02d.BMP", fileName.c_str(), actualSpriteIdx);
 
       int fileID = gpResourceManager->MakeId(fileNameChar, 1);
       gpResourceManager->PointToFile(fileID);

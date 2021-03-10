@@ -107,6 +107,7 @@ extern int gbColorMice;
 extern signed char iHotSpot[][2];
 extern void *cColorBits[];
 extern void *cAndBits[];
+extern int gSpellDirection;
 
 struct configStruct {
   int data[103];

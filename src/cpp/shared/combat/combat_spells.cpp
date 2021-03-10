@@ -1222,33 +1222,17 @@ int __fastcall HandleCastSpell(tag_message &evt) {
         switch(currentSpell) {
           case SPELL_PLASMA_CONE:
           {
-            // changing cursor
             CURSOR_DIRECTION dir = gpCombatManager->GetCursorDirection(evt.altXCoord, evt.altYCoord, indexToCastOn);
-            int cursorIdx = 0;
-            switch(dir) {
-              case CURSOR_DIRECTION_LEFT_DOWN:
-                cursorIdx = 10;
-                break;
-              case CURSOR_DIRECTION_LEFT:
-                cursorIdx = 11;
-                break;
-              case CURSOR_DIRECTION_LEFT_UP:
-                cursorIdx = 12;
-                break;
-              case CURSOR_DIRECTION_RIGHT_UP:
-                cursorIdx = 7;
-                break;
-              case CURSOR_DIRECTION_RIGHT:
-                cursorIdx = 8;
-                break;
-              case CURSOR_DIRECTION_RIGHT_DOWN:
-                cursorIdx = 9;
-                break;
-            }
-            gpMouseManager->SetPointer("cmbtmous.mse", cursorIdx, -999);
-
             // Getting spell direction
             gSpellDirection = dir;
+            
+            // changing cursor
+            if(gbColorMice) {
+              gpMouseManager->cursorIcon = gpResourceManager->GetIcon("PLSMCONC.ICN");
+              gpMouseManager->spriteIdx = dir;
+            } else {
+              gpMouseManager->SetPointer(SPELL_PLASMA_CONE);
+            }
             
             break;
           }
