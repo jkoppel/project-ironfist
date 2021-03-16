@@ -137,6 +137,7 @@ public:
   void DoCommand(int cmd);
   void ShiftQualChange();
   void SetupExtraStuff();
+  void ShowText(char *msg);
 };
 
 void InitializeTownConstants();
