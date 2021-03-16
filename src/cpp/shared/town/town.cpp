@@ -663,6 +663,8 @@ int townManager::RecruitHero(int id, int x) {
 char *__fastcall GetBuildingName(int faction, int building) {
   if (faction == FACTION_NECROMANCER && building == BUILDING_TAVERN) {
     return xNecromancerShrine;
+  } else if(faction == FACTION_CYBORG && building == BUILDING_WELL) {
+    return "Energy Pump";
   } else {
     if (building == BUILDING_SPECIAL_GROWTH) {
       return GetFirstLevelGrowerName(faction);
@@ -1068,7 +1070,13 @@ int townManager::Main(tag_message &evt) {
       if(evt.yCoordOrFieldID != this->field_142 || evt.inputTypeBitmask != this->field_146) {
         this->field_142 = evt.yCoordOrFieldID;
         this->field_146 = evt.inputTypeBitmask;
-        this->SetCommandAndText(evt);
+        if(this->factionID == FACTION_CYBORG && evt.yCoordOrFieldID == BUILDING_WELL) {
+          this->field_14A = -1;
+          strcpy(this->infoMessage, "Energy Pump");
+          this->ShowText(this->infoMessage);
+        } else {
+          this->SetCommandAndText(evt);
+        }
       }
       return 1;
     }

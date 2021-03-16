@@ -20,7 +20,7 @@ namespace {
     "",
     "",
     "",
-    "[TODO] Cyborg Grower"
+    "Cybernetics Lab"
   };
 
   std::vector<std::string> specialBuildingNames = {
@@ -36,7 +36,7 @@ namespace {
     "",
     "",
     "",
-    "[TODO] Cyborg Special"
+    "Radiation Tower"
   };
 
   std::vector<std::string> specialBuildingDescriptions = {
@@ -52,16 +52,16 @@ namespace {
     "",
     "",
     "",
-    "[TODO] Cyborg special building description"
+    "Lowers luck of enemies"
   };
 
   std::vector<std::string> cyborgDwellings = {
-    "Cyborg Level 1",
-    "Cyborg Level 2",
-    "Cyborg Level 3",
-    "Cyborg Level 4",
-    "Cyborg Level 5",
-    "Cyborg Level 6",
+    "Sewer",
+    "Meeting Hall",
+    "Arena",
+    "Hunting Grounds",
+    "Dojo",
+    "Nexus",
     "Cyborg Level 2 Upgrade",
     "Cyborg Level 3 Upgrade",
     "Cyborg Level 4 Upgrade",
