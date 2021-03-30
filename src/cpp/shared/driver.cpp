@@ -7,6 +7,7 @@
 
 extern void* hInstApp;
 extern void LoadOverlays();
+extern void LoadOverlayNames();
 
 void IronfistInit() {
   LoadCreatures();
@@ -16,6 +17,7 @@ void IronfistInit() {
 #endif
 #ifdef EDITOR
   LoadOverlays();
+  LoadOverlayNames();
 #endif
 
   //LoadMenu((HINSTANCE)hInstApp, "MNUADV");

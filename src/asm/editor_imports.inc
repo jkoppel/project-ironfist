@@ -157,6 +157,8 @@ IMPORT_?ResetPlayerAvailability@@YIXXZ = 1
 ;;overlayManager
 IMPORT_?SetupOverlayWindow@overlayManager@@QAEXH@Z = 1
 IMPORT_?PopulateAvailOverlays@overlayManager@@QAEHH@Z = 1
+IMPORT_?SelectOverlayMain@overlayManager@@QAEHAAUtag_message@@@Z = 1
+?SelectOverlayMain@overlayManager@@QAEHAAUtag_message@@@Z_clone EQU ?SelectOverlayMain_orig@overlayManager@@QAEHAAUtag_message@@@Z
 
 ;;spells
 IMPORT_?gSpellNames@@3PAPADA = 1

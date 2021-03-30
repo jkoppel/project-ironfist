@@ -96,6 +96,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\cpp\editor\hero_edit.cpp" />
     <ClCompile Include="..\..\cpp\editor\overlay_xml.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\adv_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\artifacts.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
@@ -168,6 +169,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\cpp\editor\hero_edit.h" />
     <ClInclude Include="..\..\cpp\editor\overlay_xml.h" />
+    <ClInclude Include="..\..\cpp\shared\adventure\adv_globals.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\lib\tinyxml2\tinyxml2.h" />
