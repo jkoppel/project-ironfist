@@ -249,7 +249,7 @@ signed int __thiscall sub_422F80(void *ecx0, int a2);
 void __thiscall sub_4230AC(overlayManager *this, int draw); // idb
 int __thiscall overlayManager::SelectObject(overlayManager *this, int objType); // idb
 signed int __thiscall sub_423649(int this);
-signed int __thiscall sub_423673(int ecx0, int a2);
+signed int __thiscall overlayManager::SelectOverlayMain(int ecx0, int a2);
 void __thiscall sub_423A53(void *this, int a2, int a3, int a4);
 int __stdcall WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
 signed int __fastcall AppInit(HINSTANCE a1, int a2, int nCmdShow, int a4);
@@ -40378,11 +40378,11 @@ int __thiscall overlayManager::SelectObject(overlayManager *ecx0, int objType)
 //----- (00423649) --------------------------------------------------------
 signed int __thiscall sub_423649(int this)
 {
-  return sub_423673(gpEditManager->toolManager, this);
+  return overlayManager::SelectOverlayMain(gpEditManager->toolManager, this);
 }
 
 //----- (00423673) --------------------------------------------------------
-signed int __thiscall sub_423673(int ecx0, int a2)
+signed int __thiscall overlayManager::SelectOverlayMain(int ecx0, int a2)
 {
   signed int result; // eax@53
   int v3; // [sp+Ch] [bp-28h]@35

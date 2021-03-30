@@ -336,6 +336,9 @@
     <ClCompile Include="..\..\cpp\shared\xml\artifact_xml.cpp">
       <Filter>Source Files\xml</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\adventure\adv_globals.cpp">
+      <Filter>Source Files\adventure</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\stdafx.h">
@@ -571,6 +574,9 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\xml\artifact_xml.h">
       <Filter>Header Files\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\adventure\adv_globals.h">
+      <Filter>Header Files\adventure</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

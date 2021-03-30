@@ -104,6 +104,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\cpp\shared\adventure\adv.cpp" />
+    <ClCompile Include="..\..\cpp\shared\adventure\adv_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\hero.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\hero_globals.cpp" />
     <ClCompile Include="..\..\cpp\shared\adventure\map.cpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="..\..\cpp\shared\xml\utils_xml.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\cpp\shared\adventure\adv_globals.h" />
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />

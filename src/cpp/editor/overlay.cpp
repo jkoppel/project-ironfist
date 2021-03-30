@@ -4,6 +4,7 @@
 
 #include "artifacts.h"
 #include "skills.h"
+#include "adventure/adv_globals.h"
 #include "adventure/hero_globals.h"
 #include "adventure/map.h"
 #include "editor.h"
@@ -18,6 +19,7 @@ extern "C" int giOverlaySelectNRows;
 
 overlay gOverlayDatabase[MAX_OVERLAYS] = { 0 };
 int gNumOverlays = 0;
+std::map<int, std::string> overlayNames;
 
 void LoadOverlays() {
   OverlayXML xml;
@@ -27,6 +29,45 @@ void LoadOverlays() {
   if(err) {
     std::string error_message = "Could not load " + filename + "\n" + std::string(xml.GetError());
     DisplayError(error_message, "overlays.xml");
+  }
+}
+
+void LoadOverlayNames() {
+  for(int i = 0; i < gNumOverlays; i++) {
+    overlay *ovr = &gOverlayDatabase[i];
+    int loc = ovr->locationType;
+    int idx = ovr->idx;
+    const int FIRST_BARRIER_IDX = 799;
+    const int FIRST_TENT_IDX = 807;
+    const int FIRST_EXP_DWELLING_IDX = 792;
+    char* advMapName = adventureMapLocations[loc];    
+
+    if(loc == LOCATION_BARRIER)
+      sprintf(gText, advMapName, barrierColors[idx - FIRST_BARRIER_IDX]);
+    else if(loc == LOCATION_TRAVELLER_TENT)
+      sprintf(gText, advMapName, barrierColors[idx - FIRST_TENT_IDX]);
+    else if(loc == LOCATION_EXPANSION_DWELLING)
+      sprintf(gText, advMapName, expDwellingNames[idx - FIRST_EXP_DWELLING_IDX]);
+    else if(idx == 790)
+      sprintf(gText, "Alchemist's Tower");
+    else if(idx == 791)
+      sprintf(gText, "Arena");
+    else if(idx == 797)
+      sprintf(gText, "Hut of the Magi");
+    else if(idx == 798)
+      sprintf(gText, "Eye of the Magi");
+    else if(idx == 815)
+      sprintf(gText, "Stables");
+    else if(idx == 817)
+      sprintf(gText, "Mermaid");
+    else if(idx == 818)
+      sprintf(gText, "Sirens");
+    else if(loc == LOCATION_ROCK && ovr->tileset == TILESET_OBJECT_EXPANSION_2)
+      sprintf(gText, "Reefs");
+    else
+      sprintf(gText, advMapName);
+
+    overlayNames[idx] = gText;
   }
 }
 
@@ -712,4 +753,24 @@ signed int __stdcall sub_42AAF9(int *x, int *y, int a3, int doMountains, char ti
   *x += dword_485D00[2 * a3];
   *y += dword_485D04[2 * a3];
   return 1;
+}
+
+int overlayManager::SelectOverlayMain(tag_message &evt) {
+  bool rightClick;
+
+  if((*((unsigned char*)&(evt.inputTypeBitmask) + 1)) & 2)
+    rightClick = 1;
+  else
+    rightClick = 0;
+
+  if(evt.eventCode == INPUT_GUI_MESSAGE_CODE && rightClick) {
+    std::string str;
+    int availOverlayIdx = evt.altXCoord / 69 + giOverlaySelectMaybeNumUnseen + 9 * (evt.altYCoord / 53);
+    if(availOverlayIdx < this->nAvailOverlays) {
+      overlay *ovr = &this->availOverlays[availOverlayIdx];
+      sprintf(gText, overlayNames[ovr->idx].c_str());
+      NormalDialog(gText, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+    }
+  }
+  return this->SelectOverlayMain_orig(evt);
 }

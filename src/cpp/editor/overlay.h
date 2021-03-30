@@ -69,7 +69,8 @@ public:
   void SetupOverlayWindow(int draw);
   void DrawAffectedTileGrid(int x, int y, int width, int height, overlay *ovr, signed int a7);
   void DrawOverlay(overlay *ovr, int xoff, int yoff, int a4, int width, int height, int draw, signed int a8, int a9);
-
+  int SelectOverlayMain(tag_message &evt);
+  int SelectOverlayMain_orig(tag_message &evt);
 };
 #pragma pack(pop)
 
@@ -88,5 +89,6 @@ extern int __fastcall ValidOverlayPlacement(overlay*,int,int,int);
 extern int CountTowns();
 extern int CountPlacedEvents();
 void LoadOverlays();
+void LoadOverlayNames();
 
 #endif
