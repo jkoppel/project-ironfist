@@ -291,6 +291,8 @@ IMPORT_?CheckWin@combatManager@@QAEHPAUtag_message@@@Z = 1
 IMPORT_?DoHydraAttack@army@@QAEXH@Z = 1
 IMPORT_?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z = 1
 ?ProcessNextAction@combatManager@@QAEHAAUtag_message@@@Z_clone EQU ?ProcessNextAction_orig@combatManager@@QAEHAAUtag_message@@@Z
+IMPORT_?DetermineEffectOfSpell@combatManager@@QAEXHPAH0@Z = 1
+?DetermineEffectOfSpell@combatManager@@QAEXHPAH0@Z_clone EQU ?DetermineEffectOfSpell_orig@combatManager@@QAEXHPAH0@Z
 
 ;;heroes
 IMPORT_?cHeroTypeInitial@@3PADA = 1

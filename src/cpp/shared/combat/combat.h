@@ -57,6 +57,17 @@ enum AOE_SPELL_DRAW_FLIP_TYPE {
   AOE_SPELL_DRAW_FLIP
 };
 
+enum AI_SPELL_TYPES {
+  AI_BATTLEFIELD_AFFECTING_SPELL = 0x0,
+  AI_MASS_BUFF_SPELL = 0x1,
+  AI_MASS_DEBUFF_SPELL = 0x2,
+  AI_BALL_SPALL = 0x3,
+  AI_TARGET_BUFF_SPELL = 0x4,
+  AI_TARGET_DAMAGE_OR_DEBUFF_SPELL = 0x5,
+  AI_RESURRECT_SPELL = 0x6,
+  AI_DISPEL_SPELL = 0x7,
+};
+
 #pragma pack(push, 1)
 
 class hexcell {
@@ -314,6 +325,12 @@ public:
   void PlasmaCone(int hexIdx);
   void FireBomb(int hexIdx);
   void ImplosionGrenade(int hexIdx);
+  void DetermineEffectOfSpell(int spell, int *value, int *target);
+  void DetermineEffectOfSpell_orig(int spell, int *value, int *target);
+  int RawEffectSpellInfluence(army *stack, int eff);
+  signed int FirstArmy(int startHex, int side, int *resultHex);
+  signed int FirstResurrectable(int startHex, int *resultHex, int spell);
+  void NextPos(int *hexIdx);
 };
 
 extern combatManager* gpCombatManager;
@@ -328,6 +345,7 @@ extern int giNextAction;
 extern int giNextActionExtra;
 extern int gbProcessingCombatAction;
 extern int giSpellEffectShowType;
+extern int giCurrSpellGroup;
 extern unsigned char gColorTableGray[];
 extern unsigned char gColorTableRed[];
 extern unsigned char gColorTableDarkBrown[];
