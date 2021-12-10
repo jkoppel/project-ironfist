@@ -94,13 +94,13 @@ void combatManager::DetermineEffectOfSpell(int spell, int *value, int *target) {
           if(!incapacitated) {
             if(!underMyControl) {
               if(!potTarg->effectStrengths[EFFECT_SLOW]) {
-                effectValue = this->RawEffectSpellInfluence(potTarg, EFFECT_SLOW) * durBenefit;
+                effectValue = -this->RawEffectSpellInfluence(potTarg, EFFECT_SLOW) * durBenefit;
                 if(potTarg->effectStrengths[EFFECT_HASTE]) {
                   int durModifierIdx = targSpentTurn + potTarg->effectStrengths[EFFECT_HASTE];
                   if(durModifierIdx >= 10)
                     durModifierIdx = 10;
 
-                  effectValue -= this->RawEffectSpellInfluence(potTarg, EFFECT_HASTE) * heuristicModifierForDuration[durModifierIdx];
+                  effectValue += this->RawEffectSpellInfluence(potTarg, EFFECT_HASTE) * heuristicModifierForDuration[durModifierIdx];
                 }
               }
             }
@@ -116,7 +116,7 @@ void combatManager::DetermineEffectOfSpell(int spell, int *value, int *target) {
                   int durModifierIdx = targSpentTurn + potTarg->effectStrengths[EFFECT_BLESS];
                   if(durModifierIdx >= 10)
                     durModifierIdx = 10;
-                  effectValue -= this->RawEffectSpellInfluence(potTarg, EFFECT_BLESS) * heuristicModifierForDuration[durModifierIdx];
+                  effectValue += this->RawEffectSpellInfluence(potTarg, EFFECT_BLESS) * heuristicModifierForDuration[durModifierIdx];
                 }
               }
             }
