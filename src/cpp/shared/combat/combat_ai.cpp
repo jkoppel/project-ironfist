@@ -175,3 +175,120 @@ void combatManager::DetermineEffectOfSpell(int spell, int *value, int *target) {
     break;
   }
 }
+
+int combatManager::RawEffectSpellInfluence(army *stack, int eff) {
+  double chance = stack->SpellCastWorkChance(giSpellInfluenceToSpell[eff]);
+  if(chance < 0.0001) {
+    return 0;
+  }
+
+  int preResult;
+  int fightValue = stack->quantity * stack->creature.fight_value;
+  int owningSide = stack->owningSide;
+  int otherSide = 1 - owningSide;
+  switch(eff) {
+    case EFFECT_SLOW:
+    case EFFECT_HASTE:
+    {
+      int speedWithEffect;
+      if(eff == EFFECT_SLOW)
+        speedWithEffect = (stack->creature.speed + 1) >> 1;
+      else
+        speedWithEffect = stack->creature.speed + 2;
+
+      if(eff == EFFECT_HASTE && stack->creature.creature_flags & FLYER)
+        return 0;
+
+      if(this->isCastleBattle && owningSide == 1)
+        return 0;
+
+      if(stack->creature.creature_flags & SHOOTER)
+        return 0;
+      
+      if(stack->GetAttackMask(stack->occupiedHex, 1, -1) == 255) {
+        int hexXCoord = stack->occupiedHex % 13;
+        int distFromOptimalColumn;
+        if(this->currentActionSide)
+          distFromOptimalColumn = 10 - hexXCoord;
+        else
+          distFromOptimalColumn = hexXCoord - 2;
+        if(distFromOptimalColumn < 0)
+          distFromOptimalColumn = 0;
+
+        
+        int adjustedDistFromOtherSide = distFromOptimalColumn + 2;
+        if(this->isCastleBattle)
+          adjustedDistFromOtherSide += 3;
+        double currentTurnsToOtherSide;
+        if(stack->creature.creature_flags & FLYER)
+          currentTurnsToOtherSide = 1.0;
+        else
+          currentTurnsToOtherSide = adjustedDistFromOtherSide / stack->creature.speed;
+
+        double turnsToOtherSideAfterCast = adjustedDistFromOtherSide / speedWithEffect;
+        if(turnsToOtherSideAfterCast > 7.0)
+          turnsToOtherSideAfterCast = 7.0;
+        if(currentTurnsToOtherSide > 7.0)
+          currentTurnsToOtherSide = 7.0;
+        preResult = (currentTurnsToOtherSide - turnsToOtherSideAfterCast) / 10.0 * fightValue;
+      } else
+        return 0;
+      break;
+    }
+    case EFFECT_BLESS:
+    case EFFECT_CURSE: {
+      double avgDamage = (stack->creature.min_damage + stack->creature.max_damage) * 0.5;
+      preResult = (stack->creature.max_damage - avgDamage) / avgDamage * fightValue * 0.45;
+      if(eff == EFFECT_CURSE)
+        preResult = -preResult;
+      break;
+    }
+    case EFFECT_DRAGON_SLAYER: {
+      bool hasAdjacentDragons = false;
+      int numDragons = 0;
+      
+      for(int i = 0; this->numCreatures[otherSide] > i; ++i) {
+        army* cr = &this->creatures[owningSide][i];
+        int creatureIdx = cr->creatureIdx;
+        if(creatureIdx == CREATURE_GREEN_DRAGON
+          || creatureIdx == CREATURE_RED_DRAGON
+          || creatureIdx == CREATURE_BLACK_DRAGON
+          || creatureIdx == CREATURE_BONE_DRAGON) {
+          numDragons++;
+          if(stack->OtherArmyAdjacent(cr->owningSide, cr->stackIdx))
+            hasAdjacentDragons = true;
+        }
+      }
+      double dragonsVal;
+      if(hasAdjacentDragons)
+        dragonsVal = 1.0;
+      else
+        dragonsVal = numDragons / this->numCreatures[otherSide];
+      preResult = 0.28 * dragonsVal;
+      break;
+    }
+    case EFFECT_SHIELD: {
+      int numShooters = 0;
+      for(int j = 0; this->numCreatures[otherSide] > j; ++j) {
+        if(this->creatures[owningSide][j].creature.creature_flags & SHOOTER)
+          numShooters++;
+      }
+      double shooterVal = numShooters / this->numCreatures[otherSide];
+      if(!owningSide && this->isCastleBattle) {
+          shooterVal += 0.3;
+          if(shooterVal > 1.0)
+            shooterVal = 1.0;
+      }
+      preResult = 0.45 * shooterVal;
+      break;
+    }
+    default:
+      return this->RawEffectSpellInfluence_orig(stack, eff);
+  }
+
+  if(stack->effectStrengths[EFFECT_BERSERKER] || stack->effectStrengths[EFFECT_HYPNOTIZE]) {
+    if(eff != EFFECT_ANTI_MAGIC)
+      return 0;
+  }
+  return preResult * chance;
+}

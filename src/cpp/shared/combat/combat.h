@@ -328,6 +328,7 @@ public:
   void DetermineEffectOfSpell(int spell, int *value, int *target);
   void DetermineEffectOfSpell_orig(int spell, int *value, int *target);
   int RawEffectSpellInfluence(army *stack, int eff);
+  int RawEffectSpellInfluence_orig(army *stack, int eff);
   signed int FirstArmy(int startHex, int side, int *resultHex);
   signed int FirstResurrectable(int startHex, int *resultHex, int spell);
   void NextPos(int *hexIdx);
@@ -352,6 +353,7 @@ extern unsigned char gColorTableDarkBrown[];
 extern unsigned char gColorTableGray[];
 extern unsigned char gColorTableLighten[];
 extern char *gCombatFxNames[];
+extern unsigned char giSpellInfluenceToSpell[];
 void __fastcall ModifyFrameInfo(struct SMonFrameInfo *frm, int creature);
 signed int __fastcall GetAdjacentCellIndexNoArmy(int hexIdx, signed int neighborIdx);
 bool IsCastleWall(int hexIdx);
