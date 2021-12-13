@@ -208,7 +208,7 @@ int combatManager::RawEffectSpellInfluence(army *stack, int eff) {
       if(stack->GetAttackMask(stack->occupiedHex, 1, -1) == 255) {
         int hexXCoord = stack->occupiedHex % 13;
         int distFromOptimalColumn;
-        if(this->currentActionSide)
+        if(!this->currentActionSide)
           distFromOptimalColumn = 10 - hexXCoord;
         else
           distFromOptimalColumn = hexXCoord - 2;
@@ -238,7 +238,7 @@ int combatManager::RawEffectSpellInfluence(army *stack, int eff) {
     case EFFECT_BLESS:
     case EFFECT_CURSE: {
       double avgDamage = (stack->creature.min_damage + stack->creature.max_damage) * 0.5;
-      preResult = (stack->creature.max_damage - avgDamage) / avgDamage * fightValue * 0.45;
+      preResult = (avgDamage - stack->creature.min_damage) / stack->creature.min_damage * fightValue * 0.45;
       if(eff == EFFECT_CURSE)
         preResult = -preResult;
       break;
@@ -248,14 +248,14 @@ int combatManager::RawEffectSpellInfluence(army *stack, int eff) {
       int numDragons = 0;
       
       for(int i = 0; this->numCreatures[otherSide] > i; ++i) {
-        army* cr = &this->creatures[owningSide][i];
+        army* cr = &this->creatures[otherSide][i];
         int creatureIdx = cr->creatureIdx;
         if(creatureIdx == CREATURE_GREEN_DRAGON
           || creatureIdx == CREATURE_RED_DRAGON
           || creatureIdx == CREATURE_BLACK_DRAGON
           || creatureIdx == CREATURE_BONE_DRAGON) {
           numDragons++;
-          if(stack->OtherArmyAdjacent(cr->owningSide, cr->stackIdx))
+          if(stack->OtherArmyAdjacent(otherSide, cr->stackIdx))
             hasAdjacentDragons = true;
         }
       }
@@ -270,7 +270,7 @@ int combatManager::RawEffectSpellInfluence(army *stack, int eff) {
     case EFFECT_SHIELD: {
       int numShooters = 0;
       for(int j = 0; this->numCreatures[otherSide] > j; ++j) {
-        if(this->creatures[owningSide][j].creature.creature_flags & SHOOTER)
+        if(this->creatures[otherSide][j].creature.creature_flags & SHOOTER)
           numShooters++;
       }
       double shooterVal = numShooters / this->numCreatures[otherSide];
