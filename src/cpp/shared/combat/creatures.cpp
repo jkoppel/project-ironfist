@@ -59,6 +59,20 @@ SecondaryResourceNameTableEntry SecondaryResourceNameTable[] = {
 	{"gems", RESOURCE_GEMS}
 };
 
+char *speedText[] = {
+  "",
+  "Crawling",
+  "Very slow",
+  "Slow",
+  "Average",
+  "Fast",
+  "Very Fast",
+  "Ultra Fast",
+  "Blazing",
+  "Instant",
+  "Teleport"
+};
+
 std::vector<std::string> ironfistAttributeNames = { STRIKE_AND_RETURN, PLASMA_BLAST, TELEPORTER, ASTRAL_DODGE, SHADOW_MARK, JUMPER, CHARGER};
 std::vector<std::vector<int>> ironfistAttributeTable;
 
