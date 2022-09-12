@@ -430,6 +430,7 @@ int __fastcall TransmitRemoteData(char*, int, int, signed char a4, signed char a
 int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type, char *name);
 extern int __fastcall AddScoreToHighScore_orig(int score, int days, int difficulty, int type, char *name);
 extern int __fastcall ExpStdGameHandler(struct tag_message &);
+extern void __fastcall SendMapChange(int,signed char,unsigned char,unsigned char,int,unsigned char,unsigned char);
 
 #pragma pack(pop)
 
