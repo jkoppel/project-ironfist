@@ -1307,8 +1307,11 @@ void game::ProcessOnMapHeroes() {
           this->SetRandomHeroArmies(mapExtraHero->heroID, 0);
         }
 
+        if (randomHero->factionID == FACTION_CYBORG && randomHero->artifacts[0] != ARTIFACT_MAGIC_BOOK)
+          GiveArtifact(randomHero, ARTIFACT_MAGIC_BOOK, 1, -1);
+
         for (int i = 0; i < 3; ++i) {
-          if (mapExtraHero->artifacts[i] >= 0) {
+          if (mapExtraHero->artifacts[i] >= 0 && randomHero->artifacts[i] != mapExtraHero->artifacts[i]) {
             GiveArtifact(randomHero, mapExtraHero->artifacts[i], 1, -1);
           }
         }
