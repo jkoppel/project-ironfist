@@ -193,7 +193,7 @@ public:
 	char difficulty;
 	char mapFilename[13];
   char somePlayerNumData[NUM_PLAYERS];
-  char relatedToNewGameSelection;
+  char relatedToNewGameSelection; // new game selected player
   char relatedToNewGameInit;
   char numHumanPlayers;
   char field_47C[18];

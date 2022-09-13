@@ -1495,12 +1495,12 @@ void game::UpdateNewGameWindow() {
 
     GUISetText(this->newGameWindow, 24 + i, gText);
 
-    if(this->mapFilename[19] == i)
+    if(this->relatedToNewGameSelection == i)
       GUIAddFlag(this->newGameWindow, 18 + i, 4);
     else
       GUIRemoveFlag(this->newGameWindow, 18 + i, 4);
 
-    unsigned canChangeOpponent = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
+    unsigned canChangeOpponent = !this->somePlayerNumData[i] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
 
     int imgIdx;
     if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
@@ -1664,13 +1664,13 @@ void game::ShowScenInfo() {
     }
     GUISetText(window, 24 + i, gText);
 
-    if(this->mapFilename[19] == i)
+    if(this->relatedToNewGameSelection == i)
       GUIAddFlag(window, 18 + i, 4);
     else
       GUIRemoveFlag(window, 18 + i, 4);
 
     int imgIdx;
-    unsigned int canChooseFaction = !this->mapFilename[i + 13] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
+    unsigned int canChooseFaction = !this->somePlayerNumData[i] && (iLastMsgNumHumanPlayers <= 1 || this->somePlayerCodeOr10IfMayBeHuman[i] == 10);
     if(this->somePlayerCodeOr10IfMayBeHuman[i] == 10)
       imgIdx = (canChooseFaction < 1 ? 3 : 15) + this->relatedToPlayerPosAndColor[i];
     else
