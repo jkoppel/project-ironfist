@@ -433,6 +433,8 @@ IMPORT_?InitNewGame@game@@QAEXPAUSMapHeader@@@Z = 1
 ;; AI
 IMPORT_?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z = 1
 ?RedistributeTroops@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z_clone EQU ?RedistributeTroops_orig@philAI@@QAEXPAVarmyGroup@@0HHHHH@Z
+IMPORT_?DetermineTargetPosition@philAI@@QAEHAAH0H0@Z = 1
+?DetermineTargetPosition@philAI@@QAEHAAH0H0@Z_clone EQU ?DetermineTargetPosition_orig@philAI@@QAEHAAH0H0@Z
 
 ;; Campaigns
 IMPORT_?InitNewCampaign@ExpCampaign@@QAEXH@Z = 1

@@ -240,6 +240,7 @@ public:
   // New state
   bool onMapEndCallbackStatus = false;
   bool forcedComputerPlayerChases[MAX_HEROES][MAX_HEROES];
+  COORD forcedComputerHeroTarget[MAX_HEROES];
   bool sharePlayerVision[NUM_PLAYERS][NUM_PLAYERS];
   
 	// AI redistribute troops toggle
@@ -286,6 +287,8 @@ public:
 
   void ResetIronfistGameState();
   void ForceComputerPlayerChase(hero *source, hero *dest, bool force);
+  void ForceComputerHeroTarget(hero *hro, int x, int y);
+  void ResetComputerHeroTarget(hero *hro);
   void ShareVision(int sourcePlayer, int destPlayer);
   void CancelShareVision(int sourcePlayer, int destPlayer);
 	
@@ -351,6 +354,9 @@ public:
 
   int ValueOfEventAtPosition(int x, int y, int a2, int *a3);
   int ValueOfEventAtPosition_orig(int x, int y, int a2, int *a3);
+
+  int DetermineTargetPosition(int &a2, int &a3, int a4, int &a5);
+  int DetermineTargetPosition_orig(int &a2, int &a3, int a4, int &a5);
 };
 
 enum GAME_DIFFICULTY {

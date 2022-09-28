@@ -376,6 +376,7 @@ extern int giAdjacentMonsterLowerBoundY;
 
 hero* GetCurrentHero();
 bool GetMapCellXY(mapCell* cell, int* x, int* y);
+extern hero* gpCurAIHero;
 
 int __fastcall GiveArtifact(hero*, int artifact, int checkEndGame, signed char scrollSpell);
 void __fastcall GiveTakeArtifactStat(hero *h, int art, int take);

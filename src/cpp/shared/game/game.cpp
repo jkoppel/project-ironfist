@@ -936,6 +936,7 @@ void game::ResetIronfistGameState() {
         }
     }
 	for (int i = 0; i < MAX_HEROES; i++) {
+    this->forcedComputerHeroTarget[i].X = this->forcedComputerHeroTarget[i].Y = -1;
 		for (int j = 0; j < MAX_HEROES; j++) {
 			this->forcedComputerPlayerChases[i][j] = false;
 		}
@@ -1056,6 +1057,18 @@ int philAI::ValueOfEventAtPosition(int x, int y, int a2, int *a3) {
     return 0; // ignore shipyard objects
   else
     return ValueOfEventAtPosition_orig(x, y, a2, a3);
+}
+
+int philAI::DetermineTargetPosition(int &a2, int &a3, int a4, int &a5) {
+  int res = this->DetermineTargetPosition_orig(a2, a3, a4, a5);
+  COORD target = gpGame->forcedComputerHeroTarget[gpCurAIHero->idx];
+  if (target.X != -1) {
+    a2 = target.X;
+    a3 = target.Y;
+    a5 = -1;
+    return 50000; // not sure what it does right now
+  }
+  return res;
 }
 
 void game::InitRandomArtifacts() {

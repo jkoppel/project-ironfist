@@ -1268,6 +1268,20 @@ static int l_forceComputerPlayerChase(lua_State *L) {
 	return 0;
 }
 
+static int l_forceComputerHeroTarget(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
+  int x = (int)luaL_checknumber(L, 2);
+  int y = (int)luaL_checknumber(L, 3);
+  gpGame->ForceComputerHeroTarget(hro, x, y);
+  return 0;
+}
+
+static int l_resetComputerHeroTarget(lua_State *L) {
+  hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 1));
+  gpGame->ResetComputerHeroTarget(hro);
+  return 0;
+}
+
 static void register_uncategorized_funcs(lua_State *L) {
   lua_register(L, "PlaySoundEffect", l_playsoundeffect);
   lua_register(L, "GetInclinedToJoin", l_getinclinedtojoin);
@@ -1275,6 +1289,8 @@ static void register_uncategorized_funcs(lua_State *L) {
   lua_register(L, "StartBattle", l_startbattle);
   lua_register(L, "ToggleAIArmySharing", l_toggleAIArmySharing);
   lua_register(L, "ForceComputerPlayerChase", l_forceComputerPlayerChase);
+  lua_register(L, "ForceComputerHeroTarget", l_forceComputerHeroTarget);
+  lua_register(L, "ResetComputerHeroTarget", l_resetComputerHeroTarget);
 }
 
 /****************************************************************************************************************/
