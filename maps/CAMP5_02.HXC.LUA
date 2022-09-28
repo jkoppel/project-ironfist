@@ -7,7 +7,7 @@ function OnMapStart()
 	SetDaysAfterTownLost(GetPlayer(0), 128)
 	SetDaysAfterTownLost(GetPlayer(1), 128)
 	GiveResource(GetPlayer(1), RESOURCE_GEMS, 10)
-	ForceComputerPlayerChase(GetHero(GetPlayer(1), 0), GetHero(GetPlayer(0), 0), true)
+	ForceComputerPlayerChase(GetHero(GetPlayer(1), 1), GetHero(GetPlayer(0), 0), true)
 	MessageBox("Beset by memories of the future, Lt. John Carver awoke to find himself in a strange new land. Although disoriented, he managed to make out a distant chatter before his cochlear implant shortened out. None of his other implants seemed to fare much better, a likely consequence of whatever magic was used to hurl him through time.")
 	MessageBox("He allowed the rumblings to lead him to a small village. Wary of how frightening he might look with his cybernetic implants, he resisted rushing forward long enough to notice the approach of a robed figure. The warlock demanded to know if the villagers had seen any strangers with metallic body parts. When it became clear they knew nothing, he unleashed great balls of fire and lightning that spared none a painful death.");
 	MessageBox("Getting home would not be as easy as John hoped with a madman like that hunting him, but with any luck, there would be more than a few warlock-hating locals about, and perhaps his comrades were also flung through time and were out there somewhere, waiting to be found. This wouldn't be easy, but then nothing in John Carver's life ever was.");
@@ -16,6 +16,30 @@ function OnMapStart()
 	SetInclinedToJoin(20, 51, true)
 	SetInclinedToJoin(46, 71, true)
 	SetInclinedToJoin(61, 4, true)
+end
+
+function OnNewDay(month, week, day)
+	if month == 1 and week == 1 then
+		if day == 1 then
+			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 55, 18)
+		end
+	elseif month == 1 and week == 2 then
+		if day == 1 then
+			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 50, 29)
+		elseif day == 2 then
+			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 45, 36)
+		elseif day == 4 then
+			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 38, 44)
+		elseif day == 6 then
+			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 42, 47)
+		elseif day == 7 then
+			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 45, 58)			
+		end
+	elseif month == 1 and week == 3 then
+		if day == 2 then
+			ResetComputerHeroTarget(GetHero(GetPlayer(1), 1))
+		end
+	end
 end
 
 function OnCastleConquered(CastleId, PlayerId)
