@@ -265,13 +265,12 @@ void game::ForceComputerPlayerChase(hero *source, hero *dest, bool force) {
 	this->forcedComputerPlayerChases[source->idx][dest->idx] = force;
 }
 
-void game::ForceComputerHeroTarget(hero *hro, int x, int y) {
-  this->forcedComputerHeroTarget[hro->idx].X = x;
-  this->forcedComputerHeroTarget[hro->idx].Y = y;
+void game::ForceComputerHeroTarget(hero *hro, COORD c) {
+  this->forcedComputerHeroTarget[hro->idx] = c;
 }
 
 void game::ResetComputerHeroTarget(hero *hro) {
-  this->ForceComputerHeroTarget(hro, -1, -1);
+  this->ForceComputerHeroTarget(hro, {-1, -1});
 }
 
 void game::ShareVision(int sourcePlayer, int destPlayer) {

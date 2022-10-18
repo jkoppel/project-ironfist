@@ -936,7 +936,7 @@ void game::ResetIronfistGameState() {
         }
     }
 	for (int i = 0; i < MAX_HEROES; i++) {
-    this->forcedComputerHeroTarget[i].X = this->forcedComputerHeroTarget[i].Y = -1;
+    this->forcedComputerHeroTarget[i] = {-1, -1};
 		for (int j = 0; j < MAX_HEROES; j++) {
 			this->forcedComputerPlayerChases[i][j] = false;
 		}

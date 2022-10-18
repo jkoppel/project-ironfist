@@ -287,7 +287,7 @@ public:
 
   void ResetIronfistGameState();
   void ForceComputerPlayerChase(hero *source, hero *dest, bool force);
-  void ForceComputerHeroTarget(hero *hro, int x, int y);
+  void ForceComputerHeroTarget(hero *hro, COORD c);
   void ResetComputerHeroTarget(hero *hro);
   void ShareVision(int sourcePlayer, int destPlayer);
   void CancelShareVision(int sourcePlayer, int destPlayer);

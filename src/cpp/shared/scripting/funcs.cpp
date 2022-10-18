@@ -1270,9 +1270,9 @@ static int l_forceComputerPlayerChase(lua_State *L) {
 
 static int l_forceComputerHeroTarget(lua_State *L) {
   hero* hro = (hero*)GetPointerFromLuaClassTable(L, StackIndexOfArg(1, 3));
-  int x = (int)luaL_checknumber(L, 2);
-  int y = (int)luaL_checknumber(L, 3);
-  gpGame->ForceComputerHeroTarget(hro, x, y);
+  short x = (short)luaL_checknumber(L, 2);
+  short y = (short)luaL_checknumber(L, 3);
+  gpGame->ForceComputerHeroTarget(hro, { x, y });
   return 0;
 }
 
