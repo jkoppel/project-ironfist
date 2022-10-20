@@ -486,6 +486,19 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
   }
   pRoot->InsertEndChild(pElement);
 
+  pElement = tempDoc->NewElement("forcedComputerHeroTargets");
+  for (int j = 0; j < MAX_HEROES; j++) {    
+    if (gpGame->forcedComputerHeroTarget[j].X != -1) {
+      tinyxml2::XMLElement *targetElem = tempDoc->NewElement("computerHero");
+      targetElem->SetAttribute("id", j);
+      COORD target = gpGame->forcedComputerHeroTarget[j];
+      targetElem->SetAttribute("x", target.X);
+      targetElem->SetAttribute("y", target.Y);
+      pElement->InsertEndChild(targetElem);
+    }
+  }
+  pRoot->InsertEndChild(pElement);
+
   WriteMapVariables(pRoot);
   std::string script = GetScriptContents(gMapName);
   if(script.length())
@@ -925,6 +938,15 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
         int town = buildElem->IntAttribute("town");
         int building = buildElem->IntAttribute("building");
         gpGame->disallowedBuildings[town][building] = true;
+      }
+    }
+    else if (name == "forcedComputerHeroTargets") {
+      for (tinyxml2::XMLNode* target = elem->FirstChild(); target; target = target->NextSibling()) {
+        tinyxml2::XMLElement *targetElem = target->ToElement();
+        int heroId = targetElem->IntAttribute("id");
+        short x = targetElem->IntAttribute("x");
+        short y = targetElem->IntAttribute("y");
+        gpGame->forcedComputerHeroTarget[heroId] = { x, y };
       }
     }
     else if(name == "mapWidth") elem->QueryIntText(&gpGame->map.width);
