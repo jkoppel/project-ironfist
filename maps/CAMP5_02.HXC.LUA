@@ -19,26 +19,32 @@ function OnMapStart()
 end
 
 function OnNewDay(month, week, day)
+	enemyHero = GetHero(GetPlayer(1), 1)
+	playerHero = GetHero(GetPlayer(0), 0)
+	if math.abs(enemyHero.x - playerHero.x) < 10 and math.abs(enemyHero.y - playerHero.y) < 10 then
+		ResetComputerHeroTarget(enemyHero)
+		return
+	end
 	-- force enemy hero wait one week and then go to the crossroads to intercept the player
 	if month == 1 and week == 1 then
 		if day == 1 then
-			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 55, 18) -- stay on spawn
+			ForceComputerHeroTarget(enemyHero, 55, 18) -- stay on spawn
 		end
 	elseif month == 1 and week == 2 then
 		if day == 1 then
-			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 50, 29) -- left of gargoyle
+			ForceComputerHeroTarget(enemyHero, 50, 29) -- left of gargoyle
 		elseif day == 2 then
-			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 45, 36) -- archlich
+			ForceComputerHeroTarget(enemyHero, 45, 36) -- archlich
 		elseif day == 4 then
-			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 38, 44) -- mutant zombie
+			ForceComputerHeroTarget(enemyHero, 38, 44) -- mutant zombie
 		elseif day == 6 then
-			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 42, 47) -- zombie
+			ForceComputerHeroTarget(enemyHero, 42, 47) -- zombie
 		elseif day == 7 then
-			ForceComputerHeroTarget(GetHero(GetPlayer(1), 1), 45, 58) -- left of signpost
+			ForceComputerHeroTarget(enemyHero, 45, 58) -- left of signpost
 		end
 	elseif month == 1 and week == 3 then
 		if day == 2 then
-			ResetComputerHeroTarget(GetHero(GetPlayer(1), 1))
+			ResetComputerHeroTarget(enemyHero)
 		end
 	end
 end
