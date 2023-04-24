@@ -109,6 +109,8 @@ void DeserializeGeneratedArtifacts(const std::vector<int> &src) {
 
 std::vector<int> SerializeGeneratedArtifacts() {
   std::vector<int> artifacts;
+  if (!isGenerated.size())
+    return artifacts;
   artifacts.resize(isGenerated.rbegin()->first + 1, 0);
   for(auto art : isGenerated) {
     artifacts[art.first] = art.second;
