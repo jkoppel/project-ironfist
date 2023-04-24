@@ -520,7 +520,7 @@ void ExpCampaign::UpdateInfo(int drawWindow) {
   for(int award = 0; award < ELEMENTS_IN(this->awards); ++award) {
     if(this->awards[award]) {
       hasAward = true;
-      strcat(gText, xCampaignAwards[award].c_str());
+      strcat(gText, xCampaignAwards[awards[award]].c_str());
       strcat(gText, "\n");
     }
   }
