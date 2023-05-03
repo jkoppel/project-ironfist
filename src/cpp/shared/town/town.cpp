@@ -1433,8 +1433,8 @@ void town::SetFaction(FACTION faction) {
     unsigned long eligibleBuildMask = gTownEligibleBuildMask[faction];
     int bldMask = (1 << bldIdx);
 
-    // Skip if building is a castle, not built or can be built
-    if(bldIdx == BUILDING_CASTLE || !(bldMask & this->buildingsBuiltFlags) || (bldMask & eligibleBuildMask))
+    // Skip if building is a castle, a tent, not built or can be built
+    if(bldIdx == BUILDING_CASTLE || bldIdx == BUILDING_TENT || !(bldMask & this->buildingsBuiltFlags) || (bldMask & eligibleBuildMask))
       continue;
 
     // Remove building that can't be built
