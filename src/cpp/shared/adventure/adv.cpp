@@ -460,13 +460,13 @@ void advManager::DoEvent(class mapCell *cell, int locX, int locY) {
       // check if there is place for a boat
       bool boatPossible = false;
       int boatX, boatY;
-      std::pair<int, int> possibleCellOffsets[] = { {-1, -1}, { 0,-1 }, {1, -1}, {2, -1}, {2, 0}, {2, 1}, {1, 1}, {0, 1}, {-1, 1}, { -1, 0 } };
+      std::pair<int, int> possibleCellOffsets[] = { {-1, 0}, {1, 0}, {0, 1}, {0, -1} };
       for(auto offset : possibleCellOffsets) {
         boatX = locX + offset.first;
         boatY = locY + offset.second;
         mapCell *cell = gpAdvManager->GetCell(boatX, boatY);
         // check for water and absense of boats
-        if(!giGroundToTerrain[cell->groundIndex] && !cell->objType) {
+        if(!giGroundToTerrain[cell->groundIndex] && !(cell->objType == 171)) {
           boatPossible = true;
           break;
         }

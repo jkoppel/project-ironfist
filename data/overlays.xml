@@ -63559,7 +63559,7 @@
             00000000
             00000000
             00000000
-            00000000
+            00000011
             00000111
         </intersectsTileMask>
         <coveredNonObstructedMask>
@@ -63569,7 +63569,7 @@
             00000000
             00000000
             00000000
-            00000000
+            00000001
             00000000
         </coveredNonObstructedMask>
         <shadowsMask>
@@ -63579,8 +63579,8 @@
             00000000
             00000000
             00000000
-            00000000
-            00000100
+            00000010
+            00000101
         </shadowsMask>
         <animatedLateOverlay>
             00000000
