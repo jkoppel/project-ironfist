@@ -223,8 +223,9 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     PushBack(tempDoc, playerElem, "personality", player->personality);
     PushBack(tempDoc, playerElem, "relatedToMaxOrNumHeroes", player->relatedToMaxOrNumHeroes);
     PushBack(tempDoc, playerElem, "hasEvilFaction", player->hasEvilFaction);
-    PushBack(tempDoc, playerElem, "field_40", player->field_40);
-    PushBack(tempDoc, playerElem, "field_41", player->field_41);
+    PushBack(tempDoc, playerElem, "aiNumberPuzzlePieces", player->aiNumberPuzzlePieces);
+    PushBack(tempDoc, playerElem, "aiProbableUltimateArtifactX", player->aiProbableUltimateArtifactX);
+    PushBack(tempDoc, playerElem, "aiProbableUltimateArtifactY", player->aiProbableUltimateArtifactY);
     PushBack(tempDoc, playerElem, "daysLeftWithoutCastle", player->daysLeftWithoutCastle);
     PushBack(tempDoc, playerElem, "numCastles", player->numCastles);
     PushBack(tempDoc, playerElem, "mightBeCurCastleIdx", player->mightBeCurCastleIdx);
@@ -235,8 +236,8 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     WriteArray(tempDoc, playerElem, "heroesForPurchase", player->heroesForPurchase);
     WriteArray(tempDoc, playerElem, "castlesOwned", player->castlesOwned);
     WriteArray(tempDoc, playerElem, "resources", player->resources);
-    WriteArray(tempDoc, playerElem, "field_E7", player->field_E7);
-    WriteArray(tempDoc, playerElem, "_4_2", player->_4_2);
+    WriteArray(tempDoc, playerElem, "_4_2_1", player->_4_2_1);
+    WriteArray(tempDoc, playerElem, "resourcesIncome", player->resourcesIncome);
 
     pRoot->InsertEndChild(playerElem);
   }
@@ -313,10 +314,11 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     boatElem->SetAttribute("idx", b->idx);
     boatElem->SetAttribute("x", b->x);
     boatElem->SetAttribute("y", b->y);
-    boatElem->SetAttribute("field_3", b->field_3);
+    boatElem->SetAttribute("direction", b->direction);
     boatElem->SetAttribute("underlyingObjType", b->underlyingObjType);
     boatElem->SetAttribute("underlyingObjExtra", b->underlyingObjExtra);
-    boatElem->SetAttribute("field_6", b->field_6);
+    boatElem->SetAttribute("heroIdx", b->heroIdx);
+    boatElem->SetAttribute("isEmpty", b->isEmpty);
     boatElem->SetAttribute("owner", b->owner);
     pRoot->InsertEndChild(boatElem);
   }
@@ -387,25 +389,21 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     PushBack(tempDoc, heroElement, "idx", hro->idx);
     PushBack(tempDoc, heroElement, "spellpoints", hro->spellpoints);
     PushBack(tempDoc, heroElement, "ownerIdx", hro->ownerIdx);
-    PushBack(tempDoc, heroElement, "field_4", hro->field_4);
-    PushBack(tempDoc, heroElement, "field_5", hro->field_5);
-    PushBack(tempDoc, heroElement, "field_6", hro->field_6);
-    PushBack(tempDoc, heroElement, "field_7", hro->field_7);
-    PushBack(tempDoc, heroElement, "field_8", hro->field_8);
-    PushBack(tempDoc, heroElement, "field_9", hro->field_9);
+    PushBack(tempDoc, heroElement, "aiLastHeroInteractionTurn", hro->aiLastHeroInteractionTurn);
+    PushBack(tempDoc, heroElement, "aiLastHeroInteractionIdx", hro->aiLastHeroInteractionIdx);
+    PushBack(tempDoc, heroElement, "aiLastTownInteractionTurn", hro->aiLastTownInteractionTurn);
+    PushBack(tempDoc, heroElement, "aiLastTownInteractionIdx", hro->aiLastTownInteractionIdx);
     PushBack(tempDoc, heroElement, "name", hro->name);
     PushBack(tempDoc, heroElement, "experience", hro->experience);
     PushBack(tempDoc, heroElement, "factionID", hro->factionID);
     PushBack(tempDoc, heroElement, "heroID", hro->heroID);
     PushBack(tempDoc, heroElement, "x", hro->x);
     PushBack(tempDoc, heroElement, "y", hro->y);
-    PushBack(tempDoc, heroElement, "field_21", hro->field_21);
-    PushBack(tempDoc, heroElement, "field_23", hro->field_23);
-    PushBack(tempDoc, heroElement, "field_25", hro->field_25);
-    PushBack(tempDoc, heroElement, "field_27", hro->field_27);
-    PushBack(tempDoc, heroElement, "relatedToX", hro->relatedToX);
-    PushBack(tempDoc, heroElement, "relatedToY", hro->relatedToY);
-    PushBack(tempDoc, heroElement, "relatedToFactionID", hro->relatedToFactionID);
+    PushBack(tempDoc, heroElement, "aiTargetX", hro->aiTargetX);
+    PushBack(tempDoc, heroElement, "aiTargetY", hro->aiTargetY);
+    PushBack(tempDoc, heroElement, "aiPatrolX", hro->aiPatrolX);
+    PushBack(tempDoc, heroElement, "aiPatrolY", hro->aiPatrolY);
+    PushBack(tempDoc, heroElement, "patrolDistance", hro->patrolDistance);
     PushBack(tempDoc, heroElement, "directionFacing", hro->directionFacing);
     PushBack(tempDoc, heroElement, "occupiedObjType", hro->occupiedObjType);
     PushBack(tempDoc, heroElement, "occupiedObjVal", hro->occupiedObjVal);
@@ -432,7 +430,7 @@ tinyxml2::XMLError IronfistXML::Save(const char* fileName) {
     PushBack(tempDoc, heroElement, "numSecSkillsKnown", hro->numSecSkillsKnown);
     PushBack(tempDoc, heroElement, "flags", hro->flags);
     PushBack(tempDoc, heroElement, "isCaptain", hro->isCaptain);
-    PushBack(tempDoc, heroElement, "field_E8", hro->field_E8);
+    PushBack(tempDoc, heroElement, "aiParamFV", hro->aiParamFV);
 
     for (int j = 0; j < ELEMENTS_IN(hro->army.creatureTypes); j++) {
       tinyxml2::XMLElement *armyElem = tempDoc->NewElement("army");
@@ -777,8 +775,9 @@ void IronfistXML::ReadPlayerData(tinyxml2::XMLNode* root, int dataIndex) {
     else if(name == "personality") elem->QueryIntText(&pdata->personality);
     else if(name == "relatedToMaxOrNumHeroes") QueryCharText(elem, &pdata->relatedToMaxOrNumHeroes);
     else if(name == "hasEvilFaction") QueryCharText(elem, &pdata->hasEvilFaction);
-    else if(name == "field_40") QueryCharText(elem, &pdata->field_40);
-    else if(name == "field_41") QueryShortText(elem, &pdata->field_41);
+    else if(name == "aiNumberPuzzlePieces") QueryCharText(elem, &pdata->aiNumberPuzzlePieces);
+    else if(name == "aiProbableUltimateArtifactX") QueryCharText(elem, &pdata->aiProbableUltimateArtifactX);
+    else if(name == "aiProbableUltimateArtifactY") QueryCharText(elem, &pdata->aiProbableUltimateArtifactY);
     else if(name == "daysLeftWithoutCastle") QueryCharText(elem, &pdata->daysLeftWithoutCastle);
     else if(name == "numCastles") QueryCharText(elem, &pdata->numCastles);
     else if(name == "mightBeCurCastleIdx") QueryCharText(elem, &pdata->mightBeCurCastleIdx);
@@ -788,8 +787,8 @@ void IronfistXML::ReadPlayerData(tinyxml2::XMLNode* root, int dataIndex) {
     else if(name == "heroesForPurchase") pdata->heroesForPurchase[index] = value;
     else if(name == "castlesOwned") pdata->castlesOwned[index] = value;
     else if(name == "resources") pdata->resources[index] = value;
-    else if(name == "field_E7") pdata->field_E7[index] = value;
-    else if(name == "_4_2") pdata->_4_2[index] = value;
+    else if(name == "resourcesIncome") pdata->resourcesIncome[index] = value;
+    else if(name == "_4_2_1") pdata->_4_2_1[index] = value;
   }
 }
 
@@ -804,25 +803,21 @@ void IronfistXML::ReadHero(tinyxml2::XMLNode* root, int heroIndex) {
     if(name == "idx") QueryCharText(elem, &hro->idx);
     else if(name == "spellpoints") QueryShortText(elem, &hro->spellpoints);
     else if(name == "ownerIdx") QueryCharText(elem, &hro->ownerIdx);
-    else if(name == "field_4") QueryCharText(elem, &hro->field_4);
-    else if(name == "field_5") QueryCharText(elem, &hro->field_5);
-    else if(name == "field_6") QueryCharText(elem, &hro->field_6);
-    else if(name == "field_7") QueryCharText(elem, &hro->field_7);
-    else if(name == "field_8") QueryCharText(elem, &hro->field_8);
-    else if(name == "field_9") QueryCharText(elem, &hro->field_9);
+    else if(name == "aiLastHeroInteractionTurn") QueryShortText(elem, &hro->aiLastHeroInteractionTurn);
+    else if(name == "aiLastHeroInteractionIdx") QueryCharText(elem, &hro->aiLastHeroInteractionIdx);
+    else if(name == "aiLastTownInteractionTurn") QueryShortText(elem, &hro->aiLastTownInteractionTurn);
+    else if(name == "aiLastTownInteractionIdx") QueryCharText(elem, &hro->aiLastTownInteractionIdx);
     else if(name == "name") QueryText(elem, hro->name);
     else if(name == "experience") elem->QueryIntText(&hro->experience);
     else if(name == "factionID") QueryCharText(elem, &hro->factionID);
     else if(name == "heroID") QueryCharText(elem, &hro->heroID);
     else if(name == "x") elem->QueryIntText(&hro->x);
     else if(name == "y") elem->QueryIntText(&hro->y);
-    else if(name == "field_21") QueryShortText(elem, &hro->field_21);
-    else if(name == "field_23") QueryShortText(elem, &hro->field_23);
-    else if(name == "field_25") QueryShortText(elem, &hro->field_25);
-    else if(name == "field_27") QueryShortText(elem, &hro->field_27);
-    else if(name == "relatedToX") QueryCharText(elem, &hro->relatedToX);
-    else if(name == "relatedToY") QueryCharText(elem, &hro->relatedToY);
-    else if(name == "relatedToFactionID") QueryCharText(elem, &hro->relatedToFactionID);
+    else if(name == "aiTargetX") elem->QueryIntText(&hro->aiTargetX);
+    else if(name == "aiTargetY") elem->QueryIntText(&hro->aiTargetY);
+    else if(name == "aiPatrolX") QueryCharText(elem, &hro->aiPatrolX);
+    else if(name == "aiPatrolY") QueryCharText(elem, &hro->aiPatrolY);
+    else if(name == "patrolDistance") QueryCharText(elem, &hro->patrolDistance);
     else if(name == "directionFacing") QueryCharText(elem, &hro->directionFacing);
     else if(name == "occupiedObjType") QueryShortText(elem, &hro->occupiedObjType);
     else if(name == "occupiedObjVal") QueryShortText(elem, &hro->occupiedObjVal);
@@ -848,7 +843,7 @@ void IronfistXML::ReadHero(tinyxml2::XMLNode* root, int heroIndex) {
     else if(name == "wisdomLastOffered") QueryCharText(elem, &hro->wisdomLastOffered);
     else if(name == "flags") elem->QueryIntText(&hro->flags);
     else if(name == "isCaptain") QueryCharText(elem, &hro->isCaptain);
-    else if(name == "field_E8") elem->QueryIntText(&hro->field_E8);
+    else if(name == "aiParamFV") elem->QueryIntText(&hro->aiParamFV);
     else if(name == "army") {
       hro->army.creatureTypes[index] = elem->IntAttribute("type");
       hro->army.quantities[index] = elem->IntAttribute("quantity");
@@ -1006,10 +1001,11 @@ void IronfistXML::ReadRoot(tinyxml2::XMLNode* root) {
       b->idx = elem->IntAttribute("idx");
       b->x = elem->IntAttribute("x");
       b->y = elem->IntAttribute("y");
-      b->field_3 = elem->IntAttribute("field_3");
+      b->direction = elem->IntAttribute("direction");
       b->underlyingObjType = elem->IntAttribute("underlyingObjType");
       b->underlyingObjExtra = elem->IntAttribute("underlyingObjExtra");
-      b->field_6 = elem->IntAttribute("field_6");
+      b->heroIdx = elem->IntAttribute("heroIdx");
+      b->isEmpty = elem->IntAttribute("isEmpty");
       b->owner = elem->IntAttribute("owner");
     }
     else if(name == "script") {

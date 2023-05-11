@@ -1289,9 +1289,9 @@ void game::ProcessOnMapHeroes() {
         hero *randomHero = &this->heroes[mapExtraHero->heroID];
 
         if (!isJail && mapExtraHero->relatedToJailCondition) {
-          this->heroes[mapExtraHero->heroID].relatedToX = x;
-          randomHero->relatedToY = y;
-          randomHero->relatedToFactionID = mapExtraHero->factionID;
+          this->heroes[mapExtraHero->heroID].aiPatrolX = x;
+          randomHero->aiPatrolY = y;
+          randomHero->patrolDistance = mapExtraHero->factionID;
         }
 
         if (mapExtraHero->hasArmy) {
@@ -1330,7 +1330,7 @@ void game::ProcessOnMapHeroes() {
           this->heroHireStatus[mapExtraHero->heroID] = randomHero->ownerIdx;
           this->players[randomHero->ownerIdx].heroesOwned[this->players[randomHero->ownerIdx].numHeroes++] = randomHero->idx;
           if (y > 0 && this->map.tiles[x + ((y - 1) * this->map.width)].objType == (TILE_HAS_EVENT | LOCATION_TOWN)) {
-            --randomHero->relatedToY;
+            --randomHero->aiPatrolY;
             --randomHero->y;
             this->castles[this->GetTownId(x, y - 1)].visitingHeroIdx = randomHero->idx;
           }

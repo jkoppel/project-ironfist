@@ -894,25 +894,22 @@ int army::ValidPath(int hex, int flag) {
 
 #pragma pack(push, 1)
 struct PathfindingInfo {
-  char field_0;
-  char field_1;
-  __int16 field_2;
-  char field_4;
-  int field_5;
+  char x;
+  char y;
+  short distanceFromSourcePoint;  char inPath : 1;  char isActive : 1;  char isDanger : 1;  char outOfFirstDayPath : 1;  char direction : 4;  char xDanger;  char yDanger;  char xFirstDayStop;  char yFirstDayStop;
 };
 #pragma pack(pop)
 
 #pragma pack(push,1)
 class searchArray {
 public:
-	int field_0;
+	int nQueuePoints;
 	int field_4;
 	int field_8;
-	char _1[8];
-	PathfindingInfo mainDataStructure[1024];
-	PathfindingInfo *field_2414;
-	int field_2418;
-	int field_241C[63];
+	int desiredEventX;	int desiredEventY;
+	PathfindingInfo pointQueue[1024];
+	PathfindingInfo *pointMap;
+	char field_2418[256]; // path directions step by step from source to destination
 	searchArray();
   ~searchArray();
 };
@@ -1019,13 +1016,13 @@ int army::WalkTo(int hex) {
     int traveledHexes = 0;
     int initialHex = this->occupiedHex;
     for(int hexIdxb = gpSearchArray->field_8 - 1; hexIdxb >= 0; --hexIdxb) {
-      int dir = *((BYTE *)&gpSearchArray->field_2418 + hexIdxb);
+      int dir = gpSearchArray->field_2418[hexIdxb];
       int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
       if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
         if(gMoveAttack && hexIdxb < 4) { // less than 4 hexes from enemy
           // find last hex
           for(int h = hexIdxb; h >= 0; --h) {
-            dir = *((BYTE *)&gpSearchArray->field_2418 + h);
+            dir = gpSearchArray->field_2418[h];
             destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
             this->occupiedHex = destHex;
           }
@@ -1036,7 +1033,7 @@ int army::WalkTo(int hex) {
         } else if(gpCombatManager->combatGrid[destHex].isBlocked) { // jumping over obstacle
           //finding where to land
           for(int landHex = hexIdxb - 1; landHex >= 0; --landHex) {
-            dir = *((BYTE *)&gpSearchArray->field_2418 + landHex);
+            dir = gpSearchArray->field_2418[landHex];
             this->occupiedHex = destHex;
             destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
             if(!gpCombatManager->combatGrid[destHex].isBlocked) {
@@ -1085,20 +1082,20 @@ int army::AttackTo(int targetHex) {
     result = 0;
   } else if (this->FindPath(this->occupiedHex, targetHex, this->creature.speed, 1, 0)) {
     if (gpSearchArray->field_8 == 1) {
-      this->targetNeighborIdx = LOBYTE(gpSearchArray->field_2418);
+      this->targetNeighborIdx = gpSearchArray->field_2418[0];
       gpCombatManager->TestRaiseDoor();
       this->DoAttack(0);
     } else {
       int traveledHexes = 0;
       int initialHex = this->occupiedHex;
       for (int i = gpSearchArray->field_8 - 1; i; --i) {
-        int dir = *((BYTE *)&gpSearchArray->field_2418 + i);
+        int dir = gpSearchArray->field_2418[i];
         int destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
         if(this->creatureIdx == CREATURE_CYBER_PLASMA_BERSERKER && gIronfistExtra.combat.stack.abilityCounter[this][JUMPER]) {
           if(gMoveAttack && i < 5) { // less than 4 hexes from enemy
             // find last hex
             for(int h = i; h >= 1; --h) {
-              dir = *((BYTE *)&gpSearchArray->field_2418 + h);
+              dir = gpSearchArray->field_2418[h];
               destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
               this->occupiedHex = destHex;
             }
@@ -1122,7 +1119,7 @@ int army::AttackTo(int targetHex) {
         initialHex = this->occupiedHex;
       }
       this->CancelSpellType(0);
-      this->targetNeighborIdx = LOBYTE(gpSearchArray->field_2418);
+      this->targetNeighborIdx = gpSearchArray->field_2418[0];
       gpCombatManager->TestRaiseDoor();
       this->DoAttack(0);
     }
