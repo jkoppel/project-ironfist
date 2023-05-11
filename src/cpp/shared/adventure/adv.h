@@ -17,7 +17,7 @@ extern class fullMap;
 #pragma pack(push, 1)
 
 #define MAX_TOTAL_HEROES 48
-
+#define MAX_HERO_NAME_LENGTH 13
 #define CREATURES_IN_ARMY 5
 
 #define NUM_RESOURCES 7
@@ -74,7 +74,7 @@ public:
   char aiLastHeroInteractionIdx;
   short aiLastTownInteractionTurn;
   char aiLastTownInteractionIdx;
-  char name[MAX_FILENAME_LENGTH];
+  char name[MAX_HERO_NAME_LENGTH];
   char factionID;
   char heroID;
   int x;
