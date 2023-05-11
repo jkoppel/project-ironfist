@@ -4,6 +4,7 @@
 #include "gui/gui.h"
 #include "resource/resources.h"
 
+#include "artifacts.h"
 #include "base.h"
 #include "skills.h"
 
@@ -16,7 +17,7 @@ extern class fullMap;
 #pragma pack(push, 1)
 
 #define MAX_TOTAL_HEROES 48
-
+#define MAX_HERO_NAME_LENGTH 13
 #define CREATURES_IN_ARMY 5
 
 #define NUM_RESOURCES 7
@@ -66,34 +67,30 @@ public:
 
 class hero {
 public:
-  __int16 spellpoints;
+  short spellpoints;
   char idx;
   char ownerIdx;
-  char field_4;
-  char field_5;
-  char field_6;
-  char field_7;
-  char field_8;
-  char field_9;
-  char name[13];
+  short aiLastHeroInteractionTurn;
+  char aiLastHeroInteractionIdx;
+  short aiLastTownInteractionTurn;
+  char aiLastTownInteractionIdx;
+  char name[MAX_HERO_NAME_LENGTH];
   char factionID;
   char heroID;
   int x;
   int y;
-  __int16 field_21;
-  __int16 field_23;
-  __int16 field_25;
-  __int16 field_27;
-  __int8 relatedToX;
-  __int8 relatedToY;
-  __int8 relatedToFactionID;
-  __int8 directionFacing;
-  __int16 occupiedObjType;
-  __int16 occupiedObjVal;
+  int aiTargetX;
+  int aiTargetY;
+  char aiPatrolX;
+  char aiPatrolY;
+  char patrolDistance;
+  char directionFacing;
+  short occupiedObjType;
+  short occupiedObjVal;
   int mobility;
   int remainingMobility;
   int experience;
-  __int16 oldLevel;
+  short oldLevel;
   char primarySkills[NUM_PRIMARY_SKILLS];
   char field_43;
   char tempMoraleBonuses;
@@ -109,8 +106,8 @@ public:
   char randomSeed;
   char wisdomLastOffered;
   armyGroup army;
-  char secondarySkillLevel[14];
-  char skillIndex[14];
+  char secondarySkillLevel[NUM_SECONDARY_SKILLS];
+  char skillIndex[NUM_SECONDARY_SKILLS];
   int numSecSkillsKnown;
 
   /*
@@ -129,12 +126,12 @@ public:
   char _[ORIG_SPELLS - sizeof(char*)];
 
 #define FIELD_AFTER_SPELLS_LEARNED artifacts
-  char artifacts[14];
+  char artifacts[MAX_ARTIFACTS];
   int flags;
   char isCaptain;
-  int field_E8;
+  int aiParamFV;
 #define LAST_SW_HERO_FIELD scrollSpell
-  char scrollSpell[14];
+  char scrollSpell[MAX_ARTIFACTS];
 
   hero();
   ~hero(); //newly added

@@ -1154,7 +1154,7 @@ void advManager::DrawCreaturesAndHeroes(int cellDrawingPhaseFlags, int x, int y,
   if(curTile->objType == (TILE_HAS_EVENT | LOCATION_BOAT)) {
     curHeroColor = -1;
     curHeroFaction = FACTION_MULTIPLE;
-    heroBoatSpriteIdx = this->GetCursorBaseFrame(gpGame->boats[curTile->extraInfo].field_3);
+    heroBoatSpriteIdx = this->GetCursorBaseFrame(gpGame->boats[curTile->extraInfo].direction);
     isDrawingHeroOrBoat = true;
     heroBoatYOffset = -10;
   } else {

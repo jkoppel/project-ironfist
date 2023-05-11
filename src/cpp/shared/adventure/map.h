@@ -254,7 +254,7 @@ public:
   char secondarySkillLevel[MAX_SECONDARY_SKILLS];
   char field_2C;
   char hasName;
-  char name[13];
+  char name[MAX_HERO_NAME_LENGTH];
   char relatedToJailCondition;
   char factionID;
   char hasFaction;
