@@ -2385,6 +2385,10 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
   signed int result;
   int effect;
 
+  if(effectType == EFFECT_FORCE_SHIELD) {
+    gIronfistExtra.combat.stack.forceShieldHP[this] = gMonsterDatabase[this->creatureIdx].hp;
+  }
+
   if (this->effectStrengths[effectType]) {
     if (this->effectStrengths[effectType] < strength)
       this->effectStrengths[effectType] = strength;
@@ -2442,9 +2446,7 @@ signed int army::SetSpellInfluence(int effectType, signed int strength) {
     case EFFECT_SHADOW_MARK:
     case EFFECT_DAZE:
     case EFFECT_BURN:
-      break;
     case EFFECT_FORCE_SHIELD:
-      gIronfistExtra.combat.stack.forceShieldHP[this] = gMonsterDatabase[this->creatureIdx].hp;
       break;
     }
     return this->AddActiveEffect(effectType, strength);
