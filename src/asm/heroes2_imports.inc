@@ -253,6 +253,7 @@ IMPORT_?LowerDoor@combatManager@@QAEXXZ = 1
 IMPORT_?FlyTo@army@@QAEHH@Z = 1
 IMPORT_?BuildTempWalkSeq@@YIXPAUSMonFrameInfo@@HH@Z = 1
 IMPORT_?DamageEnemy@army@@QAEXPAV1@PAH1HH@Z = 1
+IMPORT_?Damage@army@@QAEHJH@Z = 1
 IMPORT_?DecrementSpellRounds@army@@QAEXXZ = 1
 IMPORT_?SetSpellInfluence@army@@QAEHHH@Z = 1
 IMPORT_?CancelIndividualSpell@army@@QAEXH@Z = 1

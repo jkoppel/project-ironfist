@@ -2081,6 +2081,61 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
   gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 }
 
+int army::Damage(long baseDam, int spell)
+{
+  baseDam += this->damage;
+  if (spell != -1) {
+    if (gbRemoteOn)
+      gpCombatManager->ModifyDamageForArtifacts(
+        &baseDam,
+        spell,
+        gpCombatManager->heroes[this->owningSide],
+        gpCombatManager->heroes[gpCombatManager->currentActionSide]);
+    else
+      gpCombatManager->ModifyDamageForArtifacts(
+        &baseDam,
+        spell,
+        gpCombatManager->heroes[gpCombatManager->currentActionSide],
+        gpCombatManager->heroes[this->owningSide]);
+  }
+
+  int forceShieldHP = gIronfistExtra.combat.stack.forceShieldHP[this];
+  if (forceShieldHP > 0) {
+    int afterDmg = forceShieldHP - baseDam;
+    if (afterDmg <= 0) {
+      this->CancelIndividualSpell(EFFECT_FORCE_SHIELD);
+      baseDam = -1 * afterDmg;
+    }
+    else {
+      gIronfistExtra.combat.stack.forceShieldHP[this] -= baseDam;
+      baseDam = 0;
+    }
+  }
+
+  int troopsDead = baseDam / this->creature.hp;
+  this->damage = baseDam % this->creature.hp;
+
+  if (this->creature.creature_flags & MIRROR_IMAGE) {
+    troopsDead = this->quantity;
+    this->damage = 0;
+  }
+  this->damageTakenDuringSomeTimePeriod = 1;
+  if (troopsDead > 0) {
+    this->hasTakenLosses = 1;
+    this->previousQuantity = this->quantity;
+  }
+  if (this->quantity < troopsDead)
+    troopsDead = this->quantity;
+  this->quantity -= troopsDead;
+  if (this->quantity <= 0)
+    this->dead = 1;
+  int tmp = this->facingRight;
+  this->facingRight = gpCombatManager->creatures[gpCombatManager->otherCurrentSideThing][gpCombatManager->someSortOfStackIdx].facingRight ^ 1;
+  this->facingRight = tmp;
+  this->CancelSpellType(CREATURE_TOOK_DAMAGE_CODE);
+  return troopsDead;
+}
+
 void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int isRanged, int isRetaliation) {
   if (!targ)
     return;
@@ -2210,17 +2265,6 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   if(baseDam < 0)
     *creaturesKilled = targ->Damage(0, SPELL_NONE);
   else {
-    int forceShieldHP = gIronfistExtra.combat.stack.forceShieldHP[targ];
-    if(forceShieldHP > 0) {
-      int afterDmg = forceShieldHP - baseDam;
-      if(afterDmg <= 0) {
-        targ->CancelIndividualSpell(EFFECT_FORCE_SHIELD);
-        baseDam = -1 * afterDmg;
-      } else {
-        gIronfistExtra.combat.stack.forceShieldHP[targ] -= baseDam;
-        baseDam = 0;
-      } 
-    }
     *creaturesKilled = targ->Damage(baseDam, SPELL_NONE);
   }
 }
