@@ -157,7 +157,7 @@ float army::SpellCastWorkChance(int spell) {
   if (spell == SPELL_SHADOW_MARK && this->dead)
     chance = 0.0;
   
-  if((spell == SPELL_MIRROR_IMAGE || spell == SPELL_ANTI_MAGIC) && this->creature.creature_flags & ATTR_MIRROR_IMAGE)
+  if((spell == SPELL_MIRROR_IMAGE || spell == SPELL_ANTI_MAGIC) && this->creature.creature_flags & MIRROR_IMAGE)
     chance = 0.0;
 
   if(chance > 0.0 && spell == SPELL_DISPEL_MAGIC || spell == SPELL_MASS_DISPEL) {
@@ -172,7 +172,7 @@ float army::SpellCastWorkChance(int spell) {
       chance = 0.0;
   }
   
-  bool isUndead = this->creature.creature_flags & ATTR_UNDEAD;
+  bool isUndead = this->creature.creature_flags & UNDEAD;
   if(chance > 0.0 && this->effectStrengths[EFFECT_ANTI_MAGIC] || this->creature.creature_flags & CREATURE_FLAGS::DEAD
     && spell != SPELL_RESURRECT
     && spell != SPELL_RESURRECT_TRUE
@@ -869,7 +869,7 @@ void combatManager::CastMassSpell(int spell, signed int spellpower) {
         for(int i = 0; ; ++i) {
           if(this->numCreatures[side] <= i)
             break;
-          if(HIBYTE(this->creatures[side][i].creature.creature_flags) & ATTR_UNDEAD
+          if(this->creatures[side][i].creature.creature_flags & UNDEAD
             && this->creatures[side][i].SpellCastWorks(spell))
             stackAffected[side][i] = 1;
         }
@@ -893,7 +893,7 @@ void combatManager::CastMassSpell(int spell, signed int spellpower) {
         for(int i = 0; ; ++i) {
           if(this->numCreatures[side] <= i)
             break;
-          if(!(HIBYTE(this->creatures[side][i].creature.creature_flags) & ATTR_UNDEAD)
+          if(!(this->creatures[side][i].creature.creature_flags & UNDEAD)
             && this->creatures[side][i].SpellCastWorks(spell))
             stackAffected[side][i] = 1;
         }

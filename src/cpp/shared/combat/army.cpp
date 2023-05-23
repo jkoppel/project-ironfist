@@ -2127,7 +2127,7 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   }
   
   damagePerUnit *= gfBattleStat[attackDiff + 20];
-  if (this->creatureIdx == CREATURE_CRUSADER && HIBYTE(targ->creature.creature_flags) & ATTR_UNDEAD
+  if (this->creatureIdx == CREATURE_CRUSADER && targ->creature.creature_flags & UNDEAD
     || this->creatureIdx == CREATURE_EARTH_ELEMENTAL && targ->creatureIdx == CREATURE_AIR_ELEMENTAL
     || this->creatureIdx == CREATURE_AIR_ELEMENTAL && targ->creatureIdx == CREATURE_EARTH_ELEMENTAL
     || this->creatureIdx == CREATURE_WATER_ELEMENTAL && targ->creatureIdx == CREATURE_FIRE_ELEMENTAL
@@ -2196,7 +2196,7 @@ void army::DamageEnemy(army *targ, int *damageDone, int *creaturesKilled, int is
   }
   if (baseDam <= 0)
     baseDam = 1;
-  if (HIBYTE(targ->creature.creature_flags) & ATTR_MIRROR_IMAGE)
+  if (targ->creature.creature_flags & MIRROR_IMAGE)
     baseDam = -1;
   if(!isRanged && !isRetaliation) {
     if(CreatureHasAttribute(targ->creatureIdx, ASTRAL_DODGE) && gIronfistExtra.combat.stack.abilityCounter[targ][ASTRAL_DODGE]) {
@@ -2607,13 +2607,13 @@ void army::DrawToBuffer(int centX, int standingBotY, int a4) {
   unsigned char *paletteSubstitution = nullptr;
   if(this->effectStrengths[EFFECT_PETRIFY])
     paletteSubstitution = gColorTableGray;
-  else if(HIBYTE(this->creature.creature_flags) & ATTR_BLOODLUST_RED)
+  else if(this->creature.creature_flags & CREATURE_RED)
     paletteSubstitution = gColorTableRed;
-  else if(HIBYTE(this->creature.creature_flags) & ATTR_BROWN)
+  else if(this->creature.creature_flags & CREATURE_BROWN)
     paletteSubstitution = gColorTableDarkBrown;
-  else if(HIBYTE(this->creature.creature_flags) & ATTR_PETRIFY_GRAY)
+  else if(this->creature.creature_flags & CREATURE_PETRIFIED)
     paletteSubstitution = gColorTableGray;
-  else if(HIBYTE(this->creature.creature_flags) & ATTR_MIRROR_IMAGE)
+  else if(this->creature.creature_flags & MIRROR_IMAGE)
     paletteSubstitution = gColorTableLighten;
 
   if(!a4)
