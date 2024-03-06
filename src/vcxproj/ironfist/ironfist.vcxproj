@@ -115,6 +115,7 @@
     <ClCompile Include="..\..\cpp\shared\combat\animation.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\army.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat.cpp" />
+    <ClCompile Include="..\..\cpp\shared\combat\combat_ai.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\combat_spells.cpp" />
     <ClCompile Include="..\..\cpp\shared\combat\creatures.cpp" />
     <ClCompile Include="..\..\cpp\shared\compat.cpp" />

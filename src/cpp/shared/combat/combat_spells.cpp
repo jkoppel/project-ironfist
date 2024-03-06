@@ -1828,3 +1828,4 @@ int combatManager::ViewSpells(int unused) {
     return 1;
   }
 }
+

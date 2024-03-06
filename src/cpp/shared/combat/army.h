@@ -140,6 +140,7 @@ public:
   int GetPowBaseY();
   int RightX();
   int LeftX();
+  signed int OtherArmyAdjacent(int side, int idx);
 private:
   void RevertChargingMoveAnimation();
   void SetChargingMoveAnimation(CHARGING_DIRECTION dir);
