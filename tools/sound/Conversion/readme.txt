@@ -1,0 +1,2 @@
+Windows batch script that uses ffmpeg to convert any sound file supported to game's higher quality 16bit unsigned 44100 stereo format
+Drag'n'drop all the files onto the batch file and it will place converted files into a "converted" folder
