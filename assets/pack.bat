@@ -8,6 +8,7 @@ move /y agg\*FRM.bin ironfist
 copy /y agg\*.bin ironfist
 copy /y agg\*.bmp ironfist
 copy /y agg\*.82M ironfist
+copy /y agg\*.64 ironfist
 ..\tools\dist\agg\H2AggPack_nodialog.exe ..\build\ironfist.agg ironfist
 RD /S /Q ironfist
 popd
