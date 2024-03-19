@@ -276,7 +276,7 @@ void army::ChargingDamage(std::vector<int> affectedHexes) {
     if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
       if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE]) {
         int dodgeAnimLen = 7;
-        gpSoundManager->MemorySample(primaryTarget->combatSounds[5]);
+        gpSoundManager->MemorySample(primaryTarget->combatSounds[CREATURE_SOUND_EXT1]);
         primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
         for (int p = 0; p < dodgeAnimLen; p++) {
           primaryTarget->frameInfo.animationFrameToImgIdx[ANIMATION_TYPE_WINCE][p] = 34 + p;
@@ -426,7 +426,7 @@ void army::DoAttack(int isRetaliation) {
     }
     if (secondHexTarget)
       this->mightBeAttackAnimIdx += 2;
-    gpSoundManager->MemorySample(this->combatSounds[1]);
+    gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_ATTALK]);
 
     int damDone;
     this->DamageEnemy(primaryTarget, &damDone, (int *)&creaturesKilled, 0, isRetaliation);
@@ -493,7 +493,7 @@ void army::DoAttack(int isRetaliation) {
 
     if(primaryTarget->creatureIdx == CREATURE_CYBER_SHADOW_ASSASSIN) { // astral dodge animations
       if(gIronfistExtra.combat.stack.abilityNowAnimating[primaryTarget][ASTRAL_DODGE]) {
-        gpSoundManager->MemorySample(primaryTarget->combatSounds[5]);
+        gpSoundManager->MemorySample(primaryTarget->combatSounds[CREATURE_SOUND_EXT1]);
         int dodgeAnimLen = 7;
         primaryTarget->frameInfo.animationLengths[ANIMATION_TYPE_WINCE] = dodgeAnimLen;
         for (int p = 0; p < dodgeAnimLen; p++) {
@@ -660,7 +660,7 @@ void army::DoHydraAttack(int isRetaliation) {
   gpCombatManager->DrawFrame(0, 1, 0, 1, 75, 1, 1);
   this->mightBeIsAttacking = 1;
   this->mightBeAttackAnimIdx = 20;
-  gpSoundManager->MemorySample(this->combatSounds[1]);
+  gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_ATTALK]);
 
   if(totalDamage > 0)
     DoAttackBattleMessage(this, nullptr, totalKilled, totalDamage);
@@ -740,7 +740,7 @@ void army::Walk(signed int dir, int last, int notFirst) {
   this->animationFrame = 0;
   this->animationType = ANIMATION_TYPE_WALKING;
   if (!gbNoShowCombat)
-    gpSoundManager->MemorySample(this->combatSounds[0]);
+    gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_WALK]);
   if (!notFirst) {
     gpCombatManager->combatGrid[this->occupiedHex].unitOwner = -1;
     gpCombatManager->DrawFrame(0, 0, 0, 0, 75, 1, 1);
@@ -1028,7 +1028,7 @@ int army::WalkTo(int hex) {
             destHex = this->GetAdjacentCellIndex(this->occupiedHex, dir);
             this->occupiedHex = destHex;
           }
-          gpSoundManager->MemorySample(this->combatSounds[5]);
+          gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_EXT1]);
           this->ArcJump(initialHex, destHex);
 		      gIronfistExtra.combat.stack.abilityNowAnimating[this][JUMPER] = true;
 		      this->CancelSpellType(0);
@@ -1042,7 +1042,7 @@ int army::WalkTo(int hex) {
             if(!gpCombatManager->combatGrid[destHex].isBlocked) {
               traveledHexes += hexIdxb - landHex;
               hexIdxb = landHex;
-              gpSoundManager->MemorySample(this->combatSounds[5]);
+              gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_EXT1]);
               this->ArcJump(initialHex, destHex);
               break;
             }
@@ -1256,11 +1256,11 @@ int army::FlyTo(int hexIdx) {
           if (this->animationFrame % this->frameInfo.animationLengths[ANIMATION_TYPE_WALKING] == 1) {
             if (this->creatureIdx != CREATURE_VAMPIRE && this->creatureIdx != CREATURE_VAMPIRE_LORD || i) {
               if (this->creatureIdx != CREATURE_VAMPIRE && this->creatureIdx != CREATURE_VAMPIRE_LORD || numFrames - 1 != i)
-                gpSoundManager->MemorySample(this->combatSounds[0]);
+                gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_WALK]);
               else
-                gpSoundManager->MemorySample(this->combatSounds[6]);
+                gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_EXT2]);
             } else {
-              gpSoundManager->MemorySample(this->combatSounds[5]);
+              gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_EXT1]);
               DelayMilli(100);
             }
           }
@@ -1283,7 +1283,7 @@ int army::FlyTo(int hexIdx) {
             v6 = giMaxExtentY;
           }
           if(i == 0 && this->animationFrame == 0 && teleporter && !closeMove) {
-            gpSoundManager->MemorySample(this->combatSounds[5]);
+            gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_EXT1]);
           }
           giMinExtentY = 640;
           giMinExtentX = 640;
@@ -1622,7 +1622,7 @@ void army::SpecialAttack() {
   gpCombatManager->DrawFrame(1, 0, 0, 0, 75, 1, 1);
 
   this->CheckLuck();
-  gpSoundManager->MemorySample(this->combatSounds[3]);
+  gpSoundManager->MemorySample(this->combatSounds[CREATURE_SOUND_SHOT]);
 
   SpecialAttackGraphics(this, target);
 
@@ -1659,7 +1659,7 @@ void army::SpecialAttack() {
     animIdx = 20;
     a4 = gpCombatManager->combatGrid[possibleTarget].centerX;
     a5 = gpCombatManager->combatGrid[possibleTarget].occupyingCreatureBottomY - 17;
-    gpSoundManager->MemorySample(combatSounds[5]);
+    gpSoundManager->MemorySample(combatSounds[CREATURE_SOUND_EXT1]);
   } else if (CreatureHasAttribute(this->creatureIdx, PLASMA_BLAST)) {
 
     int cyberBehemothAttackMask[] = {
@@ -1703,7 +1703,7 @@ void army::SpecialAttack() {
     animIdx = 32;
     a4 = gpCombatManager->combatGrid[target->occupiedHex].centerX;
     a5 = gpCombatManager->combatGrid[target->occupiedHex].occupyingCreatureBottomY - 17;
-    //gpSoundManager->MemorySample(combatSounds[5]);
+    //gpSoundManager->MemorySample(combatSounds[CREATURE_SOUND_EXT1]);
   } else {
     this->DamageEnemy(target, &damageDone, &creaturesKilled, 1, 0);
   }
@@ -1747,45 +1747,43 @@ void army::LoadResources() {
 
     std::string shortName = this->creature.short_name;
     std::string sndFormat = ".82M";
-    if(this->creature.faction == FACTION_CYBORG)
+    if(this->creature.faction == FACTION_CYBORG) // uses higher quality 16bit unsigned 44100 stereo sounds
       sndFormat = ".64";
-    this->combatSounds[0] = gpResourceManager->GetSample(shortName + "move" + sndFormat);
-    this->combatSounds[1] = gpResourceManager->GetSample(shortName + "attk" + sndFormat);
-    this->combatSounds[2] = gpResourceManager->GetSample(shortName + "wnce" + sndFormat);
+    this->combatSounds[CREATURE_SOUND_WALK] = gpResourceManager->GetSample(shortName + "move" + sndFormat);
+    this->combatSounds[CREATURE_SOUND_ATTALK] = gpResourceManager->GetSample(shortName + "attk" + sndFormat);
+    this->combatSounds[CREATURE_SOUND_WINCE] = gpResourceManager->GetSample(shortName + "wnce" + sndFormat);
     if(this->creature.creature_flags & SHOOTER) {
-      if(shortName == "cbhm")
-        this->combatSounds[3] = gpResourceManager->GetSample(shortName + "shot" + sndFormat);
-      else
-        this->combatSounds[3] = gpResourceManager->GetSample(shortName + "shot" + sndFormat);
-    } else
-      this->combatSounds[3] = 0;
-    this->combatSounds[4] = gpResourceManager->GetSample(shortName + "kill" + sndFormat);
+        this->combatSounds[CREATURE_SOUND_SHOT] = gpResourceManager->GetSample(shortName + "shot" + sndFormat);
+    } else {
+      this->combatSounds[CREATURE_SOUND_SHOT] = 0;
+    }
+    this->combatSounds[CREATURE_SOUND_KILL] = gpResourceManager->GetSample(shortName + "kill" + sndFormat);
     
     switch (creatureID) {
       case CREATURE_VAMPIRE: case CREATURE_VAMPIRE_LORD:
       {
-        this->combatSounds[5] = gpResourceManager->GetSample(shortName + "ext1" + sndFormat);
-        this->combatSounds[6] = gpResourceManager->GetSample(shortName + "ext2" + sndFormat);
+        this->combatSounds[CREATURE_SOUND_EXT1] = gpResourceManager->GetSample(shortName + "ext1" + sndFormat);
+        this->combatSounds[CREATURE_SOUND_EXT2] = gpResourceManager->GetSample(shortName + "ext2" + sndFormat);
         break;
       }
       case CREATURE_LICH: case CREATURE_POWER_LICH:
       {
-        this->combatSounds[5] = gpResourceManager->GetSample(shortName + "expl" + sndFormat);
+        this->combatSounds[CREATURE_SOUND_EXT1] = gpResourceManager->GetSample(shortName + "expl" + sndFormat);
         break;
       }
       case CREATURE_CYBER_PLASMA_BERSERKER:
       {
-        this->combatSounds[5] = gpResourceManager->GetSample(shortName + "jump" + sndFormat);
+        this->combatSounds[CREATURE_SOUND_EXT1] = gpResourceManager->GetSample(shortName + "jump" + sndFormat);
         break;
       }
       case CREATURE_CYBER_SHADOW_ASSASSIN:
       {
-        this->combatSounds[5] = gpResourceManager->GetSample(shortName + "dodg" + sndFormat);
+        this->combatSounds[CREATURE_SOUND_EXT1] = gpResourceManager->GetSample(shortName + "dodg" + sndFormat);
         break;
       }
       case CREATURE_CYBER_INDIGO_PANTHER:
       {
-        this->combatSounds[5] = gpResourceManager->GetSample(shortName + "tele" + sndFormat);
+        this->combatSounds[CREATURE_SOUND_EXT1] = gpResourceManager->GetSample(shortName + "tele" + sndFormat);
       }
     }
 
@@ -1997,9 +1995,9 @@ void army::PowEffect(int animIdx, int a3, int a4, int a5) {
             }
           } else {
             if (!gbNoShowCombat && creature->field_3 == ANIMATION_TYPE_WINCE)
-              gpSoundManager->MemorySample(creature->combatSounds[2]);
+              gpSoundManager->MemorySample(creature->combatSounds[CREATURE_SOUND_WINCE]);
             if (!gbNoShowCombat && creature->field_3 == ANIMATION_TYPE_DYING)
-              gpSoundManager->MemorySample(creature->combatSounds[4]);
+              gpSoundManager->MemorySample(creature->combatSounds[CREATURE_SOUND_KILL]);
             creature->animationType = creature->field_3;
             creature->animationFrame = 0;
           }

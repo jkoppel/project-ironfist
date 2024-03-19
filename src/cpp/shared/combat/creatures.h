@@ -137,6 +137,16 @@ enum CREATURE_EVENT_CODE {
 	CREATURE_TOOK_DAMAGE_CODE = 2,
 };
 
+enum CREATURE_SOUND {
+  CREATURE_SOUND_WALK = 0,
+  CREATURE_SOUND_ATTALK = 1,
+  CREATURE_SOUND_WINCE = 2,
+  CREATURE_SOUND_SHOT = 3,
+  CREATURE_SOUND_KILL = 4,
+  CREATURE_SOUND_EXT1 = 5, // vampire, lich explosion, jump, dodge, teleport
+  CREATURE_SOUND_EXT2 = 6  // vampire
+};
+
 #define STRIKE_AND_RETURN "strike-and-return"
 #define PLASMA_BLAST "plasma-blast"
 #define TELEPORTER "teleporter"
