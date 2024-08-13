@@ -292,7 +292,7 @@ void __fastcall PlayerDead(int playerNo); // idb
 void __fastcall CheckEndGame(int a1, int a2);
 void __cdecl QuickViewWait();
 void __cdecl InitVars();
-heroWindow *__stdcall game::ShowMoraleInfo(hero *hro, int a2); // idb
+heroWindow *__stdcall game::ShowMoraleInfo(hero *hro, NormalDialogType a2);
 heroWindow *__stdcall game::ShowLuckInfo(int a1, int a2);
 void __cdecl ClearMapExtra();
 _DWORD __fastcall GetMonType(signed int a1, _DWORD a2);
@@ -333,7 +333,7 @@ signed int __cdecl CheckMem();
 int __fastcall GetManaCost(int spell, hero *hro);
 void __fastcall SetWinText(heroWindow *window, int screenIdx);
 void __cdecl CheckShingleUpdate();
-heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10);
+heroWindow *__fastcall NormalDialog(char *msg, NormalDialogType a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10);
 void __thiscall UpdateNormalDialog(void *this);
 signed int __thiscall combatManager::Main(combatManager *this, tag_message *evt);
 bool __thiscall combatManager::ValidHexToStandOn(combatManager *this, signed int a2);
@@ -614,17 +614,17 @@ mapCellExtra *__thiscall fullMap::GetNewCellExtraObject(fullMap *this, int col, 
 void __thiscall fullMap::Write(fullMap *this, int fd);
 BOOL __thiscall fullMap::Read(fullMap *this, UINT fd, int isNewGame); // idb
 void __thiscall fullMap::ChangeTilesetIndex(fullMap *this, mapCell *cell, int x, int y, int a5, int a6, int a7, int a8);
-int __thiscall ExpCampaign::ExpCampaign(int this);
+ExpCampaign *__thiscall ExpCampaign::ExpCampaign(ExpCampaign *this);
 // int __thiscall sub_470420(int x);
-void *__thiscall ExpCampaign::ResetMapChoices(int this);
-void *__thiscall ExpCampaign::ResetMapsPlayed(int this);
-void *__thiscall ExpCampaign::ResetAwards(int this);
-void *__thiscall ExpCampaign::ResetBonusChoices(int this);
+void *__thiscall ExpCampaign::ResetMapChoices(ExpCampaign *this);
+void *__thiscall ExpCampaign::ResetMapsPlayed(ExpCampaign *this);
+void *__thiscall ExpCampaign::ResetAwards(ExpCampaign *this);
+void *__thiscall ExpCampaign::ResetBonusChoices(ExpCampaign *this);
 int __cdecl _ismbbprint(unsigned int);
 int __cdecl _ismbbpunct(unsigned int);
 char __thiscall ExpCampaign::HasAward(void *this, int a2);
 int __cdecl _finite(double);
-void *__thiscall ExpCampaign::InitNewCampaign(int this, int a2);
+void *__thiscall ExpCampaign::InitNewCampaign(ExpCampaign *this, int a2);
 void __thiscall ExpCampaign::InitMap(int this);
 void __thiscall ExpCampaign::ShowInfo(int this, int a2, int a3);
 void __thiscall ExpCampaign::UpdateInfo(void *this, int a2);
@@ -772,7 +772,7 @@ int __cdecl KBTickCount();
 // void __cdecl InitVideo();
 void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, int locY);
 void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int col, int row);
-void __thiscall advManager::HeroSwap(void *this, int a2, int a3);
+void __thiscall advManager::HeroSwap(advManager *this, int a2, int a3);
 signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, hero *hero);
 char __fastcall StrEqNoCase(int *a1, int *a2);
 void __thiscall advManager::PasswordEvent(advManager *this, mapCell *tile, hero *hero);
@@ -782,7 +782,7 @@ BOOL __stdcall advManager::ExpansionRecruitEvent(int a1, int a2, int a3);
 void __thiscall advManager::JailEvent(void *this, int a2, int a3, int a4, int a5);
 void __thiscall advManager::TownEvent(int this, int a2, __int64 a3);
 void __thiscall advManager::EventSound(advManager *this, int, int, SAMPLE2 *);
-void __stdcall advManager::EventWindow(signed int eventID, int a2, const char *msg, int a4, int a5, int resource2Type, int resource2Amt, int a8);
+void __stdcall advManager::EventWindow(signed int eventID, int a2, const char *msg, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr);
 signed int __fastcall GiveArtifact(hero *hero, ARTIFACT a2, int a3, char scrollSpell); // idb
 int __thiscall advManager::GiveRandomArtifact(void *ecx0, hero *hro);
 int __stdcall advManager::GiveExperience(hero *hro, int xp, int a3); // idb
@@ -856,7 +856,7 @@ void __thiscall hero::CheckAnduranPieces(hero *this, int a2);
 void __fastcall advManager::ViewWorld(advManager *this, int edx0, int a2, int a3, int a4);
 void __cdecl advManager::VWCleanup();
 void __thiscall advManager::VWInit(void *this, int a2, int a3);
-void __thiscall advManager::VWCompleteDraw(void *this);
+void __thiscall advManager::VWCompleteDraw(advManager *this);
 signed int __thiscall ViewWorldDialogHandler(void *this);
 void __cdecl DDRestoreDisplayMode();
 signed int __cdecl DDQueryNewPalette();
@@ -1076,19 +1076,19 @@ void __thiscall hexcell::DrawOccupant(hexcell *this, int a2, int a3);
 int __thiscall hexcell::DrawTower(hexcell *this, int a2);
 // void __cdecl unknown_libname_23();
 void __thiscall hexcell::DrawObstacle(hexcell *this);
-int __thiscall swapManager::swapManager(int this);
-int __thiscall swapManager::swapManager(tag_message *this);
-int __thiscall swapManager::Reset(int this);
-int __thiscall swapManager::DrawSwapWin(int this);
-int __thiscall swapManager::Open(void *this, int a2);
-int __thiscall swapManager::Close(int this);
-void __thiscall swapManager::DrawSelector(int this);
-signed int __thiscall swapManager::Main(int this, int a2);
-BOOL __thiscall swapManager::ViewMon(int this);
-void __thiscall swapManager::SwapArtifacts(int this);
-void __thiscall swapManager::SwapMons(int this);
-void __thiscall swapManager::Update(void *this);
-heroWindowManager *__thiscall swapManager::SplitMons(int this);
+swapManager *__thiscall swapManager::swapManager(swapManager *this);
+swapManager *__thiscall swapManager::swapManager(swapManager *this, hero *hero1, hero *hero2);
+void __thiscall swapManager::Reset(swapManager *this);
+int __thiscall swapManager::DrawSwapWin(swapManager *this);
+int __thiscall swapManager::Open(swapManager *this, int a2);
+int __thiscall swapManager::Close(swapManager *this);
+void __thiscall swapManager::DrawSelector(swapManager *this);
+signed int __thiscall swapManager::Main(swapManager *this, tag_message *evt); // idb
+BOOL __thiscall swapManager::ViewMon(swapManager *this);
+void __thiscall swapManager::SwapArtifacts(swapManager *this);
+void __thiscall swapManager::SwapMons(swapManager *this);
+void __thiscall swapManager::Update(swapManager *this);
+heroWindowManager *__thiscall swapManager::SplitMons(swapManager *this);
 int __thiscall advManager::StartCursor(int this, signed int a2);
 void __thiscall advManager::StopCursor(advManager *this, int a2);
 void __thiscall advManager::DrawCursor(advManager *this);
@@ -1423,7 +1423,7 @@ int __fastcall IconToBitmapColorTable(icon *a1, bitmap *buf, int a3, int a4, int
 int __fastcall IconToBitmapScale(icon *ikon, bitmap *a2, int a3, int a4, int spriteIdx, signed int a6, int a7, int a8, unsigned int a9, int a10, signed int a11);
 void __fastcall DoRipple(bitmap *bmp1, bitmap *bmp2, int height, int rippleStrengt); // idb
 void __fastcall DoBlur(bitmap *fromBmp, bitmap *toBmp, int height, char a4, char a5, char a6); // idb
-int __fastcall MonoIconToBitmap(icon *a1, bitmap *a2, int x, int y, int idx, char color, signed int a7, int a8, int a9, unsigned int a10, int a11); // idb
+int __fastcall MonoIconToBitmap(icon *a1, bitmap *a2, int x, int y, int idx, char color, signed int a7, int a8, int a9, unsigned int width, int height); // idb
 int __fastcall DimIconToBitmap(icon *a1, int a2, int a3, int a4, int a5, int a6, signed int a7, int a8, int a9, int a10, int a11);
 resource *__thiscall resource::resource(resource *this, RESOURCE_TYPE type, int fileID, __int16 referenceCount, resource *next);
 void __thiscall resource::_resource(void *this);
@@ -11374,8 +11374,8 @@ __int16 word_511C30 = 279; // weak
 __int16 word_511CBC = 359; // weak
 __int16 word_511CE0 = 413; // weak
 heroWindow *overWin = NULL; // idb
-void *textWidgetDynamic = NULL; // idb
-void *iconWidgetDynamic = NULL; // idb
+textWidget **textWidgetDynamic = NULL;
+iconWidget **iconWidgetDynamic = NULL;
 int giOverviewType = 0; // weak
 int giOverviewTop[] = { 0 }; // weak
 widget *OVScrollKnob = NULL; // idb
@@ -14757,7 +14757,7 @@ __int16 __cdecl dpnet_init()
       gbRemoteGameOpen = 1;
       giWaitType = 8;
       sprintf(gText, "Waiting On Guest.\n\n  Press 'CANCEL' to abort.");
-      NormalDialog(gText, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(gText, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( !gbFunctionComplete )
         ShutDown(0);
       giNumHumanPlayers = iLastMsgNumHumanPlayers;
@@ -14766,7 +14766,7 @@ __int16 __cdecl dpnet_init()
         gText,
         "You have %d guest(s) now logged in.  Click 'OK' to move on, or wait for additional guests.",
         iLastMsgNumHumanPlayers - 1);
-      NormalDialog(gText, 5, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(gText, DIALOG_RIGHT_CLICK|DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       gbRemoteGameOpen = 0;
       v1 = iLastMsgNumHumanPlayers;
       memcpy(&v3, &giNetPosToDCOPos, 0x18u);
@@ -14780,7 +14780,7 @@ __int16 __cdecl dpnet_init()
     {
       giWaitType = 10;
       sprintf(gText, "Waiting for other remote player to set up game.");
-      NormalDialog(gText, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(gText, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( !gbFunctionComplete )
         ShutDown(0);
     }
@@ -16605,7 +16605,7 @@ void __thiscall recruitUnit::Close(int this)
   heroWindowManager::RemoveWindow(gpWindowManager, *(heroWindow **)(this + 82));
   operator delete(*(void **)(v1 + 82));
   if ( *(_DWORD *)(v1 + 102) )
-    NormalDialog("There is no room in the garrison for this army.", 1, 177, 100, -1, 0, -1, 0, -1, 0);
+    NormalDialog("There is no room in the garrison for this army.", DIALOG_OKAY, 177, 100, -1, 0, -1, 0, -1, 0);
   heroWindowManager::BroadcastMessage(gpWindowManager, INPUT_GUI_MESSAGE_CODE, 6, 30720, 16392);
   if ( *(_DWORD *)(v1 + 54) == 35 && *(_DWORD *)(v1 + 98) && *(_DWORD *)(v1 + 78) )
   {
@@ -17603,7 +17603,7 @@ LABEL_120:
             {
               NormalDialog(
                 "{Spread Formation}\n\n'Spread' combat formation spreads your armies from the top to the bottom of the battlefield, with at least one empty space between each army.",
-                4,
+                DIALOG_RIGHT_CLICK,
                 -1,
                 -1,
                 -1,
@@ -17625,7 +17625,7 @@ LABEL_120:
             {
               NormalDialog(
                 "{Grouped Formation}\n\n'Grouped' combat formation bunches your army together in the center of your side of the battlefield.",
-                4,
+                DIALOG_RIGHT_CLICK,
                 -1,
                 -1,
                 -1,
@@ -18443,7 +18443,17 @@ signed int __thiscall fileRequester::Main(int this, int a2)
             }
             else
             {
-              NormalDialog("Please make a selection from the list, or press cancel.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog(
+                "Please make a selection from the list, or press cancel.",
+                DIALOG_OKAY,
+                -1,
+                -1,
+                -1,
+                0,
+                -1,
+                0,
+                -1,
+                0);
             }
           }
         }
@@ -18572,7 +18582,7 @@ LABEL_67:
       }
 LABEL_89:
       if ( v19 >= 0 )
-        NormalDialog((&gFileRequestHelp)[4 * v19], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gFileRequestHelp)[4 * v19], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       goto LABEL_167;
     }
     switch ( *(_DWORD *)(a2 + 8) )
@@ -18608,7 +18618,7 @@ LABEL_89:
             sprintf(gText, "No maps exist for %d human player at that size.", iLastMsgNumHumanPlayers);
           else
             sprintf(gText, "No maps exist for %d human players at that size.", iLastMsgNumHumanPlayers);
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
         break;
       case 0xF:
@@ -18739,7 +18749,7 @@ LABEL_167:
                 "The game you have chosen only has slots for %d human(s).  You need one with room for at least %d humans.",
                 i,
                 iLastMsgNumHumanPlayers);
-              NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
               v25 = 0;
             }
             if ( i > iLastMsgNumHumanPlayers )
@@ -18749,7 +18759,7 @@ LABEL_167:
                 "The game you have chosen was being played with %d humans. Is it OK if the computer takes the place of the last %d human(s)?",
                 i,
                 i - iLastMsgNumHumanPlayers);
-              NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
               if ( gpWindowManager->buttonPressedCode != 30725 )
                 v25 = 0;
             }
@@ -19234,13 +19244,13 @@ int __cdecl nbnet_init()
   {
     giWaitType = 4;
     sprintf(gText, "Initializing network.\n\n  Press 'CANCEL' to abort.");
-    NormalDialog(gText, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( !gbFunctionComplete )
       ShutDown(0);
     giWaitType = 1;
     sprintf(gText, "Waiting On Guest.\n\n  Press 'CANCEL' to abort.");
     LogStr("GUON2");
-    NormalDialog(gText, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     LogStr("GUON3");
     if ( !gbFunctionComplete )
       ShutDown(0);
@@ -19250,12 +19260,12 @@ int __cdecl nbnet_init()
   {
     giWaitType = 3;
     sprintf(gText, "Initializing network.\n\n  Press 'CANCEL' to abort.");
-    NormalDialog(gText, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( !gbFunctionComplete )
       ShutDown(0);
     giWaitType = 2;
     sprintf(gText, "Waiting On Host.\n\n  Press 'CANCEL' to abort.");
-    NormalDialog(gText, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( !gbFunctionComplete )
       ShutDown(0);
   }
@@ -19974,7 +19984,7 @@ signed int __thiscall HandleViewGeneral(tag_message *this)
             }
           }
           if ( v7 != -1 )
-            NormalDialog((&cViewGeneralLongHelp)[4 * v7], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog((&cViewGeneralLongHelp)[4 * v7], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
       else if ( this->xCoordOrKeycode == 13 )
@@ -21057,13 +21067,33 @@ LABEL_123:
 LABEL_124:
             v8 = GetBuildingInfo(*(_BYTE *)(*(_DWORD *)(this + 54) + 3), evt->fieldID, 1);
             sprintf(&msg, v8);
-            NormalDialog(&msg, 4, -1, -1, *(_BYTE *)(*(_DWORD *)(this + 54) + 3) + 19, evt->fieldID, -1, 0, -1, 0);
+            NormalDialog(
+              &msg,
+              DIALOG_RIGHT_CLICK,
+              -1,
+              -1,
+              *(_BYTE *)(*(_DWORD *)(this + 54) + 3) + 19,
+              evt->fieldID,
+              -1,
+              0,
+              -1,
+              0);
           }
           else
           {
             v9 = GetBuildingInfo(*(_BYTE *)(*(_DWORD *)(this + 54) + 3), evt->fieldID, 1);
             sprintf(&msg, v9);
-            NormalDialog(&msg, 1, -1, -1, *(_BYTE *)(*(_DWORD *)(this + 54) + 3) + 19, evt->fieldID, -1, 0, -1, 0);
+            NormalDialog(
+              &msg,
+              DIALOG_OKAY,
+              -1,
+              -1,
+              *(_BYTE *)(*(_DWORD *)(this + 54) + 3) + 19,
+              evt->fieldID,
+              -1,
+              0,
+              -1,
+              0);
           }
           goto LABEL_188;
         }
@@ -21178,7 +21208,7 @@ LABEL_124:
             {
               NormalDialog(
                 "You must purchase a spell book to use the mage guild, but you currently have no room for a spell book.  Try giving one of your artifacts to another hero.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -21192,7 +21222,7 @@ LABEL_124:
             {
               NormalDialog(
                 "To cast spells, you must first buy a spell book for 500 gold.  Do you wish to buy one?",
-                2,
+                DIALOG_YES_NO,
                 -1,
                 -1,
                 7,
@@ -21214,7 +21244,7 @@ LABEL_124:
             {
               NormalDialog(
                 "To cast spells, you must first buy a spell book for 500 gold.  Unfortunately, you seem to be a little short of cash at the moment.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 7,
@@ -21265,7 +21295,17 @@ LABEL_124:
             {
               v6 = GetBuildingInfo(*(_BYTE *)(*(_DWORD *)(this + 54) + 3), evt->fieldID, 1);
               sprintf(&msg, v6);
-              NormalDialog(&msg, 1, -1, -1, *(_BYTE *)(*(_DWORD *)(this + 54) + 3) + 19, evt->fieldID, -1, 0, -1, 0);
+              NormalDialog(
+                &msg,
+                DIALOG_OKAY,
+                -1,
+                -1,
+                *(_BYTE *)(*(_DWORD *)(this + 54) + 3) + 19,
+                evt->fieldID,
+                -1,
+                0,
+                -1,
+                0);
             }
             else
             {
@@ -21277,7 +21317,7 @@ LABEL_124:
               goto LABEL_124;
             if ( *(_BYTE *)(*(_DWORD *)(this + 54) + 55) )
             {
-              NormalDialog("This town may not be upgraded to a castle.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog("This town may not be upgraded to a castle.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
             }
             else
             {
@@ -21296,7 +21336,7 @@ LABEL_124:
                    *(_BYTE *)(*(_DWORD *)(this + 54) + 6),
                    *(_BYTE *)(*(_DWORD *)(this + 54) + 7))->objType )
             {
-              NormalDialog("Cannot build another boat.", 1, 208, 40, -1, 0, -1, 0, -1, 0);
+              NormalDialog("Cannot build another boat.", DIALOG_OKAY, 208, 40, -1, 0, -1, 0, -1, 0);
             }
             else
             {
@@ -22402,7 +22442,17 @@ LABEL_22:
     if ( gpTownManager->castle->numSpellsOfLevel[rowTimesFour / 4] > col )
     {
       spell = gpTownManager->castle->mageGuildSpells[rowTimesFour / 4][col];
-      NormalDialog(gSpellDesc[spell], (evt->inputTypeBitmask & 0x200u) < 1 ? 1 : 4, -1, -1, 8, spell, -1, 0, -1, 0);
+      NormalDialog(
+        gSpellDesc[spell],
+        (NormalDialogType)((evt->inputTypeBitmask & 0x200u) < 1 ? 1 : 4),
+        -1,
+        -1,
+        8,
+        spell,
+        -1,
+        0,
+        -1,
+        0);
       result = 1;
     }
     else
@@ -22520,12 +22570,11 @@ bool __thiscall townManager::RecruitHero(townManager *this, int a2, int a3)
     this->heroBeingRecruited->remainingMobility = hero::CalcMobility(this->heroBeingRecruited);
     this->heroBeingRecruited->mobility = this->heroBeingRecruited->remainingMobility;
     this->heroBeingRecruited->occupiedObjType = *(&gpGame->map.tiles[x].objType + 12 * y * gpGame->map.width);
-    this->heroBeingRecruited->occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[x].field_4_1_1_isShadow_1_13_extraInfo
+    this->heroBeingRecruited->occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[x].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                                    + 6 * y * gpGame->map.width) >> 8) >> -5);
     *(&gpGame->map.tiles[x].objType + 12 * y * gpGame->map.width) = -86;
     v6 = &gpGame->map.tiles[y * gpGame->map.width] + x;
-    v6->field_4_1_1_isShadow_1_13_extraInfo = v6->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                          * gpCurPlayer->heroesForPurchase[this->recruitHeroConfirmed];
+    v6->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v6->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * gpCurPlayer->heroesForPurchase[this->recruitHeroConfirmed];
     SendMapChange(3, this->heroBeingRecruited->idx, x, y, -999, 0, 0);
     this->field_14E = 1;
     this->castle->visitingHeroIdx = this->heroBeingRecruited->idx;
@@ -23697,9 +23746,9 @@ signed int __thiscall game::CreateBoat(game *ecx0, unsigned int x, unsigned int 
     boat->owner = giCurPlayer;
     cell = &ecx0->map.tiles[y * ecx0->map.width] + x;
     boat->underlyingObjType = cell->objType;
-    boat->underlyingObjExtra = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+    boat->underlyingObjExtra = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
     cell->objType = 171;
-    cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * boatIdx | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+    cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = 8 * boatIdx | cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
   }
   return boatIdx;
 }
@@ -24346,7 +24395,8 @@ void __thiscall game::GiveTroopsToNeutralTown(game *this, int castleIdx)
   int creatureType; // [sp+24h] [bp-8h]@0
   int creatureQtyAndIdxRandomizer; // [sp+28h] [bp-4h]@4
 
-  if ( (this->castles[castleIdx].x > 0 || this->castles[castleIdx].y > 0) && this->castles[castleIdx].ownerIdx < 0 )
+  if ( ((signed int)this->castles[castleIdx].x > 0 || (signed int)this->castles[castleIdx].y > 0)
+    && this->castles[castleIdx].ownerIdx < 0 )
   {
     creatureQtyAndIdxRandomizer = Random(1, 15);
     if ( giCurTurn / 10 )
@@ -24802,10 +24852,10 @@ LABEL_196:
                                                                                          + 12
                                                                                          * heroLocationY
                                                                                          * this->map.width);// The pointer arithmetic can be replaced by taking the offsets and adding them to the index value within the tiles[] array brackets. The "12" should be removed since that is just to account for the 12-byte size of the mapCell type, which tiles[] is an array of
-      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[heroLocationX].field_4_1_1_isShadow_1_13_extraInfo + 6 * heroLocationY * this->map.width) >> 8) >> -5);// A doubly-bad decompilation error
+      this->heroes[this->players[playerIdxk].heroesOwned[numPlayersb]].occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[heroLocationX].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 6 * heroLocationY * this->map.width) >> 8) >> -5);// A doubly-bad decompilation error
       *(&this->map.tiles[heroLocationX].objType + 12 * heroLocationY * this->map.width) = -86;
       heroCell = &this->map.tiles[heroLocationY * this->map.width] + heroLocationX;
-      heroCell->field_4_1_1_isShadow_1_13_extraInfo = heroCell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * this->players[playerIdxk].heroesOwned[numPlayersb];
+      heroCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = heroCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * this->players[playerIdxk].heroesOwned[numPlayersb];
     }
     if ( this->players[playerIdxk].numHeroes <= 0 )
     {
@@ -24918,11 +24968,11 @@ LABEL_196:
     *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = 0;
     if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * lossConditionArgumentLocY * this->map.width) == 170 )
     {
-      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * lossConditionArgumentLocY * this->map.width) >> 8) >> -5);
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 6 * lossConditionArgumentLocY * this->map.width) >> 8) >> -5);
     }
     else if ( *(&this->map.tiles[lossConditionArgumentLocX].objType + 12 * (lossConditionArgumentLocY - 1) * this->map.width) == 170 )
     {
-      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_1_isShadow_1_13_extraInfo + 6 * (lossConditionArgumentLocY - 1) * this->map.width) >> 8) >> -5);
+      *(_WORD *)&this->mapHeader.lossConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[lossConditionArgumentLocX].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 6 * (lossConditionArgumentLocY - 1) * this->map.width) >> 8) >> -5);
     }
     else
     {
@@ -24936,14 +24986,14 @@ LABEL_196:
     this->mapHeader.winConditionArgumentOrLocX = 0;
     if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * relatedToWinConditionLocY * this->map.width) == 170 )
     {
-      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
+      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                                        + 6
                                                                                        * relatedToWinConditionLocY
                                                                                        * this->map.width) >> 8) >> -5);
     }
     else if ( *(&this->map.tiles[relatedToWinConditionLocX].objType + 12 * (relatedToWinConditionLocY - 1) * this->map.width) == 170 )
     {
-      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_1_isShadow_1_13_extraInfo
+      this->mapHeader.winConditionArgumentOrLocX = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[relatedToWinConditionLocX].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                                        + 6
                                                                                        * (relatedToWinConditionLocY - 1)
                                                                                        * this->map.width) >> 8) >> -5);
@@ -25089,67 +25139,67 @@ int __thiscall game::RandomizeEvents(game *this)
       switch ( cell->objType )
       {
         case TILE_HAS_EVENT|LOCATION_WITCH_HUT:
-          v1 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          v1 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v1) = v1 | 0x60;
-          for ( cell->field_4_1_1_isShadow_1_13_extraInfo = v1;
-                (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 12
-             || (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 6;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(0, 13) )
+          for ( cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v1;
+                (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) == 12
+             || (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) == 6;
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(0, 13) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_BOAT:
           cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
           cell->objectIndex = -1;
-          cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
           cell->objType = 0;
           game::CreateBoat(this, cellXCoord, cellYCoord, 1);
           break;
         case TILE_HAS_EVENT|LOCATION_SPHINX:
-          v51 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          v51 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
           *(_BYTE *)v51 = strlen((char *)v51 + 136) > 1 && (signed int)*((_BYTE *)v51 + 31) >= 1;
           break;
         case TILE_HAS_EVENT|LOCATION_EVENT:
-          this->mapEventIndices[this->numMapEvents] = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-          v50 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          this->mapEventIndices[this->numMapEvents] = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          v50 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
           *((_WORD *)v50 + 19) = cellXCoord;
           *((_WORD *)v50 + 20) = cellYCoord;
           *((_BYTE *)v50 + 37) = 1;
-          cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
           cell->objType = 0;
           cell->objectIndex = -1;
           cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
           ++this->numMapEvents;
           break;
         case TILE_HAS_EVENT|LOCATION_GAZEBO:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v53++ | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = 8 * v53++ | cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           break;
         case TILE_HAS_EVENT|LOCATION_FORT:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v58++ | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = 8 * v58++ | cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           break;
         case TILE_HAS_EVENT|LOCATION_WITCH_DOCTORS_HUT:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * nWithDoctorHut++;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * nWithDoctorHut++;
           break;
         case TILE_HAS_EVENT|LOCATION_MERCENARY_CAMP:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v55++ | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = 8 * v55++ | cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           break;
         case TILE_HAS_EVENT|LOCATION_STANDING_STONES:
           if ( cellXCoord <= 0
             || *(&this->map.tiles[cellYCoord * this->map.width].objType + 4 * (3 * cellXCoord - 3)) != 194 )
-            cell->field_4_1_1_isShadow_1_13_extraInfo = 8 * v71++ | cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = 8 * v71++ | cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           else
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (*(&this->map.tiles[cellYCoord * this->map.width].field_4_1_1_isShadow_1_13_extraInfo + 2 * (3 * cellXCoord - 3)) >> 3);
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (*(&this->map.tiles[cellYCoord * this->map.width].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 2 * (3 * cellXCoord - 3)) >> 3);
           break;
         case TILE_HAS_EVENT|LOCATION_XANADU:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * nXanadu++;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * nXanadu++;
           break;
         case LOCATION_WHIRLPOOL:
           cell->objType |= 0x80u;
           break;
         case TILE_HAS_EVENT|LOCATION_OBELISK:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * nObelisk++;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * nObelisk++;
           break;
         case TILE_HAS_EVENT|LOCATION_FLOTSAM:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(0, 3);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(0, 3);
           break;
         case TILE_HAS_EVENT|LOCATION_SKELETON:
           if ( game::HasObjectTilesetIndex(this, cellXCoord, cellYCoord, 55, 84) )
@@ -25157,13 +25207,13 @@ int __thiscall game::RandomizeEvents(game *this)
             if ( Random(0, 9) <= 2 )
             {
               v3 = game::GetRandomArtifactId(this, 14, 1);
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v3 + 2);
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v3 + 2);
             }
             else
             {
-              v2 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v2 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v2) = v2 | 8;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v2;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v2;
             }
           }
           else
@@ -25178,22 +25228,22 @@ int __thiscall game::RandomizeEvents(game *this)
             if ( l >= 50 )
             {
               v5 = Random(0, 5);
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v5 + 16 * Random(2, 5) + 1);
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v5 + 16 * Random(2, 5) + 1);
             }
             else
             {
               v4 = game::GetRandomArtifactId(this, 12, 1);
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v4 | 0x80);
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v4 | 0x80);
             }
           }
           else
           {
-            cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
           }
           break;
         case TILE_HAS_EVENT|LOCATION_LEAN_TO:
           v6 = Random(0, 5);
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v6 + 16 * Random(1, 4) + 1);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v6 + 16 * Random(1, 4) + 1);
           break;
         case TILE_HAS_EVENT|LOCATION_DAEMON_CAVE:
           switch ( Random(0, 99) % 10 )
@@ -25201,28 +25251,28 @@ int __thiscall game::RandomizeEvents(game *this)
             case 0:
             case 1:
             case 2:
-              v7 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v7 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v7) = v7 | 0x10;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v7;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v7;
               break;
             case 3:
-              v8 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v8 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v8) = v8 | 0x18;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v8;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v8;
               break;
             case 4:
             case 5:
             case 6:
-              v9 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v9 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v9) = v9 | 0x20;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v9;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v9;
               break;
             case 7:
             case 8:
             case 9:
-              v10 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v10 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v10) = v10 | 0x28;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v10;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v10;
               break;
             default:
               continue;
@@ -25239,27 +25289,27 @@ int __thiscall game::RandomizeEvents(game *this)
                 if ( l >= 95 )
                 {
                   v16 = game::GetRandomArtifactId(this, 8, 1);
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v16 | 0x100);
+                  cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v16 | 0x100);
                 }
                 else
                 {
-                  v15 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                  v15 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                   LOBYTE(v15) = v15 | 0x20;
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = v15;
+                  cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v15;
                 }
               }
               else
               {
-                v14 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                v14 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                 LOBYTE(v14) = v14 | 0x18;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = v14;
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v14;
               }
             }
             else
             {
-              v13 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v13 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v13) = v13 | 0x10;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v13;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v13;
             }
           }
           else
@@ -25271,27 +25321,27 @@ int __thiscall game::RandomizeEvents(game *this)
               if ( l >= 90 )
               {
                 v12 = game::GetRandomArtifactId(this, 8, 1);
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v12 | 0x100);
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v12 | 0x100);
               }
               else
               {
-                v11 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                v11 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                 LOBYTE(v11) = v11 | 8;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = v11;
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v11;
               }
             }
             else
             {
-              cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
             }
           }
           break;
         case TILE_HAS_EVENT|LOCATION_CAMPFIRE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | ((unsigned __int16)Random(4, 6) << 7);
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 5) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | ((unsigned __int16)Random(4, 6) << 7);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 5) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
           break;
         case TILE_HAS_EVENT|LOCATION_ANCIENT_LAMP:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 2) + 2);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 2) + 2);
           break;
         case TILE_HAS_EVENT|LOCATION_SHIPWRECK_SURVIVOR:
           l = Random(0, 100);
@@ -25300,18 +25350,18 @@ int __thiscall game::RandomizeEvents(game *this)
             if ( l >= 80 )
             {
               v19 = game::GetRandomArtifactId(this, 2, 1);
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v19;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * v19;
             }
             else
             {
               v18 = game::GetRandomArtifactId(this, 4, 1);
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v18;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * v18;
             }
           }
           else
           {
             v17 = game::GetRandomArtifactId(this, 8, 1);
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * v17;
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * v17;
           }
           break;
         case TILE_HAS_EVENT|LOCATION_GRAVEYARD:
@@ -25322,80 +25372,80 @@ int __thiscall game::RandomizeEvents(game *this)
             case 0:
             case 1:
             case 2:
-              v20 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v20 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v20) = v20 | 0x10;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v20;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v20;
               break;
             case 3:
             case 4:
             case 5:
-              v21 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v21 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v21) = v21 | 0x18;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v21;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v21;
               break;
             case 6:
             case 7:
             case 8:
-              v22 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v22 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v22) = v22 | 0x20;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v22;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v22;
               break;
             case 9:
-              v23 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v23 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v23) = v23 | 0x28;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v23;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v23;
               break;
             default:
               continue;
           }
           continue;
         case TILE_HAS_EVENT|LOCATION_ARCHERS_HOUSE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 25);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 25);
           break;
         case TILE_HAS_EVENT|LOCATION_GOBLIN_HUT:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(15, 40);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(15, 40);
           break;
         case TILE_HAS_EVENT|LOCATION_DWARF_COTTAGE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 20) + 1);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 20) + 1);
           break;
         case TILE_HAS_EVENT|LOCATION_PEASANT_HUT:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 40) + 1);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 40) + 1);
           break;
         case TILE_HAS_EVENT|LOCATION_LOG_CABIN:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(20, 50);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(20, 50);
           break;
         case TILE_HAS_EVENT|LOCATION_WATERWHEEL:
-          v24 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          v24 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v24) = v24 | 8;
-          cell->field_4_1_1_isShadow_1_13_extraInfo = v24;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v24;
           break;
         case TILE_HAS_EVENT|LOCATION_ARTESIAN_SPRING:
-          v25 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          v25 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v25) = v25 | 8;
-          cell->field_4_1_1_isShadow_1_13_extraInfo = v25;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v25;
           break;
         case TILE_HAS_EVENT|LOCATION_MAGIC_GARDEN:
           if ( Random(0, 1) )
           {
-            v26 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v26 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v26) = v26 | 0x38;
-            cell->field_4_1_1_isShadow_1_13_extraInfo = v26;
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v26;
           }
           else
           {
-            v27 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v27 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v27) = v27 | 0x30;
-            cell->field_4_1_1_isShadow_1_13_extraInfo = v27;
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v27;
           }
           break;
         case TILE_HAS_EVENT|LOCATION_TREE_OF_KNOWLEDGE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (v67++ | (unsigned __int16)((unsigned __int16)Random(1, 3) << 6));
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v67++ | (unsigned __int16)((unsigned __int16)Random(1, 3) << 6));
           break;
         case TILE_HAS_EVENT|LOCATION_ARMY_CAMP:
-          if ( !((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+          if ( !((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
           {
             numTroops = game::GetRandomNumTroops(this, cell->objectIndex);
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * numTroops;
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * numTroops;
             if ( cell->objectIndex != CREATURE_GHOST )
             {
               if ( cell->objectIndex != CREATURE_EARTH_ELEMENTAL
@@ -25403,92 +25453,92 @@ int __thiscall game::RandomizeEvents(game *this)
                 && cell->objectIndex != CREATURE_FIRE_ELEMENTAL
                 && cell->objectIndex != CREATURE_WATER_ELEMENTAL
                 && Random(0, 100) < 20 )
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x1000);
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x1000);
             }
           }
           break;
         case TILE_HAS_EVENT|LOCATION_RESOURCE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (cell->objectIndex >> 1);
-          v38 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-          if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 && v38 != 2 )
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (cell->objectIndex >> 1);
+          v38 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 && v38 != 2 )
           {
             if ( v38 == 6 )
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
             else
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(3, 6);
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(3, 6);
           }
           else
           {
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
           }
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_FIRST:
-          for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+          for ( cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 1;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_SECOND_ORDER:
-          for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+          for ( cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 2;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_SHRINE_THIRD_ORDER:
-          for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+          for ( cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 3;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_PYRAMID:
-          for ( cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
-                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+          for ( cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1);
+                gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                           - 1].level != 5;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(0, 64) + 1) )
             ;
           break;
         case TILE_HAS_EVENT|LOCATION_TREE_HOUSE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(15, 25);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(15, 25);
           break;
         case TILE_HAS_EVENT|LOCATION_DWARF_CABIN:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 20);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 20);
           break;
         case TILE_HAS_EVENT|LOCATION_WATCH_TOWER:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(7, 10);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(7, 10);
           break;
         case TILE_HAS_EVENT|LOCATION_RUINS:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(3, 5);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(3, 5);
           break;
         case TILE_HAS_EVENT|LOCATION_TREE_CITY:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(20, 40);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(20, 40);
           break;
         case TILE_HAS_EVENT|LOCATION_HALFLING_HOLE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(20, 40);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(20, 40);
           break;
         case TILE_HAS_EVENT|LOCATION_TROLL_BRIDGE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(4, 6) | 0x100);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(4, 6) | 0x100);
           break;
         case TILE_HAS_EVENT|LOCATION_CITY_OF_DEAD:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(4, 6) | 0x100);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (Random(4, 6) | 0x100);
           break;
         case TILE_HAS_EVENT|LOCATION_DRAGON_CITY:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 0x810;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 0x810;
           break;
         case TILE_HAS_EVENT|LOCATION_CAVE:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 20);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 20);
           break;
         case TILE_HAS_EVENT|LOCATION_EXCAVATION:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 25);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 25);
           break;
         case TILE_HAS_EVENT|LOCATION_DESRT_TENT:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 20);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(10, 20);
           break;
         case TILE_HAS_EVENT|LOCATION_WAGON_CAMP:
           if ( game::HasObjectTilesetIndex(this, cellXCoord, cellYCoord, 41, 129) )
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(30, 50);
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(30, 50);
           else
             cell->objType &= 0x7Fu;
           break;
@@ -25511,20 +25561,20 @@ int __thiscall game::RandomizeEvents(game *this)
                 v48[7] = 56;
                 v48[8] = 45;
                 v48[9] = 46;
-                LOBYTE(v33) = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                LOBYTE(v33) = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                 HIBYTE(v33) = 8;
-                cell->field_4_1_1_isShadow_1_13_extraInfo = v33;
+                cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v33;
                 if ( gArtifactLevel[artId] == 8 )
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x39);
+                  cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x39);
                 }
                 else if ( gArtifactLevel[artId] == 4 )
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 3)]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+                  cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 3)]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
                 }
                 else
                 {
-                  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 5) + 4]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+                  cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (LOWORD(v48[Random(0, 5) + 4]) | (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
                 }
               }
               else
@@ -25532,36 +25582,36 @@ int __thiscall game::RandomizeEvents(game *this)
                 switch ( gArtifactLevel[artId] )
                 {
                   case 8:
-                    v32 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                    v32 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                     LOBYTE(v32) = v32 | 0x18;
-                    cell->field_4_1_1_isShadow_1_13_extraInfo = v32;
+                    cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v32;
                     break;
                   case 4:
-                    cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int16)(16 * Random(0, 5)) | 6);
+                    cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int16)(16 * Random(0, 5)) | 6);
                     break;
                   case 2:
-                    cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int16)(16 * Random(0, 5)) | 7);
+                    cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int16)(16 * Random(0, 5)) | 7);
                     break;
                 }
               }
             }
             else if ( l % 10 == 1 )
             {
-              v29 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v29 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v29) = v29 | 0x20;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v29;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v29;
             }
             else if ( l % 10 == 2 )
             {
-              v30 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v30 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v30) = v30 | 0x28;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v30;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v30;
             }
             else
             {
-              v31 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v31 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v31) = v31 | 8;
-              cell->field_4_1_1_isShadow_1_13_extraInfo = v31;
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v31;
             }
           }
           break;
@@ -25571,11 +25621,11 @@ int __thiscall game::RandomizeEvents(game *this)
           {
             for ( j = cellXCoord - 2; cellXCoord + 2 >= j; ++j )
             {
-              if ( !((unsigned __int8)(*(&this->map.tiles[j].field_4_1_1_isShadow_1_13_extraInfo
+              if ( !((unsigned __int8)(*(&this->map.tiles[j].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                        + 6 * i * this->map.width) >> 8) >> -5) )
               {
                 v34 = &this->map.tiles[i * this->map.width] + j;
-                v34->field_4_1_1_isShadow_1_13_extraInfo = v34->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * townID;
+                v34->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v34->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * townID;
               }
             }
           }
@@ -25603,7 +25653,7 @@ int __thiscall game::RandomizeEvents(game *this)
           break;
         case TILE_HAS_EVENT|LOCATION_LIGHTHOUSE:
           v35 = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
-          v35->field_4_1_1_isShadow_1_13_extraInfo = v35->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * game::GetMineId(this, cellXCoord, cellYCoord);
+          v35->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v35->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * game::GetMineId(this, cellXCoord, cellYCoord);
           break;
         case TILE_HAS_EVENT|LOCATION_ABANDONED_MINE:
           townID = game::GetMineId(this, cellXCoord, cellYCoord);
@@ -25620,18 +25670,18 @@ LABEL_178:
             for ( j = cellXCoord - 2; cellXCoord + 1 >= j; ++j )
             {
               if ( (cellXCoord - 2 != j || cell->objType == 129)
-                && (!((unsigned __int8)(*(&this->map.tiles[j].field_4_1_1_isShadow_1_13_extraInfo
+                && (!((unsigned __int8)(*(&this->map.tiles[j].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                         + 6 * i * this->map.width) >> 8) >> -5)
                  || !((cell->objType & 0x7F ^ *(&this->map.tiles[j].objType + 12 * i * this->map.width)) & 0x7F)) )
               {
                 v36 = &this->map.tiles[i * this->map.width] + j;
-                v36->field_4_1_1_isShadow_1_13_extraInfo = v36->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * townID;
+                v36->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v36->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * townID;
               }
             }
           }
           break;
         case TILE_HAS_EVENT|LOCATION_WINDMILL:
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(1, 5);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(1, 5);
           break;
         case TILE_HAS_EVENT|LOCATION_BARRIER:
           game::RandomizeBarrier(this, cell);
@@ -25655,7 +25705,7 @@ LABEL_178:
     for ( cellXCoord = 0; MAP_WIDTH > cellXCoord; ++cellXCoord )
     {
       cell = &this->map.tiles[cellYCoord * this->map.width] + cellXCoord;
-      if ( cell->objectIndex != 255 && (cell->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1 )
+      if ( cell->objectIndex != 255 && (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 1) & 1 )
       {
         v68 = 1;
         for ( k = cell->extraIdx; k; k = extra->nextIdx )
@@ -25693,7 +25743,7 @@ LABEL_178:
         && !(*(&this->map.tiles[cellXCoord].objType + 12 * (cellYCoord + 1) * this->map.width) & 0x80)
         && !(*(&this->map.tiles[cellXCoord].flags + 12 * (cellYCoord + 1) * this->map.width) & 0x80) )
       {
-        if ( !((cell->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
+        if ( !((cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 1) & 1) )
         {
           v41[v45] = ((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F;
           v42[v45++] = cell->objectIndex;
@@ -25715,7 +25765,7 @@ LABEL_178:
             extra = 0;
         }
         v40 = &this->map.tiles[(cellYCoord + 1) * this->map.width] + cellXCoord;
-        if ( !((v40->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
+        if ( !((v40->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 1) & 1) )
         {
           v46[v44] = ((unsigned __int8)v40->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F;
           v43[v44++] = v40->objectIndex;
@@ -25795,9 +25845,8 @@ void __thiscall game::RandomizeBarrier(game *this, mapCell *cell)
 {
   int v2; // ST10_4@1
 
-  v2 = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
-  cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                            * (v2 | (unsigned __int16)(8 * xPasswordStringsIndex[v2]));
+  v2 = ((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
+  cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v2 | (unsigned __int16)(8 * xPasswordStringsIndex[v2]));
 }
 
 //----- (00420A80) --------------------------------------------------------
@@ -25819,7 +25868,7 @@ int __thiscall game::LoadMap(game *ecx0, char *nam)
   int fd; // [sp+18h] [bp-18h]@1
   char y; // [sp+1Ch] [bp-14h]@5
   int i; // [sp+20h] [bp-10h]@3
-  char x; // [sp+24h] [bp-Ch]@5
+  unsigned __int8 x; // [sp+24h] [bp-Ch]@5
   char alignmentAndCastle; // [sp+28h] [bp-8h]@5
 
   sprintf(gText, "%s%s", ".\\MAPS\\", nam);
@@ -25834,7 +25883,7 @@ int __thiscall game::LoadMap(game *ecx0, char *nam)
     _read(fd, &x, 1u);
     _read(fd, &y, 1u);
     _read(fd, &alignmentAndCastle, 1u);
-    if ( (unsigned __int8)x != 255 )
+    if ( x != 255 )
     {
       ecx0->castles[i].exists = 1;
       ecx0->castles[i].x = x;
@@ -25860,7 +25909,7 @@ int __thiscall game::LoadMap(game *ecx0, char *nam)
       y = -1;
       alignmentAndCastle = -1;
     }
-    if ( (unsigned __int8)x != 255 )
+    if ( x != 255 )
     {
       ecx0->mines[i].guardianType = -1;
       ecx0->mines[i].x = x;
@@ -26074,7 +26123,7 @@ int __thiscall game::ViewSpells(game *this, hero *hris, int a3, int (__fastcall 
   }
   else
   {
-    NormalDialog("No spells to cast.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("No spells to cast.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return *(_DWORD *)&thisa->mapEventIndices[68];
 }
@@ -26256,7 +26305,7 @@ int __thiscall ViewSpellsHandler(tag_message *msg)
                 case 8:
                 case 9:
                   sprintf(gText, off_4F64B0, viewSpellsHero->spellpoints);
-                  NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+                  NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
                   break;
                 case 2:
                   if ( *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60] )
@@ -26330,26 +26379,26 @@ LABEL_50:
              - 100
              + *(_DWORD *)&gpGame->mapEventIndices[2 * *(_DWORD *)&gpGame->mapEventIndices[58] + 60]
              + 1);
-        NormalDialog(gSpellDesc[v2], 4, -1, -1, 8, v2, -1, 0, -1, 0);
+        NormalDialog(gSpellDesc[v2], DIALOG_RIGHT_CLICK, -1, -1, 8, v2, -1, 0, -1, 0);
         break;
       case 2:
-        NormalDialog(cSpellHelp, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(cSpellHelp, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         break;
       case 3:
-        NormalDialog(off_4F6494, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(off_4F6494, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         break;
       case 4:
-        NormalDialog(off_4F6498, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(off_4F6498, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         break;
       case 5:
-        NormalDialog(off_4F649C, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(off_4F649C, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         break;
       case 6:
       case 7:
       case 8:
       case 9:
         sprintf(gText, off_4F64B0, viewSpellsHero->spellpoints);
-        NormalDialog(gText, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gText, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         break;
       default:
         goto LABEL_50;
@@ -26368,7 +26417,7 @@ LABEL_50:
           + 1);
   if ( gpGame->field_660D )
   {
-    NormalDialog(gSpellDesc[spell], 1, -1, -1, 8, spell, -1, 0, -1, 0);
+    NormalDialog(gSpellDesc[spell], DIALOG_OKAY, -1, -1, 8, spell, -1, 0, -1, 0);
     result = 1;
   }
   else if ( GetManaCost(spell, viewSpellsHero) <= viewSpellsHero->spellpoints )
@@ -26382,7 +26431,7 @@ LABEL_50:
     v3 = viewSpellsHero->spellpoints;
     v4 = GetManaCost(spell, viewSpellsHero);
     sprintf(gText, "That spell costs %d mana.  You only have %d mana, so you can't cast the spell.", v4, v3);
-    NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     result = 0;
   }
   return result;
@@ -26816,7 +26865,7 @@ signed int __thiscall ViewArmyHandler(void *this)
   {
     if ( v2 == 30723 )
     {
-      NormalDialog("Are you sure you want to dismiss this army?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Are you sure you want to dismiss this army?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
         gbDismissArmy = 1;
@@ -26876,12 +26925,12 @@ LABEL_30:
   }
   if ( gpCurPlayer->resources[6] < img1Arg || img2Type != -1 && gpCurPlayer->resources[img2Type] < img2Arg )
   {
-    NormalDialog("You can't afford to upgrade your troops!", 1, -1, -1, 6, img1Arg, img2Type, img2Arg, -1, 0);
+    NormalDialog("You can't afford to upgrade your troops!", DIALOG_OKAY, -1, -1, 6, img1Arg, img2Type, img2Arg, -1, 0);
     goto LABEL_30;
   }
   NormalDialog(
     "Your troops can be upgraded, but it will cost you dearly.  Do you wish to upgrade them?",
-    2,
+    DIALOG_YES_NO,
     -1,
     -1,
     6,
@@ -27619,7 +27668,7 @@ void __thiscall game::PerWeek(game *this)
       switch ( *(&this->map.tiles[l].objType + 12 * k * this->map.width) )
       {
         case TILE_HAS_EVENT|LOCATION_ARMY_CAMP:
-          v32 = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          v32 = (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                     + 6 * k * this->map.width) >> 8) >> -5);
           v31 = v32 / 7;
           if ( Random(1, 7) <= v32 % 7 )
@@ -27628,189 +27677,188 @@ void __thiscall game::PerWeek(game *this)
           if ( v33 > 4000 )
             LOWORD(v33) = 4000;
           v2 = &this->map.tiles[k * this->map.width] + l;
-          v2->field_4_1_1_isShadow_1_13_extraInfo = v2->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                                * (v33 | ((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 8) >> -5) & 0);
+          v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (v33 | ((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 8) >> -5) & 0);
           break;
         case TILE_HAS_EVENT|LOCATION_ARTESIAN_SPRING:
           v3 = &this->map.tiles[k * this->map.width] + l;
-          v4 = v3->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          v4 = v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v4) = v4 | 8;
-          v3->field_4_1_1_isShadow_1_13_extraInfo = v4;
+          v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v4;
           break;
         case TILE_HAS_EVENT|LOCATION_WATERWHEEL:
-          if ( (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                    + 6 * k * this->map.width) >> 8) >> -5) != 255 )
           {
             v5 = &this->map.tiles[k * this->map.width] + l;
-            v6 = v5->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v6 = v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v6) = v6 | 0x10;
-            v5->field_4_1_1_isShadow_1_13_extraInfo = v6;
+            v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v6;
           }
           break;
         case TILE_HAS_EVENT|LOCATION_MAGIC_GARDEN:
           v29 = &this->map.tiles[k * this->map.width] + l;
           if ( Random(0, 1) )
           {
-            v7 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v7 = v29->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v7) = v7 | 0x38;
-            v29->field_4_1_1_isShadow_1_13_extraInfo = v7;
+            v29->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v7;
           }
           else
           {
-            v8 = v29->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v8 = v29->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v8) = v8 | 0x30;
-            v29->field_4_1_1_isShadow_1_13_extraInfo = v8;
+            v29->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v8;
           }
           break;
         case TILE_HAS_EVENT|LOCATION_WINDMILL:
           v9 = &this->map.tiles[k * this->map.width] + l;
-          v9->field_4_1_1_isShadow_1_13_extraInfo = v9->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(1, 5);
+          v9->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v9->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(1, 5);
           break;
         case TILE_HAS_EVENT|LOCATION_ARCHERS_HOUSE:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v10 = &this->map.tiles[k * this->map.width] + l;
-            v10->field_4_1_1_isShadow_1_13_extraInfo = v10->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v10->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(2, 4));
+            v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(2, 4));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_GOBLIN_HUT:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v11 = &this->map.tiles[k * this->map.width] + l;
-            v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v11->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
+            v11->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v11->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v11->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_DWARF_COTTAGE:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v12 = &this->map.tiles[k * this->map.width] + l;
-            v12->field_4_1_1_isShadow_1_13_extraInfo = v12->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v12->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(2, 4));
+            v12->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v12->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v12->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(2, 4));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_PEASANT_HUT:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v13 = &this->map.tiles[k * this->map.width] + l;
-            v13->field_4_1_1_isShadow_1_13_extraInfo = v13->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v13->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(5, 10));
+            v13->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v13->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v13->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(5, 10));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_LOG_CABIN:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v14 = &this->map.tiles[k * this->map.width] + l;
-            v14->field_4_1_1_isShadow_1_13_extraInfo = v14->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v14->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(5, 10));
+            v14->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v14->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v14->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(5, 10));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_DESRT_TENT:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v15 = &this->map.tiles[k * this->map.width] + l;
-            v15->field_4_1_1_isShadow_1_13_extraInfo = v15->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v15->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
+            v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_WAGON_CAMP:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v16 = &this->map.tiles[k * this->map.width] + l;
-            v16->field_4_1_1_isShadow_1_13_extraInfo = v16->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
+            v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_TREE_HOUSE:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v17 = &this->map.tiles[k * this->map.width] + l;
-            v17->field_4_1_1_isShadow_1_13_extraInfo = v17->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v17->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(4, 8));
+            v17->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v17->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v17->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(4, 8));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_DWARF_CABIN:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v18 = &this->map.tiles[k * this->map.width] + l;
-            v18->field_4_1_1_isShadow_1_13_extraInfo = v18->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
+            v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_WATCH_TOWER:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v19 = &this->map.tiles[k * this->map.width] + l;
-            v19->field_4_1_1_isShadow_1_13_extraInfo = v19->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v19->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 4));
+            v19->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v19->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v19->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 4));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_RUINS:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v20 = &this->map.tiles[k * this->map.width] + l;
-            v20->field_4_1_1_isShadow_1_13_extraInfo = v20->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v20->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
+            v20->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v20->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v20->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_TREE_CITY:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8161 )
           {
             v21 = &this->map.tiles[k * this->map.width] + l;
-            v21->field_4_1_1_isShadow_1_13_extraInfo = v21->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v21->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(10, 20));
+            v21->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v21->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v21->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(10, 20));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_CAVE:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v22 = &this->map.tiles[k * this->map.width] + l;
-            v22->field_4_1_1_isShadow_1_13_extraInfo = v22->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
+            v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(3, 6));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_EXCAVATION:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v23 = &this->map.tiles[k * this->map.width] + l;
-            v23->field_4_1_1_isShadow_1_13_extraInfo = v23->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v23->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(4, 8));
+            v23->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v23->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v23->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(4, 8));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_HALFLING_HOLE:
-          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 8171 )
           {
             v24 = &this->map.tiles[k * this->map.width] + l;
-            v24->field_4_1_1_isShadow_1_13_extraInfo = v24->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v24->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(5, 10));
+            v24->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v24->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v24->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(5, 10));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_TROLL_BRIDGE:
-          if ( !((*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 3) & 0x80)
-            && (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( !((*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 3) & 0x80)
+            && (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 220 )
           {
             v25 = &this->map.tiles[k * this->map.width] + l;
-            v25->field_4_1_1_isShadow_1_13_extraInfo = v25->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v25->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
+            v25->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v25->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v25->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_CITY_OF_DEAD:
-          if ( !((*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 3) & 0x80)
-            && (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( !((*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 3) & 0x80)
+            && (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 220 )
           {
             v26 = &this->map.tiles[k * this->map.width] + l;
-            v26->field_4_1_1_isShadow_1_13_extraInfo = v26->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v26->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
+            v26->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v26->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v26->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + (unsigned __int16)Random(1, 3));
           }
           break;
         case TILE_HAS_EVENT|LOCATION_DRAGON_CITY:
-          if ( !((*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 3) & 0x80)
-            && (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_1_isShadow_1_13_extraInfo
+          if ( !((*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo + 6 * k * this->map.width) >> 3) & 0x80)
+            && (signed int)(unsigned __int8)((unsigned __int8)(*(&this->map.tiles[l].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                + 6 * k * this->map.width) >> 8) >> -5) < 220 )
           {
             v27 = &this->map.tiles[k * this->map.width] + l;
-            v27->field_4_1_1_isShadow_1_13_extraInfo = v27->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v27->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + 1);
+            v27->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v27->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v27->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) + 1);
           }
           break;
         case TILE_HAS_EVENT|LOCATION_EXPANSION_DWELLING:
@@ -27961,11 +28009,11 @@ unsigned __int16 __stdcall game::WeeklyGenericSite(mapCell *a1)
 {
   unsigned __int16 result; // ax@1
 
-  result = ((unsigned __int8)(a1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F;
-  if ( (((unsigned __int8)(a1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F) == 4 )
+  result = ((unsigned __int8)(a1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F;
+  if ( (((unsigned __int8)(a1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F) == 4 )
   {
-    result = 8 * (((unsigned __int8)(a1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F) | a1->field_4_1_1_isShadow_1_13_extraInfo & 7;
-    a1->field_4_1_1_isShadow_1_13_extraInfo = result;
+    result = 8 * (((unsigned __int8)(a1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F) | a1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
+    a1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = result;
   }
   return result;
 }
@@ -28035,9 +28083,9 @@ void __thiscall game::PerMonth(game *this)
         v5 = advManager::GetCell(gpAdvManager, col, row);
         if ( !v5->objType )
         {
-          if ( !((v5->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
+          if ( !((v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 1) & 1) )
           {
-            if ( !(v5->field_4_1_1_isShadow_1_13_extraInfo & 1) )
+            if ( !(v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 1) )
             {
               if ( giGroundToTerrain[v5->groundIndex] )
               {
@@ -28047,9 +28095,9 @@ void __thiscall game::PerMonth(game *this)
                   v5->bitfield_1_hasObject_1_isRoad_6_objTileset = v5->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 0x30;
                   v5->objectIndex = giMonthTypeExtra;
                   v1 = game::GetRandomNumTroops(this, giMonthTypeExtra);
-                  v5->field_4_1_1_isShadow_1_13_extraInfo = v5->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * (game::GetRandomNumTroops(this, giMonthTypeExtra) + v1);
+                  v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * (game::GetRandomNumTroops(this, giMonthTypeExtra) + v1);
                   if ( Random(0, 100) < 20 )
-                    v5->field_4_1_1_isShadow_1_13_extraInfo = v5->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v5->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x1000);
+                    v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(v5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) | 0x1000);
                 }
               }
             }
@@ -28150,7 +28198,7 @@ int __thiscall game::RandomizeTown(game *this, int argX, int argY, int mightBeUs
 
   thisa = this;
   townID = game::GetTownId(this, argX, argY);
-  probablyRandomTown = (TownExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(*(&thisa->map.tiles[argX].field_4_1_1_isShadow_1_13_extraInfo
+  probablyRandomTown = (TownExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(*(&thisa->map.tiles[argX].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                                    + 6 * argY * thisa->map.width) >> 8) >> -5)];
   if ( probablyRandomTown->color == -1 )
     faction = Random(0, 5);                     // Constant here (faction bounds need to be generalized)
@@ -28320,7 +28368,7 @@ mapCell *__thiscall game::RandomizeMine(game *this, int coordX, int coordY)
             + 12 * relatedToXCoord) & 0x7Fu) > 0x30 )
       {
         v4 = &thisa->map.tiles[coordX + relatedToXCoord] + (coordY - relatedToYCoord) * thisa->map.width;
-        v4->field_4_1_1_isShadow_1_13_extraInfo = v4->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * mineID;
+        v4->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v4->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * mineID;
         *(&thisa->map.tiles[(coordY - relatedToYCoord) * thisa->map.width].objType + 12 * coordX + 12 * relatedToXCoord) = relatedToMineType;
       }
     }
@@ -28586,7 +28634,7 @@ int __thiscall game::ProcessRandomObjects(game *this)
         case TILE_HAS_EVENT|LOCATION_WINDMILL|LOCATION_SKELETON:
           giUltimateArtifactBaseX = cellXCoord;
           giUltimateArtifactBaseY = cellYCoord;
-          giUltimateArtifactRadius = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          giUltimateArtifactRadius = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
           cell->objType = 0;
           cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
           cell->objectIndex = -1;
@@ -28682,13 +28730,13 @@ LABEL_18:
           if ( randomResource && randomResource != 2 )// RESOURCE_ORE
           {
             if ( randomResource == 6 )          // RESOURCE_GOLD
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(5, 10);
             else
-              cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(3, 7);
+              cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(3, 7);
           }
           else
           {
-            cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * Random(8, 16);
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * Random(8, 16);
           }
           break;
         case TILE_HAS_EVENT|LOCATION_RANDOM_ARTIFACT:
@@ -29085,7 +29133,7 @@ void __stdcall game::WaitForPlayer(char *a1, int a2)
       advManager::UpdateScreen(gpAdvManager, 0, 1);
       game::ShowHeroesLogo();
       gbAllBlack = 0;
-      NormalDialog(a1, 1, -1, -1, 9, gpGame->players[a2].color, -1, 0, -1, 0);
+      NormalDialog(a1, DIALOG_OKAY, -1, -1, 9, gpGame->players[a2].color, -1, 0, -1, 0);
       soundManager::SwitchAmbientMusic((soundManager *)gpSoundManager, -1);
     }
   }
@@ -29235,8 +29283,8 @@ int __thiscall game::ProcessMapExtra(game *this)
       if ( objType == 163 || objType >= 176 && objType <= 177 )
       {
         townID = game::GetTownId(this, townXCoord, townYCoord);
-        this->castles[townID].extraIdx = (unsigned __int8)((unsigned __int8)(townCell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
-        townCell->field_4_1_1_isShadow_1_13_extraInfo = 8 * townID | townCell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+        this->castles[townID].extraIdx = (unsigned __int8)((unsigned __int8)(townCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        townCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = 8 * townID | townCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
       }
     }
   }
@@ -29541,7 +29589,7 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
         if ( (loc->objType & 0x7F) == 55 || loc->objType == 251 )
         {
           isJail = (loc->objType & 0x7F) == LOCATION_JAIL;
-          someSortOfMapExtraIdx = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          someSortOfMapExtraIdx = (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
           mapExtraHero = (heroMapExtra *)ppMapExtra[someSortOfMapExtraIdx];
           if ( !i )                             // 1st iteration
           {
@@ -29650,13 +29698,13 @@ void *__thiscall game::ProcessOnMapHeroes(game *this)
             }
             if ( isJail )
             {
-              loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * mapExtraHero->heroID;
+              loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * mapExtraHero->heroID;
             }
             else
             {
               loc->bitfield_1_hasObject_1_isRoad_6_objTileset &= 3u;
               loc->objectIndex = -1;
-              loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+              loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
               loc->objType = 0;
             }
             if ( mapExtraHero->hasSecondarySkills )// field_1B changed to couldBeHasSecondarySkills
@@ -29754,18 +29802,18 @@ void __thiscall game::CheckHeroConsistency(game *this)
       v2 = advManager::GetCell(gpAdvManager, col, row);
       if ( v2->objType == 170 )
       {
-        if ( (signed int)(unsigned __int8)((unsigned __int8)(v2->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >= 54 )
+        if ( (signed int)(unsigned __int8)((unsigned __int8)(v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >= 54 )
         {
           v2->objType = 0;
         }
         else
         {
-          v14 = &thisa->heroes[(unsigned __int8)((unsigned __int8)(v2->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
-          if ( thisa->heroes[(unsigned __int8)((unsigned __int8)(v2->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].x != col
-            || thisa->heroes[(unsigned __int8)((unsigned __int8)(v2->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].y != row )
+          v14 = &thisa->heroes[(unsigned __int8)((unsigned __int8)(v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          if ( thisa->heroes[(unsigned __int8)((unsigned __int8)(v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].x != col
+            || thisa->heroes[(unsigned __int8)((unsigned __int8)(v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].y != row )
           {
             v2->objType = 0;
-            v2->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+            v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
           }
           if ( v14->ownerIdx < 0 || v14->ownerIdx >= 6 )
           {
@@ -29774,7 +29822,7 @@ void __thiscall game::CheckHeroConsistency(game *this)
             if ( v14->x != col || v14->y != row )
             {
               v2->objType = 0;
-              v2->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+              v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
             }
             else
             {
@@ -30027,7 +30075,7 @@ signed int __stdcall game::ReceiveSaveGame(size_t a1, int a2, int a3, int a4)
     CheckDoMain(0, 1);
     if ( KBTickCount() > v11 + 90000 )
     {
-      NormalDialog("Error receiving data.  Keep trying?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Error receiving data.  Keep trying?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( gpWindowManager->buttonPressedCode == 30725 )
         v11 = KBTickCount();
       else
@@ -30134,7 +30182,7 @@ void __thiscall game::DoNewTurn(game *this)
         sprintf(gText, off_4F6544, cPlayerNames[giCurPlayer]);
       else
         sprintf(gText, cNewTurn, cPlayerNames[giCurPlayer], gpCurPlayer->daysLeftWithoutCastle);
-      NormalDialog(gText, 1, -1, -1, 9, gpGame->players[(char)giCurPlayer].color, -1, 0, -1, 0);
+      NormalDialog(gText, DIALOG_OKAY, -1, -1, 9, gpGame->players[(char)giCurPlayer].color, -1, 0, -1, 0);
     }
     if ( gpCurPlayer->numHeroes <= 0 )
     {
@@ -30192,7 +30240,7 @@ void __thiscall game::DoNewTurn(game *this)
         }
         soundManager::PlayAmbientMusic(gpSoundManager, track, 0, -1);
         mouseManager::SetPointer(gpMouseManager, 0);
-        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         soundManager::SwitchAmbientMusic(
           (soundManager *)gpSoundManager,
           (unsigned __int8)giTerrainToMusicTrack[gpAdvManager->currentTerrain]);
@@ -30347,8 +30395,8 @@ __int16 __stdcall game::RestoreCell(int a1, int a, int a2, __int16 a3, int a4, i
   if ( a <= 0 || a2 != 163 || advManager::GetCell(gpAdvManager, a1, a - 1)->objType == 35 )
   {
     v8->objType = a2;
-    LOWORD(v6) = 8 * a3 | v8->field_4_1_1_isShadow_1_13_extraInfo & 7;
-    v8->field_4_1_1_isShadow_1_13_extraInfo = v6;
+    LOWORD(v6) = 8 * a3 | v8->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
+    v8->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v6;
   }
   else
   {
@@ -30942,7 +30990,7 @@ game *__thiscall game::CheckForTimeEvent(game *this)
       if ( img2Type >= 0 && img2Type <= 6 && img2Arg < 0 )
         img2Arg -= 100000;
       if ( gbThisNetHumanPlayer[giCurPlayer] )
-        NormalDialog((char *)v11 + 49, 1, -1, -1, img1Type, img1Arg, img2Type, img2Arg, -1, 0);
+        NormalDialog((char *)v11 + 49, DIALOG_OKAY, -1, -1, img1Type, img1Arg, img2Type, img2Arg, -1, 0);
     }
   }
   return result;
@@ -31106,12 +31154,12 @@ int __thiscall game::CountShrines(game *this, int a2)
         v7 = 0;
         if ( cell->objType == 163 )
         {
-          v7 = &gpGame->castles[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          v7 = &gpGame->castles[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         }
         else if ( cell->objType == 170
-  && gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163 )
+  && gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163 )
         {
-          v7 = &gpGame->castles[gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
+          v7 = &gpGame->castles[gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
         }
         if ( v7 && v7->ownerIdx == a2 && v7->buildingsBuiltFlags & BUILDING_TAVERN_BUILT )
         {
@@ -31411,7 +31459,7 @@ void __fastcall SetupCDRom()
     if ( giTCPHostStatus )
       NormalDialog(
         "Unable to access CD-ROM Drive.  Without a CD-ROM drive and a Heroes 2 Expansion CD-ROM you will only be able to play as the guest in a multi-player game.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -31430,7 +31478,7 @@ void __fastcall SetupCDRom()
     if ( giTCPHostStatus )
       NormalDialog(
         "The Heroes 2 Expansion CD-ROM is not in the drive.  Without a Heroes 2 Expansion CD-ROM you will only be able to play as the guest in a multi-player game.  If you have the CD, then exit the program, put the CD in, and try again.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -31821,7 +31869,7 @@ LABEL_48:
               {
                 LogStr("DWM 5");
                 giWaitType = 0;
-                NormalDialog("Waiting to receive game data.", 6, -1, -1, -1, 0, -1, 0, -1, 0);
+                NormalDialog("Waiting to receive game data.", DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
                 if ( !gbFunctionComplete )
                   ShutDown(0);
                 game::LoadGame(gpGame, (char *)&gConfig + 327, 0, 1);
@@ -32319,7 +32367,7 @@ signed int __thiscall InitMenuHandler(tag_message *msg)
           break;
       }
       if ( buttonType >= 0 )
-        NormalDialog(gEventText[buttonType + 116], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gEventText[buttonType + 116], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
     }
   }
   else
@@ -32984,21 +33032,21 @@ LABEL_9:
       switch ( v6 )
       {
         case 10:
-          NormalDialog(cLuckInfo, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(cLuckInfo, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 11:
-          NormalDialog(off_4F6428, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(off_4F6428, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 12:
-          NormalDialog(cMoraleInfo, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(cMoraleInfo, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 13:
-          NormalDialog(off_4F68A0, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(off_4F68A0, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 14:
           NormalDialog(
             "{Experience}\n\nExperience allows your heroes to go up levels, increasing their primary and secondary skills.",
-            4,
+            DIALOG_RIGHT_CLICK,
             -1,
             -1,
             -1,
@@ -33012,21 +33060,21 @@ LABEL_9:
           if ( v5 == 86 )
           {
             sprintf(gText, gArtifactDesc[86], gSpellNames[xTheSpell]);
-            NormalDialog(gText, 4, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           }
           else
           {
-            NormalDialog(gArtifactDesc[v5], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gArtifactDesc[v5], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           }
           break;
         case 8:
-          NormalDialog(gSpellDesc[v5], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gSpellDesc[v5], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 17:
-          NormalDialog((&cSecSkillDesc[3 * (v5 / 3)])[4 * (v5 % 3)], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog((&cSecSkillDesc[3 * (v5 / 3)])[4 * (v5 % 3)], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 25:
-          NormalDialog(gStatDesc[v5], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gStatDesc[v5], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 0:
         case 1:
@@ -33037,7 +33085,7 @@ LABEL_9:
         case 6:
           NormalDialog(
             "{Resources}\n\nThere are seven resources in Heroes 2, used to build and improves castles, purchase troops and recruit heroes.  Gold is the most common, required for virtually everything.  Wood and ore are used for most buildings.  Gems, Mercury, Sulfur and Crystal are rare magical resources used for the most powerful creatures and buildings.",
-            4,
+            DIALOG_RIGHT_CLICK,
             -1,
             -1,
             -1,
@@ -33192,7 +33240,7 @@ void __fastcall CheckEndGame(int a1, int a2)
                 gText,
                 "%s, you have lost your last town.  If you do not conquer another town in the next week, you will be eliminated.",
                 cPlayerNames[playerNo]);
-              NormalDialog(gText, 1, -1, -1, 9, gpGame->players[(char)playerNo].color, -1, 0, -1, 0);
+              NormalDialog(gText, DIALOG_OKAY, -1, -1, 9, gpGame->players[(char)playerNo].color, -1, 0, -1, 0);
             }
             player->daysLeftWithoutCastle = 7;
           }
@@ -33217,7 +33265,7 @@ void __fastcall CheckEndGame(int a1, int a2)
                 "%s's heroes have abandoned him, and he is banished from this land.",
                 cPlayerNames[playerNo]);
             }
-            NormalDialog(gText, 1, -1, -1, 9, gpGame->players[(char)playerNo].color, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, 9, gpGame->players[(char)playerNo].color, -1, 0, -1, 0);
           }
         }
         else
@@ -33227,12 +33275,12 @@ void __fastcall CheckEndGame(int a1, int a2)
           {
             v27 = 1;
             sprintf(gText, "You have been eliminated from the game!!!");
-            NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           }
           else
           {
             sprintf(gText, "%s has been vanquished!", cPlayerNames[playerNo]);
-            NormalDialog(gText, 1, -1, -1, 9, gpGame->players[(char)playerNo].color, -1, -1, -1, 5000);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, 9, gpGame->players[(char)playerNo].color, -1, -1, -1, 5000);
           }
         }
       }
@@ -33310,7 +33358,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           sprintf(gText, "The enemy is beaten.  Your side has triumphed!");
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33336,7 +33384,7 @@ void __fastcall CheckEndGame(int a1, int a2)
               sprintf(gText, "You captured %s!  You are victorious.", v23->name);
             else
               sprintf(gText, "The enemy has captured %s!  They are triumphant.", v23->name);
-            NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           }
         }
       }
@@ -33355,7 +33403,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           sprintf(gText, "%s has fallen!  All is lost.", v22->name);
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33391,7 +33439,7 @@ void __fastcall CheckEndGame(int a1, int a2)
                 gText,
                 "The enemy has built up over %d gold in his treasury.  You must bow done in defeat before his wealth and power.",
                 goldAmt);
-            NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           }
         }
       }
@@ -33407,7 +33455,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           sprintf(gText, "You have captured the enemy hero %s!  Your quest is complete.", v19->name);
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33422,7 +33470,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           sprintf(gText, "You have lost the hero %s.  Your quest is over.", v18->name);
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33435,7 +33483,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           sprintf(gText, "You have failed to complete your quest in time.  All is lost.");
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33485,7 +33533,7 @@ void __fastcall CheckEndGame(int a1, int a2)
             sprintf(gText, "You have found the %s.  Your quest is complete.", &v15);
           else
             sprintf(gText, "The enemy has found the %s.  Your quest is a failure.", &v15);
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33504,7 +33552,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           sprintf(gText, "All the dwarf towns have fallen.  This is a disastrous defeat!  You have lost.");
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33521,7 +33569,7 @@ void __fastcall CheckEndGame(int a1, int a2)
             {
               v27 = 1;
               sprintf(gText, "Dragon city has fallen!  You are now the Master of the Dragons.");
-              NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
             }
           }
         }
@@ -33544,7 +33592,7 @@ void __fastcall CheckEndGame(int a1, int a2)
         {
           v27 = 1;
           sprintf(gText, "Roland has been captured!  All is lost.");
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
     }
@@ -33565,7 +33613,7 @@ void __fastcall CheckEndGame(int a1, int a2)
           {
             v27 = 1;
             sprintf(gText, "The enemy is beaten.  Your side has triumphed!");
-            NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           }
         }
       }
@@ -33759,7 +33807,7 @@ void __cdecl InitVars()
 // 524C43: using guessed type char byte_524C43;
 
 //----- (00434D70) --------------------------------------------------------
-heroWindow *__stdcall game::ShowMoraleInfo(hero *hro, int a2)
+heroWindow *__stdcall game::ShowMoraleInfo(hero *hro, NormalDialogType a2)
 {
   town *v2; // eax@1
   town *v3; // eax@3
@@ -33933,7 +33981,7 @@ heroWindow *__stdcall game::ShowLuckInfo(int a1, int a2)
   v4 = strlen(gText);
   if ( v4 == v7 )
     strcat(gText, off_4F6448);
-  return NormalDialog(gText, a2, -1, -1, -1, 0, -1, 0, -1, 0);
+  return NormalDialog(gText, (NormalDialogType)a2, -1, -1, -1, 0, -1, 0, -1, 0);
 }
 
 //----- (004356E0) --------------------------------------------------------
@@ -34875,7 +34923,7 @@ signed int __fastcall HandleAppSpecificMenuCommands(signed int a1, int a2)
       strcpy(gText, "Are you sure you want to load a new game?  (Your current game will be lost)");
 LABEL_7:
       if ( gpAdvManager->ready != 1
-        || (NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0), gpWindowManager->buttonPressedCode == 30725) )
+        || (NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0), gpWindowManager->buttonPressedCode == 30725) )
         giMenuCommand = v3;
       goto LABEL_100;
     case 40139:
@@ -35587,13 +35635,13 @@ heroWindow *__fastcall ReceiveHostReportsPlayerExit(int a1, int a2, int a3, int 
       {
         RemoteCleanup();
         sprintf(gText, "You have been eliminated from the game!!!");
-        result = NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        result = NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         gbGameOver = 1;
         giEndSequence = 0;
         return result;
       }
       sprintf(gText, "%s has been vanquished!", (char *)&gsNetPlayerInfo + 34 * (char)a3 + 4);
-      NormalDialog(gText, 1, -1, -1, 9, gpGame->players[SBYTE1(a3)].color, -1, -1, -1, 5000);
+      NormalDialog(gText, DIALOG_OKAY, -1, -1, 9, gpGame->players[SBYTE1(a3)].color, -1, -1, -1, 5000);
     }
     else if ( BYTE2(a4) )
     {
@@ -35621,7 +35669,7 @@ heroWindow *__fastcall ReceiveHostReportsPlayerExit(int a1, int a2, int a3, int 
         "%s left the game, and the %s decided to terminate the entire game.  The game has been saved as 'PLYREXIT'.  Do you wish to play on alone with the computer taking over for all human players?",
         (char *)&gsNetPlayerInfo + 34 * (char)a3 + 4,
         (char *)&gsNetPlayerInfo + 34 * v5 + 4);
-      NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
         DropDownToOnePlayer();
@@ -35659,7 +35707,7 @@ heroWindow *__fastcall ReceiveHostReportsPlayerExit(int a1, int a2, int a3, int 
   if ( BYTE2(a3) )
     result = (heroWindow *)ComputeAdvNetControl();
   if ( v7 )
-    result = NormalDialog(&msg, 1, -1, -1, -1, -1, -1, -1, -1, 5000);
+    result = NormalDialog(&msg, DIALOG_OKAY, -1, -1, -1, -1, -1, -1, -1, 5000);
   return result;
 }
 // 4EF268: using guessed type int gbGameOver;
@@ -35692,7 +35740,7 @@ void __stdcall ReceiveRemotePlayerExit(int a1, int a2)
     else
     {
       sprintf(gText, "%s has been vanquished!", (char *)&gsNetPlayerInfo + 34 * (char)a1 + 4);
-      v2 = NormalDialog(gText, 1, -1, -1, 9, gpGame->players[SBYTE1(a1)].color, -1, -1, -1, 5000);
+      v2 = NormalDialog(gText, DIALOG_OKAY, -1, -1, 9, gpGame->players[SBYTE1(a1)].color, -1, -1, -1, 5000);
       BYTE2(a2) = 1;
     }
   }
@@ -35710,7 +35758,7 @@ void __stdcall ReceiveRemotePlayerExit(int a1, int a2)
         "%s is exiting the game.  The current game has been saved as 'PLYREXIT'.  Do you wish to continue playing with a computer player filling in for %s?",
         (char *)&gsNetPlayerInfo + 34 * (char)a1 + 4,
         (char *)&gsNetPlayerInfo + 34 * (char)a1 + 4);
-    NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
     v2 = gpWindowManager;
     BYTE2(a2) = gpWindowManager->buttonPressedCode == 30725;
   }
@@ -35756,7 +35804,7 @@ void __stdcall ReceiveRemotePlayerExit(int a1, int a2)
   {
     sprintf(gText, "You have been eliminated from the game!!!");
     RemoteCleanup();
-    NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     gbGameOver = 1;
     giEndSequence = 0;
   }
@@ -35845,7 +35893,7 @@ void __cdecl CheckShingleUpdate()
 // 50DFC4: using guessed type int iShingleAnimFrame;
 
 //----- (00439960) --------------------------------------------------------
-heroWindow *__fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10)
+heroWindow *__fastcall NormalDialog(char *msg, NormalDialogType a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10)
 {
   __int16 v10; // ST54_2@186
   __int16 v11; // ST50_2@195
@@ -37217,7 +37265,7 @@ signed int __thiscall combatManager::ProcessCombatMsg(combatManager *this, tag_m
           {
             NormalDialog(
               "The Sphere of Negation artifact is in effect for this battle, disabling all combat spells.",
-              1,
+              DIALOG_OKAY,
               -1,
               -1,
               -1,
@@ -37236,12 +37284,12 @@ signed int __thiscall combatManager::ProcessCombatMsg(combatManager *this, tag_m
           }
           else
           {
-            NormalDialog("You have already cast a spell this round.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog("You have already cast a spell this round.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           }
         }
         else
         {
-          NormalDialog("You have no hero to cast a spell.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog("You have no hero to cast a spell.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
         break;
       default:
@@ -37285,7 +37333,7 @@ signed int __thiscall combatManager::ProcessCombatMsg(combatManager *this, tag_m
               break;
           }
           if ( v10 != -1 )
-            NormalDialog(cLongCombatHelp[v10], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(cLongCombatHelp[v10], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
       else
@@ -37792,7 +37840,7 @@ void __thiscall combatManager::DoCommand(int this, __int32 a2)
       {
         NormalDialog(
           "The Sphere of Negation artifact is in effect for this battle, disabling all combat spells.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -37809,7 +37857,7 @@ void __thiscall combatManager::DoCommand(int this, __int32 a2)
       }
       break;
     case 11:
-      NormalDialog("Are you sure you want to retreat?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Are you sure you want to retreat?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( gpWindowManager->buttonPressedCode == 30725 )
         giNextAction = 4;
       combatManager::ResetMouse((combatManager *)thisa);
@@ -37824,7 +37872,7 @@ void __thiscall combatManager::DoCommand(int this, __int32 a2)
         }
         else
         {
-          NormalDialog("You don't have enough gold!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog("You don't have enough gold!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
       combatManager::ResetMouse((combatManager *)thisa);
@@ -39687,7 +39735,7 @@ heroWindow *__thiscall combatManager::ViewBallista(combatManager *this, unsigned
     }
     strcat(gText, buf);
   }
-  return NormalDialog(gText, a2 < 1 ? 1 : 4, -1, -1, -1, 0, -1, 0, -1, 0);
+  return NormalDialog(gText, (NormalDialogType)(a2 < 1 ? 1 : 4), -1, -1, -1, 0, -1, 0, -1, 0);
 }
 
 //----- (00442CB0) --------------------------------------------------------
@@ -40225,14 +40273,14 @@ LABEL_34:
       v1 = advManager::GetCell(this, this->viewX + this->xOff, this->viewY + this->yOff);
       advManager::SetHeroContext(
         this,
-        (unsigned __int8)((unsigned __int8)(v1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(v1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         0);
       break;
     case 6:
       v2 = advManager::GetCell(this, this->viewX + this->xOff, this->viewY + this->yOff);
       advManager::SetTownContext(
         this,
-        (unsigned __int8)((unsigned __int8)(v2->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+        (unsigned __int8)((unsigned __int8)(v2->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
       break;
     case 0:
       break;
@@ -40477,7 +40525,7 @@ LABEL_83:
             if ( dword_50ECB0 % 1000 == 411 )
             {
               sprintf(gText, "Coordinates at top left corner of view:\n\n  X: %d\n  Y: %d", this->viewX, this->viewY);
-              NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
             }
             break;
           case 72:
@@ -40553,7 +40601,7 @@ LABEL_83:
             strcpy(gText, "Are you sure you want to quit?");
 LABEL_143:
             a3 = 1;
-            NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
             if ( gpWindowManager->buttonPressedCode == 30726 )
               a3 = 0;
             else
@@ -40711,7 +40759,7 @@ LABEL_194:
             break;
         }
         if ( v13 >= 0 )
-          NormalDialog(gEventText[v13 + 122], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gEventText[v13 + 122], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         else
 LABEL_195:
           v19 = advManager::ProcessSelect((int)this, evt, (int)&loc);
@@ -40885,7 +40933,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
           else
           {
             objOrHeroIdx = cell->objType & 0x7F;
-            v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+            v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
           }
           if ( objOrHeroIdx == LOCATION_TOWN )
           {
@@ -40959,7 +41007,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
         else
         {
           objOrHeroIdx = cell->objType & 0x7F;
-          v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          v18 = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
           if ( objOrHeroIdx == 42 )
           {
             if ( gpCurPlayer->curHeroIdx == v18 )
@@ -40992,7 +41040,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
       {
         NormalDialog(
           "{World Map}\n\nA miniature view of the known world.  Left click to move viewing area.",
-          4,
+          DIALOG_RIGHT_CLICK,
           -1,
           -1,
           -1,
@@ -41188,7 +41236,7 @@ signed int __thiscall advManager::ProcessSelect(int this, tag_message *evt, int 
   if ( BYTE1(evt->inputTypeBitmask) & 2 && evt->yCoordOrFieldID >= 2000 && evt->yCoordOrFieldID <= 2200 )
     NormalDialog(
       "{Status Window}\n\nThis window provides information on the status of your hero or kingdom, and shows the date.  Left click here to cycle through these windows.",
-      4,
+      DIALOG_RIGHT_CLICK,
       -1,
       -1,
       -1,
@@ -41254,7 +41302,7 @@ signed int __thiscall advManager::ProcessDeSelect(advManager *this, GUIMessage *
       if ( !playerData::HasMobileHero(gpCurPlayer)
         || (NormalDialog(
               "One or more heroes may still move, are you sure you want to end your turn?",
-              2,
+              DIALOG_YES_NO,
               -1,
               -1,
               -1,
@@ -41358,7 +41406,17 @@ signed int __thiscall advManager::ProcessSearch(advManager *this, __int64 a2)
   {
     if ( gbHumanPlayer[giCurPlayer] )
     {
-      NormalDialog("Digging for artifacts requires a whole day, try again tomorrow.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(
+        "Digging for artifacts requires a whole day, try again tomorrow.",
+        DIALOG_OKAY,
+        -1,
+        -1,
+        -1,
+        0,
+        -1,
+        0,
+        -1,
+        0);
       return 1;
     }
 LABEL_52:
@@ -41371,7 +41429,7 @@ LABEL_52:
     {
       NormalDialog(
         "Searching for the Ultimate Artifact is fruitless.  Your hero could not carry it even if he found it - all his artifact slots are full.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -41398,7 +41456,7 @@ LABEL_52:
   {
     if ( gbHumanPlayer[giCurPlayer] )
     {
-      NormalDialog("Try searching on clear ground.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Try searching on clear ground.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       return 1;
     }
     goto LABEL_52;
@@ -41407,7 +41465,7 @@ LABEL_52:
   {
     if ( gbHumanPlayer[giCurPlayer] )
     {
-      NormalDialog("Try looking on land!!!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Try looking on land!!!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       return 1;
     }
     goto LABEL_52;
@@ -41418,12 +41476,12 @@ LABEL_52:
   {
     v7->bitfield_1_hasObject_1_isRoad_6_objTileset = v7->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 0xE0;
     v7->objectIndex = -116;
-    v3 = v7->field_4_1_1_isShadow_1_13_extraInfo;
+    v3 = v7->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo;
     LOBYTE(v3) = v3 | 1;
-    v7->field_4_1_1_isShadow_1_13_extraInfo = v3;
-    v4 = v7->field_4_1_1_isShadow_1_13_extraInfo;
+    v7->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v3;
+    v4 = v7->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo;
     LOBYTE(v4) = v4 | 2;
-    v7->field_4_1_1_isShadow_1_13_extraInfo = v4;
+    v7->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v4;
     v7->flags |= 0x80u;
   }
   advManager::CompleteDraw(this, 0);
@@ -41433,7 +41491,7 @@ LABEL_52:
     || gpGame->ultimateArtifactIdx == -1 )
   {
     if ( gbHumanPlayer[giCurPlayer] )
-      NormalDialog("Nothing here.\nWhere could it be?", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Nothing here.\nWhere could it be?", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   else if ( hero::NumArtifacts((hero *)hro) < 14 )
   {
@@ -41455,7 +41513,7 @@ LABEL_52:
           "%s%s",
           "Congratulations! After spending many hours digging here, you have uncovered the ",
           gArtifactNames[gpGame->ultimateArtifactIdx]);
-      NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( v6 )
         hero::ViewArtifact(98, 0, -1);
       else
@@ -41472,7 +41530,7 @@ LABEL_52:
   }
   else if ( gbHumanPlayer[giCurPlayer] )
   {
-    NormalDialog("You have no room to carry another artifact!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("You have no room to carry another artifact!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   if ( gbHumanPlayer[giCurPlayer] )
     WaitEndSample((void *)0xFFFFFFFF, (resource *)res.file, res.sample);
@@ -42060,9 +42118,9 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
       word_524CAC <<= 14;
       word_524CAC |= currentlyDrawnMapTile->groundIndex;
       TileToBitmap(this->groundTileset, (unsigned __int16)word_524CAC, gpWindowManager->screenBuffer, drawX, drawY);
-      if ( currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo & 1
+      if ( currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 1
         && (!gbDrawingPuzzle
-         || (((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 56
+         || (((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != TILESET_OBJECT_DIRT
          || currentlyDrawnMapTile->objectIndex != 140) )
       {
         if ( !gbDrawingPuzzle
@@ -42153,8 +42211,8 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
         else
           currentlyDrawingMapCellExtra = 0;
       }
-      if ( (currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1
-        && !(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo & 1)
+      if ( (currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 1) & 1
+        && !(currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 1)
         && (!gbDrawingPuzzle
          || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F]) )
       {
@@ -42247,10 +42305,10 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
     if ( cellDrawingPhaseFlags & 2 )
     {
       if ( currentlyDrawnMapTile->objectIndex != 255
-        && !(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo & 1)
-        && !((currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1)
-        && !((currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 2) & 1)
-        && (((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != 12
+        && !(currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 1)
+        && !((currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 1) & 1)
+        && !((currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 2) & 1)
+        && (((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) != TILESET_MONSTER
         && (!gbDrawingPuzzle
          || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F]) )
       {
@@ -42263,7 +42321,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
           0,
           0,
           0,
-          0x1E0u,
+          480u,
           480,
           0);
         if ( currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset & 1 )
@@ -42274,7 +42332,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
           v12 = this->field_202 % dword_524CE4;
           if ( currentlyDrawnMapTile->objType == 223 )
           {
-            if ( (unsigned __int8)(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+            if ( (unsigned __int8)(currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
               v12 = this->field_202 % (dword_524CE4 - 1);
             else
               v12 = dword_524CE4 - 1;
@@ -42448,7 +42506,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
       {
         curDrawingHeroColor = -1;
         curDrawingHeroFaction = 6;
-        spriteIdx = advManager::GetCursorBaseFrame(gpGame->boats[(unsigned __int8)((unsigned __int8)(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].field_3);
+        spriteIdx = advManager::GetCursorBaseFrame(gpGame->boats[(unsigned __int8)((unsigned __int8)(currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].field_3);
         isDrawingHeroOrBoat = 1;
         dword_524D2C = -10;
       }
@@ -42457,7 +42515,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
         dword_524D2C = 0;
         if ( currentlyDrawnMapTile->objType == 170 )
         {
-          curDrawingHero = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          curDrawingHero = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
           curDrawingHeroColor = gpGame->players[curDrawingHero->ownerIdx].color;
           curDrawingHeroFaction = curDrawingHero->flags & HERO_AT_SEA ? 6 : curDrawingHero->factionID;
           spriteIdx = advManager::GetCursorBaseFrame(curDrawingHero->directionFacing);
@@ -42690,7 +42748,7 @@ void __thiscall advManager::DrawCell(advManager *this, int x, int y, int cellCol
     {
       if ( cellDrawingPhaseFlags & 4 && currentlyDrawnMapTile->objectIndex != 255 )
       {
-        if ( (currentlyDrawnMapTile->field_4_1_1_isShadow_1_13_extraInfo >> 2) & 1
+        if ( (currentlyDrawnMapTile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 2) & 1
           && (!gbDrawingPuzzle
            || bPuzzleDraw[((unsigned __int8)currentlyDrawnMapTile->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F]) )
         {
@@ -43438,7 +43496,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_0[("(not visited)" - "(already visited)") & (((gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+            &aAlreadyVisit_0[("(not visited)" - "(already visited)") & (((gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                                                                                           + 47] & (1 << giCurPlayer)) != 0)
                                                                       - 1)]);
           break;
@@ -43449,7 +43507,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_1[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->gazeboesVisited) != 0)
+            &aAlreadyVisit_1[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->gazeboesVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_FORT:
@@ -43459,7 +43517,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_2[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->fortsVisited) != 0)
+            &aAlreadyVisit_2[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->fortsVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_WITCH_DOCTORS_HUT:
@@ -43469,7 +43527,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_3[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->witchDoctorHutsVisited) != 0)
+            &aAlreadyVisit_3[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->witchDoctorHutsVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_MERCENARY_CAMP:
@@ -43479,7 +43537,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_4[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->mercenaryCampsVisited) != 0)
+            &aAlreadyVisit_4[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->mercenaryCampsVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_STANDING_STONES:
@@ -43489,7 +43547,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_5[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->standingStonesVisited) != 0)
+            &aAlreadyVisit_5[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->standingStonesVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_TREE_OF_KNOWLEDGE:
@@ -43499,7 +43557,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_6[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->treesOfKnowledgeVisited) != 0)
+            &aAlreadyVisit_6[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->treesOfKnowledgeVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_XANADU:
@@ -43509,7 +43567,7 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             gText,
             "%s\n\n%s",
             (&adventureMapLocations)[4 * (v22->objType & 0x7F)],
-            &aAlreadyVisit_7[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->xanadusVisited) != 0)
+            &aAlreadyVisit_7[("(not visited)" - "(already visited)") & ((((1 << ((v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & curHero->xanadusVisited) != 0)
                                                                       - 1)]);
           break;
         case LOCATION_BUOY:
@@ -43554,12 +43612,12 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
           sprintf(gText, "%s", (&adventureMapLocations)[4 * (v22->objType & 0x7F)]);
           goto LABEL_74;
         case LOCATION_MINE:
-          if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
+          if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
           {
             sprintf(
               gText,
               "%s %s",
-              gResourceNames[gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type],
+              gResourceNames[gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type],
               "Mine");
           }
           else
@@ -43567,12 +43625,12 @@ BOOL __thiscall advManager::QuickInfo(advManager *ecx0, int a2, int a3)
             sprintf(
               gText,
               "%s %s",
-              gResourceNames[gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type],
+              gResourceNames[gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type],
               "Mine");
 LABEL_74:
-            v3 = gArmyNamesPlural[gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType];
+            v3 = gArmyNamesPlural[gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType];
             v4 = advManager::GetArmySizeName(
-                   gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
+                   gpGame->mines[(unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
                    2);
             sprintf(&a2a, "\n\nguarded by %s %s", v4, v3);
             strcat(gText, &a2a);
@@ -43587,14 +43645,14 @@ LABEL_74:
             sprintf(
               gText,
               "%d %s",
-              (unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              (unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
               gArmyNamesPlural[v22->objectIndex]);
           }
           else
           {
             v5 = gArmyNamesPlural[v22->objectIndex];
             v6 = advManager::GetArmySizeName(
-                   (unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+                   (unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
                    1);
             sprintf(gText, "%s %s", v6, v5);
           }
@@ -43603,7 +43661,7 @@ LABEL_74:
         case LOCATION_TRAVELLER_TENT:
           if ( v22->objType & 0x80 )
           {
-            v7 = v22->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+            v7 = v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
             sprintf(gText, (&adventureMapLocations)[4 * (v22->objType & 0x7F)], xBarrierColor[v7 & 7]);
             gText[0] = toupper(gText[0]);
           }
@@ -43786,7 +43844,7 @@ LABEL_145:
       ((unsigned __int8)v22->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F,
       v22->objectIndex,
       v22->objType,
-      (unsigned __int8)((unsigned __int8)(v22->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+      (unsigned __int8)((unsigned __int8)(v22->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
       v22->flags & 8,
       &a1,
       a2 + v9->viewX,
@@ -45708,12 +45766,12 @@ void __thiscall advManager::DemobilizeCurrHero(advManager *thisa)
     advManager::StopCursor(thisa, 1);
     tile = advManager::GetCell(thisa, hro->x, hro->y);
     hro->occupiedObjType = tile->objType;
-    hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+    hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
     hro->directionFacing = LOBYTE(thisa->field_27E);
     if ( thisa->mobilizedHeroFactionOrBoat == 6 )
       hro->flags |= 0x80u;
     tile->objType = 170;
-    tile->field_4_1_1_isShadow_1_13_extraInfo = tile->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * hro->idx;
+    tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * hro->idx;
     tile->flags &= 0xBFu;
     thisa->field_272 = 0;
     advManager::CompleteDraw(thisa, thisa->viewX, thisa->viewY, 0, 1);
@@ -46001,7 +46059,7 @@ LABEL_10:
       {
         NormalDialog(
           "You must be standing on the entrance to a mine (sawmills and alchemists don't count) to cast this spell.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -46012,15 +46070,15 @@ LABEL_10:
           0);
         return;
       }
-      gpGame->mines[(unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = v7;
+      gpGame->mines[(unsigned __int8)((unsigned __int8)(tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = v7;
       v5 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER);
       if ( v5 > 51 )
         LOBYTE(v5) = 51;
-      gpGame->mines[(unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 4 * v5;
+      gpGame->mines[(unsigned __int8)((unsigned __int8)(tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 4 * v5;
       if ( spell == 60 )
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           -1);
       goto LABEL_32;
     case SPELL_VIEW_MINES:
@@ -46033,7 +46091,7 @@ LABEL_10:
       goto LABEL_32;
     case SPELL_IDENTIFY:
       this->identifyCast = 1;
-      NormalDialog("Enemy heroes are now fully identifiable.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Enemy heroes are now fully identifiable.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       goto LABEL_32;
     case SPELL_SUMMON_BOAT:
       advManager::SummonBoat(this);
@@ -46063,7 +46121,7 @@ LABEL_32:
       {
         NormalDialog(
           "Your hero is too tired to cast this spell today.  Try again tomorrow.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -46141,7 +46199,7 @@ int __cdecl SaveGame()
     bFreshSave = 1;
     v3 = game::SaveGame(gpGame, gLastFilename, 0, 0);
     if ( v3 )
-      NormalDialog("Game saved successfully.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Game saved successfully.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   operator delete(a2);
   advManager::EnableButtons(gpAdvManager);
@@ -46452,7 +46510,7 @@ signed int __thiscall advManager::ComboDraw(advManager *this, int a2, int a3, in
       v8 = advManager::GetCell(this, a2 + a3d, a3 + a4d);
       if ( v8->objType == 151 )
       {
-        if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(v8->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == 59 )
+        if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(v8->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == 59 )
         {
           ++*((_BYTE *)&bComboDraw + 18 * a3d + a4d);
           ++*((_BYTE *)&bComboDraw + 9 * (2 * a3d + 2) + a4d);
@@ -47013,7 +47071,7 @@ signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x,
   else
   {
     hro->occupiedObjType = v10->objType;
-    hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(v10->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+    hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
     if ( v12 )
     {
       v10->flags |= MAP_CELL_HAS_ACTIVE_HERO;
@@ -47021,7 +47079,7 @@ signed int __thiscall advManager::TeleportTo(advManager *this, hero *hro, int x,
     else
     {
       v10->objType = 170;
-      v10->field_4_1_1_isShadow_1_13_extraInfo = v10->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * hro->idx;
+      v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * hro->idx;
     }
     if ( this->mobilizedHeroFactionOrBoat == 6 )
       hro->flags |= 0x80u;
@@ -47081,7 +47139,7 @@ void __thiscall advManager::DimensionDoor(advManager *this)
     }
     else
     {
-      NormalDialog("Dimension Door failed!!!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Dimension Door failed!!!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       advManager::UpdateRadar(this, 1, 0);
     }
     hero::UseSpell(&gpGame->heroes[gpCurPlayer->curHeroIdx], SPELL_DIMENSION_DOOR);
@@ -47147,12 +47205,22 @@ void __thiscall advManager::TownGate(advManager *ecx0, int spell)
   hro = &gpGame->heroes[gpCurPlayer->curHeroIdx];
   if ( !gpCurPlayer->numCastles )
   {
-    NormalDialog("No available town.  Spell Failed!!!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("No available town.  Spell Failed!!!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     return;
   }
   if ( hro->flags & HERO_AT_SEA )
   {
-    NormalDialog("Spell Failed!!!  You must be on land for this spell to work.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(
+      "Spell Failed!!!  You must be on land for this spell to work.",
+      DIALOG_OKAY,
+      -1,
+      -1,
+      -1,
+      0,
+      -1,
+      0,
+      -1,
+      0);
     return;
   }
   if ( spell != SPELL_TOWN_PORTAL )
@@ -47219,7 +47287,7 @@ LABEL_19:
     }
     else
     {
-      NormalDialog("Nearest town occupied.  Spell Failed!!!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Nearest town occupied.  Spell Failed!!!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     }
   }
 }
@@ -47338,9 +47406,9 @@ void __thiscall advManager::SummonBoat(advManager *this)
         *(_BYTE *)(v8 + 1) = LOBYTE(this->viewX) + normalDirTable[4 * i] + 7;
         *(_BYTE *)(v8 + 2) = LOBYTE(this->viewY) + normalDirTable[4 * i + 1] + 7;
         *(_BYTE *)(v8 + 4) = v15->objType;
-        *(_BYTE *)(v8 + 5) = v15->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        *(_BYTE *)(v8 + 5) = v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         v15->objType = -85;
-        v15->field_4_1_1_isShadow_1_13_extraInfo = 8 * j | v15->field_4_1_1_isShadow_1_13_extraInfo & 7;
+        v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = 8 * j | v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
         heroWindowManager::SaveFizzleSource(gpWindowManager, 154, 152, 150, 136);
         advManager::CompleteDraw(this, this->viewX, this->viewY, 0, 1);
         heroWindowManager::FizzleForward(gpWindowManager, 154, 152, 150, 136, -1, 0, 0);
@@ -47350,7 +47418,7 @@ void __thiscall advManager::SummonBoat(advManager *this)
   advManager::UpdateScreen(this, 0, 0);
   advManager::Reseed(0, 0);
   if ( !v12 )
-    NormalDialog("Summon Boat failed!!!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("Summon Boat failed!!!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
 }
 // 4F0A00: using guessed type int MAP_WIDTH;
 // 4F0A04: using guessed type int MAP_HEIGHT;
@@ -47896,7 +47964,7 @@ heroWindow *__thiscall advManager::LoadRemote(void *this)
   {
     dword_50EA80 = 1;
     sprintf(gText, "Someone is cheating!\n");
-    result = NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    result = NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   if ( giDebugLevel > 0 )
   {
@@ -47904,7 +47972,7 @@ heroWindow *__thiscall advManager::LoadRemote(void *this)
     {
       dword_50EA84 = 1;
       sprintf(gText, "Someone has their debug level set!\n");
-      result = NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      result = NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     }
   }
   return result;
@@ -48743,7 +48811,7 @@ signed int __thiscall APanelHandler(void *this)
           }
         }
         if ( v5 >= 0 )
-          NormalDialog(gEventText[v5 + 110], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gEventText[v5 + 110], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       }
     }
     else if ( *((_DWORD *)this + 1) == 13 )
@@ -48896,7 +48964,7 @@ signed int __thiscall CPanelHandler(void *this)
           }
         }
         if ( v5 >= 0 )
-          NormalDialog(gEventText[v5 + 96], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gEventText[v5 + 96], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       }
     }
     else if ( *((_DWORD *)this + 1) == 13 )
@@ -48925,7 +48993,7 @@ LABEL_22:
               v7 = 1;
               if ( !bFreshSave )
               {
-                NormalDialog(&msg, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+                NormalDialog(&msg, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
                 if ( gpWindowManager->buttonPressedCode == 30726 )
                   v7 = 0;
               }
@@ -49161,7 +49229,7 @@ signed int __thiscall SystemOptionsHandler(void *this)
           }
         }
         if ( v5 >= 0 )
-          NormalDialog((&gSPanelHelp)[4 * v5], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog((&gSPanelHelp)[4 * v5], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       }
     }
     else
@@ -49183,7 +49251,7 @@ signed int __thiscall SystemOptionsHandler(void *this)
             {
               NormalDialog(
                 "Neither MIDI nor Redbook music is currently available on this system.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -49204,7 +49272,17 @@ signed int __thiscall SystemOptionsHandler(void *this)
             }
             else
             {
-              NormalDialog("Digital sound is not currently available on this system.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog(
+                "Digital sound is not currently available on this system.",
+                DIALOG_OKAY,
+                -1,
+                -1,
+                -1,
+                0,
+                -1,
+                0,
+                -1,
+                0);
             }
             break;
           case 0xC:
@@ -49255,7 +49333,7 @@ signed int __thiscall SystemOptionsHandler(void *this)
               {
                 NormalDialog(
                   "Unable to set up CD stereo music.  Your CD player might be in use by another program, or your sound driver might not support CD stereo.",
-                  1,
+                  DIALOG_OKAY,
                   -1,
                   -1,
                   -1,
@@ -49285,7 +49363,17 @@ signed int __thiscall SystemOptionsHandler(void *this)
           case 0x11:
             if ( gbLowMemory )
             {
-              NormalDialog("You don't have enough memory for non-interlaced video.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog(
+                "You don't have enough memory for non-interlaced video.",
+                DIALOG_OKAY,
+                -1,
+                -1,
+                -1,
+                0,
+                -1,
+                0,
+                -1,
+                0);
             }
             else
             {
@@ -49429,7 +49517,7 @@ signed int __thiscall advManager::DoVisions(void *this, hero *hro)
   {
     NormalDialog(
       "You must be within 3 spaces of a monster for the Visions spell to work.",
-      1,
+      DIALOG_OKAY,
       -1,
       -1,
       -1,
@@ -49442,8 +49530,8 @@ signed int __thiscall advManager::DoVisions(void *this, hero *hro)
   }
   v10 = advManager::GetCell(v4, v15, v18);
   creatureType = v10->objectIndex;
-  v7 = ((unsigned __int8)(v10->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0;
-  v16 = (unsigned __int8)((unsigned __int8)(v10->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  v7 = ((unsigned __int8)(v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0;
+  v16 = (unsigned __int8)((unsigned __int8)(v10->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
   sprintf(gText, "{%d %s}\n\n", v16, gArmyNamesPlural[creatureType]);
   v13 = (double)philAI::FightValueOfStack(&hro->army, hro, 0, 0, 0, 0)
       / (double)(v16 * gMonsterDatabase[creatureType].fight_value);
@@ -49504,7 +49592,7 @@ LABEL_38:
   sprintf(&a2a, "The creatures are willing to join us!");
   strcat(gText, &a2a);
 LABEL_40:
-  NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
   return 1;
 }
 
@@ -49730,7 +49818,7 @@ void __cdecl SmackManagerMain()
       if ( !smk1 )
       {
         heroWindowManager::FadeScreen(gpWindowManager, 0, 128, 0);
-        NormalDialog("Error reading the Heroes 2 Expansion CD.  Retry?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog("Error reading the Heroes 2 Expansion CD.  Retry?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
         if ( gpWindowManager->buttonPressedCode == 30726 )
           ShutDown("CDROM drive error.  Exiting.");
       }
@@ -50236,7 +50324,7 @@ void __thiscall game::GetMap(game *this)
   {
     NormalDialog(
       "At least one player does not have the Heroes II Expansion set.  You will only be able to choose from original Heroes II games.",
-      1,
+      DIALOG_OKAY,
       -1,
       -1,
       -1,
@@ -51136,7 +51224,7 @@ signed int __fastcall NewGameHandler(void *this, game *a2)
           *(_DWORD *)(v6 + 4) = *(_DWORD *)(v6 + 8);
           return 2;
         case 54:
-          NormalDialog("The host has canceled the game.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog("The host has canceled the game.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           ShutDown(0);
           break;
         case 51:
@@ -51226,7 +51314,7 @@ signed int __fastcall NewGameHandler(void *this, game *a2)
       if ( *(_DWORD *)(v6 + 8) == 30721 )
         v14 = 7;
       if ( v14 != -1 )
-        NormalDialog((&gNewGameHelp)[4 * v14], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gNewGameHelp)[4 * v14], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
     }
     goto LABEL_142;
   }
@@ -51345,7 +51433,7 @@ LABEL_98:
             }
             else
             {
-              NormalDialog("The two positions selected can not be swapped.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+              NormalDialog("The two positions selected can not be swapped.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
             }
             gpGame->mapFilename[19] = -1;
           }
@@ -52211,7 +52299,7 @@ __int16 __cdecl wsnet_init()
     sprintf(
       gText,
       "About to initiate TCP/IP connection.  Heroes II will now drop from full screen mode to windowed mode, so that any Windows 95 generated dialog boxes can be seen.\n\nWhen the connection is successfully made, you can return to full screen mode by pressing 'F4'.");
-    NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     SetFullScreenStatus(0);
   }
   gbRemoteOn = 1;
@@ -52272,7 +52360,7 @@ __int16 __cdecl wsnet_init()
     {
       v8 = thunk_inet_ntoa(gIn_addrIP);
       sprintf(cWSTextBuffer, "Hosting game at %s\n\nWaiting On Guest(s).\n\n  Press 'CANCEL' to abort.", v8);
-      NormalDialog(cWSTextBuffer, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(cWSTextBuffer, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     }
     else
     {
@@ -52284,7 +52372,7 @@ __int16 __cdecl wsnet_init()
         v7,
         0,
         v6);
-      NormalDialog(cWSTextBuffer, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(cWSTextBuffer, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     }
     if ( !gbFunctionComplete )
       ShutDown(0);
@@ -52299,7 +52387,7 @@ __int16 __cdecl wsnet_init()
         "Hosting game at %s.\n\nYou have %d guest(s) now logged in.  Click 'OK' to move on, or wait for additional guests.",
         v13,
         v12);
-      NormalDialog(cWSTextBuffer, 5, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(cWSTextBuffer, DIALOG_RIGHT_CLICK|DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     }
     else if ( giTCPNumPlayers > 2 )
     {
@@ -52312,7 +52400,7 @@ __int16 __cdecl wsnet_init()
         v11,
         v10,
         v9);
-      NormalDialog(cWSTextBuffer, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(cWSTextBuffer, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     }
     gbRemoteGameOpen = 0;
     v15 = iLastMsgNumHumanPlayers;
@@ -52339,11 +52427,21 @@ __int16 __cdecl wsnet_init()
       *(_DWORD *)&giNetPosToDCOPos = thunk_inet_addr(cWSTextBuffer);
       if ( *(_DWORD *)&giNetPosToDCOPos != -1 )
         break;
-      NormalDialog("Error in IP Address, please try again.", 5, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(
+        "Error in IP Address, please try again.",
+        DIALOG_RIGHT_CLICK|DIALOG_OKAY,
+        -1,
+        -1,
+        -1,
+        0,
+        -1,
+        0,
+        -1,
+        0);
     }
     giWaitType = 13;
     sprintf(cWSTextBuffer, "Searching for host.");
-    NormalDialog(cWSTextBuffer, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(cWSTextBuffer, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( !gbFunctionComplete )
       ShutDown(0);
   }
@@ -52417,7 +52515,7 @@ void __fastcall wsSendMessage(int a1, char a2, unsigned __int16 a3, const void *
     {
       v5 = thunk_WSAGetLastError();
       sprintf(cWSTextBuffer, "Error During sendto(): %d", v5);
-      NormalDialog(cWSTextBuffer, 5, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(cWSTextBuffer, DIALOG_RIGHT_CLICK|DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       return;
     }
   }
@@ -52575,7 +52673,7 @@ void __fastcall wsEvaluateMessage(int a1, int a2)
       break;
     case 5:
       sprintf(cWSTextBuffer, "The Host already has a game in progress and is not accepting new players.");
-      NormalDialog(cWSTextBuffer, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(cWSTextBuffer, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       ShutDown(0);
       break;
     case 4:
@@ -52593,7 +52691,7 @@ void __fastcall wsEvaluateMessage(int a1, int a2)
       if ( giDebugLevel > 0 )
       {
         sprintf(gText, cWSTextBuffer);
-        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       LogStr(cWSTextBuffer);
       break;
@@ -52682,7 +52780,7 @@ signed int __cdecl wsWaitForHost()
     if ( iWSAttempts > 15 )
     {
       sprintf(cWSTextBuffer, "The Host is not responding.  Keep waiting?");
-      NormalDialog(cWSTextBuffer, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog(cWSTextBuffer, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( gpWindowManager->buttonPressedCode != 30725 )
         ShutDown(0);
       iWSAttempts = 0;
@@ -52801,21 +52899,21 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
     {
       for ( skill = 0; skill < 70; ++skill )
       {
-        if ( *((_DWORD *)textWidgetDynamic + 70 * i + skill) )
+        if ( *(&textWidgetDynamic[70 * i] + skill) )
         {
-          heroWindow::RemoveWidget(overWin, *((widget **)textWidgetDynamic + 70 * i + skill));
-          v43 = *((_DWORD *)textWidgetDynamic + 70 * i + skill);
+          heroWindow::RemoveWidget(overWin, (widget *)*(&textWidgetDynamic[70 * i] + skill));
+          v43 = (int)*(&textWidgetDynamic[70 * i] + skill);
           if ( v43 )
             (*(void (__thiscall **)(int))(*(_DWORD *)v43 + 4))(v43);
-          *((_DWORD *)textWidgetDynamic + 70 * i + skill) = 0;
+          *(&textWidgetDynamic[70 * i] + skill) = 0;
         }
-        if ( *((_DWORD *)iconWidgetDynamic + 70 * i + skill) )
+        if ( *(&iconWidgetDynamic[70 * i] + skill) )
         {
-          heroWindow::RemoveWidget(overWin, *((widget **)iconWidgetDynamic + 70 * i + skill));
-          v42 = *((_DWORD *)iconWidgetDynamic + 70 * i + skill);
+          heroWindow::RemoveWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * i] + skill));
+          v42 = (int)*(&iconWidgetDynamic[70 * i] + skill);
           if ( v42 )
             (*(void (__thiscall **)(int))(*(_DWORD *)v42 + 4))(v42);
-          *((_DWORD *)iconWidgetDynamic + 70 * i + skill) = 0;
+          *(&iconWidgetDynamic[70 * i] + skill) = 0;
         }
       }
     }
@@ -52827,23 +52925,23 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
         break;
       v41 = (iconWidget *)operator new(45);
       if ( v41 )
-        *((_DWORD *)iconWidgetDynamic + 70 * j) = iconWidget::iconWidget(
-                                                    v41,
-                                                    30,
-                                                    86 * j + 17,
-                                                    594,
-                                                    82,
-                                                    "overview.icn",
-                                                    giOverviewType + 10,
-                                                    0,
-                                                    200 * j + 202,
-                                                    16,
-                                                    1);
+        iconWidgetDynamic[70 * j] = iconWidget::iconWidget(
+                                      v41,
+                                      30,
+                                      86 * j + 17,
+                                      594,
+                                      82,
+                                      "overview.icn",
+                                      giOverviewType + 10,
+                                      0,
+                                      200 * j + 202,
+                                      16,
+                                      1);
       else
-        *((_DWORD *)iconWidgetDynamic + 70 * j) = 0;
-      if ( !*((_DWORD *)iconWidgetDynamic + 70 * j) )
+        iconWidgetDynamic[70 * j] = 0;
+      if ( !iconWidgetDynamic[70 * j] )
         MemError();
-      heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j), -1);
+      heroWindow::AddWidget(overWin, (widget *)iconWidgetDynamic[70 * j], -1);
       if ( giOverviewType == 1 )
       {
         v54 = (int)((char *)v13 + 100 * *(&gpCurPlayer->castlesOwned[j] + giOverviewTop[giOverviewType]) + 2899);
@@ -52853,66 +52951,66 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
         strcpy(content, (char *)(v54 + 87));
         v40 = (textWidget *)operator new(43);
         if ( v40 )
-          *((_DWORD *)textWidgetDynamic + 70 * j) = textWidget::textWidget(
-                                                      v40,
-                                                      35,
-                                                      86 * j + 80,
-                                                      132,
-                                                      10,
-                                                      content,
-                                                      "smalfont.fnt",
-                                                      1,
-                                                      200 * j + 203,
-                                                      512,
-                                                      1);
+          textWidgetDynamic[70 * j] = textWidget::textWidget(
+                                        v40,
+                                        35,
+                                        86 * j + 80,
+                                        132,
+                                        10,
+                                        content,
+                                        "smalfont.fnt",
+                                        1,
+                                        200 * j + 203,
+                                        512,
+                                        1);
         else
-          *((_DWORD *)textWidgetDynamic + 70 * j) = 0;
-        heroWindow::AddWidget(overWin, *((widget **)textWidgetDynamic + 70 * j), -1);
+          textWidgetDynamic[70 * j] = 0;
+        heroWindow::AddWidget(overWin, (widget *)textWidgetDynamic[70 * j], -1);
         v84 = 1;
         imgIdx = *(_BYTE *)(v54 + 3);
         if ( !(*(_BYTE *)(v54 + 24) & 0x40) )
           imgIdx += 6;
         v39 = (iconWidget *)operator new(45);
         if ( v39 )
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 1) = iconWidget::iconWidget(
-                                                          v39,
-                                                          47,
-                                                          86 * j + 36,
-                                                          46,
-                                                          22,
-                                                          "minitown.icn",
-                                                          imgIdx,
-                                                          0,
-                                                          200 * j + 204,
-                                                          16,
-                                                          1);
+          iconWidgetDynamic[70 * j + 1] = iconWidget::iconWidget(
+                                            v39,
+                                            47,
+                                            86 * j + 36,
+                                            46,
+                                            22,
+                                            "minitown.icn",
+                                            imgIdx,
+                                            0,
+                                            200 * j + 204,
+                                            16,
+                                            1);
         else
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 1) = 0;
-        if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + 1) )
+          iconWidgetDynamic[70 * j + 1] = 0;
+        if ( !iconWidgetDynamic[70 * j + 1] )
           MemError();
-        heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + 1), -1);
+        heroWindow::AddWidget(overWin, (widget *)iconWidgetDynamic[70 * j + 1], -1);
         v68 = 2;
         if ( BitTest(gpGame->field_27BB, *(_BYTE *)v54) )
         {
           v38 = (iconWidget *)operator new(45);
           if ( v38 )
-            *((_DWORD *)iconWidgetDynamic + 70 * j + 2) = iconWidget::iconWidget(
-                                                            v38,
-                                                            42,
-                                                            86 * j + 31,
-                                                            0,
-                                                            0,
-                                                            "locators.icn",
-                                                            24,
-                                                            0,
-                                                            200 * j + 244,
-                                                            16,
-                                                            1);
+            iconWidgetDynamic[70 * j + 2] = iconWidget::iconWidget(
+                                              v38,
+                                              42,
+                                              86 * j + 31,
+                                              0,
+                                              0,
+                                              "locators.icn",
+                                              24,
+                                              0,
+                                              200 * j + 244,
+                                              16,
+                                              1);
           else
-            *((_DWORD *)iconWidgetDynamic + 70 * j + 2) = 0;
-          if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + 2) )
+            iconWidgetDynamic[70 * j + 2] = 0;
+          if ( !iconWidgetDynamic[70 * j + 2] )
             MemError();
-          heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + 2), -1);
+          heroWindow::AddWidget(overWin, (widget *)iconWidgetDynamic[70 * j + 2], -1);
           v68 = 3;
         }
         v56 = 0;
@@ -52930,23 +53028,23 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
         {
           v37 = (iconWidget *)operator new(45);
           if ( v37 )
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v68) = iconWidget::iconWidget(
-                                                              v37,
-                                                              112,
-                                                              86 * j + 36,
-                                                              46,
-                                                              22,
-                                                              "portxtra.icn",
-                                                              0,
-                                                              0,
-                                                              200 * j + 239,
-                                                              16,
-                                                              1);
+            *(&iconWidgetDynamic[70 * j] + v68) = iconWidget::iconWidget(
+                                                    v37,
+                                                    112,
+                                                    86 * j + 36,
+                                                    46,
+                                                    22,
+                                                    "portxtra.icn",
+                                                    0,
+                                                    0,
+                                                    200 * j + 239,
+                                                    16,
+                                                    1);
           else
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v68) = 0;
-          if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v68) )
+            *(&iconWidgetDynamic[70 * j] + v68) = 0;
+          if ( !*(&iconWidgetDynamic[70 * j] + v68) )
             MemError();
-          heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v68), -1);
+          heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v68), -1);
           v69 = v68 + 1;
           v36 = (iconWidget *)operator new(45);
           if ( v36 )
@@ -52955,26 +53053,26 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
               v16 = *(_BYTE *)(v54 + 3);
             else
               v16 = *(_BYTE *)(v55 + 24);
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v69) = iconWidget::iconWidget(
-                                                              v36,
-                                                              107,
-                                                              86 * j + 31,
-                                                              51,
-                                                              27,
-                                                              &aMinicapt_icn[("miniport.icn" - "minicapt.icn") & ((v56 != 0) - 1)],
-                                                              v16,
-                                                              0,
-                                                              200 * j + 240,
-                                                              16,
-                                                              1);
+            *(&iconWidgetDynamic[70 * j] + v69) = iconWidget::iconWidget(
+                                                    v36,
+                                                    107,
+                                                    86 * j + 31,
+                                                    51,
+                                                    27,
+                                                    &aMinicapt_icn[("miniport.icn" - "minicapt.icn") & ((v56 != 0) - 1)],
+                                                    v16,
+                                                    0,
+                                                    200 * j + 240,
+                                                    16,
+                                                    1);
           }
           else
           {
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v69) = 0;
+            *(&iconWidgetDynamic[70 * j] + v69) = 0;
           }
-          if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v69) )
+          if ( !*(&iconWidgetDynamic[70 * j] + v69) )
             MemError();
-          heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v69), -1);
+          heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v69), -1);
           v70 = v69 + 1;
           v35 = (iconWidget *)operator new(45);
           if ( v35 )
@@ -52984,26 +53082,26 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
             else
               v15 = *(_DWORD *)(v55 + 53);
             v7 = GetMobilityFrame(v15);
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v70) = iconWidget::iconWidget(
-                                                              v35,
-                                                              112,
-                                                              86 * j + 36,
-                                                              0,
-                                                              0,
-                                                              "mobility.icn",
-                                                              v7,
-                                                              0,
-                                                              200 * j + 243,
-                                                              16,
-                                                              1);
+            *(&iconWidgetDynamic[70 * j] + v70) = iconWidget::iconWidget(
+                                                    v35,
+                                                    112,
+                                                    86 * j + 36,
+                                                    0,
+                                                    0,
+                                                    "mobility.icn",
+                                                    v7,
+                                                    0,
+                                                    200 * j + 243,
+                                                    16,
+                                                    1);
           }
           else
           {
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v70) = 0;
+            *(&iconWidgetDynamic[70 * j] + v70) = 0;
           }
-          if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v70) )
+          if ( !*(&iconWidgetDynamic[70 * j] + v70) )
             MemError();
-          heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v70), -1);
+          heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v70), -1);
           v71 = v70 + 1;
           if ( *(_BYTE *)(v54 + 3) != 1 && *(_BYTE *)(v54 + 3) )
             v52 = 20;
@@ -53017,26 +53115,26 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
             else
               v14 = *(_WORD *)v55;
             v8 = GetManaFrame(v14);
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v71) = iconWidget::iconWidget(
-                                                              v34,
-                                                              151,
-                                                              86 * j + 36,
-                                                              0,
-                                                              0,
-                                                              "mana.icn",
-                                                              v8,
-                                                              0,
-                                                              200 * j + 241,
-                                                              16,
-                                                              1);
+            *(&iconWidgetDynamic[70 * j] + v71) = iconWidget::iconWidget(
+                                                    v34,
+                                                    151,
+                                                    86 * j + 36,
+                                                    0,
+                                                    0,
+                                                    "mana.icn",
+                                                    v8,
+                                                    0,
+                                                    200 * j + 241,
+                                                    16,
+                                                    1);
           }
           else
           {
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v71) = 0;
+            *(&iconWidgetDynamic[70 * j] + v71) = 0;
           }
-          if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v71) )
+          if ( !*(&iconWidgetDynamic[70 * j] + v71) )
             MemError();
-          heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v71), -1);
+          heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v71), -1);
           v68 = v71 + 1;
         }
         v57 = 0;
@@ -53046,42 +53144,42 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
           {
             v33 = (iconWidget *)operator new(45);
             if ( v33 )
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v68) = iconWidget::iconWidget(
-                                                                v33,
-                                                                41 * v57 + 173,
-                                                                86 * j + 35,
-                                                                42,
-                                                                40,
-                                                                "mons32.icn",
-                                                                *(_BYTE *)(skilla + v54 + 8),
-                                                                0,
-                                                                skilla + (_WORD)v85 + 5,
-                                                                17,
-                                                                1);
+              *(&iconWidgetDynamic[70 * j] + v68) = iconWidget::iconWidget(
+                                                      v33,
+                                                      41 * v57 + 173,
+                                                      86 * j + 35,
+                                                      42,
+                                                      40,
+                                                      "mons32.icn",
+                                                      *(_BYTE *)(skilla + v54 + 8),
+                                                      0,
+                                                      skilla + (_WORD)v85 + 5,
+                                                      17,
+                                                      1);
             else
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v68) = 0;
-            if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v68) )
+              *(&iconWidgetDynamic[70 * j] + v68) = 0;
+            if ( !*(&iconWidgetDynamic[70 * j] + v68) )
               MemError();
-            heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v68++), -1);
+            heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v68++), -1);
             contenta = (char *)BaseAlloc(6u, "F:\\h2xsrc\\Source\\Overview.cpp", word_511E74 + 238);
             sprintf(contenta, "%d", *(_WORD *)(v54 + 2 * skilla + 13));
             v32 = (textWidget *)operator new(43);
             if ( v32 )
-              *((_DWORD *)textWidgetDynamic + 70 * j + v84) = textWidget::textWidget(
-                                                                v32,
-                                                                41 * v57 + 173,
-                                                                86 * j + 81,
-                                                                40,
-                                                                12,
-                                                                contenta,
-                                                                "smalfont.fnt",
-                                                                1,
-                                                                skilla + (_WORD)v85 + 10,
-                                                                512,
-                                                                1);
+              *(&textWidgetDynamic[70 * j] + v84) = textWidget::textWidget(
+                                                      v32,
+                                                      41 * v57 + 173,
+                                                      86 * j + 81,
+                                                      40,
+                                                      12,
+                                                      contenta,
+                                                      "smalfont.fnt",
+                                                      1,
+                                                      skilla + (_WORD)v85 + 10,
+                                                      512,
+                                                      1);
             else
-              *((_DWORD *)textWidgetDynamic + 70 * j + v84) = 0;
-            heroWindow::AddWidget(overWin, *((widget **)textWidgetDynamic + 70 * j + v84++), -1);
+              *(&textWidgetDynamic[70 * j] + v84) = 0;
+            heroWindow::AddWidget(overWin, (widget *)*(&textWidgetDynamic[70 * j] + v84++), -1);
             ++v57;
           }
         }
@@ -53131,43 +53229,42 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
           {
             v31 = (iconWidget *)operator new(45);
             if ( v31 )
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v68) = iconWidget::iconWidget(
-                                                                v31,
-                                                                41 * v58 + 378,
-                                                                86 * j + 35,
-                                                                42,
-                                                                40,
-                                                                "mons32.icn",
-                                                                *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(v54 + 3)]
-                                                                + v59),
-                                                                0,
-                                                                v85 + (_WORD)v59 + 15,
-                                                                17,
-                                                                1);
+              *(&iconWidgetDynamic[70 * j] + v68) = iconWidget::iconWidget(
+                                                      v31,
+                                                      41 * v58 + 378,
+                                                      86 * j + 35,
+                                                      42,
+                                                      40,
+                                                      "mons32.icn",
+                                                      *((_BYTE *)&gDwellingType[0][3 * *(_BYTE *)(v54 + 3)] + v59),
+                                                      0,
+                                                      v85 + (_WORD)v59 + 15,
+                                                      17,
+                                                      1);
             else
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v68) = 0;
-            if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v68) )
+              *(&iconWidgetDynamic[70 * j] + v68) = 0;
+            if ( !*(&iconWidgetDynamic[70 * j] + v68) )
               MemError();
-            heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v68++), -1);
+            heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v68++), -1);
             contentb = (char *)BaseAlloc(6u, "F:\\h2xsrc\\Source\\Overview.cpp", word_511E74 + 298);
             sprintf(contentb, "%d", *(_WORD *)(v54 + 2 * v59 + 30));
             v30 = (textWidget *)operator new(43);
             if ( v30 )
-              *((_DWORD *)textWidgetDynamic + 70 * j + v84) = textWidget::textWidget(
-                                                                v30,
-                                                                41 * v58 + 378,
-                                                                86 * j + 81,
-                                                                40,
-                                                                12,
-                                                                contentb,
-                                                                "smalfont.fnt",
-                                                                1,
-                                                                v85 + (_WORD)v59 + 27,
-                                                                512,
-                                                                1);
+              *(&textWidgetDynamic[70 * j] + v84) = textWidget::textWidget(
+                                                      v30,
+                                                      41 * v58 + 378,
+                                                      86 * j + 81,
+                                                      40,
+                                                      12,
+                                                      contentb,
+                                                      "smalfont.fnt",
+                                                      1,
+                                                      v85 + (_WORD)v59 + 27,
+                                                      512,
+                                                      1);
             else
-              *((_DWORD *)textWidgetDynamic + 70 * j + v84) = 0;
-            heroWindow::AddWidget(overWin, *((widget **)textWidgetDynamic + 70 * j + v84++), -1);
+              *(&textWidgetDynamic[70 * j] + v84) = 0;
+            heroWindow::AddWidget(overWin, (widget *)*(&textWidgetDynamic[70 * j] + v84++), -1);
             ++v58;
           }
         }
@@ -53177,90 +53274,90 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
         thisa = (int)((char *)v13 + 250 * *(&gpCurPlayer->heroesOwned[j] + giOverviewTop[giOverviewType]) + 10180);
         v29 = (iconWidget *)operator new(45);
         if ( v29 )
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 1) = iconWidget::iconWidget(
-                                                          v29,
-                                                          35,
-                                                          86 * j + 21,
-                                                          46,
-                                                          22,
-                                                          "portxtra.icn",
-                                                          0,
-                                                          0,
-                                                          200 * j + 300,
-                                                          16,
-                                                          1);
+          iconWidgetDynamic[70 * j + 1] = iconWidget::iconWidget(
+                                            v29,
+                                            35,
+                                            86 * j + 21,
+                                            46,
+                                            22,
+                                            "portxtra.icn",
+                                            0,
+                                            0,
+                                            200 * j + 300,
+                                            16,
+                                            1);
         else
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 1) = 0;
-        if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + 1) )
+          iconWidgetDynamic[70 * j + 1] = 0;
+        if ( !iconWidgetDynamic[70 * j + 1] )
           MemError();
-        heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + 1), -1);
+        heroWindow::AddWidget(overWin, (widget *)iconWidgetDynamic[70 * j + 1], -1);
         v28 = (iconWidget *)operator new(45);
         if ( v28 )
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 2) = iconWidget::iconWidget(
-                                                          v28,
-                                                          30,
-                                                          86 * j + 16,
-                                                          51,
-                                                          27,
-                                                          "miniport.icn",
-                                                          *(_BYTE *)(thisa + 24),
-                                                          0,
-                                                          200 * j + 301,
-                                                          16,
-                                                          1);
+          iconWidgetDynamic[70 * j + 2] = iconWidget::iconWidget(
+                                            v28,
+                                            30,
+                                            86 * j + 16,
+                                            51,
+                                            27,
+                                            "miniport.icn",
+                                            *(_BYTE *)(thisa + 24),
+                                            0,
+                                            200 * j + 301,
+                                            16,
+                                            1);
         else
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 2) = 0;
-        if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + 2) )
+          iconWidgetDynamic[70 * j + 2] = 0;
+        if ( !iconWidgetDynamic[70 * j + 2] )
           MemError();
-        heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + 2), -1);
+        heroWindow::AddWidget(overWin, (widget *)iconWidgetDynamic[70 * j + 2], -1);
         v27 = (iconWidget *)operator new(45);
         if ( v27 )
         {
           v9 = GetMobilityFrame(*(_DWORD *)(thisa + 53));
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 3) = iconWidget::iconWidget(
-                                                          v27,
-                                                          35,
-                                                          86 * j + 21,
-                                                          0,
-                                                          0,
-                                                          "mobility.icn",
-                                                          v9,
-                                                          0,
-                                                          200 * j + 303,
-                                                          16,
-                                                          1);
+          iconWidgetDynamic[70 * j + 3] = iconWidget::iconWidget(
+                                            v27,
+                                            35,
+                                            86 * j + 21,
+                                            0,
+                                            0,
+                                            "mobility.icn",
+                                            v9,
+                                            0,
+                                            200 * j + 303,
+                                            16,
+                                            1);
         }
         else
         {
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 3) = 0;
+          iconWidgetDynamic[70 * j + 3] = 0;
         }
-        if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + 3) )
+        if ( !iconWidgetDynamic[70 * j + 3] )
           MemError();
-        heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + 3), -1);
+        heroWindow::AddWidget(overWin, (widget *)iconWidgetDynamic[70 * j + 3], -1);
         v26 = (iconWidget *)operator new(45);
         if ( v26 )
         {
           v10 = GetManaFrame(*(_WORD *)thisa);
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 4) = iconWidget::iconWidget(
-                                                          v26,
-                                                          74,
-                                                          86 * j + 21,
-                                                          0,
-                                                          0,
-                                                          "mana.icn",
-                                                          v10,
-                                                          0,
-                                                          200 * j + 241,
-                                                          16,
-                                                          1);
+          iconWidgetDynamic[70 * j + 4] = iconWidget::iconWidget(
+                                            v26,
+                                            74,
+                                            86 * j + 21,
+                                            0,
+                                            0,
+                                            "mana.icn",
+                                            v10,
+                                            0,
+                                            200 * j + 241,
+                                            16,
+                                            1);
         }
         else
         {
-          *((_DWORD *)iconWidgetDynamic + 70 * j + 4) = 0;
+          iconWidgetDynamic[70 * j + 4] = 0;
         }
-        if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + 4) )
+        if ( !iconWidgetDynamic[70 * j + 4] )
           MemError();
-        heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + 4), -1);
+        heroWindow::AddWidget(overWin, (widget *)iconWidgetDynamic[70 * j + 4], -1);
         v72 = 5;
         for ( skillc = 0; (signed int)skillc < 4; ++skillc )
         {
@@ -53269,43 +53366,43 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
           sprintf(contentc, "%d", v11);
           v25 = (textWidget *)operator new(43);
           if ( v25 )
-            *((_DWORD *)textWidgetDynamic + 70 * j + v83) = textWidget::textWidget(
-                                                              v25,
-                                                              35 * skillc + 105,
-                                                              86 * j + 39,
-                                                              14,
-                                                              8,
-                                                              contentc,
-                                                              "smalfont.fnt",
-                                                              1,
-                                                              skillc + (_WORD)v85 + 142,
-                                                              512,
-                                                              2);
+            *(&textWidgetDynamic[70 * j] + v83) = textWidget::textWidget(
+                                                    v25,
+                                                    35 * skillc + 105,
+                                                    86 * j + 39,
+                                                    14,
+                                                    8,
+                                                    contentc,
+                                                    "smalfont.fnt",
+                                                    1,
+                                                    skillc + (_WORD)v85 + 142,
+                                                    512,
+                                                    2);
           else
-            *((_DWORD *)textWidgetDynamic + 70 * j + v83) = 0;
-          heroWindow::AddWidget(overWin, *((widget **)textWidgetDynamic + 70 * j + v83++), -1);
+            *(&textWidgetDynamic[70 * j] + v83) = 0;
+          heroWindow::AddWidget(overWin, (widget *)*(&textWidgetDynamic[70 * j] + v83++), -1);
         }
         for ( skilld = 0; skilld < 4; ++skilld )
         {
           v24 = (iconWidget *)operator new(45);
           if ( v24 )
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = iconWidget::iconWidget(
-                                                              v24,
-                                                              35 * skilld + 87,
-                                                              86 * j + 17,
-                                                              35,
-                                                              30,
-                                                              "overview.icn",
-                                                              15,
-                                                              0,
-                                                              skilld + (_WORD)v85 + 170,
-                                                              16,
-                                                              1);
+            *(&iconWidgetDynamic[70 * j] + v72) = iconWidget::iconWidget(
+                                                    v24,
+                                                    35 * skilld + 87,
+                                                    86 * j + 17,
+                                                    35,
+                                                    30,
+                                                    "overview.icn",
+                                                    15,
+                                                    0,
+                                                    skilld + (_WORD)v85 + 170,
+                                                    16,
+                                                    1);
           else
-            *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = 0;
-          if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v72) )
+            *(&iconWidgetDynamic[70 * j] + v72) = 0;
+          if ( !*(&iconWidgetDynamic[70 * j] + v72) )
             MemError();
-          heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v72++), -1);
+          heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v72++), -1);
         }
         v48 = 0;
         for ( skille = 0; skille < 5; ++skille )
@@ -53314,42 +53411,42 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
           {
             v23 = (iconWidget *)operator new(45);
             if ( v23 )
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = iconWidget::iconWidget(
-                                                                v23,
-                                                                40 * v48 + 30,
-                                                                86 * j + 47,
-                                                                42,
-                                                                40,
-                                                                "mons32.icn",
-                                                                *(_BYTE *)(skille + thisa + 101),
-                                                                0,
-                                                                skille + (_WORD)v85 + 104,
-                                                                17,
-                                                                1);
+              *(&iconWidgetDynamic[70 * j] + v72) = iconWidget::iconWidget(
+                                                      v23,
+                                                      40 * v48 + 30,
+                                                      86 * j + 47,
+                                                      42,
+                                                      40,
+                                                      "mons32.icn",
+                                                      *(_BYTE *)(skille + thisa + 101),
+                                                      0,
+                                                      skille + (_WORD)v85 + 104,
+                                                      17,
+                                                      1);
             else
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = 0;
-            if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v72) )
+              *(&iconWidgetDynamic[70 * j] + v72) = 0;
+            if ( !*(&iconWidgetDynamic[70 * j] + v72) )
               MemError();
-            heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v72++), -1);
+            heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v72++), -1);
             contentd = (char *)BaseAlloc(6u, "F:\\h2xsrc\\Source\\Overview.cpp", word_511E74 + 445);
             sprintf(contentd, "%d", *(_WORD *)(thisa + 2 * skille + 106));
             v22 = (textWidget *)operator new(43);
             if ( v22 )
-              *((_DWORD *)textWidgetDynamic + 70 * j + v83) = textWidget::textWidget(
-                                                                v22,
-                                                                40 * v48 + 30,
-                                                                86 * j + 87,
-                                                                40,
-                                                                12,
-                                                                contentd,
-                                                                "smalfont.fnt",
-                                                                1,
-                                                                skille + (_WORD)v85 + 109,
-                                                                512,
-                                                                1);
+              *(&textWidgetDynamic[70 * j] + v83) = textWidget::textWidget(
+                                                      v22,
+                                                      40 * v48 + 30,
+                                                      86 * j + 87,
+                                                      40,
+                                                      12,
+                                                      contentd,
+                                                      "smalfont.fnt",
+                                                      1,
+                                                      skille + (_WORD)v85 + 109,
+                                                      512,
+                                                      1);
             else
-              *((_DWORD *)textWidgetDynamic + 70 * j + v83) = 0;
-            heroWindow::AddWidget(overWin, *((widget **)textWidgetDynamic + 70 * j + v83++), -1);
+              *(&textWidgetDynamic[70 * j] + v83) = 0;
+            heroWindow::AddWidget(overWin, (widget *)*(&textWidgetDynamic[70 * j] + v83++), -1);
             ++v48;
           }
         }
@@ -53362,64 +53459,64 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
             v49 = (unsigned __int8)((char)skillf % -4);
             v21 = (iconWidget *)operator new(45);
             if ( v21 )
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = iconWidget::iconWidget(
-                                                                v21,
-                                                                35 * v49 + 233,
-                                                                86 * j + 42 * v46 + 20,
-                                                                34,
-                                                                34,
-                                                                "overview.icn",
-                                                                12,
-                                                                0,
-                                                                skillf + (_WORD)v85 + 154,
-                                                                16,
-                                                                1);
+              *(&iconWidgetDynamic[70 * j] + v72) = iconWidget::iconWidget(
+                                                      v21,
+                                                      35 * v49 + 233,
+                                                      86 * j + 42 * v46 + 20,
+                                                      34,
+                                                      34,
+                                                      "overview.icn",
+                                                      12,
+                                                      0,
+                                                      skillf + (_WORD)v85 + 154,
+                                                      16,
+                                                      1);
             else
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = 0;
-            if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v72) )
+              *(&iconWidgetDynamic[70 * j] + v72) = 0;
+            if ( !*(&iconWidgetDynamic[70 * j] + v72) )
               MemError();
-            heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v72), -1);
+            heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v72), -1);
             v73 = v72 + 1;
             v20 = (iconWidget *)operator new(45);
             if ( v20 )
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v73) = iconWidget::iconWidget(
-                                                                v20,
-                                                                35 * v49 + 234,
-                                                                86 * j + 42 * v46 + 21,
-                                                                32,
-                                                                32,
-                                                                "miniss.icn",
-                                                                v44,
-                                                                0,
-                                                                skillf + (_WORD)v85 + 146,
-                                                                16,
-                                                                1);
+              *(&iconWidgetDynamic[70 * j] + v73) = iconWidget::iconWidget(
+                                                      v20,
+                                                      35 * v49 + 234,
+                                                      86 * j + 42 * v46 + 21,
+                                                      32,
+                                                      32,
+                                                      "miniss.icn",
+                                                      v44,
+                                                      0,
+                                                      skillf + (_WORD)v85 + 146,
+                                                      16,
+                                                      1);
             else
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v73) = 0;
-            if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v73) )
+              *(&iconWidgetDynamic[70 * j] + v73) = 0;
+            if ( !*(&iconWidgetDynamic[70 * j] + v73) )
               MemError();
-            heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v73), -1);
+            heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v73), -1);
             v72 = v73 + 1;
             contente = (char *)BaseAlloc(2u, "F:\\h2xsrc\\Source\\Overview.cpp", word_511E74 + 507);
             v12 = hero::GetSSLevel((hero *)thisa, (SECONDARY_SKILL)v44);
             sprintf(contente, "%d", v12);
             v19 = (textWidget *)operator new(43);
             if ( v19 )
-              *((_DWORD *)textWidgetDynamic + 70 * j + v83) = textWidget::textWidget(
-                                                                v19,
-                                                                35 * v49 + 255,
-                                                                86 * j + 42 * v46 + 45,
-                                                                8,
-                                                                8,
-                                                                contente,
-                                                                "smalfont.fnt",
-                                                                1,
-                                                                skillf + (_WORD)v85 + 162,
-                                                                512,
-                                                                2);
+              *(&textWidgetDynamic[70 * j] + v83) = textWidget::textWidget(
+                                                      v19,
+                                                      35 * v49 + 255,
+                                                      86 * j + 42 * v46 + 45,
+                                                      8,
+                                                      8,
+                                                      contente,
+                                                      "smalfont.fnt",
+                                                      1,
+                                                      skillf + (_WORD)v85 + 162,
+                                                      512,
+                                                      2);
             else
-              *((_DWORD *)textWidgetDynamic + 70 * j + v83) = 0;
-            heroWindow::AddWidget(overWin, *((widget **)textWidgetDynamic + 70 * j + v83++), -1);
+              *(&textWidgetDynamic[70 * j] + v83) = 0;
+            heroWindow::AddWidget(overWin, (widget *)*(&textWidgetDynamic[70 * j] + v83++), -1);
           }
         }
         v51 = 0;
@@ -53431,43 +53528,43 @@ void __thiscall game::SetupDynamicStuff(void *this, int a2, int a3, int a4)
             v50 = v51 % 7;
             v18 = (iconWidget *)operator new(45);
             if ( v18 )
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = iconWidget::iconWidget(
-                                                                v18,
-                                                                35 * v50 + 378,
-                                                                86 * j + 42 * v47 + 20,
-                                                                34,
-                                                                34,
-                                                                "overview.icn",
-                                                                12,
-                                                                0,
-                                                                skillg + (_WORD)v85 + 128,
-                                                                16,
-                                                                1);
+              *(&iconWidgetDynamic[70 * j] + v72) = iconWidget::iconWidget(
+                                                      v18,
+                                                      35 * v50 + 378,
+                                                      86 * j + 42 * v47 + 20,
+                                                      34,
+                                                      34,
+                                                      "overview.icn",
+                                                      12,
+                                                      0,
+                                                      skillg + (_WORD)v85 + 128,
+                                                      16,
+                                                      1);
             else
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v72) = 0;
-            if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v72) )
+              *(&iconWidgetDynamic[70 * j] + v72) = 0;
+            if ( !*(&iconWidgetDynamic[70 * j] + v72) )
               MemError();
-            heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v72), -1);
+            heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v72), -1);
             v74 = v72 + 1;
             v17 = (iconWidget *)operator new(45);
             if ( v17 )
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v74) = iconWidget::iconWidget(
-                                                                v17,
-                                                                35 * v50 + 379,
-                                                                86 * j + 42 * v47 + 21,
-                                                                32,
-                                                                32,
-                                                                "artfx.icn",
-                                                                *(_BYTE *)(skillg + thisa + 213),
-                                                                0,
-                                                                skillg + (_WORD)v85 + 114,
-                                                                16,
-                                                                1);
+              *(&iconWidgetDynamic[70 * j] + v74) = iconWidget::iconWidget(
+                                                      v17,
+                                                      35 * v50 + 379,
+                                                      86 * j + 42 * v47 + 21,
+                                                      32,
+                                                      32,
+                                                      "artfx.icn",
+                                                      *(_BYTE *)(skillg + thisa + 213),
+                                                      0,
+                                                      skillg + (_WORD)v85 + 114,
+                                                      16,
+                                                      1);
             else
-              *((_DWORD *)iconWidgetDynamic + 70 * j + v74) = 0;
-            if ( !*((_DWORD *)iconWidgetDynamic + 70 * j + v74) )
+              *(&iconWidgetDynamic[70 * j] + v74) = 0;
+            if ( !*(&iconWidgetDynamic[70 * j] + v74) )
               MemError();
-            heroWindow::AddWidget(overWin, *((widget **)iconWidgetDynamic + 70 * j + v74), -1);
+            heroWindow::AddWidget(overWin, (widget *)*(&iconWidgetDynamic[70 * j] + v74), -1);
             v72 = v74 + 1;
             ++v51;
           }
@@ -53644,14 +53741,14 @@ void __thiscall game::Overview(void *this)
   heroWindowManager::FadeScreen(gpWindowManager, 1, 8, 0);
   for ( i = 0; i < 3; ++i )
     textWidgetTitle[i] = 0;
-  textWidgetDynamic = BaseAlloc(0x2BC0u, "F:\\h2xsrc\\Source\\Overview.cpp", word_512108 + 17);
-  iconWidgetDynamic = BaseAlloc(0x2BC0u, "F:\\h2xsrc\\Source\\Overview.cpp", word_512108 + 18);
+  textWidgetDynamic = (textWidget **)BaseAlloc(0x2BC0u, "F:\\h2xsrc\\Source\\Overview.cpp", word_512108 + 17);
+  iconWidgetDynamic = (iconWidget **)BaseAlloc(0x2BC0u, "F:\\h2xsrc\\Source\\Overview.cpp", word_512108 + 18);
   for ( j = 0; j < 4; ++j )
   {
     for ( i = 0; i < 70; ++i )
     {
-      *((_DWORD *)textWidgetDynamic + 70 * j + i) = 0;
-      *((_DWORD *)iconWidgetDynamic + 70 * j + i) = 0;
+      *(&textWidgetDynamic[70 * j] + i) = 0;
+      *(&iconWidgetDynamic[70 * j] + i) = 0;
     }
   }
   iLastDynamicType = -1;
@@ -54032,7 +54129,7 @@ signed int __thiscall game::ProcessIconSelect(void *this, signed int a2, unsigne
           hero::ViewArtifact(a1, a3, hro[v14 + 122]);
       }
       if ( v14 >= 170 && v14 <= 173 )
-        NormalDialog(gStatDesc[v14 - 170], a3 < 1 ? 1 : 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gStatDesc[v14 - 170], (NormalDialogType)(a3 < 1 ? 1 : 4), -1, -1, -1, 0, -1, 0, -1, 0);
     }
     if ( giOverviewType == 1 )
     {
@@ -54276,7 +54373,7 @@ LABEL_15:
         if ( v3 >= 100 && v3 <= 102 )
         {
           choice = *((_DWORD *)v5 + 2) - 100;
-          NormalDialog(gStatDesc[choice], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gStatDesc[choice], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
         }
       }
       return 1;
@@ -54412,7 +54509,7 @@ void __thiscall ModemSetup(void *this)
     WFDCStage = 0;
     giWaitType = 7;
     strcpy(&msg, "Waiting for other computer to log in to direct connection.\n\nPress 'CANCEL' to abort.");
-    NormalDialog(&msg, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(&msg, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( !gbFunctionComplete )
       ShutDown(0);
     LogStr("MS5");
@@ -54467,7 +54564,7 @@ void __fastcall GUIModemCommand(const char *a1, const char *a2)
   iModemCommandPos = 0;
   giWaitType = 5;
   strcpy(cModemCommand, (char *)a2);
-  NormalDialog(v2, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog(v2, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
   if ( !gbFunctionComplete )
     ShutDown(0);
 }
@@ -54535,7 +54632,7 @@ char __fastcall GUIModemResponse(const char *a1, const char *a2)
   GUIMRrespptr = 0;
   strcpy(GUIMRresp, v2);
   giWaitType = 6;
-  NormalDialog(v3, 6, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog(v3, DIALOG_CANCEL_ALT, -1, -1, -1, 0, -1, 0, -1, 0);
   if ( !gbFunctionComplete )
     ShutDown(0);
   return 0;
@@ -56240,7 +56337,6 @@ int __thiscall combatManager::RawEffectSpellInfluence(combatManager *this, army 
   __int16 v11; // fps@62
   unsigned __int8 v12; // c0@62
   unsigned __int8 v13; // c3@62
-  combatManager *thisa; // [sp+64h] [bp-58h]@1
   float v15; // [sp+68h] [bp-54h]@30
   signed int numDragons; // [sp+70h] [bp-4Ch]@42
   signed int numShooters; // [sp+78h] [bp-44h]@55
@@ -56261,7 +56357,6 @@ int __thiscall combatManager::RawEffectSpellInfluence(combatManager *this, army 
   int adjustedDistFromOtherSide; // [sp+B4h] [bp-8h]@19
   float turnsToOtherSideAfterCast; // [sp+B8h] [bp-4h]@24
 
-  thisa = this;
   UNDEF(v3);
   chance = army::SpellCastWorkChance(stack, (Spell)giSpellInfluenceToSpell[eff]);
   if ( v4 | v5 )
@@ -56285,7 +56380,7 @@ int __thiscall combatManager::RawEffectSpellInfluence(combatManager *this, army 
         else
         {
 LABEL_7:
-          if ( thisa->isCastleBattle && stack->owningSide == 1 )
+          if ( this->isCastleBattle && stack->owningSide == 1 )
           {
             result = 0;
           }
@@ -56296,14 +56391,14 @@ LABEL_7:
           else if ( army::GetAttackMask(stack, stack->occupiedHex, 1, -1) == 255 )
           {
             hexXCoord = stack->occupiedHex % 13;
-            if ( thisa->currentActionSide )
+            if ( this->currentActionSide )
               distFromOptimalColumn = 10 - hexXCoord;
             else
               distFromOptimalColumn = hexXCoord - 2;
             if ( distFromOptimalColumn < 0 )
               distFromOptimalColumn = 0;
             adjustedDistFromOtherSide = distFromOptimalColumn + 2;
-            if ( thisa->isCastleBattle )
+            if ( this->isCastleBattle )
               adjustedDistFromOtherSide += 3;
             if ( stack->creature.creature_flags & FLYER )
               currentTurnsToOtherSide = 1.0;
@@ -56375,38 +56470,38 @@ LABEL_67:
       case EFFECT_DRAGON_SLAYER:
         v18 = 0;
         numDragons = 0;
-        for ( i = 0; thisa->numCreatures[1 - stack->owningSide] > i; ++i )
+        for ( i = 0; this->numCreatures[1 - stack->owningSide] > i; ++i )
         {
-          if ( thisa->creatures[stack->owningSide][i].creatureIdx == CREATURE_GREEN_DRAGON
-            || thisa->creatures[stack->owningSide][i].creatureIdx == CREATURE_RED_DRAGON
-            || thisa->creatures[stack->owningSide][i].creatureIdx == CREATURE_BLACK_DRAGON
-            || thisa->creatures[stack->owningSide][i].creatureIdx == CREATURE_BONE_DRAGON )
+          if ( this->creatures[stack->owningSide][i].creatureIdx == CREATURE_GREEN_DRAGON
+            || this->creatures[stack->owningSide][i].creatureIdx == CREATURE_RED_DRAGON
+            || this->creatures[stack->owningSide][i].creatureIdx == CREATURE_BLACK_DRAGON
+            || this->creatures[stack->owningSide][i].creatureIdx == CREATURE_BONE_DRAGON )
           {
             ++numDragons;
             if ( army::OtherArmyAdjacent(
                    stack,
-                   thisa->creatures[stack->owningSide][i].owningSide,
-                   thisa->creatures[stack->owningSide][i].stackIdx) )
+                   this->creatures[stack->owningSide][i].owningSide,
+                   this->creatures[stack->owningSide][i].stackIdx) )
               v18 = 1;
           }
         }
         if ( v18 )
           v29 = 1.0;
         else
-          v29 = (double)(numDragons / thisa->numCreatures[1 - stack->owningSide]);
+          v29 = (double)(numDragons / this->numCreatures[1 - stack->owningSide]);
         v19 = (signed __int64)(0.28 * v29);
         goto LABEL_67;
       case EFFECT_SHIELD:
         numShooters = 0;
-        for ( j = 0; thisa->numCreatures[1 - stack->owningSide] > j; ++j )
+        for ( j = 0; this->numCreatures[1 - stack->owningSide] > j; ++j )
         {
-          if ( thisa->creatures[stack->owningSide][j].creature.creature_flags & SHOOTER )
+          if ( this->creatures[stack->owningSide][j].creature.creature_flags & SHOOTER )
             ++numShooters;
         }
-        v30 = (double)(numShooters / thisa->numCreatures[1 - stack->owningSide]);
+        v30 = (double)(numShooters / this->numCreatures[1 - stack->owningSide]);
         if ( !stack->owningSide )
         {
-          if ( thisa->isCastleBattle )
+          if ( this->isCastleBattle )
           {
             UNDEF(v11);
             v30 = v30 + 0.3;
@@ -57179,7 +57274,7 @@ LABEL_22:
             if ( gpGame->relatedToHeroForHireStatus[advManager::GetCell(
                                                       gpAdvManager,
                                                       (unsigned __int8)byte_526C58,
-                                                      (unsigned __int8)byte_526C59)->field_4_1_1_isShadow_1_13_extraInfo >> 3] == giCurPlayer )
+                                                      (unsigned __int8)byte_526C59)->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3] == giCurPlayer )
               goto LABEL_72;
           }
         }
@@ -59337,7 +59432,7 @@ int __fastcall TransmitRemoteData(const void *a1, int a2, size_t a3, char a4, ch
       }
       if ( a6 && v9 == 25 && !v16 )
       {
-        NormalDialog("Error sending data.  Keep trying??", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog("Error sending data.  Keep trying??", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
         if ( gpWindowManager->buttonPressedCode == 30725 )
           v9 = -1;
       }
@@ -59493,7 +59588,7 @@ void __cdecl PollRemote()
             sprintf(
               gText,
               "Your remote connection to the other players appears to be broken.  Do you wish to keep waiting for a response?");
-          NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
           if ( gpWindowManager->buttonPressedCode == 30725 )
           {
             lLastHeartbeatReceive[0] = KBTickCount();
@@ -59516,7 +59611,7 @@ void __cdecl PollRemote()
             sprintf(
               gText,
               "The current game has been saved as 'PLYREXIT'. Do you wish to keep playing with the computer filling in for the other humans?");
-            NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
             if ( gpWindowManager->buttonPressedCode == 30725 )
               DropDownToOnePlayer();
             else
@@ -59540,7 +59635,7 @@ void __cdecl PollRemote()
               gText,
               "%s's computer is not responding.  Do you wish to keep waiting for a response?",
               (char *)&gsNetPlayerInfo + 34 * (_DWORD)i + 4);
-            NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
             if ( gpWindowManager->buttonPressedCode == 30725 )
             {
               lLastHeartbeatReceive[(signed int)i] = KBTickCount();
@@ -59677,7 +59772,7 @@ signed int __fastcall TransmitAndWait(const void *a1, int a2, size_t a3, char a4
       {
         if ( KBTickCount() > v8 + 90000 )
         {
-          NormalDialog("Error sending data.  Keep trying??", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog("Error sending data.  Keep trying??", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
           if ( gpWindowManager->buttonPressedCode != 30725 )
           {
             v11 = 0;
@@ -60281,9 +60376,9 @@ void __thiscall fullMap::ChangeTilesetIndex(fullMap *this, mapCell *cell, int x,
   else if ( cell->objectIndex == 255 || (((unsigned __int8)cell->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == a5 )
   {
     cell->bitfield_1_hasObject_1_isRoad_6_objTileset &= 0xFEu;
-    cell->field_4_1_1_isShadow_1_13_extraInfo &= 0xFFFEu;
-    cell->field_4_1_1_isShadow_1_13_extraInfo &= 0xFFFDu;
-    cell->field_4_1_1_isShadow_1_13_extraInfo &= 0xFFFBu;
+    cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 0xFFFEu;
+    cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 0xFFFDu;
+    cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 0xFFFBu;
     cell->bitfield_1_hasObject_1_isRoad_6_objTileset = 4 * v10 | cell->bitfield_1_hasObject_1_isRoad_6_objTileset & 3;
     cell->objectIndex = a6;
   }
@@ -60313,34 +60408,34 @@ void __thiscall fullMap::ChangeTilesetIndex(fullMap *this, mapCell *cell, int x,
 }
 
 //----- (004703F0) --------------------------------------------------------
-int __thiscall ExpCampaign::ExpCampaign(int this)
+ExpCampaign *__thiscall ExpCampaign::ExpCampaign(ExpCampaign *this)
 {
-  *(_DWORD *)(this + 71) = 0;
+  this->window = 0;
   return this;
 }
 
 //----- (00470440) --------------------------------------------------------
-void *__thiscall ExpCampaign::ResetMapChoices(int this)
+void *__thiscall ExpCampaign::ResetMapChoices(ExpCampaign *this)
 {
-  return memset((void *)(this + 12), 0, 8u);
+  return memset(this->mapChoice, 0, 8u);
 }
 
 //----- (00470470) --------------------------------------------------------
-void *__thiscall ExpCampaign::ResetMapsPlayed(int this)
+void *__thiscall ExpCampaign::ResetMapsPlayed(ExpCampaign *this)
 {
-  return memset((void *)(this + 20), 0, 8u);
+  return memset(this->mapsPlayed, 0, 8u);
 }
 
 //----- (004704A0) --------------------------------------------------------
-void *__thiscall ExpCampaign::ResetAwards(int this)
+void *__thiscall ExpCampaign::ResetAwards(ExpCampaign *this)
 {
-  return memset((void *)(this + 44), 0, 0xBu);
+  return memset(this->awards, 0, 0xBu);
 }
 
 //----- (004704D0) --------------------------------------------------------
-void *__thiscall ExpCampaign::ResetBonusChoices(int this)
+void *__thiscall ExpCampaign::ResetBonusChoices(ExpCampaign *this)
 {
-  return memset((void *)(this + 55), 0, 8u);
+  return memset(this->bonusChoices, 0, 8u);
 }
 
 //----- (00470500) --------------------------------------------------------
@@ -60385,14 +60480,14 @@ int __cdecl _finite(double a1)
 }
 
 //----- (004705C0) --------------------------------------------------------
-void *__thiscall ExpCampaign::InitNewCampaign(int this, int a2)
+void *__thiscall ExpCampaign::InitNewCampaign(ExpCampaign *this, int a2)
 {
-  int v2; // ST0C_4@1
+  ExpCampaign *v2; // ST0C_4@1
 
   v2 = this;
-  *(_DWORD *)this = a2;
-  *(_DWORD *)(this + 4) = -1;
-  *(_DWORD *)(this + 8) = dword_512A30[a2];
+  this->campaignID = a2;
+  this->currentMapID = -1;
+  this->numMaps = dword_512A30[a2];
   ExpCampaign::ResetMapChoices(this);
   ExpCampaign::ResetMapsPlayed(v2);
   ExpCampaign::ResetAwards(v2);
@@ -60646,7 +60741,7 @@ void __thiscall ExpCampaign::ShowInfo(int this, int a2, int a3)
   gbUseEvilInterface = v12;
   if ( gpWindowManager->buttonPressedCode == 901 )
   {
-    NormalDialog("Are you sure you want to restart this scenario?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("Are you sure you want to restart this scenario?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( gpWindowManager->buttonPressedCode == 30725 )
     {
       ExpCampaign::InitMap(v3);
@@ -61359,7 +61454,7 @@ signed int __thiscall ExpCampaign::MessageHandler(void *this)
         {
           NormalDialog(
             "The currently selected map is not a valid choice for your next scenario.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -64794,7 +64889,7 @@ signed int __thiscall CombatSystemOptionsHandler(void *this)
           }
         }
         if ( v5 >= 0 )
-          NormalDialog(gEventText[v5 + 102], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gEventText[v5 + 102], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       }
     }
     else
@@ -68845,7 +68940,7 @@ LABEL_58:
     ShutDown(0);
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
   }
-  NormalDialog("Are you sure you want to quit?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog("Are you sure you want to quit?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
   if ( gpWindowManager->buttonPressedCode == 30725 )
     DestroyWindow(hWnd);
   return 0;
@@ -69253,33 +69348,35 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       DoTradingPost(0, 1045220557);
       goto LABEL_511;
     case LOCATION_MAGIC_GARDEN:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
           1,
           "{Magic Garden}\n\nYou catch a leprechaun foolishly sleeping amidst a cluster of magic mushrooms.  In exchange for his freedom, he guides you to a small pot filled with precious things.",
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
-          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5,
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+        - 7 < 1 ? 500 : 5,
           -1,
           0,
           -1);
         advManager::GiveResource(
           this,
           hero,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
-          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5);
-        loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          (unsigned int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+        - 7 < 1 ? 500 : 5);
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
       }
       else
       {
@@ -69298,15 +69395,15 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
-      sphinxMapExtra = (sphinxMapExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      sphinxMapExtra = (sphinxMapExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       if ( sphinxMapExtra->unclaimed )
       {
         sprintf(
           gText,
           "\"I have a riddle for you,\" the Sphinx says.  \"Answer correctly, and you shall be rewarded.  Answer incorrectly, and you shall be eaten.  Do you accept the challenge?\"");
-        NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
         if ( gpWindowManager->buttonPressedCode == 0x7805 )
         {
           sprintf(gText, "The Sphinx asks you the following riddle:\n\n'%s'\n\nYour answer?", sphinxMapExtra->riddle);
@@ -69352,7 +69449,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
             }
             NormalDialog(
               "Looking somewhat disappointed, the Sphinx sighs.  You've answered my riddle so here's your reward.  Now begone.",
-              1,
+              DIALOG_OKAY,
               -1,
               -1,
               img1Type,
@@ -69367,7 +69464,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
           {
             NormalDialog(
               "\"You guessed incorrectly,\" the Sphinx says, smiling.  The Sphinx swipes at you with a paw, knocking you to the ground.  Another blow makes the world go black, and you know no more.",
-              1,
+              DIALOG_OKAY,
               -1,
               -1,
               -1,
@@ -69384,7 +69481,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         NormalDialog(
           "{Sphinx}\n\nYou come across a giant Sphinx.  The Sphinx remains strangely quiet.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -69399,11 +69496,11 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       NormalDialog(
         "{Observation Tower}\n\nFrom the observation tower, you are able to see distant lands.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -69461,7 +69558,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero::UpgradeCreatures(hero, CREATURE_OGRE, CREATURE_OGRE_LORD);
         hero::UpgradeCreatures(hero, CREATURE_ORC, CREATURE_ORC_CHIEF);
@@ -69543,7 +69640,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero::UpgradeCreatures(hero, 3, 4);
         hero::UpgradeCreatures(hero, 5, 6);
@@ -69581,24 +69678,25 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       }
       goto LABEL_511;
     case LOCATION_SEA_CHEST:
-      if ( ((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 && hero::NumArtifacts(hero) < 14 )
+      if ( ((unsigned __int16)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1
+        && hero::NumArtifacts(hero) < 14 )
       {
-        v4 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v4 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         sprintf(
           gText,
           "{Chest}\n\nAfter spending hours trying to fish the chest out of the sea, you open it and find 1000 gold and the %s",
           gArtifactNames[(unsigned __int8)v4]);
-        v5 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
-        NormalDialog(gText, 1, -1, -1, 7, (unsigned __int8)v5, 6, 1000, -1, 0);
-        v6 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v5 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, 7, (unsigned __int8)v5, 6, 1000, -1, 0);
+        v6 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         GiveArtifact(hero, (ARTIFACT)(unsigned __int8)v6, 1, -1);
         advManager::GiveResource(this, hero, 6, 1000);
       }
-      else if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      else if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         NormalDialog(
           "{Chest}\n\nAfter spending hours trying to fish the chest out of the sea, you open it and find 1500 gold pieces.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           6,
@@ -69613,7 +69711,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         NormalDialog(
           "{Chest}\n\nAfter spending hours trying to fish the chest out of the sea, you open it, only to find it empty.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -69627,15 +69725,25 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       shouldDelete = 1;
       goto LABEL_511;
     case LOCATION_FLOTSAM:
-      switch ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      switch ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         case 0u:
-          NormalDialog("{Flotsam}\n\nYou search through the flotsam, but find nothing.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(
+            "{Flotsam}\n\nYou search through the flotsam, but find nothing.",
+            DIALOG_OKAY,
+            -1,
+            -1,
+            -1,
+            0,
+            -1,
+            0,
+            -1,
+            0);
           break;
         case 1u:
           NormalDialog(
             "{Flotsam}\n\nYou search through the flotsam, and find some wood.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             0,
@@ -69649,7 +69757,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         case 2u:
           NormalDialog(
             "{Flotsam}\n\nYou search through the flotsam, and find some wood and some gold.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             0,
@@ -69664,7 +69772,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         case 3u:
           NormalDialog(
             "{Flotsam}\n\nYou search through the flotsam and find some wood and some gold.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             0,
@@ -69687,7 +69795,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         NormalDialog(
           "{Shipwreck Survivor}\n\nYou've pulled a shipwreck survivor from certain death in an unforgiving ocean.  Grateful, he says, \"I would give you an artifact as a reward, but you're all full.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -69702,21 +69810,21 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         sprintf(
           gText,
           "{Shipwreck Survivor}\n\nYou've pulled a shipwreck survivor from certain death in an unforgiving ocean.  Grateful, he rewards you for your act of kindness by giving you the %s.",
-          gArtifactNames[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+          gArtifactNames[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
         NormalDialog(
           gText,
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           7,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           -1,
           0,
           -1,
           0);
         GiveArtifact(
           hero,
-          (ARTIFACT)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (ARTIFACT)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           1,
           -1);
       }
@@ -69729,11 +69837,11 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Magellan's Maps}\n\nA retired captain living on this refurbished fishing platform offers to sell you maps of the sea he made in his younger days for 1,000 gold.  Do you wish to buy the maps?",
-          2,
+          DIALOG_YES_NO,
           -1,
           -1,
           -1,
@@ -69754,7 +69862,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         NormalDialog(
           "{Magellan's Maps}\n\nThe captain sighs.  \"You don't have enough money, eh?  You can't expect me to give my maps away for free!\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -69766,61 +69874,64 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       }
       goto LABEL_511;
     case LOCATION_WITCH_HUT:
-      if ( hero->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
+      if ( hero->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
       {
         sprintf(
           gText,
           "{Witch's Hut}\n\nYou approach the hut and observe a witch inside studying an ancient tome on %s.  As you approach, she turns and speaks.  \"You already know that which I would teach you. I can help you no further.\"",
-          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
-        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       else if ( hero->numSecSkillsKnown < 8 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         sprintf(
           gText,
           "{Witch's Hut}\n\nAn ancient and immortal witch living in a hut with bird's legs for stilts teaches you %s for her own inscrutable purposes.",
-          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
         advManager::EventWindow(
           -1,
           1,
           gText,
           17,
-          3 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          3 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           -1,
           0,
           -1);
-        hero::GiveSS(hero, (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5), 1);
+        hero::GiveSS(
+          hero,
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          1);
       }
       else
       {
         sprintf(
           gText,
           "{Witch's Hut}\n\nYou approach the hut and observe a witch inside studying an ancient tome on %s.  As you approach, she turns and focuses her one glass eye on you.  \"You already know everything you deserve to learn!\" the witch screeches. \"NOW GET OUT OF MY HOUSE!\"",
-          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
-        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          gSecondarySkills[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       goto LABEL_511;
     case LOCATION_ARTESIAN_SPRING:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         v7 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
         v63 = 10 * v7;
         if ( hero->spellpoints < 20 * v7 )
         {
           NormalDialog(
             "{Artesian Spring}\n\nA drink from the spring fills your blood with magic!  You have twice your normal spell points in reserve.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -69835,7 +69946,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         {
           NormalDialog(
             "{Artesian Spring}\n\nA drink at the spring is supposed to give you twice your normal spell points, but you are already at that level.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -69850,7 +69961,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         NormalDialog(
           "{Artesian Spring}\n\nThe spring only refills once a week, and someone's already been here this week.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -69866,7 +69977,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       {
         NormalDialog(
           "{Magic Well}\n\nA second drink at the well in one day will not help you.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -69881,15 +69992,15 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         maxSP = 10 * hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
         if ( hero->spellpoints < maxSP )
         {
           NormalDialog(
             "{Magic Well}\n\nA drink from the well has restored your spell points to maximum.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -69905,7 +70016,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
         {
           NormalDialog(
             "{Magic Well}\n\nA drink at the well is supposed to restore your spell points, but you are already at maximum.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -69935,7 +70046,7 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       }
       goto LABEL_511;
     case LOCATION_BOAT:
-      v69 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v69 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       game::RestoreCell(-1, -1, v69->underlyingObjType, v69->underlyingObjExtra, (int)loc, 2);
       hero->flags |= HERO_AT_SEA;
       hero->remainingMobility = 0;
@@ -69949,15 +70060,15 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
       advManager::UpdateScreen(this, 0, 0);
       goto LABEL_511;
     case LOCATION_MINE:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
         goto LABEL_511;
-      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
+      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
         goto LABEL_126;
       v60 = advManager::CombatMonsterEvent(
               this,
               hero,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
               loc,
               locX,
               locY,
@@ -69972,19 +70083,19 @@ void __thiscall advManager::DoEvent(advManager *this, mapCell *loc, int locX, in
               0);
       if ( !v60 )
       {
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
         hero::CheckLevel(hero);
 LABEL_126:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 6 )
+        if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 6 )
         {
           v82 = 1000;
         }
-        else if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 2 )
+        else if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type == 2 )
         {
           v82 = 2;
         }
@@ -69993,11 +70104,11 @@ LABEL_126:
           v82 = 1;
         }
         advManager::EventWindow(
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type
         + 59,
           1,
           byte_514A64,
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type,
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type,
           -v82,
           -1,
           0,
@@ -70006,86 +70117,89 @@ LABEL_126:
       }
       goto LABEL_511;
     case LOCATION_ALCHEMIST_LAB:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
         goto LABEL_511;
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(0, 1, byte_514A68, 1, -1, -1, 0, -1);
       goto LABEL_136;
     case LOCATION_SAWMILL:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(73, 1, byte_514A6C, 0, -2, -1, 0, -1);
 LABEL_136:
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
       }
       goto LABEL_511;
     case LOCATION_LIGHTHOUSE:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
         advManager::EventWindow(58, 1, byte_514A70, -1, 0, -1, 0, -1);
       }
       goto LABEL_511;
     case LOCATION_TREASURE_CHEST:
-      if ( !(((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1) )
+      if ( !(((unsigned __int16)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1) )
         goto LABEL_143;
       if ( hero::NumArtifacts(hero) < 14 )
       {
-        v9 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v9 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         sprintf(
           gText,
           "{Chest}\n\nAfter scouring the area, you fall upon a hidden chest, containing the ancient artifact '%s'",
           gArtifactNames[(unsigned __int8)v9]);
-        v10 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
-        NormalDialog(gText, 1, -1, -1, 7, (unsigned __int8)v10, -1, 0, -1, 0);
-        v11 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v10 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, 7, (unsigned __int8)v10, -1, 0, -1, 0);
+        v11 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         GiveArtifact(hero, (ARTIFACT)(unsigned __int8)v11, 1, -1);
       }
       else
       {
-        v8 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+        v8 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
         LOBYTE(v8) = v8 | 0x10;
-        loc->field_4_1_1_isShadow_1_13_extraInfo = v8;
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v8;
 LABEL_143:
         advManager::EventWindow(
           -1,
           2,
           "{Chest}\n\nAfter scouring the area, you fall upon a hidden treasure cache.  You may take the gold or distribute the gold to the peasants for experience.  Do you wish to keep the gold?",
           6,
-          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           14,
-          125 * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
+          125
+        * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
           1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
           advManager::GiveResource(
             this,
             hero,
             6,
-            500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+            500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
         else
           advManager::GiveExperience(
             hero,
-            125 * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
+            125
+          * (4 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+           - 4),
             0);
       }
       shouldDelete = 1;
@@ -70102,7 +70216,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 2u;
         ++hero->tempMoraleBonuses;
@@ -70119,7 +70233,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x10u;
         ++hero->tempLuckBonuses;
@@ -70144,7 +70258,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x2000u;
         ++hero->tempLuckBonuses;
@@ -70169,7 +70283,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 4u;
         ++hero->tempLuckBonuses;
@@ -70194,7 +70308,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x200u;
         ++hero->tempMoraleBonuses;
@@ -70229,7 +70343,7 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 8u;
         ++hero->tempMoraleBonuses;
@@ -70251,7 +70365,7 @@ LABEL_143:
       {
         NormalDialog(
           "{Temple}\n\nIt doesn't help to pray twice before a battle.  Come back after you've fought.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70266,13 +70380,13 @@ LABEL_143:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         hero->flags |= 0x100u;
         hero->tempMoraleBonuses += 2;
         NormalDialog(
           "{Temple}\n\nA visit and a prayer at the temple raises the morale of your troops.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           12,
@@ -70284,19 +70398,19 @@ LABEL_143:
       }
       goto LABEL_511;
     case LOCATION_LEAN_TO:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        v12 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v12 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         v13 = (v12 & 0xF0u) >> 4;
-        v14 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v14 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         NormalDialog(
           "{Lean To}\n\nYou've found an abandoned lean-to.  Poking about, you discover some resources hidden nearby.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           (v14 & 0xF) - 1,
@@ -70305,17 +70419,17 @@ LABEL_143:
           0,
           -1,
           0);
-        v15 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v15 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         v16 = (v15 & 0xF0u) >> 4;
-        v17 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v17 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         advManager::GiveResource(this, hero, (v17 & 0xF) - 1, v16);
-        loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
       }
       else
       {
         NormalDialog(
           "{Lean To}\n\nThe lean-to is long abandoned.  There is nothing of value here.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70327,9 +70441,9 @@ LABEL_143:
       }
       goto LABEL_511;
     case LOCATION_WAGON:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
         goto LABEL_180;
-      if ( (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
+      if ( (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
       {
         if ( hero::NumArtifacts(hero) == 14 )
         {
@@ -70343,16 +70457,16 @@ LABEL_180:
             -1,
             0,
             -1);
-          loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         }
         else
         {
           advManager::EventSound(
             this,
             locType,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
             &res2);
-          v18 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+          v18 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
           a2 = v18 & 0x7F;
           sprintf(
             gText,
@@ -70360,7 +70474,7 @@ LABEL_180:
             gArtifactNames[v18 & 0x7F]);
           advManager::EventWindow(-1, 1, gText, 7, a2, -1, 0, -1);
           GiveArtifact(hero, (ARTIFACT)a2, 1, -1);
-          loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         }
       }
       else
@@ -70368,11 +70482,11 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        v19 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v19 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         v20 = (v19 & 0xF0u) >> 4;
-        v21 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v21 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         advManager::EventWindow(
           -1,
           1,
@@ -70382,15 +70496,15 @@ LABEL_180:
           -1,
           0,
           -1);
-        v22 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v22 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         v23 = (v22 & 0xF0u) >> 4;
-        v24 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v24 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         advManager::GiveResource(this, hero, (v24 & 0xF) - 1, v23);
-        loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_511;
     case LOCATION_SKELETON:
-      if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+      if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
       {
         advManager::EventWindow(93, 1, byte_515240, -1, 0, -1, 0, -1);
       }
@@ -70399,7 +70513,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         if ( hero::NumArtifacts(hero) == 14 )
         {
@@ -70409,50 +70523,51 @@ LABEL_180:
         }
         else
         {
-          a2 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 2;
+          a2 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+             - 2;
           sprintf(gText, "%s %s", gEventText[94], gArtifactNames[a2]);
           GiveArtifact(hero, (ARTIFACT)a2, 1, -1);
           advManager::EventWindow(-1, 1, gText, 7, a2, -1, 0, -1);
         }
-        v25 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+        v25 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
         LOBYTE(v25) = v25 | 8;
-        loc->field_4_1_1_isShadow_1_13_extraInfo = v25;
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v25;
       }
       goto LABEL_511;
     case LOCATION_CAMPFIRE:
-      v26 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+      v26 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
       advManager::EventWindow(
         14,
         1,
         byte_51525C,
         6,
         100
-      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4),
+      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4),
         v26 & 0xF,
-        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4,
+        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4,
         -1);
       advManager::GiveResource(
         this,
         hero,
         6,
         100
-      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
-      v27 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+      * ((signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
+      v27 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
       advManager::GiveResource(
         this,
         hero,
         v27 & 0xF,
-        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
+        (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
       shouldDelete = 1;
       v90 = 1;
       advManager::SetEnvironmentOrigin(this, this->viewX + 7, this->viewY + 7, 1);
       goto LABEL_511;
     case LOCATION_XANADU:
-      if ( (1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hero->xanadusVisited )
+      if ( (1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hero->xanadusVisited )
       {
         NormalDialog(
           "{Xanadu}\n\nRecognizing you, the butler refuses to admit you.  \"The master,\" he says, \"will not see the same student twice.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70466,7 +70581,7 @@ LABEL_180:
       {
         NormalDialog(
           "{Xanadu}\n\nThe butler opens the door and looks you up and down.  \"You are neither famous nor diplomatic enough to be admitted to see my master,\" he sniffs.  \"Come back when you think yourself worthy.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70481,11 +70596,11 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Xanadu}\n\nThe butler admits you to see the master of the house.  He trains you in the four skills a hero should know.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70498,15 +70613,15 @@ LABEL_180:
         ++hero->primarySkills[1];
         ++hero->primarySkills[3];
         ++hero->primarySkills[2];
-        hero->xanadusVisited |= 1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hero->xanadusVisited |= 1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_511;
     case LOCATION_FORT:
-      if ( (1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hero->fortsVisited )
+      if ( (1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hero->fortsVisited )
       {
         NormalDialog(
           "{Fort}\n\n \"I'm sorry sir,\" The leader of the soldiers says, \"but you already know everything we have to teach.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70521,11 +70636,11 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Fort}\n\n The soldiers living in the fort teach you a few new defensive tricks.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           25,
@@ -70535,15 +70650,15 @@ LABEL_180:
           -1,
           0);
         ++hero->primarySkills[1];
-        hero->fortsVisited |= 1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hero->fortsVisited |= 1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_511;
     case LOCATION_STANDING_STONES:
-      if ( (1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hero->standingStonesVisited )
+      if ( (1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hero->standingStonesVisited )
       {
         NormalDialog(
           "{Standing Stones}\n\nYou've found a group of Druids worshipping at one of their strange stone edifices.  Silently, the Druids turn you away, indicating they have nothing new to teach you.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70558,11 +70673,11 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Standing Stones}\n\nYou've found a group of Druids worshipping at one of their strange stone edifices.  Silently, they teach you new ways to cast spells.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           25,
@@ -70572,15 +70687,15 @@ LABEL_180:
           -1,
           0);
         ++hero->primarySkills[2];
-        hero->standingStonesVisited |= 1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hero->standingStonesVisited |= 1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_511;
     case LOCATION_WITCH_DOCTORS_HUT:
-      if ( (1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hero->witchDoctorHutsVisited )
+      if ( (1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hero->witchDoctorHutsVisited )
       {
         NormalDialog(
           "{Witch Doctor's Hut}\n\n\"Go 'way!\", the witch doctor barks, \"you know all I know.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70595,11 +70710,11 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Witch Doctor's Hut}\n\nAn Orcish witch doctor living in the hut deepens your knowledge of magic by showing you how to cast stones, read portents, and decipher the intricacies of chicken entrails.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           25,
@@ -70609,15 +70724,15 @@ LABEL_180:
           -1,
           0);
         ++hero->primarySkills[3];
-        hero->witchDoctorHutsVisited |= 1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hero->witchDoctorHutsVisited |= 1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_511;
     case LOCATION_MERCENARY_CAMP:
-      if ( (1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hero->mercenaryCampsVisited )
+      if ( (1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hero->mercenaryCampsVisited )
       {
         NormalDialog(
           "{Mercenary Camp}\n\nYou've come upon a mercenary camp practicing their tactics.  \"You're too advanced for us,\" the mercenary captain says.  \"We can teach nothing more.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -70632,11 +70747,11 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         NormalDialog(
           "{Mercenary Camp}\n\nYou've come upon a mercenary camp practicing their tactics.  The mercenaries welcome you and your troops and invite you to train with them.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           25,
@@ -70646,11 +70761,11 @@ LABEL_180:
           -1,
           0);
         ++hero->primarySkills[0];
-        hero->mercenaryCampsVisited |= 1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hero->mercenaryCampsVisited |= 1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_511;
     case LOCATION_GAZEBO:
-      if ( (1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hero->gazeboesVisited )
+      if ( (1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hero->gazeboesVisited )
       {
         advManager::EventWindow(17, 1, byte_515894, -1, 0, -1, 0, -1);
       }
@@ -70659,28 +70774,28 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(18, 1, byte_515898, 14, 1000, -1, 0, -1);
         advManager::GiveExperience(hero, 1000, 0);
-        hero->gazeboesVisited |= 1 << (loc->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hero->gazeboesVisited |= 1 << (loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
         hero::CheckLevel(hero);
       }
       goto LABEL_511;
     case LOCATION_WATERWHEEL:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           60,
           1,
           byte_5158A0,
           6,
-          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           -1,
           0,
           -1);
@@ -70688,8 +70803,8 @@ LABEL_180:
           this,
           hero,
           6,
-          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
-        loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          500 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
       }
       else
       {
@@ -70699,23 +70814,25 @@ LABEL_180:
     case LOCATION_RESOURCE:
       type = loc->objectIndex >> 1;
       if ( type == 6 )
-        amt = 100 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = 100
+            * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
       else
-        amt = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
       advManager::GiveResource(this, hero, type, amt);
       strcpy(&a1, gResourceNames[type]);
       a1 += 32;
       sprintf(gText, gEventText[72], &a1);
       if ( type == 6 )
-        v50 = 100 * (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        v50 = 100
+            * (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
       else
-        v50 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        v50 = (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
       BVResMsg(gText, type, v50);
       shouldDelete = 1;
       v90 = 1;
       goto LABEL_511;
     case LOCATION_WINDMILL:
-      if ( (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) > 6 )
+      if ( (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) > 6 )
       {
         advManager::EventWindow(86, 1, byte_5158A8, -1, 0, -1, 0, -1);
       }
@@ -70724,13 +70841,13 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           87,
           1,
           byte_5158A4,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           2,
           -1,
           0,
@@ -70738,22 +70855,22 @@ LABEL_180:
         advManager::GiveResource(
           this,
           hero,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           2);
-        loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 0x318;
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 0x318;
       }
       goto LABEL_511;
     case LOCATION_ANCIENT_LAMP:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(19, 2, byte_5158AC, -1, 0, -1, 0, -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
         advManager::RecruitEvent(this, hero, 60, loc);
-        if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+        if ( !((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
         {
           shouldDelete = 1;
           v90 = 1;
@@ -70761,12 +70878,12 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_TREE_CITY:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70794,12 +70911,12 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_RUINS:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70827,7 +70944,7 @@ LABEL_180:
       }
       goto LABEL_511;
     case LOCATION_TROLL_BRIDGE:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         advManager::EventWindow(
           -1,
@@ -70840,7 +70957,7 @@ LABEL_180:
           -1);
         goto LABEL_511;
       }
-      if ( ((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
+      if ( ((unsigned __int16)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
       {
         advManager::EventWindow(
           -1,
@@ -70856,13 +70973,11 @@ LABEL_180:
         if ( advManager::CombatMonsterEvent(this, hero, 17, 12, loc, locX, locY, 0, locX, locY, 18, 8, 2, -1, 0, 0) )
           goto LABEL_511;
         hero::CheckLevel(hero);
-        loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                                * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
-                                                                                                 - 256);
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 256);
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70881,7 +70996,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70898,7 +71013,7 @@ LABEL_180:
       advManager::RecruitEvent(this, hero, 17, loc);
       goto LABEL_511;
     case LOCATION_CITY_OF_DEAD:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         advManager::EventWindow(
           -1,
@@ -70911,7 +71026,7 @@ LABEL_180:
           -1);
         goto LABEL_511;
       }
-      if ( ((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
+      if ( ((unsigned __int16)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
       {
         advManager::EventWindow(
           -1,
@@ -70927,13 +71042,11 @@ LABEL_180:
         if ( advManager::CombatMonsterEvent(this, hero, 53, 10, loc, locX, locY, 0, locX, locY, 48, 40, 2, 55, 5, 1) )
           goto LABEL_511;
         hero::CheckLevel(hero);
-        loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                                * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
-                                                                                                 - 256);
+        loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 256);
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70952,7 +71065,7 @@ LABEL_180:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -70969,7 +71082,7 @@ LABEL_180:
       advManager::RecruitEvent(this, hero, 55, loc);
       goto LABEL_511;
     case LOCATION_DRAGON_CITY:
-      if ( !((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      if ( !((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         advManager::EventWindow(
           -1,
@@ -70982,12 +71095,12 @@ LABEL_180:
           -1);
         goto LABEL_511;
       }
-      if ( !(((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1) )
+      if ( !(((unsigned __int16)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1) )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(
           -1,
@@ -71038,11 +71151,11 @@ LABEL_180:
           if ( !gbGameOver )
           {
             hero::CheckLevel(hero);
-            loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 256);
+            loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 256);
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             advManager::EventWindow(
               -1,
@@ -71084,12 +71197,12 @@ LABEL_511:
       CheckEndGame(0, 0);
       return;
     case LOCATION_WAGON_CAMP:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(84, 2, byte_516138, -1, 0, -1, 0, -1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
@@ -71101,12 +71214,12 @@ LABEL_511:
       }
       goto LABEL_511;
     case LOCATION_DESRT_TENT:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         advManager::EventWindow(82, 2, byte_516140, -1, 0, -1, 0, -1);
         if ( gpWindowManager->buttonPressedCode == 30725 )
@@ -71128,11 +71241,11 @@ LABEL_511:
     case LOCATION_HALFLING_HOLE:
     case LOCATION_EXCAVATION:
     case LOCATION_CAVE:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
       advManager::HouseEvent((int)hero, (int)loc);
       goto LABEL_511;
@@ -71148,7 +71261,7 @@ LABEL_511:
         __PAIR__(locY, locX));
       goto LABEL_511;
     case LOCATION_OBELISK:
-      if ( gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+      if ( gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                            + 47] & (1 << hero->ownerIdx) )
       {
         advManager::EventWindow(69, 1, byte_516148, -1, 0, -1, 0, -1);
@@ -71158,19 +71271,20 @@ LABEL_511:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
-        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) + 47] |= 1 << hero->ownerIdx;
+        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                        + 47] |= 1 << hero->ownerIdx;
         advManager::EventWindow(68, 1, byte_516144, -1, 0, -1, 0, -1);
         advManager::ViewPuzzle(this);
       }
       goto LABEL_511;
     case LOCATION_TREE_OF_KNOWLEDGE:
-      if ( (1 << ((loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & hero->treesOfKnowledgeVisited )
+      if ( (1 << ((loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & hero->treesOfKnowledgeVisited )
       {
         NormalDialog(
           "{Tree of Knowledge}\n\nUpon your approach, the tree opens its eyes in delight.  \"It is good to see you, my student.  I hope my teachings have helped you.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -71185,18 +71299,18 @@ LABEL_511:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         level = hero::GetLevel(hero->experience);
         v28 = hero::GetExperience(level + 1);
         xp = v28 - hero::GetExperience(level);
-        v48 = (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
+        v48 = (signed int)(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
         switch ( v48 )
         {
           case 1:
             NormalDialog(
               "{Tree of Knowledge}\n\nUpon your approach, the tree opens its eyes in delight.  \"Ahh, an adventurer!  Allow me to teach you a little of what I have learned over the ages.\"",
-              1,
+              DIALOG_OKAY,
               -1,
               -1,
               14,
@@ -71206,14 +71320,14 @@ LABEL_511:
               -1,
               0);
             advManager::GiveExperience(hero, xp, 0);
-            hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+            hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
             break;
           case 2:
             if ( gpCurPlayer->resources[6] < 2000 )
             {
               NormalDialog(
                 "{Tree of Knowledge}\n\nTears brim in the eyes of the tree.  \"I need 2000 gold.\" it whispers. (sniff)  \"Well, come back when you can pay me.\"",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71227,7 +71341,7 @@ LABEL_511:
             {
               NormalDialog(
                 "{Tree of Knowledge}\n\nUpon your approach, the tree opens its eyes in delight.  \"Ahh, an adventurer! I will be happy to teach you a little of what I have learned over the ages for a mere 2000 gold.\"  (Just bury it around my roots.)",
-                2,
+                DIALOG_YES_NO,
                 -1,
                 -1,
                 14,
@@ -71240,7 +71354,7 @@ LABEL_511:
               {
                 gpCurPlayer->resources[6] -= 2000;
                 advManager::GiveExperience(hero, xp, 0);
-                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
               }
             }
             break;
@@ -71249,7 +71363,7 @@ LABEL_511:
             {
               NormalDialog(
                 "{Tree of Knowledge}\n\nTears brim in the eyes of the tree.  \"I need 10 gems.\" it whispers. (sniff)  \"Well, come back when you can pay me.\"",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71263,7 +71377,7 @@ LABEL_511:
             {
               NormalDialog(
                 "{Tree of Knowledge}\n\nAhh, an adventurer! I will be happy to teach you a little of what I have learned over the ages for a mere 10 gems.\"  (Just bury it around my roots.)",
-                2,
+                DIALOG_YES_NO,
                 -1,
                 -1,
                 14,
@@ -71276,7 +71390,7 @@ LABEL_511:
               {
                 gpCurPlayer->resources[5] -= 10;
                 advManager::GiveExperience(hero, xp, 0);
-                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+                hero->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
               }
             }
             break;
@@ -71288,7 +71402,7 @@ LABEL_511:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(74, 1, byte_516540, -1, 0, -1, 0, -1);
       thisb = (heroWindow *)operator new(68);
@@ -71315,25 +71429,26 @@ LABEL_511:
         gText,
         "%s'%s'.  ",
         "{Shrine of the 1st Circle}\n\nYou come across a small shrine attended by a group of novice acolytes.  In exchange for your protection, they agree to teach you a simple spell - ",
-        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
       goto LABEL_333;
     case LOCATION_SHRINE_SECOND_ORDER:
       sprintf(
         gText,
         "%s'%s'.  ",
         "{Shrine of the 2nd Circle}\n\nYou come across an ornate shrine attended by a group of rotund friars.  In exchange for your protection, they agree to teach you a spell - ",
-        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
       goto LABEL_333;
     case LOCATION_SHRINE_THIRD_ORDER:
       sprintf(
         gText,
         "%s'%s'.  ",
         "{Shrine of the 3rd Circle}\n\nYou come across a lavish shrine attended by a group of high priests.  In exchange for your protection, they agree to teach you a sophisticated spell - ",
-        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+        dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
 LABEL_333:
       if ( hero::HasArtifact(hero, 81) )
       {
-        if ( gsSpellInfo[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1].level > hero->secondarySkillLevel[7] + 2 )
+        if ( gsSpellInfo[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                       - 1].level > hero->secondarySkillLevel[7] + 2 )
         {
           strcat(
             gText,
@@ -71345,19 +71460,19 @@ LABEL_333:
           advManager::EventSound(
             this,
             locType,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
             &res2);
           v29 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
           hero::AddSpell(
             hero,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
             v29);
           advManager::EventWindow(
             -1,
             1,
             gText,
             8,
-            (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+            (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
             -1,
             0,
             -1);
@@ -71376,7 +71491,7 @@ LABEL_333:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::DoWhirlpool(this, hero);
       goto LABEL_343;
@@ -71384,7 +71499,7 @@ LABEL_333:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
 LABEL_343:
       v70 = 0;
@@ -71436,14 +71551,24 @@ LABEL_357:
       advManager::TeleportTo(gpAdvManager, hero, x, y, 1, 0);
       goto LABEL_511;
     case LOCATION_ARTIFACT:
-      v32 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+      v32 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
       v77 = (v32 & 0xF0u) >> 4;
       a5 = loc->objectIndex >> 1;
-      v33 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+      v33 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
       creat = v33 & 0x7F;
       if ( hero::NumArtifacts(hero) == 14 )
       {
-        NormalDialog("You cannot pick up this artifact, you already have a full load!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(
+          "You cannot pick up this artifact, you already have a full load!",
+          DIALOG_OKAY,
+          -1,
+          -1,
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          0);
         goto LABEL_511;
       }
       if ( xIsPlayingExpansionCampaign && ExpCampaign::IsSpecialGoldenBow((int)&xCampaign, locX, locY) )
@@ -71451,13 +71576,17 @@ LABEL_357:
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         strcpy(
           gText,
           "The fabled golden bow of the elves lies here in the dust.  You take it and journey back to the elven towns.  They shower you with their graciousness and the king promises that his people will aid you whenever you seek help.");
         advManager::EventWindow(-1, 1, gText, 7, a5, -1, 0, -1);
-        GiveArtifact(hero, (ARTIFACT)a5, 1, (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        GiveArtifact(
+          hero,
+          (ARTIFACT)a5,
+          1,
+          (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
         shouldDelete = 1;
         v90 = 1;
         goto LABEL_511;
@@ -71465,29 +71594,29 @@ LABEL_357:
       if ( a5 == ARTIFACT_SPELL_SCROLL )
       {
         advManager::EventSound(this, locType, 1, &res2);
-        xTheSpell = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        xTheSpell = (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
         advManager::EventWindow(-1, 1, *(&gArtifactEvents + 86), 7, ARTIFACT_SPELL_SCROLL, -1, 0, -1);
         GiveArtifact(
           hero,
           ARTIFACT_SPELL_SCROLL,
           1,
-          (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
         shouldDelete = 1;
         v90 = 1;
         goto LABEL_511;
       }
-      if ( ((unsigned __int16)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
+      if ( ((unsigned __int16)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
       {
         advManager::EventSound(
           this,
           locType,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           &res2);
         if ( creat == 57 )
         {
           NormalDialog(
             "{Artifact}\n\nYou come upon an ancient artifact.  As you reach for it, a pack of Rogues leap out of the brush to guard their stolen loot.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -71506,12 +71635,12 @@ LABEL_357:
             "{Artifact}\n\nThrough a clearing you observe an ancient artifact.  Unfortunately, it's guarded by a nearby %s.  Do you want to fight the %s for the artifact?",
             gArmyNames[creat],
             gArmyNames[creat]);
-          NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
           if ( gpWindowManager->buttonPressedCode != 30725 )
           {
             NormalDialog(
               "Discretion is the better part of valor, and you decide to avoid this fight for today.",
-              1,
+              DIALOG_OKAY,
               -1,
               -1,
               -1,
@@ -71527,7 +71656,7 @@ LABEL_357:
           goto LABEL_511;
         hero::CheckLevel(hero);
         sprintf(gText, "Victorious, you take your prize, the %s", gArtifactNames[a5]);
-        NormalDialog(gText, 1, -1, -1, 7, loc->objectIndex >> 1, -1, 0, -1, 0);
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, 7, loc->objectIndex >> 1, -1, 0, -1, 0);
 LABEL_392:
         GiveArtifact(hero, (ARTIFACT)a5, 1, -1);
         shouldDelete = 1;
@@ -71535,7 +71664,7 @@ LABEL_392:
       }
       else
       {
-        v34 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v34 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         switch ( v34 & 0xF )
         {
           case 4:
@@ -71545,7 +71674,7 @@ LABEL_392:
               gText,
               "{Artifact}\n\nYou've found the humble dwelling of a withered hermit.  The hermit tells you that he is willing to give the %s to the first wise person he meets.",
               gArtifactNames[a5]);
-            NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
             break;
           case 5:
             if ( hero->secondarySkillLevel[6] )
@@ -71554,14 +71683,14 @@ LABEL_392:
               gText,
               "{Artifact}\n\nYou've come across the spartan quarters of a retired soldier.  The soldier tells you that he is willing to pass on the %s to the first true leader he meets.",
               gArtifactNames[a5]);
-            NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
             break;
           case 1:
 LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             advManager::EventWindow(-1, 1, (&gArtifactEvents)[4 * a5], 7, a5, -1, 0, -1);
             goto LABEL_392;
@@ -71569,7 +71698,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             sprintf(
               gText,
@@ -71585,7 +71714,7 @@ LABEL_391:
               }
               NormalDialog(
                 "You try to pay the leprechaun, but realize that you can't afford it.  The leprechaun stamps his foot and ignores you.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71599,7 +71728,7 @@ LABEL_391:
             {
               NormalDialog(
                 "Insulted by your refusal of his generous offer, the leprechaun stamps his foot and ignores you.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71614,7 +71743,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             sprintf(&a1, gResourceNames[v77]);
             a1 += 32;
@@ -71623,7 +71752,7 @@ LABEL_391:
               "{Artifact}\n\nA leprechaun offers you the %s for the small price of 2500 gold and 3 %s.  Do you wish to buy this artifact?",
               gArtifactNames[a5],
               &a1);
-            NormalDialog(gText, 2, -1, -1, 7, a5, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_YES_NO, -1, -1, 7, a5, -1, 0, -1, 0);
             if ( gpWindowManager->buttonPressedCode == 30725 )
             {
               if ( gpGame->players[hero->ownerIdx].resources[6] >= 2500
@@ -71636,7 +71765,7 @@ LABEL_391:
               }
               NormalDialog(
                 "You try to pay the leprechaun, but realize that you can't afford it.  The leprechaun stamps his foot and ignores you.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71650,7 +71779,7 @@ LABEL_391:
             {
               NormalDialog(
                 "Insulted by your refusal of his generous offer, the leprechaun stamps his foot and ignores you.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71665,7 +71794,7 @@ LABEL_391:
             advManager::EventSound(
               this,
               locType,
-              (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+              (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
               &res2);
             sprintf(&a1, gResourceNames[v77]);
             a1 += 32;
@@ -71674,7 +71803,7 @@ LABEL_391:
               "{Artifact}\n\nA leprechaun offers you the %s for the small price of 3000 gold and 5 %s.  Do you wish to buy this artifact?",
               gArtifactNames[a5],
               &a1);
-            NormalDialog(gText, 2, -1, -1, 7, a5, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_YES_NO, -1, -1, 7, a5, -1, 0, -1, 0);
             if ( gpWindowManager->buttonPressedCode == 30725 )
             {
               if ( gpGame->players[hero->ownerIdx].resources[6] >= 3000
@@ -71687,7 +71816,7 @@ LABEL_391:
               }
               NormalDialog(
                 "You try to pay the leprechaun, but realize that you can't afford it.  The leprechaun stamps his foot and ignores you.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71701,7 +71830,7 @@ LABEL_391:
             {
               NormalDialog(
                 "Insulted by your refusal of his generous offer, the leprechaun stamps his foot and ignores you.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 -1,
@@ -71720,7 +71849,7 @@ LABEL_391:
       goto LABEL_511;
     case LOCATION_HERO:
       advManager::DemobilizeCurrHero(this);
-      v79 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v79 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       if ( v79->ownerIdx == giCurPlayer )
       {
         advManager::HeroSwap(this, (int)hero, (int)v79);
@@ -71750,9 +71879,9 @@ LABEL_391:
       }
       goto LABEL_511;
     case LOCATION_BOTTLE:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         if ( strlen(signExtra->name) <= 1 )
           advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
@@ -71762,9 +71891,9 @@ LABEL_391:
       shouldDelete = 1;
       goto LABEL_511;
     case LOCATION_SIGN:
-      if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+        signExtra = (SignExtra *)ppMapExtra[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         if ( strlen(signExtra->name) <= 1 )
           advManager::EventWindow(-1, 1, defaultSignMessages[(unsigned __int8)((char)locX % -4)], -1, 0, -1, 0, -1);
         else
@@ -71775,7 +71904,7 @@ LABEL_391:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71788,7 +71917,7 @@ LABEL_391:
         -1);
       if ( gpWindowManager->buttonPressedCode != 30726 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71802,7 +71931,7 @@ LABEL_391:
         }
         else
         {
-          v37 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+          v37 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
           v78 = ((v37 & 0xF0u) >> 4) + 62;
           sprintf(
             gText,
@@ -71815,7 +71944,7 @@ LABEL_391:
               hero::CheckLevel(hero);
               NormalDialog(
                 "Upon defeating the daemon's servants, you find a hidden cache with 2500 gold.",
-                1,
+                DIALOG_OKAY,
                 -1,
                 -1,
                 6,
@@ -71825,14 +71954,14 @@ LABEL_391:
                 -1,
                 0);
               advManager::GiveResource(this, hero, 6, 2500);
-              v38 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+              v38 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
               LOBYTE(v38) = v38 | 8;
-              loc->field_4_1_1_isShadow_1_13_extraInfo = v38;
+              loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v38;
             }
           }
           else
           {
-            v39 = loc->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+            v39 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
             switch ( v39 & 0xF )
             {
               case 2:
@@ -71846,9 +71975,9 @@ LABEL_391:
                   -1,
                   0,
                   -1);
-                v40 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                v40 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                 LOBYTE(v40) = v40 | 8;
-                loc->field_4_1_1_isShadow_1_13_extraInfo = v40;
+                loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v40;
                 hero::CheckLevel(hero);
                 break;
               case 3:
@@ -71861,9 +71990,9 @@ LABEL_391:
                   "The Demon screams its challenge and attacks!  After a short, desperate battle, you slay the monster and find the %s in the back of the cave.",
                   gArtifactNames[a2]);
                 advManager::EventWindow(-1, 1, gText, 7, a2, 14, 1000, -1);
-                v41 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                v41 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                 LOBYTE(v41) = v41 | 8;
-                loc->field_4_1_1_isShadow_1_13_extraInfo = v41;
+                loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v41;
                 hero::CheckLevel(hero);
                 break;
               case 4:
@@ -71879,9 +72008,9 @@ LABEL_445:
                   -1);
                 advManager::GiveExperience(hero, 1000, 0);
                 advManager::GiveResource(this, hero, 6, 2500);
-                v42 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+                v42 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
                 LOBYTE(v42) = v42 | 8;
-                loc->field_4_1_1_isShadow_1_13_extraInfo = v42;
+                loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v42;
                 hero::CheckLevel(hero);
                 break;
               case 5:
@@ -71922,9 +72051,9 @@ LABEL_445:
               default:
                 break;
             }
-            v43 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v43 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v43) = v43 | 8;
-            loc->field_4_1_1_isShadow_1_13_extraInfo = v43;
+            loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v43;
           }
         }
       }
@@ -71933,7 +72062,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -71946,7 +72075,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -71970,9 +72099,9 @@ LABEL_445:
        "Upon defeating the Ghosts you sift through the debris and find something!",
        __PAIR__(locY, locX)) )
         {
-          v44 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+          v44 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
           LOBYTE(v44) = v44 | 8;
-          loc->field_4_1_1_isShadow_1_13_extraInfo = v44;
+          loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v44;
         }
       }
       goto LABEL_511;
@@ -71980,12 +72109,12 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(20, 2, byte_517684, -1, 0, -1, 0, -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(21, 1, byte_517688, 13, 0, -1, 0, -1);
           if ( !(hero->flags & 0x20) )
@@ -72002,9 +72131,9 @@ LABEL_445:
                       locY - normalDirTable[4 * hero->directionFacing + 1]);
           if ( advManager::ZombieEvent(this, hero, (mapCell *)a3, gEventText[22], locX, locY) )
           {
-            v45 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v45 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v45) = v45 | 8;
-            loc->field_4_1_1_isShadow_1_13_extraInfo = v45;
+            loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v45;
           }
         }
       }
@@ -72013,7 +72142,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -72026,7 +72155,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
+        if ( (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) == 1 )
         {
           advManager::EventWindow(
             -1,
@@ -72056,9 +72185,9 @@ LABEL_445:
                  "Upon defeating the Skeletons you sift through the debris and find something!",
                  __PAIR__(locY, locX)) )
           {
-            v46 = loc->field_4_1_1_isShadow_1_13_extraInfo & 7;
+            v46 = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
             LOBYTE(v46) = v46 | 8;
-            loc->field_4_1_1_isShadow_1_13_extraInfo = v46;
+            loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v46;
           }
         }
       }
@@ -72067,7 +72196,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -72080,7 +72209,7 @@ LABEL_445:
         -1);
       if ( gpWindowManager->buttonPressedCode == 30725 )
       {
-        if ( (unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+        if ( (unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
         {
           if ( !advManager::CombatMonsterEvent(this, hero, 51, 30, loc, locX, locY, 0, locX, locY, 53, 20, 2, -1, 0, 0) )
           {
@@ -72089,7 +72218,7 @@ LABEL_445:
               msg,
               "%s'%s'.  ",
               "Upon defeating the monsters, you decipher an ancient glyph on the wall, telling the secret of the spell - ",
-              dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
+              dword_4F6ABC[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]);
             if ( hero::HasArtifact(hero, 81) )
             {
               if ( hero->secondarySkillLevel[7] < 3 )
@@ -72104,14 +72233,16 @@ LABEL_445:
                 v47 = hero::Stats(hero, PRIMARY_SKILL_KNOWLEDGE);
                 hero::AddSpell(
                   hero,
-                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                - 1,
                   v47);
                 advManager::EventWindow(
                   -1,
                   1,
                   msg,
                   8,
-                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+                  (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                - 1,
                   -1,
                   0,
                   -1);
@@ -72122,14 +72253,14 @@ LABEL_445:
               strcat(msg, "  Unfortunately, you have no Magic Book to record the spell with.");
               advManager::EventWindow(-1, 1, msg, -1, 0, -1, 0, -1);
             }
-            loc->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+            loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
           }
         }
         else
         {
           NormalDialog(
             "You come upon the pyramid of a great and ancient king.  Routine exploration reveals that the pyramid is completely empty.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             11,
@@ -72150,7 +72281,7 @@ LABEL_445:
       advManager::EventSound(
         this,
         locType,
-        (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+        (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
         &res2);
       advManager::EventWindow(
         -1,
@@ -72165,8 +72296,8 @@ LABEL_445:
         && !advManager::CombatMonsterEvent(
               this,
               hero,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty,
               loc,
               locX,
               locY,
@@ -72195,12 +72326,12 @@ LABEL_445:
         game::ConvertObject(gpGame, locX - 2, locY - 1, locX + 1, locY - 1, 51, 0, 3, 32, 75, 64, 23);
         game::ConvertObject(gpGame, locX - 2, locY, locX + 1, locY, 51, 4, 7, 32, 80, 64, 23);
         game::ConvertObject(gpGame, locX, locY, locX, locY, 29, 5, 5, 29, 4, 64, 23);
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
       }
       goto LABEL_511;
@@ -72442,8 +72573,8 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int col, i
               v11->objectIndex = cellExtra->objectIndex;
               v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 3 | 4 * (cellExtra->_1_q_7_objTileset >> 1);
               v11->bitfield_1_hasObject_1_isRoad_6_objTileset = v11->bitfield_1_hasObject_1_isRoad_6_objTileset & 0xFE | cellExtra->_1_q_7_objTileset & 1;
-              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFE | cellExtra->field_4_1_1_1_isShadow_5 & 1;
-              v11->field_4_1_1_isShadow_1_13_extraInfo = v11->field_4_1_1_isShadow_1_13_extraInfo & 0xFFFD | 2 * (((unsigned __int8)cellExtra->field_4_1_1_1_isShadow_5 >> 1) & 1);
+              v11->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v11->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 0xFFFE | cellExtra->field_4_1_1_1_isShadow_5 & 1;
+              v11->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v11->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 0xFFFD | 2 * (((unsigned __int8)cellExtra->field_4_1_1_1_isShadow_5 >> 1) & 1);
               cellExtra->objectIndex = 0;
               cellExtra->_1_q_7_objTileset = cellExtra->_1_q_7_objTileset & 1 | 0x5E;
               cellExtra->_1_q_7_objTileset &= 0xFEu;
@@ -72462,7 +72593,7 @@ void __thiscall advManager::EraseObj(advManager *this, mapCell *cell, int col, i
     if ( v12
       && ((((unsigned __int8)v12->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F) == 47
        || v12->objectIndex == 255
-       || (v12->field_4_1_1_isShadow_1_13_extraInfo >> 1) & 1) )
+       || (v12->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 1) & 1) )
     {
       if ( v12->extraIdx && *(&this->map->cellExtras->objectIndex + 8 * v12->extraIdx - v12->extraIdx) != 255 )
         cellExtra = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v12->extraIdx - v12->extraIdx);
@@ -72491,23 +72622,21 @@ LABEL_88:
 }
 
 //----- (0048C430) --------------------------------------------------------
-void __thiscall advManager::HeroSwap(void *this, int a2, int a3)
+void __thiscall advManager::HeroSwap(advManager *this, int a2, int a3)
 {
-  void *thisa; // [sp+Ch] [bp-14h]@1
-  tag_message *v4; // [sp+18h] [bp-8h]@1
+  swapManager *v4; // [sp+18h] [bp-8h]@1
   baseManager *a2a; // [sp+1Ch] [bp-4h]@2
 
-  thisa = this;
-  v4 = (tag_message *)operator new(90);
+  v4 = (swapManager *)operator new(90);
   if ( v4 )
-    a2a = (baseManager *)swapManager::swapManager(v4);
+    a2a = (baseManager *)swapManager::swapManager(v4, (hero *)a2, (hero *)a3);
   else
     a2a = 0;
   if ( !a2a )
     MemError();
   executive::DoDialog(gpExec, a2a);
   operator delete(a2a);
-  advManager::RedrawAdvScreen((advManager *)thisa, 1, 0);
+  advManager::RedrawAdvScreen(this, 1, 0);
 }
 
 //----- (0048C4C0) --------------------------------------------------------
@@ -72520,8 +72649,8 @@ signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, 
   int v8; // [sp+2Ch] [bp-4h]@1
 
   res = NULL_SAMPLE2;
-  barrierColor = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
-  v8 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 3;
+  barrierColor = ((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
+  v8 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 3;
   sprintf(
     gText,
     "A magical %s barrier stands tall before you, blocking your way.  Runes on the arch read, \"Speak the key and you may pass.\"",
@@ -72532,7 +72661,7 @@ signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, 
     advManager::EventSound(this, cell->objType & 0x7F, barrierColor, &res);
     NormalDialog(
       "As you speak the magic word, the glowing barrier dissolves into nothingness.",
-      1,
+      DIALOG_OKAY,
       -1,
       -1,
       -1,
@@ -72545,7 +72674,7 @@ signed int __thiscall advManager::BarrierEvent(advManager *this, mapCell *cell, 
   }
   else
   {
-    NormalDialog("You speak, and nothing happens.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("You speak, and nothing happens.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     result = 0;
   }
   return result;
@@ -72589,8 +72718,8 @@ void __thiscall advManager::PasswordEvent(advManager *this, mapCell *tile, hero 
   int v5; // [sp+1Ch] [bp-4h]@1
 
   res = NULL_SAMPLE2;
-  v3 = ((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
-  v5 = (unsigned __int8)((unsigned __int8)(tile->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  v3 = ((unsigned __int8)(tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7;
+  v5 = (unsigned __int8)((unsigned __int8)(tile->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
   v5 >>= 3;
   advManager::EventSound(this, tile->objType & 0x7F, v3, &res);
   sprintf(
@@ -72598,7 +72727,7 @@ void __thiscall advManager::PasswordEvent(advManager *this, mapCell *tile, hero 
     "You enter the tent and see an old woman gazing into a magic gem.  She looks up and says, \"In my travels, I have learned much in the way of arcane magic.  A great oracle taught me his skill.  I have the answer you seek.  The %s keyword is '%s'.\"",
     xBarrierColor[v3],
     xPasswordStrings[v5]);
-  NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
   gpCurPlayer->barrierTentsVisited |= 1 << v3;
 }
 // 4F7200: using guessed type char *xBarrierColor[15];
@@ -72627,8 +72756,8 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
   v3 = ecx0;
   v15 = 0;
   *(_QWORD *)a3 = NULL_SAMPLE2;
-  a2 = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F;
-  switch ( ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F )
+  a2 = ((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F;
+  switch ( ((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x3F )
   {
     case 0:
       for ( i = 0; i < 14; ++i )
@@ -72648,14 +72777,14 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
             gText,
             "As you enter the Alchemist's Tower, a hobbled, graying man in a brown cloak makes his way towards you.  He checks your pack, and sees that you have %d cursed items.  For 750 gold,  the alchemist will remove them for you.  Do you pay?",
             v15);
-        NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
         if ( gpWindowManager->buttonPressedCode == 30725 )
         {
           if ( gpCurPlayer->resources[6] < 750 )
           {
             NormalDialog(
               "You hear a voice from behind the locked door, \"You don't have enough gold to pay for my services.\"",
-              1,
+              DIALOG_OKAY,
               -1,
               -1,
               -1,
@@ -72683,7 +72812,7 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
       {
         NormalDialog(
           "You hear a voice from high above in the tower, \"Go away! I can't help you!\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -72697,7 +72826,7 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
     case 1:
       if ( BYTE2(this->flags) & 0x40 )
       {
-        NormalDialog("The Arena guards turn you away.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog("The Arena guards turn you away.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       }
       else
       {
@@ -72712,7 +72841,7 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
       {
         NormalDialog(
           "The mermaids silently entice you to return later and be blessed again.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -72742,7 +72871,7 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
       advManager::EventSound(ecx0, cell->objType & 0x7F, a2, (SAMPLE2 *)a3);
       NormalDialog(
         "You enter a rickety hut and talk to the magician who lives there.  He tells you of places near and far which may aid you in your journeys.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -72757,7 +72886,7 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
         {
           v9 = &gpGame->map.tiles[y * gpGame->map.width] + x;
           if ( (v9->objType & 0x7F) == 122
-            && (((unsigned __int8)(v9->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7) == 3 )
+            && (((unsigned __int8)(v9->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 7) == 3 )
           {
             game::SetVisibility(gpGame, x, y, giCurPlayer, 10);
             advManager::CompleteDraw(v3, 0);
@@ -72767,14 +72896,14 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
       }
       break;
     case 3:
-      NormalDialog("This eye seems to be intently studying its surroundings.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("This eye seems to be intently studying its surroundings.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
       break;
     case 6:
       if ( BYTE2(this->flags) & 0x20 )
       {
         NormalDialog(
           "You have your crew stop up their ears with wax before the sirens' eerie song has any chance of luring them to a watery grave.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -72807,14 +72936,14 @@ void __thiscall advManager::GenericSiteEvent(advManager *ecx0, mapCell *cell, he
             gText,
             "An eerie wailing song emanates from the sirens perched upon the rocks.  Many of your crew fall under its spell, and dive into the water where they drown.  You are now wiser for the visit, and gain %d experience.",
             xp);
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           advManager::GiveExperience(this, xp, 1);
         }
         else
         {
           NormalDialog(
             "As the sirens sing their eerie song, your small, determined army manages to overcome the urge to dive headlong into the sea.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -72942,7 +73071,7 @@ void __thiscall advManager::JailEvent(void *this, int a2, int a3, int a4, int a5
       advManager::EventSound((advManager *)this, *(_BYTE *)(a2 + 9) & 0x7F, 0, (SAMPLE2 *)res);
       NormalDialog(
         "In a dazzling display of daring, you break into the local jail and free the hero imprisoned there, who, in return, pledges loyalty to your cause.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -72972,7 +73101,7 @@ void __thiscall advManager::JailEvent(void *this, int a2, int a3, int a4, int a5
     {
       NormalDialog(
         "You already have 8 heroes, and regretfully must leave the prisoner in this jail to languish in agony for untold days.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -72987,7 +73116,7 @@ void __thiscall advManager::JailEvent(void *this, int a2, int a3, int a4, int a5
   {
     NormalDialog(
       "The jailer tells you that the hero who was imprisoned here has been released by the king who imprisoned him.",
-      1,
+      DIALOG_OKAY,
       -1,
       -1,
       -1,
@@ -73237,7 +73366,7 @@ LABEL_36:
 // 5240A8: using guessed type int gpSoundManager;
 
 //----- (0048D9F0) --------------------------------------------------------
-void __stdcall advManager::EventWindow(signed int eventID, int a2, const char *msg, int a4, int a5, int resource2Type, int resource2Amt, int a8)
+void __stdcall advManager::EventWindow(signed int eventID, int a2, const char *msg, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr)
 {
   char buf[516]; // [sp+14h] [bp-210h]@3
   int v9; // [sp+218h] [bp-Ch]@1
@@ -73254,7 +73383,7 @@ void __stdcall advManager::EventWindow(signed int eventID, int a2, const char *m
   {
     sprintf(buf, gEventText[eventID]);
   }
-  NormalDialog(buf, a2, -1, -1, a4, a5, resource2Type, resource2Amt, a8, 0);
+  NormalDialog(buf, (NormalDialogType)a2, -1, -1, img1Type, img1Arg, img2Type, img2Arg, writeOr, 0);
 }
 
 //----- (0048DAC0) --------------------------------------------------------
@@ -73338,7 +73467,7 @@ void __thiscall advManager::RecruitEvent(advManager *this, hero *hro, int creatu
   int quantityAvailable; // [sp+38h] [bp-Ch]@1
   recruitUnit *a2a; // [sp+40h] [bp-4h]@2
 
-  LOWORD(quantityAvailable) = (unsigned __int8)((unsigned __int8)(loc->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  LOWORD(quantityAvailable) = (unsigned __int8)((unsigned __int8)(loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
   thisa = (recruitUnit *)operator new(sizeof(recruitUnit));
   if ( thisa )
     a2a = recruitUnit::recruitUnit(thisa, &hro->army, creature, (int)&quantityAvailable);
@@ -73348,7 +73477,7 @@ void __thiscall advManager::RecruitEvent(advManager *this, hero *hro, int creatu
     MemError();
   executive::DoDialog(gpExec, (baseManager *)a2a);
   operator delete(a2a);
-  loc->field_4_1_1_isShadow_1_13_extraInfo = loc->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * quantityAvailable;
+  loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = loc->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * quantityAvailable;
 }
 
 //----- (0048DD90) --------------------------------------------------------
@@ -73473,7 +73602,7 @@ signed int __thiscall advManager::ZombieEvent(advManager *this, hero *h, mapCell
   int resource2Amt; // [sp+14h] [bp-4h]@12
 
   thisa = this;
-  v7 = (unsigned __int8)((unsigned __int8)(a3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  v7 = (unsigned __int8)((unsigned __int8)(a3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
   if ( v7 == 2 )
   {
     if ( !advManager::CombatMonsterEvent(this, h, CREATURE_ZOMBIE, 6, a3, a5, a6, 0, a5, a6, 49, 4, 2, -1, 0, 0) )
@@ -73541,7 +73670,7 @@ signed int __thiscall advManager::GhostEvent(advManager *this, hero *hro, mapCel
   int v6; // [sp+Ch] [bp-Ch]@1
   int resource2Amt; // [sp+14h] [bp-4h]@12
 
-  v6 = (unsigned __int8)((unsigned __int8)(a5->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  v6 = (unsigned __int8)((unsigned __int8)(a5->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
   if ( v6 == 2 )
   {
     if ( !advManager::CombatMonsterEvent(
@@ -74152,7 +74281,7 @@ void __stdcall advManager::TransferArtifacts(int a1, int a2)
                 gText,
                 "As you reach for the %s, it mysteriously disappears.",
                 gArtifactNames[*(_BYTE *)(j + a1 + 213)]);
-              NormalDialog(gText, 1, -1, -1, 7, *(_BYTE *)(j + a1 + 213), -1, 0, -1, 0);
+              NormalDialog(gText, DIALOG_OKAY, -1, -1, 7, *(_BYTE *)(j + a1 + 213), -1, 0, -1, 0);
             }
             GiveTakeArtifactStat((hero *)a1, (ARTIFACT)*(_BYTE *)(j + a1 + 213), 1);
             *(_BYTE *)(j + a1 + 213) = -1;
@@ -74369,7 +74498,7 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
       }
       goto LABEL_308;
     case 43:
-      v43 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v43 = &gpGame->boats[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       game::RestoreCell(-1, -1, v43->underlyingObjType, v43->underlyingObjExtra, (int)cell, 3);
       hro->flags |= 0x80u;
       hro->remainingMobility = 0;
@@ -74383,25 +74512,25 @@ void __thiscall advManager::DoAIEvent(int this, mapCell *cell, hero *hro, __int6
     case 1:
     case 23:
     case 29:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] == giCurPlayer )
         goto LABEL_308;
-      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
+      if ( gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType == -1 )
         goto LABEL_12;
-      spell = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty;
+      spell = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty;
       v73 = philAI::CombatMonsterEvent(
               (int)hro,
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
               (int)&spell,
               (int)cell);
       if ( v73 )
       {
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
         hero::CheckLevel(hro);
 LABEL_12:
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
         if ( v57 == 23 )
         {
@@ -74410,11 +74539,11 @@ LABEL_12:
             if ( hero::HasSpell(hro, spell) && GetManaCost(spell, hro) < hro->spellpoints )
             {
               hro->spellpoints -= GetManaCost(spell, hro);
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = spell + 1;
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = spell + 1;
               v40 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER);
               if ( v40 > 51 )
                 v40 = 51;
-              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 5 * v40;
+              gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 5 * v40;
               spell = 999;
             }
           }
@@ -74422,42 +74551,48 @@ LABEL_12:
       }
       goto LABEL_308;
     case 21:
-      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
+      if ( gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != giCurPlayer )
         game::ClaimMine(
           gpGame,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           giCurPlayer);
       goto LABEL_308;
     case 6:
-      if ( !(((unsigned __int16)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1) )
+      if ( !(((unsigned __int16)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1) )
         goto LABEL_28;
       if ( hero::NumArtifacts(hro) < 14 )
       {
-        v5 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v5 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         GiveArtifact(hro, (ARTIFACT)(unsigned __int8)v5, 1, -1);
       }
       else
       {
-        v4 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+        v4 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
         LOBYTE(v4) = v4 | 0x10;
-        cell->field_4_1_1_isShadow_1_13_extraInfo = v4;
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v4;
 LABEL_28:
         if ( philAI::ChooseGoldOrExperience(
-               500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+               500
+             * (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
                125
-             * (4 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4)) )
+             * (4
+              * (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+              - 4)) )
         {
           advManager::GiveResource(
             (advManager *)thisa,
             hro,
             6,
-            500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
+            500
+          * (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
         }
         else
         {
           advManager::GiveExperience(
             hro,
-            125 * (4 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 4),
+            125
+          * (4 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+           - 4),
             1);
           hero::CheckLevel(hro);
         }
@@ -74518,77 +74653,80 @@ LABEL_28:
       }
       goto LABEL_308;
     case 4:
-      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) != 1 )
+      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) != 1 )
       {
         GiveArtifact(
           hro,
-          (ARTIFACT)((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 2),
+          (ARTIFACT)((unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                   - 2),
           1,
           -1);
-        v6 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+        v6 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
         LOBYTE(v6) = v6 | 8;
-        cell->field_4_1_1_isShadow_1_13_extraInfo = v6;
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v6;
       }
       goto LABEL_308;
     case 95:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
-          (unsigned int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 7 < 1 ? 500 : 5);
-        cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          (unsigned int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+        - 7 < 1 ? 500 : 5);
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_308;
     case 88:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        v7 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v7 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         v8 = (v7 & 0xF0u) >> 4;
-        v9 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v9 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         advManager::GiveResource((advManager *)this, hro, (v9 & 0xF) - 1, v8);
-        cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_308;
     case 80:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        if ( (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
+        if ( (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x80 )
         {
           if ( hero::NumArtifacts(hro) != 14 )
           {
-            v10 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+            v10 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
             spell = v10 & 0x7F;
             GiveArtifact(hro, (ARTIFACT)(v10 & 0x7F), 1, -1);
           }
-          cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         }
         else
         {
-          v11 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+          v11 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
           v12 = (v11 & 0xF0u) >> 4;
-          v13 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+          v13 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
           advManager::GiveResource((advManager *)this, hro, (v13 & 0xF) - 1, v12);
-          cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         }
       }
       goto LABEL_308;
     case 33:
-      if ( ((unsigned __int16)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 && hero::NumArtifacts(hro) < 14 )
+      if ( ((unsigned __int16)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1
+        && hero::NumArtifacts(hro) < 14 )
       {
-        v14 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v14 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         GiveArtifact(hro, (ARTIFACT)(unsigned __int8)v14, 1, -1);
         advManager::GiveResource((advManager *)thisa, hro, 6, 1000);
       }
-      else if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      else if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::GiveResource((advManager *)thisa, hro, 6, 1500);
       }
       v58 = 1;
       goto LABEL_308;
     case 90:
-      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         case 1u:
           advManager::GiveResource((advManager *)this, hro, 0, 5);
@@ -74612,91 +74750,92 @@ LABEL_28:
         hro,
         6,
         100
-      * ((signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
-      v15 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+      * ((signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4));
+      v15 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
       advManager::GiveResource(
         (advManager *)thisa,
         hro,
         v15 & 0xF,
-        (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
+        (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 4);
       v58 = 1;
       goto LABEL_308;
     case 62:
-      if ( !((1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hro->fortsVisited) )
+      if ( !((1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hro->fortsVisited) )
       {
         ++hro->primarySkills[1];
-        hro->fortsVisited |= 1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hro->fortsVisited |= 1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_308;
     case 86:
-      if ( !((1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hro->xanadusVisited)
+      if ( !((1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hro->xanadusVisited)
         && hro->oldLevel + 2 * hro->secondarySkillLevel[4] >= 10 )
       {
         ++hro->primarySkills[0];
         ++hro->primarySkills[1];
         ++hro->primarySkills[3];
         ++hro->primarySkills[2];
-        hro->xanadusVisited |= 1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hro->xanadusVisited |= 1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_308;
     case 66:
-      if ( !((1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hro->standingStonesVisited) )
+      if ( !((1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hro->standingStonesVisited) )
       {
         ++hro->primarySkills[2];
-        hro->standingStonesVisited |= 1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hro->standingStonesVisited |= 1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_308;
     case 69:
-      if ( !((1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hro->witchDoctorHutsVisited) )
+      if ( !((1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hro->witchDoctorHutsVisited) )
       {
         ++hro->primarySkills[3];
-        hro->witchDoctorHutsVisited |= 1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hro->witchDoctorHutsVisited |= 1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_308;
     case 73:
-      if ( !((1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hro->mercenaryCampsVisited) )
+      if ( !((1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hro->mercenaryCampsVisited) )
       {
         ++hro->primarySkills[0];
-        hro->mercenaryCampsVisited |= 1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hro->mercenaryCampsVisited |= 1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
       }
       goto LABEL_308;
     case 10:
-      if ( !((1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3)) & hro->gazeboesVisited) )
+      if ( !((1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3)) & hro->gazeboesVisited) )
       {
         advManager::GiveExperience(hro, 1000, 1);
-        hro->gazeboesVisited |= 1 << (cell->field_4_1_1_isShadow_1_13_extraInfo >> 3);
+        hro->gazeboesVisited |= 1 << (cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3);
         hero::CheckLevel(hro);
       }
       goto LABEL_308;
     case 22:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
           6,
-          500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5));
-        cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+          500 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5));
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
       }
       goto LABEL_308;
     case 27:
       type = cell->objectIndex >> 1;
       if ( type == 6 )
-        amt = 100 * (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = 100
+            * (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
       else
-        amt = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+        amt = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
       advManager::GiveResource((advManager *)this, hro, type, amt);
       v58 = 1;
       goto LABEL_308;
     case 40:
-      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) != 99 )
+      if ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) != 99 )
       {
         advManager::GiveResource(
           (advManager *)this,
           hro,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           2);
-        cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 0x318;
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 0x318;
       }
       goto LABEL_308;
     case 71:
@@ -74718,19 +74857,19 @@ LABEL_28:
       v60 = 0;
       goto LABEL_132;
     case 83:
-      if ( ((unsigned __int16)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
+      if ( ((unsigned __int16)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
         goto LABEL_308;
       mon = 17;
       v60 = 0;
       goto LABEL_132;
     case 77:
-      if ( ((unsigned __int16)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
+      if ( ((unsigned __int16)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
         goto LABEL_308;
       mon = 55;
       v60 = 0;
       goto LABEL_132;
     case 20:
-      if ( ((unsigned __int16)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
+      if ( ((unsigned __int16)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
         goto LABEL_308;
       mon = 36;
       v60 = 0;
@@ -74784,11 +74923,11 @@ LABEL_28:
       mon = 47;
       v60 = 1;
 LABEL_132:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
         philAI::EvaluateOneTimeCreaturePurchase(
           mon,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           v60,
           (int)&a3a,
           (int)&v62,
@@ -74796,7 +74935,7 @@ LABEL_132:
         if ( a3a > 0 )
         {
           game::GiveArmy(&hro->army, mon, a3a, slot);
-          cell->field_4_1_1_isShadow_1_13_extraInfo = cell->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - (_WORD)a3a);
+          cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * ((unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - (_WORD)a3a);
           if ( !v60 )
           {
             GetMonsterCost(mon, arr);
@@ -74805,23 +74944,23 @@ LABEL_132:
           }
         }
       }
-      if ( !((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) && v57 == 11 )
+      if ( !((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) && v57 == 11 )
         v58 = 1;
       goto LABEL_308;
     case 24:
       advManager::ComputerMonsterInteract((int)cell, (int)hro, (int)&v58);
       goto LABEL_308;
     case 68:
-      if ( !((1 << ((cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & hro->treesOfKnowledgeVisited) )
+      if ( !((1 << ((cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) & 0x1F)) & hro->treesOfKnowledgeVisited) )
       {
         level = hero::GetLevel(hro->experience);
         v16 = hero::GetExperience(level + 1);
         xp = v16 - hero::GetExperience(level);
-        v29 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
+        v29 = (signed int)(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) >> 6;
         if ( v29 == 1 )
         {
           advManager::GiveExperience(hro, xp, 1);
-          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
           hero::CheckLevel(hro);
         }
         else if ( v29 == 2 )
@@ -74830,7 +74969,7 @@ LABEL_132:
           {
             gpCurPlayer->resources[6] -= 2000;
             advManager::GiveExperience(hro, xp, 1);
-            hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+            hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
             hero::CheckLevel(hro);
           }
         }
@@ -74838,16 +74977,16 @@ LABEL_132:
         {
           gpCurPlayer->resources[5] -= 10;
           advManager::GiveExperience(hro, xp, 1);
-          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
+          hro->treesOfKnowledgeVisited |= 1 << (((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0x1F);
           hero::CheckLevel(hro);
         }
       }
       goto LABEL_308;
     case 25:
-      if ( !(gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+      if ( !(gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                              + 47] & (unsigned __int8)giCurPlayerBit) )
       {
-        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)
+        gpGame->boatBuilt[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
                         + 47] |= giCurPlayerBit;
         ComputeUALoc(giCurPlayer);
       }
@@ -74856,12 +74995,13 @@ LABEL_132:
     case 74:
     case 75:
       if ( hero::HasArtifact(hro, 81)
-        && gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1].level <= hro->secondarySkillLevel[7] + 2 )
+        && gsSpellInfo[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+                     - 1].level <= hro->secondarySkillLevel[7] + 2 )
       {
         v17 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
         hero::AddSpell(
           hro,
-          (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
           v17);
       }
       goto LABEL_308;
@@ -74923,10 +75063,10 @@ LABEL_179:
       advManager::TeleportTo(gpAdvManager, hro, i, y, 0, 0);
       goto LABEL_308;
     case 41:
-      v20 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+      v20 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
       v50 = (v20 & 0xF0u) >> 4;
       a2 = cell->objectIndex >> 1;
-      v21 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+      v21 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
       v54 = v21 & 0x7F;
       if ( hero::NumArtifacts(hro) == 14 )
         goto LABEL_308;
@@ -74936,11 +75076,11 @@ LABEL_179:
           hro,
           ARTIFACT_SPELL_SCROLL,
           1,
-          (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+          (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
         v58 = 1;
         goto LABEL_308;
       }
-      if ( ((unsigned __int16)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
+      if ( ((unsigned __int16)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3) >> 8) & 1 )
       {
         if ( v54 == 57 )
         {
@@ -74966,7 +75106,7 @@ LABEL_204:
       }
       else
       {
-        v22 = cell->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+        v22 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
         switch ( v22 & 0xF )
         {
           case 4:
@@ -75004,7 +75144,7 @@ LABEL_204:
       }
       goto LABEL_308;
     case 42:
-      v51 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v51 = &gpGame->heroes[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       v42 = bShowIt;
       if ( *((_BYTE *)v51 + 3) == giCurPlayer )
       {
@@ -75063,7 +75203,7 @@ LABEL_308:
       v58 = 1;
       goto LABEL_308;
     case 5:
-      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) )
+      switch ( (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) )
       {
         case 2u:
           advManager::GiveExperience(hro, 1000, 1);
@@ -75093,22 +75233,24 @@ LABEL_308:
         case 1u:
           break;
       }
-      v26 = cell->field_4_1_1_isShadow_1_13_extraInfo & 7;
+      v26 = cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7;
       LOBYTE(v26) = v26 | 8;
-      cell->field_4_1_1_isShadow_1_13_extraInfo = v26;
+      cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v26;
       goto LABEL_308;
     case 76:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5
+      if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5
         && !hero::HasSpell(
               hro,
-              (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1) )
+              (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+            - 1) )
       {
         for ( spell = 0; (signed int)spell < 5; ++spell )
         {
           gpMonGroup->creatureTypes[spell] = 51;
           gpMonGroup->quantities[spell] = 10;
         }
-        spell = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1;
+        spell = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+              - 1;
         if ( gsSpellInfo[spell].attributes & 1 )
         {
           v31 = hero::Stats(hro, PRIMARY_SKILL_SPELLPOWER) <= 40 ? gfBattleStat[hero::Stats(
@@ -75139,9 +75281,10 @@ LABEL_308:
             v27 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
             hero::AddSpell(
               hro,
-              (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) - 1,
+              (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)
+            - 1,
               v27);
-            cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+            cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
           }
         }
       }
@@ -75154,8 +75297,8 @@ LABEL_308:
     case 64:
       for ( spell = 0; (signed int)spell < 5; ++spell )
       {
-        gpMonGroup->creatureTypes[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType;
-        gpMonGroup->quantities[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty
+        gpMonGroup->creatureTypes[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType;
+        gpMonGroup->quantities[spell] = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty
                                       / 5;
       }
       v70 = (signed __int64)((double)*((_BYTE *)gaiTurnValueOfMine + x + HIDWORD(x) * MAP_WIDTH)
@@ -75164,15 +75307,15 @@ LABEL_308:
       philAI::ChooseEvaluateBattle((int)&hro->army, (int)hro, (unsigned int)gpMonGroup, 0, 0, v70, (int)&v63, (int)&v59);
       if ( v63 )
       {
-        v55 = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty;
+        v55 = gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty;
         v73 = philAI::CombatMonsterEvent(
                 (int)hro,
-                gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
+                gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType,
                 (int)&v55,
                 (int)cell);
         if ( v55 > 255 )
           v55 = 255;
-        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = v55;
+        gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = v55;
         if ( v73 )
         {
           hero::CheckLevel(hro);
@@ -75181,12 +75324,12 @@ LABEL_308:
           game::ConvertObject(gpGame, x - 2, HIDWORD(x) - 1, x + 1, HIDWORD(x) - 1, 51, 0, 3, 32, 75, 64, 23);
           game::ConvertObject(gpGame, x - 2, SHIDWORD(x), x + 1, SHIDWORD(x), 51, 4, 7, 32, 80, 64, 23);
           game::ConvertObject(gpGame, x, SHIDWORD(x), x, SHIDWORD(x), 29, 5, 5, 29, 4, 64, 23);
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
-          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type = 6;
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianType = -1;
+          gpGame->mines[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].guardianQty = 0;
           game::ClaimMine(
             gpGame,
-            (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+            (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
             giCurPlayer);
         }
       }
@@ -75198,15 +75341,15 @@ LABEL_308:
       if ( hero::NumArtifacts(hro) < 14 )
         GiveArtifact(
           hro,
-          (ARTIFACT)(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          (ARTIFACT)(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
           1,
           -1);
       v58 = 1;
       goto LABEL_308;
     case 82:
-      if ( (unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5 )
+      if ( (unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5 )
       {
-        cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         v28 = hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
         if ( hro->spellpoints < 20 * v28 )
           hro->spellpoints = 20 * v28;
@@ -75215,7 +75358,7 @@ LABEL_308:
     case 94:
       if ( !(BYTE1(hro->flags) & 0x10) )
       {
-        cell->field_4_1_1_isShadow_1_13_extraInfo &= 7u;
+        cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo &= 7u;
         v34 = 10 * hero::Stats(hro, PRIMARY_SKILL_KNOWLEDGE);
         if ( hro->spellpoints < v34 )
         {
@@ -75225,11 +75368,14 @@ LABEL_308:
       }
       goto LABEL_308;
     case 85:
-      if ( !hro->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
-        hero::GiveSS(hro, (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5), 1);
+      if ( !hro->secondarySkillLevel[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] )
+        hero::GiveSS(
+          hro,
+          (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
+          1);
       goto LABEL_308;
     case 79:
-      v56 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+      v56 = ppMapExtra[(unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
       if ( *(_BYTE *)v56 )
       {
         if ( Random(0, 100) >= 40 )
@@ -75557,8 +75703,8 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
   thisa = this;
   mouseManager::ShowColorPointer(gpMouseManager);
   creat = cell->objectIndex;
-  willJoin = ((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0;
-  qty = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+  willJoin = ((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) & 0;
+  qty = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
   v14 = (double)philAI::FightValueOfStack(&a2->army, a2, 0, 0, 0, 0)
       / (double)(qty * gMonsterDatabase[creat].fight_value);
   if ( gbInCampaign
@@ -75574,7 +75720,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
         if ( creat != 15 && creat != 16 )
           NormalDialog(
             "The dragons, snarling and growling, agree to join forces with you, their 'Ally'.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -75586,7 +75732,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
         else
           NormalDialog(
             "The ogres recognize you as the Dwarfbane and lumber over to join you.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -75598,7 +75744,17 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
       }
       else
       {
-        NormalDialog("The dwarves recognize their allies and gladly join your forces.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(
+          "The dwarves recognize their allies and gladly join your forces.",
+          DIALOG_OKAY,
+          -1,
+          -1,
+          -1,
+          0,
+          -1,
+          0,
+          -1,
+          0);
       }
       armyGroup::Add(&a2->army, creat, qty, -1);
       result = argC;
@@ -75611,7 +75767,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
         if ( creat != 15 && creat != 16 )
           NormalDialog(
             "The dragons see you and call out.  \"Our alliance with Archibald compels us to join you.  Unfortunately you have no room.  A pity!\"  They quickly scatter.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -75623,7 +75779,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
         else
           NormalDialog(
             "The ogres give you a grunt of recognition, \"Archibald's allies may pass.\"",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -75637,7 +75793,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
       {
         NormalDialog(
           "The dwarves hail you, \"Any friend of Roland is a friend of ours.  You may pass.\"",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -75654,7 +75810,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
   }
   if ( gbInCampaign && gpGame->field_85 && (creat == 21 || creat == 22) )
   {
-    NormalDialog("\"The Dwarfbane!!!!, run for your lives.\"", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("\"The Dwarfbane!!!!, run for your lives.\"", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
     result = argC;
     argC->idx = 1;
     return result;
@@ -75666,7 +75822,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
     {
       NormalDialog(
         "As you approach the group of elves, their leader calls them all to attention.  He shouts to them, \"Who of you is brave enough to join this fearless ally of ours?\"  The group explodes with cheers as they run to join your ranks.",
-        1,
+        DIALOG_OKAY,
         -1,
         -1,
         -1,
@@ -75681,7 +75837,7 @@ heroWindow *__thiscall advManager::PlayerMonsterInteract(void *this, mapCell *ce
     {
       result = NormalDialog(
                  "The elves stand at attention as you approach.  Their leader calls to you and says, \"Let us not impede your progress, ally!  Move on, and may victory be yours.\"",
-                 1,
+                 DIALOG_OKAY,
                  -1,
                  -1,
                  -1,
@@ -75780,7 +75936,7 @@ LABEL_76:
           img1Arg);
       strcat(gText, &v10);
     }
-    NormalDialog(gText, 2, -1, -1, 6, img1Arg, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_YES_NO, -1, -1, 6, img1Arg, -1, 0, -1, 0);
     if ( gpWindowManager->buttonPressedCode == 30725 )
     {
       armyGroup::Add(&a2->army, creat, quantity, -1);
@@ -76371,7 +76527,7 @@ void *__stdcall advManager::ReceiveHeroTownData(int a1, int a2, int a3, int a4, 
     PollSound();
     if ( KBTickCount() > v17 + 90000 )
     {
-      NormalDialog("Error receiving data.  Keep trying?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog("Error receiving data.  Keep trying?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
       if ( gpWindowManager->buttonPressedCode == 30725 )
         v17 = KBTickCount();
       else
@@ -76868,7 +77024,7 @@ int __thiscall hero::UpdateArmies(hero *this)
 //----- (00495480) --------------------------------------------------------
 void __thiscall hero::ViewStat(hero *hro, int skill, int a2)
 {
-  NormalDialog(gStatDesc[skill], (unsigned int)a2 < 1 ? 1 : 4, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog(gStatDesc[skill], (NormalDialogType)((unsigned int)a2 < 1 ? 1 : 4), -1, -1, -1, 0, -1, 0, -1, 0);
 }
 
 //----- (004954D0) --------------------------------------------------------
@@ -76879,11 +77035,11 @@ heroWindow *__stdcall hero::ViewArtifact(int art, unsigned int a2, int spell)
   if ( art == ARTIFACT_SPELL_SCROLL )
   {
     sprintf(gText, gArtifactDesc[86], gSpellNames[spell]);
-    result = NormalDialog(gText, a2 < 1 ? 1 : 4, -1, 28, -1, 0, -1, 0, -1, 0);
+    result = NormalDialog(gText, (NormalDialogType)(a2 < 1 ? 1 : 4), -1, 28, -1, 0, -1, 0, -1, 0);
   }
   else
   {
-    result = NormalDialog(gArtifactDesc[art], a2 < 1 ? 1 : 4, -1, 28, -1, 0, -1, 0, -1, 0);
+    result = NormalDialog(gArtifactDesc[art], (NormalDialogType)(a2 < 1 ? 1 : 4), -1, 28, -1, 0, -1, 0, -1, 0);
   }
   return result;
 }
@@ -76895,7 +77051,7 @@ signed int __thiscall hero::Dismiss(hero *this)
   hero *thisa; // [sp+Ch] [bp-4h]@1
 
   thisa = this;
-  NormalDialog(byte_518DDC, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog(byte_518DDC, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
   if ( gpWindowManager->buttonPressedCode == 30725 )
   {
     hero::Deallocate(thisa, 1);
@@ -77263,7 +77419,7 @@ void __thiscall hero::CheckLevel(hero *this)
         res = LoadPlaySample("nwherolv.82m");
         if ( secSkillOptions[0] == -1 )
         {
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         }
         else if ( secSkillOptions[1] == -1 )
         {
@@ -77275,7 +77431,7 @@ void __thiscall hero::CheckLevel(hero *this)
           strcat(gText, &a2);
           NormalDialog(
             gText,
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             17,
@@ -77298,7 +77454,7 @@ void __thiscall hero::CheckLevel(hero *this)
           strcat(gText, &a2);
           NormalDialog(
             gText,
-            7,
+            DIALOG_LEARN_CHOICE,
             -1,
             -1,
             17,
@@ -77632,7 +77788,7 @@ LABEL_109:
         case 0xC8:
         case 0xC9:
         case 0xCA:
-          game::ShowMoraleInfo(gpHVHero, (unsigned int)a2 < 1 ? 1 : 4);
+          game::ShowMoraleInfo(gpHVHero, (NormalDialogType)((unsigned int)a2 < 1 ? 1 : 4));
           break;
         case 0xCB:
         case 0xCC:
@@ -77644,7 +77800,7 @@ LABEL_109:
           {
             NormalDialog(
               "{Spread Formation}\n\n'Spread' combat formation spreads your armies from the top to the bottom of the battlefield, with at least one empty space between each army.",
-              4,
+              DIALOG_RIGHT_CLICK,
               -1,
               -1,
               -1,
@@ -77666,7 +77822,7 @@ LABEL_109:
           {
             NormalDialog(
               "{Grouped Formation}\n\n'Grouped' combat formation bunches your army together in the center of your side of the battlefield.",
-              4,
+              DIALOG_RIGHT_CLICK,
               -1,
               -1,
               -1,
@@ -77692,14 +77848,14 @@ LABEL_109:
             gpHVHero->name,
             gpHVHero->spellpoints,
             10 * v2);
-          NormalDialog(gText, (unsigned int)a2 < 1 ? 1 : 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, (NormalDialogType)((unsigned int)a2 < 1 ? 1 : 4), -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 0xCE:
         case 0xCF:
           v3 = hero::GetLevel(gpHVHero->experience);
           v4 = hero::GetExperience(v3 + 1);
           sprintf(gText, "{Level %d}\n\nCurrent experience %d\nNext level %d", v3, gpHVHero->experience, v4);
-          NormalDialog(gText, (unsigned int)a2 < 1 ? 1 : 4, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, (NormalDialogType)((unsigned int)a2 < 1 ? 1 : 4), -1, -1, -1, 0, -1, 0, -1, 0);
           break;
         case 0x66:
         case 0x67:
@@ -77886,7 +78042,7 @@ signed int __fastcall HeroView(int heroIdx, int noDismiss, int dontFade)
     if ( cell->objType != 170 )
     {
       gpHVHero->occupiedObjType = cell->objType;
-      gpHVHero->occupiedObjVal = (unsigned __int8)((unsigned __int8)(cell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5);
+      gpHVHero->occupiedObjVal = (unsigned __int8)((unsigned __int8)(cell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5);
     }
   }
   SetupHeroView();
@@ -78463,7 +78619,7 @@ void __thiscall hero::DoSSLevelDialog(hero *this, int skill, unsigned int rightC
   }
   NormalDialog(
     gText,
-    rightClick < 1 ? 1 : 4,
+    (NormalDialogType)(rightClick < 1 ? 1 : 4),
     -1,
     -1,
     17,
@@ -78496,7 +78652,7 @@ void __thiscall hero::CheckAnduranPieces(hero *this, int a2)
     if ( gbThisNetHumanPlayer[this->ownerIdx] )
     {
       LoadPlaySample("treasure.82m");
-      NormalDialog("The three Anduran artifacts magically combine into one.", 1, -1, -1, 7, 90, -1, 0, -1, 0);
+      NormalDialog("The three Anduran artifacts magically combine into one.", DIALOG_OKAY, -1, -1, 7, 90, -1, 0, -1, 0);
     }
   }
 }
@@ -78646,9 +78802,8 @@ void __thiscall advManager::VWInit(void *this, int a2, int a3)
 // 52FF68: using guessed type int iVWViewableCells;
 
 //----- (00499480) --------------------------------------------------------
-void __thiscall advManager::VWCompleteDraw(void *this)
+void __thiscall advManager::VWCompleteDraw(advManager *this)
 {
-  void *thisa; // [sp+10h] [bp-A4h]@1
   int v2; // [sp+14h] [bp-A0h]@155
   int v3; // [sp+18h] [bp-9Ch]@137
   int v4; // [sp+1Ch] [bp-98h]@119
@@ -78674,7 +78829,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
   int row; // [sp+58h] [bp-5Ch]@1
   int col; // [sp+5Ch] [bp-58h]@3
   bool v26; // [sp+60h] [bp-54h]@125
-  int v27; // [sp+64h] [bp-50h]@41
+  mapCellExtra *v27; // [sp+64h] [bp-50h]@41
   unsigned int v28; // [sp+6Ch] [bp-48h]@90
   unsigned int v29; // [sp+70h] [bp-44h]@90
   char v30[11]; // [sp+74h] [bp-40h]@1
@@ -78682,10 +78837,9 @@ void __thiscall advManager::VWCompleteDraw(void *this)
   char v32; // [sp+81h] [bp-33h]@1
   char v33; // [sp+82h] [bp-32h]@1
 
-  thisa = this;
   spriteIdx = 0;
   FillBitmapArea(gpWindowManager->screenBuffer, 16, 16, 0x1C0u, 448, 36);
-  memset(v30, 1u, 0x40u);
+  memset(v30, 1u, 64u);
   v31 = 0;
   v32 = 0;
   v33 = 0;
@@ -78693,13 +78847,13 @@ void __thiscall advManager::VWCompleteDraw(void *this)
   {
     for ( col = iVWMapOriginX; iVWViewableCells + iVWMapOriginX > col; ++col )
     {
-      v18 = advManager::GetCell((advManager *)thisa, col, row);
+      v18 = advManager::GetCell(this, col, row);
       if ( (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
         || iVWDrawAllTerrains
         || iVWWhatToDraw == 51
         && ((v18->objType & 0x7F) == 35
          || v18->objType == 170
-         && gpGame->heroes[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163) )
+         && gpGame->heroes[(unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163) )
       {
         mirror = 0;
         a3 = iVWXPixelOffset + giViewWorldScale * (col - iVWMapOriginX);
@@ -78767,13 +78921,11 @@ void __thiscall advManager::VWCompleteDraw(void *this)
             v6 = 0;
           icon::DrawToBuffer(pVWGround, v6 + a3, a4, spriteIdx, mirror);
         }
-        if ( v18->field_4_1_1_isShadow_1_13_extraInfo & 1
+        if ( v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 1
           && v18->objectIndex != 255
           && v30[((unsigned __int8)v18->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F] )
           IconToBitmapScale(
-            *(icon **)((char *)thisa
-                     + 4 * (((unsigned __int8)v18->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F)
-                     + 206),
+            (icon *)this->tilesetIcns[((unsigned __int8)v18->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
             a3,
             a4,
@@ -78784,39 +78936,35 @@ void __thiscall advManager::VWCompleteDraw(void *this)
             0x280u,
             480,
             giViewWorldScale);
-        if ( v18->extraIdx
-          && *(_BYTE *)(*(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - v18->extraIdx + 8 * v18->extraIdx + 3) != 255 )
-          v27 = *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - v18->extraIdx + 8 * v18->extraIdx;
+        if ( v18->extraIdx && *(&this->map->cellExtras->objectIndex + 8 * v18->extraIdx - v18->extraIdx) != 255 )
+          v27 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v18->extraIdx - v18->extraIdx);
         else
           v27 = 0;
         while ( v27 )
         {
-          if ( *(_BYTE *)(v27 + 4) & 1 && *(_BYTE *)(v27 + 3) != 255 && v30[(*(_BYTE *)(v27 + 2) >> 1) & 0x7F] )
+          if ( v27->field_4_1_1_1_isShadow_5 & 1 && v27->objectIndex != 255 && v30[(v27->_1_q_7_objTileset >> 1) & 0x7F] )
             IconToBitmapScale(
-              *(icon **)((char *)thisa + 4 * ((*(_BYTE *)(v27 + 2) >> 1) & 0x7F) + 206),
+              (icon *)this->tilesetIcns[(v27->_1_q_7_objTileset >> 1) & 0x7F],
               gpWindowManager->screenBuffer,
               a3,
               a4,
-              *(_BYTE *)(v27 + 3),
+              v27->objectIndex,
               0,
               0,
               0,
               0x280u,
               480,
               giViewWorldScale);
-          if ( *(_WORD *)v27
-            && *(_BYTE *)(*(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - *(_WORD *)v27 + 8 * *(_WORD *)v27 + 3) != 255 )
-            v27 = *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - *(_WORD *)v27 + 8 * *(_WORD *)v27;
+          if ( v27->nextIdx && *(&this->map->cellExtras->objectIndex + 8 * v27->nextIdx - v27->nextIdx) != 255 )
+            v27 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v27->nextIdx - v27->nextIdx);
           else
             v27 = 0;
         }
-        if ( !(v18->field_4_1_1_isShadow_1_13_extraInfo & 1)
+        if ( !(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 1)
           && v18->objectIndex != 255
           && v30[((unsigned __int8)v18->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F] )
           IconToBitmapScale(
-            *(icon **)((char *)thisa
-                     + 4 * (((unsigned __int8)v18->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F)
-                     + 206),
+            (icon *)this->tilesetIcns[((unsigned __int8)v18->bitfield_1_hasObject_1_isRoad_6_objTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
             a3,
             a4,
@@ -78827,38 +78975,36 @@ void __thiscall advManager::VWCompleteDraw(void *this)
             0x280u,
             480,
             giViewWorldScale);
-        if ( v18->extraIdx
-          && *(_BYTE *)(*(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - v18->extraIdx + 8 * v18->extraIdx + 3) != 255 )
-          v27 = *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - v18->extraIdx + 8 * v18->extraIdx;
+        if ( v18->extraIdx && *(&this->map->cellExtras->objectIndex + 8 * v18->extraIdx - v18->extraIdx) != 255 )
+          v27 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v18->extraIdx - v18->extraIdx);
         else
           v27 = 0;
         while ( v27 )
         {
-          if ( !(*(_BYTE *)(v27 + 4) & 1) && *(_BYTE *)(v27 + 3) != 255 && v30[(*(_BYTE *)(v27 + 2) >> 1) & 0x7F] )
+          if ( !(v27->field_4_1_1_1_isShadow_5 & 1)
+            && v27->objectIndex != 255
+            && v30[(v27->_1_q_7_objTileset >> 1) & 0x7F] )
             IconToBitmapScale(
-              *(icon **)((char *)thisa + 4 * ((*(_BYTE *)(v27 + 2) >> 1) & 0x7F) + 206),
+              (icon *)this->tilesetIcns[(v27->_1_q_7_objTileset >> 1) & 0x7F],
               gpWindowManager->screenBuffer,
               a3,
               a4,
-              *(_BYTE *)(v27 + 3),
+              v27->objectIndex,
               0,
               0,
               0,
               0x280u,
               480,
               giViewWorldScale);
-          if ( *(_WORD *)v27
-            && *(_BYTE *)(*(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - *(_WORD *)v27 + 8 * *(_WORD *)v27 + 3) != 255 )
-            v27 = *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - *(_WORD *)v27 + 8 * *(_WORD *)v27;
+          if ( v27->nextIdx && *(&this->map->cellExtras->objectIndex + 8 * v27->nextIdx - v27->nextIdx) != 255 )
+            v27 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v27->nextIdx - v27->nextIdx);
           else
             v27 = 0;
         }
         if ( v18->overlayIndex != 255
           && v30[((unsigned __int8)v18->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F] )
           IconToBitmapScale(
-            *(icon **)((char *)thisa
-                     + 4 * (((unsigned __int8)v18->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F)
-                     + 206),
+            (icon *)this->tilesetIcns[((unsigned __int8)v18->field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset >> 2) & 0x3F],
             gpWindowManager->screenBuffer,
             a3,
             a4,
@@ -78869,29 +79015,27 @@ void __thiscall advManager::VWCompleteDraw(void *this)
             0x280u,
             480,
             giViewWorldScale);
-        if ( v18->extraIdx
-          && *(_BYTE *)(*(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - v18->extraIdx + 8 * v18->extraIdx + 6) != 255 )
-          v27 = *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - v18->extraIdx + 8 * v18->extraIdx;
+        if ( v18->extraIdx && *(&this->map->cellExtras->field_6 + 8 * v18->extraIdx - v18->extraIdx) != 255 )
+          v27 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v18->extraIdx - v18->extraIdx);
         else
           v27 = 0;
         while ( v27 )
         {
-          if ( v30[(*(_BYTE *)(v27 + 5) >> 2) & 0x3F] )
+          if ( v30[((unsigned __int8)v27->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F] )
             IconToBitmapScale(
-              *(icon **)((char *)thisa + 4 * ((*(_BYTE *)(v27 + 5) >> 2) & 0x3F) + 206),
+              (icon *)this->tilesetIcns[((unsigned __int8)v27->_1_q_1_hasLateOverlay_6_q >> 2) & 0x3F],
               gpWindowManager->screenBuffer,
               a3,
               a4,
-              *(_BYTE *)(v27 + 6),
+              v27->field_6,
               0,
               0,
               0,
               0x280u,
               480,
               giViewWorldScale);
-          if ( *(_WORD *)v27
-            && *(_BYTE *)(*(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - *(_WORD *)v27 + 8 * *(_WORD *)v27 + 6) != 255 )
-            v27 = *(_DWORD *)(*(_DWORD *)((char *)thisa + 174) + 4) - *(_WORD *)v27 + 8 * *(_WORD *)v27;
+          if ( v27->nextIdx && *(&this->map->cellExtras->field_6 + 8 * v27->nextIdx - v27->nextIdx) != 255 )
+            v27 = (mapCellExtra *)((char *)this->map->cellExtras + 8 * v27->nextIdx - v27->nextIdx);
           else
             v27 = 0;
         }
@@ -78912,7 +79056,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
   {
     for ( col = iVWMapOriginX; iVWViewableCells + iVWMapOriginX > col; ++col )
     {
-      v18 = advManager::GetCell((advManager *)thisa, col, row);
+      v18 = advManager::GetCell(this, col, row);
       a3 = iVWXPixelOffset + (giViewWorldScale >> 1) + giViewWorldScale * (col - iVWMapOriginX);
       a4 = iVWYPixelOffset + (giViewWorldScale >> 1) + giViewWorldScale * (row - iVWMapOriginY);
       if ( v18->objType == 169
@@ -78933,15 +79077,15 @@ void __thiscall advManager::VWCompleteDraw(void *this)
           (unsigned int)(iVWWhatToDraw - 50) < 1 ? 0xD6 : 0);
       if ( (v18->objType == 163
          || v18->objType == 170
-         && gpGame->heroes[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163)
+         && gpGame->heroes[(unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163)
         && (iVWDrawAllObjs
          || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
          || iVWWhatToDraw == 51) )
       {
         if ( v18->objType == 163 )
-          v17 = gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          v17 = gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         else
-          v17 = gpGame->field_2773[gpGame->heroes[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
+          v17 = gpGame->field_2773[gpGame->heroes[(unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal];
         if ( v17 >= 0 )
           v17 = gpGame->players[v17].color;
         else
@@ -78994,7 +79138,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
           || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
           || iVWWhatToDraw == 52 )
         {
-          v17 = v26 ? gpGame->relatedToHeroForHireStatus[gpCurPlayer->curHeroIdx] : gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+          v17 = v26 ? gpGame->relatedToHeroForHireStatus[gpCurPlayer->curHeroIdx] : gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
           if ( v17 >= 0 )
           {
             spriteIdx = gpGame->players[v17].color;
@@ -79053,7 +79197,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
          || (unsigned __int8)(*(&mapRevealed[col] + row * MAP_WIDTH) & giCurPlayerBit)
          || iVWWhatToDraw == 48) )
       {
-        v17 = gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+        v17 = gpGame->field_60A6[(unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
         if ( v17 < 0 )
           spriteIdx = 6;
         else
@@ -79077,7 +79221,7 @@ void __thiscall advManager::VWCompleteDraw(void *this)
         v7 = 0;
         v8 = 0;
         v9 = 2;
-        v21 = gpGame->mines[(unsigned __int8)((unsigned __int8)(v18->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].type;
+        v21 = gpGame->mines[(unsigned __int8)((unsigned __int8)(v18->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].type;
         IconToBitmap(
           pVWLetters,
           gpWindowManager->screenBuffer,
@@ -80540,7 +80684,7 @@ LABEL_29:
           goto LABEL_20;
         NormalDialog(
           "An earthquake will do you no good unless there are town walls to damage.",
-          1,
+          DIALOG_OKAY,
           -1,
           -1,
           -1,
@@ -80565,7 +80709,17 @@ LABEL_10:
         if ( thisa->summonedCreatureType[thisa->currentActionSide]
           && thisa->summonedCreatureType[thisa->currentActionSide] != elemental_type )
         {
-          NormalDialog("You may only summon one type of elemental per combat.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(
+            "You may only summon one type of elemental per combat.",
+            DIALOG_OKAY,
+            -1,
+            -1,
+            -1,
+            0,
+            -1,
+            0,
+            -1,
+            0);
           return 0;
         }
         if ( thisa->numCreatures[thisa->currentActionSide] >= 20 )
@@ -80574,13 +80728,13 @@ LABEL_10:
             gText,
             "You already have %d creatures groups in combat and cannot add any more.",
             thisa->numCreatures[thisa->currentActionSide]);
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           return 0;
         }
         if ( !combatManager::SpaceForElementalExists(thisa) )
         {
           sprintf(gText, "There is no open space adjacent to your hero to summon an Elemental to.");
-          NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           return 0;
         }
 LABEL_20:
@@ -80602,7 +80756,7 @@ LABEL_20:
       case SPELL_MASS_SHIELD:
         if ( combatManager::HasValidSpellTarget(thisa, (Spell)thisa->current_spell_id) )
           goto LABEL_20;
-        NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog("That spell will affect no one!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         return 0;
       case SPELL_MIRROR_IMAGE:
         if ( thisa->numCreatures[thisa->currentActionSide] < 20 )
@@ -80611,13 +80765,13 @@ LABEL_20:
           gText,
           "You already have %d creatures groups in combat and cannot add any more.",
           thisa->numCreatures[thisa->currentActionSide]);
-        NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
         return 0;
       default:
 LABEL_23:
         if ( !combatManager::HasValidSpellTarget(thisa, (Spell)thisa->current_spell_id) )
         {
-          NormalDialog("That spell will affect no one!", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+          NormalDialog("That spell will affect no one!", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           return 0;
         }
         giNextAction = 1;
@@ -81004,6 +81158,8 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
   int v11; // eax@135
   int v12; // ST10_4@144
   int v13; // eax@144
+  void *v14; // eax@186
+  char *v15; // ST80_4@186
   int v16; // [sp+14h] [bp-ACh]@111
   combatManager *thisa; // [sp+1Ch] [bp-A4h]@1
   char *v18; // [sp+20h] [bp-A0h]@142
@@ -81542,12 +81698,14 @@ void __thiscall combatManager::CastSpell(combatManager *this, Spell proto_spell,
   {
     for ( j = 0; thisa->numCreatures[i] > j; ++j )
     {
-      thisa->creatures[i][j].hasTakenLosses = 0;
-      thisa->creatures[i][j].dead = thisa->creatures[i][j].hasTakenLosses;
-      thisa->creatures[i][j].damageTakenDuringSomeTimePeriod = thisa->creatures[i][j].dead;
-      thisa->creatures[i][j].field_6 = 1;
-      thisa->creatures[i][j].mightBeIsAttacking = 0;
-      thisa->creatures[i][j].previousQuantity = -1;
+      v14 = (char *)thisa + 24234 * i + 1154 * j;
+      v15 = (char *)v14 + 13647;
+      *(_DWORD *)((char *)v14 + 13865) = 0;
+      *(_DWORD *)(v15 + 222) = *(_DWORD *)(v15 + 218);
+      *(_DWORD *)(v15 + 214) = *(_DWORD *)(v15 + 222);
+      *(_DWORD *)(v15 + 6) = 1;
+      *v15 = 0;
+      *(_DWORD *)(v15 + 154) = -1;
     }
   }
   if ( !isCreatureAbility )
@@ -83309,7 +83467,7 @@ LABEL_2:
     }
   }
   sprintf(gText, "Mirror Image spell failed!");
-  NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+  NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
 }
 // 4F7488: using guessed type int gbLimitToExtent;
 // 524734: using guessed type int giMaxExtentX;
@@ -84020,7 +84178,7 @@ int __cdecl sub_4A7790()
 //----- (004A77B0) --------------------------------------------------------
 char *__cdecl sub_4A77B0(unsigned __int32 a1, char *a2, int a3)
 {
-  return (char *)ExpCampaign::ExpCampaign((int)&xCampaign);
+  return (char *)ExpCampaign::ExpCampaign((ExpCampaign *)&xCampaign);
 }
 
 //----- (004A77D0) --------------------------------------------------------
@@ -84461,7 +84619,7 @@ void __thiscall game::ShowCampaignInfo(void *this, int a2, int a3)
   gbUseEvilInterface = v13;
   if ( gpWindowManager->buttonPressedCode == 901 )
   {
-    NormalDialog("Are you sure you want to restart this scenario?", 2, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog("Are you sure you want to restart this scenario?", DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( gpWindowManager->buttonPressedCode == 30725 )
     {
       game::InitCampaignMap((game *)v3);
@@ -84774,7 +84932,7 @@ signed int __thiscall CampaignHandler(void *this)
         {
           NormalDialog(
             "The currently selected map is not a valid choice for your next scenario.",
-            1,
+            DIALOG_OKAY,
             -1,
             -1,
             -1,
@@ -85696,11 +85854,11 @@ signed int __thiscall philAI::GoodAdjacent(void *this, int a1)
             && (advManager::GetCell(gpAdvManager, col, row)->objType & 0x7F) != 36
             && (advManager::GetCell(gpAdvManager, col, row)->objType & 0x7F) != 39
             && (advManager::GetCell(gpAdvManager, col, row)->objType != 163
-             || gpGame->castles[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx != giCurPlayer
+             || gpGame->castles[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx != giCurPlayer
              || *(_WORD *)&gpCurAIHero->field_7 != giCurTurn) )
           {
             if ( advManager::GetCell(gpAdvManager, col, row)->objType != 170
-              || gpGame->heroes[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx != giCurPlayer
+              || gpGame->heroes[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx != giCurPlayer
               || *(_WORD *)&gpCurAIHero->field_4 != giCurTurn )
             {
               v5 = philAI::ValueOfEventAtPosition(v3, __PAIR__(row, col), 2, (int)&v10);
@@ -85780,13 +85938,13 @@ void __cdecl philAI::CheckReload()
         if ( v0 == 163 )
         {
           v3 = philAI::FightValueOfStack(
-                 &gpGame->castles[(unsigned __int8)((unsigned __int8)(v1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].garrison,
+                 &gpGame->castles[(unsigned __int8)((unsigned __int8)(v1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].garrison,
                  0,
                  0,
                  0,
                  0,
                  0);
-          if ( gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == gpCurAIHero->ownerIdx )
+          if ( gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] == gpCurAIHero->ownerIdx )
           {
             if ( 2 * v7 < v3 )
               v2 = ((double)v3 / (double)(2 * v7) - 1.0)
@@ -85803,10 +85961,10 @@ void __cdecl philAI::CheckReload()
           }
         }
         else if ( v0 == 170
-  && gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != gpCurAIHero->ownerIdx )
+  && gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != gpCurAIHero->ownerIdx )
         {
           v4 = philAI::FightValueOfStack(
-                 &gpGame->heroes[(unsigned __int8)((unsigned __int8)(v1->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].army,
+                 &gpGame->heroes[(unsigned __int8)((unsigned __int8)(v1->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].army,
                  0,
                  0,
                  0,
@@ -85870,15 +86028,15 @@ int __cdecl philAI::CheckBerserk()
         v2 = v3->objType;
         if ( v2 == 163 )
         {
-          if ( gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != gpCurAIHero->ownerIdx
-            && gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != -1 )
+          if ( gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != gpCurAIHero->ownerIdx
+            && gpGame->field_2773[(unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != -1 )
           {
             v4 = philAI::FightValueOfStack(
-                   &gpGame->castles[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].garrison,
+                   &gpGame->castles[(unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].garrison,
                    0,
                    1,
                    1,
-                   (unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5),
+                   (unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5),
                    0);
             LODWORD(v0) = v9;
             if ( v4 > v9 )
@@ -85888,14 +86046,14 @@ int __cdecl philAI::CheckBerserk()
           }
         }
         else if ( v2 == 170
-  && gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != gpCurAIHero->ownerIdx )
+  && gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != gpCurAIHero->ownerIdx )
         {
           LODWORD(v0) = philAI::FightValueOfStack(
-                          &gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].army,
+                          &gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].army,
                           0,
                           1,
-                          gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163,
-                          gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal,
+                          gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjType == 163,
+                          gpGame->heroes[(unsigned __int8)((unsigned __int8)(v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].occupiedObjVal,
                           0);
           v5 = v0;
           LODWORD(v0) = 2 * v0;
@@ -87088,14 +87246,14 @@ signed int __thiscall philAI::DetermineTargetPosition(void *this, int *a2, int *
                  || v35 < 16
                  && (advManager::GetCell(gpAdvManager, col, row)->objType == 170
                   || advManager::GetCell(gpAdvManager, col, row)->objType == 163
-                  && gpGame->castles[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx != giCurPlayer))
+                  && gpGame->castles[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx != giCurPlayer))
                 && (i != 1
                  || v35 > 5
                  && (*(_DWORD *)&gpCurAIHero->field_21 != col || *(_DWORD *)&gpCurAIHero->field_25 != row)
                  && (v35 >= 16
                   || advManager::GetCell(gpAdvManager, col, row)->objType != 170
                   && (advManager::GetCell(gpAdvManager, col, row)->objType != 163
-                   || gpGame->castles[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx == giCurPlayer))) )
+                   || gpGame->castles[(unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx == giCurPlayer))) )
               {
                 v15 = advManager::GetCell(gpAdvManager, col, row);
                 if ( *(__int16 *)((char *)&gpSearchArray->field_2414[col].field_2 + 9 * row * MAP_WIDTH) <= a4 )
@@ -88390,8 +88548,8 @@ int __thiscall philAI::StrategicValueOfPosition(int a1, int a2, int a2_4, int a4
   v14 = 0;
   v15 = advManager::GetCell(gpAdvManager, a2, a2_4);
   if ( v15->objType == 163
-    && gpGame->castles[(unsigned __int8)((unsigned __int8)(v15->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx == giCurPlayer
-    && gpGame->castles[(unsigned __int8)((unsigned __int8)(v15->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].buildingsBuiltFlags & 0x40 )
+    && gpGame->castles[(unsigned __int8)((unsigned __int8)(v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx == giCurPlayer
+    && gpGame->castles[(unsigned __int8)((unsigned __int8)(v15->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].buildingsBuiltFlags & 0x40 )
     v14 = 1;
   *arg10 = 100;
   if ( argC && !*((_BYTE *)gaiEnemyHeroReachable + a2 + MAP_WIDTH * a2_4) )
@@ -88453,38 +88611,38 @@ int __thiscall philAI::StrategicValueOfPosition(int a1, int a2, int a2_4, int a4
         }
         if ( v16->objType == 170 )
         {
-          if ( gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == -32001 )
+          if ( gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] == -32001 )
             philAI::ValueOfEventAtPosition((void *)v11, __PAIR__(row, col), 0, (int)&unk_5305C8);
-          if ( gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] != -32001
-            && gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] < 100
+          if ( gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] != -32001
+            && gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] < 100
             && !v14 )
           {
-            v20 = gpGame->heroes[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].mobility;
-            if ( gbHumanPlayer[gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]] )
+            v20 = gpGame->heroes[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].mobility;
+            if ( gbHumanPlayer[gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]] )
             {
               if ( a7 + *(__int16 *)((char *)&this->field_2414[col].field_2 + 9 * row * MAP_WIDTH) > v20 )
               {
                 v26 = (signed __int64)((double)(100
-                                              - (signed int)gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)])
+                                              - (signed int)gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)])
                                      * 0.2);
               }
               else if ( a7 + *(__int16 *)((char *)&this->field_2414[col].field_2 + 9 * row * MAP_WIDTH) > 500 )
               {
                 v26 = (100
-                     - gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)])
+                     - gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)])
                     * (v20 - (a7 + *(__int16 *)((char *)&this->field_2414[col].field_2 + 9 * row * MAP_WIDTH)) + 250)
                     / v20;
               }
               else
               {
                 v26 = 100
-                    - gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)];
+                    - gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)];
               }
             }
             else
             {
               v26 = (100
-                   - gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)])
+                   - gaiHeroLiveChance[(unsigned __int8)((unsigned __int8)(v16->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)])
                   * (v20 + 500 - (a7 + *(__int16 *)((char *)&this->field_2414[col].field_2 + 9 * row * MAP_WIDTH)))
                   / (v20 + 500);
             }
@@ -88495,11 +88653,11 @@ int __thiscall philAI::StrategicValueOfPosition(int a1, int a2, int a2_4, int a4
         {
           if ( *(__int16 *)((char *)&this->field_2414[col].field_2 + 9 * row * MAP_WIDTH) < 1024
             && advManager::GetCell(gpAdvManager, col, row)->objType == 170
-            && (unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5) != gpCurAIHero->idx
+            && (unsigned __int8)((unsigned __int8)(advManager::GetCell(gpAdvManager, col, row)->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5) != gpCurAIHero->idx
             && gpGame->relatedToHeroForHireStatus[(unsigned __int8)((unsigned __int8)(advManager::GetCell(
                                                                                         gpAdvManager,
                                                                                         col,
-                                                                                        row)->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)] == gpCurAIHero->ownerIdx )
+                                                                                        row)->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)] == gpCurAIHero->ownerIdx )
           {
             v13 = 600 * (1024 - *(__int16 *)((char *)&this->field_2414[col].field_2 + 9 * row * MAP_WIDTH)) >> 10;
             if ( v13 > 0 )
@@ -89929,12 +90087,11 @@ void __thiscall philAI::BuildHero(void *this, signed int a1, int a2)
   *(_DWORD *)(v5 + 53) = hero::CalcMobility((hero *)v5);
   *(_DWORD *)(v5 + 49) = *(_DWORD *)(v5 + 53);
   *(_WORD *)(v5 + 45) = *(&gpGame->map.tiles[v3].objType + 12 * v4 * gpGame->map.width);
-  *(_WORD *)(v5 + 47) = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[v3].field_4_1_1_isShadow_1_13_extraInfo
+  *(_WORD *)(v5 + 47) = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[v3].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                             + 6 * v4 * gpGame->map.width) >> 8) >> -5);
   *(&gpGame->map.tiles[v3].objType + 12 * v4 * gpGame->map.width) = -86;
   v6 = &gpGame->map.tiles[v4 * gpGame->map.width] + v3;
-  v6->field_4_1_1_isShadow_1_13_extraInfo = v6->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8
-                                                                                        * gpCurPlayer->heroesForPurchase[a2];
+  v6->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v6->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * gpCurPlayer->heroesForPurchase[a2];
   gpGame->relatedToHeroForHireStatus[*(_BYTE *)(v5 + 2)] = *(_BYTE *)(a1 + 1);
   CheckValidAvailableHeroes();
   SendMapChange(3, *(_BYTE *)(v5 + 2), *(_DWORD *)(v5 + 25), *(_DWORD *)(v5 + 29), -999, 0, 0);
@@ -91173,7 +91330,7 @@ LABEL_131:
               gText,
               "AI encountered object type %d and doesn't know how to deal with it.   Tell Phil",
               *(_BYTE *)(v34 + 9) & 0x7F);
-            NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
             v33 = 0;
             break;
         }
@@ -92197,7 +92354,7 @@ signed int __cdecl game::SetupHotSeatGame()
   if ( !giSetupGameType )
   {
     sprintf(gText, "Do you wish to enter each player's name?");
-    NormalDialog(gText, 2, -1, -1, -1, 0, -1, 0, -1, 0);
+    NormalDialog(gText, DIALOG_YES_NO, -1, -1, -1, 0, -1, 0, -1, 0);
     if ( gpWindowManager->buttonPressedCode == 30725 )
     {
       for ( i = 0; i < iLastMsgNumHumanPlayers; ++i )
@@ -92666,7 +92823,7 @@ int __thiscall game::SetupGame(game *this)
                 xIsPlayingExpansionCampaign = 1;
                 LOBYTE(xIsExpansionMap) = 1;
                 v1 = ExpCampaign::Choose();
-                ExpCampaign::InitNewCampaign((int)&xCampaign, v1);
+                ExpCampaign::InitNewCampaign((ExpCampaign *)&xCampaign, v1);
                 break;
               case 30721:
                 v11 = 0;
@@ -92794,7 +92951,7 @@ signed int __cdecl game::PickLoadGame()
   {
     NormalDialog(
       "At least one player does not have the Heroes II Expansion set.  You will only be able to choose from original Heroes II games.",
-      1,
+      DIALOG_OKAY,
       -1,
       -1,
       -1,
@@ -92907,9 +93064,9 @@ signed int __thiscall SetupComPortHandler(void *this)
     if ( v4 >= 0 )
     {
       if ( gbDirectConnect )
-        NormalDialog((&gSetupDCComPortHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gSetupDCComPortHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       else
-        NormalDialog((&gSetupComPortHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gSetupComPortHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
     }
   }
   return BaseSetupHandler(v3);
@@ -92958,9 +93115,9 @@ signed int __thiscall SetupBaudHandler(void *this)
     if ( v4 >= 0 )
     {
       if ( gbDirectConnect )
-        NormalDialog((&gSetupDCBaudHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gSetupDCBaudHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       else
-        NormalDialog((&gSetupBaudHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gSetupBaudHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
     }
   }
   return BaseSetupHandler(v3);
@@ -93010,7 +93167,7 @@ signed int __thiscall SetupHotSeatGameHandler(void *this)
       }
     }
     if ( v4 >= 0 )
-      NormalDialog((&gSetupHotSeatGameHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&gSetupHotSeatGameHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler(v3);
 }
@@ -93048,9 +93205,9 @@ signed int __thiscall SetupModemGameHandler(void *this)
     if ( v4 >= 0 )
     {
       if ( gbDirectConnect )
-        NormalDialog((&gSetupDCGameHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gSetupDCGameHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
       else
-        NormalDialog((&gSetupModemGameHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+        NormalDialog((&gSetupModemGameHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
     }
   }
   return BaseSetupHandler(v3);
@@ -93097,7 +93254,7 @@ signed int __thiscall SetupMultiPlayerGameHandler(void *this)
       }
     }
     if ( v4 >= 0 )
-      NormalDialog((&gSetupMultiPlayerGameHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&gSetupMultiPlayerGameHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler(v3);
 }
@@ -93127,7 +93284,7 @@ signed int __thiscall SetupNetworkGameHandler(void *this)
         break;
     }
     if ( v4 >= 0 )
-      NormalDialog((&xSetupCampaignGameHelp)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&xSetupCampaignGameHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler(v3);
 }
@@ -93163,7 +93320,7 @@ signed int __thiscall SetupNetworkGame2Handler(void *this)
       }
     }
     if ( v4 >= 0 )
-      NormalDialog((&gSetupNetworkGame2Help)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&gSetupNetworkGame2Help)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler(v3);
 }
@@ -93199,7 +93356,7 @@ signed int __thiscall SetupGameHandler(void *this)
       }
     }
     if ( v4 >= 0 )
-      NormalDialog((&xSetupStandardGameHelp)[4 * v4], TRANSIENT_FOR_RIGHT_CLICKS, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&xSetupStandardGameHelp)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler(v3);
 }
@@ -93229,7 +93386,7 @@ signed int __thiscall ExpNewCampaignHandler(int this)
         break;
     }
     if ( v4 >= 0 )
-      NormalDialog((&off_51A720)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&off_51A720)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler((void *)v3);
 }
@@ -93259,7 +93416,7 @@ signed int __thiscall ExpLoadCampaignHandler(void *this)
         break;
     }
     if ( v4 >= 0 )
-      NormalDialog((&off_51A720)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&off_51A720)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler(v3);
 }
@@ -93289,7 +93446,7 @@ signed int __thiscall ExpStdGameHandler(void *this)
         break;
     }
     if ( v4 >= 0 )
-      NormalDialog((&off_51A730)[4 * v4], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+      NormalDialog((&off_51A730)[4 * v4], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
   }
   return BaseSetupHandler(v3);
 }
@@ -93858,74 +94015,58 @@ void __thiscall hexcell::DrawObstacle(hexcell *this)
 }
 
 //----- (004BD9B0) --------------------------------------------------------
-int __thiscall swapManager::swapManager(int this)
+swapManager *__thiscall swapManager::swapManager(swapManager *this)
 {
-  int v1; // ST0C_4@1
-
-  v1 = this;
   baseManager::baseManager((baseManager *)this);
-  *(_DWORD *)v1 = &swapManager::_vftable_;
-  *(_DWORD *)(v1 + 54) = 0;
-  *(_DWORD *)(v1 + 58) = 0;
-  *(_DWORD *)(v1 + 70) = -1;
-  *(_DWORD *)(v1 + 74) = -1;
-  *(_DWORD *)(v1 + 86) = -1;
-  *(_DWORD *)(v1 + 78) = -1;
-  *(_DWORD *)(v1 + 82) = -1;
-  *(_DWORD *)(v1 + 62) = 0;
-  *(_DWORD *)(v1 + 66) = 0;
-  return v1;
+  this->vtable = &swapManager::_vftable_;
+  this->window = 0;
+  this->swapButtonIcn = 0;
+  this->heroIdxMovingFrom = -1;
+  this->heroIdxMovingTo = -1;
+  this->field_56 = -1;
+  this->idxMovingFrom = -1;
+  this->idxMovingTo = -1;
+  this->heroes[0] = 0;
+  this->heroes[1] = 0;
+  return this;
 }
 // 4EAEF0: using guessed type int (__stdcall *swapManager___vftable_)(int);
 
 //----- (004BDA40) --------------------------------------------------------
-int __thiscall swapManager::swapManager(tag_message *this)
+swapManager *__thiscall swapManager::swapManager(swapManager *this, hero *hero1, hero *hero2)
 {
-  int v1; // ST0C_4@1
-  int v3; // [sp+18h] [bp+8h]@0
-  int v4; // [sp+1Ch] [bp+Ch]@0
-
-  v1 = (int)this;
   baseManager::baseManager((baseManager *)this);
-  *(_DWORD *)v1 = &swapManager::_vftable_;
-  *(_DWORD *)(v1 + 62) = v3;
-  *(_DWORD *)(v1 + 66) = v4;
-  return v1;
+  this->vtable = &swapManager::_vftable_;
+  this->heroes[0] = hero1;
+  this->heroes[1] = hero2;
+  return this;
 }
-// 4BDA40: inconsistent function type and number of purged bytes
 // 4EAEF0: using guessed type int (__stdcall *swapManager___vftable_)(int);
 
 //----- (004BDA80) --------------------------------------------------------
-int __thiscall swapManager::Reset(int this)
+void __thiscall swapManager::Reset(swapManager *this)
 {
-  int v1; // ST0C_4@1
-  int result; // eax@1
-
-  v1 = this;
-  *(_DWORD *)(this + 82) = -1;
-  *(_DWORD *)(v1 + 78) = *(_DWORD *)(v1 + 82);
-  *(_DWORD *)(v1 + 86) = *(_DWORD *)(v1 + 78);
-  *(_DWORD *)(v1 + 74) = *(_DWORD *)(v1 + 86);
-  result = *(_DWORD *)(this + 74);
-  *(_DWORD *)(this + 70) = result;
-  return result;
+  this->idxMovingTo = -1;
+  this->idxMovingFrom = this->idxMovingTo;
+  this->field_56 = this->idxMovingFrom;
+  this->heroIdxMovingTo = this->field_56;
+  this->heroIdxMovingFrom = this->heroIdxMovingTo;
 }
 
 //----- (004BDAD0) --------------------------------------------------------
-int __thiscall swapManager::DrawSwapWin(int this)
+int __thiscall swapManager::DrawSwapWin(swapManager *this)
 {
-  heroWindow::DrawWindow(*(heroWindow **)(this + 54), 0);
+  heroWindow::DrawWindow(this->window, 0);
   heroWindowManager::UpdateScreen(gpWindowManager);
   return 0;
 }
 
 //----- (004BDB00) --------------------------------------------------------
-int __thiscall swapManager::Open(void *this, int a2)
+int __thiscall swapManager::Open(swapManager *this, int a2)
 {
   signed int v2; // eax@11
   char v3; // al@11
-  void *v5; // [sp+Ch] [bp-2Ch]@1
-  heroWindow *thisa; // [sp+10h] [bp-28h]@1
+  heroWindow *window; // [sp+10h] [bp-28h]@1
   int evt; // [sp+14h] [bp-24h]@6
   int v8; // [sp+18h] [bp-20h]@6
   int v9; // [sp+1Ch] [bp-1Ch]@6
@@ -93933,54 +94074,53 @@ int __thiscall swapManager::Open(void *this, int a2)
   int a2a; // [sp+30h] [bp-8h]@8
   int i; // [sp+34h] [bp-4h]@6
 
-  v5 = this;
-  swapManager::Reset((int)this);
-  thisa = (heroWindow *)operator new(68);
-  if ( thisa )
-    *(_DWORD *)((char *)v5 + 54) = heroWindow::heroWindow(thisa, 0, 0, "swapwin.bin");
+  swapManager::Reset(this);
+  window = (heroWindow *)operator new(68);
+  if ( window )
+    this->window = heroWindow::heroWindow(window, 0, 0, "swapwin.bin");
   else
-    *(_DWORD *)((char *)v5 + 54) = 0;
-  if ( !*(_DWORD *)((char *)v5 + 54) )
+    this->window = 0;
+  if ( !this->window )
     MemError();
-  SetWinText(*(heroWindow **)((char *)v5 + 54), 21);
+  SetWinText(this->window, 21);
   evt = 512;
   v8 = 9;
-  sprintf(gText, "port%04d.icn", *(_BYTE *)(*(_DWORD *)((char *)v5 + 62) + 24));
+  sprintf(gText, "port%04d.icn", this->heroes[0]->heroID);
   v9 = 65;
   v10 = gText;
-  heroWindow::BroadcastMessage(*(heroWindow **)((char *)v5 + 54), (tag_message *)&evt);
-  sprintf(gText, "port%04d.icn", *(_BYTE *)(*(_DWORD *)((char *)v5 + 66) + 24));
+  heroWindow::BroadcastMessage(this->window, (tag_message *)&evt);
+  sprintf(gText, "port%04d.icn", this->heroes[1]->heroID);
   v9 = 66;
-  heroWindow::BroadcastMessage(*(heroWindow **)((char *)v5 + 54), (tag_message *)&evt);
+  heroWindow::BroadcastMessage(this->window, (tag_message *)&evt);
   v8 = 3;
-  sprintf(gText, "%s meets %s", *(_DWORD *)((char *)v5 + 62) + 10, *(_DWORD *)((char *)v5 + 66) + 10);
+  sprintf(gText, "%s meets %s", this->heroes[0]->name, this->heroes[1]->name);
   v10 = gText;
   v9 = 77;
-  heroWindow::BroadcastMessage(*(heroWindow **)((char *)v5 + 54), (tag_message *)&evt);
+  heroWindow::BroadcastMessage(this->window, (tag_message *)&evt);
   for ( i = 0; i < 2; ++i )
   {
     for ( a2a = 0; a2a < 8; ++a2a )
     {
-      if ( *(_DWORD *)(*(_DWORD *)((char *)v5 + 4 * i + 62) + 144) <= a2a )
+      if ( this->heroes[i]->numSecSkillsKnown <= a2a )
       {
         v8 = 6;
         v9 = a2a + 8 * i + 200;
         v10 = (char *)4;
-        heroWindow::BroadcastMessage(*(heroWindow **)((char *)v5 + 54), (tag_message *)&evt);
+        heroWindow::BroadcastMessage(this->window, (tag_message *)&evt);
       }
       else
       {
         v8 = 4;
         v9 = a2a + 8 * i + 200;
-        v10 = (char *)hero::GetNthSS(*(hero **)((char *)v5 + 4 * i + 62), a2a);
-        heroWindow::BroadcastMessage(*(heroWindow **)((char *)v5 + 54), (tag_message *)&evt);
+        v10 = (char *)hero::GetNthSS(this->heroes[i], a2a);
+        heroWindow::BroadcastMessage(this->window, (tag_message *)&evt);
         v8 = 3;
         v9 = a2a + 8 * i + 216;
         v10 = gText;
-        v2 = hero::GetNthSS(*(hero **)((char *)v5 + 4 * i + 62), a2a);
-        v3 = hero::GetSSLevel(*(hero **)((char *)v5 + 4 * i + 62), (SECONDARY_SKILL)v2);
+        v2 = hero::GetNthSS(this->heroes[i], a2a);
+        v3 = hero::GetSSLevel(this->heroes[i], (SECONDARY_SKILL)v2);
         sprintf(gText, "%d", v3);
-        heroWindow::BroadcastMessage(*(heroWindow **)((char *)v5 + 54), (tag_message *)&evt);
+        heroWindow::BroadcastMessage(this->window, (tag_message *)&evt);
       }
     }
   }
@@ -93999,35 +94139,33 @@ int __thiscall swapManager::Open(void *this, int a2)
   heroWindow::BroadcastMessage(gpAdvManager->adventureScreen, (tag_message *)&evt);
   v9 = 6;
   heroWindow::BroadcastMessage(gpAdvManager->adventureScreen, (tag_message *)&evt);
-  swapManager::Update(v5);
-  heroWindowManager::AddWindow(gpWindowManager, *(heroWindow **)((char *)v5 + 54), -1, 1);
+  swapManager::Update(this);
+  heroWindowManager::AddWindow(gpWindowManager, this->window, -1, 1);
   KBChangeMenu(hmnuAdv);
   giMonoIconSkip = 2;
-  *(_DWORD *)((char *)v5 + 58) = resourceManager::GetIcon(gpResourceManager, "swapbtn.icn");
+  this->swapButtonIcn = (int)resourceManager::GetIcon(gpResourceManager, "swapbtn.icn");
   giMonoIconSkip = -1;
   mouseManager::SetPointer(gpMouseManager, 0);
-  *((_DWORD *)v5 + 3) = 256;
-  *((_DWORD *)v5 + 4) = a2;
-  *(_DWORD *)((char *)v5 + 50) = 1;
-  strcpy((char *)v5 + 20, "swapManager");
+  this->type = 256;
+  this->idx = a2;
+  this->ready = 1;
+  strcpy(this->name, "swapManager");
   return 0;
 }
 // 4F2E74: using guessed type int giMonoIconSkip;
 
 //----- (004BDEC0) --------------------------------------------------------
-int __thiscall swapManager::Close(int this)
+int __thiscall swapManager::Close(swapManager *this)
 {
-  int v1; // ST10_4@1
   int evt; // [sp+1Ch] [bp-1Ch]@1
   int v4; // [sp+20h] [bp-18h]@1
   int v5; // [sp+24h] [bp-14h]@1
   int v6; // [sp+34h] [bp-4h]@1
 
-  v1 = this;
-  resourceManager::Dispose(gpResourceManager, *(resource **)(this + 58));
-  heroWindowManager::RemoveWindow(gpWindowManager, *(heroWindow **)(v1 + 54));
-  operator delete(*(void **)(v1 + 54));
-  *(_DWORD *)(v1 + 50) = 0;
+  resourceManager::Dispose(gpResourceManager, (resource *)this->swapButtonIcn);
+  heroWindowManager::RemoveWindow(gpWindowManager, this->window);
+  operator delete(this->window);
+  this->ready = 0;
   gpAdvManager->ready = 1;
   evt = 512;
   v4 = 5;
@@ -94047,7 +94185,7 @@ int __thiscall swapManager::Close(int this)
 }
 
 //----- (004BDFF0) --------------------------------------------------------
-void __thiscall swapManager::DrawSelector(int this)
+void __thiscall swapManager::DrawSelector(swapManager *this)
 {
   int v1; // [sp+Ch] [bp-3Ch]@10
   int v2; // [sp+10h] [bp-38h]@4
@@ -94057,59 +94195,58 @@ void __thiscall swapManager::DrawSelector(int this)
 
   offsetX = 0;
   offsetY = 0;
-  if ( *(_DWORD *)(this + 70) != -1 && *(_DWORD *)(this + 78) != -1 )
+  if ( this->heroIdxMovingFrom != -1 && this->idxMovingFrom != -1 )
   {
-    v3 = *(_DWORD *)(this + 70);
+    v3 = this->heroIdxMovingFrom;
     if ( v3 )
     {
       if ( v3 == 1 )
       {
-        v1 = *(_DWORD *)(this + 86);
+        v1 = this->field_56;
         if ( v1 )
         {
           if ( v1 == 1 )
           {
-            offsetX = 36 * (*(_DWORD *)(this + 78) % 7) + 367;
-            offsetY = *(_DWORD *)(this + 78) <= 6 ? 347 : 127;
+            offsetX = 36 * (this->idxMovingFrom % 7) + 367;
+            offsetY = this->idxMovingFrom <= 6 ? 347 : 127;
           }
         }
         else
         {
-          offsetX = 45 * *(_DWORD *)(this + 78) + 381;
+          offsetX = 45 * this->idxMovingFrom + 381;
           offsetY = 267;
         }
       }
     }
     else
     {
-      v2 = *(_DWORD *)(this + 86);
+      v2 = this->field_56;
       if ( v2 )
       {
         if ( v2 == 1 )
         {
-          offsetX = 36 * (*(_DWORD *)(this + 78) % 7) + 23;
-          offsetY = *(_DWORD *)(this + 78) <= 6 ? 347 : 127;
+          offsetX = 36 * (this->idxMovingFrom % 7) + 23;
+          offsetY = this->idxMovingFrom <= 6 ? 347 : 127;
         }
       }
       else
       {
-        offsetX = 45 * *(_DWORD *)(this + 78) + 36;
+        offsetX = 45 * this->idxMovingFrom + 36;
         offsetY = 267;
       }
     }
-    icon::FillToBuffer(*(icon **)(this + 58), offsetX, offsetY, (*(_DWORD *)(this + 86) < 1u) + 2, 10, 0, 0);
+    icon::FillToBuffer((icon *)this->swapButtonIcn, offsetX, offsetY, (this->field_56 < 1u) + 2, 10, 0, 0);
     heroWindowManager::UpdateScreenRegion(gpWindowManager, offsetX, offsetY, 0x2Eu, 46);
   }
 }
 
 //----- (004BE1F0) --------------------------------------------------------
-signed int __thiscall swapManager::Main(int this, int a2)
+signed int __thiscall swapManager::Main(swapManager *this, tag_message *evt)
 {
   int v2; // ST4C_4@15
   signed int result; // eax@99
   int v4; // [sp+10h] [bp-24h]@4
-  int v5; // [sp+14h] [bp-20h]@1
-  int v6; // [sp+18h] [bp-1Ch]@1
+  INPUT_EVENT_CODE v5; // [sp+14h] [bp-20h]@1
   signed int v7; // [sp+20h] [bp-14h]@10
   int a2a; // [sp+24h] [bp-10h]@10
   int v9; // [sp+28h] [bp-Ch]@20
@@ -94117,28 +94254,27 @@ signed int __thiscall swapManager::Main(int this, int a2)
   signed int v11; // [sp+2Ch] [bp-8h]@1
   bool a3; // [sp+30h] [bp-4h]@1
 
-  v6 = this;
   v11 = 0;
-  a3 = (*(_BYTE *)(a2 + 13) & 2) != 0;
-  v5 = *(_DWORD *)a2;
+  a3 = (BYTE1(evt->inputTypeBitmask) & 2) != 0;
+  v5 = evt->eventCode;
   if ( v5 == 32 )
   {
-    if ( !(*(_BYTE *)(a2 + 13) & 2) )
+    if ( !(BYTE1(evt->inputTypeBitmask) & 2) )
     {
       swapManager::Reset(this);
-      swapManager::Update((void *)v6);
-      swapManager::DrawSwapWin(v6);
+      swapManager::Update(this);
+      swapManager::DrawSwapWin(this);
     }
   }
   else
   {
     if ( v5 != 512 )
       goto LABEL_98;
-    v4 = *(_DWORD *)(a2 + 4);
+    v4 = evt->xCoordOrKeycode;
     if ( v4 == 12 )
     {
 LABEL_88:
-      switch ( *(_DWORD *)(a2 + 8) )
+      switch ( evt->yCoordOrFieldID )
       {
         case 0xC8:
         case 0xC9:
@@ -94149,7 +94285,7 @@ LABEL_88:
         case 0xCE:
         case 0xCF:
           v7 = 0;
-          a2a = *(_DWORD *)(a2 + 8) - 200;
+          a2a = evt->yCoordOrFieldID - 200;
           goto LABEL_14;
         case 0xD8:
         case 0xD9:
@@ -94160,7 +94296,7 @@ LABEL_88:
         case 0xDE:
         case 0xDF:
           v7 = 0;
-          a2a = *(_DWORD *)(a2 + 8) - 216;
+          a2a = evt->yCoordOrFieldID - 216;
           goto LABEL_14;
         case 0xD0:
         case 0xD1:
@@ -94171,7 +94307,7 @@ LABEL_88:
         case 0xD6:
         case 0xD7:
           v7 = 1;
-          a2a = *(_DWORD *)(a2 + 8) - 208;
+          a2a = evt->yCoordOrFieldID - 208;
           goto LABEL_14;
         case 0xE0:
         case 0xE1:
@@ -94182,33 +94318,33 @@ LABEL_88:
         case 0xE6:
         case 0xE7:
           v7 = 1;
-          a2a = *(_DWORD *)(a2 + 8) - 224;
+          a2a = evt->yCoordOrFieldID - 224;
 LABEL_14:
-          if ( *(_DWORD *)(*(_DWORD *)(this + 4 * v7 + 62) + 144) > a2a )
+          if ( this->heroes[v7]->numSecSkillsKnown > a2a )
           {
-            v2 = hero::GetNthSS(*(hero **)(this + 4 * v7 + 62), a2a);
-            hero::DoSSLevelDialog(*(hero **)(v6 + 4 * v7 + 62), v2, a3);
+            v2 = hero::GetNthSS(this->heroes[v7], a2a);
+            hero::DoSSLevelDialog(this->heroes[v7], v2, a3);
           }
           break;
         case 0x41:
-          if ( !(*(_BYTE *)(a2 + 13) & 2) )
+          if ( !(BYTE1(evt->inputTypeBitmask) & 2) )
           {
-            HeroView(*(_BYTE *)(*(_DWORD *)(this + 62) + 2), 1, 0);
+            HeroView(this->heroes[0]->idx, 1, 0);
             advManager::RedrawAdvScreen(gpAdvManager, 1, 0);
-            swapManager::Update((void *)v6);
-            swapManager::DrawSwapWin(v6);
-            swapManager::Reset(v6);
+            swapManager::Update(this);
+            swapManager::DrawSwapWin(this);
+            swapManager::Reset(this);
             heroWindowManager::FadeScreen(gpWindowManager, 0, 8, 0);
           }
           break;
         case 0x42:
-          if ( !(*(_BYTE *)(a2 + 13) & 2) )
+          if ( !(BYTE1(evt->inputTypeBitmask) & 2) )
           {
-            HeroView(*(_BYTE *)(*(_DWORD *)(this + 66) + 2), 1, 0);
+            HeroView(this->heroes[1]->idx, 1, 0);
             advManager::RedrawAdvScreen(gpAdvManager, 1, 0);
-            swapManager::Update((void *)v6);
-            swapManager::DrawSwapWin(v6);
-            swapManager::Reset(v6);
+            swapManager::Update(this);
+            swapManager::DrawSwapWin(this);
+            swapManager::Reset(this);
             heroWindowManager::FadeScreen(gpWindowManager, 0, 8, 0);
           }
           break;
@@ -94226,51 +94362,45 @@ LABEL_14:
         case 0x63:
         case 0x64:
         case 0x65:
-          v9 = *(_DWORD *)(a2 + 8) - 88;
-          if ( *(_BYTE *)(a2 + 13) & 2 || *(_BYTE *)(*(_DWORD *)(this + 62) + v9 + 213) != 81 )
+          v9 = evt->yCoordOrFieldID - 88;
+          if ( BYTE1(evt->inputTypeBitmask) & 2 || this->heroes[0]->artifacts[v9] != 81 )
           {
-            if ( *(_BYTE *)(a2 + 13) & 2 )
+            if ( BYTE1(evt->inputTypeBitmask) & 2 )
             {
-              if ( *(_BYTE *)(*(_DWORD *)(this + 62) + v9 + 213) != -1 )
-                hero::ViewArtifact(
-                  *(_BYTE *)(*(_DWORD *)(this + 62) + v9 + 213),
-                  1u,
-                  *(_BYTE *)(*(_DWORD *)(this + 62) + v9 + 236));
+              if ( this->heroes[0]->artifacts[v9] != -1 )
+                hero::ViewArtifact(this->heroes[0]->artifacts[v9], 1u, this->heroes[0]->scrollSpell[v9]);
             }
-            else if ( *(_DWORD *)(this + 86) == 1 )
+            else if ( this->field_56 == 1 )
             {
-              *(_DWORD *)(this + 74) = 0;
-              *(_DWORD *)(this + 82) = v9;
-              if ( *(_DWORD *)(this + 70) || *(_DWORD *)(this + 78) != *(_DWORD *)(this + 82) )
+              this->heroIdxMovingTo = 0;
+              this->idxMovingTo = v9;
+              if ( this->heroIdxMovingFrom || this->idxMovingFrom != this->idxMovingTo )
               {
                 swapManager::SwapArtifacts(this);
-                swapManager::Reset(v6);
+                swapManager::Reset(this);
               }
               else
               {
-                hero::ViewArtifact(
-                  *(_BYTE *)(*(_DWORD *)(this + 62) + v9 + 213),
-                  0,
-                  *(_BYTE *)(*(_DWORD *)(this + 62) + v9 + 236));
-                swapManager::Reset(v6);
+                hero::ViewArtifact(this->heroes[0]->artifacts[v9], 0, this->heroes[0]->scrollSpell[v9]);
+                swapManager::Reset(this);
               }
             }
-            else if ( *(_BYTE *)(*(_DWORD *)(this + 62) + v9 + 213) == -1 )
+            else if ( this->heroes[0]->artifacts[v9] == -1 )
             {
               swapManager::Reset(this);
             }
             else
             {
-              *(_DWORD *)(this + 70) = 0;
-              *(_DWORD *)(this + 74) = -1;
-              *(_DWORD *)(this + 86) = 1;
-              *(_DWORD *)(this + 78) = v9;
-              *(_DWORD *)(this + 82) = -1;
+              this->heroIdxMovingFrom = 0;
+              this->heroIdxMovingTo = -1;
+              this->field_56 = 1;
+              this->idxMovingFrom = v9;
+              this->idxMovingTo = -1;
             }
           }
           else
           {
-            NormalDialog("This item can't be traded.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog("This item can't be traded.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           }
           break;
         case 0x66:
@@ -94287,51 +94417,45 @@ LABEL_14:
         case 0x71:
         case 0x72:
         case 0x73:
-          v10 = *(_DWORD *)(a2 + 8) - 102;
-          if ( *(_BYTE *)(a2 + 13) & 2 || *(_BYTE *)(*(_DWORD *)(this + 66) + v10 + 213) != 81 )
+          v10 = evt->yCoordOrFieldID - 102;
+          if ( BYTE1(evt->inputTypeBitmask) & 2 || this->heroes[1]->artifacts[v10] != 81 )
           {
-            if ( *(_BYTE *)(a2 + 13) & 2 )
+            if ( BYTE1(evt->inputTypeBitmask) & 2 )
             {
-              if ( *(_BYTE *)(*(_DWORD *)(this + 66) + v10 + 213) != -1 )
-                hero::ViewArtifact(
-                  *(_BYTE *)(*(_DWORD *)(this + 66) + v10 + 213),
-                  1u,
-                  *(_BYTE *)(*(_DWORD *)(this + 66) + v10 + 236));
+              if ( this->heroes[1]->artifacts[v10] != -1 )
+                hero::ViewArtifact(this->heroes[1]->artifacts[v10], 1u, this->heroes[1]->scrollSpell[v10]);
             }
-            else if ( *(_DWORD *)(this + 86) == 1 )
+            else if ( this->field_56 == 1 )
             {
-              *(_DWORD *)(this + 74) = 1;
-              *(_DWORD *)(this + 82) = v10;
-              if ( *(_DWORD *)(this + 70) != 1 || *(_DWORD *)(this + 78) != *(_DWORD *)(this + 82) )
+              this->heroIdxMovingTo = 1;
+              this->idxMovingTo = v10;
+              if ( this->heroIdxMovingFrom != 1 || this->idxMovingFrom != this->idxMovingTo )
               {
                 swapManager::SwapArtifacts(this);
-                swapManager::Reset(v6);
+                swapManager::Reset(this);
               }
               else
               {
-                hero::ViewArtifact(
-                  *(_BYTE *)(*(_DWORD *)(this + 66) + v10 + 213),
-                  0,
-                  *(_BYTE *)(*(_DWORD *)(this + 66) + v10 + 236));
-                swapManager::Reset(v6);
+                hero::ViewArtifact(this->heroes[1]->artifacts[v10], 0, this->heroes[1]->scrollSpell[v10]);
+                swapManager::Reset(this);
               }
             }
-            else if ( *(_BYTE *)(*(_DWORD *)(this + 66) + v10 + 213) == -1 )
+            else if ( this->heroes[1]->artifacts[v10] == -1 )
             {
               swapManager::Reset(this);
             }
             else
             {
-              *(_DWORD *)(this + 70) = 1;
-              *(_DWORD *)(this + 74) = -1;
-              *(_DWORD *)(this + 86) = 1;
-              *(_DWORD *)(this + 78) = v10;
-              *(_DWORD *)(this + 82) = -1;
+              this->heroIdxMovingFrom = 1;
+              this->heroIdxMovingTo = -1;
+              this->field_56 = 1;
+              this->idxMovingFrom = v10;
+              this->idxMovingTo = -1;
             }
           }
           else
           {
-            NormalDialog("This item can't be traded.", 1, -1, -1, -1, 0, -1, 0, -1, 0);
+            NormalDialog("This item can't be traded.", DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
           }
           break;
         case 0x4E:
@@ -94339,62 +94463,62 @@ LABEL_14:
         case 0x50:
         case 0x51:
         case 0x52:
-          if ( *(_BYTE *)(a2 + 13) & 2 )
+          if ( BYTE1(evt->inputTypeBitmask) & 2 )
           {
-            if ( *(_BYTE *)(*(_DWORD *)(a2 + 8) + *(_DWORD *)(this + 62) + 23) != -1 )
+            if ( *(&this->heroes[0]->factionID + evt->yCoordOrFieldID) != -1 )
               game::ViewArmy(
                 gpGame,
                 119,
                 20,
-                (CREATURES)*(_BYTE *)(*(_DWORD *)(a2 + 8) + *(_DWORD *)(this + 62) + 23),
-                *(_WORD *)(*(_DWORD *)(this + 62) + 2 * *(_DWORD *)(a2 + 8) - 50),
+                (CREATURES)*(&this->heroes[0]->factionID + evt->yCoordOrFieldID),
+                *(_WORD *)&this->heroes[0][-1].spellsLearned[2 * evt->yCoordOrFieldID + 52],
                 0,
                 0,
                 1u,
                 1,
-                *(hero **)(this + 62),
+                this->heroes[0],
                 0,
-                (armyGroup *)(*(_DWORD *)(this + 62) + 101),
-                *(_DWORD *)(a2 + 8) - 78);
+                (armyGroup *)((char *)&this->heroes[25] + 1),
+                evt->yCoordOrFieldID - 78);
           }
-          else if ( *(_DWORD *)(this + 86) )
+          else if ( this->field_56 )
           {
-            if ( *(_BYTE *)(*(_DWORD *)(a2 + 8) + *(_DWORD *)(this + 62) + 23) == -1 )
+            if ( *(&this->heroes[0]->factionID + evt->yCoordOrFieldID) == -1 )
             {
               swapManager::Reset(this);
             }
             else
             {
-              *(_DWORD *)(this + 70) = 0;
-              *(_DWORD *)(this + 74) = -1;
-              *(_DWORD *)(this + 86) = 0;
-              *(_DWORD *)(this + 78) = *(_DWORD *)(a2 + 8) - 78;
-              *(_DWORD *)(this + 82) = -1;
+              this->heroIdxMovingFrom = 0;
+              this->heroIdxMovingTo = -1;
+              this->field_56 = 0;
+              this->idxMovingFrom = evt->yCoordOrFieldID - 78;
+              this->idxMovingTo = -1;
             }
           }
           else
           {
-            *(_DWORD *)(this + 74) = 0;
-            *(_DWORD *)(this + 82) = *(_DWORD *)(a2 + 8) - 78;
-            if ( *(_DWORD *)(this + 70) || *(_DWORD *)(this + 78) != *(_DWORD *)(this + 82) )
+            this->heroIdxMovingTo = 0;
+            this->idxMovingTo = evt->yCoordOrFieldID - 78;
+            if ( this->heroIdxMovingFrom || this->idxMovingFrom != this->idxMovingTo )
             {
-              if ( *(_BYTE *)(a2 + 12) & 3
-                && (*(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 74) + 62) + *(_DWORD *)(this + 82) + 101) == -1
-                 || *(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + *(_DWORD *)(this + 78) + 101) == *(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 74) + 62) + *(_DWORD *)(this + 82) + 101)) )
+              if ( evt->inputTypeBitmask & 3
+                && (this->heroes[this->heroIdxMovingTo]->army.creatureTypes[this->idxMovingTo] == -1
+                 || this->heroes[this->heroIdxMovingFrom]->army.creatureTypes[this->idxMovingFrom] == this->heroes[this->heroIdxMovingTo]->army.creatureTypes[this->idxMovingTo]) )
               {
                 swapManager::SplitMons(this);
-                swapManager::Reset(v6);
+                swapManager::Reset(this);
               }
               else
               {
                 swapManager::SwapMons(this);
-                swapManager::Reset(v6);
+                swapManager::Reset(this);
               }
             }
             else
             {
               swapManager::ViewMon(this);
-              swapManager::Reset(v6);
+              swapManager::Reset(this);
             }
           }
           break;
@@ -94403,62 +94527,62 @@ LABEL_14:
         case 0x55:
         case 0x56:
         case 0x57:
-          if ( *(_BYTE *)(a2 + 13) & 2 )
+          if ( BYTE1(evt->inputTypeBitmask) & 2 )
           {
-            if ( *(_BYTE *)(*(_DWORD *)(a2 + 8) + *(_DWORD *)(this + 66) + 18) != -1 )
+            if ( this->heroes[1]->name[evt->yCoordOrFieldID + 8] != -1 )
               game::ViewArmy(
                 gpGame,
                 119,
                 20,
-                (CREATURES)*(_BYTE *)(*(_DWORD *)(a2 + 8) + *(_DWORD *)(this + 66) + 18),
-                *(_WORD *)(*(_DWORD *)(this + 66) + 2 * *(_DWORD *)(a2 + 8) - 60),
+                (CREATURES)this->heroes[1]->name[evt->yCoordOrFieldID + 8],
+                *(_WORD *)&this->heroes[1][-1].spellsLearned[2 * evt->yCoordOrFieldID + 42],
                 0,
                 0,
                 1u,
                 1,
-                *(hero **)(this + 66),
+                this->heroes[1],
                 0,
-                (armyGroup *)(*(_DWORD *)(this + 66) + 101),
-                *(_DWORD *)(a2 + 8) - 83);
+                (armyGroup *)((char *)&this->heroes[26] + 1),
+                evt->yCoordOrFieldID - 83);
           }
-          else if ( *(_DWORD *)(this + 86) )
+          else if ( this->field_56 )
           {
-            if ( *(_BYTE *)(*(_DWORD *)(a2 + 8) + *(_DWORD *)(this + 66) + 18) == -1 )
+            if ( this->heroes[1]->name[evt->yCoordOrFieldID + 8] == -1 )
             {
               swapManager::Reset(this);
             }
             else
             {
-              *(_DWORD *)(this + 70) = 1;
-              *(_DWORD *)(this + 74) = -1;
-              *(_DWORD *)(this + 86) = 0;
-              *(_DWORD *)(this + 78) = *(_DWORD *)(a2 + 8) - 83;
-              *(_DWORD *)(this + 82) = -1;
+              this->heroIdxMovingFrom = 1;
+              this->heroIdxMovingTo = -1;
+              this->field_56 = 0;
+              this->idxMovingFrom = evt->yCoordOrFieldID - 83;
+              this->idxMovingTo = -1;
             }
           }
           else
           {
-            *(_DWORD *)(this + 74) = 1;
-            *(_DWORD *)(this + 82) = *(_DWORD *)(a2 + 8) - 83;
-            if ( *(_DWORD *)(this + 70) != 1 || *(_DWORD *)(this + 78) != *(_DWORD *)(this + 82) )
+            this->heroIdxMovingTo = 1;
+            this->idxMovingTo = evt->yCoordOrFieldID - 83;
+            if ( this->heroIdxMovingFrom != 1 || this->idxMovingFrom != this->idxMovingTo )
             {
-              if ( *(_BYTE *)(a2 + 12) & 3
-                && (*(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 74) + 62) + *(_DWORD *)(this + 82) + 101) == -1
-                 || *(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + *(_DWORD *)(this + 78) + 101) == *(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 74) + 62) + *(_DWORD *)(this + 82) + 101)) )
+              if ( evt->inputTypeBitmask & 3
+                && (this->heroes[this->heroIdxMovingTo]->army.creatureTypes[this->idxMovingTo] == -1
+                 || this->heroes[this->heroIdxMovingFrom]->army.creatureTypes[this->idxMovingFrom] == this->heroes[this->heroIdxMovingTo]->army.creatureTypes[this->idxMovingTo]) )
               {
                 swapManager::SplitMons(this);
-                swapManager::Reset(v6);
+                swapManager::Reset(this);
               }
               else
               {
                 swapManager::SwapMons(this);
-                swapManager::Reset(v6);
+                swapManager::Reset(this);
               }
             }
             else
             {
               swapManager::ViewMon(this);
-              swapManager::Reset(v6);
+              swapManager::Reset(this);
             }
           }
           break;
@@ -94561,9 +94685,9 @@ LABEL_14:
       }
       if ( !a3 )
       {
-        swapManager::Update((void *)v6);
-        swapManager::DrawSwapWin(v6);
-        swapManager::DrawSelector(v6);
+        swapManager::Update(this);
+        swapManager::DrawSwapWin(this);
+        swapManager::DrawSelector(this);
       }
       goto LABEL_98;
     }
@@ -94573,14 +94697,14 @@ LABEL_14:
         goto LABEL_98;
       goto LABEL_88;
     }
-    if ( !(*(_BYTE *)(a2 + 13) & 2) && *(_DWORD *)(a2 + 8) == 30720 )
+    if ( !(BYTE1(evt->inputTypeBitmask) & 2) && evt->yCoordOrFieldID == 30720 )
       v11 = 1;
   }
 LABEL_98:
   if ( v11 == 1 )
   {
-    *(_DWORD *)a2 = 16384;
-    *(_DWORD *)(a2 + 4) = 4;
+    evt->eventCode = 16384;
+    evt->xCoordOrKeycode = 4;
     result = 2;
   }
   else
@@ -94591,25 +94715,23 @@ LABEL_98:
 }
 
 //----- (004BECE0) --------------------------------------------------------
-BOOL __thiscall swapManager::ViewMon(int this)
+BOOL __thiscall swapManager::ViewMon(swapManager *this)
 {
-  int v1; // ST3C_4@1
   int v2; // ST2C_4@1
   armyGroup *v3; // ST28_4@1
   hero *v4; // ST20_4@1
   int v5; // eax@1
 
-  v1 = this;
-  v2 = *(_DWORD *)(this + 82);
-  v3 = (armyGroup *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + 101);
-  v4 = *(hero **)(this + 4 * *(_DWORD *)(this + 70) + 62);
-  v5 = armyGroup::GetNumArmies((armyGroup *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + 101));
+  v2 = this->idxMovingTo;
+  v3 = &this->heroes[this->heroIdxMovingFrom]->army;
+  v4 = this->heroes[this->heroIdxMovingFrom];
+  v5 = armyGroup::GetNumArmies((armyGroup *)((char *)&this->heroes[this->heroIdxMovingFrom + 25] + 1));
   return game::ViewArmy(
            gpGame,
            119,
            20,
-           (CREATURES)*(_BYTE *)(*(_DWORD *)(v1 + 4 * *(_DWORD *)(v1 + 70) + 62) + *(_DWORD *)(v1 + 82) + 101),
-           *(_WORD *)(*(_DWORD *)(v1 + 4 * *(_DWORD *)(v1 + 70) + 62) + 2 * *(_DWORD *)(v1 + 82) + 106),
+           (CREATURES)this->heroes[this->heroIdxMovingFrom]->army.creatureTypes[this->idxMovingTo],
+           this->heroes[this->heroIdxMovingFrom]->army.quantities[this->idxMovingTo],
            0,
            v5 == 1,
            1u,
@@ -94621,51 +94743,46 @@ BOOL __thiscall swapManager::ViewMon(int this)
 }
 
 //----- (004BED90) --------------------------------------------------------
-void __thiscall swapManager::SwapArtifacts(int this)
+void __thiscall swapManager::SwapArtifacts(swapManager *this)
 {
   signed int v1; // eax@8
   char v2; // al@8
-  int v3; // [sp+Ch] [bp-34h]@1
-  int evt; // [sp+10h] [bp-30h]@3
-  int v5; // [sp+14h] [bp-2Ch]@8
-  int v6; // [sp+18h] [bp-28h]@8
-  char *v7; // [sp+28h] [bp-18h]@8
+  tag_message evt; // [sp+10h] [bp-30h]@3
   int i; // [sp+2Ch] [bp-14h]@3
   int j; // [sp+30h] [bp-10h]@5
-  ARTIFACT a2; // [sp+34h] [bp-Ch]@1
-  char v11; // [sp+38h] [bp-8h]@1
-  ARTIFACT v12; // [sp+3Ch] [bp-4h]@1
+  ARTIFACT artifact1; // [sp+34h] [bp-Ch]@1
+  char v8; // [sp+38h] [bp-8h]@1
+  ARTIFACT artifact2; // [sp+3Ch] [bp-4h]@1
 
-  v3 = this;
-  a2 = *(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + *(_DWORD *)(this + 78) + 213);
-  v12 = *(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 74) + 62) + *(_DWORD *)(this + 82) + 213);
-  GiveTakeArtifactStat(*(hero **)(this + 4 * *(_DWORD *)(this + 70) + 62), a2, 1);
-  GiveTakeArtifactStat(*(hero **)(v3 + 4 * *(_DWORD *)(v3 + 74) + 62), v12, 1);
-  *(_BYTE *)(*(_DWORD *)(v3 + 4 * *(_DWORD *)(v3 + 70) + 62) + *(_DWORD *)(v3 + 78) + 213) = v12;
-  *(_BYTE *)(*(_DWORD *)(v3 + 4 * *(_DWORD *)(v3 + 74) + 62) + *(_DWORD *)(v3 + 82) + 213) = a2;
-  v11 = *(_BYTE *)(*(_DWORD *)(v3 + 4 * *(_DWORD *)(v3 + 70) + 62) + *(_DWORD *)(v3 + 78) + 236);
-  *(_BYTE *)(*(_DWORD *)(v3 + 4 * *(_DWORD *)(v3 + 70) + 62) + *(_DWORD *)(v3 + 78) + 236) = *(_BYTE *)(*(_DWORD *)(v3 + 4 * *(_DWORD *)(v3 + 74) + 62) + *(_DWORD *)(v3 + 82) + 236);
-  *(_BYTE *)(*(_DWORD *)(v3 + 4 * *(_DWORD *)(v3 + 74) + 62) + *(_DWORD *)(v3 + 82) + 236) = v11;
-  GiveTakeArtifactStat(*(hero **)(v3 + 4 * *(_DWORD *)(v3 + 70) + 62), v12, 0);
-  GiveTakeArtifactStat(*(hero **)(v3 + 4 * *(_DWORD *)(v3 + 74) + 62), a2, 0);
-  hero::CheckAnduranPieces(*(hero **)(v3 + 4 * *(_DWORD *)(v3 + 70) + 62), 1);
-  hero::CheckAnduranPieces(*(hero **)(v3 + 4 * *(_DWORD *)(v3 + 74) + 62), 1);
-  if ( a2 == 102 || v12 == 102 )
+  artifact1 = this->heroes[this->heroIdxMovingFrom]->artifacts[this->idxMovingFrom];
+  artifact2 = this->heroes[this->heroIdxMovingTo]->artifacts[this->idxMovingTo];
+  GiveTakeArtifactStat(this->heroes[this->heroIdxMovingFrom], artifact1, 1);
+  GiveTakeArtifactStat(this->heroes[this->heroIdxMovingTo], artifact2, 1);
+  this->heroes[this->heroIdxMovingFrom]->artifacts[this->idxMovingFrom] = artifact2;
+  this->heroes[this->heroIdxMovingTo]->artifacts[this->idxMovingTo] = artifact1;
+  v8 = this->heroes[this->heroIdxMovingFrom]->scrollSpell[this->idxMovingFrom];
+  this->heroes[this->heroIdxMovingFrom]->scrollSpell[this->idxMovingFrom] = this->heroes[this->heroIdxMovingTo]->scrollSpell[this->idxMovingTo];
+  this->heroes[this->heroIdxMovingTo]->scrollSpell[this->idxMovingTo] = v8;
+  GiveTakeArtifactStat(this->heroes[this->heroIdxMovingFrom], artifact2, 0);
+  GiveTakeArtifactStat(this->heroes[this->heroIdxMovingTo], artifact1, 0);
+  hero::CheckAnduranPieces(this->heroes[this->heroIdxMovingFrom], 1);
+  hero::CheckAnduranPieces(this->heroes[this->heroIdxMovingTo], 1);
+  if ( artifact1 == ARTIFACT_SPADE_OF_NECROMANCY || artifact2 == ARTIFACT_SPADE_OF_NECROMANCY )
   {
-    evt = 512;
+    evt.eventCode = 512;
     for ( i = 0; i < 2; ++i )
     {
       for ( j = 0; j < 8; ++j )
       {
-        if ( *(_DWORD *)(*(_DWORD *)(v3 + 4 * i + 62) + 144) > j )
+        if ( this->heroes[i]->numSecSkillsKnown > j )
         {
-          v5 = 3;
-          v6 = j + 8 * i + 216;
-          v7 = gText;
-          v1 = hero::GetNthSS(*(hero **)(v3 + 4 * i + 62), j);
-          v2 = hero::GetSSLevel(*(hero **)(v3 + 4 * i + 62), (SECONDARY_SKILL)v1);
+          evt.xCoordOrKeycode = 3;
+          evt.yCoordOrFieldID = j + 8 * i + 216;
+          evt.payload = gText;
+          v1 = hero::GetNthSS(this->heroes[i], j);
+          v2 = hero::GetSSLevel(this->heroes[i], (SECONDARY_SKILL)v1);
           sprintf(gText, "%d", v2);
-          heroWindow::BroadcastMessage(*(heroWindow **)(v3 + 54), (tag_message *)&evt);
+          heroWindow::BroadcastMessage(this->window, &evt);
         }
       }
     }
@@ -94673,69 +94790,65 @@ void __thiscall swapManager::SwapArtifacts(int this)
 }
 
 //----- (004BEFF0) --------------------------------------------------------
-void __thiscall swapManager::SwapMons(int this)
+void __thiscall swapManager::SwapMons(swapManager *this)
 {
-  int v1; // [sp+Ch] [bp-14h]@1
-  armyGroup *thisa; // [sp+10h] [bp-10h]@7
+  armyGroup *army; // [sp+10h] [bp-10h]@7
   signed int i; // [sp+14h] [bp-Ch]@1
   int v4; // [sp+18h] [bp-8h]@1
   armyGroup *oth; // [sp+1Ch] [bp-4h]@7
 
-  v1 = this;
   v4 = 0;
   for ( i = 0; i < 5; ++i )
   {
-    if ( *(_BYTE *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + i + 101) != -1 )
+    if ( this->heroes[this->heroIdxMovingFrom]->army.creatureTypes[i] != -1 )
     {
-      if ( (signed int)*(_WORD *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + 2 * i + 106) > 0 )
+      if ( this->heroes[this->heroIdxMovingFrom]->army.quantities[i] > 0 )
         ++v4;
     }
   }
-  thisa = (armyGroup *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + 101);
-  oth = (armyGroup *)(*(_DWORD *)(this + 4 * *(_DWORD *)(this + 74) + 62) + 101);
-  if ( thisa->creatureTypes[*(_DWORD *)(this + 78)] == oth->creatureTypes[*(_DWORD *)(this + 82)] )
+  army = &this->heroes[this->heroIdxMovingFrom]->army;
+  oth = &this->heroes[this->heroIdxMovingTo]->army;
+  if ( army->creatureTypes[this->idxMovingFrom] == oth->creatureTypes[this->idxMovingTo] )
   {
-    if ( armyGroup::GetNumArmies(thisa) != 1 )
+    if ( armyGroup::GetNumArmies(army) != 1 )
     {
-      oth->quantities[*(_DWORD *)(v1 + 82)] += thisa->quantities[*(_DWORD *)(v1 + 78)];
-      thisa->creatureTypes[*(_DWORD *)(v1 + 78)] = -1;
-      thisa->quantities[*(_DWORD *)(v1 + 78)] = 0;
+      oth->quantities[this->idxMovingTo] += army->quantities[this->idxMovingFrom];
+      army->creatureTypes[this->idxMovingFrom] = -1;
+      army->quantities[this->idxMovingFrom] = 0;
     }
   }
-  else if ( thisa == oth || armyGroup::GetNumArmies(thisa) != 1 || oth->creatureTypes[*(_DWORD *)(v1 + 82)] != -1 )
+  else if ( army == oth || armyGroup::GetNumArmies(army) != 1 || oth->creatureTypes[this->idxMovingTo] != -1 )
   {
-    armyGroup::Swap(thisa, *(_DWORD *)(v1 + 78), oth, *(_DWORD *)(v1 + 82));
+    armyGroup::Swap(army, this->idxMovingFrom, oth, this->idxMovingTo);
   }
 }
 
 //----- (004BF170) --------------------------------------------------------
-void __thiscall swapManager::Update(void *this)
+void __thiscall swapManager::Update(swapManager *this)
 {
   char v1; // al@3
   char v2; // al@3
-  void *v3; // [sp+Ch] [bp-24h]@1
   tag_message evt; // [sp+10h] [bp-20h]@1
-  int skill; // [sp+2Ch] [bp-4h]@1
+  int i; // [sp+2Ch] [bp-4h]@1
 
-  v3 = this;
   evt.eventCode = 512;
   evt.xCoordOrKeycode = 3;
   evt.payload = gText;
-  for ( skill = 0; skill < 4; ++skill )
+  for ( i = 0; i < 4; ++i )
   {
-    evt.yCoordOrFieldID = skill + 67;
-    v1 = hero::Stats(*(hero **)((char *)v3 + 62), (PRIMARY_SKILL)skill);
+    evt.yCoordOrFieldID = i + 67;
+    v1 = hero::Stats(this->heroes[0], (PRIMARY_SKILL)i);
     sprintf(gText, "%d", v1);
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
-    evt.yCoordOrFieldID = skill + 72;
-    v2 = hero::Stats(*(hero **)((char *)v3 + 66), (PRIMARY_SKILL)skill);
+    heroWindow::BroadcastMessage(this->window, &evt);
+    evt.yCoordOrFieldID = i + 72;
+    v2 = hero::Stats(this->heroes[1], (PRIMARY_SKILL)i);
     sprintf(gText, "%d", v2);
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+    heroWindow::BroadcastMessage(this->window, &evt);
   }
-  for ( skill = 0; skill < 5; ++skill )
+  for ( i = 0; i < 5; ++i )
   {
-    evt.yCoordOrFieldID = skill + 78;
-    if ( *(_BYTE *)(*(_DWORD *)((char *)v3 + 62) + skill + 101) == -1 )
+    evt.yCoordOrFieldID = i + 78;
+    if ( this->heroes[0]->army.creatureTypes[i] == -1 )
     {
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
@@ -94744,16 +94857,16 @@ void __thiscall swapManager::Update(void *this)
     {
       evt.xCoordOrKeycode = 5;
       evt.payload = (void *)4;
-      heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+      heroWindow::BroadcastMessage(this->window, &evt);
       evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)*(_BYTE *)(*(_DWORD *)((char *)v3 + 62) + skill + 101);
+      evt.payload = (void *)this->heroes[0]->army.creatureTypes[i];
     }
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+    heroWindow::BroadcastMessage(this->window, &evt);
   }
-  for ( skill = 0; skill < 5; ++skill )
+  for ( i = 0; i < 5; ++i )
   {
-    evt.yCoordOrFieldID = skill + 116;
-    if ( *(_BYTE *)(*(_DWORD *)((char *)v3 + 62) + skill + 101) == -1 )
+    evt.yCoordOrFieldID = i + 116;
+    if ( this->heroes[0]->army.creatureTypes[i] == -1 )
     {
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
@@ -94762,17 +94875,17 @@ void __thiscall swapManager::Update(void *this)
     {
       evt.xCoordOrKeycode = 5;
       evt.payload = (void *)4;
-      heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+      heroWindow::BroadcastMessage(this->window, &evt);
       evt.xCoordOrKeycode = 3;
-      sprintf(gText, "%d", *(_WORD *)(*(_DWORD *)((char *)v3 + 62) + 2 * skill + 106));
+      sprintf(gText, "%d", this->heroes[0]->army.quantities[i]);
       evt.payload = gText;
     }
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+    heroWindow::BroadcastMessage(this->window, &evt);
   }
-  for ( skill = 0; skill < 5; ++skill )
+  for ( i = 0; i < 5; ++i )
   {
-    evt.yCoordOrFieldID = skill + 83;
-    if ( *(_BYTE *)(*(_DWORD *)((char *)v3 + 66) + skill + 101) == -1 )
+    evt.yCoordOrFieldID = i + 83;
+    if ( this->heroes[1]->army.creatureTypes[i] == -1 )
     {
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
@@ -94781,16 +94894,16 @@ void __thiscall swapManager::Update(void *this)
     {
       evt.xCoordOrKeycode = 5;
       evt.payload = (void *)4;
-      heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+      heroWindow::BroadcastMessage(this->window, &evt);
       evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)*(_BYTE *)(*(_DWORD *)((char *)v3 + 66) + skill + 101);
+      evt.payload = (void *)this->heroes[1]->army.creatureTypes[i];
     }
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+    heroWindow::BroadcastMessage(this->window, &evt);
   }
-  for ( skill = 0; skill < 5; ++skill )
+  for ( i = 0; i < 5; ++i )
   {
-    evt.yCoordOrFieldID = skill + 121;
-    if ( *(_BYTE *)(*(_DWORD *)((char *)v3 + 66) + skill + 101) == -1 )
+    evt.yCoordOrFieldID = i + 121;
+    if ( this->heroes[1]->army.creatureTypes[i] == -1 )
     {
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
@@ -94799,17 +94912,17 @@ void __thiscall swapManager::Update(void *this)
     {
       evt.xCoordOrKeycode = 5;
       evt.payload = (void *)4;
-      heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+      heroWindow::BroadcastMessage(this->window, &evt);
       evt.xCoordOrKeycode = 3;
-      sprintf(gText, "%d", *(_WORD *)(*(_DWORD *)((char *)v3 + 66) + 2 * skill + 106));
+      sprintf(gText, "%d", this->heroes[1]->army.quantities[i]);
       evt.payload = gText;
     }
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+    heroWindow::BroadcastMessage(this->window, &evt);
   }
-  for ( skill = 0; skill < 14; ++skill )
+  for ( i = 0; i < 14; ++i )
   {
-    evt.yCoordOrFieldID = skill + 88;
-    if ( *(_BYTE *)(*(_DWORD *)((char *)v3 + 62) + skill + 213) == -1 )
+    evt.yCoordOrFieldID = i + 88;
+    if ( this->heroes[0]->artifacts[i] == -1 )
     {
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
@@ -94818,16 +94931,16 @@ void __thiscall swapManager::Update(void *this)
     {
       evt.xCoordOrKeycode = 5;
       evt.payload = (void *)4;
-      heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+      heroWindow::BroadcastMessage(this->window, &evt);
       evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)*(_BYTE *)(*(_DWORD *)((char *)v3 + 62) + skill + 213);
+      evt.payload = (void *)this->heroes[0]->artifacts[i];
     }
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+    heroWindow::BroadcastMessage(this->window, &evt);
   }
-  for ( skill = 0; skill < 14; ++skill )
+  for ( i = 0; i < 14; ++i )
   {
-    evt.yCoordOrFieldID = skill + 102;
-    if ( *(_BYTE *)(*(_DWORD *)((char *)v3 + 66) + skill + 213) == -1 )
+    evt.yCoordOrFieldID = i + 102;
+    if ( this->heroes[1]->artifacts[i] == -1 )
     {
       evt.xCoordOrKeycode = 6;
       evt.payload = (void *)4;
@@ -94836,34 +94949,32 @@ void __thiscall swapManager::Update(void *this)
     {
       evt.xCoordOrKeycode = 5;
       evt.payload = (void *)4;
-      heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+      heroWindow::BroadcastMessage(this->window, &evt);
       evt.xCoordOrKeycode = 4;
-      evt.payload = (void *)*(_BYTE *)(*(_DWORD *)((char *)v3 + 66) + skill + 213);
+      evt.payload = (void *)this->heroes[1]->artifacts[i];
     }
-    heroWindow::BroadcastMessage(*(heroWindow **)((char *)v3 + 54), &evt);
+    heroWindow::BroadcastMessage(this->window, &evt);
   }
 }
 
 //----- (004BF5F0) --------------------------------------------------------
-heroWindowManager *__thiscall swapManager::SplitMons(int this)
+heroWindowManager *__thiscall swapManager::SplitMons(swapManager *this)
 {
   heroWindowManager *result; // eax@9
-  int v2; // [sp+Ch] [bp-44h]@1
   heroWindow *thisa; // [sp+18h] [bp-38h]@1
   int evt; // [sp+20h] [bp-30h]@6
   int v5; // [sp+24h] [bp-2Ch]@9
   int v6; // [sp+28h] [bp-28h]@9
   char *v7; // [sp+38h] [bp-18h]@9
   __int16 v8; // [sp+3Ch] [bp-14h]@1
-  int v9; // [sp+40h] [bp-10h]@1
+  armyGroup *v9; // [sp+40h] [bp-10h]@1
   int i; // [sp+44h] [bp-Ch]@15
   __int16 v11; // [sp+48h] [bp-8h]@1
-  int v12; // [sp+4Ch] [bp-4h]@1
+  armyGroup *v12; // [sp+4Ch] [bp-4h]@1
 
-  v2 = this;
   v8 = 68;
-  v9 = *(_DWORD *)(this + 4 * *(_DWORD *)(this + 70) + 62) + 101;
-  v12 = *(_DWORD *)(this + 4 * *(_DWORD *)(this + 74) + 62) + 101;
+  v9 = &this->heroes[this->heroIdxMovingFrom]->army;
+  v12 = &this->heroes[this->heroIdxMovingTo]->army;
   v11 = 1;
   thisa = (heroWindow *)operator new(68);
   if ( thisa )
@@ -94873,17 +94984,17 @@ heroWindowManager *__thiscall swapManager::SplitMons(int this)
   if ( !gpTownManager->dialog )
     MemError();
   gpTownManager->field_16A = 0;
-  gpTownManager->field_16E = *(_WORD *)(v9 + 2 * *(_DWORD *)(v2 + 78) + 5);
+  gpTownManager->field_16E = v9->quantities[this->idxMovingFrom];
   evt = 512;
-  if ( *(_DWORD *)(v2 + 70) == *(_DWORD *)(v2 + 74) )
+  if ( this->heroIdxMovingFrom == this->heroIdxMovingTo )
     sprintf(gText, "Move how many troops?");
   else
     sprintf(
       gText,
       "Move how many %s troops from %s to %s?",
-      gArmyNames[*(_BYTE *)(*(_DWORD *)(v2 + 78) + v9)],
-      *(_DWORD *)(v2 + 4 * *(_DWORD *)(v2 + 70) + 62) + 10,
-      *(_DWORD *)(v2 + 4 * *(_DWORD *)(v2 + 74) + 62) + 10);
+      gArmyNames[v9->creatureTypes[this->idxMovingFrom]],
+      this->heroes[this->heroIdxMovingFrom]->name,
+      this->heroes[this->heroIdxMovingTo]->name);
   v5 = 3;
   v6 = 1;
   v7 = gText;
@@ -94901,34 +95012,34 @@ heroWindowManager *__thiscall swapManager::SplitMons(int this)
   result = gpWindowManager;
   if ( gpWindowManager->buttonPressedCode == 30722 )
   {
-    if ( *(_BYTE *)(*(_DWORD *)(v2 + 78) + v9) == *(_BYTE *)(*(_DWORD *)(v2 + 82) + v12) )
+    if ( v9->creatureTypes[this->idxMovingFrom] == v12->creatureTypes[this->idxMovingTo] )
     {
-      *(_WORD *)(v9 + 2 * *(_DWORD *)(v2 + 78) + 5) -= LOWORD(gpTownManager->field_16A);
-      *(_WORD *)(v12 + 2 * *(_DWORD *)(v2 + 82) + 5) += LOWORD(gpTownManager->field_16A);
-      result = (heroWindowManager *)*(_WORD *)(v9 + 2 * *(_DWORD *)(v2 + 78) + 5);
-      if ( !*(_WORD *)(v9 + 2 * *(_DWORD *)(v2 + 78) + 5) )
+      v9->quantities[this->idxMovingFrom] -= LOWORD(gpTownManager->field_16A);
+      v12->quantities[this->idxMovingTo] += LOWORD(gpTownManager->field_16A);
+      result = (heroWindowManager *)v9->quantities[this->idxMovingFrom];
+      if ( !v9->quantities[this->idxMovingFrom] )
       {
-        result = *(heroWindowManager **)(v2 + 78);
-        *((_BYTE *)&result->vtable + v9) = -1;
+        result = (heroWindowManager *)this->idxMovingFrom;
+        v9->creatureTypes[(_DWORD)result] = -1;
       }
     }
     else
     {
-      if ( *(_BYTE *)(*(_DWORD *)(v2 + 82) + v12) != -1 )
+      if ( v12->creatureTypes[this->idxMovingTo] != -1 )
       {
-        for ( i = 0; i < 5 && *(_BYTE *)(i + v12) != -1; ++i )
+        for ( i = 0; i < 5 && v12->creatureTypes[i] != -1; ++i )
           ;
         if ( i < 5 )
-          *(_DWORD *)(v2 + 82) = i;
+          this->idxMovingTo = i;
       }
-      *(_BYTE *)(*(_DWORD *)(v2 + 82) + v12) = *(_BYTE *)(*(_DWORD *)(v2 + 78) + v9);
-      *(_WORD *)(v12 + 2 * *(_DWORD *)(v2 + 82) + 5) = gpTownManager->field_16A;
-      *(_WORD *)(v9 + 2 * *(_DWORD *)(v2 + 78) + 5) -= LOWORD(gpTownManager->field_16A);
-      result = (heroWindowManager *)*(_WORD *)(v9 + 2 * *(_DWORD *)(v2 + 78) + 5);
-      if ( !*(_WORD *)(v9 + 2 * *(_DWORD *)(v2 + 78) + 5) )
+      v12->creatureTypes[this->idxMovingTo] = v9->creatureTypes[this->idxMovingFrom];
+      v12->quantities[this->idxMovingTo] = gpTownManager->field_16A;
+      v9->quantities[this->idxMovingFrom] -= LOWORD(gpTownManager->field_16A);
+      result = (heroWindowManager *)v9->quantities[this->idxMovingFrom];
+      if ( !v9->quantities[this->idxMovingFrom] )
       {
-        result = *(heroWindowManager **)(v2 + 78);
-        *((_BYTE *)&result->vtable + v9) = -1;
+        result = (heroWindowManager *)this->idxMovingFrom;
+        v9->creatureTypes[(_DWORD)result] = -1;
       }
     }
   }
@@ -95530,11 +95641,11 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6
     boat = &gpGame->boats[i];
     v13 = advManager::GetCell(this, hro->x, hro->y);
     boat->underlyingObjType = v13->objType;
-    boat->underlyingObjExtra = v13->field_4_1_1_isShadow_1_13_extraInfo >> 3;
+    boat->underlyingObjExtra = v13->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 3;
     boat->field_3 = LOBYTE(this->field_27E);
     boat->field_6 |= 0x80u;
     v13->objType = -85;
-    v13->field_4_1_1_isShadow_1_13_extraInfo = v13->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * i;
+    v13->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v13->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * i;
     boat->x = LOBYTE(hro->x);
     boat->y = LOBYTE(hro->y);
     advManager::StopCursor(this, 1);
@@ -95550,7 +95661,7 @@ mapCell *__thiscall advManager::MoveHero(advManager *this, int a7, signed int a6
     if ( v20 == 42 )
     {
       if ( hro->flags & 0x80
-        && !(gpGame->heroes[(unsigned __int8)((unsigned __int8)(toCell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].flags & 0x80) )
+        && !(gpGame->heroes[(unsigned __int8)((unsigned __int8)(toCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].flags & 0x80) )
         goto LABEL_95;
       goto LABEL_33;
     }
@@ -95588,8 +95699,8 @@ LABEL_33:
     }
     goto LABEL_41;
   }
-  if ( gpGame->castles[(unsigned __int8)((unsigned __int8)(toCell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx == giCurPlayer
-    || !town::HasGarrison(&gpGame->castles[(unsigned __int8)((unsigned __int8)(toCell->field_4_1_1_isShadow_1_13_extraInfo >> 8) >> -5)]) )
+  if ( gpGame->castles[(unsigned __int8)((unsigned __int8)(toCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)].ownerIdx == giCurPlayer
+    || !town::HasGarrison(&gpGame->castles[(unsigned __int8)((unsigned __int8)(toCell->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo >> 8) >> -5)]) )
   {
 LABEL_41:
     if ( advManager::ValidMove(this, a7, 0) )
@@ -95838,7 +95949,7 @@ LABEL_95:
         img1Arg -= 100000;
       if ( img2Type >= 0 && img2Type <= 6 && img2Arg < 0 )
         img2Arg -= 100000;
-      NormalDialog((char *)mapEvent + 49, 1, -1, -1, img1Type, img1Arg, img2Type, img2Arg, -1, 0);
+      NormalDialog((char *)mapEvent + 49, DIALOG_OKAY, -1, -1, img1Type, img1Arg, img2Type, img2Arg, -1, 0);
       gbHitEvent = 1;
     }
   }
@@ -96218,12 +96329,12 @@ void __thiscall advManager::ProcessMapChange(void *ecx0, unsigned int arg0, __in
       hro->flags = 0;
       hro->directionFacing = 2;
       hro->occupiedObjType = *(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].objType + 12 * BYTE2(arg0));
-      hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].field_4_1_1_isShadow_1_13_extraInfo
+      hro->occupiedObjVal = (unsigned __int8)((unsigned __int8)(*(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].field_4_1_preventSpawn_1_isShadow_1_13_extraInfo
                                                                 + 6 * BYTE2(arg0)) >> 8) >> -5);
       hro->ownerIdx = BYTE2(a3);
       *(&gpGame->map.tiles[gpGame->map.width * BYTE3(arg0)].objType + 12 * BYTE2(arg0)) = -86;
       v3 = &gpGame->map.tiles[BYTE2(arg0)] + gpGame->map.width * BYTE3(arg0);
-      v3->field_4_1_1_isShadow_1_13_extraInfo = v3->field_4_1_1_isShadow_1_13_extraInfo & 7 | 8 * SBYTE1(arg0);
+      v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo = v3->field_4_1_preventSpawn_1_isShadow_1_13_extraInfo & 7 | 8 * SBYTE1(arg0);
       advManager::SetHeroContext(gpAdvManager, SBYTE1(arg0), 0);
       advManager::CompleteDraw((advManager *)this, 0);
       advManager::UpdateScreen((advManager *)this, 0, 0);
@@ -96231,7 +96342,7 @@ void __thiscall advManager::ProcessMapChange(void *ecx0, unsigned int arg0, __in
     case 0xAu:
       LogStr("Dead Player");
       sprintf(gText, "%s has been vanquished!", cPlayerNames[SBYTE1(arg0)]);
-      NormalDialog(gText, 1, -1, -1, 9, gpGame->players[SBYTE1(arg0)].color, -1, -1, -1, 5000);
+      NormalDialog(gText, DIALOG_OKAY, -1, -1, 9, gpGame->players[SBYTE1(arg0)].color, -1, -1, -1, 5000);
       break;
     case 2u:
       return;
@@ -96916,11 +97027,11 @@ LABEL_58:
           this->combatGrid[l].leftX,
           this->combatGrid[l].topY,
           0,
-          -30,
+          0xE2u,
           1,
           0,
           0,
-          0x280u,
+          640u,
           443);
     }
     v11 = 1;
@@ -97663,11 +97774,11 @@ row by row to get perspective right
 void __thiscall combatManager::DrawSmallView(combatManager *this, int a2, int a3)
 {
   signed int v3; // ST54_4@41
-  signed int v4; // eax@72
+  int v4; // eax@72
   int v5; // ST34_4@82
   int v6; // ST44_4@82
   IconEntry *v7; // eax@82
-  signed int v9; // [sp+10h] [bp-78h]@74
+  int v9; // [sp+10h] [bp-78h]@74
   int y; // [sp+14h] [bp-74h]@80
   int spriteIdx; // [sp+18h] [bp-70h]@74
   int offsetY; // [sp+1Ch] [bp-6Ch]@19
@@ -97675,157 +97786,26 @@ void __thiscall combatManager::DrawSmallView(combatManager *this, int a2, int a3
   int i; // [sp+20h] [bp-68h]@54
   int l; // [sp+20h] [bp-68h]@60
   int k; // [sp+20h] [bp-68h]@65
-  signed int m; // [sp+20h] [bp-68h]@74
+  int m; // [sp+20h] [bp-68h]@74
   int offsetX; // [sp+28h] [bp-60h]@17
   int offsetXa; // [sp+28h] [bp-60h]@41
   int offsetXb; // [sp+28h] [bp-60h]@83
-  char *v21; // [sp+30h] [bp-58h]@41
-  char v22; // [sp+3Ch] [bp-4Ch]@1
-  char v23; // [sp+3Dh] [bp-4Bh]@1
-  char v24; // [sp+3Eh] [bp-4Ah]@1
-  char v25; // [sp+3Fh] [bp-49h]@1
-  char v26; // [sp+40h] [bp-48h]@1
-  char v27; // [sp+41h] [bp-47h]@1
-  char v28; // [sp+42h] [bp-46h]@1
-  char v29; // [sp+43h] [bp-45h]@1
-  char v30; // [sp+44h] [bp-44h]@1
-  char v31; // [sp+45h] [bp-43h]@1
-  char v32; // [sp+46h] [bp-42h]@1
-  char v33; // [sp+47h] [bp-41h]@1
-  char v34; // [sp+48h] [bp-40h]@1
-  char v35; // [sp+49h] [bp-3Fh]@1
-  char v36; // [sp+4Ah] [bp-3Eh]@1
-  char v37; // [sp+4Bh] [bp-3Dh]@1
-  char v38; // [sp+4Ch] [bp-3Ch]@1
-  char v39; // [sp+4Dh] [bp-3Bh]@1
-  char v40; // [sp+4Eh] [bp-3Ah]@1
-  char v41; // [sp+4Fh] [bp-39h]@1
-  char v42; // [sp+50h] [bp-38h]@1
-  char v43; // [sp+51h] [bp-37h]@1
-  char v44; // [sp+52h] [bp-36h]@1
-  char v45; // [sp+53h] [bp-35h]@1
-  char v46; // [sp+54h] [bp-34h]@1
-  char v47; // [sp+55h] [bp-33h]@1
-  char v48; // [sp+56h] [bp-32h]@1
-  char v49; // [sp+57h] [bp-31h]@1
-  char v50; // [sp+58h] [bp-30h]@1
-  char v51; // [sp+59h] [bp-2Fh]@1
-  char v52; // [sp+5Ah] [bp-2Eh]@1
-  char v53; // [sp+5Bh] [bp-2Dh]@1
-  char v54; // [sp+5Ch] [bp-2Ch]@1
-  char v55; // [sp+5Dh] [bp-2Bh]@1
-  char v56; // [sp+5Eh] [bp-2Ah]@1
-  char v57; // [sp+5Fh] [bp-29h]@1
-  char v58; // [sp+60h] [bp-28h]@1
-  char v59; // [sp+61h] [bp-27h]@1
-  char v60; // [sp+62h] [bp-26h]@1
-  char v61; // [sp+63h] [bp-25h]@1
-  char v62; // [sp+64h] [bp-24h]@1
-  char v63; // [sp+65h] [bp-23h]@1
-  char v64; // [sp+66h] [bp-22h]@1
-  char v65; // [sp+67h] [bp-21h]@1
-  char v66; // [sp+68h] [bp-20h]@1
-  char v67; // [sp+69h] [bp-1Fh]@1
-  char v68; // [sp+6Ah] [bp-1Eh]@1
-  char v69; // [sp+6Bh] [bp-1Dh]@1
-  char v70; // [sp+6Ch] [bp-1Ch]@1
-  char v71; // [sp+6Dh] [bp-1Bh]@1
-  char v72; // [sp+6Eh] [bp-1Ah]@1
-  char v73; // [sp+6Fh] [bp-19h]@1
-  char v74; // [sp+70h] [bp-18h]@1
-  char v75; // [sp+71h] [bp-17h]@1
-  char v76; // [sp+72h] [bp-16h]@1
-  char v77; // [sp+73h] [bp-15h]@1
-  char v78; // [sp+74h] [bp-14h]@1
-  char v79; // [sp+75h] [bp-13h]@1
-  char v80; // [sp+76h] [bp-12h]@1
-  char v81; // [sp+77h] [bp-11h]@1
-  char v82; // [sp+78h] [bp-10h]@1
-  char v83; // [sp+79h] [bp-Fh]@1
-  char v84; // [sp+7Ah] [bp-Eh]@1
-  char v85; // [sp+7Bh] [bp-Dh]@1
-  char v86; // [sp+7Ch] [bp-Ch]@1
-  char v87; // [sp+7Dh] [bp-Bh]@1
-  char v88; // [sp+7Eh] [bp-Ah]@1
-  char v89; // [sp+7Fh] [bp-9h]@1
-  char v90; // [sp+80h] [bp-8h]@1
-  char v91; // [sp+81h] [bp-7h]@1
-  char v92; // [sp+82h] [bp-6h]@1
-  char v93; // [sp+83h] [bp-5h]@1
-  int v94; // [sp+84h] [bp-4h]@39
+  army *v21; // [sp+30h] [bp-58h]@41
+  char v22[6][6][2]; // [sp+3Ch] [bp-4Ch]@1
+  int v23; // [sp+84h] [bp-4h]@39
 
-  v22 = 22;
-  v23 = 10;
-  v24 = -1;
-  v25 = -1;
-  v26 = -1;
-  v27 = -1;
-  v28 = -1;
-  v29 = -1;
-  v30 = -1;
-  v31 = -1;
-  v32 = -1;
-  v33 = -1;
-  v34 = 11;
-  v35 = 10;
-  v36 = 32;
-  v37 = 10;
-  v38 = -1;
-  v39 = -1;
-  v40 = -1;
-  v41 = -1;
-  v42 = -1;
-  v43 = -1;
-  v44 = -1;
-  v45 = -1;
-  v46 = 1;
-  v47 = 10;
-  v48 = 22;
-  v49 = 10;
-  v50 = 43;
-  v51 = 10;
-  v52 = -1;
-  v53 = -1;
-  v54 = -1;
-  v55 = -1;
-  v56 = -1;
-  v57 = -1;
-  v58 = 11;
-  v59 = 0;
-  v60 = 32;
-  v61 = 0;
-  v62 = 11;
-  v63 = 21;
-  v64 = 32;
-  v65 = 21;
-  v66 = -1;
-  v67 = -1;
-  v68 = -1;
-  v69 = -1;
-  v70 = 1;
-  v71 = 0;
-  v72 = 22;
-  v73 = 0;
-  v74 = 43;
-  v75 = 0;
-  v76 = 11;
-  v77 = 21;
-  v78 = 32;
-  v79 = 21;
-  v80 = -1;
-  v81 = -1;
-  v82 = 1;
-  v83 = 0;
-  v84 = 22;
-  v85 = 0;
-  v86 = 43;
-  v87 = 0;
-  v88 = 1;
-  v89 = 21;
-  v90 = 22;
-  v91 = 21;
-  v92 = 43;
-  v93 = 21;
+  *(_QWORD *)v22[0][0] = -62954i64;
+  *(_DWORD *)v22[0][4] = -1;
+  *(_QWORD *)v22[1][0] = -4125095413i64;
+  *(_DWORD *)v22[1][4] = -1;
+  *(_QWORD *)v22[2][0] = -270295007622655i64;
+  *(_DWORD *)v22[2][4] = -1;
+  *(_QWORD *)v22[3][0] = 1522239811042148363i64;
+  *(_DWORD *)v22[3][4] = -1;
+  *(_QWORD *)v22[4][0] = 1516305884225339393i64;
+  *(_DWORD *)v22[4][4] = -60128;
+  *(_QWORD *)v22[5][0] = 1513491134458232833i64;
+  *(_DWORD *)v22[5][4] = 355144982;
   if ( !gbNoShowCombat && this->field_F42F && *(_DWORD *)&combatArmyInfoLevel && !gbInDrawSmallView )
   {
     gbInDrawSmallView = 1;
@@ -97903,10 +97883,10 @@ LABEL_88:
       }
       *(&this->field_F553 + a2) = offsetX;
       *(_DWORD *)&this->_16[4 * a2] = offsetY;
-      v94 = gbLimitToExtent;
+      v23 = gbLimitToExtent;
       if ( a3 )
         gbLimitToExtent = 0;
-      v21 = (char *)&this->creatures[*(&this->field_F543 + a2)][this->field_F54B[a2]];
+      v21 = &this->creatures[*(&this->field_F543 + a2)][this->field_F54B[a2]];
       v3 = icon::CombatClipDrawToBuffer(
              this->combatScreenIcons[10],
              offsetX,
@@ -97920,10 +97900,10 @@ LABEL_88:
       offsetXa = offsetX + 6;
       if ( v3 )
       {
-        if ( *(_DWORD *)(v21 + 150) <= 1 )
-          sprintf(gText, off_4F6FC4, *(_DWORD *)(v21 + 150));
+        if ( v21->quantity <= 1 )
+          sprintf(gText, off_4F6FC4, v21->quantity);
         else
-          sprintf(gText, cMiniViewText, *(_DWORD *)(v21 + 150));
+          sprintf(gText, cMiniViewText, v21->quantity);
         font::DrawBoundedString(smallFont, gText, offsetXa + 8, offsetY + 7, 57, 12, 1, 1);
         if ( *(_DWORD *)&combatArmyInfoLevel == 2 )
         {
@@ -97933,57 +97913,57 @@ LABEL_88:
           font::DrawBoundedString(smallFont, off_4F6FD4, offsetXa + 8, offsetY + 47, 57, 12, 1, 0);
           font::DrawBoundedString(smallFont, off_4F6FD8, offsetXa + 8, offsetY + 56, 57, 12, 1, 0);
           font::DrawBoundedString(smallFont, off_4F6FDC, offsetXa + 8, offsetY + 65, 57, 12, 1, 0);
-          if ( v21[208] & 4 )
+          if ( v21->creature.creature_flags & 4 )
             font::DrawBoundedString(smallFont, off_4F6FE0, offsetXa + 8, offsetY + 74, 57, 12, 1, 0);
-          sprintf(gText, "%d", v21[198]);
+          sprintf(gText, "%d", v21->creature.attack);
           font::DrawBoundedString(smallFont, gText, offsetXa + 8, offsetY + 20, 57, 12, 1, 2);
-          sprintf(gText, "%d", v21[199]);
+          sprintf(gText, "%d", v21->creature.defense);
           font::DrawBoundedString(smallFont, gText, offsetXa + 8, offsetY + 29, 57, 12, 1, 2);
-          sprintf(gText, "%d", *((_WORD *)v21 + 97));
+          sprintf(gText, "%d", v21->creature.hp);
           font::DrawBoundedString(smallFont, gText, offsetXa + 8, offsetY + 38, 57, 12, 1, 2);
-          sprintf(gText, "%d-%d", v21[200], v21[201]);
+          sprintf(gText, "%d-%d", v21->creature.min_damage, v21->creature.max_damage);
           font::DrawBoundedString(smallFont, gText, offsetXa + 8, offsetY + 47, 57, 12, 1, 2);
-          if ( *(_DWORD *)(v21 + 242) <= 0 )
+          if ( v21->morale <= 0 )
           {
-            if ( *(_DWORD *)(v21 + 242) >= 0 )
+            if ( v21->morale >= 0 )
             {
               icon::DrawToBuffer(this->combatScreenIcons[11], offsetXa + 45, offsetY + 56, 5, 0);
             }
             else
             {
-              for ( i = 0; -*(_DWORD *)(v21 + 242) > i; ++i )
+              for ( i = 0; -v21->morale > i; ++i )
                 icon::DrawToBuffer(this->combatScreenIcons[11], offsetXa + 57 - 10 * i, offsetY + 56, 3, 0);
             }
           }
           else
           {
-            for ( j = 0; *(_DWORD *)(v21 + 242) > j; ++j )
+            for ( j = 0; v21->morale > j; ++j )
               icon::DrawToBuffer(this->combatScreenIcons[11], offsetXa + 57 - 10 * j, offsetY + 56, 4, 0);
           }
-          if ( *(_DWORD *)(v21 + 246) <= 0 )
+          if ( v21->luck <= 0 )
           {
-            if ( *(_DWORD *)(v21 + 246) >= 0 )
+            if ( v21->luck >= 0 )
             {
               icon::DrawToBuffer(this->combatScreenIcons[11], offsetXa + 50, offsetY + 65, 2, 0);
             }
             else
             {
-              for ( k = 0; -*(_DWORD *)(v21 + 246) > k; ++k )
+              for ( k = 0; -v21->luck > k; ++k )
                 icon::DrawToBuffer(this->combatScreenIcons[11], offsetXa + 57 - 10 * k, offsetY + 65, 0, 0);
             }
           }
           else
           {
-            for ( l = 0; *(_DWORD *)(v21 + 246) > l; ++l )
+            for ( l = 0; v21->luck > l; ++l )
               icon::DrawToBuffer(this->combatScreenIcons[11], offsetXa + 57 - 10 * l, offsetY + 65, 1, 0);
           }
-          if ( v21[208] & 4 )
+          if ( v21->creature.creature_flags & 4 )
           {
-            sprintf(gText, "%d", v21[202]);
+            sprintf(gText, "%d", v21->creature.shots);
             font::DrawBoundedString(smallFont, gText, offsetXa + 8, offsetY + 74, 57, 12, 1, 2);
           }
         }
-        v4 = *(_DWORD *)(v21 + 262);
+        v4 = v21->numActiveEffects;
         if ( v4 >= 6 )
           v4 = 6;
         v9 = v4;
@@ -97991,22 +97971,22 @@ LABEL_88:
         for ( m = 0; m < v9; ++m )
         {
           ++spriteIdx;
-          while ( !v21[spriteIdx + 266] )
+          while ( !v21->effectStrengths[spriteIdx] )
             ++spriteIdx;
           if ( *(_DWORD *)&combatArmyInfoLevel == 2 )
             y = offsetY + 86;
           else
             y = offsetY + 19;
-          v5 = (unsigned __int8)*(&v23 + 4 * (3 * v9 - 3) + 2 * m) + y;
+          v5 = v22[0][2 * (3 * v9 - 3)][2 * m + 1] + y;
           v6 = ((19 - GetIconEntry(this->combatScreenIcons[12], spriteIdx)->width) >> 1)
-             + (unsigned __int8)*(&v22 + 4 * (3 * v9 - 3) + 2 * m)
+             + v22[0][2 * (3 * v9 - 3)][2 * m]
              + offsetXa
              + 6;
           v7 = GetIconEntry(this->combatScreenIcons[12], spriteIdx);
           icon::DrawToBuffer(this->combatScreenIcons[12], v6, ((19 - v7->height) >> 1) + v5, spriteIdx, 0);
         }
       }
-      gbLimitToExtent = v94;
+      gbLimitToExtent = v23;
       offsetXb = offsetXa - 6;
       if ( a3 )
         heroWindowManager::UpdateScreenRegion(
@@ -103881,35 +103861,33 @@ void __thiscall iconWidget::Draw(iconWidget *this)
   heroWindow *window; // eax@1
   __int16 y; // bx@1
   __int16 x; // di@1
-  iconWidget *thisa; // esi@1
-  int v5; // eax@1
+  int mode; // eax@1
   IconEntry *imgHeader; // eax@6
-  __int16 v7; // dx@6
-  __int16 v8; // bx@6
-  __int16 v9; // cx@6
-  __int16 v10; // di@6
+  __int16 imgWidth; // dx@6
+  __int16 top; // bx@6
+  __int16 widgWidth; // cx@6
+  __int16 left; // di@6
 
   window = this->parentWindow;
   y = LOWORD(window->yOffset) + this->offsetY;
   x = LOWORD(window->xOffset) + this->offsetX;
-  thisa = this;
-  v5 = this->field_14;
-  switch ( v5 )
+  mode = this->field_14;
+  switch ( mode )
   {
-    case 16:
+    case 16:                                    // Draw normally, at top left corner
       icon::DrawToBuffer(this->icon, x, y, this->imgIdx, this->mirror);
       break;
-    case 17:
+    case 17:                                    // I thinks this draws it centered.
       imgHeader = GetIconEntry(this->icon, this->imgIdx);
-      v7 = imgHeader->width;
-      v8 = y - imgHeader->offsetY;
-      v9 = thisa->width;
-      v10 = x - imgHeader->offsetX;
-      if ( v7 < v9 )
-        v10 += (v9 - v7) >> 1;
-      if ( imgHeader->height + 2 < thisa->height )
-        v8 += thisa->height - imgHeader->height - 2;
-      icon::DrawToBuffer(thisa->icon, v10, v8, thisa->imgIdx, thisa->mirror);
+      imgWidth = imgHeader->width;
+      top = y - imgHeader->offsetY;
+      widgWidth = this->width;
+      left = x - imgHeader->offsetX;
+      if ( imgWidth < widgWidth )
+        left += (widgWidth - imgWidth) >> 1;
+      if ( imgHeader->height + 2 < this->height )
+        top += this->height - imgHeader->height - 2;
+      icon::DrawToBuffer(this->icon, left, top, this->imgIdx, this->mirror);
       break;
     case 128:
       icon::FillToBuffer(this->icon, x, y, this->imgIdx, this->field_27, this->mirror, 0);
@@ -109271,7 +109249,7 @@ void __fastcall DoBlur(bitmap *fromBmp, bitmap *toBmp, int height, char a4, char
 }
 
 //----- (004D82D0) --------------------------------------------------------
-int __fastcall MonoIconToBitmap(icon *a1, bitmap *a2, int x, int y, int idx, char color, signed int a7, int a8, int a9, unsigned int a10, int a11)
+int __fastcall MonoIconToBitmap(icon *a1, bitmap *a2, int x, int y, int idx, char color, signed int a7, int a8, int a9, unsigned int width, int height)
 {
   IconEntry *v11; // esi@1
   int v12; // ecx@1
@@ -109306,18 +109284,18 @@ int __fastcall MonoIconToBitmap(icon *a1, bitmap *a2, int x, int y, int idx, cha
   dword_537A00 = v15 + y;
   if ( !a7 )
     goto LABEL_9;
-  if ( a8 > dword_537A04 || dword_537A04 + *(_WORD *)(v12 + 4) > (signed int)(a8 + a10) || dword_537A00 < a9 )
+  if ( a8 > dword_537A04 || dword_537A04 + *(_WORD *)(v12 + 4) > (signed int)(a8 + width) || dword_537A00 < a9 )
   {
-    v18 = a11;
+    v18 = height;
     goto LABEL_8;
   }
   v17 = dword_537A00 + *(_WORD *)(v12 + 6);
-  v18 = a11;
-  if ( v17 > a11 + a9 )
+  v18 = height;
+  if ( v17 > height + a9 )
   {
 LABEL_8:
     a7 = 1;
-    dword_537A10 = a8 + a10 - 1;
+    dword_537A10 = a8 + width - 1;
     dword_537A14 = a9 + v18 - 1;
     goto LABEL_9;
   }
@@ -109375,9 +109353,9 @@ LABEL_27:
                     LOBYTE(v19) = color;
                     v24 = v19 << 16;
                     LOWORD(v24) = v19;
-                    memset32((void *)(v20 + a8), v24, a10 >> 2);
-                    v25 = v20 + a8 + 4 * (a10 >> 2);
-                    LOBYTE(v19) = a10;
+                    memset32((void *)(v20 + a8), v24, width >> 2);
+                    v25 = v20 + a8 + 4 * (width >> 2);
+                    LOBYTE(v19) = width;
                   }
                   else
                   {

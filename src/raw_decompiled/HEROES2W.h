@@ -2053,8 +2053,8 @@ struct town
   char ownerIdx;
   char alignment;
   char factionID;
-  char x;
-  char y;
+  unsigned __int8 x;
+  unsigned __int8 y;
   char buildDockRelated;
   char field_7;
   armyGroup garrison;
@@ -2550,7 +2550,7 @@ struct mapCell
   __int16 groundIndex;
   char bitfield_1_hasObject_1_isRoad_6_objTileset;
   char objectIndex;
-  unsigned __int16 field_4_1_1_isShadow_1_13_extraInfo;
+  unsigned __int16 field_4_1_preventSpawn_1_isShadow_1_13_extraInfo;
   char field__1_hasOverlay_1_hasLateOverlay_6_overlayTileset;
   char overlayIndex;
   char flags;
@@ -3119,6 +3119,58 @@ enum MAP_CELL_FLAGS
 {
   MAP_CELL_HAS_ACTIVE_HERO = 0x40,
 };
+
+/*  178 */
+enum NormalDialogType
+{
+  DIALOG_OKAY = 0x1,
+  DIALOG_YES_NO = 0x2,
+  DIALOG_CANCEL = 0x3,
+  DIALOG_RIGHT_CLICK = 0x4,
+  DIALOG_CANCEL_ALT = 0x6,
+  DIALOG_LEARN_CHOICE = 0x7,
+};
+
+/*  179 */
+#pragma pack(push, 1)
+struct ExpCampaign
+{
+  int campaignID;
+  int currentMapID;
+  int numMaps;
+  char mapChoice[8];
+  char mapsPlayed[8];
+  __int16 daysPlayed[8];
+  char awards[11];
+  char bonusChoices[8];
+  int unknownVariable;
+  int mightBeScenarioID;
+  int window;
+  int anIntVariable;
+};
+#pragma pack(pop)
+
+/*  180 */
+#pragma pack(push, 1)
+struct swapManager
+{
+  void *vtable;
+  baseManager *next;
+  baseManager *prev;
+  int type;
+  int idx;
+  char name[30];
+  int ready;
+  heroWindow *window;
+  int swapButtonIcn;
+  hero *heroes[2];
+  int heroIdxMovingFrom;
+  int heroIdxMovingTo;
+  int idxMovingFrom;
+  int idxMovingTo;
+  int field_56;
+};
+#pragma pack(pop)
 
 
 /* End of file */
