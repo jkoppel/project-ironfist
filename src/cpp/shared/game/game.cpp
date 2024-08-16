@@ -2361,13 +2361,18 @@ extern hero *gpHVHero;
 
 void __fastcall UpdateHeroScreenStatusBar(struct tag_message &evt) {
 	UpdateHeroScreenStatusBar_orig(evt);
-	int v7 = evt.yCoordOrFieldID;
-	if(v7 >= 400 && v7 < 408) {
-		int a2 = v7 - 400;
-		if(gpHVHero->numSecSkillsKnown > a2) {
-			int v6 = gpHVHero->GetNthSS(a2);
-			if(gpHVHero->factionID == FACTION_CYBORG && v6 == SECONDARY_SKILL_WISDOM) {
-				sprintf(gText, "View %s Cybernetics Info", secondarySkillLevels[gpHVHero->secondarySkillLevel[v6]]);
+	// Change hero screen secondary skill status bar message on hover
+	int widgetId = evt.yCoordOrFieldID;
+	if(widgetId >= 400 && widgetId < 424) {
+		int skillIdx = widgetId - 400; // icon
+		if(widgetId > 415) // bottom description
+			skillIdx -= 16;
+		else if(widgetId > 408) // top description
+			skillIdx -= 8;
+		if(gpHVHero->numSecSkillsKnown > skillIdx) {
+			int skillType = gpHVHero->GetNthSS(skillIdx);
+			if(gpHVHero->factionID == FACTION_CYBORG && skillType == SECONDARY_SKILL_WISDOM) {
+				sprintf(gText, "View %s Cybernetics Info", secondarySkillLevels[gpHVHero->secondarySkillLevel[skillType]]);
 				HeroMessageUpdate(gText);
 			}
 		}
