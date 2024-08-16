@@ -346,6 +346,10 @@ public:
   int GetLuck_orig(hero* hro, army *stack, town *castle);
   void ShowLuckInfo(hero *hro, int dialogType);
   void ShowMoraleInfo(hero *hro, int dialogType);
+  void SetupDynamicStuff(int a2, int a3, int a4);
+  void SetupDynamicStuff_orig(int a2, int a3, int a4);
+  void Overview();
+  void Overview_orig();
 
 private:
   void PropagateVision();
@@ -444,6 +448,8 @@ int __fastcall AddScoreToHighScore(int score, int days, int difficulty, int type
 extern int __fastcall AddScoreToHighScore_orig(int score, int days, int difficulty, int type, char *name);
 extern int __fastcall ExpStdGameHandler(struct tag_message &);
 extern void __fastcall SendMapChange(int,signed char,unsigned char,unsigned char,int,unsigned char,unsigned char);
+extern void __fastcall UpdateHeroScreenStatusBar_orig(struct tag_message &evt);
+extern void __fastcall HeroMessageUpdate(char *);
 
 #pragma pack(pop)
 

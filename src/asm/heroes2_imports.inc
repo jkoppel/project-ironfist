@@ -177,6 +177,20 @@ IMPORT_?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z = 1
 ?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z_clone EQU ?GetMorale_orig@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z
 IMPORT_?ShowLuckInfo@game@@QAEXPAVhero@@H@Z = 1
 IMPORT_?ShowMoraleInfo@game@@QAEXPAVhero@@H@Z = 1
+IMPORT_?NormalDialog@@YIXPADHHHHHHHHH@Z = 1
+?NormalDialog@@YIXPADHHHHHHHHH@Z_clone EQU ?NormalDialog_orig@@YIXPADHHHHHHHHH@Z
+IMPORT_?SetupDynamicStuff@game@@QAEXHHH@Z = 1
+?SetupDynamicStuff@game@@QAEXHHH@Z_clone EQU ?SetupDynamicStuff_orig@game@@QAEXHHH@Z
+IMPORT_?Overview@game@@QAEXXZ = 1
+?Overview@game@@QAEXXZ_clone EQU ?Overview_orig@game@@QAEXXZ
+IMPORT_?Open@swapManager@@UAEHH@Z = 1
+IMPORT_?SetupHeroView@@YIXXZ = 1
+IMPORT_?UpdateHeroScreenStatusBar@@YIXAAUtag_message@@@Z = 1
+?UpdateHeroScreenStatusBar@@YIXAAUtag_message@@@Z_clone EQU ?UpdateHeroScreenStatusBar_orig@@YIXAAUtag_message@@@Z
+IMPORT_?EventWindowHandler@@YIHAAUtag_message@@@Z = 1
+?EventWindowHandler@@YIHAAUtag_message@@@Z_clone EQU ?EventWindowHandler_orig@@YIHAAUtag_message@@@Z
+IMPORT_?DoSSLevelDialog@hero@@QAEXHH@Z = 1
+?DoSSLevelDialog@hero@@QAEXHH@Z_clone EQU ?DoSSLevelDialog_orig@hero@@QAEXHH@Z
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1

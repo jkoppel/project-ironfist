@@ -56,7 +56,8 @@ const int BUTTON_CODE_LEARN_LEFT = 30727;
 
 extern void* hmnuAdv;
 
-extern void __fastcall NormalDialog(char * msg,int,int x,int y,int img1Type,int img1Arg,int img2Type,int img2Arg,int writeOr,int);
+extern void __fastcall NormalDialog_orig(char * msg, int, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, int);
+void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10);
 void __fastcall GetDataEntry(char *,char *,int,char *,int,int);
 extern void __fastcall SetNoDialogMenus(int a1);
 

@@ -163,9 +163,14 @@ public:
 
   void SetPrimarySkill(int, int);
   int GetLevel();
+  int GetLevel(int exp);
   void Clear();
   int NumArtifacts();
   town* GetOccupiedTown();
+  int GetNthSS(int num);
+  void UpdateArmies();
+  void DoSSLevelDialog_orig(int skill, int rightClick);
+  void DoSSLevelDialog(int skill, int rightClick);
 };
 
 enum HERO_FLAGS {

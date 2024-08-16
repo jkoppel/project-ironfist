@@ -62,6 +62,7 @@ public:
   void DrawWindow(int updateScreen);
   void DrawWindow(int updateScreen, signed int lowID, signed int highID);
   void AddWidget(widget *guiObj, int index);
+  void RemoveWidget(widget *guiObj);
 };
 
 class heroWindowManager : public baseManager
@@ -202,7 +203,8 @@ void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
 void __fastcall FillBitmapArea(bitmap *,int,int,int,int,int);
-extern int __fastcall EventWindowHandler(tag_message &evt);
+extern int __fastcall EventWindowHandler_orig(tag_message &evt);
+int __fastcall EventWindowHandler(tag_message &evt);
 void __fastcall BlitBitmapToScreen(bitmap *,int,int,int,int,int,int);
 
 extern heroWindow* casWin;
