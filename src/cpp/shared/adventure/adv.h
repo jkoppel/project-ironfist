@@ -196,6 +196,7 @@ enum HERO_FLAGS {
   HERO_STABLE_VISITED = 0x800000
 };
 
+extern hero *gpHVHero;
 extern char cHeroTypeInitial[];
 extern signed __int8 captainStats[][NUM_PRIMARY_SKILLS];
 

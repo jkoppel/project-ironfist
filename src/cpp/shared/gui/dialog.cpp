@@ -1315,3 +1315,200 @@ int __fastcall EventWindowHandler(tag_message &evt) {
 	else
 		return EventWindowHandler_orig(evt);
 }
+
+void __fastcall UpdateHeroScreenStatusBar(struct tag_message &evt) {
+	UpdateHeroScreenStatusBar_orig(evt);
+	// Change hero screen secondary skill status bar message on hover
+	int widgetId = evt.yCoordOrFieldID;
+	if(widgetId >= 400 && widgetId < 424) {
+		int skillIdx = widgetId - 400; // icon
+		if(widgetId > 415) // bottom description
+			skillIdx -= 16;
+		else if(widgetId > 408) // top description
+			skillIdx -= 8;
+		if(gpHVHero->numSecSkillsKnown > skillIdx) {
+			int skillType = gpHVHero->GetNthSS(skillIdx);
+			if(gpHVHero->factionID == FACTION_CYBORG && skillType == SECONDARY_SKILL_WISDOM) {
+				sprintf(gText, "View %s Cybernetics Info", secondarySkillLevels[gpHVHero->secondarySkillLevel[skillType]]);
+				HeroMessageUpdate(gText);
+			}
+		}
+	}
+}
+
+void __fastcall SetupHeroView() {
+	int noDismiss = gbNoDismiss;
+	if(gpHVHero->occupiedObjType == LOCATION_HERO_IN_CASTLE)
+		noDismiss = 1;
+
+	sprintf(gText, "%s the %s", gpHVHero->name, gAlignmentNames[gpHVHero->factionID]);
+	GUIBroadcastMessage(heroWin, 2, 3, gText);
+
+	if(gpHVHero->ownerIdx != giCurPlayer || gpCurPlayer->numHeroes == 1) {
+		GUIBroadcastMessage(heroWin, 300, 5, (void *)4096);
+		GUIBroadcastMessage(heroWin, 301, 5, (void *)4096);
+		GUIBroadcastMessage(heroWin, 300, 6, (void *)2);
+		GUIBroadcastMessage(heroWin, 301, 6, (void *)2);
+	}
+
+	for(int i = 0; i < 5; ++i) {
+		GUIBroadcastMessage(heroWin, i + 81, 6, (void *)4);
+		GUIBroadcastMessage(heroWin, i + 102, 6, (void *)4);
+	}
+
+	int xCoordOrKeycode;
+	if(noDismiss || gpTownManager->field_15A || !gpCurPlayer->numCastles && gpCurPlayer->numHeroes == 1)
+		xCoordOrKeycode = 6;
+	else
+		xCoordOrKeycode = 5;
+
+	GUIBroadcastMessage(heroWin, 30723, xCoordOrKeycode, (void *)6);
+
+	sprintf(gText, "port%04d.icn", gpHVHero->heroID);
+	GUIBroadcastMessage(heroWin, 65, 9, gText);
+
+	for(int i = 0; i < 4; ++i) {
+		sprintf(gText, "%d", gpHVHero->Stats(i));
+		GUIBroadcastMessage(heroWin, i + 76, 3, gText);
+	}
+
+	int v11 = gpGame->GetLuck(gpHVHero, 0, gpHVHero->GetOccupiedTown());
+	int v12 = abs(v11);
+	if(v12 <= 0)
+		v12 = 1;
+
+	int v9;
+	for(int i = 0; i < 3; ++i) {
+		if(i < v12)
+			xCoordOrKeycode = 5;
+		else
+			xCoordOrKeycode = 6;
+		if(i == 1 && v11) {
+			v9 = 0;
+		} else {
+			if(i || !v11)
+				v9 = i;
+			else
+				v9 = 1;
+		}
+		GUIBroadcastMessage(heroWin, v9 + 203, xCoordOrKeycode, (void *)6);
+	}
+
+	for(int i = 0; i < 3; ++i) {
+		void *payload;
+		if(v11 >= 0) {
+			if(v11)
+				payload = (void *)2;
+			else
+				payload = (void *)6;
+		} else {
+			payload = (void *)3;
+		}
+		GUIBroadcastMessage(heroWin, i + 203, 4, payload);
+	}
+
+	int v13 = gpHVHero->army.GetMorale(gpHVHero, gpHVHero->GetOccupiedTown(), 0);
+	v12 = abs(v13);
+	if(v12 <= 0)
+		v12 = 1;
+
+	for(int i = 0; i < 3; ++i) {
+		if(i < v12)
+			xCoordOrKeycode = 5;
+		else
+			xCoordOrKeycode = 6;
+		if(i == 1 && v13) {
+			v9 = 0;
+		} else {
+			if(i || !v13)
+				v9 = i;
+			else
+				v9 = 1;
+		}
+		GUIBroadcastMessage(heroWin, xCoordOrKeycode, 4, (void *)6);
+	}
+
+	for(int i = 0; i < 3; ++i) {
+		void *payload;
+		if(v13 >= 0) {
+			if(v13)
+				payload = (void *)4;
+			else
+				payload = (void *)7;
+		} else {
+			payload = (void *)5;
+		}
+		GUIBroadcastMessage(heroWin, i + 200, 4, payload);
+	}
+
+	sprintf(gText, "%d", gpHVHero->experience);
+	GUIBroadcastMessage(heroWin, 207, 3, gText);
+
+	if(gpHVHero->flags & HERO_ARMY_COMPACT)
+		xCoordOrKeycode = 6;
+	else
+		xCoordOrKeycode = 5;
+	GUIBroadcastMessage(heroWin, 213, xCoordOrKeycode, (void *)4);
+
+	if(gpHVHero->flags & HERO_ARMY_COMPACT)
+		xCoordOrKeycode = 5;
+	else
+		xCoordOrKeycode = 6;
+	GUIBroadcastMessage(heroWin, 215, xCoordOrKeycode, (void *)4);
+
+	sprintf(gText, "%d/%d", gpHVHero->spellpoints, 10 * gpHVHero->Stats(PRIMARY_SKILL_KNOWLEDGE));
+	GUIBroadcastMessage(heroWin, 212, 3, gText);
+
+	sprintf(gText, "crest.icn");
+	GUIBroadcastMessage(heroWin, 86, 9, gText);
+	GUIBroadcastMessage(heroWin, 86, 4, (void *)gpCurPlayer->color);
+
+	gpHVHero->UpdateArmies();
+	for(int i = 0; i < 8; ++i) {
+		if(gpHVHero->numSecSkillsKnown <= i) {
+			GUIBroadcastMessage(heroWin, i + 400, 4, 0);
+			GUIBroadcastMessage(heroWin, i + 408, 6, (void *)6);
+			GUIBroadcastMessage(heroWin, i + 416, 6, (void *)6);
+		} else {
+			int imgIdx;
+			int skill = gpHVHero->GetNthSS(i);
+			if(skill == SECONDARY_SKILL_WISDOM & gpHVHero->factionID == FACTION_CYBORG)
+				imgIdx = 16; // Cybernetics secondary skill image
+			else
+				imgIdx = skill + 1;
+			GUIBroadcastMessage(heroWin, i + 400, 4, (void *)imgIdx);
+			GUIBroadcastMessage(heroWin, i + 408, 5, (void *)6);
+			GUIBroadcastMessage(heroWin, i + 416, 5, (void *)6);
+
+			char * str = "Cybernetics";
+			if(!(skill == SECONDARY_SKILL_WISDOM & gpHVHero->factionID == FACTION_CYBORG))
+				str = gSecondarySkills[skill];
+			GUIBroadcastMessage(heroWin, i + 408, 3, str);
+
+			char skillLevel = gpHVHero->GetSSLevel(skill);
+			int v5 = skillLevel - gpHVHero->secondarySkillLevel[skill];
+			if(v5 <= 0)
+				sprintf(gText, "%s", secondarySkillLevels[gpHVHero->secondarySkillLevel[skill]]);
+			else
+				sprintf(gText, "%s+%d", secondarySkillLevels[gpHVHero->secondarySkillLevel[skill]], v5);
+			GUIBroadcastMessage(heroWin, i + 416, 3, gText);
+		}
+	}
+
+	for(int i = 0; i < 14; ++i) {
+		if(gpHVHero->artifacts[i] == -1) {
+			GUIBroadcastMessage(heroWin, i + 20, 4, 0);
+			GUIBroadcastMessage(heroWin, i + 20, 6, (void *)2);
+		} else {
+			GUIBroadcastMessage(heroWin, i + 20, 5, (void *)2);
+			GUIBroadcastMessage(heroWin, i + 20, 4, (void *)(gpHVHero->artifacts[i] + 1));
+		}
+	}
+
+	tag_message evt;
+	evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+	evt.yCoordOrFieldID = -1;
+	evt.xCoordOrKeycode = -1;
+	evt.payload = 0;
+	UpdateHeroScreenStatusBar(evt);
+}

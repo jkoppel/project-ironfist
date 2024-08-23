@@ -60,6 +60,8 @@ extern void __fastcall NormalDialog_orig(char * msg, int, int x, int y, int img1
 void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10);
 void __fastcall GetDataEntry(char *,char *,int,char *,int,int);
 extern void __fastcall SetNoDialogMenus(int a1);
+extern void __fastcall UpdateHeroScreenStatusBar_orig(struct tag_message &evt);
+extern void __fastcall HeroMessageUpdate(char *);
 
 void H2MessageBox(char* msg);
 void H2MessageBox(std::string &msg);
