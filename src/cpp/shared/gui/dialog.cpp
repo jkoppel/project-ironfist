@@ -1255,7 +1255,8 @@ int __fastcall EventWindowHandler(tag_message &evt) {
 	// Level up select secondary skill window
 	if(giResType1 == 17 || giResType2 == 17) { 
 		if(!gpSoundManager->MusicPlaying() && gpAdvManager->ready == 1)
-			gpSoundManager->SwitchAmbientMusic((unsigned __int8)giTerrainToMusicTrack[gpAdvManager->currentTerrain]);
+			gpSoundManager->SwitchAmbientMusic(giTerrainToMusicTrack[gpAdvManager->currentTerrain]);
+
 		if(giDialogTimeout && KBTickCount() > giDialogTimeout) {
 			evt.eventCode = INPUT_GUI_MESSAGE_CODE;
 			gpWindowManager->buttonPressedCode = evt.yCoordOrFieldID;
@@ -1264,34 +1265,27 @@ int __fastcall EventWindowHandler(tag_message &evt) {
 			giDialogTimeout = 0;
 			return 2;
 		}
+
 		if(evt.eventCode != INPUT_GUI_MESSAGE_CODE)
 			return 1;
-		int v3 = evt.xCoordOrKeycode;
-		if(v3 == 12)
-			goto LABEL_9;
-		if(v3 != 13) {
-			if(v3 != 14)
-				return 1;
-		LABEL_9:
-			int v6 = -1;
-			int v5 = -1;
+
+		if(evt.xCoordOrKeycode == 14) {
 			if((evt.inputTypeBitmask >> 8) & 2) { // right click
-				int v2 = evt.yCoordOrFieldID;
-				if(v2 == 7700) {
-					v6 = giResType1;
-					v5 = giResExtra1;
-				} else if(v2 == 7701) {
-					v6 = giResType2;
-					v5 = giResExtra2;
-				}
-				if((v5 / 3) == 15)
-					NormalDialog(cyberneticsDesc[v5 % 3], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+				int imgArg = -1;
+				int widgetId = evt.yCoordOrFieldID;
+				if(widgetId == 7700) { // left skill
+					imgArg = giResExtra1;
+				} else if(widgetId == 7701) { // right skill
+					imgArg = giResExtra2;
+				} else
+					return 1;
+				if((imgArg / 3) == 15)
+					NormalDialog(cyberneticsDesc[imgArg % 3], 4, -1, -1, -1, 0, -1, 0, -1, 0);
 				else
-					NormalDialog(cSecSkillDesc[v5 / 3][v5 % 3], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+					NormalDialog(cSecSkillDesc[imgArg / 3][imgArg % 3], 4, -1, -1, -1, 0, -1, 0, -1, 0);
 			}
 			return 1;
 		}
-		signed int result = 0;
 		switch(evt.yCoordOrFieldID) {
 			case 0x7800:
 			case 0x7801:
@@ -1305,14 +1299,12 @@ int __fastcall EventWindowHandler(tag_message &evt) {
 				evt.yCoordOrFieldID = 10;
 				evt.xCoordOrKeycode = evt.yCoordOrFieldID;
 				giDialogTimeout = 0;
-				result = 2;
-				break;
+				return 2;
 			case 0x7804:
 				return 1;
 		}
-		return result;
-	}
-	else
+		return 0;
+	} else
 		return EventWindowHandler_orig(evt);
 }
 
