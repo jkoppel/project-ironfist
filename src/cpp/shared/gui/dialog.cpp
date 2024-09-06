@@ -693,6 +693,7 @@ extern int iLastDynamicTop;
 extern heroWindow *overWin;
 extern int __fastcall GetMobilityFrame(int a1);
 extern int __fastcall GetManaFrame(signed int a1);
+extern char *cSecSkillDesc[14][3];
 
 std::vector<iconWidget*> icons;
 std::vector<textWidget*> texts;

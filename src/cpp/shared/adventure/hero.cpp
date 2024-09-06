@@ -26,7 +26,7 @@ extern char* cHeroTypeShortName[MAX_FACTIONS] = {
   "cbrg"
 };
 
-signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][4] = {
+signed __int8 gHeroSkillBonus[MAX_FACTIONS][2][NUM_PRIMARY_SKILLS] = {
   {{35, 45, 10, 10}, {25, 25, 25, 25}},
   {{55, 35,  5,  5}, {25, 25, 25, 25}},
   {{10, 10, 30, 50}, {20, 20, 30, 30}},
@@ -330,182 +330,191 @@ hero* GetCurrentHero() {
   return &gpGame->heroes[gpCurPlayer->curHeroIdx];
 }
 
-extern int gSSValues[14][3];
+extern int gSSValues[NUM_SECONDARY_SKILLS][3];
 
 void hero::CheckLevel() {
-  /*if(this->ownerIdx == -1 || !gbHumanPlayer[this->ownerIdx] || this->factionID != FACTION_CYBORG) {
-    CheckLevel_orig();
-    return;
-  }
-  int oldLevel = this->GetLevel();
-  CheckLevel_orig();
-  int levelsGained = this->GetLevel() - oldLevel;
-  if(levelsGained > 0) {
-    for(int i = 0; i < levelsGained; i++) {
-      int lvlToCheck = oldLevel + i + 1;
-      if(cyborgLvlUpSpells.find(lvlToCheck) != cyborgLvlUpSpells.end()) {
-        int spell = cyborgLvlUpSpells[lvlToCheck];
-        this->AddSpell(spell);
-        gpAdvManager->EventWindow(-1, 1, "You've learned a new spell!", 8, spell, -1, 0, -1);
-      }
-    }
-  }*/
-	
-	int skillsLearned[4];
 	int newLevel = this->GetLevel(this->experience);
-	if(this->oldLevel != newLevel) {
-		SAMPLE2 res;
-		res.file = NULL_SAMPLE2.file;
-		res.sample = NULL_SAMPLE2.sample;
-		int levelDiff = newLevel - this->oldLevel;
+	if(this->oldLevel == newLevel)
+		return;
+
+	SAMPLE2 res;
+	res.file = NULL_SAMPLE2.file;
+	res.sample = NULL_SAMPLE2.sample;
+	int pSkillGained[NUM_PRIMARY_SKILLS];
+
+	for(int i = this->oldLevel + 1; i <= newLevel; ++i) {
+		sprintf(gText, "%s has gained a level.\n", this->name);		
+		
+		int pSkillChance[NUM_PRIMARY_SKILLS];
+		for(int j = 0; j < NUM_PRIMARY_SKILLS; j++)
+		{
+			pSkillGained[j] = 0;
+			if(i > 9)
+				pSkillChance[j] = gHeroSkillBonus[this->factionID][1][j];
+			else
+				pSkillChance[j] = gHeroSkillBonus[this->factionID][0][j];
+		}
+
+		SRand(30 * i + this->randomSeed);
+		int randNum = SRandom(1, 100);
+		if(pSkillChance[PRIMARY_SKILL_ATTACK] <= randNum) {
+			int chanceDiff = randNum - pSkillChance[PRIMARY_SKILL_ATTACK];
+			if(pSkillChance[PRIMARY_SKILL_DEFENSE] <= chanceDiff) {
+				if(pSkillChance[PRIMARY_SKILL_SPELLPOWER] <= chanceDiff - pSkillChance[PRIMARY_SKILL_DEFENSE])
+					pSkillGained[PRIMARY_SKILL_KNOWLEDGE]++;
+				else
+					pSkillGained[PRIMARY_SKILL_SPELLPOWER]++;
+			} else {
+				pSkillGained[PRIMARY_SKILL_DEFENSE]++;
+			}
+		} else {
+			pSkillGained[PRIMARY_SKILL_ATTACK]++;
+		}
+
+		for(int j = 0; j < NUM_PRIMARY_SKILLS; ++j) {
+			if(pSkillGained[j] > 0) {
+				this->primarySkills[j] += pSkillGained[j];
+				sprintf(gText, "%s\n%s +%d", gText, gStatNames[j], pSkillGained[j]);
+			}
+		}
+
 		int secSkillOptions[2];
-		for(int i = this->oldLevel + 1; i <= newLevel; ++i) {
-			sprintf(gText, "%s has gained a level.\n", this->name);
-			skillsLearned[0] = 0;
-			skillsLearned[1] = 0;
-			skillsLearned[2] = 0;
-			skillsLearned[3] = 0;
-			int v9 = i > 9;
-			SRand(30 * i + this->randomSeed);
-			int v4 = SRandom(1, 100);
-			if(gHeroSkillBonus[this->factionID][v9][0] <= v4) {
-				int v5 = v4 - gHeroSkillBonus[this->factionID][v9][0];
-				if(gHeroSkillBonus[this->factionID][v9][1] <= v5) {
-					if(gHeroSkillBonus[this->factionID][v9][2] <= v5 - gHeroSkillBonus[this->factionID][v9][1])
-						++skillsLearned[3];
+		for(int j = 0; j < 2; ++j) {
+			secSkillOptions[j] = -1;
+			if(j
+				|| this->factionID == FACTION_BARBARIAN
+				|| this->factionID == FACTION_KNIGHT
+				|| this->secondarySkillLevel[SECONDARY_SKILL_WISDOM] >= 3
+				|| i - this->wisdomLastOffered < 3) {
+				int v3 = 0;
+				int v6 = Random(0, 200);
+				int sSkill = 0;
+				while(v3 < 5000) {
+					++v3;
+					int level = this->secondarySkillLevel[sSkill];
+					if((!j || secSkillOptions[0] != sSkill)
+						&& (level && level < 3
+							|| !level && this->numSecSkillsKnown < 8)) {
+						v6 -= iGetSSByAlignment[sSkill][this->factionID];
+						if(v6 <= 0) {
+							secSkillOptions[j] = sSkill;
+							break;
+						}
+					}
+					sSkill = (sSkill + 1) % NUM_SECONDARY_SKILLS;
+				}
+			} else {
+				secSkillOptions[j] = SECONDARY_SKILL_WISDOM;
+			}
+		}
+
+		if(secSkillOptions[0] == SECONDARY_SKILL_WISDOM || secSkillOptions[1] == SECONDARY_SKILL_WISDOM)
+			this->wisdomLastOffered = i;
+
+		if(gbInNewGameSetup || this->ownerIdx < 0 || !gbThisNetHumanPlayer[this->ownerIdx]) {
+			if(secSkillOptions[0] != -1) {
+				if(secSkillOptions[1] == -1) {
+					this->GiveSS(secSkillOptions[0], 1);
+				} else {
+					if(gSSValues[secSkillOptions[1]][0] >= gSSValues[secSkillOptions[0]][0])
+						this->GiveSS(secSkillOptions[1], 1);
 					else
-						++skillsLearned[2];
-				} else {
-					++skillsLearned[1];
-				}
-			} else {
-				++skillsLearned[0];
-			}
-			for(int j = 0; j < 4; ++j) {
-				if(skillsLearned[j] > 0) {
-					this->primarySkills[j] += LOBYTE(skillsLearned[j]);
-					sprintf(gText, "%s\n%s +%d", gText, gStatNames[j], skillsLearned[j]);
-				}
-			}
-			for(int j = 0; j < 2; ++j) {
-				secSkillOptions[j] = -1;
-				if(j
-					|| this->factionID == 1
-					|| !this->factionID
-					|| this->secondarySkillLevel[7] >= 3
-					|| i - this->wisdomLastOffered < 3) {
-					int v3 = 0;
-					int v6 = Random(0, 200);
-					int v2 = 0;
-					while(v3 < 5000) {
-						++v3;
-						if((!j || secSkillOptions[0] != v2)
-							&& (this->secondarySkillLevel[v2] && this->secondarySkillLevel[v2] < 3
-								|| !this->secondarySkillLevel[v2] && this->numSecSkillsKnown < 8)) {
-							v6 -= iGetSSByAlignment[v2][this->factionID];
-							if(v6 <= 0) {
-								secSkillOptions[j] = v2;
-								break;
-							}
-						}
-						v2 = (v2 + 1) % 14;
-					}
-				} else {
-					secSkillOptions[j] = 7;
-				}
-			}
-			if(secSkillOptions[0] == 7 || secSkillOptions[1] == 7)
-				this->wisdomLastOffered = i;
-			if(gbInNewGameSetup || this->ownerIdx < 0 || !gbThisNetHumanPlayer[this->ownerIdx]) {
-				if(secSkillOptions[0] != -1) {
-					if(secSkillOptions[1] == -1) {
 						this->GiveSS(secSkillOptions[0], 1);
-					} else {
-						if(gSSValues[secSkillOptions[1]][0] >= gSSValues[secSkillOptions[0]][0])
-							this->GiveSS(secSkillOptions[1], 1);
-						else
-							this->GiveSS(secSkillOptions[0], 1);
-					}
 				}
+			}
+		} else {
+			res = LoadPlaySample("nwherolv.82m");
+			if(secSkillOptions[0] == -1) {
+				NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
 			} else {
-				res = LoadPlaySample("nwherolv.82m");
-				if(secSkillOptions[0] == -1) {
-					NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
-				} else {
-					if(secSkillOptions[1] == -1) {
-						int imgArg;
-						if(this->factionID == FACTION_CYBORG && secSkillOptions[1] == SECONDARY_SKILL_WISDOM) {
-							sprintf(gText,
-								"%s\n\nYou have learned %s Cybernetics.",
-								gText,
-								secondarySkillLevels[this->secondarySkillLevel[secSkillOptions[0]] + 1]);
-							imgArg = 3 * 15 + this->secondarySkillLevel[secSkillOptions[0]];
-						} else {
-							sprintf(gText,
-								"%s\n\nYou have learned %s %s.",
-								gText,
-								secondarySkillLevels[this->secondarySkillLevel[secSkillOptions[0]] + 1],
-								gSecondarySkills[secSkillOptions[0]]);
-							imgArg = 3 * secSkillOptions[0] + this->secondarySkillLevel[secSkillOptions[0]];
-						}
-						NormalDialog(
+				if(secSkillOptions[1] == -1) {
+					int imgArg;
+					if(this->factionID == FACTION_CYBORG && secSkillOptions[1] == SECONDARY_SKILL_WISDOM) {
+						sprintf(gText,
+							"%s\n\nYou have learned %s Cybernetics.",
 							gText,
-							1,
-							-1,
-							-1,
-							17,
-							3 * secSkillOptions[0] + this->secondarySkillLevel[secSkillOptions[0]],
-							-1,
-							0,
-							-1,
-							0);
-						this->GiveSS(secSkillOptions[0], 1);
+							secondarySkillLevels[this->secondarySkillLevel[secSkillOptions[0]] + 1]);
+						imgArg = 3 * 15 + this->secondarySkillLevel[secSkillOptions[0]];
 					} else {
-						std::string sSkillNames[2];
-						int imgIdxs[2];
-						for(int i = 0; i < 2; i++) {
-							if(this->factionID == FACTION_CYBORG && secSkillOptions[i] == SECONDARY_SKILL_WISDOM) {
-								sSkillNames[i] = "Cybernetics";
-								imgIdxs[i] = 3 * 15 + this->secondarySkillLevel[secSkillOptions[i]];
-							} else {
-								sSkillNames[i] = gSecondarySkills[secSkillOptions[i]];
-								imgIdxs[i] = 3 * secSkillOptions[i] + this->secondarySkillLevel[secSkillOptions[i]];
-							}
-						}					
-						sprintf(
-							gText,
-							"%s\n\nYou may learn either %s %s or %s %s.",
+						sprintf(gText,
+							"%s\n\nYou have learned %s %s.",
 							gText,
 							secondarySkillLevels[this->secondarySkillLevel[secSkillOptions[0]] + 1],
-							sSkillNames[0].c_str(),
-							secondarySkillLevels[this->secondarySkillLevel[secSkillOptions[1]] + 1],
-							sSkillNames[1].c_str());
-						NormalDialog(
-							gText,
-							7,
-							-1,
-							-1,
-							17,
-							imgIdxs[0],
-							17,
-							imgIdxs[1],
-							-1,
-							0);
-						if(gpWindowManager->buttonPressedCode == 30727)
-							this->GiveSS(secSkillOptions[0], 1);
-						else
-							this->GiveSS(secSkillOptions[1], 1);
+							gSecondarySkills[secSkillOptions[0]]);
+						imgArg = 3 * secSkillOptions[0] + this->secondarySkillLevel[secSkillOptions[0]];
 					}
+					NormalDialog(
+						gText,
+						1,
+						-1,
+						-1,
+						17,
+						3 * secSkillOptions[0] + this->secondarySkillLevel[secSkillOptions[0]],
+						-1,
+						0,
+						-1,
+						0);
+					this->GiveSS(secSkillOptions[0], 1);
+				} else {
+					std::string sSkillNames[2];
+					int imgIdxs[2];
+					for(int i = 0; i < 2; i++) {
+						if(this->factionID == FACTION_CYBORG && secSkillOptions[i] == SECONDARY_SKILL_WISDOM) {
+							sSkillNames[i] = "Cybernetics";
+							imgIdxs[i] = 3 * 15 + this->secondarySkillLevel[secSkillOptions[i]];
+						} else {
+							sSkillNames[i] = gSecondarySkills[secSkillOptions[i]];
+							imgIdxs[i] = 3 * secSkillOptions[i] + this->secondarySkillLevel[secSkillOptions[i]];
+						}
+					}					
+					sprintf(
+						gText,
+						"%s\n\nYou may learn either %s %s or %s %s.",
+						gText,
+						secondarySkillLevels[this->secondarySkillLevel[secSkillOptions[0]] + 1],
+						sSkillNames[0].c_str(),
+						secondarySkillLevels[this->secondarySkillLevel[secSkillOptions[1]] + 1],
+						sSkillNames[1].c_str());
+					NormalDialog(
+						gText,
+						7,
+						-1,
+						-1,
+						17,
+						imgIdxs[0],
+						17,
+						imgIdxs[1],
+						-1,
+						0);
+					if(gpWindowManager->buttonPressedCode == BUTTON_CODE_LEARN_LEFT)
+						this->GiveSS(secSkillOptions[0], 1);
+					else
+						this->GiveSS(secSkillOptions[1], 1);
 				}
 			}
 		}
-		this->oldLevel = newLevel;
-		WaitEndSample(res, res.sample);
+	}
+	
+
+	if(this->factionID == FACTION_CYBORG && this->ownerIdx != -1) {
+		int levelsGained = newLevel - this->oldLevel;
+		if(levelsGained > 0) {
+			for(int i = 0; i < levelsGained; i++) {
+				int lvlToCheck = this->oldLevel + i + 1;
+				if(cyborgLvlUpSpells.find(lvlToCheck) != cyborgLvlUpSpells.end()) {
+					int spell = cyborgLvlUpSpells[lvlToCheck];
+					this->AddSpell(spell);
+					if(gbHumanPlayer[this->ownerIdx])
+						gpAdvManager->EventWindow(-1, 1, "You've learned a new spell!", 8, spell, -1, 0, -1);
+				}
+			}
+		}		
 	}
 
+	this->oldLevel = newLevel;
+	WaitEndSample(res, res.sample);
 }
 
-extern char *cSecSkillDesc[14][3];
 char *cyberneticsDesc[3] = {
 	"{Basic Cybernetics}\n\nBasic Pathfinding reduces the movement penalty for rough terrain by 25 percent.",
 	"{Advanced Cybernetics}\n\nAdvanced Pathfinding reduces the movement penalty for rough terrain by 50 percent.",
