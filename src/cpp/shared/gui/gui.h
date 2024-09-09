@@ -179,6 +179,9 @@ enum GENERAL_GUI_FIELD_IDS {
   BUTTON_CANCEL = 30721,
   BUTTON_OK = 30722,
   BUTTON_YES = 30725,
+  BUTTON_NO = 30726,
+  BUTTON_LEARN_LEFT = 30727,
+  BUTTON_LEARN_RIGHT = 30728
 };
 
 /* These functions provide a simpler API to parts of the old GUI "BroadcastMessage" API */

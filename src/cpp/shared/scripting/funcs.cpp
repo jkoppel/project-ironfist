@@ -96,11 +96,11 @@ static int l_AdvancedMessageBox(lua_State *L) {
   NormalDialog(&msgCopy[0], dialogType, horizontal, vertical, img1type, img1arg, img2type, img2arg, writeOr, a10);
  
   if (dialogType == DIALOG_LEARN_CHOICE) { // learn dialog
-    lua_pushboolean(L, gpWindowManager->buttonPressedCode == BUTTON_CODE_LEARN_LEFT);
+    lua_pushboolean(L, gpWindowManager->buttonPressedCode == BUTTON_LEARN_LEFT);
   } else if (dialogType == DIALOG_CANCEL_ALT) {
     lua_pushboolean(L, gbFunctionComplete);
   } else if (dialogType == DIALOG_YES_NO) {
-    lua_pushboolean(L, gpWindowManager->buttonPressedCode == BUTTON_CODE_OKAY);
+    lua_pushboolean(L, gpWindowManager->buttonPressedCode == BUTTON_YES);
   } else {
     lua_pushboolean(L, true);
   }

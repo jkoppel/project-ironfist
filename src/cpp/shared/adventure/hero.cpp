@@ -425,7 +425,7 @@ void hero::CheckLevel() {
 		} else {
 			res = LoadPlaySample("nwherolv.82m");
 			if(secSkillOptions[0] == -1) {
-				NormalDialog(gText, 1, -1, -1, -1, 0, -1, 0, -1, 0);
+				NormalDialog(gText, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
 			} else {
 				if(secSkillOptions[1] == -1) {
 					int imgArg;
@@ -445,7 +445,7 @@ void hero::CheckLevel() {
 					}
 					NormalDialog(
 						gText,
-						1,
+						DIALOG_OKAY,
 						-1,
 						-1,
 						17,
@@ -477,7 +477,7 @@ void hero::CheckLevel() {
 						sSkillNames[1].c_str());
 					NormalDialog(
 						gText,
-						7,
+						DIALOG_LEARN_CHOICE,
 						-1,
 						-1,
 						17,
@@ -486,7 +486,7 @@ void hero::CheckLevel() {
 						imgIdxs[1],
 						-1,
 						0);
-					if(gpWindowManager->buttonPressedCode == BUTTON_CODE_LEARN_LEFT)
+					if(gpWindowManager->buttonPressedCode == BUTTON_LEARN_LEFT)
 						this->GiveSS(secSkillOptions[0], 1);
 					else
 						this->GiveSS(secSkillOptions[1], 1);
@@ -528,7 +528,7 @@ void hero::DoSSLevelDialog(int skill, int rightClick) {
 			sprintf(gText, "%s", cyberneticsDesc[level - 1]);
 			NormalDialog(
 				gText,
-				rightClick < 1 ? 1 : 4,
+				rightClick < 1 ? DIALOG_OKAY : DIALOG_RIGHT_CLICK,
 				-1,
 				-1,
 				17,

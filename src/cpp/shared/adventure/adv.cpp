@@ -71,7 +71,7 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
         NormalDialog("One or more heroes may still move, are you sure you want to end your turn?",
           2, -1, -1, -1, 0, -1, 0, -1, 0);
 
-        if (gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL)
+        if (gpWindowManager->buttonPressedCode != BUTTON_NO)
           gpGame->NextPlayer();
       }
     } else { //there are no heroes with movement points left, end turn

@@ -29,7 +29,7 @@ void H2MessageBox(std::string &msg) {
 
 bool H2QuestionBox(char* msg) {
   NormalDialog(msg, DIALOG_YES_NO, -1,-1,-1,0,-1,0,-1,0);
-  return gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL;
+  return gpWindowManager->buttonPressedCode != BUTTON_NO;
 }
 
 
@@ -56,258 +56,190 @@ extern char *gStatNames[NUM_PRIMARY_SKILLS];
 extern mouseManager* gpMouseManager;
 extern int __fastcall WaitHandler(struct tag_message &);
 
-void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10) {
-  //NormalDialog_orig(msg, a2, x, y, img1Type, img1Arg, img2Type, img2Arg, writeOr, a10);
-  //if(img1Type == 17 && img1Arg == 45) {
-	//  pNormalDialogWindow->idx = pNormalDialogWindow->idx;
-  //}
-  //return;
-  __int16 v10; // ST54_2@186
-  __int16 v11; // ST50_2@195
-  __int16 v12; // ST4C_2@202
-  char *msga; // [sp+18h] [bp-114h]@1
-  textWidget *v16; // [sp+34h] [bp-F8h]@212
-  border *v17; // [sp+38h] [bp-F4h]@207
-  textWidget *v18; // [sp+3Ch] [bp-F0h]@201
-  textWidget *v19; // [sp+40h] [bp-ECh]@194
-  textWidget *v20; // [sp+44h] [bp-E8h]@185
-  iconWidget *v21; // [sp+48h] [bp-E4h]@178
-  iconWidget *v22; // [sp+4Ch] [bp-E0h]@171
-  iconWidget *v23; // [sp+50h] [bp-DCh]@164
-  iconWidget *v24; // [sp+54h] [bp-D8h]@157
-  iconWidget *v25; // [sp+58h] [bp-D4h]@152
-  iconWidget *v26; // [sp+5Ch] [bp-D0h]@145
-  iconWidget *v27; // [sp+60h] [bp-CCh]@138
-  iconWidget *v28; // [sp+64h] [bp-C8h]@132
-  heroWindow *v29; // [sp+68h] [bp-C4h]@48
-  char *plusOneBuf; // [sp+6Ch] [bp-C0h]@201
-  __int16 height; // [sp+70h] [bp-BCh]@117
-  int a3; // [sp+74h] [bp-B8h]@185
-  int a3a; // [sp+74h] [bp-B8h]@190
-  widget *v34; // [sp+78h] [bp-B4h]@208
-  int borderSpriteIdx; // [sp+7Ch] [bp-B0h]@78
-  signed int v36; // [sp+84h] [bp-A8h]@7
-  heroWindow *v37; // [sp+88h] [bp-A4h]@13
-  int spriteIdx; // [sp+8Ch] [bp-A0h]@218
-  int v39; // [sp+90h] [bp-9Ch]@41
-  char *content; // [sp+94h] [bp-98h]@212
-  signed int v41; // [sp+98h] [bp-94h]@7
-  tag_message event; // [sp+9Ch] [bp-90h]@53
-  int v43; // [sp+B8h] [bp-74h]@13
-  int v44; // [sp+BCh] [bp-70h]@13
-  textWidget *component; // [sp+C0h] [bp-6Ch]@69
-  int i; // [sp+C4h] [bp-68h]@15
-  int v47; // [sp+C8h] [bp-64h]@7
-  int v48; // [sp+CCh] [bp-60h]@7
-  int numLines; // [sp+D0h] [bp-5Ch]@13
-  int msgHeight; // [sp+D4h] [bp-58h]@13
-  int v51; // [sp+D8h] [bp-54h]@7
-  int width; // [sp+DCh] [bp-50h]@7
-  int v53; // [sp+E0h] [bp-4Ch]@18
-  int v54; // [sp+E4h] [bp-48h]@13
-  int v55; // [sp+E8h] [bp-44h]@13
-  int v56; // [sp+ECh] [bp-40h]@13
-  int windowType; // [sp+F0h] [bp-3Ch]@39
-  int imgArgs[2]; // [sp+104h] [bp-28h]@13
-  int v60; // [sp+10Ch] [bp-20h]@41
-  int buf[2]; // [sp+110h] [bp-1Ch]@70
-  int imgTypes[2]; // [sp+118h] [bp-14h]@13
-  signed int protoCategory; // [sp+120h] [bp-Ch]@218
-  widget *guiObj; // [sp+124h] [bp-8h]@69
-  char text[50];
-
-  msga = msg;
+void __fastcall NormalDialog(char *msg, int type, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int timeout) {
   if(!gbRemoteOn)
-    a10 = 0;
-  if(a10 <= 1 || a10 >= 20000)
-    giDialogTimeout = a10;
+    timeout = 0;
+  if(timeout <= 1 || timeout >= 20000)
+    giDialogTimeout = timeout;
   else
-    giDialogTimeout = KBTickCount() + a10;
-  v51 = 0;
-  v47 = 0;
-  v36 = 100;
-  width = 0;
-  v48 = 0;
-  v41 = 0;
-  if(img1Type == 25 && img1Arg >= 100) {
+    giDialogTimeout = KBTickCount() + timeout;
+  int offsetX = 0;
+  int offsetY = 0;
+  int widgetFieldId = 100;
+  int width = 0;
+  bool primSkillFlag = false;
+  if(img1Type == IMAGE_GROUP_PRIMARY_SKILLS && img1Arg >= 100) {
     img1Arg -= 100;
-    v41 = 1;
+    primSkillFlag = true;
   }
-  if(img1Type >= 19 && img1Type <= 24)
-    img1Type = -1;
-  v37 = pNormalDialogWindow;
-  v54 = giResType1;
-  v44 = giResExtra1;
-  v56 = giResType2;
-  v43 = giResExtra2;
+  if(img1Type > IMAGE_GROUP_UNIT && img1Type < IMAGE_GROUP_PRIMARY_SKILLS)
+    img1Type = IMAGE_EMPTY;
+  heroWindow *pNormalDialogWindow_old = pNormalDialogWindow;
+  int giResType1_old = giResType1;
+  int giResExtra1_old = giResExtra1;
+  int giResType2_old = giResType2;
+  int giResExtra2_old = giResExtra2;
+
   giResType1 = img1Type;
   giResExtra1 = img1Arg;
   giResType2 = img2Type;
   giResExtra2 = img2Arg;
+  int imgTypes[2];
+  int imgArgs[2];
   imgTypes[0] = img1Type;
   imgArgs[0] = img1Arg;
   imgTypes[1] = img2Type;
   imgArgs[1] = img2Arg;
-  numLines = bigFont->LineLength(msga, 244);
-  msgHeight = 16 * numLines;
-  v55 = 0;
-  if(a2 != 4)
+  int numLines = bigFont->LineLength(msg, 244);
+  int msgHeight = 16 * numLines;
+
+  int maxImgHeight = 0;
+  int height = 0;
+  if(type != DIALOG_RIGHT_CLICK)
     msgHeight += 39;
-  for(i = 0; i < 2; ++i) {
+  for(int i = 0; i < 2; ++i) {
     switch(imgTypes[i]) {
-    case 7:
-      v53 = 76;
+    case IMAGE_GROUP_ARTIFACTS:
+      height = 76;
       break;
-    case 10:
-      v53 = 28;
+    case IMAGE_LUCK:
+      height = 28;
       break;
-    case 11:
-      v53 = 57;
+    case IMAGE_BADLUCK:
+      height = 57;
       break;
-    case 12:
-      v53 = 62;
+    case IMAGE_GOOD_MORALE:
+      height = 62;
       break;
-    case 13:
-      v53 = 59;
+    case IMAGE_BAD_MORALE:
+      height = 59;
       break;
-    case 14:
-      v53 = (unsigned int)(imgArgs[i] + 1) < 1 ? 64 : 76;
+    case IMAGE_EXP:
+      height = (unsigned int)(imgArgs[i] + 1) < 1 ? 64 : 76;
       break;
-    case 9:
-      v53 = 55;
+    case IMAGE_GROUP_PLAYERS:
+      height = 55;
       break;
-    case 15:
-      v53 = 111;
+    case IMAGE_GROUP_HERO:
+      height = 111;
       break;
-    case 6:
-      v53 = 26;
+    case IMAGE_GOLD:
+      height = 26;
       break;
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
-      v53 = 44;
+    case IMAGE_WOOD:
+    case IMAGE_MERCURY:
+    case IMAGE_ORE:
+    case IMAGE_SULFUR:
+    case IMAGE_CRYSTALS:
+    case IMAGE_GEMS:
+      height = 44;
       break;
-    case 8:
-      v53 = 79;
+    case IMAGE_GROUP_SPELLS:
+      height = 79;
       break;
-    case 17:
-      v53 = 81;
+    case IMAGE_GROUP_SECONDARY_SKILLS:
+      height = 81;
       break;
-    case 18:
-      v53 = 105;
+    case IMAGE_GROUP_UNIT:
+      height = 105;
       break;
-    case 25:
-      v53 = 105;
+    case IMAGE_GROUP_PRIMARY_SKILLS:
+      height = 105;
       break;
     default:
-      v53 = 0;
+      height = 0;
       break;
     }
-    if(v53 > v55)
-      v55 = v53;
+    if(height > maxImgHeight)
+      maxImgHeight = height;
   }
-  if(v55 > 0)
-    msgHeight += v55 + 14;
-  windowType = (msgHeight - 25) / 45;
+  if(maxImgHeight > 0)
+    msgHeight += maxImgHeight + 14;
+  int windowType = (msgHeight - 25) / 45;
   if(windowType > 6)
     windowType = 6;
-  v60 = 306;
-  v39 = 45 * windowType + 180;
-  if(x == -1 || v60 + x >= 639)
+
+  int imgOffsetX = 306;
+  int imgOffsetY = 45 * windowType + 180;
+  if(x == -1 || imgOffsetX + x >= 639)
     x = 159;
-  if(y == -1 || v39 + y >= 479) {
-    y = (480 - v39) / 2;
+  if(y == -1 || imgOffsetY + y >= 479) {
+    y = (480 - imgOffsetY) / 2;
     if(y > 28)
       y = 28;
   }
+
+  char text[50];
   sprintf(text, "evntwin%d.bin", windowType);
-  v29 = new heroWindow(x, y, text);
-  if(v29)
-    pNormalDialogWindow = v29;
-  else
-    pNormalDialogWindow = 0;
+  pNormalDialogWindow = new heroWindow(x, y, text);
   if(!pNormalDialogWindow)
     MemError();
-  event.eventCode = INPUT_GUI_MESSAGE_CODE;
-  event.xCoordOrKeycode = 6;
-  event.payload = (void *)6;
-  if(a2 != 7 && a2 != 8) {
-    event.yCoordOrFieldID = 30727;
-    pNormalDialogWindow->BroadcastMessage(event);
+
+  if(type != DIALOG_LEARN_CHOICE && type != 8)
+	GUIBroadcastMessage(pNormalDialogWindow, BUTTON_LEARN_LEFT, 6, (void *)6);
+  if(type != DIALOG_LEARN_CHOICE)
+	GUIBroadcastMessage(pNormalDialogWindow, BUTTON_LEARN_RIGHT, 6, (void *)6);
+  if(type != DIALOG_CANCEL_ALT && type != DIALOG_CANCEL)
+	GUIBroadcastMessage(pNormalDialogWindow, BUTTON_CANCEL, 6, (void *)6);
+  if(type != DIALOG_OKAY_ALT && type != DIALOG_OKAY && type != DIALOG_CANCEL)
+	GUIBroadcastMessage(pNormalDialogWindow, BUTTON_OK, 6, (void *)6);
+  if(type != DIALOG_YES_NO) {
+	GUIBroadcastMessage(pNormalDialogWindow, BUTTON_YES, 6, (void *)6);
+	GUIBroadcastMessage(pNormalDialogWindow, BUTTON_NO, 6, (void *)6);
   }
-  if(a2 != 7) {
-    event.yCoordOrFieldID = 30728;
-    pNormalDialogWindow->BroadcastMessage(event);
-  }
-  if(a2 != 6 && a2 != 3) {
-    event.yCoordOrFieldID = 30721;
-    pNormalDialogWindow->BroadcastMessage(event);
-  }
-  if(a2 != 5 && a2 != 1 && a2 != 3) {
-    event.yCoordOrFieldID = 30722;
-    pNormalDialogWindow->BroadcastMessage(event);
-  }
-  if(a2 != 2) {
-    event.yCoordOrFieldID = 30725;
-    pNormalDialogWindow->BroadcastMessage(event);
-    event.yCoordOrFieldID = 30726;
-    pNormalDialogWindow->BroadcastMessage(event);
-  }
-  for(i = 0; i < 2; ++i) {
-    guiObj = 0;
-    component = 0;
-    if(imgTypes[i] == -1)
+
+  char *buf[2];
+  for(int i = 0; i < 2; ++i) {
+    if(imgTypes[i] == IMAGE_EMPTY)
       break;
-    buf[i] = (int)BaseAlloc(80u, __FILE__, __LINE__);
-    if(imgTypes[i] > 6) {
+    buf[i] = (char *)BaseAlloc(80u, __FILE__, __LINE__);
+	int borderSpriteIdx;
+    if(imgTypes[i] > IMAGE_GOLD) {
       switch(imgTypes[i]) {
-      case 8:
-        sprintf((char *)buf[i], "%s", gSpellNames[imgArgs[i]]);
+      case IMAGE_GROUP_SPELLS:
+        sprintf(buf[i], "%s", gSpellNames[imgArgs[i]]);
         strcpy(text, "spells.icn");
         borderSpriteIdx = gsSpellInfo[imgArgs[i]].magicBookIconIdx;
         break;
-      case 9:
-        //sprintf((char *)buf[i], "%s", unk_50E028);
+      case IMAGE_GROUP_PLAYERS:
+        sprintf(buf[i], "%s", "");
         strcpy(text, "brcrest.icn");
         borderSpriteIdx = imgArgs[i];
         break;
-      case 25:
-        //sprintf((char *)buf[i], "%s", unk_50E03C);
+      case IMAGE_GROUP_PRIMARY_SKILLS:
+        sprintf(buf[i], "%s", "");
         strcpy(text, "primskil.icn");
         borderSpriteIdx = 4;
         break;
-      case 18:
-        //sprintf((char *)buf[i], "%s", &unk_50E054);
+      case IMAGE_GROUP_UNIT:
+        sprintf(buf[i], "%s", "");
         strcpy(text, "strip.icn");
         borderSpriteIdx = 12;
         break;
-      case 17:
+      case IMAGE_GROUP_SECONDARY_SKILLS:
 		if((imgArgs[i] / 3) == 15)
-		  sprintf((char *)buf[i], "Cybernetics");
+		  sprintf(buf[i], "Cybernetics");
 		else
-		  sprintf((char *)buf[i], "%s", gSecondarySkills[imgArgs[i] / 3]);
+		  sprintf(buf[i], "%s", gSecondarySkills[imgArgs[i] / 3]);
         strcpy(text, "secskill.icn");
         borderSpriteIdx = imgArgs[i] / 3 + 1;
         break;
-      case 15:
-        //sprintf((char *)buf[i], "%s", &unk_50E07C);
+      case IMAGE_GROUP_HERO:
+		strcpy(buf[i], "");
         sprintf(text, "surrendr.icn");
         borderSpriteIdx = 4;
         break;
       default:
-        if(imgTypes[i] != 14 && imgTypes[i] != 12 && imgTypes[i] != 13 && imgTypes[i] != 10 && imgTypes[i] != 11) {
-          //strcpy((char *)buf[i], byte_50E0A8);
+        if(imgTypes[i] < IMAGE_LUCK || imgTypes[i] > IMAGE_EXP) {
+          strcpy(buf[i], "");
           strcpy(text, "resource.icn");
           borderSpriteIdx = imgTypes[i];
         } else {
-          //strcpy((char *)buf[i], byte_50E094);
+          strcpy(buf[i], "");
           strcpy(text, "expmrl.icn");
           borderSpriteIdx = imgTypes[i] - 10;
-          if(imgTypes[i] == 14 && imgArgs[i] != -1)
-            sprintf((char *)buf[i], "%d", imgArgs[i]);
+          if(imgTypes[i] == IMAGE_EXP && imgArgs[i] != IMAGE_EMPTY)
+            sprintf(buf[i], "%d", imgArgs[i]);
         }
         break;
       }
@@ -315,144 +247,139 @@ void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int 
       if(imgArgs[i] <= 0) {
         if(imgArgs[i]) {
           if(imgArgs[i] >= -100000)
-            sprintf((char *)buf[i], "%d/day", -imgArgs[i]);
+            sprintf(buf[i], "%d/day", -imgArgs[i]);
           else
-            sprintf((char *)buf[i], "%d", imgArgs[i] + 100000);
+            sprintf(buf[i], "%d", imgArgs[i] + 100000);
         } else {
-          //strcpy((char *)buf[i], byte_50DFF8);
+          strcpy(buf[i], "");
         }
       } else {
-        sprintf((char *)buf[i], "%d", imgArgs[i]);
+        sprintf(buf[i], "%d", imgArgs[i]);
       }
       strcpy(text, "resource.icn");
       borderSpriteIdx = imgTypes[i];
     }
+
     switch(imgTypes[i]) {
-    case 25:
+    case IMAGE_GROUP_PRIMARY_SKILLS:
       width = 94;
-      v53 = 105;
+      height = 105;
       break;
-    case 7:
+    case IMAGE_GROUP_ARTIFACTS:
       width = 76;
-      v53 = 76;
+      height = 76;
       break;
-    case 10:
+    case IMAGE_LUCK:
       width = 64;
-      v53 = 28;
+      height = 28;
       break;
-    case 11:
+    case IMAGE_BADLUCK:
       width = 64;
-      v53 = 57;
+      height = 57;
       break;
-    case 12:
+    case IMAGE_GOOD_MORALE:
       width = 64;
-      v53 = 62;
+      height = 62;
       break;
-    case 13:
+    case IMAGE_BAD_MORALE:
       width = 64;
-      v53 = 59;
+      height = 59;
       break;
-    case 14:
+    case IMAGE_EXP:
       width = 64;
-      v53 = 64;
+      height = 64;
       break;
-    case 9:
+    case IMAGE_GROUP_PLAYERS:
       width = 50;
-      v53 = 55;
+      height = 55;
       break;
-    case 15:
+    case IMAGE_GROUP_HERO:
       width = 111;
-      v53 = 105;
+      height = 105;
       break;
-    case 6:
+    case IMAGE_GOLD:
       width = 76;
-      v53 = 26;
+      height = 26;
       break;
-    case 0:
-    case 1:
-    case 2:
-    case 3:
-    case 4:
-    case 5:
+    case IMAGE_WOOD:
+    case IMAGE_MERCURY:
+    case IMAGE_ORE:
+    case IMAGE_SULFUR:
+    case IMAGE_CRYSTALS:
+    case IMAGE_GEMS:
       width = 38;
-      v53 = 32;
+      height = 32;
       break;
-    case 8:
+    case IMAGE_GROUP_SPELLS:
       width = 70;
-      v53 = 55;
+      height = 55;
       break;
-    case 17:
+    case IMAGE_GROUP_SECONDARY_SKILLS:
       width = 75;
-      v53 = 65;
+      height = 65;
       break;
-    case 18:
+    case IMAGE_GROUP_UNIT:
       width = 94;
-      v53 = 105;
+      height = 105;
       break;
     default:
       break;
     }
-    height = v53;
-    if(strlen((char *)buf[i]))
-      v53 += 12;
+    int height_tmp = height;
+    if(strlen(buf[i]))
+      height += 12;
     if(i) {
-      v51 = v60 - 87;
-    } else if(imgTypes[1] == -1) {
-      v51 = (v60 - 17) / 2 + 17;
+      offsetX = imgOffsetX - 87;
+    } else if(imgTypes[1] == IMAGE_EMPTY) {
+      offsetX = (imgOffsetX - 17) / 2 + 17;
     } else {
-      v51 = 104;
+      offsetX = 104;
     }
-    v47 = v39 - v53 - 48;
-    if(a2 != 4)
-      v47 -= 39;
-    if(imgTypes[0] == 17 && imgTypes[1] == 17) {
+    offsetY = imgOffsetY - height - 48;
+    if(type != DIALOG_RIGHT_CLICK)
+      offsetY -= 39;
+    if(imgTypes[0] == IMAGE_GROUP_SECONDARY_SKILLS && imgTypes[1] == IMAGE_GROUP_SECONDARY_SKILLS) {
       if(i)
-        v51 += 4;
+        offsetX += 4;
       else
-        v51 -= 4;
+        offsetX -= 4;
     }
-    v28 = new iconWidget(
-      v51 + ((unsigned int)(imgTypes[i] - 8) < 1 ? 2 : 0) - width / 2,
-      v47,
+
+	iconWidget *icnWidget = new iconWidget(
+      offsetX + ((unsigned int)(imgTypes[i] - 8) < 1 ? 2 : 0) - width / 2,
+      offsetY,
       width,
-      height,
+      height_tmp,
       text,
       borderSpriteIdx,
       0,
       -1,
       ((unsigned int)(imgTypes[i] - 8) < 1) + 16,
       1);
-    if(v28)
-      guiObj = v28;
-    else
-      guiObj = 0;
-    if(!guiObj)
+    if(!icnWidget)
       MemError();
-    pNormalDialogWindow->AddWidget(guiObj, -1);
-    if(imgTypes[i] == 7) {
-      v27 = new iconWidget(
-        v51 - width / 2 + 6,
-        v47 + 6,
+    pNormalDialogWindow->AddWidget(icnWidget, -1);
+
+    if(imgTypes[i] == IMAGE_GROUP_ARTIFACTS) {
+	  iconWidget *widget = new iconWidget(
+        offsetX - width / 2 + 6,
+        offsetY + 6,
         76,
         76,
         "artifact.icn",
-        LOWORD(imgArgs[i]) + 1,
+        imgArgs[i] + 1,
         0,
         -1,
         16,
         1);
-      if(v27)
-        guiObj = v27;
-      else
-        guiObj = 0;
-      if(!guiObj)
+      if(!widget)
         MemError();
-      pNormalDialogWindow->AddWidget(guiObj, -1);
+      pNormalDialogWindow->AddWidget(widget, -1);
     }
-    if(imgTypes[i] == 25) {
-      v26 = new iconWidget(
-        v51 - width / 2 + 6,
-        v47 + 6,
+    if(imgTypes[i] == IMAGE_GROUP_PRIMARY_SKILLS) {
+      iconWidget *widget = new iconWidget(
+        offsetX - width / 2 + 6,
+        offsetY + 6,
         82,
         93,
         "primskil.icn",
@@ -461,19 +388,15 @@ void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int 
         -1,
         16,
         1);
-      if(v26)
-        guiObj = v26;
-      else
-        guiObj = 0;
-      if(!guiObj)
+      if(!widget)
         MemError();
-      pNormalDialogWindow->AddWidget(guiObj, -1);
-      strcpy((char *)buf[i], gStatNames[imgArgs[i]]);
+      pNormalDialogWindow->AddWidget(widget, -1);
+      strcpy(buf[i], gStatNames[imgArgs[i]]);
     }
-    if(imgTypes[i] == 18) {
-      v25 = new iconWidget(
-        v51 - width / 2 + 6,
-        v47 + 6,
+    if(imgTypes[i] == IMAGE_GROUP_UNIT) {
+	  iconWidget *widget = new iconWidget(
+        offsetX - width / 2 + 6,
+        offsetY + 6,
         82,
         93,
         "strip.icn",
@@ -482,27 +405,20 @@ void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int 
         -1,
         16,
         1);
-      if(v25)
-        guiObj = v25;
-      else
-        guiObj = 0;
-      if(!guiObj)
+      if(!widget)
         MemError();
-      pNormalDialogWindow->AddWidget(guiObj, -1);
+      pNormalDialogWindow->AddWidget(widget, -1);
+
       sprintf(text, "monh%04d.icn", imgArgs[i]);
-      v24 = new iconWidget(v51 - width / 2 + 6, v47 + 6, 82, 93, text, 0, 0, -1, 16, 1);
-      if(v24)
-        guiObj = v24;
-      else
-        guiObj = 0;
-      if(!guiObj)
+	  widget = new iconWidget(offsetX - width / 2 + 6, offsetY + 6, 82, 93, text, 0, 0, -1, 16, 1);
+      if(!widget)
         MemError();
-      pNormalDialogWindow->AddWidget(guiObj, -1);
+      pNormalDialogWindow->AddWidget(widget, -1);
     }
-    if(imgTypes[i] == 9) {
-      v23 = new iconWidget(
-        v51 - width / 2 - 4,
-        v47 - 4,
+    if(imgTypes[i] == IMAGE_GROUP_PLAYERS) {
+      iconWidget *widget = new iconWidget(
+        offsetX - width / 2 - 4,
+        offsetY - 4,
         58,
         55,
         "brcrest.icn",
@@ -511,18 +427,14 @@ void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int 
         -1,
         16,
         1);
-      if(v23)
-        guiObj = v23;
-      else
-        guiObj = 0;
-      if(!guiObj)
+      if(!widget)
         MemError();
-      pNormalDialogWindow->AddWidget(guiObj, -1);
+      pNormalDialogWindow->AddWidget(widget, -1);
     }
-    if(imgTypes[i] == 17) {
-      v22 = new iconWidget(
-        v51 - width / 2 - 3,
-        v47 - 3,
+    if(imgTypes[i] == IMAGE_GROUP_SECONDARY_SKILLS) {
+	  iconWidget *widget = new iconWidget(
+        offsetX - width / 2 - 3,
+        offsetY - 3,
         71,
         81,
         "secskill.icn",
@@ -531,19 +443,15 @@ void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int 
         -1,
         16,
         1);
-      if(v22)
-        guiObj = v22;
-      else
-        guiObj = 0;
-      if(!guiObj)
+      if(!widget)
         MemError();
-      pNormalDialogWindow->AddWidget(guiObj, -1);
+      pNormalDialogWindow->AddWidget(widget, -1);
     }
-    if(imgTypes[i] == 15) {
+    if(imgTypes[i] == IMAGE_GROUP_HERO) {
       sprintf(text, "port%04d.icn", imgArgs[i]);
-      v21 = new iconWidget(
-        v51 - width / 2 + 5,
-        v47 + 5,
+	  iconWidget *widget = new iconWidget(
+        offsetX - width / 2 + 5,
+        offsetY + 5,
         101,
         95,
         text,
@@ -552,119 +460,94 @@ void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int 
         -1,
         16,
         1);
-      if(v21)
-        guiObj = v21;
-      else
-        guiObj = 0;
-      if(!guiObj)
+      if(!widget)
         MemError();
-      pNormalDialogWindow->AddWidget(guiObj, -1);
+      pNormalDialogWindow->AddWidget(widget, -1);
     }
-    if(imgTypes[i] == 17) {
-      a3 = v47 + v53 - 72;
-      v20 = new textWidget(
-        v51 - 50,
-        a3,
+	int posY;
+    if(imgTypes[i] == IMAGE_GROUP_SECONDARY_SKILLS) {
+	  widgetFieldId++;
+	  textWidget *widget = new textWidget(
+        offsetX - 50,
+		offsetY + height - 72,
         100,
         (unsigned int)(imgTypes[i] - 8) < 1 ? 24 : 12,
-        (char *)buf[i],
+        buf[i],
         "smalfont.fnt",
         1,
-        v10,
+		widgetFieldId,
         512,
         1);
-      if(v20) {
-        v10 = v36++;
-        component = v20;
-      } else {
-        component = 0;
-      }
-      if(!component)
-        MemError();
-      pNormalDialogWindow->AddWidget((widget *)component, -1);
-      buf[i] = (int)BaseAlloc(0x50u, __FILE__, __LINE__);
-      a3a = v47 + v53 - 24;
-      sprintf((char *)buf[i], "%s", secondarySkillLevels[imgArgs[i] % 3 + 1]);
-    } else if(imgTypes[i] == 25) {
-      a3a = v47 + v53 - 93;
+      if(!widget)
+        MemError();	  
+      pNormalDialogWindow->AddWidget(widget, -1);
+
+      buf[i] = (char *)BaseAlloc(0x50u, __FILE__, __LINE__);
+      posY = offsetY + height - 24;
+      sprintf(buf[i], "%s", secondarySkillLevels[imgArgs[i] % 3 + 1]);
+    } else if(imgTypes[i] == IMAGE_GROUP_PRIMARY_SKILLS) {
+      posY = offsetY + height - 93;
     } else {
-      a3a = v47 + v53 - 10;
+      posY = offsetY + height - 10;
     }
-    v19 = new textWidget(
-      v51 - 50,
-      a3a,
+
+	widgetFieldId++;
+    textWidget *txtWidget = new textWidget(
+      offsetX - 50,
+      posY,
       100,
       (unsigned int)(imgTypes[i] - 8) < 1 ? 24 : 12,
-      (char *)buf[i],
+      buf[i],
       "smalfont.fnt",
       1,
-      v11,
+      widgetFieldId,
       512,
       1);
-    if(v19) {
-      v11 = v36++;
-      component = v19;
-    } else {
-      component = 0;
-    }
-    if(!component)
-      MemError();
-    pNormalDialogWindow->AddWidget((widget *)component, -1);
-    if(imgTypes[i] == 25 && v41) {
-      plusOneBuf = (char *)BaseAlloc(5u, __FILE__, __LINE__);
+    if(!txtWidget)
+      MemError();	
+    pNormalDialogWindow->AddWidget(txtWidget, -1);
+
+    if(imgTypes[i] == IMAGE_GROUP_PRIMARY_SKILLS && primSkillFlag) {
+      char *plusOneBuf = (char *)BaseAlloc(5u, __FILE__, __LINE__);
       strcpy(plusOneBuf, "+1 ");
-      v18 = new textWidget(
-        v51 - 50,
-        v47 + v53 - 22,
+	  widgetFieldId++;
+	  textWidget *widget = new textWidget(
+        offsetX - 50,
+        offsetY + height - 22,
         100,
         16,
         plusOneBuf,
         "bigfont.fnt",
         1,
-        v12,
+        widgetFieldId,
         512,
         1);
-      if(v18) {
-        v12 = v36++;
-        component = v18;
-      } else {
-        component = 0;
-      }
-      if(!component)
-        MemError();
-      pNormalDialogWindow->AddWidget((widget *)component, -1);
+      if(!widget)
+        MemError();	  
+      pNormalDialogWindow->AddWidget(widget, -1);
     }
-    v17 = new border(v51 - width / 2, v47, width, v53, i + 7700, 1, 0, 0);
-    if(v17)
-      v34 = v17;
-    else
-      v34 = 0;
-    pNormalDialogWindow->AddWidget(v34, -1);
+    border *brdr = new border(offsetX - width / 2, offsetY, width, height, i + 7700, 1, 0, 0);
+    pNormalDialogWindow->AddWidget(brdr, -1);
   }
-  event.eventCode = INPUT_GUI_MESSAGE_CODE;
-  event.xCoordOrKeycode = 3;
-  event.yCoordOrFieldID = 1;
-  event.payload = msga;
-  pNormalDialogWindow->BroadcastMessage(event);
+  GUIBroadcastMessage(pNormalDialogWindow, 1, 3, msg);
+
   if(writeOr == 1) {
-    content = (char *)BaseAlloc(3u, __FILE__, __LINE__);
+    char *content = (char *)BaseAlloc(3u, __FILE__, __LINE__);
     strcpy(content, "or");
-    v16 = new textWidget(v60 / 2 - 10, v47 + 43, 40, 12, content, "smalfont.fnt", 1, v36, 512, 1);
-    if(v16)
-      component = v16;
-    else
-      component = 0;
-    if(!component)
+    textWidget *widget = new textWidget(imgOffsetX / 2 - 10, offsetY + 43, 40, 12, content, "smalfont.fnt", 1, widgetFieldId, 512, 1);
+    if(!widget)
       MemError();
-    pNormalDialogWindow->AddWidget((widget *)component, -1);
+    pNormalDialogWindow->AddWidget(widget, -1);
   }
-  protoCategory = gpMouseManager->cursorCategory;
-  spriteIdx = gpMouseManager->spriteIdx;
+
+  int cursorCategory = gpMouseManager->cursorCategory;
+  int mouseSpriteIdx = gpMouseManager->spriteIdx;
   while(gpMouseManager->cursorDisabled)
     gpMouseManager->ShowColorPointer();
   gpMouseManager->SetPointer("advmice.mse", 0, -999);
-  if(a2 != 6 && a2 != 5) {
-    if(a2 == 4) {
+
+  if(type != DIALOG_CANCEL_ALT && type != DIALOG_OKAY_ALT) {
+    if(type == DIALOG_RIGHT_CLICK) {
       gpWindowManager->AddWindow(pNormalDialogWindow, -1, 1);
       QuickViewWait();
       gpWindowManager->RemoveWindow(pNormalDialogWindow);
@@ -674,13 +557,14 @@ void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int 
   } else {
     gpWindowManager->DoDialog(pNormalDialogWindow, WaitHandler, 0);
   }
+
   delete pNormalDialogWindow;
-  gpMouseManager->SetPointer("\0\0\0", spriteIdx, protoCategory);
-  giResType1 = v54;
-  giResExtra1 = v44;
-  giResType2 = v56;
-  giResExtra2 = v43;
-  pNormalDialogWindow = v37;
+  gpMouseManager->SetPointer("\0\0\0", mouseSpriteIdx, cursorCategory);
+  giResType1 = giResType1_old;
+  giResExtra1 = giResExtra1_old;
+  giResType2 = giResType2_old;
+  giResExtra2 = giResExtra2_old;
+  pNormalDialogWindow = pNormalDialogWindow_old;
   return;
 }
 
@@ -1281,9 +1165,9 @@ int __fastcall EventWindowHandler(tag_message &evt) {
 				} else
 					return 1;
 				if((imgArg / 3) == 15)
-					NormalDialog(cyberneticsDesc[imgArg % 3], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+					NormalDialog(cyberneticsDesc[imgArg % 3], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
 				else
-					NormalDialog(cSecSkillDesc[imgArg / 3][imgArg % 3], 4, -1, -1, -1, 0, -1, 0, -1, 0);
+					NormalDialog(cSecSkillDesc[imgArg / 3][imgArg % 3], DIALOG_RIGHT_CLICK, -1, -1, -1, 0, -1, 0, -1, 0);
 			}
 			return 1;
 		}

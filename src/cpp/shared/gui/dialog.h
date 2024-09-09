@@ -13,7 +13,7 @@ enum NormalDialogType {
   DIALOG_YES_NO = 2,
   DIALOG_CANCEL = 3,
   DIALOG_RIGHT_CLICK = 4,
-
+  DIALOG_OKAY_ALT = 5, // probably network stuff
   DIALOG_CANCEL_ALT = 6, // seems to be for network stuff
   DIALOG_LEARN_CHOICE = 7
 };
@@ -38,21 +38,8 @@ enum MESSAGEBOX_IMAGES{
   IMAGE_GROUP_HERO = 15,	
   IMAGE_GROUP_SECONDARY_SKILLS = 17,
   IMAGE_GROUP_UNIT = 18,
-  IMAGE_GROUP_PRIMARY_SKILLS = 25,
- 
-
-
+  IMAGE_GROUP_PRIMARY_SKILLS = 25
 };
-
-
-
-
-
-const int BUTTON_CODE_OKAY = 30725;
-const int BUTTON_CODE_CANCEL = 30726;
-const int BUTTON_CODE_LEARN_LEFT = 30727;
-
-
 
 extern void* hmnuAdv;
 
