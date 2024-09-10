@@ -347,7 +347,6 @@ public:
   void ShowLuckInfo(hero *hro, int dialogType);
   void ShowMoraleInfo(hero *hro, int dialogType);
   void SetupDynamicStuff(int a2, int a3, int a4);
-  void SetupDynamicStuff_orig(int a2, int a3, int a4);
   void Overview();
   void Overview_orig();
 

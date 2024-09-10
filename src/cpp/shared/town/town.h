@@ -12,7 +12,6 @@ extern signed char gSpellLimits[];
 extern unsigned char castleSlotsUse[NUM_BUILDING_SLOTS];
 extern unsigned char castleSlotsBase[NUM_BUILDING_SLOTS];
 extern char* cHeroTypeShortName[MAX_FACTIONS];
-extern char *gStatNames[NUM_PRIMARY_SKILLS];
 extern int gHeroGoldCost;
 extern int gMageBuildingCosts[][NUM_RESOURCES];
 extern int gNeutralBuildingCosts[][NUM_RESOURCES];

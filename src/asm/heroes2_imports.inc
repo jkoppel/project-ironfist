@@ -178,9 +178,7 @@ IMPORT_?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z = 1
 IMPORT_?ShowLuckInfo@game@@QAEXPAVhero@@H@Z = 1
 IMPORT_?ShowMoraleInfo@game@@QAEXPAVhero@@H@Z = 1
 IMPORT_?NormalDialog@@YIXPADHHHHHHHHH@Z = 1
-?NormalDialog@@YIXPADHHHHHHHHH@Z_clone EQU ?NormalDialog_orig@@YIXPADHHHHHHHHH@Z
 IMPORT_?SetupDynamicStuff@game@@QAEXHHH@Z = 1
-?SetupDynamicStuff@game@@QAEXHHH@Z_clone EQU ?SetupDynamicStuff_orig@game@@QAEXHHH@Z
 IMPORT_?Overview@game@@QAEXXZ = 1
 ?Overview@game@@QAEXXZ_clone EQU ?Overview_orig@game@@QAEXXZ
 IMPORT_?Open@swapManager@@UAEHH@Z = 1
@@ -229,7 +227,6 @@ IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
 IMPORT_?CheckLevel@hero@@QAEXXZ = 1
-?CheckLevel@hero@@QAEXXZ_clone EQU ?CheckLevel_orig@hero@@QAEXXZ
 IMPORT_?CalcMobility@hero@@QAEHXZ = 1
 ?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
 IMPORT_?GetManaCost@@YIHHPAVhero@@@Z = 1

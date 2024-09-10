@@ -38,5 +38,9 @@ struct startingPrimarySkills {
 
 extern char *gSecondarySkills[];
 extern char *secondarySkillLevels[];
+extern int gSSValues[NUM_SECONDARY_SKILLS][3];
+extern char *cSecSkillDesc[NUM_SECONDARY_SKILLS][3];
+extern char *cyberneticsDesc[3];
+extern char *gStatNames[NUM_PRIMARY_SKILLS];
 
 #endif

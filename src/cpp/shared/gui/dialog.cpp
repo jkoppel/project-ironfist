@@ -1,20 +1,20 @@
 #include<string>
 #include<Windows.h>
 
+#include "adventure/hero_globals.h"
 #include "base.h"
 #include "combat/creatures.h"
 #include "dialog.h"
 #include "game/game.h"
 #include "gui.h"
 #include "resource/resourceManager.h"
+#include "skills.h"
 #include "sound/sound.h"
 #include "spell/spells.h"
 #include "spell/spell_constants.h"
 
 extern heroWindowManager *gpWindowManager;
-extern heroWindow *pNormalDialogWindow;
-extern int giDialogTimeout;
-extern int giResType1;
+
 void H2MessageBox(char* msg) {
 	if (msg) {
 		NormalDialog(msg, DIALOG_OKAY, -1, -1, -1, 0, -1, 0, -1, 0);
@@ -47,14 +47,6 @@ void DisplayError(const char* msg, const char* title) {
 void DisplayError(std::string msg, std::string title) {
 	MessageBoxA(NULL, msg.c_str(), title.c_str(), MB_OK);
 }
-
-extern int giResType2;
-extern int giResExtra1;
-extern int giResExtra2;
-extern SSpellInfo gsSpellInfo[];
-extern char *gStatNames[NUM_PRIMARY_SKILLS];
-extern mouseManager* gpMouseManager;
-extern int __fastcall WaitHandler(struct tag_message &);
 
 void __fastcall NormalDialog(char *msg, int type, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int timeout) {
   if(!gbRemoteOn)
@@ -568,17 +560,6 @@ void __fastcall NormalDialog(char *msg, int type, int x, int y, int img1Type, in
   return;
 }
 
-extern int giOverviewItems[];
-extern int giOverviewType;
-extern iconWidget *OVScrollKnob;
-extern int giOverviewTop[];
-extern int iLastDynamicType;
-extern int iLastDynamicTop;
-extern heroWindow *overWin;
-extern int __fastcall GetMobilityFrame(int a1);
-extern int __fastcall GetManaFrame(signed int a1);
-extern char *cSecSkillDesc[14][3];
-
 std::vector<iconWidget*> icons;
 std::vector<textWidget*> texts;
 
@@ -594,7 +575,7 @@ void game::SetupDynamicStuff(int a2, int a3, int a4) {
   if(a3) {
     if(giOverviewItems[giOverviewType] > 4) {
 	  float knobOffsetY = 303.0 / (double)(giOverviewItems[giOverviewType] - 4);
-      OVScrollKnob->offsetY = (signed __int64)((double)giOverviewTop[giOverviewType] * knobOffsetY + 18.0 + 0.4);
+      OVScrollKnob->offsetY = ((double)giOverviewTop[giOverviewType] * knobOffsetY + 18.0 + 0.4);
     } else {
       OVScrollKnob->offsetY = 169;
     }
@@ -1127,18 +1108,14 @@ void game::SetupDynamicStuff(int a2, int a3, int a4) {
     }
     if(a2) {
       overWin->DrawWindow(0, 110, 999);
-      gpWindowManager->UpdateScreenRegion(30, 16, 0x262u, 341);
+      gpWindowManager->UpdateScreenRegion(30, 16, 610, 341);
     }
   }
 }
 
-extern char *cSecSkillDesc[14][3];
-extern soundManager* gpSoundManager;
-extern char *cyberneticsDesc[3];
-
 int __fastcall EventWindowHandler(tag_message &evt) {
 	// Level up select secondary skill window
-	if(giResType1 == 17 || giResType2 == 17) { 
+	if(giResType1 == IMAGE_GROUP_SECONDARY_SKILLS || giResType2 == IMAGE_GROUP_SECONDARY_SKILLS) {
 		if(!gpSoundManager->MusicPlaying() && gpAdvManager->ready == 1)
 			gpSoundManager->SwitchAmbientMusic(giTerrainToMusicTrack[gpAdvManager->currentTerrain]);
 
@@ -1171,22 +1148,14 @@ int __fastcall EventWindowHandler(tag_message &evt) {
 			}
 			return 1;
 		}
-		switch(evt.yCoordOrFieldID) {
-			case 0x7800:
-			case 0x7801:
-			case 0x7802:
-			case 0x7803:
-			case 0x7805:
-			case 0x7806:
-			case 0x7807:
-			case 0x7808:
-				gpWindowManager->buttonPressedCode = evt.yCoordOrFieldID;
-				evt.yCoordOrFieldID = 10;
-				evt.xCoordOrKeycode = evt.yCoordOrFieldID;
-				giDialogTimeout = 0;
-				return 2;
-			case 0x7804:
-				return 1;
+		if(evt.yCoordOrFieldID == 30724)
+			return 1;
+		else if(evt.yCoordOrFieldID >= BUTTON_EXIT && evt.yCoordOrFieldID <= BUTTON_LEARN_RIGHT) {
+			gpWindowManager->buttonPressedCode = evt.yCoordOrFieldID;
+			evt.yCoordOrFieldID = 10;
+			evt.xCoordOrKeycode = evt.yCoordOrFieldID;
+			giDialogTimeout = 0;
+			return 2;
 		}
 		return 0;
 	} else
@@ -1349,7 +1318,7 @@ void __fastcall SetupHeroView() {
 		} else {
 			int imgIdx;
 			int skill = gpHVHero->GetNthSS(i);
-			if(skill == SECONDARY_SKILL_WISDOM & gpHVHero->factionID == FACTION_CYBORG)
+			if(skill == SECONDARY_SKILL_WISDOM && gpHVHero->factionID == FACTION_CYBORG)
 				imgIdx = 16; // Cybernetics secondary skill image
 			else
 				imgIdx = skill + 1;
@@ -1358,7 +1327,7 @@ void __fastcall SetupHeroView() {
 			GUIBroadcastMessage(heroWin, i + 416, 5, (void *)6);
 
 			char * str = "Cybernetics";
-			if(!(skill == SECONDARY_SKILL_WISDOM & gpHVHero->factionID == FACTION_CYBORG))
+			if(!(skill == SECONDARY_SKILL_WISDOM && gpHVHero->factionID == FACTION_CYBORG))
 				str = gSecondarySkills[skill];
 			GUIBroadcastMessage(heroWin, i + 408, 3, str);
 

@@ -211,6 +211,9 @@ int __fastcall EventWindowHandler(tag_message &evt);
 void __fastcall BlitBitmapToScreen(bitmap *,int,int,int,int,int,int);
 
 extern heroWindow* casWin;
+extern heroWindow *overWin;
+extern heroWindow *pNormalDialogWindow;
+extern iconWidget *OVScrollKnob;
 
 #pragma pack(pop)
 

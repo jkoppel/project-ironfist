@@ -96,6 +96,12 @@ std::map<int, Spell> cyborgLvlUpSpells = {
   {5, SPELL_BERZERKER}
 };
 
+char *cyberneticsDesc[3] = {
+	"{Basic Cybernetics}\n\nBasic Pathfinding reduces the movement penalty for rough terrain by 25 percent.",
+	"{Advanced Cybernetics}\n\nAdvanced Pathfinding reduces the movement penalty for rough terrain by 50 percent.",
+	"{Expert Cybernetics}\n\nExpert Pathfinding eliminates the movement penalty for rough terrain."
+};
+
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();
@@ -330,8 +336,6 @@ hero* GetCurrentHero() {
   return &gpGame->heroes[gpCurPlayer->curHeroIdx];
 }
 
-extern int gSSValues[NUM_SECONDARY_SKILLS][3];
-
 void hero::CheckLevel() {
 	int newLevel = this->GetLevel(this->experience);
 	if(this->oldLevel == newLevel)
@@ -514,12 +518,6 @@ void hero::CheckLevel() {
 	this->oldLevel = newLevel;
 	WaitEndSample(res, res.sample);
 }
-
-char *cyberneticsDesc[3] = {
-	"{Basic Cybernetics}\n\nBasic Pathfinding reduces the movement penalty for rough terrain by 25 percent.",
-	"{Advanced Cybernetics}\n\nAdvanced Pathfinding reduces the movement penalty for rough terrain by 50 percent.",
-	"{Expert Cybernetics}\n\nExpert Pathfinding eliminates the movement penalty for rough terrain."
-};
 
 void hero::DoSSLevelDialog(int skill, int rightClick) {
 	if(this->factionID == FACTION_CYBORG && skill == SECONDARY_SKILL_WISDOM) {

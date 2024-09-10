@@ -151,7 +151,6 @@ public:
   signed char GetSSLevel(int);
   void SetSS(int, int);
   void CheckLevel();
-  void CheckLevel_orig();
   int GiveSS(int, int);
   void ClearSS();
   int CalcMobility();
@@ -196,7 +195,6 @@ enum HERO_FLAGS {
   HERO_STABLE_VISITED = 0x800000
 };
 
-extern hero *gpHVHero;
 extern char cHeroTypeInitial[];
 extern signed __int8 captainStats[][NUM_PRIMARY_SKILLS];
 
