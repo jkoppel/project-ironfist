@@ -425,6 +425,8 @@ IMPORT_?CanBuild@@YIHPAVtown@@H@Z = 1
 IMPORT_?getCastleOwnedIdx@@YAHPAVplayerData@@H@Z = 1
 IMPORT_?BuyBuild@townManager@@QAEHHHH@Z = 1
 ?BuyBuild@townManager@@QAEHHHH@Z_clone EQU ?BuyBuild_orig@townManager@@QAEHHHH@Z
+IMPORT_?BuildBuilding@town@@QAEXH@Z = 1
+?BuildBuilding@town@@QAEXH@Z_clone EQU ?BuildBuilding_orig@town@@QAEXH@Z
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1

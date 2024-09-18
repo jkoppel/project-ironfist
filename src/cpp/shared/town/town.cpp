@@ -26,6 +26,7 @@
 extern char *xNecromancerShrine;
 extern char *gNeutralBuildingNames[];
 extern char *gDwellingNames[][NUM_DWELLINGS];
+int gSpellLimitsCyborg[5] = {2, 2, 1, 1, 1};
 
 // numAnimationFrames + rectangle data for hovering over buildings in town screen
 SBuildingInfo sBuildingsInfo[MAX_FACTIONS][BUILDING_MAX] = {
@@ -381,8 +382,11 @@ void game::SetupTowns() {
 			}
 
 			if(castle->BuildingBuilt(BUILDING_MAGE_GUILD)) {
-				for(int i = 0; i < castle->mageGuildLevel; i++ ) {
-					castle->numSpellsOfLevel[i] = gSpellLimits[i];
+				for(int i = 0; i < castle->mageGuildLevel; i++) {
+					if(castle->factionID == FACTION_CYBORG)
+						castle->numSpellsOfLevel[i] = gSpellLimitsCyborg[i];
+					else
+						castle->numSpellsOfLevel[i] = gSpellLimits[i];
 					if(castle->factionID == FACTION_WIZARD && (castle->BuildingBuilt(BUILDING_SPECIAL)))
 						castle->numSpellsOfLevel[i]++;
 				}
@@ -402,6 +406,22 @@ void game::SetupTowns() {
 }
 
 void town::SelectSpells() {
+	if(this->factionID == FACTION_CYBORG) {
+		for(int j = 0; j < 5; j++) {
+			for(int k = 0; k < 4; k++) {
+				this->mageGuildSpells[j][k] = -1;
+			}
+		}
+		this->mageGuildSpells[0][0] = SPELL_SHADOW_MARK;
+		this->mageGuildSpells[0][1] = SPELL_MARKSMAN_PIERCE;
+		this->mageGuildSpells[1][0] = SPELL_PLASMA_CONE;
+		this->mageGuildSpells[1][1] = SPELL_FORCE_SHIELD;
+		this->mageGuildSpells[2][0] = SPELL_MASS_FORCE_SHIELD;
+		this->mageGuildSpells[3][0] = SPELL_FIRE_BOMB;
+		this->mageGuildSpells[4][0] = SPELL_IMPLOSION_GRENADE;
+		return;
+	}
+
 	char spellPresent[NUM_SPELLS];
 	memset(spellPresent, 0, NUM_SPELLS);
 
@@ -592,15 +612,22 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 					sprintf_s(gText, gTextSize, "%s  [%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
 				}
 				GUISetText(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, gText);
-			} else if(j < gSpellLimits[i] + hasLibrary) {
-				GUIAddFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
-				GUISetImgIdx(mageGuildWindow, SPELL_SCROLLS+4*i+j, 1);
-				GUIRemoveFlag(mageGuildWindow, SPELL_ICONS+4*i+j, ICON_GUI_VISIBLE);
-				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, ICON_GUI_VISIBLE);
 			} else {
-				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
-				GUIRemoveFlag(mageGuildWindow, SPELL_ICONS+4*i+j, ICON_GUI_VISIBLE);
-				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, ICON_GUI_VISIBLE);
+				bool show = false;
+				if(this->castle->factionID == FACTION_CYBORG)
+					show = j < gSpellLimitsCyborg[i];
+				else
+					show = j < gSpellLimits[i] + hasLibrary;
+				if(show) {
+					GUIAddFlag(mageGuildWindow, SPELL_SCROLLS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUISetImgIdx(mageGuildWindow, SPELL_SCROLLS + 4 * i + j, 1);
+					GUIRemoveFlag(mageGuildWindow, SPELL_ICONS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS + 4 * i + j, ICON_GUI_VISIBLE);
+				} else {
+					GUIRemoveFlag(mageGuildWindow, SPELL_SCROLLS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUIRemoveFlag(mageGuildWindow, SPELL_ICONS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS + 4 * i + j, ICON_GUI_VISIBLE);
+				}
 			}
 		}
 	}
@@ -1716,4 +1743,18 @@ int townManager::BuyBuild(int building, int notEnoughResources, int isRightClick
     return 0;
 
   return gpWindowManager->buttonPressedCode == BUTTON_OK;
+}
+
+void town::BuildBuilding(int building) {
+	if(building == BUILDING_MAGE_GUILD && this->factionID == FACTION_CYBORG) {
+		this->mageGuildLevel++;
+		int index = this->mageGuildLevel - 1;
+		this->SetNumSpellsOfLevel(index, gSpellLimitsCyborg[index]);
+
+		this->buildingsBuiltFlags |= 1 << building;
+		this->GiveSpells(0);
+		gpGame->builtToday[this->idx >> 3] |= 1 << (this->idx & 7);
+	} else {
+		this->BuildBuilding_orig(building);
+	}
 }

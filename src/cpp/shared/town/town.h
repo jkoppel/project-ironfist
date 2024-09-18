@@ -53,6 +53,7 @@ public:
   void CalcNumLevelArchers(int *numArchers, int *attack);
 
   void BuildBuilding(int);
+  void BuildBuilding_orig(int building);
   bool BuildingBuilt(int) const;
   bool DwellingBuilt(int) const;
   bool IsDisallowed(int) const;
