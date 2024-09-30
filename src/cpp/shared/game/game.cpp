@@ -1347,6 +1347,13 @@ void game::ProcessOnMapHeroes() {
               randomHero->GiveSS(mapExtraHero->secondarySkills[i],  mapExtraHero->secondarySkillLevel[i]);
           }
         }
+		} else if(faction == FACTION_CYBORG) { // give all cyborgs cybernetics and a magic book
+			if(!randomHero->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+				GiveArtifact(randomHero, ARTIFACT_MAGIC_BOOK, 1, -1);
+			}
+			randomHero->ClearSS();
+			randomHero->GiveSS(SECONDARY_SKILL_WISDOM, 2);
+		}
 
         if (!isJail) {
           this->SetVisibility(randomHero->x, randomHero->y, randomHero->ownerIdx, giVisRange[randomHero->secondarySkillLevel[SECONDARY_SKILL_SCOUTING]]);
