@@ -173,6 +173,16 @@ void hero::AddSpell(int spell, int knowledge) {
 	if(this->spellsLearned == NULL)
 		this->ResetSpellsLearned();
 
+	// Allow cybernetics spells only for cyborg heroes
+	// Prevent cyborg heroes from learning regular spells higher than level 2
+	if(spell >= SPELL_SHADOW_MARK && spell <= SPELL_IMPLOSION_GRENADE) {
+		if(this->factionID != FACTION_CYBORG) {
+			return;
+		}
+	} else if(this->factionID == FACTION_CYBORG && gsSpellInfo[spell].level > 2) {
+		return;
+	}
+
 	this->spellsLearned[spell] = 1;
 }
 
