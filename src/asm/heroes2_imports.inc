@@ -427,6 +427,8 @@ IMPORT_?BuyBuild@townManager@@QAEHHHH@Z = 1
 ?BuyBuild@townManager@@QAEHHHH@Z_clone EQU ?BuyBuild_orig@townManager@@QAEHHHH@Z
 IMPORT_?BuildBuilding@town@@QAEXH@Z = 1
 ?BuildBuilding@town@@QAEXH@Z_clone EQU ?BuildBuilding_orig@town@@QAEXH@Z
+IMPORT_?CastleHandler@@YIHAAUtag_message@@@Z = 1
+?CastleHandler@@YIHAAUtag_message@@@Z_clone EQU ?CastleHandler_orig@@YIHAAUtag_message@@@Z
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1

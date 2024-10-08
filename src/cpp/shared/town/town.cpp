@@ -1758,3 +1758,92 @@ void town::BuildBuilding(int building) {
 		this->BuildBuilding_orig(building);
 	}
 }
+
+int __fastcall CastleHandler(tag_message &msg) {
+	int field_142 = gpTownManager->field_142;
+	int building = -1;
+	town* castle = gpTownManager->castle;
+
+	if(msg.eventCode == INPUT_MOUSEMOVE_EVENT_CODE) {
+		gpWindowManager->ConvertToHover(msg);
+		int fieldId = msg.yCoordOrFieldID;
+		switch(fieldId) {
+		case 1100:
+			building = 15;
+			break;
+		case 216:
+			building = 216;
+			break;
+		case 214:
+			building = 214;
+			break;
+		default:
+			if(fieldId < 600 || fieldId >= 618) {
+				if(fieldId < 700 || fieldId >= 718) {
+					if(fieldId >= 800 && fieldId < 818)
+						building = fieldId - 800;
+				} else {
+					building = fieldId - 700;
+				}
+			} else {
+				building = fieldId - 600;
+			}
+			if(building != -1)
+				building = castleSlotsUse[building];
+			break;
+		}
+	} else {
+		return CastleHandler_orig(msg);
+	}
+
+	if(msg.yCoordOrFieldID == gpTownManager->field_142)
+		return 1;
+
+	gpTownManager->field_142 = msg.yCoordOrFieldID;
+
+	if(building <= 30) {
+		if(building == BUILDING_MAGE_GUILD) {
+			CastleHandler_orig(msg);
+			std::string str;
+			std::string buildingName = GetBuildingName(castle->factionID, building);
+			if(gpTownManager->canBuildFlags & (1 << building)) {
+				if(gpTownManager->canBuyFlags & (1 << building)) {
+					if(castle->buildingsBuiltFlags & BUILDING_MAGE_GUILD) {
+						if(castle->mageGuildLevel == 5) {
+							str = "Mage Guild is at highest level.";
+						} else {
+							if(CanBuy(castle, building)) {
+								if(castle->factionID == FACTION_CYBORG)
+									str = "Add another level to Cybernetics Lab";
+								else
+									str = "Add another level to Mage Guild";
+							} else
+								str = "Cannot afford next level.";
+						}
+					} else {
+						if(castle->factionID == FACTION_CYBORG)
+							str = "Build Cybernetics Lab";
+						else
+							str = "Build Mage Guild";
+					}
+					strcpy(gText, &str[0]);
+				} else {					
+					sprintf(gText, "Cannot afford %s", &buildingName[0]);
+				}
+			} else {
+				sprintf(gText, "Cannot build %s", &buildingName[0]);
+			}
+		} else {
+			gpTownManager->field_142 = field_142;
+			return CastleHandler_orig(msg);
+		}
+	} else {
+		gpTownManager->field_142 = field_142;
+		return CastleHandler_orig(msg);
+	}
+
+	GUIBroadcastMessage(gpTownManager->curScreen, 502, 3, gText);
+	gpTownManager->curScreen->DrawWindow(0, 500, 502);
+	gpWindowManager->UpdateScreenRegion(18, 463, 604, 16);
+	return 1;
+}
