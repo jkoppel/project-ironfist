@@ -691,7 +691,9 @@ char *__fastcall GetBuildingName(int faction, int building) {
   if (faction == FACTION_NECROMANCER && building == BUILDING_TAVERN) {
     return xNecromancerShrine;
   } else if(faction == FACTION_CYBORG && building == BUILDING_WELL) {
-    return "Energy Pump";
+	return "Energy Pump";
+  } else if(faction == FACTION_CYBORG && building == BUILDING_MAGE_GUILD) {
+	return "Cybernetics Lab";
   } else {
     if (building == BUILDING_SPECIAL_GROWTH) {
       return GetFirstLevelGrowerName(faction);
@@ -712,7 +714,11 @@ char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
   std::string desc;
   const std::string buildingName = GetBuildingName(faction, building);
 
-  if (IsWellDisabled() && building == BUILDING_WELL) {
+  if(faction == FACTION_CYBORG && building == BUILDING_MAGE_GUILD) {
+	  desc = "The ";
+	  desc += buildingName;
+	  desc += " allows heroes to learn cybernetics spells and replenish their spell points";
+  } else if (IsWellDisabled() && building == BUILDING_WELL) {
     desc = "The Well provides refreshing drinking water.";
     if (faction == FACTION_NECROMANCER) {
       desc = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
@@ -1094,16 +1100,22 @@ int townManager::Main(tag_message &evt) {
     case INPUT_MOUSEMOVE_EVENT_CODE: {
       // Show message on hover
       gpWindowManager->ConvertToHover(evt);
-      if(evt.yCoordOrFieldID != this->field_142 || evt.inputTypeBitmask != this->field_146) {
-        this->field_142 = evt.yCoordOrFieldID;
-        this->field_146 = evt.inputTypeBitmask;
-        if(this->factionID == FACTION_CYBORG && evt.yCoordOrFieldID == BUILDING_WELL) {
-          this->field_14A = -1;
-          strcpy(this->infoMessage, "Energy Pump");
-          this->ShowText(this->infoMessage);
-        } else {
-          this->SetCommandAndText(evt);
-        }
+	  if(evt.yCoordOrFieldID != this->field_142 || evt.inputTypeBitmask != this->field_146) {
+		  this->field_142 = evt.yCoordOrFieldID;
+		  this->field_146 = evt.inputTypeBitmask;
+		  if(this->factionID == FACTION_CYBORG) {
+			  if(evt.yCoordOrFieldID == BUILDING_WELL) {
+				  this->field_14A = -1;
+				  strcpy(this->infoMessage, "Energy Pump");
+				  this->ShowText(this->infoMessage);
+			  } else if(evt.yCoordOrFieldID == BUILDING_MAGE_GUILD) {
+				  this->field_14A = -1;
+				  strcpy(this->infoMessage, "Cybernetics Lab");
+				  this->ShowText(this->infoMessage);
+			  } else {
+				  this->SetCommandAndText(evt);
+			  }
+		  }
       }
       return 1;
     }
@@ -1207,7 +1219,10 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       int mageGuildLevel = this->castle->mageGuildLevel + 1;
       if(mageGuildLevel >= 5)
         mageGuildLevel = 5;
-      GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, "Mage Guild, Level " + std::to_string(mageGuildLevel));
+	  if(this->castle->factionID == FACTION_CYBORG)
+		GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, "Cybernetics Lab L" + std::to_string(mageGuildLevel));
+	  else	  
+		GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, "Mage Guild, Level " + std::to_string(mageGuildLevel));
     } else {
       GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, GetBuildingName(this->castle->factionID, castleSlotsUse[i]));
     }
@@ -1638,8 +1653,14 @@ int townManager::BuyBuild(int building, int notEnoughResources, int isRightClick
   GUISetIcon(window, 2, gText);
   GUISetImgIdx(window, 2, building);
 
-  if(building == BUILDING_MAGE_GUILD)
-    sprintf(gText, "Mage Guild, Level %d", mageGuildLevel);
+  if(building == BUILDING_MAGE_GUILD) {
+	  if(faction == FACTION_CYBORG) {
+		  sprintf(gText, "Cybernetics Lab L%d", mageGuildLevel);
+	  } else {
+		  sprintf(gText, "Mage Guild, Level %d", mageGuildLevel);
+	  }
+  }
+    
   else
     strcpy(gText, GetBuildingName(faction, building));
 
