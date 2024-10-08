@@ -20,7 +20,7 @@ namespace {
     "",
     "",
     "",
-    "Cybernetics Lab"
+    "Kobold Hatchery"
   };
 
   std::vector<std::string> specialBuildingNames = {
