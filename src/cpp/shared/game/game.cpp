@@ -1346,8 +1346,7 @@ void game::ProcessOnMapHeroes() {
             if (mapExtraHero->secondarySkills[i] != -1)
               randomHero->GiveSS(mapExtraHero->secondarySkills[i],  mapExtraHero->secondarySkillLevel[i]);
           }
-        }
-		} else if(faction == FACTION_CYBORG) { // give all cyborgs cybernetics and a magic book
+        } else if(faction == FACTION_CYBORG) { // give all cyborgs cybernetics and a magic book
 			if(!randomHero->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
 				GiveArtifact(randomHero, ARTIFACT_MAGIC_BOOK, 1, -1);
 			}
