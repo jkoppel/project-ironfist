@@ -588,11 +588,17 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 	const int SPELL_SCROLL_LABELS = 70;
 	const int BUILDING_ICON = 100;
 	const int BOTTOM_BAR = 110;
-	tag_message evt;
-	evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-	if( this->castle->visitingHeroIdx == -1) {
-		GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells are available here."); 
-	}
+  tag_message evt;
+  evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+  int hroIdx = this->castle->visitingHeroIdx;
+  if(hroIdx == -1 || !gpGame->heroes[hroIdx].HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+    GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells are available here.");
+  } else {
+    if(this->castle->factionID == FACTION_CYBORG && gpGame->heroes[hroIdx].factionID != FACTION_CYBORG)
+      GUISetText(mageGuildWindow, BOTTOM_BAR, "Only heroes with Cybernetics can learn these spells.");
+    else
+      GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells have been added to your book.");
+  }
 
 	for (int i = 0; i < 5; i++) {
 		for(int j = 0; j < 4; j++) {
