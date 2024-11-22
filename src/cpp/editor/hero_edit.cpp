@@ -3,7 +3,7 @@
 #include "artifacts.h"
 #include "editor.h"
 #include "combat/creatures.h"
-#include "gui/gui.h"
+#include "gui_editor.h"
 #include "town/town_globals.h"
 
 extern HeroExtra gEditedHeroExtra;
