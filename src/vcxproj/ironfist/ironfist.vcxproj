@@ -125,6 +125,7 @@
     <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
     <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\gui_utils.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\recruit_unit.cpp" />
     <ClCompile Include="..\..\cpp\shared\init.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\gui_utils.h" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
