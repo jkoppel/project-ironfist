@@ -28,6 +28,8 @@ enum SECONDARY_SKILL {
   NUM_SECONDARY_SKILLS = 14
 };
 
+#define SECONDARY_SKILL_MAX_LEVEL 3
+
 struct startingPrimarySkills {
   __int8 attack;
   __int8 defense;
@@ -38,9 +40,9 @@ struct startingPrimarySkills {
 
 extern char *gSecondarySkills[];
 extern char *secondarySkillLevels[];
-extern int gSSValues[NUM_SECONDARY_SKILLS][3];
-extern char *cSecSkillDesc[NUM_SECONDARY_SKILLS][3];
-extern char *cyberneticsDesc[3];
+extern int gSSValues[NUM_SECONDARY_SKILLS][SECONDARY_SKILL_MAX_LEVEL];
+extern char *cSecSkillDesc[NUM_SECONDARY_SKILLS][SECONDARY_SKILL_MAX_LEVEL];
+extern char *cyberneticsDesc[SECONDARY_SKILL_MAX_LEVEL];
 extern char *gStatNames[NUM_PRIMARY_SKILLS];
 
 #endif

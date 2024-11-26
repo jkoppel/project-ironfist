@@ -96,12 +96,6 @@ std::map<int, Spell> cyborgLvlUpSpells = {
   {5, SPELL_BERZERKER}
 };
 
-char *cyberneticsDesc[3] = {
-	"{Basic Cybernetics}\n\nBasic Pathfinding reduces the movement penalty for rough terrain by 25 percent.",
-	"{Advanced Cybernetics}\n\nAdvanced Pathfinding reduces the movement penalty for rough terrain by 50 percent.",
-	"{Expert Cybernetics}\n\nExpert Pathfinding eliminates the movement penalty for rough terrain."
-};
-
 hero::hero() {
 	this->spellsLearned = NULL;
 	this->Clear();

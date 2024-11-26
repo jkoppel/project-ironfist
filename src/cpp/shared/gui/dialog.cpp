@@ -15,6 +15,58 @@
 
 extern heroWindowManager *gpWindowManager;
 
+char *cSecSkillDesc[NUM_SECONDARY_SKILLS][SECONDARY_SKILL_MAX_LEVEL] =
+{
+  "{Basic Pathfinding}\n\nBasic Pathfinding reduces the movement penalty for rough terrain by 25 percent.",
+  "{Advanced Pathfinding}\n\nAdvanced Pathfinding reduces the movement penalty for rough terrain by 50 percent.",
+  "{Expert Pathfinding}\n\nExpert Pathfinding eliminates the movement penalty for rough terrain.",
+  "{Basic Archery}\n\nBasic Archery increases the damage done by range attacking creatures by 10 percent.",
+  "{Advanced Archery}\n\nAdvanced Archery increases the damage done by range attacking creatures by 25 percent.",
+  "{Expert Archery}\n\nExpert Archery increases the damage done by range attacking creatures by 50 percent.",
+  "{Basic Logistics}\n\nBasic Logistics increases your hero's movement points by 10 percent.",
+  "{Advanced Logistics}\n\nAdvanced Logistics increases your hero's movement points by 20 percent.",
+  "{Expert Logistics}\n\nExpert Logistics increases your hero's movement points by 30 percent.",
+  "{Basic Scouting}\n\nBasic Scouting increases your hero's viewable area by 1 square.",
+  "{Advanced Scouting}\n\nAdvanced Scouting increases your hero's viewable area by 2 squares.",
+  "{Expert Scouting}\n\nExpert Scouting increases your hero's viewable area by 3 squares.",
+  "{Basic Diplomacy}\n\nBasic Diplomacy allows you to negotiate with monsters who are weaker than your group.  Approximately 1/4 of the creatures may offer to join you.",
+  "{Advanced Diplomacy}\n\nAdvanced Diplomacy allows you to negotiate with monsters who are weaker than your group.  Approximately 1/2 of the creatures may offer to join you.",
+  "{Expert Diplomacy}\n\nExpert Diplomacy allows you to negotiate with monsters who are weaker than your group.  All of the creatures may offer to join you.",
+  "{Basic Navigation}\n\nBasic Navigation increases your hero's movement points over water by 1/3.",
+  "{Advanced Navigation}\n\nAdvanced Navigation increases your hero's movement points over water by 2/3.",
+  "{Expert Navigation}\n\nExpert Navigation doubles your hero's movement points over water.",
+  "{Basic Leadership}\n\nBasic Leadership increases your hero's troops' morale by 1.",
+  "{Advanced Leadership}\n\nAdvanced Leadership increases your hero's troops' morale by 2.",
+  "{Expert Leadership}\n\nExpert Leadership increases your hero's troops' morale by 3.",
+  "{Basic Wisdom}\n\nBasic Wisdom allows your hero to learn level 3 spells from a Mage Guild.",
+  "{Advanced Wisdom}\n\nAdvanced Wisdom allows your hero to learn level 4 spells from a Mage Guild.",
+  "{Expert Wisdom}\n\nExpert Wisdom allows your hero to learn level 5 spells from a Mage Guild.",
+  "{Basic Mysticism}\n\nBasic Mysticism regenerates two of your hero's spell points per day.",
+  "{Advanced Mysticism}\n\nAdvanced Mysticism regenerates three of your hero's spell points per day.",
+  "{Expert Mysticism}\n\nExpert Mysticism regenerates four of your hero's spell points per day.",
+  "{Basic Luck}\n\nBasic Luck increases your hero's luck by 1.",
+  "{Advanced Luck}\n\nAdvanced Luck increases your hero's luck by 2.",
+  "{Expert Luck}\n\nExpert Luck increases your hero's luck by 3.",
+  "{Basic Ballistics}\n\nBasic Ballistics gives your hero's catapult shots a greater chance to hit and do damage to castle walls.",
+  "{Advanced Ballistics}\n\nAdvanced Ballistics gives your hero's catapult an extra shot, and each shot has a greater chance to hit and do damage to castle walls.",
+  "{Expert Ballistics}\n\nExpert Ballistics gives your hero's catapult an extra shot, and each shot automatically destroys any wall, except a fortified wall in a Knight town.",
+  "{Basic Eagle Eye}\n\nBasic Eagle Eye gives your hero a 20 percent chance to learn any given 1st or 2nd level enemy spell used against him in a combat.",
+  "{Advanced Eagle Eye}\n\nAdvanced Eagle Eye gives your hero a 30 percent chance to learn any given 3rd level spell (or below) used against him in combat.",
+  "{Expert Eagle Eye}\n\nExpert Eagle Eye gives your hero a 40 percent chance to learn any given 4th level spell (or below) used against him in combat.",
+  "{Basic Necromancy}\n\nBasic Necromancy allows 10 percent of the creatures killed in combat to be brought back from the dead as Skeletons.",
+  "{Advanced Necromancy}\n\nAdvanced Necromancy allows 20 percent of the creatures killed in combat to be brought back from the dead as Skeletons.",
+  "{Expert Necromancy}\n\nExpert Necromancy allows 30 percent of the creatures killed in combat to be brought back from the dead as Skeletons.",
+  "{Small Estates}\n\nYour hero produces 100 gold pieces per turn as tax revenue from estates.",
+  "{Moderate Estates}\n\nYour hero produces 250 gold pieces per turn as tax revenue from estates.",
+  "{Grand Estates}\n\nYour hero produces 500 gold pieces per turn as tax revenue from estates."
+};
+
+char *cyberneticsDesc[SECONDARY_SKILL_MAX_LEVEL] = {
+  "{Basic Cybernetics}\n\nBasic Cybernetics allows your hero to learn Level 1-3 spells from a Cybernetics Lab.",
+  "{Advanced Cybernetics}\n\nAdvanced Cybernetics allows your hero to learn Level 4 spells from a Cybernetics Lab.",
+  "{Expert Cybernetics}\n\nExpert Cybernetics allows your hero to learn Level 5 spells from a Cybernetics Lab."
+};
+
 void __fastcall NormalDialog(char *msg, int type, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int timeout) {
   if(!gbRemoteOn)
     timeout = 0;

@@ -311,6 +311,7 @@ IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
 IMPORT_?cHeroTypeShortName@@3PAPADA = 1
 IMPORT_?captainStats@@3PAY03CA = 1
 IMPORT_?iGetSSByAlignment@@3PAY0N@EA = 1
+IMPORT_?cSecSkillDesc@@3PAY02PADA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
