@@ -596,6 +596,8 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
   } else {
     if(this->castle->factionID == FACTION_CYBORG && gpGame->heroes[hroIdx].factionID != FACTION_CYBORG)
       GUISetText(mageGuildWindow, BOTTOM_BAR, "Only heroes with Cybernetics can learn these spells.");
+    else if(gpGame->heroes[hroIdx].factionID == FACTION_CYBORG)
+      GUISetText(mageGuildWindow, BOTTOM_BAR, "Your Cyborg hero only learns level 1-2 spells above.");
     else
       GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells have been added to your book.");
   }
