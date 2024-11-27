@@ -5,7 +5,7 @@
 #include "base.h"
 #include "combat/combat.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "gui/gui.h"
 #include "manager.h"
 #include "prefs.h"

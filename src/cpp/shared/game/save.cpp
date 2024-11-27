@@ -1,6 +1,6 @@
 #include "game/game.h"
 
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 #include "xml/save_xml.h"
 

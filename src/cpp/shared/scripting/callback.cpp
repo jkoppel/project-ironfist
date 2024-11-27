@@ -1,4 +1,4 @@
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 #include "scripting/callback.h"
 #include "scripting/lua_utils.h"

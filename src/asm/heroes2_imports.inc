@@ -177,6 +177,18 @@ IMPORT_?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z = 1
 ?GetMorale@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z_clone EQU ?GetMorale_orig@armyGroup@@QAEHPAVhero@@PAVtown@@PAV1@@Z
 IMPORT_?ShowLuckInfo@game@@QAEXPAVhero@@H@Z = 1
 IMPORT_?ShowMoraleInfo@game@@QAEXPAVhero@@H@Z = 1
+IMPORT_?NormalDialog@@YIXPADHHHHHHHHH@Z = 1
+IMPORT_?SetupDynamicStuff@game@@QAEXHHH@Z = 1
+IMPORT_?Overview@game@@QAEXXZ = 1
+?Overview@game@@QAEXXZ_clone EQU ?Overview_orig@game@@QAEXXZ
+IMPORT_?Open@swapManager@@UAEHH@Z = 1
+IMPORT_?SetupHeroView@@YIXXZ = 1
+IMPORT_?UpdateHeroScreenStatusBar@@YIXAAUtag_message@@@Z = 1
+?UpdateHeroScreenStatusBar@@YIXAAUtag_message@@@Z_clone EQU ?UpdateHeroScreenStatusBar_orig@@YIXAAUtag_message@@@Z
+IMPORT_?EventWindowHandler@@YIHAAUtag_message@@@Z = 1
+?EventWindowHandler@@YIHAAUtag_message@@@Z_clone EQU ?EventWindowHandler_orig@@YIHAAUtag_message@@@Z
+IMPORT_?DoSSLevelDialog@hero@@QAEXHH@Z = 1
+?DoSSLevelDialog@hero@@QAEXHH@Z_clone EQU ?DoSSLevelDialog_orig@hero@@QAEXHH@Z
 
 ;;game loop - windows messaging (for lowering cpu usage)
 IMPORT_?Process1WindowsMessage@@YIXXZ = 1
@@ -215,7 +227,6 @@ IMPORT_?HasSpell@hero@@QAEHH@Z = 1
 IMPORT_?GetNumSpells@hero@@QAEHH@Z = 1
 IMPORT_?GetNthSpell@hero@@QAEHHH@Z = 1
 IMPORT_?CheckLevel@hero@@QAEXXZ = 1
-?CheckLevel@hero@@QAEXXZ_clone EQU ?CheckLevel_orig@hero@@QAEXXZ
 IMPORT_?CalcMobility@hero@@QAEHXZ = 1
 ?CalcMobility@hero@@QAEHXZ_clone EQU ?CalcMobility_orig@hero@@QAEHXZ
 IMPORT_?GetManaCost@@YIHHPAVhero@@@Z = 1
@@ -300,6 +311,7 @@ IMPORT_?gHeroSkillBonus@@3PAY113CA = 1
 IMPORT_?cHeroTypeShortName@@3PAPADA = 1
 IMPORT_?captainStats@@3PAY03CA = 1
 IMPORT_?iGetSSByAlignment@@3PAY0N@EA = 1
+IMPORT_?cSecSkillDesc@@3PAY02PADA = 1
 
 ;; adventure map
 IMPORT_?SetVisibility@game@@QAEXHHHH@Z = 1
@@ -414,6 +426,10 @@ IMPORT_?CanBuild@@YIHPAVtown@@H@Z = 1
 IMPORT_?getCastleOwnedIdx@@YAHPAVplayerData@@H@Z = 1
 IMPORT_?BuyBuild@townManager@@QAEHHHH@Z = 1
 ?BuyBuild@townManager@@QAEHHHH@Z_clone EQU ?BuyBuild_orig@townManager@@QAEHHHH@Z
+IMPORT_?BuildBuilding@town@@QAEXH@Z = 1
+?BuildBuilding@town@@QAEXH@Z_clone EQU ?BuildBuilding_orig@town@@QAEXH@Z
+IMPORT_?CastleHandler@@YIHAAUtag_message@@@Z = 1
+?CastleHandler@@YIHAAUtag_message@@@Z_clone EQU ?CastleHandler_orig@@YIHAAUtag_message@@@Z
 
 ;;scripting hooks
 IMPORT_?PerDay@game@@QAEXXZ = 1

@@ -5,7 +5,7 @@
 #include "base.h"
 #include "string.h"
 #include "game/game.h"
-#include "gui/gui.h"
+#include "gui_editor.h"
 #include "gui/msg.h"
 #include "overlay.h"
 #include "spell/spell_constants.h"

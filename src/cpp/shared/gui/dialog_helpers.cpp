@@ -1,11 +1,11 @@
 #include<string>
 #include<Windows.h>
 
-#include "base.h"
-#include "dialog.h"
-#include "gui.h"
+#include "adventure/hero_globals.h"
+#include "gui/dialog_helpers.h"
 
 extern heroWindowManager *gpWindowManager;
+void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10);
 
 void H2MessageBox(char* msg) {
 	if (msg) {
@@ -21,10 +21,8 @@ void H2MessageBox(std::string &msg) {
 
 bool H2QuestionBox(char* msg) {
   NormalDialog(msg, DIALOG_YES_NO, -1,-1,-1,0,-1,0,-1,0);
-  return gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL;
+  return gpWindowManager->buttonPressedCode != BUTTON_NO;
 }
-
-
 
 char* H2InputBox(char* msg, int len) {
   char* res = (char*) ALLOC(len+1);

@@ -6,7 +6,7 @@
 #include "adventure/terrain.h"
 #include "combat/creatures.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "gui/gui.h"
 #include "gui/recruit_unit.h"
 #include "resource/resourceManager.h"
@@ -26,6 +26,7 @@
 extern char *xNecromancerShrine;
 extern char *gNeutralBuildingNames[];
 extern char *gDwellingNames[][NUM_DWELLINGS];
+int gSpellLimitsCyborg[5] = {2, 2, 1, 1, 1};
 
 // numAnimationFrames + rectangle data for hovering over buildings in town screen
 SBuildingInfo sBuildingsInfo[MAX_FACTIONS][BUILDING_MAX] = {
@@ -381,8 +382,11 @@ void game::SetupTowns() {
 			}
 
 			if(castle->BuildingBuilt(BUILDING_MAGE_GUILD)) {
-				for(int i = 0; i < castle->mageGuildLevel; i++ ) {
-					castle->numSpellsOfLevel[i] = gSpellLimits[i];
+				for(int i = 0; i < castle->mageGuildLevel; i++) {
+					if(castle->factionID == FACTION_CYBORG)
+						castle->numSpellsOfLevel[i] = gSpellLimitsCyborg[i];
+					else
+						castle->numSpellsOfLevel[i] = gSpellLimits[i];
 					if(castle->factionID == FACTION_WIZARD && (castle->BuildingBuilt(BUILDING_SPECIAL)))
 						castle->numSpellsOfLevel[i]++;
 				}
@@ -402,6 +406,22 @@ void game::SetupTowns() {
 }
 
 void town::SelectSpells() {
+	if(this->factionID == FACTION_CYBORG) {
+		for(int j = 0; j < 5; j++) {
+			for(int k = 0; k < 4; k++) {
+				this->mageGuildSpells[j][k] = -1;
+			}
+		}
+		this->mageGuildSpells[0][0] = SPELL_SHADOW_MARK;
+		this->mageGuildSpells[0][1] = SPELL_MARKSMAN_PIERCE;
+		this->mageGuildSpells[1][0] = SPELL_PLASMA_CONE;
+		this->mageGuildSpells[1][1] = SPELL_FORCE_SHIELD;
+		this->mageGuildSpells[2][0] = SPELL_MASS_FORCE_SHIELD;
+		this->mageGuildSpells[3][0] = SPELL_FIRE_BOMB;
+		this->mageGuildSpells[4][0] = SPELL_IMPLOSION_GRENADE;
+		return;
+	}
+
 	char spellPresent[NUM_SPELLS];
 	memset(spellPresent, 0, NUM_SPELLS);
 
@@ -568,11 +588,19 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 	const int SPELL_SCROLL_LABELS = 70;
 	const int BUILDING_ICON = 100;
 	const int BOTTOM_BAR = 110;
-	tag_message evt;
-	evt.eventCode = INPUT_GUI_MESSAGE_CODE;
-	if( this->castle->visitingHeroIdx == -1) {
-		GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells are available here."); 
-	}
+        tag_message evt;
+        evt.eventCode = INPUT_GUI_MESSAGE_CODE;
+        int hroIdx = this->castle->visitingHeroIdx;
+        if(hroIdx == -1 || !gpGame->heroes[hroIdx].HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+          GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells are available here.");
+        } else {
+          if(this->castle->factionID == FACTION_CYBORG && gpGame->heroes[hroIdx].factionID != FACTION_CYBORG)
+            GUISetText(mageGuildWindow, BOTTOM_BAR, "Only heroes with Cybernetics can learn these spells.");
+          else if(gpGame->heroes[hroIdx].factionID == FACTION_CYBORG)
+            GUISetText(mageGuildWindow, BOTTOM_BAR, "Your Cyborg hero only learns level 1-2 spells above.");
+          else
+            GUISetText(mageGuildWindow, BOTTOM_BAR, "The above spells have been added to your book.");
+        }
 
 	for (int i = 0; i < 5; i++) {
 		for(int j = 0; j < 4; j++) {
@@ -592,15 +620,22 @@ void townManager::SetupMage(heroWindow *mageGuildWindow) {
 					sprintf_s(gText, gTextSize, "%s  [%d]", gSpellNames[this->castle->mageGuildSpells[i][j]], c);
 				}
 				GUISetText(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, gText);
-			} else if(j < gSpellLimits[i] + hasLibrary) {
-				GUIAddFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
-				GUISetImgIdx(mageGuildWindow, SPELL_SCROLLS+4*i+j, 1);
-				GUIRemoveFlag(mageGuildWindow, SPELL_ICONS+4*i+j, ICON_GUI_VISIBLE);
-				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, ICON_GUI_VISIBLE);
 			} else {
-				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLLS+4*i+j, ICON_GUI_VISIBLE);
-				GUIRemoveFlag(mageGuildWindow, SPELL_ICONS+4*i+j, ICON_GUI_VISIBLE);
-				GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS+4*i+j, ICON_GUI_VISIBLE);
+				bool show = false;
+				if(this->castle->factionID == FACTION_CYBORG)
+					show = j < gSpellLimitsCyborg[i];
+				else
+					show = j < gSpellLimits[i] + hasLibrary;
+				if(show) {
+					GUIAddFlag(mageGuildWindow, SPELL_SCROLLS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUISetImgIdx(mageGuildWindow, SPELL_SCROLLS + 4 * i + j, 1);
+					GUIRemoveFlag(mageGuildWindow, SPELL_ICONS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS + 4 * i + j, ICON_GUI_VISIBLE);
+				} else {
+					GUIRemoveFlag(mageGuildWindow, SPELL_SCROLLS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUIRemoveFlag(mageGuildWindow, SPELL_ICONS + 4 * i + j, ICON_GUI_VISIBLE);
+					GUIRemoveFlag(mageGuildWindow, SPELL_SCROLL_LABELS + 4 * i + j, ICON_GUI_VISIBLE);
+				}
 			}
 		}
 	}
@@ -664,7 +699,9 @@ char *__fastcall GetBuildingName(int faction, int building) {
   if (faction == FACTION_NECROMANCER && building == BUILDING_TAVERN) {
     return xNecromancerShrine;
   } else if(faction == FACTION_CYBORG && building == BUILDING_WELL) {
-    return "Energy Pump";
+	return "Energy Pump";
+  } else if(faction == FACTION_CYBORG && building == BUILDING_MAGE_GUILD) {
+	return "Cybernetics Lab";
   } else {
     if (building == BUILDING_SPECIAL_GROWTH) {
       return GetFirstLevelGrowerName(faction);
@@ -685,7 +722,11 @@ char * __fastcall GetBuildingInfo(int faction, int building, int withTitle) {
   std::string desc;
   const std::string buildingName = GetBuildingName(faction, building);
 
-  if (IsWellDisabled() && building == BUILDING_WELL) {
+  if(faction == FACTION_CYBORG && building == BUILDING_MAGE_GUILD) {
+	  desc = "The ";
+	  desc += buildingName;
+	  desc += " allows heroes to learn cybernetics spells and replenish their spell points";
+  } else if (IsWellDisabled() && building == BUILDING_WELL) {
     desc = "The Well provides refreshing drinking water.";
     if (faction == FACTION_NECROMANCER) {
       desc = "The Well has been tainted by the presence of dark magic. Good thing undead don't get thirsty.";
@@ -1067,16 +1108,22 @@ int townManager::Main(tag_message &evt) {
     case INPUT_MOUSEMOVE_EVENT_CODE: {
       // Show message on hover
       gpWindowManager->ConvertToHover(evt);
-      if(evt.yCoordOrFieldID != this->field_142 || evt.inputTypeBitmask != this->field_146) {
-        this->field_142 = evt.yCoordOrFieldID;
-        this->field_146 = evt.inputTypeBitmask;
-        if(this->factionID == FACTION_CYBORG && evt.yCoordOrFieldID == BUILDING_WELL) {
-          this->field_14A = -1;
-          strcpy(this->infoMessage, "Energy Pump");
-          this->ShowText(this->infoMessage);
-        } else {
-          this->SetCommandAndText(evt);
-        }
+	  if(evt.yCoordOrFieldID != this->field_142 || evt.inputTypeBitmask != this->field_146) {
+		  this->field_142 = evt.yCoordOrFieldID;
+		  this->field_146 = evt.inputTypeBitmask;
+		  if(this->factionID == FACTION_CYBORG) {
+			  if(evt.yCoordOrFieldID == BUILDING_WELL) {
+				  this->field_14A = -1;
+				  strcpy(this->infoMessage, "Energy Pump");
+				  this->ShowText(this->infoMessage);
+			  } else if(evt.yCoordOrFieldID == BUILDING_MAGE_GUILD) {
+				  this->field_14A = -1;
+				  strcpy(this->infoMessage, "Cybernetics Lab");
+				  this->ShowText(this->infoMessage);
+			  } else {
+				  this->SetCommandAndText(evt);
+			  }
+		  }
       }
       return 1;
     }
@@ -1180,7 +1227,10 @@ void townManager::SetupCastle(heroWindow *window, int a3) {
       int mageGuildLevel = this->castle->mageGuildLevel + 1;
       if(mageGuildLevel >= 5)
         mageGuildLevel = 5;
-      GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, "Mage Guild, Level " + std::to_string(mageGuildLevel));
+	  if(this->castle->factionID == FACTION_CYBORG)
+		GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, "Cybernetics Lab L" + std::to_string(mageGuildLevel));
+	  else	  
+		GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, "Mage Guild, Level " + std::to_string(mageGuildLevel));
     } else {
       GUISetText(casWin, i + GUI_BUILD_SCREEN_BUILDING_TEXT, GetBuildingName(this->castle->factionID, castleSlotsUse[i]));
     }
@@ -1611,8 +1661,14 @@ int townManager::BuyBuild(int building, int notEnoughResources, int isRightClick
   GUISetIcon(window, 2, gText);
   GUISetImgIdx(window, 2, building);
 
-  if(building == BUILDING_MAGE_GUILD)
-    sprintf(gText, "Mage Guild, Level %d", mageGuildLevel);
+  if(building == BUILDING_MAGE_GUILD) {
+	  if(faction == FACTION_CYBORG) {
+		  sprintf(gText, "Cybernetics Lab L%d", mageGuildLevel);
+	  } else {
+		  sprintf(gText, "Mage Guild, Level %d", mageGuildLevel);
+	  }
+  }
+    
   else
     strcpy(gText, GetBuildingName(faction, building));
 
@@ -1716,4 +1772,107 @@ int townManager::BuyBuild(int building, int notEnoughResources, int isRightClick
     return 0;
 
   return gpWindowManager->buttonPressedCode == BUTTON_OK;
+}
+
+void town::BuildBuilding(int building) {
+	if(building == BUILDING_MAGE_GUILD && this->factionID == FACTION_CYBORG) {
+		this->mageGuildLevel++;
+		int index = this->mageGuildLevel - 1;
+		this->SetNumSpellsOfLevel(index, gSpellLimitsCyborg[index]);
+
+		this->buildingsBuiltFlags |= 1 << building;
+		this->GiveSpells(0);
+		gpGame->builtToday[this->idx >> 3] |= 1 << (this->idx & 7);
+	} else {
+		this->BuildBuilding_orig(building);
+	}
+}
+
+int __fastcall CastleHandler(tag_message &msg) {
+	int field_142 = gpTownManager->field_142;
+	int building = -1;
+	town* castle = gpTownManager->castle;
+
+	if(msg.eventCode == INPUT_MOUSEMOVE_EVENT_CODE) {
+		gpWindowManager->ConvertToHover(msg);
+		int fieldId = msg.yCoordOrFieldID;
+		switch(fieldId) {
+		case 1100:
+			building = 15;
+			break;
+		case 216:
+			building = 216;
+			break;
+		case 214:
+			building = 214;
+			break;
+		default:
+			if(fieldId < 600 || fieldId >= 618) {
+				if(fieldId < 700 || fieldId >= 718) {
+					if(fieldId >= 800 && fieldId < 818)
+						building = fieldId - 800;
+				} else {
+					building = fieldId - 700;
+				}
+			} else {
+				building = fieldId - 600;
+			}
+			if(building != -1)
+				building = castleSlotsUse[building];
+			break;
+		}
+	} else {
+		return CastleHandler_orig(msg);
+	}
+
+	if(msg.yCoordOrFieldID == gpTownManager->field_142)
+		return 1;
+
+	gpTownManager->field_142 = msg.yCoordOrFieldID;
+
+	if(building <= 30) {
+		if(building == BUILDING_MAGE_GUILD) {
+			CastleHandler_orig(msg);
+			std::string str;
+			std::string buildingName = GetBuildingName(castle->factionID, building);
+			if(gpTownManager->canBuildFlags & (1 << building)) {
+				if(gpTownManager->canBuyFlags & (1 << building)) {
+					if(castle->buildingsBuiltFlags & BUILDING_MAGE_GUILD) {
+						if(castle->mageGuildLevel == 5) {
+							str = "Mage Guild is at highest level.";
+						} else {
+							if(CanBuy(castle, building)) {
+								if(castle->factionID == FACTION_CYBORG)
+									str = "Add another level to Cybernetics Lab";
+								else
+									str = "Add another level to Mage Guild";
+							} else
+								str = "Cannot afford next level.";
+						}
+					} else {
+						if(castle->factionID == FACTION_CYBORG)
+							str = "Build Cybernetics Lab";
+						else
+							str = "Build Mage Guild";
+					}
+					strcpy(gText, &str[0]);
+				} else {					
+					sprintf(gText, "Cannot afford %s", &buildingName[0]);
+				}
+			} else {
+				sprintf(gText, "Cannot build %s", &buildingName[0]);
+			}
+		} else {
+			gpTownManager->field_142 = field_142;
+			return CastleHandler_orig(msg);
+		}
+	} else {
+		gpTownManager->field_142 = field_142;
+		return CastleHandler_orig(msg);
+	}
+
+	GUIBroadcastMessage(gpTownManager->curScreen, 502, 3, gText);
+	gpTownManager->curScreen->DrawWindow(0, 500, 502);
+	gpWindowManager->UpdateScreenRegion(18, 463, 604, 16);
+	return 1;
 }

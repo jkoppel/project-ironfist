@@ -346,6 +346,9 @@ public:
   int GetLuck_orig(hero* hro, army *stack, town *castle);
   void ShowLuckInfo(hero *hro, int dialogType);
   void ShowMoraleInfo(hero *hro, int dialogType);
+  void SetupDynamicStuff(int a2, int a3, int a4);
+  void Overview();
+  void Overview_orig();
 
 private:
   void PropagateVision();

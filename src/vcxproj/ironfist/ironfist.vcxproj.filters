@@ -138,9 +138,6 @@
     <ClCompile Include="..\..\cpp\shared\scripting\scripting.cpp">
       <Filter>Source Files\scripting</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp">
-      <Filter>Source Files\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lapi.c">
       <Filter>Source Files\lib\lua\src</Filter>
     </ClCompile>
@@ -339,6 +336,15 @@
     <ClCompile Include="..\..\cpp\shared\adventure\adv_globals.cpp">
       <Filter>Source Files\adventure</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\swapManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\gui\dialog_helpers.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\gui\gui_overrides.cpp">
+      <Filter>Source Files\gui</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cpp\shared\stdafx.h">
@@ -400,9 +406,6 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\town\town.h">
       <Filter>Header Files\town</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\cpp\shared\gui\dialog.h">
-      <Filter>Header Files\gui</Filter>
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\scripting\scripting.h">
       <Filter>Header Files\scripting</Filter>
@@ -577,6 +580,15 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\adventure\adv_globals.h">
       <Filter>Header Files\adventure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\swapManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\dialog_helpers.h">
+      <Filter>Header Files\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\gui_overrides.h">
+      <Filter>Header Files\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

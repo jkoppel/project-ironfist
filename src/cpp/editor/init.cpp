@@ -4,7 +4,7 @@
 
 #include "artifacts.h"
 #include "editor.h"
-#include "gui/gui.h"
+#include "gui_editor.h"
 #include "manager.h"
 #include "resource/resources.h"
 

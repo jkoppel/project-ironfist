@@ -62,6 +62,7 @@ public:
   void DrawWindow(int updateScreen);
   void DrawWindow(int updateScreen, signed int lowID, signed int highID);
   void AddWidget(widget *guiObj, int index);
+  void RemoveWidget(widget *guiObj);
 };
 
 class heroWindowManager : public baseManager
@@ -178,6 +179,9 @@ enum GENERAL_GUI_FIELD_IDS {
   BUTTON_CANCEL = 30721,
   BUTTON_OK = 30722,
   BUTTON_YES = 30725,
+  BUTTON_NO = 30726,
+  BUTTON_LEARN_LEFT = 30727,
+  BUTTON_LEARN_RIGHT = 30728
 };
 
 /* These functions provide a simpler API to parts of the old GUI "BroadcastMessage" API */
@@ -202,10 +206,14 @@ void __fastcall QuickViewWait(void);
 extern void __fastcall SetWinText(heroWindow *window, int screenIdx);
 extern int __fastcall TrueFalseDialogHandler(tag_message &evt);
 void __fastcall FillBitmapArea(bitmap *,int,int,int,int,int);
-extern int __fastcall EventWindowHandler(tag_message &evt);
+extern int __fastcall EventWindowHandler_orig(tag_message &evt);
+int __fastcall EventWindowHandler(tag_message &evt);
 void __fastcall BlitBitmapToScreen(bitmap *,int,int,int,int,int,int);
 
 extern heroWindow* casWin;
+extern heroWindow *overWin;
+extern heroWindow *pNormalDialogWindow;
+extern iconWidget *OVScrollKnob;
 
 #pragma pack(pop)
 

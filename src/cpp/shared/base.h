@@ -107,6 +107,7 @@ extern int gbColorMice;
 extern signed char iHotSpot[][2];
 extern void *cColorBits[];
 extern void *cAndBits[];
+extern int gbNoDismiss;
 
 struct configStruct {
   int data[103];
@@ -124,5 +125,6 @@ extern "C" void __fastcall PollSound();
 
 extern int __fastcall Random(int,int);
 extern int __fastcall SRandom(int,int);
+extern void __fastcall SRand(int);
 
 #endif

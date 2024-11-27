@@ -9,7 +9,7 @@
 #include "campaign/campaign.h"
 #include "combat/creatures.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "prefs.h"
 #include "resource/resourceManager.h"
 #include "sound/sound.h"
@@ -1346,7 +1346,13 @@ void game::ProcessOnMapHeroes() {
             if (mapExtraHero->secondarySkills[i] != -1)
               randomHero->GiveSS(mapExtraHero->secondarySkills[i],  mapExtraHero->secondarySkillLevel[i]);
           }
-        }
+        } else if(faction == FACTION_CYBORG) { // give all cyborgs cybernetics and a magic book
+			if(!randomHero->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
+				GiveArtifact(randomHero, ARTIFACT_MAGIC_BOOK, 1, -1);
+			}
+			randomHero->ClearSS();
+			randomHero->GiveSS(SECONDARY_SKILL_WISDOM, 2);
+		}
 
         if (!isJail) {
           this->SetVisibility(randomHero->x, randomHero->y, randomHero->ownerIdx, giVisRange[randomHero->secondarySkillLevel[SECONDARY_SKILL_SCOUTING]]);

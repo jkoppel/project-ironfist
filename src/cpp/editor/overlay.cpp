@@ -8,7 +8,7 @@
 #include "adventure/hero_globals.h"
 #include "adventure/map.h"
 #include "editor.h"
-#include "gui/dialog.h"
+#include "gui_editor.h"
 #include "overlay.h"
 #include "overlay_xml.h"
 #include "town/town.h"

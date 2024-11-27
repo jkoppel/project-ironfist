@@ -1,6 +1,6 @@
 #include "overlay_xml.h"
 #include "adventure/map.h"
-#include "gui/dialog.h"
+#include "gui_editor.h"
 #include "overlay.h"
 #include "xml/utils_xml.h"
 

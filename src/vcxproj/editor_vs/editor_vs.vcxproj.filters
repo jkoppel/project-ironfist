@@ -189,9 +189,6 @@
     <ClCompile Include="..\..\cpp\shared\lib\lua\src\lzio.c">
       <Filter>Source Files\shared\lib\lua\src</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp">
-      <Filter>Source Files\shared\gui</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp">
       <Filter>Source Files\shared\gui</Filter>
     </ClCompile>
@@ -257,6 +254,9 @@
     </ClCompile>
     <ClCompile Include="..\..\cpp\shared\adventure\adv_globals.cpp">
       <Filter>Source Files\shared\adventure</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\cpp\shared\gui\dialog_helpers.cpp">
+      <Filter>Source Files\shared\gui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -361,9 +361,6 @@
     <ClInclude Include="..\..\cpp\shared\adventure\army.h">
       <Filter>Header Files\shared\adventure</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\cpp\shared\gui\dialog.h">
-      <Filter>Header Files\shared\gui</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\cpp\shared\gui\gui.h">
       <Filter>Header Files\shared\gui</Filter>
     </ClInclude>
@@ -438,6 +435,15 @@
     </ClInclude>
     <ClInclude Include="..\..\cpp\shared\adventure\adv_globals.h">
       <Filter>Header Files\shared\adventure</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\editor\gui_editor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\dialog_helpers.h">
+      <Filter>Header Files\shared\gui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\cpp\shared\gui\gui_overrides.h">
+      <Filter>Header Files\shared\gui</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

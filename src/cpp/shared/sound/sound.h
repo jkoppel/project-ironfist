@@ -57,6 +57,7 @@ public:
   int Open_orig(int);
   void PlayAmbientMusic(int,long,int);
   void AdjustSoundVolumes();
+  int MusicPlaying();
 };
 
 #pragma pack(pop)

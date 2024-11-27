@@ -12,7 +12,6 @@ extern signed char gSpellLimits[];
 extern unsigned char castleSlotsUse[NUM_BUILDING_SLOTS];
 extern unsigned char castleSlotsBase[NUM_BUILDING_SLOTS];
 extern char* cHeroTypeShortName[MAX_FACTIONS];
-extern char *gStatNames[NUM_PRIMARY_SKILLS];
 extern int gHeroGoldCost;
 extern int gMageBuildingCosts[][NUM_RESOURCES];
 extern int gNeutralBuildingCosts[][NUM_RESOURCES];
@@ -54,6 +53,7 @@ public:
   void CalcNumLevelArchers(int *numArchers, int *attack);
 
   void BuildBuilding(int);
+  void BuildBuilding_orig(int building);
   bool BuildingBuilt(int) const;
   bool DwellingBuilt(int) const;
   bool IsDisallowed(int) const;
@@ -154,6 +154,7 @@ extern int __fastcall CastleHandler(tag_message &evt);
 extern int __fastcall CanBuy(town *twn, int building);
 int __fastcall CanBuild(town *twn, int building);
 extern void __fastcall DoTradingPost(int isMarket, float efficiency);
+int __fastcall CastleHandler_orig(tag_message &msg);
 
 extern townManager* gpTownManager;
 

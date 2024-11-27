@@ -4,7 +4,7 @@
 #include "manager.h"
 
 #include "adventure/map.h"
-#include "gui/gui.h"
+#include "gui_editor.h"
 #include "resource/resources.h"
 
 #pragma pack(push, 1)

@@ -9,7 +9,7 @@
 #include "sound/sound.h"
 #include "spell/spells.h"
 
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 #include "scripting/callback.h"
 #include <string>

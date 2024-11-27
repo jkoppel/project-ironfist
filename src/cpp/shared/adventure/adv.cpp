@@ -4,7 +4,7 @@
 #include "combat/creatures.h"
 #include "combat/speed.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "gui/gui.h"
 #include "resource/resourceManager.h"
 #include "scripting/callback.h"
@@ -71,7 +71,7 @@ int advManager::ProcessDeSelect(tag_message *evt, int *n, mapCell **cells) {
         NormalDialog("One or more heroes may still move, are you sure you want to end your turn?",
           2, -1, -1, -1, 0, -1, 0, -1, 0);
 
-        if (gpWindowManager->buttonPressedCode != BUTTON_CODE_CANCEL)
+        if (gpWindowManager->buttonPressedCode != BUTTON_NO)
           gpGame->NextPlayer();
       }
     } else { //there are no heroes with movement points left, end turn
@@ -426,7 +426,7 @@ void advManager::HandleSpellShrine(class mapCell *cell, int locationType, hero *
   }
 
   if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
-    if (gsSpellInfo[spellId].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2) {
+    if (gsSpellInfo[spellId].level > hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] + 2 || hro->factionID == FACTION_CYBORG) {
       shrineText += "Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.";
       this->EventWindow(-1, 1, &shrineText[0], -1, 0, -1, 0, -1);
     } else {
@@ -462,7 +462,7 @@ void advManager::HandlePyramid(class mapCell *cell,int locType, hero *hro, SAMPL
         msg += "'.  ";
 
         if (hro->HasArtifact(ARTIFACT_MAGIC_BOOK)) {
-          if (hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] < gsSpellInfo[spellId].level - 2) {
+          if (hro->secondarySkillLevel[SECONDARY_SKILL_WISDOM] < gsSpellInfo[spellId].level - 2 || hro->factionID == FACTION_CYBORG) {
             msg += "  Unfortunately, you do not have the wisdom to understand the spell, and you are unable to learn it.  ";
             advManager::EventWindow(-1, 1, &msg[0], -1, 0, -1, 0, -1);
           } else {

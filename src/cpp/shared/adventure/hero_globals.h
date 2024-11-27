@@ -8,5 +8,6 @@
 FACTION GetHeroOverlayFaction(int overlayObjectIdx);
 int GetHeroOverlayColor(int overlayObjectIdx);
 extern std::vector<std::string> heroNames;
+extern hero *gpHVHero;
 
 #endif
