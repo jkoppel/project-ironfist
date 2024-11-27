@@ -124,8 +124,8 @@
     <ClCompile Include="..\..\cpp\shared\game\game.cpp" />
     <ClCompile Include="..\..\cpp\shared\game\save.cpp" />
     <ClCompile Include="..\..\cpp\shared\graphics.cpp" />
-    <ClCompile Include="..\..\cpp\shared\gui\dialog.cpp" />
-    <ClCompile Include="..\..\cpp\shared\gui\gui_utils.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\gui_overrides.cpp" />
+    <ClCompile Include="..\..\cpp\shared\gui\dialog_helpers.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\msg.cpp" />
     <ClCompile Include="..\..\cpp\shared\gui\recruit_unit.cpp" />
     <ClCompile Include="..\..\cpp\shared\init.cpp" />
@@ -191,7 +191,8 @@
     <ClInclude Include="..\..\cpp\shared\adventure\hero_globals.h" />
     <ClInclude Include="..\..\cpp\shared\campaign\campaign.h" />
     <ClInclude Include="..\..\cpp\shared\expansions.h" />
-    <ClInclude Include="..\..\cpp\shared\gui\gui_utils.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\dialog_helpers.h" />
+    <ClInclude Include="..\..\cpp\shared\gui\gui_overrides.h" />
     <ClInclude Include="..\..\cpp\shared\gui\msg.h" />
     <ClInclude Include="..\..\cpp\shared\gui\recruit_unit.h" />
     <ClInclude Include="..\..\cpp\shared\lib\bass\bass.h" />
@@ -223,7 +224,6 @@
     <ClInclude Include="..\..\cpp\shared\driver.h" />
     <ClInclude Include="..\..\cpp\shared\game\game.h" />
     <ClInclude Include="..\..\cpp\shared\graphics.h" />
-    <ClInclude Include="..\..\cpp\shared\gui\dialog.h" />
     <ClInclude Include="..\..\cpp\shared\gui\gui.h" />
     <ClInclude Include="..\..\cpp\shared\import_val.h" />
     <ClInclude Include="..\..\cpp\shared\lib\lua\src\lapi.h" />

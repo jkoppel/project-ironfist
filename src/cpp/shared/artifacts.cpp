@@ -1,5 +1,5 @@
 #include "artifacts.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "xml/artifact_xml.h"
 #include <algorithm>
 #include <cmath>

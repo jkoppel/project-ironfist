@@ -2,7 +2,7 @@
 #include<Windows.h>
 
 #include "adventure/hero_globals.h"
-#include "gui/gui_utils.h"
+#include "gui/dialog_helpers.h"
 
 extern heroWindowManager *gpWindowManager;
 void __fastcall NormalDialog(char *msg, int a2, int x, int y, int img1Type, int img1Arg, int img2Type, int img2Arg, int writeOr, signed int a10);

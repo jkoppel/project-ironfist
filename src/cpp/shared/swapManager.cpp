@@ -1,6 +1,6 @@
 #include "swapManager.h"
 
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "resource/resourceManager.h"
 
 extern int giMonoIconSkip;

@@ -6,7 +6,7 @@
 #include "adventure/terrain.h"
 #include "combat/creatures.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "gui/gui.h"
 #include "gui/recruit_unit.h"
 #include "resource/resourceManager.h"

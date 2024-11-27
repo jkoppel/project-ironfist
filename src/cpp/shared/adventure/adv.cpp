@@ -4,7 +4,7 @@
 #include "combat/creatures.h"
 #include "combat/speed.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "gui/gui.h"
 #include "resource/resourceManager.h"
 #include "scripting/callback.h"

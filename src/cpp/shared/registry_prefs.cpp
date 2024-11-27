@@ -1,5 +1,5 @@
 #include "registry_prefs.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 LPCSTR heroes2RegistrySubKey = "SOFTWARE\\New World Computing\\Heroes of Might and Magic 2\\1.0";
 

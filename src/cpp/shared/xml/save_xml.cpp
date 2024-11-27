@@ -4,7 +4,7 @@
 #include "xml/utils_xml.h"
 #include "expansions.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 extern int gbIAmGreatest;
 extern int giMonthType;

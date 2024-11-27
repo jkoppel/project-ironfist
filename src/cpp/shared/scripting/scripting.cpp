@@ -14,7 +14,7 @@ extern "C" {
 #include "lua/src/lauxlib.h"
 }
 
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 #include "scripting/lua_utils.h"
 #include "scripting/register.h"

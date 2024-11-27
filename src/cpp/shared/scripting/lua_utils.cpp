@@ -4,7 +4,7 @@ extern "C" {
 #include "lua/src/lauxlib.h"
 }
 
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "scripting/lua_utils.h"
 
 void lua_setconst(lua_State *L, const char* nam, int i) {

@@ -3,7 +3,7 @@
 
 #include<string>
 
-#include "gui/gui_utils.h"
+#include "gui/dialog_helpers.h"
 
 extern void* hmnuAdv;
 

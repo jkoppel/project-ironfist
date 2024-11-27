@@ -1,5 +1,5 @@
-#ifndef GUI_UTILS_H
-#define GUI_UTILS_H
+#ifndef DIALOG_HELPERS_H
+#define DIALOG_HELPERS_H
 
 #include<string>
 

@@ -9,7 +9,7 @@ extern "C" {
 #include "campaign/campaign.h"
 #include "combat/combat.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "town/town.h"
 #include "artifacts.h"
 

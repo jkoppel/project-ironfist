@@ -9,7 +9,7 @@
 #include "campaign/campaign.h"
 #include "combat/creatures.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "prefs.h"
 #include "resource/resourceManager.h"
 #include "sound/sound.h"

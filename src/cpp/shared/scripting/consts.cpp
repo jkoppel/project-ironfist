@@ -13,7 +13,7 @@ extern "C" {
 #include "scripting/lua_utils.h"
 #include "scripting/register.h"
 #include "town/town.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "skills.h"
 #include <algorithm>
 #include <cctype>

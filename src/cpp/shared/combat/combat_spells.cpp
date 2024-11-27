@@ -2,7 +2,7 @@
 #include "combat\animation.h"
 #include "combat\combat.h"
 #include "combat\speed.h"
-#include "gui\dialog.h"
+#include "gui\gui_overrides.h"
 #include "resource\resourceManager.h"
 #include "spell\spells.h"
 

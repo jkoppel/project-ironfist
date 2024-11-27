@@ -5,7 +5,7 @@
 #include "adventure/adv.h"
 #include "adventure/map.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 extern char *xBarrierColor[];
 extern char *xPasswordStrings[];

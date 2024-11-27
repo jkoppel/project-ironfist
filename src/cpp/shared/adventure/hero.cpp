@@ -3,7 +3,7 @@
 
 #include "artifacts.h"
 #include "base.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 #include "scripting/callback.h"
 #include "scripting/deepbinding.h"
 #include "skills.h"

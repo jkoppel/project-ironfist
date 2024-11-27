@@ -7,7 +7,7 @@
 #include "base.h"
 #include "combat/creatures.h"
 #include "game/game.h"
-#include "gui/dialog.h"
+#include "gui/gui_overrides.h"
 
 #include "xml/creature_xml.h"
 
